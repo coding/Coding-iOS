@@ -18,11 +18,5 @@
 //生产
 #define kNetPath_Code_Base        @"https://coding.net/"
 
-//测试
-//#define kNetPath_Code_Base        @"https://staging.coding.net/"
-
-//Jeffrey
-//#define kNetPath_Code_Base        @"http://192.168.0.54:8080/"
-
 #pragma mark ConfigUrl
 #define kNetPath_Code_Login         @"api/login"

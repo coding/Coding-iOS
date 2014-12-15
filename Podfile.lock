@@ -33,16 +33,16 @@ PODS:
   - TTTAttributedLabel (1.10.1)
 
 DEPENDENCIES:
-  - BlocksKit
-  - hpple
-  - JDStatusBarNotification
-  - MBProgressHUD
-  - ODRefreshControl
-  - ReactiveCocoa
-  - RegexKitLite
-  - SDWebImage
-  - TPKeyboardAvoiding
-  - TTTAttributedLabel
+  - BlocksKit (~> 2.2.5)
+  - hpple (~> 0.2.0)
+  - JDStatusBarNotification (~> 1.4.9)
+  - MBProgressHUD (~> 0.9)
+  - ODRefreshControl (~> 1.1.0)
+  - ReactiveCocoa (~> 2.3.1)
+  - RegexKitLite (~> 4.0)
+  - SDWebImage (~> 3.7.1)
+  - TPKeyboardAvoiding (~> 1.2.4)
+  - TTTAttributedLabel (~> 1.10.1)
 
 SPEC CHECKSUMS:
   BlocksKit: 4439e7f30a9f90743462ca63545a15c1f4304cef
