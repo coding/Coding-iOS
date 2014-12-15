@@ -1,0 +1,92 @@
+h2. NSDate (Helper)
+
+This is a category for the @NSDate@ class that provides some convenience methods for working with @NSDate@ objects and displaying formatted and relative strings.
+
+More information can be found at my "initial blog post":http://www.zetetic.net/blog/2009/3/11/nsdate-helper.html.
+
+Anyone is welcome to use it for anything, and to change it as they see fit. If you'd like to contribute back any changes (woot!), please fork and send a pull request!
+
+h3. Usage
+
+Full documentation is now up "on the Github wiki for this project":http://wiki.github.com/billymeltdown/nsdate-helper. It's a lot better than this kinda rambling overview here.
+
+Two convenience methods make it easy for you to display some relative date information. @stringForDisplayFromDate@ gives you the kind of relative format you see in the Notes listing on the iPhone:
+
+<pre><code>
+  NSString *displayString = [NSDate stringForDisplayFromDate:date];
+</code></pre>
+
+This produces the following kinds of output:
+
+* '3:42 AM' - if the date is after midnight today
+* 'Tuesday' - if the date is within the last seven days
+* 'Mar 1' - if the date is within the current calendar year
+* 'Mar 1, 2008' - else ;-)
+
+<pre><code>
+  NSString *displayString = [NSDate stringForDisplayFromDate:date prefixed:YES];
+</code></pre>
+
+This produces the same as above, but prefixed with 'at' or 'on' depending on the appropriate English syntax.
+
+Another set of methods provide days-ago information:
+
+<pre><code>
+  NSDate *date = [NSDate date];
+  [date daysAgo]; // provides an NSComponent-based NSUInteger describing days ago.
+  [date daysAgoAgainstMidnight]; // better version of daysAgo, works off midnight (hat-tip: "sburlot":http://github.com/sburlot)
+  [date stringDaysAgo]; // 'Today', 'Yesterday', or 'N days ago'.
+</code></pre>
+
+Tired of creating and releasing date formatters? Missing things like @to_s(:db)@? Me, too. @NSDate (Helper)@ has some static methods to make going back and forth between strings and dates a little less painful, and particularly easier when working with database timestamps (a la SQLite):
+
+<pre><code>
+  NSDate *date = [NSDate dateFromString:@"2009-03-01 12:15:23"];
+  NSString *dbDateString = [NSDate stringFromDate:date]; // returns '2009-03-01 12:15:23'
+</code></pre>
+
+Who needs NSDateFormatter?
+
+<pre><code>
+  NSString *otherDateString = [NSDate stringFromDate:date withFormat:@"EEEE"]; // use any format you like
+</code></pre>
+
+h3. Installation
+
+To use it in your Cocoa project, import the header and implementation files, and then add the header to your project's <projectname>_prefix.pch file so that it's available across your project:
+
+<pre><code>
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+    #import "NSDate+Helper.h"
+#endif
+</code></pre>
+
+h3. License
+
+Copyright (c) 2009, 2010, ZETETIC LLC
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+    * Neither the name of the ZETETIC LLC nor the
+      names of its contributors may be used to endorse or promote products
+      derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY ZETETIC LLC ''AS IS'' AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL ZETETIC LLC BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+

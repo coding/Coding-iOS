@@ -1,0 +1,59 @@
+PODS:
+  - BlocksKit (2.2.5):
+    - BlocksKit/All (= 2.2.5)
+  - BlocksKit/All (2.2.5):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
+    - BlocksKit/MessageUI
+    - BlocksKit/UIKit
+  - BlocksKit/Core (2.2.5)
+  - BlocksKit/DynamicDelegate (2.2.5)
+  - BlocksKit/MessageUI (2.2.5):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
+  - BlocksKit/UIKit (2.2.5):
+    - BlocksKit/Core
+    - BlocksKit/DynamicDelegate
+  - hpple (0.2.0)
+  - JDStatusBarNotification (1.4.9)
+  - MBProgressHUD (0.9)
+  - ODRefreshControl (1.1.0)
+  - ReactiveCocoa (2.3.1):
+    - ReactiveCocoa/UI (= 2.3.1)
+  - ReactiveCocoa/Core (2.3.1):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.3.1)
+  - ReactiveCocoa/UI (2.3.1):
+    - ReactiveCocoa/Core
+  - RegexKitLite (4.0)
+  - SDWebImage (3.7.1):
+    - SDWebImage/Core (= 3.7.1)
+  - SDWebImage/Core (3.7.1)
+  - TPKeyboardAvoiding (1.2.4)
+  - TTTAttributedLabel (1.10.1)
+
+DEPENDENCIES:
+  - BlocksKit
+  - hpple
+  - JDStatusBarNotification
+  - MBProgressHUD
+  - ODRefreshControl
+  - ReactiveCocoa
+  - RegexKitLite
+  - SDWebImage
+  - TPKeyboardAvoiding
+  - TTTAttributedLabel
+
+SPEC CHECKSUMS:
+  BlocksKit: 4439e7f30a9f90743462ca63545a15c1f4304cef
+  hpple: f4eb7c21a8db83ec264e5d614ec7509e10e5adec
+  JDStatusBarNotification: 9d833032d343e9a7abe0ec219c415dc115ba67a8
+  MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
+  ODRefreshControl: 7bc75258d9dba1f93c4e34654d1e4b5aa39529f0
+  ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
+  RegexKitLite: c0e4c12e6e7de0769f3a3ed679f0f61604170661
+  SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
+  TPKeyboardAvoiding: 925e1e1912597d1a4956697eec3bd9656552153c
+  TTTAttributedLabel: 94bb04f1e005616002dd2cee0262a0082e533627
+
+COCOAPODS: 0.35.0

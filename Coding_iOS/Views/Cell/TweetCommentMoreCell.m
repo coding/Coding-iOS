@@ -1,0 +1,55 @@
+//
+//  TweetCommentMoreCell.m
+//  Coding_iOS
+//
+//  Created by 王 原闯 on 14-9-18.
+//  Copyright (c) 2014年 Coding. All rights reserved.
+//
+
+#define kTweet_CommentFont [UIFont systemFontOfSize:14]
+
+#import "TweetCommentMoreCell.h"
+
+@interface TweetCommentMoreCell ()
+@property (strong, nonatomic) UILabel *contentLabel;
+@property (strong, nonatomic) UIImageView *commentIconView, *splitLineView;
+@end
+
+@implementation TweetCommentMoreCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        // Initialization code
+        self.backgroundColor = [UIColor clearColor];
+        self.backgroundView = nil;
+        if (!_commentIconView) {
+            _commentIconView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 13, 13)];
+            _commentIconView.image = [UIImage imageNamed:@"tweet_more_comment_icon"];
+            [self.contentView addSubview:_commentIconView];
+        }
+        if (!_contentLabel) {
+            _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 5, 245, 20)];
+            _contentLabel.backgroundColor = [UIColor clearColor];
+            _contentLabel.font = kTweet_CommentFont;
+            _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            [self.contentView addSubview:_contentLabel];
+        }
+        if (!_splitLineView) {
+            _splitLineView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 0, 255, 1)];
+            _splitLineView.image = [UIImage imageNamed:@"splitlineImg"];
+            [self.contentView addSubview:_splitLineView];
+        }
+    }
+    return self;
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    self.contentLabel.text = [NSString stringWithFormat:@"查看全部%d条评论", _commentNum.intValue];
+}
++(CGFloat)cellHeight{
+    return 12+10*2;
+}
+@end

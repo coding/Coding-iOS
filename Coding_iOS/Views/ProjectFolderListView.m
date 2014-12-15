@@ -1,0 +1,192 @@
+//
+//  ProjectFolderListView.m
+//  Coding_iOS
+//
+//  Created by 王 原闯 on 14/10/29.
+//  Copyright (c) 2014年 Coding. All rights reserved.
+//
+#define kCellIdentifier_ProjectFolderList @"ProjectFolderListCell"
+
+#import "ProjectFolderListView.h"
+#import "ODRefreshControl.h"
+#import "Coding_NetAPIManager.h"
+#import "ProjectFolderListCell.h"
+#import "SettingTextViewController.h"
+
+@interface ProjectFolderListView () <SWTableViewCellDelegate>
+@property (nonatomic, strong) Project *curProject;
+@property (strong, nonatomic) ProjectFolders *myFolders;
+@property (nonatomic, strong) UITableView *myTableView;
+@property (nonatomic, strong) ODRefreshControl *myRefreshControl;
+@end
+@implementation ProjectFolderListView
+- (id)initWithFrame:(CGRect)frame project:(Project *)project{
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code
+        _curProject = project;
+        _myFolders = [ProjectFolders emptyFolders];
+        _myTableView = ({
+            UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
+            tableView.backgroundColor = kColorTableBG;
+            tableView.delegate = self;
+            tableView.dataSource = self;
+            [tableView registerClass:[ProjectFolderListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectFolderList];
+            tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+            [self addSubview:tableView];
+            tableView;
+        });
+        
+        _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
+        [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+        [self sendRequest];
+    }
+    return self;
+}
+- (void)refresh{
+    if (_myFolders.isLoading) {
+        return;
+    }
+    [self sendRequest];
+}
+
+- (void)sendRequest{
+    if (_myFolders.list.count <= 0) {
+        [self beginLoading];
+    }
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_Folders:_myFolders inProject:_curProject andBlock:^(id data, NSError *error) {
+        [weakSelf.myRefreshControl endRefreshing];
+        [weakSelf endLoading];
+        
+        if (data) {
+            weakSelf.myFolders = data;
+            [weakSelf.myTableView reloadData];
+        }
+        [weakSelf configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.myFolders.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+            [weakSelf refresh];
+        }];
+    }];
+}
+- (void)reloadData{
+    if (self.myTableView) {
+        [self.myTableView reloadData];
+    }
+}
+- (void)refreshToQueryData{
+    [self refresh];
+}
+#pragma mark Table
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSInteger row = 0;
+    if (_myFolders && _myFolders.list) {
+        row = _myFolders.list.count;
+    }
+    return row;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    ProjectFolderListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectFolderList forIndexPath:indexPath];
+    ProjectFolder *folder = [self.myFolders.list objectAtIndex:indexPath.row];
+    cell.folder = folder;
+    [cell setRightUtilityButtons:[self rightButtonsWithObj:folder] WithButtonWidth:[ProjectFolderListCell cellHeight]];
+    cell.delegate = self;
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return [ProjectFolderListCell cellHeight];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (_folderInProjectBlock) {
+        ProjectFolder *folder = [self.myFolders.list objectAtIndex:indexPath.row];
+        _folderInProjectBlock(_myFolders, folder, _curProject);
+    }
+}
+#pragma mark Edit Table
+- (NSArray *)rightButtonsWithObj:(id)obj{
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    if ([obj isKindOfClass:[ProjectFolder class]]) {
+        ProjectFolder *folder = (ProjectFolder *)obj;
+        if (![folder isDefaultFolder]) {
+            [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xe6e6e6"] icon:[UIImage imageNamed:@"icon_file_cell_rename"]];
+            [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xff5846"] icon:[UIImage imageNamed:@"icon_file_cell_delete"]];
+        }
+    }
+    return rightUtilityButtons;
+}
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell{
+    return YES;
+}
+- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state{
+    NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
+    if (indexPath.row == 0) {
+        return NO;
+    }
+    return YES;
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+    [cell hideUtilityButtonsAnimated:YES];
+    NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
+    ProjectFolder *folder = [self.myFolders.list objectAtIndex:indexPath.row];
+    if ([folder isDefaultFolder]) {
+        [self showHudTipStr:@"‘默认文件夹’不可以编辑"];
+    }else{
+        if (index == 0) {
+            [self renameFolder:folder];
+        }else{
+            __weak typeof(self) weakSelf = self;
+            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:[NSString stringWithFormat:@"确定要删除文件夹:%@？",folder.name]];
+            [actionSheet bk_setDestructiveButtonWithTitle:@"确认删除" handler:nil];
+            [actionSheet bk_setCancelButtonWithTitle:@"取消" handler:nil];
+            [actionSheet bk_setDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                switch (index) {
+                    case 0:
+                        [weakSelf deleteFolder:folder];
+                        break;
+                    default:
+                        break;
+                }
+            }];
+            [actionSheet showInView:kKeyWindow];
+        }
+    }
+}
+- (void)deleteFolder:(ProjectFolder *)folder{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_DeleteFolder:folder andBlock:^(id data, NSError *error) {
+        if (data) {
+            ProjectFolder *originalFolder = (ProjectFolder *)data;
+            DebugLog(@"删除文件夹成功:%@", originalFolder.name);
+            
+            [weakSelf.myFolders.list removeObject:originalFolder];
+            [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+        }
+    }];
+}
+- (void)renameFolder:(ProjectFolder *)folder{
+    __weak typeof(self) weakSelf = self;
+    @weakify(folder);
+    [SettingTextViewController showSettingFolderNameVCFromVC:nil withTitle:@"重命名文件夹" textValue:folder.name type:SettingTypeFolderName doneBlock:^(NSString *textValue) {
+        @strongify(folder);
+        if (![textValue isEqualToString:folder.name]) {
+            folder.next_name = textValue;
+            [[Coding_NetAPIManager sharedManager] request_RenameFolder:folder andBlock:^(id data, NSError *error) {
+                if (data) {
+                    ProjectFolder *originalFolder = (ProjectFolder *)data;
+                    DebugLog(@"重命名文件夹成功:%@", originalFolder.name);
+                    
+                    originalFolder.name = originalFolder.next_name;
+                    [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                }
+            }];
+            
+        }
+    }];
+}
+
+@end
