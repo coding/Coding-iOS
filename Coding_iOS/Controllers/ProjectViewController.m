@@ -118,8 +118,8 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
     [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_myProject andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
-            [weakSelf configNavBtnWithMyProject];
             weakSelf.myProject = data;
+            [weakSelf configNavBtnWithMyProject];
             [self refreshWithViewType:_curIndex];
         }
     }];
