@@ -195,13 +195,57 @@
     @weakify(self);
     [[itemButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);
-        [self.docInteractionController presentOpenInMenuFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+        [self rightNavBtnClicked];
     }];
     
     if (self.fileUrl) {
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:itemButton];
     }else{
         self.navigationItem.rightBarButtonItem = nil;
+    }
+}
+
+- (void)rightNavBtnClicked{
+    __weak typeof(self) weakSelf = self;
+    if (self.curFile.preview && self.curFile.preview.length > 0) {
+        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:nil];
+        [actionSheet bk_addButtonWithTitle:@"保存到相册" handler:nil];
+        [actionSheet bk_addButtonWithTitle:@"用其他应用打开" handler:nil];
+        [actionSheet bk_setCancelButtonWithTitle:@"取消" handler:nil];
+        [actionSheet bk_setDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            switch (index) {
+                case 0:
+                    [weakSelf saveCurImg];
+                    break;
+                case 1:
+                    [weakSelf.docInteractionController presentOpenInMenuFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+                    break;
+                default:
+                    break;
+            }
+        }];
+        [actionSheet showInView:kKeyWindow];
+    }else{
+        [self.docInteractionController presentOpenInMenuFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+    }
+}
+
+- (void)saveCurImg{
+    SEL selectorToCall = @selector(imageWasSavedSuccessfully:didFinishSavingWithError:contextInfo:);
+    
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.fileUrl]];
+    if (!image) {
+        [self showHudTipStr:@"提取图片失败"];
+        return;
+    }
+    UIImageWriteToSavedPhotosAlbum(image, self,selectorToCall, NULL);
+}
+
+- (void) imageWasSavedSuccessfully:(UIImage *)paramImage didFinishSavingWithError:(NSError *)paramError contextInfo:(void *)paramContextInfo{
+    if (paramError == nil){
+        [self showHudTipStr:@"成功保存到相册"];
+    } else {
+        [self showHudTipStr:@"保存失败"];
     }
 }
 
