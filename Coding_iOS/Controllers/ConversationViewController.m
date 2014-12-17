@@ -442,4 +442,10 @@
         DebugLog(@"加载更多");
     }
 }
+
+- (void)dealloc
+{
+    _myTableView.delegate = nil;
+    _myTableView.dataSource = nil;
+}
 @end

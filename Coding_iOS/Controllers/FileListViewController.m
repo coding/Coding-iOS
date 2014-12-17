@@ -501,4 +501,10 @@
     return [BasicPreviewItem itemWithUrl:curFileUrl];
 }
 
+- (void)dealloc
+{
+    _myTableView.delegate = nil;
+    _myTableView.dataSource = nil;
+}
+
 @end

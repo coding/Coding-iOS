@@ -155,6 +155,11 @@
     }];
 }
 
+- (void)dealloc
+{
+    self.myTableView.delegate = nil;
+}
+
 @end
 
 
