@@ -75,6 +75,14 @@
     }
     return patternedStr;
 }
+- (NSString *)markdownPatternedWithContent:(NSString *)content{
+    if (!content) {
+        return @"";
+    }
+    NSString *patternedStr = [self.markdown_pattern_htmlStr stringByReplacingOccurrencesOfString:@"${webview_content}" withString:content];
+    return patternedStr;
+}
+
 + (NSString *)bubblePatternedWithContent:(NSString *)content{
     return [[self sharedManager] bubblePatternedWithContent:content];
 }
@@ -83,5 +91,8 @@
 }
 + (NSString *)codePatternedWithContent:(CodeFile *)codeFile{
     return [[self sharedManager] codePatternedWithContent:codeFile];
+}
++ (NSString *)markdownPatternedWithContent:(NSString *)content{
+    return [[self sharedManager] markdownPatternedWithContent:content];
 }
 @end

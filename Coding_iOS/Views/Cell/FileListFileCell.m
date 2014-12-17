@@ -17,13 +17,6 @@
 #import "ASProgressPopUpView.h"
 
 
-typedef NS_ENUM(NSInteger, DownloadState){
-    DownloadStateDownload = 0,
-    DownloadStatePause,
-    DownloadStateGoon,
-    DownloadStateLook
-};
-
 @interface FileListFileCell ()<ASProgressPopUpViewDelegate>
 @property (strong, nonatomic) UIImageView *iconView;
 @property (strong, nonatomic) UILabel *nameLabel, *infoLabel, *sizeLabel;
@@ -90,6 +83,11 @@ typedef NS_ENUM(NSInteger, DownloadState){
     _progress = progress;
     if (_progress) {
         [_progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:nil];
+        @weakify(self);
+        [[RACSignal combineLatest:@[self.rac_prepareForReuseSignal, self.rac_willDeallocSignal]] subscribeNext:^(id x) {
+            @strongify(self);
+            [self.progress removeObserver:self forKeyPath:@"fractionCompleted"];
+        }];
     }
 }
 - (void)dealloc{
@@ -101,27 +99,25 @@ typedef NS_ENUM(NSInteger, DownloadState){
 - (void)changeToState:(DownloadState)state{
     NSString *stateImageName;
     switch (state) {
-        case DownloadStateDownload:
+        case DownloadStateDefault:
             stateImageName = @"icon_file_state_download";
             break;
-        case DownloadStatePause:
+        case DownloadStateDownloading:
             stateImageName = @"icon_file_state_pause";
             break;
-        case DownloadStateGoon:
+        case DownloadStatePausing:
             stateImageName = @"icon_file_state_goon";
             break;
-        case DownloadStateLook:
+        case DownloadStateDownloaded:
             stateImageName = @"icon_file_state_look";
             break;
         default:
             stateImageName = @"icon_file_state_download";
             break;
     }
-    if (state == DownloadStateLook) {
-        [self setBackgroundColor:[UIColor colorWithHexString:@"0xf1fcf6"]];
-    }else{
-        [self setBackgroundColor:[UIColor clearColor]];
-    }
+    [self setBackgroundColor:(state == DownloadStateDownloaded)? [UIColor colorWithHexString:@"0xf1fcf6"]:[UIColor clearColor]];
+    [self.progressView setHidden:!(state == DownloadStateDownloading || state == DownloadStatePausing)];
+    
     [_stateButton setImage:[UIImage imageNamed:stateImageName] forState:UIControlStateNormal];
 }
 
@@ -136,7 +132,7 @@ typedef NS_ENUM(NSInteger, DownloadState){
     if (_file.preview && _file.preview.length > 0) {
         [_iconView sd_setImageWithURL:[NSURL URLWithString:_file.preview]];
     }else{
-        [self configIconWithType:_file.fileType];
+        _iconView.image = [UIImage imageNamed:[_file fileIconName]];
     }
 }
 + (CGFloat)cellHeight{
@@ -151,18 +147,13 @@ typedef NS_ENUM(NSInteger, DownloadState){
     //下载的东西
     if ([_file hasBeenDownload]) {
         //已下载
-        [self changeToState:DownloadStateLook];
+        if (self.progressView) {
+            self.progressView.hidden = YES;
+        }
     }else{
         Coding_DownloadTask *cTask = [_file cTask];
         if (cTask) {
             self.progress = cTask.progress;
-            if (cTask.task.state == NSURLSessionTaskStateRunning) {
-                [self changeToState:DownloadStatePause];
-            }else{
-                [self changeToState:DownloadStateGoon];
-            }
-        }else{
-            [self changeToState:DownloadStateDownload];
         }
         if (_file.size.floatValue/1024/1024 > 5.0) {//大于5M的文件，下载时显示百分比
             [_progressView showPopUpViewAnimated:NO];
@@ -171,75 +162,9 @@ typedef NS_ENUM(NSInteger, DownloadState){
         }
         [self showProgress:cTask.progress belongSelf:YES];
     }
+    [self changeToState:_file.downloadState];
 }
 
-- (void)configIconWithType:(NSString *)fileType{
-    if (!fileType) {
-        fileType = @"";
-    }
-    fileType = [fileType lowercaseString];
-    NSString *iconName;
-    //XXX(s)
-    if ([fileType hasPrefix:@"doc"]) {
-        iconName = @"icon_file_doc";
-    }else if ([fileType hasPrefix:@"ppt"]) {
-        iconName = @"icon_file_ppt";
-    }else if ([fileType hasPrefix:@"pdf"]) {
-        iconName = @"icon_file_pdf";
-    }else if ([fileType hasPrefix:@"xls"]) {
-        iconName = @"icon_file_xls";
-    }
-    //XXX
-    else if ([fileType isEqualToString:@"txt"]) {
-        iconName = @"icon_file_txt";
-    }else if ([fileType isEqualToString:@"ai"]) {
-        iconName = @"icon_file_ai";
-    }else if ([fileType isEqualToString:@"apk"]) {
-        iconName = @"icon_file_apk";
-    }else if ([fileType isEqualToString:@"md"]) {
-        iconName = @"icon_file_md";
-    }else if ([fileType isEqualToString:@"psd"]) {
-        iconName = @"icon_file_psd";
-    }
-    //XXX||YYY
-    else if ([fileType isEqualToString:@"zip"] || [fileType isEqualToString:@"rar"] || [fileType isEqualToString:@"arj"]) {
-        iconName = @"icon_file_zip";
-    }else if ([fileType isEqualToString:@"html"]
-             || [fileType isEqualToString:@"xml"]
-             || [fileType isEqualToString:@"java"]
-             || [fileType isEqualToString:@"h"]
-             || [fileType isEqualToString:@"m"]
-             || [fileType isEqualToString:@"cpp"]
-             || [fileType isEqualToString:@"json"]
-             || [fileType isEqualToString:@"cs"]
-             || [fileType isEqualToString:@"go"]) {
-        iconName = @"icon_file_code";
-    }else if ([fileType isEqualToString:@"avi"]
-              || [fileType isEqualToString:@"rmvb"]
-              || [fileType isEqualToString:@"rm"]
-              || [fileType isEqualToString:@"asf"]
-              || [fileType isEqualToString:@"divx"]
-              || [fileType isEqualToString:@"mpeg"]
-              || [fileType isEqualToString:@"mpe"]
-              || [fileType isEqualToString:@"wmv"]
-              || [fileType isEqualToString:@"mp4"]
-              || [fileType isEqualToString:@"mkv"]
-              || [fileType isEqualToString:@"vob"]) {
-        iconName = @"icon_file_movie";
-    }else if ([fileType isEqualToString:@"mp3"]
-              || [fileType isEqualToString:@"wav"]
-              || [fileType isEqualToString:@"mid"]
-              || [fileType isEqualToString:@"asf"]
-              || [fileType isEqualToString:@"mpg"]
-              || [fileType isEqualToString:@"tti"]) {
-        iconName = @"icon_file_music";
-    }
-    //unknown
-    else{
-        iconName = @"icon_file_unknown";
-    }
-    _iconView.image = [UIImage imageNamed:iconName];
-}
 - (void)clickedByUser{
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
     NSURL *fileUrl = [manager diskUrlForFile:_file.diskFileName];
@@ -254,52 +179,36 @@ typedef NS_ENUM(NSInteger, DownloadState){
             switch (downloadTask.state) {
                 case NSURLSessionTaskStateRunning:
                     [downloadTask suspend];
-                    [self changeToState:DownloadStateGoon];
+                    [self changeToState:DownloadStatePausing];
 
                     break;
                 case NSURLSessionTaskStateSuspended:
                     [downloadTask resume];
-                    [self changeToState:DownloadStatePause];
+                    [self changeToState:DownloadStateDownloading];
                     break;
                 default:
                     break;
             }
         }else{//新建下载
-            __weak typeof(self) weakSelf = self;
-            __weak typeof(_file) weakFile = self.file;
-            NSURL *downloadURL = [NSURL URLWithString:_file.downloadPath];
-            NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];
             
+            __weak typeof(self) weakSelf = self;
             NSProgress *progress;
-            NSURLSessionDownloadTask *downloadTask = [manager.af_manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-                NSLog(@"destination------Path");
-                NSURL *downloadUrl = [[Coding_FileManager sharedManager] urlForDownloadFolder];
-                Coding_DownloadTask *cTask = [[Coding_FileManager sharedManager] cTaskForResponse:response];
-                if (cTask) {
-                    downloadUrl = [downloadUrl URLByAppendingPathComponent:cTask.diskFileName];
-                }else{
-                    downloadUrl = [downloadUrl URLByAppendingPathComponent:[response suggestedFilename]];
-                }
-                return downloadUrl;
-            } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            Coding_DownloadTask *cTask = [manager addDownloadTaskForFile:self.file progress:progress completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
                 [progress removeObserver:weakSelf forKeyPath:@"fractionCompleted" context:NULL];
                 if (error) {
-                    [manager removeCTaskForKey:weakFile.storage_key];
-                    [weakSelf changeToState:DownloadStateDownload];
+                    [weakSelf changeToState:DownloadStateDefault];
                     [weakSelf showError:error];
                     NSLog(@"ERROR:%@", error.description);
                 }else{
-                    [manager removeCTaskForResponse:response];
-                    [weakSelf changeToState:DownloadStateLook];
+                    [weakSelf changeToState:DownloadStateDownloaded];
                     NSLog(@"File downloaded to: %@", filePath);
                 }
             }];
-            [downloadTask resume];
-            [manager addDownloadTask:downloadTask progress:progress fileName:_file.diskFileName forKey:_file.storage_key];
-            self.progress = progress;
+            
+            self.progress = cTask.progress;
             _progressView.progress = 0.0;
             _progressView.hidden = NO;
-            [self changeToState:DownloadStatePause];
+            [self changeToState:DownloadStateDownloading];
         }
     }
 }
@@ -324,6 +233,7 @@ typedef NS_ENUM(NSInteger, DownloadState){
                 //已完成
                 [self.progressView hidePopUpViewAnimated:YES];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [self changeToState:DownloadStateDownloaded];
                     self.progressView.hidden = YES;
                 });
             }else{

@@ -42,9 +42,10 @@
     return [Coding_FileManager af_manager];
 }
 
-- (void)addDownloadTask:(NSURLSessionDownloadTask *)downloadTask progress:(NSProgress *)progress fileName:(NSString *)fileName forKey:(NSString *)storage_key{
+- (Coding_DownloadTask *)addDownloadTask:(NSURLSessionDownloadTask *)downloadTask progress:(NSProgress *)progress fileName:(NSString *)fileName forKey:(NSString *)storage_key{
     Coding_DownloadTask *cTask = [Coding_DownloadTask cTaskWithTask:downloadTask progress:progress fileName:fileName];
     [self.downloadDict setObject:cTask forKey:storage_key];
+    return cTask;
 }
 - (void)removeCTaskForKey:(NSString *)storage_key{
     Coding_DownloadTask *cTack = [self.downloadDict objectForKey:storage_key];
@@ -124,7 +125,36 @@
 - (NSURL *)diskUrlForFile:(NSString *)fileName{
     return [self.diskDict objectForKey:fileName];
 }
-
+- (Coding_DownloadTask *)addDownloadTaskForFile:(ProjectFile *)file progress:(NSProgress *)progress completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler{
+    
+    __weak typeof(file) weakFile = file;
+    
+    NSURL *downloadURL = [NSURL URLWithString:file.downloadPath];
+    NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];
+    NSURLSessionDownloadTask *downloadTask = [self.af_manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        NSLog(@"destination------Path");
+        NSURL *downloadUrl = [[Coding_FileManager sharedManager] urlForDownloadFolder];
+        Coding_DownloadTask *cTask = [[Coding_FileManager sharedManager] cTaskForResponse:response];
+        if (cTask) {
+            downloadUrl = [downloadUrl URLByAppendingPathComponent:cTask.diskFileName];
+        }else{
+            downloadUrl = [downloadUrl URLByAppendingPathComponent:[response suggestedFilename]];
+        }
+        return downloadUrl;
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        if (error) {
+            [[Coding_FileManager sharedManager] removeCTaskForKey:weakFile.storage_key];
+        }else{
+            [[Coding_FileManager sharedManager] removeCTaskForResponse:response];
+        }
+        if (completionHandler) {
+            completionHandler(response, filePath, error);
+        }
+    }];
+    [downloadTask resume];
+    Coding_DownloadTask *cTask = [self addDownloadTask:downloadTask progress:progress fileName:file.diskFileName forKey:file.storage_key];
+    return cTask;
+}
 #pragma mark DirectoryWatcherDelegate
 - (void)directoryDidChange:(DirectoryWatcher *)folderWatcher{
     [self.diskDict removeAllObjects];

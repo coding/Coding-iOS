@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4E15C7D01A26D2F000FB8DAD /* FolderToMoveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E15C7CF1A26D2F000FB8DAD /* FolderToMoveViewController.m */; };
 		4E15C7D61A271A6300FB8DAD /* EaseToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E15C7D51A271A6300FB8DAD /* EaseToolBar.m */; };
+		4E2906A21A403B7D008A5B97 /* FileDownloadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2906A11A403B7D008A5B97 /* FileDownloadView.m */; };
+		4E35A99F1A3EC47E00CE35F1 /* FileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E35A99E1A3EC47E00CE35F1 /* FileViewController.m */; };
 		4E3AD3CF1A273A4A005C749B /* FAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3AD3C11A273A4A005C749B /* FAImageView.m */; };
 		4E3AD3D01A273A4A005C749B /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3AD3C31A273A4A005C749B /* NSString+FontAwesome.m */; };
 		4E3AD3D11A273A4A005C749B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E3AD3C51A273A4A005C749B /* FontAwesome.ttf */; };
@@ -483,6 +485,10 @@
 		4E15C7CF1A26D2F000FB8DAD /* FolderToMoveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderToMoveViewController.m; sourceTree = "<group>"; };
 		4E15C7D41A271A6300FB8DAD /* EaseToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseToolBar.h; sourceTree = "<group>"; };
 		4E15C7D51A271A6300FB8DAD /* EaseToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseToolBar.m; sourceTree = "<group>"; };
+		4E2906A01A403B7D008A5B97 /* FileDownloadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDownloadView.h; sourceTree = "<group>"; };
+		4E2906A11A403B7D008A5B97 /* FileDownloadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDownloadView.m; sourceTree = "<group>"; };
+		4E35A99D1A3EC47E00CE35F1 /* FileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileViewController.h; sourceTree = "<group>"; };
+		4E35A99E1A3EC47E00CE35F1 /* FileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileViewController.m; sourceTree = "<group>"; };
 		4E3AD3C01A273A4A005C749B /* FAImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAImageView.h; sourceTree = "<group>"; };
 		4E3AD3C11A273A4A005C749B /* FAImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAImageView.m; sourceTree = "<group>"; };
 		4E3AD3C21A273A4A005C749B /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
@@ -1891,6 +1897,8 @@
 				4EA6791F1A15AB9F001A0324 /* FileListViewController.m */,
 				4E15C7CE1A26D2F000FB8DAD /* FolderToMoveViewController.h */,
 				4E15C7CF1A26D2F000FB8DAD /* FolderToMoveViewController.m */,
+				4E35A99D1A3EC47E00CE35F1 /* FileViewController.h */,
+				4E35A99E1A3EC47E00CE35F1 /* FileViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2329,6 +2337,8 @@
 				8E59F0F01A00F38A009A905F /* ProjectFolderListView.m */,
 				8EA6D12319E240C40076D59C /* UIMessageInputView.h */,
 				8EA6D12419E240C40076D59C /* UIMessageInputView.m */,
+				4E2906A01A403B7D008A5B97 /* FileDownloadView.h */,
+				4E2906A11A403B7D008A5B97 /* FileDownloadView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2871,6 +2881,7 @@
 				8EA6D13819E240C40076D59C /* Message_RootViewController.m in Sources */,
 				8EF643B219FF7E2900F7EEB0 /* Input_GlobalKey_Cell.m in Sources */,
 				8EA6D1BD19E240C40076D59C /* QcTask.m in Sources */,
+				4E35A99F1A3EC47E00CE35F1 /* FileViewController.m in Sources */,
 				4ECE8B001A3946C10021E29C /* CodingNetAPIClient.m in Sources */,
 				8EF643B119FF7E2900F7EEB0 /* ConversationCell.m in Sources */,
 				8EF643D019FF7E2900F7EEB0 /* TweetSendImagesCell.m in Sources */,
@@ -2914,6 +2925,7 @@
 				4E6BA2E11A1EE6AF005FD721 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				8EA6D1B619E240C40076D59C /* Login.m in Sources */,
 				8EF643C419FF7E2900F7EEB0 /* TitleDisclosureCell.m in Sources */,
+				4E2906A21A403B7D008A5B97 /* FileDownloadView.m in Sources */,
 				4E6BA2DC1A1EE6AF005FD721 /* AFNetworkReachabilityManager.m in Sources */,
 				8E59F0E31A0098BA009A905F /* UIScrollView+SVPullToRefresh.m in Sources */,
 				8EA6D13419E240C40076D59C /* ProjectMemberListViewController.m in Sources */,

@@ -9,8 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
 #import "DirectoryWatcher.h"
+#import "ProjectFile.h"
 
 @class Coding_DownloadTask;
+@class ProjectFile;
 
 @interface Coding_FileManager : NSObject
 
@@ -20,11 +22,12 @@
 - (NSURL *)urlForDownloadFolder;
 - (NSURL *)diskUrlForFile:(NSString *)fileName;
 
-- (void)addDownloadTask:(NSURLSessionDownloadTask *)downloadTask progress:(NSProgress *)progress fileName:(NSString *)fileName forKey:(NSString *)storage_key;
+- (Coding_DownloadTask *)addDownloadTask:(NSURLSessionDownloadTask *)downloadTask progress:(NSProgress *)progress fileName:(NSString *)fileName forKey:(NSString *)storage_key;
 - (void)removeCTaskForKey:(NSString *)storage_key;
 - (Coding_DownloadTask *)cTaskForKey:(NSString *)storage_key;
 - (void)removeCTaskForResponse:(NSURLResponse *)response;
 - (Coding_DownloadTask *)cTaskForResponse:(NSURLResponse *)response;
+- (Coding_DownloadTask *)addDownloadTaskForFile:(ProjectFile *)file progress:(NSProgress *)progress completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
 @end
 
 @interface Coding_DownloadTask : NSObject

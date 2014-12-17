@@ -54,6 +54,7 @@
 - (void)request_DeleteFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_MoveFile:(ProjectFile *)file toFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CreatFolder:(NSString *)fileName inFolder:(ProjectFolder *)parentFolder inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_FileDetail:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
 
 
 //Code

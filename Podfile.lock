@@ -17,6 +17,7 @@ PODS:
   - hpple (0.2.0)
   - JDStatusBarNotification (1.4.9)
   - MBProgressHUD (0.9)
+  - MMMarkdown (0.3)
   - ODRefreshControl (1.1.0)
   - ReactiveCocoa (2.3.1):
     - ReactiveCocoa/UI (= 2.3.1)
@@ -37,6 +38,7 @@ DEPENDENCIES:
   - hpple (~> 0.2.0)
   - JDStatusBarNotification (~> 1.4.9)
   - MBProgressHUD (~> 0.9)
+  - MMMarkdown (~> 0.3)
   - ODRefreshControl (~> 1.1.0)
   - ReactiveCocoa (~> 2.3.1)
   - RegexKitLite (~> 4.0)
@@ -49,6 +51,7 @@ SPEC CHECKSUMS:
   hpple: f4eb7c21a8db83ec264e5d614ec7509e10e5adec
   JDStatusBarNotification: 9d833032d343e9a7abe0ec219c415dc115ba67a8
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
+  MMMarkdown: 95af8920c647512d1efa2ac8ac1932baf3266e2c
   ODRefreshControl: 7bc75258d9dba1f93c4e34654d1e4b5aa39529f0
   ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
   RegexKitLite: c0e4c12e6e7de0769f3a3ed679f0f61604170661

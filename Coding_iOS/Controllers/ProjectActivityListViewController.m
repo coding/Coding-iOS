@@ -11,6 +11,7 @@
 #import "EditTaskViewController.h"
 #import "TopicDetailViewController.h"
 #import "FileListViewController.h"
+#import "FileViewController.h"
 
 @interface ProjectActivityListViewController ()
 
@@ -107,14 +108,27 @@
         }else if ([target_type isEqualToString:@"ProjectFile"]){
             File *file = proAct.file;
             NSArray *pathArray = [file.path componentsSeparatedByString:@"/"];
-            if (pathArray.count >= 7) {
+            BOOL isFile = [proAct.type isEqualToString:@"file"];
+            
+            if (isFile && pathArray.count >= 9) {
+                //文件
+                NSString *fileIdStr = pathArray[8];
+                ProjectFile *curFile = [ProjectFile fileWithFileId:@(fileIdStr.integerValue) andProjectId:@(project.id.integerValue)];
+                curFile.name = file.name;
+                FileViewController *vc = [[FileViewController alloc] init];
+                vc.curFile = curFile;
+                [self.navigationController pushViewController:vc animated:YES];
+            }else if (!isFile && pathArray.count >= 7){
+                //文件夹
                 ProjectFolder *folder;
                 NSString *folderIdStr = pathArray[6];
                 if (![folderIdStr isEqualToString:@"default"] && [folderIdStr isPureInt]) {
                     NSNumber *folderId = [NSNumber numberWithInteger:folderIdStr.integerValue];
                     folder = [ProjectFolder folderWithId:folderId];
+                    folder.name = file.name;
                 }else{
                     folder = [ProjectFolder defaultFolder];
+                    folder.name = @"默认文件夹";
                 }
                 FileListViewController *vc = [[FileListViewController alloc] init];
                 vc.curProject = project;
@@ -122,11 +136,7 @@
                 vc.rootFolders = nil;
                 [self.navigationController pushViewController:vc animated:YES];
             }else{
-                if ([proAct.type isEqualToString:@"dir"]) {
-                    [self showHudTipStr:@"文件夹不存在"];
-                }else{
-                    [self showHudTipStr:@"文件不存在"];
-                }
+                [self showHudTipStr:(isFile? @"文件不存在" :@"文件夹不存在")];
             }
         }else if ([target_type isEqualToString:@"ProjectMember"]) {
             if ([proAct.action isEqualToString:@"quit"]) {

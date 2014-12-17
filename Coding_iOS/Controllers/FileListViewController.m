@@ -18,8 +18,9 @@
 #import "BasicPreviewItem.h"
 #import "SettingTextViewController.h"
 #import "FolderToMoveViewController.h"
+#import "FileViewController.h"
 
-@interface FileListViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate,SWTableViewCellDelegate>
+@interface FileListViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate, SWTableViewCellDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 @property (strong, nonatomic) ProjectFiles *myFiles;
@@ -46,6 +47,13 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (self.myTableView) {
+        [self.myTableView reloadData];
+    }
 }
 
 - (void)loadView{
@@ -198,8 +206,11 @@
         ProjectFolder *clickedFolder = [_curFolder.sub_folders objectAtIndex:indexPath.row];;
         [self goToVCWithFolder:clickedFolder inProject:self.curProject];
     }else{
-        FileListFileCell *cell = (FileListFileCell *)[tableView cellForRowAtIndexPath:indexPath];
-        [cell clickedByUser];
+//        FileListFileCell *cell = (FileListFileCell *)[tableView cellForRowAtIndexPath:indexPath];
+//        [cell clickedByUser];
+        
+        ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count)];
+        [self goToFileVC:file];
     }
 }
 
@@ -431,6 +442,12 @@
     vc.curFolder = folder;
     vc.curProject = project;
     vc.rootFolders = self.rootFolders;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToFileVC:(ProjectFile *)file{
+    FileViewController *vc = [[FileViewController alloc] init];
+    vc.curFile = file;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

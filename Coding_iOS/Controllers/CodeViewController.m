@@ -90,14 +90,8 @@
 
 #pragma mark UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    NSString *strLink = request.URL.absoluteString;
-    NSLog(@"strLink=[%@]",strLink);
-    if ([strLink rangeOfString:@"about:blank"].location != NSNotFound) {
-        return YES;
-    }else{
-        return YES;
-//        return NO;
-    }
+    NSLog(@"strLink=[%@]",request.URL.absoluteString);
+    return YES;
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     [_activityIndicator startAnimating];

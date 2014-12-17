@@ -14,4 +14,5 @@
 + (NSString *)bubblePatternedWithContent:(NSString *)content;
 + (NSString *)topicPatternedWithContent:(NSString *)content;
 + (NSString *)codePatternedWithContent:(CodeFile *)codeFile;
++ (NSString *)markdownPatternedWithContent:(NSString *)content;
 @end

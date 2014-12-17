@@ -440,6 +440,20 @@
         }
     }];
 }
+- (void)request_FileDetail:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"文件详情"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[file toDetailPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            resultData = [resultData valueForKeyPath:@"file"];
+            ProjectFile *detailFile = [NSObject objectOfClass:@"ProjectFile" fromJSON:resultData];
+            detailFile.project_id = file.project_id;
+            block(detailFile, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 //Code
 - (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block  andCodeTreeInfoBlock:(void (^)(id codeTreeInfoData, NSError *codeTreeInfoError))infoBlock{
     [MobClick event:kUmeng_Event_Request label:@"代码目录"];
