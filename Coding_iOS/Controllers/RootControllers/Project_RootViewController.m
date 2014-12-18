@@ -21,6 +21,7 @@
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) iCarousel *myCarousel;
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
+@property (assign, nonatomic) NSInteger oldSelectedIndex;
 @end
 
 @implementation Project_RootViewController
@@ -136,8 +137,13 @@
     frame.size.height = kMySegmentControl_Height;
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:frame Items:@[@"全部项目", @"我参与的", @"我创建的"] selectedBlock:^(NSInteger index) {
+        if (index == _oldSelectedIndex) {
+            return;
+        }
+        _oldSelectedIndex = index;
         [weakCarousel scrollToItemAtIndex:index animated:NO];
     }];
+    _oldSelectedIndex = 0;
     [self.view addSubview:_mySegmentControl];
     
     [self refreshBadgeTip];
@@ -193,14 +199,19 @@
         }
     }
 }
-- (void)carouselDidEndDecelerating:(iCarousel *)carousel{
+
+- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel
+{
     if (_mySegmentControl) {
         [_mySegmentControl endMoveIndex:carousel.currentItemIndex];
     }
+    if (_oldSelectedIndex == carousel.currentItemIndex) {
+        return;
+    }
+    _oldSelectedIndex = carousel.currentItemIndex;
     ProjectListView *curView = (ProjectListView *)carousel.currentItemView;
     [curView refreshToQueryData];
 }
-
 #pragma mark KVO_UnRead
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if([keyPath isEqualToString:kUnReadKey_project_update_count]){
