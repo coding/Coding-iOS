@@ -163,6 +163,14 @@
     return self;
 }
 
+- (void)setComment_content:(NSString *)comment_content{
+    if (comment_content) {
+        _comment_content = [comment_content stringByRemoveHtmlTag];
+    }else{
+        _comment_content = @"";
+    }
+}
+
 - (void)addActionUser:(User *)curUser{
     if (curUser) {
         [HtmlMedia addMediaItemUser:curUser toString:_actionStr andMediaItems:_actionMediaItems];
