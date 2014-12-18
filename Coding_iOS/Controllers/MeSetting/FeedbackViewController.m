@@ -13,6 +13,7 @@
 @interface FeedbackViewController ()
 @property (strong, nonatomic) UITextField *inputTitleView;
 @property (strong, nonatomic) UIPlaceHolderTextView *inputContentView;
+@property (strong, nonatomic) UIView *inputContentContainerView;
 @property (strong, nonatomic) ProjectTopic *myProTopic;
 
 @end
@@ -67,11 +68,16 @@
     
     frame.origin.y += 44+20;
     frame.size.height = kScreen_Height -64- 55-280-kHigher_iOS_6_1_DIS(20);
-    _inputContentView = [[UIPlaceHolderTextView alloc] initWithFrame:frame];
+    _inputContentContainerView = [[UIView alloc] initWithFrame:frame];
+    _inputContentContainerView.backgroundColor = [UIColor clearColor];
+    _inputContentView = [[UIPlaceHolderTextView alloc] initWithFrame:_inputContentContainerView.bounds];
     _inputContentView.font = [UIFont systemFontOfSize:15];
     _inputContentView.placeholder = @"请输入反馈内容，我们将为您不断改进";
-    [_inputContentView addLineUp:YES andDown:YES];
-    [self.view addSubview:_inputContentView];
+
+    [_inputContentContainerView addSubview:_inputContentView];
+    [_inputContentContainerView addLineUp:YES andDown:YES];
+
+    [self.view addSubview:_inputContentContainerView];
     
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStylePlain target:self action:@selector(feedbackBtnClicked:)];
