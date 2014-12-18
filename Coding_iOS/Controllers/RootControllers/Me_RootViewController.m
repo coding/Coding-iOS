@@ -398,4 +398,10 @@
     }
 }
 
+- (void)dealloc
+{
+    _myTableView.delegate = nil;
+    _myTableView.dataSource = nil;
+}
+
 @end
