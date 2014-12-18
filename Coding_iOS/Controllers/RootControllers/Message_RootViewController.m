@@ -87,6 +87,10 @@
     
     [[UnReadManager shareManager] removeObserver:self forKeyPath:kUnReadKey_messages];
     [[UnReadManager shareManager] removeObserver:self forKeyPath:kUnReadKey_notifications];
+    
+    _myTableView.delegate = nil;
+    _myTableView.dataSource = nil;
+
 }
 
 - (void)loadView{

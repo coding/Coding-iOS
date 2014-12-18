@@ -237,4 +237,10 @@
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kNetPath_Code_Base]];
     }
 }
+
+- (void)dealloc
+{
+    _myTableView.delegate = nil;
+    _myTableView.dataSource = nil;
+}
 @end
