@@ -425,16 +425,11 @@
 }
 
 - (void)hideToolBar:(BOOL)hide{
-    if (hide) {
-        UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    if (hide != self.rdv_tabBarController.tabBarHidden) {
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, (hide? 0.0:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)), 0.0);
         self.myTableView.contentInset = contentInsets;
         self.myTableView.scrollIndicatorInsets = contentInsets;
-        [self.rdv_tabBarController setTabBarHidden:YES animated:YES];
-    }else{
-        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0.0);
-        self.myTableView.contentInset = contentInsets;
-        self.myTableView.scrollIndicatorInsets = contentInsets;
-        [self.rdv_tabBarController setTabBarHidden:NO animated:YES];
+        [self.rdv_tabBarController setTabBarHidden:hide animated:YES];
     }
 }
 
