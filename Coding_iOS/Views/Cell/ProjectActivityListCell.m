@@ -18,7 +18,7 @@
 #define kProjectActivityListCell_MaxActionHeight CGFLOAT_MAX
 #define kProjectActivityListCell_MaxContentHeight CGFLOAT_MAX
 
-#define kProjectActivityListCell_TimeHeight 10.0
+#define kProjectActivityListCell_TimeHeight 12.0
 #define kProjectActivityListCell_ContentWidth (kScreen_Width - kProjectActivityListCell_LeftPading - kProjectActivityListCell_RightPading)
 
 #define kProjectActivityListCell_ActionFont [UIFont systemFontOfSize:15]
