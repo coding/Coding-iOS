@@ -181,7 +181,8 @@
         ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count)];
         cell.file = file;
         cell.showDiskFileBlock = ^(NSURL *fileUrl, ProjectFile *file){
-            [weakSelf showDiskFile:fileUrl];
+//            [weakSelf showDiskFile:fileUrl];
+            [weakSelf goToFileVC:file];
         };
         [cell setRightUtilityButtons:[self rightButtonsWithObj:file] WithButtonWidth:[FileListFileCell cellHeight]];
         cell.delegate = self;
