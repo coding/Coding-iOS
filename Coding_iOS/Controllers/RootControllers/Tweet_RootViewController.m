@@ -417,7 +417,7 @@
     if (ABS(newY - oldY) > 50) {
         if (newY > oldY && newY > 1) {
             [self hideToolBar:YES];
-        }else if(newY < oldY){
+        }else if(newY < oldY && [self getCurTweets].willLoadMore==NO){
             [self hideToolBar:NO];
         }
         oldY = newY;
