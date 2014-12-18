@@ -200,17 +200,6 @@
     }
 }
 
-- (void)enableApp
-{
-    [[UIApplication sharedApplication] endIgnoringInteractionEvents];
-}
-
-
-- (void)disableApp
-{
-    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
-}
-
 - (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel
 {
     if (_mySegmentControl) {
@@ -220,17 +209,8 @@
         _oldSelectedIndex = carousel.currentItemIndex;
         ProjectListView *curView = (ProjectListView *)carousel.currentItemView;
         [curView refreshToQueryData];
-    }
-    
-    [self enableApp];
-    
+    }    
 }
-
-- (void)carouselWillBeginScrollingAnimation:(iCarousel *)carousel
-{
-    [self disableApp];
-}
-
 
 #pragma mark KVO_UnRead
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
