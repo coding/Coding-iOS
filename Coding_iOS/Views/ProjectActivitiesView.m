@@ -65,7 +65,7 @@
 
 #pragma mark iCarousel M
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel{
-    return 6;
+    return _myProject.is_public.boolValue? 4:6;
 }
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view{
     
