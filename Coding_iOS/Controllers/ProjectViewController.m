@@ -121,12 +121,13 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
         if (data) {
             weakSelf.myProject = data;
             [weakSelf configNavBtnWithMyProject];
-            [self refreshWithViewType:_curIndex];
+            [weakSelf refreshWithViewType:_curIndex];
         }
     }];
 }
 
 - (void)configNavBtnWithMyProject{
+    __weak typeof(self) weakSelf = self;
     if (_myProject.is_public.boolValue) {
         [self customDownMenuWithTitles:@[[DownMenuTitle title:@"项目动态" image:@"nav_project_activity" badge:nil],
                                          [DownMenuTitle title:@"项目讨论" image:@"nav_project_topic" badge:nil],
@@ -153,7 +154,7 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
                                           type = ProjectViewTypeActivities;
                                           break;
                                   }
-                                  [self refreshWithViewType:type];
+                                  [weakSelf refreshWithViewType:type];
                               }];
     }else{
         [self customDownMenuWithTitles:@[[DownMenuTitle title:@"项目动态" image:@"nav_project_activity" badge:nil],
@@ -165,7 +166,7 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
                        andDefaultIndex:_curIndex
                               andBlock:^(id titleObj, NSInteger index) {
                                   [(DownMenuTitle *)titleObj setBadgeValue:nil];
-                                  [self refreshWithViewType:index];
+                                  [weakSelf refreshWithViewType:index];
                               }];
     }
 }
