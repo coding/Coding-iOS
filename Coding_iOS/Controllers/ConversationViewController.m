@@ -18,6 +18,7 @@
 #import "UserInfoViewController.h"
 #import "QBImagePickerController.h"
 #import "UsersViewController.h"
+#import "Helper.h"
 
 @interface ConversationViewController ()
 @property (nonatomic, strong) UITableView *myTableView;
@@ -344,6 +345,9 @@
     switch (index) {
         case 0:
         {//        相册
+            if (![Helper checkPhotoLibraryAuthorizationStatus]) {
+                return;
+            }
             QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
             imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
             imagePickerController.delegate = self;
@@ -355,8 +359,7 @@
             break;
         case 1:
         {//        拍照
-            if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-                kTipAlert(@"该设备不支持拍照");
+            if (![Helper checkCameraAuthorizationStatus]) {
                 return;
             }
             UIImagePickerController *picker = [[UIImagePickerController alloc] init];

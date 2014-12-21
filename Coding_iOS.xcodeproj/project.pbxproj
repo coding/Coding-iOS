@@ -477,6 +477,7 @@
 		8EF83F8A19E92AA500E86DE7 /* SettingTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF83F8919E92AA500E86DE7 /* SettingTagsViewController.m */; };
 		8EF83F8C19E931D200E86DE7 /* me_info_arrow_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF83F8B19E931D200E86DE7 /* me_info_arrow_left@2x.png */; };
 		8EF83F9419EB78CC00E86DE7 /* SettingTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF83F9319EB78CC00E86DE7 /* SettingTextViewController.m */; };
+		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1203,6 +1204,8 @@
 		8EF83F9219EB78CC00E86DE7 /* SettingTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTextViewController.h; sourceTree = "<group>"; };
 		8EF83F9319EB78CC00E86DE7 /* SettingTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTextViewController.m; sourceTree = "<group>"; };
 		C613B8719C3D38FED828A1E2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		E7A0469E1A47279E00528C12 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
+		E7A0469F1A47279E00528C12 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1623,7 +1626,9 @@
 				8E477011198770E700997D05 /* Products */,
 				677C285895EC30898E811622 /* Pods */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		8E477011198770E700997D05 /* Products */ = {
 			isa = PBXGroup;
@@ -2215,6 +2220,8 @@
 				4E15C7D51A271A6300FB8DAD /* EaseToolBar.m */,
 				4ECE8B061A3947300021E29C /* BasicPreviewItem.h */,
 				4ECE8B071A3947300021E29C /* BasicPreviewItem.m */,
+				E7A0469E1A47279E00528C12 /* Helper.h */,
+				E7A0469F1A47279E00528C12 /* Helper.m */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2898,6 +2905,7 @@
 				8EA6D14419E240C40076D59C /* TopicDetailViewController.m in Sources */,
 				8EA6D23B19E240C40076D59C /* ProjectTopicsView.m in Sources */,
 				8EA6D25019E240C40076D59C /* UIMessageInputView.m in Sources */,
+				E7A046A01A47279E00528C12 /* Helper.m in Sources */,
 				8E64ED8019ED0CE3006E99DA /* QBAssetsCollectionViewController.m in Sources */,
 				4E87656A1A22E5B40090CFB9 /* SWUtilityButtonView.m in Sources */,
 				8EABE3C819F10D2400A17784 /* TaskComment.m in Sources */,
