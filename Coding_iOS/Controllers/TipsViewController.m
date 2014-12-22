@@ -119,7 +119,7 @@
             weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myCodingTips.canLoadMore;
         }
         [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.myCodingTips.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-            [self refresh];
+            [weakSelf refresh];
         }];
     }];
 }
@@ -151,8 +151,9 @@
     CodingTipCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_CodingTip forIndexPath:indexPath];
     CodingTip *tip = [_myCodingTips.list objectAtIndex:indexPath.row];
     cell.curTip = tip;
+    __weak typeof(self) weakSelf = self;
     cell.linkClickedBlock = ^(HtmlMediaItem *item, CodingTip *tip){
-        [self analyzeHtmlMediaItem:item andTip:tip];
+        [weakSelf analyzeHtmlMediaItem:item andTip:tip];
     };
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     return cell;

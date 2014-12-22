@@ -125,26 +125,27 @@
     if (cell == nil) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"Input_OnlyText_Cell" owner:self options:nil] firstObject];
     }
+    __weak typeof(self) weakSelf = self;
     if (indexPath.row == 0) {
         cell.isCaptcha = NO;
         [cell configWithPlaceholder:@" 电子邮箱/个性后缀" andValue:self.myLogin.email];
         cell.textField.secureTextEntry = NO;
         cell.textValueChangedBlock = ^(NSString *valueStr){
-            self.myLogin.email = valueStr;
+            weakSelf.myLogin.email = valueStr;
         };
     }else if (indexPath.row == 1){
         cell.isCaptcha = NO;
         [cell configWithPlaceholder:@" 密码" andValue:self.myLogin.password];
         cell.textField.secureTextEntry = YES;
         cell.textValueChangedBlock = ^(NSString *valueStr){
-            self.myLogin.password = valueStr;
+            weakSelf.myLogin.password = valueStr;
         };
     }else{
         cell.isCaptcha = YES;
         [cell configWithPlaceholder:@" 验证码" andValue:self.myLogin.j_captcha];
         cell.textField.secureTextEntry = NO;
         cell.textValueChangedBlock = ^(NSString *valueStr){
-            self.myLogin.j_captcha = valueStr;
+            weakSelf.myLogin.j_captcha = valueStr;
         };
     }
     return cell;
@@ -232,7 +233,7 @@
 }
 
 #pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kNetPath_Code_Base]];
     }
