@@ -102,10 +102,11 @@
 
 - (void)setProgress:(NSProgress *)progress{
     _progress = progress;
+    __weak typeof(self) weakSelf = self;
     if (_progress) {
         [RACObserve(self, progress.fractionCompleted) subscribeNext:^(NSNumber *fractionCompleted) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self updatePregress:fractionCompleted.doubleValue];
+                [weakSelf updatePregress:fractionCompleted.doubleValue];
             });
         }];
     }else{
