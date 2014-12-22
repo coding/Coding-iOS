@@ -66,6 +66,9 @@
         [_myTableView reloadData];
         [_myTableView.infiniteScrollingView stopAnimating];
         _myTableView.showsInfiniteScrolling = self.myProTopics.canLoadMore;
+        if (self.myProTopics.list.count > 0) {
+            [self configBlankPage:EaseBlankPageTypeTopic hasData:YES hasError:NO reloadButtonBlock:nil];
+        }
         [self refreshFirst];
     }
 }

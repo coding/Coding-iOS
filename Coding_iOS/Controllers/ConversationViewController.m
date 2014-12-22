@@ -374,7 +374,7 @@
     }
 }
 #pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (actionSheet.tag == kTagActionResendMessage){
         if (buttonIndex == 0) {
             if (_messageToResendOrDelete) {
