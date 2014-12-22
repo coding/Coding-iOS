@@ -406,6 +406,12 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"晚了一步\n文件刚刚被人删除了～";
             }
                 break;
+            case EaseBlankPageTypeFolderDleted:
+            {
+                imageName = @"blankpage_image_loadFail";
+                tipStr = @"晚了一步\n文件夹貌似被人删除了～";
+            }
+                break;
             default:
             {
                 imageName = @"blankpage_image_Sleep";

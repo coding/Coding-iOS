@@ -134,6 +134,7 @@
         [weakSelf.refreshControl endRefreshing];
         [weakSelf.view endLoading];
         if (data) {
+            ProjectFolders *preRootFolders = weakSelf.rootFolders;
             weakSelf.rootFolders = data;
             ProjectFolder *curFolder = [weakSelf.rootFolders hasFolderWithId:weakSelf.curFolder.file_id];
             if (curFolder) {
@@ -143,11 +144,14 @@
                 [weakSelf.myTableView reloadData];
                 [weakSelf refreshFileList];
             }else{
+                weakSelf.rootFolders = preRootFolders;
                 [weakSelf showHudTipStr:@"文件夹不存在"];
-                [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:([weakSelf totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-                    [weakSelf refresh];
-                }];
+                [weakSelf.view configBlankPage:EaseBlankPageTypeFolderDleted hasData:([weakSelf totalDataRow] > 0) hasError:NO reloadButtonBlock:nil];
             }
+        }else{
+            [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:([weakSelf totalDataRow] > 0) hasError:YES reloadButtonBlock:^(id sender) {
+                [weakSelf refresh];
+            }];
         }
     }];
 }
