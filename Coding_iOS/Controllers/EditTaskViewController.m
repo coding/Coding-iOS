@@ -412,13 +412,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    __weak typeof(self) weakSelf = self;
+    ESWeakSelf;
     if (indexPath.section == 1) {
         if (indexPath.row == LeftImage_LRTextCellTypeTaskOwner) {
             ProjectMemberListViewController *vc = [[ProjectMemberListViewController alloc] init];
             [vc setFrame:self.view.bounds project:_myCopyTask.project type:ProMemTypeTaskOwner refreshBlock:nil selectBlock:^(ProjectMember *member) {
-                weakSelf.myCopyTask.owner = member.user;//更换新的执行人
-                [self.myTableView reloadData];
+                ESStrongSelf;
+                _self.myCopyTask.owner = member.user;//更换新的执行人
+                [_self.myTableView reloadData];
             } cellBtnBlock:nil];
             [self.navigationController pushViewController:vc animated:YES];
         }else if (indexPath.row == LeftImage_LRTextCellTypeTaskPriority){
