@@ -66,9 +66,13 @@
             weakSelf.curFile = data;
             [weakSelf configContent];
         }else{
-            [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:NO hasError:(error != nil) reloadButtonBlock:^(id sender) {
-                [weakSelf requestFileData];
-            }];
+            if (error.code == 1304) {
+                [weakSelf.view configBlankPage:EaseBlankPageTypeFileDleted hasData:NO hasError:NO reloadButtonBlock:nil];
+            }else{
+                [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:NO hasError:(error != nil) reloadButtonBlock:^(id sender) {
+                    [weakSelf requestFileData];
+                }];
+            }
         }
     }];
 }

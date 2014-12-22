@@ -400,6 +400,12 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"这里什么项目都没有啊喂\n你怎么还能睡得着";
             }
                 break;
+            case EaseBlankPageTypeFileDleted:
+            {
+                imageName = @"blankpage_image_loadFail";
+                tipStr = @"晚了一步\n文件刚刚被人删除了～";
+            }
+                break;
             default:
             {
                 imageName = @"blankpage_image_Sleep";
