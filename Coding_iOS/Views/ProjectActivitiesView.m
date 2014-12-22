@@ -14,6 +14,7 @@
 @property (nonatomic , copy) ProjectActivityBlock block;
 @property (strong, nonatomic) NSMutableDictionary *myProActivitiesDict;
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
+@property (strong, nonatomic) NSArray *titlesArray;
 @property (strong, nonatomic) iCarousel *myCarousel;
 
 @end
@@ -48,24 +49,32 @@
         frame.origin.y = 0;
         frame.size.height = kMySegmentControl_Height;
         __weak typeof(_myCarousel) weakCarousel = _myCarousel;
-        if (_myProject.is_public.boolValue) {
-            self.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:frame Items:@[@"全部", @"讨论", @"代码", @"其他"] selectedBlock:^(NSInteger index) {
-                [weakCarousel scrollToItemAtIndex:index animated:NO];
-            }];
-        }else{
-            self.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:frame Items:@[@"全部", @"任务", @"讨论", @"文档", @"代码", @"其他"] selectedBlock:^(NSInteger index) {
-                [weakCarousel scrollToItemAtIndex:index animated:NO];
-            }];
-        }
+        
+        self.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:frame Items:self.titlesArray selectedBlock:^(NSInteger index) {
+            [weakCarousel scrollToItemAtIndex:index animated:NO];
+        }];
+        
         [self addSubview:self.mySegmentControl];
         
     }
     return self;
 }
 
+#pragma mark - Getter/Setter
+- (NSArray*)titlesArray
+{
+    if (nil == _titlesArray) {
+        if (_myProject.is_public.boolValue) {
+            _titlesArray = @[@"全部", @"讨论", @"代码", @"其他"];
+        }else{
+            _titlesArray = @[@"全部", @"任务", @"讨论", @"文档", @"代码", @"其他"];
+        }
+    }
+    return _titlesArray;
+}
 #pragma mark iCarousel M
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel{
-    return _myProject.is_public.boolValue? 4:6;
+    return [self.titlesArray count];
 }
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view{
     
@@ -115,7 +124,7 @@
     }
 }
 
-- (void)carouselDidEndDecelerating:(iCarousel *)carousel{
+- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel{
     if (_mySegmentControl) {
         [_mySegmentControl endMoveIndex:carousel.currentItemIndex];
     }

@@ -164,7 +164,7 @@
         }
     }
 }
-- (void)carouselDidEndDecelerating:(iCarousel *)carousel{
+- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel{
     if (_mySegmentControl) {
         [_mySegmentControl endMoveIndex:carousel.currentItemIndex];
     }

@@ -1391,6 +1391,7 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
             _endOffset = [self clampedOffset:_endOffset];
         }
         [_delegate carouselWillBeginScrollingAnimation:self];
+        [self disableApp];
         [self startAnimation];
     }
     else
@@ -1715,6 +1716,17 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
     return (time < 0.5f)? 0.5f * powf(time * 2.0f, 3.0f): 0.5f * powf(time * 2.0f - 2.0f, 3.0f) + 1.0f;
 }
 
+- (void)enableApp
+{
+    [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+}
+
+
+- (void)disableApp
+{
+    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
+}
+
 - (void)step
 {
     [self pushAnimationState:NO];
@@ -1744,6 +1756,7 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
             [self depthSortViews];
             [self pushAnimationState:YES];
             [_delegate carouselDidEndScrollingAnimation:self];
+            [self enableApp];
             [self popAnimationState];
         }
     }
