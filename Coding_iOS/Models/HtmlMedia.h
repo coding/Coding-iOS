@@ -23,7 +23,7 @@ typedef NS_ENUM(NSInteger, HtmlMediaItemType) {
 @class HtmlMediaItem;
 
 @interface HtmlMedia : NSObject
-@property (readwrite, nonatomic, strong) NSString *contentOrigional;
+@property (readwrite, nonatomic, copy) NSString *contentOrigional;
 @property (readwrite, nonatomic, strong) NSMutableString *contentDisplay;
 @property (readwrite, nonatomic, strong) NSMutableArray *mediaItems;
 @property (strong, nonatomic) NSArray *imageItems;

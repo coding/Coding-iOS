@@ -12,6 +12,7 @@
 #import "TweetSendImagesCell.h"
 #import "Coding_NetAPIManager.h"
 #import "UsersViewController.h"
+#import "Helper.h"
 
 
 #define kCellIdentifier_TweetSendText @"TweetSendTextCell"
@@ -124,8 +125,7 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0) {
         //        拍照
-        if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-            kTipAlert(@"该设备不支持拍照");
+        if (![Helper checkCameraAuthorizationStatus]) {
             return;
         }
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -135,6 +135,9 @@
         [self presentViewController:picker animated:YES completion:nil];//进入照相界面
     }else if (buttonIndex == 1){
         //        相册
+        if (![Helper checkPhotoLibraryAuthorizationStatus]) {
+            return;
+        }
         QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
         imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
         imagePickerController.delegate = self;
