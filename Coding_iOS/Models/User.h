@@ -32,4 +32,5 @@
 
 - (NSString *)localFriendsPath;
 
+- (NSString *)changePasswordTips;
 @end

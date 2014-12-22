@@ -107,4 +107,22 @@
 - (NSString *)localFriendsPath{
     return @"FriendsPath";
 }
+
+- (NSString *)changePasswordTips{
+    NSString *tipStr = nil;
+    if (!self.curPassword || self.curPassword.length <= 0){
+        tipStr = @"请输入当前密码";
+    }else if (!self.resetPassword || self.resetPassword.length <= 0){
+        tipStr = @"请输入新密码";
+    }else if (!self.resetPasswordConfirm || self.resetPasswordConfirm.length <= 0) {
+        tipStr = @"请确认新密码";
+    }else if (![self.resetPassword isEqualToString:self.resetPasswordConfirm]){
+        tipStr = @"两次输入的密码不一致";
+    }else if (self.resetPassword.length < 6){
+        tipStr = @"新密码不能少于6位";
+    }else if (self.resetPassword.length > 64){
+        tipStr = @"新密码不得长于64位";
+    }
+    return tipStr;
+}
 @end

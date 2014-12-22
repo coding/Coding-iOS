@@ -122,10 +122,9 @@
 #pragma mark DoneBtn Clicked
 - (void)doneBtnClicked:(id)sender{
     [self.view endEditing:YES];
-    if (!_myUser.curPassword || _myUser.curPassword.length <= 0
-        || !_myUser.resetPassword || _myUser.resetPassword.length <= 0
-        || !_myUser.resetPasswordConfirm || _myUser.resetPasswordConfirm.length <= 0) {
-        kTipAlert(@"请将密码信息填写完整");
+    NSString *tipStr = [_myUser changePasswordTips];
+    if (tipStr) {
+        [self showHudTipStr:tipStr];
         return;
     }
     self.navigationItem.rightBarButtonItem.enabled = NO;
