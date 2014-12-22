@@ -63,6 +63,9 @@
         [_myTableView reloadData];
         [_myTableView.infiniteScrollingView stopAnimating];
         _myTableView.showsInfiniteScrolling = self.myProActs.canLoadMore;
+        if (self.myProActs.list.count > 0) {
+            [self configBlankPage:EaseBlankPageTypeActivity hasData:YES hasError:NO reloadButtonBlock:nil];
+        }
         [self refreshFirst];
     }
 }
