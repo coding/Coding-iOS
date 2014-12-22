@@ -22,6 +22,7 @@
 #import "TagsManager.h"
 #import "SettingTagsViewController.h"
 #import "SettingTextViewController.h"
+#import "Helper.h"
 
 @interface SettingMineInfoViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
@@ -379,7 +380,7 @@
 }
 
 #pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 2) {
         return;
     }
@@ -389,9 +390,15 @@
     
     if (buttonIndex == 0) {
 //        拍照
+        if (![Helper checkCameraAuthorizationStatus]) {
+            return;
+        }
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     }else if (buttonIndex == 1){
 //        相册
+        if (![Helper checkPhotoLibraryAuthorizationStatus]) {
+            return;
+        }
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
     [self presentViewController:picker animated:YES completion:nil];//进入照相界面

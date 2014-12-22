@@ -13,11 +13,10 @@
     if (self) {
         _contentOrigional = htmlString;
 
-        if ([htmlString hasPrefix:@"<boday>"]) {
-            htmlString = htmlString;
-        }else{
+        if (![htmlString hasPrefix:@"<body>"]) {
             htmlString = [NSString stringWithFormat:@"<body>%@</body>", htmlString];
         }
+        
         if (isTrim) {
             //        过滤掉html元素之间的"空格+换行+空格"
             htmlString = [htmlString stringByReplacingOccurrencesOfString:@">(\\s*\\n*\\r*\\s*)<" withString:@"><" options:NSRegularExpressionSearch range:NSMakeRange(0, htmlString.length)];

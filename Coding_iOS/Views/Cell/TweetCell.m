@@ -623,7 +623,7 @@
 }
 
 #pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0) {
         //Safari
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_clickedItem.href]];

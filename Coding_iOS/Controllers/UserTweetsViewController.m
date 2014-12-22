@@ -157,7 +157,7 @@
 }
 
 #pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0) {
         if (actionSheet.tag == kTagActionDeleteTweet) {
             [self deleteTweet:self.deleteTweet outTweetsIndex:self.deleteTweetsIndex];
