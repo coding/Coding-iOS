@@ -19,12 +19,16 @@
 #import "SettingTextViewController.h"
 #import "FolderToMoveViewController.h"
 #import "FileViewController.h"
+#import "EaseToolBar.h"
+#import "QBImagePickerController.h"
 
-@interface FileListViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate, SWTableViewCellDelegate>
+@interface FileListViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate, SWTableViewCellDelegate, EaseToolBarDelegate, QBImagePickerControllerDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 @property (strong, nonatomic) ProjectFiles *myFiles;
 @property (strong, nonatomic) NSMutableArray *previewFileUrls;
+@property (nonatomic, strong) EaseToolBar *myToolBar;
+
 @end
 
 @implementation FileListViewController
@@ -76,11 +80,6 @@
         tableView;
     });
     
-    
-//    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,49, 0.0);
-//    self.myTableView.contentInset = contentInsets;
-//    self.myTableView.scrollIndicatorInsets = contentInsets;
-    
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     if (!self.rootFolders) {
@@ -89,8 +88,30 @@
     [self refresh];
 }
 
+- (void)configToolBar{
+    //添加底部ToolBar
+    EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 新建文件夹" image:@"button_file_createFolder_enable" disableImage:@"button_file_createFolder_unable"];
+    EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 上传文件" image:@"button_file_upload_enable" disableImage:nil];
+    item1.enabled = [self canCreatNewFolder];
+    item2.enabled = YES;
+    
+    _myToolBar = [EaseToolBar easeToolBarWithItems:@[item1, item2]];
+    [_myToolBar setY:CGRectGetHeight(self.view.frame) - CGRectGetHeight(_myToolBar.frame)];
+    _myToolBar.delegate = self;
+    [self.view addSubview:_myToolBar];
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myToolBar.frame), 0.0);
+    self.myTableView.contentInset = contentInsets;
+    self.myTableView.scrollIndicatorInsets = contentInsets;
+}
+
+- (BOOL)canCreatNewFolder{
+    return (self.curFolder == nil || (self.curFolder.parent_id.intValue == 0 && self.curFolder.file_id.intValue != 0));
+}
+
 - (void)refresh{
     if (![self.rootFolders isEmpty]) {
+        [self configToolBar];
         [self refreshFileList];
     }else{
         [self refreshRootFolders];
@@ -118,6 +139,7 @@
             if (curFolder) {
                 weakSelf.curFolder = curFolder;
                 weakSelf.title = curFolder.name;
+                [weakSelf configToolBar];
                 [weakSelf.myTableView reloadData];
                 [weakSelf refreshFileList];
             }else{
@@ -156,6 +178,62 @@
         }];
     }];
 }
+
+#pragma EaseToolBarDelegate
+- (void)easeToolBar:(EaseToolBar *)toolBar didClickedIndex:(NSInteger)index{
+    switch (index) {
+        case 0:
+        {//新建文件夹
+            NSLog(@"新建文件夹");
+            __weak typeof(self) weakSelf = self;
+            [SettingTextViewController showSettingFolderNameVCFromVC:self withTitle:@"新建文件夹" textValue:nil type:SettingTypeNewFolderName doneBlock:^(NSString *textValue) {
+                NSLog(@"%@", textValue);
+                [[Coding_NetAPIManager sharedManager] request_CreatFolder:textValue inFolder:weakSelf.curFolder inProject:weakSelf.curProject andBlock:^(id data, NSError *error) {
+                    if (data) {
+                        if (weakSelf.curFolder) {
+                            [weakSelf.curFolder.sub_folders insertObject:data atIndex:0];
+                        }else{
+                            [weakSelf.rootFolders.list insertObject:data atIndex:1];
+                        }
+                        [weakSelf.myTableView reloadData];
+                        [weakSelf showHudTipStr:@"创建文件夹成功"];
+                    }
+                }];
+            }];
+        }
+            break;
+        case 1:
+        {//上传文件
+            NSLog(@"上传文件");
+            //        相册
+            QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
+            imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
+            imagePickerController.delegate = self;
+            imagePickerController.allowsMultipleSelection = YES;
+            imagePickerController.maximumNumberOfSelection = 5;
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
+            [self presentViewController:navigationController animated:YES completion:NULL];
+        }
+            break;
+        default:
+            break;
+    }
+}
+#pragma mark QBImagePickerControllerDelegate
+- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didSelectAssets:(NSArray *)assets{
+    for (ALAsset *assetItem in assets) {
+        UIImage *highQualityImage = [UIImage fullResolutionImageFromALAsset:assetItem];
+        
+        kTipAlert(@"%@", assetItem.description);
+        NSLog(@"assetItem-----%@", assetItem.description);
+    }
+    [_myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 #pragma mark Table M
 - (NSInteger)totalDataRow{
