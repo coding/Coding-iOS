@@ -138,7 +138,7 @@
         if (data) {
             [weakSelf.curTweets.list removeObject:curTweet];
             [weakSelf.myTableView reloadData];
-            [weakSelf.view configBlankPage:EaseBlankPageTypeTweet hasData:(weakSelf.curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+            [weakSelf.view configBlankPage:([[Login curLoginUser] isSameToUser:self.curTweets.curUser]? EaseBlankPageTypeTweet: EaseBlankPageTypeTweetOther)  hasData:(weakSelf.curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
                 [weakSelf sendRequest];
             }];
         }
@@ -204,7 +204,7 @@
             [weakSelf.myTableView reloadData];
             weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curTweets.canLoadMore;
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeTweet hasData:(weakSelf.curTweets.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:([[Login curLoginUser] isSameToUser:self.curTweets.curUser]? EaseBlankPageTypeTweet: EaseBlankPageTypeTweetOther) hasData:(weakSelf.curTweets.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf sendRequest];
         }];
     }];
@@ -296,7 +296,7 @@
     vc.deleteTweetBlock = ^(Tweet *toDeleteTweet){
         [weakSelf.curTweets.list removeObject:toDeleteTweet];
         [weakSelf.myTableView reloadData];
-        [weakSelf.view configBlankPage:EaseBlankPageTypeTweet hasData:(weakSelf.curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:([[Login curLoginUser] isSameToUser:self.curTweets.curUser]? EaseBlankPageTypeTweet: EaseBlankPageTypeTweetOther) hasData:(weakSelf.curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
             [weakSelf sendRequest];
         }];
     };

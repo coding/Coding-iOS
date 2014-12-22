@@ -394,6 +394,12 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"这里怎么空空的\n来，赶快去冒个泡吧";
             }
                 break;
+            case EaseBlankPageTypeTweetOther:
+            {
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"Ta 还没有冒泡过呢～";
+            }
+                break;
             case EaseBlankPageTypeProject:
             {
                 imageName = @"blankpage_image_Sleep";

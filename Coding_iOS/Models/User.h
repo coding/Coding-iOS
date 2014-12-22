@@ -17,6 +17,8 @@
 
 + (User *)userWithGlobalKey:(NSString *)global_key;
 
+- (BOOL)isSameToUser:(User *)user;
+
 - (NSString *)toUserInfoPath;
 
 - (NSString *)toResetPasswordPath;
