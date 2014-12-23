@@ -28,6 +28,13 @@
 - (void)removeCTaskForResponse:(NSURLResponse *)response;
 - (Coding_DownloadTask *)cTaskForResponse:(NSURLResponse *)response;
 - (Coding_DownloadTask *)addDownloadTaskForFile:(ProjectFile *)file progress:(NSProgress *)progress completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
+
++ (BOOL)writeUploadDataWithName:(NSString*)fileName andAsset:(ALAsset*)asset;
+
+
+
+
+
 @end
 
 @interface Coding_DownloadTask : NSObject

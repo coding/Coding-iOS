@@ -84,38 +84,78 @@
 {
     self = [super init];
     if (self) {
-        [self createDownloadFolder];
+        [[self class] createFolder:[[self class] downloadPath]];
+        [[self class] createFolder:[[self class] uploadPath]];
         _downloadDict = [[NSMutableDictionary alloc] init];
         _uploadDict = [[NSMutableDictionary alloc] init];
         _diskDict = [[NSMutableDictionary alloc] init];
         _downloadDirectoryURL = nil;
-        _docWatcher = [DirectoryWatcher watchFolderWithPath:[self downloadPath] delegate:self];
+        _docWatcher = [DirectoryWatcher watchFolderWithPath:[[self class] downloadPath] delegate:self];
         [self directoryDidChange:_docWatcher];
     }
     return self;
 }
-- (NSString *)downloadPath{
+
+
++ (NSString *)downloadPath{
     NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSString *downloadPath = [documentPath stringByAppendingPathComponent:@"Coding_Download"];
     return downloadPath;
 }
-- (BOOL)createDownloadFolder{
-    NSString *downloadPath = [self downloadPath];
+
++ (NSString *)uploadPath{
+    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *uploadPath = [documentPath stringByAppendingPathComponent:@"Coding_Upload"];
+    return uploadPath;
+}
+
++ (BOOL)createFolder:(NSString *)path{
     BOOL isDir = NO;
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL existed = [fileManager fileExistsAtPath:downloadPath isDirectory:&isDir];
+    BOOL existed = [fileManager fileExistsAtPath:path isDirectory:&isDir];
     BOOL isCreated = NO;
     if (!(isDir == YES && existed == YES)){
-        isCreated = [fileManager createDirectoryAtPath:downloadPath withIntermediateDirectories:YES attributes:nil error:nil];
+        isCreated = [fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
     }else{
         isCreated = YES;
     }
     return isCreated;
 }
+
++ (BOOL)writeUploadDataWithName:(NSString*)fileName andAsset:(ALAsset*)asset{
+    NSString *filePath = [[self uploadPath] stringByAppendingPathComponent:fileName];
+    
+    [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];
+    NSFileHandle *handle = [NSFileHandle fileHandleForWritingAtPath:filePath];
+    if (!handle) {
+        return NO;
+    }
+    static const NSUInteger BufferSize = 1024*1024;
+    
+    ALAssetRepresentation *rep = [asset defaultRepresentation];
+    uint8_t *buffer = calloc(BufferSize, sizeof(*buffer));
+    NSUInteger offset = 0, bytesRead = 0;
+    
+    do {
+        @try {
+            bytesRead = [rep getBytes:buffer fromOffset:offset length:BufferSize error:nil];
+            [handle writeData:[NSData dataWithBytesNoCopy:buffer length:bytesRead freeWhenDone:NO]];
+            offset += bytesRead;
+        } @catch (NSException *exception) {
+            free(buffer);
+            
+            return NO;
+        }
+    } while (bytesRead > 0);
+    
+    free(buffer);
+    return YES;
+}
+
 - (NSURL *)urlForDownloadFolder{
     if (!_downloadDirectoryURL) {
-        if ([self createDownloadFolder]) {
-            _downloadDirectoryURL = [NSURL fileURLWithPath:[self downloadPath] isDirectory:YES];
+        if ([[self class] createFolder:[[self class] downloadPath]]) {
+            _downloadDirectoryURL = [NSURL fileURLWithPath:[[self class] downloadPath] isDirectory:YES];
         }else{
             kTipAlert(@"创建文件夹失败，无法继续下载！");
         }
@@ -158,7 +198,7 @@
 #pragma mark DirectoryWatcherDelegate
 - (void)directoryDidChange:(DirectoryWatcher *)folderWatcher{
     [self.diskDict removeAllObjects];
-    NSString *downloadPath = [self downloadPath];
+    NSString *downloadPath = [[self class] downloadPath];
     NSArray *downloadFileContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:downloadPath error:NULL];
     for (NSString *curFileName in [downloadFileContents objectEnumerator]) {
         NSString *filePath = [downloadPath stringByAppendingPathComponent:curFileName];

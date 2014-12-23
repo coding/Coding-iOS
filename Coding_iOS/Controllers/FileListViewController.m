@@ -21,6 +21,8 @@
 #import "FileViewController.h"
 #import "EaseToolBar.h"
 #import "QBImagePickerController.h"
+#import "Helper.h"
+
 
 @interface FileListViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate, SWTableViewCellDelegate, EaseToolBarDelegate, QBImagePickerControllerDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
@@ -210,6 +212,9 @@
         {//上传文件
             NSLog(@"上传文件");
             //        相册
+            if (![Helper checkPhotoLibraryAuthorizationStatus]) {
+                return;
+            }
             QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
             imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
             imagePickerController.delegate = self;
@@ -226,10 +231,13 @@
 #pragma mark QBImagePickerControllerDelegate
 - (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didSelectAssets:(NSArray *)assets{
     for (ALAsset *assetItem in assets) {
-        UIImage *highQualityImage = [UIImage fullResolutionImageFromALAsset:assetItem];
+        //保存到app内
+        NSString* originalFileName = [[assetItem defaultRepresentation] filename];
+        NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@|||%@", self.curProject.id.stringValue, self.curFolder.file_id.stringValue,[[NSDate date] stringWithFormat:@"yyyyMMddHHmmss"], originalFileName];
+        [Coding_FileManager writeUploadDataWithName:fileName andAsset:assetItem];
         
-        kTipAlert(@"%@", assetItem.description);
-        NSLog(@"assetItem-----%@", assetItem.description);
+//        UIImage *highQualityImage = [UIImage fullResolutionImageFromALAsset:assetItem];
+
     }
     [_myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
     [self dismissViewControllerAnimated:YES completion:nil];
