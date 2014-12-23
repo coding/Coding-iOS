@@ -230,22 +230,32 @@
 }
 #pragma mark QBImagePickerControllerDelegate
 - (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didSelectAssets:(NSArray *)assets{
+    NSMutableArray *needToUploads = [NSMutableArray arrayWithCapacity:assets.count];
     for (ALAsset *assetItem in assets) {
         //保存到app内
         NSString* originalFileName = [[assetItem defaultRepresentation] filename];
         NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@|||%@", self.curProject.id.stringValue, self.curFolder.file_id.stringValue,[[NSDate date] stringWithFormat:@"yyyyMMddHHmmss"], originalFileName];
-        [Coding_FileManager writeUploadDataWithName:fileName andAsset:assetItem];
-        
-//        UIImage *highQualityImage = [UIImage fullResolutionImageFromALAsset:assetItem];
-
+        if ([Coding_FileManager writeUploadDataWithName:fileName andAsset:assetItem]) {
+            [needToUploads addObject:fileName];
+        }else{
+            [self showHudTipStr:[NSString stringWithFormat:@"%@ 文件处理失败", originalFileName]];
+        }
     }
-    [_myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    for (NSString *filePath in needToUploads) {
+        [self addUploadTaskWithFileName:filePath];
+    }
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark uploadTask
+- (void)addUploadTaskWithFileName:(NSString *)fileName{
+    Coding_FileManager *manager = [Coding_FileManager sharedManager];
+    [manager addUploadTaskWithFileName:fileName completionHandler:nil];
+}
 
 #pragma mark Table M
 - (NSInteger)totalDataRow{
@@ -331,8 +341,8 @@
         NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
         if (indexPath.row >= _curFolder.sub_folders.count) {
             ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count)];
-            Coding_DownloadTask *cTask = file.cTask;
-            if (cTask && cTask.task && cTask.task.state == NSURLSessionTaskStateRunning) {
+            Coding_DownloadTask *cDownloadTask = file.cDownloadTask;
+            if (cDownloadTask && cDownloadTask.task && cDownloadTask.task.state == NSURLSessionTaskStateRunning) {
                 return NO;
             }
         }
@@ -412,7 +422,7 @@
     __weak typeof(file) weakFile = file;
 
     NSURL *fileUrl = [file hasBeenDownload];
-    Coding_DownloadTask *cTask = [file cTask];
+    Coding_DownloadTask *cDownloadTask = [file cDownloadTask];
 
     if (fileUrl) {
         UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:@"只是删除本地文件还是连同服务器文件一起删除？"];
@@ -432,7 +442,7 @@
             }
         }];
         [actionSheet showInView:kKeyWindow];
-    }else if (cTask){
+    }else if (cDownloadTask){
         UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:@"确定将服务器上的该文件删除？"];
         [actionSheet bk_addButtonWithTitle:@"只是取消下载" handler:nil];
         [actionSheet bk_setDestructiveButtonWithTitle:@"确认删除" handler:nil];
@@ -469,9 +479,9 @@
 - (void)deleteFile:(ProjectFile *)file fromDisk:(BOOL)fromDisk{
 
     //    取消当前的下载任务
-    Coding_DownloadTask *cTask = [file cTask];
-    if (cTask) {
-        [[Coding_FileManager sharedManager] removeCTaskForKey:file.storage_key];
+    Coding_DownloadTask *cDownloadTask = [file cDownloadTask];
+    if (cDownloadTask) {
+        [[Coding_FileManager sharedManager] removeCDownloadTaskForKey:file.storage_key];
     }
     //    删除本地文件
     NSURL *fileUrl = [file hasBeenDownload];

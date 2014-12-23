@@ -94,9 +94,9 @@
     
     [_progressView showPopUpViewAnimated:NO];
     
-    Coding_DownloadTask *cTask = [_file cTask];
-    if (cTask) {
-        self.progress = cTask.progress;
+    Coding_DownloadTask *cDownloadTask = [_file cDownloadTask];
+    if (cDownloadTask) {
+        self.progress = cDownloadTask.progress;
     }
 }
 
@@ -131,15 +131,15 @@
 
 - (void)clickedByUser{
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
-    NSURL *fileUrl = [manager diskUrlForFile:_file.diskFileName];
+    NSURL *fileUrl = [manager diskDownloadUrlForFile:_file.diskFileName];
     if (fileUrl) {//已经下载到本地了
         if (_goToFileBlock) {
             _goToFileBlock(self.file);
         }
     }else{//要下载
         NSURLSessionDownloadTask *downloadTask;
-        if (_file.cTask) {//暂停或者重新开始
-            downloadTask = _file.cTask.task;
+        if (_file.cDownloadTask) {//暂停或者重新开始
+            downloadTask = _file.cDownloadTask.task;
             switch (downloadTask.state) {
                 case NSURLSessionTaskStateRunning:
                     [downloadTask suspend];
@@ -157,7 +157,7 @@
             
             __weak typeof(self) weakSelf = self;
             NSProgress *progress;
-            Coding_DownloadTask *cTask = [manager addDownloadTaskForFile:self.file progress:progress completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            Coding_DownloadTask *cDownloadTask = [manager addDownloadTaskForFile:self.file progress:progress completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
                 if (error) {
                     [weakSelf changeToState:DownloadStateDefault];
                     [weakSelf showError:error];
@@ -168,7 +168,7 @@
                 }
             }];
             
-            self.progress = cTask.progress;
+            self.progress = cDownloadTask.progress;
             _progressView.progress = 0.0;
             _progressView.hidden = NO;
             [self changeToState:DownloadStateDownloading];

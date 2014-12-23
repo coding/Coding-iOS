@@ -151,31 +151,31 @@
             self.progressView.hidden = YES;
         }
     }else{
-        Coding_DownloadTask *cTask = [_file cTask];
-        if (cTask) {
-            self.progress = cTask.progress;
+        Coding_DownloadTask *cDownloadTask = [_file cDownloadTask];
+        if (cDownloadTask) {
+            self.progress = cDownloadTask.progress;
         }
         if (_file.size.floatValue/1024/1024 > 5.0) {//大于5M的文件，下载时显示百分比
             [_progressView showPopUpViewAnimated:NO];
         }else{
             [_progressView hidePopUpViewAnimated:NO];
         }
-        [self showProgress:cTask.progress belongSelf:YES];
+        [self showProgress:cDownloadTask.progress belongSelf:YES];
     }
     [self changeToState:_file.downloadState];
 }
 
 - (void)clickedByUser{
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
-    NSURL *fileUrl = [manager diskUrlForFile:_file.diskFileName];
+    NSURL *fileUrl = [manager diskDownloadUrlForFile:_file.diskFileName];
     if (fileUrl) {//已经下载到本地了
         if (_showDiskFileBlock) {
             _showDiskFileBlock(fileUrl, _file);
         }
     }else{//要下载
         NSURLSessionDownloadTask *downloadTask;
-        if (_file.cTask) {//暂停或者重新开始
-            downloadTask = _file.cTask.task;
+        if (_file.cDownloadTask) {//暂停或者重新开始
+            downloadTask = _file.cDownloadTask.task;
             switch (downloadTask.state) {
                 case NSURLSessionTaskStateRunning:
                     [downloadTask suspend];
@@ -193,7 +193,7 @@
             
             __weak typeof(self) weakSelf = self;
             NSProgress *progress;
-            Coding_DownloadTask *cTask = [manager addDownloadTaskForFile:self.file progress:progress completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            Coding_DownloadTask *cDownloadTask = [manager addDownloadTaskForFile:self.file progress:progress completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
                 [progress removeObserver:weakSelf forKeyPath:@"fractionCompleted" context:NULL];
                 if (error) {
                     [weakSelf changeToState:DownloadStateDefault];
@@ -205,7 +205,7 @@
                 }
             }];
             
-            self.progress = cTask.progress;
+            self.progress = cDownloadTask.progress;
             _progressView.progress = 0.0;
             _progressView.hidden = NO;
             [self changeToState:DownloadStateDownloading];
@@ -258,7 +258,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
     if ([keyPath isEqualToString:@"fractionCompleted"]) {
         NSProgress *progress = (NSProgress *)object;
-        NSProgress *cellProgress = _file.cTask.progress;
+        NSProgress *cellProgress = _file.cDownloadTask.progress;
         BOOL belongSelf = NO;
         if (cellProgress && cellProgress == progress) {
             belongSelf = YES;

@@ -94,14 +94,14 @@
     if ([self hasBeenDownload]) {
         state = DownloadStateDownloaded;
     }else{
-        Coding_DownloadTask *cTask = [self cTask];
-        if (cTask) {
-            if (cTask.task.state == NSURLSessionTaskStateRunning) {
+        Coding_DownloadTask *cDownloadTask = [self cDownloadTask];
+        if (cDownloadTask) {
+            if (cDownloadTask.task.state == NSURLSessionTaskStateRunning) {
                 state = DownloadStateDownloading;
-            }else if (cTask.task.state == NSURLSessionTaskStateSuspended) {
+            }else if (cDownloadTask.task.state == NSURLSessionTaskStateSuspended) {
                 state = DownloadStatePausing;
             }else{
-                [[Coding_FileManager sharedManager] removeCTaskForKey:self.storage_key];
+                [[Coding_FileManager sharedManager] removeCDownloadTaskForKey:self.storage_key];
             }
         }
     }
@@ -121,13 +121,13 @@
     return _diskFileName;
 }
 
-- (Coding_DownloadTask *)cTask{
+- (Coding_DownloadTask *)cDownloadTask{
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
-    return [manager cTaskForKey:self.storage_key];
+    return [manager cDownloadTaskForKey:self.storage_key];
 }
 - (NSURL *)hasBeenDownload{
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
-    NSURL *fileUrl = [manager diskUrlForFile:self.diskFileName];
+    NSURL *fileUrl = [manager diskDownloadUrlForFile:self.diskFileName];
     return fileUrl;
 }
 - (NSString *)toDeletePath{

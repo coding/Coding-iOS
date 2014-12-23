@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, DownloadState){
 - (NSString *)fileIconName;
 - (DownloadState)downloadState;
 
-- (Coding_DownloadTask *)cTask;
+- (Coding_DownloadTask *)cDownloadTask;
 - (NSURL *)hasBeenDownload;
 - (NSString *)downloadPath;
 

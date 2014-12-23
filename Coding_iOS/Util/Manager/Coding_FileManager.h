@@ -12,28 +12,31 @@
 #import "ProjectFile.h"
 
 @class Coding_DownloadTask;
+@class Coding_UploadTask;
 @class ProjectFile;
 
 @interface Coding_FileManager : NSObject
 
+//download
 + (Coding_FileManager *)sharedManager;
 + (AFURLSessionManager *)af_manager;
 - (AFURLSessionManager *)af_manager;
-- (NSURL *)urlForDownloadFolder;
-- (NSURL *)diskUrlForFile:(NSString *)fileName;
 
-- (Coding_DownloadTask *)addDownloadTask:(NSURLSessionDownloadTask *)downloadTask progress:(NSProgress *)progress fileName:(NSString *)fileName forKey:(NSString *)storage_key;
-- (void)removeCTaskForKey:(NSString *)storage_key;
-- (Coding_DownloadTask *)cTaskForKey:(NSString *)storage_key;
-- (void)removeCTaskForResponse:(NSURLResponse *)response;
-- (Coding_DownloadTask *)cTaskForResponse:(NSURLResponse *)response;
+- (NSURL *)urlForDownloadFolder;
+- (NSURL *)diskDownloadUrlForFile:(NSString *)fileName;
+- (void)removeCDownloadTaskForKey:(NSString *)storage_key;
+- (void)removeCDownloadTaskForResponse:(NSURLResponse *)response;
+- (Coding_DownloadTask *)cDownloadTaskForKey:(NSString *)storage_key;
+- (Coding_DownloadTask *)cDownloadTaskForResponse:(NSURLResponse *)response;
 - (Coding_DownloadTask *)addDownloadTaskForFile:(ProjectFile *)file progress:(NSProgress *)progress completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
 
+
+//upload
 + (BOOL)writeUploadDataWithName:(NSString*)fileName andAsset:(ALAsset*)asset;
-
-
-
-
+- (NSURL *)diskUploadUrlForFile:(NSString *)fileName;
+- (void)removeCUploadTaskForFile:(NSString *)fileName;
+- (Coding_UploadTask *)cUploadTaskForFile:(NSString *)fileName;
+- (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler;
 
 @end
 
@@ -41,6 +44,14 @@
 @property (strong, nonatomic) NSURLSessionDownloadTask *task;
 @property (strong, nonatomic) NSProgress *progress;
 @property (strong, nonatomic) NSString *diskFileName;
-+ (Coding_DownloadTask *)cTaskWithTask:(NSURLSessionDownloadTask *)task progress:(NSProgress *)progress fileName:(NSString *)fileName;
++ (Coding_DownloadTask *)cDownloadTaskWithTask:(NSURLSessionDownloadTask *)task progress:(NSProgress *)progress fileName:(NSString *)fileName;
+- (void)cancel;
+@end
+
+@interface Coding_UploadTask : NSObject
+@property (strong, nonatomic) NSURLSessionUploadTask *task;
+@property (strong, nonatomic) NSProgress *progress;
+@property (strong, nonatomic) NSString *fileName;
++ (Coding_UploadTask *)cUploadTaskWithTask:(NSURLSessionUploadTask *)task progress:(NSProgress *)progress fileName:(NSString *)fileName;
 - (void)cancel;
 @end
