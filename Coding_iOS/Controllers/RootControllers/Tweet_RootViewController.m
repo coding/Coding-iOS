@@ -411,6 +411,7 @@
         [self hideToolBar:NO];
         return;
     }
+#if 0 // -Elf, bugfix: loadedMore之后下滑scrollView时不显示底部tabBar了
     static float newY = 0;
     static float oldY = 0;
     newY= scrollView.contentOffset.y;
@@ -422,6 +423,14 @@
         }
         oldY = newY;
     }
+#else
+    CGFloat offsetY = [scrollView.panGestureRecognizer translationInView:scrollView.superview].y;
+    if (offsetY > 40.f || scrollView.contentOffset.y == 0.f) {
+        [self hideToolBar:NO];
+    } else if (offsetY < -50.f) {
+        [self hideToolBar:YES];
+    }
+#endif
 }
 
 - (void)hideToolBar:(BOOL)hide{
