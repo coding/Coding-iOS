@@ -371,13 +371,15 @@
     UIImage *editedImage, *originalImage;
     editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
     
-    __weak typeof(self) weakSelf = self;
+    ESWeakSelf;
     [[Coding_NetAPIManager sharedManager] request_UpdateUserIconImage:editedImage successBlock:^(id responseObj) {
-        weakSelf.myUser = responseObj;
-        [weakSelf configHeaderView];
-        [weakSelf.myTableView reloadData];
+        ESStrongSelf;
+        _self.myUser = responseObj;
+        [_self configHeaderView];
+        [_self.myTableView reloadData];
     } failureBlock:^(NSError *error) {
-        [self showError:error];
+        ESStrongSelf;
+        [_self showError:error];
     } progerssBlock:^(CGFloat progressValue) {
         DebugLog(@"%.1f", progressValue);
     }];

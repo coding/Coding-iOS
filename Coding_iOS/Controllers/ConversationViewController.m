@@ -194,19 +194,21 @@
         vc.curUser = sender;
         [self.navigationController pushViewController:vc animated:YES];
     };
-    __weak typeof(self) weakSelf = self;
+    ESWeakSelf;
     cell.resendMessageBlock = ^(PrivateMessage *curMessage){
-        weakSelf.messageToResendOrDelete = curMessage;
-        [self.myMsgInputView isAndResignFirstResponder];
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"重新发送" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发送", nil];
+        ESStrongSelf;
+        _self.messageToResendOrDelete = curMessage;
+        [_self.myMsgInputView isAndResignFirstResponder];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"重新发送" delegate:_self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发送", nil];
         actionSheet.tag = kTagActionResendMessage;
         [actionSheet showInView:kKeyWindow];
     };
     cell.refreshMessageMediaCCellBlock = ^(CGFloat diff){
+        ESStrongSelf;
         static int count = 0;
         NSLog(@"\ncount : ----------------%d", count++);
-        [weakSelf.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-        [weakSelf.myTableView setContentOffset:CGPointMake(0, diff+weakSelf.myTableView.contentOffset.y)];
+        [_self.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        [_self.myTableView setContentOffset:CGPointMake(0, diff+_self.myTableView.contentOffset.y)];
     };
     NSMutableArray *menuItemArray = [[NSMutableArray alloc] init];
     BOOL hasTaxtToCopy = (curMsg.content && ![curMsg.content isEmpty]);
@@ -226,12 +228,13 @@
     }
 
     [cell.bgImgView addLongPressMenu:menuItemArray clickBlock:^(NSInteger index, NSString *title) {
+        ESStrongSelf;
         if ([title hasPrefix:@"拷贝"]) {
             [[UIPasteboard generalPasteboard] setString:curMsg.content];
         }else if ([title isEqualToString:@"删除"]){
-            [weakSelf showAlertToDeleteMessage:curMsg];
+            [_self showAlertToDeleteMessage:curMsg];
         }else if ([title isEqualToString:@"转发"]){
-            [weakSelf willTranspondMessage:curMsg];
+            [_self willTranspondMessage:curMsg];
         }
     }];
     
