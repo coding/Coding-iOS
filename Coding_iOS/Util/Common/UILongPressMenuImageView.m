@@ -51,7 +51,7 @@
             NSString *title = [self.longPressTitles objectAtIndex:i];
 //            注册名添加方法sel，sel的具体实现在imp(longPressMenuClicked:)
             SEL sel = sel_registerName([[NSString stringWithFormat:@"easeLongPressMenuClicked_%d:", i] UTF8String]);
-            class_addMethod(cls, sel, [cls instanceMethodForSelector:imp], "v@:@");
+            class_addMethod(cls, sel, [cls instanceMethodForSelector:imp], "v@");
             UIMenuItem *menuItem = [[UIMenuItem alloc] initWithTitle:title action:sel];
             [menuItems addObject:menuItem];
         }
