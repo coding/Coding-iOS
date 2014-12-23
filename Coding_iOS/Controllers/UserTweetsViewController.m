@@ -133,13 +133,15 @@
 
 #pragma mark M
 - (void)deleteTweet:(Tweet *)curTweet outTweetsIndex:(NSInteger)outTweetsIndex{
-    __weak typeof(self) weakSelf = self;
+    ESWeakSelf;
     [[Coding_NetAPIManager sharedManager] request_Tweet_Delete_WithObj:curTweet andBlock:^(id data, NSError *error) {
+        ESStrongSelf;
         if (data) {
-            [weakSelf.curTweets.list removeObject:curTweet];
-            [weakSelf.myTableView reloadData];
-            [weakSelf.view configBlankPage:([[Login curLoginUser] isSameToUser:self.curTweets.curUser]? EaseBlankPageTypeTweet: EaseBlankPageTypeTweetOther)  hasData:(weakSelf.curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
-                [weakSelf sendRequest];
+            [_self.curTweets.list removeObject:curTweet];
+            [_self.myTableView reloadData];
+            [_self.view configBlankPage:([[Login curLoginUser] isSameToUser:_self.curTweets.curUser]? EaseBlankPageTypeTweet: EaseBlankPageTypeTweetOther)  hasData:(_self.curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+                ESStrongSelf;
+                [_self sendRequest];
             }];
         }
     }];

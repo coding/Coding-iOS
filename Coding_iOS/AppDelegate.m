@@ -60,7 +60,7 @@
     
     if ([Login isLogin]) {
         [self setupTabViewController];
-        NSDictionary *remoteNotification = [launchOptions valueForKey:@"UIApplicationLaunchOptionsRemoteNotificationKey"];
+        NSDictionary *remoteNotification = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (remoteNotification) {
             NSDictionary *apsInfo = [remoteNotification objectForKey:@"aps"];
             [BaseViewController handleNotificationInfo:apsInfo];
