@@ -192,9 +192,7 @@
         }else{//新建下载
             
             __weak typeof(self) weakSelf = self;
-            NSProgress *progress;
-            Coding_DownloadTask *cDownloadTask = [manager addDownloadTaskForFile:self.file progress:progress completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-                [progress removeObserver:weakSelf forKeyPath:@"fractionCompleted" context:NULL];
+            Coding_DownloadTask *cDownloadTask = [manager addDownloadTaskForFile:self.file completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
                 if (error) {
                     [weakSelf changeToState:DownloadStateDefault];
                     [weakSelf showError:error];

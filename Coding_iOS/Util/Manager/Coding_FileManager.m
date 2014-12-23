@@ -135,9 +135,10 @@
     return [self.diskDownloadDict objectForKey:fileName];
 }
 
-- (Coding_DownloadTask *)addDownloadTaskForFile:(ProjectFile *)file progress:(NSProgress *)progress completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler{
+- (Coding_DownloadTask *)addDownloadTaskForFile:(ProjectFile *)file completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler{
     
     __weak typeof(file) weakFile = file;
+    NSProgress *progress;
     
     NSURL *downloadURL = [NSURL URLWithString:file.downloadPath];
     NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];

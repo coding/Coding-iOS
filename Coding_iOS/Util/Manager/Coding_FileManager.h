@@ -28,7 +28,7 @@
 - (void)removeCDownloadTaskForResponse:(NSURLResponse *)response;
 - (Coding_DownloadTask *)cDownloadTaskForKey:(NSString *)storage_key;
 - (Coding_DownloadTask *)cDownloadTaskForResponse:(NSURLResponse *)response;
-- (Coding_DownloadTask *)addDownloadTaskForFile:(ProjectFile *)file progress:(NSProgress *)progress completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
+- (Coding_DownloadTask *)addDownloadTaskForFile:(ProjectFile *)file completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
 
 
 //upload
