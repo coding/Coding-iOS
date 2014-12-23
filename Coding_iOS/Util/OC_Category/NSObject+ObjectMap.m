@@ -193,12 +193,16 @@ static const __unused short _base64DecodingTable[256] = {
     NSDictionary *mapDictionary = [newObject propertyDictionary];
     
     for (NSString *key in [dict allKeys]) {
-        NSString *propertyName = [mapDictionary objectForKey:key];
-        
+        NSString *tempKey;
+        if ([key isEqualToString:@"description"]) {
+            tempKey = [key stringByAppendingString:@"_mine"];
+        }else{
+            tempKey = key;
+        }
+        NSString *propertyName = [mapDictionary objectForKey:tempKey];
         if (!propertyName) {
             continue;
         }
-        
         // If it's a Dictionary, make into object
         if ([[dict objectForKey:key] isKindOfClass:[NSDictionary class]]) {
             //id newObjectProperty = [newObject valueForKey:propertyName];

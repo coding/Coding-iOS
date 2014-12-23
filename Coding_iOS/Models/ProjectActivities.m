@@ -201,13 +201,15 @@
         }else if ([_target_type isEqualToString:@"Task"]){
             [self addActionUser:_user];
             if ([_action isEqualToString:@"update_priority"]) {
-                [_actionStr appendString:@"更新了任务的优先级"];
+                [_actionStr appendFormat:@"更新了任务<%@>的优先级", _task.title];
             }else if ([_action isEqualToString:@"update_deadline"]) {
                 if (_task.deadline && _task.deadline.length > 0) {
-                    [_actionStr appendString:@"更新了任务的截止日期"];
+                    [_actionStr appendFormat:@"更新了任务<%@>的截止日期", _task.title];
                 }else{
-                    [_actionStr appendString:@"移除了任务的截止日期"];
+                    [_actionStr appendFormat:@"移除了任务<%@>的截止日期", _task.title];
                 }
+            }else if ([_action isEqualToString:@"update_description"]) {
+                [_actionStr appendFormat:@"更新了任务<%@>的描述", _task.title];
             }else{
                 [_actionStr appendString:_action_msg];
                 if (_origin_task.owner) {
@@ -223,7 +225,7 @@
             }
         }else if ([_target_type isEqualToString:@"TaskComment"]){
             [self addActionUser:_user];
-            [_actionStr appendFormat:@"评论了任务:%@", _task.title];
+            [_actionStr appendFormat:@"%@任务<%@>的评论", _action_msg, _task.title];
         }else{
             [self addActionUser:_user];
             [_actionStr appendString:_action_msg];
@@ -295,6 +297,8 @@
                 }
             }else if ([_action isEqualToString:@"update_deadline"] && _task.deadline && _task.deadline.length > 0) {
                 linkStr = [NSString stringWithFormat:@"[%@] %@", [NSDate convertStr_yyyy_MM_ddToDisplay:_task.deadline], _task.title];
+            }else if ([_action isEqualToString:@"update_description"]) {
+                linkStr = _task.description_mine;
             }else{
                 linkStr = _task.title;
             }

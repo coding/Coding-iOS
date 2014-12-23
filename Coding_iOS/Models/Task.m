@@ -37,6 +37,13 @@
 //    }
 //}
 
+- (void)setDescription_mine:(NSString *)description_mine{
+    if (_description_mine != description_mine) {
+        HtmlMedia *htmlMedia = [HtmlMedia htmlMediaWithString:description_mine trimWhitespaceAndNewline:YES];
+        _description_mine = htmlMedia.contentDisplay;
+    }
+}
+
 + (Task *)taskWithProject:(Project *)project{
     Task *curTask = [[Task alloc] init];
     curTask.project = project;
