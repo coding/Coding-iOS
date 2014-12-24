@@ -484,7 +484,7 @@
             HtmlMediaItem *imageItem = [_tweet.htmlMedia.imageItems objectAtIndex:i];
             MJPhoto *photo = [[MJPhoto alloc] init];
             photo.url = [NSURL URLWithString:imageItem.src]; // 图片路径
-            photo.srcImageView = [_imageViewsDict objectForKey:indexPath]; // 来源于哪个UIImageView
+            photo.srcImageView = [_imageViewsDict objectForKey:[NSIndexPath indexPathForItem:i inSection:0]]; // 来源于哪个UIImageView
             [photos addObject:photo];
         }
         
