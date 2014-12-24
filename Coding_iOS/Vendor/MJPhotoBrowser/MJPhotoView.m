@@ -75,17 +75,19 @@
             [self adjustFrame];
         }else if (![_photo.url.absoluteString hasSuffix:@"gif"]) {
             // 不是gif，就马上开始下载
-            __unsafe_unretained MJPhotoView *photoView = self;
-            __unsafe_unretained MJPhoto *photo = _photo;
+            ESWeakSelf;
+            ESWeak_(_photo);
             [_imageView sd_setImageWithURL:_photo.url placeholderImage:_photo.placeholder options:SDWebImageRetryFailed|SDWebImageLowPriority completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                ESStrongSelf;
+                ESStrong_(_photo);
                 if (image) {
-                    photo.image = image;
+                    __photo.image = image;
                 }
-                if ([photoView.photoViewDelegate respondsToSelector:@selector(photoViewImageFinishLoad:)]) {
-                    [photoView.photoViewDelegate photoViewImageFinishLoad:photoView];
+                if ([_self.photoViewDelegate respondsToSelector:@selector(photoViewImageFinishLoad:)]) {
+                    [_self.photoViewDelegate photoViewImageFinishLoad:_self];
                 }
                 // 调整frame参数
-                [photoView adjustFrame];
+                [_self adjustFrame];
             }];
         }
     } else {
@@ -108,14 +110,16 @@
         [_photoLoadingView showLoading];
         [self addSubview:_photoLoadingView];
         
-        __unsafe_unretained MJPhotoView *photoView = self;
-        __unsafe_unretained MJPhotoLoadingView *loading = _photoLoadingView;
+        ESWeakSelf;
+        ESWeak_(_photoLoadingView);
         [_imageView sd_setImageWithURL:_photo.url placeholderImage:_photo.srcImageView.image options:SDWebImageRetryFailed|SDWebImageLowPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            ESStrong_(_photoLoadingView);
             if (receivedSize > kMinProgress) {
-                loading.progress = (float)receivedSize/expectedSize;
+                __photoLoadingView.progress = (float)receivedSize/expectedSize;
             }
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            [photoView photoDidFinishLoadWithImage:image];
+            ESStrongSelf;
+            [_self photoDidFinishLoadWithImage:image];
         }];
     }
 }
