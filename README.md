@@ -65,7 +65,7 @@ RootTabViewController继承自第三方库[RDVTabBarController](https://github.c
  
  - 关于如何正确显示冒泡的内容：api返回的数据里面，冒泡内容都是html格式，需要做一下预处理；其实私信、讨论里面的内容也是html。解析html的类名是HtmlMediaItem，它是先用[hpple](https://github.com/topfunky/hpple)对html进行了解析，然后把对应的media元素和对应的位置做一个存储，显示的时候便可以根据需要来显示了。
 
-####最后说下[CocoaPods](http://code4app.com/article/cocoapods-install-usage)里面用到的第三方类库
+####最后说下[CocoaPods](http://cocoapods.org/)里面用到的第三方类库
  - [SDWebImage](https://github.com/rs/SDWebImage)：图片加载
  - [TTTAttributedLabel](https://github.com/TTTAttributedLabel/TTTAttributedLabel)：富文本的label，可点击链接
  - [RegexKitLite](https://github.com/wezm/RegexKitLite)：正则表达式
