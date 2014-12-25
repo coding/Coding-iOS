@@ -12,7 +12,6 @@
 @property (strong, nonatomic) NSString *fileName;
 @property (nonatomic,copy) void(^reUploadBlock)(NSString *fileName);
 @property (nonatomic,copy) void(^cancelUploadBlock)(NSString *fileName);
-@property (nonatomic,copy) void(^doneUploadBlock)();
 
 + (CGFloat)cellHeight;
 @end

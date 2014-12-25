@@ -7,6 +7,7 @@
 //
 
 #import "ProjectFile.h"
+#import "Coding_FileManager.h"
 
 @implementation ProjectFile
 

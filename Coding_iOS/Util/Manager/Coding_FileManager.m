@@ -204,7 +204,7 @@
     free(buffer);
     return YES;
 }
-- (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler{
+- (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName{
     if (!fileName) {
         return nil;
     }
@@ -234,8 +234,8 @@
         
         if (error) {
             [manager showError:error];
-            if (completionHandler) {
-                completionHandler(response, nil, error);
+            if (manager.delegate && [manager.delegate respondsToSelector:@selector(completionUploadResponse:withResponseObject:andError:)]) {
+                [manager.delegate completionUploadResponse:response withResponseObject:nil andError:error];
             }
         }else{
             NSString *block_project_id = [[[[response.URL.absoluteString componentsSeparatedByString:@"/project/"] lastObject] componentsSeparatedByString:@"/file/"] firstObject];
@@ -257,8 +257,8 @@
             [[Coding_FileManager sharedManager] removeCUploadTaskForFile:block_fileName hasError:(error != nil)];
             
             //处理completionHandler
-            if (completionHandler) {
-                completionHandler(response, curFile, nil);
+            if (manager.delegate && [manager.delegate respondsToSelector:@selector(completionUploadResponse:withResponseObject:andError:)]) {
+                [manager.delegate completionUploadResponse:response withResponseObject:curFile andError:nil];
             }
         }
     }];
@@ -298,6 +298,7 @@
     if (!project_id || !folder_id) {
         return nil;
     }
+    [self directoryDidChange:self.docUploadWatcher];
     NSMutableArray *uploadFiles = [NSMutableArray array];
     for (NSString *fileName in [self.diskUploadDict allKeys]) {
         NSArray *fileInfos = [fileName componentsSeparatedByString:@"|||"];

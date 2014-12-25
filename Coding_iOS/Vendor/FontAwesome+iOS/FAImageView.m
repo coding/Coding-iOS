@@ -54,7 +54,7 @@
     //The default icon is the ban icon
     [self setDefaultIcon:FAIconBanCircle];
     
-    _defaultView.font = [UIFont iconicFontOfSize:self.bounds.size.height];
+    _defaultView.font = [UIFont fontAwesomeFontOfSize:self.bounds.size.height];
     _defaultView.textAlignment = NSTextAlignmentCenter;
     _defaultView.adjustsFontSizeToFitWidth = YES;
     

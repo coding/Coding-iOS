@@ -24,9 +24,10 @@
 #import "QBImagePickerController.h"
 #import "Helper.h"
 #import "FileListUploadCell.h"
+#import "Coding_FileManager.h"
 
 
-@interface FileListViewController () <SWTableViewCellDelegate, EaseToolBarDelegate, QBImagePickerControllerDelegate>
+@interface FileListViewController () <SWTableViewCellDelegate, EaseToolBarDelegate, QBImagePickerControllerDelegate, Coding_FileManagerDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 @property (strong, nonatomic) ProjectFiles *myFiles;
@@ -86,6 +87,8 @@
     
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    
+    [Coding_FileManager sharedManager].delegate = self;
     if (!self.rootFolders) {
         self.rootFolders = [ProjectFolders emptyFolders];
     }
@@ -267,35 +270,35 @@
 
 #pragma mark uploadTask
 - (void)addUploadTaskWithFileName:(NSString *)fileName{
-    __weak typeof(self) weakSelf = self;
-
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
-    [manager addUploadTaskWithFileName:fileName completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        if (error) {
-            [weakSelf showError:error];
-        }else{
-            ProjectFile *curFile = responseObject;
-            if (curFile.name && curFile.name.length > 0) {
-                curFile.project_id = weakSelf.curProject.id;
-                [weakSelf.myFiles.list insertObject:curFile atIndex:0];
-            }
-        }
-        [weakSelf configuploadFiles];
-    }];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self configuploadFiles];
-    });
+    [manager addUploadTaskWithFileName:fileName];
+    [self configuploadFiles];
 }
 
 - (void)removeUploadTaskWithFileName:(NSString *)fileName{
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
     [manager removeCUploadTaskForFile:fileName hasError:NO];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self configuploadFiles];
-    });
+    [self configuploadFiles];
 }
 
+- (void)completionUploadWithResult:(id)responseObject error:(NSError *)error{
+    if (error) {
+        [self showError:error];
+    }else{
+        ProjectFile *curFile = responseObject;
+        if (curFile.name && curFile.name.length > 0) {
+            curFile.project_id = self.curProject.id;
+            [self.myFiles.list insertObject:curFile atIndex:0];
+            self.curFolder.count = @(self.curFolder.count.integerValue +1);
+        }
+    }
+    [self configuploadFiles];
+}
 
+#pragma mark Coding_FileManagerDelegate
+- (void)completionUploadResponse:(NSURLResponse *)response withResponseObject:(id)responseObject andError:(NSError *)error{
+    [self completionUploadWithResult:responseObject error:error];
+}
 
 #pragma mark Table M
 - (NSInteger)totalDataRow{

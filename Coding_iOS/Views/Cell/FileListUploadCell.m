@@ -92,10 +92,12 @@
     __weak typeof(self) weakSelf = self;
     if (_progress) {
         [_progressView setTrackTintColor:[UIColor colorWithHexString:@"0xd5d5d5"]];
-
-        [[RACObserve(self, progress.fractionCompleted) takeUntil:self.rac_prepareForReuseSignal] subscribeNext:^(NSNumber *fractionCompleted) {
+        
+        [[RACObserve(self, progress.fractionCompleted) takeUntil:
+          [RACSignal combineLatest:@[self.rac_prepareForReuseSignal, self.rac_willDeallocSignal]]]
+         subscribeNext:^(NSNumber *fractionCompleted) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf updatePregress:fractionCompleted.doubleValue];
+                weakSelf.progressView.progress = fractionCompleted.doubleValue;
             });
         }];
     }else{
@@ -107,14 +109,6 @@
 - (void)updatePregress:(double)fractionCompleted{
     //更新进度
     self.progressView.progress = fractionCompleted;
-    if (ABS(fractionCompleted - 1.0) < 0.0001) {
-        //已完成
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (self && self.doneUploadBlock) {
-                self.doneUploadBlock();
-            }
-        });
-    }
 }
 
 - (void)buttonClicked:(id)sender{

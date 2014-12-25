@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
-#import "Coding_FileManager.h"
 
 
 typedef NS_ENUM(NSInteger, DownloadState){

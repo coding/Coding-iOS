@@ -22,7 +22,6 @@
                                                fromDate:self
                                                  toDate:[NSDate date]
                                                 options:0];
-    NSDate *now = [NSDate date];
     return [components second];
 }
 - (NSInteger)minutesAgo{

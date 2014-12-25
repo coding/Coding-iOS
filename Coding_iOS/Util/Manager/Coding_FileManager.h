@@ -14,8 +14,10 @@
 @class Coding_DownloadTask;
 @class Coding_UploadTask;
 @class ProjectFile;
+@protocol Coding_FileManagerDelegate;
 
 @interface Coding_FileManager : NSObject
+@property (nonatomic, weak) id<Coding_FileManagerDelegate> delegate;
 
 //download
 + (Coding_FileManager *)sharedManager;
@@ -36,7 +38,7 @@
 - (NSURL *)diskUploadUrlForFile:(NSString *)fileName;
 - (void)removeCUploadTaskForFile:(NSString *)fileName hasError:(BOOL)hasError;
 - (Coding_UploadTask *)cUploadTaskForFile:(NSString *)fileName;
-- (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler;
+- (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName;
 - (NSArray *)uploadFilesInProject:(NSString *)project_id andFolder:(NSString *)folder_id;
 @end
 
@@ -54,4 +56,10 @@
 @property (strong, nonatomic) NSString *fileName;
 + (Coding_UploadTask *)cUploadTaskWithTask:(NSURLSessionUploadTask *)task progress:(NSProgress *)progress fileName:(NSString *)fileName;
 - (void)cancel;
+@end
+
+
+@protocol Coding_FileManagerDelegate <NSObject>
+@optional
+- (void)completionUploadResponse:(NSURLResponse *)response withResponseObject:(id)responseObject andError:(NSError *)error;
 @end

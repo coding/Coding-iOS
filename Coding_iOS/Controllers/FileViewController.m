@@ -139,8 +139,6 @@
         [self.view addSubview:_contentWebView];
     }
     if ([self.curFile.fileType isEqualToString:@"md"]){
-//        NSData *mdData = [NSData dataWithContentsOfURL:fileUrl];
-//        NSString *mdStr = [[NSString alloc] initWithData:mdData encoding:NSUTF8StringEncoding];
         NSError  *error = nil;
         NSString *htmlStr;
         @try {
