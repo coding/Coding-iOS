@@ -268,4 +268,27 @@
     [Login doLogout];
     [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
 }
+
+-(id)handleResponse:(id)responseJSON{
+    NSError *error = nil;
+    //code为非0值时，表示有错
+    NSNumber *resultCode = [responseJSON valueForKeyPath:@"code"];
+    
+    if (resultCode.intValue != 0) {
+        error = [NSError errorWithDomain:kNetPath_Code_Base code:resultCode.intValue userInfo:responseJSON];
+        [self showError:error];
+        
+        if (resultCode.intValue == 1000) {//用户未登录
+            [self loginOutToLoginVC];
+        }
+    }
+    //    数据为空时，构造error提示
+    //    id resultData = [responseJSON valueForKeyPath:@"data"];
+    //    if (!resultData) {
+    //        error = [NSError errorWithDomain:kNetPath_Code_Base code:resultCode.intValue userInfo:
+    //                          [NSDictionary dictionaryWithObject:
+    //                           [NSDictionary dictionaryWithObject:@"获取的数据为空" forKey:@"tipMsg"] forKey:@"msg"]];
+    //    }
+    return error;
+}
 @end

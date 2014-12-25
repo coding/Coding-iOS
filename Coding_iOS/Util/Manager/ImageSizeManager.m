@@ -63,10 +63,6 @@
     return imageSize;
 }
 - (BOOL)hasSrc:(NSString *)src{
-    if ([src rangeOfString:@"f1e0bec7-0fc3-4f31-b10b-5f1309659a3d"].location != NSNotFound ||
-        [src rangeOfString:@"791cbe41-d2b4-4e58-81f7-581acae34f2e"].location != NSNotFound) {
-        NSLog(@"wocaonima ");
-    }
     NSNumber *sizeValue = [_imageSizeDict objectForKey:src];
     BOOL hasSrc = NO;
     if (sizeValue) {

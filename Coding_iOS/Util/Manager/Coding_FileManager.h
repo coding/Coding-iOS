@@ -34,10 +34,10 @@
 //upload
 + (BOOL)writeUploadDataWithName:(NSString*)fileName andAsset:(ALAsset*)asset;
 - (NSURL *)diskUploadUrlForFile:(NSString *)fileName;
-- (void)removeCUploadTaskForFile:(NSString *)fileName;
+- (void)removeCUploadTaskForFile:(NSString *)fileName hasError:(BOOL)hasError;
 - (Coding_UploadTask *)cUploadTaskForFile:(NSString *)fileName;
 - (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName completionHandler:(void (^)(NSURLResponse *response, id responseObject, NSError *error))completionHandler;
-
+- (NSArray *)uploadFilesInProject:(NSString *)project_id andFolder:(NSString *)folder_id;
 @end
 
 @interface Coding_DownloadTask : NSObject

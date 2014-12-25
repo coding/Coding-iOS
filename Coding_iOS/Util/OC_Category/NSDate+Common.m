@@ -23,7 +23,6 @@
                                                  toDate:[NSDate date]
                                                 options:0];
     NSDate *now = [NSDate date];
-    NSLog(@"creat:%@   now:%@", self.description, now.description);
     return [components second];
 }
 - (NSInteger)minutesAgo{

@@ -53,6 +53,11 @@
  *  更新 status bar 的颜色
  */
 - (void)refreshStatusBar;
+/**
+ *  解析返回json数据是否有错
+ */
+-(id)handleResponse:(id)responseJSON;
+
 - (void)loginOutToLoginVC;
 
 @end

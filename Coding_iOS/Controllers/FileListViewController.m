@@ -8,6 +8,7 @@
 
 #define kCellIdentifier_FileListFolder @"FileListFolderCell"
 #define kCellIdentifier_FileListFile @"FileListFileCell"
+#define kCellIdentifier_FileListUpload @"FileListUploadCell"
 
 #import "FileListViewController.h"
 #import "ODRefreshControl.h"
@@ -22,14 +23,15 @@
 #import "EaseToolBar.h"
 #import "QBImagePickerController.h"
 #import "Helper.h"
+#import "FileListUploadCell.h"
 
 
-@interface FileListViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate, SWTableViewCellDelegate, EaseToolBarDelegate, QBImagePickerControllerDelegate>
+@interface FileListViewController () <SWTableViewCellDelegate, EaseToolBarDelegate, QBImagePickerControllerDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 @property (strong, nonatomic) ProjectFiles *myFiles;
-@property (strong, nonatomic) NSMutableArray *previewFileUrls;
 @property (nonatomic, strong) EaseToolBar *myToolBar;
+@property (strong, nonatomic) NSArray *uploadFiles;
 
 @end
 
@@ -66,7 +68,6 @@
     [super loadView];
     self.title = self.curFolder.name;
     _myFiles = [[ProjectFiles alloc] init];
-    _previewFileUrls = [[NSMutableArray alloc] init];
     
     CGRect frame = [UIView frameWithOutNav];
     self.view = [[UIView alloc] initWithFrame:frame];
@@ -78,6 +79,7 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[FileListFolderCell class] forCellReuseIdentifier:kCellIdentifier_FileListFolder];
         [tableView registerClass:[FileListFileCell class] forCellReuseIdentifier:kCellIdentifier_FileListFile];
+        [tableView registerClass:[FileListUploadCell class] forCellReuseIdentifier:kCellIdentifier_FileListUpload];
         [self.view addSubview:tableView];
         tableView;
     });
@@ -88,6 +90,17 @@
         self.rootFolders = [ProjectFolders emptyFolders];
     }
     [self refresh];
+}
+
+- (void)configuploadFiles{
+    self.uploadFiles = [[Coding_FileManager sharedManager] uploadFilesInProject:self.curProject.id.stringValue andFolder:self.curFolder.file_id.stringValue];
+    if (!self.uploadFiles) {
+        self.uploadFiles = [NSArray array];
+    }
+    [self.view configBlankPage:EaseBlankPageTypeView hasData:([self totalDataRow] > 0) hasError:NO reloadButtonBlock:^(id sender) {
+        [self refresh];
+    }];
+    [self.myTableView reloadData];
 }
 
 - (void)configToolBar{
@@ -112,6 +125,7 @@
 }
 
 - (void)refresh{
+    [self configuploadFiles];
     if (![self.rootFolders isEmpty]) {
         [self configToolBar];
         [self refreshFileList];
@@ -142,8 +156,8 @@
             if (curFolder) {
                 weakSelf.curFolder = curFolder;
                 weakSelf.title = curFolder.name;
+                [weakSelf configuploadFiles];
                 [weakSelf configToolBar];
-                [weakSelf.myTableView reloadData];
                 [weakSelf refreshFileList];
             }else{
                 weakSelf.rootFolders = preRootFolders;
@@ -234,15 +248,15 @@
     for (ALAsset *assetItem in assets) {
         //保存到app内
         NSString* originalFileName = [[assetItem defaultRepresentation] filename];
-        NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@|||%@", self.curProject.id.stringValue, self.curFolder.file_id.stringValue,[[NSDate date] stringWithFormat:@"yyyyMMddHHmmss"], originalFileName];
+        NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@", self.curProject.id.stringValue, self.curFolder.file_id.stringValue, originalFileName];
         if ([Coding_FileManager writeUploadDataWithName:fileName andAsset:assetItem]) {
             [needToUploads addObject:fileName];
         }else{
             [self showHudTipStr:[NSString stringWithFormat:@"%@ 文件处理失败", originalFileName]];
         }
     }
-    for (NSString *filePath in needToUploads) {
-        [self addUploadTaskWithFileName:filePath];
+    for (NSString *fileName in needToUploads) {
+        [self addUploadTaskWithFileName:fileName];
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -253,13 +267,39 @@
 
 #pragma mark uploadTask
 - (void)addUploadTaskWithFileName:(NSString *)fileName{
+    __weak typeof(self) weakSelf = self;
+
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
-    [manager addUploadTaskWithFileName:fileName completionHandler:nil];
+    [manager addUploadTaskWithFileName:fileName completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        if (error) {
+            [weakSelf showError:error];
+        }else{
+            ProjectFile *curFile = responseObject;
+            if (curFile.name && curFile.name.length > 0) {
+                curFile.project_id = weakSelf.curProject.id;
+                [weakSelf.myFiles.list insertObject:curFile atIndex:0];
+            }
+        }
+        [weakSelf configuploadFiles];
+    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self configuploadFiles];
+    });
 }
+
+- (void)removeUploadTaskWithFileName:(NSString *)fileName{
+    Coding_FileManager *manager = [Coding_FileManager sharedManager];
+    [manager removeCUploadTaskForFile:fileName hasError:NO];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self configuploadFiles];
+    });
+}
+
+
 
 #pragma mark Table M
 - (NSInteger)totalDataRow{
-    return (_curFolder.sub_folders.count + _myFiles.list.count);
+    return (_uploadFiles.count + _curFolder.sub_folders.count + _myFiles.list.count);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -267,21 +307,30 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row < _curFolder.sub_folders.count) {
+    __weak typeof(self) weakSelf = self;
+    if (indexPath.row < _uploadFiles.count) {
+        FileListUploadCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_FileListUpload forIndexPath:indexPath];
+        cell.fileName = [self.uploadFiles objectAtIndex:indexPath.row];
+        cell.reUploadBlock = ^(NSString *fileName){
+            [weakSelf addUploadTaskWithFileName:fileName];
+        };
+        cell.cancelUploadBlock = ^(NSString *fileName){
+            [weakSelf removeUploadTaskWithFileName:fileName];
+        };
+        return cell;
+    }else if (indexPath.row < _curFolder.sub_folders.count + _uploadFiles.count) {
         FileListFolderCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_FileListFolder forIndexPath:indexPath];
-        ProjectFolder *folder = [_curFolder.sub_folders objectAtIndex:indexPath.row];
+        ProjectFolder *folder = [_curFolder.sub_folders objectAtIndex:indexPath.row - _uploadFiles.count];
         cell.folder = folder;
         [cell setRightUtilityButtons:[self rightButtonsWithObj:folder] WithButtonWidth:[FileListFolderCell cellHeight]];
         cell.delegate = self;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else{
-        __weak typeof(self) weakSelf = self;
         FileListFileCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_FileListFile forIndexPath:indexPath];
-        ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count)];
+        ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count - _uploadFiles.count)];
         cell.file = file;
         cell.showDiskFileBlock = ^(NSURL *fileUrl, ProjectFile *file){
-//            [weakSelf showDiskFile:fileUrl];
             [weakSelf goToFileVC:file];
         };
         [cell setRightUtilityButtons:[self rightButtonsWithObj:file] WithButtonWidth:[FileListFileCell cellHeight]];
@@ -293,7 +342,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat cellHeight = 0;
-    if (indexPath.row > _curFolder.sub_folders.count) {
+    if (indexPath.row < _uploadFiles.count) {
+        cellHeight = [FileListUploadCell cellHeight];
+    }else if (indexPath.row < _curFolder.sub_folders.count + _uploadFiles.count) {
         cellHeight = [FileListFolderCell cellHeight];
     }else{
         cellHeight = [FileListFileCell cellHeight];
@@ -303,14 +354,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row < _curFolder.sub_folders.count) {
-        ProjectFolder *clickedFolder = [_curFolder.sub_folders objectAtIndex:indexPath.row];;
+    if (indexPath.row < _uploadFiles.count) {
+
+    }else if (indexPath.row < _curFolder.sub_folders.count) {
+        ProjectFolder *clickedFolder = [_curFolder.sub_folders objectAtIndex:indexPath.row - _uploadFiles.count];;
         [self goToVCWithFolder:clickedFolder inProject:self.curProject];
     }else{
-//        FileListFileCell *cell = (FileListFileCell *)[tableView cellForRowAtIndexPath:indexPath];
-//        [cell clickedByUser];
-        
-        ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count)];
+        ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count - _uploadFiles.count)];
         [self goToFileVC:file];
     }
 }
@@ -325,8 +375,6 @@
             [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xff5846"] icon:[UIImage imageNamed:@"icon_file_cell_delete"]];
         }
     }else{
-        ProjectFile *file = (ProjectFile *)obj;
-        DebugLog(@"rightButtonsWithObj: %@", file.name);
         [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xe6e6e6"] icon:[UIImage imageNamed:@"icon_file_cell_move"]];
         [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xff5846"] icon:[UIImage imageNamed:@"icon_file_cell_delete"]];
     }
@@ -339,8 +387,11 @@
 - (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state{
     if (state == kCellStateRight) {
         NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
-        if (indexPath.row >= _curFolder.sub_folders.count) {
-            ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count)];
+        
+        if (indexPath.row < _uploadFiles.count) {
+            return NO;
+        }else if (indexPath.row >= _curFolder.sub_folders.count + _uploadFiles.count) {
+            ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count - _uploadFiles.count)];
             Coding_DownloadTask *cDownloadTask = file.cDownloadTask;
             if (cDownloadTask && cDownloadTask.task && cDownloadTask.task.state == NSURLSessionTaskStateRunning) {
                 return NO;
@@ -354,8 +405,8 @@
     [cell hideUtilityButtonsAnimated:YES];
     
     NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
-    if (indexPath.row < _curFolder.sub_folders.count) {
-        ProjectFolder *folder = [_curFolder.sub_folders objectAtIndex:indexPath.row];
+    if (indexPath.row < _curFolder.sub_folders.count && indexPath.row >= _uploadFiles.count) {
+        ProjectFolder *folder = [_curFolder.sub_folders objectAtIndex:indexPath.row - _uploadFiles.count];
         if (index == 0) {
             [self renameFolder:folder];
         }else{
@@ -376,7 +427,7 @@
             [actionSheet showInView:kKeyWindow];
         }
     }else{
-        ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count)];
+        ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count - _uploadFiles.count)];
         if (index == 0) {
             [self moveFile:file fromFolder:self.curFolder];
         }else{
@@ -393,7 +444,7 @@
             DebugLog(@"删除文件夹成功:%@", originalFolder.name);
             [weakSelf.curFolder.sub_folders removeObject:originalFolder];
             weakSelf.curFolder.count = [NSNumber numberWithInt:weakSelf.curFolder.count.intValue-1];
-            [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+            [weakSelf.myTableView reloadData];
         }
     }];
 }
@@ -410,7 +461,7 @@
                     DebugLog(@"重命名文件夹成功:%@", originalFolder.name);
                     
                     originalFolder.name = originalFolder.next_name;
-                    [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                    [weakSelf.myTableView reloadData];
                 }
             }];
             
@@ -502,7 +553,7 @@
             if (data) {
                 [weakSelf.myFiles.list removeObject:data];
                 weakSelf.curFolder.count = [NSNumber numberWithInt:weakSelf.curFolder.count.intValue-1];
-                [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                [weakSelf.myTableView reloadData];
             }
         }];
     }
@@ -550,56 +601,6 @@
     FileViewController *vc = [[FileViewController alloc] init];
     vc.curFile = file;
     [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void)showDiskFile:(NSURL *)fileUrl{
-    QLPreviewController *previewController = [[QLPreviewController alloc] init];
-    previewController.dataSource = self;
-    previewController.delegate = self;
-    
-//    显示已下载的全部内容
-//    [self.previewFileUrls removeAllObjects];
-//    for (ProjectFile *file in self.myFiles.list) {
-//        NSURL *tempUrl = [file hasBeenDownload];
-//        if (tempUrl) {
-//            [self.previewFileUrls addObject:tempUrl];
-//        }
-//    }
-//    NSInteger index = [self.previewFileUrls indexOfObject:fileUrl];
-//    if (index != NSNotFound) {
-//        previewController.currentPreviewItemIndex = index;
-//    }else{
-//        [self.previewFileUrls removeAllObjects];
-//        [self.previewFileUrls addObject:fileUrl];
-//        previewController.currentPreviewItemIndex = 0;
-//    }
-    
-//    只显示点击的内容
-    [self.previewFileUrls removeAllObjects];
-    [self.previewFileUrls addObject:fileUrl];
-    previewController.currentPreviewItemIndex = 0;
-    
-//    [self.navigationController pushViewController:previewController animated:YES];
-    [self presentViewController:previewController animated:YES completion:^{
-    }];
-}
-
-#pragma mark - QLPreviewControllerDataSource
-
-- (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller{
-    return self.previewFileUrls.count;
-}
-
-- (id <QLPreviewItem>)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index{
-//    for (id object in controller.childViewControllers)
-//    {
-//        if ([object isKindOfClass:[UINavigationController class]])
-//        {
-//            [(UINavigationController *)object setNavigationBarHidden:YES];
-//        }
-//    }
-    NSURL *curFileUrl = [self.previewFileUrls objectAtIndex:index];
-    return [BasicPreviewItem itemWithUrl:curFileUrl];
 }
 
 - (void)dealloc

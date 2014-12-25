@@ -195,7 +195,7 @@
 
 - (void)setupNavigationItem{
     UIButton *itemButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 19, 19)];
-    [itemButton setImage:[UIImage imageNamed:@"addBtn_Nav"] forState:UIControlStateNormal];
+    [itemButton setImage:[UIImage imageNamed:@"moreBtn_Nav"] forState:UIControlStateNormal];
     @weakify(self);
     [[itemButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
         @strongify(self);

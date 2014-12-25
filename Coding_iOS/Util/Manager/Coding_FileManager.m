@@ -209,69 +209,105 @@
         return nil;
     }
     NSArray *fileInfos = [fileName componentsSeparatedByString:@"|||"];
-    if (fileInfos.count != 4) {
+    if (fileInfos.count != 3) {
         return nil;
     }
     NSString *project_id, *folder_id, *name;
     project_id = fileInfos[0];
     folder_id = fileInfos[1];
-    name = fileInfos[3];
+    name = fileInfos[2];
     NSString *filePath = [[[self class] uploadPath] stringByAppendingPathComponent:fileName];
     NSURL *filePathUrl = [NSURL fileURLWithPath:filePath];
     
     NSURL *uploadUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/project/%@/file/upload", kNetPath_Code_Base, project_id]];
     
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:uploadUrl.absoluteString parameters:@{@"dir": folder_id} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileURL:filePathUrl name:@"file" fileName:name mimeType:@"image/jpeg" error:nil];
+        [formData appendPartWithFileURL:filePathUrl name:@"file" fileName:name mimeType:@"image/gif, image/jpeg, image/pjpeg, image/png, image/svg+xml, image/tiff, image/vnd.djvu, image/example" error:nil];
     } error:nil];
     
     NSProgress *progress = nil;
-    @weakify(project_id);
-    @weakify(filePath);
     NSURLSessionUploadTask *uploadTask = [self.af_manager uploadTaskWithStreamedRequest:request progress:&progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        @strongify(project_id);
-        @strongify(filePath);
+        Coding_FileManager *manager = [Coding_FileManager sharedManager];
         if (!error) {
-            //移动文件到已下载
-            NSDictionary *dict = [responseObject valueForKey:@"data"];
-            NSString *name_block = [dict objectForKey:@"name"];
-            NSString *storage_type = [dict objectForKey:@"storage_type"];
-            NSString *storage_key = [dict objectForKey:@"storage_key"];
-            
-            if (filePath && project_id && name_block && storage_type && storage_key) {
-                NSString *diskFileName = [NSString stringWithFormat:@"%@|||%@|||%@|%@", name_block, project_id, storage_type, storage_key];
-                NSString *diskFilePath = [[[self class] downloadPath] stringByAppendingPathComponent:diskFileName];
-                if (![[NSFileManager defaultManager] moveItemAtPath:filePath toPath:diskFilePath error:nil]) {
-                    [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-                }
-            }
+            error = [manager handleResponse:responseObject];
         }
-        if (completionHandler) {
-            completionHandler(response, responseObject, error);
+        
+        if (error) {
+            [manager showError:error];
+            if (completionHandler) {
+                completionHandler(response, nil, error);
+            }
+        }else{
+            NSString *block_project_id = [[[[response.URL.absoluteString componentsSeparatedByString:@"/project/"] lastObject] componentsSeparatedByString:@"/file/"] firstObject];
+
+            responseObject = [responseObject valueForKey:@"data"];
+            ProjectFile *curFile = [NSObject objectOfClass:@"ProjectFile" fromJSON:responseObject];
+            NSString *block_fileName = [NSString stringWithFormat:@"%@|||%@|||%@", block_project_id, curFile.parent_id.stringValue, curFile.name];
+            NSString *block_filePath = [[[manager class] uploadPath] stringByAppendingPathComponent:block_fileName];
+            
+            //移动文件到已下载
+            NSString *diskFileName = [NSString stringWithFormat:@"%@|||%@|||%@|%@", curFile.name, block_project_id, curFile.storage_type, curFile.storage_key];
+            NSString *diskFilePath = [[[manager class] downloadPath] stringByAppendingPathComponent:diskFileName];
+            [[NSFileManager defaultManager] moveItemAtPath:block_filePath toPath:diskFilePath error:nil];
+            [manager directoryDidChange:manager.docUploadWatcher];
+            [manager directoryDidChange:manager.docDownloadWatcher];
+
+            //移除任务
+            [[Coding_FileManager sharedManager] removeCUploadTaskForFile:block_fileName hasError:(error != nil)];
+            
+            //处理completionHandler
+            if (completionHandler) {
+                completionHandler(response, curFile, nil);
+            }
         }
     }];
     
     [uploadTask resume];
     Coding_UploadTask *cUploadTask = [Coding_UploadTask cUploadTaskWithTask:uploadTask progress:progress fileName:fileName];
+    [self.uploadDict setObject:cUploadTask forKey:fileName];
+    NSLog(@"---\n%@-----\n%@", uploadUrl.absoluteString, self.uploadDict);
+
     return cUploadTask;
 }
 - (NSURL *)diskUploadUrlForFile:(NSString *)fileName{
     return [self.diskUploadDict objectForKey:fileName];
 }
 
-- (void)removeCUploadTaskForFile:(NSString *)fileName{
+- (void)removeCUploadTaskForFile:(NSString *)fileName hasError:(BOOL)hasError{
+    if (!fileName) {
+        return;
+    }
     Coding_UploadTask *cUploadTack = [self.uploadDict objectForKey:fileName];
     if (cUploadTack) {
         [cUploadTack cancel];
     }
-    if (fileName) {
-        [self.uploadDict removeObjectForKey:fileName];
+    [self.uploadDict removeObjectForKey:fileName];
+    
+    if (!hasError) {
         NSString *filePath = [[[self class] uploadPath] stringByAppendingPathComponent:fileName];
-        [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+            [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+        }
     }
 }
 - (Coding_UploadTask *)cUploadTaskForFile:(NSString *)fileName{
     return [self.uploadDict objectForKey:fileName];
+}
+
+- (NSArray *)uploadFilesInProject:(NSString *)project_id andFolder:(NSString *)folder_id{
+    if (!project_id || !folder_id) {
+        return nil;
+    }
+    NSMutableArray *uploadFiles = [NSMutableArray array];
+    for (NSString *fileName in [self.diskUploadDict allKeys]) {
+        NSArray *fileInfos = [fileName componentsSeparatedByString:@"|||"];
+        if (fileInfos.count == 3 &&
+            ([project_id isEqualToString:fileInfos[0]] && [folder_id isEqualToString:fileInfos[1]])) {
+            
+            [uploadFiles addObject:fileName];
+        }
+    }
+    return uploadFiles;
 }
 
 #pragma mark DirectoryWatcherDelegate

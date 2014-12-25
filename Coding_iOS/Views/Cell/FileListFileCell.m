@@ -20,8 +20,9 @@
 @interface FileListFileCell ()<ASProgressPopUpViewDelegate>
 @property (strong, nonatomic) UIImageView *iconView;
 @property (strong, nonatomic) UILabel *nameLabel, *infoLabel, *sizeLabel;
-@property (strong, nonatomic) ASProgressPopUpView *progressView;
 @property (strong, nonatomic) UIButton *stateButton;
+
+@property (strong, nonatomic) ASProgressPopUpView *progressView;
 @property (strong, nonatomic) NSProgress *progress;
 @end
 
@@ -242,7 +243,7 @@
     
 }
 
-#pragma mark ASProgressPopUpView
+#pragma mark ASProgressPopUpViewDelegate
 - (void)progressViewWillDisplayPopUpView:(ASProgressPopUpView *)progressView;
 {
     [self.superview bringSubviewToFront:self];
