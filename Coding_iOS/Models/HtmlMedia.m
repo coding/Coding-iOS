@@ -53,7 +53,7 @@
             if (linkStr) {
                 item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_AutoLink];
                 item.href = [attributes objectForKey:@"href"];
-                item.linkStr = element.text;
+                item.linkStr = [element.text stringByTrimmingRightCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             }
         }else if ([element_Class isEqualToString:@"at-someone"]) {
             //@了某个人
