@@ -143,7 +143,6 @@
     NSURL *downloadURL = [NSURL URLWithString:file.downloadPath];
     NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];
     NSURLSessionDownloadTask *downloadTask = [self.af_manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        NSLog(@"destination------Path");
         NSURL *downloadUrl = [[Coding_FileManager sharedManager] urlForDownloadFolder];
         Coding_DownloadTask *cDownloadTask = [[Coding_FileManager sharedManager] cDownloadTaskForResponse:response];
         if (cDownloadTask) {
@@ -151,6 +150,7 @@
         }else{
             downloadUrl = [downloadUrl URLByAppendingPathComponent:[response suggestedFilename]];
         }
+        NSLog(@"download_destinationPath------\n%@", downloadUrl.absoluteString);
         return downloadUrl;
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         if (error) {
@@ -251,6 +251,7 @@
             [[NSFileManager defaultManager] moveItemAtPath:block_filePath toPath:diskFilePath error:nil];
             [manager directoryDidChange:manager.docUploadWatcher];
             [manager directoryDidChange:manager.docDownloadWatcher];
+            NSLog(@"upload_fileName------\n%@", block_fileName);
 
             //移除任务
             [[Coding_FileManager sharedManager] removeCUploadTaskForFile:block_fileName hasError:(error != nil)];
@@ -265,7 +266,6 @@
     [uploadTask resume];
     Coding_UploadTask *cUploadTask = [Coding_UploadTask cUploadTaskWithTask:uploadTask progress:progress fileName:fileName];
     [self.uploadDict setObject:cUploadTask forKey:fileName];
-    NSLog(@"---\n%@-----\n%@", uploadUrl.absoluteString, self.uploadDict);
 
     return cUploadTask;
 }

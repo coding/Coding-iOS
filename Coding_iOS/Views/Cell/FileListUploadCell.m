@@ -10,7 +10,7 @@
 #import "Coding_FileManager.h"
 #import "ASProgressPopUpView.h"
 #import <Masonry/Masonry.h>
-#import <SDWebImage/UIImageView+WebCache.h>
+#import <NYXImagesKit/NYXImagesKit.h>
 
 @interface FileListUploadCell ()<ASProgressPopUpViewDelegate>
 @property (strong, nonatomic) UIImageView *iconView;
@@ -76,13 +76,13 @@
             make.width.greaterThanOrEqualTo(@120);
         }];
         [_reDoButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(22, 22));
+            make.size.mas_equalTo(CGSizeMake(42, 42));
             make.left.mas_greaterThanOrEqualTo(_nameLabel.mas_right);
         }];
         [_cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(22, 22));
-            make.left.equalTo(_reDoButton.mas_right).with.offset(20);
-            make.right.equalTo(self.contentView.mas_right).with.offset(-20);
+            make.size.mas_equalTo(CGSizeMake(42, 42));
+            make.left.equalTo(_reDoButton.mas_right);
+            make.right.equalTo(self.contentView.mas_right);
         }];
     }
     return self;
@@ -133,7 +133,9 @@
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
 
     NSURL *fileUrl = [manager diskUploadUrlForFile:_fileName];
-    [_iconView sd_setImageWithURL:fileUrl placeholderImage:nil];
+    UIImage *iconImage = [UIImage imageWithContentsOfFile:fileUrl.path];
+    iconImage = [iconImage scaleToSize:(CGSize){64, 64} usingMode:NYXResizeModeAspectFill];
+    _iconView.image = iconImage;
     
     NSArray *fileInfos = [_fileName componentsSeparatedByString:@"|||"];
     _nameLabel.text = [fileInfos lastObject];
