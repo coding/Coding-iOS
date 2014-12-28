@@ -399,9 +399,12 @@
 
 
 #pragma mark ScrollView Delegate
+static CGFloat oldPanOffsetY = 0.f;
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     if (scrollView == _myTableView) {
         [self.myMsgInputView isAndResignFirstResponder];
+        oldPanOffsetY = [scrollView.panGestureRecognizer translationInView:scrollView.superview].y;
     }
 }
 
@@ -412,7 +415,7 @@
         return;
     }
     
-    static CGFloat oldPanOffsetY = 0.f;
+    
     CGFloat nowPanOffsetY = [scrollView.panGestureRecognizer translationInView:scrollView.superview].y;
     CGFloat diffPanOffsetY = nowPanOffsetY - oldPanOffsetY;
     CGFloat contentOffsetY = scrollView.contentOffset.y;
