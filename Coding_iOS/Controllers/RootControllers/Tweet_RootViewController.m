@@ -27,6 +27,9 @@
 #import "SVPullToRefresh.h"
 
 @interface Tweet_RootViewController ()
+{
+    CGFloat _oldPanOffsetY;
+}
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableDictionary *tweetsDict;
@@ -399,12 +402,10 @@
 
 
 #pragma mark ScrollView Delegate
-static CGFloat oldPanOffsetY = 0.f;
-
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     if (scrollView == _myTableView) {
         [self.myMsgInputView isAndResignFirstResponder];
-        oldPanOffsetY = [scrollView.panGestureRecognizer translationInView:scrollView.superview].y;
+        _oldPanOffsetY = [scrollView.panGestureRecognizer translationInView:scrollView.superview].y;
     }
 }
 
@@ -417,11 +418,11 @@ static CGFloat oldPanOffsetY = 0.f;
     
     
     CGFloat nowPanOffsetY = [scrollView.panGestureRecognizer translationInView:scrollView.superview].y;
-    CGFloat diffPanOffsetY = nowPanOffsetY - oldPanOffsetY;
+    CGFloat diffPanOffsetY = nowPanOffsetY - _oldPanOffsetY;
     CGFloat contentOffsetY = scrollView.contentOffset.y;
     if (ABS(diffPanOffsetY) > 50.f) {
         [self hideToolBar:(diffPanOffsetY < 0.f && contentOffsetY > 0)];
-        oldPanOffsetY = nowPanOffsetY;
+        _oldPanOffsetY = nowPanOffsetY;
     }
 }
 
