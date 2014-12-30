@@ -50,7 +50,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
+    [super viewWillDisappear:animated];
     
     [self.navigationController setNavigationBarHidden:NO];
     [UIApplication sharedApplication].statusBarHidden = NO;
