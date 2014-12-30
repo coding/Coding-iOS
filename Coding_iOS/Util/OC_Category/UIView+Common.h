@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown;
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown andColor:(UIColor *)color;
 - (void)removeViewWithTag:(NSInteger)tag;
-
+- (CGSize)doubleSizeOfFrame;
 
 + (CGRect)frameWithOutNavTab;
 + (CGRect)frameWithOutNav;

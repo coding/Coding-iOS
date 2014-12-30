@@ -20,6 +20,7 @@
 #import "UnReadManager.h"
 #import "UMessage.h"
 #import "XGPush.h"
+#import "EaseStartView.h"
 
 @implementation AppDelegate
 
@@ -60,33 +61,49 @@
     
     if ([Login isLogin]) {
         [self setupTabViewController];
+    }else{
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+        [self setupLoginViewController];
+    }
+    [self.window makeKeyAndVisible];
+
+    EaseStartView *startView = [EaseStartView startViewWithBgImage:[UIImage imageNamed:@"startImage.jpg"] descriptionStr:@"“最春光乍泄” @堂堂超栗子"];
+    @weakify(self);
+    [startView startAnimationWithCompletionBlock:^(EaseStartView *easeStartView) {
+        @strongify(self);
+        [self completionStartAnimationWithOptions:launchOptions];
+    }];
+    
+    return YES;
+}
+
+- (void)completionStartAnimationWithOptions:(NSDictionary *)launchOptions{
+    if ([Login isLogin]) {
         NSDictionary *remoteNotification = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (remoteNotification) {
             NSDictionary *apsInfo = [remoteNotification objectForKey:@"aps"];
             [BaseViewController handleNotificationInfo:apsInfo];
         }
-    }else{
-        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-        [self setupLoginViewController];
     }
-
-    [self.window makeKeyAndVisible];
-//    UMENG 统计
+    
+    //    UMENG 统计
     [MobClick startWithAppkey:kUmeng_AppKey reportPolicy:BATCH channelId:nil];
-
-//    UMENG 推送
+    
+    //    UMENG 推送
     //set AppKey and LaunchOptions
     [UMessage startWithAppkey:kUmeng_AppKey_Push launchOptions:launchOptions];
     [UMessage setBadgeClear:NO];
     [UMessage setLogEnabled:NO];
     
-//    信鸽推送
+    //    信鸽推送
     [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
     [Login setXGAccountWithCurUser];
     //注销之后需要再次注册前的准备
+    @weakify(self);
     void (^successCallback)(void) = ^(void){
         //如果变成需要注册状态
         if(![XGPush isUnRegisterStatus] && [Login isLogin]){
+            @strongify(self);
             [self registerPush];
         }
     };
@@ -96,8 +113,6 @@
     
     //推送反馈(app不在前台运行时，点击推送激活时。统计而已)
     [XGPush handleLaunching:launchOptions];
-    
-    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

@@ -174,7 +174,10 @@ static char LoadingViewKey, BlankPageViewKey;
     }
 }
 
-
+- (CGSize)doubleSizeOfFrame{
+    CGSize size = self.frame.size;
+    return CGSizeMake(size.width*2, size.height*2);
+}
 #pragma mark LoadingView
 - (void)setLoadingView:(EaseLoadingView *)loadingView{
     [self willChangeValueForKey:@"LoadingViewKey"];

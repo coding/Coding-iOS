@@ -11,6 +11,11 @@
 		4E07D30A1A4A9ACB009EDDF2 /* moreBtn_Nav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D3091A4A9ACB009EDDF2 /* moreBtn_Nav@2x.png */; };
 		4E07D30D1A4A9F45009EDDF2 /* btn_file_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D30B1A4A9F45009EDDF2 /* btn_file_cancel@2x.png */; };
 		4E07D30E1A4A9F45009EDDF2 /* btn_file_reDo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D30C1A4A9F45009EDDF2 /* btn_file_reDo@2x.png */; };
+		4E07D3111A4D1484009EDDF2 /* EaseStartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E07D3101A4D1484009EDDF2 /* EaseStartView.m */; };
+		4E07D3151A4D3CA6009EDDF2 /* icon_user_monkey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D3121A4D3CA6009EDDF2 /* icon_user_monkey@2x.png */; };
+		4E07D3161A4D3CA6009EDDF2 /* logo_coding@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D3131A4D3CA6009EDDF2 /* logo_coding@2x.png */; };
+		4E07D3171A4D3CA6009EDDF2 /* startImage@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D3141A4D3CA6009EDDF2 /* startImage@2x.jpg */; };
+		4E07D3231A4D66B7009EDDF2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D3221A4D66B7009EDDF2 /* LaunchScreen.xib */; };
 		4E15C7D01A26D2F000FB8DAD /* FolderToMoveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E15C7CF1A26D2F000FB8DAD /* FolderToMoveViewController.m */; };
 		4E15C7D61A271A6300FB8DAD /* EaseToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E15C7D51A271A6300FB8DAD /* EaseToolBar.m */; };
 		4E2906A21A403B7D008A5B97 /* FileDownloadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2906A11A403B7D008A5B97 /* FileDownloadView.m */; };
@@ -491,6 +496,12 @@
 		4E07D3091A4A9ACB009EDDF2 /* moreBtn_Nav@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "moreBtn_Nav@2x.png"; sourceTree = "<group>"; };
 		4E07D30B1A4A9F45009EDDF2 /* btn_file_cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_file_cancel@2x.png"; sourceTree = "<group>"; };
 		4E07D30C1A4A9F45009EDDF2 /* btn_file_reDo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_file_reDo@2x.png"; sourceTree = "<group>"; };
+		4E07D30F1A4D1484009EDDF2 /* EaseStartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseStartView.h; sourceTree = "<group>"; };
+		4E07D3101A4D1484009EDDF2 /* EaseStartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseStartView.m; sourceTree = "<group>"; };
+		4E07D3121A4D3CA6009EDDF2 /* icon_user_monkey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_user_monkey@2x.png"; sourceTree = "<group>"; };
+		4E07D3131A4D3CA6009EDDF2 /* logo_coding@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_coding@2x.png"; sourceTree = "<group>"; };
+		4E07D3141A4D3CA6009EDDF2 /* startImage@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "startImage@2x.jpg"; sourceTree = "<group>"; };
+		4E07D3221A4D66B7009EDDF2 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		4E15C7CE1A26D2F000FB8DAD /* FolderToMoveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderToMoveViewController.h; sourceTree = "<group>"; };
 		4E15C7CF1A26D2F000FB8DAD /* FolderToMoveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderToMoveViewController.m; sourceTree = "<group>"; };
 		4E15C7D41A271A6300FB8DAD /* EaseToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseToolBar.h; sourceTree = "<group>"; };
@@ -1856,6 +1867,7 @@
 				8EA6CF1819E240C40076D59C /* Coding_iOS-Prefix.pch */,
 				8EA6CF1919E240C40076D59C /* Coding_iOS.xcdatamodeld */,
 				8EA6CFC519E240C40076D59C /* Images.xcassets */,
+				4E07D3221A4D66B7009EDDF2 /* LaunchScreen.xib */,
 				8EA6CF5B19E240C40076D59C /* InfoPlist.strings */,
 				8EA6CFC719E240C40076D59C /* Models */,
 				8EA6D0CD19E240C40076D59C /* Views */,
@@ -2024,6 +2036,9 @@
 				4E923E771A2F040D00427514 /* messageRight_bg_img@2x.png */,
 				4E07D30B1A4A9F45009EDDF2 /* btn_file_cancel@2x.png */,
 				4E07D30C1A4A9F45009EDDF2 /* btn_file_reDo@2x.png */,
+				4E07D3121A4D3CA6009EDDF2 /* icon_user_monkey@2x.png */,
+				4E07D3131A4D3CA6009EDDF2 /* logo_coding@2x.png */,
+				4E07D3141A4D3CA6009EDDF2 /* startImage@2x.jpg */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -2358,6 +2373,8 @@
 				8EA6D12419E240C40076D59C /* UIMessageInputView.m */,
 				4E2906A01A403B7D008A5B97 /* FileDownloadView.h */,
 				4E2906A11A403B7D008A5B97 /* FileDownloadView.m */,
+				4E07D30F1A4D1484009EDDF2 /* EaseStartView.h */,
+				4E07D3101A4D1484009EDDF2 /* EaseStartView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2563,6 +2580,7 @@
 				8EA6D18E19E240C40076D59C /* taskProgress@2x.png in Resources */,
 				8EA6D1A319E240C40076D59C /* tweet_comment_btn@2x.png in Resources */,
 				8E97CE6A1A0A3424006F9AD7 /* keyboard_page_unselected@2x.png in Resources */,
+				4E07D3161A4D3CA6009EDDF2 /* logo_coding@2x.png in Resources */,
 				4E42FFF41A10C43C00A9A0C8 /* addPictureBgImage@2x.png in Resources */,
 				4E96E7D91A1B537E0037C098 /* icon_file_apk@2x.png in Resources */,
 				8EA6D15019E240C40076D59C /* commentOrLikeBeginImg@2x.png in Resources */,
@@ -2624,6 +2642,7 @@
 				4E66EE2A1A28226000DA1B3E /* button_file_upload_enable@2x.png in Resources */,
 				8EA6D16219E240C40076D59C /* messageComment@2x.png in Resources */,
 				8EA6D18419E240C40076D59C /* me_selected@2x.png in Resources */,
+				4E07D3151A4D3CA6009EDDF2 /* icon_user_monkey@2x.png in Resources */,
 				8EA6D17519E240C40076D59C /* placeholder_coding_square_80@2x.png in Resources */,
 				8EA6D1A519E240C40076D59C /* tweet_liked_btn@2x.png in Resources */,
 				8ED2AAFA19F60D5200607A1D /* loading_loop@2x.png in Resources */,
@@ -2663,6 +2682,7 @@
 				8E97CEA31A0C7E26006F9AD7 /* coding_emoji_12@2x.png in Resources */,
 				4EBD0C661A1F2011004B4284 /* nav_project_file@2x.png in Resources */,
 				8EF643B519FF7E2900F7EEB0 /* Input_LeftImgage_Cell.xib in Resources */,
+				4E07D3171A4D3CA6009EDDF2 /* startImage@2x.jpg in Resources */,
 				4E923E781A2F040D00427514 /* messageLeft_bg_img@2x.png in Resources */,
 				8EA6D17E19E240C40076D59C /* section_btn_close@2x.png in Resources */,
 				8E97CE9E1A0C7E26006F9AD7 /* coding_emoji_07@2x.png in Resources */,
@@ -2751,6 +2771,7 @@
 				8EA6D19119E240C40076D59C /* timeline_icon_read@2x.png in Resources */,
 				8E97CEB21A0C7E26006F9AD7 /* coding_emoji_27@2x.png in Resources */,
 				8E97CEAF1A0C7E26006F9AD7 /* coding_emoji_24@2x.png in Resources */,
+				4E07D3231A4D66B7009EDDF2 /* LaunchScreen.xib in Resources */,
 				8E97CEA11A0C7E26006F9AD7 /* coding_emoji_10@2x.png in Resources */,
 				8E97CEB81A0C7E26006F9AD7 /* coding_emoji_33@2x.png in Resources */,
 				8E97CEAE1A0C7E26006F9AD7 /* coding_emoji_23@2x.png in Resources */,
@@ -2903,6 +2924,7 @@
 				8E1C3E0C19E8DFE300EF3032 /* SettingPasswordViewController.m in Sources */,
 				4E9113A21A1C426000AC9431 /* ASPopUpView.m in Sources */,
 				4E6BA2E21A1EE6AF005FD721 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				4E07D3111A4D1484009EDDF2 /* EaseStartView.m in Sources */,
 				8EA6D13819E240C40076D59C /* Message_RootViewController.m in Sources */,
 				8EF643B219FF7E2900F7EEB0 /* Input_GlobalKey_Cell.m in Sources */,
 				8EA6D1BD19E240C40076D59C /* QcTask.m in Sources */,

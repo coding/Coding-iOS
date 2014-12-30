@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="835" height="880"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="200" verticalHuggingPriority="251" misplaced="YES" placeholderIntrinsicWidth="255" placeholderIntrinsicHeight="60" image="logo_coding.png" translatesAutoresizingMaskIntoConstraints="NO" id="dTn-fW-b2N">
+                    <rect key="frame" x="197" y="426" width="255" height="60"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="60" id="Iqm-bL-zVm"/>
+                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="255" id="m4y-YJ-R1P"/>
+                    </constraints>
+                    <variation key="widthClass=regular" misplaced="YES">
+                        <rect key="frame" x="137" y="151" width="255" height="60"/>
+                    </variation>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="dTn-fW-b2N" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="60" id="M8T-SC-Ui6"/>
+                <constraint firstAttribute="bottom" secondItem="dTn-fW-b2N" secondAttribute="bottom" constant="90" id="eW7-2t-dub"/>
+                <constraint firstAttribute="trailing" secondItem="dTn-fW-b2N" secondAttribute="trailing" constant="60" id="xha-PV-K3l"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="1199.5" y="1154"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="logo_coding.png" width="255" height="60"/>
+    </resources>
+</document>
