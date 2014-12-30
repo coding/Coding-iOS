@@ -28,33 +28,35 @@
         //add custom code
         self.backgroundColor = [UIColor blackColor];
         UIColor *blackColor = [UIColor blackColor];
-        [self addGradientLayerWithColors:@[(id)[blackColor colorWithAlphaComponent:0.0].CGColor, (id)[blackColor colorWithAlphaComponent:0.7].CGColor] locations:nil startPoint:CGPointMake(0.5, 0.6) endPoint:CGPointMake(0.5, 1.0)];
 
         _bgImageView = [[UIImageView alloc] initWithFrame:kScreen_Bounds];
         _bgImageView.contentMode = UIViewContentModeScaleAspectFill;
         _bgImageView.alpha = 0.0;
         [self addSubview:_bgImageView];
+        
+        [self addGradientLayerWithColors:@[(id)[blackColor colorWithAlphaComponent:0.0].CGColor, (id)[blackColor colorWithAlphaComponent:0.9].CGColor] locations:nil startPoint:CGPointMake(0.5, 0.6) endPoint:CGPointMake(0.5, 1.0)];
+
         _logoIconView = [[UIImageView alloc] init];
         _logoIconView.contentMode = UIViewContentModeScaleAspectFit;
         _logoIconView.alpha = 1.0;
         [self addSubview:_logoIconView];
         _descriptionStrLabel = [[UILabel alloc] init];
-        _descriptionStrLabel.font = [UIFont systemFontOfSize:14];
-        _descriptionStrLabel.textColor = [UIColor colorWithWhite:1.0 alpha:0.85];
+        _descriptionStrLabel.font = [UIFont systemFontOfSize:10];
+        _descriptionStrLabel.textColor = [UIColor colorWithWhite:1.0 alpha:0.5];
         _descriptionStrLabel.textAlignment = NSTextAlignmentCenter;
         _descriptionStrLabel.alpha = 0.0;
         [self addSubview:_descriptionStrLabel];
         
         [_descriptionStrLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(@[self, _logoIconView]);
-            make.height.mas_equalTo(20);
-            make.bottom.equalTo(self.mas_bottom).offset(-30);
+            make.height.mas_equalTo(10);
+            make.bottom.equalTo(self.mas_bottom).offset(-15);
             make.left.equalTo(self.mas_left).offset(20);
             make.right.equalTo(self.mas_right).offset(-20);
         }];
         
         [_logoIconView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(_descriptionStrLabel.mas_top).offset(-40);
+            make.bottom.equalTo(_descriptionStrLabel.mas_top).offset(-25);
             make.size.mas_lessThanOrEqualTo(CGSizeMake(255, 60));
             make.left.equalTo(self.mas_left).offset(60);
             make.right.equalTo(self.mas_right).offset(-60);

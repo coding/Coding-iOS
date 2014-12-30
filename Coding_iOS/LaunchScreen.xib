@@ -25,7 +25,7 @@
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="dTn-fW-b2N" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="60" id="M8T-SC-Ui6"/>
-                <constraint firstAttribute="bottom" secondItem="dTn-fW-b2N" secondAttribute="bottom" constant="90" id="eW7-2t-dub"/>
+                <constraint firstAttribute="bottom" secondItem="dTn-fW-b2N" secondAttribute="bottom" constant="50" id="eW7-2t-dub"/>
                 <constraint firstAttribute="trailing" secondItem="dTn-fW-b2N" secondAttribute="trailing" constant="60" id="xha-PV-K3l"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
