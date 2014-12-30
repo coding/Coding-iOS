@@ -44,9 +44,11 @@
         [_imgView setSize:[self sizeWithImage:curImage originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2]];
     }else if ([_curObj isKindOfClass:[HtmlMediaItem class]]){
         HtmlMediaItem *curMediaItem = (HtmlMediaItem *)_curObj;
+        NSURL *currentImageURL = [curMediaItem.src urlImageWithCodePathResizeToView:_imgView];
         __weak typeof(self) weakSelf = self;
-        [self.imgView sd_setImageWithURL:[curMediaItem.src urlImageWithCodePathResizeToView:_imgView] placeholderImage:kPlaceholderCodingSquareWidth(150.0) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            if (image) {
+        [self.imgView sd_setImageWithURL:currentImageURL placeholderImage:kPlaceholderCodingSquareWidth(150.0) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            ESStrong(weakSelf, _self);
+            if (image && [imageURL.absoluteString isEqualToString:currentImageURL.absoluteString]) {
                 HtmlMediaItem *curBlockMediaItem = (HtmlMediaItem *)weakSelf.curObj;
                 CGSize imageSize = image.size;
                 if (![ImageSizeManager hasSrc:curBlockMediaItem.src]) {
