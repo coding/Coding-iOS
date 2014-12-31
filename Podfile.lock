@@ -34,6 +34,7 @@ PODS:
   - SDWebImage/Core (3.7.1)
   - TPKeyboardAvoiding (1.2.4)
   - TTTAttributedLabel (1.10.1)
+  - UIImage+BlurredFrame (0.0.4)
 
 DEPENDENCIES:
   - BlocksKit (= 2.2.5)
@@ -49,6 +50,7 @@ DEPENDENCIES:
   - SDWebImage (= 3.7.1)
   - TPKeyboardAvoiding (= 1.2.4)
   - TTTAttributedLabel (= 1.10.1)
+  - UIImage+BlurredFrame (= 0.0.4)
 
 SPEC CHECKSUMS:
   BlocksKit: 4439e7f30a9f90743462ca63545a15c1f4304cef
@@ -64,5 +66,6 @@ SPEC CHECKSUMS:
   SDWebImage: 116e88633b5b416ea0ca4b334a4ac59cf72dd38d
   TPKeyboardAvoiding: 925e1e1912597d1a4956697eec3bd9656552153c
   TTTAttributedLabel: 94bb04f1e005616002dd2cee0262a0082e533627
+  UIImage+BlurredFrame: 0c38f5760d72125c47d16001a88faaac573bd35d
 
 COCOAPODS: 0.35.0
