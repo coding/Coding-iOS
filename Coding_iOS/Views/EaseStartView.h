@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface EaseStartView : UIView
-+ (instancetype)startViewWithBgImage:(UIImage *)bgImage descriptionStr:(NSString *)descriptionStr;
++ (instancetype)startView;
 
 - (void)startAnimationWithCompletionBlock:(void(^)(EaseStartView *easeStartView))completionHandler;
 @end

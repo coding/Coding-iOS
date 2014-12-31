@@ -9,6 +9,7 @@
 #import "EaseStartView.h"
 #import <NYXImagesKit/NYXImagesKit.h>
 #import <Masonry/Masonry.h>
+#import "StartImagesManager.h"
 
 @interface EaseStartView ()
 @property (strong, nonatomic) UIImageView *bgImageView, *logoIconView;
@@ -17,9 +18,10 @@
 
 @implementation EaseStartView
 
-+ (instancetype)startViewWithBgImage:(UIImage *)bgImage descriptionStr:(NSString *)descriptionStr{
++ (instancetype)startView{
     UIImage *logoIcon = [UIImage imageNamed:@"logo_coding"];
-    return [[self alloc] initWithBgImage:bgImage logoIcon:logoIcon descriptionStr:descriptionStr];
+    StartImage *st = [[StartImagesManager shareManager] randomImage];
+    return [[self alloc] initWithBgImage:st.image logoIcon:logoIcon descriptionStr:st.descriptionStr];
 }
 
 - (instancetype)initWithBgImage:(UIImage *)bgImage logoIcon:(UIImage *)logoIcon descriptionStr:(NSString *)descriptionStr{

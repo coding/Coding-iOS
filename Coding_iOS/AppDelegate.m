@@ -67,7 +67,7 @@
     }
     [self.window makeKeyAndVisible];
 
-    EaseStartView *startView = [EaseStartView startViewWithBgImage:[UIImage imageNamed:@"startImage.jpg"] descriptionStr:@"“最春光乍泄” @堂堂超栗子"];
+    EaseStartView *startView = [EaseStartView startView];
     @weakify(self);
     [startView startAnimationWithCompletionBlock:^(EaseStartView *easeStartView) {
         @strongify(self);
