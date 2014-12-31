@@ -11,6 +11,10 @@
 #import "Input_OnlyText_Cell.h"
 #import "Coding_NetAPIManager.h"
 #import "AppDelegate.h"
+#import "StartImagesManager.h"
+#import <NYXImagesKit/NYXImagesKit.h>
+#import <UIImage+BlurredFrame/UIImage+BlurredFrame.h>
+
 
 @interface LoginViewController ()
 @property (assign, nonatomic) BOOL captchaNeeded;
@@ -42,27 +46,40 @@
     
     self.view = [[UIView alloc] initWithFrame:kScreen_Bounds];
     
+    //背景图片
+    UIImageView *bgView = [[UIImageView alloc] initWithFrame:kScreen_Bounds];
+    bgView.contentMode = UIViewContentModeScaleAspectFill;
+    UIImage *bgImage = [[StartImagesManager shareManager] curImage].image;
+    
+    CGSize bgImageSize = bgImage.size, bgViewSize = [bgView doubleSizeOfFrame];
+    if (bgImageSize.width > bgViewSize.width && bgImageSize.height > bgViewSize.height) {
+        bgImage = [bgImage scaleToSize:[bgView doubleSizeOfFrame] usingMode:NYXResizeModeAspectFill];
+    }
+//    bgImage = [bgImage applyLightEffectAtFrame:CGRectMake(0, 0, bgImage.size.width, bgImage.size.height)];
+    bgView.image = bgImage;
+    [self.view addSubview:bgView];
+    //黑色遮罩
+    UIColor *blackColor = [UIColor blackColor];
+    [self.view addGradientLayerWithColors:@[
+                                            (id)[blackColor colorWithAlphaComponent:0.6].CGColor]
+                                locations:nil
+                               startPoint:CGPointMake(0.5, 0.0) endPoint:CGPointMake(0.5, 1.0)];
+    
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        tableView.backgroundColor = kColorTableSectionBg;
+        tableView.backgroundColor = [UIColor clearColor];
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:tableView];
         tableView;
     });
-
-    self.myTableView.backgroundColor = [UIColor colorWithHexString:@"0xfafafa"];
-    UIView *upBgView = [[UIView alloc] initWithFrame:self.view.bounds];
-    upBgView.backgroundColor =[UIColor colorWithHexString:@"0x29333f"];
-    [upBgView setY:-CGRectGetHeight(upBgView.bounds)];
-    [self.myTableView addSubview:upBgView];
+    
     
     self.myTableView.contentInset = UIEdgeInsetsMake(-kHigher_iOS_6_1_DIS(20), 0, 0, 0);
-    self.myTableView.tableFooterView=[self customFooterView];
     self.myTableView.tableHeaderView = [self customHeaderView];
-    
+    self.myTableView.tableFooterView=[self customFooterView];
     [self configBottomView];
 
     self.myLogin = [[Login alloc] init];
@@ -154,13 +171,13 @@
 #pragma mark - Table view Header Footer
 - (UIView *)customHeaderView{
     UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 180)];
-    UIImageView *loginLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_logo"]];
-    CGFloat loginLogoHeight = CGRectGetHeight(loginLogo.bounds)*kScreen_Width/CGRectGetWidth(loginLogo.bounds);
-    if (loginLogoHeight > 180) {
-        [headerV setHeight:loginLogoHeight];
-    }
-    loginLogo.frame = CGRectMake(0, 0, kScreen_Width, loginLogoHeight);
-    [headerV addSubview:loginLogo];
+//    UIImageView *loginLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_logo"]];
+//    CGFloat loginLogoHeight = CGRectGetHeight(loginLogo.bounds)*kScreen_Width/CGRectGetWidth(loginLogo.bounds);
+//    if (loginLogoHeight > 180) {
+//        [headerV setHeight:loginLogoHeight];
+//    }
+//    loginLogo.frame = CGRectMake(0, 0, kScreen_Width, loginLogoHeight);
+//    [headerV addSubview:loginLogo];
 
     return headerV;
 }

@@ -59,10 +59,10 @@
         
         [_logoIconView mas_makeConstraints:^(MASConstraintMaker *make) {
             if (kDevice_Is_iPhone6Plus) {
-                CGFloat scalePhysical = 414.0/1080;
-                make.bottom.equalTo(self.mas_bottom).offset(-200*scalePhysical);
-                make.left.equalTo(self.mas_left).offset(204*scalePhysical);
-                make.right.equalTo(self.mas_right).offset(-204*scalePhysical);
+                CGFloat scalePhysical = 414.0/1242;
+                make.bottom.equalTo(self.mas_bottom).offset(-230*scalePhysical);
+                make.left.equalTo(self.mas_left).offset(235*scalePhysical);
+                make.right.equalTo(self.mas_right).offset(-235*scalePhysical);
             }else if (kDevice_Is_iPhone6){
                 make.bottom.equalTo(self.mas_bottom).offset(-65);
                 make.left.equalTo(self.mas_left).offset(69);

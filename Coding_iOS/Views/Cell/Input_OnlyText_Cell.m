@@ -30,13 +30,13 @@
     // Configure the view for the selected state
 }
 - (IBAction)editDidBegin:(id)sender {
-    [self.textField setValue:[UIColor colorWithHexString:@"0x304054"] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
-//    _lineView.backgroundColor = [UIColor colorWithHexString:@"0x2eadb9"];
+    [self.textField setValue:[UIColor colorWithHexString:@"0xffffff"] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
+    _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff"];
 }
 
 - (IBAction)editDidEnd:(id)sender {
-    [self.textField setValue:[UIColor colorWithHexString:@"0x8092a8"] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
-//    _lineView.backgroundColor = [UIColor colorWithHexString:@"0xaebdc9"];
+    [self.textField setValue:[UIColor colorWithHexString:@"0xffffff" andAlpha:0.5] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
+    _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
 }
 
 - (void)configWithPlaceholder:(NSString *)phStr andValue:(NSString *)valueStr{
@@ -54,12 +54,12 @@
     [super layoutSubviews];
     self.backgroundView = nil;
     self.backgroundColor = [UIColor clearColor];
-    self.textField.font = [UIFont systemFontOfSize:15];
-    [self.textField setValue:[UIColor colorWithHexString:@"0x8092a8"] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
+    self.textField.font = [UIFont systemFontOfSize:17];
+    [self.textField setValue:[UIColor colorWithHexString:@"0xffffff" andAlpha:0.5] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
     self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     if (!_lineView) {
         _lineView = [[UIView alloc] initWithFrame:CGRectMake(kInput_OnlyText_Cell_LeftPading, 43.5, kScreen_Width-2*kInput_OnlyText_Cell_LeftPading, 0.5)];
-        _lineView.backgroundColor = [UIColor colorWithHexString:@"0xaebdc9"];
+        _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
         [self.contentView addSubview:_lineView];
     }
     if (_isCaptcha) {
