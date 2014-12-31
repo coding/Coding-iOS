@@ -26,7 +26,7 @@
     self = [super initWithFrame:kScreen_Bounds];
     if (self) {
         //add custom code
-        self.backgroundColor = [UIColor blackColor];
+        self.backgroundColor = [UIColor colorWithHexString:@"0x131313"];
         UIColor *blackColor = [UIColor blackColor];
 
         _bgImageView = [[UIImageView alloc] initWithFrame:kScreen_Bounds];
@@ -56,11 +56,22 @@
         }];
         
         [_logoIconView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(_descriptionStrLabel.mas_top).offset(-25);
+            if (kDevice_Is_iPhone6Plus) {
+                CGFloat scalePhysical = 414.0/1080;
+                make.bottom.equalTo(self.mas_bottom).offset(-200*scalePhysical);
+                make.left.equalTo(self.mas_left).offset(204*scalePhysical);
+                make.right.equalTo(self.mas_right).offset(-204*scalePhysical);
+            }else if (kDevice_Is_iPhone6){
+                make.bottom.equalTo(self.mas_bottom).offset(-65);
+                make.left.equalTo(self.mas_left).offset(69);
+                make.right.equalTo(self.mas_right).offset(-69);
+            }else{
+                make.bottom.equalTo(self.mas_bottom).offset(-56);
+                make.left.equalTo(self.mas_left).offset(60);
+                make.right.equalTo(self.mas_right).offset(-60);
+            }
             make.size.mas_lessThanOrEqualTo(CGSizeMake(255, 60));
-            make.left.equalTo(self.mas_left).offset(60);
-            make.right.equalTo(self.mas_right).offset(-60);
-
+            make.height.equalTo(_logoIconView.mas_width).multipliedBy(60.0/255.0);
         }];
         [self configWithBgImage:bgImage logoIcon:logoIcon descriptionStr:descriptionStr];
     }

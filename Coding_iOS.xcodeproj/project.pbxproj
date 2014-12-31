@@ -15,7 +15,6 @@
 		4E07D3151A4D3CA6009EDDF2 /* icon_user_monkey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D3121A4D3CA6009EDDF2 /* icon_user_monkey@2x.png */; };
 		4E07D3161A4D3CA6009EDDF2 /* logo_coding@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D3131A4D3CA6009EDDF2 /* logo_coding@2x.png */; };
 		4E07D3171A4D3CA6009EDDF2 /* startImage@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D3141A4D3CA6009EDDF2 /* startImage@2x.jpg */; };
-		4E07D3231A4D66B7009EDDF2 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D3221A4D66B7009EDDF2 /* LaunchScreen.xib */; };
 		4E15C7D01A26D2F000FB8DAD /* FolderToMoveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E15C7CF1A26D2F000FB8DAD /* FolderToMoveViewController.m */; };
 		4E15C7D61A271A6300FB8DAD /* EaseToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E15C7D51A271A6300FB8DAD /* EaseToolBar.m */; };
 		4E2906A21A403B7D008A5B97 /* FileDownloadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2906A11A403B7D008A5B97 /* FileDownloadView.m */; };
@@ -501,7 +500,6 @@
 		4E07D3121A4D3CA6009EDDF2 /* icon_user_monkey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_user_monkey@2x.png"; sourceTree = "<group>"; };
 		4E07D3131A4D3CA6009EDDF2 /* logo_coding@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_coding@2x.png"; sourceTree = "<group>"; };
 		4E07D3141A4D3CA6009EDDF2 /* startImage@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "startImage@2x.jpg"; sourceTree = "<group>"; };
-		4E07D3221A4D66B7009EDDF2 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		4E15C7CE1A26D2F000FB8DAD /* FolderToMoveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderToMoveViewController.h; sourceTree = "<group>"; };
 		4E15C7CF1A26D2F000FB8DAD /* FolderToMoveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderToMoveViewController.m; sourceTree = "<group>"; };
 		4E15C7D41A271A6300FB8DAD /* EaseToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseToolBar.h; sourceTree = "<group>"; };
@@ -1867,7 +1865,6 @@
 				8EA6CF1819E240C40076D59C /* Coding_iOS-Prefix.pch */,
 				8EA6CF1919E240C40076D59C /* Coding_iOS.xcdatamodeld */,
 				8EA6CFC519E240C40076D59C /* Images.xcassets */,
-				4E07D3221A4D66B7009EDDF2 /* LaunchScreen.xib */,
 				8EA6CF5B19E240C40076D59C /* InfoPlist.strings */,
 				8EA6CFC719E240C40076D59C /* Models */,
 				8EA6D0CD19E240C40076D59C /* Views */,
@@ -2771,7 +2768,6 @@
 				8EA6D19119E240C40076D59C /* timeline_icon_read@2x.png in Resources */,
 				8E97CEB21A0C7E26006F9AD7 /* coding_emoji_27@2x.png in Resources */,
 				8E97CEAF1A0C7E26006F9AD7 /* coding_emoji_24@2x.png in Resources */,
-				4E07D3231A4D66B7009EDDF2 /* LaunchScreen.xib in Resources */,
 				8E97CEA11A0C7E26006F9AD7 /* coding_emoji_10@2x.png in Resources */,
 				8E97CEB81A0C7E26006F9AD7 /* coding_emoji_33@2x.png in Resources */,
 				8E97CEAE1A0C7E26006F9AD7 /* coding_emoji_23@2x.png in Resources */,
