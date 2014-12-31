@@ -44,6 +44,24 @@
     }
 }
 
+- (void)setDeadline:(NSString *)deadline{
+    _deadline = deadline;
+    if (deadline && deadline.length >= 10) {
+        _deadline_date = [NSDate dateFromString:deadline withFormat:@"yyyy-MM-dd"];
+    }else{
+        _deadline_date = nil;
+    }
+}
+
+- (void)setDeadline_date:(NSDate *)deadline_date{
+    _deadline_date = deadline_date;
+    if (deadline_date) {
+        _deadline = [deadline_date stringWithFormat:@"yyyy-MM-dd"];
+    }else{
+        _deadline = _deadline? @"" : nil;
+    }
+}
+
 + (Task *)taskWithProject:(Project *)project{
     Task *curTask = [[Task alloc] init];
     curTask.project = project;
@@ -95,6 +113,11 @@
     self.priority = task.priority;
     self.comments = task.comments;
     self.needRefreshDetail = task.needRefreshDetail;
+    self.deadline = task.deadline;
+    self.has_description = task.has_description;
+    if (self.has_description && task.task_description) {
+        self.task_description = [Task_Description taskDescriptionFrom:task.task_description];
+    }
 }
 
 //内容
@@ -129,6 +152,42 @@
 }
 -(NSDictionary *)toEditPriorityParams{
     return @{@"priority" : self.priority};
+}
+
+//更新任务
+- (NSString *)toUpdatePath{
+    return [NSString stringWithFormat:@"api/task/%@/update", self.id.stringValue];
+}
+-(NSDictionary *)toUpdateParamsWithOld:(Task *)oldTask{
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    //内容
+    if (self.content && ![self.content isEqualToString:oldTask.content]) {
+        [params setObject:self.content forKey:@"content"];
+    }
+    //描述
+    if (self.has_description.boolValue) {
+        NSString *newMD = self.task_description.markdown;
+        if (newMD && ![newMD isEqualToString:oldTask.task_description.markdown]) {
+            [params setObject:newMD forKey:@"description"];
+        }
+    }
+    //执行者
+    if (self.owner_id && self.owner_id.integerValue != oldTask.owner_id.integerValue) {
+        [params setObject:self.owner_id forKey:@"owner_id"];
+    }
+    //优先级
+    if (self.priority && self.priority.integerValue != oldTask.priority.integerValue) {
+        [params setObject:self.priority forKey:@"priority"];
+    }
+    //阶段
+    if (self.status && self.status.integerValue != oldTask.status.integerValue) {
+        [params setObject:self.status forKey:@"status"];
+    }
+    //截止日期
+    if (self.deadline && ![self.deadline isEqualToString:oldTask.deadline]) {
+        [params setObject:self.deadline forKey:@"deadline"];
+    }
+    return params;
 }
 
 //添加新任务
@@ -198,3 +257,23 @@
 }
 @end
 
+@implementation Task_Description
+
+- (void)setDescription_mine:(NSString *)description_mine{
+    if (_description_mine != description_mine) {
+        _htmlMedia = [HtmlMedia htmlMediaWithString:description_mine trimWhitespaceAndNewline:YES];
+        _description_mine = _htmlMedia.contentDisplay;
+    }
+}
+
++ (instancetype)taskDescriptionFrom:(Task_Description *)oldDes{
+    if (!oldDes) {
+        return nil;
+    }
+    Task_Description *des = [[Task_Description alloc] init];
+    des.markdown = oldDes.markdown;
+    des.description_mine = oldDes.description_mine;
+    return des;
+}
+
+@end

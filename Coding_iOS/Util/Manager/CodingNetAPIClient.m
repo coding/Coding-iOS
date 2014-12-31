@@ -51,7 +51,7 @@
     switch (NetworkMethod) {
         case Get:{
             [self GET:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                DebugLog(@"\n%@===========response===========:\n%@", aPath, responseObject);
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
                 id error = [self handleResponse:responseObject];
                 if (error) {
                     block(nil, error);
@@ -59,14 +59,14 @@
                     block(responseObject, nil);
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                DebugLog(@"\n%@===========response===========:\n%@", aPath, error);
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
                 [self showError:error];
                 block(nil, error);
             }];
             break;}
         case Post:{
             [self POST:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                DebugLog(@"\n%@===========response===========:\n%@", aPath, responseObject);
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
                 id error = [self handleResponse:responseObject];
                 if (error) {
                     block(nil, error);
@@ -77,14 +77,14 @@
                     block(responseObject, nil);
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                DebugLog(@"\n%@===========response===========:\n%@", aPath, error);
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
                 [self showError:error];
                 block(nil, error);
             }];
             break;}
         case Put:{
             [self PUT:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                DebugLog(@"\n%@===========response===========:\n%@", aPath, responseObject);
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
                 id error = [self handleResponse:responseObject];
                 if (error) {
                     block(nil, error);
@@ -92,14 +92,14 @@
                     block(responseObject, nil);
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                DebugLog(@"\n%@===========response===========:\n%@", aPath, error);
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
                 [self showError:error];
                 block(nil, error);
             }];
             break;}
         case Delete:{
             [self DELETE:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                DebugLog(@"\n%@===========response===========:\n%@", aPath, responseObject);
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
                 id error = [self handleResponse:responseObject];
                 if (error) {
                     block(nil, error);
@@ -107,7 +107,7 @@
                     block(responseObject, nil);
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                DebugLog(@"\n%@===========response===========:\n%@", aPath, error);
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
                 [self showError:error];
                 block(nil, error);
             }];}

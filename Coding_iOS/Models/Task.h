@@ -13,6 +13,8 @@
 #import "TaskComment.h"
 
 @class Project;
+@class Task_Description;
+
 typedef NS_ENUM(NSInteger, TaskHandleType) {
     TaskHandleTypeAdd = 0,
     TaskHandleTypeEdit
@@ -21,13 +23,14 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 @interface Task : NSObject
 @property (readwrite, nonatomic, strong) User *owner, *creator;
 @property (readwrite, nonatomic, strong) NSString *title, *content, *backend_project_path, *deadline, *path, *description_mine;
-@property (readwrite, nonatomic, strong) NSDate *created_at, *updated_at;
+@property (readwrite, nonatomic, strong) NSDate *created_at, *updated_at, *deadline_date;
 @property (readwrite, nonatomic, strong) Project *project;
-@property (readwrite, nonatomic, strong) NSNumber *id, *status, *owner_id, *priority, *comments;
+@property (readwrite, nonatomic, strong) NSNumber *id, *status, *owner_id, *priority, *comments, *has_description;
 @property (readwrite, nonatomic, strong) NSMutableArray *commentList;
 @property (nonatomic, assign) TaskHandleType handleType;
 @property (nonatomic, assign) BOOL isRequesting, isRequestingDetail, isRequestingCommentList, needRefreshDetail;
 @property (readwrite, nonatomic, strong) NSString *nextCommentStr;
+@property (strong, nonatomic) Task_Description *task_description;
 
 + (Task *)taskWithProject:(Project *)project;
 + (Task *)taskWithBackend_project_path:(NSString *)backend_project_path andId:(NSString *)taskId;
@@ -46,6 +49,9 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 //任务优先级
 - (NSString *)toEditTaskPriorityPath;
 -(NSDictionary *)toEditPriorityParams;
+//更新任务
+- (NSString *)toUpdatePath;
+-(NSDictionary *)toUpdateParamsWithOld:(Task *)oldTask;
 //添加新任务
 - (NSString *)toAddTaskPath;
 - (NSDictionary *)toAddTaskParams;
@@ -65,4 +71,10 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 
 - (void)addNewComment:(TaskComment *)comment;
 - (void)deleteComment:(TaskComment *)comment;
+@end
+
+@interface Task_Description : NSObject
+@property (strong, nonatomic) NSString *description_mine, *markdown;
+@property (strong, nonatomic) HtmlMedia *htmlMedia;
++ (instancetype)taskDescriptionFrom:(Task_Description *)oldDes;
 @end

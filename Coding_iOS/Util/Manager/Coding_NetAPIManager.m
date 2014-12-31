@@ -525,66 +525,15 @@
     }];
 }
 - (void)request_EditTask:(Task *)task oldTask:(Task *)oldTask andBlock:(void (^)(id data, NSError *error))block{
-    [MobClick event:kUmeng_Event_Request label:@"编辑任务"];
+    [MobClick event:kUmeng_Event_Request label:@"更新任务"];
     
-    __weak typeof(self) weakSelf = self;
-//    任务状态
-    void(^statusBlock)() = ^(){
-        if (task.status.integerValue != oldTask.status.integerValue) {
-            [weakSelf request_EditTaskStatus:task andBlock:^(id data, NSError *error) {
-                if (data) {
-                    block(task, nil);
-                }else{
-                    block(nil, error);
-                }
-            }];
-        }else{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toUpdatePath] withParams:[task toUpdateParamsWithOld:oldTask] withMethodType:Put andBlock:^(id data, NSError *error) {
+        if (data) {
             block(task, nil);
-        }
-    };
-//    任务优先级
-    void(^priorityBlock)() =^(){
-        if (task.priority.integerValue != oldTask.priority.integerValue) {
-            [weakSelf request_EditTaskPriority:task andBlock:^(id data, NSError *error) {
-                if (data) {
-                    statusBlock();
-                }else{
-                    block(nil, error);
-                }
-            }];
         }else{
-            statusBlock();
+            block(nil, error);
         }
-    };
-//    任务执行者
-    void(^ownerBlock)() = ^(){
-        if (task.owner_id.integerValue != oldTask.owner_id.integerValue) {
-            [weakSelf request_EditTaskOwner:task andBlock:^(id data, NSError *error) {
-                if (data) {
-                    priorityBlock();
-                }else{
-                    block(nil, error);
-                }
-            }];
-        }else{
-            priorityBlock();
-        }
-    };
-//    任务内容
-    void(^contentBlock)() = ^(){
-        if (![task.content isEqualToString:oldTask.content]) {
-            [weakSelf request_EditTaskContent:task andBlock:^(id data, NSError *error) {
-                if (data) {
-                    ownerBlock();
-                }else{
-                    block(nil, error);
-                }
-            }];
-        }else{
-            ownerBlock();
-        }
-    };
-    contentBlock();
+    }];
 }
 
 - (void)request_EditTaskContent:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
