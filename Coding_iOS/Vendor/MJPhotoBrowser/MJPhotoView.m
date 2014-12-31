@@ -170,17 +170,7 @@
 	self.minimumZoomScale = minScale;
 	self.zoomScale = minScale;
     
-    CGRect imageFrame = CGRectMake(0, 0, boundsWidth, imageHeight * boundsWidth / imageWidth);
-    // 内容尺寸
-    self.contentSize = CGSizeMake(0, imageFrame.size.height);
-    
-    // y值
-    if (imageFrame.size.height < boundsHeight) {
-        imageFrame.origin.y = floorf((boundsHeight - imageFrame.size.height) / 2.0);
-	} else {
-        imageFrame.origin.y = 0;
-	}
-    
+    CGRect imageFrame = self.bounds;
     if (_photo.firstShow) { // 第一次显示的图片
         _photo.firstShow = NO; // 已经显示过了
         _imageView.frame = imageFrame;
@@ -203,7 +193,6 @@
 
 #pragma mark - UIScrollViewDelegate
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    [_imageView setY:MAX((CGRectGetHeight(self.bounds)-CGRectGetHeight(_imageView.frame))/2, 0.0)];
 	return _imageView;
 }
 
