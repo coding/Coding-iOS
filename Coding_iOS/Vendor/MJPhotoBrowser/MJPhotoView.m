@@ -149,13 +149,8 @@
 	if (_imageView.image == nil) return;
     
     // 基本尺寸参数
-    CGSize boundsSize = self.bounds.size;
-    CGFloat boundsWidth = boundsSize.width;
-    CGFloat boundsHeight = boundsSize.height;
-    
-    CGSize imageSize = _imageView.image.size;
-    CGFloat imageWidth = imageSize.width;
-    CGFloat imageHeight = imageSize.height;
+    CGFloat boundsWidth = self.bounds.size.width;
+    CGFloat imageWidth = _imageView.image.size.width;
 	
 	// 设置伸缩比例
     CGFloat minScale = boundsWidth / imageWidth;
@@ -175,14 +170,11 @@
         _photo.firstShow = NO; // 已经显示过了
         _imageView.frame = imageFrame;
         self.alpha = 0.0;
-//        _imageView.frame = [_photo.srcImageView convertRect:_photo.srcImageView.bounds toView:nil];
         
         [UIView animateWithDuration:0.3 animations:^{
             self.alpha = 1.0;
-//            _imageView.frame = imageFrame;
         } completion:^(BOOL finished) {
             // 设置底部的小图片
-//            _photo.srcImageView.image = _photo.placeholder;
             [self photoStartLoad];
             self.superview.backgroundColor = [UIColor blackColor];
         }];

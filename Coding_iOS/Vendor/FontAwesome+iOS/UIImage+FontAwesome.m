@@ -43,9 +43,15 @@
     float fontSize=(MIN(size.height,size.width))*scale;
     CGRect textRect = CGRectMake(size.width/2-(fontSize/2)*1.2, size.height/2-fontSize/2, fontSize*1.2, fontSize);
     [iconColor setFill];
-    [textContent drawInRect: textRect withFont: [UIFont fontWithName:@"FontAwesome" size:(float)((int)fontSize)] lineBreakMode: NSLineBreakByWordWrapping alignment: NSTextAlignmentCenter];
     
+    NSMutableParagraphStyle *badgeTextStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+    [badgeTextStyle setLineBreakMode:NSLineBreakByWordWrapping];
+    [badgeTextStyle setAlignment:NSTextAlignmentCenter];
     
+    [textContent drawInRect:textRect withAttributes:@{
+                                                      [UIFont fontWithName:@"FontAwesome" size:(float)((int)fontSize)] : NSFontAttributeName,
+                                                      NSParagraphStyleAttributeName: badgeTextStyle
+                                                      }];
     //Image returns
     UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
