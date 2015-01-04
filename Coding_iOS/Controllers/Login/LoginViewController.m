@@ -14,12 +14,14 @@
 #import "StartImagesManager.h"
 #import <NYXImagesKit/NYXImagesKit.h>
 #import <UIImage+BlurredFrame/UIImage+BlurredFrame.h>
+#import <Masonry/Masonry.h>
 
 
 @interface LoginViewController ()
 @property (assign, nonatomic) BOOL captchaNeeded;
 @property (strong, nonatomic) UIButton *loginBtn;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) UIImageView *iconUserView;
 @end
 
 @implementation LoginViewController
@@ -44,6 +46,9 @@
 - (void)loadView{
     [super loadView];
     
+    self.myLogin = [[Login alloc] init];
+    _captchaNeeded = NO;
+    
     self.view = [[UIView alloc] initWithFrame:kScreen_Bounds];
     
     //背景图片
@@ -60,7 +65,7 @@
     [self.view addSubview:bgView];
     //黑色遮罩
     UIColor *blackColor = [UIColor blackColor];
-    [self.view addGradientLayerWithColors:@[
+    [self.view addGradientLayerWithColors:@[(id)[blackColor colorWithAlphaComponent:0.6].CGColor,
                                             (id)[blackColor colorWithAlphaComponent:0.6].CGColor]
                                 locations:nil
                                startPoint:CGPointMake(0.5, 0.0) endPoint:CGPointMake(0.5, 1.0)];
@@ -81,9 +86,6 @@
     self.myTableView.tableHeaderView = [self customHeaderView];
     self.myTableView.tableFooterView=[self customFooterView];
     [self configBottomView];
-
-    self.myLogin = [[Login alloc] init];
-    _captchaNeeded = NO;
     [self refreshCaptchaNeeded];
 }
 
@@ -170,21 +172,35 @@
 
 #pragma mark - Table view Header Footer
 - (UIView *)customHeaderView{
-    UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 180)];
-//    UIImageView *loginLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_logo"]];
-//    CGFloat loginLogoHeight = CGRectGetHeight(loginLogo.bounds)*kScreen_Width/CGRectGetWidth(loginLogo.bounds);
-//    if (loginLogoHeight > 180) {
-//        [headerV setHeight:loginLogoHeight];
-//    }
-//    loginLogo.frame = CGRectMake(0, 0, kScreen_Width, loginLogoHeight);
-//    [headerV addSubview:loginLogo];
-
+    UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 220)];
+    
+    _iconUserView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 80, 80)];
+    _iconUserView.contentMode = UIViewContentModeScaleAspectFit;
+    [_iconUserView doCircleFrame];
+    
+    [headerV addSubview:_iconUserView];
+    [_iconUserView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake(80, 80));
+        make.centerX.equalTo(headerV);
+        make.centerY.equalTo(headerV).offset(40);
+    }];
+    [_iconUserView setImage:[UIImage imageNamed:@"icon_user_monkey"]];
     return headerV;
 }
 - (UIView *)customFooterView{
     UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 100)];
     _loginBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"登录" andFrame:CGRectMake(18, kScreen_Width > 320? 20: 20, kScreen_Width-18*2, 45) target:self action:@selector(sendLogin)];
     [footerV addSubview:_loginBtn];
+    
+    
+    RAC(self, loginBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, myLogin.email), RACObserve(self, myLogin.password), RACObserve(self, myLogin.j_captcha), RACObserve(self, captchaNeeded)] reduce:^id(NSString *email, NSString *password, NSString *j_captcha, NSNumber *captchaNeeded){
+        if ((captchaNeeded && captchaNeeded.boolValue) && (!j_captcha || j_captcha.length <= 0)) {
+            return @(NO);
+        }else{
+            return @((email && email.length > 0) && (password && password.length > 0));
+        }
+    }];
+    
     return footerV;
 }
 
@@ -198,7 +214,7 @@
         [registerBtn setImage:[UIImage imageNamed:@"register_arrow"] forState:UIControlStateNormal];
         [registerBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
         [registerBtn setTitle:@"注册账号" forState:UIControlStateNormal];
-        [registerBtn setTitleColor:[UIColor colorWithHexString:@"0x8092a8"] forState:UIControlStateNormal];
+        [registerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [registerBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
         [registerBtn addTarget:self action:@selector(goRegisterVC:) forControlEvents:UIControlEventTouchUpInside];
         registerBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 65, 0, -65);
