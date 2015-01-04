@@ -89,6 +89,10 @@
     __weak typeof(self) weakSelf = self;
     if (!_captchaView) {
         _captchaView = [[UITapImageView alloc] initWithFrame:CGRectMake(kScreen_Width-60-kInput_OnlyText_Cell_LeftPading, (44-25)/2, 60, 25)];
+        
+        _captchaView.layer.masksToBounds = YES;
+        _captchaView.layer.cornerRadius = 5;
+        
         [_captchaView addTapBlock:^(id obj) {
             [weakSelf refreshCaptchaImage];
         }];

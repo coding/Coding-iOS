@@ -214,8 +214,8 @@
         [registerBtn setImage:[UIImage imageNamed:@"register_arrow"] forState:UIControlStateNormal];
         [registerBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
         [registerBtn setTitle:@"注册账号" forState:UIControlStateNormal];
-        [registerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [registerBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
+        [registerBtn setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
+        [registerBtn setTitleColor:[UIColor colorWithWhite:0.5 alpha:0.5] forState:UIControlStateHighlighted];
         [registerBtn addTarget:self action:@selector(goRegisterVC:) forControlEvents:UIControlEventTouchUpInside];
         registerBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 65, 0, -65);
         registerBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 10);
