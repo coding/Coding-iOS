@@ -26,17 +26,6 @@
     }
 }
 
-//- (void)setContent:(NSString *)content{
-//    if (_content != content) {
-//        _content = content;
-//    }
-//}
-//- (void)setTitle:(NSString *)title{
-//    if (_title != title) {
-//        _title = title;
-//    }
-//}
-
 - (void)setDescription_mine:(NSString *)description_mine{
     if (_description_mine != description_mine) {
         HtmlMedia *htmlMedia = [HtmlMedia htmlMediaWithString:description_mine trimWhitespaceAndNewline:YES];
@@ -50,15 +39,6 @@
         _deadline_date = [NSDate dateFromString:deadline withFormat:@"yyyy-MM-dd"];
     }else{
         _deadline_date = nil;
-    }
-}
-
-- (void)setDeadline_date:(NSDate *)deadline_date{
-    _deadline_date = deadline_date;
-    if (deadline_date) {
-        _deadline = [deadline_date stringWithFormat:@"yyyy-MM-dd"];
-    }else{
-        _deadline = _deadline? @"" : nil;
     }
 }
 
@@ -92,7 +72,8 @@
     return ([self.content isEqualToString:task.content]
             && [self.owner.global_key isEqualToString:task.owner.global_key]
             && self.priority.intValue == task.priority.intValue
-            && self.status.intValue == task.status.intValue);
+            && self.status.intValue == task.status.intValue
+            && ((!self.deadline && !task.deadline) || [self.deadline isEqualToString:task.deadline]));
 }
 - (void)copyDataFrom:(Task *)task{
     self.id = task.id;
@@ -114,6 +95,7 @@
     self.comments = task.comments;
     self.needRefreshDetail = task.needRefreshDetail;
     self.deadline = task.deadline;
+    
     self.has_description = task.has_description;
     if (self.has_description && task.task_description) {
         self.task_description = [Task_Description taskDescriptionFrom:task.task_description];
@@ -184,8 +166,11 @@
         [params setObject:self.status forKey:@"status"];
     }
     //截止日期
-    if (self.deadline && ![self.deadline isEqualToString:oldTask.deadline]) {
+    if ((oldTask.deadline && self.deadline && ![self.deadline isEqualToString:oldTask.deadline])
+        || (!oldTask.deadline && self.deadline)) {
         [params setObject:self.deadline forKey:@"deadline"];
+    }else if (oldTask.deadline && !self.deadline){
+        [params setObject:@"" forKey:@"deadline"];
     }
     return params;
 }
@@ -195,9 +180,13 @@
     return [NSString stringWithFormat:@"api%@/task", self.backend_project_path];
 }
 - (NSDictionary *)toAddTaskParams{
-    return @{@"content" : [self.content aliasedString],
-             @"owner_id" : self.owner.id,
-             @"priority" : self.priority};
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithDictionary:@{@"content" : [self.content aliasedString],
+                                                                                    @"owner_id" : self.owner.id,
+                                                                                    @"priority" : self.priority}];
+    if (self.deadline.length >= 10) {
+        [params setObject:self.deadline forKey:@"deadline"];
+    }
+    return params;
 }
 //删除任务
 - (NSString *)toDeleteTaskPath{

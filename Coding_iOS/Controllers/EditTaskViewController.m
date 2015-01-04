@@ -20,10 +20,10 @@
 #import "ProjectMemberListViewController.h"
 #import "ValueListViewController.h"
 #import "JDStatusBarNotification.h"
-#import "ActionSheetStringPicker.h"
 #import "TaskCommentCell.h"
 #import "TaskCommentTopCell.h"
 #import "TaskCommentBlankCell.h"
+#import "ActionSheetDatePicker.h"
 
 @interface EditTaskViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
@@ -131,7 +131,8 @@
     [[RACSignal combineLatest:@[RACObserve(self, self.myCopyTask.content),
                                RACObserve(self, self.myCopyTask.owner),
                                RACObserve(self, self.myCopyTask.priority),
-                               RACObserve(self, self.myCopyTask.status), ] reduce:^id (NSString *content, User *owner, NSNumber *priority, NSNumber *status){
+                               RACObserve(self, self.myCopyTask.status),
+                                RACObserve(self, self.myCopyTask.deadline)] reduce:^id (NSString *content, User *owner, NSNumber *priority, NSNumber *status, NSString *deadline){
                                    return nil;
                                }] subscribeNext:^(id x) {
                                    @strongify(self);
@@ -292,9 +293,9 @@
         row = 1;
     }else if (section == 1){
         if (_myTask.handleType == TaskHandleTypeAdd) {
-            row = 2;
-        }else{
             row = 3;
+        }else{
+            row = 4;
         }
     }else{
         if ([self hasComment]) {
@@ -425,15 +426,35 @@
         }else if (indexPath.row == LeftImage_LRTextCellTypeTaskPriority){
             ValueListViewController *vc = [[ValueListViewController alloc] init];
             [vc setTitle:@"优先级" valueList:kTaskPrioritiesDisplay defaultSelectIndex:_myCopyTask.priority.intValue type:ValueListTypeTaskPriority selectBlock:^(NSInteger index) {
-                _myCopyTask.priority = [NSNumber numberWithInteger:index];//更换新的任务优先级
-                [self.myTableView reloadData];
+                ESStrongSelf;
+                _self.myCopyTask.priority = [NSNumber numberWithInteger:index];//更换新的任务优先级
+                [_self.myTableView reloadData];
             }];
             [self.navigationController pushViewController:vc animated:YES];
+        }else if (indexPath.row == LeftImage_LRTextCellTypeTaskDeadline){
+            NSDate *curDate = _myCopyTask.deadline_date? _myCopyTask.deadline_date : [NSDate date];
+            ESStrongSelf;
+            ActionSheetDatePicker *picker = [[ActionSheetDatePicker alloc] initWithTitle:nil datePickerMode:UIDatePickerModeDate selectedDate:curDate doneBlock:^(ActionSheetDatePicker *picker, NSDate *selectedDate, id origin) {
+                _self.myCopyTask.deadline = [selectedDate string_yyyy_MM_dd];
+                [_self.myTableView reloadData];
+            } cancelBlock:^(ActionSheetDatePicker *picker) {
+                if (picker.cancelButtonClicked) {
+                    _self.myCopyTask.deadline = nil;
+                    [_self.myTableView reloadData];
+                }
+            } origin:self.view];
+            
+            UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"移除" style:UIBarButtonItemStylePlain target:nil action:nil];
+            [barButton setTitleTextAttributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:17],
+                                                NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x666666"]} forState:UIControlStateNormal];
+            [picker setCancelButton:barButton];
+            [picker showActionSheetPicker];
         }else if (indexPath.row == LeftImage_LRTextCellTypeTaskStatus){
             ValueListViewController *vc = [[ValueListViewController alloc] init];
             [vc setTitle:@"阶段" valueList:@[@"未完成", @"已完成"] defaultSelectIndex:_myCopyTask.status.intValue-1 type:ValueListTypeTaskStatus selectBlock:^(NSInteger index) {
-                _myCopyTask.status = [NSNumber numberWithInteger:index+1];//更换新的任务状态
-                [self.myTableView reloadData];
+                ESStrongSelf;
+                _self.myCopyTask.status = [NSNumber numberWithInteger:index+1];//更换新的任务状态
+                [_self.myTableView reloadData];
             }];
             [self.navigationController pushViewController:vc animated:YES];
         }

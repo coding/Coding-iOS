@@ -26,6 +26,7 @@
 
 - (NSString *)string_yyyy_MM_dd;
 - (NSString *)string_a_HH_mm;
+- (NSInteger)leftDayCount;
 + (NSString *)convertStr_yyyy_MM_ddToDisplay:(NSString *)str_yyyy_MM_dd;
 
 @end

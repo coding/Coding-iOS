@@ -10,6 +10,7 @@
 typedef NS_ENUM(NSInteger, LeftImage_LRTextCellType) {
     LeftImage_LRTextCellTypeTaskOwner = 0,
     LeftImage_LRTextCellTypeTaskPriority,
+    LeftImage_LRTextCellTypeTaskDeadline,
     LeftImage_LRTextCellTypeTaskStatus
 };
 

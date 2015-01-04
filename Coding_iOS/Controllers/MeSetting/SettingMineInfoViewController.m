@@ -222,11 +222,11 @@
                 }
                     break;
                 case 3:{//生日
-                    NSDate *selectedDate = [NSDate dateFromString:_curUser.birthday withFormat:@"yyyy-MM-dd"];
-                    if (!selectedDate) {
-                        selectedDate = [NSDate dateFromString:@"1990-01-01" withFormat:@"yyyy-MM-dd"];
+                    NSDate *curDate = [NSDate dateFromString:_curUser.birthday withFormat:@"yyyy-MM-dd"];
+                    if (!curDate) {
+                        curDate = [NSDate dateFromString:@"1990-01-01" withFormat:@"yyyy-MM-dd"];
                     }
-                    ActionSheetDatePicker* picker = [[ActionSheetDatePicker alloc] initWithTitle:nil datePickerMode:UIDatePickerModeDate selectedDate:selectedDate doneBlock:^(ActionSheetDatePicker *picker, NSDate *selectedDate, id origin) {
+                    ActionSheetDatePicker *picker = [[ActionSheetDatePicker alloc] initWithTitle:nil datePickerMode:UIDatePickerModeDate selectedDate:curDate doneBlock:^(ActionSheetDatePicker *picker, NSDate *selectedDate, id origin) {
                         NSString *preValue = weakSelf.curUser.birthday;
                         weakSelf.curUser.birthday = [selectedDate string_yyyy_MM_dd];
                         [weakSelf.myTableView reloadData];

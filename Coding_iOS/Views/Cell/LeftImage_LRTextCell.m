@@ -73,6 +73,21 @@
                 _leftLabel.text = @"优先级";
                 if (task.priority && task.priority.intValue < kTaskPrioritiesDisplay.count) {
                     _rightLabel.text = kTaskPrioritiesDisplay[task.priority.intValue];
+                }else{
+                    _rightLabel.text = @"未指定";
+                }
+                self.userInteractionEnabled = YES;
+            }
+                break;
+            case LeftImage_LRTextCellTypeTaskDeadline:
+            {
+                [_iconView doNotCircleFrame];
+                [_iconView setImage:[UIImage imageNamed:@"taskDeadline"]];
+                _leftLabel.text = @"截止期日";
+                if (task.deadline_date) {
+                    _rightLabel.text = [NSDate stringFromDate:task.deadline_date withFormat:@"MM月dd日"];
+                }else{
+                    _rightLabel.text = @"未指定";
                 }
                 self.userInteractionEnabled = YES;
             }

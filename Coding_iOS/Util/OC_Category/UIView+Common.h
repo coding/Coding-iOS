@@ -31,9 +31,13 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
 - (void)removeBadgeTips;
 - (void)setY:(CGFloat)y;
 - (void)setX:(CGFloat)x;
+- (void)setOrigin:(CGPoint)origin;
 - (void)setHeight:(CGFloat)height;
 - (void)setWidth:(CGFloat)width;
 - (void)setSize:(CGSize)size;
+- (CGFloat)maxXOfFrame;
+
+
 - (void)addGradientLayerWithColors:(NSArray *)cgColorArray;
 - (void)addGradientLayerWithColors:(NSArray *)cgColorArray locations:(NSArray *)floatNumArray startPoint:(CGPoint )aPoint endPoint:(CGPoint)endPoint;
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown;

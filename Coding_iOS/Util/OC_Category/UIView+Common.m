@@ -68,6 +68,11 @@ static char LoadingViewKey, BlankPageViewKey;
     frame.origin.x = x;
     self.frame = frame;
 }
+- (void)setOrigin:(CGPoint)origin{
+    CGRect frame = self.frame;
+    frame.origin = origin;
+    self.frame = frame;
+}
 - (void)setHeight:(CGFloat)height{
     CGRect frame = self.frame;
     frame.size.height = height;
@@ -84,6 +89,11 @@ static char LoadingViewKey, BlankPageViewKey;
     frame.size.height = size.height;
     self.frame = frame;
 }
+
+- (CGFloat)maxXOfFrame{
+    return CGRectGetMaxX(self.frame);
+}
+
 - (void)addGradientLayerWithColors:(NSArray *)cgColorArray{
     [self addGradientLayerWithColors:cgColorArray locations:nil startPoint:CGPointMake(0.0, 0.5) endPoint:CGPointMake(1.0, 0.5)];
 }

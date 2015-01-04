@@ -205,6 +205,7 @@ CG_INLINE BOOL isIPhone4()
 
 - (IBAction)actionPickerCancel:(id)sender
 {
+    _cancelButtonClicked = (sender && ([sender isKindOfClass:[UIBarButtonItem class]] || [sender isKindOfClass:[UIButton class]]));
     [self notifyTarget:self.target didCancelWithAction:self.cancelAction origin:[self storedOrigin]];
     [self dismissPicker];
 }
@@ -579,6 +580,7 @@ CG_INLINE BOOL isIPhone4()
 #pragma mark - Popoverdelegate
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
+    _cancelButtonClicked = NO;
     [self notifyTarget:self.target didCancelWithAction:self.cancelAction origin:[self storedOrigin]];
 }
 

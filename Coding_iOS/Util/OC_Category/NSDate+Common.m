@@ -109,6 +109,7 @@
     }
     return text;
 }
+
 - (NSString *)stringTimeDisplay{
     NSString *text = nil;
     NSInteger daysAgo = [self daysAgoAgainstMidnight];
@@ -126,22 +127,6 @@
     }
     text = [NSString stringWithFormat:@"%@ %@", dateStr, [self string_a_HH_mm]];
     return text;
-    
-//    NSString *text = nil;
-//    NSInteger daysAgo = [self daysAgoAgainstMidnight];
-//    switch (daysAgo) {
-//        case 0:
-//            text = [NSString stringWithFormat:@"今天 %@", [self stringWithFormat:@"a hh:mm"]];
-//            break;
-//        case 1:
-//            text = [NSString stringWithFormat:@"昨天 %@", [self stringWithFormat:@"a hh:mm"]];
-//            break;
-//        default:
-//            text = [self stringWithFormat:@"MM-dd a hh:mm"];
-//            break;
-//    }
-//    text = [text stringByReplacingOccurrencesOfString:@"上午 12" withString:@"上午 00"];
-//    return text;
 }
 
 - (NSString *)string_yyyy_MM_dd{
@@ -207,6 +192,16 @@
         
     }
     return displayStr;
+}
+
+- (NSInteger)leftDayCount{
+    NSCalendar *calendar = [[self class] sharedCalendar];
+    NSDate *today = [NSDate dateFromString:[[NSDate date] stringWithFormat:@"yyyy-MM-dd"] withFormat:@"yyyy-MM-dd"];
+    NSDateComponents *components = [calendar components:(NSDayCalendarUnit)
+                                               fromDate:today
+                                                 toDate:self
+                                                options:0];
+    return [components day];
 }
 
 @end

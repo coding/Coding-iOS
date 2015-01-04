@@ -24,8 +24,7 @@
 @interface ProjectTaskListViewCell ()
 @property (strong, nonatomic) UIImageView *userIconView, *commentIconView, *timeClockIconView;
 @property (strong, nonatomic) UITapImageView *checkView;
-@property (strong, nonatomic) UILabel *contentLabel, *commentCountLabel;
-@property (strong, nonatomic) UILabel *userNameLabel, *timeLabel;
+@property (strong, nonatomic) UILabel *contentLabel, *deadlineLabel, *userNameLabel, *timeLabel, *commentCountLabel;
 @end
 
 @implementation ProjectTaskListViewCell
@@ -53,6 +52,16 @@
             _contentLabel.font = kProjectTaskListViewCell_ContentFont;
             _contentLabel.backgroundColor = [UIColor clearColor];
             [self.contentView addSubview:_contentLabel];
+        }
+        if (!_deadlineLabel) {
+            _deadlineLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTaskListViewCell_LeftPading, 0, 60, 15)];
+            _deadlineLabel.layer.masksToBounds = YES;
+            _deadlineLabel.layer.cornerRadius = 2.0;
+            
+            _deadlineLabel.backgroundColor = [UIColor clearColor];
+            _deadlineLabel.font = [UIFont boldSystemFontOfSize:10];
+            _deadlineLabel.textColor = [UIColor whiteColor];
+            [self.contentView addSubview:_deadlineLabel];
         }
         if (!_userNameLabel) {
             _userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTaskListViewCell_LeftPading, 0, 150, 15)];
@@ -120,45 +129,62 @@
     
     if (_task.status.integerValue == 1) {//未完成
         _contentLabel.textColor = [UIColor colorWithHexString:@"0x333333"];
+        if (_task.deadline_date) {
+            NSInteger leftDayCount = [_task.deadline_date leftDayCount];
+            UIColor *deadlineBGColor;
+            NSString *deadlineStr;
+            switch (leftDayCount) {
+                case 0:
+                    deadlineBGColor = [UIColor colorWithHexString:@"0xefa230"];
+                    deadlineStr = @" 今天 ";
+                    break;
+                case 1:
+                    deadlineBGColor = [UIColor colorWithHexString:@"0x95b763"];
+                    deadlineStr = @" 明天 ";
+                    break;
+                default:
+                    deadlineBGColor = [UIColor colorWithHexString:@"0xb2c6d0"];
+                    deadlineStr = [_task.deadline_date stringWithFormat:@" MM/dd "];
+                    break;
+            }
+            _deadlineLabel.backgroundColor = deadlineBGColor;
+            _deadlineLabel.text = deadlineStr;
+        }
     }else{
         _contentLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
-        //        [mutableAttributedString addAttribute:(NSString *)kCTFontAttributeName value:(__bridge id)font range:boldRange];
-        //        [mutableAttributedString addAttribute:kTTTStrikeOutAttributeName value:[NSNumber numberWithBool:YES] range:strikeRange];
+        _deadlineLabel.backgroundColor = [UIColor colorWithHexString:@"0xc8c8c8"];
     }
     [_contentLabel setLongString:_task.content withFitWidth:kProjectTaskListViewCell_ContentWidth maxHeight:kProjectTaskListViewCell_MaxContentHeight];
     
     curBottomY += [_task.content getHeightWithFont:kProjectTaskListViewCell_ContentFont constrainedToSize:CGSizeMake(kProjectTaskListViewCell_ContentWidth, kProjectTaskListViewCell_MaxContentHeight)];
     curBottomY += kProjectTaskListViewCell_TextPading;
+    
+    
+    CGFloat curRightX = kProjectTaskListViewCell_LeftPading;
+    if (_task.deadline_date) {
+        _deadlineLabel.hidden = NO;
+        [_deadlineLabel setOrigin:CGPointMake(curRightX, curBottomY)];
+        [_deadlineLabel sizeToFit];
+        curRightX = _deadlineLabel.maxXOfFrame +10;
+    }else{
+        _deadlineLabel.hidden = YES;
+    }
 
+    [_userNameLabel setOrigin:CGPointMake(curRightX, curBottomY)];
     _userNameLabel.text = _task.creator.name;
-    _timeLabel.text = [_task.created_at stringTimesAgo];
-    [_userNameLabel setY:curBottomY];
     [_userNameLabel sizeToFit];
     
-    CGRect frame = _timeClockIconView.frame;
-    frame.origin.y = curBottomY;
-    frame.origin.x = CGRectGetMaxX(_userNameLabel.frame) +10;
-    _timeClockIconView.frame = frame;
-    
-    frame.origin.x += 15;
-    frame.size = _timeLabel.frame.size;
-    _timeLabel.frame = frame;
+    curRightX = _userNameLabel.maxXOfFrame +10;
+    [_timeClockIconView setOrigin:CGPointMake(curRightX, curBottomY)];
+    [_timeLabel setOrigin:CGPointMake(curRightX +15, curBottomY)];
+    _timeLabel.text = [_task.created_at stringTimesAgo];
     [_timeLabel sizeToFit];
     
-    frame.origin.x = CGRectGetMaxX(_timeLabel.frame) +10;
-    frame.size = _commentIconView.frame.size;
-    _commentIconView.frame = frame;
+    curRightX = _timeLabel.maxXOfFrame +10;
+    [_commentIconView setOrigin:CGPointMake(curRightX, curBottomY)];
+    [_commentCountLabel setOrigin:CGPointMake(curRightX +15, curBottomY)];
     _commentCountLabel.text = _task.comments.stringValue;
     [_commentCountLabel sizeToFit];
-    frame.origin.x = CGRectGetMaxX(_commentIconView.frame) +2;
-    frame.size = _commentCountLabel.frame.size;
-    _commentCountLabel.frame = frame;
-    
-    
-//    _commentCountLabel.text = _task.comments.stringValue;
-//    [_commentIconView setY:curBottomY];
-//    [_commentCountLabel setY:curBottomY];
-    
 }
 + (CGFloat)cellHeightWithObj:(id)obj{
     Task *task = (Task *)obj;
