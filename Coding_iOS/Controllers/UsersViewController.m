@@ -120,7 +120,7 @@
     }];
     if (_curUsers.type == UsersTypeFriends_At || _curUsers.type == UsersTypeFriends_Transpond) {
         //首先尝试加载本地数据，无数据的情况下才去服务器请求
-        id resultData = [self loadResponseWithPath:[[Login curLoginUser] localFriendsPath]];
+        id resultData = [NSObject loadResponseWithPath:[[Login curLoginUser] localFriendsPath]];
         if (resultData) {
             Users *users = [NSObject objectOfClass:@"Users" fromJSON:resultData];
             [self.curUsers configWithObj:users];

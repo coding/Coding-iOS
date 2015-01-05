@@ -15,6 +15,7 @@
 #import <NYXImagesKit/NYXImagesKit.h>
 #import <UIImage+BlurredFrame/UIImage+BlurredFrame.h>
 #import <Masonry/Masonry.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 
 
 @interface LoginViewController ()
@@ -151,6 +152,10 @@
         cell.textField.secureTextEntry = NO;
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.myLogin.email = valueStr;
+            [weakSelf.iconUserView setImage:[UIImage imageNamed:@"icon_user_monkey"]];
+        };
+        cell.editDidEndBlock = ^(NSString *textStr){
+            [weakSelf refreshIconUserImage:textStr];
         };
     }else if (indexPath.row == 1){
         cell.isCaptcha = NO;
@@ -159,6 +164,7 @@
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.myLogin.password = valueStr;
         };
+        cell.editDidEndBlock = nil;
     }else{
         cell.isCaptcha = YES;
         [cell configWithPlaceholder:@" 验证码" andValue:self.myLogin.j_captcha];
@@ -166,8 +172,18 @@
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.myLogin.j_captcha = valueStr;
         };
+        cell.editDidEndBlock = nil;
     }
     return cell;
+}
+
+- (void)refreshIconUserImage:(NSString *)textStr{
+    if (textStr) {
+        User *curUser = [Login userWithGlobaykeyOrEmail:textStr];
+        if (curUser && curUser.avatar) {
+            [self.iconUserView sd_setImageWithURL:[curUser.avatar urlImageWithCodePathResizeToView:self.iconUserView] placeholderImage:[UIImage imageNamed:@"icon_user_monkey"]];
+        }
+    }
 }
 
 #pragma mark - Table view Header Footer
@@ -176,7 +192,11 @@
     
     _iconUserView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 80, 80)];
     _iconUserView.contentMode = UIViewContentModeScaleAspectFit;
-    [_iconUserView doCircleFrame];
+    _iconUserView.layer.masksToBounds = YES;
+    _iconUserView.layer.cornerRadius = _iconUserView.frame.size.width/2;
+    _iconUserView.layer.borderWidth = 2;
+    _iconUserView.layer.borderColor = [UIColor whiteColor].CGColor;
+    
     
     [headerV addSubview:_iconUserView];
     [_iconUserView mas_makeConstraints:^(MASConstraintMaker *make) {

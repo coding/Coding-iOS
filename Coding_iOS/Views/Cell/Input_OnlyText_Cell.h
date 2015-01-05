@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *clearBtn;
 
 @property (nonatomic,copy) void(^textValueChangedBlock)(NSString*);
+@property (nonatomic,copy) void(^editDidEndBlock)(NSString*);
 
 - (IBAction)editDidBegin:(id)sender;
 - (IBAction)editDidEnd:(id)sender;

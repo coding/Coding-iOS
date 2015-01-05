@@ -23,4 +23,5 @@
 + (void)addUmengAliasWithCurUser:(BOOL)add;
 + (void)setXGAccountWithCurUser;
 + (BOOL)isOwnerOfProjectWithOwnerId:(NSNumber *)owner_id;
++ (User *)userWithGlobaykeyOrEmail:(NSString *)textStr;
 @end

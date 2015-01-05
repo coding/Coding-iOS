@@ -101,6 +101,9 @@ static User *curLoginUser;
             [loginDataList setObject:loginData forKey:curUser.email];
             saved = YES;
         }
+        if (saved) {
+            saved = [NSObject saveResponseData:loginDataList toPath:kLoginDataListPath];
+        }
     }
     return saved;
 }

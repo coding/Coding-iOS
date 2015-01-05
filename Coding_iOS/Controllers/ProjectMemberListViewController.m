@@ -82,7 +82,7 @@
     if (_type == ProMemTypeAT) {
         __weak typeof(self) weakSelf = self;
         //首先尝试加载本地数据，无数据的情况下才去服务器请求
-        id resultData = [self loadResponseWithPath:[_myProject localMembersPath]];
+        id resultData = [NSObject loadResponseWithPath:[_myProject localMembersPath]];
         resultData = [resultData objectForKey:@"list"];
 
         if (resultData) {
