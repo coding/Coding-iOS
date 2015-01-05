@@ -54,6 +54,7 @@
 		4E76D4D91A5A71C50094A35E /* taskPriority2_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E76D4D51A5A71C50094A35E /* taskPriority2_small@2x.png */; };
 		4E76D4DA1A5A71C50094A35E /* taskPriority3_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E76D4D61A5A71C50094A35E /* taskPriority3_small@2x.png */; };
 		4E76D4DC1A5A77DD0094A35E /* register_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E76D4DB1A5A77DD0094A35E /* register_arrow@2x.png */; };
+		4E76D4DE1A5A7B4A0094A35E /* text_clear_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E76D4DD1A5A7B4A0094A35E /* text_clear_btn@2x.png */; };
 		4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87655A1A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m */; };
 		4E8765661A22E5B40090CFB9 /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87655C1A22E5B40090CFB9 /* SWCellScrollView.m */; };
 		4E8765671A22E5B40090CFB9 /* SWLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87655E1A22E5B40090CFB9 /* SWLongPressGestureRecognizer.m */; };
@@ -574,6 +575,7 @@
 		4E76D4D51A5A71C50094A35E /* taskPriority2_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskPriority2_small@2x.png"; sourceTree = "<group>"; };
 		4E76D4D61A5A71C50094A35E /* taskPriority3_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskPriority3_small@2x.png"; sourceTree = "<group>"; };
 		4E76D4DB1A5A77DD0094A35E /* register_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "register_arrow@2x.png"; sourceTree = "<group>"; };
+		4E76D4DD1A5A7B4A0094A35E /* text_clear_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "text_clear_btn@2x.png"; sourceTree = "<group>"; };
 		4E8765591A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
 		4E87655A1A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+SWUtilityButtons.m"; sourceTree = "<group>"; };
 		4E87655B1A22E5B40090CFB9 /* SWCellScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCellScrollView.h; sourceTree = "<group>"; };
@@ -2060,6 +2062,7 @@
 				4E07D3141A4D3CA6009EDDF2 /* STARTIMAGE.jpg */,
 				4E8AF78B1A594E0500CDC3AE /* taskDeadline@2x.png */,
 				4E76D4DB1A5A77DD0094A35E /* register_arrow@2x.png */,
+				4E76D4DD1A5A7B4A0094A35E /* text_clear_btn@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -2720,6 +2723,7 @@
 				8EA6D18319E240C40076D59C /* me_normal@2x.png in Resources */,
 				8EA6D19719E240C40076D59C /* tipIcon_Project@2x.png in Resources */,
 				8E97CEB91A0C7E26006F9AD7 /* coding_emoji_34@2x.png in Resources */,
+				4E76D4DE1A5A7B4A0094A35E /* text_clear_btn@2x.png in Resources */,
 				8E7612F21A08A4EB005BE797 /* code.html in Resources */,
 				4E96E7E41A1B537E0037C098 /* icon_file_xls@2x.png in Resources */,
 				4EA679191A14BFA0001A0324 /* icon_file_folder_default@2x.png in Resources */,

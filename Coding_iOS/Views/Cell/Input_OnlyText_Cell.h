@@ -15,6 +15,7 @@
 @property (strong, nonatomic) UITapImageView *captchaView;
 @property (strong, nonatomic) UIImage *captchaImage;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
+@property (weak, nonatomic) IBOutlet UIButton *clearBtn;
 
 @property (nonatomic,copy) void(^textValueChangedBlock)(NSString*);
 
@@ -22,6 +23,7 @@
 - (IBAction)editDidEnd:(id)sender;
 - (void)configWithPlaceholder:(NSString *)phStr andValue:(NSString *)valueStr;
 - (IBAction)textValueChanged:(id)sender;
+- (IBAction)clearBtnClicked:(id)sender;
 
 - (void)refreshCaptchaImage;
 

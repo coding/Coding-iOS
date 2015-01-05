@@ -26,13 +26,28 @@
                             <action selector="textValueChanged:" destination="KGk-i7-Jjw" eventType="editingChanged" id="fPL-b4-DKz"/>
                         </connections>
                     </textField>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bKJ-27-G6D">
+                        <rect key="frame" x="236" y="12" width="20" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        <state key="normal" image="text_clear_btn.png">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="clearBtnClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Unt-c1-Rxe"/>
+                        </connections>
+                    </button>
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="clearBtn" destination="bKJ-27-G6D" id="mXy-Dl-5X4"/>
                 <outlet property="textField" destination="oDO-QL-oB7" id="LYP-ts-WuN"/>
             </connections>
+            <point key="canvasLocation" x="11" y="615"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="text_clear_btn.png" width="21" height="21"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

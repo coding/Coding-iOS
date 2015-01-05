@@ -32,11 +32,13 @@
 - (IBAction)editDidBegin:(id)sender {
     [self.textField setValue:[UIColor colorWithHexString:@"0xffffff"] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
     _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff"];
+    self.clearBtn.hidden = self.textField.text.length <= 0;
 }
 
 - (IBAction)editDidEnd:(id)sender {
     [self.textField setValue:[UIColor colorWithHexString:@"0xffffff" andAlpha:0.5] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
     _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
+    self.clearBtn.hidden = YES;
 }
 
 - (void)configWithPlaceholder:(NSString *)phStr andValue:(NSString *)valueStr{
@@ -44,9 +46,15 @@
     self.textField.text = valueStr;
 }
 - (IBAction)textValueChanged:(id)sender {
+    self.clearBtn.hidden = self.textField.text.length <= 0;
     if (self.textValueChangedBlock) {
         self.textValueChangedBlock(self.textField.text);
     }
+}
+
+- (IBAction)clearBtnClicked:(id)sender {
+    self.textField.text = @"";
+    [self textValueChanged:nil];
 }
 
 #pragma mark - UIView
@@ -56,20 +64,20 @@
     self.backgroundColor = [UIColor clearColor];
     self.textField.font = [UIFont systemFontOfSize:17];
     [self.textField setValue:[UIColor colorWithHexString:@"0xffffff" andAlpha:0.5] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
-    self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
     if (!_lineView) {
         _lineView = [[UIView alloc] initWithFrame:CGRectMake(kInput_OnlyText_Cell_LeftPading, 43.5, kScreen_Width-2*kInput_OnlyText_Cell_LeftPading, 0.5)];
         _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
         [self.contentView addSubview:_lineView];
     }
     if (_isCaptcha) {
-        [self.textField setFrame:CGRectMake(kInput_OnlyText_Cell_LeftPading, 12, (kScreen_Width - 2*kInput_OnlyText_Cell_LeftPading) -100, 20)];
+        [self.textField setWidth:(kScreen_Width - 2*kInput_OnlyText_Cell_LeftPading) - 70 - 20];
         _captchaView.hidden = NO;
         [self refreshCaptchaImage];
     }else{
-        [self.textField setFrame:CGRectMake(kInput_OnlyText_Cell_LeftPading, 12, (kScreen_Width - 2*kInput_OnlyText_Cell_LeftPading), 20)];
+        [self.textField setWidth:(kScreen_Width - 2*kInput_OnlyText_Cell_LeftPading) - 20];
         _captchaView.hidden = YES;
     }
+    [self.clearBtn setX:self.textField.maxXOfFrame];
 }
 - (void)refreshCaptchaImage{
     if (_activityIndicator && _activityIndicator.isAnimating) {
