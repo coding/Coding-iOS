@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kProjectTaskListViewCell_LeftPading 90.0
+#define kProjectTaskListViewCell_LeftPading 93.0
 #define kProjectTaskListViewCell_RightPading 10.0
-#define kProjectTaskListViewCell_CheckBoxWidth 50.0
+#define kProjectTaskListViewCell_CheckBoxWidth 41.0
 #define kProjectTaskListViewCell_UserIconWidth 33.0
 #define kProjectTaskListViewCell_UpDownPading 10.0
 #define kProjectTaskListViewCell_MaxContentHeight 40.0
@@ -37,12 +37,12 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
         if (!_checkView) {
-            _checkView = [[UITapImageView alloc] initWithFrame:CGRectMake(0, 10, kProjectTaskListViewCell_CheckBoxWidth, kProjectTaskListViewCell_CheckBoxWidth)];
+            _checkView = [[UITapImageView alloc] initWithFrame:CGRectMake(5, 10, kProjectTaskListViewCell_CheckBoxWidth, kProjectTaskListViewCell_CheckBoxWidth)];
             _checkView.contentMode = UIViewContentModeCenter;
             [self.contentView addSubview:_checkView];
         }
         if (!_userIconView) {
-            _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(45, 0, kProjectTaskListViewCell_UserIconWidth, kProjectTaskListViewCell_UserIconWidth)];
+            _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(48, 0, kProjectTaskListViewCell_UserIconWidth, kProjectTaskListViewCell_UserIconWidth)];
             [_userIconView doCircleFrame];
             [self.contentView addSubview:_userIconView];
         }
@@ -71,7 +71,7 @@
         if (!_userNameLabel) {
             _userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTaskListViewCell_LeftPading, 0, 150, 15)];
             _userNameLabel.backgroundColor = [UIColor clearColor];
-            _userNameLabel.font = [UIFont boldSystemFontOfSize:10];
+            _userNameLabel.font = [UIFont systemFontOfSize:10];
             _userNameLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
             [self.contentView addSubview:_userNameLabel];
         }

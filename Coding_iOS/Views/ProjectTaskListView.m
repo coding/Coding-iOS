@@ -201,7 +201,7 @@
             task.isRequesting = NO;
         }];
     };
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:45];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:48];
     return cell;
 }
 
