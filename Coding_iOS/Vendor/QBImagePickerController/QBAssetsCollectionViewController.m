@@ -199,7 +199,7 @@
     
     if (minimumNumberOfSelection <= self.maximumNumberOfSelection) {
         if (numberOfSelections > self.maximumNumberOfSelection) {
-            kTipAlert(@"最多只可选择5张照片");
+            kTipAlert(@"最多只可选择%lu张照片", (unsigned long)self.maximumNumberOfSelection);
         }
         return (numberOfSelections <= self.maximumNumberOfSelection);
     }

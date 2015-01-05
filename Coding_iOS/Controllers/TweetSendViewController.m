@@ -142,7 +142,7 @@
         imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
         imagePickerController.delegate = self;
         imagePickerController.allowsMultipleSelection = YES;
-        imagePickerController.maximumNumberOfSelection = 5-_curTweet.tweetImages.count;
+        imagePickerController.maximumNumberOfSelection = 6-_curTweet.tweetImages.count;
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
         [self presentViewController:navigationController animated:YES completion:NULL];
     }

@@ -236,7 +236,7 @@
             imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
             imagePickerController.delegate = self;
             imagePickerController.allowsMultipleSelection = YES;
-            imagePickerController.maximumNumberOfSelection = 5;
+            imagePickerController.maximumNumberOfSelection = 6;
             UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
             [self presentViewController:navigationController animated:YES completion:NULL];
         }
