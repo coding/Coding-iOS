@@ -14,6 +14,7 @@
 #define kLoginStatus @"login_status"
 #define kLoginUserId @"user_id"
 #define kLoginUserDict @"user_dict"
+#define kLoginDataListPath @"login_data_list_path"
 
 static User *curLoginUser;
 
@@ -72,24 +73,51 @@ static User *curLoginUser;
         [defaults synchronize];
         [Login addUmengAliasWithCurUser:YES];
         [Login setXGAccountWithCurUser];
+        
+        [self saveLoginData:loginData];
     }else{
         [Login doLogout];
     }
+}
+
++ (NSMutableDictionary *)readLoginDataList{
+    NSMutableDictionary *loginDataList = [self loadResponseWithPath:kLoginDataListPath];
+    if (!loginDataList) {
+        loginDataList = [NSMutableDictionary dictionary];
+    }
+    return loginDataList;
+}
+
++ (BOOL)saveLoginData:(NSDictionary *)loginData{
+    BOOL saved = NO;
+    if (loginData) {
+        NSMutableDictionary *loginDataList = [self readLoginDataList];
+        User *curUser = [NSObject objectOfClass:@"User" fromJSON:loginData];
+        if (curUser.global_key) {
+            [loginDataList setObject:loginData forKey:curUser.global_key];
+            saved = YES;
+        }
+        if (curUser.email) {
+            [loginDataList setObject:loginData forKey:curUser.email];
+            saved = YES;
+        }
+    }
+    return saved;
+}
+
++ (User *)userWithGlobaykeyOrEmail:(NSString *)textStr{
+    NSMutableDictionary *loginDataList = [self readLoginDataList];
+    NSDictionary *loginData = [loginDataList objectForKey:textStr];
+    if (loginData) {
+        return [NSObject objectOfClass:@"User" fromJSON:loginData];
+    }
+    return nil;
 }
 
 + (void)addUmengAliasWithCurUser:(BOOL)add{
     User *user = [Login curLoginUser];
     if (user && user.global_key.length > 0) {
         NSString *global_key = user.global_key;
-//        if (add) {
-//            [UMessage addAlias:global_key type:kUmeng_MessageAliasTypeCoding response:^(id responseObject, NSError *error) {
-//                NSLog(@"addAlias--------responseObject:%@-------error:%@", responseObject, error.description);
-//            }];
-//        }else{
-//            [UMessage removeAlias:global_key type:kUmeng_MessageAliasTypeCoding response:^(id responseObject, NSError *error) {
-//                NSLog(@"removeAlias--------responseObject:%@-------error:%@", responseObject, error.description);
-//            }];
-//        }
         //移除友盟推送的Alias
         [UMessage removeAlias:global_key type:kUmeng_MessageAliasTypeCoding response:^(id responseObject, NSError *error) {
             NSLog(@"removeAlias--------responseObject:%@-------error:%@", responseObject, error.description);

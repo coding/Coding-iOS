@@ -12,6 +12,7 @@
 @interface BaseViewController : UIViewController
 
 - (void)tabBarItemClicked;
+- (void)loginOutToLoginVC;
 + (void)handleNotificationInfo:(NSDictionary *)userInfo;
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr;
 + (UIViewController *)presentingVC;

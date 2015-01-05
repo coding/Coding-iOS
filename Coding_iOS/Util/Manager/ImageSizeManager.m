@@ -6,6 +6,7 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kPath_ImageSizeDict @"ImageSizeDict"
 
 #define kImageSizeManager_maxCount 1000
 #define kImageSizeManager_resetCount (kImageSizeManager_maxCount/2)
@@ -29,24 +30,25 @@
     });
     return shared_manager;
 }
-- (void)read{
+- (NSMutableDictionary *)read{
     if (!_imageSizeDict) {
-        _imageSizeDict = [self loadImageSizeDict];
+        NSString *abslutePath = [NSString stringWithFormat:@"%@/%@.plist", [NSObject pathInCacheDirectory:kPath_ImageSizeDict], kPath_ImageSizeDict];
+        _imageSizeDict = [NSMutableDictionary dictionaryWithContentsOfFile:abslutePath];
         if (!_imageSizeDict) {
             _imageSizeDict = [NSMutableDictionary dictionary];
-        }else if (_imageSizeDict.count > kImageSizeManager_maxCount){//数据太大的时候，适当清理
-            NSMutableArray *keyArray = [NSMutableArray arrayWithArray:_imageSizeDict.allKeys];
-//            [keyArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-//                return [obj1 compare:obj2 options:NSNumericSearch];
-//            }];
-            [_imageSizeDict removeObjectsForKeys:[keyArray subarrayWithRange:NSMakeRange(kImageSizeManager_resetCount, keyArray.count - kImageSizeManager_resetCount)]];
         }
     }
+    return _imageSizeDict;
 }
-- (void)save{
+
+- (BOOL)save{
     if (_imageSizeDict) {
-        [self saveImageSizeDict:_imageSizeDict];
+        if ([NSObject createDirInCache:kPath_ImageSizeDict]) {
+            NSString *abslutePath = [NSString stringWithFormat:@"%@/%@.plist", [NSObject pathInCacheDirectory:kPath_ImageSizeDict], kPath_ImageSizeDict];
+            return [_imageSizeDict writeToFile:abslutePath atomically:YES];
+        }
     }
+    return NO;
 }
 
 - (void)saveImage:(NSString *)imagePath size:(CGSize)size{
@@ -54,6 +56,7 @@
         [_imageSizeDict setObject:[NSNumber numberWithFloat:size.height/size.width] forKey:imagePath];
     }
 }
+
 - (CGFloat)sizeOfImage:(NSString *)imagePath{
     CGFloat imageSize = 1;
     NSNumber *sizeValue = [_imageSizeDict objectForKey:imagePath];
@@ -62,6 +65,7 @@
     }
     return imageSize;
 }
+
 - (BOOL)hasSrc:(NSString *)src{
     NSNumber *sizeValue = [_imageSizeDict objectForKey:src];
     BOOL hasSrc = NO;
@@ -70,16 +74,39 @@
     }
     return hasSrc;
 }
-+ (void)save{
-    [[self shareManager] save];
+
+#pragma mark Image Resize (used in tweet and message)
+- (CGSize)sizeWithImageH_W:(CGFloat)height_width originalWidth:(CGFloat)originalWidth{
+    CGSize reSize = CGSizeZero;
+    reSize.width = originalWidth;
+    reSize.height = originalWidth *height_width;
+    return reSize;
 }
-+ (void)saveImage:(NSString *)imagePath size:(CGSize)size{
-    [[self shareManager] saveImage:imagePath size:size];
+
+- (CGSize)sizeWithSrc:(NSString *)src originalWidth:(CGFloat)originalWidth maxHeight:(CGFloat)maxHeight{
+    CGSize reSize = [self sizeWithImageH_W:[self sizeOfImage:src] originalWidth:originalWidth];
+    if (reSize.height > maxHeight) {
+        reSize.height = maxHeight;
+    }
+    return reSize;
 }
-+ (CGFloat)sizeOfImage:(NSString *)imagePath{
-    return [[self shareManager] sizeOfImage:imagePath];
+- (CGSize)sizeWithImage:(UIImage *)image originalWidth:(CGFloat)originalWidth maxHeight:(CGFloat)maxHeight{
+    CGSize reSize = [self sizeWithImageH_W:(image.size.height/image.size.width) originalWidth:originalWidth];
+    if (reSize.height > maxHeight) {
+        reSize.height = maxHeight;
+    }
+    return reSize;
 }
-+ (BOOL)hasSrc:(NSString *)src{
-    return [[self shareManager] hasSrc:src];
+
+- (CGSize)sizeWithSrc:(NSString *)src originalWidth:(CGFloat)originalWidth maxHeight:(CGFloat)maxHeight minWidth:(CGFloat)minWidth{
+    CGSize reSize = [self sizeWithImageH_W:[self sizeOfImage:src] originalWidth:originalWidth];
+    CGFloat scale = maxHeight/reSize.height;
+    if (scale < 1) {
+        reSize = CGSizeMake(reSize.width *scale, reSize.height*scale);
+    }
+    if (reSize.width < minWidth) {
+        reSize.width = minWidth;
+    }
+    return reSize;
 }
 @end

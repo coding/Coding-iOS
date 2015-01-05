@@ -125,7 +125,7 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    [ImageSizeManager save];
+    [[ImageSizeManager shareManager] save];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -142,7 +142,7 @@
 {
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
-    [ImageSizeManager save];
+    [[ImageSizeManager shareManager] save];
 }
 #pragma mark - Umeng Message
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken

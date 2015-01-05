@@ -40,22 +40,22 @@
     __weak typeof(self) weakSelf = self;
     [_imgView sd_setImageWithURL:[_curMediaItem.src urlImageWithCodePathResizeToView:_imgView] placeholderImage:kPlaceholderCodingSquareView(_imgView) options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (image) {
-            if (![ImageSizeManager hasSrc:weakSelf.curMediaItem.src]) {
-                [ImageSizeManager saveImage:weakSelf.curMediaItem.src size:image.size];
+            if (![[ImageSizeManager shareManager] hasSrc:weakSelf.curMediaItem.src]) {
+                [[ImageSizeManager shareManager] saveImage:weakSelf.curMediaItem.src size:image.size];
                 if (weakSelf.refreshSingleCCellBlock) {
                     weakSelf.refreshSingleCCellBlock();
                 }
             }
         }
     }];
-    [_imgView setSize:[self sizeWithSrc:_curMediaItem.src originalWidth:kTweetMediaItemCCellSingle_Width maxHeight:kTweetMediaItemCCellSingle_MaxHeight minWidth:50]];
+    [_imgView setSize:[[ImageSizeManager shareManager] sizeWithSrc:_curMediaItem.src originalWidth:kTweetMediaItemCCellSingle_Width maxHeight:kTweetMediaItemCCellSingle_MaxHeight minWidth:50]];
 }
 
 +(CGSize)ccellSizeWithObj:(id)obj{
     CGSize itemSize;
     if ([obj isKindOfClass:[HtmlMediaItem class]]) {
         HtmlMediaItem *curMediaItem = (HtmlMediaItem *)obj;
-        itemSize = [self sizeWithSrc:curMediaItem.src originalWidth:kTweetMediaItemCCellSingle_Width maxHeight:kTweetMediaItemCCellSingle_MaxHeight minWidth:50];
+        itemSize = [[ImageSizeManager shareManager] sizeWithSrc:curMediaItem.src originalWidth:kTweetMediaItemCCellSingle_Width maxHeight:kTweetMediaItemCCellSingle_MaxHeight minWidth:50];
     }
     return itemSize;
 }

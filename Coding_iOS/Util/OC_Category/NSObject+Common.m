@@ -7,7 +7,6 @@
 //
 #define kPath_ImageCache @"ImageCache"
 #define kPath_ResponseCache @"ResponseCache"
-#define kPath_ImageSizeDict @"ImageSizeDict"
 
 #import "NSObject+Common.h"
 #import "JDStatusBarNotification.h"
@@ -94,16 +93,17 @@
 - (void)hideStatusBarProgress{
     [JDStatusBarNotification showProgress:0.0];
 }
+
 #pragma mark File M
 //获取fileName的完整地址
-- (NSString* )pathInCacheDirectory:(NSString *)fileName
++ (NSString* )pathInCacheDirectory:(NSString *)fileName
 {
     NSArray *cachePaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachePath = [cachePaths objectAtIndex:0];
     return [cachePath stringByAppendingPathComponent:fileName];
 }
 //创建缓存文件夹
-- (BOOL) createDirInCache:(NSString *)dirName
++ (BOOL) createDirInCache:(NSString *)dirName
 {
     NSString *dirPath = [self pathInCacheDirectory:dirName];
     BOOL isDir = NO;
@@ -123,7 +123,7 @@
 
 
 // 图片缓存到本地
-- (BOOL) saveImage:(UIImage *)image imageName:(NSString *)imageName
++ (BOOL) saveImage:(UIImage *)image imageName:(NSString *)imageName
 {
     if ([self createDirInCache:kPath_ImageCache]) {
         NSString * directoryPath = [self pathInCacheDirectory:kPath_ImageCache];
@@ -141,7 +141,7 @@
     }
 }
 // 获取缓存图片
-- (NSData*) loadImageDataWithName:( NSString *)imageName
++ (NSData*) loadImageDataWithName:( NSString *)imageName
 {
     NSString * directoryPath = [self pathInCacheDirectory:kPath_ImageCache];
     BOOL isDir = NO;
@@ -164,13 +164,13 @@
 }
 
 // 删除图片缓存
-- (BOOL) deleteImageCache{
++ (BOOL) deleteImageCache{
     return [self deleteCacheWithPath:kPath_ImageCache];
 }
 
 
 //网络请求
-- (BOOL)saveResponseData:(NSDictionary *)data toPath:(NSString *)requestPath{
++ (BOOL)saveResponseData:(NSDictionary *)data toPath:(NSString *)requestPath{
     User *loginUser = [Login curLoginUser];
     if (!loginUser) {
         return NO;
@@ -184,7 +184,7 @@
         return NO;
     }
 }
-- (id) loadResponseWithPath:(NSString *)requestPath{//返回一个NSDictionary类型的json数据
++ (id) loadResponseWithPath:(NSString *)requestPath{//返回一个NSDictionary类型的json数据
     User *loginUser = [Login curLoginUser];
     if (!loginUser) {
         return nil;
@@ -192,13 +192,13 @@
         requestPath = [NSString stringWithFormat:@"%@_%@", loginUser.global_key, requestPath];
     }
     NSString *abslutePath = [NSString stringWithFormat:@"%@/%@.plist", [self pathInCacheDirectory:kPath_ResponseCache], [requestPath md5Str]];
-    return [NSDictionary dictionaryWithContentsOfFile:abslutePath];
+    return [NSMutableDictionary dictionaryWithContentsOfFile:abslutePath];
 }
-- (BOOL) deleteResponseCache{
++ (BOOL) deleteResponseCache{
     return [self deleteCacheWithPath:kPath_ResponseCache];
 }
 
-- (BOOL) deleteCacheWithPath:(NSString *)cachePath{
++ (BOOL) deleteCacheWithPath:(NSString *)cachePath{
     NSString *dirPath = [self pathInCacheDirectory:cachePath];
     BOOL isDir = NO;
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -211,64 +211,7 @@
     return isDeleted;
 }
 
-//存放图片尺寸的plist管理
-- (BOOL)saveImageSizeDict:(NSDictionary *)dict{
-    if ([self createDirInCache:kPath_ImageSizeDict]) {
-        NSString *abslutePath = [NSString stringWithFormat:@"%@/%@.plist", [self pathInCacheDirectory:kPath_ImageSizeDict], kPath_ImageSizeDict];
-        return [dict writeToFile:abslutePath atomically:YES];
-    }else{
-        return NO;
-    }
-}
-- (NSMutableDictionary *)loadImageSizeDict{
-    NSString *abslutePath = [NSString stringWithFormat:@"%@/%@.plist", [self pathInCacheDirectory:kPath_ImageSizeDict], kPath_ImageSizeDict];
-    return [NSMutableDictionary dictionaryWithContentsOfFile:abslutePath];
-}
-
-//尺寸调整
-- (CGSize)sizeWithImageH_W:(CGFloat)height_width originalWidth:(CGFloat)originalWidth{
-    CGSize reSize = CGSizeZero;
-    reSize.width = originalWidth;
-    reSize.height = originalWidth *height_width;
-    return reSize;
-}
-
-- (CGSize)sizeWithSrc:(NSString *)src originalWidth:(CGFloat)originalWidth maxHeight:(CGFloat)maxHeight{
-    CGSize reSize = [self sizeWithImageH_W:[ImageSizeManager sizeOfImage:src] originalWidth:originalWidth];
-    if (reSize.height > maxHeight) {
-        reSize.height = maxHeight;
-    }
-    return reSize;
-}
-- (CGSize)sizeWithImage:(UIImage *)image originalWidth:(CGFloat)originalWidth maxHeight:(CGFloat)maxHeight{
-    CGSize reSize = [self sizeWithImageH_W:(image.size.height/image.size.width) originalWidth:originalWidth];
-    if (reSize.height > maxHeight) {
-        reSize.height = maxHeight;
-    }
-    return reSize;
-}
-
-- (CGSize)sizeWithSrc:(NSString *)src originalWidth:(CGFloat)originalWidth maxHeight:(CGFloat)maxHeight minWidth:(CGFloat)minWidth{
-    CGSize reSize = [self sizeWithImageH_W:[ImageSizeManager sizeOfImage:src] originalWidth:originalWidth];
-    CGFloat scale = maxHeight/reSize.height;
-    if (scale < 1) {
-        reSize = CGSizeMake(reSize.width *scale, reSize.height*scale);
-    }
-    if (reSize.width < minWidth) {
-        reSize.width = minWidth;
-    }
-    return reSize;
-}
-
-- (void)refreshStatusBar{
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-}
-
-- (void)loginOutToLoginVC{
-    [Login doLogout];
-    [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
-}
-
+#pragma mark NetError
 -(id)handleResponse:(id)responseJSON{
     NSError *error = nil;
     //code为非0值时，表示有错
@@ -279,16 +222,10 @@
         [self showError:error];
         
         if (resultCode.intValue == 1000) {//用户未登录
-            [self loginOutToLoginVC];
+            [Login doLogout];
+            [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
         }
     }
-    //    数据为空时，构造error提示
-    //    id resultData = [responseJSON valueForKeyPath:@"data"];
-    //    if (!resultData) {
-    //        error = [NSError errorWithDomain:kNetPath_Code_Base code:resultCode.intValue userInfo:
-    //                          [NSDictionary dictionaryWithObject:
-    //                           [NSDictionary dictionaryWithObject:@"获取的数据为空" forKey:@"tipMsg"] forKey:@"msg"]];
-    //    }
     return error;
 }
 @end

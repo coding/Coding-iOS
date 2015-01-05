@@ -234,7 +234,7 @@
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
             if (resultData) {
-                [self saveResponseData:resultData toPath:[project localMembersPath]];
+                [NSObject saveResponseData:resultData toPath:[project localMembersPath]];
             }
             resultData = [resultData objectForKey:@"list"];
 
@@ -742,7 +742,7 @@
         tweets.isLoading = NO;
         
         if (data) {
-            [self saveResponseData:data toPath:[tweets localResponsePath]];
+            [NSObject saveResponseData:data toPath:[tweets localResponsePath]];
             id resultData = [data valueForKeyPath:@"data"];
             NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"Tweet"];
             block(resultA, nil);
@@ -983,7 +983,7 @@
                 && loginUser
                 && (!curUsers.owner||
                     (curUsers.owner && curUsers.owner.global_key && [curUsers.owner.global_key isEqualToString:loginUser.global_key]))) {
-                    [self saveResponseData:resultData toPath:[loginUser localFriendsPath]];
+                    [NSObject saveResponseData:resultData toPath:[loginUser localFriendsPath]];
                 }
             Users *users = [NSObject objectOfClass:@"Users" fromJSON:resultData];
             block(users, nil);
@@ -1063,12 +1063,12 @@
             }
             //存储到本地
             if (!priMsgs.willLoadMore && resultData) {
-                [self saveResponseData:resultData toPath:[priMsgs localPrivateMessagesPath]];
+                [NSObject saveResponseData:resultData toPath:[priMsgs localPrivateMessagesPath]];
             }
         }else{
             //读取本地存储
             if (!priMsgs.willLoadMore) {
-                NSDictionary *resultData = [self loadResponseWithPath:[priMsgs localPrivateMessagesPath]];
+                NSDictionary *resultData = [NSObject loadResponseWithPath:[priMsgs localPrivateMessagesPath]];
                 if (resultData) {
                     PrivateMessages *resultA = [NSObject objectOfClass:@"PrivateMessages" fromJSON:resultData];
                     block(resultA, nil);

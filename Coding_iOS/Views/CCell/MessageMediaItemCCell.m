@@ -41,7 +41,7 @@
     if ([_curObj isKindOfClass:[UIImage class]]) {
         UIImage *curImage = (UIImage *)_curObj;
         self.imgView.image = curImage;
-        [_imgView setSize:[self sizeWithImage:curImage originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2]];
+        [_imgView setSize:[[ImageSizeManager shareManager] sizeWithImage:curImage originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2]];
     }else if ([_curObj isKindOfClass:[HtmlMediaItem class]]){
         HtmlMediaItem *curMediaItem = (HtmlMediaItem *)_curObj;
         NSURL *currentImageURL = [curMediaItem.src urlImageWithCodePathResizeToView:_imgView];
@@ -51,16 +51,16 @@
             if (image && [imageURL.absoluteString isEqualToString:currentImageURL.absoluteString]) {
                 HtmlMediaItem *curBlockMediaItem = (HtmlMediaItem *)weakSelf.curObj;
                 CGSize imageSize = image.size;
-                if (![ImageSizeManager hasSrc:curBlockMediaItem.src]) {
-                    [ImageSizeManager saveImage:curBlockMediaItem.src size:imageSize];
-                    CGSize reSize = [weakSelf sizeWithImage:image originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2];
+                if (![[ImageSizeManager shareManager] hasSrc:curBlockMediaItem.src]) {
+                    [[ImageSizeManager shareManager] saveImage:curBlockMediaItem.src size:imageSize];
+                    CGSize reSize = [[ImageSizeManager shareManager] sizeWithImage:image originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2];
                     if (weakSelf.refreshMessageMediaCCellBlock) {
                         weakSelf.refreshMessageMediaCCellBlock(reSize.height - kMessageCell_ContentWidth);
                     }
                 }
             }
         }];
-        CGSize reSize = [weakSelf sizeWithSrc:curMediaItem.src originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2];
+        CGSize reSize = [[ImageSizeManager shareManager] sizeWithSrc:curMediaItem.src originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2];
         [_imgView setSize:reSize];
     }
 }
@@ -68,10 +68,10 @@
 +(CGSize)ccellSizeWithObj:(NSObject *)obj{
     CGSize itemSize;
     if ([obj isKindOfClass:[UIImage class]]) {
-        itemSize = [obj sizeWithImage:(UIImage *)obj originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2];
+        itemSize = [[ImageSizeManager shareManager] sizeWithImage:(UIImage *)obj originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2];
     }else if ([obj isKindOfClass:[HtmlMediaItem class]]){
         HtmlMediaItem *curMediaItem = (HtmlMediaItem *)obj;
-        itemSize = [curMediaItem sizeWithSrc:curMediaItem.src originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2];
+        itemSize = [[ImageSizeManager shareManager] sizeWithSrc:curMediaItem.src originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2];
     }
     return itemSize;
 }

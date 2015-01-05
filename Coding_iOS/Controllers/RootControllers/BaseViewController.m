@@ -17,6 +17,7 @@
 #import "EditTaskViewController.h"
 #import "ProjectViewController.h"
 #import "Coding_NetAPIManager.h"
+#import "AppDelegate.h"
 
 @interface BaseViewController ()
 
@@ -25,7 +26,7 @@
 @implementation BaseViewController
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self refreshStatusBar];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -172,6 +173,12 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:viewController];
     viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:viewController action:@selector(dismissModalViewControllerAnimated:)];
     [[self presentingVC] presentViewController:nav animated:YES completion:nil];
+}
+
+#pragma mark Login
+- (void)loginOutToLoginVC{
+    [Login doLogout];
+    [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
 }
 
 @end
