@@ -27,7 +27,7 @@
                         </connections>
                     </textField>
                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bKJ-27-G6D">
-                        <rect key="frame" x="236" y="12" width="20" height="20"/>
+                        <rect key="frame" x="236" y="2" width="20" height="40"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <state key="normal" image="text_clear_btn.png">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>

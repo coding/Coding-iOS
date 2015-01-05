@@ -153,7 +153,7 @@
                     deadlineStr = @" 明天 ";
                     break;
                 default:
-                    deadlineBGColor = [UIColor colorWithHexString:@"0xb2c6d0"];
+                    deadlineBGColor = leftDayCount > 0? [UIColor colorWithHexString:@"0xb2c6d0"]: [UIColor colorWithHexString:@"0xf24b4b"];
                     deadlineStr = [_task.deadline_date stringWithFormat:@" MM/dd "];
                     break;
             }
