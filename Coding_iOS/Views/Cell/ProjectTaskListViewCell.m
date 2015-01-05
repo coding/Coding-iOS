@@ -22,7 +22,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ProjectTaskListViewCell ()
-@property (strong, nonatomic) UIImageView *userIconView, *commentIconView, *timeClockIconView;
+@property (strong, nonatomic) UIImageView *userIconView, *commentIconView, *timeClockIconView, *taskPriorityView;
 @property (strong, nonatomic) UITapImageView *checkView;
 @property (strong, nonatomic) UILabel *contentLabel, *deadlineLabel, *userNameLabel, *timeLabel, *commentCountLabel;
 @end
@@ -45,6 +45,11 @@
             _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(45, 0, kProjectTaskListViewCell_UserIconWidth, kProjectTaskListViewCell_UserIconWidth)];
             [_userIconView doCircleFrame];
             [self.contentView addSubview:_userIconView];
+        }
+        if (!_taskPriorityView) {
+            _taskPriorityView = [[UIImageView alloc] initWithFrame:CGRectMake(kProjectTaskListViewCell_LeftPading, kProjectTaskListViewCell_UpDownPading, 17, 17)];
+            _taskPriorityView.contentMode = UIViewContentModeScaleAspectFit;
+            [self.contentView addSubview:_taskPriorityView];
         }
         if (!_contentLabel) {
             _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kProjectTaskListViewCell_LeftPading, kProjectTaskListViewCell_UpDownPading, kProjectTaskListViewCell_ContentWidth, 20)];
@@ -109,7 +114,9 @@
     CGFloat cellHeight = [ProjectTaskListViewCell cellHeightWithObj:_task];
     //    图片
     
-    [_checkView setImage:[UIImage imageNamed:(_task.status.integerValue == 2? @"checkbox_checked":[NSString stringWithFormat:@"checkbox_priority%d", _task.priority.intValue])]];
+//    [_checkView setImage:[UIImage imageNamed:(_task.status.integerValue == 2? @"checkbox_checked":[NSString stringWithFormat:@"checkbox_priority%d", _task.priority.intValue])]];
+    [_checkView setImage:[UIImage imageNamed:(_task.status.integerValue == 2? @"checkbox_checked":@"checkbox_priority0")]];
+
     
     __weak typeof(self) weakSelf = self;
     [_checkView addTapBlock:^(id obj) {
@@ -123,6 +130,9 @@
     
     [_userIconView sd_setImageWithURL:[_task.owner.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
     [_userIconView setY:(cellHeight- kProjectTaskListViewCell_UserIconWidth)/2];
+    
+    //优先级
+    [_taskPriorityView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"taskPriority%@_small", _task.priority.stringValue]]];
     
     //    文字
     CGFloat curBottomY = kProjectTaskListViewCell_UpDownPading;
@@ -154,9 +164,10 @@
         _contentLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
         _deadlineLabel.backgroundColor = [UIColor colorWithHexString:@"0xc8c8c8"];
     }
-    [_contentLabel setLongString:_task.content withFitWidth:kProjectTaskListViewCell_ContentWidth maxHeight:kProjectTaskListViewCell_MaxContentHeight];
+    NSString *contentStr = [NSString stringWithFormat:@"     %@", [_task.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+    [_contentLabel setLongString:contentStr withFitWidth:kProjectTaskListViewCell_ContentWidth maxHeight:kProjectTaskListViewCell_MaxContentHeight];
     
-    curBottomY += [_task.content getHeightWithFont:kProjectTaskListViewCell_ContentFont constrainedToSize:CGSizeMake(kProjectTaskListViewCell_ContentWidth, kProjectTaskListViewCell_MaxContentHeight)];
+    curBottomY += [contentStr getHeightWithFont:kProjectTaskListViewCell_ContentFont constrainedToSize:CGSizeMake(kProjectTaskListViewCell_ContentWidth, kProjectTaskListViewCell_MaxContentHeight)];
     curBottomY += kProjectTaskListViewCell_TextPading;
     
     
@@ -190,7 +201,8 @@
     Task *task = (Task *)obj;
     CGFloat cellHeight = 0;
     cellHeight += kProjectTaskListViewCell_UpDownPading *2;
-    cellHeight += [task.content getHeightWithFont:kProjectTaskListViewCell_ContentFont constrainedToSize:CGSizeMake(kProjectTaskListViewCell_ContentWidth, kProjectTaskListViewCell_MaxContentHeight)];
+    NSString *contentStr = [NSString stringWithFormat:@"     %@", [task.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+    cellHeight += [contentStr getHeightWithFont:kProjectTaskListViewCell_ContentFont constrainedToSize:CGSizeMake(kProjectTaskListViewCell_ContentWidth, kProjectTaskListViewCell_MaxContentHeight)];
     cellHeight += kProjectTaskListViewCell_TextPading;
     cellHeight += 10;//timeLabel的高度
     return cellHeight;
