@@ -136,15 +136,15 @@
             switch (leftDayCount) {
                 case 0:
                     deadlineBGColor = [UIColor colorWithHexString:@"0xefa230"];
-                    deadlineStr = @" 今天 ";
+                    deadlineStr = @"  今天  ";
                     break;
                 case 1:
                     deadlineBGColor = [UIColor colorWithHexString:@"0x95b763"];
-                    deadlineStr = @" 明天 ";
+                    deadlineStr = @"明天";
                     break;
                 default:
                     deadlineBGColor = [UIColor colorWithHexString:@"0xb2c6d0"];
-                    deadlineStr = [_task.deadline_date stringWithFormat:@" MM/dd "];
+                    deadlineStr = [_task.deadline_date stringWithFormat:@"MM/dd"];
                     break;
             }
             _deadlineLabel.backgroundColor = deadlineBGColor;
