@@ -115,7 +115,7 @@
     //    图片
     
 //    [_checkView setImage:[UIImage imageNamed:(_task.status.integerValue == 2? @"checkbox_checked":[NSString stringWithFormat:@"checkbox_priority%d", _task.priority.intValue])]];
-    [_checkView setImage:[UIImage imageNamed:(_task.status.integerValue == 2? @"checkbox_checked":@"checkbox_priority0")]];
+    [_checkView setImage:[UIImage imageNamed:(_task.status.integerValue == 2? @"checkbox_checked":@"checkbox_priority")]];
 
     
     __weak typeof(self) weakSelf = self;
