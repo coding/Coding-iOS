@@ -61,13 +61,13 @@
     if (bgImageSize.width > bgViewSize.width && bgImageSize.height > bgViewSize.height) {
         bgImage = [bgImage scaleToSize:[bgView doubleSizeOfFrame] usingMode:NYXResizeModeAspectFill];
     }
-//    bgImage = [bgImage applyLightEffectAtFrame:CGRectMake(0, 0, bgImage.size.width, bgImage.size.height)];
+    bgImage = [bgImage applyLightEffectAtFrame:CGRectMake(0, 0, bgImage.size.width, bgImage.size.height)];
     bgView.image = bgImage;
     [self.view addSubview:bgView];
     //黑色遮罩
     UIColor *blackColor = [UIColor blackColor];
-    [self.view addGradientLayerWithColors:@[(id)[blackColor colorWithAlphaComponent:0.6].CGColor,
-                                            (id)[blackColor colorWithAlphaComponent:0.6].CGColor]
+    [self.view addGradientLayerWithColors:@[(id)[blackColor colorWithAlphaComponent:0.3].CGColor,
+                                            (id)[blackColor colorWithAlphaComponent:0.3].CGColor]
                                 locations:nil
                                startPoint:CGPointMake(0.5, 0.0) endPoint:CGPointMake(0.5, 1.0)];
     

@@ -71,7 +71,7 @@
     return _startImage;
 }
 - (StartImage *)curImage{
-    if (_startImage) {
+    if (!_startImage) {
         _startImage = [StartImage defautImage];
     }
     return _startImage;
