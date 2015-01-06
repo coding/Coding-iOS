@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class StartImage;
+@class Group;
 
 @interface StartImagesManager : NSObject
 + (instancetype)shareManager;
@@ -16,12 +17,21 @@
 - (StartImage *)randomImage;
 - (StartImage *)curImage;
 
+- (void)refreshImagesPlist;
+- (void)startDownloadImages;
+
 @end
 
 @interface StartImage : NSObject
-@property (strong, nonatomic) NSString *fileName, *pathDisk, *descriptionStr;
-@property (assign, nonatomic) BOOL hasBeenDownload;
-- (UIImage *)image;
+@property (strong, nonatomic) NSString *url;
+@property (strong, nonatomic) Group *group;
+@property (strong, nonatomic) NSString *fileName, *descriptionStr, *pathDisk;
+
 + (StartImage *)defautImage;
-+ (StartImage *)stFromDict:(NSDictionary *)dict;
+- (UIImage *)image;
+- (void)startDownloadImage;
+@end
+
+@interface Group : NSObject
+@property (strong, nonatomic) NSString *name, *author;
 @end

@@ -97,13 +97,13 @@
 
 
 + (NSString *)downloadPath{
-    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
     NSString *downloadPath = [documentPath stringByAppendingPathComponent:@"Coding_Download"];
     return downloadPath;
 }
 
 + (NSString *)uploadPath{
-    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
     NSString *uploadPath = [documentPath stringByAppendingPathComponent:@"Coding_Upload"];
     return uploadPath;
 }

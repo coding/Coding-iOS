@@ -94,8 +94,10 @@
     _bgImageView.alpha = 0.0;
     _logoIconView.alpha = 1.0;
     _descriptionStrLabel.alpha = 0.0;
+    self.alpha = 1.0;
 
     @weakify(self);
+
     [UIView animateWithDuration:2.0 animations:^{
         @strongify(self);
         self.bgImageView.alpha = 1.0;
@@ -103,7 +105,7 @@
         self.descriptionStrLabel.alpha = 1.0;
     } completion:^(BOOL finished) {
         self.backgroundColor = [UIColor clearColor];
-        [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             @strongify(self);
             self.bgImageView.alpha = 0.0;
             self.logoIconView.alpha = 0.0;

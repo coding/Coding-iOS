@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "RootTabViewController.h"
 #import "LoginViewController.h"
+#import "AFNetworking.h"
 #import "AFNetworkActivityIndicatorManager.h"
 #import "Login.h"
 #import "UnReadManager.h"
@@ -52,8 +53,9 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    //网络指示标志
+    //网络
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     
     //设置导航条样式
     [self customizeInterface];

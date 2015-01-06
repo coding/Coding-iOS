@@ -6,10 +6,14 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+
+#define kStartImageName @"start_image_name"
+
 #import "StartImagesManager.h"
+#import "CodingNetAPIClient.h"
+
 
 @interface StartImagesManager ()
-@property (strong, nonatomic) NSDictionary *imageDict;
 @property (strong, nonatomic) NSMutableArray *imageLoadedArray;
 @property (strong, nonatomic) StartImage *startImage;
 @end
@@ -48,7 +52,7 @@
 }
 
 - (NSString *)downloadPath{
-    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
     NSString *downloadPath = [documentPath stringByAppendingPathComponent:@"Coding_StartImages"];
     return downloadPath;
 }
@@ -61,6 +65,9 @@
     }else{
         _startImage = [StartImage defautImage];
     }
+    
+    [self saveDisplayImageName:_startImage.fileName];
+    [self refreshImagesPlist];
     return _startImage;
 }
 - (StartImage *)curImage{
@@ -75,46 +82,145 @@
 }
 
 - (void)loadStartImages{
-    self.imageDict = [[NSDictionary alloc] initWithContentsOfFile:[self pathOfSTPlist]];
-    self.imageLoadedArray = [[NSMutableArray alloc] init];
-    NSString *path = [self downloadPath];
-    NSArray *fileContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL];
-    for (NSString *curFileName in [fileContents objectEnumerator]) {
-        NSString *filePath = [path stringByAppendingPathComponent:curFileName];
-        BOOL isDirectory;
-        [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory];
-        StartImage *st = [StartImage stFromDict:[self.imageDict objectForKey:curFileName]];
-        if (st) {
-            st.pathDisk = filePath;
-            [self.imageLoadedArray addObject:st];
+    NSArray *plistArray = [NSArray arrayWithContentsOfFile:[self pathOfSTPlist]];
+    plistArray = [NSObject arrayFromJSON:plistArray ofObjects:@"StartImage"];
+
+    NSMutableArray *imageLoadedArray = [[NSMutableArray alloc] init];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    for (StartImage *curST in plistArray) {
+        if ([fm fileExistsAtPath:curST.pathDisk]) {
+            [imageLoadedArray addObject:curST];
         }
     }
+    
+    NSString *preDisplayImageName = [self getDisplayImageName];
+    if (preDisplayImageName && preDisplayImageName.length > 0) {
+        NSUInteger index = [imageLoadedArray indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            if ([[(StartImage *)obj fileName] isEqualToString:preDisplayImageName]) {
+                *stop = YES;
+                return YES;
+            }
+            return NO;
+        }];
+        if (index != NSNotFound) {
+            [imageLoadedArray removeObjectAtIndex:index];
+        }
+    }
+    self.imageLoadedArray = imageLoadedArray;
+}
+
+- (void)refreshImagesPlist{
+    NSString *aPath = @"api/wallpaper/wallpapers";
+    NSDictionary *params = @{@"type" : @"5"};
+    [[CodingNetAPIClient sharedJsonClient] GET:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
+        id error = [self handleResponse:responseObject];
+        if (!error) {
+            NSArray *resultA = [responseObject valueForKey:@"data"];
+            if ([self createFolder:[self downloadPath]]) {
+                if ([resultA writeToFile:[self pathOfSTPlist] atomically:YES]) {
+                    [[StartImagesManager shareManager] startDownloadImages];
+                }
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+    }];
+}
+
+- (void)startDownloadImages{
+    
+    if ([[AFNetworkReachabilityManager sharedManager] networkReachabilityStatus] != AFNetworkReachabilityStatusReachableViaWiFi) {
+        return;
+    }
+    
+    NSArray *plistArray = [NSArray arrayWithContentsOfFile:[self pathOfSTPlist]];
+    plistArray = [NSObject arrayFromJSON:plistArray ofObjects:@"StartImage"];
+    
+    NSMutableArray *needToDownloadArray = [NSMutableArray array];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    for (StartImage *curST in plistArray) {
+        if (![fm fileExistsAtPath:curST.pathDisk]) {
+            [needToDownloadArray addObject:curST];
+        }
+    }
+    
+    for (StartImage *curST in needToDownloadArray) {
+        [curST startDownloadImage];
+    }
+}
+
+
+- (void)saveDisplayImageName:(NSString *)name{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:name forKey:kStartImageName];
+    [defaults synchronize];
+}
+
+- (NSString *)getDisplayImageName{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults objectForKey:kStartImageName];
 }
 
 @end
 
+
 @implementation StartImage
+- (NSString *)fileName{
+    if (!_fileName && _url.length > 0) {
+        _fileName = [[_url componentsSeparatedByString:@"/"] lastObject];
+    }
+    return _fileName;
+}
+
+- (NSString *)descriptionStr{
+    if (!_descriptionStr && _group) {
+        _descriptionStr = [NSString stringWithFormat:@"\"%@\" @%@", _group.name.length > 0? _group.name : @"今天天气不错", _group.author.length > 0? _group.author : @"作者不要打我"];
+    }
+    return _descriptionStr;
+}
+
+- (NSString *)pathDisk{
+    if (!_pathDisk && _url) {
+        NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+        _pathDisk = [[documentPath
+                      stringByAppendingPathComponent:@"Coding_StartImages"]
+                     stringByAppendingPathComponent:[[_url componentsSeparatedByString:@"/"] lastObject]];
+    }
+    return _pathDisk;
+}
+
++ (StartImage *)defautImage{
+    StartImage *st = [[StartImage alloc] init];
+    st.descriptionStr = @"\"最春光乍泄\" @堂堂超栗子";
+    st.fileName = @"STARTIMAGE.jpg";
+    st.pathDisk = [[NSBundle mainBundle] pathForResource:@"STARTIMAGE" ofType:@"jpg"];
+    return st;
+}
 
 - (UIImage *)image{
     return [UIImage imageWithContentsOfFile:self.pathDisk];
 }
 
-+ (StartImage *)defautImage{
-    StartImage *st = [[StartImage alloc] init];
-    st.hasBeenDownload = YES;
-    st.descriptionStr = @"“最春光乍泄” @堂堂超栗子";
-    st.fileName = @"STARTIMAGE.jpg";
-    
-    st.pathDisk = [[NSBundle mainBundle] pathForResource:@"STARTIMAGE" ofType:@"jpg"];
-    return st;
+- (void)startDownloadImage{
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    NSURL *URL = [NSURL URLWithString:self.url];
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+        NSString *pathDisk = [[documentPath stringByAppendingPathComponent:@"Coding_StartImages"] stringByAppendingPathComponent:[response suggestedFilename]];
+        return [NSURL fileURLWithPath:pathDisk];
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        NSLog(@"downloaded file_path is to: %@", filePath);
+    }];
+    [downloadTask resume];
 }
-+ (StartImage *)stFromDict:(NSDictionary *)dict{
-    StartImage *st = [[StartImage alloc] init];
-    st.hasBeenDownload = YES;
+@end
 
-    st.descriptionStr = [dict objectForKey:@"descriptionStr"];
-    st.fileName = [dict objectForKey:@"fileName"];
-    return st;
-}
+@implementation Group
+
+
 
 @end
