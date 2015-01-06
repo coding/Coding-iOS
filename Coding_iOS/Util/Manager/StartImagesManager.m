@@ -176,7 +176,7 @@
 
 - (NSString *)descriptionStr{
     if (!_descriptionStr && _group) {
-        _descriptionStr = [NSString stringWithFormat:@"\"%@\" @%@", _group.name.length > 0? _group.name : @"今天天气不错", _group.author.length > 0? _group.author : @"作者不要打我"];
+        _descriptionStr = [NSString stringWithFormat:@"\"%@\" ©%@", _group.name.length > 0? _group.name : @"今天天气不错", _group.author.length > 0? _group.author : @"作者"];
     }
     return _descriptionStr;
 }
@@ -193,7 +193,7 @@
 
 + (StartImage *)defautImage{
     StartImage *st = [[StartImage alloc] init];
-    st.descriptionStr = @"\"最春光乍泄\" @堂堂超栗子";
+    st.descriptionStr = @"\"最春光乍泄\" ©堂堂超栗子";
     st.fileName = @"STARTIMAGE.jpg";
     st.pathDisk = [[NSBundle mainBundle] pathForResource:@"STARTIMAGE" ofType:@"jpg"];
     return st;
