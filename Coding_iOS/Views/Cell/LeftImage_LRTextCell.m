@@ -62,7 +62,11 @@
                 [_iconView doCircleFrame];
                 [_iconView sd_setImageWithURL:[task.owner.avatar urlImageWithCodePathResizeToView:_iconView] placeholderImage:kPlaceholderMonkeyRoundView(_iconView)];
                 _leftLabel.text = @"执行者";
-                _rightLabel.text = task.owner.name;
+                if (task.owner) {
+                    _rightLabel.text = task.owner.name;
+                }else{
+                    _rightLabel.text = @"未指定";
+                }
                 self.userInteractionEnabled = YES;
             }
                 break;
@@ -97,7 +101,11 @@
                 [_iconView doNotCircleFrame];
                 [_iconView setImage:[UIImage imageNamed:@"taskProgress"]];
                 _leftLabel.text = @"阶段";
-                _rightLabel.text = task.status.intValue == 1? @"未完成":@"已完成";
+                if (task.status) {
+                    _rightLabel.text = task.status.intValue == 1? @"未完成":@"已完成";
+                }else{
+                    _rightLabel.text = @"未指定";
+                }
                 self.userInteractionEnabled = (task.handleType == TaskHandleTypeEdit);
             }
                 break;
