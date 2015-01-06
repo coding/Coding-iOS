@@ -193,7 +193,7 @@
 
 + (StartImage *)defautImage{
     StartImage *st = [[StartImage alloc] init];
-    st.descriptionStr = @"\"最春光乍泄\" ©堂堂超栗子";
+    st.descriptionStr = @"\"Light Returning\" ©十一步";
     st.fileName = @"STARTIMAGE.jpg";
     st.pathDisk = [[NSBundle mainBundle] pathForResource:@"STARTIMAGE" ofType:@"jpg"];
     return st;
