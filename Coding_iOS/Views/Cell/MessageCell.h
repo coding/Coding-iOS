@@ -13,7 +13,8 @@
 @interface MessageCell : UITableViewCell <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UILongPressMenuImageView *bgImgView;
 
-@property (strong, nonatomic) PrivateMessage *curPriMsg, *prePriMsg;
+- (void)setCurPriMsg:(PrivateMessage *)curPriMsg andPrePriMsg:(PrivateMessage *)prePriMsg;
+
 @property (copy, nonatomic) void(^tapUserIconBlock)(User *sender);
 @property (copy, nonatomic) void (^refreshMessageMediaCCellBlock)(CGFloat diff);
 @property (copy, nonatomic) void (^resendMessageBlock)(PrivateMessage *curPriMsg);

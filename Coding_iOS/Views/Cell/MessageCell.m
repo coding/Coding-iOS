@@ -28,6 +28,7 @@
 
 
 @interface MessageCell ()
+@property (strong, nonatomic) PrivateMessage *curPriMsg, *prePriMsg;
 
 @property (strong, nonatomic) UITapImageView *userIconView;
 @property (strong, nonatomic) UITTTAttributedLabel *contentLabel;
@@ -47,6 +48,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
 
         if (!_userIconView) {
@@ -88,10 +90,14 @@
     return self;
 }
 
+- (void)setCurPriMsg:(PrivateMessage *)curPriMsg andPrePriMsg:(PrivateMessage *)prePriMsg{
+    if (_curPriMsg == curPriMsg && _prePriMsg == prePriMsg) {
+        return;
+    }else{
+        _curPriMsg = curPriMsg;
+        _prePriMsg = prePriMsg;
+    }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     if (!_curPriMsg) {
         return;
@@ -113,7 +119,7 @@
     }else{
         _timeLabel.hidden = YES;
     }
-
+    
     UIImage *bgImg;
     CGSize bgImgViewSize;
     CGSize textSize;
@@ -132,9 +138,9 @@
     
     
     if (mediaViewHeight > 0) {
-//        有图片
+        //        有图片
         [_contentLabel setY:2*kMessageCell_PadingHeight + mediaViewHeight];
-
+        
         bgImgViewSize = CGSizeMake(kMessageCell_ContentWidth +2*kMessageCell_PadingWidth,
                                    mediaViewHeight +textSize.height + kMessageCell_PadingHeight*(_curPriMsg.content.length > 0? 3:2));
     }else{
@@ -142,17 +148,17 @@
         
         bgImgViewSize = CGSizeMake(textSize.width +2*kMessageCell_PadingWidth, textSize.height +2*kMessageCell_PadingHeight);
     }
- 
+    
     CGRect bgImgViewFrame;
     if (![_curPriMsg.sender.global_key isEqualToString:[Login curLoginUser].global_key]) {
-//        这是好友发的
+        //        这是好友发的
         bgImgViewFrame = CGRectMake(kPaddingLeftWidth +kMessageCell_UserIconWith, curBottomY +10, bgImgViewSize.width, bgImgViewSize.height);
         [_userIconView setCenter:CGPointMake(kPaddingLeftWidth +kMessageCell_UserIconWith/2, CGRectGetMaxY(bgImgViewFrame)- kMessageCell_UserIconWith/2)];
         bgImg = [[UIImage imageNamed:@"messageLeft_bg_img"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 25, 15, 25)];
         _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
     }else{
-//        这是自己发的
+        //        这是自己发的
         bgImgViewFrame = CGRectMake((kScreen_Width - kPaddingLeftWidth - kMessageCell_UserIconWith) -bgImgViewSize.width, curBottomY +10, bgImgViewSize.width, bgImgViewSize.height);
         [_userIconView setCenter:CGPointMake(kScreen_Width - kPaddingLeftWidth -kMessageCell_UserIconWith/2, CGRectGetMaxY(bgImgViewFrame)- kMessageCell_UserIconWith/2)];
         bgImg = [[UIImage imageNamed:@"messageRight_bg_img"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 25, 15, 25)];
@@ -165,7 +171,7 @@
         weakSelf.tapUserIconBlock(weakSelf.curPriMsg.sender);
     }];
     [_userIconView sd_setImageWithURL:[_curPriMsg.sender.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
-
+    
     [_bgImgView setImage:bgImg];
     
     if (_mediaView) {
@@ -173,6 +179,7 @@
         [_mediaView reloadSections:[NSIndexSet indexSetWithIndex:0]];
     }
     [self configSendStatus];
+
 }
 
 - (void)configSendStatus{
@@ -274,6 +281,7 @@
     MessageMediaItemCCell *ccell = [collectionView dequeueReusableCellWithReuseIdentifier:kCCellIdentifier_MessageMediaItem forIndexPath:indexPath];
     ccell.refreshMessageMediaCCellBlock = self.refreshMessageMediaCCellBlock;
 
+    ccell.curPriMsg = _curPriMsg;
     if (_curPriMsg.nextImg) {
         ccell.curObj = _curPriMsg.nextImg;
     }else{

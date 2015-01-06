@@ -183,12 +183,11 @@
     }else{
         cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Message forIndexPath:indexPath];
     }
+    PrivateMessage *preMsg = nil;
     if (curIndex +1 < _myPriMsgs.list.count) {
-        cell.prePriMsg = [_myPriMsgs.list objectAtIndex:curIndex+1];
-    }else{
-        cell.prePriMsg = nil;
+        preMsg = [_myPriMsgs.list objectAtIndex:curIndex+1];
     }
-    cell.curPriMsg = curMsg;
+    [cell setCurPriMsg:curMsg andPrePriMsg:preMsg];
     cell.tapUserIconBlock = ^(User *sender){
         UserInfoViewController *vc = [[UserInfoViewController alloc] init];
         vc.curUser = sender;
