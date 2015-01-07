@@ -43,7 +43,7 @@
         }
         if (!self.deleteBtn) {
             self.deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            self.deleteBtn.frame = CGRectMake(kScreen_Width - kTaskContentCell_PadingRight- 50 , 0, 50, 25);
+            self.deleteBtn.frame = CGRectMake(kScreen_Width - 50, 0, 50, 25);
             [self.deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
             [self.deleteBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
             [self.deleteBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
