@@ -12,7 +12,6 @@
 #import "CodingTipCell.h"
 @interface CodingTipCell ()
 @property (strong, nonatomic) UIImageView *iconView;
-//@property (strong, nonatomic) UIImageView *timeIconView;
 @property (strong, nonatomic) UILabel *timeLabel;
 @end
 
@@ -46,11 +45,6 @@
             _timeLabel.textAlignment = NSTextAlignmentRight;
             [self.contentView addSubview:_timeLabel];
         }
-//        if (!_timeIconView) {
-//            _timeIconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 12, 12)];
-//            _timeIconView.image = [UIImage imageNamed:@"time_clock_icon"];
-//            [self.contentView addSubview:_timeIconView];
-//        }
     }
     return self;
 }
@@ -74,13 +68,11 @@
     NSString *timeStr = [_curTip.created_at stringTimeDisplay];
     [_timeLabel setLongString:timeStr withVariableWidth:200];
     [_timeLabel setCenter:CGPointMake(kScreen_Width -(CGRectGetWidth(_timeLabel.frame)/2 +kPaddingLeftWidth), curBottomY+ CGRectGetHeight(_timeLabel.frame)/2)];
-//    [_timeIconView setCenter:CGPointMake(kScreen_Width -(CGRectGetWidth(_timeLabel.frame) +kPaddingLeftWidth +10), curBottomY+ CGRectGetHeight(_timeLabel.frame)/2)];
     for (HtmlMediaItem *item in _curTip.htmlMedia.mediaItems) {
         if (item.displayStr.length > 0) {
             [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }
-//    curBottomY += 15+15;
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{
