@@ -438,7 +438,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ESWeakSelf;
     if (indexPath.section == 2) {
-//        [self showHudTipStr:@"现在还不能添加或编辑描述内容"];
+        [self showHudTipStr:@"现在还不能添加或编辑描述内容"];
     }else if (indexPath.section == 1){
         if (indexPath.row == LeftImage_LRTextCellTypeTaskOwner) {
             ProjectMemberListViewController *vc = [[ProjectMemberListViewController alloc] init];
