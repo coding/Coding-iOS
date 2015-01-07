@@ -590,11 +590,24 @@
 }
 - (void)request_TaskDetail:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"任务详情"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toDeleteTaskPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toTaskDetailPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
             Task *resultA = [NSObject objectOfClass:@"Task" fromJSON:resultData];
-            block(resultA, nil);
+            if (resultA.has_description.boolValue) {
+                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[resultA toDescriptionPath] withParams:nil withMethodType:Get andBlock:^(id dataD, NSError *errorD) {
+                    if (dataD) {
+                        dataD = [dataD valueForKey:@"data"];
+                        Task_Description *taskD = [NSObject objectOfClass:@"Task_Description" fromJSON:dataD];
+                        resultA.task_description = taskD;
+                        block(resultA, nil);
+                    }else{
+                        block(nil, errorD);
+                    }
+                }];
+            }else{
+                block(resultA, nil);
+            }
         }else{
             block(nil, error);
         }

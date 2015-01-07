@@ -8,7 +8,7 @@
 
 #import "HtmlMedia.h"
 @implementation HtmlMedia
-- (instancetype)initWithString:(NSString *)htmlString trimWhitespaceAndNewline:(BOOL)isTrim{
+- (instancetype)initWithString:(NSString *)htmlString trimWhitespaceAndNewline:(BOOL)isTrim showType:(MediaShowType)showType{
     self = [super init];
     if (self) {
         _contentOrigional = htmlString;
@@ -30,14 +30,14 @@
         NSData *data=[htmlString dataUsingEncoding:NSUTF8StringEncoding];
         TFHpple *doc = [TFHpple hppleWithHTMLData:data];
         TFHppleElement *rootElement = [doc peekAtSearchWithXPathQuery:@"//body"];
-        [self analyzeHtmlElement:rootElement];
+        [self analyzeHtmlElement:rootElement withShowType:showType];
         _contentDisplay = [NSMutableString stringWithString:[_contentDisplay stringByTrimmingRightCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
         _imageItems = [_mediaItems filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %d OR type == %d", HtmlMediaItemType_Image, HtmlMediaItemType_EmotionMonkey]];
     }
     return self;
 }
 
-- (void)analyzeHtmlElement:(TFHppleElement* )element{
+- (void)analyzeHtmlElement:(TFHppleElement* )element withShowType:(MediaShowType)showType{
     HtmlMediaItem *item = nil;
     if (element.isTextNode) {
         [_contentDisplay appendString:element.content];
@@ -103,6 +103,7 @@
         }
     }
     if (item) {
+        item.showType = showType;
         item.range = NSMakeRange(_contentDisplay.length, item.displayStr.length);
         [_mediaItems addObject:item];
         [_contentDisplay appendString:item.displayStr];
@@ -111,17 +112,17 @@
     
     if (element.hasChildren) {
         for (TFHppleElement *child in [element children]) {
-            [self analyzeHtmlElement:child];
+            [self analyzeHtmlElement:child withShowType:showType];
         }
     }
 }
 
-+ (instancetype)htmlMediaWithString:(NSString *)htmlString trimWhitespaceAndNewline:(BOOL)isTrim{
-     return [[[self class] alloc] initWithString:htmlString trimWhitespaceAndNewline:isTrim];
++ (instancetype)htmlMediaWithString:(NSString *)htmlString trimWhitespaceAndNewline:(BOOL)isTrim showType:(MediaShowType)showType{
+     return [[[self class] alloc] initWithString:htmlString trimWhitespaceAndNewline:isTrim showType:showType];
 }
 
-+ (instancetype)htmlMediaWithString:(NSString *)htmlString{
-    return [[[self class] alloc] initWithString:htmlString trimWhitespaceAndNewline:NO];
++ (instancetype)htmlMediaWithString:(NSString *)htmlString showType:(MediaShowType)showType{
+    return [[[self class] alloc] initWithString:htmlString trimWhitespaceAndNewline:NO showType:showType];
 }
 
 + (void)addMediaItem:(HtmlMediaItem *)curItem toString:(NSMutableString *)curString andMediaItems:(NSMutableArray *)itemList{
@@ -170,16 +171,16 @@
     NSString *displayStr;
     switch (_type) {
         case HtmlMediaItemType_Image:
-            displayStr = @"";
+            displayStr = (_showType % MediaShowTypeImage == 0)? @"[图片]" :@"";
             break;
         case HtmlMediaItemType_Code:
-            displayStr = @"[code]";
+            displayStr = (_showType % MediaShowTypeCode == 0)? _code :@"[code]";
             break;
         case HtmlMediaItemType_EmotionEmoji:
             displayStr = [NSString stringWithFormat:@"[%@]", _title];
             break;
         case HtmlMediaItemType_EmotionMonkey:
-            displayStr = @"";
+            displayStr = (_showType % MediaShowTypeMonkey == 0)? @"洋葱猴": @"";
             break;
         case HtmlMediaItemType_ATUser:
             displayStr = _name;

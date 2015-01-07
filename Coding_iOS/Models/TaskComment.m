@@ -11,7 +11,7 @@
 @implementation TaskComment
 - (void)setContent:(NSString *)content{
     if (_content != content) {
-        _htmlMedia = [HtmlMedia htmlMediaWithString:content trimWhitespaceAndNewline:YES];
+        _htmlMedia = [HtmlMedia htmlMediaWithString:content trimWhitespaceAndNewline:YES showType:MediaShowTypeAll];
         _content = _htmlMedia.contentDisplay;
     }
 }

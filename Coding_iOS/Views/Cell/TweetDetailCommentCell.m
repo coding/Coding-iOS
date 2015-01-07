@@ -13,10 +13,7 @@
 #import "Login.h"
 
 @interface TweetDetailCommentCell ()
-
 @property (strong, nonatomic) UILabel *timeLabel;
-//@property (strong, nonatomic) UIButton *commentBtn;
-
 @end
 
 @implementation TweetDetailCommentCell
@@ -50,18 +47,6 @@
             _timeLabel.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_timeLabel];
         }
-//        if (!_commentBtn) {
-//            _commentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//            _commentBtn.frame = CGRectMake(kScreen_Width - kPaddingLeftWidth - commentBtnWidth, 0, commentBtnWidth, 20);
-//            [_commentBtn setTitle:@"回复" forState:UIControlStateNormal];
-//            [_commentBtn setImage:[UIImage imageNamed:@"topic_comment_icon"] forState:UIControlStateNormal];
-//            [_commentBtn setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateNormal];
-//            _commentBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-//            _commentBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -5, 0, 5);
-//            _commentBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-// 
-//            [self.contentView addSubview:_commentBtn];
-//        }
     }
     return self;
 }
@@ -100,13 +85,6 @@
     curBottomY += [_toComment.content getHeightWithFont:kTweetDetailCommentCell_FontContent constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 5;
     [_timeLabel setY:curBottomY];
     _timeLabel.text = [NSString stringWithFormat:@"%@ 发布于 %@", _toComment.owner.name, [_toComment.created_at stringTimesAgo]];
-//    [_commentBtn setY:curBottomY];
-//    [_commentBtn addTarget:self action:@selector(commentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//    if (_toComment.owner_id.intValue == [Login curLoginUser].id.intValue) {
-//        [_commentBtn setTitle:@"删除" forState:UIControlStateNormal];
-//    }else{
-//        [_commentBtn setTitle:@"回复" forState:UIControlStateNormal];
-//    }
 }
 
 - (void)commentBtnClicked:(id)sender{

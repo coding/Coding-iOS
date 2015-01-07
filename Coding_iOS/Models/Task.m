@@ -28,7 +28,7 @@
 
 - (void)setDescription_mine:(NSString *)description_mine{
     if (_description_mine != description_mine) {
-        HtmlMedia *htmlMedia = [HtmlMedia htmlMediaWithString:description_mine trimWhitespaceAndNewline:YES];
+        HtmlMedia *htmlMedia = [HtmlMedia htmlMediaWithString:description_mine trimWhitespaceAndNewline:YES showType:MediaShowTypeImageAndMonkey];
         _description_mine = htmlMedia.contentDisplay;
     }
 }
@@ -51,6 +51,8 @@
     curTask.handleType = TaskHandleTypeAdd;
     curTask.priority = [NSNumber numberWithInt:1];
     curTask.content = @"";
+    curTask.has_description = [NSNumber numberWithBool:YES];
+    curTask.task_description = [Task_Description defaultDescription];
     return curTask;
 }
 + (Task *)taskWithTask:(Task *)task{
@@ -207,6 +209,11 @@
     return [NSString stringWithFormat:@"api%@/task/%ld", self.backend_project_path, (long)self.id.integerValue];
 }
 
+//任务描述
+- (NSString *)toDescriptionPath{
+    return [NSString stringWithFormat:@"api/task/%@/description", self.id.stringValue];
+}
+
 - (NSString *)backend_project_path{
     if (!_backend_project_path || _backend_project_path.length <= 0) {
         if (self.project && self.project.backend_project_path && self.project.backend_project_path.length > 0) {
@@ -250,7 +257,7 @@
 
 - (void)setDescription_mine:(NSString *)description_mine{
     if (_description_mine != description_mine) {
-        _htmlMedia = [HtmlMedia htmlMediaWithString:description_mine trimWhitespaceAndNewline:YES];
+        _htmlMedia = [HtmlMedia htmlMediaWithString:description_mine trimWhitespaceAndNewline:NO showType:MediaShowTypeImageAndMonkey];
         _description_mine = _htmlMedia.contentDisplay;
     }
 }
@@ -262,6 +269,13 @@
     Task_Description *des = [[Task_Description alloc] init];
     des.markdown = oldDes.markdown;
     des.description_mine = oldDes.description_mine;
+    des.htmlMedia = oldDes.htmlMedia;
+    return des;
+}
++ (instancetype)defaultDescription{
+    Task_Description *des = [[Task_Description alloc] init];
+    des.markdown = @"";
+    des.description_mine = @"";
     return des;
 }
 

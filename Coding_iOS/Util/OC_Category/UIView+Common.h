@@ -42,6 +42,8 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
 - (void)addGradientLayerWithColors:(NSArray *)cgColorArray locations:(NSArray *)floatNumArray startPoint:(CGPoint )aPoint endPoint:(CGPoint)endPoint;
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown;
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown andColor:(UIColor *)color;
+- (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown andColor:(UIColor *)color andLeftSpace:(CGFloat)leftSpace;
+
 - (void)removeViewWithTag:(NSInteger)tag;
 - (CGSize)doubleSizeOfFrame;
 
@@ -50,6 +52,7 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
 + (UIViewAnimationOptions)animationOptionsForCurve:(UIViewAnimationCurve)curve;
 + (UIView *)lineViewWithPointYY:(CGFloat)pointY;
 + (UIView *)lineViewWithPointYY:(CGFloat)pointY andColor:(UIColor *)color;
++ (UIView *)lineViewWithPointYY:(CGFloat)pointY andColor:(UIColor *)color andLeftSpace:(CGFloat)leftSpace;
 
 
 #pragma mark LoadingView

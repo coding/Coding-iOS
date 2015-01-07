@@ -149,11 +149,15 @@ static char LoadingViewKey, BlankPageViewKey;
 }
 
 + (UIView *)lineViewWithPointYY:(CGFloat)pointY{
-    return [UIView lineViewWithPointYY:pointY andColor:[UIColor colorWithHexString:@"0xc8c7cc"]];
+    return [self lineViewWithPointYY:pointY andColor:[UIColor colorWithHexString:@"0xc8c7cc"]];
 }
 
 + (UIView *)lineViewWithPointYY:(CGFloat)pointY andColor:(UIColor *)color{
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, pointY, kScreen_Width, 0.5)];
+    return [self lineViewWithPointYY:pointY andColor:color andLeftSpace:0];
+}
+
++ (UIView *)lineViewWithPointYY:(CGFloat)pointY andColor:(UIColor *)color andLeftSpace:(CGFloat)leftSpace{
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(leftSpace, pointY, kScreen_Width - leftSpace, 0.5)];
     lineView.backgroundColor = color;
     return lineView;
 }
@@ -174,8 +178,21 @@ static char LoadingViewKey, BlankPageViewKey;
         downView.tag = kTagLineView;
         [self addSubview:downView];
     }
+    return [self addLineUp:hasUp andDown:hasDown andColor:color andLeftSpace:0];
 }
-
+- (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown andColor:(UIColor *)color andLeftSpace:(CGFloat)leftSpace{
+    [self removeViewWithTag:kTagLineView];
+    if (hasUp) {
+        UIView *upView = [UIView lineViewWithPointYY:0 andColor:color andLeftSpace:leftSpace];
+        upView.tag = kTagLineView;
+        [self addSubview:upView];
+    }
+    if (hasDown) {
+        UIView *downView = [UIView lineViewWithPointYY:CGRectGetMaxY(self.bounds)-0.5 andColor:color andLeftSpace:leftSpace];
+        downView.tag = kTagLineView;
+        [self addSubview:downView];
+    }
+}
 - (void)removeViewWithTag:(NSInteger)tag{
     for (UIView *aView in [self subviews]) {
         if (aView.tag == tag) {

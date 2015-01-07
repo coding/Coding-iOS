@@ -20,6 +20,15 @@ typedef NS_ENUM(NSInteger, HtmlMediaItemType) {
     HtmlMediaItemType_CustomLink
 };
 
+typedef NS_ENUM(NSInteger, MediaShowType) {
+    MediaShowTypeNone = 1,
+    MediaShowTypeCode = 2,
+    MediaShowTypeImage = 3,
+    MediaShowTypeMonkey = 5,
+    MediaShowTypeImageAndMonkey = 15,
+    MediaShowTypeAll = 30
+};
+
 @class HtmlMediaItem;
 
 @interface HtmlMedia : NSObject
@@ -28,10 +37,12 @@ typedef NS_ENUM(NSInteger, HtmlMediaItemType) {
 @property (readwrite, nonatomic, strong) NSMutableArray *mediaItems;
 @property (strong, nonatomic) NSArray *imageItems;
 
-+ (instancetype)htmlMediaWithString:(NSString *)htmlString;
-+ (instancetype)htmlMediaWithString:(NSString *)htmlString trimWhitespaceAndNewline:(BOOL)isTrim;
-- (instancetype)initWithString:(NSString *)htmlString trimWhitespaceAndNewline:(BOOL)isTrim;
++ (instancetype)htmlMediaWithString:(NSString *)htmlString showType:(MediaShowType)showType;
++ (instancetype)htmlMediaWithString:(NSString *)htmlString trimWhitespaceAndNewline:(BOOL)isTrim showType:(MediaShowType)showType;
+- (instancetype)initWithString:(NSString *)htmlString trimWhitespaceAndNewline:(BOOL)isTrim showType:(MediaShowType)showType;
 
+
+//在curString的末尾添加一个media元素
 + (void)addMediaItem:(HtmlMediaItem *)curItem toString:(NSMutableString *)curString andMediaItems:(NSMutableArray *)itemList;
 + (void)addLinkStr:(NSString *)linkStr type:(HtmlMediaItemType)type toString:(NSMutableString *)curString andMediaItems:(NSMutableArray *)itemList;
 + (void)addMediaItemUser:(User *)curUser toString:(NSMutableString *)curString andMediaItems:(NSMutableArray *)itemList;
@@ -42,6 +53,7 @@ typedef NS_ENUM(NSInteger, HtmlMediaItemType) {
 
 @interface HtmlMediaItem : NSObject
 @property (assign, nonatomic) HtmlMediaItemType type;
+@property (assign, nonatomic) MediaShowType showType;
 @property (readwrite, nonatomic, strong) NSString *src, *title, *href, *name, *code, *linkStr;
 @property (assign, nonatomic) NSRange range;
 

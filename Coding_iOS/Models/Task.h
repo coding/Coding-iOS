@@ -66,6 +66,9 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 //任务详情
 - (NSString *)toTaskDetailPath;
 
+//任务描述
+- (NSString *)toDescriptionPath;
+
 //评论任务
 - (NSString *)toDoCommentPath;
 - (NSDictionary *)toDoCommentParams;
@@ -78,4 +81,5 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 @property (strong, nonatomic) NSString *description_mine, *markdown;
 @property (strong, nonatomic) HtmlMedia *htmlMedia;
 + (instancetype)taskDescriptionFrom:(Task_Description *)oldDes;
++ (instancetype)defaultDescription;
 @end

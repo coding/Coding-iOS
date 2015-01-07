@@ -115,7 +115,7 @@
 
 - (void)setContent:(NSString *)content{
     if (_content != content) {
-        _htmlMedia = [HtmlMedia htmlMediaWithString:content trimWhitespaceAndNewline:NO];
+        _htmlMedia = [HtmlMedia htmlMediaWithString:content trimWhitespaceAndNewline:NO showType:MediaShowTypeNone];
         _content = _htmlMedia.contentDisplay;
     }
 }

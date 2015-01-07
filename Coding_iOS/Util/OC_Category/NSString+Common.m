@@ -96,7 +96,7 @@
     return [self urlImageWithCodePathResize:2*CGRectGetWidth(view.frame)];
 }
 - (NSString *)stringByRemoveHtmlTag{
-    HtmlMedia *media = [HtmlMedia htmlMediaWithString:self];
+    HtmlMedia *media = [HtmlMedia htmlMediaWithString:self showType:MediaShowTypeImageAndMonkey];
     return media.contentDisplay;
 }
 - (CGSize)getSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size{
