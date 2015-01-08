@@ -75,7 +75,8 @@
             && [self.owner.global_key isEqualToString:task.owner.global_key]
             && self.priority.intValue == task.priority.intValue
             && self.status.intValue == task.status.intValue
-            && ((!self.deadline && !task.deadline) || [self.deadline isEqualToString:task.deadline]));
+            && ((!self.deadline && !task.deadline) || [self.deadline isEqualToString:task.deadline])
+            && ((!self.task_description && (!task.task_description || task.task_description.markdown.length <= 0)) || [self.task_description isSameTo:task.task_description]));
 }
 - (void)copyDataFrom:(Task *)task{
     self.id = task.id;
@@ -152,7 +153,7 @@
     if (self.has_description.boolValue) {
         NSString *newMD = self.task_description.markdown;
         if (newMD && ![newMD isEqualToString:oldTask.task_description.markdown]) {
-            [params setObject:newMD forKey:@"description"];
+            [params setObject:[newMD aliasedString] forKey:@"description"];
         }
     }
     //执行者
@@ -187,6 +188,9 @@
                                                                                     @"priority" : self.priority}];
     if (self.deadline.length >= 10) {
         [params setObject:self.deadline forKey:@"deadline"];
+    }
+    if (self.task_description.markdown.length > 0) {
+        [params setObject:[self.task_description.markdown aliasedString] forKey:@"description"];
     }
     return params;
 }
@@ -255,6 +259,16 @@
 
 @implementation Task_Description
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.markdown = @"";
+        self.description_mine = @"";
+    }
+    return self;
+}
+
 - (void)setDescription_mine:(NSString *)description_mine{
     if (_description_mine != description_mine) {
         _htmlMedia = [HtmlMedia htmlMediaWithString:description_mine trimWhitespaceAndNewline:NO showType:MediaShowTypeImageAndMonkey];
@@ -273,10 +287,12 @@
     return des;
 }
 + (instancetype)defaultDescription{
-    Task_Description *des = [[Task_Description alloc] init];
-    des.markdown = @"";
-    des.description_mine = @"";
-    return des;
+    return [[Task_Description alloc] init];
 }
-
+- (BOOL)isSameTo:(Task_Description *)td{
+    if (self.markdown.length == 0 && !td) {
+        return YES;
+    }
+    return [self.markdown isEqualToString:td.markdown];
+}
 @end

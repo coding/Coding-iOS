@@ -137,5 +137,6 @@
 
 //Other
 - (void)request_Users_WithSearchString:(NSString *)searchStr andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_MDHtmlStr_WithMDStr:(NSString *)mdStr andBlock:(void (^)(id data, NSError *error))block;
 
 @end

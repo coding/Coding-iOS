@@ -82,4 +82,5 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 @property (strong, nonatomic) HtmlMedia *htmlMedia;
 + (instancetype)taskDescriptionFrom:(Task_Description *)oldDes;
 + (instancetype)defaultDescription;
+- (BOOL)isSameTo:(Task_Description *)td;
 @end

@@ -30,7 +30,7 @@
     
     self.responseSerializer = [AFJSONResponseSerializer serializer];
     
-    self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", nil];
+    self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", @"text/plain", nil];
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     self.securityPolicy.allowInvalidCertificates = YES;
     
