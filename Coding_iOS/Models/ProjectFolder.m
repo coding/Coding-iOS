@@ -44,22 +44,18 @@
     }
     return self;
 }
-- (void)setCountWithArray:(NSArray *)countArray{
-    __block NSInteger count = _sub_folders.count;
-    [countArray enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
-        NSNumber *folder_id = [obj objectForKey:@"folder"];
-        if (folder_id && folder_id.integerValue == _file_id.integerValue) {
-            count += [(NSNumber *)[obj objectForKey:@"count"] integerValue];
-            *stop = YES;
-        }
-    }];
-    self.count = [NSNumber numberWithInteger:count];
-}
 - (BOOL)isDefaultFolder{
     return !(_file_id && _file_id.integerValue != 0);
 }
 - (BOOL)canCreatSubfolder{
     return !((_parent_id && _parent_id.integerValue != 0) || [self isDefaultFolder]);
+}
+- (NSInteger)fileCountIncludeSub{
+    NSInteger fileCount = self.count.integerValue;
+    for (ProjectFolder *subFolder in self.sub_folders) {
+        fileCount += subFolder.fileCountIncludeSub;
+    }
+    return fileCount;
 }
 - (NSString *)toFilesPath{
     return [NSString stringWithFormat:@"api/project/%@/files/%@", _project_id.stringValue, _file_id.stringValue];

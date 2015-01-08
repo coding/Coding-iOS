@@ -19,9 +19,9 @@
 + (ProjectFolder *)folderWithId:(NSNumber *)file_id;
 - (ProjectFolder *)hasFolderWithId:(NSNumber *)file_id;
 
-- (void)setCountWithArray:(NSArray *)countArray;
 - (BOOL)isDefaultFolder;
 - (BOOL)canCreatSubfolder;
+- (NSInteger)fileCountIncludeSub;
 
 - (NSString *)toFilesPath;
 - (NSDictionary *)toFilesParams;

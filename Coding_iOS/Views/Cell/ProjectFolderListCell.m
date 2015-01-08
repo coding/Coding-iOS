@@ -50,7 +50,7 @@
         _iconView.image = [UIImage imageNamed:@"icon_file_folder_normal"];
     }
     _nameLabel.text = !_useToMove?
-    [NSString stringWithFormat:@"%@（%ld）", _folder.name, (long)(_folder.count.integerValue)]
+    [NSString stringWithFormat:@"%@（%ld）", _folder.name, (long)(_folder.fileCountIncludeSub)]
     :[NSString stringWithFormat:@"%@（%ld）", _folder.name, (long)_folder.sub_folders.count];
 }
 
