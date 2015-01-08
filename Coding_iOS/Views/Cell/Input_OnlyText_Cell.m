@@ -30,13 +30,13 @@
     // Configure the view for the selected state
 }
 - (IBAction)editDidBegin:(id)sender {
-    [self.textField setValue:[UIColor colorWithHexString:@"0xffffff"] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
+//    [self.textField setValue:[UIColor colorWithHexString:@"0xffffff"] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
     _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff"];
     self.clearBtn.hidden = self.textField.text.length <= 0;
 }
 
 - (IBAction)editDidEnd:(id)sender {
-    [self.textField setValue:[UIColor colorWithHexString:@"0xffffff" andAlpha:0.5] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
+//    [self.textField setValue:[UIColor colorWithHexString:@"0xffffff" andAlpha:0.5] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
     _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
     self.clearBtn.hidden = YES;
     if (self.editDidEndBlock) {
