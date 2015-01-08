@@ -421,7 +421,7 @@
         [headerView setHeight:30.0];
     }else if (section == 3){
         headerView.backgroundColor = [UIColor whiteColor];
-        [headerView setHeight:0.0];
+        [headerView setHeight:1.0];
     }else{
         [headerView setHeight:20];
     }
