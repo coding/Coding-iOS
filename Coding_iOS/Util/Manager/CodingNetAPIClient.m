@@ -116,9 +116,6 @@
     }
 }
 
-
-
-
 + (void)saveCookieData{
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
     for (NSHTTPCookie *cookie in cookies) {
@@ -166,7 +163,10 @@
         [formData appendPartWithFileData:data name:name fileName:fileName mimeType:@"image/jpeg"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
-        if (success) {
+        id error = [self handleResponse:responseObject];
+        if (error && failure) {
+            failure(operation, error);
+        }else{
             success(operation, responseObject);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

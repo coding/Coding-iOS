@@ -407,27 +407,27 @@
 
 #pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-//    NSLog(@"%@", info);
-    UIImage *editedImage, *originalImage;
-    editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
-    
-    [[Coding_NetAPIManager sharedManager] request_UpdateUserIconImage:editedImage successBlock:^(id responseObj) {
-        _curUser = responseObj;
-        [_myTableView reloadData];
-    } failureBlock:^(NSError *error) {
-        [self showError:error];
-    } progerssBlock:^(CGFloat progressValue) {
-        DebugLog(@"%.1f", progressValue);
+    [picker dismissViewControllerAnimated:YES completion:^{
+        UIImage *editedImage, *originalImage;
+        editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
+        __weak typeof(self) weakSelf = self;
+        
+        [[Coding_NetAPIManager sharedManager] request_UpdateUserIconImage:editedImage successBlock:^(id responseObj) {
+            weakSelf.curUser.avatar = responseObj;
+            [weakSelf.myTableView reloadData];
+        } failureBlock:^(NSError *error) {
+            [weakSelf showError:error];
+        } progerssBlock:^(CGFloat progressValue) {
+            DebugLog(@"%.1f", progressValue);
+        }];
+        
+        // 保存原图片到相册中
+        if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+            originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+            SEL selectorToCall = @selector(imageWasSavedSuccessfully:didFinishSavingWithError:contextInfo:);
+            UIImageWriteToSavedPhotosAlbum(originalImage, self,selectorToCall, NULL);
+        }
     }];
-    
-    
-    // 保存原图片到相册中
-    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-        originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-        SEL selectorToCall = @selector(imageWasSavedSuccessfully:didFinishSavingWithError:contextInfo:);
-        UIImageWriteToSavedPhotosAlbum(originalImage, self,selectorToCall, NULL);
-    }
-    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 // 保存图片后到相册后，调用的相关方法，查看是否保存成功

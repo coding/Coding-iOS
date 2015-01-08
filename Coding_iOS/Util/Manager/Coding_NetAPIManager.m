@@ -66,8 +66,10 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:kNetPath_Code_Login withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         id resultData = [data valueForKeyPath:@"data"];
         if (resultData) {
-            [Login doLogin:resultData];
             User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];
+            if (curLoginUser) {
+                [Login doLogin:resultData];
+            }
             block(curLoginUser, nil);
         }else{
             block(nil, error);
@@ -1046,8 +1048,10 @@
         if (data) {
             [self showStatusBarSuccessStr:@"个人信息修改成功"];
             id resultData = [data valueForKeyPath:@"data"];
-            [Login doLogin:resultData];
             User *user = [NSObject objectOfClass:@"User" fromJSON:resultData];
+            if (user) {
+                [Login doLogin:resultData];
+            }
             block(user, nil);
         }else{
             [self showStatusBarError:error];
@@ -1219,23 +1223,16 @@
                        failureBlock:(void (^)(NSError *error))failure
                       progerssBlock:(void (^)(CGFloat progressValue))progress{
     [MobClick event:kUmeng_Event_Request label:@"更换头像"];
-    [self uploadUserIconImage:image successBlock:^(NSString *imagePath) {
-        [[CodingNetAPIClient sharedJsonClient]
-         requestJsonDataWithPath:[NSString stringWithFormat:@"%@api/user/avatarCrop", kNetPath_Code_Base]
-         withParams:@{@"url" : imagePath,
-                      @"top" : [NSNumber numberWithInteger:0],
-                      @"left" : [NSNumber numberWithInteger:0],
-                      @"size" : [NSNumber numberWithInteger:CGImageGetWidth(image.CGImage)]} withMethodType:Post andBlock:^(id data, NSError *error) {
-                          if (data) {
-                              id resultData = [data valueForKeyPath:@"data"];
-                              [Login doLogin:resultData];
-                              User *user = [NSObject objectOfClass:@"User" fromJSON:resultData];
-                              success(user);
-                          }else{
-                              failure(error);
-                          }
-                      }];
-    } failureBlock:failure progerssBlock:progress];
+
+    [self showStatusBarQueryStr:@"正在上传头像"];
+    [[CodingNetAPIClient sharedJsonClient] uploadImage:image path:@"api/user/avatar?update=1" name:@"file" successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self showStatusBarSuccessStr:@"上传头像成功"];
+        id resultData = [responseObject valueForKeyPath:@"data"];
+        success(resultData);
+    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+        failure(error);
+        [self showStatusBarError:error];
+    } progerssBlock:progress];
 }
 
 - (void)loadImageWithPath:(NSString *)imageUrlStr completeBlock:(void (^)(UIImage *image, NSError *error))block{

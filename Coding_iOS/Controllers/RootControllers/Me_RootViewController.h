@@ -8,6 +8,6 @@
 
 #import "BaseViewController.h"
 
-@interface Me_RootViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface Me_RootViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
 
 @end
