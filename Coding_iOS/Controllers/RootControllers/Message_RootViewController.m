@@ -37,7 +37,7 @@
     if (_myTableView.contentOffset.y > 0) {
         [_myTableView setContentOffset:CGPointZero animated:YES];
     }else{
-        [self refresh:YES];
+        [self refresh:NO];
     }
 }
 
@@ -141,7 +141,7 @@
     _myPriMsgs.willLoadMore = NO;
     __weak typeof(self) weakSelf = self;
     if (animated) {
-        [_refreshControl beginRefreshing];
+//        [_refreshControl beginRefreshing];
     }
     [self sendRequest_PrivateMessages];
     
