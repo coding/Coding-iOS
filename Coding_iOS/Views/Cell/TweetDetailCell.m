@@ -164,8 +164,9 @@
         [weakSelf userBtnClicked];
     }];
     //owner姓名
-    [self.ownerNameBtn setUserTitle:_tweet.owner.name];
-    
+//    [self.ownerNameBtn setUserTitle:_tweet.owner.name];
+    [self.ownerNameBtn setUserTitle:_tweet.owner.name font:[UIFont systemFontOfSize:17] maxWidth:(kScreen_Width- kTweetDetailCell_PadingLeft - 85)];
+
     //发出冒泡的时间
     [self.timeLabel setLongString:[_tweet.created_at stringTimesAgo] withVariableWidth:kScreen_Width/2];
     CGFloat timeLabelX = kScreen_Width - kPaddingLeftWidth - CGRectGetWidth(self.timeLabel.frame);
