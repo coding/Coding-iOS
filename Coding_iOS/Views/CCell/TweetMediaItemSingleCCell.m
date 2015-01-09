@@ -50,14 +50,23 @@
             }
         }
     }];
-    [_imgView setSize:[[ImageSizeManager shareManager] sizeWithSrc:_curMediaItem.src originalWidth:kTweetMediaItemCCellSingle_Width maxHeight:kTweetMediaItemCCellSingle_MaxHeight]];
+    if (curMediaItem.type == HtmlMediaItemType_EmotionMonkey) {
+        [_imgView setSize:CGSizeMake(((kScreen_Width - 80.0)/3.0), ((kScreen_Width - 80.0)/3.0))];
+    }else{
+        [_imgView setSize:[[ImageSizeManager shareManager] sizeWithSrc:_curMediaItem.src originalWidth:kTweetMediaItemCCellSingle_Width maxHeight:kTweetMediaItemCCellSingle_MaxHeight]];
+    }
 }
 
 +(CGSize)ccellSizeWithObj:(id)obj{
     CGSize itemSize;
     if ([obj isKindOfClass:[HtmlMediaItem class]]) {
         HtmlMediaItem *curMediaItem = (HtmlMediaItem *)obj;
-        itemSize = [[ImageSizeManager shareManager] sizeWithSrc:curMediaItem.src originalWidth:kTweetMediaItemCCellSingle_Width maxHeight:kTweetMediaItemCCellSingle_MaxHeight];
+        if (curMediaItem.type == HtmlMediaItemType_EmotionMonkey) {
+            itemSize = CGSizeMake(((kScreen_Width - 80.0)/3.0), ((kScreen_Width - 80.0)/3.0));
+        }else{
+            itemSize = [[ImageSizeManager shareManager] sizeWithSrc:curMediaItem.src originalWidth:kTweetMediaItemCCellSingle_Width maxHeight:kTweetMediaItemCCellSingle_MaxHeight];
+        }
+
     }
     return itemSize;
 }
