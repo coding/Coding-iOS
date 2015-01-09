@@ -461,7 +461,7 @@
             CGSize itemSize = [TweetMediaItemSingleCCell ccellSizeWithObj:_tweet.htmlMedia.imageItems.firstObject];
             insetForSection = UIEdgeInsetsMake(0, 0, 0, kTweetCell_ContentWidth - itemSize.width);
         }else{
-            insetForSection = UIEdgeInsetsMake(0, 0, 0, 10);
+            insetForSection = UIEdgeInsetsMake(0, 0, 0, 0);
         }
     }else{
         insetForSection = UIEdgeInsetsMake(kTweetCell_LikeUserCCell_Pading, 5, kTweetCell_LikeUserCCell_Pading, 5);

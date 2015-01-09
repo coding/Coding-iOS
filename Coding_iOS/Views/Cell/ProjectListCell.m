@@ -54,7 +54,7 @@
         return;
     }
     //Icon
-    [_projectIconView sd_setImageWithURL:[_project.icon urlImageWithCodePathResizeToView:_projectIconView] placeholderImage:kPlaceholderCodingSquareView(_projectIconView)];
+    [_projectIconView sd_setImageWithURL:[_project.icon urlImageWithCodePathResizeToView:_projectIconView] placeholderImage:kPlaceholderCodingSquareWidth(55.0)];
     //Title & UserName
     _projectTitleLabel.text = _project.name;
     _ownerTitleLabel.text = _project.owner_user_name;
