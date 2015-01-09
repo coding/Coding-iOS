@@ -188,7 +188,7 @@
 
 #pragma mark - Table view Header Footer
 - (UIView *)customHeaderView{
-    UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 220)];
+    UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height/3)];
     
     _iconUserView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 80, 80)];
     _iconUserView.contentMode = UIViewContentModeScaleAspectFit;
@@ -202,7 +202,7 @@
     [_iconUserView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(80, 80));
         make.centerX.equalTo(headerV);
-        make.centerY.equalTo(headerV).offset(40);
+        make.centerY.equalTo(headerV).offset(30);
     }];
     [_iconUserView setImage:[UIImage imageNamed:@"icon_user_monkey"]];
     return headerV;
