@@ -7,6 +7,7 @@
 //
 
 #define kTweetMediaItemCCellSingle_Width (0.6 *kScreen_Width)
+#define kTweetMediaItemCCellSingle_WidthMonkey ((kScreen_Width - 80.0)/3.0)
 #define kTweetMediaItemCCellSingle_MaxHeight (0.6 *kScreen_Height)
 
 #import "TweetMediaItemSingleCCell.h"
@@ -40,7 +41,13 @@
         _curMediaItem = curMediaItem;
     }
     __weak typeof(self) weakSelf = self;
-    [_imgView sd_setImageWithURL:[_curMediaItem.src urlImageWithCodePathResizeToView:_imgView] placeholderImage:kPlaceholderCodingSquareWidth(150.0) options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    CGSize reSize;
+    if (curMediaItem.type == HtmlMediaItemType_EmotionMonkey) {
+        reSize = CGSizeMake(kTweetMediaItemCCellSingle_WidthMonkey, kTweetMediaItemCCellSingle_WidthMonkey);
+    }else{
+        reSize = [[ImageSizeManager shareManager] sizeWithSrc:_curMediaItem.src originalWidth:kTweetMediaItemCCellSingle_Width maxHeight:kTweetMediaItemCCellSingle_MaxHeight];
+    }
+    [_imgView sd_setImageWithURL:[_curMediaItem.src urlImageWithCodePathResize:2*reSize.width] placeholderImage:kPlaceholderCodingSquareWidth(150.0) options:SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (image) {
             if (![[ImageSizeManager shareManager] hasSrc:weakSelf.curMediaItem.src]) {
                 [[ImageSizeManager shareManager] saveImage:weakSelf.curMediaItem.src size:image.size];
@@ -50,11 +57,7 @@
             }
         }
     }];
-    if (curMediaItem.type == HtmlMediaItemType_EmotionMonkey) {
-        [_imgView setSize:CGSizeMake(((kScreen_Width - 80.0)/3.0), ((kScreen_Width - 80.0)/3.0))];
-    }else{
-        [_imgView setSize:[[ImageSizeManager shareManager] sizeWithSrc:_curMediaItem.src originalWidth:kTweetMediaItemCCellSingle_Width maxHeight:kTweetMediaItemCCellSingle_MaxHeight]];
-    }
+    [_imgView setSize:reSize];
 }
 
 +(CGSize)ccellSizeWithObj:(id)obj{
@@ -62,7 +65,7 @@
     if ([obj isKindOfClass:[HtmlMediaItem class]]) {
         HtmlMediaItem *curMediaItem = (HtmlMediaItem *)obj;
         if (curMediaItem.type == HtmlMediaItemType_EmotionMonkey) {
-            itemSize = CGSizeMake(((kScreen_Width - 80.0)/3.0), ((kScreen_Width - 80.0)/3.0));
+            itemSize = CGSizeMake(kTweetMediaItemCCellSingle_WidthMonkey, kTweetMediaItemCCellSingle_WidthMonkey);
         }else{
             itemSize = [[ImageSizeManager shareManager] sizeWithSrc:curMediaItem.src originalWidth:kTweetMediaItemCCellSingle_Width maxHeight:kTweetMediaItemCCellSingle_MaxHeight];
         }
