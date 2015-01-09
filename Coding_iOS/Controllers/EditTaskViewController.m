@@ -26,6 +26,7 @@
 #import "TaskCommentBlankCell.h"
 #import "ActionSheetDatePicker.h"
 #import "TaskDescriptionCell.h"
+#import "TaskDescriptionViewController.h"
 
 @interface EditTaskViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
@@ -135,7 +136,8 @@
                                RACObserve(self, self.myCopyTask.owner),
                                RACObserve(self, self.myCopyTask.priority),
                                RACObserve(self, self.myCopyTask.status),
-                                RACObserve(self, self.myCopyTask.deadline)] reduce:^id (NSString *content, User *owner, NSNumber *priority, NSNumber *status, NSString *deadline){
+                                RACObserve(self, self.myCopyTask.deadline),
+                                RACObserve(self, self.myCopyTask.task_description.markdown)] reduce:^id (NSString *content, User *owner, NSNumber *priority, NSNumber *status, NSString *deadline){
                                    return nil;
                                }] subscribeNext:^(id x) {
                                    @strongify(self);
@@ -438,7 +440,14 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ESWeakSelf;
     if (indexPath.section == 2) {
-        [self showHudTipStr:@"现在还不能添加或编辑描述内容"];
+        TaskDescriptionViewController *vc = [[TaskDescriptionViewController alloc] init];
+        vc.markdown = _myCopyTask.task_description.markdown;
+        vc.savedNewMDBlock = ^(NSString *mdStr, NSString *mdHtmlStr){
+            ESStrongSelf;
+            _self.myCopyTask.task_description.markdown = mdStr;
+            _self.myCopyTask.task_description.description_mine = mdHtmlStr;
+        };
+        [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section == 1){
         if (indexPath.row == LeftImage_LRTextCellTypeTaskOwner) {
             ProjectMemberListViewController *vc = [[ProjectMemberListViewController alloc] init];

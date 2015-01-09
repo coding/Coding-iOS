@@ -1262,4 +1262,15 @@
         }
     }];
 }
+- (void)request_MDHtmlStr_WithMDStr:(NSString *)mdStr andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"md-html转化"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/markdown/previewNoAt" withParams:@{@"content" : mdStr} withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            block(resultData, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 @end

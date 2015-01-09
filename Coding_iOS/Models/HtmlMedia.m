@@ -96,7 +96,7 @@
                 emotionStr = [NSString stringWithFormat:@"%@", [[item.src componentsSeparatedByString:@"/"].lastObject componentsSeparatedByString:@"."].firstObject];
             }
             item.title = emotionStr;
-        }else if ([element_Class isEqualToString:@"bubble-markdown-image"] || [element_Class isEqualToString:@"message-image"]){
+        }else {
             //图片
             item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_Image];
             item.src = [attributes objectForKey:@"src"];
