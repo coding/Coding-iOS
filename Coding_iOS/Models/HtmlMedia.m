@@ -171,10 +171,10 @@
     NSString *displayStr;
     switch (_type) {
         case HtmlMediaItemType_Image:
-            displayStr = (_showType % MediaShowTypeImage == 0)? @"[图片]" :@"";
+            displayStr = (_showType % MediaShowTypeImage == 0)? @"[图片]": @"";
             break;
         case HtmlMediaItemType_Code:
-            displayStr = (_showType % MediaShowTypeCode == 0)? _code :@"[code]";
+            displayStr = (_showType % MediaShowTypeCode == 0)? _code: @"[code]";
             break;
         case HtmlMediaItemType_EmotionEmoji:
             displayStr = [NSString stringWithFormat:@"[%@]", _title];
@@ -193,6 +193,6 @@
             displayStr = @"";
             break;
     }
-    return displayStr;
+    return displayStr? displayStr : @"";
 }
 @end
