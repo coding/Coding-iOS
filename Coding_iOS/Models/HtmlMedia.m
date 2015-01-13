@@ -174,13 +174,13 @@
             displayStr = (_showType % MediaShowTypeImage == 0)? @"[图片]": @"";
             break;
         case HtmlMediaItemType_Code:
-            displayStr = (_showType % MediaShowTypeCode == 0)? _code: @"[code]";
+            displayStr = (_showType % MediaShowTypeCode == 0)? [NSString stringWithFormat:@"[%@]", _code]: @"[code]";
             break;
         case HtmlMediaItemType_EmotionEmoji:
             displayStr = [NSString stringWithFormat:@"[%@]", _title];
             break;
         case HtmlMediaItemType_EmotionMonkey:
-            displayStr = (_showType % MediaShowTypeMonkey == 0)? @"洋葱猴": @"";
+            displayStr = (_showType % MediaShowTypeMonkey == 0)? @"[洋葱猴]": @"";
             break;
         case HtmlMediaItemType_ATUser:
             displayStr = _name;
