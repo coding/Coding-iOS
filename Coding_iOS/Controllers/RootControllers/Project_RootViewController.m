@@ -9,7 +9,6 @@
 #import "Project_RootViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "LoginViewController.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "ProjectListView.h"
 #import "ProjectViewController.h"
 #import "HtmlMedia.h"

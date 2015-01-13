@@ -7,7 +7,6 @@
 //
 
 #import "MessageMediaItemCCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 #define kMessageCell_ContentWidth (0.6 *kScreen_Width)
 

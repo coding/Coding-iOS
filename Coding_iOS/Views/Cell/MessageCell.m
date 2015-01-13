@@ -19,7 +19,6 @@
 
 
 #import "MessageCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "UITapImageView.h"
 #import "MessageMediaItemCCell.h"
 #import "MJPhotoBrowser.h"

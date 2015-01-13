@@ -9,7 +9,6 @@
 #import "XTSegmentControl.h"
 #import "ProjectMember.h"
 #import "Projects.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 #define XTSegmentControlItemFont (15)
 

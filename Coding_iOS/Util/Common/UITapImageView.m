@@ -7,7 +7,6 @@
 //
 
 #import "UITapImageView.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface  UITapImageView ()
 

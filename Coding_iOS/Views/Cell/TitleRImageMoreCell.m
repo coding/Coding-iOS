@@ -9,7 +9,6 @@
 #define kTitleRImageMoreCell_HeightIcon 50.0
 
 #import "TitleRImageMoreCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface TitleRImageMoreCell ()
 @property (strong, nonatomic) UILabel *titleLabel;

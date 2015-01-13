@@ -11,7 +11,6 @@
 
 
 #import "TopicContentCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "WebContentManager.h"
 
 @interface TopicContentCell ()

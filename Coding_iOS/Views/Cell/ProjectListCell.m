@@ -9,7 +9,6 @@
 #define kProjectListCell_IconHeight 55.0
 
 #import "ProjectListCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ProjectListCell ()
 @property (nonatomic, strong) UIImageView *projectIconView;

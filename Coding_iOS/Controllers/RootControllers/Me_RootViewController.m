@@ -13,7 +13,6 @@
 #import "Coding_NetAPIManager.h"
 #import "RDVTabBarController.h"
 #import "RDVTabBarItem.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "TitleValueCell.h"
 #import "SettingViewController.h"
 #import "UsersViewController.h"

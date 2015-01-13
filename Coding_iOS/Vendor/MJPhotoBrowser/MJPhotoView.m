@@ -8,13 +8,14 @@
 #import "MJPhotoView.h"
 #import "MJPhoto.h"
 #import "MJPhotoLoadingView.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import <QuartzCore/QuartzCore.h>
+#import <YLGIFImage/YLGIFImage.h>
+#import <YLGIFImage/YLImageView.h>
 
 @interface MJPhotoView ()
 {
     BOOL _doubleTap;
-    UIImageView *_imageView;
+    YLImageView *_imageView;
     MJPhotoLoadingView *_photoLoadingView;
 }
 @end
@@ -26,7 +27,7 @@
     if ((self = [super initWithFrame:frame])) {
         self.clipsToBounds = YES;
 		// 图片
-		_imageView = [[UIImageView alloc] init];
+		_imageView = [[YLImageView alloc] init];
 		_imageView.contentMode = UIViewContentModeScaleAspectFit;
 		[self addSubview:_imageView];
         
@@ -54,6 +55,12 @@
     return self;
 }
 
+//设置imageView的图片
+- (void)configImageViewWithImage:(UIImage *)image{
+    _imageView.image = image;
+}
+
+
 #pragma mark - photoSetter
 - (void)setPhoto:(MJPhoto *)photo {
     _photo = photo;
@@ -65,29 +72,33 @@
 - (void)showImage
 {
     if (_photo.firstShow) { // 首次显示
-        _imageView.image = _photo.placeholder; // 占位图片
-
+        _imageView.image = _photo.placeholder;
         if (_photo.image) {
+            _imageView.image = _photo.image;
             if ([self.photoViewDelegate respondsToSelector:@selector(photoViewImageFinishLoad:)]) {
                 [self.photoViewDelegate photoViewImageFinishLoad:self];
             }
-            // 调整frame参数
-            [self adjustFrame];
-        }else if (![_photo.url.absoluteString hasSuffix:@"gif"]) {
-            // 不是gif，就马上开始下载
+        }else {
+            // 显示进度条
+            [_photoLoadingView showLoading];
+            [self addSubview:_photoLoadingView];
+            
             ESWeakSelf;
-            ESWeak_(_photo);
-            [_imageView sd_setImageWithURL:_photo.url placeholderImage:_photo.placeholder options:SDWebImageRetryFailed|SDWebImageLowPriority completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            ESWeak_(_photoLoadingView);
+            ESWeak_(_imageView);
+            
+            [SDWebImageManager.sharedManager downloadImageWithURL:_photo.url options:SDWebImageRetryFailed|SDWebImageLowPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                ESStrong_(_photoLoadingView);
+                if (receivedSize > kMinProgress) {
+                    __photoLoadingView.progress = (float)receivedSize/expectedSize;
+                }
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                 ESStrongSelf;
-                ESStrong_(_photo);
+                ESStrong_(_imageView)
                 if (image) {
-                    __photo.image = image;
+                    __imageView.image = image;
                 }
-                if ([_self.photoViewDelegate respondsToSelector:@selector(photoViewImageFinishLoad:)]) {
-                    [_self.photoViewDelegate photoViewImageFinishLoad:_self];
-                }
-                // 调整frame参数
-                [_self adjustFrame];
+                [_self photoDidFinishLoadWithImage:image];
             }];
         }
     } else {
@@ -102,9 +113,10 @@
 - (void)photoStartLoad
 {
     if (_photo.image) {
-        self.scrollEnabled = YES;
         _imageView.image = _photo.image;
+        self.scrollEnabled = YES;
     } else {
+        _imageView.image = _photo.placeholder;
         self.scrollEnabled = NO;
         // 直接显示进度条
         [_photoLoadingView showLoading];
@@ -112,13 +124,17 @@
         
         ESWeakSelf;
         ESWeak_(_photoLoadingView);
-        [_imageView sd_setImageWithURL:_photo.url placeholderImage:_photo.srcImageView.image options:SDWebImageRetryFailed|SDWebImageLowPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        ESWeak_(_imageView);
+        
+        [SDWebImageManager.sharedManager downloadImageWithURL:_photo.url options:SDWebImageRetryFailed|SDWebImageLowPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             ESStrong_(_photoLoadingView);
             if (receivedSize > kMinProgress) {
                 __photoLoadingView.progress = (float)receivedSize/expectedSize;
             }
-        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             ESStrongSelf;
+            ESStrong_(_imageView);
+            __imageView.image = image;
             [_self photoDidFinishLoadWithImage:image];
         }];
     }
@@ -201,42 +217,20 @@
     [_photoLoadingView removeFromSuperview];
     self.contentOffset = CGPointZero;
     
-    // 清空底部的小图
-//    _photo.srcImageView.image = nil;
-    
     CGFloat duration = 0.3;
-    if (_photo.srcImageView.clipsToBounds) {
-        [self performSelector:@selector(reset) withObject:nil afterDelay:duration];
-    }
     self.superview.backgroundColor = [UIColor clearColor];
     [UIView animateWithDuration:duration + 0.1 animations:^{
         self.alpha = 0.0;
-//        _imageView.frame = [_photo.srcImageView convertRect:_photo.srcImageView.bounds toView:nil];
-//
-//        // gif图片仅显示第0张
-//        if (_imageView.image.images) {
-//            _imageView.image = _imageView.image.images[0];
-//        }
-        
         // 通知代理
         if ([self.photoViewDelegate respondsToSelector:@selector(photoViewSingleTap:)]) {
             [self.photoViewDelegate photoViewSingleTap:self];
         }
     } completion:^(BOOL finished) {
-        // 设置底部的小图片
-//        _photo.srcImageView.image = _photo.placeholder;
-        
         // 通知代理
         if ([self.photoViewDelegate respondsToSelector:@selector(photoViewDidEndZoom:)]) {
             [self.photoViewDelegate photoViewDidEndZoom:self];
         }
     }];
-}
-
-- (void)reset
-{
-//    _imageView.image = _photo.capture;
-//    _imageView.contentMode = UIViewContentModeScaleToFill;
 }
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)tap {

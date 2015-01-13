@@ -1,7 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 
-pod 'SDWebImage', '3.7.1'
 pod 'TTTAttributedLabel', '1.10.1'
 pod 'RegexKitLite', '4.0'
 pod 'hpple', '0.2.0'
@@ -15,3 +14,4 @@ pod 'MMMarkdown', '0.3'
 pod 'Masonry', '0.5.3'
 pod 'NYXImagesKit', '2.3'
 pod 'UIImage+BlurredFrame', '0.0.4'
+pod 'YLGIFImage', '0.11'

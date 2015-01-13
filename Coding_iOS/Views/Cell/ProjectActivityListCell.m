@@ -26,7 +26,6 @@
 #define kProjectActivityListCell_TimeFont [UIFont systemFontOfSize:11]
 
 #import "ProjectActivityListCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ProjectActivityListCell ()<TTTAttributedLabelDelegate>
 @property (nonatomic, strong) ProjectActivity *proAct;

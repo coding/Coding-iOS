@@ -10,7 +10,6 @@
 #define kTaskCommentCell_LeftPading 20.0
 
 #import "TaskCommentCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface TaskCommentCell ()
 @property (strong, nonatomic) UIImageView *ownerIconView;

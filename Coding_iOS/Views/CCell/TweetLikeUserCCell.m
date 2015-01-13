@@ -9,7 +9,6 @@
 #define kTweetCell_LikeUserCCell_Height 25.0
 
 #import "TweetLikeUserCCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface TweetLikeUserCCell ()
 @property (strong, nonatomic) User *curUser;

@@ -8,7 +8,6 @@
 
 #import "LeftImage_LRTextCell.h"
 #import "Task.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface LeftImage_LRTextCell ()
 @property (strong, nonatomic) id aObj;

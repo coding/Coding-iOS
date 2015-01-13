@@ -19,7 +19,6 @@
 
 #import "ProjectTaskListViewCell.h"
 #import "Coding_NetAPIManager.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ProjectTaskListViewCell ()
 @property (strong, nonatomic) UIImageView *userIconView, *commentIconView, *timeClockIconView, *taskPriorityView;

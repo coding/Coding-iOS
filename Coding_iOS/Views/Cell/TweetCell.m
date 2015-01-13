@@ -33,7 +33,6 @@
 #import "TweetCommentMoreCell.h"
 #import "TweetMediaItemCCell.h"
 #import "TweetMediaItemSingleCCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "Coding_NetAPIManager.h"
 #import "MJPhotoBrowser.h"
 #import "UICustomCollectionView.h"

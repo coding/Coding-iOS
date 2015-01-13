@@ -12,7 +12,6 @@
 #define kProjectTopicCell_ContentFont [UIFont systemFontOfSize:16]
 
 #import "ProjectTopicCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ProjectTopicCell ()
 @property (strong, nonatomic) UILabel *titleLabel, *timeLabel, *commentCountLabel;

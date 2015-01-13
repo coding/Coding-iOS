@@ -12,7 +12,6 @@
 
 #import "UserInfoViewController.h"
 #import "Coding_NetAPIManager.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "TitleValueCell.h"
 #import "UITapImageView.h"
 #import "UsersViewController.h"

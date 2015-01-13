@@ -36,6 +36,7 @@
     #import <BlocksKit/BlocksKit+UIKit.h>
     #import <ReactiveCocoa/ReactiveCocoa.h>
     #import <ReactiveCocoa/RACEXTScope.h>
+    #import "UIImageView+WebCache.h"
 
 #endif
 //友盟统计

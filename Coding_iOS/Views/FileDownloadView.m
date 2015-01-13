@@ -7,7 +7,6 @@
 //
 
 #import "FileDownloadView.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "ASProgressPopUpView.h"
 #import "Coding_FileManager.h"
 

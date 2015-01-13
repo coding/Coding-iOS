@@ -8,7 +8,6 @@
 
 #import "MemberCell.h"
 #import "Login.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 
 #define kMemberCell_MaxWidthForName (kScreen_Width - 60 - 100)

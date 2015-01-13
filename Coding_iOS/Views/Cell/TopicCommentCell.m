@@ -9,7 +9,6 @@
 #define kTopicCommentCell_FontContent [UIFont systemFontOfSize:15]
 
 #import "TopicCommentCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface TopicCommentCell ()
 @property (strong, nonatomic) UIImageView *ownerIconView;

@@ -7,7 +7,6 @@
 //
 
 #import "UserCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "Coding_NetAPIManager.h"
 
 @interface UserCell ()

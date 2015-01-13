@@ -11,7 +11,6 @@
 #define kFileListFileCell_TopPading 10.0
 
 #import "FileListFileCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "AFURLSessionManager.h"
 #import "Coding_FileManager.h"
 #import "ASProgressPopUpView.h"

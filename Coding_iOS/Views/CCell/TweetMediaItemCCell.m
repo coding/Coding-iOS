@@ -9,7 +9,6 @@
 #define kTweetMediaItemCCell_Width ((kScreen_Width - 80.0)/3.0)
 
 #import "TweetMediaItemCCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface TweetMediaItemCCell ()
 @end

@@ -64,6 +64,14 @@
     [self createToolbar];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+    [self photoViewSingleTap:nil];
+    [self photoViewDidEndZoom:nil];
+    self.view = nil;
+}
+
 - (void)show
 {
     UIWindow *window = [UIApplication sharedApplication].keyWindow;

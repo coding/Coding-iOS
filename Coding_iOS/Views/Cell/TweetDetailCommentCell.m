@@ -9,7 +9,6 @@
 #define kTweetDetailCommentCell_FontContent [UIFont systemFontOfSize:15]
 
 #import "TweetDetailCommentCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "Login.h"
 
 @interface TweetDetailCommentCell ()

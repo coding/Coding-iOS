@@ -7,7 +7,6 @@
 //
 
 #import "ConversationCell.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface ConversationCell ()
 @property (strong, nonatomic) UIImageView *userIconView;
