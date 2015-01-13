@@ -73,14 +73,12 @@
     @weakify(self);
     [[Coding_NetAPIManager sharedManager] request_MDHtmlStr_WithMDStr:mdStr andBlock:^(id data, NSError *error) {
         @strongify(self);
-//        if (data) {
-//            if (self.savedNewMDBlock) {
-//                self.savedNewMDBlock(self.editView.text, data);
-//            }
-//            [self.navigationController popViewControllerAnimated:YES];
-//        }
-        self.savedNewMDBlock(self.editView.text, [MMMarkdown HTMLStringWithMarkdown:self.editView.text error:nil]);
-        [self.navigationController popViewControllerAnimated:YES];
+        if (data) {
+            if (self.savedNewMDBlock) {
+                self.savedNewMDBlock(self.editView.text, data);
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }];
 }
 
