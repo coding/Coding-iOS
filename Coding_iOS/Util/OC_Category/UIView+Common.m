@@ -13,6 +13,21 @@
 @implementation UIView (Common)
 static char LoadingViewKey, BlankPageViewKey;
 
+- (UIViewController *)findViewController
+{
+    id target = self;
+    while (target) {
+        target = ((UIResponder *)target).nextResponder;
+        if ([target isKindOfClass:[UIViewController class]]) {
+            break;
+        }
+    }
+    if (![target isKindOfClass:[UIViewController class]]) {
+        target = nil;
+    }
+    return target;
+}
+
 - (void)addBadgeTip:(NSString *)badgeValue withCenterPosition:(CGPoint)center{
     if (!badgeValue || !badgeValue.length) {
         [self removeBadgeTips];

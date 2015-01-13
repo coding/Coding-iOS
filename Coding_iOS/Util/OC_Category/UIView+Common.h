@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
 };
 
 @interface UIView (Common)
+- (UIViewController *)findViewController;
 - (void)addBadgeTip:(NSString *)badgeValue withCenterPosition:(CGPoint)center;
 - (void)addBadgeTip:(NSString *)badgeValue;
 - (void)removeBadgeTips;

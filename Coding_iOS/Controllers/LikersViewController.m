@@ -20,8 +20,6 @@
 
 @interface LikersViewController ()
 
-@property (strong, nonatomic) UISearchBar *mySearchBar;
-@property (strong, nonatomic) UISearchDisplayController *mySearchDisplayController;
 @property (strong, nonatomic) UITableView *myTableView;
 
 @property (strong, nonatomic) ODRefreshControl *myRefreshControl;
@@ -66,27 +64,6 @@
         [self.view addSubview:tableView];
         tableView;
     });
-//    _mySearchBar = ({
-//        UISearchBar *searchBar = [[UISearchBar alloc] init];
-//        searchBar.delegate = self;
-//        [searchBar sizeToFit];
-//        [searchBar setPlaceholder:@"姓名/个性后缀"];
-//        searchBar.backgroundColor = [UIColor colorWithHexString:@"0x28303b"];
-//        
-//        searchBar;
-//    });
-//    _myTableView.tableHeaderView = _mySearchBar;
-//    _mySearchDisplayController = ({
-//        UISearchDisplayController *searchVC = [[UISearchDisplayController alloc] initWithSearchBar:_mySearchBar contentsController:self];
-//        [searchVC.searchResultsTableView registerClass:[UserCell class] forCellReuseIdentifier:kCellIdentifier_UserCell];
-//        searchVC.delegate = self;
-//        searchVC.searchResultsDataSource = self;
-//        searchVC.searchResultsDelegate = self;
-//        if (kHigher_iOS_6_1) {
-//            searchVC.displaysSearchBarInNavigationBar = NO;
-//        }
-//        searchVC;
-//    });
     
     _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
@@ -114,14 +91,10 @@
 }
 #pragma mark Table M
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (tableView == _mySearchDisplayController.searchResultsTableView) {
-        return [_searchResults count];
+    if (_curTweet.like_users) {
+        return [_curTweet.like_users count];
     }else{
-        if (_curTweet.like_users) {
-            return [_curTweet.like_users count];
-        }else{
-            return 0;
-        }
+        return 0;
     }
 }
 
@@ -130,12 +103,7 @@
     if (cell == nil) {
         cell = [[UserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier_UserCell];
     }
-    User *curUser;
-    if (tableView == _mySearchDisplayController.searchResultsTableView) {
-        curUser = [_searchResults objectAtIndex:indexPath.row];
-    }else{
-        curUser = [_curTweet.like_users objectAtIndex:indexPath.row];
-    }
+    User *curUser = [_curTweet.like_users objectAtIndex:indexPath.row];
     cell.curUser = curUser;
     cell.usersType = UsersTypeTweetLikers;
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
@@ -148,74 +116,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    User *user;
-    if (tableView == _mySearchDisplayController.searchResultsTableView) {
-        user = [_searchResults objectAtIndex:indexPath.row];
-    }else{
-        user = [_curTweet.like_users objectAtIndex:indexPath.row];
-    }
+    User *user = [_curTweet.like_users objectAtIndex:indexPath.row];
     UserInfoViewController *vc = [[UserInfoViewController alloc] init];
     vc.curUser = user;
     [self.navigationController pushViewController:vc animated:YES];
-}
-
-#pragma mark UISearchDisplayDelegate M
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
-    [self updateFilteredContentForSearchString:searchString];
-    return YES;
-}
-- (void)updateFilteredContentForSearchString:(NSString *)searchString{
-    DebugLog(@"\n%@", searchString);
-    // start out with the entire list
-    self.searchResults = [self.curTweet.like_users mutableCopy];
-    
-    // strip out all the leading and trailing spaces
-    NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    
-    // break up the search terms (separated by spaces)
-    NSArray *searchItems = nil;
-    if (strippedStr.length > 0)
-    {
-        searchItems = [strippedStr componentsSeparatedByString:@" "];
-    }
-    
-    // build all the "AND" expressions for each value in the searchString
-    NSMutableArray *andMatchPredicates = [NSMutableArray array];
-    
-    for (NSString *searchString in searchItems)
-    {
-        // each searchString creates an OR predicate for: name, global_key
-        NSMutableArray *searchItemsPredicate = [NSMutableArray array];
-        
-        // name field matching
-        NSExpression *lhs = [NSExpression expressionForKeyPath:@"name"];
-        NSExpression *rhs = [NSExpression expressionForConstantValue:searchString];
-        NSPredicate *finalPredicate = [NSComparisonPredicate
-                                       predicateWithLeftExpression:lhs
-                                       rightExpression:rhs
-                                       modifier:NSDirectPredicateModifier
-                                       type:NSContainsPredicateOperatorType
-                                       options:NSCaseInsensitivePredicateOption];
-        [searchItemsPredicate addObject:finalPredicate];
-        //        global_key field matching
-        lhs = [NSExpression expressionForKeyPath:@"global_key"];
-        rhs = [NSExpression expressionForConstantValue:searchString];
-        finalPredicate = [NSComparisonPredicate
-                          predicateWithLeftExpression:lhs
-                          rightExpression:rhs
-                          modifier:NSDirectPredicateModifier
-                          type:NSContainsPredicateOperatorType
-                          options:NSCaseInsensitivePredicateOption];
-        [searchItemsPredicate addObject:finalPredicate];
-        // at this OR predicate to ourr master AND predicate
-        NSCompoundPredicate *orMatchPredicates = (NSCompoundPredicate *)[NSCompoundPredicate orPredicateWithSubpredicates:searchItemsPredicate];
-        [andMatchPredicates addObject:orMatchPredicates];
-    }
-    
-    NSCompoundPredicate *finalCompoundPredicate = (NSCompoundPredicate *)[NSCompoundPredicate andPredicateWithSubpredicates:andMatchPredicates];
-    
-    self.searchResults = [[self.searchResults filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
 }
 
 - (void)dealloc
