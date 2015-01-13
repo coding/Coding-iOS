@@ -9,9 +9,10 @@
 #define kProjectListCell_IconHeight 55.0
 
 #import "ProjectListCell.h"
+#import <Masonry/Masonry.h>
 
 @interface ProjectListCell ()
-@property (nonatomic, strong) UIImageView *projectIconView;
+@property (nonatomic, strong) UIImageView *projectIconView, *privateIconView;
 @property (nonatomic, strong) UILabel *projectTitleLabel;
 @property (nonatomic, strong) UILabel *ownerTitleLabel;
 @property (nonatomic, strong) UIImageView *arrowImgView;
@@ -29,8 +30,20 @@
             _projectIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, kProjectListCell_IconHeight, kProjectListCell_IconHeight)];
             _projectIconView.layer.masksToBounds = YES;
             _projectIconView.layer.cornerRadius = 2.0;
+            _projectIconView.clipsToBounds = YES;
             [self.contentView addSubview:_projectIconView];
+            if (!_privateIconView) {
+                _privateIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_project_private"]];
+                _privateIconView.hidden = YES;
+                [_projectIconView addSubview:_privateIconView];
+                
+                [_privateIconView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.right.equalTo(_projectIconView);
+                    make.bottom.equalTo(_projectIconView);
+                }];
+            }
         }
+
         if (!_projectTitleLabel) {
             _projectTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10+kProjectListCell_IconHeight+24, 10, 180, 25)];
             _projectTitleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
@@ -54,6 +67,7 @@
     }
     //Icon
     [_projectIconView sd_setImageWithURL:[_project.icon urlImageWithCodePathResizeToView:_projectIconView] placeholderImage:kPlaceholderCodingSquareWidth(55.0)];
+    _privateIconView.hidden = _project.is_public.boolValue;
     //Title & UserName
     _projectTitleLabel.text = _project.name;
     _ownerTitleLabel.text = _project.owner_user_name;
