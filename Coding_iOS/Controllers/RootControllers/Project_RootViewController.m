@@ -191,6 +191,7 @@
 }
 
 - (void)carouselDidScroll:(iCarousel *)carousel{
+    [self.view endEditing:YES];
     if (_mySegmentControl) {
         float offset = carousel.scrollOffset;
         if (offset > 0) {

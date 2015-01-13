@@ -12,11 +12,16 @@
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"
 
-@interface ProjectListView ()
+@interface ProjectListView ()<UISearchBarDelegate>
 @property (nonatomic, strong) Projects *myProjects;
 @property (nonatomic , copy) ProjectListViewBlock block;
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
+
+@property (strong, nonatomic) UISearchBar *mySearchBar;
+@property (strong, nonatomic) NSMutableArray *searchResults;
+@property (strong, nonatomic) NSString *searchString;
+
 @end
 
 @implementation ProjectListView
@@ -47,6 +52,15 @@
             [self addSubview:tableView];
             tableView;
         });
+        _mySearchBar = ({
+            UISearchBar *searchBar = [[UISearchBar alloc] init];
+            searchBar.delegate = self;
+            [searchBar sizeToFit];
+            [searchBar setPlaceholder:@"项目名称/创建人"];
+            searchBar.backgroundColor = [UIColor colorWithHexString:@"0x28303b"];
+            searchBar;
+        });
+        _myTableView.tableHeaderView = _mySearchBar;
         
         _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
         [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
@@ -94,6 +108,7 @@
         [self endLoading];
         if (data) {
             [weakSelf.myProjects configWithProjects:data];
+            [weakSelf updateFilteredContentForSearchString:weakSelf.searchString];
             [weakSelf.myTableView reloadData];
         }
         [weakSelf configBlankPage:EaseBlankPageTypeProject hasData:(weakSelf.myProjects.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
@@ -107,8 +122,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.myProjects.list) {
-        return [self.myProjects.list count];
+    if (self.searchResults) {
+        return [self.searchResults count];
     }else{
         return 0;
     }
@@ -116,20 +131,102 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectList forIndexPath:indexPath];
-    cell.project = [self.myProjects.list objectAtIndex:indexPath.row];
+    cell.project = [self.searchResults objectAtIndex:indexPath.row];
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [ProjectListCell cellHeightWithObj:[_myProjects.list objectAtIndex:indexPath.row]];
+    return [ProjectListCell cellHeightWithObj:[self.searchResults objectAtIndex:indexPath.row]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (_block) {
-        _block([self.myProjects.list objectAtIndex:indexPath.row]);
+        _block([self.searchResults objectAtIndex:indexPath.row]);
     }
+}
+
+#pragma mark ScrollView Delegate
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    if (scrollView == _myTableView) {
+        [self.mySearchBar resignFirstResponder];
+    }
+}
+
+#pragma mark UISearchBarDelegate
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    NSLog(@"textDidChange: %@", searchText);
+    [self searchUserWithStr:searchText];
+}
+
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    NSLog(@"searchBarSearchButtonClicked: %@", searchBar.text);
+    [searchBar resignFirstResponder];
+    [self searchUserWithStr:searchBar.text];
+}
+
+- (void)searchUserWithStr:(NSString *)string{
+    self.searchString = string;
+    [self updateFilteredContentForSearchString:string];
+    [self.myTableView reloadData];
+}
+
+- (void)updateFilteredContentForSearchString:(NSString *)searchString{
+    DebugLog(@"\n%@", searchString);
+    // start out with the entire list
+    self.searchResults = [self.myProjects.list mutableCopy];
+    
+    // strip out all the leading and trailing spaces
+    NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    // break up the search terms (separated by spaces)
+    NSArray *searchItems = nil;
+    if (strippedStr.length > 0)
+    {
+        searchItems = [strippedStr componentsSeparatedByString:@" "];
+    }
+    
+    // build all the "AND" expressions for each value in the searchString
+    NSMutableArray *andMatchPredicates = [NSMutableArray array];
+    
+    for (NSString *searchString in searchItems)
+    {
+        // each searchString creates an OR predicate for: name, global_key
+        NSMutableArray *searchItemsPredicate = [NSMutableArray array];
+        
+        // name field matching
+        NSExpression *lhs = [NSExpression expressionForKeyPath:@"name"];
+        NSExpression *rhs = [NSExpression expressionForConstantValue:searchString];
+        NSPredicate *finalPredicate = [NSComparisonPredicate
+                                       predicateWithLeftExpression:lhs
+                                       rightExpression:rhs
+                                       modifier:NSDirectPredicateModifier
+                                       type:NSContainsPredicateOperatorType
+                                       options:NSCaseInsensitivePredicateOption];
+        [searchItemsPredicate addObject:finalPredicate];
+        
+        //        owner_user_name field matching
+        lhs = [NSExpression expressionForKeyPath:@"owner_user_name"];
+        rhs = [NSExpression expressionForConstantValue:searchString];
+        finalPredicate = [NSComparisonPredicate
+                          predicateWithLeftExpression:lhs
+                          rightExpression:rhs
+                          modifier:NSDirectPredicateModifier
+                          type:NSContainsPredicateOperatorType
+                          options:NSCaseInsensitivePredicateOption];
+        [searchItemsPredicate addObject:finalPredicate];
+
+        // at this OR predicate to ourr master AND predicate
+        NSCompoundPredicate *orMatchPredicates = (NSCompoundPredicate *)[NSCompoundPredicate orPredicateWithSubpredicates:searchItemsPredicate];
+        [andMatchPredicates addObject:orMatchPredicates];
+    }
+    
+    NSCompoundPredicate *finalCompoundPredicate = (NSCompoundPredicate *)[NSCompoundPredicate andPredicateWithSubpredicates:andMatchPredicates];
+    
+    self.searchResults = [[self.searchResults filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
 }
 
 @end

@@ -26,7 +26,7 @@
 + (Projects *)projectsWithType:(ProjectsType)projectsType{
     Projects *pros = [[Projects alloc] init];
     pros.page = [NSNumber numberWithInteger:1];
-    pros.pageSize = [NSNumber numberWithInteger:500];
+    pros.pageSize = [NSNumber numberWithInteger:9999];
 
     
     switch (projectsType) {
