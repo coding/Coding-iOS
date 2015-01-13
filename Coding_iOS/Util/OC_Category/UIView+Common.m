@@ -15,17 +15,13 @@ static char LoadingViewKey, BlankPageViewKey;
 
 - (UIViewController *)findViewController
 {
-    id target = self;
-    while (target) {
-        target = ((UIResponder *)target).nextResponder;
-        if ([target isKindOfClass:[UIViewController class]]) {
-            break;
+    for (UIView* next = self; next; next = next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController*)nextResponder;
         }
     }
-    if (![target isKindOfClass:[UIViewController class]]) {
-        target = nil;
-    }
-    return target;
+    return nil;
 }
 
 - (void)addBadgeTip:(NSString *)badgeValue withCenterPosition:(CGPoint)center{
