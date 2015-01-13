@@ -9,6 +9,7 @@
 #import "Coding_NetAPIManager.h"
 #import "JDStatusBarNotification.h"
 #import "UnReadManager.h"
+#import <NYXImagesKit/NYXImagesKit.h>
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -1222,9 +1223,17 @@
                        successBlock:(void (^)(id responseObj))success
                        failureBlock:(void (^)(NSError *error))failure
                       progerssBlock:(void (^)(CGFloat progressValue))progress{
+    if (!image) {
+        [self showHudTipStr:@"读图失败"];
+        return;
+    }
     [MobClick event:kUmeng_Event_Request label:@"更换头像"];
 
     [self showStatusBarQueryStr:@"正在上传头像"];
+    CGSize maxSize = CGSizeMake(800, 800);
+    if (image.size.width > maxSize.width || image.size.height > maxSize.height) {
+        image = [image scaleToSize:maxSize usingMode:NYXResizeModeAspectFit];
+    }
     [[CodingNetAPIClient sharedJsonClient] uploadImage:image path:@"api/user/avatar?update=1" name:@"file" successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
         [self showStatusBarSuccessStr:@"上传头像成功"];
         id resultData = [responseObject valueForKeyPath:@"data"];
