@@ -8,8 +8,6 @@
 
 #define kCellIdentifier_TopicContent @"TopicContentCell"
 #define kCellIdentifier_TopicComment @"TopicCommentCell"
-#define kTagActionDeleteTopic 1002
-#define kTagActionDeleteComment 1003
 
 #import "TopicDetailViewController.h"
 #import "TopicContentCell.h"
@@ -225,8 +223,11 @@
             [weakSelf loadRequest:curRequest];
         };
         cell.deleteTopicBlock = ^(ProjectTopic *curTopic){
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"删除此讨论" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确认删除" otherButtonTitles: nil];
-            actionSheet.tag = kTagActionDeleteTopic;
+            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此讨论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                if (index == 0) {
+                    [weakSelf deleteTopic:weakSelf.curTopic isComment:NO];
+                }
+            }];
             [actionSheet showInView:kKeyWindow];
         };
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
@@ -269,8 +270,13 @@
     if (_toComment) {
         _myMsgInputView.placeHolder = [NSString stringWithFormat:@"回复 %@:", _toComment.owner.name];
         if (_toComment.owner_id.intValue == [Login curLoginUser].id.intValue) {
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"删除此评论" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确认删除" otherButtonTitles: nil];
-            actionSheet.tag = kTagActionDeleteComment;
+            ESWeakSelf
+            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                ESStrongSelf
+                if (index == 0) {
+                    [_self deleteTopic:_self.toComment isComment:YES];
+                }
+            }];
             [actionSheet showInView:kKeyWindow];
             return;
         }
@@ -278,17 +284,6 @@
         _myMsgInputView.placeHolder = @"撰写评论";
     }
     [_myMsgInputView notAndBecomeFirstResponder];
-}
-
-#pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0) {
-        if (actionSheet.tag == kTagActionDeleteTopic) {
-            [self deleteTopic:_curTopic isComment:NO];
-        }else if (actionSheet.tag == kTagActionDeleteComment){
-            [self deleteTopic:_toComment isComment:YES];
-        }
-    }
 }
 
 #pragma mark Delete M
@@ -345,12 +340,8 @@
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         //网址
-        NSURL *linkUrl = [NSURL URLWithString:linkStr];
-        if (linkUrl) {
-            WebViewController *webVc = [WebViewController webVCWithUrl:linkUrl];
-            [self.navigationController pushViewController:webVc animated:YES];
-        }
-
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self.navigationController pushViewController:webVc animated:YES];
     }
 }
 

@@ -11,7 +11,7 @@
 #import "UIMessageInputView.h"
 
 
-@interface TopicDetailViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIMessageInputViewDelegate>
+@interface TopicDetailViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIMessageInputViewDelegate>
 @property (strong, nonatomic) ProjectTopic *curTopic;
 @property (nonatomic, copy) void (^deleteTopicBlock)(ProjectTopic *);
 @end

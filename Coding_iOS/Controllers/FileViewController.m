@@ -210,11 +210,8 @@
 - (void)rightNavBtnClicked{
     __weak typeof(self) weakSelf = self;
     if (self.curFile.preview && self.curFile.preview.length > 0) {
-        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:nil];
-        [actionSheet bk_addButtonWithTitle:@"保存到相册" handler:nil];
-        [actionSheet bk_addButtonWithTitle:@"用其他应用打开" handler:nil];
-        [actionSheet bk_setCancelButtonWithTitle:@"取消" handler:nil];
-        [actionSheet bk_setDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        
+        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"保存到相册", @"用其他应用打开"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             switch (index) {
                 case 0:
                     [weakSelf saveCurImg];

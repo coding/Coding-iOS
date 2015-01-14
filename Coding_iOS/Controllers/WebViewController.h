@@ -10,8 +10,8 @@
 
 @interface WebViewController : BaseViewController
 
-@property (strong, nonatomic) NSURL *curUrl;
+@property (strong, nonatomic) NSString *curUrlStr;
 
-+ (instancetype)webVCWithUrl:(NSURL *)curUrl;
++ (instancetype)webVCWithUrlStr:(NSString *)curUrlStr;
 
 @end

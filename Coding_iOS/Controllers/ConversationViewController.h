@@ -11,6 +11,6 @@
 #import "QBImagePickerController.h"
 #import "UIMessageInputView.h"
 
-@interface ConversationViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UITextViewDelegate, UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, QBImagePickerControllerDelegate, UIMessageInputViewDelegate>
+@interface ConversationViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, QBImagePickerControllerDelegate, UIMessageInputViewDelegate>
 @property (strong, nonatomic) PrivateMessages *myPriMsgs;
 @end

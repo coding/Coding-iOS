@@ -7,8 +7,6 @@
 //
 
 #define kCellIdentifier_Tweet @"TweetCell"
-#define kTagActionDeleteTweet 1002
-#define kTagActionDeleteComment 1003
 #define kCommentIndexNotFound -1
 
 #import "UserTweetsViewController.h"
@@ -159,21 +157,6 @@
     }];
 }
 
-#pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0) {
-        if (actionSheet.tag == kTagActionDeleteTweet) {
-            [self deleteTweet:self.deleteTweet outTweetsIndex:self.deleteTweetsIndex];
-        }else if (actionSheet.tag == kTagActionDeleteComment){
-            if (self.commentIndex >= 0) {
-                Comment *comment  = [_commentTweet.comment_list objectAtIndex:_commentIndex];
-                [self deleteComment:comment ofTweet:self.commentTweet];
-            }
-        }
-    }
-}
-
-
 #pragma mark Refresh M
 
 - (void)refresh{
@@ -239,8 +222,13 @@
             weakSelf.commentToUser = ((Comment*)[weakSelf.commentTweet.comment_list objectAtIndex:weakSelf.commentIndex]).owner;
             weakSelf.myMsgInputView.placeHolder = [NSString stringWithFormat:@"回复 %@:", weakSelf.commentToUser.name];
             if (weakSelf.commentToUser.id.intValue == [Login curLoginUser].id.intValue) {
-                UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"删除此评论" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确认删除" otherButtonTitles: nil];
-                actionSheet.tag = kTagActionDeleteComment;
+                
+                UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                    if (index == 0 && weakSelf.commentIndex >= 0) {
+                        Comment *comment  = [weakSelf.commentTweet.comment_list objectAtIndex:weakSelf.commentIndex];
+                        [weakSelf deleteComment:comment ofTweet:weakSelf.commentTweet];
+                    }
+                }];
                 [actionSheet showInView:kKeyWindow];
                 return;
             }
@@ -268,8 +256,11 @@
         }
         self.deleteTweet = curTweet;
         self.deleteTweetsIndex = outTweetsIndex;
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"删除此冒泡" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确认删除" otherButtonTitles: nil];
-        actionSheet.tag = kTagActionDeleteTweet;
+        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此冒泡" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [weakSelf deleteTweet:weakSelf.deleteTweet outTweetsIndex:weakSelf.deleteTweetsIndex];
+            }
+        }];
         [actionSheet showInView:kKeyWindow];
     };
 
@@ -315,11 +306,8 @@
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         //网页
-        NSURL *linkUrl = [NSURL URLWithString:linkStr];
-        if (linkUrl) {
-            WebViewController *webVc = [WebViewController webVCWithUrl:linkUrl];
-            [self.navigationController pushViewController:webVc animated:YES];
-        }
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self.navigationController pushViewController:webVc animated:YES];
     }
 }
 

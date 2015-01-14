@@ -8,8 +8,6 @@
 
 #define kCellIdentifier_TweetDetail @"TweetDetailCell"
 #define kCellIdentifier_TweetDetailComment @"TweetDetailCommentCell"
-#define kTagActionDeleteTweet 1002
-#define kTagActionDeleteComment 1003
 
 
 #import "TweetDetailViewController.h"
@@ -197,8 +195,13 @@
             if ([self.myMsgInputView isAndResignFirstResponder]) {
                 return ;
             }
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"删除此冒泡" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确认删除" otherButtonTitles: nil];
-            actionSheet.tag = kTagActionDeleteTweet;
+            ESWeakSelf;
+            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此冒泡" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                ESStrongSelf
+                if (index == 0) {
+                    [_self deleteTweet:_self.curTweet];
+                }
+            }];
             [actionSheet showInView:kKeyWindow];
         };
         
@@ -290,8 +293,13 @@
     if (_toComment) {
         _myMsgInputView.placeHolder = [NSString stringWithFormat:@"回复 %@:", _toComment.owner.name];
         if (_toComment.owner_id.intValue == [Login curLoginUser].id.intValue) {
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"删除此评论" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确认删除" otherButtonTitles: nil];
-            actionSheet.tag = kTagActionDeleteComment;
+            ESWeakSelf;
+            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                ESStrongSelf
+                if (index == 0) {
+                    [_self deleteComment:_self.toComment ofTweet:_self.curTweet];
+                }
+            }];
             [actionSheet showInView:kKeyWindow];
             return;
         }
@@ -341,18 +349,6 @@
         }
     }];
 }
-#pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0) {
-        if (actionSheet.tag == kTagActionDeleteTweet) {
-//            删除冒泡
-            [self deleteTweet:_curTweet];
-        }else if (actionSheet.tag == kTagActionDeleteComment){
-//            删除评论
-            [self deleteComment:_toComment ofTweet:_curTweet];
-        }
-    }
-}
 
 - (void)deleteComment:(Comment *)comment ofTweet:(Tweet *)tweet{
     __weak typeof(self) weakSelf = self;
@@ -397,12 +393,8 @@
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];
     }else{
-        //网页
-        NSURL *linkUrl = [NSURL URLWithString:linkStr];
-        if (linkUrl) {
-            WebViewController *webVc = [WebViewController webVCWithUrl:linkUrl];
-            [self.navigationController pushViewController:webVc animated:YES];
-        }
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self.navigationController pushViewController:webVc animated:YES];
     }
 }
 

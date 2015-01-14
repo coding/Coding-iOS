@@ -132,6 +132,7 @@
 		4EACB4431A2C45300097ABB3 /* button_file_download_enable.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EACB4421A2C45300097ABB3 /* button_file_download_enable.png */; };
 		4EACB4461A2C60110097ABB3 /* ProjectActivities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EACB4451A2C60110097ABB3 /* ProjectActivities.m */; };
 		4EBD0C661A1F2011004B4284 /* nav_project_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EBD0C651A1F2011004B4284 /* nav_project_file@2x.png */; };
+		4EBDA87C1A6640340035ED96 /* UIActionSheet+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBDA87B1A6640340035ED96 /* UIActionSheet+Common.m */; };
 		4EC5AD921A258DF8006FA97C /* icon_file_cell_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD8F1A258DF8006FA97C /* icon_file_cell_delete@2x.png */; };
 		4EC5AD931A258DF8006FA97C /* icon_file_cell_move@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD901A258DF8006FA97C /* icon_file_cell_move@2x.png */; };
 		4EC5AD941A258DF8006FA97C /* icon_file_cell_rename@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD911A258DF8006FA97C /* icon_file_cell_rename@2x.png */; };
@@ -711,6 +712,8 @@
 		4EACB4441A2C60110097ABB3 /* ProjectActivities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectActivities.h; sourceTree = "<group>"; };
 		4EACB4451A2C60110097ABB3 /* ProjectActivities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectActivities.m; sourceTree = "<group>"; };
 		4EBD0C651A1F2011004B4284 /* nav_project_file@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_project_file@2x.png"; sourceTree = "<group>"; };
+		4EBDA87A1A6640340035ED96 /* UIActionSheet+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+Common.h"; sourceTree = "<group>"; };
+		4EBDA87B1A6640340035ED96 /* UIActionSheet+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+Common.m"; sourceTree = "<group>"; };
 		4EC5AD8F1A258DF8006FA97C /* icon_file_cell_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_delete@2x.png"; sourceTree = "<group>"; };
 		4EC5AD901A258DF8006FA97C /* icon_file_cell_move@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_move@2x.png"; sourceTree = "<group>"; };
 		4EC5AD911A258DF8006FA97C /* icon_file_cell_rename@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_rename@2x.png"; sourceTree = "<group>"; };
@@ -1635,6 +1638,8 @@
 				4ECE8AD41A3943E80021E29C /* UIView+Common.m */,
 				4ECE8AD51A3943E80021E29C /* UIViewController+Swizzle.h */,
 				4ECE8AD61A3943E80021E29C /* UIViewController+Swizzle.m */,
+				4EBDA87A1A6640340035ED96 /* UIActionSheet+Common.h */,
+				4EBDA87B1A6640340035ED96 /* UIActionSheet+Common.m */,
 			);
 			path = OC_Category;
 			sourceTree = "<group>";
@@ -2984,6 +2989,7 @@
 				8E59F0EE1A00F34E009A905F /* ProjectCodeListView.m in Sources */,
 				4ECE8B041A3946C10021E29C /* UnReadManager.m in Sources */,
 				4EA679131A1466A6001A0324 /* ProjectFiles.m in Sources */,
+				4EBDA87C1A6640340035ED96 /* UIActionSheet+Common.m in Sources */,
 				4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */,
 				4E6BA2E41A1EE6AF005FD721 /* UIButton+AFNetworking.m in Sources */,
 				8EF643C919FF7E2900F7EEB0 /* TopicCommentCell.m in Sources */,

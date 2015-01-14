@@ -10,7 +10,7 @@
 #import "Tweets.h"
 #import "UIMessageInputView.h"
 
-@interface UserTweetsViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, UIMessageInputViewDelegate>
+@interface UserTweetsViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIMessageInputViewDelegate>
 @property (strong, nonatomic) Tweets *curTweets;
 
 @end

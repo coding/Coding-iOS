@@ -176,11 +176,8 @@
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         //网页
-        NSURL *linkUrl = [NSURL URLWithString:linkStr];
-        if (linkUrl) {
-            WebViewController *webVc = [WebViewController webVCWithUrl:linkUrl];
-            [self.navigationController pushViewController:webVc animated:YES];
-        }
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self.navigationController pushViewController:webVc animated:YES];
     }
 }
 

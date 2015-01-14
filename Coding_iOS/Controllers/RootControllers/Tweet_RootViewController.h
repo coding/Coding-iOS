@@ -12,6 +12,6 @@
 #import "UIMessageInputView.h"
 
 
-@interface Tweet_RootViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIActionSheetDelegate, UIMessageInputViewDelegate>
+@interface Tweet_RootViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UIMessageInputViewDelegate>
 
 @end

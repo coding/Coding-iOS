@@ -49,7 +49,14 @@
 }
 
 - (void)loadCurUrl{
-    NSURLRequest *request =[NSURLRequest requestWithURL:_curUrl];
+    NSURL *curUrl;
+    if (![self.curUrlStr hasPrefix:@"/"]) {
+        curUrl = [NSURL URLWithString:self.curUrlStr];
+    }else{
+        curUrl = [NSURL URLWithString:self.curUrlStr relativeToURL:[NSURL URLWithString:kNetPath_Code_Base]];
+    }
+
+    NSURLRequest *request =[NSURLRequest requestWithURL:curUrl];
     [_myWebView loadRequest:request];
 }
 
@@ -63,9 +70,9 @@
     [_progressView removeFromSuperview];
 }
 
-+ (instancetype)webVCWithUrl:(NSURL *)curUrl{
++ (instancetype)webVCWithUrlStr:(NSString *)curUrlStr{
     WebViewController *vc = [[WebViewController alloc] init];
-    vc.curUrl = curUrl;
+    vc.curUrlStr = curUrlStr;
     return vc;
 }
 
@@ -74,7 +81,10 @@
 #pragma mark NJKWebViewProgressDelegate
 - (void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress{
     [_progressView setProgress:progress animated:YES];
-    self.title = [_myWebView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    NSString *titleStr = [_myWebView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    if (titleStr) {
+        self.title = titleStr;
+    }
 }
 
 @end

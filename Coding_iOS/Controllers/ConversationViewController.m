@@ -6,8 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kTagActionResendMessage 1005
-#define kTagActionDeleteMessage 1006
 #define kCellIdentifier_Message @"MessageCell"
 #define kCellIdentifier_MessageMedia @"MessageMediaCell"
 
@@ -198,8 +196,12 @@
         ESStrongSelf;
         _self.messageToResendOrDelete = curMessage;
         [_self.myMsgInputView isAndResignFirstResponder];
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"重新发送" delegate:_self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"发送", nil];
-        actionSheet.tag = kTagActionResendMessage;
+        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"重新发送" buttonTitles:@[@"发送"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0 && _self.messageToResendOrDelete) {
+                [_self sendPrivateMessageWithMsg:_messageToResendOrDelete];
+
+            }
+        }];
         [actionSheet showInView:kKeyWindow];
     };
     cell.refreshMessageMediaCCellBlock = ^(CGFloat diff){
@@ -245,8 +247,13 @@
 - (void)showAlertToDeleteMessage:(PrivateMessage *)toDeleteMsg{
     self.messageToResendOrDelete = toDeleteMsg;
     [self.myMsgInputView isAndResignFirstResponder];
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"删除后将不会出现在你的私信记录中" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确认删除" otherButtonTitles:nil];
-    actionSheet.tag = kTagActionDeleteMessage;
+    ESWeakSelf
+    UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除后将不会出现在你的私信记录中" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        ESStrongSelf
+        if (index == 0 && _self.messageToResendOrDelete) {
+            [_self deletePrivateMessageWithMsg:_messageToResendOrDelete];
+        }
+    }];
     [actionSheet showInView:kKeyWindow];
 }
 
@@ -373,22 +380,6 @@
             break;
         default:
             break;
-    }
-}
-#pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (actionSheet.tag == kTagActionResendMessage){
-        if (buttonIndex == 0) {
-            if (_messageToResendOrDelete) {
-                [self sendPrivateMessageWithMsg:_messageToResendOrDelete];
-            }
-        }
-    }else if (actionSheet.tag == kTagActionDeleteMessage){
-        if (buttonIndex == 0) {
-            if (_messageToResendOrDelete) {
-                [self deletePrivateMessageWithMsg:_messageToResendOrDelete];
-            }
-        }
     }
 }
 

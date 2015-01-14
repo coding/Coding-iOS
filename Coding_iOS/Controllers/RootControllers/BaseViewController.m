@@ -137,11 +137,8 @@
         [self presentViewController:vc];
     }else{
         //网页
-        NSURL *linkUrl = [NSURL URLWithString:linkStr];
-        if (linkUrl) {
-            WebViewController *vc = [WebViewController webVCWithUrl:linkUrl];
-            [self presentViewController:vc];
-        }
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self presentViewController:webVc];
     }
 }
 

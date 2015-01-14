@@ -140,16 +140,9 @@
             [self renameFolder:folder];
         }else{
             __weak typeof(self) weakSelf = self;
-            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:[NSString stringWithFormat:@"确定要删除文件夹:%@？",folder.name]];
-            [actionSheet bk_setDestructiveButtonWithTitle:@"确认删除" handler:nil];
-            [actionSheet bk_setCancelButtonWithTitle:@"取消" handler:nil];
-            [actionSheet bk_setDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-                switch (index) {
-                    case 0:
-                        [weakSelf deleteFolder:folder];
-                        break;
-                    default:
-                        break;
+            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确定要删除文件夹:%@？",folder.name] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                if (index == 0) {
+                    [weakSelf deleteFolder:folder];
                 }
             }];
             [actionSheet showInView:kKeyWindow];

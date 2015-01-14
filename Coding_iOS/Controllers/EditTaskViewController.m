@@ -326,16 +326,9 @@
         }else{
             cell.deleteBtnClickedBlock = ^(Task *toDelete){
                 [weakSelf.view endEditing:YES];
-                UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:@"删除此任务"];
-                [actionSheet bk_setDestructiveButtonWithTitle:@"确认删除" handler:nil];
-                [actionSheet bk_setCancelButtonWithTitle:@"取消" handler:nil];
-                [actionSheet bk_setDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-                    switch (index) {
-                        case 0:
-                            [weakSelf deleteTask:toDelete];
-                            break;
-                        default:
-                            break;
+                UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此任务" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                    if (index == 0) {
+                        [weakSelf deleteTask:toDelete];
                     }
                 }];
                 [actionSheet showInView:kKeyWindow];
@@ -515,16 +508,9 @@
         _myMsgInputView.placeHolder = [NSString stringWithFormat:@"回复 %@:", _toComment.owner.name];
         if (_toComment.owner_id.intValue == [Login curLoginUser].id.intValue) {
             __weak typeof(self) weakSelf = self;
-            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:@"删除此评论"];
-            [actionSheet bk_setDestructiveButtonWithTitle:@"确认删除" handler:nil];
-            [actionSheet bk_setCancelButtonWithTitle:@"取消" handler:nil];
-            [actionSheet bk_setDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-                switch (index) {
-                    case 0:
-                        [weakSelf deleteComment:weakSelf.toComment];
-                        break;
-                    default:
-                        break;
+            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                if (index == 0) {
+                    [weakSelf deleteComment:weakSelf.toComment];
                 }
             }];
             [actionSheet showInView:kKeyWindow];

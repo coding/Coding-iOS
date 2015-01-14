@@ -250,16 +250,9 @@
     PrivateMessage *msg = [_myPriMsgs.list objectAtIndex:indexPath.row-3];
     
     __weak typeof(self) weakSelf = self;
-    UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:[NSString stringWithFormat:@"这将删除你和 %@ 的所有私信", msg.friend.name]];
-    [actionSheet bk_setDestructiveButtonWithTitle:@"确认删除" handler:nil];
-    [actionSheet bk_setCancelButtonWithTitle:@"取消" handler:nil];
-    [actionSheet bk_setDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-        switch (index) {
-            case 0:
-                [weakSelf removeConversation:msg inTableView:tableView];
-                break;
-            default:
-                break;
+    UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"这将删除你和 %@ 的所有私信", msg.friend.name] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [weakSelf removeConversation:msg inTableView:tableView];
         }
     }];
     [actionSheet showInView:kKeyWindow];

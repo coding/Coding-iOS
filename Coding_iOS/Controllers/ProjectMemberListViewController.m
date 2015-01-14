@@ -285,16 +285,10 @@
     }
     
     __weak typeof(self) weakSelf = self;
-    UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:@"移除该成员后，他将不再显示在项目中"];
-    [actionSheet bk_setDestructiveButtonWithTitle:@"确认移除" handler:nil];
-    [actionSheet bk_setCancelButtonWithTitle:@"取消" handler:nil];
-    [actionSheet bk_setDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-        switch (index) {
-            case 0:
-                [weakSelf removeMember:curMember inTableView:tableView];
-                break;
-            default:
-                break;
+    
+    UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"移除该成员后，他将不再显示在项目中" buttonTitles:nil destructiveTitle:@"确认移除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [weakSelf removeMember:curMember inTableView:tableView];
         }
     }];
     [actionSheet showInView:kKeyWindow];
