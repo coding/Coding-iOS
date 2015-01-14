@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "RDVTabBarController.h"
 
 @interface BaseViewController : UIViewController
 
 - (void)tabBarItemClicked;
 - (void)loginOutToLoginVC;
+
 + (void)handleNotificationInfo:(NSDictionary *)userInfo;
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr;
 + (UIViewController *)presentingVC;

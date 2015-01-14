@@ -18,6 +18,7 @@
 #import "ProjectViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "AppDelegate.h"
+#import "WebViewController.h"
 
 @interface BaseViewController ()
 
@@ -61,16 +62,19 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         NSLog(@"handleNotificationInfo : %@", userInfo);
         NSString *param_url = [userInfo objectForKey:@"param_url"];
-        [self presentLinkStr:param_url fromApns:YES];
+        [self presentLinkStr:param_url];
     });
 }
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr{
-    NSString *userRegexStr = @"\\bhttps?://[\\w.-]*/u/([a-zA-Z0-9\\-_]+)$";
-    NSString *ppRegexStr = @"\\bhttps?://[\\w.-]*/u/([a-zA-Z0-9\\-_]+)/pp/([0-9]+)$";
-    NSString *topicRegexStr = @"\\bhttps?://[\\w.-]*/u/([a-zA-Z0-9\\-_]+)/p/([a-zA-Z0-9\\-_]+)/topic/([0-9]+)";
-    NSString *taskRegexStr = @"\\bhttps?://[\\w.-]*/u/([a-zA-Z0-9\\-_]+)/p/([a-zA-Z0-9\\-_]+)/task/([0-9]+)";
-    NSString *projectRegexStr = @"\\bhttps?://[\\w.-]*/u/([a-zA-Z0-9\\-_]+)/p/([a-zA-Z0-9\\-_]+)";
-    NSString *conversionRegexStr = @"\\bhttps?://[\\w.-]*/user/messages/history/([a-zA-Z0-9\\-_]+)$";
+    NSLog(@"\n analyseVCFromLinkStr : %@", linkStr);
+
+    
+    NSString *userRegexStr = @"[\\w.-]*/u/([a-zA-Z0-9\\-_]+)$";
+    NSString *ppRegexStr = @"[\\w.-]*/u/([a-zA-Z0-9\\-_]+)/pp/([0-9]+)$";
+    NSString *topicRegexStr = @"[\\w.-]*/u/([a-zA-Z0-9\\-_]+)/p/([a-zA-Z0-9\\-_]+)/topic/([0-9]+)";
+    NSString *taskRegexStr = @"[\\w.-]*/u/([a-zA-Z0-9\\-_]+)/p/([a-zA-Z0-9\\-_]+)/task/([0-9]+)";
+    NSString *projectRegexStr = @"[\\w.-]*/u/([a-zA-Z0-9\\-_]+)/p/([a-zA-Z0-9\\-_]+)";
+    NSString *conversionRegexStr = @"[\\w.-]*/user/messages/history/([a-zA-Z0-9\\-_]+)$";
     NSArray *matchedCaptures = nil;
     
     if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userRegexStr]).count > 0) {
@@ -127,23 +131,16 @@
         return nil;
     }
 }
-+ (void)presentLinkStr:(NSString *)linkStr fromApns:(BOOL)fromApns{
++ (void)presentLinkStr:(NSString *)linkStr{
     UIViewController *vc = [self analyseVCFromLinkStr:linkStr];
     if (vc) {
         [self presentViewController:vc];
     }else{
         //网页
-        if (!fromApns) {
-            NSLog(@"\n linkStr : %@", linkStr);
-            NSURL *linkUrl = [NSURL URLWithString:linkStr];
-            if (linkUrl) {
-                UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:linkStr];
-                [actionSheet bk_addButtonWithTitle:@"在Safari中打开" handler:^{
-                    [[UIApplication sharedApplication] openURL:linkUrl];
-                }];
-                [actionSheet bk_setCancelButtonWithTitle:@"取消" handler:nil];
-                [actionSheet showInView:kKeyWindow];
-            }
+        NSURL *linkUrl = [NSURL URLWithString:linkStr];
+        if (linkUrl) {
+            WebViewController *vc = [WebViewController webVCWithUrl:linkUrl];
+            [self presentViewController:vc];
         }
     }
 }

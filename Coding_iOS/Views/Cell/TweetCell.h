@@ -16,7 +16,7 @@ typedef void (^LikeBtnClickedBlock) (Tweet *curTweet);
 typedef void (^UserBtnClickedBlock) (User *curUser);
 typedef void (^MoreLikersBtnClickedBlock) (Tweet *curTweet);
 
-@interface TweetCell : UITableViewCell <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate, UIActionSheetDelegate>
+@interface TweetCell : UITableViewCell <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 @property (strong, nonatomic) Tweet *tweet;
 @property (nonatomic, assign) NSInteger outTweetsIndex;
 
@@ -27,6 +27,7 @@ typedef void (^MoreLikersBtnClickedBlock) (Tweet *curTweet);
 @property (nonatomic, copy) DeleteClickedBlock deleteClickedBlock;
 @property (nonatomic, copy) void(^goToDetailTweetBlock) (Tweet *curTweet);
 @property (copy, nonatomic) void (^refreshSingleCCellBlock)();
+@property (copy, nonatomic) void (^mediaItemClickedBlock)(HtmlMediaItem *curItem);
 
 
 typedef void (^MoreLikersBtnClickedBlock) (Tweet *curTweet);

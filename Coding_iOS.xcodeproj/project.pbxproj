@@ -34,6 +34,7 @@
 		4E3AD3D51A273A4A005C749B /* UIButton+PPiAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3AD3CE1A273A4A005C749B /* UIButton+PPiAwesome.m */; };
 		4E42FFF41A10C43C00A9A0C8 /* addPictureBgImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E42FFF31A10C43C00A9A0C8 /* addPictureBgImage@2x.png */; };
 		4E4ABBE71A6525EB004760D9 /* icon_project_private@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E4ABBE61A6525EB004760D9 /* icon_project_private@2x.png */; };
+		4E4ABBEA1A653027004760D9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4ABBE91A653027004760D9 /* WebViewController.m */; };
 		4E5695301A64C0FD002FB0B7 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 4E5695101A64C0FD002FB0B7 /* LICENSE */; };
 		4E5695311A64C0FD002FB0B7 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 4E5695111A64C0FD002FB0B7 /* README.md */; };
 		4E5695321A64C0FD002FB0B7 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5695141A64C0FD002FB0B7 /* NSData+ImageContentType.m */; };
@@ -556,6 +557,8 @@
 		4E3AD3CE1A273A4A005C749B /* UIButton+PPiAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+PPiAwesome.m"; sourceTree = "<group>"; };
 		4E42FFF31A10C43C00A9A0C8 /* addPictureBgImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addPictureBgImage@2x.png"; sourceTree = "<group>"; };
 		4E4ABBE61A6525EB004760D9 /* icon_project_private@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_project_private@2x.png"; sourceTree = "<group>"; };
+		4E4ABBE81A653027004760D9 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		4E4ABBE91A653027004760D9 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		4E5695101A64C0FD002FB0B7 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		4E5695111A64C0FD002FB0B7 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4E5695131A64C0FD002FB0B7 /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -2046,6 +2049,8 @@
 				4E35A99E1A3EC47E00CE35F1 /* FileViewController.m */,
 				4E59E1D11A5E6B34004DAEEC /* TaskDescriptionViewController.h */,
 				4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */,
+				4E4ABBE81A653027004760D9 /* WebViewController.h */,
+				4E4ABBE91A653027004760D9 /* WebViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2970,6 +2975,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8EA6D13B19E240C40076D59C /* RootTabViewController.m in Sources */,
+				4E4ABBEA1A653027004760D9 /* WebViewController.m in Sources */,
 				4E6BA2E51A1EE6AF005FD721 /* UIImageView+AFNetworking.m in Sources */,
 				4E56953D1A64C0FD002FB0B7 /* UIImageView+HighlightedWebCache.m in Sources */,
 				8EA6D1B919E240C40076D59C /* ProjectMember.m in Sources */,

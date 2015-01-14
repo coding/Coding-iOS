@@ -24,6 +24,7 @@
 #import "MJPhotoBrowser.h"
 #import "SVPullToRefresh.h"
 #import "EditTaskViewController.h"
+#import "WebViewController.h"
 
 @interface TopicDetailViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
@@ -335,30 +336,21 @@
 - (void)loadRequest:(NSURLRequest *)curRequest{
     NSString *linkStr = curRequest.URL.absoluteString;
     NSLog(@"\n linkStr : %@", linkStr);
-    [self analyseLinkStr:linkStr withHtmlMedia:_curTopic.htmlMedia];
+    [self analyseLinkStr:linkStr];
 }
 
-- (void)analyseLinkStr:(NSString *)linkStr withHtmlMedia:(HtmlMedia *)htmlMedia{
+- (void)analyseLinkStr:(NSString *)linkStr{
     UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];
     }else{
-        //网页
-        NSLog(@"\n linkStr : %@", linkStr);
-        if (htmlMedia.imageItems.count > 0) {
-            for (HtmlMediaItem *item in htmlMedia.imageItems) {
-                if (item.src.length > 0 && [item.src isEqualToString:linkStr]) {
-                    //[MJPhotoBrowser showHtmlMediaItems:_curTweet.htmlMedia.imageItems originalItem:item];
-                    return;
-                }
-            }
+        //网址
+        NSURL *linkUrl = [NSURL URLWithString:linkStr];
+        if (linkUrl) {
+            WebViewController *webVc = [WebViewController webVCWithUrl:linkUrl];
+            [self.navigationController pushViewController:webVc animated:YES];
         }
-        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:linkStr];
-        [actionSheet bk_addButtonWithTitle:@"在Safari中打开" handler:^{
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:linkStr]];
-        }];
-        [actionSheet bk_setCancelButtonWithTitle:@"取消" handler:nil];
-        [actionSheet showInView:kKeyWindow];
+
     }
 }
 

@@ -49,7 +49,6 @@
 @property (strong, nonatomic) UITableView *commentListView;
 @property (strong, nonatomic) UIImageView *timeClockIconView, *commentOrLikeBeginImgView, *commentOrLikeSplitlineView;
 @property (strong, nonatomic) NSMutableDictionary *imageViewsDict;
-@property (strong, nonatomic) HtmlMediaItem *clickedItem;
 @end
 
 @implementation TweetCell
@@ -604,30 +603,9 @@
 #pragma mark TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
     DebugLog(@"%@", components.description);
-    _clickedItem = [components objectForKey:@"value"];
-    if (_clickedItem.type == HtmlMediaItemType_ATUser) {
-        User *clickedUser = [User userWithGlobalKey:[_clickedItem.href substringFromIndex:3]];
-        if (_userBtnClickedBlock) {
-            _userBtnClickedBlock(clickedUser);
-        }
-    }else if (_clickedItem.type == (HtmlMediaItemType_AutoLink)){
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:_clickedItem.href delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"在Safari中打开", nil];
-        [actionSheet showInView:kKeyWindow];
-    }else if (_clickedItem.type == HtmlMediaItemType_Code || _clickedItem.type == HtmlMediaItemType_EmotionEmoji){
-        NSLog(@"HtmlMediaItemType_Code/HtmlMediaItemType_EmotionEmoji");
-        if (_goToDetailTweetBlock) {
-            _goToDetailTweetBlock(_tweet);
-        }
+    if (_mediaItemClickedBlock) {
+        _mediaItemClickedBlock([components objectForKey:@"value"]);
     }
-}
-
-#pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0) {
-        //Safari
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_clickedItem.href]];
-    }
-    
 }
 
 @end

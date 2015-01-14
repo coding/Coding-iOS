@@ -30,14 +30,14 @@
         NSData *data=[htmlString dataUsingEncoding:NSUTF8StringEncoding];
         TFHpple *doc = [TFHpple hppleWithHTMLData:data];
         TFHppleElement *rootElement = [doc peekAtSearchWithXPathQuery:@"//body"];
-        [self analyzeHtmlElement:rootElement withShowType:showType];
+        [self analyseHtmlElement:rootElement withShowType:showType];
         _contentDisplay = [NSMutableString stringWithString:[_contentDisplay stringByTrimmingRightCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
         _imageItems = [_mediaItems filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %d OR type == %d", HtmlMediaItemType_Image, HtmlMediaItemType_EmotionMonkey]];
     }
     return self;
 }
 
-- (void)analyzeHtmlElement:(TFHppleElement* )element withShowType:(MediaShowType)showType{
+- (void)analyseHtmlElement:(TFHppleElement* )element withShowType:(MediaShowType)showType{
     HtmlMediaItem *item = nil;
     if (element.isTextNode) {
         [_contentDisplay appendString:element.content];
@@ -112,7 +112,7 @@
     
     if (element.hasChildren) {
         for (TFHppleElement *child in [element children]) {
-            [self analyzeHtmlElement:child withShowType:showType];
+            [self analyseHtmlElement:child withShowType:showType];
         }
     }
 }

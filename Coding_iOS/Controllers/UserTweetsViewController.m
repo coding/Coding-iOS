@@ -19,6 +19,7 @@
 #import "LikersViewController.h"
 #import "TweetDetailViewController.h"
 #import "SVPullToRefresh.h"
+#import "WebViewController.h"
 
 @interface UserTweetsViewController ()
 @property (nonatomic, strong) UITableView *myTableView;
@@ -278,6 +279,9 @@
     cell.refreshSingleCCellBlock = ^(){
         [weakSelf.myTableView reloadData];
     };
+    cell.mediaItemClickedBlock = ^(HtmlMediaItem *curItem){
+        [weakSelf analyseLinkStr:curItem.href];
+    };
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     return cell;
 }
@@ -303,6 +307,20 @@
         }];
     };
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)analyseLinkStr:(NSString *)linkStr{
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        //网页
+        NSURL *linkUrl = [NSURL URLWithString:linkStr];
+        if (linkUrl) {
+            WebViewController *webVc = [WebViewController webVCWithUrl:linkUrl];
+            [self.navigationController pushViewController:webVc animated:YES];
+        }
+    }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{

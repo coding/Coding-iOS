@@ -19,6 +19,7 @@
 #import "ProjectViewController.h"
 #import "SVPullToRefresh.h"
 #import "EditTaskViewController.h"
+#import "WebViewController.h"
 
 @interface TipsViewController ()
 @property (nonatomic, strong) UITableView *myTableView;
@@ -153,7 +154,7 @@
     cell.curTip = tip;
     __weak typeof(self) weakSelf = self;
     cell.linkClickedBlock = ^(HtmlMediaItem *item, CodingTip *tip){
-        [weakSelf analyzeHtmlMediaItem:item andTip:tip];
+        [weakSelf analyseHtmlMediaItem:item andTip:tip];
     };
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     return cell;
@@ -167,21 +168,19 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-#pragma mark analyzeHtmlMediaItem
-- (void)analyzeHtmlMediaItem:(HtmlMediaItem *)item andTip:(CodingTip *)tip{
+#pragma mark analyseHtmlMediaItem
+- (void)analyseHtmlMediaItem:(HtmlMediaItem *)item andTip:(CodingTip *)tip{
     NSString *linkStr = item.href;
     UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];
     }else{
-        //            网页
-        NSLog(@"\n linkStr : %@", linkStr);
-        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:linkStr];
-        [actionSheet bk_addButtonWithTitle:@"在Safari中打开" handler:^{
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:linkStr]];
-        }];
-        [actionSheet bk_setCancelButtonWithTitle:@"取消" handler:nil];
-        [actionSheet showInView:kKeyWindow];
+        //网页
+        NSURL *linkUrl = [NSURL URLWithString:linkStr];
+        if (linkUrl) {
+            WebViewController *webVc = [WebViewController webVCWithUrl:linkUrl];
+            [self.navigationController pushViewController:webVc animated:YES];
+        }
     }
 }
 

@@ -10,7 +10,6 @@
 #define kCellIdentifier_TweetDetailComment @"TweetDetailCommentCell"
 #define kTagActionDeleteTweet 1002
 #define kTagActionDeleteComment 1003
-#define kTagActionAutoLink 1004
 
 
 #import "TweetDetailViewController.h"
@@ -24,6 +23,7 @@
 #import "ProjectViewController.h"
 #import "MJPhotoBrowser.h"
 #import "EditTaskViewController.h"
+#import "WebViewController.h"
 
 @interface TweetDetailViewController ()
 @property (nonatomic, strong) UITableView *myTableView;
@@ -142,7 +142,6 @@
 #pragma mark refresh
 - (void)refreshTweet{
     __weak typeof(self) weakSelf = self;
-    [weakSelf.refreshControl beginRefreshing];
     [[Coding_NetAPIManager sharedManager] request_Tweet_Detail_WithObj:_curTweet andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.curTweet = data;
@@ -162,7 +161,6 @@
         return;
     }
     __weak typeof(self) weakSelf = self;
-    [weakSelf.refreshControl beginRefreshing];
     [[Coding_NetAPIManager sharedManager] request_Tweet_Comments_WithObj:_curTweet andBlock:^(id data, NSError *error) {
         [weakSelf.refreshControl endRefreshing];
         if (data) {
@@ -352,9 +350,6 @@
         }else if (actionSheet.tag == kTagActionDeleteComment){
 //            删除评论
             [self deleteComment:_toComment ofTweet:_curTweet];
-        }else if (actionSheet.tag == kTagActionAutoLink){
-            //Safari
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_clickedItem.href]];
         }
     }
 }
@@ -380,14 +375,7 @@
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
     DebugLog(@"%@", components.description);
     _clickedItem = [components objectForKey:@"value"];
-    if (_clickedItem.type == HtmlMediaItemType_ATUser) {
-        User *clickedUser = [User userWithGlobalKey:[_clickedItem.href substringFromIndex:3]];
-        [self goToUserInfo:clickedUser];
-    }else if (_clickedItem.type == (HtmlMediaItemType_AutoLink)){
-        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:_clickedItem.href delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"在Safari中打开", nil];
-        actionSheet.tag = kTagActionAutoLink;
-        [actionSheet showInView:kKeyWindow];
-    }
+    [self analyseLinkStr:_clickedItem.href];
 }
 
 #pragma mark to VC
@@ -401,30 +389,20 @@
 - (void)loadRequest:(NSURLRequest *)curRequest{
     NSString *linkStr = curRequest.URL.absoluteString;
     NSLog(@"\n linkStr : %@", linkStr);
-    [self analyseLinkStr:linkStr withHtmlMedia:self.curTweet.htmlMedia];
+    [self analyseLinkStr:linkStr];
 }
 
-- (void)analyseLinkStr:(NSString *)linkStr withHtmlMedia:(HtmlMedia *)htmlMedia{
+- (void)analyseLinkStr:(NSString *)linkStr{
     UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         //网页
-        NSLog(@"\n linkStr : %@", linkStr);
-        if (htmlMedia.imageItems.count > 0) {
-            for (HtmlMediaItem *item in htmlMedia.imageItems) {
-                if (item.src.length > 0 && [item.src isEqualToString:linkStr]) {
-                    //[MJPhotoBrowser showHtmlMediaItems:_curTweet.htmlMedia.imageItems originalItem:item];
-                    return;
-                }
-            }
+        NSURL *linkUrl = [NSURL URLWithString:linkStr];
+        if (linkUrl) {
+            WebViewController *webVc = [WebViewController webVCWithUrl:linkUrl];
+            [self.navigationController pushViewController:webVc animated:YES];
         }
-        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetWithTitle:linkStr];
-        [actionSheet bk_addButtonWithTitle:@"在Safari中打开" handler:^{
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:linkStr]];
-        }];
-        [actionSheet bk_setCancelButtonWithTitle:@"取消" handler:nil];
-        [actionSheet showInView:kKeyWindow];
     }
 }
 
