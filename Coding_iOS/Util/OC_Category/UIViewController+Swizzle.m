@@ -63,7 +63,7 @@
     return temporaryBarButtonItem;
 }
 
--(UIButton*)backButton{
+-(UIButton *)backButton{
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage* buttonImage = [UIImage imageNamed:@"backBtn_Nav"];
     button.frame = CGRectMake(0, 0, 55, 30);

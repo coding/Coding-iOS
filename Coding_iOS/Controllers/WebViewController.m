@@ -46,18 +46,7 @@
     _progressView.progressBarView.backgroundColor = [UIColor colorWithHexString:@"0x3abd79"];
     
     [self loadCurUrl];
-}
-
-- (void)loadCurUrl{
-    NSURL *curUrl;
-    if (![self.curUrlStr hasPrefix:@"/"]) {
-        curUrl = [NSURL URLWithString:self.curUrlStr];
-    }else{
-        curUrl = [NSURL URLWithString:self.curUrlStr relativeToURL:[NSURL URLWithString:kNetPath_Code_Base]];
-    }
-
-    NSURLRequest *request =[NSURLRequest requestWithURL:curUrl];
-    [_myWebView loadRequest:request];
+    [self configLeftBarButtonItems];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -77,6 +66,106 @@
 }
 
 
+#pragma M UI
+- (void)configLeftBarButtonItems{
+    NSInteger preCount = self.navigationItem.leftBarButtonItems.count;
+    NSInteger curCount = self.myWebView.canGoBack? 3 : 2;
+    if (preCount != curCount) {
+        NSMutableArray *leftBarButtonItems = [NSMutableArray array];
+        
+        [leftBarButtonItems addObject:[self barItemSpacer]];
+        [leftBarButtonItems addObject:[self backWebButtonItem]];
+        if (self.myWebView.canGoBack) {
+            [leftBarButtonItems addObject:[self backVCButtonItem]];
+        }
+        [self.navigationItem setLeftBarButtonItems:leftBarButtonItems animated:YES];
+    }
+}
+
+-(UIBarButtonItem *)backVCButtonItem{
+    NSDictionary*textAttributes;
+    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
+    temporaryBarButtonItem.title = @"关闭";
+    temporaryBarButtonItem.target = self;
+    if ([temporaryBarButtonItem respondsToSelector:@selector(setTitleTextAttributes:forState:)]){
+        textAttributes = @{
+                           NSFontAttributeName: [UIFont boldSystemFontOfSize:kBackButtonFontSize],
+                           NSForegroundColorAttributeName: [UIColor whiteColor],
+                           };
+        
+        [[UIBarButtonItem appearance] setTitleTextAttributes:textAttributes forState:UIControlStateNormal];
+    }
+    temporaryBarButtonItem.action = @selector(goBackVC);
+    return temporaryBarButtonItem;
+}
+
+-(UIBarButtonItem *)backWebButtonItem{
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage* buttonImage = [UIImage imageNamed:@"backBtn_Nav"];
+    button.frame = CGRectMake(0, 0, 55, 30);
+    [button setImage:buttonImage forState:UIControlStateNormal];
+    
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:kBackButtonFontSize];
+    [button.titleLabel setMinimumScaleFactor:0.5];
+    button.titleLabel.shadowOffset = CGSizeMake(0,-1);
+    button.titleLabel.shadowColor = [UIColor darkGrayColor];
+    [button setTitle:@"返回" forState:UIControlStateNormal];
+    
+    button.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+    button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+    
+    [button addTarget:self action:@selector(goBackWebView) forControlEvents:UIControlEventTouchUpInside];
+    return [[UIBarButtonItem alloc] initWithCustomView:button];
+}
+
+- (UIBarButtonItem *)barItemSpacer{
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -10.0f;
+    return space ;
+}
+
+
+#pragma M Action
+- (void)goBackWebView{
+    if (self.myWebView.canGoBack) {
+        [self configLeftBarButtonItems];
+        [self.myWebView goBack];
+    }else{
+        [self goBackVC];
+    }
+}
+
+- (void)goBackVC{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (BOOL)canAndGoOutWithLinkStr:(NSString *)linkStr{
+    BOOL canGoOut = NO;
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
+    if (vc) {
+        canGoOut = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    return canGoOut;
+}
+
+#pragma M Data
+- (void)loadCurUrl{
+    NSURL *curUrl;
+    if (![self.curUrlStr hasPrefix:@"/"]) {
+        curUrl = [NSURL URLWithString:self.curUrlStr];
+    }else{
+        curUrl = [NSURL URLWithString:self.curUrlStr relativeToURL:[NSURL URLWithString:kNetPath_Code_Base]];
+    }
+
+    NSURLRequest *request =[NSURLRequest requestWithURL:curUrl];
+    [_myWebView loadRequest:request];
+}
+
+
+
 
 #pragma mark NJKWebViewProgressDelegate
 - (void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress{
@@ -85,6 +174,19 @@
     if (titleStr) {
         self.title = titleStr;
     }
+}
+
+#pragma mark UIWebViewDelegate
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    [self configLeftBarButtonItems];
+
+}
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    [self configLeftBarButtonItems];
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    return ![self canAndGoOutWithLinkStr:request.URL.absoluteString];
 }
 
 @end
