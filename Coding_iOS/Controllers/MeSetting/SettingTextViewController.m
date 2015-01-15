@@ -13,13 +13,14 @@
 
 @interface SettingTextViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
+@property (strong, nonatomic) NSString *myTextValue;
 @end
 
 @implementation SettingTextViewController
 + (instancetype)settingTextVCWithTitle:(NSString *)title textValue:(NSString *)textValue doneBlock:(void(^)(NSString *textValue))block{
     SettingTextViewController *vc = [[SettingTextViewController alloc] init];
     vc.title = title;
-    vc.textValue = textValue;
+    vc.textValue = textValue? textValue : @"";
     vc.doneBlock = block;
     vc.settingType = SettingTypeOnlyText;
     return vc;
@@ -50,7 +51,21 @@
     [super loadView];
     CGRect frame = [UIView frameWithOutNav];
     self.view = [[UIView alloc] initWithFrame:frame];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(doneBtnClicked:)];
+    
+    _myTextValue = [_textValue mutableCopy];
+    
+    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(doneBtnClicked:)] animated:YES];
+    @weakify(self);
+    RAC(self.navigationItem.rightBarButtonItem, enabled) =
+    [RACSignal combineLatest:@[RACObserve(self, myTextValue)] reduce:^id (NSString *newTextValue){
+        @strongify(self);
+        if ([self.textValue isEqualToString:newTextValue]) {
+            return @(NO);
+        }else if (self.settingType != SettingTypeOnlyText && newTextValue.length <= 0){
+            return @(NO);
+        }
+        return @(YES);
+    }];
     
     //    添加myTableView
     _myTableView = ({
@@ -69,12 +84,8 @@
 }
 #pragma mark doneBtn
 - (void)doneBtnClicked:(id)sender{
-    if (!_textValue || _textValue.length <= 0) {
-        [self showHudTipStr:@"怎么能什么都不写呢！"];
-        return;
-    }
     if (self.doneBlock) {
-        self.doneBlock(_textValue);
+        self.doneBlock(_myTextValue);
     }
     if (self.settingType == SettingTypeOnlyText) {
         [self.navigationController popViewControllerAnimated:YES];
@@ -97,7 +108,7 @@
     __weak typeof(self) weakSelf = self;
     SettingTextCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_SettingText forIndexPath:indexPath];
     [cell setTextValue:_textValue andTextChangeBlock:^(NSString *textValue) {
-        weakSelf.textValue = textValue;
+        weakSelf.myTextValue = textValue;
     }];
     if (self.settingType == SettingTypeNewFolderName) {
         cell.textField.placeholder = @"文件夹名称";

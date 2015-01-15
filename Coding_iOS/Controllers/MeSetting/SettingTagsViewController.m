@@ -55,10 +55,9 @@
     _mySelectedTags = [_selectedTags mutableCopy];
 
     [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(doneBtnClicked:)] animated:YES];
-    
     @weakify(self);
     RAC(self.navigationItem.rightBarButtonItem, enabled) =
-    [RACSignal combineLatest:@[RACObserve(self, mySelectedTags)] reduce:^id (NSString *mdStr){
+    [RACSignal combineLatest:@[RACObserve(self, mySelectedTags)] reduce:^id (NSArray *tags){
                                    @strongify(self);
                                    return @(![self tagsHasChanged]);
                                }];
