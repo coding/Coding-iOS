@@ -58,8 +58,7 @@
     _markdown = _markdown? _markdown : @"";
     self.curIndex = (_markdown.length > 0)? 1: 0;
     
-    
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"保存" color:[UIColor lightGrayColor] target:self action:@selector(saveBtnClicked)];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"保存" target:self action:@selector(saveBtnClicked)];
     self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
@@ -101,20 +100,18 @@
         _editView = [[UITextView alloc] initWithFrame:self.view.bounds];
         _editView.backgroundColor = [UIColor clearColor];
         
-//        _editView.textContainer.lineFragmentPadding = 20;
         _editView.textColor = [UIColor colorWithHexString:@"0x999999"];
         _editView.font = [UIFont systemFontOfSize:16];
-
         
         _editView.text = _markdown;
+        [self.view addSubview:_editView];
+
         @weakify(self);
-        [_editView.rac_textSignal subscribeNext:^(NSString *mdStr) {
+        RAC(self.navigationItem.rightBarButtonItem, enabled) = [RACSignal combineLatest:@[self.editView.rac_textSignal] reduce:^id (NSString *mdStr){
             @strongify(self);
             BOOL saveEnabled = ![mdStr isEqualToString:self.markdown];
-            self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"保存" color:(saveEnabled? [UIColor whiteColor]: [UIColor lightGrayColor]) target:self action:@selector(saveBtnClicked)];
-            self.navigationItem.rightBarButtonItem.enabled = saveEnabled;
+            return @(saveEnabled);
         }];
-        [self.view addSubview:_editView];
     }
     _editView.hidden = NO;
     _preview.hidden = YES;

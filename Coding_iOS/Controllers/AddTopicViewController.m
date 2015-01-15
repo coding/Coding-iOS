@@ -72,9 +72,9 @@
     _inputContentView.placeholder = @"讨论内容";
     [_inputContentView addLineUp:YES andDown:YES];
     [self.view addSubview:_inputContentView];
-
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(addTopicBtnClicked:)];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(addTopicBtnClicked:)];
+    
     self.title = @"创建讨论";
     
     self.myProTopic = [ProjectTopic topicWithPro:self.curProject];

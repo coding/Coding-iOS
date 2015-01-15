@@ -77,16 +77,19 @@
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    __weak typeof(self) weakSelf = self;
+    
     TweetSendImageCCell *ccell = [collectionView dequeueReusableCellWithReuseIdentifier:kCCellIdentifier_TweetSendImage forIndexPath:indexPath];
     if (indexPath.row < _curTweet.tweetImages.count) {
-        TweetImage *curImage = [_curTweet.tweetImages objectAtIndex:indexPath.row];
+        TweetImage *curImage = [weakSelf.curTweet.tweetImages objectAtIndex:indexPath.row];
         ccell.curTweetImg = curImage;
     }else{
         ccell.curTweetImg = nil;
     }
     ccell.deleteTweetImageBlock = ^(TweetImage *toDelete){
-        [_curTweet.tweetImages removeObject:toDelete];
-        [_mediaView reloadData];
+        NSMutableArray *tweetImages = [weakSelf.curTweet mutableArrayValueForKey:@"tweetImages"];
+        [tweetImages removeObject:toDelete];
+        [weakSelf.mediaView reloadData];
     };
     [_imageViewsDict setObject:ccell.imgView forKey:indexPath];
     return ccell;

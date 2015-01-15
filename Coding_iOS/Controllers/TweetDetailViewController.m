@@ -67,7 +67,6 @@
     if (_myMsgInputView) {
         [_myMsgInputView prepareToShow];
     }
-    [self.myTableView reloadData];
 }
 
 - (void)loadView{

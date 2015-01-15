@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
 @interface ProjectViewController ()
 
 @property (nonatomic, strong) NSMutableDictionary *projectContentDict;
-@property (nonatomic, strong) UIButton *navAddBtn;
+@property (nonatomic, strong) UIBarButtonItem *navAddBtn;
 
 //项目成员
 @property (strong, nonatomic) ProjectMemberListViewController *proMemberVC;
@@ -96,11 +96,7 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
     CGRect frame = [UIView frameWithOutNav];
     self.view = [[UIView alloc] initWithFrame:frame];
     self.view.backgroundColor = [UIColor whiteColor];
-     _navAddBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_navAddBtn setFrame:CGRectMake(0, 0, 19, 19)];
-    [_navAddBtn setImage:[UIImage imageNamed:@"addBtn_Nav"] forState:UIControlStateNormal];
-    [_navAddBtn addTarget:self action:@selector(navAddBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-
+    
     _projectContentDict = [[NSMutableDictionary alloc] initWithCapacity:5];
 
     if (_myProject) {
@@ -171,18 +167,24 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
     }
 }
 
-- (void)refreshWithViewType:(ProjectViewType)viewType{
-    if (viewType == ProjectViewTypeActivities || viewType == ProjectViewTypeCodes) {
-        self.navigationItem.rightBarButtonItem = nil;
-    }else if (viewType == ProjectViewTypeMembers){
-        if ([[Login curLoginUser].global_key isEqualToString:_myProject.owner_user_name]) {
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.navAddBtn];
-        }else{
-            self.navigationItem.rightBarButtonItem = nil;
-        }
-    }else{
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.navAddBtn];
+- (void)configRightBarButtonItemWithViewType:(ProjectViewType)viewType{
+    if (!_navAddBtn) {
+        _navAddBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(navAddBtnClicked)];
     }
+    
+    UIBarButtonItem *shouldBeItem = nil;
+    if ((viewType == ProjectViewTypeMembers && [[Login curLoginUser].global_key isEqualToString:_myProject.owner_user_name])
+        || viewType == ProjectViewTypeTasks
+        || viewType == ProjectViewTypeTopics
+        || viewType == ProjectViewTypeFiles) {
+        shouldBeItem = self.navAddBtn;
+    }
+    [self.navigationItem setRightBarButtonItem:shouldBeItem animated:YES];
+}
+
+- (void)refreshWithViewType:(ProjectViewType)viewType{
+    [self configRightBarButtonItemWithViewType:viewType];
+    
 //    隐藏上一个视图
     UIView *curView = [self getCurContentView];
     if (_curIndex!= viewType && curView) {

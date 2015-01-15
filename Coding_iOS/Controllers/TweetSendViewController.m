@@ -48,12 +48,22 @@
 
 - (void)loadView{
     [super loadView];
-    
     self.view = [[UIView alloc] initWithFrame:[UIView frameWithOutNav]];
+
+    _curTweet = [Tweet tweetForSend];
+
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancelBtnClicked:)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStylePlain target:self action:@selector(sendTweet)];
-    self.title = [NSString stringWithFormat:@"发冒泡"];
     
+    UIBarButtonItem *buttonItem = [UIBarButtonItem itemWithBtnTitle:@"发送" target:self action:@selector(sendTweet)];
+    [self.navigationItem setRightBarButtonItem:buttonItem animated:YES];
+    @weakify(self);
+    RAC(self.navigationItem.rightBarButtonItem, enabled) =
+    [RACSignal combineLatest:@[RACObserve(self, curTweet.tweetContent),
+                               RACObserve(self, curTweet.tweetImages)] reduce:^id (NSString *mdStr){
+                                   @strongify(self);
+                                   return @(![self isEmptyTweet]);
+                               }];
+    self.title = [NSString stringWithFormat:@"发冒泡"];
     
     //    添加myTableView
     _myTableView = ({
@@ -66,7 +76,6 @@
         [self.view addSubview:tableView];
         tableView;
     });
-    _curTweet = [Tweet tweetForSend];
 }
 
 #pragma mark Table M
@@ -77,12 +86,12 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
+        __weak typeof(self) weakSelf = self;
         TweetSendTextCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetSendText forIndexPath:indexPath];
         cell.tweetContentView.text = _curTweet.tweetContent;
         cell.textValueChangedBlock = ^(NSString *valueStr){
-            _curTweet.tweetContent = valueStr;
+            weakSelf.curTweet.tweetContent = valueStr;
         };
-        __weak typeof(self) weakSelf = self;
         cell.atSomeoneBlock = ^(UITextView *tweetContentView){
             [tweetContentView resignFirstResponder];
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -154,7 +163,9 @@
 //    NSLog(@"%@", info);
     UIImage *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     TweetImage *tweetImg = [TweetImage tweetImageWithImage:[originalImage scaledToSize:kScreen_Bounds.size highQuality:YES]];
-    [_curTweet.tweetImages addObject:tweetImg];
+    
+    NSMutableArray *tweetImages = [self.curTweet mutableArrayValueForKey:@"tweetImages"];
+    [tweetImages addObject:tweetImg];
     // 保存原图片到相册中
     if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
         SEL selectorToCall = @selector(imageWasSavedSuccessfully:didFinishSavingWithError:contextInfo:);
@@ -183,7 +194,8 @@
     for (ALAsset *assetItem in assets) {
         UIImage *highQualityImage = [UIImage fullResolutionImageFromALAsset:assetItem];
         TweetImage *tweetImg = [TweetImage tweetImageWithImage:[highQualityImage scaledToSize:kScreen_Bounds.size highQuality:YES]];
-        [_curTweet.tweetImages addObject:tweetImg];
+        NSMutableArray *tweetImages = [self.curTweet mutableArrayValueForKey:@"tweetImages"];
+        [tweetImages addObject:tweetImg];
     }
     [_myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -232,23 +244,8 @@
     return isEmptyTweet;
 }
 
-- (NSString *)tipForTweet{
-    NSString *tipStr = nil;
-    if ([self isEmptyTweet]) {
-        tipStr = @"你不能什么都不写就想发送啊\no(╯□╰)o";
-    }else if (_curTweet.tweetContent && [_curTweet.tweetContent containsEmoji]) {
-        tipStr = @"客户端暂时不支持全部的emoji字符\n⊙﹏⊙‖∣";
-    }
-    return tipStr;
-}
-
 - (void)sendTweet{
     _curTweet.tweetContent = [_curTweet.tweetContent aliasedString];
-    NSString *tipStr = [self tipForTweet];
-    if (tipStr) {
-        kTipAlert(@"%@", tipStr);
-        return;
-    }
     if (_sendNextTweet) {
         _sendNextTweet(_curTweet);
     }

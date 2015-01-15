@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UIBarButtonItem (Common)
-+ (UIBarButtonItem *)itemWithBtnTitle:(NSString *)title color:(UIColor *)titleColor target:(id)obj action:(SEL)selector;
++ (UIBarButtonItem *)itemWithBtnTitle:(NSString *)title target:(id)obj action:(SEL)selector;
 @end

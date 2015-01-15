@@ -128,25 +128,22 @@
     if (self.myTask.handleType == TaskEditTypeAdd) {
         _myMsgInputView.hidden = YES;
     }
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" color:[UIColor lightGrayColor] target:self action:@selector(doneBtnClicked)];
-    self.navigationItem.rightBarButtonItem.enabled = NO;
     
+    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(doneBtnClicked)] animated:YES];
     @weakify(self);
-    [[RACSignal combineLatest:@[RACObserve(self, self.myCopyTask.content),
-                               RACObserve(self, self.myCopyTask.owner),
-                               RACObserve(self, self.myCopyTask.priority),
-                               RACObserve(self, self.myCopyTask.status),
-                                RACObserve(self, self.myCopyTask.deadline),
-                                RACObserve(self, self.myCopyTask.task_description.markdown)] reduce:^id (NSString *content, User *owner, NSNumber *priority, NSNumber *status, NSString *deadline){
-                                   return nil;
-                               }] subscribeNext:^(id x) {
+    RAC(self.navigationItem.rightBarButtonItem, enabled) =
+    [RACSignal combineLatest:@[RACObserve(self, myCopyTask.content),
+                               RACObserve(self, myCopyTask.owner),
+                               RACObserve(self, myCopyTask.priority),
+                               RACObserve(self, myCopyTask.status),
+                               RACObserve(self, myCopyTask.deadline),
+                               RACObserve(self, myCopyTask.task_description.markdown)] reduce:^id (NSString *content, User *owner, NSNumber *priority, NSNumber *status, NSString *deadline){
                                    @strongify(self);
                                    BOOL enabled = ![self.myCopyTask isSameToTask:self.myTask];
                                    if (self.myCopyTask.handleType == TaskEditTypeAdd && self.myCopyTask.content.length <= 0) {
                                        enabled = NO;
                                    }
-                                   self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" color:(enabled? [UIColor whiteColor]: [UIColor lightGrayColor]) target:self action:@selector(doneBtnClicked)];
-                                   self.navigationItem.rightBarButtonItem.enabled = enabled;
+                                   return @(enabled);
                                }];
 }
 #pragma mark UIMessageInputViewDelegate
