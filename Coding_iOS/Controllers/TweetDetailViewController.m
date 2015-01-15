@@ -127,7 +127,7 @@
         self.myTableView.contentInset = contentInsets;
         self.myTableView.scrollIndicatorInsets = contentInsets;
         
-        if ([_commentSender isKindOfClass:[UIView class]] && !self.myTableView.isDragging) {
+        if ([_commentSender isKindOfClass:[UIView class]] && !self.myTableView.isDragging && heightToBottom > 60) {
             UIView *senderView = _commentSender;
             CGFloat senderViewBottom = [_myTableView convertPoint:CGPointZero fromView:senderView].y+ CGRectGetMaxY(senderView.bounds);
             CGFloat contentOffsetY = MAX(0, senderViewBottom- msgInputY);
