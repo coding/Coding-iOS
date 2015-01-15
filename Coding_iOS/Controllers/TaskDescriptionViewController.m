@@ -58,7 +58,7 @@
     _markdown = _markdown? _markdown : @"";
     self.curIndex = (_markdown.length > 0)? 1: 0;
     
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"保存" target:self action:@selector(saveBtnClicked)];
+    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"保存" target:self action:@selector(saveBtnClicked)] animated:YES];
     self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 

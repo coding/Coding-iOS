@@ -15,6 +15,7 @@
 #import "TagsManager.h"
 @interface SettingTagsViewController ()
 @property (strong, nonatomic) UICollectionView *tagsView;
+@property (strong, nonatomic) NSMutableArray *mySelectedTags;
 
 @end
 
@@ -30,7 +31,7 @@
     if (selectedTags && selectedTags.count > 0) {
         vc.selectedTags = [NSMutableArray arrayWithArray:selectedTags];
     }else{
-        vc.selectedTags = [[NSMutableArray alloc] init];
+        vc.selectedTags = [NSMutableArray array];
     }
     vc.doneBlock = block;
     return vc;
@@ -50,7 +51,18 @@
     [super loadView];
     CGRect frame = [UIView frameWithOutNav];
     self.view = [[UIView alloc] initWithFrame:frame];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(doneBtnClicked:)];
+
+    _mySelectedTags = [_selectedTags mutableCopy];
+
+    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(doneBtnClicked:)] animated:YES];
+    
+    @weakify(self);
+    RAC(self.navigationItem.rightBarButtonItem, enabled) =
+    [RACSignal combineLatest:@[RACObserve(self, mySelectedTags)] reduce:^id (NSString *mdStr){
+                                   @strongify(self);
+                                   return @(![self tagsHasChanged]);
+                               }];
+    
     self.title = @"个性标签";
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     self.tagsView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
@@ -61,10 +73,17 @@
     [self.view addSubview:self.tagsView];
 }
 
+- (BOOL)tagsHasChanged{
+    BOOL tagsHasChanged = NO;
+    NSSet *oldSet = [NSSet setWithArray:_selectedTags], *newSet = [NSSet setWithArray:_mySelectedTags];
+    tagsHasChanged = [newSet isEqualToSet:oldSet];
+    return tagsHasChanged;
+}
+
 - (void)doneBtnClicked:(id)sender{
     [self.navigationController popViewControllerAnimated:YES];
     if (self.doneBlock) {
-        self.doneBlock(_selectedTags);
+        self.doneBlock(_mySelectedTags);
     }
 }
 
@@ -78,7 +97,7 @@
     TagCCell *ccell = [collectionView dequeueReusableCellWithReuseIdentifier:kCCellIdentifier_Tag forIndexPath:indexPath];
     Tag *curTag = [_allTags objectAtIndex:indexPath.row];
     ccell.curTag = curTag;
-    ccell.hasBeenSelected = [_selectedTags containsObject:curTag.id.stringValue];
+    ccell.hasBeenSelected = [_mySelectedTags containsObject:curTag.id.stringValue];
     return ccell;
 }
 
@@ -99,10 +118,12 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     Tag *curTag = [_allTags objectAtIndex:indexPath.row];
     NSString *tagId = curTag.id.stringValue;
-    if ([_selectedTags containsObject:tagId]) {
-        [_selectedTags removeObject:tagId];
+    
+    NSMutableArray *tempArray = [self mutableArrayValueForKey:@"mySelectedTags"];
+    if ([tempArray containsObject:tagId]) {
+        [tempArray removeObject:tagId];
     }else{
-        [_selectedTags addObject:tagId];
+        [tempArray addObject:tagId];
     }
     [collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
 }
