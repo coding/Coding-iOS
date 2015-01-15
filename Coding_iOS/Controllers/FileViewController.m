@@ -192,18 +192,10 @@
 }
 
 - (void)setupNavigationItem{
-    UIButton *itemButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 19, 19)];
-    [itemButton setImage:[UIImage imageNamed:@"moreBtn_Nav"] forState:UIControlStateNormal];
-    @weakify(self);
-    [[itemButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id x) {
-        @strongify(self);
-        [self rightNavBtnClicked];
-    }];
-    
     if (self.fileUrl) {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:itemButton];
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)] animated:NO];
     }else{
-        self.navigationItem.rightBarButtonItem = nil;
+        [self.navigationItem setRightBarButtonItem:nil animated:YES];
     }
 }
 

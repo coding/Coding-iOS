@@ -81,11 +81,8 @@
     self.title = @"我";
     _myUser = [Login curLoginUser];
     
-    UIButton *settingBtn = [self navButtonWithImageName:@"settingBtn_Nav" action:@selector(settingBtnClicked:)];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:settingBtn];
-    
-    UIButton *addUserBtn = [self navButtonWithImageName:@"addUserBtn_Nav" action:@selector(addUserBtnClicked:)];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addUserBtn];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(settingBtnClicked:)] animated:NO];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addUserBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addUserBtnClicked:)] animated:NO];
     
 //    添加myTableView
     _myTableView = ({
@@ -102,15 +99,6 @@
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
 }
-
-- (UIButton *)navButtonWithImageName:(NSString *)imageName action:(SEL)action{
-    UIButton *navButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [navButton setFrame:CGRectMake(0, 0, 22, 22)];
-    [navButton setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
-    [navButton addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-    return navButton;
-}
-
 
 - (void)refresh{
     __weak typeof(self) weakSelf = self;

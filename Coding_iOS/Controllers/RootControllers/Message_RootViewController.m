@@ -97,15 +97,8 @@
     [super loadView];
     CGRect frame = [UIView frameWithOutNavTab];
     self.view = [[UIView alloc] initWithFrame:frame];
-
     
-    UIButton *sendMsgBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [sendMsgBtn setFrame:CGRectMake(0, 0, 19, 19)];
-    [sendMsgBtn setImage:[UIImage imageNamed:@"tweetBtn_Nav"] forState:UIControlStateNormal];
-    [sendMsgBtn addTarget:self action:@selector(sendMsgBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:sendMsgBtn];
-    
-    
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(sendMsgBtnClicked:)] animated:NO];
     //    添加myTableView
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];

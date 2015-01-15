@@ -105,12 +105,8 @@
                               }
                           }];
     
-    UIButton *doTweetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [doTweetBtn setFrame:CGRectMake(0, 0, 19, 19)];
-    [doTweetBtn setImage:[UIImage imageNamed:@"tweetBtn_Nav"] forState:UIControlStateNormal];
-    [doTweetBtn addTarget:self action:@selector(sendTweet) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:doTweetBtn];
-    
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(sendTweet)] animated:NO];
+
     //    添加myTableView
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];

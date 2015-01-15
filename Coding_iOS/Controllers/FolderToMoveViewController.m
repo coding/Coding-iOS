@@ -57,7 +57,7 @@
     self.myTableView.contentInset = contentInsets;
     self.myTableView.scrollIndicatorInsets = contentInsets;
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(dismissSelf)];
+    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"取消" target:self action:@selector(dismissSelf)] animated:YES];
 }
 - (void)dismissSelf{
     [self dismissViewControllerAnimated:YES completion:nil];
