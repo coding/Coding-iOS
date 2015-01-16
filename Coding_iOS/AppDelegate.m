@@ -166,7 +166,7 @@
         
         [BaseViewController handleNotificationInfo:userInfo];
     }else if ([application applicationState] == UIApplicationStateActive){
-//        kTipAlert(@"UIApplicationStateActive");
+        [[UnReadManager shareManager] updateUnRead];
     }
 }
 
