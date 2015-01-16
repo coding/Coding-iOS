@@ -26,6 +26,29 @@ PODS:
   - NJKWebViewProgress/ProgressView (0.2.3)
   - NYXImagesKit (2.3)
   - ODRefreshControl (1.1.0)
+  - pop (1.0.7)
+  - POP+MCAnimate (2.0.1):
+    - pop (~> 1.0)
+    - POP+MCAnimate/Animations (= 2.0.1)
+    - POP+MCAnimate/Group (= 2.0.1)
+    - POP+MCAnimate/Internal (= 2.0.1)
+    - POP+MCAnimate/Shorthand (= 2.0.1)
+    - POP+MCAnimate/Velocity (= 2.0.1)
+  - POP+MCAnimate/Animations (2.0.1):
+    - pop (~> 1.0)
+    - POP+MCAnimate/Group
+    - POP+MCAnimate/Internal
+    - POP+MCAnimate/Shorthand
+    - POP+MCAnimate/Velocity
+  - POP+MCAnimate/Group (2.0.1):
+    - pop (~> 1.0)
+  - POP+MCAnimate/Internal (2.0.1):
+    - pop (~> 1.0)
+  - POP+MCAnimate/Shorthand (2.0.1):
+    - pop (~> 1.0)
+  - POP+MCAnimate/Velocity (2.0.1):
+    - pop (~> 1.0)
+    - POP+MCAnimate/Internal
   - ReactiveCocoa (2.3.1):
     - ReactiveCocoa/UI (= 2.3.1)
   - ReactiveCocoa/Core (2.3.1):
@@ -49,6 +72,7 @@ DEPENDENCIES:
   - NJKWebViewProgress (= 0.2.3)
   - NYXImagesKit (= 2.3)
   - ODRefreshControl (= 1.1.0)
+  - POP+MCAnimate (= 2.0.1)
   - ReactiveCocoa (= 2.3.1)
   - RegexKitLite (= 4.0)
   - TPKeyboardAvoiding (= 1.2.4)
@@ -66,6 +90,8 @@ SPEC CHECKSUMS:
   NJKWebViewProgress: 721b57080c840c76f70ff6c2dda4f836ee1b27c1
   NYXImagesKit: 1c9f228ae78fab475d267b3b3a1308e0fba11731
   ODRefreshControl: 7bc75258d9dba1f93c4e34654d1e4b5aa39529f0
+  pop: 2f14a1ea61339767af9e66741b418c831b3844df
+  POP+MCAnimate: 528a556e3754a0b406adc481b02ec2984cfd1032
   ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
   RegexKitLite: c0e4c12e6e7de0769f3a3ed679f0f61604170661
   TPKeyboardAvoiding: 925e1e1912597d1a4956697eec3bd9656552153c
