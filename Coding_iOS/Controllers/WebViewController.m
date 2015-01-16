@@ -68,6 +68,12 @@
 
 #pragma M UI
 - (void)configLeftBarButtonItems{
+    //推送过来的
+    if (self.navigationItem.leftBarButtonItems.count == 1 && [self.navigationItem.leftBarButtonItem.title isEqualToString:@"关闭"]) {
+        return;
+    }
+    
+    //正常push进来的
     NSInteger preCount = self.navigationItem.leftBarButtonItems.count;
     NSInteger curCount = self.myWebView.canGoBack? 3 : 2;
     if (preCount != curCount) {

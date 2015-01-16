@@ -132,6 +132,9 @@
     }
 }
 + (void)presentLinkStr:(NSString *)linkStr{
+    if (!linkStr || linkStr.length == 0) {
+        return;
+    }
     UIViewController *vc = [self analyseVCFromLinkStr:linkStr];
     if (vc) {
         [self presentViewController:vc];

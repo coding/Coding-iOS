@@ -83,8 +83,7 @@
     if ([Login isLogin]) {
         NSDictionary *remoteNotification = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (remoteNotification) {
-            NSDictionary *apsInfo = [remoteNotification objectForKey:@"aps"];
-            [BaseViewController handleNotificationInfo:apsInfo];
+            [BaseViewController handleNotificationInfo:remoteNotification];
         }
     }
     
@@ -164,7 +163,7 @@
         //If the application state was inactive, this means the user pressed an action button
         // from a notification.
         [XGPush handleReceiveNotification:userInfo];
-
+        
         [BaseViewController handleNotificationInfo:userInfo];
     }else if ([application applicationState] == UIApplicationStateActive){
 //        kTipAlert(@"UIApplicationStateActive");
