@@ -37,7 +37,9 @@
     if (_myTableView.contentOffset.y > 0) {
         [_myTableView setContentOffset:CGPointZero animated:YES];
     }else{
-        [self refresh:NO];
+        [self.refreshControl beginRefreshing];
+        [self.myTableView setContentOffset:CGPointMake(0, -44)];
+        [self refresh];
     }
 }
 
@@ -65,12 +67,15 @@
     // Do any additional setup after loading the view.
     self.title = @"消息";
     _myPriMsgs = [[PrivateMessages alloc] init];
-    [self refresh:YES];
+    
+    [self.refreshControl beginRefreshing];
+    [self.myTableView setContentOffset:CGPointMake(0, -44)];
+    [self refresh];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self refresh:NO];
+    [self refresh];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -112,7 +117,7 @@
         tableView;
     });
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
-    [_refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     
     __weak typeof(self) weakSelf = self;
     [_myTableView addInfiniteScrollingWithActionHandler:^{
@@ -127,15 +132,12 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)refresh:(BOOL)animated{
+- (void)refresh{
     if (_myPriMsgs.isLoading) {
         return;
     }
     _myPriMsgs.willLoadMore = NO;
     __weak typeof(self) weakSelf = self;
-    if (animated) {
-//        [_refreshControl beginRefreshing];
-    }
     [self sendRequest_PrivateMessages];
     
     [[Coding_NetAPIManager sharedManager] request_UnReadNotificationsWithBlock:^(id data, NSError *error) {

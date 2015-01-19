@@ -126,8 +126,6 @@
     if (!_myMemberArray || _myMemberArray.count <= 0) {
         [self.view beginLoading];
     }
-    [_myRefreshControl beginRefreshing];
-
     __weak typeof(self) weakSelf = self;
 
     [[Coding_NetAPIManager sharedManager] request_ProjectMembers_WithObj:_myProject andBlock:^(id data, NSError *error) {

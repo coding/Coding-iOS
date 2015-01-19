@@ -78,7 +78,6 @@
         [self.view beginLoading];
     }
     __weak typeof(self) weakSelf = self;
-    [weakSelf.myRefreshControl beginRefreshing];
     [[Coding_NetAPIManager sharedManager] request_Tweet_Likers_WithObj:_curTweet andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         [weakSelf.myRefreshControl endRefreshing];
