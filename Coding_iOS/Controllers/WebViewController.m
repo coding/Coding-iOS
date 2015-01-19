@@ -32,6 +32,8 @@
     
     _myWebView = [[UIWebView alloc] initWithFrame:[UIView frameWithOutNav]];
     _myWebView.scalesPageToFit = YES;
+    _myWebView.backgroundColor = [UIColor clearColor];
+
     [self.view addSubview:_myWebView];
     
     _progressProxy = [[NJKWebViewProgress alloc] init];
