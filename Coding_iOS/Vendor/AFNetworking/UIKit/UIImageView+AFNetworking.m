@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "UIImageView+AFNetworking.h"
+#import <YLGIFImage/YLGIFImage.h>
 
 #import <objc/runtime.h>
 
@@ -92,7 +93,9 @@
     static id <AFURLResponseSerialization> _af_defaultImageResponseSerializer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_defaultImageResponseSerializer = [AFImageResponseSerializer serializer];
+//        easeeeeeeeee modify
+//        _af_defaultImageResponseSerializer = [AFImageResponseSerializer serializer];
+        _af_defaultImageResponseSerializer = [AFHTTPResponseSerializer serializer];
     });
 
 #pragma clang diagnostic push
@@ -145,6 +148,10 @@
         self.af_imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
         self.af_imageRequestOperation.responseSerializer = self.imageResponseSerializer;
         [self.af_imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            //easeeeeeeeee add
+            if (responseObject && ![responseObject isKindOfClass:[UIImage class]]) {
+                responseObject = [YLGIFImage imageWithData:responseObject];
+            }
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if ([[urlRequest URL] isEqual:[strongSelf.af_imageRequestOperation.request URL]]) {
                 if (success) {

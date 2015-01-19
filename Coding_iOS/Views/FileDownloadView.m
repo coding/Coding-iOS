@@ -9,9 +9,11 @@
 #import "FileDownloadView.h"
 #import "ASProgressPopUpView.h"
 #import "Coding_FileManager.h"
+#import "UIImageView+AFNetworking.h"
+#import <YLGIFImage/YLImageView.h>
 
 @interface FileDownloadView ()
-@property (strong, nonatomic) UIImageView *iconView;
+@property (strong, nonatomic) YLImageView *iconView;
 @property (strong, nonatomic) UILabel *nameLabel, *infoLabel, *sizeLabel;
 @property (strong, nonatomic) ASProgressPopUpView *progressView;
 @property (strong, nonatomic) UIButton *stateButton;
@@ -25,12 +27,78 @@
     if (self) {
         // Initialization code
         //        CGFloat frameHeight = CGRectGetHeight(frame);
-        CGFloat frameWidth = CGRectGetWidth(frame);
+    }
+    return self;
+}
+
+- (void)setFile:(ProjectFile *)file{
+    _file = file;
+    if (!_file) {
+        return;
+    }
+    [self loadLayoutWithCurFile];
+    
+    if (_file.preview && _file.preview.length > 0) {
         
-        CGFloat curBottomY = 80;
+        [_iconView setImageWithURLRequest:[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_file.owner_preview]] placeholderImage:nil success:nil failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+            if (error) {
+                [error showError:error];
+            }
+        }];
+    }else{
+        _iconView.image = [UIImage imageNamed:[_file fileIconName]];
+    }
+    _nameLabel.text = _file.name;
+    _sizeLabel.text = [NSString sizeDisplayWithByte:_file.size.floatValue];
+    
+    [self changeToState:_file.downloadState];
+    
+    [_progressView showPopUpViewAnimated:NO];
+    
+    Coding_DownloadTask *cDownloadTask = [_file cDownloadTask];
+    if (cDownloadTask) {
+        self.progress = cDownloadTask.progress;
+    }
+}
+
+- (void)loadLayoutWithCurFile{
+    if (!_file) {
+        return;
+    }
+    
+    CGFloat frameWidth = CGRectGetWidth(self.bounds);
+    if (_file.preview && _file.preview.length > 0) {
+        CGFloat curBottomY = CGRectGetHeight(self.bounds) - 80;
         
         if (!_iconView) {
-            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake((frameWidth - 90)/2, curBottomY, 90, 90)];
+            _iconView = [[YLImageView alloc] initWithFrame:self.bounds];
+            _iconView.backgroundColor = [UIColor blackColor];
+            _iconView.contentMode = UIViewContentModeScaleAspectFit;
+            [self addSubview:_iconView];
+        }
+
+        if (!_progressView) {
+            _progressView = [[ASProgressPopUpView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, curBottomY, kScreen_Width- 2*kPaddingLeftWidth, 2.0)];
+            
+            _progressView.popUpViewCornerRadius = 12.0;
+            _progressView.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:12];
+            [_progressView setTrackTintColor:[UIColor colorWithHexString:@"0xe6e6e6"]];
+            _progressView.popUpViewAnimatedColors = @[[UIColor colorWithHexString:@"0x3bbd79"]];
+            _progressView.hidden = YES;
+            [_progressView hidePopUpViewAnimated:NO];
+            [self addSubview:self.progressView];
+        }
+        curBottomY += 20;
+        if (!_stateButton) {
+            _stateButton = [[UIButton alloc] initWithFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 45)];
+            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载文件" andFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 45) target:self action:@selector(clickedByUser)];
+            [self addSubview:_stateButton];
+        }
+    }else{
+        CGFloat curBottomY = 80;
+        if (!_iconView) {
+            _iconView = [[YLImageView alloc] initWithFrame:CGRectMake((frameWidth - 90)/2, curBottomY, 90, 90)];
+            _iconView.contentMode = UIViewContentModeScaleAspectFill;
             _iconView.layer.masksToBounds = YES;
             _iconView.layer.cornerRadius = 2.0;
             _iconView.layer.borderWidth = 0.5;
@@ -73,32 +141,10 @@
             [self addSubview:_stateButton];
         }
     }
-    return self;
 }
 
-- (void)setFile:(ProjectFile *)file{
-    _file = file;
-    if (!_file) {
-        return;
-    }
-    
-    if (_file.preview && _file.preview.length > 0) {
-        [_iconView sd_setImageWithURL:[NSURL URLWithString:_file.preview]];
-    }else{
-        _iconView.image = [UIImage imageNamed:[_file fileIconName]];
-    }
-    _nameLabel.text = _file.name;
-    _sizeLabel.text = [NSString sizeDisplayWithByte:_file.size.floatValue];
-    
-    [self changeToState:_file.downloadState];
-    
-    [_progressView showPopUpViewAnimated:NO];
-    
-    Coding_DownloadTask *cDownloadTask = [_file cDownloadTask];
-    if (cDownloadTask) {
-        self.progress = cDownloadTask.progress;
-    }
-}
+
+
 
 - (void)setProgress:(NSProgress *)progress{
     _progress = progress;

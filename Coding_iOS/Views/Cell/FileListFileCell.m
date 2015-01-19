@@ -14,10 +14,11 @@
 #import "AFURLSessionManager.h"
 #import "Coding_FileManager.h"
 #import "ASProgressPopUpView.h"
+#import <YLGIFImage/YLImageView.h>
 
 
 @interface FileListFileCell ()<ASProgressPopUpViewDelegate>
-@property (strong, nonatomic) UIImageView *iconView;
+@property (strong, nonatomic) YLImageView *iconView;
 @property (strong, nonatomic) UILabel *nameLabel, *infoLabel, *sizeLabel;
 @property (strong, nonatomic) UIButton *stateButton;
 
@@ -32,7 +33,7 @@
     if (self) {
         // Initialization code
         if (!_iconView) {
-            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([FileListFileCell cellHeight] - kFileListFileCell_IconWidth)/2, kFileListFileCell_IconWidth, kFileListFileCell_IconWidth)];
+            _iconView = [[YLImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([FileListFileCell cellHeight] - kFileListFileCell_IconWidth)/2, kFileListFileCell_IconWidth, kFileListFileCell_IconWidth)];
             _iconView.layer.masksToBounds = YES;
             _iconView.layer.cornerRadius = 2.0;
             _iconView.layer.borderWidth = 0.5;
