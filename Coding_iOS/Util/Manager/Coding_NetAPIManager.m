@@ -1147,8 +1147,8 @@
             CodingTips *resultA = [NSObject objectOfClass:@"CodingTips" fromJSON:resultData];
             block(resultA, nil);
             //            标记为已读
-            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/mark-read" withParams:[curTips toMarkReadParams] withMethodType:Post andBlock:^(id data, NSError *error) {
-                if (data) {
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/mark-read" withParams:[curTips toMarkReadParams] withMethodType:Post andBlock:^(id data1, NSError *error1) {
+                if (data1) {
                     [[UnReadManager shareManager] updateUnRead];
                     DebugLog(@"标记已读成功");
                 }

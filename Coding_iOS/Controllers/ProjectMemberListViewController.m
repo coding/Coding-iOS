@@ -322,7 +322,6 @@
     return YES;
 }
 - (void)updateFilteredContentForSearchString:(NSString *)searchString{
-    DebugLog(@"\n%@", searchString);
     // start out with the entire list
     self.searchResults = [self.myMemberArray mutableCopy];
     

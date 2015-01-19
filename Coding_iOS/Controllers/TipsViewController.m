@@ -24,6 +24,7 @@
 @interface TipsViewController ()
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
+@property (strong, nonatomic) NSNumber *unreadCount;
 @end
 
 @implementation TipsViewController
@@ -52,7 +53,27 @@
     [super loadView];
     CGRect frame = [UIView frameWithOutNav];
     self.view = [[UIView alloc] initWithFrame:frame];
-        //    添加myTableView
+    
+    NSString *titleStr;
+    switch (self.myCodingTips.type) {
+        case 0:
+            titleStr = @"@我的";
+            self.unreadCount = [_notificationDict objectForKey:kUnReadKey_notification_AT];
+            break;
+        case 1:
+            titleStr = @"评论";
+            self.unreadCount = [_notificationDict objectForKey:kUnReadKey_notification_Comment];
+            break;
+        case 2:
+            titleStr = @"系统通知";
+            self.unreadCount = [_notificationDict objectForKey:kUnReadKey_notification_System];
+            break;
+        default:
+            break;
+    }
+    self.title = titleStr;
+    
+//    添加myTableView
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         tableView.dataSource = self;
@@ -64,22 +85,6 @@
     });
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-    
-    NSString *titleStr;
-    switch (self.myCodingTips.type) {
-        case 0:
-            titleStr = @"@我的";
-            break;
-        case 1:
-            titleStr = @"评论";
-            break;
-        case 2:
-            titleStr = @"系统通知";
-            break;
-        default:
-            break;
-    }
-    self.title = titleStr;
     
     __weak typeof(self) weakSelf = self;
     [_myTableView addInfiniteScrollingWithActionHandler:^{
@@ -148,10 +153,10 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
     CodingTipCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_CodingTip forIndexPath:indexPath];
     CodingTip *tip = [_myCodingTips.list objectAtIndex:indexPath.row];
     cell.curTip = tip;
+    cell.hasBeenRead = indexPath.row >= self.unreadCount.integerValue;
     __weak typeof(self) weakSelf = self;
     cell.linkClickedBlock = ^(HtmlMediaItem *item, CodingTip *tip){
         [weakSelf analyseHtmlMediaItem:item andTip:tip];
@@ -161,7 +166,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [CodingTipCell cellHeightWithObj:[_myCodingTips.list objectAtIndex:indexPath.row]];
+    return [CodingTipCell cellHeightWithObj:[_myCodingTips.list objectAtIndex:indexPath.row] hasBeenRead:(indexPath.row >= self.unreadCount.integerValue)];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -12,7 +12,8 @@
 @interface CodingTipCell : UITableViewCell<TTTAttributedLabelDelegate>
 @property (strong, nonatomic) UITTTAttributedLabel *contentLabel;
 @property (strong, nonatomic) CodingTip *curTip;
+@property (assign, nonatomic) BOOL hasBeenRead;
 @property (copy, nonatomic) void(^linkClickedBlock)(HtmlMediaItem *item, CodingTip *tip);
-+ (CGFloat)cellHeightWithObj:(id)obj;
++ (CGFloat)cellHeightWithObj:(id)obj hasBeenRead:(BOOL)hasBeenRead;
 
 @end

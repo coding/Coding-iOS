@@ -7,7 +7,6 @@
 //
 
 #define kCodingTipCell_WidthContent (kScreen_Width - 2*kPaddingLeftWidth - 35)
-#define kCodingTipCell_FontContent [UIFont systemFontOfSize:15]
 
 #import "CodingTipCell.h"
 @interface CodingTipCell ()
@@ -29,7 +28,6 @@
         }
         if (!_contentLabel) {
             _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth +35, 10, kCodingTipCell_WidthContent, 20)];
-            _contentLabel.font = kCodingTipCell_FontContent;
             _contentLabel.backgroundColor = [UIColor clearColor];
             _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             _contentLabel.linkAttributes = kLinkAttributes;
@@ -55,16 +53,13 @@
         return;
     }
     CGFloat curBottomY = 10;
-//    BranchMember
-//    User
-    if ([_curTip.content rangeOfString:@"账号密码"].location != NSNotFound) {
-        NSLog(@"_curTip.target_type:  %@", _curTip.target_type);
-    }
-    _iconView.image = [UIImage imageNamed:[NSString stringWithFormat:@"tipIcon_%@", _curTip.target_type]];
+    UIFont *contentFont = [CodingTipCell fontWithHasBeenRead:_hasBeenRead];
     
+    _iconView.image = [UIImage imageNamed:[NSString stringWithFormat:@"tipIcon_%@", _curTip.target_type]];
+    _contentLabel.font = contentFont;
     
     [_contentLabel setLongString:_curTip.content withFitWidth:kCodingTipCell_WidthContent];
-    curBottomY += [_curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)]+10;
+    curBottomY += [_curTip.content getHeightWithFont:contentFont constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)]+10;
     NSString *timeStr = [_curTip.created_at stringTimeDisplay];
     [_timeLabel setLongString:timeStr withVariableWidth:200];
     [_timeLabel setCenter:CGPointMake(kScreen_Width -(CGRectGetWidth(_timeLabel.frame)/2 +kPaddingLeftWidth), curBottomY+ CGRectGetHeight(_timeLabel.frame)/2)];
@@ -75,11 +70,15 @@
     }
 }
 
-+ (CGFloat)cellHeightWithObj:(id)obj{
++ (UIFont *)fontWithHasBeenRead:(BOOL)hasBeenRead{
+    return hasBeenRead? [UIFont systemFontOfSize:15]: [UIFont boldSystemFontOfSize:15];
+}
+
++ (CGFloat)cellHeightWithObj:(id)obj hasBeenRead:(BOOL)hasBeenRead{
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[CodingTip class]]) {
         CodingTip *curTip = (CodingTip *)obj;
-        cellHeight += 10 + [curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] +10+20;
+        cellHeight += 10 + [curTip.content getHeightWithFont:[CodingTipCell fontWithHasBeenRead:hasBeenRead] constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] +10+20;
     }
     return cellHeight;
 }
