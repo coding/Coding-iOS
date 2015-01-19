@@ -11,7 +11,7 @@
 @implementation Comment
 - (void)setContent:(NSString *)content{
     if (_content != content) {
-        _htmlMedia = [HtmlMedia htmlMediaWithString:content trimWhitespaceAndNewline:YES showType:MediaShowTypeAll];
+        _htmlMedia = [HtmlMedia htmlMediaWithString:content showType:MediaShowTypeAll];
         _content = _htmlMedia.contentDisplay;
     }
 }

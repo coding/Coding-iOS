@@ -8,7 +8,7 @@
 
 #import "HtmlMedia.h"
 @implementation HtmlMedia
-- (instancetype)initWithString:(NSString *)htmlString trimWhitespaceAndNewline:(BOOL)isTrim showType:(MediaShowType)showType{
+- (instancetype)initWithString:(NSString *)htmlString showType:(MediaShowType)showType{
     self = [super init];
     if (self) {
         _contentOrigional = htmlString;
@@ -16,14 +16,7 @@
         if (![htmlString hasPrefix:@"<body>"]) {
             htmlString = [NSString stringWithFormat:@"<body>%@</body>", htmlString];
         }
-        
-        if (isTrim) {
-            //        过滤掉html元素之间的"空格+换行+空格"
-            htmlString = [htmlString stringByReplacingOccurrencesOfString:@">(\\s*\\n*\\r*\\s*)<" withString:@"><" options:NSRegularExpressionSearch range:NSMakeRange(0, htmlString.length)];
-            htmlString = [htmlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            htmlString = [htmlString stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-            htmlString = [htmlString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-        }
+
         _contentDisplay = [[NSMutableString alloc] init];
         _mediaItems = [[NSMutableArray alloc] init];
         
@@ -31,7 +24,6 @@
         TFHpple *doc = [TFHpple hppleWithHTMLData:data];
         TFHppleElement *rootElement = [doc peekAtSearchWithXPathQuery:@"//body"];
         [self analyseHtmlElement:rootElement withShowType:showType];
-        _contentDisplay = [NSMutableString stringWithString:[_contentDisplay stringByTrimmingRightCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
         _imageItems = [_mediaItems filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %d OR type == %d", HtmlMediaItemType_Image, HtmlMediaItemType_EmotionMonkey]];
     }
     return self;
@@ -40,7 +32,14 @@
 - (void)analyseHtmlElement:(TFHppleElement* )element withShowType:(MediaShowType)showType{
     HtmlMediaItem *item = nil;
     if (element.isTextNode) {
-        [_contentDisplay appendString:element.content];
+        if ([element.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
+            || (![_contentDisplay hasSuffix:@"\n"] && _contentDisplay.length > 0)) {
+            [_contentDisplay appendString:element.content];
+        }
+    }else if ([element.tagName isEqualToString:@"br"]){
+        if (![_contentDisplay hasSuffix:@"\n"] && _contentDisplay.length > 0) {
+            [_contentDisplay appendString:@"\n"];
+        }
     }else if ([element.tagName isEqualToString:@"code"]) {
         item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_Code];
         item.code = element.text;
@@ -49,11 +48,10 @@
         NSString *element_Class = [attributes objectForKey:@"class"];
         if (!element_Class || [element_Class isEqualToString:@"auto-link"]) {
             //网址
-            NSString *linkStr = element.text;
-            if (linkStr) {
+            if (element.text.length > 0) {
                 item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_AutoLink];
                 item.href = [attributes objectForKey:@"href"];
-                item.linkStr = [element.text stringByTrimmingRightCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                item.linkStr = element.text;
             }
         }else if ([element_Class isEqualToString:@"at-someone"]) {
             //@了某个人
@@ -117,12 +115,8 @@
     }
 }
 
-+ (instancetype)htmlMediaWithString:(NSString *)htmlString trimWhitespaceAndNewline:(BOOL)isTrim showType:(MediaShowType)showType{
-     return [[[self class] alloc] initWithString:htmlString trimWhitespaceAndNewline:isTrim showType:showType];
-}
-
 + (instancetype)htmlMediaWithString:(NSString *)htmlString showType:(MediaShowType)showType{
-    return [[[self class] alloc] initWithString:htmlString trimWhitespaceAndNewline:NO showType:showType];
+    return [[[self class] alloc] initWithString:htmlString showType:showType];
 }
 
 + (void)addMediaItem:(HtmlMediaItem *)curItem toString:(NSMutableString *)curString andMediaItems:(NSMutableArray *)itemList{
@@ -135,9 +129,9 @@
     }
     HtmlMediaItem *curItem = [HtmlMediaItem htmlMediaItemWithType:type];
     curItem.linkStr = linkStr;
-    curItem.range = NSMakeRange(curString.length, linkStr.length);
+    curItem.range = NSMakeRange(curString.length, curItem.displayStr.length);
     [itemList addObject:curItem];
-    [curString appendString:linkStr];
+    [curString appendString:curItem.displayStr];
 }
 + (void)addMediaItemUser:(User *)curUser toString:(NSMutableString *)curString andMediaItems:(NSMutableArray *)itemList{
     HtmlMediaItem *userItem = [HtmlMediaItem htmlMediaItemWithTypeATUser:curUser mediaRange:NSMakeRange(curString.length, curUser.name.length)];
@@ -187,7 +181,7 @@
             break;
         case HtmlMediaItemType_AutoLink:
         case HtmlMediaItemType_CustomLink:
-            displayStr = _linkStr;
+            displayStr = [_linkStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             break;
         default:
             displayStr = @"";

@@ -21,7 +21,7 @@
 
 - (void)setContent:(NSString *)content{
     if (_content != content) {
-        _htmlMedia = [HtmlMedia htmlMediaWithString:content trimWhitespaceAndNewline:YES showType:MediaShowTypeCode];
+        _htmlMedia = [HtmlMedia htmlMediaWithString:content showType:MediaShowTypeCode];
         _content = _htmlMedia.contentDisplay;
     }
 }

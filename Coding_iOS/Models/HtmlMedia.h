@@ -38,8 +38,7 @@ typedef NS_ENUM(NSInteger, MediaShowType) {
 @property (strong, nonatomic) NSArray *imageItems;
 
 + (instancetype)htmlMediaWithString:(NSString *)htmlString showType:(MediaShowType)showType;
-+ (instancetype)htmlMediaWithString:(NSString *)htmlString trimWhitespaceAndNewline:(BOOL)isTrim showType:(MediaShowType)showType;
-- (instancetype)initWithString:(NSString *)htmlString trimWhitespaceAndNewline:(BOOL)isTrim showType:(MediaShowType)showType;
+- (instancetype)initWithString:(NSString *)htmlString showType:(MediaShowType)showType;
 
 
 //在curString的末尾添加一个media元素

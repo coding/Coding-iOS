@@ -28,7 +28,7 @@
 
 - (void)setDescription_mine:(NSString *)description_mine{
     if (_description_mine != description_mine) {
-        HtmlMedia *htmlMedia = [HtmlMedia htmlMediaWithString:description_mine trimWhitespaceAndNewline:YES showType:MediaShowTypeImageAndMonkey];
+        HtmlMedia *htmlMedia = [HtmlMedia htmlMediaWithString:description_mine showType:MediaShowTypeImageAndMonkey];
         _description_mine = htmlMedia.contentDisplay;
     }
 }
@@ -271,7 +271,7 @@
 
 - (void)setDescription_mine:(NSString *)description_mine{
     if (_description_mine != description_mine) {
-        _htmlMedia = [HtmlMedia htmlMediaWithString:description_mine trimWhitespaceAndNewline:NO showType:MediaShowTypeImageAndMonkey];
+        _htmlMedia = [HtmlMedia htmlMediaWithString:description_mine showType:MediaShowTypeImageAndMonkey];
         _description_mine = _htmlMedia.contentDisplay;
     }
 }

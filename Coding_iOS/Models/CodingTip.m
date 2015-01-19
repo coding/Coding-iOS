@@ -12,7 +12,7 @@
 
 - (void)setContent:(NSString *)content{
     if (_content != content) {
-        _htmlMedia = [HtmlMedia htmlMediaWithString:content trimWhitespaceAndNewline:YES showType:MediaShowTypeImageAndMonkey];
+        _htmlMedia = [HtmlMedia htmlMediaWithString:content showType:MediaShowTypeImageAndMonkey];
         _content = _htmlMedia.contentDisplay;
     }
 }
