@@ -166,7 +166,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [CodingTipCell cellHeightWithObj:[_myCodingTips.list objectAtIndex:indexPath.row] hasBeenRead:(indexPath.row >= self.unreadCount.integerValue)];
+    return [CodingTipCell cellHeightWithObj:[_myCodingTips.list objectAtIndex:indexPath.row]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

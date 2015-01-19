@@ -14,6 +14,6 @@
 @property (strong, nonatomic) CodingTip *curTip;
 @property (assign, nonatomic) BOOL hasBeenRead;
 @property (copy, nonatomic) void(^linkClickedBlock)(HtmlMediaItem *item, CodingTip *tip);
-+ (CGFloat)cellHeightWithObj:(id)obj hasBeenRead:(BOOL)hasBeenRead;
++ (CGFloat)cellHeightWithObj:(id)obj;
 
 @end
