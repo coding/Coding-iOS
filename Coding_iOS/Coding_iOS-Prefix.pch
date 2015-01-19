@@ -80,7 +80,6 @@
 #define kScreen_Width [UIScreen mainScreen].bounds.size.width
 #define kScreen_is_iPhone5_Plus ABS(kScreen_Width/kScreen_Height - 320.0/480.0) > 0.01
 #define kPaddingLeftWidth 10.0
-#define kCornerRadius 22.0
 #define kMySegmentControl_Height 44.0
 #define kMySegmentControlIcon_Height 70.0
 

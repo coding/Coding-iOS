@@ -90,8 +90,8 @@
         }
         curBottomY += 20;
         if (!_stateButton) {
-            _stateButton = [[UIButton alloc] initWithFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 45)];
-            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载文件" andFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 45) target:self action:@selector(clickedByUser)];
+            _stateButton = [[UIButton alloc] init];
+            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载原文件" andFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 45) target:self action:@selector(clickedByUser)];
             [self addSubview:_stateButton];
         }
     }else{
@@ -136,8 +136,8 @@
         }
         curBottomY += 20;
         if (!_stateButton) {
-            _stateButton = [[UIButton alloc] initWithFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 45)];
-            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载文件" andFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 45) target:self action:@selector(clickedByUser)];
+            _stateButton = [[UIButton alloc] init];
+            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载原文件" andFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 45) target:self action:@selector(clickedByUser)];
             [self addSubview:_stateButton];
         }
     }
@@ -225,7 +225,7 @@
     NSString *stateTitle;
     switch (state) {
         case DownloadStateDefault:
-            stateTitle = @"下载文件";
+            stateTitle = @"下载原文件";
             break;
         case DownloadStateDownloading:
             stateTitle = @"暂停下载";

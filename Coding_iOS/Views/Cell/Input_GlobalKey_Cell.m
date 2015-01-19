@@ -51,7 +51,7 @@
     self.contentView.frame = CGRectMake(kPaddingLeftWidth, 0, kScreen_Width - 2*kPaddingLeftWidth, self.contentView.frame.size.height);
     self.contentView.layer.borderColor = [[UIColor colorWithHexString:@"0x999999" andAlpha:0.5] CGColor];
     self.contentView.layer.borderWidth = 0.5;
-    self.contentView.layer.cornerRadius = kCornerRadius;
+    self.contentView.layer.cornerRadius = 22;
     self.contentView.layer.masksToBounds = YES;
     self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
 }
