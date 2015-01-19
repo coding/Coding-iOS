@@ -30,7 +30,7 @@
 - (void)tabBarItemClicked{
     if (_myTableView.contentOffset.y > 0) {
         [_myTableView setContentOffset:CGPointZero animated:YES];
-    }else{
+    }else if (!self.myRefreshControl.refreshing){
         [self.myRefreshControl beginRefreshing];
         [self.myTableView setContentOffset:CGPointMake(0, -44)];
         [self refresh];

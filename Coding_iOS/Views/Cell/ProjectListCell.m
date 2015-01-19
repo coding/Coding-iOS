@@ -57,7 +57,7 @@
         
         [_privateIconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_projectTitleLabel);
-            make.centerY.equalTo(_ownerTitleLabel);
+            make.centerY.mas_equalTo(_ownerTitleLabel.mas_centerY).offset(1);
         }];
         
     }

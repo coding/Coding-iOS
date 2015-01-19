@@ -25,7 +25,6 @@ PODS:
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
   - NYXImagesKit (2.3)
-  - ODRefreshControl (1.1.0)
   - pop (1.0.7)
   - POP+MCAnimate (2.0.1):
     - pop (~> 1.0)
@@ -71,7 +70,6 @@ DEPENDENCIES:
   - MMMarkdown (= 0.3)
   - NJKWebViewProgress (= 0.2.3)
   - NYXImagesKit (= 2.3)
-  - ODRefreshControl (= 1.1.0)
   - POP+MCAnimate (= 2.0.1)
   - ReactiveCocoa (= 2.3.1)
   - RegexKitLite (= 4.0)
@@ -89,7 +87,6 @@ SPEC CHECKSUMS:
   MMMarkdown: 95af8920c647512d1efa2ac8ac1932baf3266e2c
   NJKWebViewProgress: 721b57080c840c76f70ff6c2dda4f836ee1b27c1
   NYXImagesKit: 1c9f228ae78fab475d267b3b3a1308e0fba11731
-  ODRefreshControl: 7bc75258d9dba1f93c4e34654d1e4b5aa39529f0
   pop: 2f14a1ea61339767af9e66741b418c831b3844df
   POP+MCAnimate: 528a556e3754a0b406adc481b02ec2984cfd1032
   ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
