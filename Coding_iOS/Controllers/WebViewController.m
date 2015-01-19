@@ -30,7 +30,8 @@
 
     self.title = @"加载中...";
     
-    _myWebView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    _myWebView = [[UIWebView alloc] initWithFrame:[UIView frameWithOutNav]];
+    _myWebView.scalesPageToFit = YES;
     [self.view addSubview:_myWebView];
     
     _progressProxy = [[NJKWebViewProgress alloc] init];
