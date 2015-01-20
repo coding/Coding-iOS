@@ -28,7 +28,7 @@
 
 @interface ODRefreshControl ()
 
-@property (nonatomic, readwrite) BOOL refreshing;
+@property (nonatomic, readwrite) BOOL refreshing, duringEnding;
 @property (nonatomic, assign) UIScrollView *scrollView;
 @property (nonatomic, assign) UIEdgeInsets originalContentInset;
 
@@ -74,6 +74,7 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
         [self addSubview:_activity];
         
         _refreshing = NO;
+        _duringEnding = NO;
         _canRefresh = YES;
         _ignoreInset = NO;
         _ignoreOffset = NO;
@@ -391,6 +392,8 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
 - (void)endRefreshing
 {
     if (_refreshing) {
+        self.refreshing = NO;
+        self.duringEnding = YES;
         // Create a temporary retain-cycle, so the scrollView won't be released
         // halfway through the end animation.
         // This allows for the refresh control to clean up the observer,
@@ -416,9 +419,13 @@ static inline CGFloat lerp(CGFloat a, CGFloat b, CGFloat p)
             _ignoreInset = YES;
             [blockScrollView setContentInset:self.originalContentInset];
             _ignoreInset = NO;
-            _refreshing = NO;
+            self.duringEnding = NO;
         }];
     }
+}
+
+- (BOOL)isAnimating{
+    return (self.refreshing || self.duringEnding);
 }
 
 @end

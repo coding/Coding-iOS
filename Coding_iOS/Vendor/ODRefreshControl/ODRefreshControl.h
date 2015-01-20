@@ -24,7 +24,8 @@
     BOOL _hasSectionHeaders;
 }
 
-@property (nonatomic, readonly) BOOL refreshing;
+@property (nonatomic, readonly) BOOL isAnimating;
+
 @property (nonatomic, strong) UIColor *tintColor;
 @property (nonatomic, assign) UIActivityIndicatorViewStyle activityIndicatorViewStyle;
 
@@ -38,5 +39,4 @@
 
 // Tells the control the refresh operation has ended
 - (void)endRefreshing;
-
 @end

@@ -91,7 +91,7 @@
         curBottomY += 20;
         if (!_stateButton) {
             _stateButton = [[UIButton alloc] init];
-            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载原文件" andFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 45) target:self action:@selector(clickedByUser)];
+            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载原文件" andFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 25) target:self action:@selector(clickedByUser)];
             [self addSubview:_stateButton];
         }
     }else{
