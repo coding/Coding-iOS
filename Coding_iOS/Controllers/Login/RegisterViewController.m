@@ -194,6 +194,16 @@
 //    activateBtn.frame = frame;
 //    [activateBtn addTarget:self action:@selector(reActivate) forControlEvents:UIControlEventTouchUpInside];
 //    [footerV addSubview:activateBtn];
+    
+    
+    RAC(self, registerBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, myRegister.email), RACObserve(self, myRegister.global_key), RACObserve(self, myRegister.j_captcha), RACObserve(self, captchaNeeded)] reduce:^id(NSString *email, NSString *global_key, NSString *j_captcha, NSNumber *captchaNeeded){
+        if ((captchaNeeded && captchaNeeded.boolValue) && (!j_captcha || j_captcha.length <= 0)) {
+            return @(NO);
+        }else{
+            return @((email && email.length > 0) && (global_key && global_key.length > 0));
+        }
+    }];
+    
     return footerV;
 }
 
