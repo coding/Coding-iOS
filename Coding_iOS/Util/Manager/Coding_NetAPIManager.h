@@ -33,7 +33,7 @@
 //Login
 - (void)request_Login_WithParams:(id)params andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Register_WithParams:(id)params andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_CaptchaNeededWithBlock:(void (^)(id data, NSError *error))block;
+- (void)request_CaptchaNeededWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block;
 
 //Project
 - (void)request_Projects_WithObj:(Projects *)projects andBlock:(void (^)(Projects *data, NSError *error))block;

@@ -10,7 +10,7 @@
 #import "UITapImageView.h"
 
 @interface Input_OnlyText_Cell : UITableViewCell
-@property (assign, nonatomic) BOOL isCaptcha;
+@property (assign, nonatomic) BOOL isCaptcha, isRegister;
 @property (strong, nonatomic) UIView *lineView;
 @property (strong, nonatomic) UITapImageView *captchaView;
 @property (strong, nonatomic) UIImage *captchaImage;

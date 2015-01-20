@@ -80,18 +80,22 @@
 - (void)request_Register_WithParams:(id)params andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"注册"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/register" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-            id resultData = [data valueForKeyPath:@"data"];
-            block(resultData, nil);
+        id resultData = [data valueForKeyPath:@"data"];
+        if (resultData) {
+            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];
+            if (curLoginUser) {
+                [Login doLogin:resultData];
+            }
+            block(curLoginUser, nil);
         }else{
             block(nil, error);
         }
     }];
 }
 
-- (void)request_CaptchaNeededWithBlock:(void (^)(id data, NSError *error))block{
+- (void)request_CaptchaNeededWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"是否需要验证码"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/captcha/login" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path  withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
             block(resultData, nil);

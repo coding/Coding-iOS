@@ -59,11 +59,16 @@ static User *curLoginUser;
 + (BOOL)isLogin{
     NSNumber *loginStatus = [[NSUserDefaults standardUserDefaults] objectForKey:kLoginStatus];
     if (loginStatus.boolValue && [Login curLoginUser]) {
+        User *loginUser = [Login curLoginUser];
+        if (loginUser.status && loginUser.status.integerValue == 0) {
+            return NO;
+        }
         return YES;
     }else{
         return NO;
     }
 }
+
 + (void)doLogin:(NSDictionary *)loginData{
     if (loginData) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

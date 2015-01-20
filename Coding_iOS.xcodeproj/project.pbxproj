@@ -310,7 +310,6 @@
 		8EA6D13019E240C40076D59C /* LikersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CF2719E240C40076D59C /* LikersViewController.m */; };
 		8EA6D13119E240C40076D59C /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CF2A19E240C40076D59C /* LoginViewController.m */; };
 		8EA6D13219E240C40076D59C /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CF2C19E240C40076D59C /* RegisterViewController.m */; };
-		8EA6D13319E240C40076D59C /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CF2D19E240C40076D59C /* RegisterViewController.xib */; };
 		8EA6D13419E240C40076D59C /* ProjectMemberListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CF2F19E240C40076D59C /* ProjectMemberListViewController.m */; };
 		8EA6D13519E240C40076D59C /* ProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CF3119E240C40076D59C /* ProjectViewController.m */; };
 		8EA6D13619E240C40076D59C /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CF3419E240C40076D59C /* BaseViewController.m */; };
@@ -979,7 +978,6 @@
 		8EA6CF2A19E240C40076D59C /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		8EA6CF2B19E240C40076D59C /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		8EA6CF2C19E240C40076D59C /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
-		8EA6CF2D19E240C40076D59C /* RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		8EA6CF2E19E240C40076D59C /* ProjectMemberListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectMemberListViewController.h; sourceTree = "<group>"; };
 		8EA6CF2F19E240C40076D59C /* ProjectMemberListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectMemberListViewController.m; sourceTree = "<group>"; };
 		8EA6CF3019E240C40076D59C /* ProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectViewController.h; sourceTree = "<group>"; };
@@ -2065,7 +2063,6 @@
 				8EA6CF2A19E240C40076D59C /* LoginViewController.m */,
 				8EA6CF2B19E240C40076D59C /* RegisterViewController.h */,
 				8EA6CF2C19E240C40076D59C /* RegisterViewController.m */,
-				8EA6CF2D19E240C40076D59C /* RegisterViewController.xib */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -2862,7 +2859,6 @@
 				8EA6D15919E240C40076D59C /* AppIcon120x120.png in Resources */,
 				8E97CEB71A0C7E26006F9AD7 /* coding_emoji_32@2x.png in Resources */,
 				8EF643B319FF7E2900F7EEB0 /* Input_GlobalKey_Cell.xib in Resources */,
-				8EA6D13319E240C40076D59C /* RegisterViewController.xib in Resources */,
 				8E97CEA71A0C7E26006F9AD7 /* coding_emoji_16@2x.png in Resources */,
 				8E8F7B2C19EF6306006BA8BD /* btn_followed_both@2x.png in Resources */,
 				8E97CEB61A0C7E26006F9AD7 /* coding_emoji_31@2x.png in Resources */,

@@ -10,7 +10,7 @@
 
 @interface Register : NSObject
 //请求
-@property (readwrite, nonatomic, strong) NSString *email, *global_key;
+@property (readwrite, nonatomic, strong) NSString *email, *global_key, *j_captcha;
 
 - (NSDictionary *)toParams;
 @end

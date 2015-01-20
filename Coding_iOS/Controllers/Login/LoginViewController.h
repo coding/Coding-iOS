@@ -10,7 +10,7 @@
 #import "Login.h"
 #import "TPKeyboardAvoidingTableView.h"
 
-@interface LoginViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate,UIActionSheetDelegate>
+@interface LoginViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
 @property (strong, nonatomic) UIView *bottomView;
 

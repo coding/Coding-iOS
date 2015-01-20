@@ -30,13 +30,11 @@
     // Configure the view for the selected state
 }
 - (IBAction)editDidBegin:(id)sender {
-//    [self.textField setValue:[UIColor colorWithHexString:@"0xffffff"] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
     _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff"];
-    self.clearBtn.hidden = self.textField.text.length <= 0;
+    self.clearBtn.hidden = _isRegister? YES: self.textField.text.length <= 0;
 }
 
 - (IBAction)editDidEnd:(id)sender {
-//    [self.textField setValue:[UIColor colorWithHexString:@"0xffffff" andAlpha:0.5] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
     _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
     self.clearBtn.hidden = YES;
     if (self.editDidEndBlock) {
@@ -49,7 +47,7 @@
     self.textField.text = valueStr;
 }
 - (IBAction)textValueChanged:(id)sender {
-    self.clearBtn.hidden = self.textField.text.length <= 0;
+    self.clearBtn.hidden = _isRegister? YES: self.textField.text.length <= 0;
     if (self.textValueChangedBlock) {
         self.textValueChangedBlock(self.textField.text);
     }
@@ -63,24 +61,30 @@
 #pragma mark - UIView
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.backgroundView = nil;
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = _isRegister? [UIColor whiteColor]: [UIColor clearColor];
     self.textField.font = [UIFont systemFontOfSize:17];
-    [self.textField setValue:[UIColor colorWithHexString:@"0xffffff" andAlpha:0.5] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
-    if (!_lineView) {
+    self.textField.textColor = _isRegister? [UIColor colorWithHexString:@"0x222222"]: [UIColor whiteColor];
+    [self.textField setValue:[UIColor colorWithHexString:_isRegister? @"0x999999": @"0xffffff" andAlpha:_isRegister? 1.0: 0.5] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
+    if (!_lineView && !_isRegister) {
         _lineView = [[UIView alloc] initWithFrame:CGRectMake(kInput_OnlyText_Cell_LeftPading, 43.5, kScreen_Width-2*kInput_OnlyText_Cell_LeftPading, 0.5)];
         _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
         [self.contentView addSubview:_lineView];
     }
     if (_isCaptcha) {
-        [self.textField setWidth:(kScreen_Width - 2*kInput_OnlyText_Cell_LeftPading) - 70 - 20];
+        [self.textField setWidth:(kScreen_Width - 2*kInput_OnlyText_Cell_LeftPading) - (_isRegister? 70 : 90)];
         _captchaView.hidden = NO;
         [self refreshCaptchaImage];
     }else{
-        [self.textField setWidth:(kScreen_Width - 2*kInput_OnlyText_Cell_LeftPading) - 20];
+        [self.textField setWidth:(kScreen_Width - 2*kInput_OnlyText_Cell_LeftPading) - (_isRegister? 0:20)];
         _captchaView.hidden = YES;
     }
     [self.clearBtn setX:self.textField.maxXOfFrame];
+    _lineView.hidden = _isRegister;
+    if (_isRegister) {
+        _clearBtn.hidden = YES;
+    }
+    self.textField.clearButtonMode = _isRegister? UITextFieldViewModeWhileEditing: UITextFieldViewModeNever;
+
 }
 - (void)refreshCaptchaImage{
     if (_activityIndicator && _activityIndicator.isAnimating) {

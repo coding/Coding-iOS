@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 #import "Register.h"
 
-@interface RegisterViewController : UITableViewController
+@interface RegisterViewController : BaseViewController
 @property (nonatomic, strong) Register *myRegister;
+@property (strong, nonatomic) UIImageView *bgBlurredView;
+
 @end

@@ -15,13 +15,14 @@
 #import <NYXImagesKit/NYXImagesKit.h>
 #import <UIImage+BlurredFrame/UIImage+BlurredFrame.h>
 #import <Masonry/Masonry.h>
+#import "UIImageView+WebCache.h"
 
 
 @interface LoginViewController ()
 @property (assign, nonatomic) BOOL captchaNeeded;
 @property (strong, nonatomic) UIButton *loginBtn;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
-@property (strong, nonatomic) UIImageView *iconUserView;
+@property (strong, nonatomic) UIImageView *iconUserView, *bgBlurredView;
 @end
 
 @implementation LoginViewController
@@ -39,41 +40,21 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self.navigationController setNavigationBarHidden:YES];
 
 }
 
 - (void)loadView{
     [super loadView];
-    
+    self.view = [[UIView alloc] initWithFrame:kScreen_Bounds];
+
     self.myLogin = [[Login alloc] init];
     _captchaNeeded = NO;
-    
-    self.view = [[UIView alloc] initWithFrame:kScreen_Bounds];
-    
-    //背景图片
-    UIImageView *bgView = [[UIImageView alloc] initWithFrame:kScreen_Bounds];
-    bgView.contentMode = UIViewContentModeScaleAspectFill;
-    UIImage *bgImage = [[StartImagesManager shareManager] curImage].image;
-    
-    CGSize bgImageSize = bgImage.size, bgViewSize = [bgView doubleSizeOfFrame];
-    if (bgImageSize.width > bgViewSize.width && bgImageSize.height > bgViewSize.height) {
-        bgImage = [bgImage scaleToSize:[bgView doubleSizeOfFrame] usingMode:NYXResizeModeAspectFill];
-    }
-    bgImage = [bgImage applyLightEffectAtFrame:CGRectMake(0, 0, bgImage.size.width, bgImage.size.height)];
-    bgView.image = bgImage;
-    [self.view addSubview:bgView];
-    //黑色遮罩
-    UIColor *blackColor = [UIColor blackColor];
-    [self.view addGradientLayerWithColors:@[(id)[blackColor colorWithAlphaComponent:0.3].CGColor,
-                                            (id)[blackColor colorWithAlphaComponent:0.3].CGColor]
-                                locations:nil
-                               startPoint:CGPointMake(0.5, 0.0) endPoint:CGPointMake(0.5, 1.0)];
+
     
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        tableView.backgroundColor = [UIColor clearColor];
+        tableView.backgroundView = self.bgBlurredView;
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -86,16 +67,40 @@
     self.myTableView.tableHeaderView = [self customHeaderView];
     self.myTableView.tableFooterView=[self customFooterView];
     [self configBottomView];
-    [self refreshCaptchaNeeded];
+}
+
+
+- (UIImageView *)bgBlurredView{
+    if (!_bgBlurredView) {
+        //背景图片
+        UIImageView *bgView = [[UIImageView alloc] initWithFrame:kScreen_Bounds];
+        bgView.contentMode = UIViewContentModeScaleAspectFill;
+        UIImage *bgImage = [[StartImagesManager shareManager] curImage].image;
+        
+        CGSize bgImageSize = bgImage.size, bgViewSize = [bgView doubleSizeOfFrame];
+        if (bgImageSize.width > bgViewSize.width && bgImageSize.height > bgViewSize.height) {
+            bgImage = [bgImage scaleToSize:[bgView doubleSizeOfFrame] usingMode:NYXResizeModeAspectFill];
+        }
+        bgImage = [bgImage applyLightEffectAtFrame:CGRectMake(0, 0, bgImage.size.width, bgImage.size.height)];
+        bgView.image = bgImage;
+        //黑色遮罩
+        UIColor *blackColor = [UIColor blackColor];
+        [bgView addGradientLayerWithColors:@[(id)[blackColor colorWithAlphaComponent:0.3].CGColor,
+                                             (id)[blackColor colorWithAlphaComponent:0.3].CGColor]
+                                 locations:nil
+                                startPoint:CGPointMake(0.5, 0.0) endPoint:CGPointMake(0.5, 1.0)];
+        _bgBlurredView = bgView;
+    }
+    return _bgBlurredView;
 }
 
 
 - (void)refreshCaptchaNeeded{
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_CaptchaNeededWithBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_CaptchaNeededWithPath:@"api/captcha/login" andBlock:^(id data, NSError *error) {
         if (data) {
             NSNumber *captchaNeededResult = (NSNumber *)data;
-            if (captchaNeededResult.boolValue != weakSelf.captchaNeeded) {
+            if (captchaNeededResult) {
                 weakSelf.captchaNeeded = captchaNeededResult.boolValue;
             }
             [weakSelf.myTableView reloadData];
@@ -106,6 +111,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self refreshCaptchaNeeded];
 }
 
 - (void)didReceiveMemoryWarning
@@ -144,6 +150,7 @@
     if (cell == nil) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"Input_OnlyText_Cell" owner:self options:nil] firstObject];
     }
+    cell.isRegister = NO;
     __weak typeof(self) weakSelf = self;
     if (indexPath.row == 0) {
         cell.isCaptcha = NO;
@@ -208,7 +215,7 @@
 }
 - (UIView *)customFooterView{
     UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 100)];
-    _loginBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"登录" andFrame:CGRectMake(18, kScreen_Width > 320? 20: 20, kScreen_Width-18*2, 45) target:self action:@selector(sendLogin)];
+    _loginBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"登录" andFrame:CGRectMake(18, 20, kScreen_Width-18*2, 45) target:self action:@selector(sendLogin)];
     [footerV addSubview:_loginBtn];
     
     
@@ -277,18 +284,8 @@
 }
 
 - (IBAction)goRegisterVC:(id)sender {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:kNetPath_Code_Base delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"去Safari中注册", nil];
-    [actionSheet showInView:kKeyWindow];
-//    DebugLog(@"goRegisterVC");
-//    RegisterViewController *vc = [[RegisterViewController alloc] init];
-//    [self.navigationController pushViewController:vc animated:YES];
-}
-
-#pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 0) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kNetPath_Code_Base]];
-    }
+    RegisterViewController *vc = [[RegisterViewController alloc] init];    
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)dealloc
