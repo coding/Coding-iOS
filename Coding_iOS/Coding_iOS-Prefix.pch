@@ -57,6 +57,7 @@
 
 //appStore地址
 #define kAppUrl  @"http://itunes.apple.com/app/id923676989"
+#define kAppReviewURL   @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=923676989"
 
 //版本号
 #define kVersion_Coding [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
