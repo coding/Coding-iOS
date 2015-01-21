@@ -17,7 +17,7 @@
 #import "TPKeyboardAvoidingTableView.h"
 #import "WebViewController.h"
 
-@interface RegisterViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface RegisterViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 @property (assign, nonatomic) BOOL captchaNeeded;
 @property (strong, nonatomic) UIButton *registerBtn;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
@@ -159,15 +159,6 @@
     _registerBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"立即体验" andFrame:CGRectMake(18, 20, kScreen_Width-18*2, 45) target:self action:@selector(sendRegister)];
     [footerV addSubview:_registerBtn];
     
-    UIUnderlinedButton *lineBtn = [UIUnderlinedButton buttonWithTitle:@"服务条款" andFont:[UIFont systemFontOfSize:14] andColor:[UIColor colorWithHexString:@"0x3bbd79"]];
-    CGRect frame = lineBtn.frame;
-    frame.origin.y = CGRectGetMaxY(_registerBtn.frame) +12;
-    frame.origin.x = (kScreen_Width -frame.size.width)/2;
-    lineBtn.frame = frame;
-    [lineBtn addTarget:self action:@selector(lineBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [footerV addSubview:lineBtn];
-    
-    
     RAC(self, registerBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, myRegister.email), RACObserve(self, myRegister.global_key), RACObserve(self, myRegister.j_captcha), RACObserve(self, captchaNeeded)] reduce:^id(NSString *email, NSString *global_key, NSString *j_captcha, NSNumber *captchaNeeded){
         if ((captchaNeeded && captchaNeeded.boolValue) && (!j_captcha || j_captcha.length <= 0)) {
             return @(NO);
@@ -176,9 +167,31 @@
         }
     }];
     
+    
+    TTTAttributedLabel *lineLabel = [[TTTAttributedLabel alloc] init];
+    lineLabel.textAlignment = NSTextAlignmentCenter;
+    lineLabel.font = [UIFont systemFontOfSize:12];
+    lineLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+    lineLabel.numberOfLines = 0;
+    lineLabel.linkAttributes = kLinkAttributes;
+    lineLabel.activeLinkAttributes = kLinkAttributesActive;
+    lineLabel.delegate = self;
+    NSString *tipStr = @"点击立即体验，即表示同意《coding服务条款》";
+    lineLabel.text = tipStr;
+    [lineLabel addLinkToTransitInformation:@{@"actionStr" : @"gotoServiceTermsVC"} withRange:[tipStr rangeOfString:@"《coding服务条款》"]];
+    
+    CGRect registerBtnFrame = _registerBtn.frame;
+    lineLabel.frame = CGRectMake(CGRectGetMinX(registerBtnFrame), CGRectGetMaxY(registerBtnFrame) +12, CGRectGetWidth(registerBtnFrame), 12);
+    [footerV addSubview:lineLabel];
+    
     return footerV;
 }
-
+#pragma mark TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
+    if ([[components objectForKey:@"actionStr"] isEqualToString:@"gotoServiceTermsVC"]) {
+        [self gotoServiceTermsVC];
+    }
+}
 #pragma mark Btn Clicked
 - (void)sendRegister{
     
@@ -209,7 +222,8 @@
     }];
 }
 
-- (void)lineBtnClicked:(id)sender{
+#pragma mark VC
+- (void)gotoServiceTermsVC{
     NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"service_terms" ofType:@"html"];
     WebViewController *vc = [WebViewController webVCWithUrlStr:pathForServiceterms];
     [self.navigationController pushViewController:vc animated:YES];

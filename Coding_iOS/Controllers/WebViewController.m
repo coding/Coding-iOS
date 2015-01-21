@@ -49,7 +49,6 @@
     _progressView.progressBarView.backgroundColor = [UIColor colorWithHexString:@"0x3abd79"];
     
     [self loadCurUrl];
-    [self configLeftBarButtonItems];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
