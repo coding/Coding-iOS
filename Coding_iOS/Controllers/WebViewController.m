@@ -162,12 +162,14 @@
 
 #pragma M Data
 - (void)loadCurUrl{
+    
+    NSString *proName = [NSString stringWithFormat:@"/%@.app/", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]];
     NSURL *curUrl;
-//    if (![self.curUrlStr hasPrefix:@"/"]) {
+    if (![self.curUrlStr hasPrefix:@"/"] || [self.curUrlStr rangeOfString:proName].location != NSNotFound) {
         curUrl = [NSURL URLWithString:self.curUrlStr];
-//    }else{
-//        curUrl = [NSURL URLWithString:self.curUrlStr relativeToURL:[NSURL URLWithString:kNetPath_Code_Base]];
-//    }
+    }else{
+        curUrl = [NSURL URLWithString:self.curUrlStr relativeToURL:[NSURL URLWithString:kNetPath_Code_Base]];
+    }
 
     NSURLRequest *request =[NSURLRequest requestWithURL:curUrl];
     [_myWebView loadRequest:request];
