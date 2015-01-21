@@ -12,7 +12,6 @@
 #import "Login.h"
 #import "AppDelegate.h"
 #import "SettingAccountViewController.h"
-#import "SettingPasswordViewController.h"
 #import "AboutViewController.h"
 #import "FeedbackViewController.h"
 
@@ -61,7 +60,7 @@
     NSInteger row = 0;
     switch (section) {
         case 0:
-            row = 2;
+            row = 1;
             break;
         case 1:
             row = 2;
@@ -77,14 +76,7 @@
     TitleDisclosureCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleDisclosure forIndexPath:indexPath];
     switch (indexPath.section) {
         case 0:
-            switch (indexPath.row) {
-                case 0:
-                    [cell setTitleStr:@"账号信息"];
-                    break;
-                default:
-                    [cell setTitleStr:@"密码设置"];
-                    break;
-            }
+            [cell setTitleStr:@"账号设置"];
             break;
         case 1:
             switch (indexPath.row) {
@@ -103,7 +95,7 @@
             [cell setTitleStr:@"关于Coding"];
             break;
     }
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     return cell;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -119,25 +111,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.section) {
-        case 0:
-            switch (indexPath.row) {
-                case 0://账号信息
-                {
-                    SettingAccountViewController *vc = [[SettingAccountViewController alloc] init];
-                    vc.myUser = self.myUser;
-                    [self.navigationController pushViewController:vc animated:YES];
-                }
-                    break;
-                case 1://密码设置
-                {
-                    SettingPasswordViewController *vc = [[SettingPasswordViewController alloc] init];
-                    vc.myUser = self.myUser;
-                    [self.navigationController pushViewController:vc animated:YES];
-                }
-                    break;
-                default:
-                    break;
-            }
+        case 0:{//账号设置
+            SettingAccountViewController *vc = [[SettingAccountViewController alloc] init];
+            vc.myUser = self.myUser;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
             break;
         case 1:
             switch (indexPath.row) {

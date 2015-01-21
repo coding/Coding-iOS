@@ -250,7 +250,7 @@
             [cell setTitleStr:@"个性标签" valueStr:_curUser.tags_str];
             break;
     }
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     return cell;
 }
 

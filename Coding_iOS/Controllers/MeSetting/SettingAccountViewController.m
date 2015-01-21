@@ -7,9 +7,14 @@
 //
 
 #define kCellIdentifier_TitleValue @"TitleValueCell"
+#define kCellIdentifier_TitleDisclosure @"TitleDisclosureCell"
 
 #import "SettingAccountViewController.h"
 #import "TitleValueCell.h"
+#import "TitleDisclosureCell.h"
+
+#import "SettingPasswordViewController.h"
+
 @interface SettingAccountViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
 
@@ -43,6 +48,7 @@
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[TitleValueCell class] forCellReuseIdentifier:kCellIdentifier_TitleValue];
+        [tableView registerClass:[TitleDisclosureCell class] forCellReuseIdentifier:kCellIdentifier_TitleDisclosure];
         [self.view addSubview:tableView];
         tableView;
     });
@@ -50,24 +56,36 @@
 
 #pragma mark TableM
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSInteger row = 2;
+    NSInteger row = section == 0? 2: 1;
     return row;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    TitleValueCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValue forIndexPath:indexPath];
-    
-    switch (indexPath.row) {
-        case 0:
-            [cell setTitleStr:@"邮箱" valueStr:self.myUser.email];
-            break;
-        default:
-            [cell setTitleStr:@"个性后缀" valueStr:self.myUser.global_key];
-            break;
+    if (indexPath.section == 0) {
+        TitleValueCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValue forIndexPath:indexPath];
+        
+        switch (indexPath.row) {
+            case 0:
+                [cell setTitleStr:@"邮箱" valueStr:self.myUser.email];
+                break;
+            default:
+                [cell setTitleStr:@"个性后缀" valueStr:self.myUser.global_key];
+                break;
+        }
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
+    }else{
+        TitleDisclosureCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleDisclosure forIndexPath:indexPath];
+        [cell setTitleStr:@"修改密码"];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
     }
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
-    return cell;
+
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 20)];
@@ -79,6 +97,11 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section != 0) {
+        SettingPasswordViewController *vc = [[SettingPasswordViewController alloc] init];
+        vc.myUser = self.myUser;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)dealloc

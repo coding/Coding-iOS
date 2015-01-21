@@ -102,7 +102,7 @@
         }
             break;
     }
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     return cell;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
