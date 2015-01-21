@@ -130,6 +130,9 @@
 		4EACB4411A2C448F0097ABB3 /* button_file_move_unable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EACB43E1A2C448F0097ABB3 /* button_file_move_unable@2x.png */; };
 		4EACB4431A2C45300097ABB3 /* button_file_download_enable.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EACB4421A2C45300097ABB3 /* button_file_download_enable.png */; };
 		4EACB4461A2C60110097ABB3 /* ProjectActivities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EACB4451A2C60110097ABB3 /* ProjectActivities.m */; };
+		4EBB62461A6F46F80045DAEF /* service_terms.html in Resources */ = {isa = PBXBuildFile; fileRef = 4EBB62451A6F46F80045DAEF /* service_terms.html */; };
+		4EBB624C1A6F526C0045DAEF /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBB62491A6F526C0045DAEF /* NJKWebViewProgress.m */; };
+		4EBB624D1A6F526C0045DAEF /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBB624B1A6F526C0045DAEF /* NJKWebViewProgressView.m */; };
 		4EBD0C661A1F2011004B4284 /* nav_project_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EBD0C651A1F2011004B4284 /* nav_project_file@2x.png */; };
 		4EBDA87C1A6640340035ED96 /* UIActionSheet+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBDA87B1A6640340035ED96 /* UIActionSheet+Common.m */; };
 		4EC5AD921A258DF8006FA97C /* icon_file_cell_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD8F1A258DF8006FA97C /* icon_file_cell_delete@2x.png */; };
@@ -709,6 +712,11 @@
 		4EACB4421A2C45300097ABB3 /* button_file_download_enable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_file_download_enable.png; sourceTree = "<group>"; };
 		4EACB4441A2C60110097ABB3 /* ProjectActivities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectActivities.h; sourceTree = "<group>"; };
 		4EACB4451A2C60110097ABB3 /* ProjectActivities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectActivities.m; sourceTree = "<group>"; };
+		4EBB62451A6F46F80045DAEF /* service_terms.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = service_terms.html; sourceTree = "<group>"; };
+		4EBB62481A6F526C0045DAEF /* NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJKWebViewProgress.h; sourceTree = "<group>"; };
+		4EBB62491A6F526C0045DAEF /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgress.m; sourceTree = "<group>"; };
+		4EBB624A1A6F526C0045DAEF /* NJKWebViewProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJKWebViewProgressView.h; sourceTree = "<group>"; };
+		4EBB624B1A6F526C0045DAEF /* NJKWebViewProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgressView.m; sourceTree = "<group>"; };
 		4EBD0C651A1F2011004B4284 /* nav_project_file@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_project_file@2x.png"; sourceTree = "<group>"; };
 		4EBDA87A1A6640340035ED96 /* UIActionSheet+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+Common.h"; sourceTree = "<group>"; };
 		4EBDA87B1A6640340035ED96 /* UIActionSheet+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+Common.m"; sourceTree = "<group>"; };
@@ -1588,6 +1596,17 @@
 			path = ODRefreshControl;
 			sourceTree = "<group>";
 		};
+		4EBB62471A6F526C0045DAEF /* NJKWebViewProgress */ = {
+			isa = PBXGroup;
+			children = (
+				4EBB62481A6F526C0045DAEF /* NJKWebViewProgress.h */,
+				4EBB62491A6F526C0045DAEF /* NJKWebViewProgress.m */,
+				4EBB624A1A6F526C0045DAEF /* NJKWebViewProgressView.h */,
+				4EBB624B1A6F526C0045DAEF /* NJKWebViewProgressView.m */,
+			);
+			path = NJKWebViewProgress;
+			sourceTree = "<group>";
+		};
 		4EC5AD8E1A258DF8006FA97C /* icon_file_cell_edit */ = {
 			isa = PBXGroup;
 			children = (
@@ -2336,6 +2355,7 @@
 		8EA6CFFA19E240C40076D59C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4EBB62451A6F46F80045DAEF /* service_terms.html */,
 				8E7612EF1A08A4EB005BE797 /* markdown.html */,
 				8E7612F01A08A4EB005BE797 /* code.html */,
 				8EABE3C919F1211D00A17784 /* topic.html */,
@@ -2397,6 +2417,7 @@
 		8EA6D03E19E240C40076D59C /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4EBB62471A6F526C0045DAEF /* NJKWebViewProgress */,
 				4EA7F1561A6D192B00A046BD /* ODRefreshControl */,
 				4EA7F1381A6D192B00A046BD /* SDWebImage */,
 				4EDD8F4C1A36F42200E9E232 /* XGPush */,
@@ -2854,6 +2875,7 @@
 				8E97CE991A0C7E26006F9AD7 /* coding_emoji_02@2x.png in Resources */,
 				8EA6D17719E240C40076D59C /* placeholder_monkey_round_33@2x.png in Resources */,
 				8E97CEB51A0C7E26006F9AD7 /* coding_emoji_30@2x.png in Resources */,
+				4EBB62461A6F46F80045DAEF /* service_terms.html in Resources */,
 				8E97CEB31A0C7E26006F9AD7 /* coding_emoji_28@2x.png in Resources */,
 				8EA6D17A19E240C40076D59C /* placeholder_monkey_round_50@2x.png in Resources */,
 				8EA6D15919E240C40076D59C /* AppIcon120x120.png in Resources */,
@@ -3000,6 +3022,7 @@
 				8E1C3E0E19E8DFE300EF3032 /* UserInfoViewController.m in Sources */,
 				8E1C3E0A19E8DFE300EF3032 /* SettingAccountViewController.m in Sources */,
 				4E8765681A22E5B40090CFB9 /* SWTableViewCell.m in Sources */,
+				4EBB624D1A6F526C0045DAEF /* NJKWebViewProgressView.m in Sources */,
 				4ECE8ADA1A3943E80021E29C /* NSDate+Common.m in Sources */,
 				8EA6D20A19E240C40076D59C /* RDVTabBar.m in Sources */,
 				8E1C3DF019E7D58A00EF3032 /* DistancePickerView.m in Sources */,
@@ -3151,6 +3174,7 @@
 				4ECE8ADE1A3943E80021E29C /* NSString+Common.m in Sources */,
 				4ECE8B081A3947300021E29C /* BasicPreviewItem.m in Sources */,
 				4EA7F15A1A6D192B00A046BD /* SDImageCache.m in Sources */,
+				4EBB624C1A6F526C0045DAEF /* NJKWebViewProgress.m in Sources */,
 				8EA6D13C19E240C40076D59C /* Tweet_RootViewController.m in Sources */,
 				4ECE8B051A3946C10021E29C /* WebContentManager.m in Sources */,
 				8EA6D1F819E240C40076D59C /* MJPhotoBrowser.m in Sources */,

@@ -7,8 +7,8 @@
 //
 
 #import "WebViewController.h"
-#import <NJKWebViewProgress/NJKWebViewProgress.h>
-#import <NJKWebViewProgress/NJKWebViewProgressView.h>
+#import "NJKWebViewProgress.h"
+#import "NJKWebViewProgressView.h"
 
 @interface WebViewController ()<NJKWebViewProgressDelegate, UIWebViewDelegate>
 @property (strong, nonatomic) UIWebView *myWebView;
@@ -163,11 +163,11 @@
 #pragma M Data
 - (void)loadCurUrl{
     NSURL *curUrl;
-    if (![self.curUrlStr hasPrefix:@"/"]) {
+//    if (![self.curUrlStr hasPrefix:@"/"]) {
         curUrl = [NSURL URLWithString:self.curUrlStr];
-    }else{
-        curUrl = [NSURL URLWithString:self.curUrlStr relativeToURL:[NSURL URLWithString:kNetPath_Code_Base]];
-    }
+//    }else{
+//        curUrl = [NSURL URLWithString:self.curUrlStr relativeToURL:[NSURL URLWithString:kNetPath_Code_Base]];
+//    }
 
     NSURLRequest *request =[NSURLRequest requestWithURL:curUrl];
     [_myWebView loadRequest:request];

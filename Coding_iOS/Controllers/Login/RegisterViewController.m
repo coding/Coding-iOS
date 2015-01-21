@@ -14,12 +14,8 @@
 #import "Coding_NetAPIManager.h"
 #import "AppDelegate.h"
 #import "UIUnderlinedButton.h"
-
-#import "StartImagesManager.h"
-#import <NYXImagesKit/NYXImagesKit.h>
-#import <UIImage+BlurredFrame/UIImage+BlurredFrame.h>
 #import "TPKeyboardAvoidingTableView.h"
-
+#import "WebViewController.h"
 
 @interface RegisterViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (assign, nonatomic) BOOL captchaNeeded;
@@ -57,30 +53,6 @@
     });
     self.myTableView.tableFooterView=[self customFooterView];
     self.myTableView.tableHeaderView = [self customHeaderView];
-}
-
-- (UIImageView *)bgBlurredView{
-    if (!_bgBlurredView) {
-        //背景图片
-        UIImageView *bgView = [[UIImageView alloc] initWithFrame:kScreen_Bounds];
-        bgView.contentMode = UIViewContentModeScaleAspectFill;
-        UIImage *bgImage = [[StartImagesManager shareManager] curImage].image;
-        
-        CGSize bgImageSize = bgImage.size, bgViewSize = [bgView doubleSizeOfFrame];
-        if (bgImageSize.width > bgViewSize.width && bgImageSize.height > bgViewSize.height) {
-            bgImage = [bgImage scaleToSize:[bgView doubleSizeOfFrame] usingMode:NYXResizeModeAspectFill];
-        }
-        bgImage = [bgImage applyLightEffectAtFrame:CGRectMake(0, 0, bgImage.size.width, bgImage.size.height)];
-        bgView.image = bgImage;
-        //黑色遮罩
-        UIColor *blackColor = [UIColor blackColor];
-        [bgView addGradientLayerWithColors:@[(id)[blackColor colorWithAlphaComponent:0.3].CGColor,
-                                             (id)[blackColor colorWithAlphaComponent:0.3].CGColor]
-                                 locations:nil
-                                startPoint:CGPointMake(0.5, 0.0) endPoint:CGPointMake(0.5, 1.0)];
-        _bgBlurredView = bgView;
-    }
-    return _bgBlurredView;
 }
 
 - (void)refreshCaptchaNeeded{
@@ -187,13 +159,13 @@
     _registerBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"立即体验" andFrame:CGRectMake(18, 20, kScreen_Width-18*2, 45) target:self action:@selector(sendRegister)];
     [footerV addSubview:_registerBtn];
     
-//    UIUnderlinedButton *activateBtn = [UIUnderlinedButton buttonWithTitle:@"已经注册？重发激活邮件" andFont:[UIFont systemFontOfSize:14] andColor:[UIColor colorWithHexString:@"0x3bbd79"]];
-//    CGRect frame = activateBtn.frame;
-//    frame.origin.y = CGRectGetMaxY(_registerBtn.frame) +12;
-//    frame.origin.x = (kScreen_Width -frame.size.width)/2;
-//    activateBtn.frame = frame;
-//    [activateBtn addTarget:self action:@selector(reActivate) forControlEvents:UIControlEventTouchUpInside];
-//    [footerV addSubview:activateBtn];
+    UIUnderlinedButton *lineBtn = [UIUnderlinedButton buttonWithTitle:@"服务条款" andFont:[UIFont systemFontOfSize:14] andColor:[UIColor colorWithHexString:@"0x3bbd79"]];
+    CGRect frame = lineBtn.frame;
+    frame.origin.y = CGRectGetMaxY(_registerBtn.frame) +12;
+    frame.origin.x = (kScreen_Width -frame.size.width)/2;
+    lineBtn.frame = frame;
+    [lineBtn addTarget:self action:@selector(lineBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [footerV addSubview:lineBtn];
     
     
     RAC(self, registerBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, myRegister.email), RACObserve(self, myRegister.global_key), RACObserve(self, myRegister.j_captcha), RACObserve(self, captchaNeeded)] reduce:^id(NSString *email, NSString *global_key, NSString *j_captcha, NSNumber *captchaNeeded){
@@ -237,8 +209,10 @@
     }];
 }
 
-- (void)reActivate{
-    DebugLog(@"reActivate");
+- (void)lineBtnClicked:(id)sender{
+    NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"service_terms" ofType:@"html"];
+    WebViewController *vc = [WebViewController webVCWithUrlStr:pathForServiceterms];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

@@ -444,7 +444,7 @@ static char LoadingViewKey, BlankPageViewKey;
             case EaseBlankPageTypeProject:
             {
                 imageName = @"blankpage_image_Sleep";
-                tipStr = @"这里什么项目都没有啊喂\n你怎么还能睡得着";
+                tipStr = @"这里还没有项目\n快去Coding网站创建吧";
             }
                 break;
             case EaseBlankPageTypeFileDleted:
