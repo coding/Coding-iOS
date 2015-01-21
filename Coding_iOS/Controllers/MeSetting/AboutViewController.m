@@ -7,10 +7,9 @@
 //
 
 #import "AboutViewController.h"
+#import <Masonry/Masonry.h>
 
 @interface AboutViewController ()
-@property (strong, nonatomic) UIImageView *logoView;
-@property (strong, nonatomic) UILabel *logoLabel, *versionLabel, *infoLabel;
 @end
 
 @implementation AboutViewController
@@ -42,35 +41,84 @@
     self.title = @"关于Coding";
     self.view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
     
-    _logoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_about"]];
-    [_logoView setCenter:CGPointMake(kScreen_Width/2, 36+CGRectGetMidY(_logoView.bounds))];
-    [self.view addSubview:_logoView];
+    UIImageView *logoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_about"]];
+    [self.view addSubview:logoView];
     
-    _logoLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_logoView.frame), kScreen_Width, 30)];
-    _logoLabel.backgroundColor = [UIColor clearColor];
-    _logoLabel.font = [UIFont boldSystemFontOfSize:17];
-    _logoLabel.textColor = [UIColor colorWithHexString:@"0x000000"];
-    _logoLabel.textAlignment = NSTextAlignmentCenter;
-    _logoLabel.text = @"coding-让开发更简单";
-    [self.view addSubview:_logoLabel];
-    
-    _versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_logoLabel.frame), kScreen_Width, 20)];
-    _versionLabel.backgroundColor = [UIColor clearColor];
-    _versionLabel.font = [UIFont systemFontOfSize:12];
-    _versionLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
-    _versionLabel.textAlignment = NSTextAlignmentCenter;
-    _versionLabel.text = [NSString stringWithFormat:@"版本：V%@", kVersion_Coding];
-    [self.view addSubview:_versionLabel];
-    
-//    _infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, kScreen_Height-100, kScreen_Width, 100)];
-    _infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, kScreen_Height-180, kScreen_Width, 100)];
-    _infoLabel.numberOfLines = 0;
-    _infoLabel.backgroundColor = [UIColor clearColor];
-    _infoLabel.font = [UIFont systemFontOfSize:12];
-    _infoLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
-    _infoLabel.textAlignment = NSTextAlignmentLeft;
-    _infoLabel.text = [NSString stringWithFormat:@"官网：https://coding.net \nE-mail：link@coding.net \n微博：Coding \n微信：扣钉Coding"];
-    [self.view addSubview:_infoLabel];
+    UILabel *logoLabel = [[UILabel alloc] init];
+    logoLabel.font = [UIFont boldSystemFontOfSize:17];
+    logoLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+    logoLabel.textAlignment = NSTextAlignmentCenter;
+    logoLabel.text = @"Coding-让开发更简单";
+    [self.view addSubview:logoLabel];
 
+    UILabel *versionLabel = [[UILabel alloc] init];
+    versionLabel.font = [UIFont systemFontOfSize:12];
+    versionLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    versionLabel.textAlignment = NSTextAlignmentCenter;
+    versionLabel.text = [NSString stringWithFormat:@"版本：V%@", kVersion_Coding];
+    [self.view addSubview:versionLabel];
+    
+    
+    
+    UILabel *infoLabel1 = [[UILabel alloc] init];
+    infoLabel1.numberOfLines = 0;
+    infoLabel1.backgroundColor = [UIColor clearColor];
+    infoLabel1.font = [UIFont systemFontOfSize:12];
+    infoLabel1.textColor = [UIColor colorWithHexString:@"0x666666"];
+    infoLabel1.textAlignment = NSTextAlignmentRight;
+    infoLabel1.text = [NSString stringWithFormat:@"官网：\nE-mail：\n微博：\n微信："];
+    [self.view addSubview:infoLabel1];
+    
+    UILabel *infoLabel2 = [[UILabel alloc] init];
+    infoLabel2.numberOfLines = 0;
+    infoLabel2.backgroundColor = [UIColor clearColor];
+    infoLabel2.font = [UIFont systemFontOfSize:12];
+    infoLabel2.textColor = [UIColor colorWithHexString:@"0x666666"];
+    infoLabel2.textAlignment = NSTextAlignmentLeft;
+    infoLabel2.text = [NSString stringWithFormat:@"https://coding.net \nlink@coding.net \nCoding \n扣钉Coding"];
+    [self.view addSubview:infoLabel2];
+
+
+    UILabel *copyrightLabel = [[UILabel alloc] init];
+    copyrightLabel.font = [UIFont systemFontOfSize:12];
+    copyrightLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    copyrightLabel.textAlignment = NSTextAlignmentCenter;
+    copyrightLabel.text = [NSString stringWithFormat:@"Copyright © 2015 Coding.net"];
+    [self.view addSubview:copyrightLabel];
+    
+    [logoView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).offset(40);
+        make.centerX.equalTo(self.view.mas_centerX);
+    }];
+    [logoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(logoView.mas_bottom).offset(15);
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(logoLabel.font.pointSize);
+    }];
+    [versionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(logoLabel.mas_bottom).offset(20);
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(versionLabel.font.pointSize);
+    }];
+    
+    [infoLabel1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(copyrightLabel.mas_top).offset(-20);
+        make.left.mas_equalTo(self.view.mas_left);
+        make.right.equalTo(self.view.mas_centerX).offset(-20);
+        make.height.mas_equalTo(60);
+    }];
+    
+    [infoLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(copyrightLabel.mas_top).offset(-20);
+        make.left.mas_equalTo(infoLabel1.mas_right);
+        make.right.equalTo(self.view.mas_right);
+        make.height.mas_equalTo(60);
+    }];
+    
+    [copyrightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom).offset(-20);
+        make.left.right.equalTo(self.view);
+        make.height.mas_equalTo(20);
+    }];
 }
 @end
