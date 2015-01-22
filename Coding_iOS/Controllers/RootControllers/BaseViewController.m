@@ -69,14 +69,18 @@
     NSLog(@"\n analyseVCFromLinkStr : %@", linkStr);
     if (!linkStr || linkStr.length <= 0) {
         return nil;
+    }else if (![linkStr hasPrefix:@"/"] && ![linkStr hasPrefix:kNetPath_Code_Base]){
+        return nil;
     }
     
-    NSString *userRegexStr = @"[\\w.-]*/u/([a-zA-Z0-9\\-_]+)$";
-    NSString *ppRegexStr = @"[\\w.-]*/u/([a-zA-Z0-9\\-_]+)/pp/([0-9]+)$";
-    NSString *topicRegexStr = @"[\\w.-]*/u/([a-zA-Z0-9\\-_]+)/p/([a-zA-Z0-9\\-_]+)/topic/([0-9]+)";
-    NSString *taskRegexStr = @"[\\w.-]*/u/([a-zA-Z0-9\\-_]+)/p/([a-zA-Z0-9\\-_]+)/task/([0-9]+)";
-    NSString *projectRegexStr = @"[\\w.-]*/u/([a-zA-Z0-9\\-_]+)/p/([a-zA-Z0-9\\-_]+)";
-    NSString *conversionRegexStr = @"[\\w.-]*/user/messages/history/([a-zA-Z0-9\\-_]+)$";
+    UIViewController *analyseVC = nil;
+
+    NSString *userRegexStr = @"/u/([^/]+)$";
+    NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)$";
+    NSString *topicRegexStr = @"/u/([^/]+)/p/([^/]+)/topic/(\\d+)";
+    NSString *taskRegexStr = @"/u/([^/]+)/p/([^/]+)/task/(\\d+)";
+    NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
+    NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
     NSArray *matchedCaptures = nil;
     
     if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userRegexStr]).count > 0) {
@@ -84,20 +88,20 @@
         NSString *user_global_key = matchedCaptures[1];
         UserInfoViewController *vc = [[UserInfoViewController alloc] init];
         vc.curUser = [User userWithGlobalKey:user_global_key];
-        return vc;
+        analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:ppRegexStr]).count > 0){
         //冒泡
         NSString *user_global_key = matchedCaptures[1];
         NSString *pp_id = matchedCaptures[2];
         TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
         vc.curTweet = [Tweet tweetWithGlobalKey:user_global_key andPPID:pp_id];
-        return vc;
+        analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:topicRegexStr]).count > 0){
         //讨论
         NSString *topic_id = matchedCaptures[3];
         TopicDetailViewController *vc = [[TopicDetailViewController alloc] init];
         vc.curTopic = [ProjectTopic topicWithId:[NSNumber numberWithInteger:topic_id.integerValue]];
-        return vc;
+        analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:taskRegexStr]).count > 0){
         //任务
         NSString *user_global_key = matchedCaptures[1];
@@ -111,7 +115,7 @@
             @strongify(vc);
             [vc dismissViewControllerAnimated:YES completion:nil];
         };
-        return vc;
+        analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:projectRegexStr]).count > 0){
         //项目
         NSString *user_global_key = matchedCaptures[1];
@@ -122,16 +126,15 @@
         ProjectViewController *vc = [[ProjectViewController alloc] init];
         vc.myProject = curPro;
         vc.curIndex = 0;
-        return vc;
+        analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:conversionRegexStr]).count > 0) {
         //私信
         NSString *user_global_key = matchedCaptures[1];
         ConversationViewController *vc = [[ConversationViewController alloc] init];
         vc.myPriMsgs = [PrivateMessages priMsgsWithUser:[User userWithGlobalKey:user_global_key]];
-        return vc;
-    }else{
-        return nil;
+        analyseVC = vc;
     }
+    return analyseVC;
 }
 + (void)presentLinkStr:(NSString *)linkStr{
     if (!linkStr || linkStr.length == 0) {
