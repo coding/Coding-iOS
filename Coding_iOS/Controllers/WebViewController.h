@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "SVWebViewController.h"
 
-@interface WebViewController : BaseViewController
+@interface WebViewController : SVWebViewController
 
 @property (strong, nonatomic) NSString *curUrlStr;
 

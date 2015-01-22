@@ -9,14 +9,35 @@
 #import "WebViewController.h"
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
+#import "BaseViewController.h"
 
-@interface WebViewController ()<NJKWebViewProgressDelegate, UIWebViewDelegate>
-@property (strong, nonatomic) UIWebView *myWebView;
+@interface WebViewController ()<UIWebViewDelegate>
+//@property (strong, nonatomic) UIWebView *myWebView;
 @property (strong, nonatomic) NJKWebViewProgress *progressProxy;
 @property (strong, nonatomic) NJKWebViewProgressView *progressView;
 @end
 
 @implementation WebViewController
+
++ (instancetype)webVCWithUrlStr:(NSString *)curUrlStr{
+    if (!curUrlStr || curUrlStr.length <= 0) {
+        return nil;
+    }
+    
+    NSString *proName = [NSString stringWithFormat:@"/%@.app/", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]];
+    NSURL *curUrl;
+    if (![curUrlStr hasPrefix:@"/"] || [curUrlStr rangeOfString:proName].location != NSNotFound) {
+        curUrl = [NSURL URLWithString:curUrlStr];
+    }else{
+        curUrl = [NSURL URLWithString:curUrlStr relativeToURL:[NSURL URLWithString:kNetPath_Code_Base]];
+    }
+    
+    if (!curUrl) {
+        return nil;
+    }else{
+        return [[self alloc] initWithURL:curUrl];
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -27,19 +48,15 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
     self.title = @"加载中...";
     
-    _myWebView = [[UIWebView alloc] initWithFrame:[UIView frameWithOutNav]];
-    _myWebView.scalesPageToFit = YES;
-    _myWebView.backgroundColor = [UIColor clearColor];
-
-    [self.view addSubview:_myWebView];
-    
     _progressProxy = [[NJKWebViewProgress alloc] init];
-    _myWebView.delegate = _progressProxy;
-    _progressProxy.webViewProxyDelegate = self;
-    _progressProxy.progressDelegate = self;
+    self.delegate = _progressProxy;
+    @weakify(self);
+    _progressProxy.progressBlock = ^(float progress) {
+        @strongify(self);
+        [self.progressView setProgress:progress animated:NO];
+    };;
     
     CGFloat progressBarHeight = 2.f;
     CGRect navigaitonBarBounds = self.navigationController.navigationBar.bounds;
@@ -48,7 +65,6 @@
     _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     _progressView.progressBarView.backgroundColor = [UIColor colorWithHexString:@"0x3abd79"];
     
-    [self loadCurUrl];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -61,94 +77,31 @@
     [_progressView removeFromSuperview];
 }
 
-+ (instancetype)webVCWithUrlStr:(NSString *)curUrlStr{
-    WebViewController *vc = [[WebViewController alloc] init];
-    vc.curUrlStr = curUrlStr;
-    return vc;
+#pragma mark UIWebViewDelegate 覆盖
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    BOOL shouldStart = ![self canAndGoOutWithLinkStr:request.URL.absoluteString];
+    
+    if (shouldStart && [self.delegate respondsToSelector:@selector(webView:shouldStartLoadWithRequest:navigationType:)]) {
+        shouldStart = [self.delegate webView:webView shouldStartLoadWithRequest:request navigationType:navigationType];
+    }
+
+    return shouldStart;
 }
 
-
-#pragma M UI
-- (void)configLeftBarButtonItems{
-    //推送过来的
-    if (self.navigationItem.leftBarButtonItems.count == 1 && [self.navigationItem.leftBarButtonItem.title isEqualToString:@"关闭"]) {
-        return;
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+    [self updateToolbarItems];
+    
+    if ([self.delegate respondsToSelector:@selector(webView:didFailLoadWithError:)]) {
+        [self.delegate webView:webView didFailLoadWithError:error];
     }
     
-    //正常push进来的
-    NSInteger preCount = self.navigationItem.leftBarButtonItems.count;
-    NSInteger curCount = self.myWebView.canGoBack? 3 : 2;
-    if (preCount != curCount) {
-        NSMutableArray *leftBarButtonItems = [NSMutableArray array];
-        
-        [leftBarButtonItems addObject:[self barItemSpacer]];
-        [leftBarButtonItems addObject:[self backWebButtonItem]];
-        if (self.myWebView.canGoBack) {
-            [leftBarButtonItems addObject:[self backVCButtonItem]];
-        }
-        [self.navigationItem setLeftBarButtonItems:leftBarButtonItems animated:YES];
+    if (error) {
+        [self handleError:error];
     }
 }
-
--(UIBarButtonItem *)backVCButtonItem{
-    NSDictionary*textAttributes;
-    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
-    temporaryBarButtonItem.title = @"关闭";
-    temporaryBarButtonItem.target = self;
-    if ([temporaryBarButtonItem respondsToSelector:@selector(setTitleTextAttributes:forState:)]){
-        textAttributes = @{
-                           NSFontAttributeName: [UIFont boldSystemFontOfSize:kBackButtonFontSize],
-                           NSForegroundColorAttributeName: [UIColor whiteColor],
-                           };
-        
-        [[UIBarButtonItem appearance] setTitleTextAttributes:textAttributes forState:UIControlStateNormal];
-    }
-    temporaryBarButtonItem.action = @selector(goBackVC);
-    return temporaryBarButtonItem;
-}
-
--(UIBarButtonItem *)backWebButtonItem{
-    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage* buttonImage = [UIImage imageNamed:@"backBtn_Nav"];
-    button.frame = CGRectMake(0, 0, 55, 30);
-    [button setImage:buttonImage forState:UIControlStateNormal];
-    
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:kBackButtonFontSize];
-    [button.titleLabel setMinimumScaleFactor:0.5];
-    button.titleLabel.shadowOffset = CGSizeMake(0,-1);
-    button.titleLabel.shadowColor = [UIColor darkGrayColor];
-    [button setTitle:@"返回" forState:UIControlStateNormal];
-    
-    button.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-    button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-    
-    [button addTarget:self action:@selector(goBackWebView) forControlEvents:UIControlEventTouchUpInside];
-    return [[UIBarButtonItem alloc] initWithCustomView:button];
-}
-
-- (UIBarButtonItem *)barItemSpacer{
-    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    space.width = -10.0f;
-    return space ;
-}
-
-
-#pragma M Action
-- (void)goBackWebView{
-    if (self.myWebView.canGoBack) {
-        [self configLeftBarButtonItems];
-        [self.myWebView goBack];
-    }else{
-        [self goBackVC];
-    }
-}
-
-- (void)goBackVC{
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
+#pragma mark VC
 - (BOOL)canAndGoOutWithLinkStr:(NSString *)linkStr{
     BOOL canGoOut = NO;
     UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
@@ -159,79 +112,33 @@
     return canGoOut;
 }
 
-#pragma M Data
-- (void)loadCurUrl{
-    
-    NSString *proName = [NSString stringWithFormat:@"/%@.app/", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]];
-    NSURL *curUrl;
-    if (![self.curUrlStr hasPrefix:@"/"] || [self.curUrlStr rangeOfString:proName].location != NSNotFound) {
-        curUrl = [NSURL URLWithString:self.curUrlStr];
-    }else{
-        curUrl = [NSURL URLWithString:self.curUrlStr relativeToURL:[NSURL URLWithString:kNetPath_Code_Base]];
-    }
-
-    NSURLRequest *request =[NSURLRequest requestWithURL:curUrl];
-    [_myWebView loadRequest:request];
-}
-
-
-
-
-#pragma mark NJKWebViewProgressDelegate
-- (void)webViewProgress:(NJKWebViewProgress *)webViewProgress updateProgress:(float)progress{
-    [_progressView setProgress:progress animated:YES];
-    NSString *titleStr = [_myWebView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    if (titleStr) {
-        self.title = titleStr;
-    }
-}
-
-#pragma mark UIWebViewDelegate
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
-    [self configLeftBarButtonItems];
-
-}
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-    [self configLeftBarButtonItems];
-    
+#pragma mark Error
+- (void)handleError:(NSError *)error{
     NSString *urlString = error.userInfo[NSURLErrorFailingURLStringErrorKey];
-    /* iTunes Store Links */
-    if ([error.domain isEqualToString:@"WebKitErrorDomain"] && 102 == error.code) {
+    
+    if (([error.domain isEqualToString:@"WebKitErrorDomain"] && 101 == error.code) ||
+        ([error.domain isEqualToString:NSURLErrorDomain] && (NSURLErrorBadURL == error.code || NSURLErrorUnsupportedURL == error.code))) {
+        kTipAlert(@"网址无效：\n%@", urlString);
+    }else if ([error.domain isEqualToString:NSURLErrorDomain] && (NSURLErrorTimedOut == error.code ||
+                                                                  NSURLErrorCannotFindHost == error.code ||
+                                                                  NSURLErrorCannotConnectToHost == error.code ||
+                                                                  NSURLErrorNetworkConnectionLost == error.code ||
+                                                                  NSURLErrorDNSLookupFailed == error.code ||
+                                                                  NSURLErrorNotConnectedToInternet == error.code)) {
+        kTipAlert(@"网络连接异常：\n%@", urlString);
+    }else if ([error.domain isEqualToString:@"WebKitErrorDomain"] && 102 == error.code){
         NSURL *url = [NSURL URLWithString:urlString];
         if ([[UIApplication sharedApplication] canOpenURL:url]) {
             [[UIApplication sharedApplication] openURL:url];
-            return;
+        }else{
+            kTipAlert(@"无法打开连接：\n%@", urlString);
         }
+    }else if (error.code == -999){
+        //加载中断
+    }else{
+        kTipAlert(@"%@\n%@", urlString, [error.userInfo objectForKey:@"NSLocalizedDescription"]? [error.userInfo objectForKey:@"NSLocalizedDescription"]: error.description);
     }
-    
-    /* Bad URL */
-    if (([error.domain isEqualToString:@"WebKitErrorDomain"] && 101 == error.code) ||
-        ([error.domain isEqualToString:NSURLErrorDomain] && (NSURLErrorBadURL == error.code || NSURLErrorUnsupportedURL == error.code))) {
-        [[[UIAlertView alloc] initWithTitle:@"无法打开网页" message:[NSString stringWithFormat:@"网址无效\n\n%@", urlString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil]
-         show];
-        return;
-    }
-    
-    /* Networking Error */
-    if ([error.domain isEqualToString:NSURLErrorDomain] &&
-        (NSURLErrorTimedOut == error.code ||
-         NSURLErrorCannotFindHost == error.code ||
-         NSURLErrorCannotConnectToHost == error.code ||
-         NSURLErrorNetworkConnectionLost == error.code ||
-         NSURLErrorDNSLookupFailed == error.code ||
-         NSURLErrorNotConnectedToInternet == error.code)) {
-            [[[UIAlertView alloc] initWithTitle:@"无法打开网页" message:[NSString stringWithFormat:@"网络连接异常\n\n%@", urlString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil]
-             show];
-            return;
-        }
-    
-    
-    [[[UIAlertView alloc] initWithTitle:@"无法打开网页" message:[NSString stringWithFormat:@"%@\n\n%@", error.localizedDescription, urlString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil]
-     show];
 }
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    return ![self canAndGoOutWithLinkStr:request.URL.absoluteString];
-}
 
 @end
