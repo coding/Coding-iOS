@@ -67,7 +67,9 @@
 }
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr{
     NSLog(@"\n analyseVCFromLinkStr : %@", linkStr);
-
+    if (!linkStr || linkStr.length <= 0) {
+        return nil;
+    }
     
     NSString *userRegexStr = @"[\\w.-]*/u/([a-zA-Z0-9\\-_]+)$";
     NSString *ppRegexStr = @"[\\w.-]*/u/([a-zA-Z0-9\\-_]+)/pp/([0-9]+)$";
