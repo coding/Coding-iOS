@@ -193,6 +193,41 @@
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     [self configLeftBarButtonItems];
+    
+    NSString *urlString = error.userInfo[NSURLErrorFailingURLStringErrorKey];
+    /* iTunes Store Links */
+    if ([error.domain isEqualToString:@"WebKitErrorDomain"] && 102 == error.code) {
+        NSURL *url = [NSURL URLWithString:urlString];
+        if ([[UIApplication sharedApplication] canOpenURL:url]) {
+            [[UIApplication sharedApplication] openURL:url];
+            return;
+        }
+    }
+    
+    /* Bad URL */
+    if (([error.domain isEqualToString:@"WebKitErrorDomain"] && 101 == error.code) ||
+        ([error.domain isEqualToString:NSURLErrorDomain] && (NSURLErrorBadURL == error.code || NSURLErrorUnsupportedURL == error.code))) {
+        [[[UIAlertView alloc] initWithTitle:@"无法打开网页" message:[NSString stringWithFormat:@"网址无效\n\n%@", urlString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil]
+         show];
+        return;
+    }
+    
+    /* Networking Error */
+    if ([error.domain isEqualToString:NSURLErrorDomain] &&
+        (NSURLErrorTimedOut == error.code ||
+         NSURLErrorCannotFindHost == error.code ||
+         NSURLErrorCannotConnectToHost == error.code ||
+         NSURLErrorNetworkConnectionLost == error.code ||
+         NSURLErrorDNSLookupFailed == error.code ||
+         NSURLErrorNotConnectedToInternet == error.code)) {
+            [[[UIAlertView alloc] initWithTitle:@"无法打开网页" message:[NSString stringWithFormat:@"网络连接异常\n\n%@", urlString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil]
+             show];
+            return;
+        }
+    
+    
+    [[[UIAlertView alloc] initWithTitle:@"无法打开网页" message:[NSString stringWithFormat:@"%@\n\n%@", error.localizedDescription, urlString] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil]
+     show];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{

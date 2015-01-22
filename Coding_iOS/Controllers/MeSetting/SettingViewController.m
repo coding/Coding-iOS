@@ -126,7 +126,7 @@
                 }
                     break;
                 case 1:{//评分
-                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppUrl]];
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
                 }
                     break;
                 default:
