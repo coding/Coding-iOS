@@ -63,6 +63,8 @@
 }
 
 - (void)changeShowing{
+    [kKeyWindow endEditing:YES];
+    
     if (!self.myTableView || ![self.myTableView isMemberOfClass:[UITableView class]]) {
         CGPoint origin = [self.mySuperView convertPoint:CGPointZero toView:[UIApplication sharedApplication].keyWindow];
         self.myTableView = [[UITableView alloc] initWithFrame:CGRectMake(origin.x, origin.y, kScreen_Width, 0) style:UITableViewStylePlain];
