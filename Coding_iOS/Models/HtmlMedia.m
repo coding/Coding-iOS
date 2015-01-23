@@ -17,7 +17,7 @@
             htmlString = [NSString stringWithFormat:@"<body>%@</body>", htmlString];
         }
 
-        _contentDisplay = [[NSMutableString alloc] init];
+        _contentDisplay = [NSMutableString stringWithString:@""];
         _mediaItems = [[NSMutableArray alloc] init];
         
         NSData *data=[htmlString dataUsingEncoding:NSUTF8StringEncoding];

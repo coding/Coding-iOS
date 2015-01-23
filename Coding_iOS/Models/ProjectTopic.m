@@ -56,7 +56,7 @@
 }
 - (NSDictionary *)toAddTopicParams{
     return @{@"title" : [_title aliasedString],
-             @"content" : [_content aliasedString]};
+             @"content" : [_htmlMedia.contentOrigional aliasedString]};
 }
 
 - (NSString *)toCommentsPath{

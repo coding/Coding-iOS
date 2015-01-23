@@ -50,7 +50,7 @@ CG_INLINE BOOL isIPhone4()
 
 
 
-@interface AbstractActionSheetPicker ()
+@interface AbstractActionSheetPicker ()<UIGestureRecognizerDelegate>
 
 @property(nonatomic, strong) UIBarButtonItem *barButtonItem;
 @property(nonatomic, strong) UIBarButtonItem *doneBarButtonItem;
@@ -486,7 +486,9 @@ CG_INLINE BOOL isIPhone4()
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
 
     _actionSheet = [[SWActionSheet alloc] initWithView:aView];
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    tap.delegate = self;
     [_actionSheet addGestureRecognizer:tap];
 
     [self presentActionSheet:_actionSheet];
@@ -497,9 +499,6 @@ CG_INLINE BOOL isIPhone4()
     [UIView commitAnimations];
 }
 
--(void)handleTap:(UIGestureRecognizer*) recognizer{
-    [self actionPickerCancel:nil];
-}
 - (void) didRotate:(NSNotification *)notification
 {
     UIInterfaceOrientationMask supportedInterfaceOrientations = (UIInterfaceOrientationMask) [[UIApplication sharedApplication]
@@ -584,6 +583,15 @@ CG_INLINE BOOL isIPhone4()
     [self notifyTarget:self.target didCancelWithAction:self.cancelAction origin:[self storedOrigin]];
 }
 
+#pragma mark UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
+    CGPoint location = [gestureRecognizer locationInView:self.toolbar];
+    return !CGRectContainsPoint(self.toolbar.bounds, location);
+}
+
+-(void)handleTap:(UIGestureRecognizer*) recognizer{
+    [self actionPickerCancel:nil];
+}
 
 @end
 

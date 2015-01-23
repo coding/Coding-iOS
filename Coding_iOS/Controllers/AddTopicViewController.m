@@ -83,7 +83,7 @@
     self.myProTopic.title = _inputTitleView.text;
     self.myProTopic.content = _inputContentView.text;
     
-    if (_myProTopic.title.length <= 0 || _myProTopic.content <= 0) {
+    if (_myProTopic.title.length <= 0 || _myProTopic.htmlMedia.contentOrigional <= 0) {
         kTipAlert(@"至少写点什么吖");
         return;
     }
