@@ -54,7 +54,7 @@
     if (!_curTip) {
         return;
     }
-    _contentLabel.textColor = [UIColor colorWithHexString:_hasBeenRead? @"0x999999" :@"0x222222"];
+    _contentLabel.textColor = [UIColor colorWithHexString:_curTip.status.boolValue? @"0x999999" :@"0x222222"];
 
     CGFloat curBottomY = 10;
     _iconView.image = [UIImage imageNamed:[NSString stringWithFormat:@"tipIcon_%@", _curTip.target_type]];

@@ -24,7 +24,6 @@
 @interface TipsViewController ()
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
-@property (strong, nonatomic) NSNumber *unreadCount;
 @end
 
 @implementation TipsViewController
@@ -58,15 +57,12 @@
     switch (self.myCodingTips.type) {
         case 0:
             titleStr = @"@我的";
-            self.unreadCount = [_notificationDict objectForKey:kUnReadKey_notification_AT];
             break;
         case 1:
             titleStr = @"评论";
-            self.unreadCount = [_notificationDict objectForKey:kUnReadKey_notification_Comment];
             break;
         case 2:
             titleStr = @"系统通知";
-            self.unreadCount = [_notificationDict objectForKey:kUnReadKey_notification_System];
             break;
         default:
             break;
@@ -156,7 +152,6 @@
     CodingTipCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_CodingTip forIndexPath:indexPath];
     CodingTip *tip = [_myCodingTips.list objectAtIndex:indexPath.row];
     cell.curTip = tip;
-    cell.hasBeenRead = indexPath.row >= self.unreadCount.integerValue;
     __weak typeof(self) weakSelf = self;
     cell.linkClickedBlock = ^(HtmlMediaItem *item, CodingTip *tip){
         [weakSelf analyseHtmlMediaItem:item andTip:tip];
