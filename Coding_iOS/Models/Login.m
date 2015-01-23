@@ -14,7 +14,7 @@
 #define kLoginStatus @"login_status"
 #define kLoginUserId @"user_id"
 #define kLoginUserDict @"user_dict"
-#define kLoginDataListPath @"login_data_list_path"
+#define kLoginDataListPath @"login_data_list_path.plist"
 
 static User *curLoginUser;
 
@@ -86,7 +86,7 @@ static User *curLoginUser;
 }
 
 + (NSMutableDictionary *)readLoginDataList{
-    NSMutableDictionary *loginDataList = [self loadResponseWithPath:kLoginDataListPath];
+    NSMutableDictionary *loginDataList = [NSMutableDictionary dictionaryWithContentsOfFile:[self loginDataListPath]];
     if (!loginDataList) {
         loginDataList = [NSMutableDictionary dictionary];
     }
@@ -107,10 +107,15 @@ static User *curLoginUser;
             saved = YES;
         }
         if (saved) {
-            saved = [NSObject saveResponseData:loginDataList toPath:kLoginDataListPath];
+            saved = [loginDataList writeToFile:[self loginDataListPath] atomically:YES];
         }
     }
     return saved;
+}
+
++ (NSString *)loginDataListPath{
+    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    return [documentPath stringByAppendingPathComponent:kLoginDataListPath];
 }
 
 + (User *)userWithGlobaykeyOrEmail:(NSString *)textStr{
