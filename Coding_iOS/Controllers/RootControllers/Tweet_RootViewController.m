@@ -83,8 +83,7 @@
 - (void)loadView{
     [super loadView];
     
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = [[UIView alloc] initWithFrame:frame];
+    self.view = [[UIView alloc] init];
     _curIndex = 0;
     _tweetsDict = [[NSMutableDictionary alloc] initWithCapacity:4];
     
@@ -119,6 +118,9 @@
         Class tweetCellClass = [TweetCell class];
         [tableView registerClass:tweetCellClass forCellReuseIdentifier:kCellIdentifier_Tweet];
         [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsZero);
+        }];
         tableView;
     });
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];

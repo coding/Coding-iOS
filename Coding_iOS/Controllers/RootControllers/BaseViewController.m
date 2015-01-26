@@ -33,11 +33,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.view.backgroundColor = kColorTableBG;
+    
     [MobClick beginLogPageView:[NSString stringWithUTF8String:object_getClassName(self)]];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
     [MobClick endLogPageView:[NSString stringWithUTF8String:object_getClassName(self)]];
 }
 

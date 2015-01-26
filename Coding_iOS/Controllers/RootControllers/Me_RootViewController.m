@@ -78,8 +78,7 @@
 - (void)loadView{
     [super loadView];
     
-    CGRect frame = [UIView frameWithOutNavTab];
-    self.view = [[UIView alloc] initWithFrame:frame];
+    self.view = [[UIView alloc] init];
     self.title = @"我";
     _myUser = [Login curLoginUser]? [Login curLoginUser]: [User userWithGlobalKey:@""];
     
@@ -95,6 +94,9 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[TitleValueCell class] forCellReuseIdentifier:kCellIdentifier_TitleValue];
         [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsZero);
+        }];
         tableView;
     });
     _myTableView.tableHeaderView = [self configHeaderView];

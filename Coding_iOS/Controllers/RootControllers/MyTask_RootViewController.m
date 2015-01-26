@@ -57,17 +57,14 @@
 - (void)loadView{
     [super loadView];
     self.title = @"我的任务";
-    CGRect frame = [UIView frameWithOutNavTab];
-    self.view = [[UIView alloc] initWithFrame:frame];
+    self.view = [[UIView alloc] init];
     
     _myProjects = [Projects projectsWithType:ProjectsTypeAll];
     _myProTksDict = [[NSMutableDictionary alloc] initWithCapacity:1];
     _myProjectList = [[NSMutableArray alloc] initWithObjects:[Project project_All], nil];
     //添加myCarousel
-    frame.origin.y +=  kMySegmentControlIcon_Height;
-    frame.size.height -= kMySegmentControlIcon_Height;
     self.myCarousel = ({
-        iCarousel *icarousel = [[iCarousel alloc] initWithFrame:frame];
+        iCarousel *icarousel = [[iCarousel alloc] init];
         icarousel.dataSource = self;
         icarousel.delegate = self;
         icarousel.decelerationRate = 1.0;
@@ -77,6 +74,9 @@
         icarousel.clipsToBounds = YES;
         icarousel.bounceDistance = 0.2;
         [self.view addSubview:icarousel];
+        [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(kMySegmentControlIcon_Height, 0, 0, 0));
+        }];
         icarousel;
     });
     _needToRefreshSegmentControl = YES;

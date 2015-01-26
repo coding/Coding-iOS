@@ -122,8 +122,6 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 - (id)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem
 {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
-
         _contentView = ({
             UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
             scrollView.backgroundColor = [UIColor clearColor];
