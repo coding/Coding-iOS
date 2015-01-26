@@ -26,6 +26,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+
 }
 
 - (void)didReceiveMemoryWarning

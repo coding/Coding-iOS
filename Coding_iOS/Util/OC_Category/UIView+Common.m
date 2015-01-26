@@ -126,13 +126,6 @@ static char LoadingViewKey, BlankPageViewKey;
 }
 
 
-
-
-+ (CGRect)frameWithOutNavTab{
-    CGRect frame = kScreen_Bounds;
-    frame.size.height -= (20+44+49);//减去状态栏、导航栏、Tab栏的高度
-    return frame;
-}
 + (CGRect)frameWithOutNav{
     CGRect frame = kScreen_Bounds;
     frame.size.height -= (20+44);//减去状态栏、导航栏的高度

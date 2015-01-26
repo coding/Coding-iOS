@@ -48,7 +48,6 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
 - (void)removeViewWithTag:(NSInteger)tag;
 - (CGSize)doubleSizeOfFrame;
 
-+ (CGRect)frameWithOutNavTab;
 + (CGRect)frameWithOutNav;
 + (UIViewAnimationOptions)animationOptionsForCurve:(UIViewAnimationCurve)curve;
 + (UIView *)lineViewWithPointYY:(CGFloat)pointY;

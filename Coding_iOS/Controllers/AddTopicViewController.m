@@ -32,6 +32,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -42,11 +44,10 @@
 
 - (void)loadView{
     [super loadView];
-    CGRect frame = [UIView frameWithOutNav];
     
-    self.view = [[UIView alloc] initWithFrame:frame];
+    self.view = [[UIView alloc] init];
     
-    frame = CGRectMake(0, 30, kScreen_Width, 44);
+    CGRect frame = CGRectMake(0, 30, kScreen_Width, 44);
     UIView *bgWhiteView = [[UIView alloc] initWithFrame:frame];
     bgWhiteView.backgroundColor = [UIColor whiteColor];
     [bgWhiteView addLineUp:YES andDown:YES];
