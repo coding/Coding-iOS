@@ -34,6 +34,9 @@
             [tableView registerClass:[ProjectFolderListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectFolderList];
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             [self addSubview:tableView];
+            [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(self);
+            }];
             tableView;
         });
         

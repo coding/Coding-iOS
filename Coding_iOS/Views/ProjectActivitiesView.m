@@ -29,8 +29,6 @@
         _block = block;
         _myProActivitiesDict = [[NSMutableDictionary alloc] initWithCapacity:6];
         //添加myCarousel
-        frame.origin.y +=  kMySegmentControl_Height;
-        frame.size.height -= kMySegmentControl_Height;
         self.myCarousel = ({
             iCarousel *icarousel = [[iCarousel alloc] initWithFrame:frame];
             icarousel.dataSource = self;
@@ -42,15 +40,16 @@
             icarousel.clipsToBounds = YES;
             icarousel.bounceDistance = 0.2;
             [self addSubview:icarousel];
+            [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(self).insets(UIEdgeInsetsMake(kMySegmentControl_Height, 0, 0, 0));
+            }];
             icarousel;
         });
         
         //添加滑块
-        frame.origin.y = 0;
-        frame.size.height = kMySegmentControl_Height;
         __weak typeof(_myCarousel) weakCarousel = _myCarousel;
         
-        self.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:frame Items:self.titlesArray selectedBlock:^(NSInteger index) {
+        self.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:self.titlesArray selectedBlock:^(NSInteger index) {
             [weakCarousel scrollToItemAtIndex:index animated:NO];
         }];
         

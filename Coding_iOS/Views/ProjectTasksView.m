@@ -32,8 +32,6 @@
         _myProTksDict = [[NSMutableDictionary alloc] initWithCapacity:1];
         _myMemberList = [[NSMutableArray alloc] initWithObjects:[ProjectMember member_All], nil];
         //添加myCarousel
-        frame.origin.y +=  kMySegmentControlIcon_Height;
-        frame.size.height -= kMySegmentControlIcon_Height;
         self.myCarousel = ({
             iCarousel *icarousel = [[iCarousel alloc] initWithFrame:frame];
             icarousel.dataSource = self;
@@ -45,6 +43,9 @@
             icarousel.clipsToBounds = YES;
             icarousel.bounceDistance = 0.2;
             [self addSubview:icarousel];
+            [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(self).insets(UIEdgeInsetsMake(kMySegmentControlIcon_Height, 0, 0, 0));
+            }];
             icarousel;
         });
         

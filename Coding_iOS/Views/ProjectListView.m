@@ -45,13 +45,16 @@
         _myProjects = projects;
         _block = block;
         _myTableView = ({
-            UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
+            UITableView *tableView = [[UITableView alloc] init];
             tableView.backgroundColor = [UIColor clearColor];
             tableView.delegate = self;
             tableView.dataSource = self;
             [tableView registerClass:[ProjectListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectList];
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             [self addSubview:tableView];
+            [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(self);
+            }];
             tableView;
         });
         _mySearchBar = ({

@@ -40,6 +40,9 @@
             [tableView registerClass:[ProjectCodeListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectCodeList];
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             [self addSubview:tableView];
+            [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(self);
+            }];
             tableView;
         });
         
