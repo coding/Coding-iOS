@@ -21,7 +21,7 @@
 // THE SOFTWARE.
 
 #import "UIImageView+AFNetworking.h"
-#import <YLGIFImage/YLGIFImage.h>
+#import "YLGIFImage.h"
 
 #import <objc/runtime.h>
 

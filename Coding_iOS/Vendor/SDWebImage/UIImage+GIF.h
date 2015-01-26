@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <YLGIFImage/YLGIFImage.h>
+#import "YLGIFImage.h"
 
 @interface UIImage (GIF)
 

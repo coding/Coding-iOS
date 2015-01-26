@@ -14,11 +14,11 @@
 #import "AFURLSessionManager.h"
 #import "Coding_FileManager.h"
 #import "ASProgressPopUpView.h"
-#import <YLGIFImage/YLImageView.h>
+#import "YLImageView.h"
 
 
 @interface FileListFileCell ()<ASProgressPopUpViewDelegate>
-@property (strong, nonatomic) YLImageView *iconView;
+@property (strong, nonatomic) UIImageView *iconView;
 @property (strong, nonatomic) UILabel *nameLabel, *infoLabel, *sizeLabel;
 @property (strong, nonatomic) UIButton *stateButton;
 

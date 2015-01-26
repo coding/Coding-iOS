@@ -10,10 +10,10 @@
 #import "ASProgressPopUpView.h"
 #import "Coding_FileManager.h"
 #import "UIImageView+AFNetworking.h"
-#import <YLGIFImage/YLImageView.h>
+#import "YLImageView.h"
 
 @interface FileDownloadView ()
-@property (strong, nonatomic) YLImageView *iconView;
+@property (strong, nonatomic) UIImageView *iconView;
 @property (strong, nonatomic) UILabel *nameLabel, *infoLabel, *sizeLabel;
 @property (strong, nonatomic) ASProgressPopUpView *progressView;
 @property (strong, nonatomic) UIButton *stateButton;
@@ -97,7 +97,7 @@
     }else{
         CGFloat curBottomY = 80;
         if (!_iconView) {
-            _iconView = [[YLImageView alloc] initWithFrame:CGRectMake((frameWidth - 90)/2, curBottomY, 90, 90)];
+            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake((frameWidth - 90)/2, curBottomY, 90, 90)];
             _iconView.contentMode = UIViewContentModeScaleAspectFill;
             _iconView.layer.masksToBounds = YES;
             _iconView.layer.cornerRadius = 2.0;

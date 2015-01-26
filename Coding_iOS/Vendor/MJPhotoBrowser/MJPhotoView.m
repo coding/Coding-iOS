@@ -9,8 +9,8 @@
 #import "MJPhoto.h"
 #import "MJPhotoLoadingView.h"
 #import <QuartzCore/QuartzCore.h>
-#import <YLGIFImage/YLGIFImage.h>
-#import <YLGIFImage/YLImageView.h>
+#import "YLGIFImage.h"
+#import "YLImageView.h"
 
 @interface MJPhotoView ()
 {
