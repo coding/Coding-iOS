@@ -138,22 +138,6 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
             scrollView;
         });
         
-//        _leftShadowView = ({
-//            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 30, CGRectGetHeight(self.bounds))];
-//            [imageView setImage:[UIImage imageNamed:@"xtsegment_bordor_left"]];
-//            imageView.userInteractionEnabled = NO;
-//            imageView;
-//        });
-//        [self addSubview:_leftShadowView];
-//        
-//        _rightShadowView = ({
-//            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.bounds)-30, 0, 30, CGRectGetHeight(self.bounds))];
-//            [imageView setImage:[UIImage imageNamed:@"xtsegment_bordor_right"]];
-//            imageView.userInteractionEnabled = NO;
-//            imageView;
-//        });;
-//        [self addSubview:_rightShadowView];
-        
         [self initItemsWithTitleArray:titleItem];
         
     }
@@ -220,11 +204,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
     if ([obj isKindOfClass:[NSString class]]) {
         for (int i = 0; i < titleArray.count; i++) {
             float x = i > 0 ? CGRectGetMaxX([_itemFrames[i-1] CGRectValue]) : 0;
-//            NSString *title = titleArray[i];
-//            CGSize size = [title getSizeWithFont:[UIFont systemFontOfSize:XTSegmentControlItemFont] constrainedToSize:CGSizeMake(CGFLOAT_MAX, CGRectGetHeight(self.bounds))];
-//            float width = 2 * XTSegmentControlHspace + size.width;
             float width = kScreen_Width/titleArray.count;
-            
             CGRect rect = CGRectMake(x, y, width, height);
             [_itemFrames addObject:[NSValue valueWithCGRect:rect]];
         }
@@ -274,7 +254,6 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
     [_contentView setContentSize:CGSizeMake(CGRectGetMaxX([[_itemFrames lastObject] CGRectValue]), CGRectGetHeight(self.bounds))];
     self.currentIndex = 0;
     [self selectIndex:0];
-//    [self resetShadowView:_contentView];
 }
 
 - (void)addRedLine
@@ -349,7 +328,6 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         moveRect.size = CGSizeMake(CGRectGetWidth(origionLineRect) + delta * (CGRectGetWidth(lineRect) - CGRectGetWidth(origionLineRect)), CGRectGetHeight(lineRect));
         moveRect.origin = CGPointMake(CGRectGetMidX(origionLineRect) + delta * (CGRectGetMidX(lineRect) - CGRectGetMidX(origionLineRect)) - CGRectGetMidX(moveRect), CGRectGetMidY(origionLineRect) - CGRectGetMidY(moveRect));
         _lineView.frame = moveRect;
-//        _lineView.center = CGPointMake(CGRectGetMidX(origionLineRect) + delta * (CGRectGetMidX(lineRect) - CGRectGetMidX(origionLineRect)), CGRectGetMidY(origionLineRect));
     }else if (delta < 0){
         
         if (_currentIndex == 0) {
@@ -361,7 +339,6 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         moveRect.size = CGSizeMake(CGRectGetWidth(origionLineRect) - delta * (CGRectGetWidth(lineRect) - CGRectGetWidth(origionLineRect)), CGRectGetHeight(lineRect));
         moveRect.origin = CGPointMake(CGRectGetMidX(origionLineRect) - delta * (CGRectGetMidX(lineRect) - CGRectGetMidX(origionLineRect)) - CGRectGetMidX(moveRect), CGRectGetMidY(origionLineRect) - CGRectGetMidY(moveRect));
         _lineView.frame = moveRect;
-//        _lineView.center = CGPointMake(CGRectGetMidX(origionLineRect) - delta * (CGRectGetMidX(lineRect) - CGRectGetMidX(origionLineRect)), CGRectGetMidY(origionLineRect));
         if (delta < -1) {
             self.currentIndex -= 1;
         }
@@ -411,20 +388,6 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         [_contentView setContentOffset:CGPointMake(offset, 0) animated:NO];
     }];
 }
-
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    [self resetShadowView:scrollView];
-//}
-//
-//- (void)resetShadowView:(UIScrollView *)scrollView
-//{
-//    _leftShadowView.hidden = (scrollView.contentOffset.x <= 0.1);
-//    
-//    _rightShadowView.hidden = ((scrollView.contentOffset.x + CGRectGetWidth(_contentView.bounds)) >= _contentView.contentSize.width-0.1);
-//
-//}
-
 
 int ExceMinIndex(float f)
 {

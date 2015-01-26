@@ -110,15 +110,12 @@
     [super loadView];
     
     self.title = @"项目";
-    CGRect frame = [UIView frameWithOutNavTab];
-    self.view = [[UIView alloc] initWithFrame:frame];
+    self.view = [[UIView alloc] init];
     
     _myProjectsDict = [[NSMutableDictionary alloc] initWithCapacity:3];
     //添加myCarousel
-    frame.origin.y +=  kMySegmentControl_Height;
-    frame.size.height -= kMySegmentControl_Height;
     _myCarousel = ({
-        iCarousel *icarousel = [[iCarousel alloc] initWithFrame:frame];
+        iCarousel *icarousel = [[iCarousel alloc] init];
         icarousel.dataSource = self;
         icarousel.delegate = self;
         icarousel.decelerationRate = 1.0;
@@ -128,23 +125,24 @@
         icarousel.clipsToBounds = YES;
         icarousel.bounceDistance = 0.2;
         [self.view addSubview:icarousel];
+        [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(kMySegmentControl_Height, 0, 0, 0));
+        }];
         icarousel;
     });
     
     //添加滑块
-    frame.origin.y = 0;
-    frame.size.height = kMySegmentControl_Height;
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
-    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:frame Items:@[@"全部项目", @"我参与的", @"我创建的"] selectedBlock:^(NSInteger index) {
+    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:@[@"全部项目", @"我参与的", @"我创建的"] selectedBlock:^(NSInteger index) {
         if (index == _oldSelectedIndex) {
             return;
         }
         _oldSelectedIndex = index;
         [weakCarousel scrollToItemAtIndex:index animated:NO];
     }];
-    _oldSelectedIndex = 0;
     [self.view addSubview:_mySegmentControl];
     
+    _oldSelectedIndex = 0;
     [self refreshBadgeTip];
 }
 
