@@ -193,25 +193,46 @@
 
 #pragma mark - Table view Header Footer
 - (UIView *)customHeaderView{
+    CGFloat iconUserViewWidth;
+    if (kDevice_Is_iPhone6Plus) {
+        iconUserViewWidth = 100;
+    }else if (kDevice_Is_iPhone6){
+        iconUserViewWidth = 90;
+    }else{
+        iconUserViewWidth = 75;
+    }
+    
     UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height/3)];
     
-    _iconUserView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 80, 80)];
+    _iconUserView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, iconUserViewWidth, iconUserViewWidth)];
     _iconUserView.contentMode = UIViewContentModeScaleAspectFit;
     _iconUserView.layer.masksToBounds = YES;
     _iconUserView.layer.cornerRadius = _iconUserView.frame.size.width/2;
     _iconUserView.layer.borderWidth = 2;
     _iconUserView.layer.borderColor = [UIColor whiteColor].CGColor;
     
-    
     [headerV addSubview:_iconUserView];
     [_iconUserView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(80, 80));
+        make.size.mas_equalTo(CGSizeMake(iconUserViewWidth, iconUserViewWidth));
         make.centerX.equalTo(headerV);
         make.centerY.equalTo(headerV).offset(30);
     }];
     [_iconUserView setImage:[UIImage imageNamed:@"icon_user_monkey"]];
     return headerV;
 }
+
+- (NSString *)icon_user_monkey{
+    NSString *icon_user_monkey;
+    if (kDevice_Is_iPhone6Plus) {
+        icon_user_monkey = @"icon_user_monkey_i6p";
+    }else if (kDevice_Is_iPhone6){
+        icon_user_monkey = @"icon_user_monkey_i6";
+    }else{
+        icon_user_monkey = @"icon_user_monkey";
+    }
+    return icon_user_monkey;
+}
+
 - (UIView *)customFooterView{
     UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 100)];
     _loginBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"登录" andFrame:CGRectMake(18, 20, kScreen_Width-18*2, 45) target:self action:@selector(sendLogin)];

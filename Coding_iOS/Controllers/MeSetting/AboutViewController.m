@@ -40,25 +40,28 @@
     self.view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
     
     CGFloat logoViewTop, logoLabelTop, versionLabelTop, infoLabelBottom;
+    NSString *icon_user_monkey;
     if (kDevice_Is_iPhone6Plus) {
-        logoViewTop = 40;
-        logoLabelTop = 20;
-        versionLabelTop = 20;
-        infoLabelBottom = 20;
+        logoViewTop = 80;
+        logoLabelTop = 40;
+        versionLabelTop = 35;
+        infoLabelBottom = 35;
+        icon_user_monkey = @"icon_user_monkey_i6p";
     }else if (kDevice_Is_iPhone6){
-        logoViewTop = 40;
-        logoLabelTop = 20;
+        logoViewTop = 65;
+        logoLabelTop = 25;
         versionLabelTop = 20;
         infoLabelBottom = 20;
+        icon_user_monkey = @"icon_user_monkey_i6";
     }else{
         logoViewTop = 40;
         logoLabelTop = 20;
         versionLabelTop = 20;
         infoLabelBottom = 20;
+        icon_user_monkey = @"icon_user_monkey";
     }
     
-    
-    UIImageView *logoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_user_monkey"]];
+    UIImageView *logoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:icon_user_monkey]];
     [self.view addSubview:logoView];
     
     UILabel *logoLabel = [[UILabel alloc] init];
