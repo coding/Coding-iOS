@@ -17,11 +17,22 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0</string>
+	<string>2.0.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>net.coding.CodingForiOS</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>CodingForiOS</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
-	<string>2.0.2015012115</string>
+	<string>2.0.1.2015012317</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIFileSharingEnabled</key>
@@ -38,16 +49,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLName</key>
-			<string>net.coding.CodingForiOS</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>CodingForiOS</string>
-			</array>
-		</dict>
-	</array>
 </dict>
 </plist>
