@@ -47,7 +47,7 @@
 
 - (void)loadView{
     [super loadView];
-    self.view = [[UIView alloc] initWithFrame:[UIView frameWithOutNav]];
+    self.view = [[UIView alloc] init];
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         tableView.backgroundColor = [UIColor clearColor];
@@ -56,6 +56,9 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[UserCell class] forCellReuseIdentifier:kCellIdentifier_UserCell];
         [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
         tableView;
     });
     _mySearchBar = ({

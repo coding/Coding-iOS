@@ -37,16 +37,19 @@
 
 - (void)loadView{
     [super loadView];
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = ({
-        ProjectCodeListView *listView = [[ProjectCodeListView alloc] initWithFrame:frame project:_myProject andCodeTree:_myCodeTree];
-        __weak typeof(self) weakSelf = self;
-        listView.codeTreeFileOfRefBlock = ^(CodeTree_File *curCodeTreeFile, NSString *ref){
-            [weakSelf goToVCWith:curCodeTreeFile andRef:ref];
-        };
-        listView;
-    });
+    self.view = [[UIView alloc] init];
+    
     self.title = [[_myCodeTree.path componentsSeparatedByString:@"/"] lastObject];
+
+    ProjectCodeListView *listView = [[ProjectCodeListView alloc] initWithFrame:self.view.bounds project:_myProject andCodeTree:_myCodeTree];
+    __weak typeof(self) weakSelf = self;
+    listView.codeTreeFileOfRefBlock = ^(CodeTree_File *curCodeTreeFile, NSString *ref){
+        [weakSelf goToVCWith:curCodeTreeFile andRef:ref];
+    };
+    [self.view addSubview:listView];
+    [listView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
 }
 
 - (void)goToVCWith:(CodeTree_File *)codeTreeFile andRef:(NSString *)ref{
