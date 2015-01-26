@@ -47,7 +47,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.selectionStyle = UITableViewCellEditingStyleNone;
         self.backgroundColor = [UIColor clearColor];
         if (!_userIconView) {
             _userIconView = [[UITapImageView alloc] initWithFrame:CGRectMake(10, 10, kProjectActivityListCell_IconHeight, kProjectActivityListCell_IconHeight)];

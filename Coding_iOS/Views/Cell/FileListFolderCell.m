@@ -25,6 +25,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        self.backgroundColor = [UIColor clearColor];
         // Initialization code
         if (!_iconView) {
             _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([FileListFolderCell cellHeight] - kFileListFolderCell_IconWidth)/2, kFileListFolderCell_IconWidth, kFileListFolderCell_IconWidth)];

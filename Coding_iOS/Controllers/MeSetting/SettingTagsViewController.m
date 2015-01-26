@@ -65,7 +65,7 @@
     self.title = @"个性标签";
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     self.tagsView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
-    [self.tagsView setBackgroundColor:kColorTableBG];
+    [self.tagsView setBackgroundColor:[UIColor clearColor]];
     [self.tagsView registerClass:[TagCCell class] forCellWithReuseIdentifier:kCCellIdentifier_Tag];
     self.tagsView.dataSource = self;
     self.tagsView.delegate = self;

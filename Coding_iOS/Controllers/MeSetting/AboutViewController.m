@@ -37,7 +37,6 @@
 - (void)loadView{
     self.view = [[UIView alloc] init];
     self.title = @"关于Coding";
-    self.view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
     
     CGFloat logoViewTop, logoLabelTop, versionLabelTop, infoLabelBottom;
     NSString *icon_user_monkey;

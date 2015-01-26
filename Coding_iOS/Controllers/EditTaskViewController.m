@@ -331,6 +331,7 @@
                 [actionSheet showInView:kKeyWindow];
             };
         }
+        cell.backgroundColor = kColorTableBG;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
         return cell;
 //    }else if (indexPath.section == 2){
@@ -346,12 +347,14 @@
     }else if (indexPath.section == 1){
         LeftImage_LRTextCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_LeftImage_LRText forIndexPath:indexPath];
         [cell setObj:_myCopyTask type:indexPath.row];
+        cell.backgroundColor = kColorTableBG;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
         return cell;
     }else{
         if (indexPath.row == 0) {
             TaskCommentTopCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskCommentTop forIndexPath:indexPath];
             cell.commentNumStrLabel.text = [NSString stringWithFormat:@"%d 条评论", _myCopyTask.comments.intValue];
+            cell.backgroundColor = kColorTableBG;
             [cell addLineUp:YES andDown:NO andColor:tableView.separatorColor];
             return cell;
         }else{
@@ -359,11 +362,13 @@
                 TaskCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskComment forIndexPath:indexPath];
                 TaskComment *curComment = [_myCopyTask.commentList objectAtIndex:indexPath.row-1];
                 cell.curComment = curComment;
+                cell.backgroundColor = kColorTableBG;
                 [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
                 return cell;
             }else{
                 TaskCommentBlankCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskCommentBlank forIndexPath:indexPath];
                 cell.blankStrLabel.text = (_myCopyTask.comments.intValue <= 0)? @"尚无评论，速速抢个先手吧": @"正在加载评论...";
+                cell.backgroundColor = kColorTableBG;
                 [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
                 return cell;
             }

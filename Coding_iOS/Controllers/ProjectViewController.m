@@ -95,7 +95,6 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
     
     CGRect frame = [UIView frameWithOutNav];
     self.view = [[UIView alloc] initWithFrame:frame];
-    self.view.backgroundColor = [UIColor whiteColor];
     
     _projectContentDict = [[NSMutableDictionary alloc] initWithCapacity:5];
 

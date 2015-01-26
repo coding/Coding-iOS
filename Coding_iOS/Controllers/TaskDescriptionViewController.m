@@ -36,7 +36,6 @@
 - (void)loadView{
     [super loadView];
     self.view = [[UIView alloc] initWithFrame:[UIView frameWithOutNav]];
-    self.view.backgroundColor = kColorTableBG;
     
     if (!_segmentedControl) {
         _segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"编辑", @"预览"]];

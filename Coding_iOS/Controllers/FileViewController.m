@@ -40,7 +40,6 @@
     [super loadView];
     self.title = self.curFile.name;
     self.view = [[UIView alloc] initWithFrame:[UIView frameWithOutNav]];
-    self.view.backgroundColor = [UIColor whiteColor];
     
     if ([self.curFile isEmpty]) {
         [self requestFileData];

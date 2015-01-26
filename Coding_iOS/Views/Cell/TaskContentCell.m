@@ -31,6 +31,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_taskContentView) {
             _taskContentView = [[UITextView alloc] initWithFrame:CGRectMake(kTaskContentCell_PadingLeft-kTextView_Pading, 1, kTaskContentCell_ContentWidth+kTextView_Pading*2, kTaskContentCell_ContentHeightMin)];
+            _taskContentView.backgroundColor = [UIColor clearColor];
             _taskContentView.font = kTaskContentCell_ContentFont;
             _taskContentView.delegate = self;
             [self.contentView addSubview:_taskContentView];

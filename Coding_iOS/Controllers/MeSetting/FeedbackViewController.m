@@ -46,7 +46,6 @@
     CGRect frame = [UIView frameWithOutNav];
     
     self.view = [[UIView alloc] initWithFrame:frame];
-    self.view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
     
     frame = CGRectMake(0, 30, kScreen_Width, 44);
     UIView *bgWhiteView = [[UIView alloc] initWithFrame:frame];

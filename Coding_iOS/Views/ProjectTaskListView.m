@@ -51,7 +51,7 @@
         
         _myTableView = ({
             UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
-            tableView.backgroundColor = kColorTableBG;
+            tableView.backgroundColor = [UIColor clearColor];
             tableView.delegate = self;
             tableView.dataSource = self;
             [tableView registerClass:[ProjectTaskListViewCell class] forCellReuseIdentifier:kCellIdentifier_ProjectTaskList];

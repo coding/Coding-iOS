@@ -38,7 +38,7 @@
     [super loadView];
     CGRect frame = [UIView frameWithOutNav];
     self.view = [[UIView alloc] initWithFrame:frame];
-    self.view.backgroundColor = [UIColor whiteColor];
+    
     self.title = [[_myCodeFile.path componentsSeparatedByString:@"/"] lastObject];
 
     {

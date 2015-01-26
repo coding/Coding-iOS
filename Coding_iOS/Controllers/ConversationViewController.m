@@ -86,7 +86,7 @@
     //    添加myTableView
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        tableView.backgroundColor = kColorTableBG;
+        tableView.backgroundColor = [UIColor clearColor];
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -241,8 +241,6 @@
         }
     }];
     
-    
-    
     return cell;
 }
 
@@ -276,20 +274,6 @@
                               atScrollPosition:UITableViewScrollPositionBottom
                                       animated:animated];
     }
-}
-
-- (UIView *)msgInputView{
-    UIView *msgInputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 44)];
-    msgInputView.backgroundColor = [UIColor redColor];
-    
-    UITextView *inputView = [[UITextView alloc]initWithFrame:CGRectMake(15, 7, kScreen_Width-15*2-65, 30)];
-    inputView.font = [UIFont systemFontOfSize:15];
-    inputView.returnKeyType = UIReturnKeySend;
-    inputView.scrollsToTop = NO;
-    inputView.delegate = self;
-    
-    [msgInputView addSubview:inputView];
-    return msgInputView;
 }
 
 #pragma mark UIMessageInputView M

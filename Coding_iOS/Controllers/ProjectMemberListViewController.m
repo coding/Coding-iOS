@@ -44,7 +44,7 @@
     self.view = [[UIView alloc] initWithFrame:_viewFrame];
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        tableView.backgroundColor = kColorTableBG;
+        tableView.backgroundColor = [UIColor clearColor];
         tableView.delegate = self;
         tableView.dataSource = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

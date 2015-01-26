@@ -56,7 +56,7 @@
     _progressProxy.progressBlock = ^(float progress) {
         @strongify(self);
         [self.progressView setProgress:progress animated:NO];
-    };;
+    };
     
     CGFloat progressBarHeight = 2.f;
     CGRect navigaitonBarBounds = self.navigationController.navigationBar.bounds;
