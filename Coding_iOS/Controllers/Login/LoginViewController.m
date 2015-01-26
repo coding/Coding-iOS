@@ -14,7 +14,6 @@
 #import "StartImagesManager.h"
 #import <NYXImagesKit/NYXImagesKit.h>
 #import <UIImage+BlurredFrame/UIImage+BlurredFrame.h>
-#import <Masonry/Masonry.h>
 #import "UIImageView+WebCache.h"
 
 

@@ -7,7 +7,6 @@
 //
 
 #import "TaskDescriptionCell.h"
-#import <Masonry/Masonry.h>
 #import "UIVerticalAlignmentLabel.h"
 
 @interface TaskDescriptionCell ()

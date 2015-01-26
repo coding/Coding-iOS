@@ -57,7 +57,6 @@
 #pragma mark Private_M
 - (void)setupViewControllers {
     Project_RootViewController *project = [[Project_RootViewController alloc] init];
-    
     UIViewController *nav_project = [[UINavigationController alloc] initWithRootViewController:project];
     
     MyTask_RootViewController *mytask = [[MyTask_RootViewController alloc] init];
@@ -72,7 +71,6 @@
     
     Me_RootViewController *me = [[Me_RootViewController alloc] init];
     UIViewController *nav_me = [[UINavigationController alloc] initWithRootViewController:me];
-
     
     [self setViewControllers:@[nav_project, nav_mytask, nav_tweet, nav_message, nav_me]];
     

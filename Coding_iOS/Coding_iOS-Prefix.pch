@@ -38,6 +38,7 @@
     #import <ReactiveCocoa/ReactiveCocoa.h>
     #import <ReactiveCocoa/RACEXTScope.h>
     #import "UIImageView+WebCache.h"
+    #import <Masonry/Masonry.h>
 
 #endif
 //友盟统计
@@ -79,7 +80,6 @@
 #define kScreen_Bounds [UIScreen mainScreen].bounds
 #define kScreen_Height [UIScreen mainScreen].bounds.size.height
 #define kScreen_Width [UIScreen mainScreen].bounds.size.width
-#define kScreen_is_iPhone5_Plus ABS(kScreen_Width/kScreen_Height - 320.0/480.0) > 0.01
 #define kPaddingLeftWidth 15.0
 #define kMySegmentControl_Height 44.0
 #define kMySegmentControlIcon_Height 70.0

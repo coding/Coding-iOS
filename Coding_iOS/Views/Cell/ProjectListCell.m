@@ -12,7 +12,6 @@
 
 
 #import "ProjectListCell.h"
-#import <Masonry/Masonry.h>
 
 @interface ProjectListCell ()
 @property (nonatomic, strong) UIImageView *projectIconView, *privateIconView;

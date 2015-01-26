@@ -9,7 +9,6 @@
 #import "FileListUploadCell.h"
 #import "Coding_FileManager.h"
 #import "ASProgressPopUpView.h"
-#import <Masonry/Masonry.h>
 #import <NYXImagesKit/NYXImagesKit.h>
 
 @interface FileListUploadCell ()<ASProgressPopUpViewDelegate>

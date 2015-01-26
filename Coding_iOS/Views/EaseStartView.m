@@ -8,7 +8,6 @@
 
 #import "EaseStartView.h"
 #import <NYXImagesKit/NYXImagesKit.h>
-#import <Masonry/Masonry.h>
 #import "StartImagesManager.h"
 
 @interface EaseStartView ()
