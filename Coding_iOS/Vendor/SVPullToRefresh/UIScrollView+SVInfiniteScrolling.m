@@ -183,7 +183,7 @@ UIEdgeInsets scrollViewOriginalContentInsets;
 
 //easeeeeeeeee add
 - (UIView *)viewForStateLoading{
-    UIView *customView = [[UIView alloc] initWithFrame:self.bounds];
+    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, SVInfiniteScrollingViewHeight)];
     //小菊花
     UIActivityIndicatorView *activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [activityIndicator startAnimating];

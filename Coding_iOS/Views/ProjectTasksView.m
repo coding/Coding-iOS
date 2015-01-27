@@ -82,22 +82,20 @@
     return [_myMemberList count];
 }
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view{
-    {
-        ProjectMember *curMember = [_myMemberList objectAtIndex:index];
-        Tasks *curTasks = [_myProTksDict objectForKey:curMember.user_id];
-        if (!curTasks) {
-            curTasks = [Tasks tasksWithPro:_myProject owner:curMember.user queryType:TaskQueryTypeAll];
-            [_myProTksDict setObject:curTasks forKey:curMember.user_id];
-        }
-        
-        ProjectTaskListView *listView = (ProjectTaskListView *)view;
-        if (listView) {
-            [listView setTasks:curTasks];
-        }else{
-            listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks block:_block];
-        }
-        return listView;
+    ProjectMember *curMember = [_myMemberList objectAtIndex:index];
+    Tasks *curTasks = [_myProTksDict objectForKey:curMember.user_id];
+    if (!curTasks) {
+        curTasks = [Tasks tasksWithPro:_myProject owner:curMember.user queryType:TaskQueryTypeAll];
+        [_myProTksDict setObject:curTasks forKey:curMember.user_id];
     }
+    
+    ProjectTaskListView *listView = (ProjectTaskListView *)view;
+    if (listView) {
+        [listView setTasks:curTasks];
+    }else{
+        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks block:_block tabBarHeight:0];
+    }
+    return listView;
 }
 
 - (void)carouselDidScroll:(iCarousel *)carousel{

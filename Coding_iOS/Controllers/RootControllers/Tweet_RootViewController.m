@@ -119,8 +119,12 @@
         [tableView registerClass:tweetCellClass forCellReuseIdentifier:kCellIdentifier_Tweet];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).insets(UIEdgeInsetsZero);
+            make.edges.equalTo(self.view);
         }];
+        {
+            UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
+            tableView.contentInset = insets;
+        }
         tableView;
     });
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
@@ -154,7 +158,6 @@
         CGFloat msgInputY = kScreen_Height - heightToBottom - 64;
         
         self.myTableView.contentInset = contentInsets;
-        self.myTableView.scrollIndicatorInsets = contentInsets;
         
         if ([_commentSender isKindOfClass:[UIView class]] && !self.myTableView.isDragging && heightToBottom > 60) {
             UIView *senderView = _commentSender;
@@ -422,26 +425,30 @@
     }
 }
 
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    _oldPanOffsetY = 0;
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    //Selected index's color changed.
     if (scrollView.contentSize.height <= CGRectGetHeight(scrollView.bounds)-50) {
         [self hideToolBar:NO];
         return;
-    }
-    CGFloat nowPanOffsetY = [scrollView.panGestureRecognizer translationInView:scrollView.superview].y;
-    CGFloat diffPanOffsetY = nowPanOffsetY - _oldPanOffsetY;
-    CGFloat contentOffsetY = scrollView.contentOffset.y;
-    if (ABS(diffPanOffsetY) > 50.f) {
-        [self hideToolBar:(diffPanOffsetY < 0.f && contentOffsetY > 0)];
-        _oldPanOffsetY = nowPanOffsetY;
+    }else if (scrollView.panGestureRecognizer.state == UIGestureRecognizerStateChanged){
+        CGFloat nowPanOffsetY = [scrollView.panGestureRecognizer translationInView:scrollView.superview].y;
+        CGFloat diffPanOffsetY = nowPanOffsetY - _oldPanOffsetY;
+        CGFloat contentOffsetY = scrollView.contentOffset.y;
+        if (ABS(diffPanOffsetY) > 50.f) {
+            [self hideToolBar:(diffPanOffsetY < 0.f && contentOffsetY > 0)];
+            _oldPanOffsetY = nowPanOffsetY;
+        }
     }
 }
 
 - (void)hideToolBar:(BOOL)hide{
     if (hide != self.rdv_tabBarController.tabBarHidden) {
-        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, (hide? 0.0:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)), 0.0);
+        Tweets *curTweets = [self getCurTweets];
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, (hide? (curTweets.canLoadMore? 60.0: 0.0):CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)), 0.0);
         self.myTableView.contentInset = contentInsets;
-        self.myTableView.scrollIndicatorInsets = contentInsets;
         [self.rdv_tabBarController setTabBarHidden:hide animated:YES];
     }
 }

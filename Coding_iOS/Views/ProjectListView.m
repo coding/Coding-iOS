@@ -37,7 +37,7 @@
     }
 }
 
-- (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(ProjectListViewBlock)block
+- (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(ProjectListViewBlock)block  tabBarHeight:(CGFloat)tabBarHeight
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -55,6 +55,11 @@
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self);
             }];
+            if (tabBarHeight != 0) {
+                UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, tabBarHeight, 0);
+                tableView.contentInset = insets;
+                tableView.scrollIndicatorInsets = insets;
+            }
             tableView;
         });
         _mySearchBar = ({

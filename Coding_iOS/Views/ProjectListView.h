@@ -13,7 +13,7 @@ typedef void(^ProjectListViewBlock)(Project *project);
 
 @interface ProjectListView : UIView<UITableViewDataSource, UITableViewDelegate>
 
-- (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(ProjectListViewBlock)block;
+- (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(ProjectListViewBlock)block tabBarHeight:(CGFloat)tabBarHeight;
 - (void)setProjects:(Projects *)projects;
 - (void)refreshUI;
 - (void)refreshToQueryData;

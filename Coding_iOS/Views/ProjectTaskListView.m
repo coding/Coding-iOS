@@ -42,7 +42,7 @@
     }
 }
 
-- (id)initWithFrame:(CGRect)frame tasks:(Tasks *)tasks block:(ProjectTaskBlock)block{
+- (id)initWithFrame:(CGRect)frame tasks:(Tasks *)tasks block:(ProjectTaskBlock)block tabBarHeight:(CGFloat)tabBarHeight{
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
@@ -60,6 +60,11 @@
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self);
             }];
+            if (tabBarHeight != 0) {
+                UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, tabBarHeight, 0);
+                tableView.contentInset = insets;
+                tableView.scrollIndicatorInsets = insets;
+            }
             tableView;
         });
         

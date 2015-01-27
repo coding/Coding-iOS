@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UIViewController (Swizzle)
-- (void)customViewDidLoad;
+
 @end
 
 void swizzleAllViewController();

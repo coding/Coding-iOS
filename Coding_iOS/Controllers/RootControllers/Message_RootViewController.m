@@ -114,8 +114,13 @@
         [tableView registerClass:[ToMessageCell class] forCellReuseIdentifier:kCellIdentifier_ToMessage];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).insets(UIEdgeInsetsZero);
+            make.edges.equalTo(self.view);
         }];
+        {
+            UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
+            tableView.contentInset = insets;
+            tableView.scrollIndicatorInsets = insets;
+        }
         tableView;
     });
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];

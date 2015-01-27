@@ -65,41 +65,6 @@
             [listView refreshToQueryData];
         }
     }
-    
-    {//调整Label高度测试代码
-//    UITTTAttributedLabel *label = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(0, 100, 260, 20)];
-//    label.linkAttributes = kLinkAttributes;
-//    label.activeLinkAttributes = kLinkAttributesActive;
-//    [label addLongPressForCopy];
-//    
-////    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, 260, 20)];
-//
-//    label.font = [UIFont systemFontOfSize:16];
-//    label.textColor = [UIColor colorWithHexString:@"0x222222"];
-//    label.backgroundColor = [UIColor redColor];
-////    label.lineBreakMode = NSLineBreakByWordWrapping;
-//    [self.view addSubview:label];
-//
-//    
-//    NSString *curString = @"😂😂😂😂😂😂😂有了emoji之后，高度就变了.有了emoji之后，高度就变了。有了emoji之后，高度就变了。有了emoji之后，高度就变了。有了emoji之后，高度就变了。有了emoji之后，高度就变了";
-//    [label setLongString:curString withFitWidth:260];
-//        [label setHeight:CGRectGetHeight(label.frame)+10];
-//        
-//        {UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 250, 260, 20)];
-//        
-//        label.font = [UIFont systemFontOfSize:16];
-//        label.textColor = [UIColor colorWithHexString:@"0x222222"];
-//        label.backgroundColor = [UIColor redColor];
-//        //    label.lineBreakMode = NSLineBreakByWordWrapping;
-//        [self.view addSubview:label];
-//        NSString *curString = @"😂😂😂😂😂😂😂有了emoji之后，高度就变了.有了emoji之后，高度就变了。有了emoji之后，高度就变了。有了emoji之后，高度就变了。有了emoji之后，高度就变了。有了emoji之后，高度就变了";
-//        [label setLongString:curString withFitWidth:260];
-////        [label setHeight:CGRectGetHeight(label.frame)+10];
-//        }
-
-    }
-
-
 }
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -183,8 +148,9 @@
                 }
             }];
             NSLog(@"\n=====%@", project.name);
-        }];
+        } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
     }
+    
     return listView;
 }
 

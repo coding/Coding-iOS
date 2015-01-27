@@ -10,6 +10,7 @@
 #import "MyTask_RootViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "EditTaskViewController.h"
+#import "RDVTabBarController.h"
 
 @interface MyTask_RootViewController ()
 
@@ -130,30 +131,28 @@
     return [_myProjectList count];
 }
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view{
-    {
-        Project *curPro = [_myProjectList objectAtIndex:index];
-        Tasks *curTasks = [_myProTksDict objectForKey:curPro.id];
-        if (!curTasks) {
-            curTasks = [Tasks tasksWithPro:curPro queryType:TaskQueryTypeAll];
-            [_myProTksDict setObject:curTasks forKey:curPro.id];
-        }
-        
-        ProjectTaskListView *listView = (ProjectTaskListView *)view;
-        if (listView) {
-            [listView setTasks:curTasks];
-        }else{
-            __weak typeof(self) weakSelf = self;
-            listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks block:^(ProjectTaskListView *taskListView, Task *task) {
-                EditTaskViewController *vc = [[EditTaskViewController alloc] init];
-                vc.myTask = task;
-                vc.taskChangedBlock = ^(Task *curTask, TaskEditType type){
-                    [taskListView refreshToQueryData];
-                };
-                [weakSelf.navigationController pushViewController:vc animated:YES];
-            }];
-        }
-        return listView;
+    Project *curPro = [_myProjectList objectAtIndex:index];
+    Tasks *curTasks = [_myProTksDict objectForKey:curPro.id];
+    if (!curTasks) {
+        curTasks = [Tasks tasksWithPro:curPro queryType:TaskQueryTypeAll];
+        [_myProTksDict setObject:curTasks forKey:curPro.id];
     }
+    
+    ProjectTaskListView *listView = (ProjectTaskListView *)view;
+    if (listView) {
+        [listView setTasks:curTasks];
+    }else{
+        __weak typeof(self) weakSelf = self;
+        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks block:^(ProjectTaskListView *taskListView, Task *task) {
+            EditTaskViewController *vc = [[EditTaskViewController alloc] init];
+            vc.myTask = task;
+            vc.taskChangedBlock = ^(Task *curTask, TaskEditType type){
+                [taskListView refreshToQueryData];
+            };
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
+    }
+    return listView;
 }
 
 - (void)carouselDidScroll:(iCarousel *)carousel{

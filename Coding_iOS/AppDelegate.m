@@ -178,6 +178,8 @@
 
 - (void)setupTabViewController{
     RootTabViewController *rootVC = [[RootTabViewController alloc] init];
+    rootVC.tabBar.translucent = YES;
+    
     [self.window setRootViewController:rootVC];
 }
 

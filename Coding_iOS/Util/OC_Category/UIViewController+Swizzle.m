@@ -12,22 +12,23 @@
 
 
 @implementation UIViewController (Swizzle)
-- (void)customViewDidLoad{
-//    返回按钮
-    if (!self.navigationItem.leftBarButtonItem
-        && self.navigationController.viewControllers.count > 1
-        && !kHigher_iOS_6_1) {//设置iOS_7以下版本的返回按钮
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self backButton]];
+- (void)customViewDidAppear:(BOOL)animated{
+    if ([self isKindOfClass:[UINavigationController class]]) {
+//        do nothing
+    }else{
+        NSString *classStr = NSStringFromClass([self class]);
+        if ([classStr rangeOfString:@"_RootViewController"].location != NSNotFound) {
+            [self.rdv_tabBarController setTabBarHidden:NO animated:YES];
+        }
     }
-    [self customViewDidLoad];
+    [self customViewDidAppear:animated];
 }
 
 - (void)customViewWillDisappear:(BOOL)animated{
 //    返回按钮
     if (!self.navigationItem.backBarButtonItem
-        && self.navigationController.viewControllers.count > 1
-        && kHigher_iOS_6_1) {//设置iOS_7及以上版本的返回按钮(backBarButtonItem的图片不能设置；如果用leftBarButtonItem属性，则iOS7自带的滑动返回功能会失效)
-        self.navigationItem.backBarButtonItem = [self backButton_higherOS];
+        && self.navigationController.viewControllers.count > 1) {//设置返回按钮(backBarButtonItem的图片不能设置；如果用leftBarButtonItem属性，则iOS7自带的滑动返回功能会失效)
+        self.navigationItem.backBarButtonItem = [self backButton];
     }
     [self customViewWillDisappear:animated];
 }
@@ -35,18 +36,18 @@
 - (void)customviewWillAppear:(BOOL)animated{
     if ([self isKindOfClass:[UINavigationController class]]) {
 //        do nothing
-    }else
-    if ([NSStringFromClass([self class]) rangeOfString:@"_RootViewController"].location != NSNotFound) {
-        [self.rdv_tabBarController setTabBarHidden:NO animated:NO];
     }else{
-        [self.rdv_tabBarController setTabBarHidden:YES animated:YES];
+        NSString *classStr = NSStringFromClass([self class]);
+        if ([classStr rangeOfString:@"_RootViewController"].location == NSNotFound) {
+            [self.rdv_tabBarController setTabBarHidden:YES animated:YES];
+        }
     }
     [self customviewWillAppear:animated];
 }
 
 
 #pragma mark BackBtn M
-- (UIBarButtonItem *)backButton_higherOS{
+- (UIBarButtonItem *)backButton{
     NSDictionary*textAttributes;
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
     temporaryBarButtonItem.title = @"返回";
@@ -63,27 +64,6 @@
     return temporaryBarButtonItem;
 }
 
--(UIButton *)backButton{
-    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage* buttonImage = [UIImage imageNamed:@"backBtn_Nav"];
-    button.frame = CGRectMake(0, 0, 55, 30);
-    [button setImage:buttonImage forState:UIControlStateNormal];
-
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:kBackButtonFontSize];
-    [button.titleLabel setMinimumScaleFactor:0.5];
-    button.titleLabel.shadowOffset = CGSizeMake(0,-1);
-    button.titleLabel.shadowColor = [UIColor darkGrayColor];
-    [button setTitle:@"返回" forState:UIControlStateNormal];
-    
-    
-    button.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-    button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-
-    [button addTarget:self action:@selector(goBack_Swizzle) forControlEvents:UIControlEventTouchUpInside];
-    return button;
-}
 - (void)goBack_Swizzle
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -92,7 +72,7 @@
 
 void swizzleAllViewController()
 {
-    Swizzle([UIViewController class], @selector(viewDidLoad), @selector(customViewDidLoad));
+    Swizzle([UIViewController class], @selector(viewDidAppear:), @selector(customViewDidAppear:));
     Swizzle([UIViewController class], @selector(viewWillDisappear:), @selector(customViewWillDisappear:));
     Swizzle([UIViewController class], @selector(viewWillAppear:), @selector(customviewWillAppear:));
 }
