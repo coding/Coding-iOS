@@ -32,9 +32,15 @@
 - (void)analyseHtmlElement:(TFHppleElement* )element withShowType:(MediaShowType)showType{
     HtmlMediaItem *item = nil;
     if (element.isTextNode) {
-        if ([element.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
-            || (![_contentDisplay hasSuffix:@"\n"] && _contentDisplay.length > 0)) {
+        if ([element.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0) {
             [_contentDisplay appendString:element.content];
+        }else if (![_contentDisplay hasSuffix:@"\n"] && _contentDisplay.length > 0){
+            NSCharacterSet *lineSet = [NSCharacterSet newlineCharacterSet];
+            if ([element.content rangeOfCharacterFromSet:lineSet].location != NSNotFound) {
+                [_contentDisplay appendString:@"\n"];
+            }else{
+                [_contentDisplay appendString:element.content];
+            }
         }
     }else if ([element.tagName isEqualToString:@"br"]){
         if (![_contentDisplay hasSuffix:@"\n"] && _contentDisplay.length > 0) {
