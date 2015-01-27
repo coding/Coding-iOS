@@ -50,6 +50,35 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = _curTweets.curUser.name;
+    
+    //    添加myTableView
+    _myTableView = ({
+        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        tableView.backgroundColor = [UIColor clearColor];
+        tableView.dataSource = self;
+        tableView.delegate = self;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        Class tweetCellClass = [TweetCell class];
+        [tableView registerClass:tweetCellClass forCellReuseIdentifier:kCellIdentifier_Tweet];
+        [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
+        tableView;
+    });
+    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
+    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    
+    //评论
+    __weak typeof(self) weakSelf = self;
+    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
+    _myMsgInputView.delegate = self;
+    
+    [_myTableView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf refreshMore];
+    }];
+    [self refresh];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -72,39 +101,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)loadView{
-    [super loadView];
-    
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = [[UIView alloc] initWithFrame:frame];
-    self.title = _curTweets.curUser.name;
-    
-    //    添加myTableView
-    _myTableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        tableView.backgroundColor = [UIColor clearColor];
-        tableView.dataSource = self;
-        tableView.delegate = self;
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        Class tweetCellClass = [TweetCell class];
-        [tableView registerClass:tweetCellClass forCellReuseIdentifier:kCellIdentifier_Tweet];
-        [self.view addSubview:tableView];
-        tableView;
-    });
-    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
-    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-    
-    //评论
-    __weak typeof(self) weakSelf = self;
-    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
-    _myMsgInputView.delegate = self;
-    
-    [_myTableView addInfiniteScrollingWithActionHandler:^{
-        [weakSelf refreshMore];
-    }];
-    [self refresh];
 }
 
 #pragma mark UIMessageInputViewDelegate

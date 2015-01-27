@@ -41,18 +41,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-- (void)loadView{
-    [super loadView];
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = [[UIView alloc] initWithFrame:frame];
-    
     NSString *titleStr;
     switch (self.myCodingTips.type) {
         case 0:
@@ -78,6 +66,9 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[CodingTipCell class] forCellReuseIdentifier:kCellIdentifier_CodingTip];
         [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
         tableView;
     });
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
@@ -88,6 +79,12 @@
         [weakSelf refreshMore];
     }];
     [self refresh];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 - (void)refresh{

@@ -27,20 +27,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)loadView{
-    [super loadView];
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = [[UIView alloc] initWithFrame:frame];
-    
     self.title = [[_myCodeFile.path componentsSeparatedByString:@"/"] lastObject];
-
+    
     {
         //用webView显示内容
         _codeContentView = [[UIWebView alloc] initWithFrame:self.view.bounds];
@@ -56,8 +44,16 @@
         _activityIndicator.hidesWhenStopped = YES;
         [_activityIndicator setCenter:CGPointMake(CGRectGetWidth(_codeContentView.frame)/2, CGRectGetHeight(_codeContentView.frame)/2)];
         [_codeContentView addSubview:_activityIndicator];
+        [_codeContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
     }
     [self sendRequest];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark Request

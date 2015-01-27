@@ -36,24 +36,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-    self.myTableView = nil;
-    self.curUser = nil;
-    self.curJobManager = nil;
-    self.curTagsManager = nil;
-    self.view = nil;
-}
-- (void)loadView{
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = [[UIView alloc] initWithFrame:frame];
     self.title = @"个人信息";
     self.curUser =[Login curLoginUser];
     
-//    添加myTableView
+    //    添加myTableView
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         tableView.backgroundColor = kColorTableSectionBg;
@@ -63,6 +49,9 @@
         [tableView registerClass:[TitleValueMoreCell class] forCellReuseIdentifier:kCellIdentifier_TitleValueMore];
         [tableView registerClass:[TitleRImageMoreCell class] forCellReuseIdentifier:kCellIdentifier_TitleRImageMore];
         [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
         tableView;
     });
     _curJobManager = [[JobManager alloc] init];
@@ -78,6 +67,16 @@
             weakSelf.curTagsManager.tagArray = data;
         }
     }];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+    self.myTableView = nil;
+    self.curUser = nil;
+    self.curJobManager = nil;
+    self.curTagsManager = nil;
+    self.view = nil;
 }
 
 #pragma mark TableM

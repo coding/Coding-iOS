@@ -53,6 +53,42 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = @"讨论详情";
+    
+    _myTableView = ({
+        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+        tableView.backgroundColor = [UIColor clearColor];
+        tableView.delegate = self;
+        tableView.dataSource = self;
+        [tableView registerClass:[TopicContentCell class] forCellReuseIdentifier:kCellIdentifier_TopicContent];
+        [tableView registerClass:[TopicCommentCell class] forCellReuseIdentifier:kCellIdentifier_TopicComment];
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
+        tableView;
+    });
+    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
+    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    
+    //评论
+    __weak typeof(self) weakSelf = self;
+    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
+    _myMsgInputView.isAlwaysShow = YES;
+    _myMsgInputView.delegate = self;
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myMsgInputView.frame), 0.0);
+    self.myTableView.contentInset = contentInsets;
+    self.myTableView.scrollIndicatorInsets = contentInsets;
+    
+    [_myTableView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf refreshMore];
+    }];
+    if (_curTopic && _curTopic.project) {
+        _myMsgInputView.curProject = _curTopic.project;
+    }
+    [self refresh];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -74,45 +110,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)loadView{
-    [super loadView];
-    self.view = [[UIView alloc] initWithFrame:[UIView frameWithOutNav]];
-    
-    self.title = @"讨论详情";
-    
-    _myTableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
-        tableView.backgroundColor = [UIColor clearColor];
-        tableView.delegate = self;
-        tableView.dataSource = self;
-        [tableView registerClass:[TopicContentCell class] forCellReuseIdentifier:kCellIdentifier_TopicContent];
-        [tableView registerClass:[TopicCommentCell class] forCellReuseIdentifier:kCellIdentifier_TopicComment];
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        tableView;
-    });
-    [self.view addSubview:_myTableView];
-    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
-    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-    
-    //评论
-    __weak typeof(self) weakSelf = self;
-    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
-    _myMsgInputView.isAlwaysShow = YES;
-    _myMsgInputView.delegate = self;
-    
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myMsgInputView.frame), 0.0);
-    self.myTableView.contentInset = contentInsets;
-    self.myTableView.scrollIndicatorInsets = contentInsets;
-    
-    [_myTableView addInfiniteScrollingWithActionHandler:^{
-        [weakSelf refreshMore];
-    }];
-    if (_curTopic && _curTopic.project) {
-        _myMsgInputView.curProject = _curTopic.project;
-    }
-    [self refresh];
 }
 
 #pragma mark UIMessageInputViewDelegate

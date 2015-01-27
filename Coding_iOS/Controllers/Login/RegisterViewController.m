@@ -31,15 +31,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-}
-
-- (void)loadView{
-    [super loadView];
-    self.view = [[UIView alloc] initWithFrame:[UIView frameWithOutNav]];
     self.title = @"注册";
     self.myRegister = [[Register alloc] init];
     _captchaNeeded = NO;
-
     
     //    添加myTableView
     _myTableView = ({
@@ -49,6 +43,9 @@
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
         tableView;
     });
     self.myTableView.tableFooterView=[self customFooterView];

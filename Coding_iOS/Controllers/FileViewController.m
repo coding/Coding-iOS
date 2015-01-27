@@ -29,23 +29,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)loadView{
-    [super loadView];
     self.title = self.curFile.name;
-    self.view = [[UIView alloc] initWithFrame:[UIView frameWithOutNav]];
-    
     if ([self.curFile isEmpty]) {
         [self requestFileData];
     }else{
         [self configContent];
     }
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -106,13 +100,14 @@
         self.downloadView.hidden = YES;
     }
     
-    CGRect frame = self.view.bounds;
     QLPreviewController* preview = [[QLPreviewController alloc] init];
     preview.dataSource = self;
     preview.delegate = self;
-    preview.view.frame = frame;
     
     [self.view addSubview:preview.view];
+    [preview.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
     self.previewController = preview;
 }
 
@@ -170,6 +165,9 @@
         self.downloadView = [[FileDownloadView alloc] initWithFrame:self.view.bounds];
         self.downloadView.file = self.curFile;
         [self.view addSubview:self.downloadView];
+        [self.downloadView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
     }
     __weak typeof(self) weakSelf = self;
     self.downloadView.hidden = NO;

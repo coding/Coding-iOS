@@ -55,27 +55,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    if (_myCarousel) {
-        ProjectListView *listView = (ProjectListView *)_myCarousel.currentItemView;
-        if (listView) {
-            [listView refreshToQueryData];
-        }
-    }
-}
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    [[UnReadManager shareManager] updateUnRead];
-}
-
-- (void)loadView{
-    [super loadView];
-    
     self.title = @"项目";
-    self.view = [[UIView alloc] init];
     
     _myProjectsDict = [[NSMutableDictionary alloc] initWithCapacity:3];
     //添加myCarousel
@@ -109,6 +89,20 @@
     
     _oldSelectedIndex = 0;
     [self refreshBadgeTip];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (_myCarousel) {
+        ProjectListView *listView = (ProjectListView *)_myCarousel.currentItemView;
+        if (listView) {
+            [listView refreshToQueryData];
+        }
+    }
+}
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [[UnReadManager shareManager] updateUnRead];
 }
 
 - (void)didReceiveMemoryWarning

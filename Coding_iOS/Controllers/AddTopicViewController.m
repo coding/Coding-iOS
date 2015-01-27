@@ -33,20 +33,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+    self.title = @"创建讨论";
 
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)loadView{
-    [super loadView];
-    
-    self.view = [[UIView alloc] init];
-    
     CGRect frame = CGRectMake(0, 30, kScreen_Width, 44);
     UIView *bgWhiteView = [[UIView alloc] initWithFrame:frame];
     bgWhiteView.backgroundColor = [UIColor whiteColor];
@@ -62,8 +50,6 @@
     [_inputTitleView setValue:[UIFont boldSystemFontOfSize:15] forKeyPath:@"_placeholderLabel.font"];
 //    [_inputTitleView becomeFirstResponder];
     [self.view addSubview:_inputTitleView];
-
-    
     
     frame.origin.y += 44+20;
     frame.size.height = kScreen_Height -64- 55-280-kHigher_iOS_6_1_DIS(20);
@@ -74,11 +60,16 @@
     [self.view addSubview:_inputContentView];
     
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(addTopicBtnClicked:)];
-    
-    self.title = @"创建讨论";
-    
+
     self.myProTopic = [ProjectTopic topicWithPro:self.curProject];
 }
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)addTopicBtnClicked:(id)sender{
     self.myProTopic.title = _inputTitleView.text;
     self.myProTopic.content = _inputContentView.text;

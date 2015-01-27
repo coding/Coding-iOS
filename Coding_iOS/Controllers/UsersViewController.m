@@ -44,12 +44,6 @@
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
-}
-
-- (void)loadView{
-    [super loadView];
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = [[UIView alloc] initWithFrame:frame];
     
     switch (_curUsers.type) {
         case UsersTypeFollowers:
@@ -87,6 +81,9 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[UserCell class] forCellReuseIdentifier:kCellIdentifier_UserCell];
         [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
         tableView;
     });
     _mySearchBar = ({
@@ -137,6 +134,7 @@
         [self refresh];
     }
 }
+
 - (void)refresh{
     if (_curUsers.isLoading) {
         [_myRefreshControl endRefreshing];

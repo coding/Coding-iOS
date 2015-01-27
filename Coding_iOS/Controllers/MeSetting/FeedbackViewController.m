@@ -34,20 +34,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+    self.title = @"意见反馈";
 
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)loadView{
-    [super loadView];
-    
-    self.view = [[UIView alloc] init];
-    
     CGRect frame = CGRectMake(0, 30, kScreen_Width, 44);
     UIView *bgWhiteView = [[UIView alloc] initWithFrame:frame];
     bgWhiteView.backgroundColor = [UIColor whiteColor];
@@ -61,7 +49,7 @@
     _inputTitleView.placeholder = @" 输入反馈标题";
     [_inputTitleView setValue:[UIColor lightGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
     [_inputTitleView setValue:[UIFont boldSystemFontOfSize:15] forKeyPath:@"_placeholderLabel.font"];
-//    [_inputTitleView becomeFirstResponder];
+    //    [_inputTitleView becomeFirstResponder];
     [self.view addSubview:_inputTitleView];
     
     
@@ -73,17 +61,22 @@
     _inputContentView = [[UIPlaceHolderTextView alloc] initWithFrame:_inputContentContainerView.bounds];
     _inputContentView.font = [UIFont systemFontOfSize:15];
     _inputContentView.placeholder = @"请输入反馈内容，我们将为您不断改进";
-
+    
     [_inputContentContainerView addSubview:_inputContentView];
     [_inputContentContainerView addLineUp:YES andDown:YES];
-
+    
     [self.view addSubview:_inputContentContainerView];
     
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"发送" style:UIBarButtonItemStylePlain target:self action:@selector(feedbackBtnClicked:)];
-    self.title = @"意见反馈";
     _myProTopic = [[ProjectTopic alloc] init];
-    _myProTopic.project_id = [NSNumber numberWithInteger:182];
+    _myProTopic.project_id = [NSNumber numberWithInteger:182];//反馈Topic的id
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 - (void)feedbackBtnClicked:(id)sender{

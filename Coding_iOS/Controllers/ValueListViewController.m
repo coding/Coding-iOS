@@ -35,6 +35,21 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = self.titleStr;
+    //    添加myTableView
+    _myTableView = ({
+        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        tableView.dataSource = self;
+        tableView.delegate = self;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [tableView registerClass:[ValueListCell class] forCellReuseIdentifier:kCellIdentifier_ValueList];
+        tableView.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+        [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
+        tableView;
+    });
 }
 
 - (void)didReceiveMemoryWarning
@@ -49,23 +64,6 @@
     self.defaultIndex = index;
     self.type = type;
     self.selectBlock = selectBlock;
-}
-
-- (void)loadView{
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = [[UIView alloc] initWithFrame:frame];
-    self.title = self.titleStr;
-    //    添加myTableView
-    _myTableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        tableView.dataSource = self;
-        tableView.delegate = self;
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [tableView registerClass:[ValueListCell class] forCellReuseIdentifier:kCellIdentifier_ValueList];
-        tableView.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
-        [self.view addSubview:tableView];
-        tableView;
-    });
 }
 
 #pragma mark TableM

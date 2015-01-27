@@ -23,31 +23,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    if (self.popSelfBlock) {
-        self.popSelfBlock();
+    if (self.type == AddUserTypeProject) {
+        self.title = @"添加成员";
+        _queryingArray = [NSMutableArray array];
+        _searchedArray = [NSMutableArray array];
+    }else if (self.type == AddUserTypeFollow){
+        self.title = @"添加好友";
     }
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
     
-    if (_mySearchBar) {
-        [self searchUserWithStr:_mySearchBar.text];
-    }
-}
-
-- (void)loadView{
-    [super loadView];
-    self.view = [[UIView alloc] init];
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         tableView.backgroundColor = [UIColor clearColor];
@@ -70,15 +53,26 @@
         searchBar;
     });
     _myTableView.tableHeaderView = _mySearchBar;
-    
-    if (self.type == AddUserTypeProject) {
-        self.title = @"添加成员";
-        _queryingArray = [NSMutableArray array];
-        _searchedArray = [NSMutableArray array];
-    }else if (self.type == AddUserTypeFollow){
-        self.title = @"添加好友";
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    if (self.popSelfBlock) {
+        self.popSelfBlock();
     }
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     
+    if (_mySearchBar) {
+        [self searchUserWithStr:_mySearchBar.text];
+    }
 }
 
 - (void)configAddedArrayWithMembers:(NSArray *)memberArray{

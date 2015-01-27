@@ -27,17 +27,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
-
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)loadView{
-    self.view = [[UIView alloc] init];
     self.title = @"关于Coding";
     
     CGFloat logoViewTop, logoLabelTop, versionLabelTop, infoLabelBottom;
@@ -71,7 +60,7 @@
     logoLabel.textAlignment = NSTextAlignmentCenter;
     logoLabel.text = @"Coding-让开发更简单";
     [self.view addSubview:logoLabel];
-
+    
     UILabel *versionLabel = [[UILabel alloc] init];
     versionLabel.font = [UIFont systemFontOfSize:12];
     versionLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
@@ -110,8 +99,8 @@
         make.left.right.mas_equalTo(self.view);
         make.height.mas_equalTo(5*infoLabel.font.pointSize);
     }];
-
-
+    
+    
     
     
 //    UILabel *infoLabel1 = [[UILabel alloc] init];
@@ -159,8 +148,12 @@
 //        make.left.right.equalTo(self.view);
 //        make.height.mas_equalTo(20);
 //    }];
-
-
-
 }
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 @end

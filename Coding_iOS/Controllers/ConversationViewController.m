@@ -41,6 +41,33 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = _myPriMsgs.curFriend.name;
+    //    添加myTableView
+    _myTableView = ({
+        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        tableView.backgroundColor = [UIColor clearColor];
+        tableView.dataSource = self;
+        tableView.delegate = self;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [tableView registerClass:[MessageCell class] forCellReuseIdentifier:kCellIdentifier_Message];
+        [tableView registerClass:[MessageCell class] forCellReuseIdentifier:kCellIdentifier_MessageMedia];
+        [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
+        tableView;
+    });
+//    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
+//    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    
+    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeMedia placeHolder:@"请输入私信内容"];
+    _myMsgInputView.isAlwaysShow = YES;
+    _myMsgInputView.delegate = self;
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myMsgInputView.frame), 0.0);
+    self.myTableView.contentInset = contentInsets;
+    self.myTableView.scrollIndicatorInsets = contentInsets;
+    [self refreshLoadMore:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -78,35 +105,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)loadView{
-    [super loadView];
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = [[UIView alloc] initWithFrame:frame];
-    self.title = _myPriMsgs.curFriend.name;
-    //    添加myTableView
-    _myTableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        tableView.backgroundColor = [UIColor clearColor];
-        tableView.dataSource = self;
-        tableView.delegate = self;
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [tableView registerClass:[MessageCell class] forCellReuseIdentifier:kCellIdentifier_Message];
-        [tableView registerClass:[MessageCell class] forCellReuseIdentifier:kCellIdentifier_MessageMedia];
-        [self.view addSubview:tableView];
-        tableView;
-    });
-//    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
-//    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-    
-    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeMedia placeHolder:@"请输入私信内容"];
-    _myMsgInputView.isAlwaysShow = YES;
-    _myMsgInputView.delegate = self;
-    
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myMsgInputView.frame), 0.0);
-    self.myTableView.contentInset = contentInsets;
-    self.myTableView.scrollIndicatorInsets = contentInsets;
-    [self refreshLoadMore:NO];
-}
 #pragma mark UIMessageInputViewDelegate
 - (void)messageInputView:(UIMessageInputView *)inputView sendText:(NSString *)text{
     [self sendPrivateMessage:text];

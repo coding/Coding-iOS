@@ -22,6 +22,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = _curUser.name;
+
+    __weak typeof(self) weakSelf = self;
+    ProjectActivityListView *listView = [[ProjectActivityListView alloc] initWithFrame:self.view.bounds proAtcs:[ProjectActivities proActivitiesWithPro:_curProject user:_curUser] block:^(ProjectActivity *proActivity) {
+        [weakSelf goToVCWithItem:nil activity:proActivity isContent:YES inProject:weakSelf.curProject];
+    }];
+    listView.htmlItemClickedBlock = ^(HtmlMediaItem *clickedItem, ProjectActivity *proAct, BOOL isContent){
+        [weakSelf goToVCWithItem:clickedItem activity:proAct isContent:isContent inProject:weakSelf.curProject];
+    };
+    listView.userIconClickedBlock = ^(User *curUser){
+        [weakSelf goToUserInfo:curUser];
+    };
+    [self.view addSubview:listView];
+    [listView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,26 +54,6 @@
     // Pass the selected object to the new view controller.
 }
 */
-- (void)loadView{
-    [super loadView];
-    
-    __weak typeof(self) weakSelf = self;
-
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = ({
-        ProjectActivityListView *listView = [[ProjectActivityListView alloc] initWithFrame:frame proAtcs:[ProjectActivities proActivitiesWithPro:_curProject user:_curUser] block:^(ProjectActivity *proActivity) {
-            [weakSelf goToVCWithItem:nil activity:proActivity isContent:YES inProject:weakSelf.curProject];
-        }];
-        listView.htmlItemClickedBlock = ^(HtmlMediaItem *clickedItem, ProjectActivity *proAct, BOOL isContent){
-            [weakSelf goToVCWithItem:clickedItem activity:proAct isContent:isContent inProject:weakSelf.curProject];
-        };
-        listView.userIconClickedBlock = ^(User *curUser){
-            [weakSelf goToUserInfo:curUser];
-        };
-        listView;
-    });
-    self.title = _curUser.name;
-}
 
 #pragma mark toVC
 - (void)goToUserInfo:(User *)user{

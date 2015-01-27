@@ -26,17 +26,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)loadView{
-    [super loadView];
-    self.view = [[UIView alloc] initWithFrame:[UIView frameWithOutNav]];
-    
     if (!_segmentedControl) {
         _segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"编辑", @"预览"]];
         [_segmentedControl setWidth:80 forSegmentAtIndex:0];
@@ -59,6 +48,11 @@
     
     [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"保存" target:self action:@selector(saveBtnClicked)] animated:YES];
     self.navigationItem.rightBarButtonItem.enabled = NO;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 - (void)segmentedControlSelected:(id)sender{
@@ -104,6 +98,9 @@
         
         _editView.text = _markdown;
         [self.view addSubview:_editView];
+        [_editView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
 
         @weakify(self);
         RAC(self.navigationItem.rightBarButtonItem, enabled) = [RACSignal combineLatest:@[self.editView.rac_textSignal] reduce:^id (NSString *mdStr){
@@ -134,6 +131,9 @@
         [_preview addSubview:_activityIndicator];
 
         [self.view addSubview:_preview];
+        [_preview mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
     }
     _preview.hidden = NO;
     _activityIndicator.hidden = NO;

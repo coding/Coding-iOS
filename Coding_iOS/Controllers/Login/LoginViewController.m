@@ -40,16 +40,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-}
-
-- (void)loadView{
-    [super loadView];
-    self.view = [[UIView alloc] initWithFrame:kScreen_Bounds];
-
     self.myLogin = [[Login alloc] init];
     _captchaNeeded = NO;
 
-    
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -58,6 +51,9 @@
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
         tableView;
     });
     
@@ -67,7 +63,6 @@
     self.myTableView.tableFooterView=[self customFooterView];
     [self configBottomView];
 }
-
 
 - (UIImageView *)bgBlurredView{
     if (!_bgBlurredView) {

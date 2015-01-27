@@ -71,7 +71,16 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    _projectContentDict = [[NSMutableDictionary alloc] initWithCapacity:5];
+    
+    if (_myProject) {
+        if (!_myProject.owner_id) {
+            [self requestForMyProject];
+        }else{
+            [self configNavBtnWithMyProject];
+            [self refreshWithViewType:_curIndex];
+        }
+    }
 }
 - (void)didReceiveMemoryWarning
 {
@@ -87,23 +96,6 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
     }else{
         if (curView && [curView respondsToSelector:@selector(reloadData)]) {
             [curView performSelector:@selector(reloadData)];
-        }
-    }
-}
-- (void)loadView{
-    [super loadView];
-    
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = [[UIView alloc] initWithFrame:frame];
-    
-    _projectContentDict = [[NSMutableDictionary alloc] initWithCapacity:5];
-
-    if (_myProject) {
-        if (!_myProject.owner_id) {
-            [self requestForMyProject];
-        }else{
-            [self configNavBtnWithMyProject];
-            [self refreshWithViewType:_curIndex];
         }
     }
 }

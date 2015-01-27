@@ -52,6 +52,73 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    switch (_myTask.handleType) {
+        case TaskHandleTypeAdd:{
+            self.title = @"创建任务";
+            _myCopyTask = [Task taskWithTask:_myTask];
+            _myCopyTask.handleType = TaskHandleTypeAdd;
+        }
+            break;
+        case TaskHandleTypeEdit:{
+            self.title = @"任务详情";
+            _myCopyTask = [Task taskWithTask:_myTask];
+            if (_myCopyTask.needRefreshDetail) {// || _myCopyTask.has_description.boolValue
+                [self queryToRefreshTaskDetail];
+            }else{
+                _myMsgInputView.curProject = _myCopyTask.project;
+                [self queryToRefreshCommentList];
+            }
+        }
+            break;
+        default:
+            break;
+    }
+    
+    _myTableView = ({
+        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+        tableView.backgroundColor = kColorTableSectionBg;
+        tableView.delegate = self;
+        tableView.dataSource = self;
+        [tableView registerClass:[TaskContentCell class] forCellReuseIdentifier:kCellIdentifier_TaskContent];
+        [tableView registerClass:[LeftImage_LRTextCell class] forCellReuseIdentifier:kCellIdentifier_LeftImage_LRText];
+        [tableView registerClass:[TaskCommentCell class] forCellReuseIdentifier:kCellIdentifier_TaskComment];
+        [tableView registerClass:[TaskCommentBlankCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentBlank];
+        [tableView registerClass:[TaskCommentTopCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentTop];
+        [tableView registerClass:[TaskDescriptionCell class] forCellReuseIdentifier:kCellIdentifier_TaskDescription];
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        tableView;
+    });
+    [self.view addSubview:_myTableView];
+    
+    if (self.myTask.handleType == TaskEditTypeAdd) {
+        _myMsgInputView.hidden = YES;
+    }else{
+        //评论
+        _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
+        _myMsgInputView.isAlwaysShow = YES;
+        _myMsgInputView.delegate = self;
+        
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myMsgInputView.frame), 0.0);
+        self.myTableView.contentInset = contentInsets;
+        self.myTableView.scrollIndicatorInsets = contentInsets;
+    }
+    
+    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(doneBtnClicked)] animated:YES];
+    @weakify(self);
+    RAC(self.navigationItem.rightBarButtonItem, enabled) =
+    [RACSignal combineLatest:@[RACObserve(self, myCopyTask.content),
+                               RACObserve(self, myCopyTask.owner),
+                               RACObserve(self, myCopyTask.priority),
+                               RACObserve(self, myCopyTask.status),
+                               RACObserve(self, myCopyTask.deadline),
+                               RACObserve(self, myCopyTask.task_description.markdown)] reduce:^id (NSString *content, User *owner, NSNumber *priority, NSNumber *status, NSString *deadline){
+                                   @strongify(self);
+                                   BOOL enabled = ![self.myCopyTask isSameToTask:self.myTask];
+                                   if (self.myCopyTask.handleType == TaskEditTypeAdd && self.myCopyTask.content.length <= 0) {
+                                       enabled = NO;
+                                   }
+                                   return @(enabled);
+                               }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -76,76 +143,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)loadView{
-    [super loadView];
-    self.view = [[UIView alloc] initWithFrame:[UIView frameWithOutNav]];
-    _myTableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-        tableView.backgroundColor = kColorTableSectionBg;
-        tableView.delegate = self;
-        tableView.dataSource = self;
-        [tableView registerClass:[TaskContentCell class] forCellReuseIdentifier:kCellIdentifier_TaskContent];
-        [tableView registerClass:[LeftImage_LRTextCell class] forCellReuseIdentifier:kCellIdentifier_LeftImage_LRText];
-        [tableView registerClass:[TaskCommentCell class] forCellReuseIdentifier:kCellIdentifier_TaskComment];
-        [tableView registerClass:[TaskCommentBlankCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentBlank];
-        [tableView registerClass:[TaskCommentTopCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentTop];
-        [tableView registerClass:[TaskDescriptionCell class] forCellReuseIdentifier:kCellIdentifier_TaskDescription];
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        tableView;
-    });
-    [self.view addSubview:_myTableView];
-    //评论
-    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
-    _myMsgInputView.isAlwaysShow = YES;
-    _myMsgInputView.delegate = self;
-    
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myMsgInputView.frame), 0.0);
-    self.myTableView.contentInset = contentInsets;
-    self.myTableView.scrollIndicatorInsets = contentInsets;
-    
-    switch (_myTask.handleType) {
-        case TaskHandleTypeAdd:{
-            self.title = @"创建任务";
-            _myCopyTask = [Task taskWithTask:_myTask];
-            _myCopyTask.handleType = TaskHandleTypeAdd;
-        }
-            break;
-        case TaskHandleTypeEdit:{
-            self.title = @"任务详情";
-            _myCopyTask = [Task taskWithTask:_myTask];
-            if (_myCopyTask.needRefreshDetail) {// || _myCopyTask.has_description.boolValue
-                [self queryToRefreshTaskDetail];
-            }else{
-                _myMsgInputView.curProject = _myCopyTask.project;
-                [self queryToRefreshCommentList];
-            }
-        }
-            break;
-        default:
-            break;
-    }
-    
-    if (self.myTask.handleType == TaskEditTypeAdd) {
-        _myMsgInputView.hidden = YES;
-    }
-    
-    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(doneBtnClicked)] animated:YES];
-    @weakify(self);
-    RAC(self.navigationItem.rightBarButtonItem, enabled) =
-    [RACSignal combineLatest:@[RACObserve(self, myCopyTask.content),
-                               RACObserve(self, myCopyTask.owner),
-                               RACObserve(self, myCopyTask.priority),
-                               RACObserve(self, myCopyTask.status),
-                               RACObserve(self, myCopyTask.deadline),
-                               RACObserve(self, myCopyTask.task_description.markdown)] reduce:^id (NSString *content, User *owner, NSNumber *priority, NSNumber *status, NSString *deadline){
-                                   @strongify(self);
-                                   BOOL enabled = ![self.myCopyTask isSameToTask:self.myTask];
-                                   if (self.myCopyTask.handleType == TaskEditTypeAdd && self.myCopyTask.content.length <= 0) {
-                                       enabled = NO;
-                                   }
-                                   return @(enabled);
-                               }];
-}
 #pragma mark UIMessageInputViewDelegate
 - (void)messageInputView:(UIMessageInputView *)inputView sendText:(NSString *)text{
     [self sendCommentMessage:text];

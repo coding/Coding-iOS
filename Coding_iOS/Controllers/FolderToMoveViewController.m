@@ -19,8 +19,10 @@
 @end
 
 @implementation FolderToMoveViewController
-- (void)loadView{
-    [super loadView];
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
     if (self.curFolder) {
         self.title = self.curFolder.name;
     }else if (self.curProject){
@@ -28,10 +30,7 @@
     }else{
         self.title = @"选择目标文件夹";
     }
-
     
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = [[UIView alloc] initWithFrame:frame];
     //    添加myTableView
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -41,6 +40,9 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[ProjectFolderListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectFolderList];
         [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
         tableView;
     });
     //添加底部ToolBar
@@ -53,13 +55,14 @@
     [_myToolBar setY:CGRectGetHeight(self.view.frame) - CGRectGetHeight(_myToolBar.frame)];
     _myToolBar.delegate = self;
     [self.view addSubview:_myToolBar];
-
+    
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myToolBar.frame), 0.0);
     self.myTableView.contentInset = contentInsets;
     self.myTableView.scrollIndicatorInsets = contentInsets;
     
     [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"取消" target:self action:@selector(dismissSelf)] animated:YES];
 }
+
 - (void)dismissSelf{
     [self dismissViewControllerAnimated:YES completion:nil];
 }

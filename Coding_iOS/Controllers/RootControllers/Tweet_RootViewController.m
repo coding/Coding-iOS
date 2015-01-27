@@ -63,27 +63,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    if (_myMsgInputView) {
-        [_myMsgInputView prepareToDismiss];
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    //    键盘
-    if (_myMsgInputView) {
-        [_myMsgInputView prepareToShow];
-    }
-    [self.myTableView reloadData];
-}
-
-- (void)loadView{
-    [super loadView];
-    
-    self.view = [[UIView alloc] init];
     _curIndex = 0;
     _tweetsDict = [[NSMutableDictionary alloc] initWithCapacity:4];
     
@@ -140,6 +119,22 @@
     }];
 
     [self refreshFirst];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (_myMsgInputView) {
+        [_myMsgInputView prepareToDismiss];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    //    键盘
+    if (_myMsgInputView) {
+        [_myMsgInputView prepareToShow];
+    }
+    [self.myTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning

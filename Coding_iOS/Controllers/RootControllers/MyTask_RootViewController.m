@@ -47,18 +47,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)loadView{
-    [super loadView];
     self.title = @"我的任务";
-    self.view = [[UIView alloc] init];
     
     _myProjects = [Projects projectsWithType:ProjectsTypeAll];
     _myProTksDict = [[NSMutableDictionary alloc] initWithCapacity:1];
@@ -82,6 +71,12 @@
     });
     _needToRefreshSegmentControl = YES;
     [self resetCurView];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewWillAppear:(BOOL)animated{

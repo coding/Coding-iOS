@@ -67,41 +67,7 @@
     // Do any additional setup after loading the view.
     self.title = @"消息";
     _myPriMsgs = [[PrivateMessages alloc] init];
-    
-    [self.refreshControl beginRefreshing];
-    [self.myTableView setContentOffset:CGPointMake(0, -44)];
-    [self refresh];
-}
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self refresh];
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    [[UnReadManager shareManager] updateUnRead];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-- (void)dealloc{
-    
-    [[UnReadManager shareManager] removeObserver:self forKeyPath:kUnReadKey_messages];
-    [[UnReadManager shareManager] removeObserver:self forKeyPath:kUnReadKey_notifications];
-    
-    _myTableView.delegate = nil;
-    _myTableView.dataSource = nil;
-
-}
-
-- (void)loadView{
-    [super loadView];
-    self.view = [[UIView alloc] init];
-    
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(sendMsgBtnClicked:)] animated:NO];
     //    添加myTableView
     _myTableView = ({
@@ -130,7 +96,36 @@
     [_myTableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf refreshMore];
     }];
+    
     [self refreshBadgeTip];
+    [self.refreshControl beginRefreshing];
+    [self.myTableView setContentOffset:CGPointMake(0, -44)];
+    [self refresh];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self refresh];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [[UnReadManager shareManager] updateUnRead];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+- (void)dealloc{
+    
+    [[UnReadManager shareManager] removeObserver:self forKeyPath:kUnReadKey_messages];
+    [[UnReadManager shareManager] removeObserver:self forKeyPath:kUnReadKey_notifications];
+    
+    _myTableView.delegate = nil;
+    _myTableView.dataSource = nil;
+
 }
 
 - (void)sendMsgBtnClicked:(id)sender{

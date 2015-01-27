@@ -52,28 +52,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    if (_myMsgInputView) {
-        [_myMsgInputView prepareToDismiss];
-    }
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    //    键盘
-    if (_myMsgInputView) {
-        [_myMsgInputView prepareToShow];
-    }
-}
-
-- (void)loadView{
-    [super loadView];
-    
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = [[UIView alloc] initWithFrame:frame];
     self.title = @"冒泡详情";
     
     //    添加myTableView
@@ -106,6 +84,21 @@
         if (_curTweet.comments.integerValue > _curTweet.comment_list.count) {
             [self refreshComments];//加载等多评论
         }
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (_myMsgInputView) {
+        [_myMsgInputView prepareToDismiss];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    //    键盘
+    if (_myMsgInputView) {
+        [_myMsgInputView prepareToShow];
     }
 }
 

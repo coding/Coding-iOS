@@ -50,6 +50,34 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = self.curFolder.name;
+    _myFiles = [[ProjectFiles alloc] init];
+    
+    //    添加myTableView
+    _myTableView = ({
+        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        tableView.backgroundColor = [UIColor clearColor];
+        tableView.dataSource = self;
+        tableView.delegate = self;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [tableView registerClass:[FileListFolderCell class] forCellReuseIdentifier:kCellIdentifier_FileListFolder];
+        [tableView registerClass:[FileListFileCell class] forCellReuseIdentifier:kCellIdentifier_FileListFile];
+        [tableView registerClass:[FileListUploadCell class] forCellReuseIdentifier:kCellIdentifier_FileListUpload];
+        [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
+        tableView;
+    });
+    
+    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
+    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    
+    [Coding_FileManager sharedManager].delegate = self;
+    if (!self.rootFolders) {
+        self.rootFolders = [ProjectFolders emptyFolders];
+    }
+    [self refresh];
 }
 
 - (void)didReceiveMemoryWarning
@@ -65,45 +93,11 @@
     }
 }
 
-- (void)loadView{
-    [super loadView];
-    self.title = self.curFolder.name;
-    _myFiles = [[ProjectFiles alloc] init];
-    
-    CGRect frame = [UIView frameWithOutNav];
-    self.view = [[UIView alloc] initWithFrame:frame];
-    //    添加myTableView
-    _myTableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        tableView.backgroundColor = [UIColor clearColor];
-        tableView.dataSource = self;
-        tableView.delegate = self;
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [tableView registerClass:[FileListFolderCell class] forCellReuseIdentifier:kCellIdentifier_FileListFolder];
-        [tableView registerClass:[FileListFileCell class] forCellReuseIdentifier:kCellIdentifier_FileListFile];
-        [tableView registerClass:[FileListUploadCell class] forCellReuseIdentifier:kCellIdentifier_FileListUpload];
-        [self.view addSubview:tableView];
-        tableView;
-    });
-    
-    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
-    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-    
-    [Coding_FileManager sharedManager].delegate = self;
-    if (!self.rootFolders) {
-        self.rootFolders = [ProjectFolders emptyFolders];
-    }
-    [self refresh];
-}
-
 - (void)configuploadFiles{
     self.uploadFiles = [[Coding_FileManager sharedManager] uploadFilesInProject:self.curProject.id.stringValue andFolder:self.curFolder.file_id.stringValue];
     if (!self.uploadFiles) {
         self.uploadFiles = [NSArray array];
     }
-    [self.view configBlankPage:EaseBlankPageTypeView hasData:([self totalDataRow] > 0) hasError:NO reloadButtonBlock:^(id sender) {
-        [self refresh];
-    }];
     [self.myTableView reloadData];
 }
 
