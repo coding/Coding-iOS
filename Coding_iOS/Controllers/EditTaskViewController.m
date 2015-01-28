@@ -74,7 +74,6 @@
             }else{
                 _myMsgInputView.curProject = _myCopyTask.project;
                 _myMsgInputView.commentOfId = _myCopyTask.id;
-                _myMsgInputView.toUser = nil;
                 [self queryToRefreshCommentList];
             }
         }
@@ -136,6 +135,7 @@
     [super viewDidAppear:animated];
     //    键盘
     if (_myMsgInputView) {
+        _myMsgInputView.toUser = nil;
         [_myMsgInputView prepareToShow];
     }
     [self.myTableView reloadData];

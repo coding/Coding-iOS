@@ -86,7 +86,6 @@
         [self refreshTweet];
     }else{
         _myMsgInputView.commentOfId = _curTweet.id;
-        _myMsgInputView.toUser = nil;
 
         if (_curTweet.comments.integerValue > _curTweet.comment_list.count) {
             [self refreshComments];//加载等多评论
@@ -105,6 +104,7 @@
     [super viewDidAppear:animated];
     //    键盘
     if (_myMsgInputView) {
+        _myMsgInputView.toUser = nil;
         [_myMsgInputView prepareToShow];
     }
 }

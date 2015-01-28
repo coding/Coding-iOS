@@ -89,7 +89,6 @@
     if (_curTopic && _curTopic.project) {
         _myMsgInputView.curProject = _curTopic.project;
         _myMsgInputView.commentOfId = _curTopic.id;
-        _myMsgInputView.toUser = nil;
     }
     [self refresh];
 }
@@ -105,6 +104,7 @@
     [super viewDidAppear:animated];
     //    键盘
     if (_myMsgInputView) {
+        _myMsgInputView.toUser = nil;
         [_myMsgInputView prepareToShow];
     }
 }

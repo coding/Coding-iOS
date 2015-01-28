@@ -189,7 +189,7 @@ static NSMutableDictionary *_inputDict;
 #pragma mark Public M
 - (void)prepareToShow{
     if (_isAlwaysShow) {
-        [self setY:kScreen_Height - kMessageInputView_Height];
+        [self setY:kScreen_Height - CGRectGetHeight(self.frame)];
     }else{
         [self setY:kScreen_Height];
     }
