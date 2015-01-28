@@ -75,6 +75,7 @@
     //评论
     __weak typeof(self) weakSelf = self;
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
+    _myMsgInputView.contentType = UIMessageInputViewContentTypeTopic;
     _myMsgInputView.isAlwaysShow = YES;
     _myMsgInputView.delegate = self;
     
@@ -87,6 +88,8 @@
     }];
     if (_curTopic && _curTopic.project) {
         _myMsgInputView.curProject = _curTopic.project;
+        _myMsgInputView.commentOfId = _curTopic.id;
+        _myMsgInputView.toUser = nil;
     }
     [self refresh];
 }
@@ -160,6 +163,8 @@
         if (data) {
             [weakSelf.curTopic configWithRefreshedTopic:data];
             weakSelf.myMsgInputView.curProject = weakSelf.curTopic.project;
+            weakSelf.myMsgInputView.commentOfId = _curTopic.id;
+            weakSelf.myMsgInputView.toUser = nil;
             [weakSelf.myTableView reloadData];
         }
     }];
@@ -264,6 +269,8 @@
     _toComment = toComment;
     _commentSender = sender;
     
+    _myMsgInputView.toUser = toComment.owner;
+
     if (_toComment) {
         _myMsgInputView.placeHolder = [NSString stringWithFormat:@"回复 %@:", _toComment.owner.name];
         if (_toComment.owner_id.intValue == [Login curLoginUser].id.intValue) {

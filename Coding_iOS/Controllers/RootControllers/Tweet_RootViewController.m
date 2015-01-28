@@ -112,6 +112,7 @@
     //评论
     __weak typeof(self) weakSelf = self;
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
+    _myMsgInputView.contentType = UIMessageInputViewContentTypeTweet;
     _myMsgInputView.delegate = self;
     
     [_myTableView addInfiniteScrollingWithActionHandler:^{
@@ -310,8 +311,12 @@
         weakSelf.commentIndex = index;
         weakSelf.commentSender = sender;
         
+        weakSelf.myMsgInputView.commentOfId = tweet.id;
+        
         if (weakSelf.commentIndex >= 0) {
             weakSelf.commentToUser = ((Comment*)[weakSelf.commentTweet.comment_list objectAtIndex:weakSelf.commentIndex]).owner;
+            weakSelf.myMsgInputView.toUser = ((Comment*)[weakSelf.commentTweet.comment_list objectAtIndex:weakSelf.commentIndex]).owner;
+
             weakSelf.myMsgInputView.placeHolder = [NSString stringWithFormat:@"回复 %@:", weakSelf.commentToUser.name];
             if (weakSelf.commentToUser.id.intValue == [Login curLoginUser].id.intValue) {
                 ESWeakSelf
@@ -326,6 +331,8 @@
                 return;
             }
         }else{
+            weakSelf.myMsgInputView.toUser = nil;
+            
             weakSelf.myMsgInputView.placeHolder = @"说点什么吧...";
         }
         [_myMsgInputView notAndBecomeFirstResponder];

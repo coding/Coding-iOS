@@ -103,15 +103,22 @@
 
 - (void)configToolBar{
     //添加底部ToolBar
-    EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 新建文件夹" image:@"button_file_createFolder_enable" disableImage:@"button_file_createFolder_unable"];
-    EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 上传文件" image:@"button_file_upload_enable" disableImage:nil];
-    item1.enabled = [self canCreatNewFolder];
-    item2.enabled = YES;
-    
-    _myToolBar = [EaseToolBar easeToolBarWithItems:@[item1, item2]];
-    [_myToolBar setY:CGRectGetHeight(self.view.frame) - CGRectGetHeight(_myToolBar.frame)];
-    _myToolBar.delegate = self;
-    [self.view addSubview:_myToolBar];
+    if (!_myToolBar) {
+        EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 新建文件夹" image:@"button_file_createFolder_enable" disableImage:@"button_file_createFolder_unable"];
+        EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 上传文件" image:@"button_file_upload_enable" disableImage:nil];
+        item1.enabled = [self canCreatNewFolder];
+        item2.enabled = YES;
+        _myToolBar = [EaseToolBar easeToolBarWithItems:@[item1, item2]];
+        _myToolBar.delegate = self;
+        [self.view addSubview:_myToolBar];
+        [_myToolBar mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_bottom);
+            make.size.mas_equalTo(_myToolBar.frame.size);
+        }];
+    }else{
+        EaseToolBarItem *item1 = [_myToolBar itemOfIndex:0];
+        item1.enabled = [self canCreatNewFolder];
+    }
     
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myToolBar.frame), 0.0);
     self.myTableView.contentInset = contentInsets;

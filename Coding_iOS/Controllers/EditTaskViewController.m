@@ -62,10 +62,19 @@
         case TaskHandleTypeEdit:{
             self.title = @"任务详情";
             _myCopyTask = [Task taskWithTask:_myTask];
+            
+            //评论
+            _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
+            _myMsgInputView.contentType = UIMessageInputViewContentTypeTask;
+            _myMsgInputView.isAlwaysShow = YES;
+            _myMsgInputView.delegate = self;
+            
             if (_myCopyTask.needRefreshDetail) {// || _myCopyTask.has_description.boolValue
                 [self queryToRefreshTaskDetail];
             }else{
                 _myMsgInputView.curProject = _myCopyTask.project;
+                _myMsgInputView.commentOfId = _myCopyTask.id;
+                _myMsgInputView.toUser = nil;
                 [self queryToRefreshCommentList];
             }
         }
@@ -86,21 +95,13 @@
         [tableView registerClass:[TaskCommentTopCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentTop];
         [tableView registerClass:[TaskDescriptionCell class] forCellReuseIdentifier:kCellIdentifier_TaskDescription];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
         tableView;
     });
-    [self.view addSubview:_myTableView];
-    
-    if (self.myTask.handleType == TaskEditTypeAdd) {
-        _myMsgInputView.hidden = YES;
-    }else{
-        //评论
-        _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
-        _myMsgInputView.isAlwaysShow = YES;
-        _myMsgInputView.delegate = self;
-        
+    if (_myMsgInputView) {
         UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myMsgInputView.frame), 0.0);
         self.myTableView.contentInset = contentInsets;
         self.myTableView.scrollIndicatorInsets = contentInsets;
@@ -186,6 +187,9 @@
             weakSelf.myTask = data;
             weakSelf.myCopyTask = [Task taskWithTask:weakSelf.myTask];
             weakSelf.myMsgInputView.curProject = weakSelf.myCopyTask.project;
+            weakSelf.myMsgInputView.commentOfId = weakSelf.myCopyTask.id;
+            weakSelf.myMsgInputView.toUser = nil;
+            
             [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)] withRowAnimation:UITableViewRowAnimationAutomatic];
             [weakSelf queryToRefreshCommentList];
         }
@@ -505,6 +509,8 @@
     }
     _toComment = toComment;
     _commentSender = sender;
+    
+    _myMsgInputView.toUser = toComment.owner;
     
     if (_toComment) {
         _myMsgInputView.placeHolder = [NSString stringWithFormat:@"回复 %@:", _toComment.owner.name];

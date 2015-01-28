@@ -61,12 +61,19 @@
 //    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeMedia placeHolder:@"请输入私信内容"];
+    _myMsgInputView.contentType = UIMessageInputViewContentTypePriMsg;
     _myMsgInputView.isAlwaysShow = YES;
     _myMsgInputView.delegate = self;
     
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myMsgInputView.frame), 0.0);
     self.myTableView.contentInset = contentInsets;
     self.myTableView.scrollIndicatorInsets = contentInsets;
+    
+    if (self.myPriMsgs.curFriend.id) {
+        _myMsgInputView.toUser = self.myPriMsgs.curFriend;
+    }else{
+        [self refreshUserInfo];
+    }
     [self refreshLoadMore:NO];
 }
 
@@ -86,23 +93,21 @@
     [self.myTableView reloadData];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    if (!self.myPriMsgs.curFriend.name || self.myPriMsgs.curFriend.name.length <= 0) {
-        __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_UserInfo_WithObj:self.myPriMsgs.curFriend andBlock:^(id data, NSError *error) {
-            if (data) {
-                weakSelf.myPriMsgs.curFriend = data;
-                weakSelf.title = weakSelf.myPriMsgs.curFriend.name;
-            }
-        }];
-    }
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)refreshUserInfo{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_UserInfo_WithObj:self.myPriMsgs.curFriend andBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.myPriMsgs.curFriend = data;
+            weakSelf.myMsgInputView.toUser = weakSelf.myPriMsgs.curFriend;
+            weakSelf.title = weakSelf.myPriMsgs.curFriend.name;
+        }
+    }];
 }
 
 #pragma mark UIMessageInputViewDelegate

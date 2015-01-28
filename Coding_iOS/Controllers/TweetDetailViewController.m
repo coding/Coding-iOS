@@ -74,6 +74,7 @@
     
     //评论
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
+    _myMsgInputView.contentType = UIMessageInputViewContentTypeTweet;
     _myMsgInputView.isAlwaysShow = YES;
     _myMsgInputView.delegate = self;
 
@@ -84,6 +85,9 @@
     if (!_curTweet.content) {
         [self refreshTweet];
     }else{
+        _myMsgInputView.commentOfId = _curTweet.id;
+        _myMsgInputView.toUser = nil;
+
         if (_curTweet.comments.integerValue > _curTweet.comment_list.count) {
             [self refreshComments];//加载等多评论
         }
@@ -138,6 +142,9 @@
     [[Coding_NetAPIManager sharedManager] request_Tweet_Detail_WithObj:_curTweet andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.curTweet = data;
+            weakSelf.myMsgInputView.commentOfId = weakSelf.curTweet.id;
+            weakSelf.myMsgInputView.toUser = nil;
+
             [weakSelf.myTableView reloadData];
             if (weakSelf.curTweet.comments.integerValue > weakSelf.curTweet.comment_list.count) {
                 [weakSelf refreshComments];//加载等多评论

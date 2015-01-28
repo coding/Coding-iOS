@@ -91,6 +91,7 @@
 
 - (void)setCurPriMsg:(PrivateMessage *)curPriMsg andPrePriMsg:(PrivateMessage *)prePriMsg{
     if (_curPriMsg == curPriMsg && _prePriMsg == prePriMsg) {
+        [self configSendStatus];
         return;
     }else{
         _curPriMsg = curPriMsg;

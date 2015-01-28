@@ -19,7 +19,7 @@
 + (instancetype)easeToolBarWithItems:(NSArray *)buttonItems{
     return [[EaseToolBar alloc] initWithItems:buttonItems];
 }
-- (UIButton *)itemOfIndex:(NSInteger)index{
+- (id)itemOfIndex:(NSInteger)index{
     if (index > 0 && self.buttonItems && self.buttonItems.count >= index) {
         return self.buttonItems[index];
     }else{
@@ -49,7 +49,7 @@
         CGFloat itemHeight = CGRectGetHeight(self.frame);
         
         for (int i = 0; i < num; i++) {
-            UIButton *item = _buttonItems[i];
+            UIControl *item = _buttonItems[i];
             item.frame = CGRectMake(i*itemWidth, 0, itemWidth, itemHeight);
             [item addTarget:self action:@selector(itemButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:item];

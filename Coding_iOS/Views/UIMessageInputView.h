@@ -10,6 +10,13 @@
 #import "AGEmojiKeyBoardView.h"
 #import "Projects.h"
 
+typedef NS_ENUM(NSInteger, UIMessageInputViewContentType) {
+    UIMessageInputViewContentTypeTweet = 0,
+    UIMessageInputViewContentTypePriMsg,
+    UIMessageInputViewContentTypeTopic,
+    UIMessageInputViewContentTypeTask
+};
+
 typedef NS_ENUM(NSInteger, UIMessageInputViewType) {
     UIMessageInputViewTypeSimple,
     UIMessageInputViewTypeMedia
@@ -24,6 +31,9 @@ typedef NS_ENUM(NSInteger, UIMessageInputViewState) {
 @interface UIMessageInputView : UIView<UITextViewDelegate>
 @property (strong, nonatomic) NSString *placeHolder;
 @property (assign, nonatomic) BOOL isAlwaysShow;
+@property (assign, nonatomic) UIMessageInputViewContentType contentType;
+@property (strong, nonatomic) User *toUser;
+@property (strong, nonatomic) NSNumber *commentOfId;
 @property (strong, nonatomic) Project *curProject;
 
 @property (nonatomic, weak) id<UIMessageInputViewDelegate> delegate;

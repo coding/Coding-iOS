@@ -20,7 +20,7 @@
 @property (nonatomic, weak) id <EaseToolBarDelegate> delegate;
 
 + (instancetype)easeToolBarWithItems:(NSArray *)buttonItems;
-- (UIButton *)itemOfIndex:(NSInteger)index;
+- (id)itemOfIndex:(NSInteger)index;
 - (instancetype)initWithItems:(NSArray *)buttonItems;
 
 @end
