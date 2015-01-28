@@ -86,6 +86,9 @@
         [tableView registerClass:[TaskCommentTopCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentTop];
         [tableView registerClass:[TaskDescriptionCell class] forCellReuseIdentifier:kCellIdentifier_TaskDescription];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
         tableView;
     });
     [self.view addSubview:_myTableView];

@@ -50,6 +50,9 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[MemberCell class] forCellReuseIdentifier:kCellIdentifier_MemberCell];
         [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
         tableView;
     });
     _mySearchBar = ({

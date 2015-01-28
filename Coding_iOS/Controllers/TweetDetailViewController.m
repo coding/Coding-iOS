@@ -64,6 +64,9 @@
         [tableView registerClass:[TweetDetailCell class] forCellReuseIdentifier:kCellIdentifier_TweetDetail];
         [tableView registerClass:[TweetDetailCommentCell class] forCellReuseIdentifier:kCellIdentifier_TweetDetailComment];
         [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
         tableView;
     });
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
