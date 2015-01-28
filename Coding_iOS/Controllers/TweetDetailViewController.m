@@ -292,6 +292,8 @@
     _toComment = toComment;
     _commentSender = sender;
     
+    _myMsgInputView.toUser = toComment.owner;
+    
     if (_toComment) {
         _myMsgInputView.placeHolder = [NSString stringWithFormat:@"回复 %@:", _toComment.owner.name];
         if (_toComment.owner_id.intValue == [Login curLoginUser].id.intValue) {

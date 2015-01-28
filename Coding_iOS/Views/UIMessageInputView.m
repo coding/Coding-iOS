@@ -22,6 +22,10 @@
 #import "Users.h"
 #import "Login.h"
 
+
+static NSMutableDictionary *_inputDict;
+
+
 @interface UIMessageInputView () <AGEmojiKeyboardViewDelegate, AGEmojiKeyboardViewDataSource>
 @property (strong, nonatomic) AGEmojiKeyboardView *emojiKeyboardView;
 @property (strong, nonatomic) UIMessageInputView_Add *addKeyboardView;
@@ -76,6 +80,12 @@
         }
     }
 }
+- (void)setPlaceHolder:(NSString *)placeHolder{
+    if (_inputTextView && ![_inputTextView.placeholder isEqualToString:placeHolder]) {
+        _placeHolder = placeHolder;
+        _inputTextView.placeholder = placeHolder;
+    }
+}
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -108,6 +118,75 @@
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+#pragma mark remember input
+
+- (NSMutableDictionary *)shareInputDict{
+    if (!_inputDict) {
+        _inputDict = [[NSMutableDictionary alloc] init];
+    }
+    return _inputDict;
+}
+
+- (NSString *)inputKey{
+    NSString *inputKey = nil;
+    if (_contentType == UIMessageInputViewContentTypePriMsg) {
+        inputKey = [NSString stringWithFormat:@"privateMessage_%@", self.toUser.global_key];
+    }else{
+        if (_commentOfId) {
+            switch (_contentType) {
+                case UIMessageInputViewContentTypeTweet:
+                    inputKey = [NSString stringWithFormat:@"tweet_%@_%@", _commentOfId.stringValue, _toUser.global_key.length > 0? _toUser.global_key:@""];
+                    break;
+                case UIMessageInputViewContentTypeTopic:
+                    inputKey = [NSString stringWithFormat:@"topic_%@_%@", _commentOfId.stringValue, _toUser.global_key.length > 0? _toUser.global_key:@""];
+                    break;
+                case UIMessageInputViewContentTypeTask:
+                    inputKey = [NSString stringWithFormat:@"task_%@_%@", _commentOfId.stringValue, _toUser.global_key.length > 0? _toUser.global_key:@""];
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    return inputKey;
+}
+
+- (NSString *)inputStr{
+    NSString *inputKey = [self inputKey];
+    if (inputKey) {
+        return [[self shareInputDict] objectForKey:inputKey];
+    }
+    return nil;
+}
+
+- (void)deleteInputStr{
+    NSString *inputKey = [self inputKey];
+    if (inputKey) {
+        [[self shareInputDict] removeObjectForKey:inputKey];
+    }
+}
+
+- (void)saveInputStr{
+    if (_inputTextView) {
+        NSString *inputStr = _inputTextView.text;
+        NSString *inputKey = [self inputKey];
+        if (inputStr && inputStr.length > 0 && inputKey) {
+            [[self shareInputDict] setObject:inputStr forKey:[self inputKey]];
+        }
+    }
+}
+
+- (void)setToUser:(User *)toUser{
+    _toUser = toUser;
+    NSString *inputStr = [self inputStr];
+    if (_inputTextView) {
+        [_inputTextView setText:inputStr];
+        [self textViewDidChange:_inputTextView];
+    }
+}
+
+#pragma mark Public M
 - (void)prepareToShow{
     if (_isAlwaysShow) {
         [self setY:kScreen_Height - kMessageInputView_Height];
@@ -167,15 +246,6 @@
     return ([_inputTextView isFirstResponder] || self.inputState == UIMessageInputViewStateAdd || self.inputState == UIMessageInputViewStateEmotion);
 }
 
-- (void)setPlaceHolder:(NSString *)placeHolder{
-    if (_placeHolder != placeHolder) {
-        _placeHolder = placeHolder;
-        if (_inputTextView) {
-            _inputTextView.placeholder = placeHolder;
-        }
-    }
-}
-
 + (instancetype)messageInputViewWithType:(UIMessageInputViewType)type{
     return [self messageInputViewWithType:type placeHolder:nil];
 }
@@ -189,6 +259,7 @@
     }
     return messageInputView;
 }
+
 - (void)customUIWithType:(UIMessageInputViewType)type{
     if (type == UIMessageInputViewTypeSimple) {
         [_inputTextView setWidth:(kScreen_Width -2*kPaddingLeftWidth - kMessageInputView_Width_Tool)];
@@ -281,11 +352,12 @@
 }
 #pragma mark UITextViewDelegate M
 - (void)sendTextStr{
+    [self deleteInputStr];
     NSString *sendStr = self.inputTextView.text;
     if (sendStr && ![sendStr isEmpty] && _delegate && [_delegate respondsToSelector:@selector(messageInputView:sendText:)]) {
         [self.delegate messageInputView:self sendText:sendStr];
-        self.inputTextView.text = @"";
-        [self textViewDidChange:self.inputTextView];
+        self.inputTextView.text = nil;
+        [self textViewDidChange:_inputTextView];
     }
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
@@ -323,6 +395,7 @@
     [self notAndBecomeFirstResponder];
 }
 - (void)textViewDidChange:(UITextView *)textView{
+    [self saveInputStr];
     CGFloat viewHeightNew = [textView.text getHeightWithFont:textView.font constrainedToSize:CGSizeMake(CGRectGetWidth(textView.frame)-16, kMessageInputView_HeightMax)]+16 + 2*kMessageInputView_PadingHeight;
     viewHeightNew = MAX(kMessageInputView_Height, viewHeightNew);
     if (viewHeightNew != _viewHeightOld) {
