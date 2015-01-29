@@ -93,6 +93,12 @@
             make.edges.equalTo(self.view);
         }];
         {
+            __weak typeof(self) weakSelf = self;
+            [tableView addInfiniteScrollingWithActionHandler:^{
+                [weakSelf refreshMore];
+            }];
+        }
+        {
             UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
             tableView.contentInset = insets;
         }
@@ -102,14 +108,9 @@
     [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     
     //评论
-    __weak typeof(self) weakSelf = self;
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
     _myMsgInputView.contentType = UIMessageInputViewContentTypeTweet;
     _myMsgInputView.delegate = self;
-    
-    [_myTableView addInfiniteScrollingWithActionHandler:^{
-        [weakSelf refreshMore];
-    }];
 
     [self refreshFirst];
 }
