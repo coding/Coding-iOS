@@ -194,15 +194,19 @@ static NSMutableDictionary *_inputDict;
 
 #pragma mark Public M
 - (void)prepareToShow{
-    if (_isAlwaysShow) {
-        [self setY:kScreen_Height - CGRectGetHeight(self.frame)];
-    }else{
-        [self setY:kScreen_Height];
-    }
+    [self setY:kScreen_Height];
     [kKeyWindow addSubview:self];
     [kKeyWindow addSubview:_emojiKeyboardView];
     [kKeyWindow addSubview:_addKeyboardView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    if (_isAlwaysShow) {
+        [UIView animateWithDuration:0.25 animations:^{
+            [self setY:kScreen_Height - CGRectGetHeight(self.frame)];
+        } completion:^(BOOL finished) {
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+        }];
+    }else{
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    }
 }
 - (void)prepareToDismiss{
     [self isAndResignFirstResponder];
