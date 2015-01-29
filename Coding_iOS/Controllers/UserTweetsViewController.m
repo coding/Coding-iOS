@@ -221,7 +221,6 @@
             weakSelf.commentToUser = ((Comment*)[weakSelf.commentTweet.comment_list objectAtIndex:weakSelf.commentIndex]).owner;
             
             weakSelf.myMsgInputView.toUser = ((Comment*)[weakSelf.commentTweet.comment_list objectAtIndex:weakSelf.commentIndex]).owner;
-            weakSelf.myMsgInputView.placeHolder = [NSString stringWithFormat:@"回复 %@:", weakSelf.commentToUser.name];
             
             if (weakSelf.commentToUser.id.intValue == [Login curLoginUser].id.intValue) {
                 
@@ -236,7 +235,6 @@
             }
         }else{
             weakSelf.myMsgInputView.toUser = nil;
-            weakSelf.myMsgInputView.placeHolder = @"说点什么吧...";
         }
         [_myMsgInputView notAndBecomeFirstResponder];
     };

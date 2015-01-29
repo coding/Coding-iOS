@@ -317,7 +317,6 @@
             weakSelf.commentToUser = ((Comment*)[weakSelf.commentTweet.comment_list objectAtIndex:weakSelf.commentIndex]).owner;
             weakSelf.myMsgInputView.toUser = ((Comment*)[weakSelf.commentTweet.comment_list objectAtIndex:weakSelf.commentIndex]).owner;
 
-            weakSelf.myMsgInputView.placeHolder = [NSString stringWithFormat:@"回复 %@:", weakSelf.commentToUser.name];
             if (weakSelf.commentToUser.id.intValue == [Login curLoginUser].id.intValue) {
                 ESWeakSelf
                 UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
@@ -332,8 +331,6 @@
             }
         }else{
             weakSelf.myMsgInputView.toUser = nil;
-            
-            weakSelf.myMsgInputView.placeHolder = @"说点什么吧...";
         }
         [_myMsgInputView notAndBecomeFirstResponder];
     };

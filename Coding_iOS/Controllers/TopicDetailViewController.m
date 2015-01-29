@@ -104,7 +104,9 @@
     [super viewDidAppear:animated];
     //    键盘
     if (_myMsgInputView) {
-        _myMsgInputView.toUser = nil;
+        if (!_myMsgInputView.toUser) {
+            _myMsgInputView.toUser = nil;
+        }
         [_myMsgInputView prepareToShow];
     }
 }
@@ -272,7 +274,6 @@
     _myMsgInputView.toUser = toComment.owner;
 
     if (_toComment) {
-        _myMsgInputView.placeHolder = [NSString stringWithFormat:@"回复 %@:", _toComment.owner.name];
         if (_toComment.owner_id.intValue == [Login curLoginUser].id.intValue) {
             ESWeakSelf
             UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
@@ -284,8 +285,6 @@
             [actionSheet showInView:kKeyWindow];
             return;
         }
-    }else{
-        _myMsgInputView.placeHolder = @"撰写评论";
     }
     [_myMsgInputView notAndBecomeFirstResponder];
 }

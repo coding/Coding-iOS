@@ -181,6 +181,12 @@ static NSMutableDictionary *_inputDict;
     _toUser = toUser;
     NSString *inputStr = [self inputStr];
     if (_inputTextView) {
+        if (_contentType != UIMessageInputViewContentTypePriMsg) {
+            self.placeHolder = _toUser? [NSString stringWithFormat:@"回复 %@:", _toUser.name]: @"撰写评论";
+        }else{
+            self.placeHolder = @"请输入私信内容";
+        }
+        
         [_inputTextView setText:inputStr];
         [self textViewDidChange:_inputTextView];
     }
