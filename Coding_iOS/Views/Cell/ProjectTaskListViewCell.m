@@ -112,15 +112,13 @@
     }
     CGFloat cellHeight = [ProjectTaskListViewCell cellHeightWithObj:_task];
     //    图片
-    
-//    [_checkView setImage:[UIImage imageNamed:(_task.status.integerValue == 2? @"checkbox_checked":[NSString stringWithFormat:@"checkbox_priority%d", _task.priority.intValue])]];
     [_checkView setImage:[UIImage imageNamed:(_task.status.integerValue == 2? @"checkbox_checked":@"checkbox_priority")]];
 
     
     __weak typeof(self) weakSelf = self;
     [_checkView addTapBlock:^(id obj) {
         //用户点击后，直接改变任务状态，在block中处理网络请求
-        [weakSelf.checkView setImage:[UIImage imageNamed:(weakSelf.task.status.integerValue != 2? @"checkbox_checked":[NSString stringWithFormat:@"checkbox_priority%d", weakSelf.task.priority.intValue])]];
+        [weakSelf.checkView setImage:[UIImage imageNamed:(weakSelf.task.status.integerValue != 2? @"checkbox_checked":@"checkbox_priority")]];
         weakSelf.checkViewClickedBlock(weakSelf.task);
     }];
     
