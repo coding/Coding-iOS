@@ -75,14 +75,6 @@
                               [(DownMenuTitle *)titleObj setBadgeValue:nil];
                               _curIndex = index;
                               [self refreshFirst];
-                              Tweets *curTweets = [self getCurTweets];
-                              if (!curTweets || curTweets.list <= 0) {
-                                  [self sendRequest];
-                              }else{
-                                  [self.view configBlankPage:EaseBlankPageTypeTweet hasData:(curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
-                                      [self sendRequest];
-                                  }];
-                              }
                           }];
     
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(sendTweet)] animated:NO];
@@ -227,7 +219,6 @@
         if (data) {
             [tweet deleteComment:comment];
             [weakSelf.myTableView reloadData];
-            
         }
     }];
 }
@@ -240,10 +231,16 @@
         [self hideToolBar:NO];
     }
     Tweets *curTweets = [self getCurTweets];
-    if (!curTweets || curTweets.list.count <= 0) {
+    
+    if (curTweets) {
+        _myTableView.showsInfiniteScrolling = curTweets.canLoadMore;
+    }else{
         curTweets = [Tweets tweetsWithType:_curIndex];
         [self saveCurTweets:curTweets];
-        [self performSelector:@selector(refresh) withObject:nil afterDelay:0.3];
+    }
+    
+    if (curTweets.list.count <= 0) {
+        [self refresh];
     }
 }
 
