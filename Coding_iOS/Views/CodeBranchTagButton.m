@@ -202,7 +202,7 @@
     }
     [self.myTableView reloadData];
     if (!self.dataList) {
-        [self.myRefreshControl beginRefreshing];
+//        [self.myRefreshControl beginRefreshing];
         [self.myTableView setContentOffset:CGPointMake(0, -44)];
         [self queryToRefresh];
     }
