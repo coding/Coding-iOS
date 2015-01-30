@@ -408,14 +408,14 @@
     if (section == 0) {
         return 30.0;
     }else if (section == 3){
-        return 1.0;
+        return 0.5;
     }else{
         return 20.0;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 1.0;
+    return 0.5;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
