@@ -59,6 +59,8 @@ typedef NS_ENUM(NSInteger, ProjectsType)
 - (NSString *)toDetailPath;
 
 - (NSString *)localMembersPath;
+
+- (NSString *)toBranchOrTagPath:(NSString *)path;
 @end
 
 

@@ -108,6 +108,10 @@
 - (NSString *)localMembersPath{
     return [NSString stringWithFormat:@"%@_MembersPath", self.id.stringValue];
 }
+
+- (NSString *)toBranchOrTagPath:(NSString *)path{
+    return [NSString stringWithFormat:@"api/user/%@/project/%@/git/%@", self.owner_user_name, self.name, path];
+}
 @end
 
 

@@ -20,7 +20,7 @@
 @interface UIDownMenuButton()
 
 @property (nonatomic, strong) NSArray *titleList;
-@property (nonatomic, assign) BOOL curShowing;
+@property (nonatomic, assign) BOOL isShowing;
 @property (nonatomic, strong) UIView *mySuperView, *myTapBackgroundView;
 @property (nonatomic, strong) UITableView *myTableView;
 
@@ -34,7 +34,7 @@
     if (self) {
         _titleList = titleList;
         _curIndex = index;
-        _curShowing = NO;
+        _isShowing = NO;
         _mySuperView = viewcontroller.view;
         
         self.backgroundColor = [UIColor clearColor];
@@ -65,7 +65,7 @@
 - (void)changeShowing{
     [kKeyWindow endEditing:YES];
     
-    if (!self.myTableView || ![self.myTableView isMemberOfClass:[UITableView class]]) {
+    if (!self.myTableView) {
         CGPoint origin = [self.mySuperView convertPoint:CGPointZero toView:[UIApplication sharedApplication].keyWindow];
         self.myTableView = [[UITableView alloc] initWithFrame:CGRectMake(origin.x, origin.y, kScreen_Width, 0) style:UITableViewStylePlain];
         [self.myTableView registerClass:[DownMenuCell class] forCellReuseIdentifier:kCellIdentifier_DownMenu];
@@ -75,14 +75,14 @@
         self.myTableView.alpha = 0;
         self.myTableView.scrollEnabled = NO;
     }
-    if (!self.myTapBackgroundView || ![self.myTapBackgroundView isMemberOfClass:[UIView class]]) {
+    if (!self.myTapBackgroundView) {
         self.myTapBackgroundView = [[UIView alloc] initWithFrame:kScreen_Bounds];
         self.myTapBackgroundView.backgroundColor = [UIColor clearColor];
         UITapGestureRecognizer *bgTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeShowing)];
         [self.myTapBackgroundView addGestureRecognizer:bgTap];
     }
     
-    if (self.curShowing) {//隐藏
+    if (self.isShowing) {//隐藏
         CGRect frame = self.myTableView.frame;
         frame.size.height = 0;
         self.enabled = NO;
@@ -96,7 +96,7 @@
             [self.myTableView removeFromSuperview];
             [self.myTapBackgroundView removeFromSuperview];
             self.enabled = YES;
-            self.curShowing = !self.curShowing;
+            self.isShowing = !self.isShowing;
         }];
     }else{//显示
         [[UIApplication sharedApplication].keyWindow addSubview:self.myTapBackgroundView];
@@ -112,16 +112,12 @@
             self.imageView.transform = CGAffineTransformRotate(self.imageView.transform, DEGREES_TO_RADIANS(180));
         } completion:^(BOOL finished) {
             self.enabled = YES;
-            self.curShowing = !self.curShowing;
+            self.isShowing = YES;
         }];
     }
 }
 
 #pragma mark Table M
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.titleList count];
 }
@@ -130,7 +126,7 @@
     DownMenuCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_DownMenu forIndexPath:indexPath];
     DownMenuTitle *curItem =[self.titleList objectAtIndex:indexPath.row];
     cell.curItem = curItem;
-    cell.backgroundColor = (indexPath.row == self.curIndex)? [UIColor colorWithHexString:@"0xeeeeee"] : [UIColor whiteColor];
+    cell.backgroundColor = (indexPath.row == self.curIndex)? [UIColor colorWithHexString:@"0xf3f3f3"] : [UIColor whiteColor];
     [self.myTableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kDownMenu_ContentLeftPading];
     return cell;
 }

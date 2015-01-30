@@ -38,6 +38,9 @@
 		4E217F1A1A71007800F6DF88 /* SVWebViewController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4E217F1C1A71007800F6DF88 /* SVWebViewController.strings */; };
 		4E2906A21A403B7D008A5B97 /* FileDownloadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2906A11A403B7D008A5B97 /* FileDownloadView.m */; };
 		4E35A99F1A3EC47E00CE35F1 /* FileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E35A99E1A3EC47E00CE35F1 /* FileViewController.m */; };
+		4E38CF5F1A7A28AF005536C0 /* CodeBranchTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E38CF5E1A7A28AF005536C0 /* CodeBranchTagButton.m */; };
+		4E38CF621A7B7C99005536C0 /* CodeBranchOrTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */; };
+		4E38CF641A7B8DD4005536C0 /* icon_triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E38CF631A7B8DD4005536C0 /* icon_triangle@2x.png */; };
 		4E3AD3CF1A273A4A005C749B /* FAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3AD3C11A273A4A005C749B /* FAImageView.m */; };
 		4E3AD3D01A273A4A005C749B /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3AD3C31A273A4A005C749B /* NSString+FontAwesome.m */; };
 		4E3AD3D11A273A4A005C749B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E3AD3C51A273A4A005C749B /* FontAwesome.ttf */; };
@@ -577,6 +580,11 @@
 		4E2906A11A403B7D008A5B97 /* FileDownloadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDownloadView.m; sourceTree = "<group>"; };
 		4E35A99D1A3EC47E00CE35F1 /* FileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileViewController.h; sourceTree = "<group>"; };
 		4E35A99E1A3EC47E00CE35F1 /* FileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileViewController.m; sourceTree = "<group>"; };
+		4E38CF5D1A7A28AF005536C0 /* CodeBranchTagButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeBranchTagButton.h; sourceTree = "<group>"; };
+		4E38CF5E1A7A28AF005536C0 /* CodeBranchTagButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodeBranchTagButton.m; sourceTree = "<group>"; };
+		4E38CF601A7B7C99005536C0 /* CodeBranchOrTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeBranchOrTag.h; sourceTree = "<group>"; };
+		4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodeBranchOrTag.m; sourceTree = "<group>"; };
+		4E38CF631A7B8DD4005536C0 /* icon_triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_triangle@2x.png"; sourceTree = "<group>"; };
 		4E3AD3C01A273A4A005C749B /* FAImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAImageView.h; sourceTree = "<group>"; };
 		4E3AD3C11A273A4A005C749B /* FAImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAImageView.m; sourceTree = "<group>"; };
 		4E3AD3C21A273A4A005C749B /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
@@ -2283,6 +2291,7 @@
 				4E03ACA21A5D0ABB002B000B /* textBg@2x.png */,
 				4E03ACA71A5D3BD1002B000B /* topic_comment_icon@2x.png */,
 				4EA7F12B1A6D0C4D00A046BD /* icon_project_private@2x.png */,
+				4E38CF631A7B8DD4005536C0 /* icon_triangle@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -2443,6 +2452,8 @@
 				4EA679121A1466A6001A0324 /* ProjectFiles.m */,
 				4EA679081A1461C3001A0324 /* ProjectFile.h */,
 				4EA679091A1461C3001A0324 /* ProjectFile.m */,
+				4E38CF601A7B7C99005536C0 /* CodeBranchOrTag.h */,
+				4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2627,6 +2638,8 @@
 				4E2906A11A403B7D008A5B97 /* FileDownloadView.m */,
 				4E07D30F1A4D1484009EDDF2 /* EaseStartView.h */,
 				4E07D3101A4D1484009EDDF2 /* EaseStartView.m */,
+				4E38CF5D1A7A28AF005536C0 /* CodeBranchTagButton.h */,
+				4E38CF5E1A7A28AF005536C0 /* CodeBranchTagButton.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3014,6 +3027,7 @@
 				8EA6D16E19E240C40076D59C /* nav_tweet_mine@2x.png in Resources */,
 				4E76D4D71A5A71C50094A35E /* taskPriority0_small@2x.png in Resources */,
 				4E217F0D1A70EDC700F6DF88 /* SVWebViewController.bundle in Resources */,
+				4E38CF641A7B8DD4005536C0 /* icon_triangle@2x.png in Resources */,
 				8EABE3CB19F1211D00A17784 /* topic.html in Resources */,
 				8E97CE551A0A3410006F9AD7 /* tweetBtn_Nav@2x.png in Resources */,
 				8E872D0019EFEFF7002C8F34 /* tweet_more_comment_icon@2x.png in Resources */,
@@ -3177,6 +3191,7 @@
 				8EF643BF19FF7E2900F7EEB0 /* SettingTextCell.m in Sources */,
 				8E64ED8419ED0CE3006E99DA /* QBImagePickerGroupCell.m in Sources */,
 				4ECE8AE71A3943E80021E29C /* UITableView+Common.m in Sources */,
+				4E38CF621A7B7C99005536C0 /* CodeBranchOrTag.m in Sources */,
 				8EA6D1CF19E240C40076D59C /* ObjcRuntime.m in Sources */,
 				4E03ACA61A5D2060002B000B /* UIVerticalAlignmentLabel.m in Sources */,
 				4E6BA2DF1A1EE6AF005FD721 /* AFURLRequestSerialization.m in Sources */,
@@ -3348,6 +3363,7 @@
 				8EA6D1C319E240C40076D59C /* User.m in Sources */,
 				8EA6D1FB19E240C40076D59C /* MJPhotoToolbar.m in Sources */,
 				8EF643CF19FF7E2900F7EEB0 /* TweetDetailCommentCell.m in Sources */,
+				4E38CF5F1A7A28AF005536C0 /* CodeBranchTagButton.m in Sources */,
 				8E64ED8119ED0CE3006E99DA /* QBAssetsCollectionViewLayout.m in Sources */,
 				8EA6D1C819E240C40076D59C /* UIBadgeView.m in Sources */,
 				8EF643BD19FF7E2900F7EEB0 /* ProjectListCell.m in Sources */,

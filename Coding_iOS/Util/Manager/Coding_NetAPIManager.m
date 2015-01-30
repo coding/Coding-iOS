@@ -462,7 +462,7 @@
     }];
 }
 //Code
-- (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block  andCodeTreeInfoBlock:(void (^)(id codeTreeInfoData, NSError *codeTreeInfoError))infoBlock{
+- (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block{
     [MobClick event:kUmeng_Event_Request label:@"代码目录"];
     NSString *treePath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/tree/%@/%@", project.owner_user_name, project.name, codeTree.ref, codeTree.path];
     NSString *treeinfoPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/treeinfo/%@/%@", project.owner_user_name, project.name, codeTree.ref, codeTree.path];
@@ -470,15 +470,17 @@
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
             CodeTree *rCodeTree = [NSObject objectOfClass:@"CodeTree" fromJSON:resultData];
-            block(rCodeTree, nil);
+            
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:treeinfoPath withParams:nil withMethodType:Get andBlock:^(id infoData, NSError *infoError) {
                 if (infoData) {
                     infoData = [infoData valueForKey:@"data"];
                     infoData = [infoData valueForKey:@"infos"];
                     NSMutableArray *infoArray = [NSObject arrayFromJSON:infoData ofObjects:@"CodeTree_CommitInfo"];
-                    infoBlock(infoArray, nil);
+                    [rCodeTree configWithCommitInfos:infoArray];
+                    
+                    block(rCodeTree, nil);
                 }else{
-                    infoBlock(nil, infoError);
+                    block(nil, infoError);
                 }
             }];
         }else{
@@ -501,6 +503,18 @@
     }];
 }
 
+- (void)request_CodeBranchOrTagWithPath:(NSString *)path withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"分支or标签列表"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toBranchOrTagPath:path] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKey:@"data"];
+            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"CodeBranchOrTag"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 
 //Task
 - (void)request_AddTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block{

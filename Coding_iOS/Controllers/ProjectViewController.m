@@ -245,6 +245,7 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
                     codeListView.codeTreeFileOfRefBlock = ^(CodeTree_File *curCodeTreeFile, NSString *ref){
                         [weakSelf goToVCWith:curCodeTreeFile andRef:ref];
                     };
+                    [codeListView addBranchTagButton];
                     codeListView;
                 });
             }
@@ -274,6 +275,9 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
         }
         [self saveCurContentView:curView];
         [self.view addSubview:curView];
+        [curView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
     }
     if (_curIndex != ProjectViewTypeMembers && _proMemberVC) {
         [_proMemberVC willHiden];

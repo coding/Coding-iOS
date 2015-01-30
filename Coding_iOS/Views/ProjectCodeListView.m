@@ -12,12 +12,14 @@
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"
 #import "ProjectCodeListCell.h"
+#import "CodeBranchTagButton.h"
 
 @interface ProjectCodeListView ()
 @property (nonatomic, strong) Project *curProject;
 @property (nonatomic , strong) CodeTree *myCodeTree;
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
+@property (strong, nonatomic) CodeBranchTagButton *branchTagButton;
 @end
 
 @implementation ProjectCodeListView
@@ -44,13 +46,37 @@
                 make.edges.equalTo(self);
             }];
             tableView;
-        });
-        
+        });        
         _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
         [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
         [self sendRequest];
     }
     return self;
+}
+
+- (void)addBranchTagButton{
+    CGFloat bottonToolBarHeight = 49.0;
+    if (!_branchTagButton) {
+        _branchTagButton = ({
+            CodeBranchTagButton *button = [CodeBranchTagButton buttonWithProject:_curProject andTitleStr:_myCodeTree.ref];
+            [self addSubview:button];
+            [button mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.bottom.equalTo(self);
+                make.height.mas_equalTo(bottonToolBarHeight);
+            }];
+            button;
+        });
+    }
+    __weak typeof(self) weakSelf = self;
+    _branchTagButton.selectedBranchTagBlock = ^(NSString *branchTag){
+        weakSelf.myCodeTree = [CodeTree codeTreeWithRef:branchTag andPath:weakSelf.myCodeTree.path];
+        [weakSelf.myTableView reloadData];
+        [weakSelf sendRequest];
+    };
+    
+    [self.myTableView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self).insets(UIEdgeInsetsMake(0, 0, bottonToolBarHeight, 0));
+    }];
 }
 
 - (void)refresh{
@@ -66,6 +92,10 @@
         }
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_CodeTree:_myCodeTree withPro:_curProject codeTreeBlock:^(id codeTreeData, NSError *codeTreeError) {
+        if (![weakSelf.myCodeTree.ref isEqualToString:[(CodeTree *)codeTreeData ref]]) {
+            return ;
+        }
+        
         [weakSelf.myRefreshControl endRefreshing];
         [weakSelf endLoading];
         if (codeTreeData) {
@@ -79,11 +109,6 @@
         [weakSelf configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.myCodeTree.files.count > 0) hasError:hasError reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
-    } andCodeTreeInfoBlock:^(id codeTreeInfoData, NSError *codeTreeInfoError) {
-        if (codeTreeInfoData) {
-            [weakSelf.myCodeTree configWithCommitInfos:codeTreeInfoData];
-            [weakSelf.myTableView reloadData];
-        }
     }];
 }
 

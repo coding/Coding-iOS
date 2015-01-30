@@ -27,19 +27,22 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     if (!_segmentedControl) {
-        _segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"编辑", @"预览"]];
-        [_segmentedControl setWidth:80 forSegmentAtIndex:0];
-        [_segmentedControl setWidth:80 forSegmentAtIndex:1];
-        [_segmentedControl setTitleTextAttributes:@{
-                                                    NSFontAttributeName: [UIFont boldSystemFontOfSize:16],
-                                                    NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x28303b"]
-                                                    }
-                                         forState:UIControlStateSelected];
-        [_segmentedControl setTitleTextAttributes:@{
-                                                    NSFontAttributeName: [UIFont boldSystemFontOfSize:16],
-                                                    NSForegroundColorAttributeName: [UIColor whiteColor]
-                                                    } forState:UIControlStateNormal];
-        [_segmentedControl addTarget:self action:@selector(segmentedControlSelected:) forControlEvents:UIControlEventValueChanged];
+        _segmentedControl = ({
+            UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"编辑", @"预览"]];
+            [segmentedControl setWidth:80 forSegmentAtIndex:0];
+            [segmentedControl setWidth:80 forSegmentAtIndex:1];
+            [segmentedControl setTitleTextAttributes:@{
+                                                        NSFontAttributeName: [UIFont boldSystemFontOfSize:16],
+                                                        NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x28303b"]
+                                                        }
+                                             forState:UIControlStateSelected];
+            [segmentedControl setTitleTextAttributes:@{
+                                                        NSFontAttributeName: [UIFont boldSystemFontOfSize:16],
+                                                        NSForegroundColorAttributeName: [UIColor whiteColor]
+                                                        } forState:UIControlStateNormal];
+            [segmentedControl addTarget:self action:@selector(segmentedControlSelected:) forControlEvents:UIControlEventValueChanged];
+            segmentedControl;
+        });
         
         self.navigationItem.titleView = _segmentedControl;
     }

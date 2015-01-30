@@ -13,5 +13,6 @@
 @interface ProjectCodeListView : UIView<UITableViewDataSource, UITableViewDelegate>
 @property (copy, nonatomic) void (^codeTreeFileOfRefBlock)(CodeTree_File *, NSString *);
 - (id)initWithFrame:(CGRect)frame project:(Project *)project andCodeTree:(CodeTree *)codeTree;
+- (void)addBranchTagButton;
 
 @end

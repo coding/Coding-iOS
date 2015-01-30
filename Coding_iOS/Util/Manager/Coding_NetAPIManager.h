@@ -21,6 +21,7 @@
 #import "CodeFile.h"
 #import "ProjectFolders.h"
 #import "ProjectFiles.h"
+#import "CodeBranchOrTag.h"
 
 @interface Coding_NetAPIManager : NSObject
 + (instancetype)sharedManager;
@@ -58,8 +59,9 @@
 
 
 //Code
-- (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block  andCodeTreeInfoBlock:(void (^)(id codeTreeInfoData, NSError *codeTreeInfoError))infoBlock;
+- (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block;
 - (void)request_CodeFile:(CodeFile *)codeFile withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_CodeBranchOrTagWithPath:(NSString *)path withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 
 //Task
 - (void)request_AddTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
