@@ -69,6 +69,9 @@
     }
     __weak typeof(self) weakSelf = self;
     _branchTagButton.selectedBranchTagBlock = ^(NSString *branchTag){
+        if ([weakSelf.myCodeTree.ref isEqualToString:branchTag]) {
+            return ;
+        }
         weakSelf.myCodeTree = [CodeTree codeTreeWithRef:branchTag andPath:weakSelf.myCodeTree.path];
         [weakSelf.myTableView reloadData];
         [weakSelf sendRequest];
