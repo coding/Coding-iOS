@@ -30,6 +30,7 @@
     #import "NSDate+Common.h"
     #import "UIBarButtonItem+Common.h"
     #import "UIActionSheet+Common.h"
+    #import "NSURL+Common.h"
     #import "UITTTAttributedLabel.h"
     #import "NSObject+ObjectMap.h"
     #import "ImageSizeManager.h"

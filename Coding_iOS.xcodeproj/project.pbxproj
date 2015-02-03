@@ -150,6 +150,7 @@
 		4EACB4411A2C448F0097ABB3 /* button_file_move_unable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EACB43E1A2C448F0097ABB3 /* button_file_move_unable@2x.png */; };
 		4EACB4431A2C45300097ABB3 /* button_file_download_enable.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EACB4421A2C45300097ABB3 /* button_file_download_enable.png */; };
 		4EACB4461A2C60110097ABB3 /* ProjectActivities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EACB4451A2C60110097ABB3 /* ProjectActivities.m */; };
+		4EB0C2001A807ED00042FC4F /* NSURL+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB0C1FF1A807ED00042FC4F /* NSURL+Common.m */; };
 		4EBB62461A6F46F80045DAEF /* service_terms.html in Resources */ = {isa = PBXBuildFile; fileRef = 4EBB62451A6F46F80045DAEF /* service_terms.html */; };
 		4EBB624C1A6F526C0045DAEF /* NJKWebViewProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBB62491A6F526C0045DAEF /* NJKWebViewProgress.m */; };
 		4EBB624D1A6F526C0045DAEF /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBB624B1A6F526C0045DAEF /* NJKWebViewProgressView.m */; };
@@ -453,7 +454,6 @@
 		8EA6D1FA19E240C40076D59C /* MJPhotoProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6D07119E240C40076D59C /* MJPhotoProgressView.m */; };
 		8EA6D1FB19E240C40076D59C /* MJPhotoToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6D07319E240C40076D59C /* MJPhotoToolbar.m */; };
 		8EA6D1FC19E240C40076D59C /* MJPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6D07519E240C40076D59C /* MJPhotoView.m */; };
-		8EA6D1FD19E240C40076D59C /* MLEmojiLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6D07819E240C40076D59C /* MLEmojiLabel.m */; };
 		8EA6D20A19E240C40076D59C /* RDVTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6D09419E240C40076D59C /* RDVTabBar.m */; };
 		8EA6D20B19E240C40076D59C /* RDVTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6D09619E240C40076D59C /* RDVTabBarController.m */; };
 		8EA6D20C19E240C40076D59C /* RDVTabBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6D09819E240C40076D59C /* RDVTabBarItem.m */; };
@@ -759,6 +759,8 @@
 		4EACB4421A2C45300097ABB3 /* button_file_download_enable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_file_download_enable.png; sourceTree = "<group>"; };
 		4EACB4441A2C60110097ABB3 /* ProjectActivities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectActivities.h; sourceTree = "<group>"; };
 		4EACB4451A2C60110097ABB3 /* ProjectActivities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectActivities.m; sourceTree = "<group>"; };
+		4EB0C1FE1A807ED00042FC4F /* NSURL+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+Common.h"; sourceTree = "<group>"; };
+		4EB0C1FF1A807ED00042FC4F /* NSURL+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Common.m"; sourceTree = "<group>"; };
 		4EBB62451A6F46F80045DAEF /* service_terms.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = service_terms.html; sourceTree = "<group>"; };
 		4EBB62481A6F526C0045DAEF /* NJKWebViewProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJKWebViewProgress.h; sourceTree = "<group>"; };
 		4EBB62491A6F526C0045DAEF /* NJKWebViewProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJKWebViewProgress.m; sourceTree = "<group>"; };
@@ -1205,8 +1207,6 @@
 		8EA6D07319E240C40076D59C /* MJPhotoToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhotoToolbar.m; sourceTree = "<group>"; };
 		8EA6D07419E240C40076D59C /* MJPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPhotoView.h; sourceTree = "<group>"; };
 		8EA6D07519E240C40076D59C /* MJPhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJPhotoView.m; sourceTree = "<group>"; };
-		8EA6D07719E240C40076D59C /* MLEmojiLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLEmojiLabel.h; sourceTree = "<group>"; };
-		8EA6D07819E240C40076D59C /* MLEmojiLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLEmojiLabel.m; sourceTree = "<group>"; };
 		8EA6D09319E240C40076D59C /* RDVTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDVTabBar.h; sourceTree = "<group>"; };
 		8EA6D09419E240C40076D59C /* RDVTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDVTabBar.m; sourceTree = "<group>"; };
 		8EA6D09519E240C40076D59C /* RDVTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDVTabBarController.h; sourceTree = "<group>"; };
@@ -1759,6 +1759,8 @@
 				4ECE8AD61A3943E80021E29C /* UIViewController+Swizzle.m */,
 				4EBDA87A1A6640340035ED96 /* UIActionSheet+Common.h */,
 				4EBDA87B1A6640340035ED96 /* UIActionSheet+Common.m */,
+				4EB0C1FE1A807ED00042FC4F /* NSURL+Common.h */,
+				4EB0C1FF1A807ED00042FC4F /* NSURL+Common.m */,
 			);
 			path = OC_Category;
 			sourceTree = "<group>";
@@ -2545,7 +2547,6 @@
 				8E1C3DD819E7D58A00EF3032 /* ActionSheetPicker */,
 				8ED4611D19E4DC470059B3BE /* iCarousel */,
 				8EA6D06819E240C40076D59C /* MJPhotoBrowser */,
-				8EA6D07619E240C40076D59C /* MLEmojiLabel */,
 				8EA6D09219E240C40076D59C /* RDVTabBarController */,
 				8EA6D0CA19E240C40076D59C /* XTSegmentControl */,
 			);
@@ -2576,15 +2577,6 @@
 				8EA6D07519E240C40076D59C /* MJPhotoView.m */,
 			);
 			path = MJPhotoBrowser;
-			sourceTree = "<group>";
-		};
-		8EA6D07619E240C40076D59C /* MLEmojiLabel */ = {
-			isa = PBXGroup;
-			children = (
-				8EA6D07719E240C40076D59C /* MLEmojiLabel.h */,
-				8EA6D07819E240C40076D59C /* MLEmojiLabel.m */,
-			);
-			path = MLEmojiLabel;
 			sourceTree = "<group>";
 		};
 		8EA6D09219E240C40076D59C /* RDVTabBarController */ = {
@@ -3154,7 +3146,6 @@
 				8EF643AF19FF7E2900F7EEB0 /* TweetSendImageCCell.m in Sources */,
 				8EABB20119EE7A85009EB53A /* AddUserViewController.m in Sources */,
 				4ECE8AE01A3943E80021E29C /* UIButton+Bootstrap.m in Sources */,
-				8EA6D1FD19E240C40076D59C /* MLEmojiLabel.m in Sources */,
 				8E64ED8A19EE484A006E99DA /* NSDate+Helper.m in Sources */,
 				8EA6D1FC19E240C40076D59C /* MJPhotoView.m in Sources */,
 				8E59F10A1A021053009A905F /* CodeListViewController.m in Sources */,
@@ -3187,6 +3178,7 @@
 				8EA6D14219E240C40076D59C /* TipsViewController.m in Sources */,
 				8EA6D1CA19E240C40076D59C /* UIPlaceHolderTextView.m in Sources */,
 				4E6BA2E61A1EE6AF005FD721 /* UIProgressView+AFNetworking.m in Sources */,
+				4EB0C2001A807ED00042FC4F /* NSURL+Common.m in Sources */,
 				4E6BA2E71A1EE6AF005FD721 /* UIRefreshControl+AFNetworking.m in Sources */,
 				8EF643BF19FF7E2900F7EEB0 /* SettingTextCell.m in Sources */,
 				8E64ED8419ED0CE3006E99DA /* QBImagePickerGroupCell.m in Sources */,

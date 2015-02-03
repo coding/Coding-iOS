@@ -118,6 +118,9 @@
     }else{
         isCreated = YES;
     }
+    if (isCreated) {
+        [NSURL addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:path isDirectory:YES]];
+    }
     return isCreated;
 }
 
@@ -150,6 +153,9 @@
         }else{
             downloadUrl = [downloadUrl URLByAppendingPathComponent:[response suggestedFilename]];
         }
+        
+        [downloadUrl setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
+        
         NSLog(@"download_destinationPath------\n%@", downloadUrl.absoluteString);
         return downloadUrl;
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {

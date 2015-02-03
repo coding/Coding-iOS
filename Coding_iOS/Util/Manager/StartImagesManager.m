@@ -48,6 +48,9 @@
     }else{
         isCreated = YES;
     }
+    if (isCreated) {
+        [NSURL addSkipBackupAttributeToItemAtURL:[NSURL fileURLWithPath:path isDirectory:YES]];
+    }
     return isCreated;
 }
 
