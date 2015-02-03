@@ -29,6 +29,7 @@
     [listView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+    [listView addBranchTagButton];
 }
 
 - (void)didReceiveMemoryWarning {

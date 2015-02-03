@@ -269,6 +269,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     CodeBranchOrTag *curBranchOrTag = [self.dataList objectAtIndex:indexPath.row];
     self.titleStr = curBranchOrTag.name;
+    [self.myTableView reloadData];
     if (_selectedBranchTagBlock) {
         _selectedBranchTagBlock(curBranchOrTag.name);
     }

@@ -95,9 +95,6 @@
         }
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_CodeTree:_myCodeTree withPro:_curProject codeTreeBlock:^(id codeTreeData, NSError *codeTreeError) {
-        if (![weakSelf.myCodeTree.ref isEqualToString:[(CodeTree *)codeTreeData ref]]) {
-            return ;
-        }
         
         [weakSelf.myRefreshControl endRefreshing];
         [weakSelf endLoading];
