@@ -183,6 +183,19 @@
     }
 }
 
+- (void)quitSelf_ProjectMember:(ProjectMember *)curMember{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_ProjectMember_Quit:curMember andBlock:^(id data, NSError *error) {
+        if (data) {
+            if (weakSelf.type == ProMemTypeProject) {
+                if (weakSelf.cellBtnBlock) {
+                    weakSelf.cellBtnBlock(curMember);
+                }
+            }
+        }
+    }];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MemberCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MemberCell forIndexPath:indexPath];
     ProjectMember *curMember;
@@ -200,15 +213,12 @@
         }
         if (curMember.user_id.intValue == [Login curLoginUser].id.intValue) {
 //                自己，退出项目
-            [[Coding_NetAPIManager sharedManager] request_ProjectMember_Quit:curMember andBlock:^(id data, NSError *error) {
-                if (data) {
-                    if (weakSelf.type == ProMemTypeProject) {
-                        if (weakSelf.cellBtnBlock) {
-                            weakSelf.cellBtnBlock(curMember);
-                        }
-                    }
+            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"确定退出项目？" buttonTitles:nil destructiveTitle:@"确认退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                if (index == 0) {
+                    [weakSelf quitSelf_ProjectMember:curMember];
                 }
             }];
+            [actionSheet showInView:kKeyWindow];
         }else{
 //                别人，发起私信
             if (_type == ProMemTypeProject) {
