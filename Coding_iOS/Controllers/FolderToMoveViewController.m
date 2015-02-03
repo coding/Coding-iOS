@@ -45,23 +45,40 @@
         }];
         tableView;
     });
-    //添加底部ToolBar
-    EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 新建文件夹" image:@"button_file_createFolder_enable" disableImage:@"button_file_createFolder_unable"];
-    EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 移动到这里" image:@"button_file_move_enable" disableImage:@"button_file_move_unable"];
-    item1.enabled = [self canCreatNewFolder];
-    item2.enabled = [self canMovedHere];
     
-    _myToolBar = [EaseToolBar easeToolBarWithItems:@[item1, item2]];
-    [_myToolBar setY:CGRectGetHeight(self.view.frame) - CGRectGetHeight(_myToolBar.frame)];
-    _myToolBar.delegate = self;
-    [self.view addSubview:_myToolBar];
+    [self configToolBar];
+    
+    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"取消" target:self action:@selector(dismissSelf)] animated:YES];
+}
+
+- (void)configToolBar{
+    //添加底部ToolBar
+    if (!_myToolBar) {
+        //添加底部ToolBar
+        EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 新建文件夹" image:@"button_file_createFolder_enable" disableImage:@"button_file_createFolder_unable"];
+        EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 移动到这里" image:@"button_file_move_enable" disableImage:@"button_file_move_unable"];
+        item1.enabled = [self canCreatNewFolder];
+        item2.enabled = [self canMovedHere];
+        
+        _myToolBar = [EaseToolBar easeToolBarWithItems:@[item1, item2]];
+        _myToolBar.delegate = self;
+        [self.view addSubview:_myToolBar];
+        [_myToolBar mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_bottom);
+            make.size.mas_equalTo(_myToolBar.frame.size);
+        }];
+    }else{
+        EaseToolBarItem *item1 = [_myToolBar itemOfIndex:0];
+        EaseToolBarItem *item2 = [_myToolBar itemOfIndex:1];
+        item1.enabled = [self canCreatNewFolder];
+        item2.enabled = [self canMovedHere];
+    }
     
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myToolBar.frame), 0.0);
     self.myTableView.contentInset = contentInsets;
     self.myTableView.scrollIndicatorInsets = contentInsets;
-    
-    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"取消" target:self action:@selector(dismissSelf)] animated:YES];
 }
+
 
 - (void)dismissSelf{
     [self dismissViewControllerAnimated:YES completion:nil];
