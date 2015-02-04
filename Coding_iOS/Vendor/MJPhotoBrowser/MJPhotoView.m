@@ -166,13 +166,14 @@
     
     // 基本尺寸参数
     CGFloat boundsWidth = self.bounds.size.width;
+    CGFloat boundsHeight = self.bounds.size.height;
     CGFloat imageWidth = _imageView.image.size.width;
+    CGFloat imageHeight = _imageView.image.size.height;
 	
 	// 设置伸缩比例
-    CGFloat minScale = boundsWidth / imageWidth;
-	if (minScale > 1) {
-		minScale = 1.0;
-	}
+    CGFloat imageScale = boundsWidth / imageWidth;
+    CGFloat minScale = MIN(1.0, imageScale);
+    
 	CGFloat maxScale = 2.0; 
 	if ([UIScreen instancesRespondToSelector:@selector(scale)]) {
 		maxScale = maxScale / [[UIScreen mainScreen] scale];
@@ -181,7 +182,8 @@
 	self.minimumZoomScale = minScale;
 	self.zoomScale = minScale;
     
-    CGRect imageFrame = self.bounds;
+    CGRect imageFrame = CGRectMake(0, MAX(0, (boundsHeight- imageHeight*imageScale)/2), boundsWidth, imageHeight *imageScale);
+    
     if (_photo.firstShow) { // 第一次显示的图片
         _photo.firstShow = NO; // 已经显示过了
         _imageView.frame = imageFrame;
@@ -201,6 +203,8 @@
 
 #pragma mark - UIScrollViewDelegate
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    CGFloat insetY = (CGRectGetHeight(self.bounds) - CGRectGetHeight(_imageView.frame))/2;
+    [_imageView setY:MAX(insetY, 0.0)];
 	return _imageView;
 }
 
@@ -235,12 +239,13 @@
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)tap {
     _doubleTap = YES;
-    
-    CGPoint touchPoint = [tap locationInView:self];
 	if (self.zoomScale == self.maximumZoomScale) {
 		[self setZoomScale:self.minimumZoomScale animated:YES];
 	} else {
-		[self zoomToRect:CGRectMake(touchPoint.x, touchPoint.y, 1, 1) animated:YES];
+        CGPoint touchPoint = [tap locationInView:self];
+        CGFloat scale = self.maximumZoomScale/ self.minimumZoomScale;
+        CGRect rectTozoom=CGRectMake(touchPoint.x * scale, touchPoint.y * scale, 1, 1);
+        [self zoomToRect:rectTozoom animated:YES];
 	}
 }
 
