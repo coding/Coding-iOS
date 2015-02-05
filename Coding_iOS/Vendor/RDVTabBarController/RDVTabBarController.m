@@ -58,31 +58,34 @@
     [self setTabBarHidden:NO animated:NO];
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
-    UIInterfaceOrientationMask orientationMask = UIInterfaceOrientationMaskAll;
-    for (UIViewController *viewController in [self viewControllers]) {
-        if (![viewController respondsToSelector:@selector(supportedInterfaceOrientations)]) {
-            return UIInterfaceOrientationMaskPortrait;
-        }
-        
-        UIInterfaceOrientationMask supportedOrientations = [viewController supportedInterfaceOrientations];
-        
-        if (orientationMask > supportedOrientations) {
-            orientationMask = supportedOrientations;
-        }
-    }
-    
-    return orientationMask;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    for (UIViewController *viewCotroller in [self viewControllers]) {
-        if (![viewCotroller respondsToSelector:@selector(shouldAutorotateToInterfaceOrientation:)] ||
-            ![viewCotroller shouldAutorotateToInterfaceOrientation:toInterfaceOrientation]) {
-            return NO;
+- (BOOL)shouldAutorotate{
+    if (self.viewControllers.count > _selectedIndex) {
+        UIViewController *viewController = self.viewControllers[_selectedIndex];
+        if ([viewController respondsToSelector:@selector(shouldAutorotate)]) {
+            return [viewController shouldAutorotate];
         }
     }
     return YES;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
+    if (self.viewControllers.count > _selectedIndex) {
+        UIViewController *viewController = self.viewControllers[_selectedIndex];
+        if ([viewController respondsToSelector:@selector(preferredInterfaceOrientationForPresentation)]) {
+            return [viewController preferredInterfaceOrientationForPresentation];
+        }
+    }
+    return UIInterfaceOrientationPortrait;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    if (self.viewControllers.count > _selectedIndex) {
+        UIViewController *viewController = self.viewControllers[_selectedIndex];
+        if ([viewController respondsToSelector:@selector(supportedInterfaceOrientations)]) {
+            return [viewController supportedInterfaceOrientations];
+        }
+    }
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 #pragma mark - Methods

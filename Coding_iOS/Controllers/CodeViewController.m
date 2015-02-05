@@ -56,6 +56,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Orientations
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
 #pragma mark Request
 
 - (void)sendRequest{

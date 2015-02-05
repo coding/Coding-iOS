@@ -73,6 +73,7 @@
 		4E6BA2E61A1EE6AF005FD721 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6BA2D11A1EE6AF005FD721 /* UIProgressView+AFNetworking.m */; };
 		4E6BA2E71A1EE6AF005FD721 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6BA2D31A1EE6AF005FD721 /* UIRefreshControl+AFNetworking.m */; };
 		4E6BA2E81A1EE6AF005FD721 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6BA2D51A1EE6AF005FD721 /* UIWebView+AFNetworking.m */; };
+		4E6C41191A834EA90098DC17 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6C41181A834EA90098DC17 /* BaseNavigationController.m */; };
 		4E6D71891A75F00E005AD988 /* YLGIFImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D71861A75F00E005AD988 /* YLGIFImage.m */; };
 		4E6D718A1A75F00E005AD988 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D71881A75F00E005AD988 /* YLImageView.m */; };
 		4E6D718D1A762879005AD988 /* icon_user_monkey_i6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D718B1A762879005AD988 /* icon_user_monkey_i6@2x.png */; };
@@ -644,6 +645,8 @@
 		4E6BA2D31A1EE6AF005FD721 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		4E6BA2D41A1EE6AF005FD721 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		4E6BA2D51A1EE6AF005FD721 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
+		4E6C41171A834EA90098DC17 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
+		4E6C41181A834EA90098DC17 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		4E6D71851A75F00E005AD988 /* YLGIFImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLGIFImage.h; sourceTree = "<group>"; };
 		4E6D71861A75F00E005AD988 /* YLGIFImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLGIFImage.m; sourceTree = "<group>"; };
 		4E6D71871A75F00E005AD988 /* YLImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLImageView.h; sourceTree = "<group>"; };
@@ -2197,6 +2200,8 @@
 			children = (
 				8EA6CF3319E240C40076D59C /* BaseViewController.h */,
 				8EA6CF3419E240C40076D59C /* BaseViewController.m */,
+				4E6C41171A834EA90098DC17 /* BaseNavigationController.h */,
+				4E6C41181A834EA90098DC17 /* BaseNavigationController.m */,
 				8EA6CF3D19E240C40076D59C /* RootTabViewController.h */,
 				8EA6CF3E19E240C40076D59C /* RootTabViewController.m */,
 				8EA6CF3519E240C40076D59C /* Me_RootViewController.h */,
@@ -3269,6 +3274,7 @@
 				4E8AF7861A53D69F00CDC3AE /* StartImagesManager.m in Sources */,
 				8EA6D13419E240C40076D59C /* ProjectMemberListViewController.m in Sources */,
 				8EF643CC19FF7E2900F7EEB0 /* TweetCommentCell.m in Sources */,
+				4E6C41191A834EA90098DC17 /* BaseNavigationController.m in Sources */,
 				8EA6D23A19E240C40076D59C /* ProjectTopicListView.m in Sources */,
 				4E6BA2D91A1EE6AF005FD721 /* AFURLConnectionOperation.m in Sources */,
 				8EA6D1BB19E240C40076D59C /* ProjectTopic.m in Sources */,

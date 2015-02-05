@@ -34,6 +34,11 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:[NSString stringWithUTF8String:object_getClassName(self)]];
+    
+    if (self.interfaceOrientation != UIInterfaceOrientationPortrait
+        &&![self isMemberOfClass:NSClassFromString(@"CodeViewController")]) {
+        [self forceChangeToOrientation:UIInterfaceOrientationPortrait];
+    }
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -44,13 +49,37 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    
     self.view.backgroundColor = kColorTableBG;
+}
 
+- (void)loadView{
+    [super loadView];
+    
+    if (self.interfaceOrientation != UIInterfaceOrientationPortrait
+        &&![self isMemberOfClass:NSClassFromString(@"CodeViewController")]) {
+        [self forceChangeToOrientation:UIInterfaceOrientationPortrait];
+    }
 }
 
 - (void)tabBarItemClicked{
     NSLog(@"\ntabBarItemClicked : %@", NSStringFromClass([self class]));
+}
+
+#pragma mark - Orientations
+- (BOOL)shouldAutorotate{
+    return UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationPortrait;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (void)forceChangeToOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:interfaceOrientation] forKey:@"orientation"];
 }
 
 #pragma mark Notification
