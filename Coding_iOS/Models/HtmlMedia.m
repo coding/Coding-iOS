@@ -25,6 +25,8 @@
         TFHppleElement *rootElement = [doc peekAtSearchWithXPathQuery:@"//body"];
         [self analyseHtmlElement:rootElement withShowType:showType];
         _imageItems = [_mediaItems filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %d OR type == %d", HtmlMediaItemType_Image, HtmlMediaItemType_EmotionMonkey]];
+        _contentDisplay = [NSMutableString stringWithString:
+                           [_contentDisplay stringByTrimmingRightCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
     }
     return self;
 }
