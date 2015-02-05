@@ -67,7 +67,13 @@
         }else if ([element_Class hasPrefix:@"bubble-markdown-image-link"]){
             //图片
             item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_Image];
-            item.src = [attributes objectForKey:@"href"];
+
+            TFHppleElement *child = [element.children firstObject];
+            if (child && [child.attributes objectForKey:@"src"]) {
+                item.src = [child.attributes objectForKey:@"src"];
+            }else{
+                item.src = [attributes objectForKey:@"href"];
+            }
         }
     }else if ([element.tagName isEqualToString:@"img"]){
         NSDictionary *attributes = element.attributes;
