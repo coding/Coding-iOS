@@ -109,7 +109,6 @@
     [_timeLabel setY:curBottomY];
     _timeLabel.text = [NSString stringWithFormat:@"%@ 发布于 %@", _curTopic.owner.name, [_curTopic.created_at stringTimesAgo]];
     curBottomY += 10+ 20;
-    curWidth = kScreen_Width - 2*kPaddingLeftWidth;
     
     //    讨论的内容
     [self.topicContentView setY:curBottomY];

@@ -83,19 +83,19 @@
     }];
     
     [logoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(logoView.mas_bottom).offset(20);
+        make.top.equalTo(logoView.mas_bottom).offset(logoLabelTop);
         make.left.right.equalTo(self.view);
         make.height.mas_equalTo(logoLabel.font.pointSize);
     }];
     
     [versionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(logoLabel.mas_bottom).offset(20);
+        make.top.equalTo(logoLabel.mas_bottom).offset(versionLabelTop);
         make.left.right.equalTo(self.view);
         make.height.mas_equalTo(versionLabel.font.pointSize);
     }];
     
     [infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.view.mas_bottom).offset(-20);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-infoLabelBottom);
         make.left.right.mas_equalTo(self.view);
         make.height.mas_equalTo(5*infoLabel.font.pointSize);
     }];

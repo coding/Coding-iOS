@@ -820,7 +820,7 @@ static const char * getPropertyType(objc_property_t property) {
 +(NSData *)base64DataFromString:(NSString *)string
 {
     unsigned long ixtext, lentext;
-    unsigned char ch, inbuf[4], outbuf[3];
+    unsigned char ch, inbuf[4] = {}, outbuf[3];
     short i, ixinbuf;
     Boolean flignore, flendtext = false;
     const unsigned char *tempcstring;
@@ -975,8 +975,12 @@ static const char * getPropertyType(objc_property_t property) {
     // Terminate the string-based result
     *objPointer = '\0';
     
+    NSString *resultStr = [NSString stringWithCString:strResult encoding:NSUTF8StringEncoding];
+    
+    free(strResult);
+    
     // Return the results as an NSString object
-    return [NSString stringWithCString:strResult encoding:NSUTF8StringEncoding];
+    return resultStr;
 }
 
 

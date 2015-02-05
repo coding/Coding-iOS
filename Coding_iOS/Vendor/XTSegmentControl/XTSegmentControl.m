@@ -241,11 +241,13 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
                 Project *title = titleArray[i];
                 item = [[XTSegmentControlItem alloc] initWithFrame:rect title:title.icon type:XTSegmentControlItemTypeIconUrl];
             }
-            if (i == 0) {
-                [item setSelected:YES];
+            if (item) {
+                if (i == 0) {
+                    [item setSelected:YES];
+                }
+                [_items addObject:item];
+                [_contentView addSubview:item];
             }
-            [_items addObject:item];
-            [_contentView addSubview:item];
         }
     }
     
