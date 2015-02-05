@@ -11,6 +11,9 @@
 @implementation SDWebImageManager (MJ)
 + (void)downloadWithURL:(NSURL *)url
 {
+    if (!url) {
+        return;
+    }
     // cmp不能为空
     [[self sharedManager] downloadImageWithURL:url options:SDWebImageLowPriority|SDWebImageRetryFailed progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
         

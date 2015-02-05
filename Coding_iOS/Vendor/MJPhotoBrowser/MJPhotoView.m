@@ -14,7 +14,7 @@
 
 @interface MJPhotoView ()
 {
-    BOOL _doubleTap;
+    BOOL _zoomByDoubleTap;
     YLImageView *_imageView;
     MJPhotoLoadingView *_photoLoadingView;
 }
@@ -35,7 +35,6 @@
         _photoLoadingView = [[MJPhotoLoadingView alloc] init];
 		
 		// 属性
-		self.backgroundColor = [UIColor blackColor];
 		self.delegate = self;
 		self.showsHorizontalScrollIndicator = NO;
 		self.showsVerticalScrollIndicator = NO;
@@ -51,6 +50,8 @@
         UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
         doubleTap.numberOfTapsRequired = 2;
         [self addGestureRecognizer:doubleTap];
+        
+        [singleTap requireGestureRecognizerToFail:doubleTap];
     }
     return self;
 }
@@ -184,6 +185,8 @@
     
     CGRect imageFrame = CGRectMake(0, MAX(0, (boundsHeight- imageHeight*imageScale)/2), boundsWidth, imageHeight *imageScale);
     
+    self.contentSize = CGSizeMake(CGRectGetWidth(imageFrame), CGRectGetHeight(imageFrame));
+    
     if (_photo.firstShow) { // 第一次显示的图片
         _photo.firstShow = NO; // 已经显示过了
         _imageView.frame = imageFrame;
@@ -194,7 +197,6 @@
         } completion:^(BOOL finished) {
             // 设置底部的小图片
             [self photoStartLoad];
-            self.superview.backgroundColor = [UIColor blackColor];
         }];
     } else {
         _imageView.frame = imageFrame;
@@ -204,46 +206,41 @@
 #pragma mark - UIScrollViewDelegate
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     CGFloat insetY = (CGRectGetHeight(self.bounds) - CGRectGetHeight(_imageView.frame))/2;
-    [_imageView setY:MAX(insetY, 0.0)];
+    insetY = MAX(insetY, 0.0);
+    if (ABS(_imageView.frame.origin.y - insetY) > 0.5) {
+        [_imageView setY:insetY];
+    }
 	return _imageView;
 }
 
-#pragma mark - 手势处理
-- (void)handleSingleTap:(UITapGestureRecognizer *)tap {
-    _doubleTap = NO;
-    [self performSelector:@selector(hide) withObject:nil afterDelay:0.2];
-}
-- (void)hide
-{
-    if (_doubleTap) return;
-    
-    // 移除进度条
-    [_photoLoadingView removeFromSuperview];
-    self.contentOffset = CGPointZero;
-    
-    CGFloat duration = 0.3;
-    self.superview.backgroundColor = [UIColor clearColor];
-    [UIView animateWithDuration:duration + 0.1 animations:^{
-        self.alpha = 0.0;
-        // 通知代理
-        if ([self.photoViewDelegate respondsToSelector:@selector(photoViewSingleTap:)]) {
-            [self.photoViewDelegate photoViewSingleTap:self];
-        }
-    } completion:^(BOOL finished) {
-        // 通知代理
-        if ([self.photoViewDelegate respondsToSelector:@selector(photoViewDidEndZoom:)]) {
-            [self.photoViewDelegate photoViewDidEndZoom:self];
-        }
-    }];
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale{
+    CGFloat insetY = (CGRectGetHeight(self.bounds) - CGRectGetHeight(_imageView.frame))/2;
+    insetY = MAX(insetY, 0.0);
+    if (ABS(_imageView.frame.origin.y - insetY) > 0.5) {
+        [UIView animateWithDuration:0.2 animations:^{
+            [_imageView setY:insetY];
+        }];
+    }
 }
 
+#pragma mark - 手势处理
+//单击隐藏
+- (void)handleSingleTap:(UITapGestureRecognizer *)tap {
+    // 移除进度条
+    [_photoLoadingView removeFromSuperview];
+    
+    // 通知代理
+    if ([self.photoViewDelegate respondsToSelector:@selector(photoViewSingleTap:)]) {
+        [self.photoViewDelegate photoViewSingleTap:self];
+    }
+}
+//双击放大
 - (void)handleDoubleTap:(UITapGestureRecognizer *)tap {
-    _doubleTap = YES;
 	if (self.zoomScale == self.maximumZoomScale) {
 		[self setZoomScale:self.minimumZoomScale animated:YES];
 	} else {
         CGPoint touchPoint = [tap locationInView:self];
-        CGFloat scale = self.maximumZoomScale/ self.minimumZoomScale;
+        CGFloat scale = self.maximumZoomScale/ self.zoomScale;
         CGRect rectTozoom=CGRectMake(touchPoint.x * scale, touchPoint.y * scale, 1, 1);
         [self zoomToRect:rectTozoom animated:YES];
 	}
