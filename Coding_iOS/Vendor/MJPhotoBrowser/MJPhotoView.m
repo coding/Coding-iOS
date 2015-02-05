@@ -72,41 +72,8 @@
 #pragma mark 显示图片
 - (void)showImage
 {
-    if (_photo.firstShow) { // 首次显示
-        _imageView.image = _photo.placeholder;
-        if (_photo.image) {
-            _imageView.image = _photo.image;
-            if ([self.photoViewDelegate respondsToSelector:@selector(photoViewImageFinishLoad:)]) {
-                [self.photoViewDelegate photoViewImageFinishLoad:self];
-            }
-        }else {
-            // 显示进度条
-            [_photoLoadingView showLoading];
-            [self addSubview:_photoLoadingView];
-            
-            ESWeakSelf;
-            ESWeak_(_photoLoadingView);
-            ESWeak_(_imageView);
-            
-            [SDWebImageManager.sharedManager downloadImageWithURL:_photo.url options:SDWebImageRetryFailed|SDWebImageLowPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                ESStrong_(_photoLoadingView);
-                if (receivedSize > kMinProgress) {
-                    __photoLoadingView.progress = (float)receivedSize/expectedSize;
-                }
-            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                ESStrongSelf;
-                ESStrong_(_imageView)
-                if (image) {
-                    __imageView.image = image;
-                }
-                [_self photoDidFinishLoadWithImage:image];
-            }];
-        }
-    } else {
-        [self photoStartLoad];
-    }
+    [self photoStartLoad];
 
-    // 调整frame参数
     [self adjustFrame];
 }
 
@@ -186,34 +153,23 @@
     CGRect imageFrame = CGRectMake(0, MAX(0, (boundsHeight- imageHeight*imageScale)/2), boundsWidth, imageHeight *imageScale);
     
     self.contentSize = CGSizeMake(CGRectGetWidth(imageFrame), CGRectGetHeight(imageFrame));
-    
-    if (_photo.firstShow) { // 第一次显示的图片
-        _photo.firstShow = NO; // 已经显示过了
-        _imageView.frame = imageFrame;
-        self.alpha = 0.0;
-        
-        [UIView animateWithDuration:0.3 animations:^{
-            self.alpha = 1.0;
-        } completion:^(BOOL finished) {
-            // 设置底部的小图片
-            [self photoStartLoad];
-        }];
-    } else {
-        _imageView.frame = imageFrame;
-    }
+    _imageView.frame = imageFrame;
 }
 
 #pragma mark - UIScrollViewDelegate
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    CGFloat insetY = (CGRectGetHeight(self.bounds) - CGRectGetHeight(_imageView.frame))/2;
-    insetY = MAX(insetY, 0.0);
-    if (ABS(_imageView.frame.origin.y - insetY) > 0.5) {
-        [_imageView setY:insetY];
+    if (_zoomByDoubleTap) {
+        CGFloat insetY = (CGRectGetHeight(self.bounds) - CGRectGetHeight(_imageView.frame))/2;
+        insetY = MAX(insetY, 0.0);
+        if (ABS(_imageView.frame.origin.y - insetY) > 0.5) {
+            [_imageView setY:insetY];
+        }
     }
 	return _imageView;
 }
 
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale{
+    _zoomByDoubleTap = NO;
     CGFloat insetY = (CGRectGetHeight(self.bounds) - CGRectGetHeight(_imageView.frame))/2;
     insetY = MAX(insetY, 0.0);
     if (ABS(_imageView.frame.origin.y - insetY) > 0.5) {
@@ -236,6 +192,8 @@
 }
 //双击放大
 - (void)handleDoubleTap:(UITapGestureRecognizer *)tap {
+    _zoomByDoubleTap = YES;
+
 	if (self.zoomScale == self.maximumZoomScale) {
 		[self setZoomScale:self.minimumZoomScale animated:YES];
 	} else {
