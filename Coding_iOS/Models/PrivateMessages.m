@@ -66,6 +66,9 @@
 }
 
 - (void)sendNewMessage:(PrivateMessage *)nextMsg{
+    if (!nextMsg) {
+        return;
+    }
     if (!_nextMessages) {
         _nextMessages = [[NSMutableArray alloc] initWithCapacity:1];
     }

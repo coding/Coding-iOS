@@ -286,7 +286,7 @@
 - (void)completionUploadWithResult:(id)responseObject error:(NSError *)error{
     if (error) {
         [self showError:error];
-    }else{
+    }else if (responseObject){
         ProjectFile *curFile = responseObject;
         if (curFile.name && curFile.name.length > 0) {
             curFile.project_id = self.curProject.id;

@@ -239,6 +239,9 @@
 }
 
 - (void)addNewComment:(TaskComment *)comment{
+    if (!comment) {
+        return;
+    }
     if (_commentList) {
         [_commentList insertObject:comment atIndex:0];
     }else{

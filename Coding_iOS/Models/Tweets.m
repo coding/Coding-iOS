@@ -234,6 +234,9 @@
     return YES;
 }
 - (void)addNewComment:(Comment *)comment{
+    if (!comment) {
+        return;
+    }
     if (_comment_list) {
         [_comment_list insertObject:comment atIndex:0];
     }else{
