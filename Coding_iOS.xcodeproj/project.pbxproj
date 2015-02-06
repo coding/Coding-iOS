@@ -74,6 +74,10 @@
 		4E6BA2E71A1EE6AF005FD721 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6BA2D31A1EE6AF005FD721 /* UIRefreshControl+AFNetworking.m */; };
 		4E6BA2E81A1EE6AF005FD721 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6BA2D51A1EE6AF005FD721 /* UIWebView+AFNetworking.m */; };
 		4E6C41191A834EA90098DC17 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6C41181A834EA90098DC17 /* BaseNavigationController.m */; };
+		4E6C411F1A846AC30098DC17 /* RFKeyboardToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6C411C1A846AC30098DC17 /* RFKeyboardToolbar.m */; };
+		4E6C41201A846AC30098DC17 /* RFToolbarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6C411E1A846AC30098DC17 /* RFToolbarButton.m */; };
+		4E6C41281A846ACC0098DC17 /* RFMarkdownSyntaxStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6C41231A846ACC0098DC17 /* RFMarkdownSyntaxStorage.m */; };
+		4E6C41291A846ACC0098DC17 /* RFMarkdownTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6C41251A846ACC0098DC17 /* RFMarkdownTextView.m */; };
 		4E6D71891A75F00E005AD988 /* YLGIFImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D71861A75F00E005AD988 /* YLGIFImage.m */; };
 		4E6D718A1A75F00E005AD988 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D71881A75F00E005AD988 /* YLImageView.m */; };
 		4E6D718D1A762879005AD988 /* icon_user_monkey_i6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D718B1A762879005AD988 /* icon_user_monkey_i6@2x.png */; };
@@ -647,6 +651,14 @@
 		4E6BA2D51A1EE6AF005FD721 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
 		4E6C41171A834EA90098DC17 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
 		4E6C41181A834EA90098DC17 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
+		4E6C411B1A846AC30098DC17 /* RFKeyboardToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFKeyboardToolbar.h; sourceTree = "<group>"; };
+		4E6C411C1A846AC30098DC17 /* RFKeyboardToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFKeyboardToolbar.m; sourceTree = "<group>"; };
+		4E6C411D1A846AC30098DC17 /* RFToolbarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFToolbarButton.h; sourceTree = "<group>"; };
+		4E6C411E1A846AC30098DC17 /* RFToolbarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFToolbarButton.m; sourceTree = "<group>"; };
+		4E6C41221A846ACC0098DC17 /* RFMarkdownSyntaxStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFMarkdownSyntaxStorage.h; sourceTree = "<group>"; };
+		4E6C41231A846ACC0098DC17 /* RFMarkdownSyntaxStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFMarkdownSyntaxStorage.m; sourceTree = "<group>"; };
+		4E6C41241A846ACC0098DC17 /* RFMarkdownTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFMarkdownTextView.h; sourceTree = "<group>"; };
+		4E6C41251A846ACC0098DC17 /* RFMarkdownTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFMarkdownTextView.m; sourceTree = "<group>"; };
 		4E6D71851A75F00E005AD988 /* YLGIFImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLGIFImage.h; sourceTree = "<group>"; };
 		4E6D71861A75F00E005AD988 /* YLGIFImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLGIFImage.m; sourceTree = "<group>"; };
 		4E6D71871A75F00E005AD988 /* YLImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLImageView.h; sourceTree = "<group>"; };
@@ -1574,6 +1586,28 @@
 				4E6BA2D51A1EE6AF005FD721 /* UIWebView+AFNetworking.m */,
 			);
 			path = UIKit;
+			sourceTree = "<group>";
+		};
+		4E6C411A1A846AC30098DC17 /* RFKeyboardToolbar */ = {
+			isa = PBXGroup;
+			children = (
+				4E6C411B1A846AC30098DC17 /* RFKeyboardToolbar.h */,
+				4E6C411C1A846AC30098DC17 /* RFKeyboardToolbar.m */,
+				4E6C411D1A846AC30098DC17 /* RFToolbarButton.h */,
+				4E6C411E1A846AC30098DC17 /* RFToolbarButton.m */,
+			);
+			path = RFKeyboardToolbar;
+			sourceTree = "<group>";
+		};
+		4E6C41211A846ACC0098DC17 /* RFMarkdownTextView */ = {
+			isa = PBXGroup;
+			children = (
+				4E6C41221A846ACC0098DC17 /* RFMarkdownSyntaxStorage.h */,
+				4E6C41231A846ACC0098DC17 /* RFMarkdownSyntaxStorage.m */,
+				4E6C41241A846ACC0098DC17 /* RFMarkdownTextView.h */,
+				4E6C41251A846ACC0098DC17 /* RFMarkdownTextView.m */,
+			);
+			path = RFMarkdownTextView;
 			sourceTree = "<group>";
 		};
 		4E6D71841A75F00E005AD988 /* YLGIFImage */ = {
@@ -2530,6 +2564,8 @@
 		8EA6D03E19E240C40076D59C /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4E6C41211A846ACC0098DC17 /* RFMarkdownTextView */,
+				4E6C411A1A846AC30098DC17 /* RFKeyboardToolbar */,
 				4E6D71841A75F00E005AD988 /* YLGIFImage */,
 				4E217EF71A70EDC700F6DF88 /* SVWebViewController */,
 				4EBB62471A6F526C0045DAEF /* NJKWebViewProgress */,
@@ -3188,6 +3224,7 @@
 				8EF643BF19FF7E2900F7EEB0 /* SettingTextCell.m in Sources */,
 				8E64ED8419ED0CE3006E99DA /* QBImagePickerGroupCell.m in Sources */,
 				4ECE8AE71A3943E80021E29C /* UITableView+Common.m in Sources */,
+				4E6C411F1A846AC30098DC17 /* RFKeyboardToolbar.m in Sources */,
 				4E38CF621A7B7C99005536C0 /* CodeBranchOrTag.m in Sources */,
 				8EA6D1CF19E240C40076D59C /* ObjcRuntime.m in Sources */,
 				4E03ACA61A5D2060002B000B /* UIVerticalAlignmentLabel.m in Sources */,
@@ -3240,6 +3277,7 @@
 				4E87656A1A22E5B40090CFB9 /* SWUtilityButtonView.m in Sources */,
 				8EABE3C819F10D2400A17784 /* TaskComment.m in Sources */,
 				8E97CE471A0A2DF8006F9AD7 /* AGEmojiKeyBoardView.m in Sources */,
+				4E6C41281A846ACC0098DC17 /* RFMarkdownSyntaxStorage.m in Sources */,
 				8EA6D12C19E240C40076D59C /* AddTopicViewController.m in Sources */,
 				4EA7F15B1A6D192B00A046BD /* SDWebImageCompat.m in Sources */,
 				8EA6D13A19E240C40076D59C /* Project_RootViewController.m in Sources */,
@@ -3262,6 +3300,7 @@
 				8E64ED7D19ED0CE3006E99DA /* QBAssetsCollectionOverlayView.m in Sources */,
 				8EA6D14919E240C40076D59C /* UserTweetsViewController.m in Sources */,
 				4ECE8AD71A3943E80021E29C /* DownMenuCell.m in Sources */,
+				4E6C41201A846AC30098DC17 /* RFToolbarButton.m in Sources */,
 				4ECE8B011A3946C10021E29C /* ImageSizeManager.m in Sources */,
 				8EA6D1B319E240C40076D59C /* File.m in Sources */,
 				8EF643C019FF7E2900F7EEB0 /* TaskCommentBlankCell.m in Sources */,
@@ -3333,6 +3372,7 @@
 				4E6BA2DE1A1EE6AF005FD721 /* AFSecurityPolicy.m in Sources */,
 				4EA7F1631A6D192B00A046BD /* UIImage+MultiFormat.m in Sources */,
 				8EF643AE19FF7E2900F7EEB0 /* TweetMediaItemSingleCCell.m in Sources */,
+				4E6C41291A846ACC0098DC17 /* RFMarkdownTextView.m in Sources */,
 				8EF643AC19FF7E2900F7EEB0 /* TweetLikeUserCCell.m in Sources */,
 				8E64ED7B19ED0CE3006E99DA /* QBAssetsCollectionCheckmarkView.m in Sources */,
 				8EA6D1AB19E240C40076D59C /* main.m in Sources */,
