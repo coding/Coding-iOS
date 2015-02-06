@@ -65,11 +65,9 @@
     if (!_file) {
         return;
     }
-    
-    CGFloat frameWidth = CGRectGetWidth(self.bounds);
+    CGFloat buttonHeight;
     if (_file.preview && _file.preview.length > 0) {
-        CGFloat curBottomY = CGRectGetHeight(self.bounds) - 80;
-        
+        buttonHeight = 30;
         if (!_iconView) {
             _iconView = [[YLImageView alloc] initWithFrame:self.bounds];
             _iconView.backgroundColor = [UIColor blackColor];
@@ -78,8 +76,7 @@
         }
 
         if (!_progressView) {
-            _progressView = [[ASProgressPopUpView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, curBottomY, kScreen_Width- 2*kPaddingLeftWidth, 2.0)];
-            
+            _progressView = [[ASProgressPopUpView alloc] initWithFrame:CGRectZero];
             _progressView.popUpViewCornerRadius = 12.0;
             _progressView.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:12];
             [_progressView setTrackTintColor:[UIColor colorWithHexString:@"0xe6e6e6"]];
@@ -88,16 +85,32 @@
             [_progressView hidePopUpViewAnimated:NO];
             [self addSubview:self.progressView];
         }
-        curBottomY += 20;
         if (!_stateButton) {
             _stateButton = [[UIButton alloc] init];
-            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载原文件" andFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 25) target:self action:@selector(clickedByUser)];
+            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载原文件" andFrame:CGRectMake(0, 0, buttonHeight, buttonHeight) target:self action:@selector(clickedByUser)];
+            [_stateButton setCenter:self.center];
             [self addSubview:_stateButton];
         }
+        [_iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self);
+        }];
+        [_progressView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(2.0);
+            make.bottom.equalTo(_stateButton.mas_top).offset(-20);
+        }];
+        
+        [_stateButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(buttonHeight);
+            make.bottom.equalTo(self.mas_bottom).offset(-30);
+            
+            make.width.equalTo(@[@(kScreen_Width- 2*kPaddingLeftWidth), _progressView]);
+            make.centerX.equalTo(@[self, _progressView]);
+        }];
+        
     }else{
-        CGFloat curBottomY = 80;
+        buttonHeight = 45;
         if (!_iconView) {
-            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake((frameWidth - 90)/2, curBottomY, 90, 90)];
+            _iconView = [[UIImageView alloc] initWithFrame:CGRectZero];
             _iconView.contentMode = UIViewContentModeScaleAspectFill;
             _iconView.layer.masksToBounds = YES;
             _iconView.layer.cornerRadius = 2.0;
@@ -105,27 +118,22 @@
             _iconView.layer.borderColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
             [self addSubview:_iconView];
         }
-        curBottomY += CGRectGetHeight(_iconView.frame) +20;
         if (!_nameLabel) {
-            _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 25)];
+            _nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             _nameLabel.textAlignment = NSTextAlignmentCenter;
             _nameLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             _nameLabel.font = [UIFont systemFontOfSize:16];
             [self addSubview:_nameLabel];
         }
-        curBottomY += 25 +10;
         if (!_sizeLabel) {
-            _sizeLabel = [[UILabel alloc] initWithFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 20)];
+            _sizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             _sizeLabel.textAlignment = NSTextAlignmentCenter;
             _sizeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
             _sizeLabel.font = [UIFont systemFontOfSize:12];
             [self addSubview:_sizeLabel];
         }
-        curBottomY += 20 +20;
-        
         if (!_progressView) {
-            _progressView = [[ASProgressPopUpView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, curBottomY, kScreen_Width- 2*kPaddingLeftWidth, 2.0)];
-            
+            _progressView = [[ASProgressPopUpView alloc] initWithFrame:CGRectZero];
             _progressView.popUpViewCornerRadius = 12.0;
             _progressView.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:12];
             [_progressView setTrackTintColor:[UIColor colorWithHexString:@"0xe6e6e6"]];
@@ -134,12 +142,40 @@
             [_progressView hidePopUpViewAnimated:NO];
             [self addSubview:self.progressView];
         }
-        curBottomY += 20;
         if (!_stateButton) {
             _stateButton = [[UIButton alloc] init];
-            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载原文件" andFrame:CGRectMake((frameWidth - 260)/2, curBottomY, 260, 45) target:self action:@selector(clickedByUser)];
+            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载原文件" andFrame:CGRectMake(0, 0, buttonHeight, buttonHeight) target:self action:@selector(clickedByUser)];
             [self addSubview:_stateButton];
         }
+        
+        [_iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(45, 45));
+            make.bottom.equalTo(_nameLabel.mas_top).offset(-50);
+        }];
+        
+        [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(25);
+        }];
+        
+        [_sizeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(20);
+            make.top.equalTo(_nameLabel.mas_bottom).offset(20);
+        }];
+        
+        [_progressView mas_makeConstraints:^(MASConstraintMaker *make) {//上下居中基准
+            make.centerY.equalTo(self.mas_centerY);
+
+            make.height.mas_equalTo(2.0);
+            make.top.equalTo(_sizeLabel.mas_bottom).offset(20);
+        }];
+        
+        [_stateButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(buttonHeight);
+            make.top.equalTo(_progressView.mas_bottom).offset(20);
+            
+            make.width.equalTo(@[@(kScreen_Width- 2*kPaddingLeftWidth), _nameLabel, _sizeLabel, _progressView]);
+            make.centerX.equalTo(@[self, _iconView, _nameLabel, _sizeLabel, _progressView]);
+        }];
     }
 }
 
