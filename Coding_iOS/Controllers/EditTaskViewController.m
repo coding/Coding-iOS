@@ -25,7 +25,6 @@
 #import "TaskCommentTopCell.h"
 #import "TaskCommentBlankCell.h"
 #import "ActionSheetDatePicker.h"
-#import "TaskDescriptionCell.h"
 #import "TaskDescriptionViewController.h"
 
 @interface EditTaskViewController ()
@@ -69,7 +68,7 @@
             _myMsgInputView.isAlwaysShow = YES;
             _myMsgInputView.delegate = self;
             
-            if (_myCopyTask.needRefreshDetail) {// || _myCopyTask.has_description.boolValue
+            if (_myCopyTask.needRefreshDetail || _myCopyTask.has_description.boolValue) {
                 [self queryToRefreshTaskDetail];
             }else{
                 _myMsgInputView.curProject = _myCopyTask.project;
@@ -92,7 +91,6 @@
         [tableView registerClass:[TaskCommentCell class] forCellReuseIdentifier:kCellIdentifier_TaskComment];
         [tableView registerClass:[TaskCommentBlankCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentBlank];
         [tableView registerClass:[TaskCommentTopCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentTop];
-        [tableView registerClass:[TaskDescriptionCell class] forCellReuseIdentifier:kCellIdentifier_TaskDescription];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -192,7 +190,7 @@
             weakSelf.myMsgInputView.commentOfId = weakSelf.myCopyTask.id;
             weakSelf.myMsgInputView.toUser = nil;
             
-            [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [weakSelf.myTableView reloadData];
             [weakSelf queryToRefreshCommentList];
         }
     }];
@@ -299,8 +297,6 @@
     NSInteger row = 0;
     if (section == 0) {
         row = 1;
-//    }else if (section == 2){
-//        row = 1;
     }else if (section == 1){
         row = (self.myCopyTask.handleType == TaskHandleTypeAdd)? 3: 4;
     }else{
@@ -324,32 +320,22 @@
         cell.textViewBecomeFirstResponderBlock = ^(){
             [weakSelf.myMsgInputView isAndResignFirstResponder];
         };
-        if (_myCopyTask.handleType == TaskHandleTypeAdd) {
-            cell.deleteBtnClickedBlock = nil;
-        }else{
-            cell.deleteBtnClickedBlock = ^(Task *toDelete){
-                [weakSelf.view endEditing:YES];
-                UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此任务" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-                    if (index == 0) {
-                        [weakSelf deleteTask:toDelete];
-                    }
-                }];
-                [actionSheet showInView:kKeyWindow];
-            };
-        }
+        cell.deleteBtnClickedBlock = ^(Task *toDelete){
+            [weakSelf.view endEditing:YES];
+            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此任务" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                if (index == 0) {
+                    [weakSelf deleteTask:toDelete];
+                }
+            }];
+            [actionSheet showInView:kKeyWindow];
+        };
+        cell.descriptionBtnClickedBlock = ^(Task *toDelete){
+            [weakSelf goToDescriptionVC];
+        };
+
         cell.backgroundColor = kColorTableBG;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
         return cell;
-//    }else if (indexPath.section == 2){
-//        TaskDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskDescription forIndexPath:indexPath];
-//        if (_myCopyTask.has_description && !_myCopyTask.has_description.boolValue) {
-//            //没有描述
-//            [cell setDescriptionStr:@""];
-//        }else{
-//            [cell setDescriptionStr:_myCopyTask.task_description.description_mine];
-//        }
-//        [cell addLineUp:YES andDown:NO andColor:tableView.separatorColor];
-//        return cell;
     }else if (indexPath.section == 1){
         LeftImage_LRTextCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_LeftImage_LRText forIndexPath:indexPath];
         [cell setObj:_myCopyTask type:indexPath.row];
@@ -386,8 +372,6 @@
     CGFloat cellHeight = 0;
     if (indexPath.section == 0) {
         cellHeight = [TaskContentCell cellHeightWithObj:_myCopyTask];
-//    }else if (indexPath.section == 2){
-//        cellHeight = [TaskDescriptionCell cellHeight];
     }else if (indexPath.section == 1){
         cellHeight = [LeftImage_LRTextCell cellHeight];
     }else{
@@ -432,26 +416,11 @@
     return headerView;
 }
 
-//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-//    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 1)];
-//    footerView.backgroundColor = (section == 2)? [UIColor whiteColor]: [UIColor clearColor];
-//    return footerView;
-//}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ESWeakSelf;
     if (indexPath.section == 0) {
         
-//    }else if (indexPath.section == 2) {
-//        TaskDescriptionViewController *vc = [[TaskDescriptionViewController alloc] init];
-//        vc.markdown = _myCopyTask.task_description.markdown;
-//        vc.savedNewMDBlock = ^(NSString *mdStr, NSString *mdHtmlStr){
-//            ESStrongSelf;
-//            _self.myCopyTask.task_description.markdown = mdStr;
-//            _self.myCopyTask.task_description.description_mine = mdHtmlStr;
-//        };
-//        [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section == 1){
         if (indexPath.row == LeftImage_LRTextCellTypeTaskOwner) {
             ProjectMemberListViewController *vc = [[ProjectMemberListViewController alloc] init];
@@ -502,7 +471,23 @@
             [self doCommentToComment:curComment sender:[tableView cellForRowAtIndexPath:indexPath]];
         }
     }
+}
 
+- (void)goToDescriptionVC{
+    if (!_myCopyTask.task_description) {
+        _myCopyTask.task_description = [Task_Description defaultDescription];
+    }
+    ESWeakSelf;
+    TaskDescriptionViewController *vc = [[TaskDescriptionViewController alloc] init];
+    vc.markdown = _myCopyTask.task_description.markdown;
+    vc.savedNewMDBlock = ^(NSString *mdStr, NSString *mdHtmlStr){
+        ESStrongSelf;
+        _self.myCopyTask.has_description = [NSNumber numberWithBool:(mdStr.length > 0)];
+        _self.myCopyTask.task_description.markdown = mdStr;
+        _self.myCopyTask.task_description.description_mine = mdHtmlStr;
+        [_self.myTableView reloadData];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)doCommentToComment:(TaskComment *)toComment sender:(id)sender{

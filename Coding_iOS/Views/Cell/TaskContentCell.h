@@ -14,6 +14,7 @@
 @property (nonatomic,copy) void(^textValueChangedBlock)(NSString *);
 @property (nonatomic,copy) void(^textViewBecomeFirstResponderBlock)();
 @property (nonatomic,copy) void(^deleteBtnClickedBlock)(Task *);
+@property (nonatomic,copy) void(^descriptionBtnClickedBlock)(Task *);
 
 + (CGFloat)cellHeightWithObj:(id)obj;
 @end

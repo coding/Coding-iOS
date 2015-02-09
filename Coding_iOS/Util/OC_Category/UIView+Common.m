@@ -425,13 +425,13 @@ static char LoadingViewKey, BlankPageViewKey;
             case EaseBlankPageTypeTweet:
             {
                 imageName = @"blankpage_image_Hi";
-                tipStr = @"这里怎么空空的\n来，赶快去冒个泡吧";
+                tipStr = @"无冒泡\n来，冒个泡吧～";
             }
                 break;
             case EaseBlankPageTypeTweetOther:
             {
                 imageName = @"blankpage_image_Sleep";
-                tipStr = @"Ta 还没有冒泡过呢～";
+                tipStr = @"这个人很懒\n一个冒泡都木有～";
             }
                 break;
             case EaseBlankPageTypeProject:
@@ -450,6 +450,12 @@ static char LoadingViewKey, BlankPageViewKey;
             {
                 imageName = @"blankpage_image_loadFail";
                 tipStr = @"晚了一步\n文件夹貌似被人删除了～";
+            }
+                break;
+            case EaseBlankPageTypePrivateMsg:
+            {
+                imageName = @"blankpage_image_Hi";
+                tipStr = @"无私信\n打个招呼吧～";
             }
                 break;
             default:

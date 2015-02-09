@@ -9,7 +9,7 @@
 #import "TaskDescriptionViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "WebContentManager.h"
-#import <MMMarkdown/MMMarkdown.h>
+#import "EaseMarkdownTextView.h"
 
 @interface TaskDescriptionViewController ()<UIWebViewDelegate>
 @property (strong, nonatomic) UISegmentedControl *segmentedControl;
@@ -18,7 +18,7 @@
 @property (strong, nonatomic) UIWebView *preview;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 
-@property (strong, nonatomic) UITextView *editView;
+@property (strong, nonatomic) EaseMarkdownTextView *editView;
 @end
 
 @implementation TaskDescriptionViewController
@@ -51,6 +51,14 @@
     
     [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"保存" target:self action:@selector(saveBtnClicked)] animated:YES];
     self.navigationItem.rightBarButtonItem.enabled = NO;
+    
+    [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillChangeFrameNotification object:nil] takeUntil:self.rac_willDeallocSignal] subscribeNext:^(NSNotification *aNotification) {
+        if (self.editView) {
+            NSDictionary* userInfo = [aNotification userInfo];
+            CGRect keyboardEndFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+            self.editView.contentInset = UIEdgeInsetsMake(0, 0, CGRectGetHeight(keyboardEndFrame), 0);
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -93,23 +101,19 @@
 
 - (void)loadEditView{
     if (!_editView) {
-        _editView = [[UITextView alloc] initWithFrame:self.view.bounds];
-        _editView.backgroundColor = [UIColor clearColor];
-        
+        _editView = [[EaseMarkdownTextView alloc] initWithFrame:self.view.bounds];
         _editView.textColor = [UIColor colorWithHexString:@"0x999999"];
         _editView.font = [UIFont systemFontOfSize:16];
-        
         _editView.text = _markdown;
         [self.view addSubview:_editView];
         [_editView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
-
         @weakify(self);
-        RAC(self.navigationItem.rightBarButtonItem, enabled) = [RACSignal combineLatest:@[self.editView.rac_textSignal] reduce:^id (NSString *mdStr){
+        
+        [_editView.rac_textSignal subscribeNext:^(NSString *mdStr) {
             @strongify(self);
-            BOOL saveEnabled = ![mdStr isEqualToString:self.markdown];
-            return @(saveEnabled);
+            self.navigationItem.rightBarButtonItem.enabled = ![mdStr isEqualToString:self.markdown];
         }];
     }
     _editView.hidden = NO;
@@ -147,19 +151,15 @@
 
 - (void)previewLoadMDData{
     NSString *mdStr = self.editView? self.editView.text : _markdown;
-    NSError  *error = nil;
-    NSString *htmlStr;
-    @try {
-        htmlStr = [MMMarkdown HTMLStringWithMarkdown:mdStr error:&error];
-    }
-    @catch (NSException *exception) {
-        htmlStr = @"加载失败！";
-    }
-    if (error) {
-        htmlStr = @"加载失败！";
-    }
-    NSString *contentStr = [WebContentManager markdownPatternedWithContent:htmlStr];
-    [self.preview loadHTMLString:contentStr baseURL:nil];
+    [_activityIndicator startAnimating];
+    
+    @weakify(self);
+    [[Coding_NetAPIManager sharedManager] request_MDHtmlStr_WithMDStr:mdStr andBlock:^(id data, NSError *error) {
+        @strongify(self);
+        NSString *htmlStr = data? data : error.description;
+        NSString *contentStr = [WebContentManager markdownPatternedWithContent:htmlStr];
+        [self.preview loadHTMLString:contentStr baseURL:nil];
+    }];
 }
 
 #pragma mark UIWebViewDelegate
@@ -183,4 +183,8 @@
     }
 }
 
+#pragma mark UITextViewDelegate
+- (void)textViewDidChange:(UITextView *)textView{
+    
+}
 @end

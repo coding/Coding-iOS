@@ -159,7 +159,7 @@
                 [weakSelf.myTableView setContentOffset:CGPointMake(0, (curContentHeight -_preContentHeight)+weakSelf.myTableView.contentOffset.y)];
             }
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.myPriMsgs.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypePrivateMsg hasData:(weakSelf.myPriMsgs.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refreshLoadMore:NO];
         }];
     }];
@@ -323,7 +323,7 @@
     } progerssBlock:^(CGFloat progressValue) {
         DebugLog(@"\n%.2f", progressValue);
     }];
-    [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.myPriMsgs.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+    [weakSelf.view configBlankPage:EaseBlankPageTypePrivateMsg hasData:(weakSelf.myPriMsgs.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
         [weakSelf refreshLoadMore:NO];
     }];
 }

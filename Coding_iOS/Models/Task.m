@@ -51,7 +51,7 @@
     curTask.handleType = TaskHandleTypeAdd;
     curTask.priority = [NSNumber numberWithInt:1];
     curTask.content = @"";
-    curTask.has_description = [NSNumber numberWithBool:YES];
+    curTask.has_description = [NSNumber numberWithBool:NO];
     curTask.task_description = [Task_Description defaultDescription];
     return curTask;
 }
@@ -150,12 +150,12 @@
         [params setObject:self.content forKey:@"content"];
     }
     //描述
-    if (self.has_description.boolValue) {
-        NSString *newMD = self.task_description.markdown;
-        if (newMD && ![newMD isEqualToString:oldTask.task_description.markdown]) {
-            [params setObject:[newMD aliasedString] forKey:@"description"];
-        }
+    NSString *newMD = self.task_description.markdown;
+
+    if (newMD && ![newMD isEqualToString:oldTask.task_description.markdown] ) {
+        [params setObject:[newMD aliasedString] forKey:@"description"];
     }
+
     //执行者
     if (self.owner_id && self.owner_id.integerValue != oldTask.owner_id.integerValue) {
         [params setObject:self.owner_id forKey:@"owner_id"];
