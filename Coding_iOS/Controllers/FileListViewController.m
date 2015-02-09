@@ -27,7 +27,7 @@
 #import "Coding_FileManager.h"
 
 
-@interface FileListViewController () <SWTableViewCellDelegate, EaseToolBarDelegate, QBImagePickerControllerDelegate, Coding_FileManagerDelegate>
+@interface FileListViewController () <SWTableViewCellDelegate, EaseToolBarDelegate, QBImagePickerControllerDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 @property (strong, nonatomic) ProjectFiles *myFiles;
@@ -73,12 +73,16 @@
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     
-    [Coding_FileManager sharedManager].delegate = self;
     if (!self.rootFolders) {
         self.rootFolders = [ProjectFolders emptyFolders];
     }
     [self refresh];
-}
+    
+    [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:kNotificationUploadCompled object:nil] takeUntil:self.rac_willDeallocSignal] subscribeNext:^(NSNotification *aNotification) {
+        //{NSURLResponse: response, NSError: error, ProjectFile: data}
+        NSDictionary* userInfo = [aNotification userInfo];
+        [self completionUploadWithResult:[userInfo objectForKey:@"data"] error:[userInfo objectForKey:@"error"]];
+    }];}
 
 - (void)didReceiveMemoryWarning
 {
@@ -284,23 +288,17 @@
 }
 
 - (void)completionUploadWithResult:(id)responseObject error:(NSError *)error{
-    if (error) {
-        [self showError:error];
-    }else if (responseObject){
+    if (responseObject){
         ProjectFile *curFile = responseObject;
-        if (curFile.name && curFile.name.length > 0) {
+        if (curFile.parent_id.integerValue == self.curFolder.file_id.integerValue) {
             curFile.project_id = self.curProject.id;
             [self.myFiles.list insertObject:curFile atIndex:0];
             self.curFolder.count = @(self.curFolder.count.integerValue +1);
+            [self configuploadFiles];
         }
     }
-    [self configuploadFiles];
 }
 
-#pragma mark Coding_FileManagerDelegate
-- (void)completionUploadResponse:(NSURLResponse *)response withResponseObject:(id)responseObject andError:(NSError *)error{
-    [self completionUploadWithResult:responseObject error:error];
-}
 
 #pragma mark Table M
 - (NSInteger)totalDataRow{

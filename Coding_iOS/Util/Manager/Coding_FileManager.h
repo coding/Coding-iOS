@@ -6,6 +6,9 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kNotificationUploadCompled @"notification_upload_compled" 
+//{NSURLResponse: response, NSError: error, ProjectFile: data}
+
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
 #import "DirectoryWatcher.h"
@@ -17,7 +20,6 @@
 @protocol Coding_FileManagerDelegate;
 
 @interface Coding_FileManager : NSObject
-@property (nonatomic, weak) id<Coding_FileManagerDelegate> delegate;
 
 //download
 + (Coding_FileManager *)sharedManager;
@@ -56,10 +58,4 @@
 @property (strong, nonatomic) NSString *fileName;
 + (Coding_UploadTask *)cUploadTaskWithTask:(NSURLSessionUploadTask *)task progress:(NSProgress *)progress fileName:(NSString *)fileName;
 - (void)cancel;
-@end
-
-
-@protocol Coding_FileManagerDelegate <NSObject>
-@optional
-- (void)completionUploadResponse:(NSURLResponse *)response withResponseObject:(id)responseObject andError:(NSError *)error;
 @end

@@ -240,9 +240,8 @@
         
         if (error) {
             [manager showError:error];
-            if (manager.delegate && [manager.delegate respondsToSelector:@selector(completionUploadResponse:withResponseObject:andError:)]) {
-                [manager.delegate completionUploadResponse:response withResponseObject:nil andError:error];
-            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUploadCompled object:manager userInfo:@{@"response" : response,
+                                                                                                                            @"error" : error}];
         }else{
             NSString *block_project_id = [[[[response.URL.absoluteString componentsSeparatedByString:@"/project/"] lastObject] componentsSeparatedByString:@"/file/"] firstObject];
 
@@ -263,9 +262,8 @@
             [[Coding_FileManager sharedManager] removeCUploadTaskForFile:block_fileName hasError:(error != nil)];
             
             //处理completionHandler
-            if (manager.delegate && [manager.delegate respondsToSelector:@selector(completionUploadResponse:withResponseObject:andError:)]) {
-                [manager.delegate completionUploadResponse:response withResponseObject:curFile andError:nil];
-            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUploadCompled object:manager userInfo:@{@"response" : response,
+                                                                                                                            @"data" : curFile}];
         }
     }];
     
