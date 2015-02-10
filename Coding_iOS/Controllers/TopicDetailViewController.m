@@ -23,6 +23,7 @@
 #import "SVPullToRefresh.h"
 #import "EditTaskViewController.h"
 #import "WebViewController.h"
+#import "EditTopicViewController.h"
 
 @interface TopicDetailViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
@@ -70,7 +71,7 @@
         tableView;
     });
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
-    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    [_refreshControl addTarget:self action:@selector(refreshTopic) forControlEvents:UIControlEventValueChanged];
     
     //评论
     __weak typeof(self) weakSelf = self;
@@ -90,7 +91,7 @@
         _myMsgInputView.curProject = _curTopic.project;
         _myMsgInputView.commentOfId = _curTopic.id;
     }
-    [self refresh];
+    [self refreshTopic];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -117,6 +118,23 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark nav 
+- (void)configNavBtn{
+    [self.navigationItem setRightBarButtonItem:[self.curTopic canEdit]? [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(editBtnClicked)]: nil animated:YES];
+}
+
+- (void)editBtnClicked{
+    EditTopicViewController *vc = [[EditTopicViewController alloc] init];
+    vc.curProTopic = self.curTopic;
+    vc.type = TopicEditTypeModify;
+    
+    __weak typeof(self) weakSelf = self;
+    vc.topicChangedBlock = ^(ProjectTopic *topic, TopicEditType type){
+        [weakSelf refreshTopic];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark UIMessageInputViewDelegate
 - (void)messageInputView:(UIMessageInputView *)inputView sendText:(NSString *)text{
     [self sendCommentMessage:text];
@@ -139,13 +157,6 @@
 }
 
 #pragma mark Refresh M
-- (void)refresh{
-    [self refreshTopic];
-    __weak typeof(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [weakSelf refreshComments];
-    });
-}
 
 - (void)refreshComments{
     if (_curTopic.isLoading) {
@@ -163,11 +174,15 @@
     [[Coding_NetAPIManager sharedManager] request_ProjectTopic_WithObj:_curTopic andBlock:^(id data, NSError *error) {
         [self.refreshControl endRefreshing];
         if (data) {
-            [weakSelf.curTopic configWithRefreshedTopic:data];
+            weakSelf.curTopic = data;
+            
             weakSelf.myMsgInputView.curProject = weakSelf.curTopic.project;
             weakSelf.myMsgInputView.commentOfId = _curTopic.id;
             weakSelf.myMsgInputView.toUser = nil;
+            [weakSelf configNavBtn];
+            
             [weakSelf.myTableView reloadData];
+            [weakSelf refreshComments];
         }
     }];
 }

@@ -435,11 +435,9 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
         case ProjectViewTypeTopics:
         {
             EditTopicViewController *vc = [[EditTopicViewController alloc] init];
-            vc.myProTopic = [ProjectTopic topicWithPro:self.myProject];
+            vc.curProTopic = [ProjectTopic topicWithPro:self.myProject];
             vc.type = TopicEditTypeAdd;
-            vc.topicChangedBlock = ^(ProjectTopic *topic, TopicEditType type){
-                
-            };
+            vc.topicChangedBlock = nil;
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;

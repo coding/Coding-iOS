@@ -45,11 +45,12 @@
 - (NSString *)toCommentsPath;
 - (NSDictionary *)toCommentsParams;
 - (void)configWithComments:(ProjectTopics *)comments;
-- (void)configWithRefreshedTopic:(ProjectTopic *)topic;
 
 - (NSString *)toDoCommentPath;
 - (NSDictionary *)toDoCommentParams;
 - (void)configWithComment:(ProjectTopic *)comment;
 
 - (NSString *)toDeletePath;
+
+- (BOOL)canEdit;
 @end

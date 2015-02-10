@@ -704,13 +704,13 @@
     [MobClick event:kUmeng_Event_Request label:@"项目讨论详情"];
     proTopic.isTopicLoading = YES;
     //html详情
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:@{@"": [NSNumber numberWithInteger:0]} withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:@{@"type": [NSNumber numberWithInteger:0]} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             //markdown详情
             id resultData = [data valueForKeyPath:@"data"];
             ProjectTopic *resultT = [NSObject objectOfClass:@"ProjectTopic" fromJSON:resultData];
             
-            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:@{@"": [NSNumber numberWithInteger:1]} withMethodType:Get andBlock:^(id dataMD, NSError *errorMD) {
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:@{@"type": [NSNumber numberWithInteger:1]} withMethodType:Get andBlock:^(id dataMD, NSError *errorMD) {
                 if (dataMD) {
                     resultT.mdTitle = [[dataMD valueForKey:@"data"] valueForKey:@"title"];
                     resultT.mdContent = [[dataMD valueForKey:@"data"] valueForKey:@"content"];

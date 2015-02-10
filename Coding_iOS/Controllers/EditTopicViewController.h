@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, TopicEditType) {
 
 @interface EditTopicViewController : BaseViewController
 
-@property (strong, nonatomic) ProjectTopic *myProTopic;
+@property (strong, nonatomic) ProjectTopic *curProTopic;
 @property (nonatomic, assign) TopicEditType type;
 
 @property (copy, nonatomic) void(^topicChangedBlock)(ProjectTopic *curTopic, TopicEditType type);

@@ -124,7 +124,7 @@
     [_commentCountLabel setY:curBottomY+2];
     _commentCountLabel.text = [NSString stringWithFormat:@"%d条评论", _curTopic.child_count.intValue];
     [_commentBtn setY:curBottomY];
-    if (_curTopic.owner_id.integerValue == [Login curLoginUser].id.integerValue || [Login isOwnerOfProjectWithOwnerId:_curTopic.project.owner_id]) {
+    if ([_curTopic canEdit]) {
         _deleteBtn.hidden = NO;
         [_deleteBtn setY:curBottomY];
     }else{

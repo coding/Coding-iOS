@@ -91,20 +91,6 @@
     
 }
 
-- (void)configWithRefreshedTopic:(ProjectTopic *)topic{
-    self.child_count = topic.child_count;
-    self.content = topic.htmlMedia.contentOrigional;
-    self.title = topic.title;
-    self.created_at = topic.created_at;
-    self.current_user_role_id = topic.current_user_role_id;
-    self.owner = topic.owner;
-    self.project = topic.project;
-    self.owner_id = topic.owner_id;
-    self.project_id = topic.project_id;
-    self.updated_at = topic.updated_at;
-    self.parent_id = topic.parent_id;
-}
-
 - (NSString *)toDoCommentPath{
     return [NSString stringWithFormat:@"api/project/%d/topic?parent=%d",_project_id.intValue, _id.intValue];
 }
@@ -122,6 +108,11 @@
 }
 - (NSString *)toDeletePath{
     return [NSString stringWithFormat:@"api/topic/%d", self.id.intValue];
+}
+
+- (BOOL)canEdit{
+    return (self.owner_id.integerValue == [Login curLoginUser].id.integerValue // 讨论创建者
+            || [Login isOwnerOfProjectWithOwnerId:self.project.owner_id]); //项目创建者
 }
 
 @end

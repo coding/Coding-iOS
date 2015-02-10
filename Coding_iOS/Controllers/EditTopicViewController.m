@@ -118,7 +118,7 @@
         _inputTitleView.textColor = [UIColor colorWithHexString:@"0x222222"];
         
         
-        _inputTitleView.font = [UIFont boldSystemFontOfSize:18];
+        _inputTitleView.font = [UIFont systemFontOfSize:18];
         [_editView addSubview:_inputTitleView];
         
         _inputContentView = [[EaseMarkdownTextView alloc] initWithFrame:CGRectZero];
@@ -161,16 +161,20 @@
         //内容
         @weakify(self);
         RAC(self.navigationItem.rightBarButtonItem, enabled) = [RACSignal combineLatest:@[self.inputTitleView.rac_textSignal, self.inputContentView.rac_textSignal] reduce:^id (NSString *title, NSString *content){
+            //刚开始编辑content的时候，title传过来的总是nil
+            
             @strongify(self);
-            BOOL enabled = ([title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
-                            && [content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
-                            && ![title isEqualToString:self.myProTopic.mdTitle]
-                            && ![content isEqualToString:self.myProTopic.mdContent]);
+            BOOL enabled = ([self.inputTitleView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
+                            && [self.inputContentView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
+                            && (![title isEqualToString:self.curProTopic.mdTitle] || ![content isEqualToString:self.curProTopic.mdContent]));
             return @(enabled);
         }];
         _inputTitleView.placeholder = self.type == TopicEditTypeFeedBack? @"反馈标题": @"讨论标题";
         [_inputTitleView setValue:[UIColor lightGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
         _inputContentView.placeholder = self.type == TopicEditTypeFeedBack? @"反馈内容": @"讨论内容";
+        
+        _inputTitleView.text = _curProTopic.mdTitle;
+        _inputContentView.text = _curProTopic.mdContent;
     }
     _editView.hidden = NO;
     _preview.hidden = YES;
@@ -221,12 +225,12 @@
 #pragma mark nav_btn 
 
 - (void)saveBtnClicked{
-    self.myProTopic.mdTitle = _inputTitleView.text;
-    self.myProTopic.mdContent = _inputContentView.text;
+    self.curProTopic.mdTitle = _inputTitleView.text;
+    self.curProTopic.mdContent = _inputContentView.text;
     if (self.type == TopicEditTypeModify) {
         self.navigationItem.rightBarButtonItem.enabled = NO;
         @weakify(self);
-        [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoic:self.myProTopic andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoic:self.curProTopic andBlock:^(id data, NSError *error) {
             @strongify(self);
             self.navigationItem.rightBarButtonItem.enabled = YES;
             if (data) {
@@ -239,7 +243,7 @@
     }else{
         self.navigationItem.rightBarButtonItem.enabled = NO;
         @weakify(self);
-        [[Coding_NetAPIManager sharedManager] request_AddProjectTpoic:self.myProTopic andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_AddProjectTpoic:self.curProTopic andBlock:^(id data, NSError *error) {
             @strongify(self);
             self.navigationItem.rightBarButtonItem.enabled = YES;
             if (data) {
