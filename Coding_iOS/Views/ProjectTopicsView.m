@@ -53,6 +53,14 @@
     return self;
 }
 
+- (void)refreshToQueryData{
+    UIView *currentItemView = self.myCarousel.currentItemView;
+    if ([currentItemView isKindOfClass:[ProjectTopicListView class]]) {
+        ProjectTopicListView *listView = (ProjectTopicListView *)currentItemView;
+        [listView refreshToQueryData];
+    }
+}
+
 #pragma mark iCarousel M
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel{
     return 2;

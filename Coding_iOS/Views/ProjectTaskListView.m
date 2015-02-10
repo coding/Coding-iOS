@@ -96,13 +96,8 @@
     }
 }
 - (void)refreshToQueryData{
-    if (_myTasks.isLoading) {
-        return;
-    }
-    [self sendRequest];
+    [self refresh];
 }
-
-
 
 - (void)refreshFirst{
     if (_myTasks && !_myTasks.list) {

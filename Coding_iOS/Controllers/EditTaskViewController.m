@@ -230,7 +230,7 @@
                 _myTask.owner = _myCopyTask.owner;
                 _myTask.status = _myCopyTask.status;
                 if (_taskChangedBlock) {
-                    _taskChangedBlock(_myTask, TaskEditTypeChange);
+                    _taskChangedBlock(_myTask, TaskEditTypeModify);
                 }
                 [self.navigationController popViewControllerAnimated:YES];
             }else{

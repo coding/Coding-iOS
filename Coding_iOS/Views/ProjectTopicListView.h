@@ -16,5 +16,5 @@ typedef void(^ProjectTopicBlock)(ProjectTopicListView *projectTopicListView, Pro
 
 - (id)initWithFrame:(CGRect)frame projectTopics:(ProjectTopics *)projectTopics block:(ProjectTopicBlock)block;
 - (void)setProTopics:(ProjectTopics *)proTopics;
-- (void)reloadQueryData;
+- (void)refreshToQueryData;
 @end

@@ -13,8 +13,7 @@
 
 typedef NS_ENUM(NSInteger, TaskEditType) {
     TaskEditTypeAdd = 0,
-    TaskEditTypeChange,
-    TaskEditTypeDelete
+    TaskEditTypeModify,
 };
 
 @interface EditTaskViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIMessageInputViewDelegate>

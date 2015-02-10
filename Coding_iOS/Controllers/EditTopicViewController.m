@@ -1,19 +1,18 @@
 //
-//  AddTopicViewController.m
+//  EditTopicViewController.m
 //  Coding_iOS
 //
 //  Created by 王 原闯 on 14-8-27.
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#import "AddTopicViewController.h"
+#import "EditTopicViewController.h"
 #import "ProjectTopic.h"
 #import "Coding_NetAPIManager.h"
 #import "EaseMarkdownTextView.h"
 #import "WebContentManager.h"
 
-@interface AddTopicViewController ()<UIWebViewDelegate>
-@property (strong, nonatomic) ProjectTopic *myProTopic;
+@interface EditTopicViewController ()<UIWebViewDelegate>
 
 
 @property (strong, nonatomic) UISegmentedControl *segmentedControl;
@@ -29,7 +28,7 @@
 
 @end
 
-@implementation AddTopicViewController
+@implementation EditTopicViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,8 +44,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.myProTopic = [ProjectTopic topicWithPro:self.curProject];
-
     if (!_segmentedControl) {
         _segmentedControl = ({
             UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"编辑", @"预览"]];
@@ -68,7 +65,7 @@
         self.navigationItem.titleView = _segmentedControl;
     }
     
-    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(saveBtnClicked)] animated:YES];
+    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:self.type == TopicEditTypeFeedBack? @"发送": @"完成" target:self action:@selector(saveBtnClicked)] animated:YES];
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
 
@@ -82,7 +79,6 @@
     }];
     
     self.curIndex = 0;
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -145,8 +141,8 @@
             make.edges.equalTo(self.view);
         }];
         [_inputTitleView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_editView.mas_top).offset(20.0);
-            make.height.mas_equalTo(20);
+            make.top.equalTo(_editView.mas_top).offset(10.0);
+            make.height.mas_equalTo(30);
 
             make.left.equalTo(_editView).offset(kPaddingLeftWidth);
             make.right.equalTo(_editView).offset(-kPaddingLeftWidth);
@@ -163,14 +159,18 @@
         }];
         
         //内容
+        @weakify(self);
         RAC(self.navigationItem.rightBarButtonItem, enabled) = [RACSignal combineLatest:@[self.inputTitleView.rac_textSignal, self.inputContentView.rac_textSignal] reduce:^id (NSString *title, NSString *content){
+            @strongify(self);
             BOOL enabled = ([title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
-                            && [content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0);
+                            && [content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
+                            && ![title isEqualToString:self.myProTopic.mdTitle]
+                            && ![content isEqualToString:self.myProTopic.mdContent]);
             return @(enabled);
         }];
-        _inputTitleView.placeholder = @"讨论标题";
+        _inputTitleView.placeholder = self.type == TopicEditTypeFeedBack? @"反馈标题": @"讨论标题";
         [_inputTitleView setValue:[UIColor lightGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
-        _inputContentView.placeholder = @"讨论内容";
+        _inputContentView.placeholder = self.type == TopicEditTypeFeedBack? @"反馈内容": @"讨论内容";
     }
     _editView.hidden = NO;
     _preview.hidden = YES;
@@ -206,7 +206,7 @@
 }
 
 - (void)previewLoadMDData{
-    NSString *mdStr = [NSString stringWithFormat:@"# %@\n\n%@", _inputTitleView.text, _inputContentView.text];
+    NSString *mdStr = [NSString stringWithFormat:@"# %@\n%@", _inputTitleView.text, _inputContentView.text];
     [_activityIndicator startAnimating];
     
     @weakify(self);
@@ -221,23 +221,37 @@
 #pragma mark nav_btn 
 
 - (void)saveBtnClicked{
-    self.myProTopic.title = _inputTitleView.text;
-    self.myProTopic.content = _inputContentView.text;
-    
-    if (_myProTopic.title.length <= 0 || _myProTopic.htmlMedia.contentOrigional <= 0) {
-        kTipAlert(@"至少写点什么吖");
-        return;
+    self.myProTopic.mdTitle = _inputTitleView.text;
+    self.myProTopic.mdContent = _inputContentView.text;
+    if (self.type == TopicEditTypeModify) {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        @weakify(self);
+        [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoic:self.myProTopic andBlock:^(id data, NSError *error) {
+            @strongify(self);
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+            if (data) {
+                if (self.topicChangedBlock) {
+                    self.topicChangedBlock(data, self.type);
+                }
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+    }else{
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        @weakify(self);
+        [[Coding_NetAPIManager sharedManager] request_AddProjectTpoic:self.myProTopic andBlock:^(id data, NSError *error) {
+            @strongify(self);
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+            if (data) {
+                if (self.topicChangedBlock) {
+                    self.topicChangedBlock(data, self.type);
+                }
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
     }
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    [[Coding_NetAPIManager sharedManager] request_AddProjectTpoic:self.myProTopic andBlock:^(id data, NSError *error) {
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-        if (data) {
-            self.myProTopic = data;
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-    }];
-}
 
+}
 
 #pragma mark UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{

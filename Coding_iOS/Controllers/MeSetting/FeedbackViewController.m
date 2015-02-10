@@ -80,10 +80,10 @@
 }
 
 - (void)feedbackBtnClicked:(id)sender{
-    self.myProTopic.title = _inputTitleView.text;
-    self.myProTopic.content = _inputContentView.text;
+    self.myProTopic.mdTitle = _inputTitleView.text;
+    self.myProTopic.mdContent = _inputContentView.text;
     
-    if (_myProTopic.title.length <= 0 || _myProTopic.htmlMedia.contentOrigional <= 0) {
+    if (_myProTopic.mdTitle.length <= 0 || _myProTopic.mdContent <= 0) {
         kTipAlert(@"至少写点什么吖");
         return;
     }

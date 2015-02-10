@@ -19,6 +19,11 @@
         _canLoadMore = YES;
         _isLoading = _willLoadMore = NO;
         _contentHeight = 1;
+        
+        _title = @"";
+        _content = @"";
+        _mdTitle = @"";
+        _mdContent = @"";
     }
     return self;
 }
@@ -30,6 +35,12 @@
     }
 }
 
++ (ProjectTopic *)feedbackTopic{
+    ProjectTopic *topic = [[ProjectTopic alloc] init];
+    topic.project_id = [NSNumber numberWithInteger:182];
+    return topic;
+}
+
 + (ProjectTopic *)topicWithPro:(Project *)pro{
     ProjectTopic *topic = [[ProjectTopic alloc] init];
     topic.project = pro;
@@ -39,28 +50,24 @@
 + (ProjectTopic *)topicWithId:(NSNumber *)topicId{
     ProjectTopic *topic = [[ProjectTopic alloc] init];
     topic.id = topicId;
-    topic.title = @"";
-    topic.content = @"";
     return topic;
 }
 
 - (NSString *)toTopicPath{
     return [NSString stringWithFormat:@"api/topic/%d", self.id.intValue];
 }
-- (NSDictionary *)toTopicParams{
-    return @{@"type" : [NSNumber numberWithInteger:0]};
-}
 
-- (NSDictionary *)toTopicEditParams{
-    return @{@"type" : [NSNumber numberWithInteger:1]};
+- (NSDictionary *)toEditParams{
+    return @{@"title" : [_mdTitle aliasedString],
+             @"content" : [_mdContent aliasedString]};
 }
 
 - (NSString *)toAddTopicPath{
     return [NSString stringWithFormat:@"api/project/%d/topic?parent=0", [self.project_id intValue]];
 }
 - (NSDictionary *)toAddTopicParams{
-    return @{@"title" : [_title aliasedString],
-             @"content" : [_htmlMedia.contentOrigional aliasedString]};
+    return @{@"title" : [_mdTitle aliasedString],
+             @"content" : [_mdContent aliasedString]};
 }
 
 - (NSString *)toCommentsPath{

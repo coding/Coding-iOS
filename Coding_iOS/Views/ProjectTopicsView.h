@@ -14,5 +14,6 @@
 
 @interface ProjectTopicsView : UIView<iCarouselDataSource, iCarouselDelegate>
 - (id)initWithFrame:(CGRect)frame project:(Project *)project block:(ProjectTopicBlock)block defaultIndex:(NSInteger)index;
+- (void)refreshToQueryData;
 
 @end

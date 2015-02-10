@@ -332,7 +332,7 @@
 		8E9866C2198E416C00ABFFA0 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E9866C1198E416C00ABFFA0 /* CoreText.framework */; };
 		8EA6D12819E240C40076D59C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CF1619E240C40076D59C /* AppDelegate.m */; };
 		8EA6D12A19E240C40076D59C /* Coding_iOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CF1919E240C40076D59C /* Coding_iOS.xcdatamodeld */; };
-		8EA6D12C19E240C40076D59C /* AddTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CF1F19E240C40076D59C /* AddTopicViewController.m */; };
+		8EA6D12C19E240C40076D59C /* EditTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CF1F19E240C40076D59C /* EditTopicViewController.m */; };
 		8EA6D12D19E240C40076D59C /* ConversationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CF2119E240C40076D59C /* ConversationViewController.m */; };
 		8EA6D12E19E240C40076D59C /* EditTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CF2319E240C40076D59C /* EditTaskViewController.m */; };
 		8EA6D13019E240C40076D59C /* LikersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CF2719E240C40076D59C /* LikersViewController.m */; };
@@ -1034,8 +1034,8 @@
 		8EA6CF1719E240C40076D59C /* Coding_iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Coding_iOS-Info.plist"; sourceTree = "<group>"; };
 		8EA6CF1819E240C40076D59C /* Coding_iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Coding_iOS-Prefix.pch"; sourceTree = "<group>"; };
 		8EA6CF1A19E240C40076D59C /* Coding_iOS.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Coding_iOS.xcdatamodel; sourceTree = "<group>"; };
-		8EA6CF1E19E240C40076D59C /* AddTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddTopicViewController.h; sourceTree = "<group>"; };
-		8EA6CF1F19E240C40076D59C /* AddTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddTopicViewController.m; sourceTree = "<group>"; };
+		8EA6CF1E19E240C40076D59C /* EditTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditTopicViewController.h; sourceTree = "<group>"; };
+		8EA6CF1F19E240C40076D59C /* EditTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditTopicViewController.m; sourceTree = "<group>"; };
 		8EA6CF2019E240C40076D59C /* ConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationViewController.h; sourceTree = "<group>"; };
 		8EA6CF2119E240C40076D59C /* ConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationViewController.m; sourceTree = "<group>"; };
 		8EA6CF2219E240C40076D59C /* EditTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditTaskViewController.h; sourceTree = "<group>"; };
@@ -2155,8 +2155,8 @@
 				8EA6CF2819E240C40076D59C /* Login */,
 				8EA6CF3219E240C40076D59C /* RootControllers */,
 				8E1C3DF919E8DFE300EF3032 /* MeSetting */,
-				8EA6CF1E19E240C40076D59C /* AddTopicViewController.h */,
-				8EA6CF1F19E240C40076D59C /* AddTopicViewController.m */,
+				8EA6CF1E19E240C40076D59C /* EditTopicViewController.h */,
+				8EA6CF1F19E240C40076D59C /* EditTopicViewController.m */,
 				8EA6CF2019E240C40076D59C /* ConversationViewController.h */,
 				8EA6CF2119E240C40076D59C /* ConversationViewController.m */,
 				8EA6CF2219E240C40076D59C /* EditTaskViewController.h */,
@@ -3264,7 +3264,7 @@
 				4E87656A1A22E5B40090CFB9 /* SWUtilityButtonView.m in Sources */,
 				8EABE3C819F10D2400A17784 /* TaskComment.m in Sources */,
 				8E97CE471A0A2DF8006F9AD7 /* AGEmojiKeyBoardView.m in Sources */,
-				8EA6D12C19E240C40076D59C /* AddTopicViewController.m in Sources */,
+				8EA6D12C19E240C40076D59C /* EditTopicViewController.m in Sources */,
 				4EA7F15B1A6D192B00A046BD /* SDWebImageCompat.m in Sources */,
 				8EA6D13A19E240C40076D59C /* Project_RootViewController.m in Sources */,
 				4E3AD3D51A273A4A005C749B /* UIButton+PPiAwesome.m in Sources */,

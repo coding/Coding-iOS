@@ -75,7 +75,7 @@
         [self refreshFirst];
     }
 }
-- (void)reloadQueryData{
+- (void)refreshToQueryData{
     [self refresh];
 }
 - (void)refresh{

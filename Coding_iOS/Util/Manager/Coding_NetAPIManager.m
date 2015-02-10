@@ -703,21 +703,33 @@
 - (void)request_ProjectTopic_WithObj:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"项目讨论详情"];
     proTopic.isTopicLoading = YES;
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:[proTopic toTopicParams] withMethodType:Get andBlock:^(id data, NSError *error) {
-        proTopic.isTopicLoading = NO;
+    //html详情
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:@{@"": [NSNumber numberWithInteger:0]} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
+            //markdown详情
             id resultData = [data valueForKeyPath:@"data"];
             ProjectTopic *resultT = [NSObject objectOfClass:@"ProjectTopic" fromJSON:resultData];
-            block(resultT, nil);
+            
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:@{@"": [NSNumber numberWithInteger:1]} withMethodType:Get andBlock:^(id dataMD, NSError *errorMD) {
+                if (dataMD) {
+                    resultT.mdTitle = [[dataMD valueForKey:@"data"] valueForKey:@"title"];
+                    resultT.mdContent = [[dataMD valueForKey:@"data"] valueForKey:@"content"];
+                    block(resultT, nil);
+                }else{
+                    proTopic.isTopicLoading = NO;
+                    block(nil, errorMD);
+                }
+            }];
         }else{
+            proTopic.isTopicLoading = NO;
             block(nil, error);
         }
     }];
 }
-- (void)request_ProjectTopicEdit_WithObj:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block{
-    [MobClick event:kUmeng_Event_Request label:@"项目讨论详情_编辑"];
+- (void)request_ModifyProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"项目讨论详情_提交编辑"];
     proTopic.isTopicEditLoading = YES;
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:[proTopic toTopicEditParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:[proTopic toEditParams] withMethodType:Put andBlock:^(id data, NSError *error) {
         proTopic.isTopicEditLoading = NO;
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];

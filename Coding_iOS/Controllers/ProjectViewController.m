@@ -13,7 +13,7 @@
 #import "EditTaskViewController.h"
 #import "ProjectTopicsView.h"
 #import "ProjectMemberListViewController.h"
-#import "AddTopicViewController.h"
+#import "EditTopicViewController.h"
 #import "TopicDetailViewController.h"
 #import "ConversationViewController.h"
 #import "Coding_NetAPIManager.h"
@@ -89,7 +89,16 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self refreshToQueryData];
+}
+
+- (void)refreshToQueryData{
     UIView *curView = [self getCurContentView];
+    if (curView && [curView respondsToSelector:@selector(refreshToQueryData)]) {
+        [curView performSelector:@selector(refreshToQueryData)];
+    }
+    
+    
     if ([curView isKindOfClass:[ProjectTasksView class]]) {
         ProjectTasksView *tasksView = (ProjectTasksView *)curView;
         [tasksView refreshToQueryData];
@@ -99,6 +108,7 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
         }
     }
 }
+
 
 - (void)requestForMyProject{
     [self.view beginLoading];
@@ -221,9 +231,6 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
                     DebugLog(@"%@--\nProjectTopic:%@", projectTopicListView, projectTopic.title);
                     TopicDetailViewController *vc = [[TopicDetailViewController alloc] init];
                     vc.curTopic = projectTopic;
-                    vc.deleteTopicBlock = ^(ProjectTopic *curTopic){
-                        [projectTopicListView reloadQueryData];
-                    };
                     [weakSelf.navigationController pushViewController:vc animated:YES];
                 } defaultIndex:0];
             }
@@ -427,8 +434,12 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
             break;
         case ProjectViewTypeTopics:
         {
-            AddTopicViewController *vc = [[AddTopicViewController alloc] init];
-            vc.curProject = self.myProject;
+            EditTopicViewController *vc = [[EditTopicViewController alloc] init];
+            vc.myProTopic = [ProjectTopic topicWithPro:self.myProject];
+            vc.type = TopicEditTypeAdd;
+            vc.topicChangedBlock = ^(ProjectTopic *topic, TopicEditType type){
+                
+            };
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
