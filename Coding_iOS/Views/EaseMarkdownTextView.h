@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface EaseMarkdownTextView : UITextView
+#import "UIPlaceHolderTextView.h"
+@interface EaseMarkdownTextView : UIPlaceHolderTextView
 
 @end

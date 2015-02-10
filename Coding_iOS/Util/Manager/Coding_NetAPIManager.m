@@ -713,7 +713,20 @@
             block(nil, error);
         }
     }];
-    
+}
+- (void)request_ProjectTopicEdit_WithObj:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"项目讨论详情_编辑"];
+    proTopic.isTopicEditLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:[proTopic toTopicEditParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        proTopic.isTopicEditLoading = NO;
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            ProjectTopic *resultT = [NSObject objectOfClass:@"ProjectTopic" fromJSON:resultData];
+            block(resultT, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
 }
 - (void)request_AddProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:(proTopic.project_id && proTopic.project_id.integerValue == 182)? @"发送反馈" : @"添加讨论"];

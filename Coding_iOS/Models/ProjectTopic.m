@@ -51,6 +51,10 @@
     return @{@"type" : [NSNumber numberWithInteger:0]};
 }
 
+- (NSDictionary *)toTopicEditParams{
+    return @{@"type" : [NSNumber numberWithInteger:1]};
+}
+
 - (NSString *)toAddTopicPath{
     return [NSString stringWithFormat:@"api/project/%d/topic?parent=0", [self.project_id intValue]];
 }

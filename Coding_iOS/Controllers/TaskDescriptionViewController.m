@@ -46,8 +46,6 @@
         
         self.navigationItem.titleView = _segmentedControl;
     }
-    _markdown = _markdown? _markdown : @"";
-    self.curIndex = (_markdown.length > 0)? 1: 0;
     
     [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"保存" target:self action:@selector(saveBtnClicked)] animated:YES];
     self.navigationItem.rightBarButtonItem.enabled = NO;
@@ -59,6 +57,9 @@
             self.editView.contentInset = UIEdgeInsetsMake(0, 0, CGRectGetHeight(keyboardEndFrame), 0);
         }
     }];
+    
+    _markdown = _markdown? _markdown : @"";
+    self.curIndex = (_markdown.length > 0)? 1: 0;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -73,6 +74,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark UISegmentedControl
 - (void)segmentedControlSelected:(id)sender{
     UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
     self.curIndex = segmentedControl.selectedSegmentIndex;
@@ -83,20 +85,7 @@
     }
 }
 
-- (void)saveBtnClicked{
-    NSString *mdStr = self.editView.text;
-    @weakify(self);
-    [[Coding_NetAPIManager sharedManager] request_MDHtmlStr_WithMDStr:mdStr andBlock:^(id data, NSError *error) {
-        @strongify(self);
-        if (data) {
-            if (self.savedNewMDBlock) {
-                self.savedNewMDBlock(self.editView.text, data);
-            }
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-    }];
-}
-
+#pragma mark index_view
 
 - (void)setCurIndex:(NSInteger)curIndex{
     _curIndex = curIndex;
@@ -114,15 +103,19 @@
 - (void)loadEditView{
     if (!_editView) {
         _editView = [[EaseMarkdownTextView alloc] initWithFrame:self.view.bounds];
-        _editView.textColor = [UIColor colorWithHexString:@"0x999999"];
+        _editView.backgroundColor = [UIColor clearColor];
+        _editView.textColor = [UIColor colorWithHexString:@"0x666666"];
         _editView.font = [UIFont systemFontOfSize:16];
+        _editView.textContainerInset = UIEdgeInsetsMake(15, kPaddingLeftWidth - 5, 8, kPaddingLeftWidth - 5);
+        _editView.placeholder = @"任务描述";
+        
         _editView.text = _markdown;
         [self.view addSubview:_editView];
         [_editView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
-        @weakify(self);
         
+        @weakify(self);
         [_editView.rac_textSignal subscribeNext:^(NSString *mdStr) {
             @strongify(self);
             self.navigationItem.rightBarButtonItem.enabled = ![mdStr isEqualToString:self.markdown];
@@ -130,7 +123,6 @@
     }
     _editView.hidden = NO;
     _preview.hidden = YES;
-    _activityIndicator.hidden = YES;
 }
 
 - (void)loadPreview{
@@ -140,21 +132,23 @@
         _preview.backgroundColor = [UIColor clearColor];
         _preview.opaque = NO;
         _preview.scalesPageToFit = YES;
+        
         //webview加载指示
         _activityIndicator = [[UIActivityIndicatorView alloc]
                               initWithActivityIndicatorStyle:
                               UIActivityIndicatorViewStyleGray];
         _activityIndicator.hidesWhenStopped = YES;
-        [_activityIndicator setCenter:CGPointMake(CGRectGetWidth(_preview.frame)/2, CGRectGetHeight(_preview.frame)/2)];
         [_preview addSubview:_activityIndicator];
-
         [self.view addSubview:_preview];
+        
         [_preview mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
+        [_activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(_preview);
+        }];
     }
     _preview.hidden = NO;
-    _activityIndicator.hidden = NO;
     _editView.hidden = YES;
     [self previewLoadMDData];
 }
@@ -169,6 +163,22 @@
         NSString *htmlStr = data? data : error.description;
         NSString *contentStr = [WebContentManager markdownPatternedWithContent:htmlStr];
         [self.preview loadHTMLString:contentStr baseURL:nil];
+    }];
+}
+
+#pragma mark nav_btn
+
+- (void)saveBtnClicked{
+    NSString *mdStr = self.editView.text;
+    @weakify(self);
+    [[Coding_NetAPIManager sharedManager] request_MDHtmlStr_WithMDStr:mdStr andBlock:^(id data, NSError *error) {
+        @strongify(self);
+        if (data) {
+            if (self.savedNewMDBlock) {
+                self.savedNewMDBlock(self.editView.text, data);
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }];
 }
 
@@ -191,10 +201,5 @@
         DebugLog(@"%@", error.description);
         [self showError:error];
     }
-}
-
-#pragma mark UITextViewDelegate
-- (void)textViewDidChange:(UITextView *)textView{
-    
 }
 @end

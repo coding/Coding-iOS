@@ -85,9 +85,11 @@ CGFloat const UI_PLACEHOLDER_TEXT_CHANGED_ANIMATION_DURATION = 0.25;
 {
     if( [[self placeholder] length] > 0 )
     {
+        UIEdgeInsets insets = self.textContainerInset;
         if (_placeHolderLabel == nil )
         {
-            _placeHolderLabel = [[UILabel alloc] initWithFrame:CGRectMake(8,8,self.bounds.size.width - 16,0)];
+            
+            _placeHolderLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets.left+5,insets.top,self.bounds.size.width - (insets.left +insets.right+10),0)];
             _placeHolderLabel.lineBreakMode = NSLineBreakByWordWrapping;
             _placeHolderLabel.numberOfLines = 0;
             _placeHolderLabel.font = self.font;
@@ -97,10 +99,9 @@ CGFloat const UI_PLACEHOLDER_TEXT_CHANGED_ANIMATION_DURATION = 0.25;
             _placeHolderLabel.tag = 999;
             [self addSubview:_placeHolderLabel];
         }
-        
         _placeHolderLabel.text = self.placeholder;
         [_placeHolderLabel sizeToFit];
-        [_placeHolderLabel setFrame:CGRectMake(8, 8, CGRectGetWidth(self.bounds)- 16, CGRectGetHeight(_placeHolderLabel.frame))];
+        _placeHolderLabel = [[UILabel alloc] initWithFrame:CGRectMake(insets.left+5,insets.top,self.bounds.size.width - (insets.left +insets.right+10),CGRectGetHeight(_placeHolderLabel.frame))];
         [self sendSubviewToBack:_placeHolderLabel];
     }
     
@@ -118,4 +119,5 @@ CGFloat const UI_PLACEHOLDER_TEXT_CHANGED_ANIMATION_DURATION = 0.25;
     }
     
 }
+
 @end

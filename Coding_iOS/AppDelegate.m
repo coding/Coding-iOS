@@ -22,6 +22,7 @@
 #import "UMessage.h"
 #import "XGPush.h"
 #import "EaseStartView.h"
+#import "BaseNavigationController.h"
 
 @implementation AppDelegate
 
@@ -173,7 +174,7 @@
 #pragma mark - Methods Private
 - (void)setupLoginViewController{
     LoginViewController *loginVC = [[LoginViewController alloc] init];
-    [self.window setRootViewController:[[UINavigationController alloc] initWithRootViewController:loginVC]];
+    [self.window setRootViewController:[[BaseNavigationController alloc] initWithRootViewController:loginVC]];
 }
 
 - (void)setupTabViewController{

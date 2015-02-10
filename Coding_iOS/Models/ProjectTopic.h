@@ -28,12 +28,13 @@
 @property (assign, nonatomic) CGFloat contentHeight;
 
 @property (readwrite, nonatomic, strong) NSNumber *page, *pageSize, *totalPage, *totalRow;
-@property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading, isTopicLoading;
+@property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading, isTopicLoading, isTopicEditLoading;
 
 + (ProjectTopic *)topicWithPro:(Project *)pro;
 + (ProjectTopic *)topicWithId:(NSNumber *)topicId;
 - (NSString *)toTopicPath;
 - (NSDictionary *)toTopicParams;
+- (NSDictionary *)toTopicEditParams;
 
 - (NSString *)toAddTopicPath;
 - (NSDictionary *)toAddTopicParams;

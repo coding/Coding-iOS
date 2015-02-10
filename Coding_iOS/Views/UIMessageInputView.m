@@ -171,8 +171,12 @@ static NSMutableDictionary *_inputDict;
     if (_inputTextView) {
         NSString *inputStr = _inputTextView.text;
         NSString *inputKey = [self inputKey];
-        if (inputStr && inputStr.length > 0 && inputKey) {
-            [[self shareInputDict] setObject:inputStr forKey:[self inputKey]];
+        if (inputKey && inputKey.length > 0) {
+            if (inputStr && inputStr.length > 0) {
+                [[self shareInputDict] setObject:inputStr forKey:inputKey];
+            }else{
+                [[self shareInputDict] removeObjectForKey:inputKey];
+            }
         }
     }
 }
