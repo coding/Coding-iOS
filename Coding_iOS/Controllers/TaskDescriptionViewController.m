@@ -61,6 +61,13 @@
     }];
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (self.curIndex == 0 && self.editView) {
+        [self.editView becomeFirstResponder];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -69,6 +76,11 @@
 - (void)segmentedControlSelected:(id)sender{
     UISegmentedControl *segmentedControl = (UISegmentedControl *)sender;
     self.curIndex = segmentedControl.selectedSegmentIndex;
+    if (self.curIndex == 0) {
+        [_editView becomeFirstResponder];
+    }else{
+        [_editView resignFirstResponder];
+    }
 }
 
 - (void)saveBtnClicked{
@@ -119,7 +131,6 @@
     _editView.hidden = NO;
     _preview.hidden = YES;
     _activityIndicator.hidden = YES;
-    [_editView becomeFirstResponder];
 }
 
 - (void)loadPreview{
@@ -145,7 +156,6 @@
     _preview.hidden = NO;
     _activityIndicator.hidden = NO;
     _editView.hidden = YES;
-    [_editView resignFirstResponder];
     [self previewLoadMDData];
 }
 
