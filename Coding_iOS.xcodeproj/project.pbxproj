@@ -213,7 +213,6 @@
 		8E1C3DF119E7D58A00EF3032 /* SWActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3DE919E7D58A00EF3032 /* SWActionSheet.m */; };
 		8E1C3DF619E7F4CA00EF3032 /* address.json in Resources */ = {isa = PBXBuildFile; fileRef = 8E1C3DF519E7F4CA00EF3032 /* address.json */; };
 		8E1C3E0819E8DFE300EF3032 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3DFB19E8DFE300EF3032 /* AboutViewController.m */; };
-		8E1C3E0919E8DFE300EF3032 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3DFD19E8DFE300EF3032 /* FeedbackViewController.m */; };
 		8E1C3E0A19E8DFE300EF3032 /* SettingAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3DFF19E8DFE300EF3032 /* SettingAccountViewController.m */; };
 		8E1C3E0B19E8DFE300EF3032 /* SettingMineInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3E0119E8DFE300EF3032 /* SettingMineInfoViewController.m */; };
 		8E1C3E0C19E8DFE300EF3032 /* SettingPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3E0319E8DFE300EF3032 /* SettingPasswordViewController.m */; };
@@ -876,8 +875,6 @@
 		8E1C3DF519E7F4CA00EF3032 /* address.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = address.json; sourceTree = "<group>"; };
 		8E1C3DFA19E8DFE300EF3032 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
 		8E1C3DFB19E8DFE300EF3032 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
-		8E1C3DFC19E8DFE300EF3032 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
-		8E1C3DFD19E8DFE300EF3032 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		8E1C3DFE19E8DFE300EF3032 /* SettingAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingAccountViewController.h; sourceTree = "<group>"; };
 		8E1C3DFF19E8DFE300EF3032 /* SettingAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingAccountViewController.m; sourceTree = "<group>"; };
 		8E1C3E0019E8DFE300EF3032 /* SettingMineInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingMineInfoViewController.h; sourceTree = "<group>"; };
@@ -1886,8 +1883,6 @@
 			children = (
 				8E1C3DFA19E8DFE300EF3032 /* AboutViewController.h */,
 				8E1C3DFB19E8DFE300EF3032 /* AboutViewController.m */,
-				8E1C3DFC19E8DFE300EF3032 /* FeedbackViewController.h */,
-				8E1C3DFD19E8DFE300EF3032 /* FeedbackViewController.m */,
 				8E1C3DFE19E8DFE300EF3032 /* SettingAccountViewController.h */,
 				8E1C3DFF19E8DFE300EF3032 /* SettingAccountViewController.m */,
 				8E1C3E0019E8DFE300EF3032 /* SettingMineInfoViewController.h */,
@@ -3226,7 +3221,6 @@
 				8E97CE481A0A2DF8006F9AD7 /* AGEmojiPageView.m in Sources */,
 				4E9113A31A1C426000AC9431 /* ASProgressPopUpView.m in Sources */,
 				4ECE8AFE1A3946C10021E29C /* Coding_FileManager.m in Sources */,
-				8E1C3E0919E8DFE300EF3032 /* FeedbackViewController.m in Sources */,
 				4ECE8AE51A3943E80021E29C /* UIImageView+Common.m in Sources */,
 				8EF643CA19FF7E2900F7EEB0 /* TopicContentCell.m in Sources */,
 				4ECE8AE81A3943E80021E29C /* UIView+Common.m in Sources */,
