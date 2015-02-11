@@ -79,7 +79,6 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 
 @interface Task_Description : NSObject
 @property (strong, nonatomic) NSString *description_mine, *markdown;
-@property (strong, nonatomic) HtmlMedia *htmlMedia;
 + (instancetype)taskDescriptionFrom:(Task_Description *)oldDes;
 + (instancetype)defaultDescription;
 - (BOOL)isSameTo:(Task_Description *)td;

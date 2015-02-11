@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "UIPlaceHolderTextView.h"
-@interface EaseMarkdownTextView : UIPlaceHolderTextView
+#import "Projects.h"
 
+@interface EaseMarkdownTextView : UIPlaceHolderTextView
+@property (strong, nonatomic) Project *curProject;
 @end

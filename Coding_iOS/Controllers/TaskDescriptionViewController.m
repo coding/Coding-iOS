@@ -103,6 +103,7 @@
 - (void)loadEditView{
     if (!_editView) {
         _editView = [[EaseMarkdownTextView alloc] initWithFrame:self.view.bounds];
+        _editView.curProject = self.curTask.project;
         _editView.backgroundColor = [UIColor clearColor];
         _editView.textColor = [UIColor colorWithHexString:@"0x666666"];
         _editView.font = [UIFont systemFontOfSize:16];

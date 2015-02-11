@@ -272,13 +272,6 @@
     return self;
 }
 
-- (void)setDescription_mine:(NSString *)description_mine{
-    if (_description_mine != description_mine) {
-        _htmlMedia = [HtmlMedia htmlMediaWithString:description_mine showType:MediaShowTypeImageAndMonkey];
-        _description_mine = _htmlMedia.contentDisplay;
-    }
-}
-
 + (instancetype)taskDescriptionFrom:(Task_Description *)oldDes{
     if (!oldDes) {
         return nil;
@@ -286,7 +279,6 @@
     Task_Description *des = [[Task_Description alloc] init];
     des.markdown = oldDes.markdown;
     des.description_mine = oldDes.description_mine;
-    des.htmlMedia = oldDes.htmlMedia;
     return des;
 }
 + (instancetype)defaultDescription{

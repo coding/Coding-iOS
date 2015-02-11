@@ -41,6 +41,7 @@
 
 - (id)init {
     CGSize sizeOfText = [self.title sizeWithAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:14.f]}];
+    sizeOfText.width = MAX(sizeOfText.width, 20);
     
     if (self = [super initWithFrame:CGRectMake(0, 0, sizeOfText.width + 18.104, sizeOfText.height + 10.298)]) {
         self.backgroundColor = [UIColor colorWithWhite:0.902 alpha:1.0];

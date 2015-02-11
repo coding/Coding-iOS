@@ -122,6 +122,7 @@
         [_editView addSubview:_inputTitleView];
         
         _inputContentView = [[EaseMarkdownTextView alloc] initWithFrame:CGRectZero];
+        _inputContentView.curProject = self.curProTopic.project;
         _inputContentView.textColor = [UIColor colorWithHexString:@"0x666666"];
         
         _inputContentView.backgroundColor = [UIColor clearColor];

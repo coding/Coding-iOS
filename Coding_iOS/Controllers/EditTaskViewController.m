@@ -479,7 +479,9 @@
     }
     ESWeakSelf;
     TaskDescriptionViewController *vc = [[TaskDescriptionViewController alloc] init];
+    vc.curTask = _myCopyTask;
     vc.markdown = _myCopyTask.task_description.markdown;
+    
     vc.savedNewMDBlock = ^(NSString *mdStr, NSString *mdHtmlStr){
         ESStrongSelf;
         _self.myCopyTask.has_description = [NSNumber numberWithBool:(mdStr.length > 0)];
