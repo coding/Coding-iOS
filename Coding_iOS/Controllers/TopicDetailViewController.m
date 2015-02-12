@@ -177,7 +177,7 @@
             weakSelf.curTopic = data;
             
             weakSelf.myMsgInputView.curProject = weakSelf.curTopic.project;
-            weakSelf.myMsgInputView.commentOfId = _curTopic.id;
+            weakSelf.myMsgInputView.commentOfId = weakSelf.curTopic.id;
             weakSelf.myMsgInputView.toUser = nil;
             [weakSelf configNavBtn];
             
