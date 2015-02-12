@@ -75,6 +75,7 @@
             NSDictionary* userInfo = [aNotification userInfo];
             CGRect keyboardEndFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
             self.inputContentView.contentInset = UIEdgeInsetsMake(0, 0, CGRectGetHeight(keyboardEndFrame), 0);
+            self.inputContentView.scrollIndicatorInsets = self.inputContentView.contentInset;
         }
     }];
     

@@ -55,6 +55,7 @@
             NSDictionary* userInfo = [aNotification userInfo];
             CGRect keyboardEndFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
             self.editView.contentInset = UIEdgeInsetsMake(0, 0, CGRectGetHeight(keyboardEndFrame), 0);
+            self.editView.scrollIndicatorInsets = self.editView.contentInset;
         }
     }];
     
