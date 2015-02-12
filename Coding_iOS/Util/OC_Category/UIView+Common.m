@@ -228,12 +228,13 @@ static char LoadingViewKey, BlankPageViewKey;
         }
     }
     
-    if (!self.loadingView) {
-//        初始化LoadingView
-        EaseLoadingView *view = [[EaseLoadingView alloc] initWithFrame:self.bounds];
-        self.loadingView = view;
+    if (!self.loadingView) { //初始化LoadingView
+        self.loadingView = [[EaseLoadingView alloc] initWithFrame:self.bounds];
     }
     [self addSubview:self.loadingView];
+    [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.self.edges.equalTo(self);
+    }];
     [self.loadingView startAnimating];
 }
 
@@ -264,8 +265,7 @@ static char LoadingViewKey, BlankPageViewKey;
         }
     }else{
         if (!self.blankPageView) {
-            EaseBlankPageView *view = [[EaseBlankPageView alloc] initWithFrame:self.bounds];
-            self.blankPageView = view;
+            self.blankPageView = [[EaseBlankPageView alloc] initWithFrame:self.bounds];
         }
         self.blankPageView.hidden = NO;
         [self.blankPageContainer insertSubview:self.blankPageView atIndex:0];
@@ -278,8 +278,6 @@ static char LoadingViewKey, BlankPageViewKey;
     for (UIView *aView in [self subviews]) {
         if ([aView isKindOfClass:[UITableView class]]) {
             blankPageContainer = aView;
-            [aView addSubview:self.blankPageView];
-            [aView sendSubviewToBack:self.blankPageView];
         }
     }
     return blankPageContainer;
@@ -299,6 +297,12 @@ static char LoadingViewKey, BlankPageViewKey;
         [_monkeyView setCenter:self.center];
         [self addSubview:_loopView];
         [self addSubview:_monkeyView];
+        [_loopView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(self);
+        }];
+        [_monkeyView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(self);
+        }];
     }
     return self;
 }
