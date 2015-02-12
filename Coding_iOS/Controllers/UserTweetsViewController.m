@@ -332,6 +332,7 @@
         _commentSender = nil;
         _commentToUser = nil;
     }
+    self.myMsgInputView.toUser = nil;
     [self.myMsgInputView isAndResignFirstResponder];
 }
 
