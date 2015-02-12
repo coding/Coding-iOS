@@ -38,6 +38,9 @@
 //判断是否为浮点形
 - (BOOL)isPureFloat;
 
+- (NSRange)rangeByTrimmingLeftCharactersInSet:(NSCharacterSet *)characterSet;
+- (NSRange)rangeByTrimmingRightCharactersInSet:(NSCharacterSet *)characterSet;
+
 - (NSString *)stringByTrimmingLeftCharactersInSet:(NSCharacterSet *)characterSet;
 - (NSString *)stringByTrimmingRightCharactersInSet:(NSCharacterSet *)characterSet;
 @end

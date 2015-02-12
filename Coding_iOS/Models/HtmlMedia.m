@@ -25,8 +25,16 @@
         TFHppleElement *rootElement = [doc peekAtSearchWithXPathQuery:@"//body"];
         [self analyseHtmlElement:rootElement withShowType:showType];
         _imageItems = [_mediaItems filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %d OR type == %d", HtmlMediaItemType_Image, HtmlMediaItemType_EmotionMonkey]];
-        _contentDisplay = [NSMutableString stringWithString:
-                           [_contentDisplay stringByTrimmingRightCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+        
+        //过滤末尾无用的空格&空行
+        NSRange contentRange = [_contentDisplay rangeByTrimmingRightCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if (_mediaItems.count > 0) {
+            HtmlMediaItem *item = [_mediaItems lastObject];
+            contentRange.length = MAX(contentRange.length, item.range.location +item.range.length);
+        }
+        if (contentRange.length < _contentDisplay.length) {
+            [_contentDisplay deleteCharactersInRange:NSMakeRange(contentRange.length, _contentDisplay.length - contentRange.length)];
+        }
     }
     return self;
 }

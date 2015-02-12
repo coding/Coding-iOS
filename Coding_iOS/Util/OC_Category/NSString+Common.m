@@ -275,7 +275,7 @@
     return[scan scanFloat:&val] && [scan isAtEnd];
 }
 
-- (NSString *)stringByTrimmingLeftCharactersInSet:(NSCharacterSet *)characterSet {
+- (NSRange)rangeByTrimmingLeftCharactersInSet:(NSCharacterSet *)characterSet{
     NSUInteger location = 0;
     NSUInteger length = [self length];
     unichar charBuffer[length];
@@ -285,10 +285,9 @@
             break;
         }
     }
-    return [self substringWithRange:NSMakeRange(location, length - location)];
+    return NSMakeRange(location, length - location);
 }
-
-- (NSString *)stringByTrimmingRightCharactersInSet:(NSCharacterSet *)characterSet {
+- (NSRange)rangeByTrimmingRightCharactersInSet:(NSCharacterSet *)characterSet{
     NSUInteger location = 0;
     NSUInteger length = [self length];
     unichar charBuffer[length];
@@ -298,6 +297,14 @@
             break;
         }
     }
-    return [self substringWithRange:NSMakeRange(location, length - location)];
+    return NSMakeRange(location, length - location);
+}
+
+- (NSString *)stringByTrimmingLeftCharactersInSet:(NSCharacterSet *)characterSet {
+    return [self substringWithRange:[self rangeByTrimmingLeftCharactersInSet:characterSet]];
+}
+
+- (NSString *)stringByTrimmingRightCharactersInSet:(NSCharacterSet *)characterSet {
+    return [self substringWithRange:[self rangeByTrimmingRightCharactersInSet:characterSet]];
 }
 @end
