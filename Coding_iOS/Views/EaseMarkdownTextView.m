@@ -144,10 +144,12 @@
         //撤销
         if (selectionRange.location >= leftStr.length && selectionRange.location + selectionRange.length + rightStr.length <= self.text.length) {
             NSRange expandRange = NSMakeRange(selectionRange.location- leftStr.length, selectionRange.length +leftStr.length +rightStr.length);
-            if ([self.text rangeOfString:[NSString stringWithFormat:@"%@%@%@", leftStr, insertStr, rightStr] options:NSLiteralSearch range:expandRange].location != NSNotFound) {
+            expandRange = [self.text rangeOfString:[NSString stringWithFormat:@"%@%@%@", leftStr, insertStr, rightStr] options:NSLiteralSearch range:expandRange];
+            if (expandRange.location != NSNotFound) {
                 selectionRange.location -= leftStr.length;
                 selectionRange.length = insertStr.length;
-                self.text = [self.text stringByReplacingCharactersInRange:expandRange withString:insertStr];
+                [self setSelectionRange:expandRange];
+                [self insertText:insertStr];
                 [self setSelectionRange:selectionRange];
                 return;
             }
