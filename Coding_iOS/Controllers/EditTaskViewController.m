@@ -480,13 +480,11 @@
     ESWeakSelf;
     TaskDescriptionViewController *vc = [[TaskDescriptionViewController alloc] init];
     vc.curTask = _myCopyTask;
-    vc.markdown = _myCopyTask.task_description.markdown;
     
-    vc.savedNewMDBlock = ^(NSString *mdStr, NSString *mdHtmlStr){
+    vc.savedNewTDBlock = ^(Task_Description *taskD){
         ESStrongSelf;
-        _self.myCopyTask.has_description = [NSNumber numberWithBool:(mdStr.length > 0)];
-        _self.myCopyTask.task_description.markdown = mdStr;
-        _self.myCopyTask.task_description.description_mine = mdHtmlStr;
+        _self.myTask.has_description = _self.myCopyTask.has_description = [NSNumber numberWithBool:taskD.markdown.length > 0];
+        _self.myTask.task_description = _self.myCopyTask.task_description = taskD;
         [_self.myTableView reloadData];
     };
     [self.navigationController pushViewController:vc animated:YES];

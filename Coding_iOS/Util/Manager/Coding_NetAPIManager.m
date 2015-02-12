@@ -547,7 +547,6 @@
 }
 - (void)request_EditTask:(Task *)task oldTask:(Task *)oldTask andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"更新任务"];
-    
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toUpdatePath] withParams:[task toUpdateParamsWithOld:oldTask] withMethodType:Put andBlock:^(id data, NSError *error) {
         if (data) {
             block(task, nil);
@@ -557,38 +556,21 @@
     }];
 }
 
-- (void)request_EditTaskContent:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
-    [MobClick event:kUmeng_Event_Request label:@"编辑任务内容"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toEditTaskContentPath] withParams:[task toEditContentParams] withMethodType:Put andBlock:^(id data, NSError *error) {
+- (void)request_EditTask:(Task *)task withDescriptionStr:(NSString *)descriptionStr andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"更新任务描述"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toUpdateDescriptionPath] withParams:@{@"description" : descriptionStr} withMethodType:Put andBlock:^(id data, NSError *error) {
         if (data) {
-            block(task, nil);
+            data = [data valueForKey:@"data"];
+            Task_Description *taskD = [NSObject objectOfClass:@"Task_Description" fromJSON:data];
+            block(taskD, nil);
         }else{
             block(nil, error);
         }
     }];
-}
-- (void)request_EditTaskOwner:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
-    [MobClick event:kUmeng_Event_Request label:@"编辑任务执行人"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toEditTaskOwnerPath] withParams:[task toEditOwnerParams] withMethodType:Put andBlock:^(id data, NSError *error) {
-        if (data) {
-            block(task, nil);
-        }else{
-            block(nil, error);
-        }
-    }];
+    
 }
 
-- (void)request_EditTaskStatus:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
-    [MobClick event:kUmeng_Event_Request label:@"编辑任务状态"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toEditTaskStatusPath] withParams:[task toEditStatusParams] withMethodType:Put andBlock:^(id data, NSError *error) {
-        if (data) {
-            block(task, nil);
-        }else{
-            block(nil, error);
-        }
-    }];
-}
-- (void)request_ChandeTaskStatus:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
+- (void)request_ChangeTaskStatus:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"编辑任务状态"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toEditTaskStatusPath] withParams:[task toChangeStatusParams] withMethodType:Put andBlock:^(id data, NSError *error) {
         if (data) {
@@ -599,16 +581,7 @@
         }
     }];
 }
-- (void)request_EditTaskPriority:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
-    [MobClick event:kUmeng_Event_Request label:@"编辑任务优先级"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toEditTaskPriorityPath] withParams:[task toEditPriorityParams] withMethodType:Put andBlock:^(id data, NSError *error) {
-        if (data) {
-            block(task, nil);
-        }else{
-            block(nil, error);
-        }
-    }];
-}
+
 - (void)request_TaskDetail:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"任务详情"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toTaskDetailPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {

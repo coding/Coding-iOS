@@ -59,8 +59,7 @@
         }
     }];
     
-    _markdown = _markdown? _markdown : @"";
-    self.curIndex = (_markdown.length > 0)? 1: 0;
+    self.curIndex = (_curTask.task_description.markdown.length > 0)? 1: 0;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -111,7 +110,7 @@
         _editView.textContainerInset = UIEdgeInsetsMake(15, kPaddingLeftWidth - 5, 8, kPaddingLeftWidth - 5);
         _editView.placeholder = @"任务描述";
         
-        _editView.text = _markdown;
+        _editView.text = _curTask.task_description.markdown;
         [self.view addSubview:_editView];
         [_editView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -120,7 +119,7 @@
         @weakify(self);
         [_editView.rac_textSignal subscribeNext:^(NSString *mdStr) {
             @strongify(self);
-            self.navigationItem.rightBarButtonItem.enabled = ![mdStr isEqualToString:self.markdown];
+            self.navigationItem.rightBarButtonItem.enabled = ![mdStr isEqualToString:self.curTask.task_description.markdown];
         }];
     }
     _editView.hidden = NO;
@@ -156,7 +155,7 @@
 }
 
 - (void)previewLoadMDData{
-    NSString *mdStr = self.editView? self.editView.text : _markdown;
+    NSString *mdStr = self.editView? self.editView.text : _curTask.task_description.markdown;
     [_activityIndicator startAnimating];
     
     @weakify(self);
@@ -172,16 +171,25 @@
 
 - (void)saveBtnClicked{
     NSString *mdStr = self.editView.text;
-    @weakify(self);
-    [[Coding_NetAPIManager sharedManager] request_MDHtmlStr_WithMDStr:mdStr andBlock:^(id data, NSError *error) {
-        @strongify(self);
-        if (data) {
-            if (self.savedNewMDBlock) {
-                self.savedNewMDBlock(self.editView.text, data);
+    
+    if (_curTask.handleType == TaskHandleTypeEdit) {//编辑任务
+        @weakify(self);
+        [[Coding_NetAPIManager sharedManager] request_EditTask:_curTask withDescriptionStr:mdStr andBlock:^(id data, NSError *error) {
+            @strongify(self);
+            if (data) {
+                if (self.savedNewTDBlock) {
+                    self.savedNewTDBlock(data);
+                }
+                [self.navigationController popViewControllerAnimated:YES];
             }
-            [self.navigationController popViewControllerAnimated:YES];
+        }];
+    }else{//添加任务
+        if (self.savedNewTDBlock) {
+            Task_Description *taskD = [Task_Description descriptionWithMdStr:mdStr];
+            self.savedNewTDBlock(taskD);
         }
-    }];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark UIWebViewDelegate

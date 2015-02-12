@@ -200,8 +200,8 @@
         }else{
             task.isRequesting = YES;
         }
-        //ChandeTaskStatus后，task对象的status属性会直接在请求结束后被修改
-        [[Coding_NetAPIManager sharedManager] request_ChandeTaskStatus:task andBlock:^(id data, NSError *error) {
+        //ChangeTaskStatus后，task对象的status属性会直接在请求结束后被修改
+        [[Coding_NetAPIManager sharedManager] request_ChangeTaskStatus:task andBlock:^(id data, NSError *error) {
             [weakSelf.myTableView reloadData];
             task.isRequesting = NO;
         }];

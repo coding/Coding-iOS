@@ -67,11 +67,8 @@
 - (void)request_AddTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_EditTask:(Task *)task oldTask:(Task *)oldTask andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_EditTaskContent:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_EditTaskOwner:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_EditTaskStatus:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_ChandeTaskStatus:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_EditTaskPriority:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_EditTask:(Task *)task withDescriptionStr:(NSString *)descriptionStr andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ChangeTaskStatus:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_TaskDetail:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CommentListOfTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DoCommentToTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;

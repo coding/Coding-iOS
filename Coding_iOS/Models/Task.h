@@ -37,38 +37,28 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 + (Task *)taskWithBackend_project_path:(NSString *)backend_project_path andId:(NSString *)taskId;
 + (Task *)taskWithTask:(Task *)task;
 - (BOOL)isSameToTask:(Task *)task;
-//内容
-- (NSString *)toEditTaskContentPath;
--(NSDictionary *)toEditContentParams;
-//执行人
-- (NSString *)toEditTaskOwnerPath;
--(NSDictionary *)toEditOwnerParams;
+
 //任务状态
 - (NSString *)toEditTaskStatusPath;
 -(NSDictionary *)toEditStatusParams;
 -(NSDictionary *)toChangeStatusParams;
-//任务优先级
-- (NSString *)toEditTaskPriorityPath;
--(NSDictionary *)toEditPriorityParams;
 //更新任务
 - (NSString *)toUpdatePath;
 -(NSDictionary *)toUpdateParamsWithOld:(Task *)oldTask;
+//更新任务描述
+- (NSString *)toUpdateDescriptionPath;
 //添加新任务
 - (NSString *)toAddTaskPath;
 - (NSDictionary *)toAddTaskParams;
 //删除任务
 - (NSString *)toDeleteTaskPath;
-
 //任务评论列表
 - (NSString *)toCommentListPath;
 - (NSDictionary *)toCommentListParams;
-
 //任务详情
 - (NSString *)toTaskDetailPath;
-
 //任务描述
 - (NSString *)toDescriptionPath;
-
 //评论任务
 - (NSString *)toDoCommentPath;
 - (NSDictionary *)toDoCommentParams;
@@ -79,7 +69,7 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 
 @interface Task_Description : NSObject
 @property (strong, nonatomic) NSString *description_mine, *markdown;
-+ (instancetype)taskDescriptionFrom:(Task_Description *)oldDes;
 + (instancetype)defaultDescription;
-- (BOOL)isSameTo:(Task_Description *)td;
++ (instancetype)descriptionWithMdStr:(NSString *)mdStr;
+
 @end

@@ -10,8 +10,7 @@
 #import "Tasks.h"
 
 @interface TaskDescriptionViewController : BaseViewController
-@property (strong, nonatomic) NSString *markdown;
 @property (strong, nonatomic) Task *curTask;
-@property (copy, nonatomic) void(^savedNewMDBlock)(NSString *mdStr, NSString *mdHtmlStr);
+@property (copy, nonatomic) void(^savedNewTDBlock)(Task_Description *taskD);
 
 @end
