@@ -190,9 +190,8 @@ static NSMutableDictionary *_inputDict;
         }else{
             self.placeHolder = @"请输入私信内容";
         }
-        
-        [_inputTextView setText:inputStr];
-        [self textViewDidChange:_inputTextView];
+        _inputTextView.selectedRange = NSMakeRange(0, _inputTextView.text.length);
+        [_inputTextView insertText:inputStr? inputStr: @""];
     }
 }
 
@@ -203,11 +202,15 @@ static NSMutableDictionary *_inputDict;
     [kKeyWindow addSubview:_emojiKeyboardView];
     [kKeyWindow addSubview:_addKeyboardView];
     if (_isAlwaysShow) {
-        [UIView animateWithDuration:0.25 animations:^{
-            [self setY:kScreen_Height - CGRectGetHeight(self.frame)];
-        } completion:^(BOOL finished) {
+        if ([self isCustomFirstResponder]) {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
-        }];
+        }else{
+            [UIView animateWithDuration:0.25 animations:^{
+                [self setY:kScreen_Height - CGRectGetHeight(self.frame)];
+            } completion:^(BOOL finished) {
+                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+            }];
+        }
     }else{
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
     }
@@ -370,8 +373,9 @@ static NSMutableDictionary *_inputDict;
     NSString *sendStr = self.inputTextView.text;
     if (sendStr && ![sendStr isEmpty] && _delegate && [_delegate respondsToSelector:@selector(messageInputView:sendText:)]) {
         [self.delegate messageInputView:self sendText:sendStr];
-        self.inputTextView.text = nil;
-        [self textViewDidChange:_inputTextView];
+        
+        _inputTextView.selectedRange = NSMakeRange(0, _inputTextView.text.length);
+        [_inputTextView insertText:@""];
     }
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
@@ -403,10 +407,7 @@ static NSMutableDictionary *_inputDict;
     }else{
         appendingStr = @"@";
     }
-    textView.text = [textView.text stringByReplacingCharactersInRange:range withString:appendingStr];
-    textView.selectedRange = NSMakeRange(range.location +appendingStr.length, 0);
-    [self textViewDidChange:textView];
-    [self notAndBecomeFirstResponder];
+    [textView insertText:appendingStr];
 }
 - (void)textViewDidChange:(UITextView *)textView{
     [self saveInputStr];
@@ -496,10 +497,7 @@ static NSMutableDictionary *_inputDict;
             [self.delegate messageInputView:self sendBigEmotion:emotion_monkey];
         }
     }else{
-        NSRange selectedRange = self.inputTextView.selectedRange;
-        self.inputTextView.text = [self.inputTextView.text stringByReplacingCharactersInRange:selectedRange withString:emoji];
-        self.inputTextView.selectedRange = NSMakeRange(selectedRange.location +emoji.length, 0);
-        [self textViewDidChange:self.inputTextView];
+        [self.inputTextView insertText:emoji];
     }
 }
 
