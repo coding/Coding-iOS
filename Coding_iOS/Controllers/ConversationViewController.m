@@ -351,7 +351,7 @@
             imagePickerController.delegate = self;
             imagePickerController.allowsMultipleSelection = YES;
             imagePickerController.maximumNumberOfSelection = 6;
-            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
+            UINavigationController *navigationController = [[BaseNavigationController alloc] initWithRootViewController:imagePickerController];
             [self presentViewController:navigationController animated:YES completion:NULL];
         }
             break;

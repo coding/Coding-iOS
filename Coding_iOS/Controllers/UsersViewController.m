@@ -31,7 +31,7 @@
     UsersViewController *vc = [[UsersViewController alloc] init];
     vc.curUsers = [Users usersWithOwner:[Login curLoginUser] Type:UsersTypeFriends_At];
     vc.selectUserBlock = block;
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
     [[BaseViewController presentingVC] presentViewController:nav animated:YES completion:nil];
 }
 + (void)showTranspondMessage:(PrivateMessage *)curMessage withBlock:(void(^)(PrivateMessage *curMessage))block{
@@ -39,7 +39,7 @@
     vc.curUsers = [Users usersWithOwner:[Login curLoginUser] Type:UsersTypeFriends_Transpond];
     vc.curMessage = curMessage;
     vc.transpondMessageBlock = block;
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
     [[BaseViewController presentingVC] presentViewController:nav animated:YES completion:nil];
 }
 - (void)viewDidLoad{

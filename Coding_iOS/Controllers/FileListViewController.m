@@ -243,7 +243,7 @@
             imagePickerController.delegate = self;
             imagePickerController.allowsMultipleSelection = YES;
             imagePickerController.maximumNumberOfSelection = 6;
-            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePickerController];
+            UINavigationController *navigationController = [[BaseNavigationController alloc] initWithRootViewController:imagePickerController];
             [self presentViewController:navigationController animated:YES completion:NULL];
         }
             break;
@@ -565,7 +565,7 @@
         }];
     };
     
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nav animated:YES completion:nil];
 }
 #pragma mark toVC

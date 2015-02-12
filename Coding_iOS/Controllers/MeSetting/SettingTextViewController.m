@@ -29,10 +29,10 @@
     SettingTextViewController *vc = [self settingTextVCWithTitle:title textValue:textValue doneBlock:block];
     vc.settingType = type;
     if (preVc) {
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
         [preVc presentViewController:nav animated:YES completion:nil];
     }else{
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
         [[BaseViewController presentingVC] presentViewController:nav animated:YES completion:nil];
     }
 }

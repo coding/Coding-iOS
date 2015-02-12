@@ -41,6 +41,9 @@
     #import "UIImageView+WebCache.h"
     #import <Masonry/Masonry.h>
 
+    #import "BaseNavigationController.h"
+    #import "BaseViewController.h"
+
 #endif
 //友盟统计
 #define kUmeng_AppKey @"54465c6ffd98c5c2c20041a2"

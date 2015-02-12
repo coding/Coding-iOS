@@ -157,7 +157,7 @@
     ProjectMemberListViewController *vc = [[ProjectMemberListViewController alloc] init];
     [vc setFrame:[UIView frameWithOutNav] project:project type:ProMemTypeAT refreshBlock:nil selectBlock:nil cellBtnBlock:nil];
     vc.selectUserBlock = block;
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
     [[BaseViewController presentingVC] presentViewController:nav animated:YES completion:nil];
 }
 

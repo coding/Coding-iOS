@@ -209,7 +209,7 @@
 }
 
 + (void)presentViewController:(UIViewController *)viewController{
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:viewController];
+    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:viewController];
     viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:viewController action:@selector(dismissModalViewControllerAnimated:)];
     [[self presentingVC] presentViewController:nav animated:YES completion:nil];
 }
