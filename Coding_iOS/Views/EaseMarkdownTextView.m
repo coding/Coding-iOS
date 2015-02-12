@@ -26,6 +26,15 @@
     return self;
 }
 
+-(BOOL)canPerformAction:(SEL)action withSender:(id)sender{
+    NSString *actionName = NSStringFromSelector(action);
+    if ([actionName isEqualToString:@"_addShortcut:"]) {
+        return NO;
+    }else{
+        return [super canPerformAction:action withSender:sender];
+    }
+}
+
 - (NSArray *)buttons {
     return @[
              [self createButtonWithTitle:@"@" andEventHandler:^{ [self doAT]; }],
