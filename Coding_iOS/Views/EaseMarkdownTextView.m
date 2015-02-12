@@ -54,22 +54,22 @@
              [self createButtonWithTitle:@"列表" andEventHandler:^{ [self doList]; }],
              
              [self createButtonWithTitle:@"链接" andEventHandler:^{
-                 NSString *tipStr = @"在此输入链接描述";
+                 NSString *tipStr = @"在此输入链接地址";
                  NSRange selectionRange = self.selectedRange;
-                 selectionRange.location += 1;
+                 selectionRange.location += 5;
                  selectionRange.length = tipStr.length;
 
-                 [self insertText:[NSString stringWithFormat:@"[%@]()", tipStr]];
+                 [self insertText:[NSString stringWithFormat:@"[链接](%@)", tipStr]];
                  [self setSelectionRange:selectionRange];
              }],
              
              [self createButtonWithTitle:@"图片链接" andEventHandler:^{
-                 NSString *tipStr = @"在此输入图片描述";
+                 NSString *tipStr = @"在此输入图片地址";
                  NSRange selectionRange = self.selectedRange;
-                 selectionRange.location += 2;
+                 selectionRange.location += 6;
                  selectionRange.length = tipStr.length;
 
-                 [self insertText:[NSString stringWithFormat:@"![%@]()", tipStr]];
+                 [self insertText:[NSString stringWithFormat:@"![图片](%@)", tipStr]];
                  [self setSelectionRange:selectionRange];
              }],
              
