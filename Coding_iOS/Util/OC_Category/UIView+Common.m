@@ -269,6 +269,10 @@ static char LoadingViewKey, BlankPageViewKey;
         }
         self.blankPageView.hidden = NO;
         [self.blankPageContainer insertSubview:self.blankPageView atIndex:0];
+        [self.blankPageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.equalTo(self);
+            make.top.left.equalTo(self.blankPageContainer);
+        }];
         [self.blankPageView configWithType:blankPageType hasData:hasData hasError:hasError reloadButtonBlock:block];
     }
 }
@@ -368,17 +372,14 @@ static char LoadingViewKey, BlankPageViewKey;
         return;
     }
     self.alpha = 1.0;
-    static CGFloat contentWidth = 250.0, contentHeight = 300.0;
-    CGFloat maxWidth = CGRectGetWidth(self.bounds), maxHeight = CGRectGetHeight(self.bounds);
 //    图片
     if (!_monkeyView) {
-        _monkeyView = [[UIImageView alloc] initWithFrame:CGRectMake((maxWidth - contentWidth)/2, (maxHeight - contentHeight)/2, contentWidth, 200)];
-        _monkeyView.contentMode = UIViewContentModeCenter;
+        _monkeyView = [[UIImageView alloc] initWithFrame:CGRectZero];
         [self addSubview:_monkeyView];
     }
 //    文字
     if (!_tipLabel) {
-        _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake((maxWidth - contentWidth)/2, CGRectGetMaxY(_monkeyView.frame)-35, contentWidth, 50)];
+        _tipLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _tipLabel.backgroundColor = [UIColor clearColor];
         _tipLabel.numberOfLines = 0;
         _tipLabel.font = [UIFont systemFontOfSize:17];
@@ -387,15 +388,31 @@ static char LoadingViewKey, BlankPageViewKey;
         [self addSubview:_tipLabel];
     }
     
+//    布局
+    [_monkeyView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self);
+        make.bottom.equalTo(self.mas_centerY);
+    }];
+    [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.centerX.equalTo(self);
+        make.top.equalTo(_monkeyView.mas_bottom);
+        make.height.mas_equalTo(50);
+    }];
+    
     _reloadButtonBlock = nil;
     if (hasError) {
 //        加载失败
         if (!_reloadButton) {
-            _reloadButton = [[UIButton alloc] initWithFrame:CGRectMake((maxWidth -160)/2, CGRectGetMaxY(_tipLabel.frame), 160, 60)];
+            _reloadButton = [[UIButton alloc] initWithFrame:CGRectZero];
             [_reloadButton setImage:[UIImage imageNamed:@"blankpage_button_reload"] forState:UIControlStateNormal];
             _reloadButton.adjustsImageWhenHighlighted = YES;
             [_reloadButton addTarget:self action:@selector(reloadButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:_reloadButton];
+            [_reloadButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerX.equalTo(self);
+                make.top.equalTo(_tipLabel.mas_bottom);
+                make.size.mas_equalTo(CGSizeMake(160, 60));
+            }];
         }
         _reloadButton.hidden = NO;
         _reloadButtonBlock = block;
