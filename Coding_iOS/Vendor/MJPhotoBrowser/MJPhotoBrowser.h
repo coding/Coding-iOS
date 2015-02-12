@@ -20,4 +20,5 @@
 
 // 显示
 - (void)show;
++ (void)showHtmlMediaItems:(NSArray *)items originalItem:(HtmlMediaItem *)curItem;
 @end

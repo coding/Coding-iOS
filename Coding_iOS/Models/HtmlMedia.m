@@ -77,7 +77,8 @@
         }else if ([element_Class hasPrefix:@"bubble-markdown-image-link"]){
             //图片
             item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_Image];
-
+            item.href = [attributes objectForKey:@"href"];
+            
             TFHppleElement *child = [element.children firstObject];
             if (child && [child.attributes objectForKey:@"src"]) {
                 item.src = [child.attributes objectForKey:@"src"];

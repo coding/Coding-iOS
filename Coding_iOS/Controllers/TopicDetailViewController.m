@@ -358,7 +358,18 @@
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];
     }else{
-        //网址
+        //可能是图片链接
+        HtmlMedia *htmlMedia = self.curTopic.htmlMedia;
+        if (htmlMedia.imageItems.count > 0) {
+            for (HtmlMediaItem *item in htmlMedia.imageItems) {
+                if ((item.src.length > 0 && [item.src isEqualToString:linkStr])
+                    || (item.href.length > 0 && [item.href isEqualToString:linkStr])) {
+                    [MJPhotoBrowser showHtmlMediaItems:htmlMedia.imageItems originalItem:item];
+                    return;
+                }
+            }
+        }
+        //跳转去网页
         WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
         [self.navigationController pushViewController:webVc animated:YES];
     }

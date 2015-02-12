@@ -107,6 +107,21 @@
     }];
 }
 
++ (void)showHtmlMediaItems:(NSArray *)items originalItem:(HtmlMediaItem *)curItem{
+    int count = (int)items.count;
+    NSMutableArray *photos = [NSMutableArray arrayWithCapacity:count];
+    for (int i = 0; i<count; i++) {
+        HtmlMediaItem *imageItem = [items objectAtIndex:i];
+        MJPhoto *photo = [[MJPhoto alloc] init];
+        photo.url = [NSURL URLWithString:imageItem.src]; // 图片路径
+        [photos addObject:photo];
+    }
+    MJPhotoBrowser *browser = [[MJPhotoBrowser alloc] init];
+    browser.currentPhotoIndex = [items indexOfObject:curItem]; // 弹出相册时显示的第一张图片是？
+    browser.photos = photos; // 设置所有的图片
+    [browser show];
+}
+
 #pragma mark - set M
 - (void)setPhotos:(NSArray *)photos
 {
