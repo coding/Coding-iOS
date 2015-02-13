@@ -18,7 +18,10 @@
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {
     for (id activityItem in activityItems) {
         if ([activityItem isKindOfClass:[NSURL class]]) {
-            return YES;
+            NSURL *inputURL = activityItem;
+            if (inputURL.absoluteString.length > 0) {
+                return YES;
+            }
         }
     }
     return NO;
