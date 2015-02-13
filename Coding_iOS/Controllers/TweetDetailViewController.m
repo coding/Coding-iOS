@@ -22,6 +22,7 @@
 #import "MJPhotoBrowser.h"
 #import "EditTaskViewController.h"
 #import "WebViewController.h"
+#import "ReportIllegalViewController.h"
 
 @interface TweetDetailViewController ()
 @property (nonatomic, strong) UITableView *myTableView;
@@ -53,7 +54,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"冒泡详情";
-    
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)] animated:NO];
+
     //    添加myTableView
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -116,6 +118,29 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)rightNavBtnClicked{
+    if (self.curTweet.id && [self.curTweet.id isKindOfClass:[NSNumber class]]) {
+        [_myMsgInputView isAndResignFirstResponder];
+        @weakify(self);
+        [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"举报"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                @strongify(self);
+                [self goToReport];
+            }
+        }] showInView:kKeyWindow];
+    }
+}
+
+- (void)goToReport{
+    if (self.curTweet.id && [self.curTweet.id isKindOfClass:[NSNumber class]]) {
+        NSNumber *tweet_id = self.curTweet.id;
+        [ReportIllegalViewController showReportWithIllegalContent:tweet_id.stringValue andType:IllegalContentTypeTweet];
+    }else{
+        [self showHudTipStr:@"冒泡为空"];
+    }
+}
+
 #pragma mark UIMessageInputViewDelegate
 - (void)messageInputView:(UIMessageInputView *)inputView sendText:(NSString *)text{
     [self sendCommentMessage:text];

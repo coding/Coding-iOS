@@ -116,6 +116,35 @@
     }
 }
 
+- (void)reportIllegalContentWithType:(IllegalContentType)type
+                          withParams:(NSDictionary*)params{
+    NSString *aPath;
+    switch (type) {
+        case IllegalContentTypeTweet:
+            aPath = @"/api/inform/tweet";
+            break;
+        case IllegalContentTypeTopic:
+            aPath = @"/api/inform/topic";
+            break;
+        case IllegalContentTypeProject:
+            aPath = @"/api/inform/project";
+            break;
+        case IllegalContentTypeWebsite:
+            aPath = @"/api/inform/website";
+            break;
+        default:
+            aPath = @"/api/inform/tweet";
+            break;
+    }
+    DebugLog(@"\n===========request===========\n%@:\n%@", aPath, params);
+    [self POST:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+    }];
+}
+
+
 + (void)saveCookieData{
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
     for (NSHTTPCookie *cookie in cookies) {

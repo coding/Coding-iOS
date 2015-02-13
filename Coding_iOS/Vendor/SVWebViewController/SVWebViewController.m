@@ -8,6 +8,7 @@
 
 #import "SVWebViewControllerActivityChrome.h"
 #import "SVWebViewControllerActivitySafari.h"
+#import "SVWebViewControllerActivityReport.h"
 #import "SVWebViewController.h"
 
 @interface SVWebViewController () <UIWebViewDelegate>
@@ -279,7 +280,7 @@
 - (void)actionButtonTapped:(id)sender {
     NSURL *url = self.webView.request.URL ? self.webView.request.URL : self.request.URL;
     if (url != nil) {
-        NSArray *activities = @[[SVWebViewControllerActivitySafari new], [SVWebViewControllerActivityChrome new]];
+        NSArray *activities = @[[SVWebViewControllerActivitySafari new], [SVWebViewControllerActivityChrome new], [SVWebViewControllerActivityReport new]];
         
         if ([[url absoluteString] hasPrefix:@"file:///"]) {
             UIDocumentInteractionController *dc = [UIDocumentInteractionController interactionControllerWithURL:url];

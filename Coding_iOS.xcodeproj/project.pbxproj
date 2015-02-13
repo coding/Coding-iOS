@@ -193,6 +193,10 @@
 		4ECE8B041A3946C10021E29C /* UnReadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECE8AFA1A3946C10021E29C /* UnReadManager.m */; };
 		4ECE8B051A3946C10021E29C /* WebContentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECE8AFC1A3946C10021E29C /* WebContentManager.m */; };
 		4ECE8B081A3947300021E29C /* BasicPreviewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECE8B071A3947300021E29C /* BasicPreviewItem.m */; };
+		4ED6731E1A8DD38C00DF2D1A /* ReportIllegalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */; };
+		4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED673211A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m */; };
+		4ED673261A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED673251A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png */; };
+		4ED673281A8E12F900DF2D1A /* SVWebViewControllerActivityReport-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED673271A8E12F900DF2D1A /* SVWebViewControllerActivityReport-iPad@2x.png */; };
 		4EDD8F511A36F42200E9E232 /* libXG-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EDD8F4D1A36F42200E9E232 /* libXG-SDK.a */; };
 		4EDD8F521A36F42300E9E232 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4EDD8F4E1A36F42200E9E232 /* ReleaseNotes.txt */; };
 		4EDD8F541A36F4AC00E9E232 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EDD8F531A36F4AC00E9E232 /* CFNetwork.framework */; };
@@ -841,6 +845,12 @@
 		4ECE8AFC1A3946C10021E29C /* WebContentManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebContentManager.m; sourceTree = "<group>"; };
 		4ECE8B061A3947300021E29C /* BasicPreviewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicPreviewItem.h; sourceTree = "<group>"; };
 		4ECE8B071A3947300021E29C /* BasicPreviewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicPreviewItem.m; sourceTree = "<group>"; };
+		4ED6731C1A8DD38C00DF2D1A /* ReportIllegalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportIllegalViewController.h; sourceTree = "<group>"; };
+		4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportIllegalViewController.m; sourceTree = "<group>"; };
+		4ED673201A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVWebViewControllerActivityReport.h; sourceTree = "<group>"; };
+		4ED673211A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVWebViewControllerActivityReport.m; sourceTree = "<group>"; };
+		4ED673251A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SVWebViewControllerActivityReport@2x.png"; sourceTree = "<group>"; };
+		4ED673271A8E12F900DF2D1A /* SVWebViewControllerActivityReport-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SVWebViewControllerActivityReport-iPad@2x.png"; sourceTree = "<group>"; };
 		4EDD8F4D1A36F42200E9E232 /* libXG-SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libXG-SDK.a"; sourceTree = "<group>"; };
 		4EDD8F4E1A36F42200E9E232 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
 		4EDD8F4F1A36F42200E9E232 /* XGPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XGPush.h; sourceTree = "<group>"; };
@@ -1407,6 +1417,7 @@
 		4E217EFD1A70EDC700F6DF88 /* UIActivities */ = {
 			isa = PBXGroup;
 			children = (
+				4ED6731F1A8E0E8F00DF2D1A /* Report */,
 				4E217EFE1A70EDC700F6DF88 /* Chrome */,
 				4E217F041A70EDC700F6DF88 /* Safari */,
 				4E217F0A1A70EDC700F6DF88 /* SVWebViewControllerActivity.h */,
@@ -1824,6 +1835,17 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		4ED6731F1A8E0E8F00DF2D1A /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				4ED673201A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.h */,
+				4ED673211A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m */,
+				4ED673251A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png */,
+				4ED673271A8E12F900DF2D1A /* SVWebViewControllerActivityReport-iPad@2x.png */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
 		4EDD8F4C1A36F42200E9E232 /* XGPush */ = {
 			isa = PBXGroup;
 			children = (
@@ -2194,6 +2216,8 @@
 				4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */,
 				4E4ABBE81A653027004760D9 /* WebViewController.h */,
 				4E4ABBE91A653027004760D9 /* WebViewController.m */,
+				4ED6731C1A8DD38C00DF2D1A /* ReportIllegalViewController.h */,
+				4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2853,6 +2877,7 @@
 				8E97CE6C1A0B243B006F9AD7 /* keyboard_add@2x.png in Resources */,
 				4EA6791A1A14BFA0001A0324 /* icon_file_folder_normal@2x.png in Resources */,
 				8EA6D19919E240C40076D59C /* tipIcon_ProjectTopic@2x.png in Resources */,
+				4ED673261A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png in Resources */,
 				4E76D4D91A5A71C50094A35E /* taskPriority2_small@2x.png in Resources */,
 				8EA6D14A19E240C40076D59C /* InfoPlist.strings in Resources */,
 				8E8F7B3419EF6306006BA8BD /* btn_project_added@2x.png in Resources */,
@@ -2923,6 +2948,7 @@
 				8E8F7B3219EF6306006BA8BD /* btn_privateMsg_white@2x.png in Resources */,
 				8E97CEBB1A0C7E26006F9AD7 /* coding_emoji_36@2x.png in Resources */,
 				8EA6D19F19E240C40076D59C /* tipIcon_TweetComment@2x.png in Resources */,
+				4ED673281A8E12F900DF2D1A /* SVWebViewControllerActivityReport-iPad@2x.png in Resources */,
 				4E07D30E1A4A9F45009EDDF2 /* btn_file_reDo@2x.png in Resources */,
 				8EA6D15F19E240C40076D59C /* logo_about@2x.png in Resources */,
 				4E66EE2A1A28226000DA1B3E /* button_file_upload_enable@2x.png in Resources */,
@@ -3138,6 +3164,7 @@
 				4EA679131A1466A6001A0324 /* ProjectFiles.m in Sources */,
 				4EBDA87C1A6640340035ED96 /* UIActionSheet+Common.m in Sources */,
 				4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */,
+				4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */,
 				4E6BA2E41A1EE6AF005FD721 /* UIButton+AFNetworking.m in Sources */,
 				8EF643C919FF7E2900F7EEB0 /* TopicCommentCell.m in Sources */,
 				8EF643CD19FF7E2900F7EEB0 /* TweetCommentMoreCell.m in Sources */,
@@ -3160,6 +3187,7 @@
 				8EA6D20A19E240C40076D59C /* RDVTabBar.m in Sources */,
 				8E1C3DF019E7D58A00EF3032 /* DistancePickerView.m in Sources */,
 				8EA6D1B219E240C40076D59C /* Depot.m in Sources */,
+				4ED6731E1A8DD38C00DF2D1A /* ReportIllegalViewController.m in Sources */,
 				8EF643CE19FF7E2900F7EEB0 /* TweetDetailCell.m in Sources */,
 				8E59F0E21A0098BA009A905F /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				4E15C7D01A26D2F000FB8DAD /* FolderToMoveViewController.m in Sources */,

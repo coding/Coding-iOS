@@ -17,6 +17,12 @@ typedef enum {
     Delete
 } NetworkMethod;
 
+typedef NS_ENUM(NSInteger, IllegalContentType) {
+    IllegalContentTypeTweet = 0,
+    IllegalContentTypeTopic,
+    IllegalContentTypeProject,
+    IllegalContentTypeWebsite
+};
 
 @interface CodingNetAPIClient : AFHTTPRequestOperationManager
 
@@ -28,6 +34,9 @@ typedef enum {
                      withParams:(NSDictionary*)params
                  withMethodType:(int)NetworkMethod
                        andBlock:(void (^)(id data, NSError *error))block;
+
+- (void)reportIllegalContentWithType:(IllegalContentType)type
+                          withParams:(NSDictionary*)params;
 
 - (void)uploadImage:(UIImage *)image path:(NSString *)path name:(NSString *)name
        successBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
