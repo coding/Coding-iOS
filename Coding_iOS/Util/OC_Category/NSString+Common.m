@@ -185,7 +185,8 @@
     static NSDictionary *_emotion_monkey_dict;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _emotion_monkey_dict = @{@"coding_emoji_01": @"哈哈",
+        _emotion_monkey_dict = @{
+                                 @"coding_emoji_01": @"哈哈",
                                  @"coding_emoji_02": @"吐",
                                  @"coding_emoji_03": @"压力山大",
                                  @"coding_emoji_04": @"忧伤",
@@ -220,7 +221,14 @@
                                  @"coding_emoji_33": @"表白",
                                  @"coding_emoji_34": @"抓瓢虫",
                                  @"coding_emoji_35": @"下班",
-                                 @"coding_emoji_36": @"冒泡"};
+                                 @"coding_emoji_36": @"冒泡",
+                                 @"coding_emoji_38": @"2015",
+                                 @"coding_emoji_39": @"拜年",
+                                 @"coding_emoji_40": @"发红包",
+                                 @"coding_emoji_41": @"放鞭炮",
+                                 @"coding_emoji_42": @"求红包",
+                                 @"coding_emoji_43": @"新年快乐"
+                                 };
     });
     return _emotion_monkey_dict;
 }

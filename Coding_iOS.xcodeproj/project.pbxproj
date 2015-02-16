@@ -19,6 +19,12 @@
 		4E07D3111A4D1484009EDDF2 /* EaseStartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E07D3101A4D1484009EDDF2 /* EaseStartView.m */; };
 		4E07D3151A4D3CA6009EDDF2 /* icon_user_monkey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D3121A4D3CA6009EDDF2 /* icon_user_monkey@2x.png */; };
 		4E07D3161A4D3CA6009EDDF2 /* logo_coding@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D3131A4D3CA6009EDDF2 /* logo_coding@2x.png */; };
+		4E0849801A918A7F00BD27F6 /* coding_emoji_38@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08497A1A918A7F00BD27F6 /* coding_emoji_38@2x.png */; };
+		4E0849811A918A7F00BD27F6 /* coding_emoji_39@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08497B1A918A7F00BD27F6 /* coding_emoji_39@2x.png */; };
+		4E0849821A918A7F00BD27F6 /* coding_emoji_40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08497C1A918A7F00BD27F6 /* coding_emoji_40@2x.png */; };
+		4E0849831A918A7F00BD27F6 /* coding_emoji_41@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08497D1A918A7F00BD27F6 /* coding_emoji_41@2x.png */; };
+		4E0849841A918A7F00BD27F6 /* coding_emoji_42@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08497E1A918A7F00BD27F6 /* coding_emoji_42@2x.png */; };
+		4E0849851A918A7F00BD27F6 /* coding_emoji_43@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08497F1A918A7F00BD27F6 /* coding_emoji_43@2x.png */; };
 		4E15C7D01A26D2F000FB8DAD /* FolderToMoveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E15C7CF1A26D2F000FB8DAD /* FolderToMoveViewController.m */; };
 		4E15C7D61A271A6300FB8DAD /* EaseToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E15C7D51A271A6300FB8DAD /* EaseToolBar.m */; };
 		4E217F0C1A70EDC700F6DF88 /* SVModalWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E217EF91A70EDC700F6DF88 /* SVModalWebViewController.m */; };
@@ -557,6 +563,12 @@
 		4E07D3101A4D1484009EDDF2 /* EaseStartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseStartView.m; sourceTree = "<group>"; };
 		4E07D3121A4D3CA6009EDDF2 /* icon_user_monkey@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_user_monkey@2x.png"; sourceTree = "<group>"; };
 		4E07D3131A4D3CA6009EDDF2 /* logo_coding@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_coding@2x.png"; sourceTree = "<group>"; };
+		4E08497A1A918A7F00BD27F6 /* coding_emoji_38@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coding_emoji_38@2x.png"; sourceTree = "<group>"; };
+		4E08497B1A918A7F00BD27F6 /* coding_emoji_39@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coding_emoji_39@2x.png"; sourceTree = "<group>"; };
+		4E08497C1A918A7F00BD27F6 /* coding_emoji_40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coding_emoji_40@2x.png"; sourceTree = "<group>"; };
+		4E08497D1A918A7F00BD27F6 /* coding_emoji_41@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coding_emoji_41@2x.png"; sourceTree = "<group>"; };
+		4E08497E1A918A7F00BD27F6 /* coding_emoji_42@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coding_emoji_42@2x.png"; sourceTree = "<group>"; };
+		4E08497F1A918A7F00BD27F6 /* coding_emoji_43@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coding_emoji_43@2x.png"; sourceTree = "<group>"; };
 		4E15C7CE1A26D2F000FB8DAD /* FolderToMoveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderToMoveViewController.h; sourceTree = "<group>"; };
 		4E15C7CF1A26D2F000FB8DAD /* FolderToMoveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderToMoveViewController.m; sourceTree = "<group>"; };
 		4E15C7D41A271A6300FB8DAD /* EaseToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseToolBar.h; sourceTree = "<group>"; };
@@ -2130,6 +2142,12 @@
 				8E97CE951A0C7E26006F9AD7 /* coding_emoji_34@2x.png */,
 				8E97CE961A0C7E26006F9AD7 /* coding_emoji_35@2x.png */,
 				8E97CE971A0C7E26006F9AD7 /* coding_emoji_36@2x.png */,
+				4E08497A1A918A7F00BD27F6 /* coding_emoji_38@2x.png */,
+				4E08497B1A918A7F00BD27F6 /* coding_emoji_39@2x.png */,
+				4E08497C1A918A7F00BD27F6 /* coding_emoji_40@2x.png */,
+				4E08497D1A918A7F00BD27F6 /* coding_emoji_41@2x.png */,
+				4E08497E1A918A7F00BD27F6 /* coding_emoji_42@2x.png */,
+				4E08497F1A918A7F00BD27F6 /* coding_emoji_43@2x.png */,
 			);
 			path = emotion_monkey;
 			sourceTree = "<group>";
@@ -2913,6 +2931,7 @@
 				4E96E7DA1A1B537E0037C098 /* icon_file_doc@2x.png in Resources */,
 				8E62ADDA19E28DA800963870 /* tipIcon_User@2x.png in Resources */,
 				8E8F7B3519EF6306006BA8BD /* btn_project_quit@2x.png in Resources */,
+				4E0849801A918A7F00BD27F6 /* coding_emoji_38@2x.png in Resources */,
 				4E6D718E1A762879005AD988 /* icon_user_monkey_i6p@3x.png in Resources */,
 				8E97CE661A0A3424006F9AD7 /* keyboard_emotion_emoji@2x.png in Resources */,
 				4E6D718D1A762879005AD988 /* icon_user_monkey_i6@2x.png in Resources */,
@@ -2944,6 +2963,7 @@
 				8E8F7B2D19EF6306006BA8BD /* btn_followed_not@2x.png in Resources */,
 				8EA6D17B19E240C40076D59C /* placeholder_monkey_round_54@2x.png in Resources */,
 				4E923E791A2F040D00427514 /* messageRight_bg_img@2x.png in Resources */,
+				4E0849811A918A7F00BD27F6 /* coding_emoji_39@2x.png in Resources */,
 				8E97CE9F1A0C7E26006F9AD7 /* coding_emoji_08@2x.png in Resources */,
 				8E8F7B3219EF6306006BA8BD /* btn_privateMsg_white@2x.png in Resources */,
 				8E97CEBB1A0C7E26006F9AD7 /* coding_emoji_36@2x.png in Resources */,
@@ -2964,6 +2984,7 @@
 				8E97CEA01A0C7E26006F9AD7 /* coding_emoji_09@2x.png in Resources */,
 				4E76D4E51A5A90CA0094A35E /* taskPriority2@2x.png in Resources */,
 				4E07D30A1A4A9ACB009EDDF2 /* moreBtn_Nav@2x.png in Resources */,
+				4E0849831A918A7F00BD27F6 /* coding_emoji_41@2x.png in Resources */,
 				8E97CEA91A0C7E26006F9AD7 /* coding_emoji_18@2x.png in Resources */,
 				4E3AD3D11A273A4A005C749B /* FontAwesome.ttf in Resources */,
 				8EA6D16919E240C40076D59C /* nav_project_task@2x.png in Resources */,
@@ -3002,6 +3023,7 @@
 				8E97CE641A0A3424006F9AD7 /* keyboard_emotion@2x.png in Resources */,
 				4E03ACA11A5CEB41002B000B /* taskProgress@2x.png in Resources */,
 				4E03ACA01A5CEB41002B000B /* taskDeadline@2x.png in Resources */,
+				4E0849851A918A7F00BD27F6 /* coding_emoji_43@2x.png in Resources */,
 				4E96E7DE1A1B537E0037C098 /* icon_file_music@2x.png in Resources */,
 				8EA6D1A119E240C40076D59C /* tipIcon_UserFollow@2x.png in Resources */,
 				8EA6D18319E240C40076D59C /* me_normal@2x.png in Resources */,
@@ -3035,6 +3057,7 @@
 				8EF643B319FF7E2900F7EEB0 /* Input_GlobalKey_Cell.xib in Resources */,
 				8E97CEA71A0C7E26006F9AD7 /* coding_emoji_16@2x.png in Resources */,
 				8E8F7B2C19EF6306006BA8BD /* btn_followed_both@2x.png in Resources */,
+				4E0849841A918A7F00BD27F6 /* coding_emoji_42@2x.png in Resources */,
 				8E97CEB61A0C7E26006F9AD7 /* coding_emoji_31@2x.png in Resources */,
 				8E7612F11A08A4EB005BE797 /* markdown.html in Resources */,
 				8E7612E61A087CD1005BE797 /* checkbox_checked@2x.png in Resources */,
@@ -3056,6 +3079,7 @@
 				4E66EE271A28226000DA1B3E /* button_file_denete_enable@2x.png in Resources */,
 				8E64ED8B19EE484A006E99DA /* README.textile in Resources */,
 				8E97CE9D1A0C7E26006F9AD7 /* coding_emoji_06@2x.png in Resources */,
+				4E0849821A918A7F00BD27F6 /* coding_emoji_40@2x.png in Resources */,
 				4E9113AC1A1CB19900AC9431 /* icon_file_state_pause@2x.png in Resources */,
 				4E66EE281A28226000DA1B3E /* button_file_denete_unable@2x.png in Resources */,
 				8E97CE4A1A0A2E11006F9AD7 /* EmojisList.plist in Resources */,
