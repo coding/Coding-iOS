@@ -37,7 +37,10 @@
 {
     self = [super init];
     if (self) {
-        [[UnReadManager shareManager] addObserver:self forKeyPath:kUnReadKey_project_update_count options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+        RAC(self, rdv_tabBarItem.badgeValue) = [RACSignal combineLatest:@[RACObserve([UnReadManager shareManager], project_update_count)]
+                                                                 reduce:^id(NSNumber *project_update_count){
+                                                                     return project_update_count.integerValue > 0? kBadgeTipStr : @"";
+                                                                 }];
     }
     return self;
 }
@@ -88,7 +91,6 @@
     [self.view addSubview:_mySegmentControl];
     
     _oldSelectedIndex = 0;
-    [self refreshBadgeTip];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -109,10 +111,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)dealloc{
-    [[UnReadManager shareManager] removeObserver:self forKeyPath:kUnReadKey_project_update_count];
 }
 
 #pragma mark iCarousel M
@@ -168,27 +166,6 @@
         ProjectListView *curView = (ProjectListView *)carousel.currentItemView;
         [curView refreshToQueryData];
     }    
-}
-
-#pragma mark KVO_UnRead
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if([keyPath isEqualToString:kUnReadKey_project_update_count]){
-        [self refreshBadgeTip];
-    }
-}
-
-- (void)refreshBadgeTip{
-    NSString *badgeTip = @"";
-    NSNumber *project_update_count = [UnReadManager shareManager].project_update_count;
-    if (project_update_count.integerValue > 0) {
-        badgeTip = kBadgeTipStr;
-//        if (project_update_count.integerValue > 99) {
-//            badgeTip = @"99+";
-//        }else{
-//            badgeTip = project_update_count.stringValue;
-//        }
-    }
-    [self.rdv_tabBarItem setBadgeValue:badgeTip];
 }
 
 @end

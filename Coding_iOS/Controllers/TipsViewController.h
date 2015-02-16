@@ -12,6 +12,5 @@
 
 @interface TipsViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 @property (strong, nonatomic) CodingTips *myCodingTips;
-@property (strong, nonatomic) NSMutableDictionary *notificationDict;
 
 @end

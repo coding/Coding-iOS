@@ -115,26 +115,12 @@
         if (data) {
             [weakSelf.myCodingTips configWithObj:data];
             [weakSelf.myTableView reloadData];
-            [weakSelf resetUnreadCount];
             weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myCodingTips.canLoadMore;
         }
         [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.myCodingTips.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
     }];
-}
-- (void)resetUnreadCount{
-    switch (self.myCodingTips.type) {
-        case 0:
-            [_notificationDict setObject:[NSNumber numberWithInteger:0] forKey:kUnReadKey_notification_AT];
-            break;
-        case 1:
-            [_notificationDict setObject:[NSNumber numberWithInteger:0] forKey:kUnReadKey_notification_Comment];
-            break;
-        default:
-            [_notificationDict setObject:[NSNumber numberWithInteger:0] forKey:kUnReadKey_notification_System];
-            break;
-    }
 }
 
 #pragma mark Table M

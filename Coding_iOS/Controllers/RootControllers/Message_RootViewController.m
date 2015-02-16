@@ -47,11 +47,24 @@
 {
     self = [super init];
     if (self) {
-        [[UnReadManager shareManager] addObserver:self forKeyPath:kUnReadKey_messages options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-        [[UnReadManager shareManager] addObserver:self forKeyPath:kUnReadKey_notifications options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+        RAC(self, rdv_tabBarItem.badgeValue) = [RACSignal combineLatest:@[RACObserve([UnReadManager shareManager], messages),
+                                                                          RACObserve([UnReadManager shareManager], notifications)]
+                                                                 reduce:^id(NSNumber *messages, NSNumber *notifications){
+                                                                     NSString *badgeTip = @"";
+                                                                     NSNumber *unreadCount = [NSNumber numberWithInteger:messages.integerValue +notifications.integerValue];
+                                                                     if (unreadCount.integerValue > 0) {
+                                                                         if (unreadCount.integerValue > 99) {
+                                                                             badgeTip = @"99+";
+                                                                         }else{
+                                                                             badgeTip = unreadCount.stringValue;
+                                                                         }
+                                                                     }
+                                                                     return badgeTip;
+                                                                 }];
     }
     return self;
 }
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -97,7 +110,6 @@
         [weakSelf refreshMore];
     }];
     
-    [self refreshBadgeTip];
     [self.refreshControl beginRefreshing];
     [self.myTableView setContentOffset:CGPointMake(0, -44)];
     [self refresh];
@@ -119,13 +131,8 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)dealloc{
-    
-    [[UnReadManager shareManager] removeObserver:self forKeyPath:kUnReadKey_messages];
-    [[UnReadManager shareManager] removeObserver:self forKeyPath:kUnReadKey_notifications];
-    
     _myTableView.delegate = nil;
     _myTableView.dataSource = nil;
-
 }
 
 - (void)sendMsgBtnClicked:(id)sender{
@@ -223,7 +230,6 @@
     if (indexPath.row < 3) {
         TipsViewController *vc = [[TipsViewController alloc] init];
         vc.myCodingTips = [CodingTips codingTipsWithType:indexPath.row];
-        vc.notificationDict = _notificationDict;
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         PrivateMessage *curMsg = [_myPriMsgs.list objectAtIndex:indexPath.row-3];
@@ -265,27 +271,4 @@
         }
     }];
 }
-
-
-#pragma mark KVO_UnRead
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if([keyPath isEqualToString:kUnReadKey_messages] || [keyPath isEqualToString:kUnReadKey_notifications]){
-        [self refreshBadgeTip];
-    }
-}
-
-- (void)refreshBadgeTip{
-    NSString *badgeTip = @"";
-    NSNumber *unreadCount = [NSNumber numberWithInteger:([UnReadManager shareManager].messages.integerValue +[UnReadManager shareManager].notifications.integerValue)];
-    if (unreadCount.integerValue > 0) {
-        if (unreadCount.integerValue > 99) {
-            badgeTip = @"99+";
-        }else{
-            badgeTip = unreadCount.stringValue;
-        }
-    }
-    [self.rdv_tabBarItem setBadgeValue:badgeTip];
-}
-
-
 @end

@@ -79,18 +79,5 @@
         return @{@"id" : unReadArray};
     }
     return nil;
-    
-//    NSDictionary *params;
-//    if (_type == 0) {
-//        params = @{@"type" : [NSNumber numberWithInteger:0],
-//                   @"all" : [NSNumber numberWithInteger:1]};
-//    }else if (_type == 1){
-//        params = @{@"type" : [NSArray arrayWithObjects:[NSNumber numberWithInteger:1], [NSNumber numberWithInteger:2], nil],
-//                   @"all" : [NSNumber numberWithInteger:1]};
-//    }else if (_type == 2){
-//        params = @{@"type" : [NSNumber numberWithInteger:4],
-//                   @"all" : [NSNumber numberWithInteger:1]};
-//    }
-//    return params;
 }
 @end
