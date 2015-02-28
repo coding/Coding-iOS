@@ -268,11 +268,13 @@ static char LoadingViewKey, BlankPageViewKey;
             self.blankPageView = [[EaseBlankPageView alloc] initWithFrame:self.bounds];
         }
         self.blankPageView.hidden = NO;
-        [self.blankPageContainer insertSubview:self.blankPageView atIndex:0];
-        [self.blankPageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.equalTo(self);
-            make.top.left.equalTo(self.blankPageContainer);
-        }];
+        [self.blankPageContainer addSubview:self.blankPageView];
+
+//        [self.blankPageContainer insertSubview:self.blankPageView atIndex:0];
+//        [self.blankPageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.size.equalTo(self);
+//            make.top.left.equalTo(self.blankPageContainer);
+//        }];
         [self.blankPageView configWithType:blankPageType hasData:hasData hasError:hasError reloadButtonBlock:block];
     }
 }
