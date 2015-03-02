@@ -254,8 +254,9 @@
                     *stop = YES;
                 }
             }];
-            [resultA exchangeObjectAtIndex:mineIndex withObjectAtIndex:0];
-            
+            if (mineIndex > 0) {
+                [resultA exchangeObjectAtIndex:mineIndex withObjectAtIndex:0];
+            }
             block(resultA, nil);
         }else{
             block(nil, error);

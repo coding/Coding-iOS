@@ -30,7 +30,7 @@
 
 //评论
 @property (nonatomic, strong) UIMessageInputView *myMsgInputView;
-@property (nonatomic, assign) Comment *toComment;
+@property (nonatomic, strong) Comment *toComment;
 @property (nonatomic, strong) UIView *commentSender;
 
 //TTTAttributedLabel

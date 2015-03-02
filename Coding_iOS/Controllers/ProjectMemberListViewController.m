@@ -97,7 +97,9 @@
                     *stop = YES;
                 }
             }];
-            [resultA exchangeObjectAtIndex:mineIndex withObjectAtIndex:0];
+            if (mineIndex > 0) {
+                [resultA exchangeObjectAtIndex:mineIndex withObjectAtIndex:0];
+            }
             weakSelf.mySearchBar.hidden = NO;
             weakSelf.myMemberArray = resultA;
             [weakSelf.myTableView reloadData];
