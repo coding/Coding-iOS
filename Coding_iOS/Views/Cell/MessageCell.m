@@ -30,7 +30,6 @@
 @property (strong, nonatomic) PrivateMessage *curPriMsg, *prePriMsg;
 
 @property (strong, nonatomic) UITapImageView *userIconView;
-@property (strong, nonatomic) UITTTAttributedLabel *contentLabel;
 @property (strong, nonatomic) UICustomCollectionView *mediaView;
 @property (strong, nonatomic) NSMutableDictionary *imageViewsDict;
 
@@ -67,6 +66,8 @@
             _contentLabel.numberOfLines = 0;
             _contentLabel.font =kMessageCell_FontContent;
             _contentLabel.backgroundColor = [UIColor clearColor];
+            _contentLabel.linkAttributes = kLinkAttributes;
+            _contentLabel.activeLinkAttributes = kLinkAttributesActive;
             [_bgImgView addSubview:_contentLabel];
         }
         if ([reuseIdentifier isEqualToString:kCellIdentifier_MessageMedia]) {
@@ -134,6 +135,13 @@
     [_contentLabel setWidth:kMessageCell_ContentWidth];
     _contentLabel.text = _curPriMsg.content;
     [_contentLabel sizeToFit];
+    
+    for (HtmlMediaItem *item in _curPriMsg.htmlMedia.mediaItems) {
+        if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
+            [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
+        }
+    }
+    
     textSize.height = CGRectGetHeight(_contentLabel.frame);
     
     

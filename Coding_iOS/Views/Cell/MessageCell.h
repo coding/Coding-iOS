@@ -12,6 +12,7 @@
 
 @interface MessageCell : UITableViewCell <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UILongPressMenuImageView *bgImgView;
+@property (strong, nonatomic) UITTTAttributedLabel *contentLabel;
 
 - (void)setCurPriMsg:(PrivateMessage *)curPriMsg andPrePriMsg:(PrivateMessage *)prePriMsg;
 

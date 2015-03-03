@@ -17,8 +17,9 @@
 #import "QBImagePickerController.h"
 #import "UsersViewController.h"
 #import "Helper.h"
+#import "WebViewController.h"
 
-@interface ConversationViewController ()
+@interface ConversationViewController ()<TTTAttributedLabelDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 @property (nonatomic, strong) UIMessageInputView *myMsgInputView;
@@ -186,6 +187,7 @@
     }else{
         cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Message forIndexPath:indexPath];
     }
+    cell.contentLabel.delegate = self;
     PrivateMessage *preMsg = nil;
     if (curIndex +1 < _myPriMsgs.list.count) {
         preMsg = [_myPriMsgs.list objectAtIndex:curIndex+1];
@@ -276,6 +278,24 @@
         [self.myTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
                               atScrollPosition:UITableViewScrollPositionBottom
                                       animated:animated];
+    }
+}
+
+#pragma mark TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
+    DebugLog(@"%@", components.description);
+    HtmlMediaItem *clickedItem = [components objectForKey:@"value"];
+    [self analyseLinkStr:clickedItem.href];
+}
+
+- (void)analyseLinkStr:(NSString *)linkStr{
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        //网页
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self.navigationController pushViewController:webVc animated:YES];
     }
 }
 
