@@ -131,6 +131,9 @@
         [_activityIndicator setCenter:CGPointMake(CGRectGetWidth(_contentWebView.frame)/2, CGRectGetHeight(_contentWebView.frame)/2)];
         [_contentWebView addSubview:_activityIndicator];
         [self.view addSubview:_contentWebView];
+        [_contentWebView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
     }
     if ([self.curFile.fileType isEqualToString:@"md"]){
         NSError  *error = nil;
