@@ -195,11 +195,13 @@ const NSTimeInterval kMaxTimeStep = 1; // note: To avoid spiral-o-death
     [super didMoveToSuperview];
     if (self.superview) {
         //Has a superview, make sure it has a displayLink
-        [self displayLink];
+        CADisplayLink *curDisplayLink;
+        curDisplayLink =[self displayLink];
     } else {
         //Doesn't have superview, let's check later if we need to remove the displayLink
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self displayLink];
+            CADisplayLink *curDisplayLink;
+            curDisplayLink = [self displayLink];
         });
     }
 }

@@ -42,7 +42,7 @@ static NSMutableDictionary *_inputDict;
     CGFloat oldheightToBottom = kScreen_Height - CGRectGetMinY(self.frame);
     CGFloat newheightToBottom = kScreen_Height - CGRectGetMinY(frame);
     [super setFrame:frame];
-    if (abs(oldheightToBottom - newheightToBottom) > 0.1) {
+    if (fabs(oldheightToBottom - newheightToBottom) > 0.1) {
         NSLog(@"heightToBottom-----:%.2f", newheightToBottom);
         if (_delegate && [_delegate respondsToSelector:@selector(messageInputView:heightToBottomChenged:)]) {
             [self.delegate messageInputView:self heightToBottomChenged:newheightToBottom];
