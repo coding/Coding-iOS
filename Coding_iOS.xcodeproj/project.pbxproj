@@ -167,6 +167,8 @@
 		4EBB624D1A6F526C0045DAEF /* NJKWebViewProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBB624B1A6F526C0045DAEF /* NJKWebViewProgressView.m */; };
 		4EBD0C661A1F2011004B4284 /* nav_project_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EBD0C651A1F2011004B4284 /* nav_project_file@2x.png */; };
 		4EBDA87C1A6640340035ED96 /* UIActionSheet+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBDA87B1A6640340035ED96 /* UIActionSheet+Common.m */; };
+		4EBFBD131AA80AEE00E4B10E /* iVersion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4EBFBD101AA80AEE00E4B10E /* iVersion.bundle */; };
+		4EBFBD141AA80AEE00E4B10E /* iVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBFBD121AA80AEE00E4B10E /* iVersion.m */; };
 		4EC5AD921A258DF8006FA97C /* icon_file_cell_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD8F1A258DF8006FA97C /* icon_file_cell_delete@2x.png */; };
 		4EC5AD931A258DF8006FA97C /* icon_file_cell_move@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD901A258DF8006FA97C /* icon_file_cell_move@2x.png */; };
 		4EC5AD941A258DF8006FA97C /* icon_file_cell_rename@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD911A258DF8006FA97C /* icon_file_cell_rename@2x.png */; };
@@ -796,6 +798,9 @@
 		4EBD0C651A1F2011004B4284 /* nav_project_file@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_project_file@2x.png"; sourceTree = "<group>"; };
 		4EBDA87A1A6640340035ED96 /* UIActionSheet+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+Common.h"; sourceTree = "<group>"; };
 		4EBDA87B1A6640340035ED96 /* UIActionSheet+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+Common.m"; sourceTree = "<group>"; };
+		4EBFBD101AA80AEE00E4B10E /* iVersion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iVersion.bundle; sourceTree = "<group>"; };
+		4EBFBD111AA80AEE00E4B10E /* iVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iVersion.h; sourceTree = "<group>"; };
+		4EBFBD121AA80AEE00E4B10E /* iVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVersion.m; sourceTree = "<group>"; };
 		4EC5AD8F1A258DF8006FA97C /* icon_file_cell_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_delete@2x.png"; sourceTree = "<group>"; };
 		4EC5AD901A258DF8006FA97C /* icon_file_cell_move@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_move@2x.png"; sourceTree = "<group>"; };
 		4EC5AD911A258DF8006FA97C /* icon_file_cell_rename@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_rename@2x.png"; sourceTree = "<group>"; };
@@ -1753,6 +1758,16 @@
 			path = NJKWebViewProgress;
 			sourceTree = "<group>";
 		};
+		4EBFBD0F1AA80AEE00E4B10E /* iVersion */ = {
+			isa = PBXGroup;
+			children = (
+				4EBFBD101AA80AEE00E4B10E /* iVersion.bundle */,
+				4EBFBD111AA80AEE00E4B10E /* iVersion.h */,
+				4EBFBD121AA80AEE00E4B10E /* iVersion.m */,
+			);
+			path = iVersion;
+			sourceTree = "<group>";
+		};
 		4EC5AD8E1A258DF8006FA97C /* icon_file_cell_edit */ = {
 			isa = PBXGroup;
 			children = (
@@ -2587,6 +2602,7 @@
 		8EA6D03E19E240C40076D59C /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4EBFBD0F1AA80AEE00E4B10E /* iVersion */,
 				4E6C411A1A846AC30098DC17 /* RFKeyboardToolbar */,
 				4E6D71841A75F00E005AD988 /* YLGIFImage */,
 				4E217EF71A70EDC700F6DF88 /* SVWebViewController */,
@@ -3037,6 +3053,7 @@
 				8E64ED3C19EBCEE5006E99DA /* private_message_send_fail@2x.png in Resources */,
 				8EA6D19E19E240C40076D59C /* tipIcon_Tweet@2x.png in Resources */,
 				4EB0C2021A80B8F20042FC4F /* service_terms.html in Resources */,
+				4EBFBD131AA80AEE00E4B10E /* iVersion.bundle in Resources */,
 				8E97CE9B1A0C7E26006F9AD7 /* coding_emoji_04@2x.png in Resources */,
 				8EA6D16D19E240C40076D59C /* nav_tweet_hot@2x.png in Resources */,
 				4E96E7DC1A1B537E0037C098 /* icon_file_md@2x.png in Resources */,
@@ -3181,6 +3198,7 @@
 				4E4ABBEA1A653027004760D9 /* WebViewController.m in Sources */,
 				4E6BA2E51A1EE6AF005FD721 /* UIImageView+AFNetworking.m in Sources */,
 				8EA6D1B919E240C40076D59C /* ProjectMember.m in Sources */,
+				4EBFBD141AA80AEE00E4B10E /* iVersion.m in Sources */,
 				8EA6D13719E240C40076D59C /* Me_RootViewController.m in Sources */,
 				4E8765691A22E5B40090CFB9 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				8E59F0EE1A00F34E009A905F /* ProjectCodeListView.m in Sources */,
