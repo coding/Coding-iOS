@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "HtmlMedia.h"
+#import "YLImageView.h"
 
 @interface TweetMediaItemCCell : UICollectionViewCell
 @property (strong, nonatomic) HtmlMediaItem *curMediaItem;
-@property (strong, nonatomic) UIImageView *imgView;
+@property (strong, nonatomic) YLImageView *imgView;
 
 +(CGSize)ccellSizeWithObj:(id)obj;
 @end

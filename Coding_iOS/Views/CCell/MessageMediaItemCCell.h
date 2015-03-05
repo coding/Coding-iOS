@@ -9,13 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "HtmlMedia.h"
 #import "PrivateMessage.h"
+#import "YLImageView.h"
 
 @interface MessageMediaItemCCell : UICollectionViewCell
 @property (copy, nonatomic) void (^refreshMessageMediaCCellBlock)(CGFloat diff);
 
 @property (strong, nonatomic) PrivateMessage *curPriMsg, *prePriMsg;
 @property (strong, nonatomic) NSObject *curObj;
-@property (strong, nonatomic) UIImageView *imgView;
+@property (strong, nonatomic) YLImageView *imgView;
 
 +(CGSize)ccellSizeWithObj:(NSObject *)obj;
 @end

@@ -27,7 +27,7 @@
 
 - (void)setCurMediaItem:(HtmlMediaItem *)curMediaItem{
     if (!_imgView) {
-        _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kTweetMediaItemCCell_Width, kTweetMediaItemCCell_Width)];
+        _imgView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, kTweetMediaItemCCell_Width, kTweetMediaItemCCell_Width)];
         _imgView.contentMode = UIViewContentModeScaleAspectFill;
         _imgView.clipsToBounds = YES;
         _imgView.layer.masksToBounds = YES;

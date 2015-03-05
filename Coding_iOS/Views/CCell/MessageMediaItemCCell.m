@@ -27,7 +27,7 @@
         return;
     }
     if (!_imgView) {
-        _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kMessageCell_ContentWidth, kMessageCell_ContentWidth)];
+        _imgView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, kMessageCell_ContentWidth, kMessageCell_ContentWidth)];
         _imgView.contentMode = UIViewContentModeScaleAspectFill;
         _imgView.clipsToBounds = YES;
         _imgView.layer.masksToBounds = YES;
