@@ -94,8 +94,7 @@
         cell.backgroundView = testView;
     }
 }
-
-- (void)addLineforPlainCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath withLeftSpace:(CGFloat)leftSpace{    
+- (void)addLineforPlainCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath withLeftSpace:(CGFloat)leftSpace hasSectionLine:(BOOL)hasSectionLine{
     CAShapeLayer *layer = [[CAShapeLayer alloc] init];
     
     CGMutablePathRef pathRef = CGPathCreateMutable();
@@ -114,23 +113,27 @@
     }else{
         layer.fillColor = [UIColor colorWithWhite:1.f alpha:0.8f].CGColor;
     }
-
+    
     CGColorRef lineColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
     CGColorRef sectionLineColor = self.separatorColor.CGColor;
-
+    
     if (indexPath.row == 0 && indexPath.row == [self numberOfRowsInSection:indexPath.section]-1) {
         //只有一个cell。加上长线&下长线
-        [self layer:layer addLineUp:YES andLong:YES andColor:sectionLineColor andBounds:bounds withLeftSpace:0];
-        [self layer:layer addLineUp:NO andLong:YES andColor:sectionLineColor andBounds:bounds withLeftSpace:0];
-        
+        if (hasSectionLine) {
+            [self layer:layer addLineUp:YES andLong:YES andColor:sectionLineColor andBounds:bounds withLeftSpace:0];
+            [self layer:layer addLineUp:NO andLong:YES andColor:sectionLineColor andBounds:bounds withLeftSpace:0];
+        }
     } else if (indexPath.row == 0) {
         //第一个cell。加上长线&下短线
-        [self layer:layer addLineUp:YES andLong:YES andColor:sectionLineColor andBounds:bounds withLeftSpace:0];
+        if (hasSectionLine) {
+            [self layer:layer addLineUp:YES andLong:YES andColor:sectionLineColor andBounds:bounds withLeftSpace:0];
+        }
         [self layer:layer addLineUp:NO andLong:NO andColor:lineColor andBounds:bounds withLeftSpace:leftSpace];
-        
     } else if (indexPath.row == [self numberOfRowsInSection:indexPath.section]-1) {
         //最后一个cell。加下长线
-        [self layer:layer addLineUp:NO andLong:YES andColor:sectionLineColor andBounds:bounds withLeftSpace:0];
+        if (hasSectionLine) {
+            [self layer:layer addLineUp:NO andLong:YES andColor:sectionLineColor andBounds:bounds withLeftSpace:0];
+        }
     } else {
         //中间的cell。只加下短线
         [self layer:layer addLineUp:NO andLong:NO andColor:lineColor andBounds:bounds withLeftSpace:leftSpace];
@@ -138,6 +141,9 @@
     UIView *testView = [[UIView alloc] initWithFrame:bounds];
     [testView.layer insertSublayer:layer atIndex:0];
     cell.backgroundView = testView;
+}
+- (void)addLineforPlainCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath withLeftSpace:(CGFloat)leftSpace{
+    [self addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:leftSpace hasSectionLine:YES];
 }
 
 - (void)layer:(CALayer *)layer addLineUp:(BOOL)isUp andLong:(BOOL)isLong andColor:(CGColorRef)color andBounds:(CGRect)bounds withLeftSpace:(CGFloat)leftSpace{

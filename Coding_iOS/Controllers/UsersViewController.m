@@ -84,7 +84,7 @@
         [tableView registerClass:[UserCell class] forCellReuseIdentifier:kCellIdentifier_UserCell];
         tableView.sectionIndexBackgroundColor = [UIColor clearColor];
         tableView.sectionIndexTrackingBackgroundColor = [UIColor clearColor];
-        tableView.sectionIndexColor = [UIColor colorWithHexString:@"0x3bbd79"];
+        tableView.sectionIndexColor = [UIColor colorWithHexString:@"0x666666"];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -246,12 +246,12 @@
     headerV.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
     
     UILabel *titleL = [[UILabel alloc] init];
-    titleL.font = [UIFont systemFontOfSize:12];
-    titleL.textColor = [UIColor colorWithHexString:@"0x666666"];
+    titleL.font = [UIFont systemFontOfSize:14];
+    titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
     titleL.text = [self tableView:tableView titleForHeaderInSection:section];
     [headerV addSubview:titleL];
     [titleL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(headerV).insets(UIEdgeInsetsMake(2, 15, 2, 15));
+        make.edges.equalTo(headerV).insets(UIEdgeInsetsMake(2, 15, 2, 20));
     }];
     return headerV;
 }
@@ -297,7 +297,7 @@
     }
     cell.curUser = curUser;
     cell.usersType = _curUsers.type;
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60 hasSectionLine:NO];
     return cell;
 }
 
