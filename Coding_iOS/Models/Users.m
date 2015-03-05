@@ -60,4 +60,58 @@
     }
     self.canLoadMore = self.page.intValue < self.totalPage.intValue;
 }
+
+- (NSDictionary *)dictGroupedByPinyin{
+    if (self.list.count <= 0) {
+        return @{@"#" : [NSMutableArray array]};
+    }
+    
+    NSMutableDictionary *groupedDict = [[NSMutableDictionary alloc] init];
+    
+    NSMutableArray *allKeys = [[NSMutableArray alloc] init];
+    for (char c = 'A'; c < 'Z'+1; c++) {
+        char key[2];
+        key[0] = c;
+        key[1] = '\0';
+        [allKeys addObject:[NSString stringWithUTF8String:key]];
+    }
+    [allKeys addObject:@"#"];
+    
+    for (NSString *keyStr in allKeys) {
+        [groupedDict setObject:[[NSMutableArray alloc] init] forKey:keyStr];
+    }
+    
+    [self.list enumerateObjectsUsingBlock:^(User *obj, NSUInteger idx, BOOL *stop) {
+        NSString *keyStr = nil;
+        NSMutableArray *dataList = nil;
+        
+        if (obj.pinyinName.length > 1) {
+            keyStr = [obj.pinyinName substringToIndex:1];
+            if ([[groupedDict allKeys] containsObject:keyStr]) {
+                dataList = [groupedDict objectForKey:keyStr];
+            }
+        }
+        
+        if (!dataList) {
+            keyStr = @"#";
+            dataList = [groupedDict objectForKey:keyStr];
+        }
+        
+        [dataList addObject:obj];
+        [groupedDict setObject:dataList forKey:keyStr];
+    }];
+    
+    for (NSString *keyStr in allKeys) {
+        NSMutableArray *dataList = [groupedDict objectForKey:keyStr];
+        if (dataList.count <= 0) {
+            [groupedDict removeObjectForKey:keyStr];
+        }else if (dataList.count > 1){
+            [dataList sortUsingComparator:^NSComparisonResult(User *obj1, User *obj2) {
+                return [obj1.pinyinName compare:obj2.pinyinName];
+            }];
+        }
+    }
+    
+    return groupedDict;
+}
 @end

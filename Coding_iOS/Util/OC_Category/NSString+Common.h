@@ -43,4 +43,7 @@
 
 - (NSString *)stringByTrimmingLeftCharactersInSet:(NSCharacterSet *)characterSet;
 - (NSString *)stringByTrimmingRightCharactersInSet:(NSCharacterSet *)characterSet;
+
+//转换拼音
+- (NSString *)transformToPinyin;
 @end

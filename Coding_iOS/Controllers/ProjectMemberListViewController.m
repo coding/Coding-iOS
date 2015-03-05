@@ -81,7 +81,6 @@
     _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     
-    _mySearchBar.hidden = YES;
     if (_type == ProMemTypeAT) {
         __weak typeof(self) weakSelf = self;
         //首先尝试加载本地数据，无数据的情况下才去服务器请求
@@ -100,7 +99,6 @@
             if (mineIndex > 0) {
                 [resultA exchangeObjectAtIndex:mineIndex withObjectAtIndex:0];
             }
-            weakSelf.mySearchBar.hidden = NO;
             weakSelf.myMemberArray = resultA;
             [weakSelf.myTableView reloadData];
         }else{
@@ -137,7 +135,6 @@
         [weakSelf.myRefreshControl endRefreshing];
         [weakSelf.view endLoading];
         if (data) {
-            weakSelf.mySearchBar.hidden = NO;
             weakSelf.myMemberArray = data;
             [weakSelf.myTableView reloadData];
             if (weakSelf.refreshBlock) {

@@ -33,6 +33,7 @@ typedef NS_ENUM(NSInteger, UsersType) {
 - (NSDictionary *)toParams;
 - (void)configWithObj:(Users *)resultA;
 
-+(Users *)usersWithOwner:(User *)owner Type:(UsersType)type;
+- (NSDictionary *)dictGroupedByPinyin;
 
++(Users *)usersWithOwner:(User *)owner Type:(UsersType)type;
 @end

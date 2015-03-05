@@ -315,4 +315,15 @@
 - (NSString *)stringByTrimmingRightCharactersInSet:(NSCharacterSet *)characterSet {
     return [self substringWithRange:[self rangeByTrimmingRightCharactersInSet:characterSet]];
 }
+
+//转换拼音
+- (NSString *)transformToPinyin {
+    if (self.length <= 0) {
+        return self;
+    }
+    NSMutableString *tempString = [NSMutableString stringWithString:self];
+    CFStringTransform((CFMutableStringRef)tempString, NULL, kCFStringTransformToLatin, false);
+    tempString = (NSMutableString *)[tempString stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
+    return [tempString uppercaseString];
+}
 @end

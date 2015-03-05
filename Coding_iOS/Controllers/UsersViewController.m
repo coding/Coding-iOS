@@ -24,6 +24,8 @@
 
 @property (strong, nonatomic) ODRefreshControl *myRefreshControl;
 @property (strong, nonatomic) NSMutableArray *searchResults;
+
+@property (strong, nonatomic) NSDictionary *groupedDict;
 @end
 
 @implementation UsersViewController
@@ -80,6 +82,9 @@
         tableView.dataSource = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[UserCell class] forCellReuseIdentifier:kCellIdentifier_UserCell];
+        tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+        tableView.sectionIndexTrackingBackgroundColor = [UIColor clearColor];
+        tableView.sectionIndexColor = [UIColor colorWithHexString:@"0x3bbd79"];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -110,7 +115,6 @@
     
     _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-    _mySearchBar.hidden = YES;
     
     __weak typeof(self) weakSelf = self;
     [_myTableView addInfiniteScrollingWithActionHandler:^{
@@ -122,9 +126,7 @@
         if (resultData) {
             Users *users = [NSObject objectOfClass:@"Users" fromJSON:resultData];
             [self.curUsers configWithObj:users];
-            if ([self.curUsers.list count] > 0) {
-                self.mySearchBar.hidden = NO;
-            }
+            self.groupedDict = [weakSelf.curUsers dictGroupedByPinyin];
             [self.myTableView reloadData];
             self.myTableView.showsInfiniteScrolling = weakSelf.curUsers.canLoadMore;
         }else{
@@ -133,6 +135,15 @@
     }else{
         [self refresh];
     }
+}
+
+- (void)dismissSelf{
+    __weak typeof(self) weakSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (weakSelf.selectUserBlock) {
+            weakSelf.selectUserBlock(nil);
+        }
+    }];
 }
 
 - (void)refresh{
@@ -162,25 +173,95 @@
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
         if (data) {
             [weakSelf.curUsers configWithObj:data];
-            if ([weakSelf.curUsers.list count] > 0) {
-                weakSelf.mySearchBar.hidden = NO;
-            }
+            weakSelf.groupedDict = [weakSelf.curUsers dictGroupedByPinyin];
+            
             [weakSelf.myTableView reloadData];
             weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curUsers.canLoadMore;
         }
     }];
 }
 #pragma mark Table M
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSArray *)groupedKeyList{
+    if (self.groupedDict.count <= 0) {
+        return nil;
+    }
+    NSMutableArray *keyList = [NSMutableArray arrayWithArray:self.groupedDict.allKeys];
+    [keyList sortUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+        return [obj1 compare:obj2];
+    }];
+    if ([keyList containsObject:@"#"]) {
+        [keyList removeObject:@"#"];
+        [keyList addObject:@"#"];
+    }
+    [keyList insertObject:UITableViewIndexSearch atIndex:0];
+    return keyList;
+}
+- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+    if (index == 0) {
+        [tableView setContentOffset:CGPointZero animated:NO];
+        return NSNotFound;
+    }
+    return index;
+}
+
+-(NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView{
     if (tableView == _mySearchDisplayController.searchResultsTableView) {
-        return [_searchResults count];
+        return nil;
     }else{
-        if (_curUsers.list) {
-            return [_curUsers.list count];
+        return [self groupedKeyList];
+    }
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (tableView == _mySearchDisplayController.searchResultsTableView) {
+        return nil;
+    }else{
+        if ([self groupedKeyList].count > section && section > 0) {
+            return [[self groupedKeyList] objectAtIndex:section];
         }else{
-            return 0;
+            return nil;
         }
     }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (tableView == _mySearchDisplayController.searchResultsTableView) {
+        return 0;
+    }else{
+        if (section == 0) {
+            return 0;
+        }
+        return 20;
+    }
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    NSInteger section;
+    if (tableView == _mySearchDisplayController.searchResultsTableView) {
+        section = 1;
+    }else{
+        if (self.groupedDict) {
+            section = [[self groupedKeyList] count];
+        }else{
+            section = 1;
+        }
+    }
+    return section;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSInteger row;
+    if (tableView == _mySearchDisplayController.searchResultsTableView) {
+        row = [_searchResults count];
+    }else{
+        if ([self groupedKeyList] && [[self groupedKeyList] count] > section) {
+            NSArray *dataList = [self.groupedDict objectForKey:[[self groupedKeyList] objectAtIndex:section]];
+            row = [dataList count];
+        }else{
+            row = 0;
+        }
+    }
+    return row;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -189,7 +270,8 @@
     if (tableView == _mySearchDisplayController.searchResultsTableView) {
         curUser = [_searchResults objectAtIndex:indexPath.row];
     }else{
-        curUser = [_curUsers.list objectAtIndex:indexPath.row];
+        NSArray *dataList = [self.groupedDict objectForKey:[[self groupedKeyList] objectAtIndex:indexPath.section]];
+        curUser = [dataList objectAtIndex:indexPath.row];
     }
     cell.curUser = curUser;
     cell.usersType = _curUsers.type;
@@ -207,7 +289,8 @@
     if (tableView == _mySearchDisplayController.searchResultsTableView) {
         user = [_searchResults objectAtIndex:indexPath.row];
     }else{
-        user = [_curUsers.list objectAtIndex:indexPath.row];
+        NSArray *dataList = [self.groupedDict objectForKey:[[self groupedKeyList] objectAtIndex:indexPath.section]];
+        user = [dataList objectAtIndex:indexPath.row];
     }
     __weak typeof(self) weakSelf = self;
     if (_curUsers.type == UsersTypeFriends_Message) {
@@ -253,14 +336,7 @@
     DebugLog(@"\n%@", user.name);
 }
 
-- (void)dismissSelf{
-    __weak typeof(self) weakSelf = self;
-    [self dismissViewControllerAnimated:YES completion:^{
-        if (weakSelf.selectUserBlock) {
-            weakSelf.selectUserBlock(nil);
-        }
-    }];
-}
+
 #pragma mark UISearchDisplayDelegate M
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
@@ -298,6 +374,16 @@
                                        modifier:NSDirectPredicateModifier
                                        type:NSContainsPredicateOperatorType
                                        options:NSCaseInsensitivePredicateOption];
+        [searchItemsPredicate addObject:finalPredicate];
+        //        pinyinName field matching
+        lhs = [NSExpression expressionForKeyPath:@"pinyinName"];
+        rhs = [NSExpression expressionForConstantValue:searchString];
+        finalPredicate = [NSComparisonPredicate
+                          predicateWithLeftExpression:lhs
+                          rightExpression:rhs
+                          modifier:NSDirectPredicateModifier
+                          type:NSContainsPredicateOperatorType
+                          options:NSCaseInsensitivePredicateOption];
         [searchItemsPredicate addObject:finalPredicate];
         //        global_key field matching
         lhs = [NSExpression expressionForKeyPath:@"global_key"];

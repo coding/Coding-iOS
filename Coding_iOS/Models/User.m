@@ -86,6 +86,20 @@
     }
 }
 
+- (void)setName:(NSString *)name{
+    _name = name;
+    if (_name) {
+        _pinyinName = [_name transformToPinyin];
+    }
+}
+
+- (NSString *)pinyinName{
+    if (!_pinyinName) {
+        return @"";
+    }
+    return _pinyinName;
+}
+
 - (NSString *)toUpdateInfoPath{
     return @"api/user/updateInfo";
 }
