@@ -31,7 +31,7 @@
             [self.contentView addSubview:_userIconView];
         }
         if (!_userNameLabel) {
-            _userNameLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(60, ([UserCell cellHeight]-30)/2, kScreen_Width - 60 - 100, 30)];
+            _userNameLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(66, ([UserCell cellHeight]-30)/2, kScreen_Width - 66 - 100, 30)];
             _userNameLabel.font = [UIFont systemFontOfSize:17];
             _userNameLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             [self.contentView addSubview:_userNameLabel];
@@ -47,8 +47,14 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    [_userIconView sd_setImageWithURL:[_curUser.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
-    _userNameLabel.text = _curUser.name;
+    
+    if (!_curUser) {
+        [_userIconView setImage:[UIImage imageNamed:@"add_user_icon"]];
+        _userNameLabel.text = @"添加好友";
+    }else{
+        [_userIconView sd_setImageWithURL:[_curUser.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
+        _userNameLabel.text = _curUser.name;
+    }
     
     if (_usersType == UsersTypeFriends_Message || _usersType == UsersTypeFriends_At || _usersType == UsersTypeFriends_Transpond) {
         _rightBtn.hidden = YES;

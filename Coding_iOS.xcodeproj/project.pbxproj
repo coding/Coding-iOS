@@ -169,6 +169,7 @@
 		4EBDA87C1A6640340035ED96 /* UIActionSheet+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBDA87B1A6640340035ED96 /* UIActionSheet+Common.m */; };
 		4EBFBD131AA80AEE00E4B10E /* iVersion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4EBFBD101AA80AEE00E4B10E /* iVersion.bundle */; };
 		4EBFBD141AA80AEE00E4B10E /* iVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EBFBD121AA80AEE00E4B10E /* iVersion.m */; };
+		4EBFBD181AA85B8500E4B10E /* add_user_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EBFBD171AA85B8500E4B10E /* add_user_icon@2x.png */; };
 		4EC5AD921A258DF8006FA97C /* icon_file_cell_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD8F1A258DF8006FA97C /* icon_file_cell_delete@2x.png */; };
 		4EC5AD931A258DF8006FA97C /* icon_file_cell_move@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD901A258DF8006FA97C /* icon_file_cell_move@2x.png */; };
 		4EC5AD941A258DF8006FA97C /* icon_file_cell_rename@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD911A258DF8006FA97C /* icon_file_cell_rename@2x.png */; };
@@ -801,6 +802,7 @@
 		4EBFBD101AA80AEE00E4B10E /* iVersion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iVersion.bundle; sourceTree = "<group>"; };
 		4EBFBD111AA80AEE00E4B10E /* iVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iVersion.h; sourceTree = "<group>"; };
 		4EBFBD121AA80AEE00E4B10E /* iVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVersion.m; sourceTree = "<group>"; };
+		4EBFBD171AA85B8500E4B10E /* add_user_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_user_icon@2x.png"; sourceTree = "<group>"; };
 		4EC5AD8F1A258DF8006FA97C /* icon_file_cell_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_delete@2x.png"; sourceTree = "<group>"; };
 		4EC5AD901A258DF8006FA97C /* icon_file_cell_move@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_move@2x.png"; sourceTree = "<group>"; };
 		4EC5AD911A258DF8006FA97C /* icon_file_cell_rename@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_rename@2x.png"; sourceTree = "<group>"; };
@@ -2371,6 +2373,7 @@
 				4E38CF631A7B8DD4005536C0 /* icon_triangle@2x.png */,
 				4E743E671A8866E300DADDE5 /* taskDescription_add_arrow@2x.png */,
 				4E743E681A8866E300DADDE5 /* taskDescription_check_arrow@2x.png */,
+				4EBFBD171AA85B8500E4B10E /* add_user_icon@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -3100,6 +3103,7 @@
 				4E9113AC1A1CB19900AC9431 /* icon_file_state_pause@2x.png in Resources */,
 				4E66EE281A28226000DA1B3E /* button_file_denete_unable@2x.png in Resources */,
 				8E97CE4A1A0A2E11006F9AD7 /* EmojisList.plist in Resources */,
+				4EBFBD181AA85B8500E4B10E /* add_user_icon@2x.png in Resources */,
 				8E97CEA21A0C7E26006F9AD7 /* coding_emoji_11@2x.png in Resources */,
 				8E97CE531A0A3410006F9AD7 /* backBtn_Nav@2x.png in Resources */,
 				8E97CE651A0A3424006F9AD7 /* keyboard_emotion_delete@2x.png in Resources */,

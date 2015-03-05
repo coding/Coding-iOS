@@ -16,6 +16,7 @@
 #import "ConversationViewController.h"
 #import "UserInfoViewController.h"
 #import "SVPullToRefresh.h"
+#import "AddUserViewController.h"
 
 @interface UsersViewController ()
 @property (strong, nonatomic) UISearchBar *mySearchBar;
@@ -231,7 +232,7 @@
         if (section == 0) {
             return 0;
         }
-        return 15;
+        return 20;
     }
 }
 
@@ -246,12 +247,12 @@
     headerV.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
     
     UILabel *titleL = [[UILabel alloc] init];
-    titleL.font = [UIFont systemFontOfSize:14];
+    titleL.font = [UIFont systemFontOfSize:12];
     titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
     titleL.text = [self tableView:tableView titleForHeaderInSection:section];
     [headerV addSubview:titleL];
     [titleL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(headerV).insets(UIEdgeInsetsMake(2, 15, 2, 20));
+        make.edges.equalTo(headerV).insets(UIEdgeInsetsMake(4, kPaddingLeftWidth, 4, kPaddingLeftWidth));
     }];
     return headerV;
 }
@@ -277,6 +278,9 @@
         row = [_searchResults count];
     }else{
         if ([self groupedKeyList] && [[self groupedKeyList] count] > section) {
+            if (section == 0 && _curUsers.type == UsersTypeFriends_Message) {
+                return 1;
+            }
             NSArray *dataList = [self.groupedDict objectForKey:[[self groupedKeyList] objectAtIndex:section]];
             row = [dataList count];
         }else{
@@ -292,12 +296,15 @@
     if (tableView == _mySearchDisplayController.searchResultsTableView) {
         curUser = [_searchResults objectAtIndex:indexPath.row];
     }else{
+        if (indexPath.section == 0 && _curUsers.type == UsersTypeFriends_Message) {
+            curUser = nil;
+        }
         NSArray *dataList = [self.groupedDict objectForKey:[[self groupedKeyList] objectAtIndex:indexPath.section]];
         curUser = [dataList objectAtIndex:indexPath.row];
     }
     cell.curUser = curUser;
     cell.usersType = _curUsers.type;
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60 hasSectionLine:NO];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:66 hasSectionLine:NO];
     return cell;
 }
 
@@ -316,9 +323,15 @@
     }
     __weak typeof(self) weakSelf = self;
     if (_curUsers.type == UsersTypeFriends_Message) {
-        ConversationViewController *vc = [[ConversationViewController alloc] init];
-        vc.myPriMsgs = [PrivateMessages priMsgsWithUser:user];
-        [self.navigationController pushViewController:vc animated:YES];
+        if (indexPath.section == 0) {
+            AddUserViewController *vc = [[AddUserViewController alloc] init];
+            vc.type = AddUserTypeFollow;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if (user){
+            ConversationViewController *vc = [[ConversationViewController alloc] init];
+            vc.myPriMsgs = [PrivateMessages priMsgsWithUser:user];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }else if (_curUsers.type == UsersTypeFriends_At){
         [self dismissViewControllerAnimated:YES completion:^{
             if (weakSelf.selectUserBlock) {
