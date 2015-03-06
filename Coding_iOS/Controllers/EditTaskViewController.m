@@ -330,7 +330,10 @@
             }];
             [actionSheet showInView:nil];
         };
-        cell.descriptionBtnClickedBlock = ^(Task *toDelete){
+        cell.descriptionBtnClickedBlock = ^(Task *task){
+            if (weakSelf.myCopyTask.has_description && !weakSelf.myCopyTask.task_description) {
+                return ;
+            }
             [weakSelf goToDescriptionVC];
         };
 
