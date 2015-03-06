@@ -36,7 +36,8 @@
 
 
 //upload
-+ (BOOL)writeUploadDataWithName:(NSString*)fileName andAsset:(ALAsset*)asset;
++ (BOOL)writeUploadDataWithName:(NSString *)fileName andAsset:(ALAsset *)asset;
++ (BOOL)writeUploadDataWithName:(NSString *)fileName andImage:(UIImage *)image;
 - (NSURL *)diskUploadUrlForFile:(NSString *)fileName;
 - (void)removeCUploadTaskForFile:(NSString *)fileName hasError:(BOOL)hasError;
 - (Coding_UploadTask *)cUploadTaskForFile:(NSString *)fileName;

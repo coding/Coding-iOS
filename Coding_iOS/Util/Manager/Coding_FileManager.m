@@ -178,7 +178,7 @@
 
 
 #pragma upload
-+ (BOOL)writeUploadDataWithName:(NSString*)fileName andAsset:(ALAsset*)asset{
++ (BOOL)writeUploadDataWithName:(NSString *)fileName andAsset:(ALAsset *)asset{
     if (![self createFolder:[self uploadPath]]) {
         return NO;
     }
@@ -210,6 +210,14 @@
     free(buffer);
     return YES;
 }
++ (BOOL)writeUploadDataWithName:(NSString *)fileName andImage:(UIImage *)image{
+    if (![self createFolder:[self uploadPath]]) {
+        return NO;
+    }
+    NSString *filePath = [[self uploadPath] stringByAppendingPathComponent:fileName];
+    
+    return [UIImageJPEGRepresentation(image, 1.0) writeToFile:filePath options:NSAtomicWrite error:nil];
+}
 - (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName{
     if (!fileName) {
         return nil;
@@ -228,7 +236,7 @@
     NSURL *uploadUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/project/%@/file/upload", kNetPath_Code_Base, project_id]];
     
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:uploadUrl.absoluteString parameters:@{@"dir": folder_id} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileURL:filePathUrl name:@"file" fileName:name mimeType:@"image/gif, image/jpeg, image/pjpeg, image/png, image/svg+xml, image/tiff, image/vnd.djvu, image/example" error:nil];
+        [formData appendPartWithFileURL:filePathUrl name:@"file" fileName:name mimeType:@"image/jpeg, image/png, image/gif, image/tiff" error:nil];
     } error:nil];
     
     NSProgress *progress = nil;

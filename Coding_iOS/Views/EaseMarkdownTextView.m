@@ -11,17 +11,34 @@
 #import "RFToolbarButton.h"
 #import <RegexKitLite/RegexKitLite.h>
 
-//at某人的功能
+//at某人
 #import "UsersViewController.h"
 #import "ProjectMemberListViewController.h"
 #import "Users.h"
 #import "Login.h"
+#import "Helper.h"
+
+//photo
+#import "Coding_FileManager.h"
+#import <MBProgressHUD/MBProgressHUD.h>
+
+@interface EaseMarkdownTextView ()
+@property (strong, nonatomic) MBProgressHUD *HUD;
+@property (strong, nonatomic) NSString *uploadingPhotoName;
+@end
 
 
 @implementation EaseMarkdownTextView
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.inputAccessoryView = [RFKeyboardToolbar toolbarWithButtons:[self buttons]];
+        
+        //监听-上传文件成功
+        [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:kNotificationUploadCompled object:nil] takeUntil:self.rac_willDeallocSignal] subscribeNext:^(NSNotification *aNotification) {
+            //{NSURLResponse: response, NSError: error, ProjectFile: data}
+            NSDictionary* userInfo = [aNotification userInfo];
+            [self completionUploadWithResult:[userInfo objectForKey:@"data"] error:[userInfo objectForKey:@"error"]];
+        }];
     }
     return self;
 }
@@ -37,6 +54,7 @@
 
 - (NSArray *)buttons {
     return @[
+             
              [self createButtonWithTitle:@"@" andEventHandler:^{ [self doAT]; }],
              
              [self createButtonWithTitle:@"#" andEventHandler:^{ [self insertText:@"#"]; }],
@@ -44,7 +62,7 @@
              [self createButtonWithTitle:@"`" andEventHandler:^{ [self insertText:@"`"]; }],
              [self createButtonWithTitle:@"-" andEventHandler:^{ [self insertText:@"-"]; }],
              
-             
+             [self createButtonWithTitle:@"照片" andEventHandler:^{ [self doPhoto]; }],
              
              [self createButtonWithTitle:@"标题" andEventHandler:^{ [self doTitle]; }],
              [self createButtonWithTitle:@"粗体" andEventHandler:^{ [self doBold]; }],
@@ -196,8 +214,109 @@
     if (curUser) {
         NSString *appendingStr = [NSString stringWithFormat:@"@%@ ", curUser.name];
         [self insertText:appendingStr];
+        [self becomeFirstResponder];
     }
 }
 
+#pragma mark Photo
+- (void)doPhoto{
+    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"拍照", @"从相册选择"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        [self presentPhotoVCWithIndex:index];
+    }] showInView:nil];
+}
+
+- (void)presentPhotoVCWithIndex:(NSInteger)index{
+    if (index == 2) {
+        return;
+    }
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    
+    if (index == 0) {
+        //        拍照
+        if (![Helper checkCameraAuthorizationStatus]) {
+            return;
+        }
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }else if (index == 1){
+        //        相册
+        if (![Helper checkPhotoLibraryAuthorizationStatus]) {
+            return;
+        }
+        picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+    }
+    [[BaseViewController presentingVC] presentViewController:picker animated:YES completion:nil];//进入照相界面
+}
+
+#pragma mark UIImagePickerControllerDelegate
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    UIImage *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+
+    // 保存原图片到相册中
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera && originalImage) {
+        UIImageWriteToSavedPhotosAlbum(originalImage, self, nil, NULL);
+    }
+
+    //上传照片
+    [picker dismissViewControllerAnimated:YES completion:^{
+        if (originalImage) {
+            [self doUploadPhoto:originalImage];
+        }
+    }];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)doUploadPhoto:(UIImage *)image{
+    //保存到app内
+    NSString *dateMarkStr = [[NSDate date] stringWithFormat:@"yyyyMMdd_HHmmss"];
+    NSString *originalFileName = [NSString stringWithFormat:@"%@.JPG", dateMarkStr];
+    
+    NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@", self.curProject.id.stringValue, @"0", originalFileName];
+    if ([Coding_FileManager writeUploadDataWithName:fileName andImage:image]) {
+        [self hudTipWillShow:YES];
+        self.uploadingPhotoName = originalFileName;
+        Coding_UploadTask *uploadTask =[[Coding_FileManager sharedManager] addUploadTaskWithFileName:fileName];
+        @weakify(self)
+        [RACObserve(uploadTask, progress.fractionCompleted) subscribeNext:^(NSNumber *fractionCompleted) {
+            @strongify(self);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (self.HUD) {
+                    self.HUD.progress = fractionCompleted.floatValue;
+                }
+            });
+        }];
+    }else{
+        [self showHudTipStr:[NSString stringWithFormat:@"%@ 文件处理失败", originalFileName]];
+    }
+}
+
+- (void)completionUploadWithResult:(id)responseObject error:(NSError *)error{
+    [self hudTipWillShow:NO];
+    if (!responseObject) {
+        return;
+    }
+    ProjectFile *curFile = responseObject;
+    if ([curFile.name isEqualToString:self.uploadingPhotoName]) {
+        NSString *photoLinkStr = [NSString stringWithFormat:[self needPreNewLine]? @"\n![图片](%@)\n": @"![图片](%@)\n", curFile.owner_preview];
+        [self insertText:photoLinkStr];
+        [self becomeFirstResponder];
+    }
+}
+
+- (void)hudTipWillShow:(BOOL)willShow{
+    if (willShow) {
+        [self resignFirstResponder];
+        
+        _HUD = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
+        _HUD.mode = MBProgressHUDModeDeterminateHorizontalBar;
+        _HUD.labelText = @"正在上传图片...";
+        _HUD.removeFromSuperViewOnHide = YES;
+    }else{
+        [_HUD hide:YES];
+    }
+}
 
 @end

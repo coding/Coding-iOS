@@ -82,7 +82,8 @@
         //{NSURLResponse: response, NSError: error, ProjectFile: data}
         NSDictionary* userInfo = [aNotification userInfo];
         [self completionUploadWithResult:[userInfo objectForKey:@"data"] error:[userInfo objectForKey:@"error"]];
-    }];}
+    }];
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -288,15 +289,26 @@
 }
 
 - (void)completionUploadWithResult:(id)responseObject error:(NSError *)error{
-    if (responseObject){
-        ProjectFile *curFile = responseObject;
-        if (curFile.parent_id.integerValue == self.curFolder.file_id.integerValue) {
-            curFile.project_id = self.curProject.id;
-            [self.myFiles.list insertObject:curFile atIndex:0];
-            self.curFolder.count = @(self.curFolder.count.integerValue +1);
-            [self configuploadFiles];
+    if (!responseObject) {
+        return;
+    }
+    ProjectFile *curFile = responseObject;
+    if (curFile.parent_id.integerValue != self.curFolder.file_id.integerValue) {
+        return;
+    }
+    
+    NSRange range = [curFile.owner_preview rangeOfString:@"project/"];
+    if (curFile.owner_preview && range.location != NSNotFound) {
+        NSString *project_id = [[[curFile.owner_preview substringFromIndex:(range.location+range.length)] componentsSeparatedByString:@"/"] firstObject];
+        if (project_id && project_id.integerValue != self.curProject.id.integerValue) {
+            return;
         }
     }
+    
+    curFile.project_id = self.curProject.id;
+    [self.myFiles.list insertObject:curFile atIndex:0];
+    self.curFolder.count = @(self.curFolder.count.integerValue +1);
+    [self configuploadFiles];
 }
 
 
@@ -420,7 +432,7 @@
                     [weakSelf deleteFolder:folder];
                 }
             }];
-            [actionSheet showInView:kKeyWindow];
+            [actionSheet showInView:nil];
         }
     }else{
         ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count - _uploadFiles.count)];
@@ -505,7 +517,7 @@
             }
         }];
     }
-    [actionSheet showInView:kKeyWindow];
+    [actionSheet showInView:nil];
 }
 - (void)deleteFile:(ProjectFile *)file fromDisk:(BOOL)fromDisk{
 

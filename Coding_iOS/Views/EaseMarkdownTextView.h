@@ -10,6 +10,6 @@
 #import "UIPlaceHolderTextView.h"
 #import "Projects.h"
 
-@interface EaseMarkdownTextView : UIPlaceHolderTextView
+@interface EaseMarkdownTextView : UIPlaceHolderTextView<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (strong, nonatomic) Project *curProject;
 @end
