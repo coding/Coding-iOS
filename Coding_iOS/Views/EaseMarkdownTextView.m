@@ -284,7 +284,7 @@
             @strongify(self);
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (self.HUD) {
-                    self.HUD.progress = fractionCompleted.floatValue;
+                    self.HUD.progress = MAX(0, fractionCompleted.floatValue-0.05) ;
                 }
             });
         }];
