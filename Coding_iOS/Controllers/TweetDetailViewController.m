@@ -128,7 +128,7 @@
                 @strongify(self);
                 [self goToReport];
             }
-        }] showInView:kKeyWindow];
+        }] showInView:nil];
     }
 }
 
@@ -231,7 +231,7 @@
                     [_self deleteTweet:_self.curTweet];
                 }
             }];
-            [actionSheet showInView:kKeyWindow];
+            [actionSheet showInView:nil];
         };
         
         cell.userBtnClickedBlock = ^(User *curUser){
@@ -330,7 +330,7 @@
                     [_self deleteComment:_self.toComment ofTweet:_self.curTweet];
                 }
             }];
-            [actionSheet showInView:kKeyWindow];
+            [actionSheet showInView:nil];
             return;
         }
     }

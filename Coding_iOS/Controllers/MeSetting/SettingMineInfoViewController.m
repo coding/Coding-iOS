@@ -189,7 +189,7 @@
             switch (indexPath.row) {
                 case 0:{//头像
                     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更换头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从相册选择", nil];
-                    [actionSheet showInView:kKeyWindow];
+                    [actionSheet showInView:nil];
                 }
                     break;
                 case 1:{//昵称
@@ -403,7 +403,7 @@
         if (![Helper checkPhotoLibraryAuthorizationStatus]) {
             return;
         }
-        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
     }
     [self presentViewController:picker animated:YES completion:nil];//进入照相界面
 
@@ -428,20 +428,9 @@
         // 保存原图片到相册中
         if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
             originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-            SEL selectorToCall = @selector(imageWasSavedSuccessfully:didFinishSavingWithError:contextInfo:);
-            UIImageWriteToSavedPhotosAlbum(originalImage, self,selectorToCall, NULL);
+            UIImageWriteToSavedPhotosAlbum(originalImage, self, nil, NULL);
         }
     }];
-}
-
-// 保存图片后到相册后，调用的相关方法，查看是否保存成功
-- (void) imageWasSavedSuccessfully:(UIImage *)paramImage didFinishSavingWithError:(NSError *)paramError contextInfo:(void *)paramContextInfo{
-    if (paramError == nil){
-        NSLog(@"Image was saved successfully.");
-    } else {
-        NSLog(@"An error happened while saving the image.");
-        NSLog(@"Error = %@", paramError);
-    }
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{

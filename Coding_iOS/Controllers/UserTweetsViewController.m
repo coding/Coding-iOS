@@ -230,7 +230,7 @@
                         [weakSelf deleteComment:comment ofTweet:weakSelf.commentTweet];
                     }
                 }];
-                [actionSheet showInView:kKeyWindow];
+                [actionSheet showInView:nil];
                 return;
             }
         }else{
@@ -262,7 +262,7 @@
                 [weakSelf deleteTweet:weakSelf.deleteTweet outTweetsIndex:weakSelf.deleteTweetsIndex];
             }
         }];
-        [actionSheet showInView:kKeyWindow];
+        [actionSheet showInView:nil];
     };
 
     cell.goToDetailTweetBlock = ^(Tweet *curTweet){

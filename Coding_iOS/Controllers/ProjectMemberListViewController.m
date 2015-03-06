@@ -217,7 +217,7 @@
                     [weakSelf quitSelf_ProjectMember:curMember];
                 }
             }];
-            [actionSheet showInView:kKeyWindow];
+            [actionSheet showInView:nil];
         }else{
 //                别人，发起私信
             if (_type == ProMemTypeProject) {
@@ -301,7 +301,7 @@
             [weakSelf removeMember:curMember inTableView:tableView];
         }
     }];
-    [actionSheet showInView:kKeyWindow];
+    [actionSheet showInView:nil];
 }
 
 - (void)removeMember:(ProjectMember *)curMember inTableView:(UITableView *)tableView{

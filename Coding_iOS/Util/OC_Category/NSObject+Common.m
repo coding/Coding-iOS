@@ -52,7 +52,7 @@
 }
 - (void)showHudTipStr:(NSString *)tipStr{
     if (tipStr && tipStr.length > 0) {
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
         hud.mode = MBProgressHUDModeText;
         hud.labelText = tipStr;
         hud.margin = 10.f;

@@ -155,7 +155,7 @@
 
 - (void)loginOutBtnClicked:(id)sender{
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"确定要退出当前账号" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"确定退出" otherButtonTitles: nil];
-    [actionSheet showInView:kKeyWindow];
+    [actionSheet showInView:nil];
 }
 
 #pragma mark UIActionSheetDelegate M

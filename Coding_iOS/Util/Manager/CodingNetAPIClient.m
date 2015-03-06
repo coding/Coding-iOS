@@ -185,7 +185,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyyMMddHHmmss";
     NSString *str = [formatter stringFromDate:[NSDate date]];
-    NSString *fileName = [NSString stringWithFormat:@"%@_%@.jpg", [Login curLoginUser].global_key, str];
+    NSString *fileName = [NSString stringWithFormat:@"%@_%@.JPG", [Login curLoginUser].global_key, str];
     DebugLog(@"\nuploadImageSize\n%@ : %.0f", fileName, (float)data.length/1024);
 
     AFHTTPRequestOperation *operation = [self POST:path parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {

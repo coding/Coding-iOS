@@ -328,7 +328,7 @@
                     [weakSelf deleteTask:toDelete];
                 }
             }];
-            [actionSheet showInView:kKeyWindow];
+            [actionSheet showInView:nil];
         };
         cell.descriptionBtnClickedBlock = ^(Task *toDelete){
             [weakSelf goToDescriptionVC];
@@ -508,7 +508,7 @@
                     [weakSelf deleteComment:weakSelf.toComment];
                 }
             }];
-            [actionSheet showInView:kKeyWindow];
+            [actionSheet showInView:nil];
             return;
         }
     }

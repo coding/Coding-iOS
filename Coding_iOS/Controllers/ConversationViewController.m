@@ -209,7 +209,7 @@
 
             }
         }];
-        [actionSheet showInView:kKeyWindow];
+        [actionSheet showInView:nil];
     };
     cell.refreshMessageMediaCCellBlock = ^(CGFloat diff){
 //        ESStrongSelf;
@@ -259,7 +259,7 @@
             [_self deletePrivateMessageWithMsg:_messageToResendOrDelete];
         }
     }];
-    [actionSheet showInView:kKeyWindow];
+    [actionSheet showInView:nil];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -394,30 +394,18 @@
 
 #pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-//    NSLog(@"%@", info);
     UIImage *originalImage;
-//    editedImage = [info objectForKey:UIImagePickerControllerEditedImage];
     originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     [self sendPrivateMessage:originalImage];
 
     // 保存原图片到相册中
     if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-        SEL selectorToCall = @selector(imageWasSavedSuccessfully:didFinishSavingWithError:contextInfo:);
-        UIImageWriteToSavedPhotosAlbum(originalImage, self,selectorToCall, NULL);
+        UIImageWriteToSavedPhotosAlbum(originalImage, self, nil, NULL);
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     [picker dismissViewControllerAnimated:YES completion:nil];
-}
-
-// 保存图片后到相册后，调用的相关方法，查看是否保存成功
-- (void) imageWasSavedSuccessfully:(UIImage *)paramImage didFinishSavingWithError:(NSError *)paramError contextInfo:(void *)paramContextInfo{
-    if (paramError == nil){
-        NSLog(@"Image was saved successfully.");
-    } else {
-        NSLog(@"An error happened while saving the image.\nError = %@", paramError);
-    }
 }
 
 #pragma mark QBImagePickerControllerDelegate

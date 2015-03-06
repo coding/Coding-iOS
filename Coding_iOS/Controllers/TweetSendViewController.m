@@ -110,7 +110,7 @@
         cell.addPicturesBlock = ^(){
             [self.view endEditing:YES];
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从相册选择", nil];
-            [actionSheet showInView:kKeyWindow];
+            [actionSheet showInView:nil];
         };
         return cell;
     }
@@ -166,21 +166,10 @@
     [tweetImages addObject:tweetImg];
     // 保存原图片到相册中
     if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-        SEL selectorToCall = @selector(imageWasSavedSuccessfully:didFinishSavingWithError:contextInfo:);
-        UIImageWriteToSavedPhotosAlbum(originalImage, self,selectorToCall, NULL);
+        UIImageWriteToSavedPhotosAlbum(originalImage, self, nil, NULL);
     }
     [picker dismissViewControllerAnimated:YES completion:nil];
     [_myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-}
-
-// 保存图片后到相册后，调用的相关方法，查看是否保存成功
-- (void) imageWasSavedSuccessfully:(UIImage *)paramImage didFinishSavingWithError:(NSError *)paramError contextInfo:(void *)paramContextInfo{
-    if (paramError == nil){
-        NSLog(@"Image was saved successfully.");
-    } else {
-        NSLog(@"An error happened while saving the image.");
-        NSLog(@"Error = %@", paramError);
-    }
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{

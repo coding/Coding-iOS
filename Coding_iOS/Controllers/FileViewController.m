@@ -215,7 +215,7 @@
                     break;
             }
         }];
-        [actionSheet showInView:kKeyWindow];
+        [actionSheet showInView:nil];
     }else{
         [self.docInteractionController presentOpenInMenuFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
     }
@@ -229,7 +229,7 @@
         [self showHudTipStr:@"提取图片失败"];
         return;
     }
-    UIImageWriteToSavedPhotosAlbum(image, self,selectorToCall, NULL);
+    UIImageWriteToSavedPhotosAlbum(image, self, selectorToCall, NULL);
 }
 
 - (void) imageWasSavedSuccessfully:(UIImage *)paramImage didFinishSavingWithError:(NSError *)paramError contextInfo:(void *)paramContextInfo{
