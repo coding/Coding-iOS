@@ -159,7 +159,7 @@ static Tweet *_tweetForSend = nil;
     }
 }
 
-+ (void)removeSendData{
++ (void)deleteSendData{
     _tweetForSend = nil;
     NSString *dataPath = [NSString stringWithFormat:@"%@_tweetForSend", [Login curLoginUser].global_key];
     [NSObject deleteImageCacheInFolder:dataPath];

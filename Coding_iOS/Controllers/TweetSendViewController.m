@@ -201,7 +201,7 @@
             if (index == 0) {
                 [weakSelf.curTweet saveSendData];
             }else if (index == 1){
-                [Tweet removeSendData];
+                [Tweet deleteSendData];
             }else{
                 return ;
             }

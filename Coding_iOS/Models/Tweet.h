@@ -55,7 +55,7 @@
 
 - (void)saveSendData;
 - (void)loadSendData;
-+ (void)removeSendData;
++ (void)deleteSendData;
 
 +(Tweet *)tweetWithGlobalKey:(NSString *)user_global_key andPPID:(NSString *)pp_id;
 - (NSDictionary *)toDoTweetParams;
