@@ -173,6 +173,7 @@
 		4EC5AD921A258DF8006FA97C /* icon_file_cell_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD8F1A258DF8006FA97C /* icon_file_cell_delete@2x.png */; };
 		4EC5AD931A258DF8006FA97C /* icon_file_cell_move@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD901A258DF8006FA97C /* icon_file_cell_move@2x.png */; };
 		4EC5AD941A258DF8006FA97C /* icon_file_cell_rename@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD911A258DF8006FA97C /* icon_file_cell_rename@2x.png */; };
+		4ECD72EF1AAD7EC300D69AE1 /* Tweet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECD72EE1AAD7EC300D69AE1 /* Tweet.m */; };
 		4ECE8AD71A3943E80021E29C /* DownMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECE8AB21A3943E80021E29C /* DownMenuCell.m */; };
 		4ECE8AD81A3943E80021E29C /* UIDownMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECE8AB41A3943E80021E29C /* UIDownMenuButton.m */; };
 		4ECE8AD91A3943E80021E29C /* UIViewController+DownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECE8AB61A3943E80021E29C /* UIViewController+DownMenu.m */; };
@@ -806,6 +807,8 @@
 		4EC5AD8F1A258DF8006FA97C /* icon_file_cell_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_delete@2x.png"; sourceTree = "<group>"; };
 		4EC5AD901A258DF8006FA97C /* icon_file_cell_move@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_move@2x.png"; sourceTree = "<group>"; };
 		4EC5AD911A258DF8006FA97C /* icon_file_cell_rename@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_rename@2x.png"; sourceTree = "<group>"; };
+		4ECD72ED1AAD7EC300D69AE1 /* Tweet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tweet.h; sourceTree = "<group>"; };
+		4ECD72EE1AAD7EC300D69AE1 /* Tweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tweet.m; sourceTree = "<group>"; };
 		4ECE8AB11A3943E80021E29C /* DownMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownMenuCell.h; sourceTree = "<group>"; };
 		4ECE8AB21A3943E80021E29C /* DownMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownMenuCell.m; sourceTree = "<group>"; };
 		4ECE8AB31A3943E80021E29C /* UIDownMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDownMenuButton.h; sourceTree = "<group>"; };
@@ -2518,6 +2521,8 @@
 				8EA6CFF119E240C40076D59C /* Tasks.m */,
 				8EA6CFF219E240C40076D59C /* Tweets.h */,
 				8EA6CFF319E240C40076D59C /* Tweets.m */,
+				4ECD72ED1AAD7EC300D69AE1 /* Tweet.h */,
+				4ECD72EE1AAD7EC300D69AE1 /* Tweet.m */,
 				8EA6CFF619E240C40076D59C /* User.h */,
 				8EA6CFF719E240C40076D59C /* User.m */,
 				8EA6CFF819E240C40076D59C /* Users.h */,
@@ -3213,6 +3218,7 @@
 				4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */,
 				4E6BA2E41A1EE6AF005FD721 /* UIButton+AFNetworking.m in Sources */,
 				8EF643C919FF7E2900F7EEB0 /* TopicCommentCell.m in Sources */,
+				4ECD72EF1AAD7EC300D69AE1 /* Tweet.m in Sources */,
 				8EF643CD19FF7E2900F7EEB0 /* TweetCommentMoreCell.m in Sources */,
 				8E59F1001A01133C009A905F /* CodeTree.m in Sources */,
 				8EF643BA19FF7E2900F7EEB0 /* MemberCell.m in Sources */,

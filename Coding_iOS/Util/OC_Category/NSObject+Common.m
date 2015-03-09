@@ -123,10 +123,13 @@
 
 
 // 图片缓存到本地
-+ (BOOL) saveImage:(UIImage *)image imageName:(NSString *)imageName
++ (BOOL) saveImage:(UIImage *)image imageName:(NSString *)imageName inFolder:(NSString *)folderName
 {
-    if ([self createDirInCache:kPath_ImageCache]) {
-        NSString * directoryPath = [self pathInCacheDirectory:kPath_ImageCache];
+    if (!folderName) {
+        folderName = kPath_ImageCache;
+    }
+    if ([self createDirInCache:folderName]) {
+        NSString * directoryPath = [self pathInCacheDirectory:folderName];
         BOOL isDir = NO;
         NSFileManager *fileManager = [NSFileManager defaultManager];
         BOOL existed = [fileManager fileExistsAtPath:directoryPath isDirectory:&isDir];
@@ -141,9 +144,12 @@
     }
 }
 // 获取缓存图片
-+ (NSData*) loadImageDataWithName:( NSString *)imageName
++ (NSData*) loadImageDataWithName:( NSString *)imageName inFolder:(NSString *)folderName
 {
-    NSString * directoryPath = [self pathInCacheDirectory:kPath_ImageCache];
+    if (!folderName) {
+        folderName = kPath_ImageCache;
+    }
+    NSString * directoryPath = [self pathInCacheDirectory:folderName];
     BOOL isDir = NO;
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL dirExisted = [fileManager fileExistsAtPath:directoryPath isDirectory:&isDir];
@@ -164,8 +170,11 @@
 }
 
 // 删除图片缓存
-+ (BOOL) deleteImageCache{
-    return [self deleteCacheWithPath:kPath_ImageCache];
++ (BOOL) deleteImageCacheInFolder:(NSString *)folderName{
+    if (!folderName) {
+        folderName = kPath_ImageCache;
+    }
+    return [self deleteCacheWithPath:folderName];
 }
 
 
@@ -194,6 +203,23 @@
     NSString *abslutePath = [NSString stringWithFormat:@"%@/%@.plist", [self pathInCacheDirectory:kPath_ResponseCache], [requestPath md5Str]];
     return [NSMutableDictionary dictionaryWithContentsOfFile:abslutePath];
 }
+
++ (BOOL)deleteResponseCacheForPath:(NSString *)requestPath{
+    User *loginUser = [Login curLoginUser];
+    if (!loginUser) {
+        return NO;
+    }else{
+        requestPath = [NSString stringWithFormat:@"%@_%@", loginUser.global_key, requestPath];
+    }
+    NSString *abslutePath = [NSString stringWithFormat:@"%@/%@.plist", [self pathInCacheDirectory:kPath_ResponseCache], [requestPath md5Str]];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:abslutePath]) {
+        return [fileManager removeItemAtPath:abslutePath error:nil];
+    }else{
+        return NO;
+    }
+}
+
 + (BOOL) deleteResponseCache{
     return [self deleteCacheWithPath:kPath_ResponseCache];
 }

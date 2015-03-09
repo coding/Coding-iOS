@@ -197,19 +197,16 @@
         [self dismissSelf];
     }else{
         __weak typeof(self) weakSelf = self;
-        UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@"提示" message:@"确定放弃此次冒泡？"];
-        [alertView bk_setCancelButtonWithTitle:@"取消" handler:nil];
-        [alertView bk_addButtonWithTitle:@"确定" handler:nil];
-        [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
-            switch (index) {
-                case 1:
-                    [weakSelf dismissSelf];
-                    break;
-                default:
-                    break;
+        [[UIActionSheet bk_actionSheetCustomWithTitle:@"是否保存草稿" buttonTitles:@[@"保存"] destructiveTitle:@"不保存" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [weakSelf.curTweet saveSendData];
+            }else if (index == 1){
+                [Tweet removeSendData];
+            }else{
+                return ;
             }
-        }];
-        [alertView show];
+            [weakSelf dismissSelf];
+        }] showInView:nil];
     }
 }
 
