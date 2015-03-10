@@ -331,7 +331,7 @@
             [actionSheet showInView:nil];
         };
         cell.descriptionBtnClickedBlock = ^(Task *task){
-            if (weakSelf.myCopyTask.has_description && !weakSelf.myCopyTask.task_description) {
+            if (weakSelf.myCopyTask.has_description.boolValue && !weakSelf.myCopyTask.task_description) {
                 return ;
             }
             [weakSelf goToDescriptionVC];
