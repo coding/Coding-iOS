@@ -149,7 +149,6 @@
 
 - (void)refresh{
     if (_curUsers.isLoading) {
-        [_myRefreshControl endRefreshing];
         return;
     }
     _curUsers.willLoadMore = NO;
@@ -160,7 +159,6 @@
 }
 - (void)refreshMore{
     if (_curUsers.isLoading || !_curUsers.canLoadMore) {
-        [_myRefreshControl endRefreshing];
         return;
     }
     _curUsers.willLoadMore = YES;

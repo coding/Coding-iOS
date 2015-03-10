@@ -158,7 +158,6 @@
 
 - (void)refresh{
     if (_curTweets.isLoading) {
-        [_refreshControl endRefreshing];
         return;
     }
     _curTweets.willLoadMore = NO;
