@@ -244,7 +244,7 @@
         }
         CGFloat mediaViewHeight = [MessageCell mediaViewHeightWithObj:curPriMsg];
         cellHeight += mediaViewHeight;
-        cellHeight += textSize.height + kMessageCell_PadingHeight*5;
+        cellHeight += textSize.height + kMessageCell_PadingHeight*4;
         
         if (mediaViewHeight > 0 && curPriMsg.content && curPriMsg.content.length > 0) {
             cellHeight += kMessageCell_PadingHeight;
