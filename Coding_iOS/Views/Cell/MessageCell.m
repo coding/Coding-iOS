@@ -132,6 +132,9 @@
     
     if (_curPriMsg.content.length > 0) {
         textSize = [_curPriMsg.content getSizeWithFont:kMessageCell_FontContent constrainedToSize:CGSizeMake(kMessageCell_ContentWidth, CGFLOAT_MAX)];
+        if ([_curPriMsg.content containsEmoji]) {
+            textSize.height += 10;
+        }
     }else{
         textSize = CGSizeZero;
     }
@@ -164,14 +167,14 @@
     CGRect bgImgViewFrame;
     if (![_curPriMsg.sender.global_key isEqualToString:[Login curLoginUser].global_key]) {
         //        这是好友发的
-        bgImgViewFrame = CGRectMake(kPaddingLeftWidth +kMessageCell_UserIconWith, curBottomY +10, bgImgViewSize.width, bgImgViewSize.height);
+        bgImgViewFrame = CGRectMake(kPaddingLeftWidth +kMessageCell_UserIconWith, curBottomY +kMessageCell_PadingHeight, bgImgViewSize.width, bgImgViewSize.height);
         [_userIconView setCenter:CGPointMake(kPaddingLeftWidth +kMessageCell_UserIconWith/2, CGRectGetMaxY(bgImgViewFrame)- kMessageCell_UserIconWith/2)];
         bgImg = [[UIImage imageNamed:@"messageLeft_bg_img"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 25, 15, 25)];
         _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
     }else{
         //        这是自己发的
-        bgImgViewFrame = CGRectMake((kScreen_Width - kPaddingLeftWidth - kMessageCell_UserIconWith) -bgImgViewSize.width, curBottomY +10, bgImgViewSize.width, bgImgViewSize.height);
+        bgImgViewFrame = CGRectMake((kScreen_Width - kPaddingLeftWidth - kMessageCell_UserIconWith) -bgImgViewSize.width, curBottomY +kMessageCell_PadingHeight, bgImgViewSize.width, bgImgViewSize.height);
         [_userIconView setCenter:CGPointMake(kScreen_Width - kPaddingLeftWidth -kMessageCell_UserIconWith/2, CGRectGetMaxY(bgImgViewFrame)- kMessageCell_UserIconWith/2)];
         bgImg = [[UIImage imageNamed:@"messageRight_bg_img"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 25, 15, 25)];
         _contentLabel.textColor = [UIColor blackColor];
@@ -269,13 +272,15 @@
 
 + (CGFloat)mediaViewHeightWithObj:(PrivateMessage *)curPriMsg{
     CGFloat mediaViewHeight = 0;
-    if (curPriMsg.nextImg) {
-        mediaViewHeight += [MessageMediaItemCCell ccellSizeWithObj:curPriMsg.nextImg].height;
-    }else{
-        for (HtmlMediaItem *curItem in curPriMsg.htmlMedia.imageItems) {
-            mediaViewHeight += [MessageMediaItemCCell ccellSizeWithObj:curItem].height +10;
+    if (curPriMsg.hasMedia) {
+        if (curPriMsg.nextImg) {
+            mediaViewHeight += [MessageMediaItemCCell ccellSizeWithObj:curPriMsg.nextImg].height;
+        }else{
+            for (HtmlMediaItem *curItem in curPriMsg.htmlMedia.imageItems) {
+                mediaViewHeight += [MessageMediaItemCCell ccellSizeWithObj:curItem].height +kMessageCell_PadingHeight;
+            }
+            mediaViewHeight -= kMessageCell_PadingHeight;
         }
-        mediaViewHeight -= 10;
     }
     return mediaViewHeight;
 }
@@ -320,7 +325,7 @@
     return UIEdgeInsetsZero;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    return 10;
+    return kMessageCell_PadingHeight;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
     return 10;
