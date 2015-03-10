@@ -29,7 +29,7 @@
         //过滤末尾无用的空格&空行
         NSRange contentRange = [_contentDisplay rangeByTrimmingRightCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if (_mediaItems.count > 0) {
-            HtmlMediaItem *item = [_mediaItems lastObject];
+            HtmlMediaItem *item;
             for (int i = (int)_mediaItems.count; i > 0; i--) {
                 item = [_mediaItems objectAtIndex:i-1];
                 if (item.displayStr.length > 0) {
