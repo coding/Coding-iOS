@@ -84,7 +84,7 @@
     self.myTableView.contentInset = contentInsets;
     self.myTableView.scrollIndicatorInsets = contentInsets;
     
-    [_myTableView addInfiniteScrollingWithActionHandler:^{
+    [self.myTableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf refreshMore];
     }];
     if (_curTopic && _curTopic.project) {
@@ -146,6 +146,7 @@
         
         self.myTableView.contentInset = contentInsets;
         self.myTableView.scrollIndicatorInsets = contentInsets;
+        [self.myTableView updateInfiniteScrollingPosition];
         
         if ([_commentSender isKindOfClass:[UIView class]] && !self.myTableView.isDragging && heightToBottom > 60) {
             UIView *senderView = _commentSender;
@@ -172,16 +173,15 @@
     }
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_ProjectTopic_WithObj:_curTopic andBlock:^(id data, NSError *error) {
-        [self.refreshControl endRefreshing];
         if (data) {
+            if (weakSelf.curTopic.contentHeight > 1) {
+                ((ProjectTopic *)data).contentHeight = weakSelf.curTopic.contentHeight;
+            }
             weakSelf.curTopic = data;
-            
             weakSelf.myMsgInputView.curProject = weakSelf.curTopic.project;
             weakSelf.myMsgInputView.commentOfId = weakSelf.curTopic.id;
             weakSelf.myMsgInputView.toUser = nil;
             [weakSelf configNavBtn];
-            
-            [weakSelf.myTableView reloadData];
             [weakSelf refreshComments];
         }
     }];
@@ -189,7 +189,6 @@
 
 - (void)refreshMore{
     if (_curTopic.isLoading || !_curTopic.canLoadMore) {
-        [self.myTableView.infiniteScrollingView stopAnimating];
         return;
     }
     _curTopic.willLoadMore = YES;
@@ -203,9 +202,9 @@
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
         if (data) {
             [weakSelf.curTopic configWithComments:data];
-            [weakSelf.myTableView reloadData];
             weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curTopic.canLoadMore;
         }
+        [weakSelf.myTableView reloadData];
     }];
 }
 

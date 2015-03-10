@@ -71,6 +71,15 @@ UIEdgeInsets scrollViewOriginalContentInsets;
     [self.infiniteScrollingView startAnimating];
 }
 
+- (void)updateInfiniteScrollingPosition{
+    if (self.infiniteScrollingView) {
+        self.infiniteScrollingView.originalBottomInset = self.contentInset.bottom;
+        if (self.showsInfiniteScrolling) {
+            [self.infiniteScrollingView setScrollViewContentInsetForInfiniteScrolling];
+        }
+    }
+}
+
 - (void)setInfiniteScrollingView:(SVInfiniteScrollingView *)infiniteScrollingView {
     [self willChangeValueForKey:@"UIScrollViewInfiniteScrollingView"];
     objc_setAssociatedObject(self, &UIScrollViewInfiniteScrollingView,

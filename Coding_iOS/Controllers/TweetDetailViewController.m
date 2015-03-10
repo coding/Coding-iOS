@@ -168,23 +168,19 @@
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Tweet_Detail_WithObj:_curTweet andBlock:^(id data, NSError *error) {
         if (data) {
+            if (weakSelf.curTweet.contentHeight > 1) {
+                ((Tweet *)data).contentHeight = weakSelf.curTweet.contentHeight;
+            }
             weakSelf.curTweet = data;
             weakSelf.myMsgInputView.commentOfId = weakSelf.curTweet.id;
             weakSelf.myMsgInputView.toUser = nil;
-
-            [weakSelf.myTableView reloadData];
-            if (weakSelf.curTweet.comments.integerValue > weakSelf.curTweet.comment_list.count) {
-                [weakSelf refreshComments];//加载等多评论
-            }else{
-                [weakSelf.refreshControl endRefreshing];
-            }
+            [weakSelf refreshComments];
         }
     }];
 }
 
 - (void)refreshComments{
     if (_curTweet.isLoading) {
-        [_refreshControl endRefreshing];
         return;
     }
     __weak typeof(self) weakSelf = self;

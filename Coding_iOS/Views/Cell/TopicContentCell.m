@@ -166,7 +166,7 @@
     [_activityIndicator stopAnimating];
     CGFloat scrollHeight = webView.scrollView.contentSize.height;
     if (ABS(scrollHeight - _curTopic.contentHeight) > 1) {
-        NSLog(@"ABS(scrollHeight - _tweet.contentHeight)=========\n scrollHeight: %.2f", ABS(scrollHeight - _curTopic.contentHeight));
+        NSLog(@"ABS(scrollHeight - _tweet.contentHeight): %.2f", ABS(scrollHeight - _curTopic.contentHeight));
         webView.scalesPageToFit = YES;
         _curTopic.contentHeight = scrollHeight;
         if (_cellHeightChangedBlock) {
