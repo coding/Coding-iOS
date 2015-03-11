@@ -182,6 +182,7 @@
             weakSelf.myMsgInputView.commentOfId = weakSelf.curTopic.id;
             weakSelf.myMsgInputView.toUser = nil;
             [weakSelf configNavBtn];
+            [weakSelf.myTableView reloadData];
             [weakSelf refreshComments];
         }else{
             [weakSelf.refreshControl endRefreshing];

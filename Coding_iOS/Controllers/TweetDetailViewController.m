@@ -174,6 +174,7 @@
             weakSelf.curTweet = data;
             weakSelf.myMsgInputView.commentOfId = weakSelf.curTweet.id;
             weakSelf.myMsgInputView.toUser = nil;
+            [weakSelf.myTableView reloadData];
             [weakSelf refreshComments];
         }else{
             [weakSelf.refreshControl endRefreshing];
