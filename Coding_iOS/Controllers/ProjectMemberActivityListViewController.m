@@ -1,23 +1,23 @@
 //
-//  ProjectActivityListViewController.m
+//  ProjectMemberActivityListViewController.m
 //  Coding_iOS
 //
 //  Created by 王 原闯 on 14/10/31.
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#import "ProjectActivityListViewController.h"
+#import "ProjectMemberActivityListViewController.h"
 #import "UserInfoViewController.h"
 #import "EditTaskViewController.h"
 #import "TopicDetailViewController.h"
 #import "FileListViewController.h"
 #import "FileViewController.h"
 
-@interface ProjectActivityListViewController ()
+@interface ProjectMemberActivityListViewController ()
 
 @end
 
-@implementation ProjectActivityListViewController
+@implementation ProjectMemberActivityListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

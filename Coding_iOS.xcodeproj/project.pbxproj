@@ -259,7 +259,7 @@
 		8E64ED8519ED0CE3006E99DA /* QBImagePickerThumbnailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E64ED7A19ED0CE3006E99DA /* QBImagePickerThumbnailView.m */; };
 		8E64ED8A19EE484A006E99DA /* NSDate+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E64ED8819EE484A006E99DA /* NSDate+Helper.m */; };
 		8E64ED8B19EE484A006E99DA /* README.textile in Resources */ = {isa = PBXBuildFile; fileRef = 8E64ED8919EE484A006E99DA /* README.textile */; };
-		8E6F1C951A03BD6000BF79C8 /* ProjectActivityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E6F1C941A03BD6000BF79C8 /* ProjectActivityListViewController.m */; };
+		8E6F1C951A03BD6000BF79C8 /* ProjectMemberActivityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E6F1C941A03BD6000BF79C8 /* ProjectMemberActivityListViewController.m */; };
 		8E7612E61A087CD1005BE797 /* checkbox_checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E7612E11A087CD1005BE797 /* checkbox_checked@2x.png */; };
 		8E7612E71A087CD1005BE797 /* checkbox_priority@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8E7612E21A087CD1005BE797 /* checkbox_priority@2x.png */; };
 		8E7612F11A08A4EB005BE797 /* markdown.html in Resources */ = {isa = PBXBuildFile; fileRef = 8E7612EF1A08A4EB005BE797 /* markdown.html */; };
@@ -956,8 +956,8 @@
 		8E64ED8719EE484A006E99DA /* NSDate+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Helper.h"; sourceTree = "<group>"; };
 		8E64ED8819EE484A006E99DA /* NSDate+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Helper.m"; sourceTree = "<group>"; };
 		8E64ED8919EE484A006E99DA /* README.textile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.textile; sourceTree = "<group>"; };
-		8E6F1C931A03BD6000BF79C8 /* ProjectActivityListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectActivityListViewController.h; sourceTree = "<group>"; };
-		8E6F1C941A03BD6000BF79C8 /* ProjectActivityListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectActivityListViewController.m; sourceTree = "<group>"; };
+		8E6F1C931A03BD6000BF79C8 /* ProjectMemberActivityListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectMemberActivityListViewController.h; sourceTree = "<group>"; };
+		8E6F1C941A03BD6000BF79C8 /* ProjectMemberActivityListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectMemberActivityListViewController.m; sourceTree = "<group>"; };
 		8E7612E11A087CD1005BE797 /* checkbox_checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_checked@2x.png"; sourceTree = "<group>"; };
 		8E7612E21A087CD1005BE797 /* checkbox_priority@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_priority@2x.png"; sourceTree = "<group>"; };
 		8E7612EF1A08A4EB005BE797 /* markdown.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = markdown.html; sourceTree = "<group>"; };
@@ -2155,6 +2155,8 @@
 				8EA6CF2819E240C40076D59C /* Login */,
 				8EA6CF3219E240C40076D59C /* RootControllers */,
 				8E1C3DF919E8DFE300EF3032 /* MeSetting */,
+				8E6F1C931A03BD6000BF79C8 /* ProjectMemberActivityListViewController.h */,
+				8E6F1C941A03BD6000BF79C8 /* ProjectMemberActivityListViewController.m */,
 				8EA6CF1E19E240C40076D59C /* EditTopicViewController.h */,
 				8EA6CF1F19E240C40076D59C /* EditTopicViewController.m */,
 				8EA6CF2019E240C40076D59C /* ConversationViewController.h */,
@@ -2187,8 +2189,6 @@
 				8E59F1091A021053009A905F /* CodeListViewController.m */,
 				8E59F10B1A02188D009A905F /* CodeViewController.h */,
 				8E59F10C1A02188D009A905F /* CodeViewController.m */,
-				8E6F1C931A03BD6000BF79C8 /* ProjectActivityListViewController.h */,
-				8E6F1C941A03BD6000BF79C8 /* ProjectActivityListViewController.m */,
 				4EA6791E1A15AB9F001A0324 /* FileListViewController.h */,
 				4EA6791F1A15AB9F001A0324 /* FileListViewController.m */,
 				4E15C7CE1A26D2F000FB8DAD /* FolderToMoveViewController.h */,
@@ -3321,7 +3321,7 @@
 				8EA6D14519E240C40076D59C /* TweetDetailViewController.m in Sources */,
 				8EA6D13119E240C40076D59C /* LoginViewController.m in Sources */,
 				8E64ED7C19ED0CE3006E99DA /* QBAssetsCollectionFooterView.m in Sources */,
-				8E6F1C951A03BD6000BF79C8 /* ProjectActivityListViewController.m in Sources */,
+				8E6F1C951A03BD6000BF79C8 /* ProjectMemberActivityListViewController.m in Sources */,
 				8EA6D13619E240C40076D59C /* BaseViewController.m in Sources */,
 				4E15C7D61A271A6300FB8DAD /* EaseToolBar.m in Sources */,
 				4E6BA2D81A1EE6AF005FD721 /* AFHTTPRequestOperationManager.m in Sources */,

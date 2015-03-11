@@ -23,7 +23,7 @@
 #import "ProjectCodeListView.h"
 #import "CodeListViewController.h"
 #import "CodeViewController.h"
-#import "ProjectActivityListViewController.h"
+#import "ProjectMemberActivityListViewController.h"
 #import "FileListViewController.h"
 #import "SettingTextViewController.h"
 #import "FolderToMoveViewController.h"
@@ -300,7 +300,7 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
 }
 
 - (void)goToActivityListOfUser:(User *)user{
-    ProjectActivityListViewController *vc = [[ProjectActivityListViewController alloc] init];
+    ProjectMemberActivityListViewController *vc = [[ProjectMemberActivityListViewController alloc] init];
     vc.curProject = self.myProject;
     vc.curUser = user;
     [self.navigationController pushViewController:vc animated:YES];
