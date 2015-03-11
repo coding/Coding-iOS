@@ -72,7 +72,7 @@
         tableView;
     });
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
-    [_refreshControl addTarget:self action:@selector(refreshComments) forControlEvents:UIControlEventValueChanged];
+    [_refreshControl addTarget:self action:@selector(refreshTweet) forControlEvents:UIControlEventValueChanged];
     
     //评论
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
@@ -175,6 +175,8 @@
             weakSelf.myMsgInputView.commentOfId = weakSelf.curTweet.id;
             weakSelf.myMsgInputView.toUser = nil;
             [weakSelf refreshComments];
+        }else{
+            [weakSelf.refreshControl endRefreshing];
         }
     }];
 }

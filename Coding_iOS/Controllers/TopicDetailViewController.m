@@ -183,6 +183,8 @@
             weakSelf.myMsgInputView.toUser = nil;
             [weakSelf configNavBtn];
             [weakSelf refreshComments];
+        }else{
+            [weakSelf.refreshControl endRefreshing];
         }
     }];
 }

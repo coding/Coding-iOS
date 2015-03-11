@@ -115,7 +115,11 @@ static Tweet *_tweetForSend = nil;
     return [NSString stringWithFormat:@"api/tweet/%d", self.id.intValue];
 }
 - (NSString *)toDetailPath{
-    return [NSString stringWithFormat:@"api/tweet/%@/%@", self.user_global_key, self.pp_id];
+    if (self.user_global_key && self.pp_id) {
+        return [NSString stringWithFormat:@"api/tweet/%@/%@", self.user_global_key, self.pp_id];
+    }else{
+        return [NSString stringWithFormat:@"api/tweet/%@/%@", self.owner.global_key, self.id.stringValue];
+    }
 }
 
 +(Tweet *)tweetForSend{
