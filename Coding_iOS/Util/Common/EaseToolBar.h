@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UIAwesomeButton.h"
+#import <PPiAwesomeButton/UIAwesomeButton.h>
 
 @class EaseToolBar;
 

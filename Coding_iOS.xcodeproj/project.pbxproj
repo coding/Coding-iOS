@@ -45,13 +45,6 @@
 		4E38CF5F1A7A28AF005536C0 /* CodeBranchTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E38CF5E1A7A28AF005536C0 /* CodeBranchTagButton.m */; };
 		4E38CF621A7B7C99005536C0 /* CodeBranchOrTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */; };
 		4E38CF641A7B8DD4005536C0 /* icon_triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E38CF631A7B8DD4005536C0 /* icon_triangle@2x.png */; };
-		4E3AD3CF1A273A4A005C749B /* FAImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3AD3C11A273A4A005C749B /* FAImageView.m */; };
-		4E3AD3D01A273A4A005C749B /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3AD3C31A273A4A005C749B /* NSString+FontAwesome.m */; };
-		4E3AD3D11A273A4A005C749B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E3AD3C51A273A4A005C749B /* FontAwesome.ttf */; };
-		4E3AD3D21A273A4A005C749B /* UIFont+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3AD3C71A273A4A005C749B /* UIFont+FontAwesome.m */; };
-		4E3AD3D31A273A4A005C749B /* UIImage+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3AD3C91A273A4A005C749B /* UIImage+FontAwesome.m */; };
-		4E3AD3D41A273A4A005C749B /* UIAwesomeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3AD3CC1A273A4A005C749B /* UIAwesomeButton.m */; };
-		4E3AD3D51A273A4A005C749B /* UIButton+PPiAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E3AD3CE1A273A4A005C749B /* UIButton+PPiAwesome.m */; };
 		4E42FFF41A10C43C00A9A0C8 /* addPictureBgImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E42FFF31A10C43C00A9A0C8 /* addPictureBgImage@2x.png */; };
 		4E4ABBEA1A653027004760D9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4ABBE91A653027004760D9 /* WebViewController.m */; };
 		4E59E1D31A5E6B34004DAEEC /* TaskDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */; };
@@ -605,19 +598,6 @@
 		4E38CF601A7B7C99005536C0 /* CodeBranchOrTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeBranchOrTag.h; sourceTree = "<group>"; };
 		4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodeBranchOrTag.m; sourceTree = "<group>"; };
 		4E38CF631A7B8DD4005536C0 /* icon_triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_triangle@2x.png"; sourceTree = "<group>"; };
-		4E3AD3C01A273A4A005C749B /* FAImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAImageView.h; sourceTree = "<group>"; };
-		4E3AD3C11A273A4A005C749B /* FAImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAImageView.m; sourceTree = "<group>"; };
-		4E3AD3C21A273A4A005C749B /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
-		4E3AD3C31A273A4A005C749B /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FontAwesome.m"; sourceTree = "<group>"; };
-		4E3AD3C51A273A4A005C749B /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
-		4E3AD3C61A273A4A005C749B /* UIFont+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+FontAwesome.h"; sourceTree = "<group>"; };
-		4E3AD3C71A273A4A005C749B /* UIFont+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+FontAwesome.m"; sourceTree = "<group>"; };
-		4E3AD3C81A273A4A005C749B /* UIImage+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+FontAwesome.h"; sourceTree = "<group>"; };
-		4E3AD3C91A273A4A005C749B /* UIImage+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+FontAwesome.m"; sourceTree = "<group>"; };
-		4E3AD3CB1A273A4A005C749B /* UIAwesomeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIAwesomeButton.h; sourceTree = "<group>"; };
-		4E3AD3CC1A273A4A005C749B /* UIAwesomeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIAwesomeButton.m; sourceTree = "<group>"; };
-		4E3AD3CD1A273A4A005C749B /* UIButton+PPiAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+PPiAwesome.h"; sourceTree = "<group>"; };
-		4E3AD3CE1A273A4A005C749B /* UIButton+PPiAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+PPiAwesome.m"; sourceTree = "<group>"; };
 		4E42FFF31A10C43C00A9A0C8 /* addPictureBgImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addPictureBgImage@2x.png"; sourceTree = "<group>"; };
 		4E4ABBE81A653027004760D9 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		4E4ABBE91A653027004760D9 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
@@ -1470,41 +1450,6 @@
 				4E217F091A70EDC700F6DF88 /* SVWebViewControllerActivitySafari@2x.png */,
 			);
 			path = Safari;
-			sourceTree = "<group>";
-		};
-		4E3AD3BF1A273A4A005C749B /* FontAwesome+iOS */ = {
-			isa = PBXGroup;
-			children = (
-				4E3AD3C01A273A4A005C749B /* FAImageView.h */,
-				4E3AD3C11A273A4A005C749B /* FAImageView.m */,
-				4E3AD3C21A273A4A005C749B /* NSString+FontAwesome.h */,
-				4E3AD3C31A273A4A005C749B /* NSString+FontAwesome.m */,
-				4E3AD3C41A273A4A005C749B /* Resources */,
-				4E3AD3C61A273A4A005C749B /* UIFont+FontAwesome.h */,
-				4E3AD3C71A273A4A005C749B /* UIFont+FontAwesome.m */,
-				4E3AD3C81A273A4A005C749B /* UIImage+FontAwesome.h */,
-				4E3AD3C91A273A4A005C749B /* UIImage+FontAwesome.m */,
-			);
-			path = "FontAwesome+iOS";
-			sourceTree = "<group>";
-		};
-		4E3AD3C41A273A4A005C749B /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				4E3AD3C51A273A4A005C749B /* FontAwesome.ttf */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		4E3AD3CA1A273A4A005C749B /* PPiAwesomeButton */ = {
-			isa = PBXGroup;
-			children = (
-				4E3AD3CB1A273A4A005C749B /* UIAwesomeButton.h */,
-				4E3AD3CC1A273A4A005C749B /* UIAwesomeButton.m */,
-				4E3AD3CD1A273A4A005C749B /* UIButton+PPiAwesome.h */,
-				4E3AD3CE1A273A4A005C749B /* UIButton+PPiAwesome.m */,
-			);
-			path = PPiAwesomeButton;
 			sourceTree = "<group>";
 		};
 		4E66EE201A28226000DA1B3E /* button_file_manage */ = {
@@ -2618,8 +2563,6 @@
 				4EA7F1561A6D192B00A046BD /* ODRefreshControl */,
 				4EA7F1381A6D192B00A046BD /* SDWebImage */,
 				4EDD8F4C1A36F42200E9E232 /* XGPush */,
-				4E3AD3BF1A273A4A005C749B /* FontAwesome+iOS */,
-				4E3AD3CA1A273A4A005C749B /* PPiAwesomeButton */,
 				4E8765581A22E5B40090CFB9 /* SWTableViewCell */,
 				4E6BA2A91A1EE6AF005FD721 /* AFNetworking */,
 				4E91139D1A1C426000AC9431 /* ASProgressPopUpView */,
@@ -3010,7 +2953,6 @@
 				4E07D30A1A4A9ACB009EDDF2 /* moreBtn_Nav@2x.png in Resources */,
 				4E0849831A918A7F00BD27F6 /* coding_emoji_41@2x.png in Resources */,
 				8E97CEA91A0C7E26006F9AD7 /* coding_emoji_18@2x.png in Resources */,
-				4E3AD3D11A273A4A005C749B /* FontAwesome.ttf in Resources */,
 				8EA6D16919E240C40076D59C /* nav_project_task@2x.png in Resources */,
 				4E03ACA81A5D3BD1002B000B /* topic_comment_icon@2x.png in Resources */,
 				8EA6D18F19E240C40076D59C /* tasks_all@2x.png in Resources */,
@@ -3271,7 +3213,6 @@
 				8E64ED8519ED0CE3006E99DA /* QBImagePickerThumbnailView.m in Sources */,
 				8E1C3E0D19E8DFE300EF3032 /* SettingViewController.m in Sources */,
 				8E1C3DEF19E7D58A00EF3032 /* ActionSheetStringPicker.m in Sources */,
-				4E3AD3CF1A273A4A005C749B /* FAImageView.m in Sources */,
 				8EF643B919FF7E2900F7EEB0 /* LeftImage_LRTextCell.m in Sources */,
 				8E1C3DF119E7D58A00EF3032 /* SWActionSheet.m in Sources */,
 				8EA6D1BF19E240C40076D59C /* Task.m in Sources */,
@@ -3291,7 +3232,6 @@
 				8EA6D1CF19E240C40076D59C /* ObjcRuntime.m in Sources */,
 				4E03ACA61A5D2060002B000B /* UIVerticalAlignmentLabel.m in Sources */,
 				4E6BA2DF1A1EE6AF005FD721 /* AFURLRequestSerialization.m in Sources */,
-				4E3AD3D21A273A4A005C749B /* UIFont+FontAwesome.m in Sources */,
 				8EA6D1CD19E240C40076D59C /* UIUnderlinedButton.m in Sources */,
 				4ECE8AD91A3943E80021E29C /* UIViewController+DownMenu.m in Sources */,
 				8EA6D23819E240C40076D59C /* ProjectTasksView.m in Sources */,
@@ -3341,7 +3281,6 @@
 				8EA6D12C19E240C40076D59C /* EditTopicViewController.m in Sources */,
 				4EA7F15B1A6D192B00A046BD /* SDWebImageCompat.m in Sources */,
 				8EA6D13A19E240C40076D59C /* Project_RootViewController.m in Sources */,
-				4E3AD3D51A273A4A005C749B /* UIButton+PPiAwesome.m in Sources */,
 				8EF83F8A19E92AA500E86DE7 /* SettingTagsViewController.m in Sources */,
 				8EA6D23319E240C40076D59C /* ProjectActivityListView.m in Sources */,
 				8EF643D319FF7E2900F7EEB0 /* ValueListCell.m in Sources */,
@@ -3450,7 +3389,6 @@
 				8EA6D23519E240C40076D59C /* ProjectListView.m in Sources */,
 				8E64ED7E19ED0CE3006E99DA /* QBAssetsCollectionVideoIndicatorView.m in Sources */,
 				8EF643C319FF7E2900F7EEB0 /* TaskContentCell.m in Sources */,
-				4E3AD3D01A273A4A005C749B /* NSString+FontAwesome.m in Sources */,
 				4E59E1D31A5E6B34004DAEEC /* TaskDescriptionViewController.m in Sources */,
 				4ECE8AFD1A3946C10021E29C /* AddressManager.m in Sources */,
 				8E1C3DED19E7D58A00EF3032 /* ActionSheetDistancePicker.m in Sources */,
@@ -3477,8 +3415,6 @@
 				8EA6D1BA19E240C40076D59C /* Projects.m in Sources */,
 				4EACB4461A2C60110097ABB3 /* ProjectActivities.m in Sources */,
 				8EA6D1CB19E240C40076D59C /* UITapImageView.m in Sources */,
-				4E3AD3D31A273A4A005C749B /* UIImage+FontAwesome.m in Sources */,
-				4E3AD3D41A273A4A005C749B /* UIAwesomeButton.m in Sources */,
 				4E217F171A70EDC700F6DF88 /* SVWebViewControllerActivity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
