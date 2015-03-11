@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A6E6BA71AAF4162004C0107 /* TweetSendLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E6BA61AAF4162004C0107 /* TweetSendLocationCell.m */; };
+		0A6E6BAA1AAF4B24004C0107 /* TweetSendLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E6BA91AAF4B24004C0107 /* TweetSendLocationViewController.m */; };
+		0A6E6BAD1AB08540004C0107 /* TweetSendLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E6BAC1AB08540004C0107 /* TweetSendLocation.m */; };
 		4E03AC9A1A5BDDF9002B000B /* STARTIMAGE.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E03AC991A5BDDF9002B000B /* STARTIMAGE.jpg */; };
 		4E03ACA01A5CEB41002B000B /* taskDeadline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E03AC9E1A5CEB41002B000B /* taskDeadline@2x.png */; };
 		4E03ACA11A5CEB41002B000B /* taskProgress@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E03AC9F1A5CEB41002B000B /* taskProgress@2x.png */; };
@@ -550,6 +553,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A6E6BA51AAF4162004C0107 /* TweetSendLocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocationCell.h; sourceTree = "<group>"; };
+		0A6E6BA61AAF4162004C0107 /* TweetSendLocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocationCell.m; sourceTree = "<group>"; };
+		0A6E6BA81AAF4B24004C0107 /* TweetSendLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocationViewController.h; sourceTree = "<group>"; };
+		0A6E6BA91AAF4B24004C0107 /* TweetSendLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocationViewController.m; sourceTree = "<group>"; };
+		0A6E6BAB1AB08540004C0107 /* TweetSendLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocation.h; sourceTree = "<group>"; };
+		0A6E6BAC1AB08540004C0107 /* TweetSendLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocation.m; sourceTree = "<group>"; };
 		3B024F2227BD4152BC7C9A7A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E03AC991A5BDDF9002B000B /* STARTIMAGE.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = STARTIMAGE.jpg; sourceTree = "<group>"; };
 		4E03AC9E1A5CEB41002B000B /* taskDeadline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskDeadline@2x.png"; sourceTree = "<group>"; };
@@ -2229,6 +2238,8 @@
 				8EA6CF5219E240C40076D59C /* TweetDetailViewController.m */,
 				8EA6CF5319E240C40076D59C /* TweetSendViewController.h */,
 				8EA6CF5419E240C40076D59C /* TweetSendViewController.m */,
+				0A6E6BA81AAF4B24004C0107 /* TweetSendLocationViewController.h */,
+				0A6E6BA91AAF4B24004C0107 /* TweetSendLocationViewController.m */,
 				8EA6CF5719E240C40076D59C /* UsersViewController.h */,
 				8EA6CF5819E240C40076D59C /* UsersViewController.m */,
 				8EA6CF5919E240C40076D59C /* UserTweetsViewController.h */,
@@ -2536,6 +2547,8 @@
 				4EA679091A1461C3001A0324 /* ProjectFile.m */,
 				4E38CF601A7B7C99005536C0 /* CodeBranchOrTag.h */,
 				4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */,
+				0A6E6BAB1AB08540004C0107 /* TweetSendLocation.h */,
+				0A6E6BAC1AB08540004C0107 /* TweetSendLocation.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2826,6 +2839,8 @@
 				8EF643A019FF7E2900F7EEB0 /* TweetDetailCommentCell.m */,
 				8EF643A119FF7E2900F7EEB0 /* TweetSendImagesCell.h */,
 				8EF643A219FF7E2900F7EEB0 /* TweetSendImagesCell.m */,
+				0A6E6BA51AAF4162004C0107 /* TweetSendLocationCell.h */,
+				0A6E6BA61AAF4162004C0107 /* TweetSendLocationCell.m */,
 				8EF643A319FF7E2900F7EEB0 /* TweetSendTextCell.h */,
 				8EF643A419FF7E2900F7EEB0 /* TweetSendTextCell.m */,
 				8EF643A519FF7E2900F7EEB0 /* UserCell.h */,
@@ -3307,6 +3322,7 @@
 				8EF643B219FF7E2900F7EEB0 /* Input_GlobalKey_Cell.m in Sources */,
 				8EA6D1BD19E240C40076D59C /* QcTask.m in Sources */,
 				4E35A99F1A3EC47E00CE35F1 /* FileViewController.m in Sources */,
+				0A6E6BAD1AB08540004C0107 /* TweetSendLocation.m in Sources */,
 				4ECE8B001A3946C10021E29C /* CodingNetAPIClient.m in Sources */,
 				8EF643B119FF7E2900F7EEB0 /* ConversationCell.m in Sources */,
 				8EF643D019FF7E2900F7EEB0 /* TweetSendImagesCell.m in Sources */,
@@ -3449,6 +3465,7 @@
 				4ECE8AFD1A3946C10021E29C /* AddressManager.m in Sources */,
 				8E1C3DED19E7D58A00EF3032 /* ActionSheetDistancePicker.m in Sources */,
 				8E59F0F41A00F3B9009A905F /* ProjectCodeListCell.m in Sources */,
+				0A6E6BAA1AAF4B24004C0107 /* TweetSendLocationViewController.m in Sources */,
 				8E59F0F71A00F3E2009A905F /* ProjectFolderListCell.m in Sources */,
 				8EA6D1C319E240C40076D59C /* User.m in Sources */,
 				8EA6D1FB19E240C40076D59C /* MJPhotoToolbar.m in Sources */,
@@ -3463,6 +3480,7 @@
 				8EF643BC19FF7E2900F7EEB0 /* ProjectActivityListCell.m in Sources */,
 				8EF83F9419EB78CC00E86DE7 /* SettingTextViewController.m in Sources */,
 				8EA6D1B019E240C40076D59C /* Comment.m in Sources */,
+				0A6E6BA71AAF4162004C0107 /* TweetSendLocationCell.m in Sources */,
 				4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				8ECA8BB419FB42CC00C598C6 /* UILongPressMenuImageView.m in Sources */,
 				8EF643B419FF7E2900F7EEB0 /* Input_LeftImgage_Cell.m in Sources */,

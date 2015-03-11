@@ -13,10 +13,14 @@
 #import "Coding_NetAPIManager.h"
 #import "UsersViewController.h"
 #import "Helper.h"
+#import "TweetSendLocationCell.h"
+#import "TweetSendLocationViewController.h"
 
 
 #define kCellIdentifier_TweetSendText @"TweetSendTextCell"
 #define kCellIdentifier_TweetSendImages @"TweetSendImagesCell"
+
+#define kCellIdentifier_TweetSendLocation @"TweetSendLocationCell"
 
 @interface TweetSendViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
@@ -62,6 +66,7 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[TweetSendTextCell class] forCellReuseIdentifier:kCellIdentifier_TweetSendText];
         [tableView registerClass:[TweetSendImagesCell class] forCellReuseIdentifier:kCellIdentifier_TweetSendImages];
+        [tableView registerClass:[TweetSendLocationCell class] forCellReuseIdentifier:kCellIdentifier_TweetSendLocation];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -79,7 +84,7 @@
 #pragma mark Table M
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSInteger row = 2;
+    NSInteger row = 3;
     return row;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -104,7 +109,7 @@
             });
         };
         return cell;
-    }else{
+    }else if(indexPath.row == 1){
         TweetSendImagesCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetSendImages forIndexPath:indexPath];
         cell.curTweet = _curTweet;
         cell.addPicturesBlock = ^(){
@@ -113,7 +118,17 @@
             [actionSheet showInView:nil];
         };
         return cell;
+    }else if(indexPath.row == 2){
+        __weak typeof (self)weakSelf = self;
+        TweetSendLocationCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetSendLocation forIndexPath:indexPath];
+        cell.locationClickBlock = ^(){
+                TweetSendLocationViewController *vc = [[TweetSendLocationViewController alloc] init];
+                UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
+                [weakSelf presentViewController:nav animated:YES completion:nil];
+        };
+        return cell;
     }
+    
     return nil;
 }
 
@@ -121,8 +136,10 @@
     CGFloat cellHeight = 0;
     if (indexPath.row == 0) {
         cellHeight = [TweetSendTextCell cellHeight];
-    }else{
+    }else if(indexPath.row == 1){
         cellHeight = [TweetSendImagesCell cellHeightWithObj:_curTweet];
+    }else if (indexPath.row == 2){
+        cellHeight = [TweetSendLocationCell cellHeight];
     }
     return cellHeight;
 }
