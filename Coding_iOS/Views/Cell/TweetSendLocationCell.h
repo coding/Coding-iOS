@@ -19,3 +19,10 @@
 
 @end
 
+
+@interface TweetSendSearchingNotFoundCell : UITableViewCell
+
+@property (nonatomic, strong) UILabel *descriptionLabel;
+@property (nonatomic, strong) UILabel *locationLabel;
+
+@end

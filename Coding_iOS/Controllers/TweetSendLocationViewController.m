@@ -9,6 +9,7 @@
 #import "TweetSendLocationViewController.h"
 #import "TweetSendLocation.h"
 #import <CoreLocation/CoreLocation.h>
+#import "TweetSendLocationCell.h"
 
 @interface TweetSendLocationViewController ()<UISearchBarDelegate,UISearchDisplayDelegate,CLLocationManagerDelegate>
 
@@ -16,7 +17,11 @@
 @property (nonatomic, strong) UISearchDisplayController *mySearchDisplayController;
 
 @property (nonatomic, strong) NSMutableArray *locationArray;
-@property (nonatomic, strong) NSArray *searchArray;
+@property (nonatomic, strong) NSMutableArray *searchArray;
+
+//locationFooterView不知为何不能重用，待验证
+@property (nonatomic, strong) UIView *searchDisplayFooterView;
+@property (nonatomic, strong) UIView *searchDisplayLoadingFooterView;
 
 @property (nonatomic, strong) UIView *locationFooterView;
 @property (nonatomic, strong) UIView *searchingFooterView;
@@ -26,10 +31,13 @@
 @property (nonatomic, strong) NSString *cityName;
 
 @property (nonatomic) NSInteger locationTotal;
+//@property (nonatomic) NSInteger locationTotal;
 
 @property (nonatomic, strong) CLLocation *location;
 
 @property (nonatomic, strong) TweetSendLocationRequest *locationRequest;
+
+@property (nonatomic, strong) TweetSendLocationRequest *searchingRequest;
 
 @end
 
@@ -55,7 +63,7 @@
     [self configData];
     [self configSearchBar];
     
-    self.tableView.tableFooterView = self.locationFooterView;
+    self.tableView.tableFooterView = self.searchingFooterView;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -78,8 +86,6 @@
 - (void)configData
 {
     self.locationArray = [NSMutableArray new];
-//    self.locationArray = @[@"",@"",@"",@"",@"",@"",@"",@"",@"",@"",@""];
-    self.searchArray = [NSArray new];
 }
 
 - (void)configSearchBar
@@ -90,6 +96,7 @@
     self.mySearchBar.delegate = self;
     self.mySearchBar.placeholder = @"搜索附近位置";
     self.mySearchBar.tintColor = [UIColor whiteColor];
+    self.mySearchBar.userInteractionEnabled = NO;
     self.tableView.tableHeaderView = self.mySearchBar;
     
     self.mySearchDisplayController = [[UISearchDisplayController alloc]initWithSearchBar:self.mySearchBar contentsController:self];
@@ -101,15 +108,29 @@
 
 #pragma mark- property
 
+- (NSMutableArray *)searchArray
+{
+    if (!_searchArray) {
+        _searchArray = [@[@{@"nodata":@"YES"}] mutableCopy];
+    }
+    return _searchArray;
+}
+
 - (TweetSendLocationRequest *)locationRequest
 {
     if (!_locationRequest) {
-        _locationRequest= [[TweetSendLocationRequest alloc]init];
+        _locationRequest = [[TweetSendLocationRequest alloc]init];
     }
     return _locationRequest;
 }
 
-
+- (TweetSendLocationRequest *)searchingRequest
+{
+    if (!_searchingRequest) {
+        _searchingRequest = [[TweetSendLocationRequest alloc]init];
+    }
+    return _searchingRequest;
+}
 #pragma mark- LocationDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
@@ -133,12 +154,15 @@
                  city = placemark.administrativeArea;
              }
              weakSelf.cityName = city;
+             self.mySearchBar.userInteractionEnabled = YES;
              [weakSelf.tableView reloadData];
              
              weakSelf.locationRequest.lat = [NSString stringWithFormat:@"%f",weakSelf.location.coordinate.latitude];
              weakSelf.locationRequest.lng = [NSString stringWithFormat:@"%f",weakSelf.location.coordinate.longitude];
+             weakSelf.searchingRequest.lat = weakSelf.locationRequest.lat;
+             weakSelf.searchingRequest.lng = weakSelf.locationRequest.lng;
              
-             [weakSelf requestWithObj:weakSelf.locationRequest];
+             [weakSelf requestLocationWithObj:weakSelf.locationRequest];
              
              NSLog(@"city = %@", city);
          }
@@ -163,22 +187,76 @@
     if ([error code] == kCLErrorLocationUnknown) {
         //无法获取位置信息
     }
+    self.tableView.tableFooterView = self.locationFooterView;
+
 }
 
-- (void)requestWithObj:(TweetSendLocationRequest *)obj
+- (void)requestLocationWithObj:(TweetSendLocationRequest *)obj
 {
     __weak typeof (self)weakSelf = self;
     [[TweetSendLocationClient sharedJsonClient] requestPlaceAPIWithParams:obj andBlock:^(id data, NSError *error) {
+        if (error) {
+            weakSelf.tableView.tableFooterView = self.locationFooterView;
+            //如果网络失败获取失败则回滚page_num
+            if ([obj.page_num integerValue] > 1) {
+                obj.page_num = @([obj.page_num integerValue] - 1);
+            }
+            return ;
+        }
+        NSLog(@"obj:%@",data[@"message"]);
+
         NSDictionary *dict = (NSDictionary *)data;
+        
+        if ([dict[@"status"] integerValue] != 0) {
+            weakSelf.tableView.tableFooterView = self.locationFooterView;
+            return;
+        }
         [weakSelf.locationArray addObjectsFromArray:dict[@"results"]];
         weakSelf.locationTotal = [dict[@"total"] integerValue];
         //如果当前数据源总数和查询总数一致，则移除footerView
         if (weakSelf.locationTotal <= weakSelf.locationArray.count) {
-            weakSelf.tableView.tableFooterView = nil;
+            weakSelf.tableView.tableFooterView = [UIView new];
         }else{
             weakSelf.tableView.tableFooterView = self.locationFooterView;
         }
         [weakSelf.tableView reloadData];
+    }];
+}
+
+- (void)requestSearchingWithObj:(TweetSendLocationRequest *)obj isAddMore:(BOOL)result
+{
+    __weak typeof (self)weakSelf = self;
+    [[TweetSendLocationClient sharedJsonClient] requestPlaceAPIWithParams:obj andBlock:^(id data, NSError *error) {
+        if (error) {
+//            weakSelf.tableView.tableFooterView = self.locationFooterView;
+            //如果网络失败获取失败则回滚page_num
+            if ([obj.page_num integerValue] > 1) {
+                obj.page_num = @([obj.page_num integerValue] - 1);
+            }
+            return ;
+        }
+        NSLog(@"obj:%@",data[@"message"]);
+        
+        NSDictionary *dict = (NSDictionary *)data;
+        
+        if ([dict[@"status"] integerValue] != 0) {
+            weakSelf.mySearchDisplayController.searchResultsTableView.tableFooterView = self.searchDisplayFooterView;
+            return;
+        }
+        if (result) {
+            [weakSelf.searchArray addObjectsFromArray: dict[@"results"]];
+        }else {
+            weakSelf.searchArray = [dict[@"results"] mutableCopy];
+        }
+        NSInteger total = [dict[@"total"] integerValue];
+        //如果当前数据源总数和查询总数一致，则移除footerView
+        if (total <= weakSelf.searchArray.count ) {
+            [weakSelf.searchArray addObject:@{@"notfound":@"YES"}];
+            weakSelf.mySearchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
+        }else{
+            weakSelf.mySearchDisplayController.searchResultsTableView.tableFooterView = self.searchDisplayFooterView;
+        }
+        [weakSelf.mySearchDisplayController.searchResultsTableView reloadData];
     }];
 }
 
@@ -209,37 +287,115 @@
     return YES;
 }
 
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    if (searchText.length <= 0) {
+        [self clearSearchingTableView];
+    }
+}
+
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    NSLog(@"clcik");
-}
-
-
-- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
-{
-    NSLog(@"clcik");
-}
-
-- (void) searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
-{
-
-}
-- (void) searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
-{
+    self.searchingRequest.query = searchBar.text;
+    self.searchingRequest.page_num = @(0);
+    [self requestSearchingWithObj:self.searchingRequest isAddMore:NO];
+    [self.mySearchDisplayController.searchResultsTableView reloadData];
+    self.mySearchDisplayController.searchResultsTableView.tableFooterView = self.searchDisplayLoadingFooterView;
 
 }
 - (void) searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
 {
-
+    [self clearSearchingTableView];
 }
 
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+- (void)clearSearchingTableView
 {
-    return NO;
+    self.searchArray = nil;
+    self.searchingRequest.tag = @"";
+    self.mySearchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
+    [self.mySearchDisplayController.searchResultsTableView reloadData];
 }
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+
+- (UIView *)searchDisplayLoadingFooterView
 {
-    return NO;
+    if (!_searchDisplayLoadingFooterView) {
+        _searchDisplayLoadingFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.bounds), 50)];
+        _searchDisplayLoadingFooterView.backgroundColor = [UIColor clearColor];
+        NSString *str = @"正在搜索附近的位置";
+        UIFont *font = [UIFont systemFontOfSize:14.0];
+        CGSize size = CGSizeMake(CGFLOAT_MAX, 50);
+        CGRect rect = [str boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:font.fontName size:font.pointSize]} context:nil];
+        
+        CGRect buttonFrame = CGRectZero;
+        buttonFrame.size.height = CGRectGetHeight(rect);
+        buttonFrame.size.width = CGRectGetWidth(rect);
+        
+        UILabel *label = [[UILabel alloc]initWithFrame:buttonFrame];
+        label.backgroundColor = [UIColor clearColor];
+        label.text = str;
+        label.font = font;
+        label.textColor = [UIColor colorWithHexString:@"0x222222"];
+        label.numberOfLines = 1;
+        label.textAlignment = NSTextAlignmentCenter;
+        label.center = _searchDisplayLoadingFooterView.center;
+        [_searchDisplayLoadingFooterView addSubview:label];
+        
+        CGPoint indicatorCenter = CGPointZero;
+        indicatorCenter.x = CGRectGetMinX(label.frame) - 20;
+        indicatorCenter.y = label.center.y;
+        
+        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator.center = indicatorCenter;
+        indicator.hidesWhenStopped = YES;
+        [_searchDisplayLoadingFooterView addSubview:indicator];
+        [indicator startAnimating];
+        
+        CGRect lineFrame = _searchDisplayLoadingFooterView.bounds;
+        lineFrame.size.height = 0.5;
+        
+        UIView *topLine = [[UIView alloc]initWithFrame:lineFrame];
+        topLine.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+        
+        lineFrame.origin.y = CGRectGetMaxY(_searchDisplayLoadingFooterView.bounds) - 0.5;
+        UIView *bottomLine = [[UIView alloc]initWithFrame:lineFrame];
+        bottomLine.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+        
+        [_searchDisplayLoadingFooterView addSubview:topLine];
+        [_searchDisplayLoadingFooterView addSubview:bottomLine];
+    }
+    
+    return _searchDisplayLoadingFooterView;
+}
+
+- (UIView *)searchDisplayFooterView
+{
+    if (!_searchDisplayFooterView) {
+        _searchDisplayFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.tableView.bounds), 50)];
+        _searchDisplayFooterView.backgroundColor = [UIColor clearColor];
+        NSString *str = @"查看更多的位置信息";
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [btn setFrame:_searchDisplayFooterView.bounds];
+        [btn setTitle:str forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont systemFontOfSize:14.0];
+        [btn setTitleColor:[UIColor colorWithHexString:@"0x222222"] forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(locationFooterClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_searchDisplayFooterView addSubview:btn];
+        
+        CGRect lineFrame = _locationFooterView.bounds;
+        lineFrame.size.height = 0.5;
+        
+        UIView *topLine = [[UIView alloc]initWithFrame:lineFrame];
+        topLine.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+        
+        lineFrame.origin.y = CGRectGetMaxY(_searchDisplayFooterView.bounds) - 0.5;
+        UIView *bottomLine = [[UIView alloc]initWithFrame:lineFrame];
+        bottomLine.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+        
+        [_searchDisplayFooterView addSubview:topLine];
+        [_searchDisplayFooterView addSubview:bottomLine];
+    }
+    
+    return _searchDisplayFooterView;
 }
 
 
@@ -308,7 +464,7 @@
         [_searchingFooterView addSubview:indicator];
         [indicator startAnimating];
         
-        CGRect lineFrame = _locationFooterView.bounds;
+        CGRect lineFrame = _searchingFooterView.bounds;
         lineFrame.size.height = 0.5;
         
         UIView *topLine = [[UIView alloc]initWithFrame:lineFrame];
@@ -348,8 +504,7 @@
             CellIdentifier = SubtitleCellIdentifier;
         }
         
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:
-                                 CellIdentifier];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         //第一行，『不显示位置』
         if((indexPath.row == 0  || indexPath.row == 1) && cell == nil) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
@@ -385,13 +540,43 @@
 
 - (UITableViewCell *)searchResultTableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *CellIdentifier = @"CellIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:
-                             CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    NSString *SearchDefaultCellIdentifier = @"SearchDefaultCellIdentifier";
+    NSString *NotFoundCellIdentifier = @"NotFoundCellIdentifier";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:SearchDefaultCellIdentifier];
+    //当没有数据时插入一条空数据进入，防止searchbar 在打字时显示 『无数据』
+    if ([self.searchArray[indexPath.row][@"nodata"] isEqualToString:@"YES"]) {
+        NSString *NodataCellIdentifier = @"NodataCellIdentifier";
+        UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NodataCellIdentifier];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        return cell;
     }
-    cell.textLabel.text = @"Search Controller";
+    else
+    {
+        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    }
+    //判断为最后一条数据时插入该特殊cell
+    if ([self.searchArray[indexPath.row][@"notfound"] isEqualToString:@"YES"]) {
+        
+        TweetSendSearchingNotFoundCell *cell = [tableView dequeueReusableCellWithIdentifier:NotFoundCellIdentifier];
+        
+        if (cell == nil) {
+            cell = [[TweetSendSearchingNotFoundCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NotFoundCellIdentifier];
+        }
+        cell.locationLabel.text = [NSString stringWithFormat:@"创建新的位置：%@",self.mySearchBar.text];
+        
+        return cell;
+    }
+    //正常处理cell
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:SearchDefaultCellIdentifier];
+        cell.textLabel.font = [UIFont systemFontOfSize:15.0];
+        cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
+        cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+    }
+    cell.textLabel.text = self.searchArray[indexPath.row][@"name"];
+    cell.detailTextLabel.text = self.searchArray[indexPath.row][@"address"];
     
     return cell;
 }
@@ -399,14 +584,11 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView != self.tableView) {
-        return  10 ;//self.searchArray.count;
-    }
-    else
-    {
+        return  self.searchArray.count;
+    }else {
         if (self.cityName.length <= 0) {
             return 1;
         }
-        
         return 2 + self.locationArray.count;
     }
 }
@@ -420,14 +602,32 @@
     
 }
 
+#pragma mark- UIScrollView Delegate
+
+
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+//{
+//    // 下拉到最底部时显示更多数据
+//    if(scrollView.contentOffset.y > ((scrollView.contentSize.height - scrollView.frame.size.height)))
+//    {
+//        [self locationFooterClick:nil];
+//    }
+//}
+
 #pragma mark- Action
 
 - (void)locationFooterClick:(id)sender
 {
-    self.tableView.tableFooterView = self.searchingFooterView;
-    
-    self.locationRequest.page_num = @([self.locationRequest.page_num integerValue] + 1);
-    [self requestWithObj:self.locationRequest];
+    if (self.mySearchDisplayController.active) {
+        
+        self.mySearchDisplayController.searchResultsTableView.tableFooterView = self.searchDisplayLoadingFooterView;
+        self.searchingRequest.page_num = @([self.searchingRequest.page_num integerValue] + 1);
+        [self requestSearchingWithObj:self.searchingRequest isAddMore:YES];
+    }else {
+        self.tableView.tableFooterView = self.searchingFooterView;
+        self.locationRequest.page_num = @([self.locationRequest.page_num integerValue] + 1);
+        [self requestLocationWithObj:self.locationRequest];
+    }
 }
 
 @end

@@ -79,30 +79,71 @@
     return 45;
 }
 
-//- (UIImageView *)iconImageView
-//{
-//    if (!_iconImageView) {
-//        _iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 5, 20, 20)];
-//        _iconImageView.backgroundColor = [UIColor blueColor];
-//        [self.contentView addSubview:_iconImageView];
-//    }
-//    return _iconImageView;
-//}
-//
-//- (UIButton *)locationButton
-//{
-//    if (!_locationButton) {
-//        _locationButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        _locationButton.backgroundColor = [UIColor clearColor];
-//        [_locationButton setTitle:@"所在位置" forState:UIControlStateNormal];
-//        CGRect btnFrame = _locationButton.frame;
-//        btnFrame.origin.x = 40;
-//        btnFrame.origin.y = 5;
-//        [_locationButton setFrame:btnFrame];
-//        
-//        [self.contentView addSubview:_locationButton];
-//    }
-//    return _locationButton;
-//}
+@end
+
+@implementation TweetSendSearchingNotFoundCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        // Initialization code
+        self.selectionStyle = UITableViewCellSelectionStyleDefault;
+        self.backgroundColor = [UIColor clearColor];
+        
+        CGRect frame = CGRectZero;
+        frame.size.width = kScreen_Width;
+        frame.origin.y = 5;
+        frame.origin.x = 15;
+        frame.size.height = 20;
+        UIFont *font = [UIFont systemFontOfSize:14];
+        
+        if (!_descriptionLabel) {
+            _descriptionLabel = [[UILabel alloc]initWithFrame:frame];
+            _descriptionLabel.font = font;
+            _descriptionLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _descriptionLabel.text = @"没有找到你的位置？";
+            _descriptionLabel.textAlignment = NSTextAlignmentLeft;
+            
+            [self.contentView addSubview:_descriptionLabel];
+        }
+        if (!_locationLabel) {
+            frame.origin.y = 25;
+            _locationLabel = [[UILabel alloc]initWithFrame:frame];
+            _locationLabel.font = font;
+            _locationLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _locationLabel.text = @"创建新的位置";
+            _locationLabel.textAlignment = NSTextAlignmentLeft;
+
+            [self.contentView addSubview:_locationLabel];
+        }
+        
+        CGRect lineFrame = CGRectZero;
+        lineFrame.size.width = kScreen_Width;
+        lineFrame.size.height = 0.5;
+        lineFrame.origin.y = 50 - 0.5;
+        UIView *bottomLine = [[UIView alloc]initWithFrame:lineFrame];
+        bottomLine.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+        
+        [self addSubview:bottomLine];
+    }
+    return self;
+}
+- (void)awakeFromNib
+{
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+    
+    // Configure the view for the selected state
+}
+
++ (CGFloat)cellHeight
+{
+    return 50;
+}
 
 @end
