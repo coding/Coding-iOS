@@ -82,6 +82,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setLocationData:(TweetSendLocationResponse *)locationData
+{
+    _locationData = locationData;
+    [self.myTableView reloadData];
+}
+
 #pragma mark Table M
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -122,6 +128,10 @@
     }else if(indexPath.row == 2){
         __weak typeof (self)weakSelf = self;
         TweetSendLocationCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetSendLocation forIndexPath:indexPath];
+        if (self.locationData) {
+            [cell.locationButton setTitle:self.locationData.cityName forState:UIControlStateNormal];
+            [cell.iconImageView setImage:[UIImage imageNamed:@"icon_locationed"]];
+        }
         cell.locationClickBlock = ^(){
             TweetSendLocationViewController *vc = [[TweetSendLocationViewController alloc] init];
 //            TweetSendLocationResponse *obj = [[TweetSendLocationResponse alloc]init];

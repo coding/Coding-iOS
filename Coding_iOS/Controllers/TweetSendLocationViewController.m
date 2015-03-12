@@ -10,6 +10,7 @@
 #import "TweetSendLocation.h"
 #import <CoreLocation/CoreLocation.h>
 #import "TweetSendLocationCell.h"
+#import "TweetSendViewController.h"
 
 @interface TweetSendLocationViewController ()<UISearchBarDelegate,UISearchDisplayDelegate,CLLocationManagerDelegate>
 
@@ -660,6 +661,12 @@
         [self.mySearchDisplayController setActive:NO animated:YES];
     }
     
+    TweetSendLocationResponse *obj = [[TweetSendLocationResponse alloc]init];
+    obj.cityName = @"佛山市";
+    
+    TweetSendViewController *tweetVC = (TweetSendViewController *)((UINavigationController *)self.presentingViewController).topViewController;
+    tweetVC.locationData = obj;
+    [self dismissSelf];
 }
 
 #pragma mark- UIScrollView Delegate

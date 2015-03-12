@@ -11,7 +11,11 @@
 
 #import "Tweets.h"
 
+@class TweetSendLocationResponse;
+
 @interface TweetSendViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, QBImagePickerControllerDelegate>
 @property (copy, nonatomic) void(^sendNextTweet)(Tweet *nextTweet);
+
+@property (nonatomic,strong) TweetSendLocationResponse *locationData;
 
 @end
