@@ -15,6 +15,7 @@
 #import "Helper.h"
 #import "TweetSendLocationCell.h"
 #import "TweetSendLocationViewController.h"
+#import "TweetSendLocation.h"
 
 
 #define kCellIdentifier_TweetSendText @"TweetSendTextCell"
@@ -122,9 +123,15 @@
         __weak typeof (self)weakSelf = self;
         TweetSendLocationCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetSendLocation forIndexPath:indexPath];
         cell.locationClickBlock = ^(){
-                TweetSendLocationViewController *vc = [[TweetSendLocationViewController alloc] init];
-                UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
-                [weakSelf presentViewController:nav animated:YES completion:nil];
+            TweetSendLocationViewController *vc = [[TweetSendLocationViewController alloc] init];
+//            TweetSendLocationResponse *obj = [[TweetSendLocationResponse alloc]init];
+//            obj.cityName = @"佛山市";
+//            obj.lat = @"";
+//            obj.lng = @"";
+//            vc.responseData = obj;
+
+            UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
+            [weakSelf presentViewController:nav animated:YES completion:nil];
         };
         return cell;
     }

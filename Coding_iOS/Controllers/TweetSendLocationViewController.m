@@ -85,7 +85,26 @@
 
 - (void)configData
 {
-    self.locationArray = [NSMutableArray new];
+    if (self.responseData) {
+        BOOL checked = NO;
+        if (self.responseData.detailed) {
+            checked = YES;
+            NSMutableDictionary *dict = [self.responseData.detailed mutableCopy];
+            [dict setValue:@"YES" forKey:@"checkmark"];
+            [self.locationArray addObject:dict];
+        }
+        if (self.responseData.cityName.length > 0) {
+            NSString *result = @"NO";
+            if (!checked) {
+                result = @"YES";
+            }
+            [self.locationArray addObject:@{@"cityName":self.responseData.cityName,@"checkmark":result,@"cellType":@"defualt",@"lat":self.responseData.lat,@"lng":self.responseData.lng}];
+        }
+    }
+    else
+    {
+        self.locationArray[0] = @{@"title":@"不显示位置",@"cellType":@"defualt",@"checkmark":@"YES"};
+    }
 }
 
 - (void)configSearchBar
@@ -116,6 +135,14 @@
     return _searchArray;
 }
 
+- (NSMutableArray *)locationArray
+{
+    if (!_locationArray) {
+        _locationArray = [@[@{@"title":@"不显示位置",@"cellType":@"defualt"}] mutableCopy];
+    }
+    return _locationArray;
+}
+
 - (TweetSendLocationRequest *)locationRequest
 {
     if (!_locationRequest) {
@@ -136,7 +163,6 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     self.location = (CLLocation *)[locations lastObject];
-
     
     // 获取当前所在的城市名
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
@@ -154,13 +180,28 @@
                  city = placemark.administrativeArea;
              }
              weakSelf.cityName = city;
-             self.mySearchBar.userInteractionEnabled = YES;
-             [weakSelf.tableView reloadData];
-             
              weakSelf.locationRequest.lat = [NSString stringWithFormat:@"%f",weakSelf.location.coordinate.latitude];
              weakSelf.locationRequest.lng = [NSString stringWithFormat:@"%f",weakSelf.location.coordinate.longitude];
              weakSelf.searchingRequest.lat = weakSelf.locationRequest.lat;
              weakSelf.searchingRequest.lng = weakSelf.locationRequest.lng;
+             
+             weakSelf.mySearchBar.userInteractionEnabled = YES;
+             if (weakSelf.locationArray.count > 1) {
+                 NSString *cityName = weakSelf.locationArray[1][@"cityName"];
+                 NSString *checkmark = weakSelf.locationArray[1][@"checkmark"];
+
+                 if (cityName.length > 0) {
+                     [weakSelf.locationArray replaceObjectAtIndex:1 withObject:@{@"cityName":city,@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng,@"cellType":@"defualt",@"checkmark":checkmark}];
+                 }else{
+                     [weakSelf.locationArray insertObject:@{@"cityName":city,@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng,@"cellType":@"defualt",@"checkmark":checkmark} atIndex:1];
+                 }
+             }else{
+                 [weakSelf.locationArray insertObject:@{@"cityName":city,@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng,@"cellType":@"defualt"} atIndex:1];
+             }
+             
+             [weakSelf.tableView reloadData];
+             
+
              
              [weakSelf requestLocationWithObj:weakSelf.locationRequest];
              
@@ -497,7 +538,7 @@
         
         NSString *CellIdentifier = @"";
         
-        if (indexPath.row == 0 || indexPath.row == 1) {
+        if ([self.locationArray[indexPath.row][@"cellType"] isEqualToString:@"defualt"]) {
             CellIdentifier = DefaultCellIdentifier;
         }
         else{
@@ -506,7 +547,7 @@
         
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         //第一行，『不显示位置』
-        if((indexPath.row == 0  || indexPath.row == 1) && cell == nil) {
+        if([self.locationArray[indexPath.row][@"cellType"] isEqualToString:@"defualt"] && cell == nil) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
             cell.textLabel.font = [UIFont systemFontOfSize:15.0];
             cell.textLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
@@ -516,17 +557,39 @@
             cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
             cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
         }
-        
-        if (indexPath.row == 0) {
-            cell.textLabel.text = @"不显示位置";
-            cell.textLabel.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            cell.tintColor = [UIColor colorWithHexString:@"0x3bbd79"];
-        }else if (indexPath.row == 1) {
-            cell.textLabel.text = self.cityName;
+        //如果为自定义数据
+        if([self.locationArray[indexPath.row][@"cellType"] isEqualToString:@"defualt"])
+        {
+            switch (indexPath.row) {
+                case 0:
+                    cell.textLabel.text = self.locationArray[indexPath.row][@"title"];
+                    cell.textLabel.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+                    if ([self.locationArray[indexPath.row][@"checkmark"] isEqualToString:@"YES"]) {
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                    }else {
+                        cell.accessoryType = UITableViewCellAccessoryNone;
+                    }
+                    cell.tintColor = [UIColor colorWithHexString:@"0x3bbd79"];
+                    break;
+                case 1:
+                    cell.textLabel.text = self.locationArray[indexPath.row][@"cityName"];
+                    if ([self.locationArray[indexPath.row][@"checkmark"] isEqualToString:@"YES"]) {
+                        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                    }else {
+                        cell.accessoryType = UITableViewCellAccessoryNone;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }else {
-            cell.textLabel.text = self.locationArray[indexPath.row - 2][@"name"];
-            cell.detailTextLabel.text = self.locationArray[indexPath.row - 2][@"address"];
+            if ([self.locationArray[indexPath.row][@"checkmark"] isEqualToString:@"YES"]) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            }else {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+            cell.textLabel.text = self.locationArray[indexPath.row][@"name"];
+            cell.detailTextLabel.text = self.locationArray[indexPath.row][@"address"];
         }
         
         return cell;
@@ -586,10 +649,7 @@
     if (tableView != self.tableView) {
         return  self.searchArray.count;
     }else {
-        if (self.cityName.length <= 0) {
-            return 1;
-        }
-        return 2 + self.locationArray.count;
+        return self.locationArray.count;
     }
 }
 

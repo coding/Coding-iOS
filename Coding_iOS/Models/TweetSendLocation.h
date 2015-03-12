@@ -29,6 +29,11 @@
 
 @interface TweetSendLocationResponse : NSObject
 
+@property (nonatomic, strong) NSString *lat;
+@property (nonatomic, strong) NSString *lng;
+@property (nonatomic, strong) NSString *cityName;
+@property (nonatomic, strong) NSDictionary *detailed;
+
 @end
 
 

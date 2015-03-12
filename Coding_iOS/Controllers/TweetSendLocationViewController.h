@@ -7,7 +7,10 @@
 //
 
 #import "BaseViewController.h"
+@class TweetSendLocationResponse;
 
 @interface TweetSendLocationViewController : UITableViewController
+
+@property (nonatomic, strong) TweetSendLocationResponse* responseData;
 
 @end
