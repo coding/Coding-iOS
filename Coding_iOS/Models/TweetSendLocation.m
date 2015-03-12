@@ -23,13 +23,20 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
     self = [super init];
     if (self) {
         self.ak = kBaiduAK;
+        self.query = @"酒店$餐馆$楼盘$公司$道路$小区";
+        self.page_num = @(0);
+        self.page_size = @(20);
+        self.scope = @"1";
+        self.radius = @(1000);
+        self.output = @"json";
     }
     return self;
 }
 
 - (NSDictionary *)toParams
 {
-    return @{@"ak":kBaiduAK,@"output":@"json",@"query":@"餐馆",@"page_size":@10,@"page_num":@0,@"scope":@1,@"location":@"39.915,116.404",@"radius":@"2000"};
+    NSString *locationStr = [NSString stringWithFormat:@"%@,%@",self.lat,self.lng];
+    return @{@"ak":kBaiduAK,@"output":self.output,@"query":self.query,@"page_size":self.page_size,@"page_num":self.page_num,@"scope":self.scope,@"location":locationStr,@"radius":self.radius};
 }
 
 @end

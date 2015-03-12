@@ -16,8 +16,11 @@
 @property (nonatomic, strong) NSString *output;
 @property (nonatomic, strong) NSString *scope;
 @property (nonatomic, strong) NSString *filter;
+@property (nonatomic, strong) NSString *lat;
+@property (nonatomic, strong) NSString *lng;
 @property (nonatomic, strong) NSNumber *page_size;
 @property (nonatomic, strong) NSNumber *page_num;
+@property (nonatomic, strong) NSNumber *radius;
 
 @property (nonatomic, strong) NSString *ak;
 
