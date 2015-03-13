@@ -123,7 +123,7 @@
 }
 
 - (void)refresh{
-    if (_myProject.isLoading) {
+    if (_myProject.isLoadingMember) {
         return;
     }
     if (!_myMemberArray || _myMemberArray.count <= 0) {

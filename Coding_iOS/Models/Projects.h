@@ -47,8 +47,8 @@ typedef NS_ENUM(NSInteger, ProjectsType)
 
 @interface Project : NSObject
 @property (readwrite, nonatomic, strong) NSString *icon, *name, *owner_user_name, *backend_project_path, *full_name, *description_mine, *path;
-@property (readwrite, nonatomic, strong) NSNumber *id, *owner_id, *is_public, *un_read_activities_count, *done, *processing;
-@property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading;
+@property (readwrite, nonatomic, strong) NSNumber *id, *owner_id, *is_public, *un_read_activities_count, *done, *processing, *star_count, *stared, *watch_count, *watched, *fork_count, *forked;
+@property (assign, nonatomic) BOOL isStaring, isWatching, isLoadingMember, isLoadingDetail;
 
 +(Project *)project_All;
 
