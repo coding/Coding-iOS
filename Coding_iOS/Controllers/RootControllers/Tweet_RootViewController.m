@@ -326,7 +326,7 @@
                         [_self deleteComment:comment ofTweet:_self.commentTweet];
                     }
                 }];
-                [actionSheet showInView:nil];
+                [actionSheet showInView:self.view];
                 return;
             }
         }else{
@@ -362,7 +362,7 @@
                 [_self deleteTweet:_self.deleteTweet outTweetsIndex:_self.deleteTweetsIndex];
             }
         }];
-        [actionSheet showInView:nil];
+        [actionSheet showInView:self.view];
     };
     cell.goToDetailTweetBlock = ^(Tweet *curTweet){
         [self goToDetailWithTweet:curTweet];

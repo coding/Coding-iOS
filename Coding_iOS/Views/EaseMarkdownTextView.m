@@ -220,9 +220,10 @@
 
 #pragma mark Photo
 - (void)doPhoto{
+    //
     [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"拍照", @"从相册选择"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         [self presentPhotoVCWithIndex:index];
-    }] showInView:nil];
+    }] showInView:self];
 }
 
 - (void)presentPhotoVCWithIndex:(NSInteger)index{
