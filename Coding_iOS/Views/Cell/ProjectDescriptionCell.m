@@ -79,7 +79,7 @@
             default:
             {
                 obj.userNum = _curProject.fork_count.integerValue;
-                obj.checked = _curProject.stared.boolValue;
+                obj.checked = _curProject.forked.boolValue;
             }
                 break;
         }

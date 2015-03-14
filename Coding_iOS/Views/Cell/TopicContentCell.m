@@ -114,10 +114,8 @@
     //    讨论的内容
     [self.topicContentView setY:curBottomY];
     [self.topicContentView setHeight:_curTopic.contentHeight];
-    if (!self.topicContentView.isLoading) {
-        [_activityIndicator startAnimating];
-        [self.topicContentView loadHTMLString:[WebContentManager topicPatternedWithContent:_curTopic.htmlMedia.contentOrigional] baseURL:nil];
-    }
+    [_activityIndicator startAnimating];
+    [self.topicContentView loadHTMLString:[WebContentManager topicPatternedWithContent:_curTopic.htmlMedia.contentOrigional] baseURL:nil];
     [_activityIndicator setCenter:CGPointMake(kScreen_Width/2, curBottomY+5)];
     
     curBottomY += _curTopic.contentHeight+5;

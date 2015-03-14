@@ -10,9 +10,11 @@
 #import "ProjectInfoCell.h"
 #import "ProjectItemsCell.h"
 #import "ProjectDescriptionCell.h"
+#import "ProjectReadMeCell.h"
 #import "ProjectViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "ODRefreshControl.h"
+#import "WebViewController.h"
 
 @interface NProjectViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
@@ -36,6 +38,7 @@
         [tableView registerClass:[ProjectItemsCell class] forCellReuseIdentifier:kCellIdentifier_ProjectItemsCell_Private];
         [tableView registerClass:[ProjectItemsCell class] forCellReuseIdentifier:kCellIdentifier_ProjectItemsCell_Public];
         [tableView registerClass:[ProjectDescriptionCell class] forCellReuseIdentifier:kCellIdentifier_ProjectDescriptionCell];
+        [tableView registerClass:[ProjectReadMeCell class] forCellReuseIdentifier:kCellIdentifier_ProjectReadMeCell];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -54,15 +57,31 @@
     if (_myProject.isLoadingDetail) {
         return;
     }
-    
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_myProject andBlock:^(id data, NSError *error) {
         [weakSelf.refreshControl endRefreshing];
         if (data) {
+            CGFloat readMeHeight = weakSelf.myProject.readMeHeight;
             weakSelf.myProject = data;
-            [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+            weakSelf.myProject.readMeHeight = readMeHeight;
+            if (weakSelf.myProject.is_public.boolValue) {
+                [weakSelf refreshReadMe];
+            }else{
+                [weakSelf.myTableView reloadData];
+            }
         }
     }];
+}
+
+- (void)refreshReadMe{
+    if (_myProject.is_public.boolValue) {
+        __weak typeof(self) weakSelf = self;
+        [[Coding_NetAPIManager sharedManager] request_ReadMeOFProject:_myProject andBlock:^(id data, NSError *error) {
+            weakSelf.myProject.readMeHtml = data;
+            [weakSelf.myTableView reloadData];
+        }];
+        NSLog(@"ee");
+    }
 }
 
 #pragma mark Table M
@@ -70,7 +89,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     NSInteger section = 0;
     if (_myProject.is_public) {
-        section = _myProject.is_public.boolValue? 2: 1;
+        section = _myProject.is_public.boolValue? 3: 1;
     }
     return section;
 }
@@ -83,7 +102,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (section == _myProject.is_public.boolValue? 1: 0) {
+    if (section == (_myProject.is_public.boolValue? 2: 0)) {
         return 0;
     }
     return 20;
@@ -92,20 +111,13 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = 0;
     if (_myProject.is_public) {
-        switch (section) {
-            case 0:
-                row = 2;
-                break;
-            case 1:
-            default:
-                row = _myProject.is_public.boolValue? 1: 0;
-                break;
-        }
+        row = section == 0? 2: 1;
     }
     return row;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    __weak typeof(self) weakSelf = self;
     if (_myProject.is_public.boolValue) {
         if (indexPath.section == 0) {
             if (indexPath.row == 0) {
@@ -116,15 +128,26 @@
                 ProjectDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectDescriptionCell forIndexPath:indexPath];
                 cell.curProject = _myProject;
                 cell.gitButtonClickedBlock = ^(NSInteger index){
-                    [self gitButtonClicked:index];
+                    [weakSelf gitButtonClicked:index];
                 };
                 return cell;
             }
-        }else{
+        }else if (indexPath.section == 1){
             ProjectItemsCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectItemsCell_Public forIndexPath:indexPath];
             cell.curProject = _myProject;
             cell.itemClickedBlock = ^(NSInteger index){
-                [self goToIndex:index];
+                [weakSelf goToIndex:index];
+            };
+            return cell;
+        }else{
+            ProjectReadMeCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectReadMeCell forIndexPath:indexPath];
+            cell.curProject = _myProject;
+            cell.cellHeightChangedBlock = ^(){
+                [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+//                [weakSelf.myTableView reloadData];
+            };
+            cell.loadRequestBlock = ^(NSURLRequest *curRequest){
+                [weakSelf loadRequest:curRequest];
             };
             return cell;
         }
@@ -149,8 +172,10 @@
     if (_myProject.is_public.boolValue) {
         if (indexPath.section == 0) {
             cellHeight = indexPath.row == 0? [ProjectInfoCell cellHeight]: [ProjectDescriptionCell cellHeightWithObj:_myProject];
-        }else{
+        }else if (indexPath.section == 1){
             cellHeight = [ProjectItemsCell cellHeightWithObj:_myProject];
+        }else{
+            cellHeight = [ProjectReadMeCell cellHeightWithObj:_myProject];
         }
     }else{
         cellHeight = indexPath.row == 0? [ProjectInfoCell cellHeight]: [ProjectItemsCell cellHeightWithObj:_myProject];
@@ -168,6 +193,24 @@
     vc.myProject = self.myProject;
     vc.curIndex = index;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark loadCellRequest
+- (void)loadRequest:(NSURLRequest *)curRequest{
+    NSString *linkStr = curRequest.URL.absoluteString;
+    NSLog(@"\n linkStr : %@", linkStr);
+    [self analyseLinkStr:linkStr];
+}
+
+- (void)analyseLinkStr:(NSString *)linkStr{
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        //跳转去网页
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self.navigationController pushViewController:webVc animated:YES];
+    }
 }
 
 #pragma mark Git_Btn
@@ -194,20 +237,14 @@
             break;
         default://Fork
         {
-            if (_myProject.forked.boolValue
-                || [_myProject.owner_user_name isEqualToString:[Login curLoginUser].global_key]) {
-                return;
-            }else{
-                
-                [[Coding_NetAPIManager sharedManager] request_ForkProject:_myProject andBlock:^(id data, NSError *error) {
-                    [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-                    if (data) {
-                        NProjectViewController *vc = [[NProjectViewController alloc] init];
-                        vc.myProject = data;
-                        [weakSelf.navigationController pushViewController:vc animated:YES];
-                    }
-                }];
-            }
+            [[Coding_NetAPIManager sharedManager] request_ForkProject:_myProject andBlock:^(id data, NSError *error) {
+                [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                if (data) {
+                    NProjectViewController *vc = [[NProjectViewController alloc] init];
+                    vc.myProject = data;
+                    [weakSelf.navigationController pushViewController:vc animated:YES];
+                }
+            }];
         }
             break;
     }

@@ -1273,7 +1273,18 @@
         }
     }];
 }
-
+- (void)request_ReadMeOFProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"项目_README"];
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/tree/master",project.owner_user_name, project.name];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            NSString *readMeHtml = [[[data valueForKey:@"data"] valueForKey:@"readme"] valueForKey:@"preview"];
+            block(readMeHtml, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 //Image
 - (void)uploadUserIconImage:(UIImage *)image
                successBlock:(void (^)(NSString *imagePath))success

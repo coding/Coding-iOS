@@ -175,10 +175,8 @@
     
     //owner冒泡text内容
     [self.tweetContentView setHeight:_tweet.contentHeight];
-    if (!self.tweetContentView.isLoading) {
-        [_activityIndicator startAnimating];
-        [self.tweetContentView loadHTMLString:[WebContentManager bubblePatternedWithContent:_tweet.htmlMedia.contentOrigional] baseURL:nil];
-    }
+    [_activityIndicator startAnimating];
+    [self.tweetContentView loadHTMLString:[WebContentManager bubblePatternedWithContent:_tweet.htmlMedia.contentOrigional] baseURL:nil];
     
     CGFloat curBottomY = kTweetDetailCell_PadingTop +[[self class] contentHeightWithTweet:_tweet];
     curBottomY += 10;
