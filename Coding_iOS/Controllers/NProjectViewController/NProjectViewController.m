@@ -135,7 +135,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     NSInteger section = 0;
     if (_myProject.is_public) {
-        section = _myProject.is_public.boolValue? 3: (1 *_myProActs.listGroups.count);
+        section = _myProject.is_public.boolValue? 3: (1 +_myProActs.listGroups.count);
     }
     return section;
 }
@@ -176,7 +176,7 @@
     UIView *headerView = nil;
     if (_myProject.is_public && !_myProject.is_public.boolValue
         && section > 0) {
-        ListGroupItem *item = [_myProActs.listGroups objectAtIndex:section];
+        ListGroupItem *item = [_myProActs.listGroups objectAtIndex:section -1];
         UIView *dateStrView = [tableView getHeaderViewWithStr:[item.date string_yyyy_MM_dd_EEE] color:[UIColor colorWithHexString:@"0xedefee"] andBlock:nil];
         headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, [self tableView:tableView heightForHeaderInSection:section])];
         headerView.backgroundColor = self.view.backgroundColor;
