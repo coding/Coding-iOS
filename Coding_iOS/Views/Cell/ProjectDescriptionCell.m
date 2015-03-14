@@ -80,6 +80,7 @@
             {
                 obj.userNum = _curProject.fork_count.integerValue;
                 obj.checked = _curProject.forked.boolValue;
+                obj.enabled = !_curProject.forked.boolValue;
             }
                 break;
         }

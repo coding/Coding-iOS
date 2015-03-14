@@ -88,7 +88,8 @@
     UIImageView *itemImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, iconWidth, iconWidth)];
     itemImgView.tag = kProjectItemsCell_ItemIconTag;
     itemImgView.contentMode = UIViewContentModeCenter;
-    [itemImgView doCircleFrame];
+    itemImgView.layer.masksToBounds = YES;
+    itemImgView.layer.cornerRadius = itemImgView.frame.size.width/2;
     [itemImgView setImage:itemImg];
     [itemImgView setBackgroundColor:[UIColor colorWithHexString:colorStr]];
     

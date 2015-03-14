@@ -82,7 +82,7 @@
     self = [super init];
     if (self) {
         _isStaring = _isWatching = _isLoadingMember = _isLoadingDetail = NO;
-        _readMeHeight = 20;
+        _readMeHeight = 1;
     }
     return self;
 }

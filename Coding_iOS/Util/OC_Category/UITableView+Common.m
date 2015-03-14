@@ -166,9 +166,14 @@
     lineLayer.backgroundColor = color;
     [layer addSublayer:lineLayer];
 }
+
 - (UITapImageView *)getHeaderViewWithStr:(NSString *)headerStr andBlock:(void(^)(id obj))tapAction{
+    return [self getHeaderViewWithStr:headerStr color:[UIColor colorWithHexString:@"0xe5e5e5"] andBlock:tapAction];
+}
+
+- (UITapImageView *)getHeaderViewWithStr:(NSString *)headerStr color:(UIColor *)color andBlock:(void(^)(id obj))tapAction{
     UITapImageView *headerView = [[UITapImageView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 24)];
-    [headerView setImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0xe5e5e5"]]];
+    [headerView setImage:[UIImage imageWithColor:color]];
     
     UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (CGRectGetHeight(headerView.frame)-20)/2, kScreen_Width-20, 20)];
     headerLabel.backgroundColor = [UIColor clearColor];

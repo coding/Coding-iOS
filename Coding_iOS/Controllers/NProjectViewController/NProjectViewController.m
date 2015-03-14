@@ -11,14 +11,25 @@
 #import "ProjectItemsCell.h"
 #import "ProjectDescriptionCell.h"
 #import "ProjectReadMeCell.h"
+#import "ProjectActivityListCell.h"
 #import "ProjectViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "ODRefreshControl.h"
+#import "SVPullToRefresh.h"
 #import "WebViewController.h"
+
+#import "UserInfoViewController.h"
+#import "EditTaskViewController.h"
+#import "TopicDetailViewController.h"
+#import "FileListViewController.h"
+#import "FileViewController.h"
 
 @interface NProjectViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
+
+@property (nonatomic, strong) ProjectActivities *myProActs;
+@property (nonatomic, assign) NSInteger un_read_activities_count;
 
 @end
 
@@ -27,6 +38,9 @@
     [super viewDidLoad];
     
     self.title = @"项目首页";
+    _myProActs = [ProjectActivities proActivitiesWithPro:_myProject type:ProjectActivityTypeAll];
+    _un_read_activities_count = _myProject.un_read_activities_count.intValue;
+    
     //    添加myTableView
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -39,6 +53,7 @@
         [tableView registerClass:[ProjectItemsCell class] forCellReuseIdentifier:kCellIdentifier_ProjectItemsCell_Public];
         [tableView registerClass:[ProjectDescriptionCell class] forCellReuseIdentifier:kCellIdentifier_ProjectDescriptionCell];
         [tableView registerClass:[ProjectReadMeCell class] forCellReuseIdentifier:kCellIdentifier_ProjectReadMeCell];
+        [tableView registerClass:[ProjectActivityListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectActivityList];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -48,6 +63,16 @@
 
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    
+    @weakify(self)
+    [_myTableView addInfiniteScrollingWithActionHandler:^{
+        @strongify(self);
+        [self refreshActivityMore:YES];
+    }];
+    
+    if (_myProject.is_public.boolValue) {
+        self.myTableView.showsInfiniteScrolling = NO;
+    }
 
     [self refresh];
 }
@@ -59,59 +84,125 @@
     }
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_myProject andBlock:^(id data, NSError *error) {
-        [weakSelf.refreshControl endRefreshing];
         if (data) {
             CGFloat readMeHeight = weakSelf.myProject.readMeHeight;
             weakSelf.myProject = data;
             weakSelf.myProject.readMeHeight = readMeHeight;
+            
+            weakSelf.myTableView.showsInfiniteScrolling = !weakSelf.myProject.is_public.boolValue;
+            
             if (weakSelf.myProject.is_public.boolValue) {
                 [weakSelf refreshReadMe];
             }else{
-                [weakSelf.myTableView reloadData];
+                [weakSelf refreshActivityMore:NO];
             }
+        }else{
+            [weakSelf.refreshControl endRefreshing];
         }
     }];
 }
 
 - (void)refreshReadMe{
-    if (_myProject.is_public.boolValue) {
-        __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_ReadMeOFProject:_myProject andBlock:^(id data, NSError *error) {
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_ReadMeOFProject:_myProject andBlock:^(id data, NSError *error) {
+        [weakSelf.refreshControl endRefreshing];
+        if (data) {
             weakSelf.myProject.readMeHtml = data;
-            [weakSelf.myTableView reloadData];
-        }];
-        NSLog(@"ee");
+            [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [self numberOfSectionsInTableView:weakSelf.myTableView])] withRowAnimation:UITableViewRowAnimationNone];
+        }
+    }];
+}
+
+- (void)refreshActivityMore:(BOOL)loadMore{
+    if (_myProActs.isLoading) {
+        return;
     }
+    _myProActs.willLoadMore = loadMore;
+    
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_ProjectActivityList_WithObj:_myProActs andBlock:^(NSArray *data, NSError *error) {
+        [weakSelf.refreshControl endRefreshing];
+        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
+        if (data) {
+            [weakSelf.myProActs configWithProActList:data];
+            [weakSelf.myTableView reloadData];
+            weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myProActs.canLoadMore;
+        }
+    }];
 }
 
 #pragma mark Table M
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     NSInteger section = 0;
     if (_myProject.is_public) {
-        section = _myProject.is_public.boolValue? 3: 1;
+        section = _myProject.is_public.boolValue? 3: (1 *_myProActs.listGroups.count);
     }
     return section;
 }
 
+//footer
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 20)];
-    footerView.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
-    [footerView addLineUp:YES andDown:NO andColor:tableView.separatorColor];
-    return footerView;
+    if (_myProject.is_public.boolValue
+        || section == 0) {
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 20)];
+        footerView.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+        [footerView addLineUp:YES andDown:NO andColor:tableView.separatorColor];
+        return footerView;
+    }else{
+        return nil;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (section == (_myProject.is_public.boolValue? 2: 0)) {
+    CGFloat footerHeight = 0;
+    if (_myProject.is_public.boolValue) {
+        footerHeight = section == 2? 0: 20;
+    }else{
+        footerHeight = section == 0? 20: 0;
+    }
+    return footerHeight;
+}
+//header
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (_myProject.is_public && !_myProject.is_public.boolValue
+        && section > 0) {
+        return section == 1? 75: 24;
+    }else{
         return 0;
     }
-    return 20;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *headerView = nil;
+    if (_myProject.is_public && !_myProject.is_public.boolValue
+        && section > 0) {
+        ListGroupItem *item = [_myProActs.listGroups objectAtIndex:section];
+        UIView *dateStrView = [tableView getHeaderViewWithStr:[item.date string_yyyy_MM_dd_EEE] color:[UIColor colorWithHexString:@"0xedefee"] andBlock:nil];
+        headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, [self tableView:tableView heightForHeaderInSection:section])];
+        headerView.backgroundColor = self.view.backgroundColor;
+        [dateStrView setFrame:CGRectMake(10,
+                                         CGRectGetHeight(headerView.frame) - CGRectGetHeight(dateStrView.frame),
+                                         kScreen_Width - 2* 10,
+                                         CGRectGetHeight(dateStrView.frame))];
+        [headerView addSubview:dateStrView];
+        if (section == 1) {
+            UILabel *titleL = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, 200, 20)];
+            titleL.font = [UIFont systemFontOfSize:15];
+            titleL.textColor = [UIColor colorWithHexString:@"0x222222"];
+            titleL.text = @"最近动态";
+            [headerView addSubview:titleL];
+        }
+    }
+    return headerView;
+}
+
+//data
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = 0;
-    if (_myProject.is_public) {
+    if (_myProject.is_public.boolValue) {
         row = section == 0? 2: 1;
+    }else{
+        row = section == 0? 2: ((ListGroupItem *)[_myProActs.listGroups objectAtIndex:section - 1]).length;
     }
     return row;
 }
@@ -144,7 +235,6 @@
             cell.curProject = _myProject;
             cell.cellHeightChangedBlock = ^(){
                 [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-//                [weakSelf.myTableView reloadData];
             };
             cell.loadRequestBlock = ^(NSURLRequest *curRequest){
                 [weakSelf loadRequest:curRequest];
@@ -152,16 +242,45 @@
             return cell;
         }
     }else{
-        if (indexPath.row == 0) {
-            ProjectInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectInfoCell forIndexPath:indexPath];
-            cell.curProject = _myProject;
-            return cell;
+        if (indexPath.section == 0) {
+            if (indexPath.row == 0) {
+                ProjectInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectInfoCell forIndexPath:indexPath];
+                cell.curProject = _myProject;
+                return cell;
+            }else{
+                ProjectItemsCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectItemsCell_Private forIndexPath:indexPath];
+                cell.curProject = _myProject;
+                cell.itemClickedBlock = ^(NSInteger index){
+                    [self goToIndex:index];
+                };
+                return cell;
+            }
         }else{
-            ProjectItemsCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectItemsCell_Private forIndexPath:indexPath];
-            cell.curProject = _myProject;
-            cell.itemClickedBlock = ^(NSInteger index){
-                [self goToIndex:index];
+            ListGroupItem *item = [_myProActs.listGroups objectAtIndex:indexPath.section - 1];
+            NSUInteger row = indexPath.row +item.location;
+            ProjectActivity *curProAct = [_myProActs.list objectAtIndex:row];
+            ProjectActivityListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectActivityList forIndexPath:indexPath];
+            BOOL haveRead, isTop, isBottom;
+            
+            if (_myProActs.isOfUser || ![_myProActs.type isEqualToString:@"all"]) {
+                haveRead = YES;
+                isTop = (row == item.location);
+                isBottom = (row == item.location +item.length -1);
+            }else{
+                haveRead = row >= _un_read_activities_count;
+                isTop = (row == item.location) || (row == _un_read_activities_count);
+                isBottom = (row == item.location +item.length -1) || (row == _un_read_activities_count-1);
+            }
+            
+            [cell configWithProAct:curProAct haveRead:haveRead isTop:isTop isBottom:isBottom];
+            [cell.userIconView addTapBlock:^(id obj) {
+                [weakSelf goToUserInfo:curProAct.user];
+            }];
+            cell.htmlItemClickedBlock = ^(HtmlMediaItem *clickedItem, ProjectActivity *proAct, BOOL isContent){
+                [weakSelf goToVCWithItem:clickedItem activity:proAct isContent:isContent inProject:weakSelf.myProject];
             };
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:
+             (row == item.location +item.length -1)? 0: 80 hasSectionLine:NO];
             return cell;
         }
     }
@@ -178,13 +297,27 @@
             cellHeight = [ProjectReadMeCell cellHeightWithObj:_myProject];
         }
     }else{
-        cellHeight = indexPath.row == 0? [ProjectInfoCell cellHeight]: [ProjectItemsCell cellHeightWithObj:_myProject];
+        if (indexPath.section == 0) {
+            cellHeight = indexPath.row == 0? [ProjectInfoCell cellHeight]: [ProjectItemsCell cellHeightWithObj:_myProject];
+        }else{
+            ListGroupItem *item = [_myProActs.listGroups objectAtIndex:indexPath.section - 1];
+            NSUInteger row = indexPath.row +item.location;
+            cellHeight = [ProjectActivityListCell cellHeightWithObj:[_myProActs.list objectAtIndex:row]];
+        }
     }
     return cellHeight;
 }
 
+//selected
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (self.myProject.is_public && !self.myProject.is_public.boolValue
+        && indexPath.section > 0) {
+        ListGroupItem *item = [_myProActs.listGroups objectAtIndex:indexPath.section -1];
+        NSUInteger row = indexPath.row +item.location;
+        ProjectActivity *curProAct = [_myProActs.list objectAtIndex:row];
+        [self goToVCWithItem:nil activity:curProAct isContent:YES inProject:self.myProject];
+    }
 }
 
 #pragma mark goTo VC
@@ -250,4 +383,102 @@
     }
 }
 
+#pragma mark Activity
+- (void)goToUserInfo:(User *)user{
+    UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+    vc.curUser = user;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToVCWithItem:(HtmlMediaItem *)clickedItem activity:(ProjectActivity *)proAct isContent:(BOOL)isContent inProject:(Project *)project{
+    if (isContent) {//cell上面第二个Label
+        NSString *target_type = proAct.target_type;
+        if ([target_type isEqualToString:@"Task"]) {
+            Task *task = proAct.task;
+            NSArray *pathArray = [task.path componentsSeparatedByString:@"/"];
+            if (pathArray.count >= 7) {
+                EditTaskViewController *vc = [[EditTaskViewController alloc] init];
+                vc.myTask = [Task taskWithBackend_project_path:[NSString stringWithFormat:@"/user/%@/project/%@", pathArray[2], pathArray[4]] andId:pathArray[6]];
+                [self.navigationController pushViewController:vc animated:YES];
+            }else{
+                [self showHudTipStr:@"任务不存在"];
+            }
+        }else if ([target_type isEqualToString:@"TaskComment"]){
+            Task *task = proAct.task;
+            NSArray *pathArray = [proAct.project.full_name componentsSeparatedByString:@"/"];
+            if (pathArray.count >= 2) {
+                EditTaskViewController *vc = [[EditTaskViewController alloc] init];
+                vc.myTask = [Task taskWithBackend_project_path:[NSString stringWithFormat:@"/user/%@/project/%@", pathArray[0], pathArray[1]] andId:task.id.stringValue];
+                [self.navigationController pushViewController:vc animated:YES];
+            }else{
+                [self showHudTipStr:@"任务不存在"];
+            }
+        }else if ([target_type isEqualToString:@"ProjectTopic"]){
+            
+            ProjectTopic *topic = proAct.project_topic;
+            NSArray *pathArray;
+            if ([proAct.action isEqualToString:@"comment"]) {
+                pathArray = [topic.parent.path componentsSeparatedByString:@"/"];
+            }else{
+                pathArray = [topic.path componentsSeparatedByString:@"/"];
+            }
+            if (pathArray.count >= 7) {
+                TopicDetailViewController *vc = [[TopicDetailViewController alloc] init];
+                vc.curTopic = [ProjectTopic topicWithId:[NSNumber numberWithInteger:[pathArray[6] integerValue]]];
+                [self.navigationController pushViewController:vc animated:YES];
+            }else{
+                [self showHudTipStr:@"讨论不存在"];
+            }
+        }else if ([target_type isEqualToString:@"ProjectFile"]){
+            File *file = proAct.file;
+            NSArray *pathArray = [file.path componentsSeparatedByString:@"/"];
+            BOOL isFile = [proAct.type isEqualToString:@"file"];
+            
+            if (isFile && pathArray.count >= 9) {
+                //文件
+                NSString *fileIdStr = pathArray[8];
+                ProjectFile *curFile = [ProjectFile fileWithFileId:@(fileIdStr.integerValue) andProjectId:@(project.id.integerValue)];
+                curFile.name = file.name;
+                FileViewController *vc = [[FileViewController alloc] init];
+                vc.curFile = curFile;
+                [self.navigationController pushViewController:vc animated:YES];
+            }else if (!isFile && pathArray.count >= 7){
+                //文件夹
+                ProjectFolder *folder;
+                NSString *folderIdStr = pathArray[6];
+                if (![folderIdStr isEqualToString:@"default"] && [folderIdStr isPureInt]) {
+                    NSNumber *folderId = [NSNumber numberWithInteger:folderIdStr.integerValue];
+                    folder = [ProjectFolder folderWithId:folderId];
+                    folder.name = file.name;
+                }else{
+                    folder = [ProjectFolder defaultFolder];
+                    folder.name = @"默认文件夹";
+                }
+                FileListViewController *vc = [[FileListViewController alloc] init];
+                vc.curProject = project;
+                vc.curFolder = folder;
+                vc.rootFolders = nil;
+                [self.navigationController pushViewController:vc animated:YES];
+            }else{
+                [self showHudTipStr:(isFile? @"文件不存在" :@"文件夹不存在")];
+            }
+        }else if ([target_type isEqualToString:@"ProjectMember"]) {
+            if ([proAct.action isEqualToString:@"quit"]) {
+                //退出项目
+                
+            }else{
+                //添加了某成员
+                User *user = proAct.target_user;
+                UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+                vc.curUser = [User userWithGlobalKey:user.global_key];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }else{
+            [self showHudTipStr:@"还不能查看详细信息呢~"];
+            DebugLog(@"暂时不解析啊：%@--%@", proAct.user.name, proAct.action_msg);
+        }
+    }else{//cell上面第一个Label
+        [self goToUserInfo:[User userWithGlobalKey:[clickedItem.href substringFromIndex:3]]];
+    }
+}
 @end

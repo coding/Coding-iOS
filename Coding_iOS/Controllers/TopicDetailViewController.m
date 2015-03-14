@@ -238,7 +238,7 @@
             [weakSelf doCommentToTopic:nil sender:sender];
         };
         cell.cellHeightChangedBlock = ^(){
-            [weakSelf.myTableView reloadData];
+            [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
         };
         cell.loadRequestBlock = ^(NSURLRequest *curRequest){
             [weakSelf loadRequest:curRequest];

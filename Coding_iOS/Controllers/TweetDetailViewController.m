@@ -242,7 +242,7 @@
             [self.navigationController pushViewController:vc animated:YES];
         };
         cell.cellHeightChangedBlock = ^(){
-            [self.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
         };
         cell.loadRequestBlock = ^(NSURLRequest *curRequest){
             [self loadRequest:curRequest];

@@ -163,8 +163,7 @@
     [self refreshtopicContentView];
     [_activityIndicator stopAnimating];
     CGFloat scrollHeight = webView.scrollView.contentSize.height;
-    if (ABS(scrollHeight - _curTopic.contentHeight) > 1) {
-        NSLog(@"ABS(scrollHeight - _tweet.contentHeight): %.2f", ABS(scrollHeight - _curTopic.contentHeight));
+    if (ABS(scrollHeight - _curTopic.contentHeight) > 5) {
         webView.scalesPageToFit = YES;
         _curTopic.contentHeight = scrollHeight;
         if (_cellHeightChangedBlock) {
@@ -185,7 +184,7 @@
         //        NSString *js = @"window.onload = function(){ document.body.style.backgroundColor = '#333333';}";
         //        [_topicContentView stringByEvaluatingJavaScriptFromString:js];
         //修改服务器页面的meta的值
-        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_topicContentView.bounds)];
+        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_topicContentView.frame)];
         [_topicContentView stringByEvaluatingJavaScriptFromString:meta];
     }
 }

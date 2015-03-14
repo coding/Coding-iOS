@@ -42,7 +42,7 @@
 
 
         if (!_webContentView) {
-            _webContentView = [[UIWebView alloc] initWithFrame:CGRectMake(0, kProjectReadMeCell_TitleHeight, kScreen_Width, 20)];
+            _webContentView = [[UIWebView alloc] initWithFrame:CGRectMake(0, kProjectReadMeCell_TitleHeight, kScreen_Width, 1)];
             _webContentView.delegate = self;
             _webContentView.scrollView.scrollEnabled = NO;
             _webContentView.scrollView.scrollsToTop = NO;
@@ -72,7 +72,7 @@
     }
     [_webContentView setHeight:_curProject.readMeHeight];
     [_activityIndicator startAnimating];
-    NSString *webDataStr = _curProject.readMeHtml? _curProject.readMeHtml: @"正在加载...";
+    NSString *webDataStr = _curProject.readMeHtml? _curProject.readMeHtml: @"";
     [self.webContentView loadHTMLString:[WebContentManager markdownPatternedWithContent:webDataStr] baseURL:nil];
 }
 + (CGFloat)cellHeightWithObj:(id)obj{
@@ -105,8 +105,7 @@
     [self refreshWebContentView];
     [_activityIndicator stopAnimating];
     CGFloat scrollHeight = webView.scrollView.contentSize.height;
-    if (ABS(scrollHeight - _curProject.readMeHeight) > 1) {
-        NSLog(@"ABS(scrollHeight - _tweet.contentHeight): %.2f", ABS(scrollHeight - _curProject.readMeHeight));
+    if (ABS(scrollHeight - _curProject.readMeHeight) > 5) {
         webView.scalesPageToFit = YES;
         _curProject.readMeHeight = scrollHeight;
         if (_cellHeightChangedBlock) {
@@ -125,7 +124,7 @@
 - (void)refreshWebContentView{
     if (_webContentView) {
         //修改服务器页面的meta的值
-        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_webContentView.bounds)];
+        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_webContentView.frame)];
         [_webContentView stringByEvaluatingJavaScriptFromString:meta];
     }
 }
