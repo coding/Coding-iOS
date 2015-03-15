@@ -371,6 +371,10 @@
     cell.mediaItemClickedBlock = ^(HtmlMediaItem *curItem){
         [weakSelf analyseLinkStr:curItem.href];
     };
+    cell.locationClickedBlock = ^(Tweet *curTweet){
+        
+    };
+
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     return cell;
 }

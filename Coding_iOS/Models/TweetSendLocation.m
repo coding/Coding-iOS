@@ -43,6 +43,19 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
 
 @implementation TweetSendLocationResponse
 
+- (NSString *)displayLocaiton
+{
+    NSString *locationStr = @"";
+    
+    if (self.address.length > 0) {
+        locationStr = [NSString stringWithFormat:@"%@・%@",self.cityName,self.address];
+    }else{
+        locationStr = self.cityName;
+    }
+    return locationStr;
+}
+
+
 @end
 
 @implementation TweetSendLocationClient

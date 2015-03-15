@@ -32,7 +32,11 @@
 @property (nonatomic, strong) NSString *lat;
 @property (nonatomic, strong) NSString *lng;
 @property (nonatomic, strong) NSString *cityName;
+@property (nonatomic, strong) NSString *address;
+@property (nonatomic, strong) NSString *uid;
 @property (nonatomic, strong) NSDictionary *detailed;
+
+@property (nonatomic, strong, readonly) NSString *displayLocaiton;
 
 @end
 

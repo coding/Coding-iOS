@@ -129,17 +129,14 @@
         __weak typeof (self)weakSelf = self;
         TweetSendLocationCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetSendLocation forIndexPath:indexPath];
         if (self.locationData) {
-            [cell.locationButton setTitle:self.locationData.cityName forState:UIControlStateNormal];
+
+            [cell setButtonText:self.locationData.displayLocaiton button:cell.locationButton];
+            
             [cell.iconImageView setImage:[UIImage imageNamed:@"icon_locationed"]];
         }
         cell.locationClickBlock = ^(){
             TweetSendLocationViewController *vc = [[TweetSendLocationViewController alloc] init];
-//            TweetSendLocationResponse *obj = [[TweetSendLocationResponse alloc]init];
-//            obj.cityName = @"佛山市";
-//            obj.lat = @"";
-//            obj.lng = @"";
-//            vc.responseData = obj;
-
+            vc.responseData = self.locationData;
             UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
             [weakSelf presentViewController:nav animated:YES completion:nil];
         };
@@ -266,6 +263,9 @@
 }
 
 - (void)sendTweet{
+    _curTweet.coord = [self.locationData.lat stringByAppendingFormat:@",%@",self.locationData.lng];
+    _curTweet.location = self.locationData.displayLocaiton;
+    
     _curTweet.tweetContent = [_curTweet.tweetContent aliasedString];
     if (_sendNextTweet) {
         _sendNextTweet(_curTweet);

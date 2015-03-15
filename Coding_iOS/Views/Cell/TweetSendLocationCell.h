@@ -14,6 +14,8 @@
 @property (strong, nonatomic) UIButton *locationButton;
 
 @property (copy, nonatomic) void(^locationClickBlock)();
+- (void)setButtonText:(NSString *)str button:(UIButton *)btn;
+
 
 + (CGFloat)cellHeight;
 

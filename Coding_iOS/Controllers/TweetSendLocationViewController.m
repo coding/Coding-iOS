@@ -657,12 +657,22 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
+    NSDictionary *dict = [NSDictionary new];
+
     if (tableView != self.tableView) {
         [self.mySearchDisplayController setActive:NO animated:YES];
+        dict = self.searchArray[indexPath.row];
+    }
+    else
+    {
+        dict = self.locationArray[indexPath.row];
     }
     
     TweetSendLocationResponse *obj = [[TweetSendLocationResponse alloc]init];
-    obj.cityName = @"佛山市";
+    obj.cityName = @"广州市";
+    obj.address = @"科珠路192号";
+    obj.lat = @"40.043131";
+    obj.lng = @"116.321984";
     
     TweetSendViewController *tweetVC = (TweetSendViewController *)((UINavigationController *)self.presentingViewController).topViewController;
     tweetVC.locationData = obj;

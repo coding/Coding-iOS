@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Tweets.h"
+@class TweetSendLocationResponse;
 
 @interface TweetDetailCell : UITableViewCell <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIWebViewDelegate>
 @property (strong, nonatomic) Tweet *tweet;
@@ -18,6 +19,8 @@
 @property (nonatomic, copy) void (^moreLikersBtnClickedBlock) ();
 @property (nonatomic, copy) void (^cellHeightChangedBlock) ();
 @property (nonatomic, copy) void (^loadRequestBlock)(NSURLRequest *curRequest);
+
+@property (nonatomic, copy) void (^locationClickedBlock) ();
 
 + (CGFloat)cellHeightWithObj:(id)obj;
 @end

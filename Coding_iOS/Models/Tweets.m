@@ -223,7 +223,7 @@
             [contentStr appendString:imageItem.imageStr];
         }
     }
-    return @{@"content" : contentStr};
+    return @{@"content" : contentStr,@"location":_location};//,@"coord":_coord};
 }
 - (BOOL)isAllImagesHaveDone{
     for (TweetImage *imageItem in _tweetImages) {

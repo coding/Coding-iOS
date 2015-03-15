@@ -43,7 +43,7 @@ typedef NS_ENUM(NSInteger, TweetType)
 
 
 @interface Tweet : NSObject
-@property (readwrite, nonatomic, strong) NSString *content, *device;
+@property (readwrite, nonatomic, strong) NSString *content, *device, *location, *coord;
 @property (readwrite, nonatomic, strong) NSNumber *liked, *activity_id, *id, *comments, *likes;
 @property (readwrite, nonatomic, strong) NSDate *created_at;
 @property (readwrite, nonatomic, strong) User *owner;

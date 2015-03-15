@@ -10,6 +10,7 @@
 #define kTweet_TimtFont [UIFont systemFontOfSize:12]
 #define kTweetDetailCell_LikeComment_Height 25.0
 #define kTweetDetailCell_LikeComment_Width 50.0
+#define kTweetCell_LocationCCell_Pading 9.0
 #define kTweetDetailCell_ContentWidth (kScreen_Width - 2*kPaddingLeftWidth)
 #define kCCellIdentifier_TweetLikeUser @"TweetLikeUserCCell"
 #define kTweetDetailCell_PadingTop 55.0
@@ -33,6 +34,7 @@
 @property (strong, nonatomic) UIButton *ownerNameBtn;
 @property (strong, nonatomic) UILabel *timeLabel, *fromLabel;
 @property (strong, nonatomic) UIButton *likeBtn, *commentBtn, *deleteBtn;
+@property (strong, nonatomic) UIButton *locaitonBtn;
 @property (strong, nonatomic) UICustomCollectionView *likeUsersView;
 @property (strong, nonatomic) UIImageView *timeClockIconView;
 @property (strong, nonatomic) UIWebView *tweetContentView;
@@ -97,6 +99,18 @@
             
             [self.contentView addSubview:self.deleteBtn];
         }
+        
+        if (!self.locaitonBtn) {
+            self.locaitonBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            self.locaitonBtn.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+            self.locaitonBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            self.locaitonBtn.frame = CGRectMake(kPaddingLeftWidth, 0, 120, 15);
+            self.locaitonBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12];
+            [self.locaitonBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
+            [self.locaitonBtn addTarget:self action:@selector(locationBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:self.locaitonBtn];
+        }
+        
         if (!self.fromLabel) {
             self.fromLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 120, 15)];
             self.fromLabel.font = kTweet_TimtFont;
@@ -182,6 +196,27 @@
     
     CGFloat curBottomY = kTweetDetailCell_PadingTop +[[self class] contentHeightWithTweet:_tweet];
     curBottomY += 10;
+    
+    //一下两段ifelse 已经判断了4种情况，经过精简得出
+    if (_tweet.location.length > 0) {
+        [self.locaitonBtn setTitle:_tweet.location forState:UIControlStateNormal];
+        [self.locaitonBtn setY:curBottomY];
+        self.locaitonBtn.hidden = NO;
+        if(_tweet.device.length > 0) {
+            curBottomY += CGRectGetHeight(self.locaitonBtn.bounds) + kTweetCell_LocationCCell_Pading;
+        }
+    }else {
+        self.locaitonBtn.hidden = YES;
+    }
+    
+    if(_tweet.device.length > 0) {
+        self.fromLabel.text = [NSString stringWithFormat:@"来自 %@", _tweet.device];
+        [self.fromLabel setY:curBottomY +5];
+        self.fromLabel.hidden = NO;
+    }else {
+        self.fromLabel.hidden = YES;
+    }
+    
     //喜欢&评论 按钮
     [self.likeBtn setImage:[UIImage imageNamed:(_tweet.liked.boolValue? @"tweet_liked_btn":@"tweet_like_btn")] forState:UIControlStateNormal];
     [self.likeBtn setY:curBottomY];
@@ -192,13 +227,7 @@
     }else{
         self.deleteBtn.hidden = YES;
     }
-    if (_tweet.device && _tweet.device.length > 0) {
-        self.fromLabel.text = [NSString stringWithFormat:@"来自 %@", _tweet.device];
-        [self.fromLabel setY:curBottomY +5];
-        self.fromLabel.hidden = NO;
-    }else{
-        self.fromLabel.hidden = YES;
-    }
+
     
     curBottomY += kTweetDetailCell_LikeComment_Height;
     curBottomY += [[self class] likeCommentBtn_BottomPadingWithTweet:_tweet];
@@ -228,6 +257,7 @@
         cellHeight += [[self class] contentHeightWithTweet:tweet];
         cellHeight += 10;
         cellHeight += kTweetDetailCell_LikeComment_Height;
+        cellHeight += [[self class] locationHeightWithTweet:tweet];
         cellHeight += [[self class] likeCommentBtn_BottomPadingWithTweet:tweet];
         cellHeight += [[self class] likeUsersHeightWithTweet:tweet];
         cellHeight += kTweetDetailCell_PadingBottom;
@@ -254,6 +284,15 @@
         //        +30*(ceilf([tweet.like_users count]/kTweet_LikeUsersLineCount)-1);
     }
     return likeUsersHeight;
+}
++ (CGFloat)locationHeightWithTweet:(Tweet *)tweet{
+    CGFloat ocationHeight = 0;
+    if ( tweet.location.length > 0) {
+        ocationHeight = 15 + kTweetCell_LocationCCell_Pading;
+    }else{
+        ocationHeight = 0;
+    }
+    return ocationHeight;
 }
 
 #pragma mark UIWebViewDelegate
@@ -329,6 +368,12 @@
 - (void)deleteBtnClicked:(UIButton *)sender{
     if (_deleteClickedBlock) {
         _deleteClickedBlock();
+    }
+}
+
+- (void)locationBtnClicked:(id)sender{
+    if (_locationClickedBlock) {
+        _locationClickedBlock();
     }
 }
 

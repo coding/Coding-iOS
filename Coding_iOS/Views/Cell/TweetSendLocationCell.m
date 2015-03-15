@@ -35,6 +35,8 @@
             btnFrame.size.height = 22;
             btnFrame.size.width = 100;
             [_locationButton setFrame:btnFrame];
+            _locationButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+            
             [self setButtonText:@"所在位置" button:_locationButton];
             [_locationButton addTarget:self action:@selector(locationClick:) forControlEvents:UIControlEventTouchUpInside];
             
