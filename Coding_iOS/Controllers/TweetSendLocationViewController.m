@@ -11,6 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "TweetSendLocationCell.h"
 #import "TweetSendViewController.h"
+#import "TweetSendCreateLocationViewController.h"
 
 @interface TweetSendLocationViewController ()<UISearchBarDelegate,UISearchDisplayDelegate,CLLocationManagerDelegate>
 
@@ -30,6 +31,8 @@
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
 @property (nonatomic, strong) NSString *cityName;
+@property (nonatomic, strong) NSString *district;
+
 
 @property (nonatomic) NSInteger locationTotal;
 //@property (nonatomic) NSInteger locationTotal;
@@ -99,7 +102,7 @@
             if (!checked) {
                 result = @"YES";
             }
-            [self.locationArray addObject:@{@"cityName":self.responseData.cityName,@"checkmark":result,@"cellType":@"defualt",@"lat":self.responseData.lat,@"lng":self.responseData.lng}];
+            [self.locationArray addObject:@{@"cityName":self.responseData.cityName,@"checkmark":result,@"cellType":@"defualt",@"location":@{@"lat":self.responseData.lat,@"lng":self.responseData.lng}}];
         }
     }
     else
@@ -181,6 +184,7 @@
                  city = placemark.administrativeArea;
              }
              weakSelf.cityName = city;
+             weakSelf.district = placemark.subLocality;
              weakSelf.locationRequest.lat = [NSString stringWithFormat:@"%f",weakSelf.location.coordinate.latitude];
              weakSelf.locationRequest.lng = [NSString stringWithFormat:@"%f",weakSelf.location.coordinate.longitude];
              weakSelf.searchingRequest.lat = weakSelf.locationRequest.lat;
@@ -190,19 +194,16 @@
              if (weakSelf.locationArray.count > 1) {
                  NSString *cityName = weakSelf.locationArray[1][@"cityName"];
                  NSString *checkmark = weakSelf.locationArray[1][@"checkmark"];
-
                  if (cityName.length > 0) {
-                     [weakSelf.locationArray replaceObjectAtIndex:1 withObject:@{@"cityName":city,@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng,@"cellType":@"defualt",@"checkmark":checkmark}];
+                     [weakSelf.locationArray replaceObjectAtIndex:1 withObject:@{@"cityName":city,@"location":@{@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng},@"cellType":@"defualt",@"checkmark":checkmark}];
                  }else{
-                     [weakSelf.locationArray insertObject:@{@"cityName":city,@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng,@"cellType":@"defualt",@"checkmark":checkmark} atIndex:1];
+                     [weakSelf.locationArray insertObject:@{@"cityName":city,@"location":@{@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng},@"cellType":@"defualt",@"checkmark":checkmark} atIndex:1];
                  }
              }else{
-                 [weakSelf.locationArray insertObject:@{@"cityName":city,@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng,@"cellType":@"defualt"} atIndex:1];
+                 [weakSelf.locationArray insertObject:@{@"cityName":city,@"location":@{@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng},@"cellType":@"defualt"} atIndex:1];
              }
              
              [weakSelf.tableView reloadData];
-             
-
              
              [weakSelf requestLocationWithObj:weakSelf.locationRequest];
              
@@ -658,24 +659,50 @@
 {
     [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
     NSDictionary *dict = [NSDictionary new];
-
+    
     if (tableView != self.tableView) {
-        [self.mySearchDisplayController setActive:NO animated:YES];
-        dict = self.searchArray[indexPath.row];
+        if ([self.searchArray[indexPath.row][@"notfound"] isEqualToString:@"YES"])
+        {
+            TweetSendLocationResponse *myObj = [[TweetSendLocationResponse alloc]init];
+            myObj.cityName = self.cityName;
+            if (self.district.length > 0) {
+                myObj.region = self.district;
+            }else{
+                myObj.region = @"";
+            }
+            myObj.lat = self.locationRequest.lat;
+            myObj.lng = self.locationRequest.lng;
+            myObj.title = self.mySearchBar.text;
+            
+            TweetSendCreateLocationViewController *createVC = [[TweetSendCreateLocationViewController alloc]initWithStyle:UITableViewStyleGrouped];
+            createVC.locationResponse = myObj;
+            [self.navigationController pushViewController:createVC animated:YES];
+            
+            return;
+        }else{
+            [self.mySearchDisplayController setActive:NO animated:YES];
+            dict = self.searchArray[indexPath.row];
+        }
     }
     else
     {
         dict = self.locationArray[indexPath.row];
     }
-    
-    TweetSendLocationResponse *obj = [[TweetSendLocationResponse alloc]init];
-    obj.cityName = @"广州市";
-    obj.address = @"科珠路192号";
-    obj.lat = @"40.043131";
-    obj.lng = @"116.321984";
-    
+
     TweetSendViewController *tweetVC = (TweetSendViewController *)((UINavigationController *)self.presentingViewController).topViewController;
-    tweetVC.locationData = obj;
+    if (dict[@"location"]) {
+        TweetSendLocationResponse *obj = [[TweetSendLocationResponse alloc]init];
+        obj.cityName = self.cityName;
+        obj.region = self.district;
+        obj.title = dict[@"name"];
+        obj.lat = dict[@"location"][@"lat"];
+        obj.lng = dict[@"location"][@"lng"];
+        obj.address = dict[@"address"];
+        tweetVC.locationData = obj;
+    }else{
+        tweetVC.locationData = nil;
+    }
+
     [self dismissSelf];
 }
 

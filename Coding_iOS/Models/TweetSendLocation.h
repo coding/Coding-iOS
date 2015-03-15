@@ -9,6 +9,24 @@
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
 
+
+@interface TweetSendCreateLocation : NSObject
+
+@property (nonatomic,strong) NSString *title;
+@property (nonatomic,strong) NSString *address;
+@property (nonatomic,strong) NSString *latitude;
+@property (nonatomic,strong) NSString *longitude;
+@property (nonatomic,strong) NSString *coord_type;
+@property (nonatomic,strong) NSString *geotable_id;
+@property (nonatomic, strong) NSString *ak;
+
+@property (nonatomic,strong) NSNumber *user_id;
+
+- (NSDictionary *)toParams;
+
+@end
+
+
 @interface TweetSendLocationRequest : NSObject
 
 @property (nonatomic, strong) NSString *query;
@@ -32,11 +50,19 @@
 @property (nonatomic, strong) NSString *lat;
 @property (nonatomic, strong) NSString *lng;
 @property (nonatomic, strong) NSString *cityName;
+@property (nonatomic, strong) NSString *region;
+
+@property (nonatomic, strong) NSString *title;
+
 @property (nonatomic, strong) NSString *address;
 @property (nonatomic, strong) NSString *uid;
 @property (nonatomic, strong) NSDictionary *detailed;
 
 @property (nonatomic, strong, readonly) NSString *displayLocaiton;
+/**
+ *  是否用户自定义位置
+ */
+@property (nonatomic) BOOL isCustomLocaiton;
 
 @end
 
@@ -44,7 +70,20 @@
 @interface TweetSendLocationClient : AFHTTPRequestOperationManager
 
 + (TweetSendLocationClient *)sharedJsonClient;
-
+/**
+ *  请求百度API获取周边信息
+ *
+ *  @param obj
+ *  @param block
+ */
 - (void)requestPlaceAPIWithParams:(TweetSendLocationRequest *)obj andBlock:(void (^)(id data, NSError *error))block;
+/**
+ *  请求创建位置
+ *  status:0 成功，其他为失败
+ *
+ *  @param obj
+ *  @param block
+ */
+- (void)requestGeodataCreateWithParams:(TweetSendCreateLocation *)obj andBlock:(void (^)(id data, NSError *error))block;
 
 @end

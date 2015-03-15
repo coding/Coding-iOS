@@ -10,8 +10,7 @@
 #import "Comment.h"
 #import "User.h"
 #import "HtmlMedia.h"
-
-@class TweetImage, Tweet;
+@class TweetImage, Tweet,TweetSendLocationResponse;
 
 typedef NS_ENUM(NSInteger, TweetType)
 {

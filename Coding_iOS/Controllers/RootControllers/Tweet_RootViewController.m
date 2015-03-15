@@ -24,6 +24,7 @@
 #import "JDStatusBarNotification.h"
 #import "SVPullToRefresh.h"
 #import "WebViewController.h"
+#import "TweetSendLocationDetailViewController.h"
 
 @interface Tweet_RootViewController ()
 {
@@ -372,7 +373,9 @@
         [weakSelf analyseLinkStr:curItem.href];
     };
     cell.locationClickedBlock = ^(Tweet *curTweet){
-        
+        TweetSendLocationDetailViewController *vc = [[TweetSendLocationDetailViewController alloc]init];
+        vc.tweet = curTweet;
+        [weakSelf.navigationController pushViewController:vc animated:YES];
     };
 
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];

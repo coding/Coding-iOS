@@ -133,7 +133,13 @@
             [cell setButtonText:self.locationData.displayLocaiton button:cell.locationButton];
             
             [cell.iconImageView setImage:[UIImage imageNamed:@"icon_locationed"]];
+        }else {
+        
+            [cell setButtonText:@"所在位置" button:cell.locationButton];
+            
+            [cell.iconImageView setImage:[UIImage imageNamed:@"icon_not_locationed"]];
         }
+        
         cell.locationClickBlock = ^(){
             TweetSendLocationViewController *vc = [[TweetSendLocationViewController alloc] init];
             vc.responseData = self.locationData;
@@ -263,7 +269,7 @@
 }
 
 - (void)sendTweet{
-    _curTweet.coord = [self.locationData.lat stringByAppendingFormat:@",%@",self.locationData.lng];
+//    _curTweet.coord = [self.locationData.lat stringByAppendingFormat:@",%@",self.locationData.lng];
     _curTweet.location = self.locationData.displayLocaiton;
     
     _curTweet.tweetContent = [_curTweet.tweetContent aliasedString];
