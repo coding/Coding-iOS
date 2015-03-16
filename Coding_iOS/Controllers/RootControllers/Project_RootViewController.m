@@ -158,10 +158,10 @@
     }
 }
 
-- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel
+- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel
 {
     if (_mySegmentControl) {
-        [_mySegmentControl endMoveIndex:carousel.currentItemIndex];
+        _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
     if (_oldSelectedIndex != carousel.currentItemIndex) {
         _oldSelectedIndex = carousel.currentItemIndex;

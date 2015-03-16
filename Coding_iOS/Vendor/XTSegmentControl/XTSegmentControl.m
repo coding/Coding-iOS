@@ -109,8 +109,6 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 
 @property (nonatomic , strong) NSMutableArray *items;
 
-@property (nonatomic) NSInteger currentIndex;
-
 @property (nonatomic , assign) id <XTSegmentControlDelegate> delegate;
 
 @property (nonatomic , copy) XTSegmentControlBlock block;
