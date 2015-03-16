@@ -132,9 +132,6 @@
     
     if (_curPriMsg.content.length > 0) {
         textSize = [_curPriMsg.content getSizeWithFont:kMessageCell_FontContent constrainedToSize:CGSizeMake(kMessageCell_ContentWidth, CGFLOAT_MAX)];
-        if ([_curPriMsg.content containsEmoji]) {
-            textSize.height += 10;
-        }
     }else{
         textSize = CGSizeZero;
     }
@@ -242,9 +239,6 @@
     if ([obj isKindOfClass:[PrivateMessage class]]) {
         PrivateMessage *curPriMsg = (PrivateMessage *)obj;
         CGSize textSize = [curPriMsg.content getSizeWithFont:kMessageCell_FontContent constrainedToSize:CGSizeMake(kMessageCell_ContentWidth, CGFLOAT_MAX)];
-        if ([curPriMsg.content containsEmoji]) {
-            textSize.height += 10;
-        }
         CGFloat mediaViewHeight = [MessageCell mediaViewHeightWithObj:curPriMsg];
         cellHeight += mediaViewHeight;
         cellHeight += textSize.height + kMessageCell_PadingHeight*4;
