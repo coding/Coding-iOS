@@ -71,9 +71,12 @@
         return;
     }
     [_webContentView setHeight:_curProject.readMeHeight];
-    [_activityIndicator startAnimating];
-    NSString *webDataStr = _curProject.readMeHtml? _curProject.readMeHtml: @"";
-    [self.webContentView loadHTMLString:[WebContentManager markdownPatternedWithContent:webDataStr] baseURL:nil];
+    if (!_webContentView.isLoading) {
+        [_activityIndicator startAnimating];
+        if (_curProject.readMeHtml) {
+            [self.webContentView loadHTMLString:[WebContentManager markdownPatternedWithContent:_curProject.readMeHtml] baseURL:nil];
+        }
+    }
 }
 + (CGFloat)cellHeightWithObj:(id)obj{
     CGFloat cellHeight = 0;

@@ -17,7 +17,7 @@
 @property (strong, nonatomic) UIImageView *userIconView;
 @property (strong, nonatomic) UILabel *titleLabel, *timeLabel, *commentCountLabel;
 @property (strong, nonatomic) UIButton *commentBtn, *deleteBtn;
-@property (strong, nonatomic) UIWebView *topicContentView;
+@property (strong, nonatomic) UIWebView *webContentView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @end
 @implementation TopicContentCell
@@ -48,15 +48,15 @@
             [self.contentView addSubview:_timeLabel];
         }
         curWidth = kScreen_Width - 2*kPaddingLeftWidth;
-        if (!self.topicContentView) {
-            self.topicContentView = [[UIWebView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, 1)];
-            self.topicContentView.delegate = self;
-            self.topicContentView.scrollView.scrollEnabled = NO;
-            self.topicContentView.scrollView.scrollsToTop = NO;
-            self.topicContentView.scrollView.bounces = NO;
-            self.topicContentView.backgroundColor = [UIColor clearColor];
-            self.topicContentView.opaque = NO;
-            [self.contentView addSubview:self.topicContentView];
+        if (!self.webContentView) {
+            self.webContentView = [[UIWebView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, 1)];
+            self.webContentView.delegate = self;
+            self.webContentView.scrollView.scrollEnabled = NO;
+            self.webContentView.scrollView.scrollsToTop = NO;
+            self.webContentView.scrollView.bounces = NO;
+            self.webContentView.backgroundColor = [UIColor clearColor];
+            self.webContentView.opaque = NO;
+            [self.contentView addSubview:self.webContentView];
         }
         if (!_activityIndicator) {
             _activityIndicator = [[UIActivityIndicatorView alloc]
@@ -112,11 +112,15 @@
     curBottomY += 10+ 20;
     
     //    讨论的内容
-    [self.topicContentView setY:curBottomY];
-    [self.topicContentView setHeight:_curTopic.contentHeight];
-    [_activityIndicator startAnimating];
-    [self.topicContentView loadHTMLString:[WebContentManager topicPatternedWithContent:_curTopic.htmlMedia.contentOrigional] baseURL:nil];
-    [_activityIndicator setCenter:CGPointMake(kScreen_Width/2, curBottomY+5)];
+    [self.webContentView setY:curBottomY];
+    [self.webContentView setHeight:_curTopic.contentHeight];
+    
+    if (!_webContentView.isLoading) {
+        [_activityIndicator startAnimating];
+        if (_curTopic.htmlMedia.contentOrigional) {
+            [self.webContentView loadHTMLString:[WebContentManager markdownPatternedWithContent:_curTopic.htmlMedia.contentOrigional] baseURL:nil];
+        }
+    }
     
     curBottomY += _curTopic.contentHeight+5;
     [_commentCountLabel setY:curBottomY+2];
@@ -160,7 +164,7 @@
     [_activityIndicator startAnimating];
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
-    [self refreshtopicContentView];
+    [self refreshwebContentView];
     [_activityIndicator stopAnimating];
     CGFloat scrollHeight = webView.scrollView.contentSize.height;
     if (ABS(scrollHeight - _curTopic.contentHeight) > 5) {
@@ -179,13 +183,13 @@
         DebugLog(@"%@", error.description);
 }
 
-- (void)refreshtopicContentView{
-    if (_topicContentView) {
+- (void)refreshwebContentView{
+    if (_webContentView) {
         //        NSString *js = @"window.onload = function(){ document.body.style.backgroundColor = '#333333';}";
-        //        [_topicContentView stringByEvaluatingJavaScriptFromString:js];
+        //        [_webContentView stringByEvaluatingJavaScriptFromString:js];
         //修改服务器页面的meta的值
-        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_topicContentView.frame)];
-        [_topicContentView stringByEvaluatingJavaScriptFromString:meta];
+        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_webContentView.frame)];
+        [_webContentView stringByEvaluatingJavaScriptFromString:meta];
     }
 }
 #pragma mark Btn M
