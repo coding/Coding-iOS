@@ -10,6 +10,8 @@
 #import "JDStatusBarNotification.h"
 #import "UnReadManager.h"
 #import <NYXImagesKit/NYXImagesKit.h>
+#import "MBProgressHUD+Add.h"
+
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -167,7 +169,9 @@
 }
 - (void)request_ProjectDetail_WithObj:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"项目详情"];
+    project.isLoadingDetail = YES;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toDetailPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        project.isLoadingDetail = NO;
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
             Project *resultA = [NSObject objectOfClass:@"Project" fromJSON:resultData];
@@ -235,9 +239,9 @@
 }
 - (void)request_ProjectMembers_WithObj:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"项目成员"];
-    project.isLoading = YES;
+    project.isLoadingMember = YES;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toMembersPath] withParams:[project toMembersParams] withMethodType:Get andBlock:^(id data, NSError *error) {
-        project.isLoading = NO;
+        project.isLoadingMember = NO;
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
             if (resultData) {
@@ -265,7 +269,7 @@
 }
 - (void)request_ProjectMembersHaveTasks_WithObj:(Project *)project andBlock:(void (^)(NSArray *data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"有任务的项目成员"];
-    project.isLoading = YES;
+    project.isLoadingMember = YES;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toMembersPath] withParams:[project toMembersParams] withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
@@ -273,7 +277,7 @@
             NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectMember"];
             
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"api/project/%d/task/user/count", project.id.intValue] withParams:nil withMethodType:Get andBlock:^(id datatasks, NSError *errortasks) {
-                project.isLoading = NO;
+                project.isLoadingMember = NO;
                 if (datatasks) {
                     NSMutableArray *list = [[NSMutableArray alloc] init];
                     
@@ -304,7 +308,7 @@
                 }
             }];
         }else{
-            project.isLoading = NO;
+            project.isLoadingMember = NO;
             block(nil, error);
         }
     }];
@@ -1203,6 +1207,79 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curObj.friend toDeleteConversationPath] withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
         if (data) {
             block(curObj, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+//Git Related
+- (void)request_StarProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"收藏项目"];
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/%@", project.owner_user_name, project.name, project.stared.boolValue? @"unstar": @"star"];
+    project.isStaring = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        project.isStaring = NO;
+        if (data) {
+            project.stared = [NSNumber numberWithBool:!project.stared.boolValue];
+            project.star_count = [NSNumber numberWithInteger:project.star_count.integerValue + (project.stared.boolValue? 1: -1)];
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_WatchProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"关注项目"];
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/%@", project.owner_user_name, project.name, project.watched.boolValue? @"unwatch": @"watch"];
+    project.isWatching = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        project.isWatching = NO;
+        if (data) {
+            project.watched = [NSNumber numberWithBool:!project.watched.boolValue];
+            project.watch_count = [NSNumber numberWithInteger:project.watch_count.integerValue + (project.watched.boolValue? 1: -1)];
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_ForkProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"Fork项目"];
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/fork", project.owner_user_name, project.name];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
+    hud.removeFromSuperViewOnHide = YES;
+    hud.labelText = @"正在Fork项目";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+//        此处得到的 data 是一个GitPro，需要在请求一次Pro的详细信息
+        if (data) {
+            project.forked = [NSNumber numberWithBool:!project.forked.boolValue];
+            project.fork_count = [NSNumber numberWithInteger:project.fork_count.integerValue +1];
+            
+            Project *forkedPro = [[Project alloc] init];
+            forkedPro.owner_user_name = [Login curLoginUser].global_key;
+            forkedPro.name = project.name;
+            [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:forkedPro andBlock:^(id data, NSError *error) {
+                [hud hide:YES];
+                if (data) {
+                    block(data, nil);
+                }else{
+                    block(nil, error);
+                }
+            }];
+        }else{
+            [hud hide:YES];
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_ReadMeOFProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"项目_README"];
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/tree/master",project.owner_user_name, project.name];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            NSString *readMeHtml = [[[data valueForKey:@"data"] valueForKey:@"readme"] valueForKey:@"preview"];
+            block(readMeHtml, nil);
         }else{
             block(nil, error);
         }

@@ -148,7 +148,7 @@
                     [weakSelf deleteFolder:folder];
                 }
             }];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self];
         }
     }
 }

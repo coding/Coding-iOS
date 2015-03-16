@@ -81,9 +81,8 @@
 {
     self = [super init];
     if (self) {
-        _canLoadMore = NO;
-        _isLoading = NO;
-        _willLoadMore = NO;
+        _isStaring = _isWatching = _isLoadingMember = _isLoadingDetail = NO;
+        _readMeHeight = 1;
     }
     return self;
 }

@@ -189,7 +189,7 @@
             switch (indexPath.row) {
                 case 0:{//头像
                     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更换头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从相册选择", nil];
-                    [actionSheet showInView:nil];
+                    [actionSheet showInView:self.view];
                 }
                     break;
                 case 1:{//昵称

@@ -432,7 +432,7 @@
                     [weakSelf deleteFolder:folder];
                 }
             }];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self.view];
         }
     }else{
         ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count - _uploadFiles.count)];
@@ -517,7 +517,7 @@
             }
         }];
     }
-    [actionSheet showInView:nil];
+    [actionSheet showInView:self.view];
 }
 - (void)deleteFile:(ProjectFile *)file fromDisk:(BOOL)fromDisk{
 

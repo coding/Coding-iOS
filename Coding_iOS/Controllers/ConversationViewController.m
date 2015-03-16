@@ -209,7 +209,7 @@
 
             }
         }];
-        [actionSheet showInView:nil];
+        [actionSheet showInView:self.view];
     };
     cell.refreshMessageMediaCCellBlock = ^(CGFloat diff){
 //        ESStrongSelf;
@@ -259,7 +259,7 @@
             [_self deletePrivateMessageWithMsg:_messageToResendOrDelete];
         }
     }];
-    [actionSheet showInView:nil];
+    [actionSheet showInView:self.view];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

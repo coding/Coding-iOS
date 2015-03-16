@@ -15,6 +15,7 @@
 #import "UnReadManager.h"
 #import "RDVTabBarController.h"
 #import "RDVTabBarItem.h"
+#import "NProjectViewController.h"
 
 @interface Project_RootViewController ()
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
@@ -129,7 +130,8 @@
     }else{
         __weak Project_RootViewController *weakSelf = self;
         listView = [[ProjectListView alloc] initWithFrame:carousel.bounds projects:curPros block:^(Project *project) {
-            ProjectViewController *vc = [[ProjectViewController alloc] init];
+
+            NProjectViewController *vc = [[NProjectViewController alloc] init];
             vc.myProject = project;
             [weakSelf.navigationController pushViewController:vc animated:YES];
             

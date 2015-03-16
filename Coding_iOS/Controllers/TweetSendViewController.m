@@ -110,7 +110,7 @@
         cell.addPicturesBlock = ^(){
             [self.view endEditing:YES];
             UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从相册选择", nil];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self.view];
         };
         return cell;
     }
@@ -206,7 +206,7 @@
                 return ;
             }
             [weakSelf dismissSelf];
-        }] showInView:nil];
+        }] showInView:self.view];
     }
 }
 

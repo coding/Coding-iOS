@@ -238,7 +238,7 @@
             [weakSelf doCommentToTopic:nil sender:sender];
         };
         cell.cellHeightChangedBlock = ^(){
-            [weakSelf.myTableView reloadData];
+            [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
         };
         cell.loadRequestBlock = ^(NSURLRequest *curRequest){
             [weakSelf loadRequest:curRequest];
@@ -249,7 +249,7 @@
                     [weakSelf deleteTopic:weakSelf.curTopic isComment:NO];
                 }
             }];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self.view];
         };
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
         return cell;
@@ -299,7 +299,7 @@
                     [_self deleteTopic:_self.toComment isComment:YES];
                 }
             }];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self.view];
             return;
         }
     }

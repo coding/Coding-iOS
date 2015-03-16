@@ -128,7 +128,7 @@
                 @strongify(self);
                 [self goToReport];
             }
-        }] showInView:nil];
+        }] showInView:self.view];
     }
 }
 
@@ -230,7 +230,7 @@
                     [_self deleteTweet:_self.curTweet];
                 }
             }];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self.view];
         };
         
         cell.userBtnClickedBlock = ^(User *curUser){
@@ -242,7 +242,7 @@
             [self.navigationController pushViewController:vc animated:YES];
         };
         cell.cellHeightChangedBlock = ^(){
-            [self.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
         };
         cell.loadRequestBlock = ^(NSURLRequest *curRequest){
             [self loadRequest:curRequest];
@@ -329,7 +329,7 @@
                     [_self deleteComment:_self.toComment ofTweet:_self.curTweet];
                 }
             }];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self.view];
             return;
         }
     }

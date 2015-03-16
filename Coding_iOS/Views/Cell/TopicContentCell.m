@@ -114,10 +114,8 @@
     //    讨论的内容
     [self.topicContentView setY:curBottomY];
     [self.topicContentView setHeight:_curTopic.contentHeight];
-    if (!self.topicContentView.isLoading) {
-        [_activityIndicator startAnimating];
-        [self.topicContentView loadHTMLString:[WebContentManager topicPatternedWithContent:_curTopic.htmlMedia.contentOrigional] baseURL:nil];
-    }
+    [_activityIndicator startAnimating];
+    [self.topicContentView loadHTMLString:[WebContentManager topicPatternedWithContent:_curTopic.htmlMedia.contentOrigional] baseURL:nil];
     [_activityIndicator setCenter:CGPointMake(kScreen_Width/2, curBottomY+5)];
     
     curBottomY += _curTopic.contentHeight+5;
@@ -165,8 +163,7 @@
     [self refreshtopicContentView];
     [_activityIndicator stopAnimating];
     CGFloat scrollHeight = webView.scrollView.contentSize.height;
-    if (ABS(scrollHeight - _curTopic.contentHeight) > 1) {
-        NSLog(@"ABS(scrollHeight - _tweet.contentHeight): %.2f", ABS(scrollHeight - _curTopic.contentHeight));
+    if (ABS(scrollHeight - _curTopic.contentHeight) > 5) {
         webView.scalesPageToFit = YES;
         _curTopic.contentHeight = scrollHeight;
         if (_cellHeightChangedBlock) {
@@ -187,7 +184,7 @@
         //        NSString *js = @"window.onload = function(){ document.body.style.backgroundColor = '#333333';}";
         //        [_topicContentView stringByEvaluatingJavaScriptFromString:js];
         //修改服务器页面的meta的值
-        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_topicContentView.bounds)];
+        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_topicContentView.frame)];
         [_topicContentView stringByEvaluatingJavaScriptFromString:meta];
     }
 }

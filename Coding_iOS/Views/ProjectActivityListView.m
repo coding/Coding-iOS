@@ -6,7 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_ProjectActivityList @"ProjectActivityListCell"
 
 #import "ProjectActivityListView.h"
 #import "ProjectActivityListCell.h"
@@ -33,7 +32,6 @@
         _block = block;
         _un_read_activities_count = self.myProActs.curProject.un_read_activities_count.intValue;
 
-        
         _myTableView = ({
             UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
             tableView.backgroundColor = [UIColor clearColor];
@@ -179,7 +177,6 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     ListGroupItem *item = [_myProActs.listGroups objectAtIndex:section];
     return [tableView getHeaderViewWithStr:[item.date string_yyyy_MM_dd_EEE] andBlock:^(id obj) {
-//        item.hide = !item.hide;
         DebugLog(@"\nitem.date.description :%@", item.date.description);
     }];
 }

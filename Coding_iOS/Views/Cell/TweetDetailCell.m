@@ -175,10 +175,8 @@
     
     //owner冒泡text内容
     [self.tweetContentView setHeight:_tweet.contentHeight];
-    if (!self.tweetContentView.isLoading) {
-        [_activityIndicator startAnimating];
-        [self.tweetContentView loadHTMLString:[WebContentManager bubblePatternedWithContent:_tweet.htmlMedia.contentOrigional] baseURL:nil];
-    }
+    [_activityIndicator startAnimating];
+    [self.tweetContentView loadHTMLString:[WebContentManager bubblePatternedWithContent:_tweet.htmlMedia.contentOrigional] baseURL:nil];
     
     CGFloat curBottomY = kTweetDetailCell_PadingTop +[[self class] contentHeightWithTweet:_tweet];
     curBottomY += 10;
@@ -276,8 +274,7 @@
     [self refreshTweetContentView];
     [_activityIndicator stopAnimating];
     CGFloat scrollHeight = webView.scrollView.contentSize.height;
-    if (ABS(scrollHeight - _tweet.contentHeight) > 1) {
-        NSLog(@"ABS(scrollHeight - _tweet.contentHeight)=========\n scrollHeight: %.2f", ABS(scrollHeight - _tweet.contentHeight));
+    if (ABS(scrollHeight - _tweet.contentHeight) > 5) {
         webView.scalesPageToFit = YES;
         _tweet.contentHeight = scrollHeight;
         if (_cellHeightChangedBlock) {
@@ -297,7 +294,7 @@
 - (void)refreshTweetContentView{
     if (_tweetContentView) {
         //修改服务器页面的meta的值
-        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_tweetContentView.bounds)];
+        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_tweetContentView.frame)];
         [_tweetContentView stringByEvaluatingJavaScriptFromString:meta];
     }
 }
