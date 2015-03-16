@@ -68,6 +68,9 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
 - (NSString *)displayLocaiton
 {
     NSString *locationStr = @"";
+    if([self.cityName containsString:@"市"]){
+        self.cityName = [self.cityName substringToIndex:([self.cityName length]-1)];
+    }
     
     if (self.title.length > 0) {
         locationStr = [NSString stringWithFormat:@"%@・%@",self.cityName,self.title];
