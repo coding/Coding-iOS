@@ -1,4 +1,5 @@
 PODS:
+  - APParallaxHeader (0.1.6)
   - BlocksKit (2.2.5):
     - BlocksKit/All (= 2.2.5)
   - BlocksKit/All (2.2.5):
@@ -59,6 +60,7 @@ PODS:
   - UIImage+BlurredFrame (0.0.4)
 
 DEPENDENCIES:
+  - APParallaxHeader
   - BlocksKit (= 2.2.5)
   - hpple (= 0.2.0)
   - JDStatusBarNotification (= 1.4.9)
@@ -75,6 +77,7 @@ DEPENDENCIES:
   - UIImage+BlurredFrame (= 0.0.4)
 
 SPEC CHECKSUMS:
+  APParallaxHeader: 6e7cc27c052be34e1a5655dc2fab6c40eecbbe55
   BlocksKit: 4439e7f30a9f90743462ca63545a15c1f4304cef
   FontAwesome+iOS: 816c20304edef4ca92835de669577005cbaaf261
   hpple: f4eb7c21a8db83ec264e5d614ec7509e10e5adec
