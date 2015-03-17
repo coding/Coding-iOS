@@ -22,6 +22,7 @@
 #import "ODRefreshControl.h"
 #import "AddUserViewController.h"
 #import "Helper.h"
+#import <APParallaxHeader/UIScrollView+APParallaxHeader.h>
 
 
 @interface Me_RootViewController ()
