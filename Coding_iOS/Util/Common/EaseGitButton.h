@@ -17,6 +17,7 @@ typedef enum {
 @property (strong, nonatomic) NSString *normalTitle, *checkedTitle, *normalIcon, *checkedIcon;
 @property (nonatomic, assign) NSInteger userNum;
 @property (assign, nonatomic) BOOL checked;
+@property (assign, nonatomic) EaseGitButtonType type;
 
 - (id)initWithFrame:(CGRect)frame normalTitle:(NSString *)normalTitle checkedTitle:(NSString *)checkedTitle normalIcon:(NSString *)normalIcon checkedIcon:(NSString *)checkedIcon userNum:(NSInteger)userNum checked:(BOOL)checked;
 + (EaseGitButton *)gitButtonWithFrame:(CGRect)frame type:(EaseGitButtonType)type;

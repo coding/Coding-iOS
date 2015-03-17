@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#define kProjectInfoCell_ProImgViewWidth 55.0
+#define kProjectInfoCell_ProImgViewWidth kScaleFrom_iPhone5_Desgin(55.0)
 
 #import "ProjectInfoCell.h"
 
@@ -53,7 +53,8 @@
 }
 
 + (CGFloat)cellHeight{
-    return 80;
+    
+    return kScaleFrom_iPhone5_Desgin(80.0);
 }
 
 - (void)setCurProject:(Project *)curProject{
@@ -61,7 +62,7 @@
     if (!_curProject) {
         return;
     }
-    [_proImgView sd_setImageWithURL:[_curProject.icon urlImageWithCodePathResizeToView:_proImgView] placeholderImage:kPlaceholderCodingSquareWidth(55.0)];
+    [_proImgView sd_setImageWithURL:[_curProject.icon urlImageWithCodePathResize:2*kProjectInfoCell_ProImgViewWidth] placeholderImage:kPlaceholderCodingSquareWidth(55.0)];
     _proTitleL.text = _curProject.name;
     _ownerGlobalkeyL.text = _curProject.owner_user_name;
 }
@@ -69,14 +70,16 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
+    CGFloat pading = kPaddingLeftWidth;
+    
     [_proImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.contentView.mas_left).offset(12);
+        make.left.equalTo(self.contentView.mas_left).offset(pading);
         make.centerY.equalTo(self.contentView.mas_centerY);
         make.size.mas_equalTo(CGSizeMake(kProjectInfoCell_ProImgViewWidth, kProjectInfoCell_ProImgViewWidth));
     }];
     [_proTitleL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_proImgView.mas_right).offset(12);
-        make.right.equalTo(self.contentView.mas_right).offset(-12);
+        make.left.equalTo(_proImgView.mas_right).offset(pading);
+        make.right.equalTo(self.contentView.mas_right).offset(-pading);
         make.bottom.equalTo(_proImgView.mas_centerY);
         make.height.mas_equalTo(20);
     }];

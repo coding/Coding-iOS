@@ -1279,7 +1279,7 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             NSString *readMeHtml = [[[data valueForKey:@"data"] valueForKey:@"readme"] valueForKey:@"preview"];
-            block(readMeHtml, nil);
+            block(readMeHtml? readMeHtml: @"", nil);
         }else{
             block(nil, error);
         }

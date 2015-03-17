@@ -9,9 +9,9 @@
 #define kProjectActivityListCell_IconHeight 33.0
 #define kProjectActivityListCell_TimeIconWidth 13.0
 #define kProjectActivityListCell_TimeLineWidth 2.0
-#define kProjectActivityListCell_LeftPading 80.0
-#define kProjectActivityListCell_RightPading 10.0
-#define kProjectActivityListCell_UpDownPading 10.0
+#define kProjectActivityListCell_LeftPading 85
+#define kProjectActivityListCell_RightPading kPaddingLeftWidth
+#define kProjectActivityListCell_UpDownPading kScaleFrom_iPhone5_Desgin(10)
 #define kProjectActivityListCell_TextPading 5.0
 //#define kProjectActivityListCell_MaxActionHeight (40.0+kNotHigher_iOS_6_1_DIS(0))
 //#define kProjectActivityListCell_MaxContentHeight (32.0+kNotHigher_iOS_6_1_DIS(0))
@@ -49,17 +49,22 @@
         // Initialization code
         self.backgroundColor = [UIColor clearColor];
         if (!_userIconView) {
-            _userIconView = [[UITapImageView alloc] initWithFrame:CGRectMake(10, 10, kProjectActivityListCell_IconHeight, kProjectActivityListCell_IconHeight)];
+            _userIconView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, kProjectActivityListCell_UpDownPading, kProjectActivityListCell_IconHeight, kProjectActivityListCell_IconHeight)];
             [_userIconView doCircleFrame];
             [self.contentView addSubview:_userIconView];
         }
+        CGFloat imgRightX = CGRectGetMaxX(_userIconView.frame);
+        CGFloat timeLineCenterX = imgRightX + (kProjectActivityListCell_LeftPading-imgRightX)/2;
+        
+        ;
+                                         
         if (!_timeLineView) {
-            _timeLineView = [[UIImageView alloc] initWithFrame:CGRectMake(50+(kProjectActivityListCell_TimeIconWidth- kProjectActivityListCell_TimeLineWidth)/2, 0, kProjectActivityListCell_TimeLineWidth, 1)];
+            _timeLineView = [[UIImageView alloc] initWithFrame:CGRectMake(timeLineCenterX - kProjectActivityListCell_TimeLineWidth/2, 0, kProjectActivityListCell_TimeLineWidth, 1)];
             //        _timeLineView.contentMode = UIViewContentModeScaleToFill;
             [self.contentView addSubview:_timeLineView];
         }
         if (!_timeIconView) {
-            _timeIconView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 10+(kProjectActivityListCell_IconHeight- kProjectActivityListCell_TimeIconWidth)/2 , kProjectActivityListCell_TimeIconWidth, kProjectActivityListCell_TimeIconWidth)];
+            _timeIconView = [[UIImageView alloc] initWithFrame:CGRectMake(timeLineCenterX - kProjectActivityListCell_TimeIconWidth/2, 10+(kProjectActivityListCell_IconHeight- kProjectActivityListCell_TimeIconWidth)/2 , kProjectActivityListCell_TimeIconWidth, kProjectActivityListCell_TimeIconWidth)];
             [self.contentView addSubview:_timeIconView];
         }
         if (!_actionLabel) {

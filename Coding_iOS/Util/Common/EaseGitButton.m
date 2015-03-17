@@ -28,9 +28,10 @@
             break;
         case EaseGitButtonTypeFork:
         default:
-            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" Fork" checkedTitle:@" Forked" normalIcon:@"git_icon_fork" checkedIcon:@"git_icon_forked" userNum:0 checked:NO];
+            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" Fork" checkedTitle:@" Fork" normalIcon:@"git_icon_fork" checkedIcon:nil userNum:0 checked:NO];
             break;
     }
+    button.type = type;
     return button;
 }
 - (id)initWithFrame:(CGRect)frame normalTitle:(NSString *)normalTitle checkedTitle:(NSString *)checkedTitle normalIcon:(NSString *)normalIcon checkedIcon:(NSString *)checkedIcon userNum:(NSInteger)userNum checked:(BOOL)checked{
@@ -39,29 +40,38 @@
         self.layer.masksToBounds = YES;
         self.layer.cornerRadius = 2.0;
         self.layer.borderWidth = 0.5;
-        self.layer.borderColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
-        self.backgroundColor = [UIColor colorWithHexString:@"0xf1f1f1"];
+        self.layer.borderColor = [UIColor colorWithHexString:@"0xcccccc"].CGColor;
+        self.backgroundColor = [UIColor colorWithHexString:@"0xeeeeee"];
         
-        CGFloat splitX = CGRectGetWidth(frame) /3 *2;
+        CGFloat splitX = CGRectGetWidth(frame) *11/18;
         CGFloat frameHeight = CGRectGetHeight(frame);
+        CGFloat fontSize = 11;
+        if (kDevice_Is_iPhone6) {
+            fontSize = 12;
+        }else if (kDevice_Is_iPhone6Plus){
+            fontSize = 14;
+        }
         
-        _lineView = [[UIView alloc] initWithFrame:CGRectMake(splitX, 10, 0.5, frameHeight - 2*10)];
+        _lineView = [[UIView alloc] initWithFrame:CGRectMake(splitX, frameHeight/3, 0.5, frameHeight/3)];
         _lineView.backgroundColor = [UIColor colorWithHexString:@"0xcacaca"];
         [self addSubview:_lineView];
 
         _leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, splitX, frameHeight)];
         _leftButton.layer.masksToBounds = YES;
         _leftButton.layer.cornerRadius = 2.0;
-        _leftButton.titleLabel.font = [UIFont systemFontOfSize:11];
+        _leftButton.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+        _leftButton.imageEdgeInsets = UIEdgeInsetsMake(-1, 0, 1, 0);
+        
         [self addSubview:_leftButton];
 
         _rightButton = [[UIButton alloc] initWithFrame:CGRectMake(splitX, 0, CGRectGetWidth(frame) - splitX, frameHeight)];
         _rightButton.layer.masksToBounds = YES;
         _rightButton.layer.cornerRadius = 2.0;
-        _rightButton.titleLabel.font = [UIFont systemFontOfSize:11];
-        
+        _rightButton.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+//        _rightButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
+
         _rightButton.titleLabel.minimumScaleFactor = 0.5;
-        [_rightButton setTitleColor:[UIColor colorWithHexString:@"0x666666"] forState:UIControlStateNormal];
+        [_rightButton setTitleColor:[UIColor colorWithHexString:@"0x666666"] forState:UIControlStateNormal | UIControlStateDisabled];
 
         [self addSubview:_rightButton];
         
@@ -81,15 +91,15 @@
 
 - (void)updateContent{
     if (_checked) {
-        [_leftButton setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
-        [_leftButton setTitle:_checkedTitle forState:UIControlStateNormal];
-        [_leftButton setImage:[UIImage imageNamed:_checkedIcon] forState:UIControlStateNormal];
+        [_leftButton setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal | UIControlStateDisabled];
+        [_leftButton setTitle:_checkedTitle forState:UIControlStateNormal | UIControlStateDisabled];
+        [_leftButton setImage:[UIImage imageNamed:_checkedIcon] forState:UIControlStateNormal | UIControlStateDisabled];
     }else{
-        [_leftButton setTitleColor:[UIColor colorWithHexString:@"0x666666"] forState:UIControlStateNormal];
-        [_leftButton setTitle:_normalTitle forState:UIControlStateNormal];
-        [_leftButton setImage:[UIImage imageNamed:_normalIcon] forState:UIControlStateNormal];
+        [_leftButton setTitleColor:[UIColor colorWithHexString:@"0x666666"] forState:UIControlStateNormal | UIControlStateDisabled];
+        [_leftButton setTitle:_normalTitle forState:UIControlStateNormal | UIControlStateDisabled];
+        [_leftButton setImage:[UIImage imageNamed:_normalIcon] forState:UIControlStateNormal | UIControlStateDisabled];
     }
-    [_rightButton setTitle:[NSString stringWithFormat:@"%ld", (long)_userNum] forState:UIControlStateNormal];
+    [_rightButton setTitle:[NSString stringWithFormat:@"%ld", (long)_userNum] forState:UIControlStateNormal | UIControlStateDisabled];
 }
 
 #pragma mark Set

@@ -7,8 +7,7 @@
 //
 
 #define kProjectDescriptionCell_Font [UIFont systemFontOfSize:15]
-#define kProjectDescriptionCell_Padding 12
-#define kProjectDescriptionCell_ContentWidth (kScreen_Width - kProjectDescriptionCell_Padding*2)
+#define kProjectDescriptionCell_ContentWidth (kScreen_Width - kPaddingLeftWidth*2)
 
 #import "ProjectDescriptionCell.h"
 #import "EaseGitButton.h"
@@ -40,10 +39,14 @@
         _gitButtons = [[NSMutableArray alloc] initWithCapacity:gitBtnNum];
 
         for (int i = 0; i < gitBtnNum; i++) {
-            EaseGitButton *gitBtn = [EaseGitButton gitButtonWithFrame:CGRectMake(kProjectDescriptionCell_Padding + i *(btnWidth +whiteSpace),0, btnWidth, 33) type:i];
-            [gitBtn bk_addEventHandler:^(id sender) {
-                gitBtn.checked = !gitBtn.checked;
-                gitBtn.userNum += gitBtn.checked? 1: -1;
+            EaseGitButton *gitBtn = [EaseGitButton gitButtonWithFrame:CGRectMake(kPaddingLeftWidth + i *(btnWidth +whiteSpace),0, btnWidth, kScaleFrom_iPhone5_Desgin(33)) type:i];
+
+            [gitBtn bk_addEventHandler:^(EaseGitButton *sender) {
+                if (sender.type == EaseGitButtonTypeStar
+                    || sender.type == EaseGitButtonTypeWatch) {
+                    gitBtn.checked = !gitBtn.checked;
+                    gitBtn.userNum += gitBtn.checked? 1: -1;
+                }
                 if (self.gitButtonClickedBlock) {
                     self.gitButtonClickedBlock(i);
                 }
@@ -79,8 +82,7 @@
             default:
             {
                 obj.userNum = _curProject.fork_count.integerValue;
-                obj.checked = _curProject.forked.boolValue;
-                obj.enabled = !_curProject.forked.boolValue;
+                obj.checked = NO;
             }
                 break;
         }
@@ -90,16 +92,16 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
     CGFloat desHeight = [_curProject.description_mine getSizeWithFont:kProjectDescriptionCell_Font constrainedToSize:CGSizeMake(kProjectDescriptionCell_ContentWidth, CGFLOAT_MAX)].height;
-    [_proDesL setFrame:CGRectMake(12, 14, kProjectDescriptionCell_ContentWidth, desHeight)];
+    [_proDesL setFrame:CGRectMake(kPaddingLeftWidth, kPaddingLeftWidth, kProjectDescriptionCell_ContentWidth, desHeight)];
     [_gitButtons enumerateObjectsUsingBlock:^(EaseGitButton *obj, NSUInteger idx, BOOL *stop) {
-        [obj setY:14*2 +desHeight];
+        [obj setY:kPaddingLeftWidth*2 +desHeight];
     }];
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[Project class]]) {
-        cellHeight = 75;
+        cellHeight = kPaddingLeftWidth *3 + kScaleFrom_iPhone5_Desgin(33);
         
         Project *curProject = (Project *)obj;
         CGFloat desHeight = [curProject.description_mine getSizeWithFont:kProjectDescriptionCell_Font constrainedToSize:CGSizeMake(kProjectDescriptionCell_ContentWidth, CGFLOAT_MAX)].height;
