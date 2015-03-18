@@ -87,7 +87,7 @@
     UIButton *item = [[UIButton alloc] initWithFrame:frame];
     
     CGFloat iconWidth = kScaleFrom_iPhone5_Desgin(50);
-    if (kDevice_Is_iPhone6Plus) {
+    if (kDevice_Is_iPhone6Plus || kDevice_Is_iPhone6) {
         iconWidth -= 5;
     }
     

@@ -71,7 +71,7 @@
 //        _rightButton.titleEdgeInsets = UIEdgeInsetsMake(2, 0, -2, 0);
 
         _rightButton.titleLabel.minimumScaleFactor = 0.5;
-        [_rightButton setTitleColor:[UIColor colorWithHexString:@"0x666666"] forState:UIControlStateNormal | UIControlStateDisabled];
+        [_rightButton setTitleColor:[UIColor colorWithHexString:@"0x222222"] forState:UIControlStateNormal | UIControlStateDisabled];
 
         [self addSubview:_rightButton];
         
@@ -95,7 +95,7 @@
         [_leftButton setTitle:_checkedTitle forState:UIControlStateNormal | UIControlStateDisabled];
         [_leftButton setImage:[UIImage imageNamed:_checkedIcon] forState:UIControlStateNormal | UIControlStateDisabled];
     }else{
-        [_leftButton setTitleColor:[UIColor colorWithHexString:@"0x666666"] forState:UIControlStateNormal | UIControlStateDisabled];
+        [_leftButton setTitleColor:[UIColor colorWithHexString:@"0x222222"] forState:UIControlStateNormal | UIControlStateDisabled];
         [_leftButton setTitle:_normalTitle forState:UIControlStateNormal | UIControlStateDisabled];
         [_leftButton setImage:[UIImage imageNamed:_normalIcon] forState:UIControlStateNormal | UIControlStateDisabled];
     }
