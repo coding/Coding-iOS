@@ -19,6 +19,7 @@
 @property (strong, nonatomic) UILabel *userLabel;
 @property (strong, nonatomic) UIButton *fansCountBtn, *followsCountBtn, *followBtn;
 @property (strong, nonatomic) UIView *splitLine, *coverView;
+@property (assign, nonatomic) CGFloat userIconViewWith;
 @end
 
 
@@ -29,22 +30,33 @@
         return nil;
     }
     EaseUserHeaderView *headerView = [[EaseUserHeaderView alloc] init];
-    headerView.curUser = user;
-//    headerView.bgImage = [image applyLightEffectAtFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
-    headerView.bgImage = image;
+    headerView.userInteractionEnabled = YES;
     headerView.contentMode = UIViewContentModeScaleAspectFill;
+
+    headerView.curUser = user;
+    headerView.bgImage = image;
     
-    [headerView updateUI];
+    [headerView configUI];
     return headerView;
 }
 
-- (void)updateUI{
+- (void)setCurUser:(User *)curUser{
+    _curUser = curUser;
+    [self updateData];
+}
+
+- (void)setBgImage:(UIImage *)bgImage{
+    _bgImage = bgImage;
+    [self updateData];
+}
+
+- (void)configUI{
     if (!_curUser) {
         return;
     }
     if (!_coverView) {//遮罩
         _coverView = [[UIView alloc] init];
-        _coverView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+        _coverView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
         [self addSubview:_coverView];
         [_coverView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self);
@@ -61,7 +73,7 @@
         _fansCountBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         [_fansCountBtn bk_addEventHandler:^(id sender) {
             if (weakSelf.fansCountBtnClicked) {
-                weakSelf.fansCountBtnClicked(weakSelf);
+                weakSelf.fansCountBtnClicked();
             }
         } forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_fansCountBtn];
@@ -72,7 +84,7 @@
         _followsCountBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [_followsCountBtn bk_addEventHandler:^(id sender) {
             if (weakSelf.followsCountBtnClicked) {
-                weakSelf.followsCountBtnClicked(weakSelf);
+                weakSelf.followsCountBtnClicked();
             }
         } forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_followsCountBtn];
@@ -88,7 +100,7 @@
         _followBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_followBtn bk_addEventHandler:^(id sender) {
             if (weakSelf.followBtnClicked) {
-                weakSelf.followBtnClicked(weakSelf);
+                weakSelf.followBtnClicked();
             }
         } forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_followBtn];
@@ -98,7 +110,7 @@
     
     if (!_userLabel) {
         _userLabel = [[UILabel alloc] init];
-        _userLabel.font = [UIFont systemFontOfSize:18];
+        _userLabel.font = [UIFont boldSystemFontOfSize:18];
         _userLabel.textColor = [UIColor whiteColor];
         _userLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_userLabel];
@@ -108,17 +120,23 @@
         _userIconView = [[UITapImageView alloc] init];
         [_userIconView addTapBlock:^(id obj) {
             if (weakSelf.userIconClicked) {
-                weakSelf.userIconClicked(weakSelf);
+                weakSelf.userIconClicked();
             }
         }];
         [self addSubview:_userIconView];
-
     }
     
-    CGFloat userIconViewWith = kScaleFrom_iPhone5_Desgin(80);
+    if (kDevice_Is_iPhone6Plus) {
+        _userIconViewWith = 100;
+    }else if (kDevice_Is_iPhone6){
+        _userIconViewWith = 90;
+    }else{
+        _userIconViewWith = 75;
+    }
+    
     if (!_userSexIconView) {
         _userSexIconView = [[UITapImageView alloc] init];
-        [_userIconView doBorderWidth:1.0 color:nil cornerRadius:kScaleFrom_iPhone5_Desgin(80)/2];
+        [_userIconView doBorderWidth:1.0 color:nil cornerRadius:_userIconViewWith/2];
         [self addSubview:_userSexIconView];
     }
     
@@ -143,74 +161,56 @@
     if (!isMe) {
         [_followBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(_fansCountBtn.mas_top).offset(-20);
-            make.size.mas_equalTo(CGSizeMake(80, 130));
+            make.size.mas_equalTo(CGSizeMake(128, 39));
             make.centerX.equalTo(self);
         }];
 
         [_userLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(_followBtn.mas_top).offset(kScaleFrom_iPhone5_Desgin(-15));
             make.height.mas_equalTo(kScaleFrom_iPhone5_Desgin(20));
-            make.left.right.equalTo(self);
         }];
     }else{
         [_userLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(_fansCountBtn.mas_top).offset(kScaleFrom_iPhone5_Desgin(-15));
             make.height.mas_equalTo(kScaleFrom_iPhone5_Desgin(20));
-            make.left.right.equalTo(self);
         }];
     }
     
     [_userIconView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(userIconViewWith, userIconViewWith));
+        make.size.mas_equalTo(CGSizeMake(_userIconViewWith, _userIconViewWith));
         make.bottom.equalTo(_userLabel.mas_top).offset(-15);
         make.centerX.equalTo(self);
     }];
     
+    CGFloat userSexIconViewWidth = (14);
     [_userSexIconView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(16, 16));
-        make.centerX.equalTo(_userIconView.mas_centerX).offset(0.35* userIconViewWith);
-        make.centerY.equalTo(_userIconView.mas_centerY).offset(-0.35* userIconViewWith);
+        make.size.mas_equalTo(CGSizeMake(userSexIconViewWidth, userSexIconViewWidth));
+        
+        make.left.equalTo(_userLabel.mas_right).offset(5);
+        make.centerY.equalTo(_userLabel);
     }];
     
-    self.image = _bgImage;
-    [_userIconView sd_setImageWithURL:[_curUser.avatar urlImageWithCodePathResize:2* kScaleFrom_iPhone5_Desgin(80)] placeholderImage:kPlaceholderMonkeyRoundWidth(54.0)];
-    if (_curUser.sex.intValue == 0) {
-        //        男
-        [_userSexIconView setImage:[UIImage imageNamed:@"sex_man_icon"]];
-        _userSexIconView.hidden = NO;
-    }else if (_curUser.sex.intValue == 1){
-        //        女
-        [_userSexIconView setImage:[UIImage imageNamed:@"sex_woman_icon"]];
-        _userSexIconView.hidden = NO;
-    }else{
-        //        未知
-        _userSexIconView.hidden = YES;
-    }
-    _userLabel.text = _curUser.name;
-    if (!isMe) {
-        [_followBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-    }
+//    left, right 只是占位，使名字和性别能居中显示
+    UIView *left = [[UIView alloc] init], *right = [[UIView alloc] init];
+    [self addSubview:left];
+    [self addSubview:right];
+    [left mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.equalTo(right);
+        make.left.equalTo(self);
+        make.right.equalTo(_userLabel.mas_left);
+    }];
+    [right mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self);
+        make.left.equalTo(_userSexIconView.mas_right);
+        make.centerY.equalTo(@[_userLabel, left]);
+    }];
     
-    [_fansCountBtn setAttributedTitle:[self getStringWithTitle:@"粉丝" andValue:_curUser.fans_count.stringValue] forState:UIControlStateNormal];
-    [_followsCountBtn setAttributedTitle:[self getStringWithTitle:@"关注" andValue:_curUser.follows_count.stringValue] forState:UIControlStateNormal];
-    
-    NSString *imageName;
-    if (_curUser.followed.boolValue) {
-        if (_curUser.follow.boolValue) {
-            imageName = @"btn_followed_both";
-        }else{
-            imageName = @"btn_followed_yes";
-        }
-    }else{
-        imageName = @"btn_followed_not";
-    }
-    [_followBtn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
-
+    [self updateData];
 }
 
 - (NSMutableAttributedString*)getStringWithTitle:(NSString *)title andValue:(NSString *)value{
     NSMutableAttributedString *attriString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", value, title]];
-    [attriString addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:17],
+    [attriString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:17],
                                  NSForegroundColorAttributeName : [UIColor whiteColor]}
                          range:NSMakeRange(0, value.length)];
     
@@ -220,4 +220,40 @@
     return  attriString;
 }
 
+- (void)updateData{
+    if (!_userIconView) {
+        return;
+    }
+    self.image = _bgImage;
+    [_userIconView sd_setImageWithURL:[_curUser.avatar urlImageWithCodePathResize:2* _userIconViewWith] placeholderImage:kPlaceholderMonkeyRoundWidth(54.0)];
+    if (_curUser.sex.intValue == 0) {
+        //        男
+        [_userSexIconView setImage:[UIImage imageNamed:@"n_sex_man_icon"]];
+        _userSexIconView.hidden = NO;
+    }else if (_curUser.sex.intValue == 1){
+        //        女
+        [_userSexIconView setImage:[UIImage imageNamed:@"n_sex_woman_icon"]];
+        _userSexIconView.hidden = NO;
+    }else{
+        //        未知
+        _userSexIconView.hidden = YES;
+    }
+    _userLabel.text = _curUser.name;
+    [_userLabel sizeToFit];
+    
+    [_fansCountBtn setAttributedTitle:[self getStringWithTitle:@"粉丝" andValue:_curUser.fans_count.stringValue] forState:UIControlStateNormal];
+    [_followsCountBtn setAttributedTitle:[self getStringWithTitle:@"关注" andValue:_curUser.follows_count.stringValue] forState:UIControlStateNormal];
+    
+    NSString *imageName;
+    if (_curUser.followed.boolValue) {
+        if (_curUser.follow.boolValue) {
+            imageName = @"n_btn_followed_both";
+        }else{
+            imageName = @"n_btn_followed_yes";
+        }
+    }else{
+        imageName = @"n_btn_followed_not";
+    }
+    [_followBtn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+}
 @end
