@@ -165,6 +165,7 @@
 		4EACB4461A2C60110097ABB3 /* ProjectActivities.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EACB4451A2C60110097ABB3 /* ProjectActivities.m */; };
 		4EB0C2001A807ED00042FC4F /* NSURL+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB0C1FF1A807ED00042FC4F /* NSURL+Common.m */; };
 		4EB0C2021A80B8F20042FC4F /* service_terms.html in Resources */ = {isa = PBXBuildFile; fileRef = 4EB0C2011A80B8F20042FC4F /* service_terms.html */; };
+		4EB12FD21AB9197700F8C2F2 /* EaseUserHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB12FD11AB9197700F8C2F2 /* EaseUserHeaderView.m */; };
 		4EB845331AB83C3B0030DC69 /* git_icon_fork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB845301AB83C3B0030DC69 /* git_icon_fork@2x.png */; };
 		4EB845341AB83C3B0030DC69 /* git_icon_star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB845311AB83C3B0030DC69 /* git_icon_star@2x.png */; };
 		4EB845351AB83C3B0030DC69 /* git_icon_watch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB845321AB83C3B0030DC69 /* git_icon_watch@2x.png */; };
@@ -800,6 +801,8 @@
 		4EB0C1FE1A807ED00042FC4F /* NSURL+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+Common.h"; sourceTree = "<group>"; };
 		4EB0C1FF1A807ED00042FC4F /* NSURL+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Common.m"; sourceTree = "<group>"; };
 		4EB0C2011A80B8F20042FC4F /* service_terms.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = service_terms.html; sourceTree = "<group>"; };
+		4EB12FD01AB9197700F8C2F2 /* EaseUserHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseUserHeaderView.h; sourceTree = "<group>"; };
+		4EB12FD11AB9197700F8C2F2 /* EaseUserHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseUserHeaderView.m; sourceTree = "<group>"; };
 		4EB845301AB83C3B0030DC69 /* git_icon_fork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "git_icon_fork@2x.png"; sourceTree = "<group>"; };
 		4EB845311AB83C3B0030DC69 /* git_icon_star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "git_icon_star@2x.png"; sourceTree = "<group>"; };
 		4EB845321AB83C3B0030DC69 /* git_icon_watch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "git_icon_watch@2x.png"; sourceTree = "<group>"; };
@@ -2720,6 +2723,8 @@
 				4E38CF5E1A7A28AF005536C0 /* CodeBranchTagButton.m */,
 				4E743E6B1A88A3CC00DADDE5 /* EaseMarkdownTextView.h */,
 				4E743E6C1A88A3CC00DADDE5 /* EaseMarkdownTextView.m */,
+				4EB12FD01AB9197700F8C2F2 /* EaseUserHeaderView.h */,
+				4EB12FD11AB9197700F8C2F2 /* EaseUserHeaderView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3409,6 +3414,7 @@
 				4E1A22851AB172C400CFC14F /* ProjectItemsCell.m in Sources */,
 				4ECE8B051A3946C10021E29C /* WebContentManager.m in Sources */,
 				8EA6D1F819E240C40076D59C /* MJPhotoBrowser.m in Sources */,
+				4EB12FD21AB9197700F8C2F2 /* EaseUserHeaderView.m in Sources */,
 				8ED4612019E4DC470059B3BE /* iCarousel.m in Sources */,
 				4E1A22881AB1731600CFC14F /* ProjectDescriptionCell.m in Sources */,
 				4ECE8AE11A3943E80021E29C /* UIButton+Common.m in Sources */,
