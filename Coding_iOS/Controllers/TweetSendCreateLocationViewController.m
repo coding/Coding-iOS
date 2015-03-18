@@ -63,7 +63,7 @@
     obj.user_id = self.myUser.id;
     obj.latitude = self.locationResponse.lat;
     obj.longitude = self.locationResponse.lng;
-    
+
     __weak typeof (self)weakSelf = self;
     
     [[TweetSendLocationClient sharedJsonClient] requestGeodataCreateWithParams:obj andBlock:^(id data, NSError *error) {
@@ -84,6 +84,7 @@
         TweetSendViewController *tweetVC = (TweetSendViewController *)((UINavigationController *)self.presentingViewController).topViewController;
         weakSelf.locationResponse.title = obj.title;
         weakSelf.locationResponse.address = obj.address;
+        weakSelf.locationResponse.isCustomLocaiton = YES;
         tweetVC.locationData = weakSelf.locationResponse;
         
         [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:^{

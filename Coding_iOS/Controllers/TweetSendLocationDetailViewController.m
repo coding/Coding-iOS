@@ -8,6 +8,7 @@
 
 #import "TweetSendLocationDetailViewController.h"
 #import "TweetSendLocation.h"
+#import "TweetSendLocaitonMapViewController.h"
 #import "Tweets.h"
 
 @interface TweetSendLocationDetailViewController ()
@@ -39,12 +40,12 @@
 {
     if (!_headerView) {
         CGRect frame = self.view.bounds;
-        frame.size.height = 44;
+        frame.size.height = 50;
         _headerView = [[UIView alloc]initWithFrame:frame];
         _headerView.backgroundColor = [UIColor clearColor];
         self.headerLabel = [[UILabel alloc] initWithFrame:_headerView.bounds];
         self.headerLabel.textAlignment = NSTextAlignmentCenter;
-        self.headerLabel.font = [UIFont systemFontOfSize:14.0];
+        self.headerLabel.font = [UIFont systemFontOfSize:16.0];
         self.headerLabel.text = self.tweet.location;
         [_headerView addSubview:self.headerLabel];
     }
@@ -98,7 +99,8 @@
         cell.detailTextLabel.textAlignment = NSTextAlignmentLeft;
     }
     cell.textLabel.text = @"位置";
-    cell.detailTextLabel.text = @"广州市・科珠路192号";
+    
+    cell.detailTextLabel.text = self.tweet.address;
     
     return cell;
 }
@@ -106,42 +108,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
-    
+    TweetSendLocaitonMapViewController *mapVC = [[TweetSendLocaitonMapViewController alloc]init];
+    mapVC.tweet = self.tweet;
+    [self.navigationController pushViewController:mapVC animated:YES];
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 /*
 #pragma mark - Navigation

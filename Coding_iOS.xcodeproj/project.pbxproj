@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A06C2531AB9E57900AB3B03 /* map_annotation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A06C2521AB9E57900AB3B03 /* map_annotation@2x.png */; };
 		0A27A05D1AB5A13B00067833 /* TweetSendLocationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A27A05C1AB5A13B00067833 /* TweetSendLocationDetailViewController.m */; };
 		0A6E6BA71AAF4162004C0107 /* TweetSendLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E6BA61AAF4162004C0107 /* TweetSendLocationCell.m */; };
 		0A6E6BAA1AAF4B24004C0107 /* TweetSendLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E6BA91AAF4B24004C0107 /* TweetSendLocationViewController.m */; };
@@ -18,6 +19,9 @@
 		0A782FD81AB5B69200E96661 /* TweetSendCreateLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A782FD61AB5B69200E96661 /* TweetSendCreateLocationViewController.m */; };
 		0A782FDD1AB5B78B00E96661 /* TweetSendCreateLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A782FDB1AB5B78B00E96661 /* TweetSendCreateLocationCell.m */; };
 		0A782FDE1AB5B78B00E96661 /* TweetSendCreateLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A782FDC1AB5B78B00E96661 /* TweetSendCreateLocationCell.xib */; };
+		0AB591AC1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB591AB1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m */; };
+		0AB591AD1AB6D51C0076C454 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6E6BBC1AB180AE004C0107 /* MapKit.framework */; };
+		0AB591B01AB6D6BE0076C454 /* TweetSendMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */; };
 		4E03AC9A1A5BDDF9002B000B /* STARTIMAGE.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E03AC991A5BDDF9002B000B /* STARTIMAGE.jpg */; };
 		4E03ACA01A5CEB41002B000B /* taskDeadline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E03AC9E1A5CEB41002B000B /* taskDeadline@2x.png */; };
 		4E03ACA11A5CEB41002B000B /* taskProgress@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E03AC9F1A5CEB41002B000B /* taskProgress@2x.png */; };
@@ -561,6 +565,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A06C2521AB9E57900AB3B03 /* map_annotation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_annotation@2x.png"; sourceTree = "<group>"; };
 		0A27A05B1AB5A13B00067833 /* TweetSendLocationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocationDetailViewController.h; sourceTree = "<group>"; };
 		0A27A05C1AB5A13B00067833 /* TweetSendLocationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocationDetailViewController.m; sourceTree = "<group>"; };
 		0A6E6BA51AAF4162004C0107 /* TweetSendLocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocationCell.h; sourceTree = "<group>"; };
@@ -579,6 +584,10 @@
 		0A782FDA1AB5B78B00E96661 /* TweetSendCreateLocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendCreateLocationCell.h; sourceTree = "<group>"; };
 		0A782FDB1AB5B78B00E96661 /* TweetSendCreateLocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendCreateLocationCell.m; sourceTree = "<group>"; };
 		0A782FDC1AB5B78B00E96661 /* TweetSendCreateLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetSendCreateLocationCell.xib; sourceTree = "<group>"; };
+		0AB591AA1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocaitonMapViewController.h; sourceTree = "<group>"; };
+		0AB591AB1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocaitonMapViewController.m; sourceTree = "<group>"; };
+		0AB591AE1AB6D6BE0076C454 /* TweetSendMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendMapAnnotation.h; sourceTree = "<group>"; };
+		0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendMapAnnotation.m; sourceTree = "<group>"; };
 		3B024F2227BD4152BC7C9A7A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E03AC991A5BDDF9002B000B /* STARTIMAGE.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = STARTIMAGE.jpg; sourceTree = "<group>"; };
 		4E03AC9E1A5CEB41002B000B /* taskDeadline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskDeadline@2x.png"; sourceTree = "<group>"; };
@@ -1423,6 +1432,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AB591AD1AB6D51C0076C454 /* MapKit.framework in Frameworks */,
 				0A6E6BBF1AB180CB004C0107 /* CoreLocation.framework in Frameworks */,
 				4EDD8F5C1A36F52700E9E232 /* libsqlite3.0.dylib in Frameworks */,
 				4EDD8F5A1A36F4FA00E9E232 /* Security.framework in Frameworks */,
@@ -2267,6 +2277,8 @@
 				0A782FD61AB5B69200E96661 /* TweetSendCreateLocationViewController.m */,
 				0A27A05B1AB5A13B00067833 /* TweetSendLocationDetailViewController.h */,
 				0A27A05C1AB5A13B00067833 /* TweetSendLocationDetailViewController.m */,
+				0AB591AA1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.h */,
+				0AB591AB1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m */,
 				8EA6CF5719E240C40076D59C /* UsersViewController.h */,
 				8EA6CF5819E240C40076D59C /* UsersViewController.m */,
 				8EA6CF5919E240C40076D59C /* UserTweetsViewController.h */,
@@ -2332,6 +2344,7 @@
 		8EA6CF5D19E240C40076D59C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0A06C2521AB9E57900AB3B03 /* map_annotation@2x.png */,
 				4E66EE201A28226000DA1B3E /* button_file_manage */,
 				4EC5AD8E1A258DF8006FA97C /* icon_file_cell_edit */,
 				4E9113A41A1CB19900AC9431 /* icon_file_state */,
@@ -2759,6 +2772,8 @@
 				4E38CF5E1A7A28AF005536C0 /* CodeBranchTagButton.m */,
 				4E743E6B1A88A3CC00DADDE5 /* EaseMarkdownTextView.h */,
 				4E743E6C1A88A3CC00DADDE5 /* EaseMarkdownTextView.m */,
+				0AB591AE1AB6D6BE0076C454 /* TweetSendMapAnnotation.h */,
+				0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3050,6 +3065,7 @@
 				8E8F7B3019EF6306006BA8BD /* btn_privateMsg_friend@2x.png in Resources */,
 				4E07D30D1A4A9F45009EDDF2 /* btn_file_cancel@2x.png in Resources */,
 				8E97CEA01A0C7E26006F9AD7 /* coding_emoji_09@2x.png in Resources */,
+				0A06C2531AB9E57900AB3B03 /* map_annotation@2x.png in Resources */,
 				4E76D4E51A5A90CA0094A35E /* taskPriority2@2x.png in Resources */,
 				4E07D30A1A4A9ACB009EDDF2 /* moreBtn_Nav@2x.png in Resources */,
 				4E0849831A918A7F00BD27F6 /* coding_emoji_41@2x.png in Resources */,
@@ -3373,6 +3389,7 @@
 				8EA6D22319E240C40076D59C /* XTSegmentControl.m in Sources */,
 				4E6D71891A75F00E005AD988 /* YLGIFImage.m in Sources */,
 				0A27A05D1AB5A13B00067833 /* TweetSendLocationDetailViewController.m in Sources */,
+				0AB591B01AB6D6BE0076C454 /* TweetSendMapAnnotation.m in Sources */,
 				4EA7F1651A6D192B00A046BD /* UIImageView+WebCache.m in Sources */,
 				8EF643B819FF7E2900F7EEB0 /* InputOnlyTextPlainCell.m in Sources */,
 				4E6BA2DB1A1EE6AF005FD721 /* AFURLSessionManager.m in Sources */,
@@ -3401,6 +3418,7 @@
 				8EA6D13519E240C40076D59C /* ProjectViewController.m in Sources */,
 				8EF643AB19FF7E2900F7EEB0 /* TagCCell.m in Sources */,
 				4E8765671A22E5B40090CFB9 /* SWLongPressGestureRecognizer.m in Sources */,
+				0AB591AC1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m in Sources */,
 				4EA7F1611A6D192B00A046BD /* UIButton+WebCache.m in Sources */,
 				8EE72BE419E3F2E8002C11D9 /* SDWebImageManager+MJ.m in Sources */,
 				8E1C3DEA19E7D58A00EF3032 /* AbstractActionSheetPicker.m in Sources */,

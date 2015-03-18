@@ -20,7 +20,7 @@
 @property (nonatomic, copy) void (^cellHeightChangedBlock) ();
 @property (nonatomic, copy) void (^loadRequestBlock)(NSURLRequest *curRequest);
 
-@property (nonatomic, copy) void (^locationClickedBlock) ();
+@property (nonatomic, copy) void (^locationClickedBlock) (Tweet *curTweet);
 
 + (CGFloat)cellHeightWithObj:(id)obj;
 @end

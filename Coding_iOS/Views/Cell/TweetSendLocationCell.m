@@ -63,7 +63,11 @@
     CGSize size = CGSizeMake(CGFLOAT_MAX, 22.0);
     CGRect rect = [str boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:font.fontName size:font.pointSize]} context:nil];
     CGRect buttonFrame = btn.frame;
-    buttonFrame.size.width = CGRectGetWidth(rect);
+    buttonFrame.size.width = CGRectGetWidth(rect) + 5;
+    
+    if (buttonFrame.size.width > kScreen_Width - (15+22+9)) {
+        buttonFrame.size.width = kScreen_Width - (15+22+9) - 5;
+    }
     [btn setTitle:str forState:UIControlStateNormal];
     [btn setFrame:buttonFrame];
 }

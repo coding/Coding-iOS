@@ -7,6 +7,8 @@
 //
 
 #import "TweetSendLocation.h"
+#import "Login.h"
+#import "User.h"
 
 NSString * const kBaiduGeotableId= @"95955";
 NSString * const kBaiduAK = @"9d1fee393e06554e155f797dc71d00f0";
@@ -17,7 +19,6 @@ NSString * const kBaiduAPIGeosearchPathCreate = @"geodata/v3/poi/create";
 
 NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
 
-
 @implementation TweetSendCreateLocation
 
 - (instancetype)init
@@ -27,13 +28,31 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
         self.ak = kBaiduAK;
         self.geotable_id = kBaiduGeotableId;
         self.coord_type = @"3";
+        self.filter = @"";
+        self.query = @"";
+        self.radius = @(2000);
+        self.page_size = @20;
+        self.page_index = @0;
+        User *user = [Login curLoginUser]? [Login curLoginUser]: [User userWithGlobalKey:@""];
+        self.user_id = user.id;
+
     }
     return self;
 }
 
-- (NSDictionary *)toParams
+
+- (NSDictionary *)toCreateParams
 {
-    return @{@"ak":self.ak,@"geotable_id":self.geotable_id,@"coord_type":self.coord_type,@"address":self.address,@"latitude":self.latitude,@"longitude":self.longitude,@"title":self.title,@"user_id":self.user_id};
+    return @{@"ak":self.ak,@"geotable_id":self.geotable_id,@"coord_type":self.coord_type,@"radius":self.radius,@"address":self.address,@"latitude":self.latitude,@"longitude":self.longitude,@"title":self.title,@"user_id":self.user_id};
+
+}
+
+- (NSDictionary *)toSearchParams
+{
+    //百度的格式很奇葩需要表示为:user_id:[user_id],afnetworking无法转义，所以需要使用转码
+    self.filter = [NSString stringWithFormat:@"%@%%3A%%5B%@%%5D",@"user_id",self.user_id];
+    NSString *location = [NSString stringWithFormat:@"%@,%@",self.longitude,self.latitude];
+    return @{@"ak":self.ak,@"geotable_id":self.geotable_id,@"coord_type":self.coord_type,@"q":self.query,@"radius":self.radius,@"filter":self.filter,@"page_index":self.page_index,@"page_size":self.page_size,@"location":location};
 }
 
 @end
@@ -45,11 +64,11 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
     self = [super init];
     if (self) {
         self.ak = kBaiduAK;
-        self.query = @"酒店$餐馆$楼盘$公司$道路$小区";
+        self.query = @"公司企业$美食$生活服务$道路$旅游景点$医疗$休闲娱乐$宾馆";
         self.page_num = @(0);
         self.page_size = @(20);
         self.scope = @"1";
-        self.radius = @(1000);
+        self.radius = @(2000);
         self.output = @"json";
     }
     return self;
@@ -73,10 +92,15 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
     }
     
     if (self.title.length > 0) {
-        locationStr = [NSString stringWithFormat:@"%@・%@",self.cityName,self.title];
+        locationStr = [NSString stringWithFormat:@"%@·%@",self.cityName,self.title];
     }else{
         locationStr = self.cityName;
     }
+    if (locationStr.length > 16) {
+        locationStr = [locationStr substringWithRange:NSMakeRange(0, 15)];
+        locationStr = [locationStr stringByAppendingString:@"…"];
+    }
+    
     return locationStr;
 }
 
@@ -103,8 +127,8 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
         return nil;
     }
     self.responseSerializer = [AFJSONResponseSerializer serializer];
-    self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", nil];
-    [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+//    self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", nil];
+//    [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
     return self;
 }
@@ -128,7 +152,7 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
 
 - (void)requestGeodataCreateWithParams:(TweetSendCreateLocation *)obj andBlock:(void (^)(id data, NSError *error))block
 {
-    [self POST:kBaiduAPIGeosearchPathCreate parameters:[obj toParams] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self POST:kBaiduAPIGeosearchPathCreate parameters:[obj toCreateParams] success:^(AFHTTPRequestOperation *operation, id responseObject) {
         DebugLog(@"\n===========response===========\n%@:\n%@", kBaiduAPIGeosearchPathCreate, responseObject);
         id error = [self handleResponse:responseObject];
         if (error) {
@@ -138,6 +162,23 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         DebugLog(@"\n===========response===========\n%@:\n%@", kBaiduAPIGeosearchPathCreate, error);
+        [self showError:error];
+        block(nil, error);
+    }];
+}
+
+- (void)requestGeodataSearchCustomerWithParams:(TweetSendCreateLocation *)obj andBlock:(void (^)(id data, NSError *error))block
+{
+    [self GET:kBaiduAPIGeosearchPath parameters:[obj toSearchParams] success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        DebugLog(@"\n===========response===========\n%@:\n%@", kBaiduAPIGeosearchPath, responseObject);
+        id error = [self handleResponse:responseObject];
+        if (error) {
+            block(nil, error);
+        }else{
+            block(responseObject, nil);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        DebugLog(@"\n===========response===========\n%@:\n%@", kBaiduAPIGeosearchPath, error);
         [self showError:error];
         block(nil, error);
     }];

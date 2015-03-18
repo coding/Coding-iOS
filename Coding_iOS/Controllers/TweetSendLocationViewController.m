@@ -33,15 +33,24 @@
 @property (nonatomic, strong) NSString *cityName;
 @property (nonatomic, strong) NSString *district;
 
+@property (nonatomic, strong) NSString *searchingStr;
 
 @property (nonatomic) NSInteger locationTotal;
-//@property (nonatomic) NSInteger locationTotal;
+
+@property (nonatomic, strong) NSString *selectedTitle;
 
 @property (nonatomic, strong) CLLocation *location;
 
 @property (nonatomic, strong) TweetSendLocationRequest *locationRequest;
 
 @property (nonatomic, strong) TweetSendLocationRequest *searchingRequest;
+
+@property (nonatomic, strong) TweetSendCreateLocation *locatioCreateRequest;
+
+@property (nonatomic, strong) TweetSendCreateLocation *searchingCreateRequest;
+
+
+@property (nonatomic) BOOL isRepeatRemoved;
 
 @end
 
@@ -97,7 +106,7 @@
             [dict setValue:@"YES" forKey:@"checkmark"];
             [self.locationArray addObject:dict];
         }
-        if (self.responseData.cityName.length > 0) {
+        else if (self.responseData.cityName.length > 0) {
             NSString *result = @"NO";
             if (!checked) {
                 result = @"YES";
@@ -162,6 +171,22 @@
     }
     return _searchingRequest;
 }
+
+- (TweetSendCreateLocation *)locatioCreateRequest
+{
+    if (!_locatioCreateRequest) {
+        _locatioCreateRequest = [[TweetSendCreateLocation alloc]init];
+    }
+    return _locatioCreateRequest;
+}
+
+- (TweetSendCreateLocation *)searchingCreateRequest
+{
+    if (!_searchingCreateRequest) {
+        _searchingCreateRequest = [[TweetSendCreateLocation alloc]init];
+    }
+    return _searchingCreateRequest;
+}
 #pragma mark- LocationDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
@@ -190,6 +215,12 @@
              weakSelf.searchingRequest.lat = weakSelf.locationRequest.lat;
              weakSelf.searchingRequest.lng = weakSelf.locationRequest.lng;
              
+             weakSelf.locatioCreateRequest.longitude = weakSelf.locationRequest.lng;
+             weakSelf.locatioCreateRequest.latitude = weakSelf.locationRequest.lat;
+             
+             weakSelf.searchingCreateRequest.longitude = weakSelf.locationRequest.lng;
+             weakSelf.searchingCreateRequest.latitude = weakSelf.locationRequest.lat;
+             
              weakSelf.mySearchBar.userInteractionEnabled = YES;
              if (weakSelf.locationArray.count > 1) {
                  NSString *cityName = weakSelf.locationArray[1][@"cityName"];
@@ -197,10 +228,10 @@
                  if (cityName.length > 0) {
                      [weakSelf.locationArray replaceObjectAtIndex:1 withObject:@{@"cityName":city,@"location":@{@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng},@"cellType":@"defualt",@"checkmark":checkmark}];
                  }else{
-                     [weakSelf.locationArray insertObject:@{@"cityName":city,@"location":@{@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng},@"cellType":@"defualt",@"checkmark":checkmark} atIndex:1];
+                     [weakSelf.locationArray insertObject:@{@"cityName":city,@"location":@{@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng},@"cellType":@"defualt",@"checkmark":@"NO"} atIndex:1];
                  }
              }else{
-                 [weakSelf.locationArray insertObject:@{@"cityName":city,@"location":@{@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng},@"cellType":@"defualt"} atIndex:1];
+                 [weakSelf.locationArray insertObject:@{@"cityName":city,@"location":@{@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng},@"cellType":@"defualt",@"checkmark":@"NO"} atIndex:1];
              }
              
              [weakSelf.tableView reloadData];
@@ -234,35 +265,72 @@
 
 }
 
-- (void)requestLocationWithObj:(TweetSendLocationRequest *)obj
+- (void)requestCustomerLocationWithObj:(TweetSendCreateLocation *)obj complete:(void(^)())block
 {
     __weak typeof (self)weakSelf = self;
-    [[TweetSendLocationClient sharedJsonClient] requestPlaceAPIWithParams:obj andBlock:^(id data, NSError *error) {
-        if (error) {
-            weakSelf.tableView.tableFooterView = self.locationFooterView;
-            //如果网络失败获取失败则回滚page_num
-            if ([obj.page_num integerValue] > 1) {
-                obj.page_num = @([obj.page_num integerValue] - 1);
-            }
-            return ;
-        }
-        NSLog(@"obj:%@",data[@"message"]);
-
+    [[TweetSendLocationClient sharedJsonClient] requestGeodataSearchCustomerWithParams:obj andBlock:^(id data, NSError *error) {
+        
+        NSLog(@"obj:%@",data[@"contents"]);
+        
         NSDictionary *dict = (NSDictionary *)data;
         
-        if ([dict[@"status"] integerValue] != 0) {
-            weakSelf.tableView.tableFooterView = self.locationFooterView;
+        if (error || [dict[@"status"] integerValue] != 0) {
+            
+            if (!self.isRepeatRemoved) {
+                [self removeRepeat];
+            }
+            if (block) {
+                block();
+            }
+            [weakSelf.tableView reloadData];
+
             return;
         }
-        [weakSelf.locationArray addObjectsFromArray:dict[@"results"]];
-        weakSelf.locationTotal = [dict[@"total"] integerValue];
-        //如果当前数据源总数和查询总数一致，则移除footerView
-        if (weakSelf.locationTotal <= weakSelf.locationArray.count) {
-            weakSelf.tableView.tableFooterView = [UIView new];
-        }else{
-            weakSelf.tableView.tableFooterView = self.locationFooterView;
+        
+        obj.page_index = @([obj.page_index integerValue] + 1);
+        
+        [weakSelf.locationArray addObjectsFromArray:dict[@"contents"]];
+
+        if (!self.isRepeatRemoved) {
+            [self removeRepeat];
+        }
+        if (block) {
+            block();
         }
         [weakSelf.tableView reloadData];
+    }];
+}
+
+- (void)requestSearchingCustomerLocationWithObj:(TweetSendCreateLocation *)obj  complete:(void(^)())block
+{
+    __weak typeof (self)weakSelf = self;
+    [[TweetSendLocationClient sharedJsonClient] requestGeodataSearchCustomerWithParams:obj andBlock:^(id data, NSError *error) {
+
+        NSLog(@"obj:%@",data[@"contents"]);
+        
+        NSDictionary *dict = (NSDictionary *)data;
+        
+        if (error || [dict[@"status"] integerValue] != 0) {
+            if (![self isContainTitle] && weakSelf.mySearchDisplayController.searchResultsTableView.tableFooterView != self.searchDisplayFooterView) {
+                [weakSelf.searchArray addObject:@{@"notfound":@"YES"}];
+            }
+            if (block) {
+                block();
+            }
+            [weakSelf.mySearchDisplayController.searchResultsTableView reloadData];
+            
+            return;
+        }
+        obj.page_index = @([obj.page_index integerValue] + 1);
+        [weakSelf.searchArray addObjectsFromArray:dict[@"contents"]];
+        if (block) {
+            block();
+        }
+        if (![self isContainTitle] && weakSelf.mySearchDisplayController.searchResultsTableView.tableFooterView != self.searchDisplayFooterView) {
+            [weakSelf.searchArray addObject:@{@"notfound":@"YES"}];
+        }
+
+        [weakSelf.mySearchDisplayController.searchResultsTableView reloadData];
     }];
 }
 
@@ -270,20 +338,16 @@
 {
     __weak typeof (self)weakSelf = self;
     [[TweetSendLocationClient sharedJsonClient] requestPlaceAPIWithParams:obj andBlock:^(id data, NSError *error) {
-        if (error) {
-//            weakSelf.tableView.tableFooterView = self.locationFooterView;
-            //如果网络失败获取失败则回滚page_num
-            if ([obj.page_num integerValue] > 1) {
-                obj.page_num = @([obj.page_num integerValue] - 1);
-            }
-            return ;
-        }
         NSLog(@"obj:%@",data[@"message"]);
         
         NSDictionary *dict = (NSDictionary *)data;
         
-        if ([dict[@"status"] integerValue] != 0) {
+        if (error || [dict[@"status"] integerValue] != 0) {
             weakSelf.mySearchDisplayController.searchResultsTableView.tableFooterView = self.searchDisplayFooterView;
+            
+            if ([obj.page_num integerValue] > 1) {
+                obj.page_num = @([obj.page_num integerValue] - 1);
+            }
             return;
         }
         if (result) {
@@ -292,15 +356,80 @@
             weakSelf.searchArray = [dict[@"results"] mutableCopy];
         }
         NSInteger total = [dict[@"total"] integerValue];
-        //如果当前数据源总数和查询总数一致，则移除footerView
-        if (total <= weakSelf.searchArray.count ) {
-            [weakSelf.searchArray addObject:@{@"notfound":@"YES"}];
-            weakSelf.mySearchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
-        }else{
-            weakSelf.mySearchDisplayController.searchResultsTableView.tableFooterView = self.searchDisplayFooterView;
-        }
-        [weakSelf.mySearchDisplayController.searchResultsTableView reloadData];
+
+        weakSelf.searchingCreateRequest.query = weakSelf.searchingStr;
+
+        [self requestSearchingCustomerLocationWithObj:weakSelf.searchingCreateRequest complete:^{
+            //如果当前数据源总数和查询总数一致，则移除footerView
+            if (total <= weakSelf.searchArray.count ) {
+                weakSelf.mySearchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
+                
+            }else{
+                weakSelf.mySearchDisplayController.searchResultsTableView.tableFooterView = self.searchDisplayFooterView;
+            }
+        }];
+        
+//        [weakSelf.mySearchDisplayController.searchResultsTableView reloadData];
     }];
+}
+
+- (void)requestLocationWithObj:(TweetSendLocationRequest *)obj
+{
+    __weak typeof (self)weakSelf = self;
+    [[TweetSendLocationClient sharedJsonClient] requestPlaceAPIWithParams:obj andBlock:^(id data, NSError *error) {
+        NSLog(@"obj:%@",data[@"message"]);
+        
+        NSDictionary *dict = (NSDictionary *)data;
+        
+        if (error || [dict[@"status"] integerValue] != 0) {
+            weakSelf.tableView.tableFooterView = self.locationFooterView;
+            if ([obj.page_num integerValue] > 1) {
+                obj.page_num = @([obj.page_num integerValue] - 1);
+            }
+            return;
+        }
+        [weakSelf.locationArray addObjectsFromArray:dict[@"results"]];
+        weakSelf.locationTotal = [dict[@"total"] integerValue];
+        
+        [weakSelf requestCustomerLocationWithObj:weakSelf.locatioCreateRequest complete:^{
+            //如果当前数据源总数和查询总数一致，则移除footerView
+            if (weakSelf.locationTotal <= weakSelf.locationArray.count) {
+                weakSelf.tableView.tableFooterView = [UIView new];
+            }else{
+                weakSelf.tableView.tableFooterView = self.locationFooterView;
+            }
+        }];
+        
+//        [weakSelf.tableView reloadData];
+    }];
+}
+
+- (void)removeRepeat
+{
+    if (self.responseData.detailed){
+        
+        for(int i = 3; i< self.locationArray.count;i++){
+            if ([self.locationArray[i][@"title"] isEqualToString:self.responseData.title] || [self.locationArray[i][@"name"] isEqualToString:self.responseData.title]) {
+                [self.locationArray removeObjectAtIndex:i];
+                self.isRepeatRemoved = YES;
+                return;
+            }
+        }
+    }
+}
+
+- (BOOL)isContainTitle
+{
+    BOOL result = NO;
+    for (int i = 0; i < self.searchArray.count; i++) {
+
+        result = [self.searchArray[i][@"title"] isEqualToString:self.searchingStr];
+        
+        if (result) {
+            return YES;
+        }
+    }
+    return result;
 }
 
 #pragma mark Nav Btn M
@@ -339,20 +468,29 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    self.searchingStr = searchBar.text;
     self.searchingRequest.query = searchBar.text;
     self.searchingRequest.page_num = @(0);
+    self.searchingCreateRequest.query = searchBar.text;
+    self.searchingCreateRequest.page_index = @(0);
     [self requestSearchingWithObj:self.searchingRequest isAddMore:NO];
+    
     [self.mySearchDisplayController.searchResultsTableView reloadData];
     self.mySearchDisplayController.searchResultsTableView.tableFooterView = self.searchDisplayLoadingFooterView;
 
 }
 - (void) searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
 {
+    //iOS 7以上快速点击searchbar会造成searchbar消失，该操作解决该bug
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
+        [self.tableView insertSubview:self.searchDisplayController.searchBar aboveSubview:self.tableView];
+    }
     [self clearSearchingTableView];
 }
 
 - (void)clearSearchingTableView
 {
+    self.searchingStr = @"";
     self.searchArray = nil;
     self.searchingRequest.tag = @"";
     self.mySearchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
@@ -590,8 +728,14 @@
             }else {
                 cell.accessoryType = UITableViewCellAccessoryNone;
             }
-            cell.textLabel.text = self.locationArray[indexPath.row][@"name"];
-            cell.detailTextLabel.text = self.locationArray[indexPath.row][@"address"];
+            //判断是否为自定义数据
+            if (self.locationArray[indexPath.row][@"user_id"]) {
+                cell.textLabel.text = self.locationArray[indexPath.row][@"title"];
+                cell.detailTextLabel.text = self.locationArray[indexPath.row][@"address"];
+            }else{
+                cell.textLabel.text = self.locationArray[indexPath.row][@"name"];
+                cell.detailTextLabel.text = self.locationArray[indexPath.row][@"address"];
+            }
         }
         
         return cell;
@@ -629,7 +773,7 @@
         if (cell == nil) {
             cell = [[TweetSendSearchingNotFoundCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NotFoundCellIdentifier];
         }
-        cell.locationLabel.text = [NSString stringWithFormat:@"创建新的位置：%@",self.mySearchBar.text];
+        cell.locationLabel.text = [NSString stringWithFormat:@"创建新的位置：%@",self.searchingStr];
         
         return cell;
     }
@@ -640,8 +784,16 @@
         cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
         cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
     }
-    cell.textLabel.text = self.searchArray[indexPath.row][@"name"];
-    cell.detailTextLabel.text = self.searchArray[indexPath.row][@"address"];
+    
+    //判断是否为自定义数据
+    if (self.searchArray[indexPath.row][@"user_id"]) {
+        cell.textLabel.text = self.searchArray[indexPath.row][@"title"];
+        cell.detailTextLabel.text = self.searchArray[indexPath.row][@"address"];
+    }else{
+        cell.textLabel.text = self.searchArray[indexPath.row][@"name"];
+        cell.detailTextLabel.text = self.searchArray[indexPath.row][@"address"];
+    }
+
     
     return cell;
 }
@@ -672,7 +824,7 @@
             }
             myObj.lat = self.locationRequest.lat;
             myObj.lng = self.locationRequest.lng;
-            myObj.title = self.mySearchBar.text;
+            myObj.title = self.searchingStr;
             
             TweetSendCreateLocationViewController *createVC = [[TweetSendCreateLocationViewController alloc]initWithStyle:UITableViewStyleGrouped];
             createVC.locationResponse = myObj;
@@ -690,7 +842,18 @@
     }
 
     TweetSendViewController *tweetVC = (TweetSendViewController *)((UINavigationController *)self.presentingViewController).topViewController;
-    if (dict[@"location"]) {
+    if (dict[@"user_id"]) {
+        TweetSendLocationResponse *obj = [[TweetSendLocationResponse alloc]init];
+        obj.cityName = self.cityName;
+        obj.region = self.district;
+        obj.title = dict[@"title"];
+        obj.lat = dict[@"location"][1];
+        obj.lng = dict[@"location"][0];
+        obj.address = dict[@"address"];
+        obj.detailed = dict;
+        obj.isCustomLocaiton = YES;
+        tweetVC.locationData = obj;
+    }else if(dict[@"location"]){
         TweetSendLocationResponse *obj = [[TweetSendLocationResponse alloc]init];
         obj.cityName = self.cityName;
         obj.region = self.district;
@@ -698,6 +861,8 @@
         obj.lat = dict[@"location"][@"lat"];
         obj.lng = dict[@"location"][@"lng"];
         obj.address = dict[@"address"];
+        obj.detailed = dict;
+        obj.isCustomLocaiton = NO;
         tweetVC.locationData = obj;
     }else{
         tweetVC.locationData = nil;

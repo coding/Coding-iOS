@@ -269,9 +269,9 @@
 }
 
 - (void)sendTweet{
-//    _curTweet.coord = [self.locationData.lat stringByAppendingFormat:@",%@",self.locationData.lng];
+    _curTweet.coord = [NSString stringWithFormat:@"%@,%@,%i",self.locationData.lat,self.locationData.lng,self.locationData.isCustomLocaiton];
     _curTweet.location = self.locationData.displayLocaiton;
-    
+    _curTweet.address = self.locationData.address;
     _curTweet.tweetContent = [_curTweet.tweetContent aliasedString];
     if (_sendNextTweet) {
         _sendNextTweet(_curTweet);

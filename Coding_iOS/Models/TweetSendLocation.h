@@ -18,11 +18,26 @@
 @property (nonatomic,strong) NSString *longitude;
 @property (nonatomic,strong) NSString *coord_type;
 @property (nonatomic,strong) NSString *geotable_id;
-@property (nonatomic, strong) NSString *ak;
+@property (nonatomic,strong) NSString *ak;
 
+@property (nonatomic,strong) NSString *filter;
+@property (nonatomic,strong) NSString *sortby;
+@property (nonatomic,strong) NSString *query;
+@property (nonatomic,strong) NSString *province;
+@property (nonatomic,strong) NSString *city;
+@property (nonatomic,strong) NSString *district;
+@property (nonatomic,strong) NSString *tags;
+@property (nonatomic,strong) NSArray *location;
+@property (nonatomic,strong) NSNumber *radius;
+@property (nonatomic, strong) NSNumber *page_size;
+@property (nonatomic, strong) NSNumber *page_index;
+
+@property (nonatomic,strong) NSString *uid;
 @property (nonatomic,strong) NSNumber *user_id;
 
-- (NSDictionary *)toParams;
+- (NSDictionary *)toCreateParams;
+
+- (NSDictionary *)toSearchParams;
 
 @end
 
@@ -85,5 +100,14 @@
  *  @param block
  */
 - (void)requestGeodataCreateWithParams:(TweetSendCreateLocation *)obj andBlock:(void (^)(id data, NSError *error))block;
+
+/**
+ *  查找自定义位置
+ *
+ *  @param obj
+ *  @param block 
+ */
+- (void)requestGeodataSearchCustomerWithParams:(TweetSendCreateLocation *)obj andBlock:(void (^)(id data, NSError *error))block;
+
 
 @end

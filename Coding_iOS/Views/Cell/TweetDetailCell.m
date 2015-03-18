@@ -373,7 +373,7 @@
 
 - (void)locationBtnClicked:(id)sender{
     if (_locationClickedBlock) {
-        _locationClickedBlock();
+        _locationClickedBlock(_tweet);
     }
 }
 

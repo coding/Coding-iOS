@@ -23,6 +23,7 @@
 #import "EditTaskViewController.h"
 #import "WebViewController.h"
 #import "ReportIllegalViewController.h"
+#import "TweetSendLocationDetailViewController.h"
 
 @interface TweetDetailViewController ()
 @property (nonatomic, strong) UITableView *myTableView;
@@ -248,7 +249,12 @@
         cell.loadRequestBlock = ^(NSURLRequest *curRequest){
             [self loadRequest:curRequest];
         };
-        
+        __weak typeof (self)weakSelf = self;
+        cell.locationClickedBlock = ^(Tweet *curTweet){
+                TweetSendLocationDetailViewController *vc = [[TweetSendLocationDetailViewController alloc]init];
+                vc.tweet = curTweet;
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+        };
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
         return cell;
     }else{
