@@ -15,6 +15,7 @@
 #import "UserTweetsViewController.h"
 #import "AddUserViewController.h"
 #import "SettingViewController.h"
+#import "SettingMineInfoViewController.h"
 
 #import "RDVTabBarController.h"
 #import "RDVTabBarItem.h"
@@ -194,10 +195,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1) {
-        
+        [self goToDetailInfo];
     }else if (indexPath.section == 2){
         if (indexPath.row == 0) {
-            
         }else{
             [self goToTweets];
         }
@@ -270,4 +270,13 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)goToDetailInfo{
+    UIViewController *vc;
+    if ([self isMe]) {
+        vc = [[SettingMineInfoViewController alloc] init];
+    }else{
+        vc = [[UIViewController alloc] init];
+    }
+    [self.navigationController pushViewController:vc animated:YES];
+}
 @end

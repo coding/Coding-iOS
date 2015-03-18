@@ -23,6 +23,7 @@
 #import "SettingTagsViewController.h"
 #import "SettingTextViewController.h"
 #import "Helper.h"
+#import "UserInfoDetailTagCell.h"
 
 @interface SettingMineInfoViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
@@ -48,6 +49,7 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[TitleValueMoreCell class] forCellReuseIdentifier:kCellIdentifier_TitleValueMore];
         [tableView registerClass:[TitleRImageMoreCell class] forCellReuseIdentifier:kCellIdentifier_TitleRImageMore];
+        [tableView registerClass:[UserInfoDetailTagCell class] forCellReuseIdentifier:kCellIdentifier_UserInfoDetailTagCell];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -107,6 +109,11 @@
         cell.curUser = _curUser;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
+    }else if (indexPath.section == 2){
+        UserInfoDetailTagCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserInfoDetailTagCell forIndexPath:indexPath];
+        [cell setTagStr:_curUser.tags_str];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
     }else{
         TitleValueMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValueMore forIndexPath:indexPath];
         switch (indexPath.section) {
@@ -148,7 +155,6 @@
             }
                 break;
             default:
-                [cell setTitleStr:@"个性标签" valueStr:_curUser.tags_str];
                 break;
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
@@ -160,6 +166,8 @@
     CGFloat cellHeight;
     if (indexPath.section == 0 && indexPath.row == 0) {
         cellHeight = [TitleRImageMoreCell cellHeight];
+    }else if (indexPath.section == 2){
+        cellHeight = [UserInfoDetailTagCell cellHeightWithObj:_curUser.tags_str];
     }else{
         cellHeight = [TitleValueMoreCell cellHeight];
     }
