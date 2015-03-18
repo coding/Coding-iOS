@@ -53,7 +53,7 @@
     
     //    添加myTableView
     _myTableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
         tableView.backgroundColor = kColorTableSectionBg;
         tableView.dataSource = self;
         tableView.delegate = self;
@@ -182,17 +182,26 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 20.0;
 }
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0.5;
+}
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 20)];
     footerView.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
-    if (section == 0) {
-        [footerView addLineUp:YES andDown:NO andColor:tableView.separatorColor];
-    }
     return footerView;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 1) {
+        
+    }else if (indexPath.section == 2){
+        if (indexPath.row == 0) {
+            
+        }else{
+            [self goToTweets];
+        }
+    }
 }
 
 #pragma mark Btn Clicked
