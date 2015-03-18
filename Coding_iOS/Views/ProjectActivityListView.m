@@ -150,7 +150,7 @@
     }];
     cell.htmlItemClickedBlock = self.htmlItemClickedBlock;
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:
-     (row == item.location +item.length -1)? 0:80];
+     (row == item.location +item.length -1)? 0:85];
     return cell;
 }
 
@@ -171,7 +171,7 @@
 
 #pragma mark TableViewHeader
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 24;
+    return kScaleFrom_iPhone5_Desgin(24);
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{

@@ -28,21 +28,23 @@
         self.backgroundColor = [UIColor clearColor];
         
         if (!_titleL) {
-            _titleL = [[UILabel alloc] initWithFrame:CGRectMake(12, 15, 200, 15)];
+            _titleL = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15, 200, 15)];
             _titleL.font = [UIFont systemFontOfSize:14];
             _titleL.textColor = [UIColor colorWithHexString:@"0x222222"];
             _titleL.text = @"README.md";
             [self.contentView addSubview:_titleL];
         }
         if (!_lineView) {
-            _lineView = [[UIView alloc] initWithFrame:CGRectMake(12, kProjectReadMeCell_TitleHeight-1, kScreen_Width - 12, 1)];
+            _lineView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, kProjectReadMeCell_TitleHeight-1, kScreen_Width - kPaddingLeftWidth, 1)];
             _lineView.backgroundColor = kColorTableSectionBg;
             [self.contentView addSubview:_lineView];
         }
 
 
         if (!_webContentView) {
-            _webContentView = [[UIWebView alloc] initWithFrame:CGRectMake(0, kProjectReadMeCell_TitleHeight, kScreen_Width, 1)];
+            CGFloat pading = kPaddingLeftWidth - 8.0;
+            
+            _webContentView = [[UIWebView alloc] initWithFrame:CGRectMake(pading, kProjectReadMeCell_TitleHeight, kScreen_Width- 2*pading, 1)];
             _webContentView.delegate = self;
             _webContentView.scrollView.scrollEnabled = NO;
             _webContentView.scrollView.scrollsToTop = NO;

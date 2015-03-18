@@ -6,6 +6,9 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
+#define ProjectItemsCell_ItemHeight (kScreen_Width/4)
+#define ProjectItemsCell_PadingHeight kScaleFrom_iPhone5_Desgin(10)
+
 #import "ProjectItemsCell.h"
 #import <FontAwesome+iOS/UIImage+FontAwesome.h>
 
@@ -47,9 +50,8 @@
         }else{
             _items = [[NSMutableArray alloc] initWithCapacity:itemsNum];
             CGFloat itemWidth = kScreen_Width/itemsNumInLine;
-            CGFloat itemHeight = kScreen_Width/3;
             for (int i = 0; i < itemsNum; i++) {
-                CGRect frame = CGRectMake(itemWidth *(i%itemsNumInLine), itemHeight *(i/itemsNumInLine), itemWidth, itemHeight);
+                CGRect frame = CGRectMake(itemWidth *(i%itemsNumInLine), ProjectItemsCell_PadingHeight+ ProjectItemsCell_ItemHeight *(i/itemsNumInLine), itemWidth, ProjectItemsCell_ItemHeight);
                 UIButton *item = [self itemWithFrame:frame icon:itemsIconList[i] color:itemsColorList[i] title:itemsTitleList[i] index:i];
                 [self.contentView addSubview:item];
                 [_items addObject:item];
@@ -71,7 +73,8 @@
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[Project class]]) {
         Project *curProject = (Project *)obj;
-        cellHeight = kScreen_Width/3 *(curProject.is_public.boolValue? 1: 2);
+        cellHeight = ProjectItemsCell_ItemHeight *(curProject.is_public.boolValue? 1: 2);
+        cellHeight += 2* ProjectItemsCell_PadingHeight;
     }
     return cellHeight;
 }
@@ -83,8 +86,12 @@
 - (UIButton *)itemWithFrame:(CGRect)frame icon:(NSString *)iconStr color:(NSString *)colorStr title:(NSString *)titleStr index:(NSInteger)index{
     UIButton *item = [[UIButton alloc] initWithFrame:frame];
     
-    CGFloat iconWidth = 50*(kScreen_Width/320);
-    UIImage *itemImg = [UIImage imageWithIcon:iconStr backgroundColor:[UIColor clearColor] iconColor:[UIColor whiteColor] iconScale:1.0 andSize:CGSizeMake(iconWidth/2.5, iconWidth/2.5)];
+    CGFloat iconWidth = kScaleFrom_iPhone5_Desgin(50);
+    if (kDevice_Is_iPhone6Plus || kDevice_Is_iPhone6) {
+        iconWidth -= 5;
+    }
+    
+    UIImage *itemImg = [UIImage imageWithIcon:iconStr backgroundColor:[UIColor clearColor] iconColor:[UIColor whiteColor] iconScale:1.0 andSize:CGSizeMake(iconWidth/2.8, iconWidth/2.8)];
     UIImageView *itemImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, iconWidth, iconWidth)];
     itemImgView.tag = kProjectItemsCell_ItemIconTag;
     itemImgView.contentMode = UIViewContentModeCenter;
@@ -99,16 +106,21 @@
     titleL.textColor = [UIColor colorWithHexString:@"0x222222"];
     titleL.text = titleStr;
     
+//    CGFloat pading_IconToTitle = kScaleFrom_iPhone5_Desgin(10);
+//    CGFloat pading = (CGRectGetHeight(item.frame) - iconWidth - 15 - pading_IconToTitle)/2;
+    CGFloat pading = (CGRectGetHeight(item.frame) - iconWidth - 15)/3;
+    
     [item addSubview:itemImgView];
     [item addSubview:titleL];
     [itemImgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(item.mas_centerX);
-        make.centerY.equalTo(item.mas_centerY).offset(-10);
+        make.top.equalTo(item.mas_top).offset(pading);
         make.size.mas_equalTo(CGSizeMake(iconWidth, iconWidth));
     }];
     [titleL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.left.right.equalTo(item);
-        make.top.equalTo(itemImgView.mas_bottom).offset(12);
+        make.bottom.equalTo(item.mas_bottom).offset(-pading);
+        make.bottom.equalTo(item.mas_centerY).offset(iconWidth/2);
         make.height.mas_equalTo(15);
     }];
     

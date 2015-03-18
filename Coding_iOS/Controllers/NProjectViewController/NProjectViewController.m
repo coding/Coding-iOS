@@ -166,7 +166,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (_myProject.is_public && !_myProject.is_public.boolValue
         && section > 0) {
-        return section == 1? 75: 24;
+        return section == 1? kScaleFrom_iPhone5_Desgin(60): kScaleFrom_iPhone5_Desgin(24);
     }else{
         return 0;
     }
@@ -177,16 +177,19 @@
     if (_myProject.is_public && !_myProject.is_public.boolValue
         && section > 0) {
         ListGroupItem *item = [_myProActs.listGroups objectAtIndex:section -1];
-        UIView *dateStrView = [tableView getHeaderViewWithStr:[item.date string_yyyy_MM_dd_EEE] color:[UIColor colorWithHexString:@"0xedefee"] andBlock:nil];
+        UIView *dateStrView = [tableView getHeaderViewWithStr:[item.date string_yyyy_MM_dd_EEE] color:[UIColor colorWithHexString:@"0xeeeeee"] andBlock:nil];
+        dateStrView.layer.masksToBounds = YES;
+        dateStrView.layer.cornerRadius = 2.0;
+        
         headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, [self tableView:tableView heightForHeaderInSection:section])];
         headerView.backgroundColor = self.view.backgroundColor;
-        [dateStrView setFrame:CGRectMake(10,
+        [dateStrView setFrame:CGRectMake(kPaddingLeftWidth,
                                          CGRectGetHeight(headerView.frame) - CGRectGetHeight(dateStrView.frame),
-                                         kScreen_Width - 2* 10,
+                                         kScreen_Width - 2* kPaddingLeftWidth,
                                          CGRectGetHeight(dateStrView.frame))];
         [headerView addSubview:dateStrView];
         if (section == 1) {
-            UILabel *titleL = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, 200, 20)];
+            UILabel *titleL = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, kScaleFrom_iPhone5_Desgin(10), 200, 20)];
             titleL.font = [UIFont systemFontOfSize:15];
             titleL.textColor = [UIColor colorWithHexString:@"0x222222"];
             titleL.text = @"最近动态";
@@ -280,7 +283,7 @@
                 [weakSelf goToVCWithItem:clickedItem activity:proAct isContent:isContent inProject:weakSelf.myProject];
             };
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:
-             (row == item.location +item.length -1)? 0: 80 hasSectionLine:NO];
+             (row == item.location +item.length -1)? 0: 85 hasSectionLine:NO];
             return cell;
         }
     }
@@ -370,14 +373,18 @@
             break;
         default://Fork
         {
-            [[Coding_NetAPIManager sharedManager] request_ForkProject:_myProject andBlock:^(id data, NSError *error) {
-                [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-                if (data) {
-                    NProjectViewController *vc = [[NProjectViewController alloc] init];
-                    vc.myProject = data;
-                    [weakSelf.navigationController pushViewController:vc animated:YES];
+            [[UIActionSheet bk_actionSheetCustomWithTitle:@"fork将会将此项目复制到您的个人空间，确定要fork吗?" buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                if (index == 0) {
+                    [[Coding_NetAPIManager sharedManager] request_ForkProject:_myProject andBlock:^(id data, NSError *error) {
+                        [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                        if (data) {
+                            NProjectViewController *vc = [[NProjectViewController alloc] init];
+                            vc.myProject = data;
+                            [weakSelf.navigationController pushViewController:vc animated:YES];
+                        }
+                    }];
                 }
-            }];
+            }] showInView:self.view];
         }
             break;
     }
