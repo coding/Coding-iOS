@@ -64,6 +64,9 @@
                                   UIActivityIndicatorViewStyleGray];
             _activityIndicator.hidesWhenStopped = YES;
             [self.contentView addSubview:_activityIndicator];
+            [_activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.center.equalTo(self.contentView);
+            }];
         }
         
         if (!_commentCountLabel) {
@@ -113,6 +116,7 @@
     
     //    讨论的内容
     [self.webContentView setY:curBottomY];
+    [self.activityIndicator setCenter:CGPointMake(self.webContentView.center.x, curBottomY +10)];
     [self.webContentView setHeight:_curTopic.contentHeight];
     
     if (!_webContentView.isLoading) {
