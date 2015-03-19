@@ -17,7 +17,6 @@ PODS:
     - BlocksKit/DynamicDelegate
   - FontAwesome+iOS (0.1.4)
   - hpple (0.2.0)
-  - JDStatusBarNotification (1.4.9)
   - Masonry (0.5.3)
   - MBProgressHUD (0.9)
   - MMMarkdown (0.3)
@@ -63,7 +62,6 @@ DEPENDENCIES:
   - APParallaxHeader
   - BlocksKit (= 2.2.5)
   - hpple (= 0.2.0)
-  - JDStatusBarNotification (= 1.4.9)
   - Masonry (= 0.5.3)
   - MBProgressHUD (= 0.9)
   - MMMarkdown (= 0.3)
@@ -81,7 +79,6 @@ SPEC CHECKSUMS:
   BlocksKit: 4439e7f30a9f90743462ca63545a15c1f4304cef
   FontAwesome+iOS: 816c20304edef4ca92835de669577005cbaaf261
   hpple: f4eb7c21a8db83ec264e5d614ec7509e10e5adec
-  JDStatusBarNotification: 9d833032d343e9a7abe0ec219c415dc115ba67a8
   Masonry: 35368c2ca9577ca87722c12fc52c4bad9b1c1516
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   MMMarkdown: 95af8920c647512d1efa2ac8ac1932baf3266e2c

@@ -131,6 +131,9 @@
 		4E96E7E31A1B537E0037C098 /* icon_file_txt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E96E7D51A1B537E0037C098 /* icon_file_txt@2x.png */; };
 		4E96E7E41A1B537E0037C098 /* icon_file_xls@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E96E7D61A1B537E0037C098 /* icon_file_xls@2x.png */; };
 		4E96E7E51A1B537E0037C098 /* icon_file_zip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E96E7D71A1B537E0037C098 /* icon_file_zip@2x.png */; };
+		4E996BC81ABA754600C704F1 /* JDStatusBarNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BC31ABA754600C704F1 /* JDStatusBarNotification.m */; };
+		4E996BC91ABA754600C704F1 /* JDStatusBarStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BC51ABA754600C704F1 /* JDStatusBarStyle.m */; };
+		4E996BCA1ABA754600C704F1 /* JDStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BC71ABA754600C704F1 /* JDStatusBarView.m */; };
 		4EA679031A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA679011A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a */; };
 		4EA679061A130C24001A0324 /* icon_code_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EA679041A130C24001A0324 /* icon_code_file@2x.png */; };
 		4EA679071A130C24001A0324 /* icon_code_tree@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EA679051A130C24001A0324 /* icon_code_tree@2x.png */; };
@@ -741,6 +744,12 @@
 		4E96E7D51A1B537E0037C098 /* icon_file_txt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_txt@2x.png"; sourceTree = "<group>"; };
 		4E96E7D61A1B537E0037C098 /* icon_file_xls@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_xls@2x.png"; sourceTree = "<group>"; };
 		4E96E7D71A1B537E0037C098 /* icon_file_zip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_zip@2x.png"; sourceTree = "<group>"; };
+		4E996BC21ABA754600C704F1 /* JDStatusBarNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDStatusBarNotification.h; sourceTree = "<group>"; };
+		4E996BC31ABA754600C704F1 /* JDStatusBarNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDStatusBarNotification.m; sourceTree = "<group>"; };
+		4E996BC41ABA754600C704F1 /* JDStatusBarStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDStatusBarStyle.h; sourceTree = "<group>"; };
+		4E996BC51ABA754600C704F1 /* JDStatusBarStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDStatusBarStyle.m; sourceTree = "<group>"; };
+		4E996BC61ABA754600C704F1 /* JDStatusBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDStatusBarView.h; sourceTree = "<group>"; };
+		4E996BC71ABA754600C704F1 /* JDStatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDStatusBarView.m; sourceTree = "<group>"; };
 		4EA679011A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.1.0.a; sourceTree = "<group>"; };
 		4EA679021A11F18A001A0324 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		4EA679041A130C24001A0324 /* icon_code_file@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_code_file@2x.png"; sourceTree = "<group>"; };
@@ -1694,6 +1703,19 @@
 			path = icon_file;
 			sourceTree = "<group>";
 		};
+		4E996BC11ABA754600C704F1 /* JDStatusBarNotification */ = {
+			isa = PBXGroup;
+			children = (
+				4E996BC21ABA754600C704F1 /* JDStatusBarNotification.h */,
+				4E996BC31ABA754600C704F1 /* JDStatusBarNotification.m */,
+				4E996BC41ABA754600C704F1 /* JDStatusBarStyle.h */,
+				4E996BC51ABA754600C704F1 /* JDStatusBarStyle.m */,
+				4E996BC61ABA754600C704F1 /* JDStatusBarView.h */,
+				4E996BC71ABA754600C704F1 /* JDStatusBarView.m */,
+			);
+			path = JDStatusBarNotification;
+			sourceTree = "<group>";
+		};
 		4EA679001A11F18A001A0324 /* UMessage_Sdk_1.1.0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2611,6 +2633,7 @@
 		8EA6D03E19E240C40076D59C /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4E996BC11ABA754600C704F1 /* JDStatusBarNotification */,
 				4EBFBD0F1AA80AEE00E4B10E /* iVersion */,
 				4E6C411A1A846AC30098DC17 /* RFKeyboardToolbar */,
 				4E6D71841A75F00E005AD988 /* YLGIFImage */,
@@ -3299,6 +3322,7 @@
 				8EF643BF19FF7E2900F7EEB0 /* SettingTextCell.m in Sources */,
 				8E64ED8419ED0CE3006E99DA /* QBImagePickerGroupCell.m in Sources */,
 				4ECE8AE71A3943E80021E29C /* UITableView+Common.m in Sources */,
+				4E996BC81ABA754600C704F1 /* JDStatusBarNotification.m in Sources */,
 				4E6C411F1A846AC30098DC17 /* RFKeyboardToolbar.m in Sources */,
 				4E38CF621A7B7C99005536C0 /* CodeBranchOrTag.m in Sources */,
 				8EA6D1CF19E240C40076D59C /* ObjcRuntime.m in Sources */,
@@ -3460,6 +3484,7 @@
 				8E64ED8219ED0CE3006E99DA /* QBImagePickerController.m in Sources */,
 				4E6BA2E01A1EE6AF005FD721 /* AFURLResponseSerialization.m in Sources */,
 				8E59F1031A0120F1009A905F /* CodeFile.m in Sources */,
+				4E996BCA1ABA754600C704F1 /* JDStatusBarView.m in Sources */,
 				8EF643AD19FF7E2900F7EEB0 /* TweetMediaItemCCell.m in Sources */,
 				8EA6D23519E240C40076D59C /* ProjectListView.m in Sources */,
 				8E64ED7E19ED0CE3006E99DA /* QBAssetsCollectionVideoIndicatorView.m in Sources */,
@@ -3481,6 +3506,7 @@
 				4E217F111A70EDC700F6DF88 /* SVWebViewControllerActivityChrome.m in Sources */,
 				4EA6790D1A1461DC001A0324 /* ProjectFolder.m in Sources */,
 				8EF643BC19FF7E2900F7EEB0 /* ProjectActivityListCell.m in Sources */,
+				4E996BC91ABA754600C704F1 /* JDStatusBarStyle.m in Sources */,
 				8EF83F9419EB78CC00E86DE7 /* SettingTextViewController.m in Sources */,
 				8EA6D1B019E240C40076D59C /* Comment.m in Sources */,
 				4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */,
