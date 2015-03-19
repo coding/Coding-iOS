@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
+#define kProjectListTaCell_IconWidth 55
+
 #import "ProjectListTaCell.h"
 
 @interface ProjectListTaCell ()
@@ -43,13 +45,13 @@
         if (!_nameL) {
             _nameL = [[UILabel alloc] init];
             _nameL.textColor = [UIColor colorWithHexString:@"0x222222"];
-            _nameL.font = [UIFont systemFontOfSize:17];
+            _nameL.font = [UIFont systemFontOfSize:16];
             [self.contentView addSubview:_nameL];
         }
         if (!_desL) {
             _desL = [[UILabel alloc] init];
             _desL.textColor = [UIColor colorWithHexString:@"0x999999"];
-            _desL.font = [UIFont systemFontOfSize:15];
+            _desL.font = [UIFont systemFontOfSize:14];
             [self.contentView addSubview:_desL];
         }
         if (!_starL) {
@@ -70,51 +72,47 @@
             _forkL.font = [UIFont systemFontOfSize:10];
             [self.contentView addSubview:_forkL];
         }
-//        _starL.adjustsFontSizeToFitWidth = _watchL.adjustsFontSizeToFitWidth = _forkL.adjustsFontSizeToFitWidth = YES;
-//        _starL.minimumScaleFactor = _watchL.minimumScaleFactor = _forkL.minimumScaleFactor = 0.6;
         _starV.image = [UIImage imageNamed:@"git_icon_star"];
         _watchV.image = [UIImage imageNamed:@"git_icon_watch"];
         _forkV.image = [UIImage imageNamed:@"git_icon_fork"];
         
         [_iconV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(55, 55));
+            make.size.mas_equalTo(CGSizeMake(kProjectListTaCell_IconWidth, kProjectListTaCell_IconWidth));
             make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
             make.centerY.equalTo(self.contentView);
         }];
         [_nameL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(20);
-            make.top.equalTo(_iconV);
             make.left.equalTo(_iconV.mas_right).offset(20);
             make.right.equalTo(self.contentView);
+            make.bottom.equalTo(_desL.mas_top).offset(-5);
         }];
         [_desL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(20);
+            make.height.mas_equalTo(15);
             make.left.right.equalTo(_nameL);
-            make.centerY.equalTo(_iconV);
+            make.bottom.equalTo(_starV.mas_top).offset(-5);
         }];
         [_starV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_nameL);
             make.bottom.equalTo(_iconV);
+            make.left.equalTo(_nameL);
             make.centerY.equalTo(@[_starL, _watchV, _watchL, _forkV, _forkL]);
             make.width.height.equalTo(@[_watchV, _forkV, @12]);
         }];
-        CGFloat splitWidth = 2;
         [_starL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_starV.mas_right).offset(splitWidth);
+            make.left.equalTo(_starV.mas_right).offset(2);
             make.height.equalTo(@[_starV, _watchL, _forkL]);
-//            make.width.equalTo(@[_watchL, _forkL, @25]);
         }];
         [_watchV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_starL.mas_right).offset(splitWidth);
+            make.left.equalTo(_starL.mas_right).offset(10);
         }];
         [_watchL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_watchV.mas_right).offset(splitWidth);
+            make.left.equalTo(_watchV.mas_right).offset(2);
         }];
         [_forkV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_watchL.mas_right).offset(splitWidth);
+            make.left.equalTo(_watchL.mas_right).offset(10);
         }];
         [_forkL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_forkV.mas_right).offset(splitWidth);
+            make.left.equalTo(_forkV.mas_right).offset(2);
         }];
         
     }
@@ -126,7 +124,9 @@
     if (!_project) {
         return;
     }
-    [_iconV sd_setImageWithURL:[_project.icon urlImageWithCodePathResizeToView:_iconV] placeholderImage:kPlaceholderCodingSquareWidth(55.0)];
+    [_iconV sd_setImageWithURL:[_project.icon urlImageWithCodePathResize:2*kProjectListTaCell_IconWidth] placeholderImage:kPlaceholderCodingSquareWidth(55.0) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        NSLog(@"_project: %@, imageURL: %@", _project.name, imageURL.absoluteString);
+    }];
     _nameL.text = _project.name;
     _desL.text = _project.description_mine;
     _starL.text = _project.star_count.stringValue;

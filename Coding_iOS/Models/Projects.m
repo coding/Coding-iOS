@@ -130,6 +130,13 @@
 - (NSString *)toBranchOrTagPath:(NSString *)path{
     return [NSString stringWithFormat:@"api/user/%@/project/%@/git/%@", self.owner_user_name, self.name, path];
 }
+- (NSString *)description_mine{
+    if (_description_mine && _description_mine.length > 0) {
+        return _description_mine;
+    }else{
+        return @"未填写";
+    }
+}
 @end
 
 
