@@ -7,7 +7,7 @@
 //
 
 #define kProjectListCell_IconHeight 55.0
-#define kProjectListCell_ContentLeft (10+kProjectListCell_IconHeight+24)
+#define kProjectListCell_ContentLeft (kPaddingLeftWidth+kProjectListCell_IconHeight+20)
 
 
 
@@ -17,7 +17,6 @@
 @property (nonatomic, strong) UIImageView *projectIconView, *privateIconView;
 @property (nonatomic, strong) UILabel *projectTitleLabel;
 @property (nonatomic, strong) UILabel *ownerTitleLabel;
-@property (nonatomic, strong) UIImageView *arrowImgView;
 @end
 
 @implementation ProjectListCell
@@ -32,7 +31,6 @@
             _projectIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, kProjectListCell_IconHeight, kProjectListCell_IconHeight)];
             _projectIconView.layer.masksToBounds = YES;
             _projectIconView.layer.cornerRadius = 2.0;
-            _projectIconView.clipsToBounds = YES;
             [self.contentView addSubview:_projectIconView];
         }
 
@@ -85,9 +83,11 @@
         }
     }
     [self.contentView addBadgeTip:badgeTip withCenterPosition:CGPointMake(10+kProjectListCell_IconHeight, 15)];
+    [_projectTitleLabel sizeToFit];
+    [_ownerTitleLabel sizeToFit];
 }
 
-+ (CGFloat)cellHeightWithObj:(id)obj;{
++ (CGFloat)cellHeight{
     return 75.0;
 }
 @end

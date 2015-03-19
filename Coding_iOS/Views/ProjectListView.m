@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_ProjectList @"ProjectListCell"
 #import "ProjectListView.h"
 #import "ProjectListCell.h"
+#import "ProjectListTaCell.h"
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"
 
@@ -50,12 +50,13 @@
             tableView.delegate = self;
             tableView.dataSource = self;
             [tableView registerClass:[ProjectListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectList];
+            [tableView registerClass:[ProjectListTaCell class] forCellReuseIdentifier:kCellIdentifier_ProjectListTaCell];
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             [self addSubview:tableView];
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self);
             }];
-            if (tabBarHeight != 0) {
+            if (tabBarHeight != 0 && projects.type < ProjectsTypeTaProject) {
                 UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, tabBarHeight, 0);
                 tableView.contentInset = insets;
                 tableView.scrollIndicatorInsets = insets;
@@ -140,14 +141,25 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectList forIndexPath:indexPath];
-    cell.project = [self.searchResults objectAtIndex:indexPath.row];
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-    return cell;
+    if (_myProjects.type < ProjectsTypeTaProject) {
+        ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectList forIndexPath:indexPath];
+        cell.project = [self.searchResults objectAtIndex:indexPath.row];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
+    }else{
+        ProjectListTaCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectListTaCell forIndexPath:indexPath];
+        cell.project = [self.searchResults objectAtIndex:indexPath.row];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [ProjectListCell cellHeightWithObj:[self.searchResults objectAtIndex:indexPath.row]];
+    if (_myProjects.type < ProjectsTypeTaProject) {
+        return [ProjectListCell cellHeight];
+    }else{
+        return [ProjectListTaCell cellHeight];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

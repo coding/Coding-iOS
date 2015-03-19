@@ -23,41 +23,60 @@
     return self;
 }
 
-+ (Projects *)projectsWithType:(ProjectsType)projectsType{
++ (Projects *)projectsWithType:(ProjectsType)type andUser:(User *)user{
     Projects *pros = [[Projects alloc] init];
+    pros.type = type;
+    pros.curUser = user;
+    
     pros.page = [NSNumber numberWithInteger:1];
     pros.pageSize = [NSNumber numberWithInteger:9999];
-
-    
-    switch (projectsType) {
-        case  ProjectsTypeAll:
-            pros.type = @"all";
-            break;
-        case  ProjectsTypeJoined:
-            pros.type = @"joined";
-            break;
-        case  ProjectsTypeCreated:
-            pros.type = @"created";
-            break;
-        default:
-            pros.type = @"all";
-            break;
-    }
     return pros;
 }
 
-- (NSDictionary *)toParams{
-    if ([self.type isEqualToString:@"all"]) {
-        return @{@"page" : _willLoadMore? [NSNumber numberWithInteger:self.page.integerValue+1]: [NSNumber numberWithInteger:1],
-                 @"pageSize" : self.pageSize,
-                 @"type" : self.type,
-                 @"sort" : @"hot"};
-    }else{
-        return @{@"page" : _willLoadMore? [NSNumber numberWithInteger:self.page.integerValue+1]: [NSNumber numberWithInteger:1],
-                 @"pageSize" : self.pageSize,
-                 @"type" : self.type};
+- (NSString *)typeStr{
+    NSString *typeStr;
+    switch (_type) {
+        case  ProjectsTypeAll:
+            typeStr = @"all";
+            break;
+        case  ProjectsTypeJoined:
+            typeStr = @"joined";
+            break;
+        case  ProjectsTypeCreated:
+            typeStr = @"created";
+            break;
+        case  ProjectsTypeTaProject:
+            typeStr = @"project";
+            break;
+        case  ProjectsTypeTaStared:
+            typeStr = @"stared";
+            break;
+        default:
+            typeStr = @"all";
+            break;
     }
+    return typeStr;
+}
 
+
+- (NSDictionary *)toParams{
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:
+                                   @{@"page" : [NSNumber numberWithInteger:_willLoadMore? self.page.integerValue+1 : 1],
+                                     @"pageSize" : self.pageSize,
+                                     @"type" : [self typeStr]}];
+    if (self.type == ProjectsTypeAll) {
+        [params setObject:@"hot" forKey:@"sort"];
+    }
+    return params;
+}
+- (NSString *)toPath{
+    NSString *path;
+    if (self.type >= ProjectsTypeTaProject) {
+        path = [NSString stringWithFormat:@"api/user/%@/public_projects", _curUser.global_key];
+    }else{
+        path = @"api/projects";
+    }
+    return path;
 }
 
 - (void)configWithProjects:(Projects *)responsePros{

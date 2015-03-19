@@ -142,6 +142,7 @@
 		4E996BDC1ABA79AB00C704F1 /* UserInfoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BDB1ABA79AB00C704F1 /* UserInfoDetailViewController.m */; };
 		4E996BDF1ABA7CE100C704F1 /* UserInfoDetailUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BDE1ABA7CE100C704F1 /* UserInfoDetailUserCell.m */; };
 		4E996BE21ABA957B00C704F1 /* ProjectListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BE11ABA957B00C704F1 /* ProjectListViewController.m */; };
+		4E996BE51ABAB1D700C704F1 /* ProjectListTaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BE41ABAB1D700C704F1 /* ProjectListTaCell.m */; };
 		4EA679031A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA679011A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a */; };
 		4EA679061A130C24001A0324 /* icon_code_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EA679041A130C24001A0324 /* icon_code_file@2x.png */; };
 		4EA679071A130C24001A0324 /* icon_code_tree@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EA679051A130C24001A0324 /* icon_code_tree@2x.png */; };
@@ -773,6 +774,8 @@
 		4E996BDE1ABA7CE100C704F1 /* UserInfoDetailUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoDetailUserCell.m; sourceTree = "<group>"; };
 		4E996BE01ABA957B00C704F1 /* ProjectListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectListViewController.h; sourceTree = "<group>"; };
 		4E996BE11ABA957B00C704F1 /* ProjectListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectListViewController.m; sourceTree = "<group>"; };
+		4E996BE31ABAB1D700C704F1 /* ProjectListTaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectListTaCell.h; sourceTree = "<group>"; };
+		4E996BE41ABAB1D700C704F1 /* ProjectListTaCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectListTaCell.m; sourceTree = "<group>"; };
 		4EA679011A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.1.0.a; sourceTree = "<group>"; };
 		4EA679021A11F18A001A0324 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		4EA679041A130C24001A0324 /* icon_code_file@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_code_file@2x.png"; sourceTree = "<group>"; };
@@ -2912,6 +2915,8 @@
 				4E996BD61ABA776500C704F1 /* UserInfoTextCell.m */,
 				4E996BDD1ABA7CE100C704F1 /* UserInfoDetailUserCell.h */,
 				4E996BDE1ABA7CE100C704F1 /* UserInfoDetailUserCell.m */,
+				4E996BE31ABAB1D700C704F1 /* ProjectListTaCell.h */,
+				4E996BE41ABAB1D700C704F1 /* ProjectListTaCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -3391,6 +3396,7 @@
 				8EF643D019FF7E2900F7EEB0 /* TweetSendImagesCell.m in Sources */,
 				8ED0D87519FBA6EA00FBA818 /* NSString+Emojize.m in Sources */,
 				4E1A228B1AB1844F00CFC14F /* EaseGitButton.m in Sources */,
+				4E996BE51ABAB1D700C704F1 /* ProjectListTaCell.m in Sources */,
 				8EE72BE519E3F2E8002C11D9 /* UIImageView+MJWebCache.m in Sources */,
 				8EA6D1B119E240C40076D59C /* Commit.m in Sources */,
 				4EA7F1661A6D192B00A046BD /* UIView+WebCacheOperation.m in Sources */,
