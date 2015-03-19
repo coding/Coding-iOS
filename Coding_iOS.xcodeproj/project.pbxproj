@@ -134,6 +134,13 @@
 		4E996BC81ABA754600C704F1 /* JDStatusBarNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BC31ABA754600C704F1 /* JDStatusBarNotification.m */; };
 		4E996BC91ABA754600C704F1 /* JDStatusBarStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BC51ABA754600C704F1 /* JDStatusBarStyle.m */; };
 		4E996BCA1ABA754600C704F1 /* JDStatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BC71ABA754600C704F1 /* JDStatusBarView.m */; };
+		4E996BCD1ABA773800C704F1 /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BCC1ABA773800C704F1 /* UserInfoViewController.m */; };
+		4E996BD01ABA774800C704F1 /* EaseUserHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BCF1ABA774800C704F1 /* EaseUserHeaderView.m */; };
+		4E996BD71ABA776500C704F1 /* UserInfoDetailTagCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BD21ABA776500C704F1 /* UserInfoDetailTagCell.m */; };
+		4E996BD81ABA776500C704F1 /* UserInfoIconCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BD41ABA776500C704F1 /* UserInfoIconCell.m */; };
+		4E996BD91ABA776500C704F1 /* UserInfoTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BD61ABA776500C704F1 /* UserInfoTextCell.m */; };
+		4E996BDC1ABA79AB00C704F1 /* UserInfoDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BDB1ABA79AB00C704F1 /* UserInfoDetailViewController.m */; };
+		4E996BDF1ABA7CE100C704F1 /* UserInfoDetailUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E996BDE1ABA7CE100C704F1 /* UserInfoDetailUserCell.m */; };
 		4EA679031A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA679011A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a */; };
 		4EA679061A130C24001A0324 /* icon_code_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EA679041A130C24001A0324 /* icon_code_file@2x.png */; };
 		4EA679071A130C24001A0324 /* icon_code_tree@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EA679051A130C24001A0324 /* icon_code_tree@2x.png */; };
@@ -239,7 +246,6 @@
 		8E1C3E0B19E8DFE300EF3032 /* SettingMineInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3E0119E8DFE300EF3032 /* SettingMineInfoViewController.m */; };
 		8E1C3E0C19E8DFE300EF3032 /* SettingPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3E0319E8DFE300EF3032 /* SettingPasswordViewController.m */; };
 		8E1C3E0D19E8DFE300EF3032 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3E0519E8DFE300EF3032 /* SettingViewController.m */; };
-		8E1C3E0E19E8DFE300EF3032 /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3E0719E8DFE300EF3032 /* UserInfoViewController.m */; };
 		8E477014198770E700997D05 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E477013198770E700997D05 /* Foundation.framework */; };
 		8E477016198770E700997D05 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E477015198770E700997D05 /* CoreGraphics.framework */; };
 		8E477018198770E700997D05 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E477017198770E700997D05 /* UIKit.framework */; };
@@ -750,6 +756,20 @@
 		4E996BC51ABA754600C704F1 /* JDStatusBarStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDStatusBarStyle.m; sourceTree = "<group>"; };
 		4E996BC61ABA754600C704F1 /* JDStatusBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JDStatusBarView.h; sourceTree = "<group>"; };
 		4E996BC71ABA754600C704F1 /* JDStatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JDStatusBarView.m; sourceTree = "<group>"; };
+		4E996BCB1ABA773800C704F1 /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
+		4E996BCC1ABA773800C704F1 /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
+		4E996BCE1ABA774800C704F1 /* EaseUserHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseUserHeaderView.h; sourceTree = "<group>"; };
+		4E996BCF1ABA774800C704F1 /* EaseUserHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseUserHeaderView.m; sourceTree = "<group>"; };
+		4E996BD11ABA776500C704F1 /* UserInfoDetailTagCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoDetailTagCell.h; sourceTree = "<group>"; };
+		4E996BD21ABA776500C704F1 /* UserInfoDetailTagCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoDetailTagCell.m; sourceTree = "<group>"; };
+		4E996BD31ABA776500C704F1 /* UserInfoIconCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoIconCell.h; sourceTree = "<group>"; };
+		4E996BD41ABA776500C704F1 /* UserInfoIconCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoIconCell.m; sourceTree = "<group>"; };
+		4E996BD51ABA776500C704F1 /* UserInfoTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoTextCell.h; sourceTree = "<group>"; };
+		4E996BD61ABA776500C704F1 /* UserInfoTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoTextCell.m; sourceTree = "<group>"; };
+		4E996BDA1ABA79AB00C704F1 /* UserInfoDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoDetailViewController.h; sourceTree = "<group>"; };
+		4E996BDB1ABA79AB00C704F1 /* UserInfoDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoDetailViewController.m; sourceTree = "<group>"; };
+		4E996BDD1ABA7CE100C704F1 /* UserInfoDetailUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoDetailUserCell.h; sourceTree = "<group>"; };
+		4E996BDE1ABA7CE100C704F1 /* UserInfoDetailUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoDetailUserCell.m; sourceTree = "<group>"; };
 		4EA679011A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.1.0.a; sourceTree = "<group>"; };
 		4EA679021A11F18A001A0324 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		4EA679041A130C24001A0324 /* icon_code_file@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_code_file@2x.png"; sourceTree = "<group>"; };
@@ -934,8 +954,6 @@
 		8E1C3E0319E8DFE300EF3032 /* SettingPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingPasswordViewController.m; sourceTree = "<group>"; };
 		8E1C3E0419E8DFE300EF3032 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		8E1C3E0519E8DFE300EF3032 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
-		8E1C3E0619E8DFE300EF3032 /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
-		8E1C3E0719E8DFE300EF3032 /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
 		8E477010198770E700997D05 /* Coding_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Coding_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E477013198770E700997D05 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8E477015198770E700997D05 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -1963,8 +1981,6 @@
 				8E1C3E0319E8DFE300EF3032 /* SettingPasswordViewController.m */,
 				8E1C3E0419E8DFE300EF3032 /* SettingViewController.h */,
 				8E1C3E0519E8DFE300EF3032 /* SettingViewController.m */,
-				8E1C3E0619E8DFE300EF3032 /* UserInfoViewController.h */,
-				8E1C3E0719E8DFE300EF3032 /* UserInfoViewController.m */,
 				8EF83F8819E92AA500E86DE7 /* SettingTagsViewController.h */,
 				8EF83F8919E92AA500E86DE7 /* SettingTagsViewController.m */,
 				8EF83F9219EB78CC00E86DE7 /* SettingTextViewController.h */,
@@ -2275,6 +2291,10 @@
 				4E4ABBE91A653027004760D9 /* WebViewController.m */,
 				4ED6731C1A8DD38C00DF2D1A /* ReportIllegalViewController.h */,
 				4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */,
+				4E996BCB1ABA773800C704F1 /* UserInfoViewController.h */,
+				4E996BCC1ABA773800C704F1 /* UserInfoViewController.m */,
+				4E996BDA1ABA79AB00C704F1 /* UserInfoDetailViewController.h */,
+				4E996BDB1ABA79AB00C704F1 /* UserInfoDetailViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2743,6 +2763,8 @@
 				4E38CF5E1A7A28AF005536C0 /* CodeBranchTagButton.m */,
 				4E743E6B1A88A3CC00DADDE5 /* EaseMarkdownTextView.h */,
 				4E743E6C1A88A3CC00DADDE5 /* EaseMarkdownTextView.m */,
+				4E996BCE1ABA774800C704F1 /* EaseUserHeaderView.h */,
+				4E996BCF1ABA774800C704F1 /* EaseUserHeaderView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2877,6 +2899,14 @@
 				4E1A22871AB1731600CFC14F /* ProjectDescriptionCell.m */,
 				4E6FFB2F1AB3176900F27B3F /* ProjectReadMeCell.h */,
 				4E6FFB301AB3176900F27B3F /* ProjectReadMeCell.m */,
+				4E996BD11ABA776500C704F1 /* UserInfoDetailTagCell.h */,
+				4E996BD21ABA776500C704F1 /* UserInfoDetailTagCell.m */,
+				4E996BD31ABA776500C704F1 /* UserInfoIconCell.h */,
+				4E996BD41ABA776500C704F1 /* UserInfoIconCell.m */,
+				4E996BD51ABA776500C704F1 /* UserInfoTextCell.h */,
+				4E996BD61ABA776500C704F1 /* UserInfoTextCell.m */,
+				4E996BDD1ABA7CE100C704F1 /* UserInfoDetailUserCell.h */,
+				4E996BDE1ABA7CE100C704F1 /* UserInfoDetailUserCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -3243,6 +3273,7 @@
 				4E6BA2E51A1EE6AF005FD721 /* UIImageView+AFNetworking.m in Sources */,
 				8EA6D1B919E240C40076D59C /* ProjectMember.m in Sources */,
 				4EBFBD141AA80AEE00E4B10E /* iVersion.m in Sources */,
+				4E996BCD1ABA773800C704F1 /* UserInfoViewController.m in Sources */,
 				8EA6D13719E240C40076D59C /* Me_RootViewController.m in Sources */,
 				4E8765691A22E5B40090CFB9 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				8E59F0EE1A00F34E009A905F /* ProjectCodeListView.m in Sources */,
@@ -3266,7 +3297,6 @@
 				4E743E6D1A88A3CC00DADDE5 /* EaseMarkdownTextView.m in Sources */,
 				8EA6D1B519E240C40076D59C /* ListGroupItem.m in Sources */,
 				8EA6D13919E240C40076D59C /* MyTask_RootViewController.m in Sources */,
-				8E1C3E0E19E8DFE300EF3032 /* UserInfoViewController.m in Sources */,
 				8E1C3E0A19E8DFE300EF3032 /* SettingAccountViewController.m in Sources */,
 				4E8765681A22E5B40090CFB9 /* SWTableViewCell.m in Sources */,
 				4EBB624D1A6F526C0045DAEF /* NJKWebViewProgressView.m in Sources */,
@@ -3341,6 +3371,7 @@
 				8EF643CA19FF7E2900F7EEB0 /* TopicContentCell.m in Sources */,
 				4ECE8AE81A3943E80021E29C /* UIView+Common.m in Sources */,
 				4EA7F15E1A6D192B00A046BD /* SDWebImageDownloaderOperation.m in Sources */,
+				4E996BD81ABA776500C704F1 /* UserInfoIconCell.m in Sources */,
 				8E1C3E0C19E8DFE300EF3032 /* SettingPasswordViewController.m in Sources */,
 				4E9113A21A1C426000AC9431 /* ASPopUpView.m in Sources */,
 				4E6BA2E21A1EE6AF005FD721 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
@@ -3372,6 +3403,7 @@
 				8EA6D25019E240C40076D59C /* UIMessageInputView.m in Sources */,
 				E7A046A01A47279E00528C12 /* Helper.m in Sources */,
 				8E64ED8019ED0CE3006E99DA /* QBAssetsCollectionViewController.m in Sources */,
+				4E996BD71ABA776500C704F1 /* UserInfoDetailTagCell.m in Sources */,
 				4E87656A1A22E5B40090CFB9 /* SWUtilityButtonView.m in Sources */,
 				8EABE3C819F10D2400A17784 /* TaskComment.m in Sources */,
 				8E97CE471A0A2DF8006F9AD7 /* AGEmojiKeyBoardView.m in Sources */,
@@ -3386,6 +3418,7 @@
 				4E6BA2E81A1EE6AF005FD721 /* UIWebView+AFNetworking.m in Sources */,
 				8EA6D13519E240C40076D59C /* ProjectViewController.m in Sources */,
 				8EF643AB19FF7E2900F7EEB0 /* TagCCell.m in Sources */,
+				4E996BDC1ABA79AB00C704F1 /* UserInfoDetailViewController.m in Sources */,
 				4E8765671A22E5B40090CFB9 /* SWLongPressGestureRecognizer.m in Sources */,
 				4EA7F1611A6D192B00A046BD /* UIButton+WebCache.m in Sources */,
 				8EE72BE419E3F2E8002C11D9 /* SDWebImageManager+MJ.m in Sources */,
@@ -3452,6 +3485,7 @@
 				8EA6D1F619E240C40076D59C /* MJPhoto.m in Sources */,
 				8EF643CB19FF7E2900F7EEB0 /* TweetCell.m in Sources */,
 				4ECE8ADF1A3943E80021E29C /* UIBarButtonItem+Common.m in Sources */,
+				4E996BD01ABA774800C704F1 /* EaseUserHeaderView.m in Sources */,
 				8EA6D1C019E240C40076D59C /* Tasks.m in Sources */,
 				8EE72BE819E3F4A8002C11D9 /* MBProgressHUD+Add.m in Sources */,
 				8E59F10D1A02188D009A905F /* CodeViewController.m in Sources */,
@@ -3472,6 +3506,7 @@
 				8EF643AC19FF7E2900F7EEB0 /* TweetLikeUserCCell.m in Sources */,
 				8E64ED7B19ED0CE3006E99DA /* QBAssetsCollectionCheckmarkView.m in Sources */,
 				8EA6D1AB19E240C40076D59C /* main.m in Sources */,
+				4E996BD91ABA776500C704F1 /* UserInfoTextCell.m in Sources */,
 				8E1C3E0819E8DFE300EF3032 /* AboutViewController.m in Sources */,
 				4E6BA2D71A1EE6AF005FD721 /* AFHTTPRequestOperation.m in Sources */,
 				8EF643A919FF7E2900F7EEB0 /* MessageMediaItemCCell.m in Sources */,
@@ -3515,6 +3550,7 @@
 				8EA6D1BE19E240C40076D59C /* Register.m in Sources */,
 				8EF643B019FF7E2900F7EEB0 /* CodingTipCell.m in Sources */,
 				8EA6D1BA19E240C40076D59C /* Projects.m in Sources */,
+				4E996BDF1ABA7CE100C704F1 /* UserInfoDetailUserCell.m in Sources */,
 				4EACB4461A2C60110097ABB3 /* ProjectActivities.m in Sources */,
 				8EA6D1CB19E240C40076D59C /* UITapImageView.m in Sources */,
 				4E217F171A70EDC700F6DF88 /* SVWebViewControllerActivity.m in Sources */,

@@ -16,6 +16,7 @@
 #import "AddUserViewController.h"
 #import "SettingViewController.h"
 #import "SettingMineInfoViewController.h"
+#import "UserInfoDetailViewController.h"
 
 #import "RDVTabBarController.h"
 #import "RDVTabBarItem.h"
@@ -271,12 +272,13 @@
 }
 
 - (void)goToDetailInfo{
-    UIViewController *vc;
     if ([self isMe]) {
-        vc = [[SettingMineInfoViewController alloc] init];
+        SettingMineInfoViewController *vc = [[SettingMineInfoViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
     }else{
-        vc = [[UIViewController alloc] init];
+        UserInfoDetailViewController *vc = [[UserInfoDetailViewController alloc] init];
+        vc.curUser = self.curUser;
+        [self.navigationController pushViewController:vc animated:YES];
     }
-    [self.navigationController pushViewController:vc animated:YES];
 }
 @end
