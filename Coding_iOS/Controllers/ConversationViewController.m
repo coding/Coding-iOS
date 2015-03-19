@@ -126,7 +126,7 @@
 
 - (void)messageInputView:(UIMessageInputView *)inputView heightToBottomChenged:(CGFloat)heightToBottom{
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-        UIEdgeInsets contentInsets= UIEdgeInsetsMake(0.0, 0.0, heightToBottom, 0.0);;
+        UIEdgeInsets contentInsets= UIEdgeInsetsMake(0.0, 0.0, MAX(CGRectGetHeight(inputView.frame), heightToBottom), 0.0);;
         self.myTableView.contentInset = contentInsets;
         self.myTableView.scrollIndicatorInsets = contentInsets;
         if (heightToBottom > 60) {
@@ -209,7 +209,7 @@
 
             }
         }];
-        [actionSheet showInView:nil];
+        [actionSheet showInView:self.view];
     };
     cell.refreshMessageMediaCCellBlock = ^(CGFloat diff){
 //        ESStrongSelf;
@@ -259,7 +259,7 @@
             [_self deletePrivateMessageWithMsg:_messageToResendOrDelete];
         }
     }];
-    [actionSheet showInView:nil];
+    [actionSheet showInView:self.view];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

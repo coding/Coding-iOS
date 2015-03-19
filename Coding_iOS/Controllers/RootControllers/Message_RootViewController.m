@@ -258,7 +258,7 @@
             [weakSelf removeConversation:msg inTableView:tableView];
         }
     }];
-    [actionSheet showInView:nil];
+    [actionSheet showInView:self.view];
 }
 
 - (void)removeConversation:(PrivateMessage *)curMsg inTableView:(UITableView *)tableView{

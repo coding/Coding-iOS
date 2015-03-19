@@ -291,6 +291,12 @@ static char LoadingViewKey, BlankPageViewKey;
 
 @end
 
+
+@interface EaseLoadingView ()
+@property (nonatomic, assign) CGFloat loopAngle, monkeyAlpha, angleStep, alphaStep;
+@end
+
+
 @implementation EaseLoadingView
 
 - (instancetype)initWithFrame:(CGRect)frame{
@@ -309,6 +315,11 @@ static char LoadingViewKey, BlankPageViewKey;
         [_monkeyView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(self);
         }];
+        
+        _loopAngle = 0.0;
+        _monkeyAlpha = 1.0;
+        _angleStep = 360/3;
+        _alphaStep = 1.0/3.0;
     }
     return self;
 }
@@ -328,30 +339,28 @@ static char LoadingViewKey, BlankPageViewKey;
 }
 
 - (void)loadingAnimation{
-    static CGFloat loopAngle = 0.0, monkeyAlpha = 1.0;
-    static CGFloat angleStep = 360/2, alphaStep = 1.0/2.0;
-    static CGFloat duration = 0.4f;
-    loopAngle += angleStep;
-    if (monkeyAlpha >= 1.0 || monkeyAlpha <= 0.0) {
-        alphaStep = -alphaStep;
+    static CGFloat duration = 0.25f;
+    _loopAngle += _angleStep;
+    if (_monkeyAlpha >= 1.0 || _monkeyAlpha <= 0.0) {
+        _alphaStep = -_alphaStep;
     }
-    monkeyAlpha += alphaStep;
+    _monkeyAlpha += _alphaStep;
     [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-        CGAffineTransform loopAngleTransform = CGAffineTransformMakeRotation(loopAngle * (M_PI / 180.0f));
+        CGAffineTransform loopAngleTransform = CGAffineTransformMakeRotation(_loopAngle * (M_PI / 180.0f));
         _loopView.transform = loopAngleTransform;
-        _monkeyView.alpha = monkeyAlpha;
+        _monkeyView.alpha = _monkeyAlpha;
     } completion:^(BOOL finished) {
         if (_isLoading) {
             [self loadingAnimation];
         }else{
             [self removeFromSuperview];
 
-            loopAngle = 0.0;
-            monkeyAlpha = 1,0;
-            alphaStep = ABS(alphaStep);
-            CGAffineTransform loopAngleTransform = CGAffineTransformMakeRotation(loopAngle * (M_PI / 180.0f));
+            _loopAngle = 0.0;
+            _monkeyAlpha = 1,0;
+            _alphaStep = ABS(_alphaStep);
+            CGAffineTransform loopAngleTransform = CGAffineTransformMakeRotation(_loopAngle * (M_PI / 180.0f));
             _loopView.transform = loopAngleTransform;
-            _monkeyView.alpha = monkeyAlpha;
+            _monkeyView.alpha = _monkeyAlpha;
         }
     }];
 }

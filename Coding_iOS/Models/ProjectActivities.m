@@ -146,7 +146,6 @@
             }
         }
     }
-    DebugLog(@"\n_listGroups:\n%@", _listGroups);
 }
 @end
 @implementation ProjectActivity

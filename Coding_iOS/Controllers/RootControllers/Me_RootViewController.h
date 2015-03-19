@@ -6,8 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "UserInfoViewController.h"
 
-@interface Me_RootViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
+@interface Me_RootViewController : UserInfoViewController
 
 @end

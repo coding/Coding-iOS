@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_ProjectActivityList @"ProjectActivityListCell"
+
 #import <UIKit/UIKit.h>
 #import "Projects.h"
 #import "UITapImageView.h"

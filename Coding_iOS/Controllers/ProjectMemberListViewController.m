@@ -123,7 +123,7 @@
 }
 
 - (void)refresh{
-    if (_myProject.isLoading) {
+    if (_myProject.isLoadingMember) {
         return;
     }
     if (!_myMemberArray || _myMemberArray.count <= 0) {
@@ -217,7 +217,7 @@
                     [weakSelf quitSelf_ProjectMember:curMember];
                 }
             }];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self.view];
         }else{
 //                别人，发起私信
             if (_type == ProMemTypeProject) {
@@ -301,7 +301,7 @@
             [weakSelf removeMember:curMember inTableView:tableView];
         }
     }];
-    [actionSheet showInView:nil];
+    [actionSheet showInView:self.view];
 }
 
 - (void)removeMember:(ProjectMember *)curMember inTableView:(UITableView *)tableView{

@@ -84,7 +84,7 @@
     self.myTableView.contentInset = contentInsets;
     self.myTableView.scrollIndicatorInsets = contentInsets;
     
-    [_myTableView addInfiniteScrollingWithActionHandler:^{
+    [self.myTableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf refreshMore];
     }];
     if (_curTopic && _curTopic.project) {
@@ -141,11 +141,12 @@
 }
 - (void)messageInputView:(UIMessageInputView *)inputView heightToBottomChenged:(CGFloat)heightToBottom{
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-        UIEdgeInsets contentInsets= UIEdgeInsetsMake(0.0, 0.0, heightToBottom, 0.0);;
+        UIEdgeInsets contentInsets= UIEdgeInsetsMake(0.0, 0.0, MAX(CGRectGetHeight(inputView.frame), heightToBottom), 0.0);;
         CGFloat msgInputY = kScreen_Height - heightToBottom - 64;
         
         self.myTableView.contentInset = contentInsets;
         self.myTableView.scrollIndicatorInsets = contentInsets;
+        [self.myTableView updateInfiniteScrollingPosition];
         
         if ([_commentSender isKindOfClass:[UIView class]] && !self.myTableView.isDragging && heightToBottom > 60) {
             UIView *senderView = _commentSender;
@@ -172,24 +173,25 @@
     }
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_ProjectTopic_WithObj:_curTopic andBlock:^(id data, NSError *error) {
-        [self.refreshControl endRefreshing];
         if (data) {
+            if (weakSelf.curTopic.contentHeight > 1) {
+                ((ProjectTopic *)data).contentHeight = weakSelf.curTopic.contentHeight;
+            }
             weakSelf.curTopic = data;
-            
             weakSelf.myMsgInputView.curProject = weakSelf.curTopic.project;
             weakSelf.myMsgInputView.commentOfId = weakSelf.curTopic.id;
             weakSelf.myMsgInputView.toUser = nil;
             [weakSelf configNavBtn];
-            
             [weakSelf.myTableView reloadData];
             [weakSelf refreshComments];
+        }else{
+            [weakSelf.refreshControl endRefreshing];
         }
     }];
 }
 
 - (void)refreshMore{
     if (_curTopic.isLoading || !_curTopic.canLoadMore) {
-        [self.myTableView.infiniteScrollingView stopAnimating];
         return;
     }
     _curTopic.willLoadMore = YES;
@@ -203,9 +205,9 @@
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
         if (data) {
             [weakSelf.curTopic configWithComments:data];
-            [weakSelf.myTableView reloadData];
             weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curTopic.canLoadMore;
         }
+        [weakSelf.myTableView reloadData];
     }];
 }
 
@@ -236,7 +238,7 @@
             [weakSelf doCommentToTopic:nil sender:sender];
         };
         cell.cellHeightChangedBlock = ^(){
-            [weakSelf.myTableView reloadData];
+            [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
         };
         cell.loadRequestBlock = ^(NSURLRequest *curRequest){
             [weakSelf loadRequest:curRequest];
@@ -247,7 +249,7 @@
                     [weakSelf deleteTopic:weakSelf.curTopic isComment:NO];
                 }
             }];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self.view];
         };
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
         return cell;
@@ -297,7 +299,7 @@
                     [_self deleteTopic:_self.toComment isComment:YES];
                 }
             }];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self.view];
             return;
         }
     }

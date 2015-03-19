@@ -154,7 +154,7 @@
 
 - (void)messageInputView:(UIMessageInputView *)inputView heightToBottomChenged:(CGFloat)heightToBottom{
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-        UIEdgeInsets contentInsets= UIEdgeInsetsMake(0.0, 0.0, heightToBottom, 0.0);;
+        UIEdgeInsets contentInsets= UIEdgeInsetsMake(0.0, 0.0, MAX(CGRectGetHeight(inputView.frame), heightToBottom), 0.0);;
         CGFloat msgInputY = kScreen_Height - heightToBottom - 64;
 
         self.myTableView.contentInset = contentInsets;
@@ -328,10 +328,10 @@
                     [weakSelf deleteTask:toDelete];
                 }
             }];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self.view];
         };
         cell.descriptionBtnClickedBlock = ^(Task *task){
-            if (weakSelf.myCopyTask.has_description && !weakSelf.myCopyTask.task_description) {
+            if (weakSelf.myCopyTask.has_description.boolValue && !weakSelf.myCopyTask.task_description) {
                 return ;
             }
             [weakSelf goToDescriptionVC];
@@ -511,7 +511,7 @@
                     [weakSelf deleteComment:weakSelf.toComment];
                 }
             }];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self.view];
             return;
         }
     }

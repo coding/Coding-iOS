@@ -29,8 +29,14 @@
         //过滤末尾无用的空格&空行
         NSRange contentRange = [_contentDisplay rangeByTrimmingRightCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if (_mediaItems.count > 0) {
-            HtmlMediaItem *item = [_mediaItems lastObject];
-            contentRange.length = MAX(contentRange.length, item.range.location +item.range.length);
+            HtmlMediaItem *item;
+            for (int i = (int)_mediaItems.count; i > 0; i--) {
+                item = [_mediaItems objectAtIndex:i-1];
+                if (item.displayStr.length > 0) {
+                    contentRange.length = MAX(contentRange.length, item.range.location +item.range.length);
+                    break;
+                }
+            }
         }
         if (contentRange.length < _contentDisplay.length) {
             [_contentDisplay deleteCharactersInRange:NSMakeRange(contentRange.length, _contentDisplay.length - contentRange.length)];

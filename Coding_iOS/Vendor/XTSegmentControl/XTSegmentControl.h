@@ -26,6 +26,8 @@ typedef void(^XTSegmentControlBlock)(NSInteger index);
 
 @interface XTSegmentControl : UIView
 
+@property (nonatomic) NSInteger currentIndex;
+
 - (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem delegate:(id <XTSegmentControlDelegate>)delegate;
 
 - (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem selectedBlock:(XTSegmentControlBlock)selectedHandle;

@@ -49,10 +49,9 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
 
 - (NSDictionary *)toSearchParams
 {
-    //百度的格式很奇葩需要表示为:user_id:[user_id],afnetworking无法转义，所以需要使用转码
-//    self.filter = [NSString stringWithFormat:@"%@%%3A%%5B%@%%5D",@"user_id",self.user_id];@"filter":self.filter,
+    self.filter = [NSString stringWithFormat:@"%@:[%@]",@"user_id",self.user_id];
     NSString *location = [NSString stringWithFormat:@"%@,%@",self.longitude,self.latitude];
-    return @{@"ak":self.ak,@"geotable_id":self.geotable_id,@"coord_type":self.coord_type,@"q":self.query,@"radius":self.radius,@"page_index":self.page_index,@"page_size":self.page_size,@"location":location};
+    return @{@"ak":self.ak,@"geotable_id":self.geotable_id,@"coord_type":self.coord_type,@"q":self.query,@"radius":self.radius,@"filter":self.filter,@"page_index":self.page_index,@"page_size":self.page_size,@"location":location};
 }
 
 @end

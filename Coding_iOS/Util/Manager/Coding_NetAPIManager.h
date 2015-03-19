@@ -119,6 +119,12 @@
 - (void)request_DeletePrivateMessage:(PrivateMessage *)curMsg andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeletePrivateMessagesWithObj:(PrivateMessage *)curObj andBlock:(void (^)(id data, NSError *error))block;
 
+//Git Related
+- (void)request_StarProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_WatchProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ForkProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ReadMeOFProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+
 //Image
 - (void)uploadUserIconImage:(UIImage *)image
        successBlock:(void (^)(NSString *imagePath))success

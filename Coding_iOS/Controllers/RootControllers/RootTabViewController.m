@@ -70,6 +70,7 @@
     UINavigationController *nav_message = [[BaseNavigationController alloc] initWithRootViewController:message];
     
     Me_RootViewController *me = [[Me_RootViewController alloc] init];
+    me.isRoot = YES;
     UINavigationController *nav_me = [[BaseNavigationController alloc] initWithRootViewController:me];
     
     [self setViewControllers:@[nav_project, nav_mytask, nav_tweet, nav_message, nav_me]];

@@ -37,7 +37,7 @@
 @property (strong, nonatomic) UIButton *locaitonBtn;
 @property (strong, nonatomic) UICustomCollectionView *likeUsersView;
 @property (strong, nonatomic) UIImageView *timeClockIconView;
-@property (strong, nonatomic) UIWebView *tweetContentView;
+@property (strong, nonatomic) UIWebView *webContentView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 
 @end
@@ -133,15 +133,15 @@
             [self.likeUsersView addLineUp:YES andDown:NO andColor:[UIColor colorWithHexString:@"0xdddddd"]];
             [self.contentView addSubview:self.likeUsersView];
         }
-        if (!self.tweetContentView) {
-            self.tweetContentView = [[UIWebView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, kTweetDetailCell_PadingTop, kTweetDetailCell_ContentWidth, 1)];
-            self.tweetContentView.delegate = self;
-            self.tweetContentView.scrollView.scrollEnabled = NO;
-            self.tweetContentView.scrollView.scrollsToTop = NO;
-            self.tweetContentView.scrollView.bounces = NO;
-            self.tweetContentView.backgroundColor = [UIColor clearColor];
-            self.tweetContentView.opaque = NO;
-            [self.contentView addSubview:self.tweetContentView];
+        if (!self.webContentView) {
+            self.webContentView = [[UIWebView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, kTweetDetailCell_PadingTop, kTweetDetailCell_ContentWidth, 1)];
+            self.webContentView.delegate = self;
+            self.webContentView.scrollView.scrollEnabled = NO;
+            self.webContentView.scrollView.scrollsToTop = NO;
+            self.webContentView.scrollView.bounces = NO;
+            self.webContentView.backgroundColor = [UIColor clearColor];
+            self.webContentView.opaque = NO;
+            [self.contentView addSubview:self.webContentView];
         }
         if (!_activityIndicator) {
             _activityIndicator = [[UIActivityIndicatorView alloc]
@@ -189,10 +189,12 @@
     [self.timeClockIconView setX:timeLabelX-15];
     
     //owner冒泡text内容
-    [self.tweetContentView setHeight:_tweet.contentHeight];
-    if (!self.tweetContentView.isLoading) {
+    [self.webContentView setHeight:_tweet.contentHeight];
+    if (!_webContentView.isLoading) {
         [_activityIndicator startAnimating];
-        [self.tweetContentView loadHTMLString:[WebContentManager bubblePatternedWithContent:_tweet.htmlMedia.contentOrigional] baseURL:nil];
+        if (_tweet.htmlMedia.contentOrigional) {
+            [self.webContentView loadHTMLString:[WebContentManager markdownPatternedWithContent:_tweet.htmlMedia.contentOrigional] baseURL:nil];
+        }
     }
     
     CGFloat curBottomY = kTweetDetailCell_PadingTop +[[self class] contentHeightWithTweet:_tweet];
@@ -314,11 +316,10 @@
     [_activityIndicator startAnimating];
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
-    [self refreshTweetContentView];
+    [self refreshwebContentView];
     [_activityIndicator stopAnimating];
     CGFloat scrollHeight = webView.scrollView.contentSize.height;
-    if (ABS(scrollHeight - _tweet.contentHeight) > 1) {
-        NSLog(@"ABS(scrollHeight - _tweet.contentHeight)=========\n scrollHeight: %.2f", ABS(scrollHeight - _tweet.contentHeight));
+    if (ABS(scrollHeight - _tweet.contentHeight) > 5) {
         webView.scalesPageToFit = YES;
         _tweet.contentHeight = scrollHeight;
         if (_cellHeightChangedBlock) {
@@ -335,11 +336,11 @@
 }
 
 
-- (void)refreshTweetContentView{
-    if (_tweetContentView) {
+- (void)refreshwebContentView{
+    if (_webContentView) {
         //修改服务器页面的meta的值
-        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_tweetContentView.bounds)];
-        [_tweetContentView stringByEvaluatingJavaScriptFromString:meta];
+        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_webContentView.frame)];
+        [_webContentView stringByEvaluatingJavaScriptFromString:meta];
     }
 }
 

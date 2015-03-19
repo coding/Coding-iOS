@@ -6,12 +6,14 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_ProjectList @"ProjectListCell"
+
 #import <UIKit/UIKit.h>
 #import "Projects.h"
 
 @interface ProjectListCell : UITableViewCell
 @property (nonatomic, strong) Project *project;
 
-+ (CGFloat)cellHeightWithObj:(id)obj;
++ (CGFloat)cellHeight;
 
 @end

@@ -12,5 +12,5 @@
 #import "iCarousel.h"
 
 @interface Project_RootViewController : BaseViewController<iCarouselDataSource, iCarouselDelegate>
-
+@property (strong, nonatomic) NSArray *segmentItems;
 @end

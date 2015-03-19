@@ -173,8 +173,10 @@
     TweetSendViewController *vc = [[TweetSendViewController alloc] init];
     vc.sendNextTweet = ^(Tweet *nextTweet){
         NSLog(@"\n%@, \n%@", nextTweet.tweetContent, nextTweet.tweetImages);
+        [nextTweet saveSendData];//发送前保存草稿
         [[Coding_NetAPIManager sharedManager] request_Tweet_DoTweet_WithObj:nextTweet andBlock:^(id data, NSError *error) {
             if (data) {
+                [Tweet deleteSendData];//发送成功后删除草稿
                 Tweets *curTweets = [weakSelf getCurTweets];
                 if (curTweets.tweetType != TweetTypePublicHot) {
                     Tweet *resultTweet = (Tweet *)data;
@@ -325,7 +327,7 @@
                         [_self deleteComment:comment ofTweet:_self.commentTweet];
                     }
                 }];
-                [actionSheet showInView:nil];
+                [actionSheet showInView:self.view];
                 return;
             }
         }else{
@@ -361,7 +363,7 @@
                 [_self deleteTweet:_self.deleteTweet outTweetsIndex:_self.deleteTweetsIndex];
             }
         }];
-        [actionSheet showInView:nil];
+        [actionSheet showInView:self.view];
     };
     cell.goToDetailTweetBlock = ^(Tweet *curTweet){
         [self goToDetailWithTweet:curTweet];

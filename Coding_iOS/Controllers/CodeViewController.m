@@ -11,7 +11,7 @@
 #import "WebContentManager.h"
 
 @interface CodeViewController ()
-@property (strong, nonatomic) UIWebView *codeContentView;
+@property (strong, nonatomic) UIWebView *webContentView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 
 @end
@@ -31,20 +31,20 @@
     
     {
         //用webView显示内容
-        _codeContentView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-        _codeContentView.delegate = self;
-        _codeContentView.backgroundColor = [UIColor clearColor];
-        _codeContentView.opaque = NO;
-        _codeContentView.scalesPageToFit = YES;
-        [self.view addSubview:_codeContentView];
+        _webContentView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+        _webContentView.delegate = self;
+        _webContentView.backgroundColor = [UIColor clearColor];
+        _webContentView.opaque = NO;
+        _webContentView.scalesPageToFit = YES;
+        [self.view addSubview:_webContentView];
         //webview加载指示
         _activityIndicator = [[UIActivityIndicatorView alloc]
                               initWithActivityIndicatorStyle:
                               UIActivityIndicatorViewStyleGray];
         _activityIndicator.hidesWhenStopped = YES;
-        [_activityIndicator setCenter:CGPointMake(CGRectGetWidth(_codeContentView.frame)/2, CGRectGetHeight(_codeContentView.frame)/2)];
-        [_codeContentView addSubview:_activityIndicator];
-        [_codeContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_activityIndicator setCenter:CGPointMake(CGRectGetWidth(_webContentView.frame)/2, CGRectGetHeight(_webContentView.frame)/2)];
+        [_webContentView addSubview:_activityIndicator];
+        [_webContentView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
     }
@@ -86,10 +86,10 @@
     if ([_myCodeFile.file.mode isEqualToString:@"image"]) {
         NSURL *imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@u/%@/p/%@/git/raw/%@/%@", kNetPath_Code_Base, _myProject.owner_user_name, _myProject.name, _myCodeFile.ref, _myCodeFile.file.path]];
         NSLog(@"imageUrl: %@", imageUrl);
-        [self.codeContentView loadRequest:[NSURLRequest requestWithURL:imageUrl]];
+        [self.webContentView loadRequest:[NSURLRequest requestWithURL:imageUrl]];
     }else if ([_myCodeFile.file.mode isEqualToString:@"file"]){
         NSString *contentStr = [WebContentManager codePatternedWithContent:_myCodeFile];
-        [self.codeContentView loadHTMLString:contentStr baseURL:nil];
+        [self.webContentView loadHTMLString:contentStr baseURL:nil];
     }
 }
 

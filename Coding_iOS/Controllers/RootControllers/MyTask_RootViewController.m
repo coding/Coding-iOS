@@ -49,7 +49,7 @@
     // Do any additional setup after loading the view.
     self.title = @"我的任务";
     
-    _myProjects = [Projects projectsWithType:ProjectsTypeAll];
+    _myProjects = [Projects projectsWithType:ProjectsTypeAll andUser:nil];
     _myProTksDict = [[NSMutableDictionary alloc] initWithCapacity:1];
     _myProjectList = [[NSMutableArray alloc] initWithObjects:[Project project_All], nil];
     //添加myCarousel
@@ -158,9 +158,9 @@
         }
     }
 }
-- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel{
+- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel{
     if (_mySegmentControl) {
-        [_mySegmentControl endMoveIndex:carousel.currentItemIndex];
+        _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
     ProjectTaskListView *curView = (ProjectTaskListView *)carousel.currentItemView;
     [curView refreshToQueryData];

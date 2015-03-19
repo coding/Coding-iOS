@@ -106,6 +106,8 @@
 #define kPlaceholderCodingSquareWidth(_width_) [UIImage imageNamed:[NSString stringWithFormat:@"placeholder_coding_square_%.0f", _width_]]
 #define kPlaceholderCodingSquareView(_view_) [UIImage imageNamed:[NSString stringWithFormat:@"placeholder_coding_square_%.0f", CGRectGetWidth(_view_.frame)]]
 
+#define kScaleFrom_iPhone5_Desgin(_X_) (_X_ * (kScreen_Width/320))
+
 #define kUnReadKey_messages @"messages"
 #define kUnReadKey_notifications @"notifications"
 #define kUnReadKey_project_update_count @"project_update_count"

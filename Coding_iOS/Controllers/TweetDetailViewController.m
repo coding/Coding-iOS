@@ -73,7 +73,7 @@
         tableView;
     });
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
-    [_refreshControl addTarget:self action:@selector(refreshComments) forControlEvents:UIControlEventValueChanged];
+    [_refreshControl addTarget:self action:@selector(refreshTweet) forControlEvents:UIControlEventValueChanged];
     
     //评论
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
@@ -129,7 +129,7 @@
                 @strongify(self);
                 [self goToReport];
             }
-        }] showInView:nil];
+        }] showInView:self.view];
     }
 }
 
@@ -149,7 +149,7 @@
 
 - (void)messageInputView:(UIMessageInputView *)inputView heightToBottomChenged:(CGFloat)heightToBottom{
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-        UIEdgeInsets contentInsets= UIEdgeInsetsMake(0.0, 0.0, heightToBottom, 0.0);;
+        UIEdgeInsets contentInsets= UIEdgeInsetsMake(0.0, 0.0, MAX(CGRectGetHeight(inputView.frame), heightToBottom), 0.0);;
         CGFloat msgInputY = kScreen_Height - heightToBottom - 64;
         
         self.myTableView.contentInset = contentInsets;
@@ -169,23 +169,22 @@
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Tweet_Detail_WithObj:_curTweet andBlock:^(id data, NSError *error) {
         if (data) {
+            if (weakSelf.curTweet.contentHeight > 1) {
+                ((Tweet *)data).contentHeight = weakSelf.curTweet.contentHeight;
+            }
             weakSelf.curTweet = data;
             weakSelf.myMsgInputView.commentOfId = weakSelf.curTweet.id;
             weakSelf.myMsgInputView.toUser = nil;
-
             [weakSelf.myTableView reloadData];
-            if (weakSelf.curTweet.comments.integerValue > weakSelf.curTweet.comment_list.count) {
-                [weakSelf refreshComments];//加载等多评论
-            }else{
-                [weakSelf.refreshControl endRefreshing];
-            }
+            [weakSelf refreshComments];
+        }else{
+            [weakSelf.refreshControl endRefreshing];
         }
     }];
 }
 
 - (void)refreshComments{
     if (_curTweet.isLoading) {
-        [_refreshControl endRefreshing];
         return;
     }
     __weak typeof(self) weakSelf = self;
@@ -232,7 +231,7 @@
                     [_self deleteTweet:_self.curTweet];
                 }
             }];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self.view];
         };
         
         cell.userBtnClickedBlock = ^(User *curUser){
@@ -244,7 +243,7 @@
             [self.navigationController pushViewController:vc animated:YES];
         };
         cell.cellHeightChangedBlock = ^(){
-            [self.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
         };
         cell.loadRequestBlock = ^(NSURLRequest *curRequest){
             [self loadRequest:curRequest];
@@ -339,7 +338,7 @@
                     [_self deleteComment:_self.toComment ofTweet:_self.curTweet];
                 }
             }];
-            [actionSheet showInView:nil];
+            [actionSheet showInView:self.view];
             return;
         }
     }

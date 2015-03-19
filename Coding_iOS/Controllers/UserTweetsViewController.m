@@ -158,7 +158,6 @@
 
 - (void)refresh{
     if (_curTweets.isLoading) {
-        [_refreshControl endRefreshing];
         return;
     }
     _curTweets.willLoadMore = NO;
@@ -230,7 +229,7 @@
                         [weakSelf deleteComment:comment ofTweet:weakSelf.commentTweet];
                     }
                 }];
-                [actionSheet showInView:nil];
+                [actionSheet showInView:self.view];
                 return;
             }
         }else{
@@ -262,7 +261,7 @@
                 [weakSelf deleteTweet:weakSelf.deleteTweet outTweetsIndex:weakSelf.deleteTweetsIndex];
             }
         }];
-        [actionSheet showInView:nil];
+        [actionSheet showInView:self.view];
     };
 
     cell.goToDetailTweetBlock = ^(Tweet *curTweet){

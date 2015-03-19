@@ -15,6 +15,7 @@
 #import "UnReadManager.h"
 #import "RDVTabBarController.h"
 #import "RDVTabBarItem.h"
+#import "NProjectViewController.h"
 
 @interface Project_RootViewController ()
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
@@ -58,9 +59,12 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"项目";
+    [self configSegmentItems];
     
-    _myProjectsDict = [[NSMutableDictionary alloc] initWithCapacity:3];
+    _oldSelectedIndex = 0;
+    self.title = @"项目";
+    _myProjectsDict = [[NSMutableDictionary alloc] initWithCapacity:_segmentItems.count];
+    
     //添加myCarousel
     _myCarousel = ({
         iCarousel *icarousel = [[iCarousel alloc] init];
@@ -81,7 +85,7 @@
     
     //添加滑块
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
-    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:@[@"全部项目", @"我参与的", @"我创建的"] selectedBlock:^(NSInteger index) {
+    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
         if (index == _oldSelectedIndex) {
             return;
         }
@@ -90,7 +94,10 @@
     }];
     [self.view addSubview:_mySegmentControl];
     
-    _oldSelectedIndex = 0;
+}
+
+- (void)configSegmentItems{
+    _segmentItems = @[@"全部项目", @"我参与的", @"我创建的"];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -115,12 +122,13 @@
 
 #pragma mark iCarousel M
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel{
-    return 3;
+    return _segmentItems.count;
 }
+
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view{
     Projects *curPros = [_myProjectsDict objectForKey:[NSNumber numberWithUnsignedInteger:index]];
     if (!curPros) {
-        curPros = [Projects projectsWithType:index];
+        curPros = [self projectsWithIndex:index];
         [_myProjectsDict setObject:curPros forKey:[NSNumber numberWithUnsignedInteger:index]];
     }
     ProjectListView *listView = (ProjectListView *)view;
@@ -129,7 +137,8 @@
     }else{
         __weak Project_RootViewController *weakSelf = self;
         listView = [[ProjectListView alloc] initWithFrame:carousel.bounds projects:curPros block:^(Project *project) {
-            ProjectViewController *vc = [[ProjectViewController alloc] init];
+
+            NProjectViewController *vc = [[NProjectViewController alloc] init];
             vc.myProject = project;
             [weakSelf.navigationController pushViewController:vc animated:YES];
             
@@ -146,6 +155,10 @@
     return listView;
 }
 
+- (Projects *)projectsWithIndex:(NSUInteger)index{
+    return [Projects projectsWithType:index andUser:nil];
+}
+
 - (void)carouselDidScroll:(iCarousel *)carousel{
     [self.view endEditing:YES];
     if (_mySegmentControl) {
@@ -156,10 +169,10 @@
     }
 }
 
-- (void)carouselDidEndScrollingAnimation:(iCarousel *)carousel
+- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel
 {
     if (_mySegmentControl) {
-        [_mySegmentControl endMoveIndex:carousel.currentItemIndex];
+        _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
     if (_oldSelectedIndex != carousel.currentItemIndex) {
         _oldSelectedIndex = carousel.currentItemIndex;

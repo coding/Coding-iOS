@@ -1,4 +1,5 @@
 PODS:
+  - APParallaxHeader (0.1.6)
   - BlocksKit (2.2.5):
     - BlocksKit/All (= 2.2.5)
   - BlocksKit/All (2.2.5):
@@ -14,8 +15,8 @@ PODS:
   - BlocksKit/UIKit (2.2.5):
     - BlocksKit/Core
     - BlocksKit/DynamicDelegate
+  - FontAwesome+iOS (0.1.4)
   - hpple (0.2.0)
-  - JDStatusBarNotification (1.4.9)
   - Masonry (0.5.3)
   - MBProgressHUD (0.9)
   - MMMarkdown (0.3)
@@ -43,6 +44,8 @@ PODS:
   - POP+MCAnimate/Velocity (2.0.1):
     - pop (~> 1.0)
     - POP+MCAnimate/Internal
+  - PPiAwesomeButton (1.5.2):
+    - FontAwesome+iOS
   - ReactiveCocoa (2.3.1):
     - ReactiveCocoa/UI (= 2.3.1)
   - ReactiveCocoa/Core (2.3.1):
@@ -56,14 +59,15 @@ PODS:
   - UIImage+BlurredFrame (0.0.4)
 
 DEPENDENCIES:
+  - APParallaxHeader
   - BlocksKit (= 2.2.5)
   - hpple (= 0.2.0)
-  - JDStatusBarNotification (= 1.4.9)
   - Masonry (= 0.5.3)
   - MBProgressHUD (= 0.9)
   - MMMarkdown (= 0.3)
   - NYXImagesKit (= 2.3)
   - POP+MCAnimate (= 2.0.1)
+  - PPiAwesomeButton
   - ReactiveCocoa (= 2.3.1)
   - RegexKitLite (= 4.0)
   - TPKeyboardAvoiding (= 1.2.4)
@@ -71,15 +75,17 @@ DEPENDENCIES:
   - UIImage+BlurredFrame (= 0.0.4)
 
 SPEC CHECKSUMS:
+  APParallaxHeader: 6e7cc27c052be34e1a5655dc2fab6c40eecbbe55
   BlocksKit: 4439e7f30a9f90743462ca63545a15c1f4304cef
+  FontAwesome+iOS: 816c20304edef4ca92835de669577005cbaaf261
   hpple: f4eb7c21a8db83ec264e5d614ec7509e10e5adec
-  JDStatusBarNotification: 9d833032d343e9a7abe0ec219c415dc115ba67a8
   Masonry: 35368c2ca9577ca87722c12fc52c4bad9b1c1516
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   MMMarkdown: 95af8920c647512d1efa2ac8ac1932baf3266e2c
   NYXImagesKit: 1c9f228ae78fab475d267b3b3a1308e0fba11731
   pop: 2f14a1ea61339767af9e66741b418c831b3844df
   POP+MCAnimate: 528a556e3754a0b406adc481b02ec2984cfd1032
+  PPiAwesomeButton: 9c57f5b72e3a36eaa4f5b811fbdb90913e5cdb21
   ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
   RegexKitLite: c0e4c12e6e7de0769f3a3ed679f0f61604170661
   TPKeyboardAvoiding: 925e1e1912597d1a4956697eec3bd9656552153c

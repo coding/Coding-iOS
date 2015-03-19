@@ -215,7 +215,7 @@
                     break;
             }
         }];
-        [actionSheet showInView:nil];
+        [actionSheet showInView:self.view];
     }else{
         [self.docInteractionController presentOpenInMenuFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
     }

@@ -57,7 +57,7 @@
     if (_curMember.type.intValue == 100) {//项目创建者
         NSString *nameStr = _curMember.user.name;
         CGFloat maxNameWidth = kMemberCell_MaxWidthForName - 30;
-        CGFloat nameWidth = [nameStr getWidthWithFont:kMemberCell_FontForName constrainedToSize:CGSizeMake(kScreen_Width, CGFLOAT_MAX)];
+        CGFloat nameWidth = [nameStr getWidthWithFont:kMemberCell_FontForName constrainedToSize:CGSizeMake(kScreen_Width, CGFLOAT_MAX)] + 5;
         nameWidth = MIN(nameWidth, maxNameWidth);
         [_memberNameLabel setWidth:nameWidth];
         _memberNameLabel.text = nameStr;

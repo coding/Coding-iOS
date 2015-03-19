@@ -36,9 +36,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2.4.2015030517</string>
+	<string>2.4.2015031721</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>FontAwesome.ttf</string>
+	</array>
 	<key>UIFileSharingEnabled</key>
 	<false/>
 	<key>UIRequiredDeviceCapabilities</key>

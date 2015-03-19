@@ -23,7 +23,7 @@
 #import "ProjectCodeListView.h"
 #import "CodeListViewController.h"
 #import "CodeViewController.h"
-#import "ProjectActivityListViewController.h"
+#import "ProjectMemberActivityListViewController.h"
 #import "FileListViewController.h"
 #import "SettingTextViewController.h"
 #import "FolderToMoveViewController.h"
@@ -74,11 +74,11 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
     _projectContentDict = [[NSMutableDictionary alloc] initWithCapacity:5];
     
     if (_myProject) {
-        if (!_myProject.owner_id) {
+        if (!_myProject.is_public) {
             [self requestForMyProject];
         }else{
             [self configNavBtnWithMyProject];
-            [self refreshWithViewType:_curIndex];
+            [self refreshWithNewIndex:_curIndex];
         }
     }
 }
@@ -118,54 +118,13 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
         if (data) {
             weakSelf.myProject = data;
             [weakSelf configNavBtnWithMyProject];
-            [weakSelf refreshWithViewType:_curIndex];
+            [weakSelf refreshWithNewIndex:_curIndex];
         }
     }];
 }
 
 - (void)configNavBtnWithMyProject{
-    __weak typeof(self) weakSelf = self;
-    if (_myProject.is_public.boolValue) {
-        [self customDownMenuWithTitles:@[[DownMenuTitle title:@"项目动态" image:@"nav_project_activity" badge:nil],
-                                         [DownMenuTitle title:@"项目讨论" image:@"nav_project_topic" badge:nil],
-                                         [DownMenuTitle title:@"项目代码" image:@"nav_project_code" badge:nil],
-                                         [DownMenuTitle title:@"项目成员" image:@"nav_project_member" badge:nil]]
-                       andDefaultIndex:_curIndex
-                              andBlock:^(id titleObj, NSInteger index) {
-                                  [(DownMenuTitle *)titleObj setBadgeValue:nil];
-                                  ProjectViewType type;
-                                  switch (index) {
-                                      case 0:
-                                          type = ProjectViewTypeActivities;
-                                          break;
-                                      case 1:
-                                          type = ProjectViewTypeTopics;
-                                          break;
-                                      case 2:
-                                          type = ProjectViewTypeCodes;
-                                          break;
-                                      case 3:
-                                          type = ProjectViewTypeMembers;
-                                          break;
-                                      default:
-                                          type = ProjectViewTypeActivities;
-                                          break;
-                                  }
-                                  [weakSelf refreshWithViewType:type];
-                              }];
-    }else{
-        [self customDownMenuWithTitles:@[[DownMenuTitle title:@"项目动态" image:@"nav_project_activity" badge:nil],
-                                         [DownMenuTitle title:@"项目任务" image:@"nav_project_task" badge:nil],
-                                         [DownMenuTitle title:@"项目讨论" image:@"nav_project_topic" badge:nil],
-                                         [DownMenuTitle title:@"项目文档" image:@"nav_project_file" badge:nil],
-                                         [DownMenuTitle title:@"项目代码" image:@"nav_project_code" badge:nil],
-                                         [DownMenuTitle title:@"项目成员" image:@"nav_project_member" badge:nil]]
-                       andDefaultIndex:_curIndex
-                              andBlock:^(id titleObj, NSInteger index) {
-                                  [(DownMenuTitle *)titleObj setBadgeValue:nil];
-                                  [weakSelf refreshWithViewType:index];
-                              }];
-    }
+    self.title = _myProject.name;
 }
 
 - (void)configRightBarButtonItemWithViewType:(ProjectViewType)viewType{
@@ -183,20 +142,53 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
     [self.navigationItem setRightBarButtonItem:shouldBeItem animated:YES];
 }
 
-- (void)refreshWithViewType:(ProjectViewType)viewType{
-    [self configRightBarButtonItemWithViewType:viewType];
+- (ProjectViewType)viewTypeFromIndex:(NSInteger)index{
+    ProjectViewType type = 0;
+    if (_myProject.is_public) {
+        if (_myProject.is_public.boolValue) {
+            switch (index) {
+                case 0:
+                    type = ProjectViewTypeActivities;
+                    break;
+                case 1:
+                    type = ProjectViewTypeTopics;
+                    break;
+                case 2:
+                    type = ProjectViewTypeCodes;
+                    break;
+                case 3:
+                    type = ProjectViewTypeMembers;
+                    break;
+                default:
+                    type = ProjectViewTypeActivities;
+                    break;
+            }
+        }else{
+            type = index;
+        }
+    }
+    return type;
+}
+
+
+- (void)refreshWithNewIndex:(NSInteger)newIndex{
+    ProjectViewType curViewType = [self viewTypeFromIndex:_curIndex];
+    ProjectViewType newViewType = [self viewTypeFromIndex:newIndex];
+    
+//    配置navBtn
+    [self configRightBarButtonItemWithViewType:newViewType];
     
 //    隐藏上一个视图
     UIView *curView = [self getCurContentView];
-    if (_curIndex!= viewType && curView) {
+    if (curViewType != newViewType && curView) {
         curView.hidden = YES;
     }
 //    配置将要显示的视图
-    _curIndex = viewType;
+    _curIndex = newIndex;
     curView = [self getCurContentView];
     __weak typeof(self) weakSelf = self;
     if (curView == nil) {
-        switch (_curIndex) {
+        switch (newViewType) {
             case ProjectViewTypeActivities:{
                 curView = ({
                     ProjectActivitiesView *activitiesView = [[ProjectActivitiesView alloc] initWithFrame:self.view.bounds project:_myProject block:^(ProjectActivity *proActivity) {
@@ -286,7 +278,7 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
             make.edges.equalTo(self.view);
         }];
     }
-    if (_curIndex != ProjectViewTypeMembers && _proMemberVC) {
+    if (newViewType != ProjectViewTypeMembers && _proMemberVC) {
         [_proMemberVC willHiden];
     }
     curView.hidden = NO;
@@ -300,7 +292,7 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
 }
 
 - (void)goToActivityListOfUser:(User *)user{
-    ProjectActivityListViewController *vc = [[ProjectActivityListViewController alloc] init];
+    ProjectMemberActivityListViewController *vc = [[ProjectMemberActivityListViewController alloc] init];
     vc.curProject = self.myProject;
     vc.curUser = user;
     [self.navigationController pushViewController:vc animated:YES];
@@ -424,7 +416,8 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
 
 #pragma mark Mine M
 - (void)navAddBtnClicked{
-    switch (_curIndex) {
+    ProjectViewType curViewType = [self viewTypeFromIndex:_curIndex];
+    switch (curViewType) {
         case ProjectViewTypeTasks:
         {
             EditTaskViewController *vc = [[EditTaskViewController alloc] init];
