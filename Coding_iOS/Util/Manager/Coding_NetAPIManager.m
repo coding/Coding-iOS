@@ -111,7 +111,7 @@
 - (void)request_Projects_WithObj:(Projects *)projects andBlock:(void (^)(Projects *data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"项目列表"];
     projects.isLoading = YES;
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/projects" withParams:[projects toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[projects toPath] withParams:[projects toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
         projects.isLoading = NO;
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
