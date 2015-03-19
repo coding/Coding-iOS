@@ -133,9 +133,6 @@
                 }
                 break;
         }
-        
-        
-        
         return cell;
     }
 }
