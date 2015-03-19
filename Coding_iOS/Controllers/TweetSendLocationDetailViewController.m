@@ -97,6 +97,14 @@
     return _footerView;
 }
 
+#pragma mark - Orientations
+- (BOOL)shouldAutorotate{
+    return NO;
+}
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 
 #pragma mark - Table view data source
 

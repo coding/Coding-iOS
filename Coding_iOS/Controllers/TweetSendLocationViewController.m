@@ -146,6 +146,15 @@
     
 }
 
+
+#pragma mark - Orientations
+- (BOOL)shouldAutorotate{
+    return NO;
+}
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 #pragma mark- property
 
 - (NSMutableArray *)searchArray

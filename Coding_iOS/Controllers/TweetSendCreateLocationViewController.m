@@ -86,6 +86,7 @@
         weakSelf.locationResponse.title = obj.title;
         weakSelf.locationResponse.address = obj.address;
         weakSelf.locationResponse.isCustomLocaiton = YES;
+        weakSelf.locationResponse.detailed = @{@"name":obj.title,@"location":@{@"lat":weakSelf.locationResponse.lat,@"lng":weakSelf.locationResponse.lng},@"address":obj.address};
         tweetVC.locationData = weakSelf.locationResponse;
         
         [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:^{
@@ -98,6 +99,14 @@
 - (BOOL)checkTextEdit {
     
     return YES;
+}
+
+#pragma mark - Orientations
+- (BOOL)shouldAutorotate{
+    return NO;
+}
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 #pragma mark - Table view data source

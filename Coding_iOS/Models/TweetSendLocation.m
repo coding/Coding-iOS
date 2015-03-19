@@ -50,9 +50,9 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
 - (NSDictionary *)toSearchParams
 {
     //百度的格式很奇葩需要表示为:user_id:[user_id],afnetworking无法转义，所以需要使用转码
-    self.filter = [NSString stringWithFormat:@"%@%%3A%%5B%@%%5D",@"user_id",self.user_id];
+//    self.filter = [NSString stringWithFormat:@"%@%%3A%%5B%@%%5D",@"user_id",self.user_id];@"filter":self.filter,
     NSString *location = [NSString stringWithFormat:@"%@,%@",self.longitude,self.latitude];
-    return @{@"ak":self.ak,@"geotable_id":self.geotable_id,@"coord_type":self.coord_type,@"q":self.query,@"radius":self.radius,@"filter":self.filter,@"page_index":self.page_index,@"page_size":self.page_size,@"location":location};
+    return @{@"ak":self.ak,@"geotable_id":self.geotable_id,@"coord_type":self.coord_type,@"q":self.query,@"radius":self.radius,@"page_index":self.page_index,@"page_size":self.page_size,@"location":location};
 }
 
 @end
@@ -127,8 +127,9 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
         return nil;
     }
     self.responseSerializer = [AFJSONResponseSerializer serializer];
-//    self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", nil];
-//    [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    self.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+    self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", nil];
+    [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
     return self;
 }
