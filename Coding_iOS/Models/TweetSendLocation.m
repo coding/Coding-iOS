@@ -96,8 +96,8 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
     }else{
         locationStr = self.cityName;
     }
-    if (locationStr.length > 16) {
-        locationStr = [locationStr substringWithRange:NSMakeRange(0, 15)];
+    if (locationStr.length > 32) {
+        locationStr = [locationStr substringWithRange:NSMakeRange(0, 31)];
         locationStr = [locationStr stringByAppendingString:@"…"];
     }
     

@@ -56,6 +56,14 @@
 
 @implementation TweetSendLocationViewController
 
+-(void)dealloc
+{
+    self.tableView.delegate = nil;
+    self.mySearchDisplayController.delegate = nil;
+    self.mySearchBar.delegate = nil;
+    self.locationManager.delegate = nil;
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -230,7 +238,7 @@
                  }else{
                      [weakSelf.locationArray insertObject:@{@"cityName":city,@"location":@{@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng},@"cellType":@"defualt",@"checkmark":@"NO"} atIndex:1];
                  }
-             }else{
+             }else if(weakSelf.locationArray){
                  [weakSelf.locationArray insertObject:@{@"cityName":city,@"location":@{@"lat":weakSelf.locationRequest.lat,@"lng":weakSelf.locationRequest.lng},@"cellType":@"defualt",@"checkmark":@"NO"} atIndex:1];
              }
              
@@ -445,10 +453,6 @@
     }];
 }
 
-- (void)dealloc
-{
-
-}
 
 #pragma mark- SearchDelegate
 

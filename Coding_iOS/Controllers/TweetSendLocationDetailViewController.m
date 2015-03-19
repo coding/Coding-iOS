@@ -10,6 +10,7 @@
 #import "TweetSendLocation.h"
 #import "TweetSendLocaitonMapViewController.h"
 #import "Tweets.h"
+#import "TweetSendDetailLoctionCell.h"
 
 @interface TweetSendLocationDetailViewController ()
 
@@ -25,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"详情";
-    self.view.backgroundColor = [UIColor colorWithRGBHex:0xF0F0F2];
+    self.view.backgroundColor = [UIColor colorWithRGBHex:0xe5e5e5];
     
     self.tableView.tableHeaderView = self.headerView;
     self.tableView.tableFooterView = self.footerView;
@@ -39,14 +40,30 @@
 - (UIView *)headerView
 {
     if (!_headerView) {
-        CGRect frame = self.view.bounds;
-        frame.size.height = 50;
-        _headerView = [[UIView alloc]initWithFrame:frame];
+        _headerView = [[UIView alloc]initWithFrame:self.view.bounds];
+        UIFont *font = [UIFont boldSystemFontOfSize:17.0];
+        NSArray *array = [self.tweet.location componentsSeparatedByString:@"·"];
+        NSString *address = self.tweet.location;
+        if (array.count == 2) {
+            address = array[1];
+        }
+        CGSize size = CGSizeMake(CGRectGetWidth(self.view.bounds)- 44, CGFLOAT_MAX);
+        CGRect rect = [address boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:font.fontName size:font.pointSize]} context:nil];
+        CGRect viewFrame = _headerView.frame;
+        viewFrame.size.height = CGRectGetHeight(rect) + 30;
+        
+        [_headerView setFrame:viewFrame];
+        
         _headerView.backgroundColor = [UIColor clearColor];
-        self.headerLabel = [[UILabel alloc] initWithFrame:_headerView.bounds];
+        viewFrame.origin.y = 15;
+        viewFrame.size.height = viewFrame.size.height - 30;
+        viewFrame.origin.x = 22;
+        viewFrame.size.width = viewFrame.size.width -44;
+        self.headerLabel = [[UILabel alloc] initWithFrame:viewFrame];
         self.headerLabel.textAlignment = NSTextAlignmentCenter;
-        self.headerLabel.font = [UIFont systemFontOfSize:16.0];
-        self.headerLabel.text = self.tweet.location;
+        self.headerLabel.font = font;
+        self.headerLabel.numberOfLines = 0;
+        self.headerLabel.text = address;
         [_headerView addSubview:self.headerLabel];
     }
     return _headerView;
@@ -61,16 +78,20 @@
         _footerView.backgroundColor = [UIColor clearColor];
         self.footerLabel = [[UILabel alloc] initWithFrame:_footerView.bounds];
         self.footerLabel.textAlignment = NSTextAlignmentCenter;
-        self.footerLabel.font = [UIFont systemFontOfSize:14.0];
+        self.footerLabel.font = [UIFont systemFontOfSize:12.0];
         self.footerLabel.text = @"";
+        self.footerLabel.textColor = [UIColor colorWithRGBHex:0x888888];
         
-//      暂不显示
-//        if (self.) {
-//            self.footerLabel.text = @"此地点为用户创建";
-//        } else {
-//            self.footerLabel.text = @"";
-//        }
-        
+        NSArray *array = [self.tweet.coord componentsSeparatedByString:@","];
+        NSString *isCustomerCreate = @"0";
+        if (array.count == 3) {
+            isCustomerCreate = array[2];
+        }
+        if ([isCustomerCreate isEqualToString:@"1"]) {
+            self.footerLabel.text = @"此地点为用户创建";
+        } else {
+            self.footerLabel.text = @"";
+        }
         [_footerView addSubview:self.footerLabel];
     }
     return _footerView;
@@ -92,15 +113,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSString *cellIdentifier = @"reuseIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    TweetSendDetailLoctionCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.detailTextLabel.textAlignment = NSTextAlignmentLeft;
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"TweetSendDetailLoctionCell" owner:self options:nil] firstObject];
     }
-    cell.textLabel.text = @"位置";
-    
-    cell.detailTextLabel.text = self.tweet.address;
+    cell.addressLabel.text = self.tweet.address;
     
     return cell;
 }

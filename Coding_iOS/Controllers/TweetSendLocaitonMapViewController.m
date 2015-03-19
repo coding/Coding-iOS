@@ -38,23 +38,31 @@
 {
     [super viewDidAppear:animated];
     NSArray *locationArray = [self.tweet.coord componentsSeparatedByString:@","];
-    
-    CLLocationCoordinate2D coordinate;
-    coordinate.latitude = [locationArray[0] doubleValue];
-    coordinate.longitude = [locationArray[1] doubleValue];
-    NSArray *array = [self.tweet.location componentsSeparatedByString:@"·"];
-    NSString *title = self.tweet.location;
-    if (array.count == 2) {
-        title = array[1];
+    @try {
+        CLLocationCoordinate2D coordinate;
+        coordinate.latitude = [locationArray[0] doubleValue];
+        coordinate.longitude = [locationArray[1] doubleValue];
+        NSArray *array = [self.tweet.location componentsSeparatedByString:@"·"];
+        NSString *title = self.tweet.location;
+        if (array.count == 2) {
+            title = array[1];
+        }
+        TweetSendMapAnnotation *newAnnotation = [[TweetSendMapAnnotation alloc]
+                                                 initWithTitle:title andCoordinate:coordinate];
+        newAnnotation.subtitle = self.tweet.address;
+        [self.mapView addAnnotation:newAnnotation];
+        
+        MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coordinate, 250, 250);
+        
+        [self.mapView setRegion:region animated:YES];
     }
-    TweetSendMapAnnotation *newAnnotation = [[TweetSendMapAnnotation alloc]
-                                             initWithTitle:title andCoordinate:coordinate];
-    newAnnotation.subtitle = self.tweet.address;
-    [self.mapView addAnnotation:newAnnotation];
-    
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(coordinate, 250, 250);
-    
-    [self.mapView setRegion:region animated:YES];
+    @catch (NSException *exception) {
+        
+    }
+    @finally {
+        
+    }
+
     
 }
 

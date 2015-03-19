@@ -28,6 +28,7 @@
         self.datasorceArray = @[[@{@"title":@"位置名称",@"value":@""}mutableCopy]
                                 ,[@{@"title":@"地区名称",@"value":@""}mutableCopy]
                                 ,[@{@"title":@"详细地址",@"value":@""}mutableCopy]];
+        self.view.backgroundColor = [UIColor colorWithRGBHex:0xe5e5e5];
     }
     return self;
 }
@@ -124,7 +125,6 @@
         cell = [[[NSBundle mainBundle] loadNibNamed:@"TweetSendCreateLocationCell" owner:self options:nil] firstObject];
         cell.accessoryType = UITableViewCellAccessoryNone;
         [cell.editTextField addTarget:self action:@selector(changeValue:) forControlEvents:UIControlEventEditingChanged];
-
     }
     cell.titleLabel.text = self.datasorceArray[indexPath.row][@"title"];
     cell.editTextField.delegate = self;
@@ -136,10 +136,10 @@
         cell.editTextField.placeholder = @"填写位置名称";
     }else if (indexPath.row == 1){
         cell.editTextField.enabled = NO;
-        cell.editTextField.textColor = [UIColor grayColor];
-        cell.editTextField.font = [UIFont boldSystemFontOfSize:14.0];
+//        cell.editTextField.textColor = [UIColor grayColor];
+        cell.editTextField.font = [UIFont boldSystemFontOfSize:15.0];
     }else if (indexPath.row == 2){
-        cell.editTextField.placeholder = @"街道门派信息";
+        cell.editTextField.placeholder = @"街道门牌信息";
     }
     
     return cell;

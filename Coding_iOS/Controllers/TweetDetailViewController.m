@@ -253,7 +253,10 @@
         cell.locationClickedBlock = ^(Tweet *curTweet){
                 TweetSendLocationDetailViewController *vc = [[TweetSendLocationDetailViewController alloc]init];
                 vc.tweet = curTweet;
+                if (vc.tweet.coord.length > 0) {
                 [weakSelf.navigationController pushViewController:vc animated:YES];
+
+                }
         };
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
         return cell;

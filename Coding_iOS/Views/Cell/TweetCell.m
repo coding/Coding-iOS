@@ -138,8 +138,8 @@
             self.locaitonBtn.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
             self.locaitonBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
             self.locaitonBtn.frame = CGRectMake(kTweetCell_PadingLeft, 0, 100, 15);
-            self.locaitonBtn.titleLabel.minimumScaleFactor = 0.80;
-            self.locaitonBtn.titleLabel.adjustsFontSizeToFitWidth = YES;
+//            self.locaitonBtn.titleLabel.minimumScaleFactor = 0.80;
+            self.locaitonBtn.titleLabel.adjustsFontSizeToFitWidth = NO;
             self.locaitonBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12];
             [self.locaitonBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
             [self.locaitonBtn addTarget:self action:@selector(locationBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -271,15 +271,15 @@
     BOOL isMineTweet = _tweet.owner.id.longValue == [Login curLoginUser].id.longValue;
 
     //以下两段ifelse 已经判断了4种情况，经过精简得出
+    //经需求修改，位置信息只会存在于设备信息上方
     if (_tweet.location.length > 0) {
         [self.locaitonBtn setTitle:_tweet.location forState:UIControlStateNormal];
         self.locaitonBtn.frame = CGRectMake(kTweetCell_PadingLeft, curBottomY +5,
-                                            (isMineTweet? (kScreen_Width - kTweetCell_PadingLeft- kPaddingLeftWidth- 3*kTweetCell_LikeComment_Width- 10):
-                                             (kScreen_Width - kTweetCell_PadingLeft- kPaddingLeftWidth- 2*kTweetCell_LikeComment_Width- 10)), 15);
+                                            (kScreen_Width - kTweetCell_PadingLeft- kPaddingLeftWidth- 20), 15);
         self.locaitonBtn.hidden = NO;
-        if(_tweet.device.length > 0) {
-            curBottomY += CGRectGetHeight(self.locaitonBtn.bounds) + kTweetCell_LocationCCell_Pading;
-        }
+//        if(_tweet.device.length > 0) {
+        curBottomY += CGRectGetHeight(self.locaitonBtn.bounds) + kTweetCell_LocationCCell_Pading;
+//        }
     }else {
         self.locaitonBtn.hidden = YES;
     }
@@ -402,7 +402,7 @@
 + (CGFloat)locationHeightWithTweet:(Tweet *)tweet{
     CGFloat ocationHeight = 0;
     if ( tweet.location.length > 0) {
-        ocationHeight = 15 + kTweetCell_LocationCCell_Pading;
+    ocationHeight = 15 + kTweetCell_LocationCCell_Pading;
     }else{
         ocationHeight = 0;
     }

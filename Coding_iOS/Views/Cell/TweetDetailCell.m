@@ -104,7 +104,8 @@
             self.locaitonBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             self.locaitonBtn.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
             self.locaitonBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            self.locaitonBtn.frame = CGRectMake(kPaddingLeftWidth, 0, 120, 15);
+            self.locaitonBtn.frame = CGRectMake(kPaddingLeftWidth, 0,
+                                                (kScreen_Width - kPaddingLeftWidth- 20), 15);
             self.locaitonBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12];
             [self.locaitonBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
             [self.locaitonBtn addTarget:self action:@selector(locationBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -198,13 +199,14 @@
     curBottomY += 10;
     
     //一下两段ifelse 已经判断了4种情况，经过精简得出
+    //
     if (_tweet.location.length > 0) {
         [self.locaitonBtn setTitle:_tweet.location forState:UIControlStateNormal];
         [self.locaitonBtn setY:curBottomY];
         self.locaitonBtn.hidden = NO;
-        if(_tweet.device.length > 0) {
-            curBottomY += CGRectGetHeight(self.locaitonBtn.bounds) + kTweetCell_LocationCCell_Pading;
-        }
+//        if(_tweet.device.length > 0) {
+        curBottomY += CGRectGetHeight(self.locaitonBtn.bounds) + kTweetCell_LocationCCell_Pading;
+//        }
     }else {
         self.locaitonBtn.hidden = YES;
     }
@@ -286,13 +288,13 @@
     return likeUsersHeight;
 }
 + (CGFloat)locationHeightWithTweet:(Tweet *)tweet{
-    CGFloat ocationHeight = 0;
+    CGFloat locationHeight = 0;
     if ( tweet.location.length > 0) {
-        ocationHeight = 15 + kTweetCell_LocationCCell_Pading;
+        locationHeight = 15 + kTweetCell_LocationCCell_Pading;
     }else{
-        ocationHeight = 0;
+        locationHeight = 0;
     }
-    return ocationHeight;
+    return locationHeight;
 }
 
 #pragma mark UIWebViewDelegate
