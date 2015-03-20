@@ -63,7 +63,7 @@
     
     obj.address = self.datasorceArray[2][@"value"];
     if (obj.address.length <= 0) {
-        obj.address = self.datasorceArray[1][@"value"];
+        obj.address = [self.locationResponse.cityName stringByAppendingFormat:@",%@",self.locationResponse.region];
     }
     obj.user_id = self.myUser.id;
     obj.latitude = self.locationResponse.lat;

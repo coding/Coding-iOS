@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_ValueList @"ValueListCell"
+
 #import <UIKit/UIKit.h>
 
 @interface ValueListCell : UITableViewCell

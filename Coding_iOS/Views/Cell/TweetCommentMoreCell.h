@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_TweetCommentMore @"TweetCommentMoreCell"
+
 #import <UIKit/UIKit.h>
 
 @interface TweetCommentMoreCell : UITableViewCell

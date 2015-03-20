@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_FileListUpload @"FileListUploadCell"
+
 #import <UIKit/UIKit.h>
 
 @interface FileListUploadCell : UITableViewCell

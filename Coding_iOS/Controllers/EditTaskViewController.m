@@ -6,13 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_TaskContent @"TaskContentCell"
-#define kCellIdentifier_LeftImage_LRText @"LeftImage_LRTextCell"
-#define kCellIdentifier_TaskComment @"TaskCommentCell"
-#define kCellIdentifier_TaskCommentTop @"TaskCommentTopCell"
-#define kCellIdentifier_TaskCommentBlank @"TaskCommentBlankCell"
-#define kCellIdentifier_TaskDescription @"TaskDescriptionCell"
-
 #import "EditTaskViewController.h"
 #import "TPKeyboardAvoidingTableView.h"
 #import "TaskContentCell.h"
@@ -24,6 +17,7 @@
 #import "TaskCommentCell.h"
 #import "TaskCommentTopCell.h"
 #import "TaskCommentBlankCell.h"
+#import "TaskDescriptionCell.h"
 #import "ActionSheetDatePicker.h"
 #import "TaskDescriptionViewController.h"
 
@@ -53,13 +47,11 @@
     // Do any additional setup after loading the view.
     switch (_myTask.handleType) {
         case TaskHandleTypeAdd:{
-            self.title = @"创建任务";
             _myCopyTask = [Task taskWithTask:_myTask];
             _myCopyTask.handleType = TaskHandleTypeAdd;
         }
             break;
         case TaskHandleTypeEdit:{
-            self.title = @"任务详情";
             _myCopyTask = [Task taskWithTask:_myTask];
             
             //评论
@@ -80,6 +72,7 @@
         default:
             break;
     }
+    [self configTitle];
     
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -91,6 +84,7 @@
         [tableView registerClass:[TaskCommentCell class] forCellReuseIdentifier:kCellIdentifier_TaskComment];
         [tableView registerClass:[TaskCommentBlankCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentBlank];
         [tableView registerClass:[TaskCommentTopCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentTop];
+        [tableView registerClass:[TaskDescriptionCell class] forCellReuseIdentifier:kCellIdentifier_TaskDescriptionCell];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -120,6 +114,14 @@
                                    }
                                    return @(enabled);
                                }];
+}
+
+- (void)configTitle{
+    if (_myTask.handleType == TaskEditTypeAdd) {
+        self.title = @"创建任务";
+    }else{
+        self.title = _myTask.project.name;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -189,6 +191,7 @@
             weakSelf.myMsgInputView.curProject = weakSelf.myCopyTask.project;
             weakSelf.myMsgInputView.commentOfId = weakSelf.myCopyTask.id;
             weakSelf.myMsgInputView.toUser = nil;
+            [weakSelf configTitle];
             
             [weakSelf.myTableView reloadData];
             [weakSelf queryToRefreshCommentList];
@@ -297,7 +300,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = 0;
     if (section == 0) {
-        row = 1;
+        row = 2;
     }else if (section == 1){
         row = (self.myCopyTask.handleType == TaskHandleTypeAdd)? 3: 4;
     }else{
@@ -312,34 +315,47 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         __weak typeof(self) weakSelf = self;
-
-        TaskContentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskContent forIndexPath:indexPath];
-        cell.task = _myCopyTask;
-        cell.textValueChangedBlock = ^(NSString *textStr){
-            weakSelf.myCopyTask.content = textStr;
-        };
-        cell.textViewBecomeFirstResponderBlock = ^(){
-            [weakSelf.myMsgInputView isAndResignFirstResponder];
-        };
-        cell.deleteBtnClickedBlock = ^(Task *toDelete){
-            [weakSelf.view endEditing:YES];
-            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此任务" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-                if (index == 0) {
-                    [weakSelf deleteTask:toDelete];
+        if (indexPath.row == 0) {
+            TaskContentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskContent forIndexPath:indexPath];
+            cell.task = _myCopyTask;
+            cell.textValueChangedBlock = ^(NSString *textStr){
+                weakSelf.myCopyTask.content = textStr;
+            };
+            cell.textViewBecomeFirstResponderBlock = ^(){
+                [weakSelf.myMsgInputView isAndResignFirstResponder];
+            };
+            cell.deleteBtnClickedBlock = ^(Task *toDelete){
+                [weakSelf.view endEditing:YES];
+                UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此任务" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                    if (index == 0) {
+                        [weakSelf deleteTask:toDelete];
+                    }
+                }];
+                [actionSheet showInView:self.view];
+            };
+            cell.descriptionBtnClickedBlock = ^(Task *task){
+                if (weakSelf.myCopyTask.has_description.boolValue && !weakSelf.myCopyTask.task_description) {
+                    return ;
                 }
-            }];
-            [actionSheet showInView:self.view];
-        };
-        cell.descriptionBtnClickedBlock = ^(Task *task){
-            if (weakSelf.myCopyTask.has_description.boolValue && !weakSelf.myCopyTask.task_description) {
-                return ;
+                [weakSelf goToDescriptionVC];
+            };
+            
+            cell.backgroundColor = kColorTableBG;
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
+            return cell;
+        }else{
+            TaskDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskDescriptionCell forIndexPath:indexPath];
+            NSString *titleStr;
+            if (_myCopyTask.handleType == TaskEditTypeAdd) {
+                titleStr = @"添加描述";
+            }else{
+                titleStr = _myCopyTask.has_description.boolValue? @"查看描述": @"补充描述";
             }
-            [weakSelf goToDescriptionVC];
-        };
-
-        cell.backgroundColor = kColorTableBG;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
-        return cell;
+            [cell setTitleStr:titleStr];
+            cell.backgroundColor = kColorTableBG;
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
+            return cell;
+        }
     }else if (indexPath.section == 1){
         LeftImage_LRTextCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_LeftImage_LRText forIndexPath:indexPath];
         [cell setObj:_myCopyTask type:indexPath.row];
@@ -375,7 +391,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat cellHeight = 0;
     if (indexPath.section == 0) {
-        cellHeight = [TaskContentCell cellHeightWithObj:_myCopyTask];
+        if (indexPath.row == 0) {
+            cellHeight = [TaskContentCell cellHeightWithObj:_myCopyTask];
+        }else{
+            cellHeight = [TaskDescriptionCell cellHeight];
+        }
     }else if (indexPath.section == 1){
         cellHeight = [LeftImage_LRTextCell cellHeight];
     }else{
@@ -424,7 +444,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ESWeakSelf;
     if (indexPath.section == 0) {
-        
+        if (indexPath.row != 0) {
+            if (self.myCopyTask.has_description.boolValue && !self.myCopyTask.task_description) {
+                //描述内容 还没有加载成功
+                return ;
+            }
+            [self goToDescriptionVC];
+        }
     }else if (indexPath.section == 1){
         if (indexPath.row == LeftImage_LRTextCellTypeTaskOwner) {
             ProjectMemberListViewController *vc = [[ProjectMemberListViewController alloc] init];

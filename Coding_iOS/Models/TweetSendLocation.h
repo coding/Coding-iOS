@@ -73,7 +73,8 @@
 @property (nonatomic, strong) NSString *uid;
 @property (nonatomic, strong) NSDictionary *detailed;
 
-@property (nonatomic, strong, readonly) NSString *displayLocaiton;
+//@property (nonatomic, strong, readonly) NSString *displayLocaiton;
+- (NSString *)displayLocaiton;
 /**
  *  是否用户自定义位置
  */

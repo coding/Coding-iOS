@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_TweetSendText @"TweetSendTextCell"
+
 #import <UIKit/UIKit.h>
 #import "UIPlaceHolderTextView.h"
 #import "Users.h"

@@ -6,10 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_TweetDetail @"TweetDetailCell"
-#define kCellIdentifier_TweetDetailComment @"TweetDetailCommentCell"
-
-
 #import "TweetDetailViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "TweetDetailCell.h"

@@ -34,6 +34,14 @@ static Tweet *_tweetForSend = nil;
     }
 }
 
+- (NSString *)address{
+    if (!_address || _address.length == 0) {
+        return @"未填写";
+    }else{
+        return _address;
+    }
+}
+
 - (void)changeToLiked:(NSNumber *)liked{
     if (!liked) {
         return;
@@ -77,10 +85,21 @@ static Tweet *_tweetForSend = nil;
 - (NSInteger)numOfLikers{
     return MIN(_like_users.count +1,
                MIN(_likes.intValue,
-                   8));
+                   [self maxLikerNum]));
 }
+
+- (NSInteger)maxLikerNum{
+    NSInteger maxNum = 8;
+    if (kDevice_Is_iPhone6) {
+        maxNum = 10;
+    }else if (kDevice_Is_iPhone6Plus){
+        maxNum = 11;
+    }
+    return maxNum;
+}
+
 - (BOOL)hasMoreLikers{
-    return (_likes.intValue > _like_users.count || _likes.intValue > 7);
+    return (_likes.intValue > _like_users.count || _likes.intValue > [self maxLikerNum] - 1);
 }
 
 - (NSString *)toDoLikePath{
@@ -138,7 +157,10 @@ static Tweet *_tweetForSend = nil;
         [NSObject saveImage:tImg.image imageName:imgNameStr inFolder:dataPath];
     }
     if (self.tweetContent.length > 0) {
-        [NSObject saveResponseData:@{@"content" : self.tweetContent} toPath:dataPath];
+        [NSObject saveResponseData:@{
+                                     @"content" : _tweetContent? _tweetContent: @"",
+                                     @"locationData" : _locationData? [_locationData objectDictionary] : @""
+                                     } toPath:dataPath];
     }
 }
 
@@ -158,8 +180,9 @@ static Tweet *_tweetForSend = nil;
     
     self.tweetContent = @"";
     NSDictionary *contentDict = [NSObject loadResponseWithPath:dataPath];
-    if (contentDict && [contentDict objectForKey:@"content"]) {
+    if (contentDict) {
         self.tweetContent = [contentDict objectForKey:@"content"];
+        self.locationData = [NSObject objectOfClass:@"TweetSendLocationResponse" fromJSON:[contentDict objectForKey:@"locationData"]] ;
     }
 }
 
@@ -178,17 +201,22 @@ static Tweet *_tweetForSend = nil;
 }
 
 - (NSDictionary *)toDoTweetParams{
-    NSMutableString *contentStr = [[NSMutableString alloc] initWithString:_tweetContent];
+    NSMutableString *contentStr = [[NSMutableString alloc] initWithString:_tweetContent? _tweetContent: @""];
     for (TweetImage *imageItem in _tweetImages) {
         if (imageItem.imageStr && imageItem.imageStr.length > 0) {
             [contentStr appendString:imageItem.imageStr];
         }
     }
-    
-    if (_address.length <= 0) {
-        _address = @"";
+    NSDictionary *params;
+    if (_locationData) {
+        params = @{@"content" : contentStr,
+                   @"location": _locationData.displayLocaiton,
+                   @"coord": [NSString stringWithFormat:@"%@,%@,%i", _locationData.lat, _locationData.lng, _locationData.isCustomLocaiton],
+                   @"address": _locationData.address};
+    }else{
+        params = @{@"content" : contentStr};
     }
-    return @{@"content" : contentStr,@"location":_location,@"coord":_coord,@"address":_address};
+    return params;
 }
 - (BOOL)isAllImagesHaveDone{
     for (TweetImage *imageItem in _tweetImages) {

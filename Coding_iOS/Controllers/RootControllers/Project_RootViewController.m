@@ -34,18 +34,6 @@
     }
 }
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        RAC(self, rdv_tabBarItem.badgeValue) = [RACSignal combineLatest:@[RACObserve([UnReadManager shareManager], project_update_count)]
-                                                                 reduce:^id(NSNumber *project_update_count){
-                                                                     return project_update_count.integerValue > 0? kBadgeTipStr : @"";
-                                                                 }];
-    }
-    return self;
-}
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -137,17 +125,19 @@
     }else{
         __weak Project_RootViewController *weakSelf = self;
         listView = [[ProjectListView alloc] initWithFrame:carousel.bounds projects:curPros block:^(Project *project) {
+            if (curPros.type < ProjectsTypeTaProject) {
+                [[Coding_NetAPIManager sharedManager] request_Project_UpdateVisit_WithObj:project andBlock:^(id data, NSError *error) {
+                    if (data) {
+                        project.un_read_activities_count = [NSNumber numberWithInteger:0];
+                        [listView refreshUI];
+                    }
+                }];
+            }
 
             NProjectViewController *vc = [[NProjectViewController alloc] init];
             vc.myProject = project;
             [weakSelf.navigationController pushViewController:vc animated:YES];
-            
-            [[Coding_NetAPIManager sharedManager] request_Project_UpdateVisit_WithObj:project andBlock:^(id data, NSError *error) {
-                if (data) {
-                    project.un_read_activities_count = [NSNumber numberWithInteger:0];
-                    [listView refreshUI];
-                }
-            }];
+
             NSLog(@"\n=====%@", project.name);
         } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
     }

@@ -16,6 +16,7 @@
 #import "TopicDetailViewController.h"
 #import "EditTaskViewController.h"
 #import "ProjectViewController.h"
+#import "NProjectViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "AppDelegate.h"
 #import "WebViewController.h"
@@ -160,9 +161,11 @@
         Project *curPro = [[Project alloc] init];
         curPro.owner_user_name = user_global_key;
         curPro.name = project_name;
-        ProjectViewController *vc = [[ProjectViewController alloc] init];
+//        ProjectViewController *vc = [[ProjectViewController alloc] init];
+        NProjectViewController *vc = [[NProjectViewController alloc] init];
+
         vc.myProject = curPro;
-        vc.curIndex = 0;
+//        vc.curIndex = 0;
         analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:conversionRegexStr]).count > 0) {
         //私信

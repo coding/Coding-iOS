@@ -6,9 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_Conversation @"ConversationCell"
-#define kCellIdentifier_ToMessage @"ToMessageCell"
-
 #import "Message_RootViewController.h"
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"
@@ -41,28 +38,6 @@
         [self.myTableView setContentOffset:CGPointMake(0, -44)];
         [self refresh];
     }
-}
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        RAC(self, rdv_tabBarItem.badgeValue) = [RACSignal combineLatest:@[RACObserve([UnReadManager shareManager], messages),
-                                                                          RACObserve([UnReadManager shareManager], notifications)]
-                                                                 reduce:^id(NSNumber *messages, NSNumber *notifications){
-                                                                     NSString *badgeTip = @"";
-                                                                     NSNumber *unreadCount = [NSNumber numberWithInteger:messages.integerValue +notifications.integerValue];
-                                                                     if (unreadCount.integerValue > 0) {
-                                                                         if (unreadCount.integerValue > 99) {
-                                                                             badgeTip = @"99+";
-                                                                         }else{
-                                                                             badgeTip = unreadCount.stringValue;
-                                                                         }
-                                                                     }
-                                                                     return badgeTip;
-                                                                 }];
-    }
-    return self;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

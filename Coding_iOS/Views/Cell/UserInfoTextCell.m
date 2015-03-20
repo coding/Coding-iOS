@@ -19,7 +19,7 @@
     if (self) {
         // Initialization code
         if (!_titleL) {
-            _titleL = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 12, kScreen_Width/4, 20)];
+            _titleL = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 12, 80, 20)];
             _titleL.textAlignment = NSTextAlignmentLeft;
             _titleL.font = [UIFont systemFontOfSize:15];
             _titleL.textColor = [UIColor colorWithHexString:@"0x888888"];

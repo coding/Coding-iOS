@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_TopicContent @"TopicContentCell"
+
 #import <UIKit/UIKit.h>
 #import "ProjectTopic.h"
 typedef void (^CommentTopicBlock) ();

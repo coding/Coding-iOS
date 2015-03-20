@@ -58,6 +58,10 @@
 #pragma mark Private_M
 - (void)setupViewControllers {
     Project_RootViewController *project = [[Project_RootViewController alloc] init];
+    RAC(project, rdv_tabBarItem.badgeValue) = [RACSignal combineLatest:@[RACObserve([UnReadManager shareManager], project_update_count)]
+                                                             reduce:^id(NSNumber *project_update_count){
+                                                                 return project_update_count.integerValue > 0? kBadgeTipStr : @"";
+                                                             }];
     UINavigationController *nav_project = [[BaseNavigationController alloc] initWithRootViewController:project];
     
     MyTask_RootViewController *mytask = [[MyTask_RootViewController alloc] init];
@@ -67,6 +71,20 @@
     UINavigationController *nav_tweet = [[BaseNavigationController alloc] initWithRootViewController:tweet];
     
     Message_RootViewController *message = [[Message_RootViewController alloc] init];
+    RAC(message, rdv_tabBarItem.badgeValue) = [RACSignal combineLatest:@[RACObserve([UnReadManager shareManager], messages),
+                                                                      RACObserve([UnReadManager shareManager], notifications)]
+                                                             reduce:^id(NSNumber *messages, NSNumber *notifications){
+                                                                 NSString *badgeTip = @"";
+                                                                 NSNumber *unreadCount = [NSNumber numberWithInteger:messages.integerValue +notifications.integerValue];
+                                                                 if (unreadCount.integerValue > 0) {
+                                                                     if (unreadCount.integerValue > 99) {
+                                                                         badgeTip = @"99+";
+                                                                     }else{
+                                                                         badgeTip = unreadCount.stringValue;
+                                                                     }
+                                                                 }
+                                                                 return badgeTip;
+                                                             }];
     UINavigationController *nav_message = [[BaseNavigationController alloc] initWithRootViewController:message];
     
     Me_RootViewController *me = [[Me_RootViewController alloc] init];

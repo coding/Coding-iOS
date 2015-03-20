@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_FileListFile @"FileListFileCell"
+
 #import <UIKit/UIKit.h>
 #import "ProjectFile.h"
 #import "Projects.h"

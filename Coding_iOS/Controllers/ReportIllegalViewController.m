@@ -6,8 +6,6 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_ValueList @"ValueListCell"
-
 #import "ReportIllegalViewController.h"
 #import "ValueListCell.h"
 #import "Login.h"

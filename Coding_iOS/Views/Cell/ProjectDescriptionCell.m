@@ -33,26 +33,28 @@
             _proDesL.textColor = [UIColor colorWithHexString:@"0x222222"];
             [self.contentView addSubview:_proDesL];
         }
-        NSInteger gitBtnNum = 3;
-        CGFloat whiteSpace = 7.0;
-        CGFloat btnWidth = (kProjectDescriptionCell_ContentWidth - whiteSpace *2) /3;
-        _gitButtons = [[NSMutableArray alloc] initWithCapacity:gitBtnNum];
-
-        for (int i = 0; i < gitBtnNum; i++) {
-            EaseGitButton *gitBtn = [EaseGitButton gitButtonWithFrame:CGRectMake(kPaddingLeftWidth + i *(btnWidth +whiteSpace),0, btnWidth, kScaleFrom_iPhone5_Desgin(33)) type:i];
-
-            [gitBtn bk_addEventHandler:^(EaseGitButton *sender) {
-                if (sender.type == EaseGitButtonTypeStar
-                    || sender.type == EaseGitButtonTypeWatch) {
-                    gitBtn.checked = !gitBtn.checked;
-                    gitBtn.userNum += gitBtn.checked? 1: -1;
-                }
-                if (self.gitButtonClickedBlock) {
-                    self.gitButtonClickedBlock(i);
-                }
-            } forControlEvents:UIControlEventTouchUpInside];
-            [self.contentView addSubview:gitBtn];
-            [_gitButtons addObject:gitBtn];
+        if (!_gitButtons) {
+            NSInteger gitBtnNum = 3;
+            CGFloat whiteSpace = 7.0;
+            CGFloat btnWidth = (kProjectDescriptionCell_ContentWidth - whiteSpace *2) /3;
+            _gitButtons = [[NSMutableArray alloc] initWithCapacity:gitBtnNum];
+            
+            for (int i = 0; i < gitBtnNum; i++) {
+                EaseGitButton *gitBtn = [EaseGitButton gitButtonWithFrame:CGRectMake(kPaddingLeftWidth + i *(btnWidth +whiteSpace),0, btnWidth, kScaleFrom_iPhone5_Desgin(30)) type:i];
+                
+                [gitBtn bk_addEventHandler:^(EaseGitButton *sender) {
+                    if (sender.type == EaseGitButtonTypeStar
+                        || sender.type == EaseGitButtonTypeWatch) {
+                        gitBtn.checked = !gitBtn.checked;
+                        gitBtn.userNum += gitBtn.checked? 1: -1;
+                    }
+                    if (self.gitButtonClickedBlock) {
+                        self.gitButtonClickedBlock(i);
+                    }
+                } forControlEvents:UIControlEventTouchUpInside];
+                [self.contentView addSubview:gitBtn];
+                [_gitButtons addObject:gitBtn];
+            }
         }
     }
     return self;
@@ -93,8 +95,13 @@
     [super layoutSubviews];
     CGFloat desHeight = [_curProject.description_mine getSizeWithFont:kProjectDescriptionCell_Font constrainedToSize:CGSizeMake(kProjectDescriptionCell_ContentWidth, CGFLOAT_MAX)].height;
     [_proDesL setFrame:CGRectMake(kPaddingLeftWidth, kPaddingLeftWidth, kProjectDescriptionCell_ContentWidth, desHeight)];
+    
+    CGFloat gitBtnY = kPaddingLeftWidth*2 +desHeight;
     [_gitButtons enumerateObjectsUsingBlock:^(EaseGitButton *obj, NSUInteger idx, BOOL *stop) {
-        [obj setY:kPaddingLeftWidth*2 +desHeight];
+        CGFloat diffY = ABS(CGRectGetMinY(obj.frame) - gitBtnY);
+        if (diffY > 1) {
+            [obj setY:gitBtnY];
+        }
     }];
 }
 

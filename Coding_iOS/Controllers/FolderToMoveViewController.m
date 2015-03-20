@@ -5,7 +5,6 @@
 //  Created by Ease on 14/11/27.
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
-#define kCellIdentifier_ProjectFolderList @"ProjectFolderListCell"
 
 #import "FolderToMoveViewController.h"
 #import "ProjectFolderListCell.h"

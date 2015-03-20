@@ -11,8 +11,7 @@
 #define kTweetDetailCell_LikeComment_Height 25.0
 #define kTweetDetailCell_LikeComment_Width 50.0
 #define kTweetCell_LocationCCell_Pading 9.0
-#define kTweetDetailCell_ContentWidth (kScreen_Width - 2*kPaddingLeftWidth)
-#define kCCellIdentifier_TweetLikeUser @"TweetLikeUserCCell"
+#define kTweetDetailCell_ContentWidth (kScreen_Width - 2*kPaddingLeftWidth + 2*8)
 #define kTweetDetailCell_PadingTop 55.0
 #define kTweetDetailCell_PadingBottom 10.0
 #define kTweetDetailCell_LikeUserCCell_Height 25.0
@@ -134,7 +133,7 @@
             [self.contentView addSubview:self.likeUsersView];
         }
         if (!self.webContentView) {
-            self.webContentView = [[UIWebView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, kTweetDetailCell_PadingTop, kTweetDetailCell_ContentWidth, 1)];
+            self.webContentView = [[UIWebView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth - 8, kTweetDetailCell_PadingTop, kTweetDetailCell_ContentWidth, 1)];
             self.webContentView.delegate = self;
             self.webContentView.scrollView.scrollEnabled = NO;
             self.webContentView.scrollView.scrollsToTop = NO;
@@ -148,7 +147,7 @@
                                   initWithActivityIndicatorStyle:
                                   UIActivityIndicatorViewStyleGray];
             _activityIndicator.hidesWhenStopped = YES;
-            [_activityIndicator setCenter:CGPointMake(kPaddingLeftWidth + kTweetDetailCell_ContentWidth/2, kTweetDetailCell_PadingTop+CGRectGetHeight(_activityIndicator.bounds)/2)];
+            [_activityIndicator setCenter:CGPointMake(CGRectGetMinX(self.webContentView.frame), kTweetDetailCell_PadingTop+CGRectGetHeight(_activityIndicator.bounds)/2)];
             [self.contentView addSubview:_activityIndicator];
         }
 

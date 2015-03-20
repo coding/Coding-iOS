@@ -9,7 +9,7 @@
 #define kTaskContentCell_PadingRight 20.0
 #define kTaskContentCell_ContentHeightMin 100.0
 #define kTextView_Pading 8.0
-#define kTaskContentCell_ContentWidth (kScreen_Width-kTaskContentCell_PadingLeft-kTaskContentCell_PadingRight)
+#define kTaskContentCell_ContentWidth (kScreen_Width-kTaskContentCell_PadingLeft-kTaskContentCell_PadingRight + 2*kTextView_Pading)
 #define kTaskContentCell_ContentFont [UIFont systemFontOfSize:18]
 
 
@@ -17,7 +17,8 @@
 
 @interface TaskContentCell ()
 @property (strong, nonatomic) UITextView *taskContentView;
-@property (strong, nonatomic) UIButton *deleteBtn, *descriptionBtn;
+@property (strong, nonatomic) UIButton *deleteBtn;
+@property (strong, nonatomic) UILabel *creatorLabel;
 @end
 
 @implementation TaskContentCell
@@ -34,50 +35,39 @@
             _taskContentView.font = kTaskContentCell_ContentFont;
             _taskContentView.delegate = self;
             [self.contentView addSubview:_taskContentView];
-            [_taskContentView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(0, kTaskContentCell_PadingLeft-kTextView_Pading, 40, kTaskContentCell_PadingLeft-kTextView_Pading));
-            }];
         }
-        if (!self.deleteBtn) {
-            self.deleteBtn = ({
+        if (!_creatorLabel) {
+            _creatorLabel = [[UILabel alloc] init];
+            _creatorLabel.font = [UIFont systemFontOfSize:12];
+            _creatorLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            [self.contentView addSubview:_creatorLabel];
+        }
+        if (!_deleteBtn) {
+            _deleteBtn = ({
                 UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                button.layer.cornerRadius = 5.0;
-                button.layer.borderWidth = 1.0;
-                button.layer.borderColor = [UIColor colorWithHexString:@"0xdadada"].CGColor;
                 button.titleLabel.font = [UIFont systemFontOfSize:13];
                 [button setTitleColor:[UIColor colorWithHexString:@"0x666666"] forState:UIControlStateNormal];
                 [button setTitle:@"删除" forState:UIControlStateNormal];
                 [button addTarget:self action:@selector(deleteBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-            
                 [self.contentView addSubview:button];
-                [button mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.size.mas_equalTo(CGSizeMake(44, 27));
-                    make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
-                    make.right.equalTo(self.contentView.mas_right).offset(-kTaskContentCell_PadingRight);
-                }];
                 button;
             });
         }
-        if (!self.descriptionBtn) {
-            self.descriptionBtn = ({
-                UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                button.layer.cornerRadius = 5.0;
-                button.layer.borderWidth = 1.0;
-                button.layer.borderColor = [UIColor colorWithHexString:@"0xdadada"].CGColor;
-                button.titleLabel.font = [UIFont systemFontOfSize:13];
-                [button addTarget:self action:@selector(descriptionBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-                [self.contentView addSubview:button];
-                
-                [button mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.size.mas_equalTo(CGSizeMake(79, 27));
-                    make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
-                    make.left.equalTo(self.contentView.mas_left).offset(kTaskContentCell_PadingLeft);
-                }];
-                button.titleEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 10);
-                button.imageEdgeInsets = UIEdgeInsetsMake(0, 52, 0, -52);
-                button;
-            });
-        }
+        [_taskContentView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(5, kTaskContentCell_PadingLeft-kTextView_Pading, 40, kTaskContentCell_PadingLeft-kTextView_Pading));
+        }];
+        [_creatorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView.mas_left).offset(kTaskContentCell_PadingLeft);
+            make.right.equalTo(_deleteBtn.mas_left).offset(10);
+            make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
+            make.height.mas_equalTo(20);
+        }];
+        
+        [_deleteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(44, 20));
+            make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
+            make.right.equalTo(self.contentView.mas_right).offset(-kTaskContentCell_PadingRight);
+        }];
     }
     return self;
 }
@@ -90,15 +80,11 @@
     _taskContentView.text = _task.content;
     
     if (_task.handleType == TaskHandleTypeAdd) {
+        _creatorLabel.text = [NSString stringWithFormat:@"%@ 现在", _task.creator.name];
         _deleteBtn.hidden = YES;
-        [_descriptionBtn setImage:[UIImage imageNamed:@"taskDescription_add_arrow"] forState:UIControlStateNormal];
-        [_descriptionBtn setTitle:@"添加描述" forState:UIControlStateNormal];
-        [_descriptionBtn setTitleColor:[UIColor colorWithHexString:@"0x666666"] forState:UIControlStateNormal];
     }else{
+        _creatorLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _task.creator.name, [_task.created_at stringTimesAgo]];
         _deleteBtn.hidden = NO;
-        [_descriptionBtn setImage:[UIImage imageNamed:@"taskDescription_check_arrow"] forState:UIControlStateNormal];
-        [_descriptionBtn setTitle:(_task.has_description.boolValue? @"查看描述": @"补充描述") forState:UIControlStateNormal];
-        [_descriptionBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
     }
 }
 

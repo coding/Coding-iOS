@@ -5,7 +5,6 @@
 //  Created by 王 原闯 on 14/10/29.
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
-#define kCellIdentifier_ProjectFolderList @"ProjectFolderListCell"
 
 #import "ProjectFolderListView.h"
 #import "ODRefreshControl.h"

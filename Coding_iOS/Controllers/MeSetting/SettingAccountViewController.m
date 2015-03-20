@@ -6,8 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_TitleDisclosure @"TitleDisclosureCell"
-
 #import "SettingAccountViewController.h"
 #import "TitleValueCell.h"
 #import "TitleDisclosureCell.h"

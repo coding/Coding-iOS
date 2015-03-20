@@ -6,9 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_TopicContent @"TopicContentCell"
-#define kCellIdentifier_TopicComment @"TopicCommentCell"
-
 #import "TopicDetailViewController.h"
 #import "TopicContentCell.h"
 #import "TopicCommentCell.h"
@@ -54,8 +51,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"讨论详情";
-    
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
         tableView.backgroundColor = [UIColor clearColor];
@@ -92,6 +87,11 @@
         _myMsgInputView.commentOfId = _curTopic.id;
     }
     [self refreshTopic];
+}
+
+- (void)setCurTopic:(ProjectTopic *)curTopic{
+    _curTopic = curTopic;
+    self.title = curTopic.project.name? curTopic.project.name: @"讨论详情";
 }
 
 - (void)viewWillDisappear:(BOOL)animated{

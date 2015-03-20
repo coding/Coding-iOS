@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCCellIdentifier_MessageMediaItem @"MessageMediaItemCCell"
+
 #import <UIKit/UIKit.h>
 #import "HtmlMedia.h"
 #import "PrivateMessage.h"

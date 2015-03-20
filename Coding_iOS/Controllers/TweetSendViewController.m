@@ -17,12 +17,6 @@
 #import "TweetSendLocationViewController.h"
 #import "TweetSendLocation.h"
 
-
-#define kCellIdentifier_TweetSendText @"TweetSendTextCell"
-#define kCellIdentifier_TweetSendImages @"TweetSendImagesCell"
-
-#define kCellIdentifier_TweetSendLocation @"TweetSendLocationCell"
-
 @interface TweetSendViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
 @property (strong, nonatomic) Tweet *curTweet;;
@@ -44,6 +38,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _curTweet = [Tweet tweetForSend];
+    _locationData = _curTweet.locationData;
 
     [self.navigationItem setLeftBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"取消" target:self action:@selector(cancelBtnClicked:)] animated:YES];
     
@@ -85,6 +80,7 @@
 - (void)setLocationData:(TweetSendLocationResponse *)locationData
 {
     _locationData = locationData;
+    _curTweet.locationData = locationData;
     [self.myTableView reloadData];
 }
 
@@ -258,7 +254,8 @@
 - (BOOL)isEmptyTweet{
     BOOL isEmptyTweet = YES;
     if ((_curTweet.tweetContent && ![_curTweet.tweetContent isEmpty])//内容不为空
-        || (_curTweet.tweetImages.count > 0))//有照片
+        || _curTweet.tweetImages.count > 0//有照片
+        || _curTweet.locationData)//有位置
     {
         isEmptyTweet = NO;
     }
@@ -266,9 +263,6 @@
 }
 
 - (void)sendTweet{
-    _curTweet.coord = [NSString stringWithFormat:@"%@,%@,%i",self.locationData.lat,self.locationData.lng,self.locationData.isCustomLocaiton];
-    _curTweet.location = self.locationData.displayLocaiton;
-    _curTweet.address = self.locationData.address;
     _curTweet.tweetContent = [_curTweet.tweetContent aliasedString];
     if (_sendNextTweet) {
         _sendNextTweet(_curTweet);

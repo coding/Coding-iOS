@@ -83,6 +83,9 @@
         return;
     }
     __weak typeof(self) weakSelf = self;
+    if (!_myProject.is_public) {
+        [self.view beginLoading];
+    }
     [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_myProject andBlock:^(id data, NSError *error) {
         if (data) {
             CGFloat readMeHeight = weakSelf.myProject.readMeHeight;
@@ -98,6 +101,7 @@
             }
         }else{
             [weakSelf.refreshControl endRefreshing];
+            [weakSelf.view endLoading];
         }
     }];
 }
@@ -106,9 +110,10 @@
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_ReadMeOFProject:_myProject andBlock:^(id data, NSError *error) {
         [weakSelf.refreshControl endRefreshing];
+        [weakSelf.view endLoading];
         if (data) {
             weakSelf.myProject.readMeHtml = data;
-            [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [self numberOfSectionsInTableView:weakSelf.myTableView])] withRowAnimation:UITableViewRowAnimationNone];
+            [weakSelf.myTableView reloadData];
         }
     }];
 }
@@ -122,6 +127,7 @@
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_ProjectActivityList_WithObj:_myProActs andBlock:^(NSArray *data, NSError *error) {
         [weakSelf.refreshControl endRefreshing];
+        [weakSelf.view endLoading];
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
         if (data) {
             [weakSelf.myProActs configWithProActList:data];
@@ -357,7 +363,7 @@
         {
             if (!_myProject.isStaring) {
                 [[Coding_NetAPIManager sharedManager] request_StarProject:_myProject andBlock:^(id data, NSError *error) {
-                    [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                    [weakSelf.myTableView reloadData];
                 }];
             }
         }
@@ -366,7 +372,7 @@
         {
             if (!_myProject.isWatching) {
                 [[Coding_NetAPIManager sharedManager] request_WatchProject:_myProject andBlock:^(id data, NSError *error) {
-                    [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                    [weakSelf.myTableView reloadData];
                 }];
             }
         }
@@ -376,7 +382,7 @@
             [[UIActionSheet bk_actionSheetCustomWithTitle:@"fork将会将此项目复制到您的个人空间，确定要fork吗?" buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
                 if (index == 0) {
                     [[Coding_NetAPIManager sharedManager] request_ForkProject:_myProject andBlock:^(id data, NSError *error) {
-                        [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+                        [weakSelf.myTableView reloadData];
                         if (data) {
                             NProjectViewController *vc = [[NProjectViewController alloc] init];
                             vc.myProject = data;

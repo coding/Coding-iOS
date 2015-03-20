@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_Tweet @"TweetCell"
+
 #import <UIKit/UIKit.h>
 #import "Tweets.h"
 #import "UITapImageView.h"
