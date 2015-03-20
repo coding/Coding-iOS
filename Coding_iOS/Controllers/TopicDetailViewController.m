@@ -6,9 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_TopicContent @"TopicContentCell"
-#define kCellIdentifier_TopicComment @"TopicCommentCell"
-
 #import "TopicDetailViewController.h"
 #import "TopicContentCell.h"
 #import "TopicCommentCell.h"

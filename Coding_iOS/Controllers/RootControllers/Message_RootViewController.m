@@ -6,9 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_Conversation @"ConversationCell"
-#define kCellIdentifier_ToMessage @"ToMessageCell"
-
 #import "Message_RootViewController.h"
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"

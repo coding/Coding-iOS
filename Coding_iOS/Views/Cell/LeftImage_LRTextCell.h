@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_LeftImage_LRText @"LeftImage_LRTextCell"
+
 #import <UIKit/UIKit.h>
 typedef NS_ENUM(NSInteger, LeftImage_LRTextCellType) {
     LeftImage_LRTextCellTypeTaskOwner = 0,

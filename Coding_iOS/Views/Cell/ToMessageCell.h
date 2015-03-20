@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_ToMessage @"ToMessageCell"
+
 #import <UIKit/UIKit.h>
 typedef NS_ENUM(NSInteger, ToMessageType) {
     ToMessageTypeAT = 0,

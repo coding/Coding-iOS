@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_TweetSendLocation @"TweetSendLocationCell"
+
 #import <UIKit/UIKit.h>
 
 @interface TweetSendLocationCell : UITableViewCell

@@ -12,7 +12,6 @@
 #define kTweetDetailCell_LikeComment_Width 50.0
 #define kTweetCell_LocationCCell_Pading 9.0
 #define kTweetDetailCell_ContentWidth (kScreen_Width - 2*kPaddingLeftWidth)
-#define kCCellIdentifier_TweetLikeUser @"TweetLikeUserCCell"
 #define kTweetDetailCell_PadingTop 55.0
 #define kTweetDetailCell_PadingBottom 10.0
 #define kTweetDetailCell_LikeUserCCell_Height 25.0

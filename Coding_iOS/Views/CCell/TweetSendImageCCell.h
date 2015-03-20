@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCCellIdentifier_TweetSendImage @"TweetSendImageCCell"
+
 #import <UIKit/UIKit.h>
 #import "Tweets.h"
 

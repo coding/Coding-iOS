@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCCellIdentifier_TweetMediaItem @"TweetMediaItemCCell"
+
 #import <UIKit/UIKit.h>
 #import "HtmlMedia.h"
 #import "YLImageView.h"

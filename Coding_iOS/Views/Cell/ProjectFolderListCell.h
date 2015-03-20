@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_ProjectFolderList @"ProjectFolderListCell"
+
 #import <UIKit/UIKit.h>
 #import "ProjectFolder.h"
 #import "SWTableViewCell.h"

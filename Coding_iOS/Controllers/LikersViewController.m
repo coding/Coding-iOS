@@ -6,9 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_UserCell @"UserCell"
-
-
 #import "LikersViewController.h"
 #import "ODRefreshControl.h"
 #import "User.h"

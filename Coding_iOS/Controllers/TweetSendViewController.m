@@ -17,12 +17,6 @@
 #import "TweetSendLocationViewController.h"
 #import "TweetSendLocation.h"
 
-
-#define kCellIdentifier_TweetSendText @"TweetSendTextCell"
-#define kCellIdentifier_TweetSendImages @"TweetSendImagesCell"
-
-#define kCellIdentifier_TweetSendLocation @"TweetSendLocationCell"
-
 @interface TweetSendViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
 @property (strong, nonatomic) Tweet *curTweet;;

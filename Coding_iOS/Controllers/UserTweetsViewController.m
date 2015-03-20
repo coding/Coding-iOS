@@ -6,7 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_Tweet @"TweetCell"
 #define kCommentIndexNotFound -1
 
 #import "UserTweetsViewController.h"

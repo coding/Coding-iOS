@@ -21,12 +21,6 @@
 #define kTweet_LikeUsersLineCount 7.0
 #define kTweet_CommentListBackColor [UIColor colorWithHexString:@"0xedebec"]
 
-#define kCCellIdentifier_TweetLikeUser @"TweetLikeUserCCell"
-#define kCCellIdentifier_TweetMediaItem @"TweetMediaItemCCell"
-#define kCCellIdentifier_TweetMediaItemSingle @"TweetMediaItemSingleCCell"
-#define kCellIdentifier_TweetComment @"TweetCommentCell"
-#define kCellIdentifier_TweetCommentMore @"TweetCommentMoreCell"
-
 #import "TweetCell.h"
 #import "TweetLikeUserCCell.h"
 #import "TweetCommentCell.h"

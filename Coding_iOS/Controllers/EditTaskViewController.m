@@ -6,13 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_TaskContent @"TaskContentCell"
-#define kCellIdentifier_LeftImage_LRText @"LeftImage_LRTextCell"
-#define kCellIdentifier_TaskComment @"TaskCommentCell"
-#define kCellIdentifier_TaskCommentTop @"TaskCommentTopCell"
-#define kCellIdentifier_TaskCommentBlank @"TaskCommentBlankCell"
-#define kCellIdentifier_TaskDescription @"TaskDescriptionCell"
-
 #import "EditTaskViewController.h"
 #import "TPKeyboardAvoidingTableView.h"
 #import "TaskContentCell.h"

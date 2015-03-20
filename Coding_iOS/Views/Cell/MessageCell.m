@@ -6,10 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_Message @"MessageCell"
-#define kCellIdentifier_MessageMedia @"MessageMediaCell"
-#define kCCellIdentifier_MessageMediaItem @"MessageMediaItemCCell"
-
 #define kMessageCell_FontContent [UIFont systemFontOfSize:15]
 #define kMessageCell_PadingWidth 20.0
 #define kMessageCell_PadingHeight 11.0

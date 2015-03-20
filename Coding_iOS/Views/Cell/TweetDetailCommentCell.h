@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_TweetDetailComment @"TweetDetailCommentCell"
+
 #import <UIKit/UIKit.h>
 #import "Comment.h"
 #import "UITTTAttributedLabel.h"

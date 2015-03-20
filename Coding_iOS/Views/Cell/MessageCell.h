@@ -6,6 +6,9 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_Message @"MessageCell"
+#define kCellIdentifier_MessageMedia @"MessageMediaCell"
+
 #import <UIKit/UIKit.h>
 #import "PrivateMessage.h"
 #import "UILongPressMenuImageView.h"

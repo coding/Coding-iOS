@@ -6,8 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_InputOnlyTextPlain @"InputOnlyTextPlainCell"
-
 #import "SettingPasswordViewController.h"
 #import "InputOnlyTextPlainCell.h"
 #import "TPKeyboardAvoidingTableView.h"

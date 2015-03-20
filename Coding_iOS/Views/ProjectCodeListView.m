@@ -6,8 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_ProjectCodeList @"ProjectCodeListCell"
-
 #import "ProjectCodeListView.h"
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"

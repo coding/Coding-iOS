@@ -6,7 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_UserCell @"UserCell"
 
 #import "AddUserViewController.h"
 #import "UserCell.h"

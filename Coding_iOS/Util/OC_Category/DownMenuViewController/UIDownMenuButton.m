@@ -9,7 +9,6 @@
 #define kNavImageWidth (15.0+5.0)
 #define kDownMenu_ContentLeftPading 27.0
 #define kDownMenuCellHeight 50.0
-#define kCellIdentifier_DownMenu @"DownMenuCell"
 
 #define DEGREES_TO_RADIANS(angle) ((angle)/180.0 *M_PI)
 #define RADIANS_TO_DEGREES(radians) ((radians)*(180.0/M_PI))

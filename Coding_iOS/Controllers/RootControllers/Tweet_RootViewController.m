@@ -7,9 +7,7 @@
 //
 
 
-#define kCellIdentifier_Tweet @"TweetCell"
 #define kCommentIndexNotFound -1
-
 
 #import "Tweet_RootViewController.h"
 #import "Coding_NetAPIManager.h"

@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_MemberCell @"MemberCell"
+
 #import <UIKit/UIKit.h>
 #import "ProjectMember.h"
 #import "ProjectMemberListViewController.h"

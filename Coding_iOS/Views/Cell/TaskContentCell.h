@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_TaskContent @"TaskContentCell"
+
 #import <UIKit/UIKit.h>
 #import "Task.h"
 

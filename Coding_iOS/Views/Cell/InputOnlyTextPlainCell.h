@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_InputOnlyTextPlain @"InputOnlyTextPlainCell"
+
 #import <UIKit/UIKit.h>
 
 @interface InputOnlyTextPlainCell : UITableViewCell

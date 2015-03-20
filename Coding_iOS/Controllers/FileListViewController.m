@@ -6,10 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_FileListFolder @"FileListFolderCell"
-#define kCellIdentifier_FileListFile @"FileListFileCell"
-#define kCellIdentifier_FileListUpload @"FileListUploadCell"
-
 #import "FileListViewController.h"
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"

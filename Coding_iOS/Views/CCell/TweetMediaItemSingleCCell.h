@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCCellIdentifier_TweetMediaItemSingle @"TweetMediaItemSingleCCell"
+
 #import "TweetMediaItemCCell.h"
 #import "HtmlMedia.h"
 

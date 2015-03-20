@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_TaskCommentBlank @"TaskCommentBlankCell"
+
 #import <UIKit/UIKit.h>
 
 @interface TaskCommentBlankCell : UITableViewCell

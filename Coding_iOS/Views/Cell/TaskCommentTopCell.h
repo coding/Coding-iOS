@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_TaskCommentTop @"TaskCommentTopCell"
+
 #import <UIKit/UIKit.h>
 
 @interface TaskCommentTopCell : UITableViewCell
