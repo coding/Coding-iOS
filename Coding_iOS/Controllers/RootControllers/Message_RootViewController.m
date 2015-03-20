@@ -40,28 +40,6 @@
     }
 }
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        RAC(self, rdv_tabBarItem.badgeValue) = [RACSignal combineLatest:@[RACObserve([UnReadManager shareManager], messages),
-                                                                          RACObserve([UnReadManager shareManager], notifications)]
-                                                                 reduce:^id(NSNumber *messages, NSNumber *notifications){
-                                                                     NSString *badgeTip = @"";
-                                                                     NSNumber *unreadCount = [NSNumber numberWithInteger:messages.integerValue +notifications.integerValue];
-                                                                     if (unreadCount.integerValue > 0) {
-                                                                         if (unreadCount.integerValue > 99) {
-                                                                             badgeTip = @"99+";
-                                                                         }else{
-                                                                             badgeTip = unreadCount.stringValue;
-                                                                         }
-                                                                     }
-                                                                     return badgeTip;
-                                                                 }];
-    }
-    return self;
-}
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

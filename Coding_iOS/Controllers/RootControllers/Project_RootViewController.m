@@ -34,18 +34,6 @@
     }
 }
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        RAC(self, rdv_tabBarItem.badgeValue) = [RACSignal combineLatest:@[RACObserve([UnReadManager shareManager], project_update_count)]
-                                                                 reduce:^id(NSNumber *project_update_count){
-                                                                     return project_update_count.integerValue > 0? kBadgeTipStr : @"";
-                                                                 }];
-    }
-    return self;
-}
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
