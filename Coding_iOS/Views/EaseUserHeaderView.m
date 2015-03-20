@@ -118,6 +118,7 @@
     
     if (!_userIconView) {
         _userIconView = [[UITapImageView alloc] init];
+        _userIconView.backgroundColor = kColorTableBG;
         [_userIconView addTapBlock:^(id obj) {
             if (weakSelf.userIconClicked) {
                 weakSelf.userIconClicked();
@@ -166,12 +167,12 @@
         }];
 
         [_userLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(_followBtn.mas_top).offset(kScaleFrom_iPhone5_Desgin(-15));
+            make.bottom.equalTo(_followBtn.mas_top).offset(kScaleFrom_iPhone5_Desgin(-25));
             make.height.mas_equalTo(kScaleFrom_iPhone5_Desgin(20));
         }];
     }else{
         [_userLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(_fansCountBtn.mas_top).offset(kScaleFrom_iPhone5_Desgin(-15));
+            make.bottom.equalTo(_fansCountBtn.mas_top).offset(kScaleFrom_iPhone5_Desgin(-20));
             make.height.mas_equalTo(kScaleFrom_iPhone5_Desgin(20));
         }];
     }
