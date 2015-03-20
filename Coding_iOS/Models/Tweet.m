@@ -34,6 +34,14 @@ static Tweet *_tweetForSend = nil;
     }
 }
 
+- (NSString *)address{
+    if (!_address || _address.length == 0) {
+        return @"未填写";
+    }else{
+        return _address;
+    }
+}
+
 - (void)changeToLiked:(NSNumber *)liked{
     if (!liked) {
         return;
