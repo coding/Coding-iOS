@@ -10,12 +10,8 @@
 #import "Login.h"
 #import "User.h"
 
-//NSString * const kBaiduGeotableId= @"95955";
-//NSString * const kBaiduAK = @"9d1fee393e06554e155f797dc71d00f0";
-
-
-NSString * const kBaiduGeotableId= @"96880";
-NSString * const kBaiduAK = @"ak046T8G6m1GvIPGKdOdq04D";
+NSString * const kBaiduGeotableId= @"95955";
+NSString * const kBaiduAK = @"9d1fee393e06554e155f797dc71d00f0";
 
 NSString * const kBaiduAPIPlacePath = @"place/v2/search";
 NSString * const kBaiduAPIGeosearchPath = @"geosearch/v3/nearby";
