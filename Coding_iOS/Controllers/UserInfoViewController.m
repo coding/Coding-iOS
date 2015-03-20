@@ -89,13 +89,16 @@
         [weakSelf followBtnClicked];
     };
     [_myTableView addParallaxWithView:_headerView andHeight:CGRectGetHeight(_headerView.frame)];
-
+    if (![self isMe]) {
+        _myTableView.tableFooterView = [self footerV];
+    }
+    
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
 }
 
 - (BOOL)isMe{
-    return [_curUser.global_key isEqualToString:[Login curLoginUser].global_key];
+    return (_isRoot || [_curUser.global_key isEqualToString:[Login curLoginUser].global_key]);
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -121,6 +124,15 @@
             [weakSelf.myTableView reloadData];
         }
     }];
+}
+
+#pragma mark footerV
+- (UIView *)footerV{
+    UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 72)];
+    
+    UIButton *footerBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"发消息" andFrame:CGRectMake(kPaddingLeftWidth, (CGRectGetHeight(footerV.frame)-44)/2 , kScreen_Width - 2*kPaddingLeftWidth, 44) target:self action:@selector(messageBtnClicked)];
+    [footerV addSubview:footerBtn];
+    return footerV;
 }
 
 #pragma mark Table M
@@ -183,6 +195,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (![self isMe]
+        && section == [self numberOfSectionsInTableView:self.myTableView] -1) {
+        return 0.5;
+    }
     return 20.0;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -226,7 +242,7 @@
 }
 
 - (void)userIconClicked{
-//        显示大图
+    //        显示大图
     MJPhoto *photo = [[MJPhoto alloc] init];
     photo.url = [_curUser.avatar urlWithCodePath];
     
