@@ -14,14 +14,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="位置" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iXv-cj-AoT">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="位置" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iXv-cj-AoT">
                         <rect key="frame" x="15" y="14" width="28" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="深圳市福田区" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCr-oP-Jbu">
-                        <rect key="frame" x="63" y="14" width="84" height="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="深圳市福田区" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCr-oP-Jbu">
+                        <rect key="frame" x="63" y="14" width="204" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -30,6 +30,7 @@
                 <constraints>
                     <constraint firstItem="iXv-cj-AoT" firstAttribute="centerY" secondItem="mCr-oP-Jbu" secondAttribute="centerY" id="NPD-RQ-KzD"/>
                     <constraint firstAttribute="centerY" secondItem="iXv-cj-AoT" secondAttribute="centerY" id="O2g-FT-mNG"/>
+                    <constraint firstAttribute="trailing" secondItem="mCr-oP-Jbu" secondAttribute="trailing" id="TAo-Qk-8H7"/>
                     <constraint firstItem="mCr-oP-Jbu" firstAttribute="leading" secondItem="iXv-cj-AoT" secondAttribute="trailing" constant="20" id="hBc-a0-Bzi"/>
                     <constraint firstItem="iXv-cj-AoT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="iGT-yW-TM4"/>
                 </constraints>
@@ -37,6 +38,7 @@
             <connections>
                 <outlet property="addressLabel" destination="mCr-oP-Jbu" id="SdB-Kv-3IN"/>
             </connections>
+            <point key="canvasLocation" x="130" y="357"/>
         </tableViewCell>
     </objects>
 </document>
