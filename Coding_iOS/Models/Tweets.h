@@ -12,6 +12,9 @@
 #import "HtmlMedia.h"
 #import "Tweet.h"
 
+@class TweetImage, Tweet,TweetSendLocationResponse;
+
+
 typedef NS_ENUM(NSInteger, TweetType)
 {
     TweetTypePublicTime = 0,
@@ -38,4 +41,6 @@ typedef NS_ENUM(NSInteger, TweetType)
 - (NSDictionary *)toParams;
 
 @end
+
+
 

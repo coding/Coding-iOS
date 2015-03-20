@@ -12,7 +12,7 @@
 #import "HtmlMedia.h"
 
 @interface Tweet : NSObject
-@property (readwrite, nonatomic, strong) NSString *content, *device;
+@property (readwrite, nonatomic, strong) NSString *content, *device, *location, *coord, *address;
 @property (readwrite, nonatomic, strong) NSNumber *liked, *activity_id, *id, *comments, *likes;
 @property (readwrite, nonatomic, strong) NSDate *created_at;
 @property (readwrite, nonatomic, strong) User *owner;

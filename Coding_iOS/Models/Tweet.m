@@ -184,7 +184,11 @@ static Tweet *_tweetForSend = nil;
             [contentStr appendString:imageItem.imageStr];
         }
     }
-    return @{@"content" : contentStr};
+    
+    if (_address.length <= 0) {
+        _address = @"";
+    }
+    return @{@"content" : contentStr,@"location":_location,@"coord":_coord,@"address":_address};
 }
 - (BOOL)isAllImagesHaveDone{
     for (TweetImage *imageItem in _tweetImages) {

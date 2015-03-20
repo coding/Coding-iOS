@@ -7,6 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A0519E21ABA918100551B61 /* TweetSendDetailLoctionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0519E01ABA918100551B61 /* TweetSendDetailLoctionCell.m */; };
+		0A0519E31ABA918100551B61 /* TweetSendDetailLoctionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A0519E11ABA918100551B61 /* TweetSendDetailLoctionCell.xib */; };
+		0A06C2531AB9E57900AB3B03 /* map_annotation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A06C2521AB9E57900AB3B03 /* map_annotation@2x.png */; };
+		0A27A05D1AB5A13B00067833 /* TweetSendLocationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A27A05C1AB5A13B00067833 /* TweetSendLocationDetailViewController.m */; };
+		0A6E6BA71AAF4162004C0107 /* TweetSendLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E6BA61AAF4162004C0107 /* TweetSendLocationCell.m */; };
+		0A6E6BAA1AAF4B24004C0107 /* TweetSendLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E6BA91AAF4B24004C0107 /* TweetSendLocationViewController.m */; };
+		0A6E6BAD1AB08540004C0107 /* TweetSendLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E6BAC1AB08540004C0107 /* TweetSendLocation.m */; };
+		0A6E6BB91AB168B0004C0107 /* icon_locationed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A6E6BB61AB168B0004C0107 /* icon_locationed@2x.png */; };
+		0A6E6BBA1AB168B0004C0107 /* icon_not_locationed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A6E6BB71AB168B0004C0107 /* icon_not_locationed@2x.png */; };
+		0A6E6BBB1AB168B0004C0107 /* location_checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A6E6BB81AB168B0004C0107 /* location_checkmark@2x.png */; };
+		0A6E6BBF1AB180CB004C0107 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6E6BBE1AB180CB004C0107 /* CoreLocation.framework */; };
+		0A782FD81AB5B69200E96661 /* TweetSendCreateLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A782FD61AB5B69200E96661 /* TweetSendCreateLocationViewController.m */; };
+		0A782FDD1AB5B78B00E96661 /* TweetSendCreateLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A782FDB1AB5B78B00E96661 /* TweetSendCreateLocationCell.m */; };
+		0A782FDE1AB5B78B00E96661 /* TweetSendCreateLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A782FDC1AB5B78B00E96661 /* TweetSendCreateLocationCell.xib */; };
+		0AB591AC1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB591AB1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m */; };
+		0AB591AD1AB6D51C0076C454 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6E6BBC1AB180AE004C0107 /* MapKit.framework */; };
+		0AB591B01AB6D6BE0076C454 /* TweetSendMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */; };
 		4E03AC9A1A5BDDF9002B000B /* STARTIMAGE.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E03AC991A5BDDF9002B000B /* STARTIMAGE.jpg */; };
 		4E03ACA01A5CEB41002B000B /* taskDeadline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E03AC9E1A5CEB41002B000B /* taskDeadline@2x.png */; };
 		4E03ACA11A5CEB41002B000B /* taskProgress@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E03AC9F1A5CEB41002B000B /* taskProgress@2x.png */; };
@@ -567,6 +584,32 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A0519DF1ABA918100551B61 /* TweetSendDetailLoctionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendDetailLoctionCell.h; sourceTree = "<group>"; };
+		0A0519E01ABA918100551B61 /* TweetSendDetailLoctionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendDetailLoctionCell.m; sourceTree = "<group>"; };
+		0A0519E11ABA918100551B61 /* TweetSendDetailLoctionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetSendDetailLoctionCell.xib; sourceTree = "<group>"; };
+		0A06C2521AB9E57900AB3B03 /* map_annotation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_annotation@2x.png"; sourceTree = "<group>"; };
+		0A27A05B1AB5A13B00067833 /* TweetSendLocationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocationDetailViewController.h; sourceTree = "<group>"; };
+		0A27A05C1AB5A13B00067833 /* TweetSendLocationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocationDetailViewController.m; sourceTree = "<group>"; };
+		0A6E6BA51AAF4162004C0107 /* TweetSendLocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocationCell.h; sourceTree = "<group>"; };
+		0A6E6BA61AAF4162004C0107 /* TweetSendLocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocationCell.m; sourceTree = "<group>"; };
+		0A6E6BA81AAF4B24004C0107 /* TweetSendLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocationViewController.h; sourceTree = "<group>"; };
+		0A6E6BA91AAF4B24004C0107 /* TweetSendLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocationViewController.m; sourceTree = "<group>"; };
+		0A6E6BAB1AB08540004C0107 /* TweetSendLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocation.h; sourceTree = "<group>"; };
+		0A6E6BAC1AB08540004C0107 /* TweetSendLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocation.m; sourceTree = "<group>"; };
+		0A6E6BB61AB168B0004C0107 /* icon_locationed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_locationed@2x.png"; sourceTree = "<group>"; };
+		0A6E6BB71AB168B0004C0107 /* icon_not_locationed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_not_locationed@2x.png"; sourceTree = "<group>"; };
+		0A6E6BB81AB168B0004C0107 /* location_checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location_checkmark@2x.png"; sourceTree = "<group>"; };
+		0A6E6BBC1AB180AE004C0107 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		0A6E6BBE1AB180CB004C0107 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		0A782FD51AB5B69200E96661 /* TweetSendCreateLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendCreateLocationViewController.h; sourceTree = "<group>"; };
+		0A782FD61AB5B69200E96661 /* TweetSendCreateLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendCreateLocationViewController.m; sourceTree = "<group>"; };
+		0A782FDA1AB5B78B00E96661 /* TweetSendCreateLocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendCreateLocationCell.h; sourceTree = "<group>"; };
+		0A782FDB1AB5B78B00E96661 /* TweetSendCreateLocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendCreateLocationCell.m; sourceTree = "<group>"; };
+		0A782FDC1AB5B78B00E96661 /* TweetSendCreateLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetSendCreateLocationCell.xib; sourceTree = "<group>"; };
+		0AB591AA1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocaitonMapViewController.h; sourceTree = "<group>"; };
+		0AB591AB1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocaitonMapViewController.m; sourceTree = "<group>"; };
+		0AB591AE1AB6D6BE0076C454 /* TweetSendMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendMapAnnotation.h; sourceTree = "<group>"; };
+		0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendMapAnnotation.m; sourceTree = "<group>"; };
 		3B024F2227BD4152BC7C9A7A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E03AC991A5BDDF9002B000B /* STARTIMAGE.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = STARTIMAGE.jpg; sourceTree = "<group>"; };
 		4E03AC9E1A5CEB41002B000B /* taskDeadline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskDeadline@2x.png"; sourceTree = "<group>"; };
@@ -1440,6 +1483,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AB591AD1AB6D51C0076C454 /* MapKit.framework in Frameworks */,
+				0A6E6BBF1AB180CB004C0107 /* CoreLocation.framework in Frameworks */,
 				4EDD8F5C1A36F52700E9E232 /* libsqlite3.0.dylib in Frameworks */,
 				4EDD8F5A1A36F4FA00E9E232 /* Security.framework in Frameworks */,
 				4EDD8F581A36F4CA00E9E232 /* CoreTelephony.framework in Frameworks */,
@@ -2018,6 +2063,8 @@
 		8E477012198770E700997D05 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0A6E6BBE1AB180CB004C0107 /* CoreLocation.framework */,
+				0A6E6BBC1AB180AE004C0107 /* MapKit.framework */,
 				4E8AF7891A5406AE00CDC3AE /* QuartzCore.framework */,
 				4E8AF7871A54068700CDC3AE /* Accelerate.framework */,
 				4EDD8F5B1A36F52700E9E232 /* libsqlite3.0.dylib */,
@@ -2275,6 +2322,14 @@
 				8EA6CF5219E240C40076D59C /* TweetDetailViewController.m */,
 				8EA6CF5319E240C40076D59C /* TweetSendViewController.h */,
 				8EA6CF5419E240C40076D59C /* TweetSendViewController.m */,
+				0A6E6BA81AAF4B24004C0107 /* TweetSendLocationViewController.h */,
+				0A6E6BA91AAF4B24004C0107 /* TweetSendLocationViewController.m */,
+				0A782FD51AB5B69200E96661 /* TweetSendCreateLocationViewController.h */,
+				0A782FD61AB5B69200E96661 /* TweetSendCreateLocationViewController.m */,
+				0A27A05B1AB5A13B00067833 /* TweetSendLocationDetailViewController.h */,
+				0A27A05C1AB5A13B00067833 /* TweetSendLocationDetailViewController.m */,
+				0AB591AA1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.h */,
+				0AB591AB1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m */,
 				8EA6CF5719E240C40076D59C /* UsersViewController.h */,
 				8EA6CF5819E240C40076D59C /* UsersViewController.m */,
 				8EA6CF5919E240C40076D59C /* UserTweetsViewController.h */,
@@ -2344,6 +2399,7 @@
 		8EA6CF5D19E240C40076D59C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				0A06C2521AB9E57900AB3B03 /* map_annotation@2x.png */,
 				4E66EE201A28226000DA1B3E /* button_file_manage */,
 				4EC5AD8E1A258DF8006FA97C /* icon_file_cell_edit */,
 				4E9113A41A1CB19900AC9431 /* icon_file_state */,
@@ -2359,6 +2415,9 @@
 				8EA6CF9B19E240C40076D59C /* tabbar */,
 				8EA6CFAA19E240C40076D59C /* timeline */,
 				8EA6CFAF19E240C40076D59C /* tip_icons */,
+				0A6E6BB61AB168B0004C0107 /* icon_locationed@2x.png */,
+				0A6E6BB71AB168B0004C0107 /* icon_not_locationed@2x.png */,
+				0A6E6BB81AB168B0004C0107 /* location_checkmark@2x.png */,
 				4E1A228C1AB19D1F00CFC14F /* git_btn_icons */,
 				8EA6CF5F19E240C40076D59C /* btn_delete_tweetimage@2x.png */,
 				8EA6CF6319E240C40076D59C /* commentOrLikeBeginImg@2x.png */,
@@ -2590,6 +2649,8 @@
 				4EA679091A1461C3001A0324 /* ProjectFile.m */,
 				4E38CF601A7B7C99005536C0 /* CodeBranchOrTag.h */,
 				4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */,
+				0A6E6BAB1AB08540004C0107 /* TweetSendLocation.h */,
+				0A6E6BAC1AB08540004C0107 /* TweetSendLocation.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2771,6 +2832,8 @@
 				4E38CF5E1A7A28AF005536C0 /* CodeBranchTagButton.m */,
 				4E743E6B1A88A3CC00DADDE5 /* EaseMarkdownTextView.h */,
 				4E743E6C1A88A3CC00DADDE5 /* EaseMarkdownTextView.m */,
+				0AB591AE1AB6D6BE0076C454 /* TweetSendMapAnnotation.h */,
+				0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */,
 				4E996BCE1ABA774800C704F1 /* EaseUserHeaderView.h */,
 				4E996BCF1ABA774800C704F1 /* EaseUserHeaderView.m */,
 			);
@@ -2883,6 +2946,14 @@
 				8EF643A019FF7E2900F7EEB0 /* TweetDetailCommentCell.m */,
 				8EF643A119FF7E2900F7EEB0 /* TweetSendImagesCell.h */,
 				8EF643A219FF7E2900F7EEB0 /* TweetSendImagesCell.m */,
+				0A6E6BA51AAF4162004C0107 /* TweetSendLocationCell.h */,
+				0A6E6BA61AAF4162004C0107 /* TweetSendLocationCell.m */,
+				0A782FDA1AB5B78B00E96661 /* TweetSendCreateLocationCell.h */,
+				0A782FDB1AB5B78B00E96661 /* TweetSendCreateLocationCell.m */,
+				0A782FDC1AB5B78B00E96661 /* TweetSendCreateLocationCell.xib */,
+				0A0519DF1ABA918100551B61 /* TweetSendDetailLoctionCell.h */,
+				0A0519E01ABA918100551B61 /* TweetSendDetailLoctionCell.m */,
+				0A0519E11ABA918100551B61 /* TweetSendDetailLoctionCell.xib */,
 				8EF643A319FF7E2900F7EEB0 /* TweetSendTextCell.h */,
 				8EF643A419FF7E2900F7EEB0 /* TweetSendTextCell.m */,
 				8EF643A519FF7E2900F7EEB0 /* UserCell.h */,
@@ -2953,7 +3024,7 @@
 				ORGANIZATIONNAME = Coding;
 				TargetAttributes = {
 					8E47700F198770E700997D05 = {
-						DevelopmentTeam = QN5Z87S3LH;
+						DevelopmentTeam = 6G53LMMD47;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -3057,9 +3128,11 @@
 				8E97CE541A0A3410006F9AD7 /* settingBtn_Nav@2x.png in Resources */,
 				8E8F7B2D19EF6306006BA8BD /* btn_followed_not@2x.png in Resources */,
 				8EA6D17B19E240C40076D59C /* placeholder_monkey_round_54@2x.png in Resources */,
+				0A0519E31ABA918100551B61 /* TweetSendDetailLoctionCell.xib in Resources */,
 				4E923E791A2F040D00427514 /* messageRight_bg_img@2x.png in Resources */,
 				4E0849811A918A7F00BD27F6 /* coding_emoji_39@2x.png in Resources */,
 				8E97CE9F1A0C7E26006F9AD7 /* coding_emoji_08@2x.png in Resources */,
+				0A782FDE1AB5B78B00E96661 /* TweetSendCreateLocationCell.xib in Resources */,
 				8E8F7B3219EF6306006BA8BD /* btn_privateMsg_white@2x.png in Resources */,
 				8E97CEBB1A0C7E26006F9AD7 /* coding_emoji_36@2x.png in Resources */,
 				8EA6D19F19E240C40076D59C /* tipIcon_TweetComment@2x.png in Resources */,
@@ -3077,10 +3150,13 @@
 				8E8F7B3019EF6306006BA8BD /* btn_privateMsg_friend@2x.png in Resources */,
 				4E07D30D1A4A9F45009EDDF2 /* btn_file_cancel@2x.png in Resources */,
 				8E97CEA01A0C7E26006F9AD7 /* coding_emoji_09@2x.png in Resources */,
+				0A06C2531AB9E57900AB3B03 /* map_annotation@2x.png in Resources */,
 				4E76D4E51A5A90CA0094A35E /* taskPriority2@2x.png in Resources */,
 				4E07D30A1A4A9ACB009EDDF2 /* moreBtn_Nav@2x.png in Resources */,
 				4E0849831A918A7F00BD27F6 /* coding_emoji_41@2x.png in Resources */,
 				8E97CEA91A0C7E26006F9AD7 /* coding_emoji_18@2x.png in Resources */,
+				0A6E6BBB1AB168B0004C0107 /* location_checkmark@2x.png in Resources */,
+				4E3AD3D11A273A4A005C749B /* FontAwesome.ttf in Resources */,
 				8EA6D16919E240C40076D59C /* nav_project_task@2x.png in Resources */,
 				4E03ACA81A5D3BD1002B000B /* topic_comment_icon@2x.png in Resources */,
 				8EA6D18F19E240C40076D59C /* tasks_all@2x.png in Resources */,
@@ -3158,6 +3234,7 @@
 				8E97CEB61A0C7E26006F9AD7 /* coding_emoji_31@2x.png in Resources */,
 				8E7612F11A08A4EB005BE797 /* markdown.html in Resources */,
 				8E7612E61A087CD1005BE797 /* checkbox_checked@2x.png in Resources */,
+				0A6E6BB91AB168B0004C0107 /* icon_locationed@2x.png in Resources */,
 				4EACB4431A2C45300097ABB3 /* button_file_download_enable.png in Resources */,
 				8E97CE691A0A3424006F9AD7 /* keyboard_page_selected@2x.png in Resources */,
 				8E97CE611A0A3424006F9AD7 /* keyboard_add_photo@2x.png in Resources */,
@@ -3216,6 +3293,7 @@
 				8E97CEAE1A0C7E26006F9AD7 /* coding_emoji_23@2x.png in Resources */,
 				8EA6D19D19E240C40076D59C /* tipIcon_Task@2x.png in Resources */,
 				8E97CEAA1A0C7E26006F9AD7 /* coding_emoji_19@2x.png in Resources */,
+				0A6E6BBA1AB168B0004C0107 /* icon_not_locationed@2x.png in Resources */,
 				4EB845331AB83C3B0030DC69 /* git_icon_fork@2x.png in Resources */,
 				4EB845351AB83C3B0030DC69 /* git_icon_watch@2x.png in Resources */,
 				4E96E7E31A1B537E0037C098 /* icon_file_txt@2x.png in Resources */,
@@ -3352,6 +3430,7 @@
 				8E1C3DF119E7D58A00EF3032 /* SWActionSheet.m in Sources */,
 				4E1A22821AB1729700CFC14F /* ProjectInfoCell.m in Sources */,
 				8EA6D1BF19E240C40076D59C /* Task.m in Sources */,
+				0A0519E21ABA918100551B61 /* TweetSendDetailLoctionCell.m in Sources */,
 				8EA6D12819E240C40076D59C /* AppDelegate.m in Sources */,
 				4ECE8AFF1A3946C10021E29C /* Coding_NetAPIManager.m in Sources */,
 				8E59F0FA1A00F3F3009A905F /* FileListFileCell.m in Sources */,
@@ -3386,11 +3465,14 @@
 				8E1C3E0C19E8DFE300EF3032 /* SettingPasswordViewController.m in Sources */,
 				4E9113A21A1C426000AC9431 /* ASPopUpView.m in Sources */,
 				4E6BA2E21A1EE6AF005FD721 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				0A782FDD1AB5B78B00E96661 /* TweetSendCreateLocationCell.m in Sources */,
 				4E07D3111A4D1484009EDDF2 /* EaseStartView.m in Sources */,
 				8EA6D13819E240C40076D59C /* Message_RootViewController.m in Sources */,
+				0A782FD81AB5B69200E96661 /* TweetSendCreateLocationViewController.m in Sources */,
 				8EF643B219FF7E2900F7EEB0 /* Input_GlobalKey_Cell.m in Sources */,
 				8EA6D1BD19E240C40076D59C /* QcTask.m in Sources */,
 				4E35A99F1A3EC47E00CE35F1 /* FileViewController.m in Sources */,
+				0A6E6BAD1AB08540004C0107 /* TweetSendLocation.m in Sources */,
 				4ECE8B001A3946C10021E29C /* CodingNetAPIClient.m in Sources */,
 				8EF643B119FF7E2900F7EEB0 /* ConversationCell.m in Sources */,
 				8EF643D019FF7E2900F7EEB0 /* TweetSendImagesCell.m in Sources */,
@@ -3403,6 +3485,8 @@
 				8EF643D119FF7E2900F7EEB0 /* TweetSendTextCell.m in Sources */,
 				8EA6D22319E240C40076D59C /* XTSegmentControl.m in Sources */,
 				4E6D71891A75F00E005AD988 /* YLGIFImage.m in Sources */,
+				0A27A05D1AB5A13B00067833 /* TweetSendLocationDetailViewController.m in Sources */,
+				0AB591B01AB6D6BE0076C454 /* TweetSendMapAnnotation.m in Sources */,
 				4EA7F1651A6D192B00A046BD /* UIImageView+WebCache.m in Sources */,
 				8EF643B819FF7E2900F7EEB0 /* InputOnlyTextPlainCell.m in Sources */,
 				4E6BA2DB1A1EE6AF005FD721 /* AFURLSessionManager.m in Sources */,
@@ -3432,6 +3516,7 @@
 				8EF643AB19FF7E2900F7EEB0 /* TagCCell.m in Sources */,
 				4E996BDC1ABA79AB00C704F1 /* UserInfoDetailViewController.m in Sources */,
 				4E8765671A22E5B40090CFB9 /* SWLongPressGestureRecognizer.m in Sources */,
+				0AB591AC1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m in Sources */,
 				4EA7F1611A6D192B00A046BD /* UIButton+WebCache.m in Sources */,
 				8EE72BE419E3F2E8002C11D9 /* SDWebImageManager+MJ.m in Sources */,
 				8E1C3DEA19E7D58A00EF3032 /* AbstractActionSheetPicker.m in Sources */,
@@ -3541,6 +3626,7 @@
 				8E1C3DED19E7D58A00EF3032 /* ActionSheetDistancePicker.m in Sources */,
 				4E6FFB311AB3176900F27B3F /* ProjectReadMeCell.m in Sources */,
 				8E59F0F41A00F3B9009A905F /* ProjectCodeListCell.m in Sources */,
+				0A6E6BAA1AAF4B24004C0107 /* TweetSendLocationViewController.m in Sources */,
 				8E59F0F71A00F3E2009A905F /* ProjectFolderListCell.m in Sources */,
 				8EA6D1C319E240C40076D59C /* User.m in Sources */,
 				8EA6D1FB19E240C40076D59C /* MJPhotoToolbar.m in Sources */,
@@ -3556,6 +3642,7 @@
 				4E996BC91ABA754600C704F1 /* JDStatusBarStyle.m in Sources */,
 				8EF83F9419EB78CC00E86DE7 /* SettingTextViewController.m in Sources */,
 				8EA6D1B019E240C40076D59C /* Comment.m in Sources */,
+				0A6E6BA71AAF4162004C0107 /* TweetSendLocationCell.m in Sources */,
 				4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				8ECA8BB419FB42CC00C598C6 /* UILongPressMenuImageView.m in Sources */,
 				8EF643B419FF7E2900F7EEB0 /* Input_LeftImgage_Cell.m in Sources */,

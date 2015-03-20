@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="KGk-i7-Jjw" customClass="TweetSendCreateLocationCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="位置名称" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixW-ud-uB1">
+                        <rect key="frame" x="15" y="13" width="70" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="6cn-kH-OSt"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bAK-6B-nDe">
+                        <rect key="frame" x="105" y="0.0" width="215" height="44"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="bAK-6B-nDe" secondAttribute="trailing" id="Ae4-OC-3Qh"/>
+                    <constraint firstAttribute="centerY" secondItem="ixW-ud-uB1" secondAttribute="centerY" id="MvK-VW-5jr"/>
+                    <constraint firstItem="bAK-6B-nDe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="S6g-tx-NY0"/>
+                    <constraint firstItem="bAK-6B-nDe" firstAttribute="leading" secondItem="ixW-ud-uB1" secondAttribute="trailing" constant="20" id="fND-QJ-MiK"/>
+                    <constraint firstAttribute="bottom" secondItem="bAK-6B-nDe" secondAttribute="bottom" id="mXZ-6S-xps"/>
+                    <constraint firstItem="ixW-ud-uB1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="q6N-wz-Zew"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="editTextField" destination="bAK-6B-nDe" id="MuD-fQ-hcY"/>
+                <outlet property="titleLabel" destination="ixW-ud-uB1" id="m9Y-TY-TFV"/>
+            </connections>
+            <point key="canvasLocation" x="292" y="469"/>
+        </tableViewCell>
+    </objects>
+</document>
