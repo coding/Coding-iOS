@@ -13,6 +13,28 @@
 
 
 @implementation NSString (Common)
+
+- (NSString *)URLEncoding
+{
+    NSString * result = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes( kCFAllocatorDefault,
+                                                                                              (CFStringRef)self,
+                                                                                              NULL,
+                                                                                              (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                                                              kCFStringEncodingUTF8 ));
+    return result;
+}
+
+- (NSString *)URLDecoding
+{
+    NSMutableString * string = [NSMutableString stringWithString:self];
+    [string replaceOccurrencesOfString:@"+"
+                            withString:@" "
+                               options:NSLiteralSearch
+                                 range:NSMakeRange(0, [string length])];
+    return [string stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
+
 - (NSString *)md5Str
 {
     const char *cStr = [self UTF8String];

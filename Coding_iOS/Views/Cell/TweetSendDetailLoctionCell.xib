@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,12 +17,15 @@
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="位置" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iXv-cj-AoT">
                         <rect key="frame" x="15" y="14" width="28" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="28" id="fg3-y1-2uA"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="深圳市福田区" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mCr-oP-Jbu">
-                        <rect key="frame" x="63" y="14" width="84" height="17"/>
+                        <rect key="frame" x="63" y="14" width="216" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -32,6 +36,7 @@
                     <constraint firstAttribute="centerY" secondItem="iXv-cj-AoT" secondAttribute="centerY" id="O2g-FT-mNG"/>
                     <constraint firstItem="mCr-oP-Jbu" firstAttribute="leading" secondItem="iXv-cj-AoT" secondAttribute="trailing" constant="20" id="hBc-a0-Bzi"/>
                     <constraint firstItem="iXv-cj-AoT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="iGT-yW-TM4"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="mCr-oP-Jbu" secondAttribute="trailing" id="wUl-yz-Lqt"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

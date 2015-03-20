@@ -13,11 +13,127 @@
 NSString * const kBaiduGeotableId= @"95955";
 NSString * const kBaiduAK = @"9d1fee393e06554e155f797dc71d00f0";
 
-NSString * const kBaiduAPIPlacePath = @"place/v2/search";
-NSString * const kBaiduAPIGeosearchPath = @"geosearch/v3/nearby";
-NSString * const kBaiduAPIGeosearchPathCreate = @"geodata/v3/poi/create";
+NSString * const kBaiduAPIPlacePath = @"/place/v2/search";
+NSString * const kBaiduAPIGeosearchPath = @"/geosearch/v3/nearby";
+NSString * const kBaiduAPIGeosearchPathCreate = @"/geodata/v3/poi/create";
 
-NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
+NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com";
+
+NSString * const kBaiduSK = @"325eb713be897a2e88c8800780d3a8a6";
+
+#pragma mark -
+
+
+static NSString * const kCodingCharactersToBeEscapedInQueryString = @":/?&=;+!@#$()',*";
+
+static NSString * CodingPercentEscapedQueryStringKeyFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
+    static NSString * const kCodingCharactersToLeaveUnescapedInQueryStringPairKey = @"[].";
+    
+    return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, (__bridge CFStringRef)kCodingCharactersToLeaveUnescapedInQueryStringPairKey, (__bridge CFStringRef)kCodingCharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
+}
+
+static NSString * CodingPercentEscapedQueryStringValueFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
+    return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, NULL, (__bridge CFStringRef)kCodingCharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
+}
+
+extern NSArray * CodingQueryStringPairsFromDictionary(NSDictionary *dictionary);
+extern NSArray * CodingQueryStringPairsFromKeyAndValue(NSString *key, id value);
+
+
+@interface CodingQueryStringPair : NSObject
+@property (readwrite, nonatomic, strong) id field;
+@property (readwrite, nonatomic, strong) id value;
+
+- (id)initWithField:(id)field value:(id)value;
+
+- (NSString *)URLEncodedStringValueWithEncoding:(NSStringEncoding)stringEncoding;
+@end
+
+@implementation CodingQueryStringPair
+
+- (id)initWithField:(id)field value:(id)value {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    
+    self.field = field;
+    self.value = value;
+    
+    return self;
+}
+
+//NSUTF8StringEncoding
+- (NSString *)URLEncodedStringValueWithEncoding:(NSStringEncoding)stringEncoding {
+    if (!self.value || [self.value isEqual:[NSNull null]]) {
+        return CodingPercentEscapedQueryStringKeyFromStringWithEncoding([self.field description], stringEncoding);
+    } else {
+        return [NSString stringWithFormat:@"%@=%@", CodingPercentEscapedQueryStringKeyFromStringWithEncoding([self.field description], stringEncoding), CodingPercentEscapedQueryStringValueFromStringWithEncoding([self.value description], stringEncoding)];
+    }
+}
+
+@end
+
+NSArray * CodingQueryStringPairsFromDictionary(NSDictionary *dictionary) {
+    return CodingQueryStringPairsFromKeyAndValue(nil, dictionary);
+}
+
+NSArray * CodingQueryStringPairsFromKeyAndValue(NSString *key, id value) {
+    NSMutableArray *mutableQueryStringComponents = [NSMutableArray array];
+    
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"description" ascending:YES selector:@selector(compare:)];
+    
+    if ([value isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dictionary = value;
+        // Sort dictionary keys to ensure consistent ordering in query string, which is important when deserializing potentially ambiguous sequences, such as an array of dictionaries
+        for (id nestedKey in [dictionary.allKeys sortedArrayUsingDescriptors:@[ sortDescriptor ]]) {
+            id nestedValue = [dictionary objectForKey:nestedKey];
+            if (nestedValue) {
+                [mutableQueryStringComponents addObjectsFromArray:CodingQueryStringPairsFromKeyAndValue((key ? [NSString stringWithFormat:@"%@[%@]", key, nestedKey] : nestedKey), nestedValue)];
+            }
+        }
+    } else if ([value isKindOfClass:[NSArray class]]) {
+        NSArray *array = value;
+        for (id nestedValue in array) {
+            //------------------------------------------------------------
+            //edited by easeeeeeeeee(modify)
+            //            [mutableQueryStringComponents addObjectsFromArray:AFQueryStringPairsFromKeyAndValue([NSString stringWithFormat:@"%@[]", key], nestedValue)];
+            [mutableQueryStringComponents addObjectsFromArray:CodingQueryStringPairsFromKeyAndValue([NSString stringWithFormat:@"%@", key], nestedValue)];
+            //------------------------------------------------------------
+        }
+    } else if ([value isKindOfClass:[NSSet class]]) {
+        NSSet *set = value;
+        for (id obj in [set sortedArrayUsingDescriptors:@[ sortDescriptor ]]) {
+            [mutableQueryStringComponents addObjectsFromArray:CodingQueryStringPairsFromKeyAndValue(key, obj)];
+        }
+    } else {
+        [mutableQueryStringComponents addObject:[[CodingQueryStringPair alloc] initWithField:key value:value]];
+    }
+    
+    return mutableQueryStringComponents;
+}
+
+
+
+static NSString * CodingQueryStringFromParametersWithEncoding(NSDictionary *parameters, NSStringEncoding stringEncoding) {
+    NSMutableArray *mutablePairs = [NSMutableArray array];
+    for (CodingQueryStringPair *pair in CodingQueryStringPairsFromDictionary(parameters)) {
+        [mutablePairs addObject:[pair URLEncodedStringValueWithEncoding:stringEncoding]];
+    }
+    
+    return [mutablePairs componentsJoinedByString:@"&"];
+}
+
+static NSString *CodingGetSN(NSString *path, NSString *sk, NSDictionary *parameters){
+    
+    NSString *uri = [path stringByAppendingFormat:@"?%@",CodingQueryStringFromParametersWithEncoding(parameters, NSUTF8StringEncoding)];
+    NSString *baseString = [[uri stringByAppendingString:sk] URLEncoding];
+    
+    return [baseString md5Str];
+}
+
+#pragma mark -
+
 
 @implementation TweetSendCreateLocation
 
@@ -43,7 +159,13 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
 
 - (NSDictionary *)toCreateParams
 {
-    return @{@"ak":self.ak,@"geotable_id":self.geotable_id,@"coord_type":self.coord_type,@"radius":self.radius,@"address":self.address,@"latitude":self.latitude,@"longitude":self.longitude,@"title":self.title,@"user_id":self.user_id};
+    NSMutableDictionary *dict = [@{@"ak":self.ak,@"geotable_id":self.geotable_id,@"coord_type":self.coord_type,@"radius":self.radius,@"address":self.address,@"latitude":self.latitude,@"longitude":self.longitude,@"title":self.title,@"user_id":self.user_id} mutableCopy];
+    
+    NSString *sn = CodingGetSN(kBaiduAPIGeosearchPathCreate,kBaiduSK,dict);
+    
+    [dict setValue:sn forKey:@"sn"];
+
+    return dict;
 
 }
 
@@ -51,7 +173,17 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
 {
     self.filter = [NSString stringWithFormat:@"%@:[%@]",@"user_id",self.user_id];
     NSString *location = [NSString stringWithFormat:@"%@,%@",self.longitude,self.latitude];
-    return @{@"ak":self.ak,@"geotable_id":self.geotable_id,@"coord_type":self.coord_type,@"q":self.query,@"radius":self.radius,@"filter":self.filter,@"page_index":self.page_index,@"page_size":self.page_size,@"location":location};
+    
+    NSMutableDictionary *dict = [@{@"ak":self.ak,@"geotable_id":self.geotable_id,@"coord_type":self.coord_type,@"q":self.query,@"radius":self.radius,@"filter":self.filter,@"page_index":self.page_index,@"page_size":self.page_size,@"location":location} mutableCopy];
+    
+    
+    NSString *sn = CodingGetSN(kBaiduAPIGeosearchPath,kBaiduSK,dict);
+    
+    NSLog(@"%@",sn);
+    
+    [dict setValue:sn forKey:@"sn"];
+    
+    return dict;
 }
 
 @end
@@ -76,7 +208,16 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
 - (NSDictionary *)toParams
 {
     NSString *locationStr = [NSString stringWithFormat:@"%@,%@",self.lat,self.lng];
-    return @{@"ak":self.ak,@"output":self.output,@"query":self.query,@"page_size":self.page_size,@"page_num":self.page_num,@"scope":self.scope,@"location":locationStr,@"radius":self.radius};
+
+    NSMutableDictionary *dict = [@{@"ak":self.ak,@"output":self.output,@"query":self.query,@"page_size":self.page_size,@"page_num":self.page_num,@"scope":self.scope,@"location":locationStr,@"radius":self.radius} mutableCopy];
+    
+    NSString *sn = CodingGetSN(kBaiduAPIPlacePath,kBaiduSK,dict);
+    
+    NSLog(@"%@",sn);
+    
+    [dict setValue:sn forKey:@"sn"];
+
+    return dict;
 }
 
 @end
@@ -86,12 +227,13 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
 - (NSString *)displayLocaiton
 {
     NSString *locationStr = @"";
-    if([self.cityName containsString:@"市"]){
-        self.cityName = [self.cityName substringToIndex:([self.cityName length]-1)];
-    }
+    NSRange range = [self.cityName rangeOfString:@"市"];
     
+    if(range.location != NSNotFound){
+        self.cityName = [self.cityName substringToIndex:range.location];
+    }
     if (self.title.length > 0) {
-        locationStr = [NSString stringWithFormat:@"%@·%@",self.cityName,self.title];
+        locationStr = [NSString stringWithFormat:@"%@ · %@",self.cityName,self.title];
     }else{
         locationStr = self.cityName;
     }

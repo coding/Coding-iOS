@@ -209,6 +209,8 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     self.location = (CLLocation *)[locations lastObject];
+//    测试位置
+//    CLLocation *tempLocation = [[CLLocation alloc]initWithLatitude:31.21463 longitude:121.526068];
     
     // 获取当前所在的城市名
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];

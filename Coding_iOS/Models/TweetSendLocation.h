@@ -110,4 +110,6 @@
 - (void)requestGeodataSearchCustomerWithParams:(TweetSendCreateLocation *)obj andBlock:(void (^)(id data, NSError *error))block;
 
 
+//- (NSString *)CodingQueryStringFromParametersWithEncoding:(NSDictionary *)parameters encoding: (NSStringEncoding)stringEncoding;
+
 @end
