@@ -1279,7 +1279,7 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             NSString *readMeHtml = [[[data valueForKey:@"data"] valueForKey:@"readme"] valueForKey:@"preview"];
-            block(readMeHtml? readMeHtml: @"", nil);
+            block(readMeHtml? readMeHtml: @"我们推荐每个项目都新建一个README文件", nil);
         }else{
             block(nil, error);
         }
