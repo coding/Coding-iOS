@@ -77,10 +77,21 @@ static Tweet *_tweetForSend = nil;
 - (NSInteger)numOfLikers{
     return MIN(_like_users.count +1,
                MIN(_likes.intValue,
-                   8));
+                   [self maxLikerNum]));
 }
+
+- (NSInteger)maxLikerNum{
+    NSInteger maxNum = 8;
+    if (kDevice_Is_iPhone6) {
+        maxNum = 10;
+    }else if (kDevice_Is_iPhone6Plus){
+        maxNum = 11;
+    }
+    return maxNum;
+}
+
 - (BOOL)hasMoreLikers{
-    return (_likes.intValue > _like_users.count || _likes.intValue > 7);
+    return (_likes.intValue > _like_users.count || _likes.intValue > [self maxLikerNum] - 1);
 }
 
 - (NSString *)toDoLikePath{

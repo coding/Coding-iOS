@@ -74,7 +74,7 @@
         }
         if (!self.ownerNameBtn) {
             self.ownerNameBtn = [UIButton buttonWithUserStyle];
-            self.ownerNameBtn.frame = CGRectMake(kTweetCell_PadingLeft, 15, 50, 20);
+            self.ownerNameBtn.frame = CGRectMake(kTweetCell_PadingLeft, 17, 50, 20);
             [self.ownerNameBtn addTarget:self action:@selector(userBtnClicked) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:self.ownerNameBtn];
         }
@@ -238,7 +238,7 @@
             [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }
-    CGFloat curBottomY = kTweetCell_PadingTop +[TweetCell contentLabelHeightWithTweet:_tweet] +5;
+    CGFloat curBottomY = kTweetCell_PadingTop +[TweetCell contentLabelHeightWithTweet:_tweet] +10;
     //图片缩略图展示
     if (_tweet.htmlMedia.imageItems.count > 0) {
         
@@ -304,6 +304,7 @@
     curBottomY += [TweetCell likeCommentBtn_BottomPadingWithTweet:_tweet];
     
     
+    curBottomY += 5;
     if (_tweet.numOfLikers > 0 || _tweet.numOfComments > 0) {
         [_commentOrLikeBeginImgView setY:(curBottomY - CGRectGetHeight(_commentOrLikeBeginImgView.frame))];
         _commentOrLikeBeginImgView.hidden = NO;
@@ -354,7 +355,7 @@
     }else{
         cellHeight = 3;
     }
-    cellHeight += 10;
+    cellHeight += 20;
     cellHeight += kTweetCell_PadingTop;
     cellHeight += [TweetCell contentLabelHeightWithTweet:tweet];
     cellHeight += [TweetCell contentMediaHeightWithTweet:tweet];

@@ -86,10 +86,7 @@
 - (UIButton *)itemWithFrame:(CGRect)frame icon:(NSString *)iconStr color:(NSString *)colorStr title:(NSString *)titleStr index:(NSInteger)index{
     UIButton *item = [[UIButton alloc] initWithFrame:frame];
     
-    CGFloat iconWidth = kScaleFrom_iPhone5_Desgin(50);
-    if (kDevice_Is_iPhone6Plus || kDevice_Is_iPhone6) {
-        iconWidth -= 5;
-    }
+    CGFloat iconWidth = kScaleFrom_iPhone5_Desgin(46);
     
     UIImage *itemImg = [UIImage imageWithIcon:iconStr backgroundColor:[UIColor clearColor] iconColor:[UIColor whiteColor] iconScale:1.0 andSize:CGSizeMake(iconWidth/2.8, iconWidth/2.8)];
     UIImageView *itemImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, iconWidth, iconWidth)];

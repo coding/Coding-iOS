@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>我们需要通过您的地理位置信息获取您周边的相关数据</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>我们需要通过您的地理位置信息获取您周边的相关数据</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -36,9 +32,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2.4.2015031721</string>
+	<string>2.4.2015032019</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>我们需要通过您的地理位置信息获取您周边的相关数据</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>我们需要通过您的地理位置信息获取您周边的相关数据</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>
