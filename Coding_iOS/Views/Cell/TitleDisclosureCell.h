@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_TitleDisclosure @"TitleDisclosureCell"
+
 #import <UIKit/UIKit.h>
-
-
 
 @interface TitleDisclosureCell : UITableViewCell
 

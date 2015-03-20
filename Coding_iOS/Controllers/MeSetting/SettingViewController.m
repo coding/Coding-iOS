@@ -6,7 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_TitleDisclosure @"TitleDisclosureCell"
 #import "SettingViewController.h"
 #import "TitleDisclosureCell.h"
 #import "Login.h"
