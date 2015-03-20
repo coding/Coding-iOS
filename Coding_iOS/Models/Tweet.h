@@ -10,6 +10,7 @@
 #import "Comment.h"
 #import "User.h"
 #import "HtmlMedia.h"
+#import "TweetSendLocation.h"
 
 @interface Tweet : NSObject
 @property (readwrite, nonatomic, strong) NSString *content, *device, *location, *coord, *address;
@@ -20,6 +21,7 @@
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 @property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading;
 @property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;
+@property (nonatomic,strong) TweetSendLocationResponse *locationData;
 
 @property (readwrite, nonatomic, strong) NSMutableArray *tweetImages;
 @property (readwrite, nonatomic, strong) NSString *tweetContent;

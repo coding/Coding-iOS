@@ -43,7 +43,16 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
 
 - (NSDictionary *)toCreateParams
 {
-    return @{@"ak":self.ak,@"geotable_id":self.geotable_id,@"coord_type":self.coord_type,@"radius":self.radius,@"address":self.address,@"latitude":self.latitude,@"longitude":self.longitude,@"title":self.title,@"user_id":self.user_id};
+    return @{
+             @"ak":self.ak,
+             @"geotable_id":self.geotable_id,
+             @"coord_type":self.coord_type,
+             @"radius":self.radius,
+             @"address":self.address,
+             @"latitude":self.latitude,
+             @"longitude":self.longitude,
+             @"title":self.title,
+             @"user_id":self.user_id};
 
 }
 
@@ -51,7 +60,16 @@ NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com/";
 {
     self.filter = [NSString stringWithFormat:@"%@:[%@]",@"user_id",self.user_id];
     NSString *location = [NSString stringWithFormat:@"%@,%@",self.longitude,self.latitude];
-    return @{@"ak":self.ak,@"geotable_id":self.geotable_id,@"coord_type":self.coord_type,@"q":self.query,@"radius":self.radius,@"filter":self.filter,@"page_index":self.page_index,@"page_size":self.page_size,@"location":location};
+    return @{
+             @"ak":self.ak,
+             @"geotable_id":self.geotable_id,
+             @"coord_type":self.coord_type,
+             @"q":self.query,
+             @"radius":self.radius,
+             @"filter":self.filter,
+             @"page_index":self.page_index,
+             @"page_size":self.page_size,
+             @"location":location};
 }
 
 @end
