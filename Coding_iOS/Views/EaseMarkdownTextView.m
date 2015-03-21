@@ -305,7 +305,7 @@
     }else if ([responseObject isKindOfClass:[ProjectFile class]]){
         ProjectFile *curFile = responseObject;
         fileName = curFile.name;
-        fileUrlStr = curFile.preview;
+        fileUrlStr = curFile.owner_preview;
     }
     if (!fileName || [fileName isEqualToString:self.uploadingPhotoName]) {
         //移除文件（共有项目不能自动移除）
