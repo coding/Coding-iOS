@@ -60,7 +60,11 @@
     
     TweetSendCreateLocation *obj = [[TweetSendCreateLocation alloc]init];
     obj.title = self.datasorceArray[0][@"value"];
+    
     obj.address = self.datasorceArray[2][@"value"];
+    if (obj.address.length <= 0) {
+        obj.address = [self.locationResponse.cityName stringByAppendingFormat:@",%@",self.locationResponse.region];
+    }
     obj.user_id = self.myUser.id;
     obj.latitude = self.locationResponse.lat;
     obj.longitude = self.locationResponse.lng;
