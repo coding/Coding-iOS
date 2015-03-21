@@ -226,7 +226,7 @@
 
 #pragma mark Nav Btn M
 - (void)cancelBtnClicked:(id)sender{
-    if ([self isEmptyTweet]) {
+    if ([self isEmptyTweet] && !_curTweet.locationData) {//有位置
         [self dismissSelf];
     }else{
         __weak typeof(self) weakSelf = self;
@@ -254,8 +254,7 @@
 - (BOOL)isEmptyTweet{
     BOOL isEmptyTweet = YES;
     if ((_curTweet.tweetContent && ![_curTweet.tweetContent isEmpty])//内容不为空
-        || _curTweet.tweetImages.count > 0//有照片
-        || _curTweet.locationData)//有位置
+        || _curTweet.tweetImages.count > 0)//有照片
     {
         isEmptyTweet = NO;
     }

@@ -10,34 +10,26 @@
 #import "Login.h"
 #import "User.h"
 
-NSString * const kBaiduGeotableId= @"95955";
-NSString * const kBaiduAK = @"9d1fee393e06554e155f797dc71d00f0";
-
 NSString * const kBaiduAPIPlacePath = @"/place/v2/search";
 NSString * const kBaiduAPIGeosearchPath = @"/geosearch/v3/nearby";
 NSString * const kBaiduAPIGeosearchPathCreate = @"/geodata/v3/poi/create";
 
 NSString * const kBaiduAPIUrl = @"http://api.map.baidu.com";
 
-NSString * const kBaiduSK = @"325eb713be897a2e88c8800780d3a8a6";
 
-#pragma mark -
-
-
+#pragma mark - AFNet
 static NSString * const kCodingCharactersToBeEscapedInQueryString = @":/?&=;+!@#$()',*";
-
 static NSString * CodingPercentEscapedQueryStringKeyFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
     static NSString * const kCodingCharactersToLeaveUnescapedInQueryStringPairKey = @"[].";
     
     return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, (__bridge CFStringRef)kCodingCharactersToLeaveUnescapedInQueryStringPairKey, (__bridge CFStringRef)kCodingCharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
 }
-
 static NSString * CodingPercentEscapedQueryStringValueFromStringWithEncoding(NSString *string, NSStringEncoding encoding) {
     return (__bridge_transfer  NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)string, NULL, (__bridge CFStringRef)kCodingCharactersToBeEscapedInQueryString, CFStringConvertNSStringEncodingToEncoding(encoding));
 }
-
 extern NSArray * CodingQueryStringPairsFromDictionary(NSDictionary *dictionary);
 extern NSArray * CodingQueryStringPairsFromKeyAndValue(NSString *key, id value);
+
 
 
 @interface CodingQueryStringPair : NSObject

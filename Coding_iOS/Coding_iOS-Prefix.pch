@@ -59,6 +59,10 @@
 #define kXGPush_Id 2200066773
 #define kXGPush_Key @"IF3A514VQD5Q"
 
+//百度定位
+#define kBaiduGeotableId @"95955"
+#define kBaiduAK @"9d1fee393e06554e155f797dc71d00f0"
+#define kBaiduSK @"325eb713be897a2e88c8800780d3a8a6"
 
 //appStore地址
 #define kAppUrl  @"http://itunes.apple.com/app/id923676989"

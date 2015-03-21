@@ -212,7 +212,7 @@ static Tweet *_tweetForSend = nil;
         params = @{@"content" : contentStr,
                    @"location": _locationData.displayLocaiton,
                    @"coord": [NSString stringWithFormat:@"%@,%@,%i", _locationData.lat, _locationData.lng, _locationData.isCustomLocaiton],
-                   @"address": _locationData.address};
+                   @"address": _locationData.address? _locationData.address: @""};
     }else{
         params = @{@"content" : contentStr};
     }

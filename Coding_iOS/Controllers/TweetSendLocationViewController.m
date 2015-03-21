@@ -101,7 +101,7 @@
     self.locationManager = [[CLLocationManager alloc]init];
     self.locationManager.delegate = self;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    self.locationManager.distanceFilter = 100;
+    self.locationManager.distanceFilter = kCLDistanceFilterNone;
     [self.locationManager requestAlwaysAuthorization];//iOS 8 添加这句
     [self.locationManager startMonitoringSignificantLocationChanges];
     [self.locationManager startUpdatingHeading];
