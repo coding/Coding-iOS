@@ -10,6 +10,8 @@
 #import <MapKit/MapKit.h>
 #import "TweetSendMapAnnotation.h"
 #import "Tweets.h"
+#import "LocationHelper.h"
+
 
 @interface TweetSendLocaitonMapViewController ()<MKMapViewDelegate>
 
@@ -42,6 +44,9 @@
         CLLocationCoordinate2D coordinate;
         coordinate.latitude = [locationArray[0] doubleValue];
         coordinate.longitude = [locationArray[1] doubleValue];
+        
+        coordinate = [LocationHelper bdToGGEncrypt:coordinate];
+        
         NSArray *array = [self.tweet.location componentsSeparatedByString:@"·"];
         NSString *title = self.tweet.location;
         if (array.count == 2) {

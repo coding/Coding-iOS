@@ -8,6 +8,7 @@
 
 #import "TweetSendLocationViewController.h"
 #import "TweetSendLocation.h"
+#import "LocationHelper.h"
 #import <CoreLocation/CoreLocation.h>
 #import "TweetSendLocationCell.h"
 #import "TweetSendViewController.h"
@@ -40,6 +41,8 @@
 @property (nonatomic, strong) NSString *selectedTitle;
 
 @property (nonatomic, strong) CLLocation *location;
+
+@property (nonatomic) CLLocationCoordinate2D bdCoordinate;
 
 @property (nonatomic, strong) TweetSendLocationRequest *locationRequest;
 
@@ -204,11 +207,14 @@
     }
     return _searchingCreateRequest;
 }
+
 #pragma mark- LocationDelegate
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     self.location = (CLLocation *)[locations lastObject];
+    self.bdCoordinate = [LocationHelper ggToBDEncrypt:self.location.coordinate];
+    
 //    测试位置
 //    CLLocation *tempLocation = [[CLLocation alloc]initWithLatitude:31.21463 longitude:121.526068];
     
@@ -229,8 +235,8 @@
              }
              weakSelf.cityName = city;
              weakSelf.district = placemark.subLocality;
-             weakSelf.locationRequest.lat = [NSString stringWithFormat:@"%f",weakSelf.location.coordinate.latitude];
-             weakSelf.locationRequest.lng = [NSString stringWithFormat:@"%f",weakSelf.location.coordinate.longitude];
+             weakSelf.locationRequest.lat = [NSString stringWithFormat:@"%f",weakSelf.bdCoordinate .latitude];
+             weakSelf.locationRequest.lng = [NSString stringWithFormat:@"%f",weakSelf.bdCoordinate .longitude];
              weakSelf.searchingRequest.lat = weakSelf.locationRequest.lat;
              weakSelf.searchingRequest.lng = weakSelf.locationRequest.lng;
              
