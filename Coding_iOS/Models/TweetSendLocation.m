@@ -215,6 +215,26 @@ static NSString *CodingGetSN(NSString *path, NSString *sk, NSDictionary *paramet
 @end
 
 @implementation TweetSendLocationResponse
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.address = @"";
+        self.cityName = @"";
+        self.region = @"";
+        self.title = @"";
+        self.address = @"";
+    }
+    return self;
+}
+
+- (NSString *)address
+{
+    if (_address.length <= 0) {
+        _address = [NSString stringWithFormat:@"%@,%@",self.cityName,self.region];
+    }
+    return _address;
+}
 
 - (NSString *)displayLocaiton
 {
