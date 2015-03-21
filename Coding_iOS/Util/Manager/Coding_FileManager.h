@@ -38,10 +38,12 @@
 //upload
 + (BOOL)writeUploadDataWithName:(NSString *)fileName andAsset:(ALAsset *)asset;
 + (BOOL)writeUploadDataWithName:(NSString *)fileName andImage:(UIImage *)image;
++ (BOOL)deleteUploadDataWithName:(NSString *)fileName;
+
 - (NSURL *)diskUploadUrlForFile:(NSString *)fileName;
 - (void)removeCUploadTaskForFile:(NSString *)fileName hasError:(BOOL)hasError;
 - (Coding_UploadTask *)cUploadTaskForFile:(NSString *)fileName;
-- (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName;
+- (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName projectIsPublic:(BOOL)is_public;
 - (NSArray *)uploadFilesInProject:(NSString *)project_id andFolder:(NSString *)folder_id;
 @end
 

@@ -262,7 +262,7 @@
         }
     }
     for (NSString *fileName in needToUploads) {
-        [self addUploadTaskWithFileName:fileName];
+        [self uploadFileWithFileName:fileName];
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -272,9 +272,9 @@
 }
 
 #pragma mark uploadTask
-- (void)addUploadTaskWithFileName:(NSString *)fileName{
+- (void)uploadFileWithFileName:(NSString *)fileName{
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
-    [manager addUploadTaskWithFileName:fileName];
+    [manager addUploadTaskWithFileName:fileName projectIsPublic:_curProject.is_public.boolValue];
     [self configuploadFiles];
 }
 
@@ -285,7 +285,7 @@
 }
 
 - (void)completionUploadWithResult:(id)responseObject error:(NSError *)error{
-    if (!responseObject) {
+    if (!responseObject || ![responseObject isKindOfClass:[ProjectFile class]]) {
         return;
     }
     ProjectFile *curFile = responseObject;
@@ -323,7 +323,7 @@
         FileListUploadCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_FileListUpload forIndexPath:indexPath];
         cell.fileName = [self.uploadFiles objectAtIndex:indexPath.row];
         cell.reUploadBlock = ^(NSString *fileName){
-            [weakSelf addUploadTaskWithFileName:fileName];
+            [weakSelf uploadFileWithFileName:fileName];
         };
         cell.cancelUploadBlock = ^(NSString *fileName){
             [weakSelf removeUploadTaskWithFileName:fileName];

@@ -279,7 +279,7 @@
     if ([Coding_FileManager writeUploadDataWithName:fileName andImage:image]) {
         [self hudTipWillShow:YES];
         self.uploadingPhotoName = originalFileName;
-        Coding_UploadTask *uploadTask =[[Coding_FileManager sharedManager] addUploadTaskWithFileName:fileName];
+        Coding_UploadTask *uploadTask =[[Coding_FileManager sharedManager] addUploadTaskWithFileName:fileName projectIsPublic:_curProject.is_public.boolValue];
         @weakify(self)
         [RACObserve(uploadTask, progress.fractionCompleted) subscribeNext:^(NSNumber *fractionCompleted) {
             @strongify(self);
@@ -299,9 +299,21 @@
     if (!responseObject) {
         return;
     }
-    ProjectFile *curFile = responseObject;
-    if ([curFile.name isEqualToString:self.uploadingPhotoName]) {
-        NSString *photoLinkStr = [NSString stringWithFormat:[self needPreNewLine]? @"\n![图片](%@)\n": @"![图片](%@)\n", curFile.owner_preview];
+    NSString *fileName = nil, *fileUrlStr = @"";
+    if ([responseObject isKindOfClass:[NSString class]]) {
+        fileUrlStr = responseObject;
+    }else if ([responseObject isKindOfClass:[ProjectFile class]]){
+        ProjectFile *curFile = responseObject;
+        fileName = curFile.name;
+        fileUrlStr = curFile.preview;
+    }
+    if (!fileName || [fileName isEqualToString:self.uploadingPhotoName]) {
+        //移除文件（共有项目不能自动移除）
+        NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@", self.curProject.id.stringValue, @"0", self.uploadingPhotoName];
+        [Coding_FileManager deleteUploadDataWithName:fileName];
+        
+        //插入文字
+        NSString *photoLinkStr = [NSString stringWithFormat:[self needPreNewLine]? @"\n![图片](%@)\n": @"![图片](%@)\n", fileUrlStr];
         [self insertText:photoLinkStr];
         [self becomeFirstResponder];
     }

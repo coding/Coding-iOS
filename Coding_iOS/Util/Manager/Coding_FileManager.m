@@ -218,7 +218,16 @@
     
     return [UIImageJPEGRepresentation(image, 1.0) writeToFile:filePath options:NSAtomicWrite error:nil];
 }
-- (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName{
++ (BOOL)deleteUploadDataWithName:(NSString *)fileName{
+    NSString *filePath = [[self uploadPath] stringByAppendingPathComponent:fileName];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:filePath]) {
+        return [fm removeItemAtPath:fileName error:nil];
+    }else{
+        return YES;
+    }
+}
+- (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName projectIsPublic:(BOOL)is_public{
     if (!fileName) {
         return nil;
     }
@@ -233,10 +242,15 @@
     NSString *filePath = [[[self class] uploadPath] stringByAppendingPathComponent:fileName];
     NSURL *filePathUrl = [NSURL fileURLWithPath:filePath];
     
-    NSURL *uploadUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/project/%@/file/upload", kNetPath_Code_Base, project_id]];
+    NSURL *uploadUrl;
+    if (is_public) {
+        uploadUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/project/%@/upload_public_image", kNetPath_Code_Base, project_id]];
+    }else{
+        uploadUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/project/%@/file/upload", kNetPath_Code_Base, project_id]];
+    }
     
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:uploadUrl.absoluteString parameters:@{@"dir": folder_id} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileURL:filePathUrl name:@"file" fileName:name mimeType:@"image/jpeg, image/png, image/gif, image/tiff" error:nil];
+        [formData appendPartWithFileURL:filePathUrl name:@"file" fileName:name mimeType:@"image/jpeg, image/png, image/gif" error:nil];
     } error:nil];
     
     NSProgress *progress = nil;
@@ -245,33 +259,39 @@
         if (!error) {
             error = [manager handleResponse:responseObject];
         }
-        
-        if (error) {
+        response = response? response: [[NSURLResponse alloc] init];
+        if (error){
             [manager showError:error];
             [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUploadCompled object:manager userInfo:@{@"response" : response,
                                                                                                                             @"error" : error}];
-        }else{
-            NSString *block_project_id = [[[[response.URL.absoluteString componentsSeparatedByString:@"/project/"] lastObject] componentsSeparatedByString:@"/file/"] firstObject];
-
+        }else if (responseObject) {
+            NSString *block_project_id = [[[[response.URL.absoluteString componentsSeparatedByString:@"/project/"] lastObject] componentsSeparatedByString:@"/"] firstObject];
             responseObject = [responseObject valueForKey:@"data"];
-            ProjectFile *curFile = [NSObject objectOfClass:@"ProjectFile" fromJSON:responseObject];
-            NSString *block_fileName = [NSString stringWithFormat:@"%@|||%@|||%@", block_project_id, curFile.parent_id.stringValue, curFile.name];
-            NSString *block_filePath = [[[manager class] uploadPath] stringByAppendingPathComponent:block_fileName];
             
-            //移动文件到已下载
-            NSString *diskFileName = [NSString stringWithFormat:@"%@|||%@|||%@|%@", curFile.name, block_project_id, curFile.storage_type, curFile.storage_key];
-            NSString *diskFilePath = [[[manager class] downloadPath] stringByAppendingPathComponent:diskFileName];
-            [[NSFileManager defaultManager] moveItemAtPath:block_filePath toPath:diskFilePath error:nil];
-            [manager directoryDidChange:manager.docUploadWatcher];
-            [manager directoryDidChange:manager.docDownloadWatcher];
-            NSLog(@"upload_fileName------\n%@", block_fileName);
-
-            //移除任务
-            [[Coding_FileManager sharedManager] removeCUploadTaskForFile:block_fileName hasError:(error != nil)];
-            
-            //处理completionHandler
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUploadCompled object:manager userInfo:@{@"response" : response,
-                                                                                                                            @"data" : curFile}];
+            if ([responseObject isKindOfClass:[NSString class]]) {
+                //处理completionHandler
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUploadCompled object:manager userInfo:@{@"response" : response,
+                                                                                                                                @"data" : responseObject}];
+            }else{
+                ProjectFile *curFile = [NSObject objectOfClass:@"ProjectFile" fromJSON:responseObject];
+                NSString *block_fileName = [NSString stringWithFormat:@"%@|||%@|||%@", block_project_id, curFile.parent_id.stringValue, curFile.name];
+                NSString *block_filePath = [[[manager class] uploadPath] stringByAppendingPathComponent:block_fileName];
+                
+                //移动文件到已下载
+                NSString *diskFileName = [NSString stringWithFormat:@"%@|||%@|||%@|%@", curFile.name, block_project_id, curFile.storage_type, curFile.storage_key];
+                NSString *diskFilePath = [[[manager class] downloadPath] stringByAppendingPathComponent:diskFileName];
+                [[NSFileManager defaultManager] moveItemAtPath:block_filePath toPath:diskFilePath error:nil];
+                [manager directoryDidChange:manager.docUploadWatcher];
+                [manager directoryDidChange:manager.docDownloadWatcher];
+                NSLog(@"upload_fileName------\n%@", block_fileName);
+                
+                //移除任务
+                [[Coding_FileManager sharedManager] removeCUploadTaskForFile:block_fileName hasError:(error != nil)];
+                
+                //处理completionHandler
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUploadCompled object:manager userInfo:@{@"response" : response,
+                                                                                                                                @"data" : curFile}];
+            }
         }
     }];
     
