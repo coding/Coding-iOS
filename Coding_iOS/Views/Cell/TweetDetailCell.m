@@ -147,7 +147,7 @@
                                   initWithActivityIndicatorStyle:
                                   UIActivityIndicatorViewStyleGray];
             _activityIndicator.hidesWhenStopped = YES;
-            [_activityIndicator setCenter:CGPointMake(CGRectGetMinX(self.webContentView.frame), kTweetDetailCell_PadingTop+CGRectGetHeight(_activityIndicator.bounds)/2)];
+            [_activityIndicator setCenter:CGPointMake(CGRectGetMidX(self.webContentView.frame), kTweetDetailCell_PadingTop+CGRectGetHeight(_activityIndicator.bounds)/2)];
             [self.contentView addSubview:_activityIndicator];
         }
 
