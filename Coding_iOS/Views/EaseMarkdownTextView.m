@@ -296,6 +296,11 @@
 
 - (void)completionUploadWithResult:(id)responseObject error:(NSError *)error{
     [self hudTipWillShow:NO];
+    
+    //移除文件（共有项目不能自动移除）
+    NSString *diskFileName = [NSString stringWithFormat:@"%@|||%@|||%@", self.curProject.id.stringValue, @"0", self.uploadingPhotoName];
+    [Coding_FileManager deleteUploadDataWithName:diskFileName];
+
     if (!responseObject) {
         return;
     }
@@ -308,10 +313,6 @@
         fileUrlStr = curFile.owner_preview;
     }
     if (!fileName || [fileName isEqualToString:self.uploadingPhotoName]) {
-        //移除文件（共有项目不能自动移除）
-        NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@", self.curProject.id.stringValue, @"0", self.uploadingPhotoName];
-        [Coding_FileManager deleteUploadDataWithName:fileName];
-        
         //插入文字
         NSString *photoLinkStr = [NSString stringWithFormat:[self needPreNewLine]? @"\n![图片](%@)\n": @"![图片](%@)\n", fileUrlStr];
         [self insertText:photoLinkStr];
