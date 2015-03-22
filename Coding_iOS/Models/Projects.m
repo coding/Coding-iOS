@@ -110,6 +110,14 @@
     pro.id = [NSNumber numberWithInteger:-1];
     return pro;
 }
+
++ (Project *)project_FeedBack{
+    Project *pro = [[Project alloc] init];
+    pro.id = [NSNumber numberWithInteger:182];
+    pro.is_public = [NSNumber numberWithBool:YES];
+    return pro;
+}
+
 - (NSString *)toMembersPath{
     return [NSString stringWithFormat:@"api/project/%d/members", self.id.intValue];
 }

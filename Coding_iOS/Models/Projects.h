@@ -57,7 +57,8 @@ typedef NS_ENUM(NSInteger, ProjectsType)
 @property (strong, nonatomic) NSString *readMeHtml;
 @property (assign, nonatomic) CGFloat readMeHeight;
 
-+(Project *)project_All;
++ (Project *)project_All;
++ (Project *)project_FeedBack;
 
 - (NSString *)toMembersPath;
 - (NSDictionary *)toMembersParams;

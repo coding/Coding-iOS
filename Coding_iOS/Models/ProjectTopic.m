@@ -38,6 +38,7 @@
 + (ProjectTopic *)feedbackTopic{
     ProjectTopic *topic = [[ProjectTopic alloc] init];
     topic.project_id = [NSNumber numberWithInteger:182];
+    topic.project = [Project project_FeedBack];
     return topic;
 }
 
