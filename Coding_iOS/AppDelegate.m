@@ -86,7 +86,7 @@
     if ([Login isLogin]) {
         NSDictionary *remoteNotification = [launchOptions valueForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         if (remoteNotification) {
-            [BaseViewController handleNotificationInfo:remoteNotification];
+            [BaseViewController handleNotificationInfo:remoteNotification applicationState:UIApplicationStateInactive];
         }
     }
     
@@ -162,16 +162,8 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"didReceiveRemoteNotification-userInfo:-----\n%@", userInfo);
-    
-    if ([application applicationState] == UIApplicationStateInactive) {
-        //If the application state was inactive, this means the user pressed an action button
-        // from a notification.
-        [XGPush handleReceiveNotification:userInfo];
-        
-        [BaseViewController handleNotificationInfo:userInfo];
-    }else if ([application applicationState] == UIApplicationStateActive){
-        [[UnReadManager shareManager] updateUnRead];
-    }
+    [XGPush handleReceiveNotification:userInfo];
+    [BaseViewController handleNotificationInfo:userInfo applicationState:[application applicationState]];
 }
 
 #pragma mark - Methods Private

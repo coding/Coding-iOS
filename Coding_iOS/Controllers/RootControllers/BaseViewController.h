@@ -13,7 +13,7 @@
 - (void)tabBarItemClicked;
 - (void)loginOutToLoginVC;
 
-+ (void)handleNotificationInfo:(NSDictionary *)userInfo;
++ (void)handleNotificationInfo:(NSDictionary *)userInfo applicationState:(UIApplicationState)applicationState;
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr;
 + (UIViewController *)presentingVC;
 @end

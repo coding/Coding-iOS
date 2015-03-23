@@ -134,8 +134,7 @@
 
 #pragma mark refresh
 - (void)refreshLoadMore:(BOOL)willLoadMore{
-    
-    if (_myPriMsgs.isLoading) {
+    if (!_myPriMsgs ||  _myPriMsgs.isLoading) {
         return;
     }
     _myPriMsgs.willLoadMore = willLoadMore;

@@ -21,6 +21,8 @@
 #import "AppDelegate.h"
 #import "WebViewController.h"
 
+#import "UnReadManager.h"
+
 @interface BaseViewController ()
 
 @end
@@ -84,24 +86,44 @@
 }
 
 #pragma mark Notification
-+ (void)handleNotificationInfo:(NSDictionary *)userInfo{
-    //标记为已读
-    NSString *notification_id = [userInfo objectForKey:@"notification_id"];
-    if (notification_id) {
-        [[Coding_NetAPIManager sharedManager] request_markReadWithCodingTip:notification_id andBlock:^(id data, NSError *error) {
-            if (error) {
-                NSLog(@"request_markReadWithCodingTip: %@", error.description);
-            }else{
-                NSLog(@"request_markReadWithCodingTip: %@", data);
-            }
-        }];
-    }
-    //弹出临时会话
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        NSLog(@"handleNotificationInfo : %@", userInfo);
++ (void)handleNotificationInfo:(NSDictionary *)userInfo applicationState:(UIApplicationState)applicationState{
+    
+    
+    if (applicationState == UIApplicationStateInactive) {
+        //If the application state was inactive, this means the user pressed an action button from a notification.
+        //标记为已读
+        NSString *notification_id = [userInfo objectForKey:@"notification_id"];
+        if (notification_id) {
+            [[Coding_NetAPIManager sharedManager] request_markReadWithCodingTip:notification_id andBlock:^(id data, NSError *error) {
+                if (error) {
+                    NSLog(@"request_markReadWithCodingTip: %@", error.description);
+                }else{
+                    NSLog(@"request_markReadWithCodingTip: %@", data);
+                }
+            }];
+        }
+        //弹出临时会话
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            NSLog(@"handleNotificationInfo : %@", userInfo);
+            NSString *param_url = [userInfo objectForKey:@"param_url"];
+            [self presentLinkStr:param_url];
+        });
+    }else if (applicationState == UIApplicationStateActive){
+        //处理私信
         NSString *param_url = [userInfo objectForKey:@"param_url"];
-        [self presentLinkStr:param_url];
-    });
+        NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
+        NSArray *matchedCaptures = [param_url captureComponentsMatchedByRegex:conversionRegexStr];
+        if (matchedCaptures.count >0 && [[BaseViewController presentingVC] isKindOfClass:[ConversationViewController class]]) {
+            NSString *user_global_key = [matchedCaptures lastObject];
+            ConversationViewController *vc = (ConversationViewController *)[BaseViewController presentingVC];
+            if ([vc.myPriMsgs.curFriend.global_key isEqualToString:user_global_key]) {
+                [vc refreshLoadMore:NO];
+                return;
+            }
+        }
+        //标记未读
+        [[UnReadManager shareManager] updateUnRead];
+    }
 }
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr{
     NSLog(@"\n analyseVCFromLinkStr : %@", linkStr);
