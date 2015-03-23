@@ -11,6 +11,8 @@
 #import "HtmlMedia.h"
 
 @interface NSString (Common)
++ (NSString *)userAgentStr;
+
 - (NSString *)URLEncoding;
 - (NSString *)URLDecoding;
 - (NSString *)md5Str;

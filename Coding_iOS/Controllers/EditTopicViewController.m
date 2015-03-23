@@ -230,6 +230,7 @@
 - (void)saveBtnClicked{
     self.curProTopic.mdTitle = _inputTitleView.text;
     self.curProTopic.mdContent = _inputContentView.text;
+
     if (self.type == TopicEditTypeModify) {
         self.navigationItem.rightBarButtonItem.enabled = NO;
         @weakify(self);
@@ -245,6 +246,9 @@
         }];
     }else{
         self.navigationItem.rightBarButtonItem.enabled = NO;
+        if (self.type == TopicEditTypeFeedBack) {
+            self.curProTopic.mdContent = [NSString stringWithFormat:@"%@\n%@", self.curProTopic.mdContent, [NSString userAgentStr]];
+        }
         @weakify(self);
         [[Coding_NetAPIManager sharedManager] request_AddProjectTpoic:self.curProTopic andBlock:^(id data, NSError *error) {
             @strongify(self);
