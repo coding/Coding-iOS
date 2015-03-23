@@ -20,6 +20,7 @@
 #import "Coding_NetAPIManager.h"
 #import "AppDelegate.h"
 #import "WebViewController.h"
+#import "RootTabViewController.h"
 
 #import "UnReadManager.h"
 
@@ -87,8 +88,6 @@
 
 #pragma mark Notification
 + (void)handleNotificationInfo:(NSDictionary *)userInfo applicationState:(UIApplicationState)applicationState{
-    
-    
     if (applicationState == UIApplicationStateInactive) {
         //If the application state was inactive, this means the user pressed an action button from a notification.
         //标记为已读
@@ -113,12 +112,16 @@
         NSString *param_url = [userInfo objectForKey:@"param_url"];
         NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
         NSArray *matchedCaptures = [param_url captureComponentsMatchedByRegex:conversionRegexStr];
-        if (matchedCaptures.count >0 && [[BaseViewController presentingVC] isKindOfClass:[ConversationViewController class]]) {
+        
+        if (matchedCaptures.count >0) {
             NSString *user_global_key = [matchedCaptures lastObject];
-            ConversationViewController *vc = (ConversationViewController *)[BaseViewController presentingVC];
-            if ([vc.myPriMsgs.curFriend.global_key isEqualToString:user_global_key]) {
-                [vc refreshLoadMore:NO];
-                return;
+            UIViewController *tempVC = [BaseViewController presentingVC];
+            if ([tempVC isKindOfClass:[ConversationViewController class]]) {
+                ConversationViewController *vc = (ConversationViewController *)tempVC;
+                if ([vc.myPriMsgs.curFriend.global_key isEqualToString:user_global_key]) {
+                    [vc refreshLoadMore:NO];
+                    return;
+                }
             }
         }
         //标记未读
@@ -183,11 +186,8 @@
         Project *curPro = [[Project alloc] init];
         curPro.owner_user_name = user_global_key;
         curPro.name = project_name;
-//        ProjectViewController *vc = [[ProjectViewController alloc] init];
         NProjectViewController *vc = [[NProjectViewController alloc] init];
-
         vc.myProject = curPro;
-//        vc.curIndex = 0;
         analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:conversionRegexStr]).count > 0) {
         //私信
@@ -229,6 +229,12 @@
     UIViewController *result = window.rootViewController;
     while (result.presentedViewController) {
         result = result.presentedViewController;
+    }
+    if ([result isKindOfClass:[RootTabViewController class]]) {
+        result = [(RootTabViewController *)result selectedViewController];
+    }
+    if ([result isKindOfClass:[UINavigationController class]]) {
+        result = [(UINavigationController *)result topViewController];
     }
     return result;
 }
