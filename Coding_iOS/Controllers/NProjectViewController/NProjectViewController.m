@@ -91,7 +91,8 @@
             CGFloat readMeHeight = weakSelf.myProject.readMeHeight;
             weakSelf.myProject = data;
             weakSelf.myProject.readMeHeight = readMeHeight;
-            
+            weakSelf.myProActs = [ProjectActivities proActivitiesWithPro:weakSelf.myProject type:ProjectActivityTypeAll];
+
             weakSelf.myTableView.showsInfiniteScrolling = !weakSelf.myProject.is_public.boolValue;
             
             if (weakSelf.myProject.is_public.boolValue) {
@@ -113,13 +114,13 @@
         [weakSelf.view endLoading];
         if (data) {
             weakSelf.myProject.readMeHtml = data;
-            [weakSelf.myTableView reloadData];
         }
+        [weakSelf.myTableView reloadData];
     }];
 }
 
 - (void)refreshActivityMore:(BOOL)loadMore{
-    if (_myProActs.isLoading) {
+    if (!_myProActs.user_id || _myProActs.isLoading) {
         return;
     }
     _myProActs.willLoadMore = loadMore;
@@ -131,9 +132,9 @@
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
         if (data) {
             [weakSelf.myProActs configWithProActList:data];
-            [weakSelf.myTableView reloadData];
             weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myProActs.canLoadMore;
         }
+        [weakSelf.myTableView reloadData];
     }];
 }
 

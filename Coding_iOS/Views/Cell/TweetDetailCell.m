@@ -16,7 +16,7 @@
 #define kTweetDetailCell_PadingBottom 10.0
 #define kTweetDetailCell_LikeUserCCell_Height 25.0
 #define kTweetDetailCell_LikeUserCCell_Pading 10.0
-#define kTweetDetailCell_LikeNumMax 10
+#define kTweetDetailCell_LikeNumMax ((kDevice_Is_iPhone6 || kDevice_Is_iPhone6Plus)? 11: 9)
 
 
 
@@ -44,6 +44,7 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
+    
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
@@ -383,7 +384,7 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     NSInteger row = 0;
     if (_tweet.like_users.count > 0) {
-        row = MIN(_tweet.like_users.count, kTweetDetailCell_LikeNumMax);
+        row = MIN(_tweet.like_users.count +1, kTweetDetailCell_LikeNumMax);
     }
     return row;
 }

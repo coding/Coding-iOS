@@ -34,6 +34,7 @@
             _likesLabel.hidden = YES;
         }
     }else{
+        [self.imgView sd_setImageWithURL:nil];
         [self.imgView setImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0xdadada"]]];
         if (!_likesLabel) {
             _likesLabel = [[UILabel alloc] initWithFrame:_imgView.frame];
