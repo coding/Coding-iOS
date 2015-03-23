@@ -26,4 +26,3 @@ DerivedData
 Pods/
 .idea/
 *.xcbkptlist
-Coding_iOS/*.pch
