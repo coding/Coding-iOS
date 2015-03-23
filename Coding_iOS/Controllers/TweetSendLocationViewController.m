@@ -93,7 +93,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [self.locationManager stopUpdatingHeading];
+    [self.locationManager stopUpdatingLocation];
 }
 
 - (void)configLocationManager
@@ -102,9 +102,9 @@
     self.locationManager.delegate = self;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
-    [self.locationManager requestAlwaysAuthorization];//iOS 8 添加这句
+    [self.locationManager requestWhenInUseAuthorization];//iOS 8 添加这句
     [self.locationManager startMonitoringSignificantLocationChanges];
-    [self.locationManager startUpdatingHeading];
+    [self.locationManager startUpdatingLocation];
 }
 
 - (void)configData
