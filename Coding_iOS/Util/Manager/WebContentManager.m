@@ -63,14 +63,16 @@
 }
 
 - (NSString *)codePatternedWithContent:(CodeFile *)codeFile{
-    if (!codeFile || !codeFile.file || !codeFile.file.data) {
+    if (!codeFile || !codeFile.file || (!codeFile.file.data && !codeFile.file.preview)) {
         return @"";
     }
     NSString *patternedStr;
     if ([codeFile.file.lang isEqualToString:@"markdown"]) {
         patternedStr = [self.markdown_pattern_htmlStr stringByReplacingOccurrencesOfString:@"${webview_content}" withString:codeFile.file.preview];
     }else{
-        patternedStr = [self.code_pattern_htmlStr stringByReplacingOccurrencesOfString:@"${file_code}" withString:codeFile.file.data];
+        patternedStr = [codeFile.file.data stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
+        patternedStr = [patternedStr stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
+        patternedStr = [self.code_pattern_htmlStr stringByReplacingOccurrencesOfString:@"${file_code}" withString:patternedStr];
         patternedStr = [patternedStr stringByReplacingOccurrencesOfString:@"${file_lang}" withString:codeFile.file.lang];
     }
     return patternedStr;
