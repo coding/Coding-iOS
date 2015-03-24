@@ -270,9 +270,9 @@
           lang: '${file_lang}'
           };
           file.data = file.data.
-          replace(/&amp;/g, '&').
-          replace(/&lt;/g, '<').
-          replace(/&gt;/g, '>');
+          replace(/&amp;/gm, '&').
+          replace(/&lt;/gm, '<').
+          replace(/&gt;/gm, '>');
           var html = buildCodeBlock(file.data, file.lang);
           $('#code-view').html(html);
           });
