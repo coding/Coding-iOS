@@ -224,6 +224,9 @@
             if (indexPath.row == 0) {
                 ProjectInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectInfoCell forIndexPath:indexPath];
                 cell.curProject = _myProject;
+                cell.projectBlock = ^(Project *clickedPro){
+                    [weakSelf gotoPro:clickedPro];
+                };
                 return cell;
             }else{
                 ProjectDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectDescriptionCell forIndexPath:indexPath];
@@ -337,6 +340,13 @@
     vc.curIndex = index;
     [self.navigationController pushViewController:vc animated:YES];
 }
+- (void)gotoPro:(Project *)project{
+    NProjectViewController *vc = [[NProjectViewController alloc] init];
+    vc.myProject = project;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
 
 #pragma mark loadCellRequest
 - (void)loadRequest:(NSURLRequest *)curRequest{

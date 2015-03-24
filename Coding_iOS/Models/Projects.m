@@ -102,6 +102,7 @@
     if (self) {
         _isStaring = _isWatching = _isLoadingMember = _isLoadingDetail = NO;
         _readMeHeight = 1;
+        _recommended = [NSNumber numberWithInteger:0];
     }
     return self;
 }

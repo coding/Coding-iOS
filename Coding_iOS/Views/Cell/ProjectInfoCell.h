@@ -13,5 +13,6 @@
 
 @interface ProjectInfoCell : UITableViewCell
 @property (nonatomic, strong) Project *curProject;
+@property (nonatomic, copy) void (^projectBlock)(Project *);
 + (CGFloat)cellHeight;
 @end
