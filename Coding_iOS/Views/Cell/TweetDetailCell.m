@@ -384,7 +384,7 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     NSInteger row = 0;
     if (_tweet.like_users.count > 0) {
-        row = MIN(_tweet.like_users.count +1, kTweetDetailCell_LikeNumMax);
+        row = MIN(_tweet.like_users.count, kTweetDetailCell_LikeNumMax);
     }
     return row;
 }
@@ -423,11 +423,11 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row >= 7) {
+    if (indexPath.row >= kTweetDetailCell_LikeNumMax-1) {
         if (_moreLikersBtnClickedBlock) {
             _moreLikersBtnClickedBlock(_tweet);
         }
-    }else{
+    }else if (_tweet.like_users.count > indexPath.row){
         User *curUser = [_tweet.like_users objectAtIndex:indexPath.row];
         DebugLog(@"%@", curUser.name);
         if (_userBtnClickedBlock) {
