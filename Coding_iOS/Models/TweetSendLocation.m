@@ -187,7 +187,7 @@ static NSString *CodingGetSN(NSString *path, NSString *sk, NSDictionary *paramet
     self = [super init];
     if (self) {
         self.ak = kBaiduAK;
-        self.query = @"公司企业$美食$生活服务$道路$旅游景点$医疗$休闲娱乐$宾馆";
+        self.query = @"$美食$休闲娱乐$宾馆$公司企业$旅游景点$道路$生活服务$医疗";
         self.page_num = @(0);
         self.page_size = @(20);
         self.scope = @"1";
