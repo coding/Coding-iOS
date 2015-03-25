@@ -122,7 +122,9 @@
             if (nav.topViewController == nav.viewControllers[0]) {
                 BaseViewController *rootVC = (BaseViewController *)nav.topViewController;
 #pragma clang diagnostic ignored "-Warc-performSelector"
-                [rootVC performSelector:@selector(tabBarItemClicked)];
+                if ([rootVC respondsToSelector:@selector(tabBarItemClicked)]) {
+                    [rootVC performSelector:@selector(tabBarItemClicked)];
+                }
             }
         }
     }
