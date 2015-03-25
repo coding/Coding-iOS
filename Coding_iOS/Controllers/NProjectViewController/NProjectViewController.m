@@ -91,8 +91,9 @@
             CGFloat readMeHeight = weakSelf.myProject.readMeHeight;
             weakSelf.myProject = data;
             weakSelf.myProject.readMeHeight = readMeHeight;
-            weakSelf.myProActs = [ProjectActivities proActivitiesWithPro:weakSelf.myProject type:ProjectActivityTypeAll];
-
+            if (weakSelf.myProActs.list.count <= 0) {
+                weakSelf.myProActs = [ProjectActivities proActivitiesWithPro:weakSelf.myProject type:ProjectActivityTypeAll];
+            }
             weakSelf.myTableView.showsInfiniteScrolling = !weakSelf.myProject.is_public.boolValue;
             
             if (weakSelf.myProject.is_public.boolValue) {
