@@ -27,7 +27,7 @@
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 @property (strong, nonatomic) ProjectFiles *myFiles;
-@property (nonatomic, strong) EaseToolBar *myToolBar;
+@property (nonatomic, strong) EaseToolBar *myToolBar, *myEditToolBar;
 @property (strong, nonatomic) NSArray *uploadFiles;
 
 @end
@@ -63,6 +63,7 @@
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
+        tableView.allowsMultipleSelectionDuringEditing = YES;
         tableView;
     });
     
@@ -74,11 +75,56 @@
     }
     [self refresh];
     
+    __weak typeof(self) weakSelf = self;
+    
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(changeEditState)];
+    
     [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:kNotificationUploadCompled object:nil] takeUntil:self.rac_willDeallocSignal] subscribeNext:^(NSNotification *aNotification) {
         //{NSURLResponse: response, NSError: error, ProjectFile: data}
         NSDictionary* userInfo = [aNotification userInfo];
-        [self completionUploadWithResult:[userInfo objectForKey:@"data"] error:[userInfo objectForKey:@"error"]];
+        [weakSelf completionUploadWithResult:[userInfo objectForKey:@"data"] error:[userInfo objectForKey:@"error"]];
     }];
+}
+
+- (void)changeEditState{
+    [_myTableView setEditing:!_myTableView.isEditing animated:YES];
+    NSArray *rightBarButtonItems;
+    if (_myTableView.isEditing) {
+        UIBarButtonItem *item1 = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(changeEditState)];
+        UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        spaceItem.width = 20;
+        UIBarButtonItem *item2 = [UIBarButtonItem itemWithBtnTitle:@"反选" target:self action:@selector(reverseSelect)];
+        rightBarButtonItems = @[item1, spaceItem, item2];
+    }else{
+        UIBarButtonItem *item1 = [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(changeEditState)];
+        rightBarButtonItems = @[item1];
+    }
+    [self.navigationItem setRightBarButtonItems:rightBarButtonItems animated:YES];
+//    [self.navigationItem.rightBarButtonItem setTitle:_myTableView.isEditing? @"完成": @"编辑"];
+    [self configToolBar];
+    [self.myTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.3];
+}
+
+- (void)reverseSelect{
+    if (_myTableView.isEditing) {
+        NSArray *selectedIndexList = [_myTableView indexPathsForSelectedRows];
+        NSInteger startIndex = _curFolder.sub_folders.count + _uploadFiles.count;
+        NSInteger endIndex = [self totalDataRow];
+        NSMutableArray *reverseIndexList = [[NSMutableArray alloc] init];
+        for (NSInteger index = startIndex; index < endIndex; index++) {
+            NSIndexPath *curIndex = [NSIndexPath indexPathForRow:index inSection:0];
+            if (![selectedIndexList containsObject:curIndex]) {
+                [reverseIndexList addObject:curIndex];
+            }
+        }
+        
+        for (NSIndexPath *indexPath in selectedIndexList) {
+            [_myTableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
+        for (NSIndexPath *indexPath in reverseIndexList) {
+            [_myTableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -89,9 +135,6 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    if (self.myTableView) {
-        [self.myTableView reloadData];
-    }
 }
 
 - (void)configuploadFiles{
@@ -108,7 +151,6 @@
         EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 新建文件夹" image:@"button_file_createFolder_enable" disableImage:@"button_file_createFolder_unable"];
         EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 上传文件" image:@"button_file_upload_enable" disableImage:nil];
         item1.enabled = [self canCreatNewFolder];
-        item2.enabled = YES;
         _myToolBar = [EaseToolBar easeToolBarWithItems:@[item1, item2]];
         _myToolBar.delegate = self;
         [self.view addSubview:_myToolBar];
@@ -116,7 +158,30 @@
             make.bottom.equalTo(self.view.mas_bottom);
             make.size.mas_equalTo(_myToolBar.frame.size);
         }];
+    }
+    
+    if (!_myEditToolBar) {
+        EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 下载" image:@"button_file_download_enable" disableImage:@"button_file_createFolder_unable"];
+        EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 移动" image:@"button_file_move_enable" disableImage:nil];
+        EaseToolBarItem *item3 = [EaseToolBarItem easeToolBarItemWithTitle:@" 删除" image:@"button_file_denete_enable" disableImage:nil];
+        _myEditToolBar = [EaseToolBar easeToolBarWithItems:@[item1, item2, item3]];
+        _myEditToolBar.delegate = self;
+        [self.view addSubview:_myEditToolBar];
+        [_myEditToolBar mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_bottom);
+            make.size.mas_equalTo(_myToolBar.frame.size);
+        }];
+    }
+    
+    if (_myTableView.isEditing) {
+        _myToolBar.hidden = YES;
+        _myEditToolBar.hidden = NO;
+        
+        
     }else{
+        _myToolBar.hidden = NO;
+        _myEditToolBar.hidden = YES;
+        
         EaseToolBarItem *item1 = [_myToolBar itemOfIndex:0];
         item1.enabled = [self canCreatNewFolder];
     }
@@ -205,49 +270,131 @@
     }];
 }
 
-#pragma EaseToolBarDelegate
+#pragma mark EaseToolBarDelegate
 - (void)easeToolBar:(EaseToolBar *)toolBar didClickedIndex:(NSInteger)index{
-    switch (index) {
-        case 0:
-        {//新建文件夹
-            NSLog(@"新建文件夹");
-            __weak typeof(self) weakSelf = self;
-            [SettingTextViewController showSettingFolderNameVCFromVC:self withTitle:@"新建文件夹" textValue:nil type:SettingTypeNewFolderName doneBlock:^(NSString *textValue) {
-                NSLog(@"%@", textValue);
-                [[Coding_NetAPIManager sharedManager] request_CreatFolder:textValue inFolder:weakSelf.curFolder inProject:weakSelf.curProject andBlock:^(id data, NSError *error) {
-                    if (data) {
-                        if (weakSelf.curFolder) {
-                            [weakSelf.curFolder.sub_folders insertObject:data atIndex:0];
-                        }else{
-                            [weakSelf.rootFolders.list insertObject:data atIndex:1];
-                        }
-                        [weakSelf.myTableView reloadData];
-                        [weakSelf showHudTipStr:@"创建文件夹成功"];
-                    }
-                }];
-            }];
+    if (toolBar == _myToolBar) {
+        switch (index) {
+            case 0:
+                [self creatFolderBtnClicked];
+                break;
+            case 1:
+                [self uploadFileBtnClicked];
+                break;
+            default:
+                break;
         }
-            break;
-        case 1:
-        {//上传文件
-            NSLog(@"上传文件");
-            //        相册
-            if (![Helper checkPhotoLibraryAuthorizationStatus]) {
-                return;
+    }else if (toolBar == _myEditToolBar){
+        switch (index) {
+            case 0:
+                [self downloadFilesBtnClicked];
+                break;
+            case 1:
+                [self moveFilesBtnClicked];
+                break;
+            case 2:
+                [self deleteFilesBtnClicked];
+                break;
+            default:
+                break;
+        }
+    }
+
+}
+
+- (void)creatFolderBtnClicked{
+    NSLog(@"新建文件夹");
+    __weak typeof(self) weakSelf = self;
+    [SettingTextViewController showSettingFolderNameVCFromVC:self withTitle:@"新建文件夹" textValue:nil type:SettingTypeNewFolderName doneBlock:^(NSString *textValue) {
+        NSLog(@"%@", textValue);
+        [[Coding_NetAPIManager sharedManager] request_CreatFolder:textValue inFolder:weakSelf.curFolder inProject:weakSelf.curProject andBlock:^(id data, NSError *error) {
+            if (data) {
+                if (weakSelf.curFolder) {
+                    [weakSelf.curFolder.sub_folders insertObject:data atIndex:0];
+                }else{
+                    [weakSelf.rootFolders.list insertObject:data atIndex:1];
+                }
+                [weakSelf.myTableView reloadData];
+                [weakSelf showHudTipStr:@"创建文件夹成功"];
             }
-            QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
-            imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
-            imagePickerController.delegate = self;
-            imagePickerController.allowsMultipleSelection = YES;
-            imagePickerController.maximumNumberOfSelection = 6;
-            UINavigationController *navigationController = [[BaseNavigationController alloc] initWithRootViewController:imagePickerController];
-            [self presentViewController:navigationController animated:YES completion:NULL];
+        }];
+    }];
+}
+
+- (void)uploadFileBtnClicked{
+    NSLog(@"上传文件");
+    //        相册
+    if (![Helper checkPhotoLibraryAuthorizationStatus]) {
+        return;
+    }
+    QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
+    imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
+    imagePickerController.delegate = self;
+    imagePickerController.allowsMultipleSelection = YES;
+    imagePickerController.maximumNumberOfSelection = 6;
+    UINavigationController *navigationController = [[BaseNavigationController alloc] initWithRootViewController:imagePickerController];
+    [self presentViewController:navigationController animated:YES completion:NULL];
+}
+
+- (NSArray *)selectedFiles{
+    NSArray *selectedIndexPath = [_myTableView indexPathsForSelectedRows];
+    NSMutableArray *selectedFiles = [[NSMutableArray alloc] initWithCapacity:selectedIndexPath.count];
+    for (NSIndexPath *indexPath in selectedIndexPath) {
+        if (indexPath.row >= _curFolder.sub_folders.count + _uploadFiles.count) {
+            ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count - _uploadFiles.count)];
+            [selectedFiles addObject:file];
         }
-            break;
-        default:
-            break;
+    }
+    return selectedFiles;
+}
+
+- (void)downloadFilesBtnClicked{
+    NSArray *selectedFiles = [self selectedFiles];
+    if (selectedFiles.count > 0) {
+        Coding_FileManager *manager = [Coding_FileManager sharedManager];
+        for (ProjectFile *file in selectedFiles) {
+            if ([file hasBeenDownload] || [file cDownloadTask]) {//已下载，或正在下载
+                NSLog(@"%@: 已在队列", file.name);
+            }else{
+                [manager addDownloadTaskForFile:file completionHandler:nil];
+            }
+        }
+        [self changeEditState];
     }
 }
+
+- (void)moveFilesBtnClicked{
+    NSArray *selectedFiles = [self selectedFiles];
+    if (selectedFiles.count > 0) {
+        [self moveFiles:selectedFiles fromFolder:self.curFolder];
+    }
+}
+- (void)deleteFilesBtnClicked{
+    __weak typeof(self) weakSelf = self;
+    NSArray *selectedFiles = [self selectedFiles];
+    if (selectedFiles.count > 0) {
+        [[UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确认删除选定的 %lu 个文档？\n删除后将无法恢复!", (unsigned long)selectedFiles.count] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [weakSelf deleteFiles:selectedFiles];
+                [weakSelf changeEditState];
+            }
+        }] showInView:self.view];
+    }
+}
+
+- (void)deleteFiles:(NSArray *)selectedFiles{
+    NSMutableArray *fileIdList = [[NSMutableArray alloc] initWithCapacity:selectedFiles.count];
+    for (ProjectFile *file in selectedFiles) {
+        [fileIdList addObject:file.file_id];
+        [self deleteFile:file fromDisk:YES];//先要处理正在下载的和已下载的文件
+    }
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_DeleteFiles:fileIdList inProject:self.curProject.id andBlock:^(id data, NSError *error) {
+        if (data) {
+            [weakSelf refreshRootFolders];
+        }
+    }];
+}
+
 #pragma mark QBImagePickerControllerDelegate
 - (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didSelectAssets:(NSArray *)assets{
     NSMutableArray *needToUploads = [NSMutableArray arrayWithCapacity:assets.count];
@@ -364,15 +511,26 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row < _uploadFiles.count) {
-
-    }else if (indexPath.row < _curFolder.sub_folders.count) {
-        ProjectFolder *clickedFolder = [_curFolder.sub_folders objectAtIndex:indexPath.row - _uploadFiles.count];;
-        [self goToVCWithFolder:clickedFolder inProject:self.curProject];
+    if (tableView.isEditing) {
+        if (indexPath.row < _curFolder.sub_folders.count + _uploadFiles.count) {
+            if (indexPath.row < _uploadFiles.count) {
+                [self showHudTipStr:@"正在上传的不能批处理"];
+            }else{
+                [self showHudTipStr:@"文件夹不能批处理"];
+            }
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
     }else{
-        ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count - _uploadFiles.count)];
-        [self goToFileVC:file];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        if (indexPath.row < _uploadFiles.count) {
+            
+        }else if (indexPath.row < _curFolder.sub_folders.count) {
+            ProjectFolder *clickedFolder = [_curFolder.sub_folders objectAtIndex:indexPath.row - _uploadFiles.count];;
+            [self goToVCWithFolder:clickedFolder inProject:self.curProject];
+        }else{
+            ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count - _uploadFiles.count)];
+            [self goToFileVC:file];
+        }
     }
 }
 
@@ -433,7 +591,7 @@
     }else{
         ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count - _uploadFiles.count)];
         if (index == 0) {
-            [self moveFile:file fromFolder:self.curFolder];
+            [self moveFiles:@[file] fromFolder:self.curFolder];
         }else{
             [self deleteFile:file];
         }
@@ -463,12 +621,10 @@
                 if (data) {
                     ProjectFolder *originalFolder = (ProjectFolder *)data;
                     DebugLog(@"重命名文件夹成功:%@", originalFolder.name);
-                    
                     originalFolder.name = originalFolder.next_name;
                     [weakSelf.myTableView reloadData];
                 }
             }];
-            
         }
     }];
 }
@@ -537,42 +693,32 @@
     //    删除服务器文件
     if (!fromDisk) {
         __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_DeleteFile:file andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_DeleteFiles:@[file.file_id] inProject:self.curProject.id andBlock:^(id data, NSError *error) {
             if (data) {
-                [weakSelf.myFiles.list removeObject:data];
-                weakSelf.curFolder.count = [NSNumber numberWithInt:weakSelf.curFolder.count.intValue-1];
-                [weakSelf.myTableView reloadData];
+                [weakSelf refreshRootFolders];
             }
         }];
     }
 }
-- (void)moveFile:(ProjectFile *)file fromFolder:(ProjectFolder *)folder{
+- (void)moveFiles:(NSArray *)files fromFolder:(ProjectFolder *)folder{
+    NSMutableArray *fileIdList = [[NSMutableArray alloc] initWithCapacity:files.count];
+    for (ProjectFile *file in files) {
+        [fileIdList addObject:file.file_id];
+    }
     __weak typeof(self) weakSelf = self;
-
     FolderToMoveViewController *vc = [[FolderToMoveViewController alloc] init];
-    vc.toMovedFile = file;
+    vc.toMovedFileIdList = fileIdList;
     vc.curProject = self.curProject;
     vc.rootFolders = self.rootFolders;
     vc.curFolder = nil;
-    vc.moveToFolderBlock = ^(ProjectFolder *curFolder, ProjectFile *toMovedFile){
-        __weak typeof(curFolder) weakCurFolder = curFolder;
-
-        [[Coding_NetAPIManager sharedManager] request_MoveFile:toMovedFile toFolder:curFolder andBlock:^(id data, NSError *error) {
+    vc.moveToFolderBlock = ^(ProjectFolder *curFolder, NSArray *toMovedFileIdList){
+        [weakSelf changeEditState];
+        [[Coding_NetAPIManager sharedManager] request_MoveFiles:toMovedFileIdList toFolder:curFolder andBlock:^(id data, NSError *error) {
             if (data) {
-                ProjectFile *movedFile = (ProjectFile *)data;
-                if (![movedFile.parent_id.stringValue isEqualToString:weakCurFolder.file_id.stringValue]) {
-                    [weakSelf.myFiles.list removeObject:movedFile];
-                    weakSelf.curFolder.count = [NSNumber numberWithInt:weakSelf.curFolder.count.intValue -1];
-                    weakCurFolder.count = [NSNumber numberWithInt:weakCurFolder.count.intValue +1];
-                    [weakSelf.myTableView reloadData];
-                    [weakSelf showHudTipStr:@"移动成功"];
-                }else{
-                    [weakSelf showHudTipStr:@"移动到原路径，何必呢？"];
-                }
+                [weakSelf refreshRootFolders];
             }
         }];
     };
-    
     UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nav animated:YES completion:nil];
 }

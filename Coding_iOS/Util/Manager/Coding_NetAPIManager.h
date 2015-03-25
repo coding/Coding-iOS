@@ -52,8 +52,8 @@
 - (void)request_FilesInFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_RenameFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_DeleteFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_MoveFile:(ProjectFile *)file toFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_DeleteFiles:(NSArray *)fileIdList inProject:(NSNumber *)project_id andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_MoveFiles:(NSArray *)fileIdList toFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CreatFolder:(NSString *)fileName inFolder:(ProjectFolder *)parentFolder inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_FileDetail:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
 

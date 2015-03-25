@@ -98,6 +98,7 @@
         [self setIconPosition:IconPositionLeft];
         [self setTextAlignment:NSTextAlignmentCenter];
         [self setControlState:UIControlStateNormal];
+        self.enabled = YES;
     }
     return self;
 }

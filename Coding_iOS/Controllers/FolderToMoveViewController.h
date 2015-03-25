@@ -16,8 +16,8 @@
 @property (strong, nonatomic) ProjectFolders *rootFolders;
 @property (strong, nonatomic) Project *curProject;
 @property (strong, nonatomic) ProjectFolder *curFolder;
-@property (strong, nonatomic) ProjectFile *toMovedFile;
+@property (strong, nonatomic) NSArray *toMovedFileIdList;
 
-@property (copy, nonatomic) void(^moveToFolderBlock)(ProjectFolder *curFolder, ProjectFile *toMovedFile);
+@property (copy, nonatomic) void(^moveToFolderBlock)(ProjectFolder *curFolder, NSArray *toMovedFileIdList);
 
 @end

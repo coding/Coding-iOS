@@ -416,21 +416,22 @@
         }
     }];
 }
-- (void)request_DeleteFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block{
+- (void)request_DeleteFiles:(NSArray *)fileIdList inProject:(NSNumber *)project_id andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"删除文件"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[file toDeletePath] withParams:[file toDeleteParams] withMethodType:Delete andBlock:^(id data, NSError *error) {
+    NSString *path = [NSString stringWithFormat:@"api/project/%@/file/delete", project_id.stringValue];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"fileIds" : fileIdList} withMethodType:Delete andBlock:^(id data, NSError *error) {
         if (data) {
-            block(file, nil);
+            block(fileIdList, nil);
         }else{
             block(nil, error);
         }
     }];
 }
-- (void)request_MoveFile:(ProjectFile *)file toFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block{
+- (void)request_MoveFiles:(NSArray *)fileIdList toFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"移动文件"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[folder toMoveToPath] withParams:[file toMoveToParams] withMethodType:Put andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[folder toMoveToPath] withParams:@{@"fileId": fileIdList} withMethodType:Put andBlock:^(id data, NSError *error) {
         if (data) {
-            block(file, nil);
+            block(fileIdList, nil);
         }else{
             block(nil, error);
         }

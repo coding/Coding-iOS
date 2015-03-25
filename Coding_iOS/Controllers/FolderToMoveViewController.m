@@ -124,7 +124,7 @@
     ProjectFolder *clickedFolder = [[self dataList] objectAtIndex:indexPath.row];
 
     FolderToMoveViewController *vc = [[FolderToMoveViewController alloc] init];
-    vc.toMovedFile = self.toMovedFile;
+    vc.toMovedFileIdList = self.toMovedFileIdList;
     vc.curProject = self.curProject;
     vc.rootFolders = self.rootFolders;
     vc.curFolder = clickedFolder;
@@ -159,7 +159,7 @@
         {//移动文件
             NSLog(@"移动文件");
             if (self.moveToFolderBlock) {
-                self.moveToFolderBlock(self.curFolder, self.toMovedFile);
+                self.moveToFolderBlock(self.curFolder, self.toMovedFileIdList);
             }
             [self dismissViewControllerAnimated:YES completion:nil];
         }
