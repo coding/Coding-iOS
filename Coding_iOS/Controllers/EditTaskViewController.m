@@ -263,7 +263,7 @@
 #pragma mark Comment To Task
 - (void)sendCommentMessage:(id)obj{
     if (_toComment) {
-        _myCopyTask.nextCommentStr = [NSString stringWithFormat:@"@%@ : %@", _toComment.owner.name, obj];
+        _myCopyTask.nextCommentStr = [NSString stringWithFormat:@"@%@ %@", _toComment.owner.name, obj];
     }else{
         _myCopyTask.nextCommentStr = obj;
     }

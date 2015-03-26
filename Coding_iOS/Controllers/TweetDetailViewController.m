@@ -344,7 +344,7 @@
 
 - (void)sendCommentMessage:(id)obj{
     if (_toComment) {
-        _curTweet.nextCommentStr = [NSString stringWithFormat:@"@%@ : %@", _toComment.owner.name, obj];
+        _curTweet.nextCommentStr = [NSString stringWithFormat:@"@%@ %@", _toComment.owner.name, obj];
     }else{
         _curTweet.nextCommentStr = obj;
     }

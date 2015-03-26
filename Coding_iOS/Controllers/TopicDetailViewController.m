@@ -330,7 +330,7 @@
 - (void)sendCommentMessage:(id)obj{
     __weak typeof(self) weakSelf = self;
     if (_toComment) {
-        _curTopic.nextCommentStr = [NSString stringWithFormat:@"@%@ : %@", _toComment.owner.name, obj];
+        _curTopic.nextCommentStr = [NSString stringWithFormat:@"@%@ %@", _toComment.owner.name, obj];
     }else{
         _curTopic.nextCommentStr = obj;
     }

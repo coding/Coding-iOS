@@ -114,7 +114,6 @@
 
 + (Project *)project_FeedBack{
     Project *pro = [[Project alloc] init];
-//    pro.id = [NSNumber numberWithInteger:182];//网页反馈项目
     pro.id = [NSNumber numberWithInteger:38894];//iOS公开项目
     pro.is_public = [NSNumber numberWithBool:YES];
     return pro;

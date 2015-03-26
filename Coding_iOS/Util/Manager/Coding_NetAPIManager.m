@@ -720,11 +720,12 @@
     }];
 }
 - (void)request_AddProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block{
-    [MobClick event:kUmeng_Event_Request label:(proTopic.project_id && proTopic.project_id.integerValue == 182)? @"发送反馈" : @"添加讨论"];
-    [self showStatusBarQueryStr:(proTopic.project_id && proTopic.project_id.integerValue == 182)? @"正在发送反馈信息": @"正在添加讨论"];
+    NSInteger feedbackId = 38894;
+    [MobClick event:kUmeng_Event_Request label:(proTopic.project_id && proTopic.project_id.integerValue == feedbackId)? @"发送反馈" : @"添加讨论"];
+    [self showStatusBarQueryStr:(proTopic.project_id && proTopic.project_id.integerValue == feedbackId)? @"正在发送反馈信息": @"正在添加讨论"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toAddTopicPath] withParams:[proTopic toAddTopicParams] withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
-            [self showStatusBarSuccessStr:(proTopic.project_id && proTopic.project_id.integerValue == 182)? @"反馈成功": @"添加讨论成功"];
+            [self showStatusBarSuccessStr:(proTopic.project_id && proTopic.project_id.integerValue == feedbackId)? @"反馈成功": @"添加讨论成功"];
             id resultData = [data valueForKeyPath:@"data"];
             ProjectTopic *resultT = [NSObject objectOfClass:@"ProjectTopic" fromJSON:resultData];
             block(resultT, nil);

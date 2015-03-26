@@ -463,7 +463,7 @@
 #pragma mark Comment To Tweet
 - (void)sendCommentMessage:(id)obj{
     if (_commentIndex >= 0) {
-        _commentTweet.nextCommentStr = [NSString stringWithFormat:@"@%@ : %@", _commentToUser.name, obj];
+        _commentTweet.nextCommentStr = [NSString stringWithFormat:@"@%@ %@", _commentToUser.name, obj];
     }else{
         _commentTweet.nextCommentStr = obj;
     }

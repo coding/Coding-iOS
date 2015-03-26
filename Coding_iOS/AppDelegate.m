@@ -211,6 +211,13 @@
 
 #pragma mark URL Schemes
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    for (NSString *param in [[url query] componentsSeparatedByString:@"&"]) {
+        NSArray *elts = [param componentsSeparatedByString:@"="];
+        if([elts count] < 2) continue;
+        [params setObject:elts[1] forKey:elts[0]];
+    }
+    NSLog(@"path: %@, params: %@", [url path], params);
     return YES;
 }
 
