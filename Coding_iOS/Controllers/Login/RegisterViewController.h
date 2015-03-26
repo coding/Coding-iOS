@@ -12,6 +12,5 @@
 
 @interface RegisterViewController : BaseViewController
 @property (nonatomic, strong) Register *myRegister;
-@property (strong, nonatomic) UIImageView *bgBlurredView;
 
 @end

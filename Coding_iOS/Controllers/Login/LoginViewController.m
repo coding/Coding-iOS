@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "RegisterViewController.h"
+#import "CannotLoginViewController.h"
 #import "Input_OnlyText_Cell.h"
 #import "Coding_NetAPIManager.h"
 #import "AppDelegate.h"
@@ -144,7 +145,7 @@
     if (cell == nil) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"Input_OnlyText_Cell" owner:self options:nil] firstObject];
     }
-    cell.isRegister = NO;
+    cell.isForLoginVC = YES;
     __weak typeof(self) weakSelf = self;
     if (indexPath.row == 0) {
         cell.isCaptcha = NO;
@@ -230,7 +231,7 @@
 
 - (UIView *)customFooterView{
     UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 100)];
-    _loginBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"登录" andFrame:CGRectMake(18, 20, kScreen_Width-18*2, 45) target:self action:@selector(sendLogin)];
+    _loginBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"登录" andFrame:CGRectMake(kLoginPaddingLeftWidth, 20, kScreen_Width-kLoginPaddingLeftWidth*2, 45) target:self action:@selector(sendLogin)];
     [footerV addSubview:_loginBtn];
     
     
@@ -250,17 +251,43 @@
     if (!_bottomView) {
         _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height - 60, kScreen_Width, 60)];
         _bottomView.backgroundColor = [UIColor clearColor];
-        UIButton *registerBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-        [registerBtn setCenter:CGPointMake(CGRectGetMidX(_bottomView.bounds), CGRectGetMidY(_bottomView.bounds))];
-        [registerBtn setImage:[UIImage imageNamed:@"register_arrow"] forState:UIControlStateNormal];
-        [registerBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
-        [registerBtn setTitle:@"注册账号" forState:UIControlStateNormal];
-        [registerBtn setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
-        [registerBtn setTitleColor:[UIColor colorWithWhite:0.5 alpha:0.5] forState:UIControlStateHighlighted];
+        UIButton *registerBtn = ({
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+            [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
+            [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
+            [button setTitleColor:[UIColor colorWithWhite:0.5 alpha:0.5] forState:UIControlStateHighlighted];
+            
+            button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+            [button setTitle:@"新用户" forState:UIControlStateNormal];
+            [_bottomView addSubview:button];
+            [button mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(100, 300));
+                make.centerY.equalTo(_bottomView);
+                make.right.equalTo(_bottomView).offset(-kLoginPaddingLeftWidth);
+            }];
+            button;
+        });
+
+        UIButton *cannotLoginBtn = ({
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+            [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
+            [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
+            [button setTitleColor:[UIColor colorWithWhite:0.5 alpha:0.5] forState:UIControlStateHighlighted];
+            
+            button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            [button setTitle:@"无法登录？" forState:UIControlStateNormal];
+            [_bottomView addSubview:button];
+            [button mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(100, 300));
+                make.centerY.equalTo(_bottomView);
+                make.left.equalTo(_bottomView).offset(kLoginPaddingLeftWidth);
+            }];
+            button;
+        });
+        
         [registerBtn addTarget:self action:@selector(goRegisterVC:) forControlEvents:UIControlEventTouchUpInside];
-        registerBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 65, 0, -65);
-        registerBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 10);
-        [_bottomView addSubview:registerBtn];
+        [cannotLoginBtn addTarget:self action:@selector(cannotLoginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
         [self.view addSubview:_bottomView];
     }
 }
@@ -297,6 +324,21 @@
         }
     }];
 }
+
+- (IBAction)cannotLoginBtnClicked:(id)sender {
+    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"找回密码", @"重发激活邮件"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index <= 1) {
+            [self goToCannotLoginWithIndex:index];
+        }
+    }] showInView:self.view];
+}
+
+- (void)goToCannotLoginWithIndex:(NSInteger)index{
+    CannotLoginViewController *vc = [[CannotLoginViewController alloc] init];
+    vc.type = index;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 - (IBAction)goRegisterVC:(id)sender {
     RegisterViewController *vc = [[RegisterViewController alloc] init];    

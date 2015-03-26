@@ -75,6 +75,7 @@
 		4E4ABBEA1A653027004760D9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4ABBE91A653027004760D9 /* WebViewController.m */; };
 		4E59E1D31A5E6B34004DAEEC /* TaskDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */; };
 		4E5C06E81AC2B34800F427C5 /* tipIcon_BranchMember@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5C06E71AC2B34800F427C5 /* tipIcon_BranchMember@2x.png */; };
+		4E5C06EB1AC4009100F427C5 /* CannotLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */; };
 		4E66EE261A28226000DA1B3E /* button_file_createFolder_enable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE211A28226000DA1B3E /* button_file_createFolder_enable@2x.png */; };
 		4E66EE271A28226000DA1B3E /* button_file_denete_enable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE221A28226000DA1B3E /* button_file_denete_enable@2x.png */; };
 		4E66EE281A28226000DA1B3E /* button_file_denete_unable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE231A28226000DA1B3E /* button_file_denete_unable@2x.png */; };
@@ -695,6 +696,8 @@
 		4E59E1D11A5E6B34004DAEEC /* TaskDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDescriptionViewController.h; sourceTree = "<group>"; };
 		4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDescriptionViewController.m; sourceTree = "<group>"; };
 		4E5C06E71AC2B34800F427C5 /* tipIcon_BranchMember@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_BranchMember@2x.png"; sourceTree = "<group>"; };
+		4E5C06E91AC4009100F427C5 /* CannotLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CannotLoginViewController.h; sourceTree = "<group>"; };
+		4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CannotLoginViewController.m; sourceTree = "<group>"; };
 		4E66EE211A28226000DA1B3E /* button_file_createFolder_enable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_createFolder_enable@2x.png"; sourceTree = "<group>"; };
 		4E66EE221A28226000DA1B3E /* button_file_denete_enable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_denete_enable@2x.png"; sourceTree = "<group>"; };
 		4E66EE231A28226000DA1B3E /* button_file_denete_unable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_denete_unable@2x.png"; sourceTree = "<group>"; };
@@ -2397,6 +2400,8 @@
 				8EA6CF2A19E240C40076D59C /* LoginViewController.m */,
 				8EA6CF2B19E240C40076D59C /* RegisterViewController.h */,
 				8EA6CF2C19E240C40076D59C /* RegisterViewController.m */,
+				4E5C06E91AC4009100F427C5 /* CannotLoginViewController.h */,
+				4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -3472,6 +3477,7 @@
 				4E1A22821AB1729700CFC14F /* ProjectInfoCell.m in Sources */,
 				8EA6D1BF19E240C40076D59C /* Task.m in Sources */,
 				0A0519E21ABA918100551B61 /* TweetSendDetailLoctionCell.m in Sources */,
+				4E5C06EB1AC4009100F427C5 /* CannotLoginViewController.m in Sources */,
 				8EA6D12819E240C40076D59C /* AppDelegate.m in Sources */,
 				4ECE8AFF1A3946C10021E29C /* Coding_NetAPIManager.m in Sources */,
 				8E59F0FA1A00F3F3009A905F /* FileListFileCell.m in Sources */,

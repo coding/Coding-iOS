@@ -35,6 +35,7 @@
 - (void)request_Login_WithParams:(id)params andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Register_WithParams:(id)params andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CaptchaNeededWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_SendMailToPath:(NSString *)path email:(NSString *)email j_captcha:(NSString *)j_captcha andBlock:(void (^)(id data, NSError *error))block;
 
 //Project
 - (void)request_Projects_WithObj:(Projects *)projects andBlock:(void (^)(Projects *data, NSError *error))block;

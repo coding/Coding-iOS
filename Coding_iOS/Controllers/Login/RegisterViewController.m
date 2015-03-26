@@ -16,11 +16,13 @@
 #import "UIUnderlinedButton.h"
 #import "TPKeyboardAvoidingTableView.h"
 #import "WebViewController.h"
+#import "CannotLoginViewController.h"
 
 @interface RegisterViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 @property (assign, nonatomic) BOOL captchaNeeded;
-@property (strong, nonatomic) UIButton *registerBtn;
+@property (strong, nonatomic) UIButton *footerBtn;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) UIView *bottomView;
 
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
 
@@ -48,8 +50,9 @@
         }];
         tableView;
     });
-    self.myTableView.tableFooterView=[self customFooterView];
     self.myTableView.tableHeaderView = [self customHeaderView];
+    self.myTableView.tableFooterView=[self customFooterView];
+    [self configBottomView];
 }
 
 - (void)refreshCaptchaNeeded{
@@ -78,13 +81,6 @@
 }
 
 #pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
@@ -98,7 +94,7 @@
     if (cell == nil) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"Input_OnlyText_Cell" owner:self options:nil] firstObject];
     }
-    cell.isRegister = YES;
+    cell.isForLoginVC = NO;
     
     __weak typeof(self) weakSelf = self;
     if (indexPath.row == 0) {
@@ -128,7 +124,7 @@
         };
         cell.editDidEndBlock = nil;
     }
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:18];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kLoginPaddingLeftWidth];
     return cell;
 }
 
@@ -153,10 +149,10 @@
 }
 - (UIView *)customFooterView{
     UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 150)];
-    _registerBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"立即体验" andFrame:CGRectMake(18, 20, kScreen_Width-18*2, 45) target:self action:@selector(sendRegister)];
-    [footerV addSubview:_registerBtn];
+    _footerBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"立即体验" andFrame:CGRectMake(kLoginPaddingLeftWidth, 20, kScreen_Width-kLoginPaddingLeftWidth*2, 45) target:self action:@selector(sendRegister)];
+    [footerV addSubview:_footerBtn];
     
-    RAC(self, registerBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, myRegister.email), RACObserve(self, myRegister.global_key), RACObserve(self, myRegister.j_captcha), RACObserve(self, captchaNeeded)] reduce:^id(NSString *email, NSString *global_key, NSString *j_captcha, NSNumber *captchaNeeded){
+    RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, myRegister.email), RACObserve(self, myRegister.global_key), RACObserve(self, myRegister.j_captcha), RACObserve(self, captchaNeeded)] reduce:^id(NSString *email, NSString *global_key, NSString *j_captcha, NSNumber *captchaNeeded){
         if ((captchaNeeded && captchaNeeded.boolValue) && (!j_captcha || j_captcha.length <= 0)) {
             return @(NO);
         }else{
@@ -165,28 +161,69 @@
     }];
     
     
-    TTTAttributedLabel *lineLabel = [[TTTAttributedLabel alloc] init];
-    lineLabel.textAlignment = NSTextAlignmentCenter;
-    lineLabel.font = [UIFont systemFontOfSize:12];
-    lineLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
-    lineLabel.numberOfLines = 0;
-    lineLabel.linkAttributes = kLinkAttributes;
-    lineLabel.activeLinkAttributes = kLinkAttributesActive;
-    lineLabel.delegate = self;
+    UITTTAttributedLabel *lineLabel = ({
+        UITTTAttributedLabel *label = [[UITTTAttributedLabel alloc] init];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont systemFontOfSize:12];
+        label.textColor = [UIColor colorWithHexString:@"0x999999"];
+        label.numberOfLines = 0;
+        label.linkAttributes = kLinkAttributes;
+        label.activeLinkAttributes = kLinkAttributesActive;
+        label.delegate = self;
+        label;
+    });
+
     NSString *tipStr = @"点击立即体验，即表示同意《coding服务条款》";
     lineLabel.text = tipStr;
     [lineLabel addLinkToTransitInformation:@{@"actionStr" : @"gotoServiceTermsVC"} withRange:[tipStr rangeOfString:@"《coding服务条款》"]];
     
-    CGRect registerBtnFrame = _registerBtn.frame;
-    lineLabel.frame = CGRectMake(CGRectGetMinX(registerBtnFrame), CGRectGetMaxY(registerBtnFrame) +12, CGRectGetWidth(registerBtnFrame), 12);
+    CGRect footerBtnFrame = _footerBtn.frame;
+    lineLabel.frame = CGRectMake(CGRectGetMinX(footerBtnFrame), CGRectGetMaxY(footerBtnFrame) +12, CGRectGetWidth(footerBtnFrame), 12);
     [footerV addSubview:lineLabel];
     
     return footerV;
+}
+
+#pragma mark BottomView
+- (void)configBottomView{
+    if (!_bottomView) {
+        _bottomView = [[UIView alloc] init];
+        _bottomView.backgroundColor = [UIColor clearColor];
+
+        UITTTAttributedLabel *bottomLabel = ({
+            UITTTAttributedLabel *label = [[UITTTAttributedLabel alloc] init];
+            label.textAlignment = NSTextAlignmentCenter;
+            label.font = [UIFont systemFontOfSize:12];
+            label.textColor = [UIColor colorWithHexString:@"0x999999"];
+            label.numberOfLines = 0;
+            label.linkAttributes = kLinkAttributes;
+            label.activeLinkAttributes = kLinkAttributesActive;
+            label.delegate = self;
+            label;
+        });
+        
+        NSString *tipStr = @"已经注册？重发激活邮件";
+        bottomLabel.text = tipStr;
+        [bottomLabel addLinkToTransitInformation:@{@"actionStr" : @"gotoCannotLoginVC"} withRange:[tipStr rangeOfString:@"重发激活邮件"]];
+        
+        [_bottomView addSubview:bottomLabel];
+        [bottomLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(_bottomView);
+        }];
+        
+        [self.view addSubview:_bottomView];
+        [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.bottom.equalTo(self.view);
+            make.height.mas_equalTo(60);
+        }];
+    }
 }
 #pragma mark TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
     if ([[components objectForKey:@"actionStr"] isEqualToString:@"gotoServiceTermsVC"]) {
         [self gotoServiceTermsVC];
+    }else if ([[components objectForKey:@"actionStr"] isEqualToString:@"gotoCannotLoginVC"]){
+        [self gotoCannotLoginVC];
     }
 }
 #pragma mark Btn Clicked
@@ -196,18 +233,18 @@
         _activityIndicator = [[UIActivityIndicatorView alloc]
                               initWithActivityIndicatorStyle:
                               UIActivityIndicatorViewStyleGray];
-        CGSize captchaViewSize = _registerBtn.bounds.size;
+        CGSize captchaViewSize = _footerBtn.bounds.size;
         _activityIndicator.hidesWhenStopped = YES;
         [_activityIndicator setCenter:CGPointMake(captchaViewSize.width/2, captchaViewSize.height/2)];
-        [_registerBtn addSubview:_activityIndicator];
+        [_footerBtn addSubview:_activityIndicator];
     }
     [_activityIndicator startAnimating];
     
-    self.registerBtn.enabled = NO;
+    self.footerBtn.enabled = NO;
 
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Register_WithParams:[self.myRegister toParams] andBlock:^(id data, NSError *error) {
-        weakSelf.registerBtn.enabled = YES;
+        weakSelf.footerBtn.enabled = YES;
         [weakSelf.activityIndicator stopAnimating];
         
         if (data) {
@@ -223,6 +260,12 @@
 - (void)gotoServiceTermsVC{
     NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"service_terms" ofType:@"html"];
     WebViewController *vc = [WebViewController webVCWithUrlStr:pathForServiceterms];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)gotoCannotLoginVC{
+    CannotLoginViewController *vc = [[CannotLoginViewController alloc] init];
+    vc.type = CannotLoginTypeActivate;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
