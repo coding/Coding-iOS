@@ -122,7 +122,7 @@
     if (!_webContentView.isLoading) {
         [_activityIndicator startAnimating];
         if (_curTopic.htmlMedia.contentOrigional) {
-            [self.webContentView loadHTMLString:[WebContentManager markdownPatternedWithContent:_curTopic.htmlMedia.contentOrigional] baseURL:nil];
+            [self.webContentView loadHTMLString:[WebContentManager topicPatternedWithContent:_curTopic.htmlMedia.contentOrigional] baseURL:nil];
         }
     }
     

@@ -193,7 +193,7 @@
     if (!_webContentView.isLoading) {
         [_activityIndicator startAnimating];
         if (_tweet.htmlMedia.contentOrigional) {
-            [self.webContentView loadHTMLString:[WebContentManager markdownPatternedWithContent:_tweet.htmlMedia.contentOrigional] baseURL:nil];
+            [self.webContentView loadHTMLString:[WebContentManager bubblePatternedWithContent:_tweet.htmlMedia.contentOrigional] baseURL:nil];
         }
     }
     
