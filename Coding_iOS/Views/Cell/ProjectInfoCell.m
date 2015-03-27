@@ -135,7 +135,7 @@
     }];
     [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_proImgView.mas_left);
-        make.right.equalTo(_proTitleL.mas_right);
+        make.right.equalTo(self.contentView.mas_right).offset(-pading);
         make.bottom.equalTo(self.contentView);
         make.height.mas_equalTo(1.0);
     }];
