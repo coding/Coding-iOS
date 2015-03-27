@@ -240,9 +240,13 @@
         curTweets = [Tweets tweetsWithType:_curIndex];
         [self saveCurTweets:curTweets];
     }
-    
     if (curTweets.list.count <= 0) {
         [self refresh];
+    }
+    if (!curTweets.isLoading) {
+        [self.view configBlankPage:EaseBlankPageTypeTweet hasData:(curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+            [self sendRequest];
+        }];
     }
 }
 

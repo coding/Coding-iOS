@@ -8,7 +8,7 @@
 
 #define kKeyboardView_Height 216.0
 #define kMessageInputView_Height 50.0
-#define kMessageInputView_HeightMax 100.0
+#define kMessageInputView_HeightMax 120.0
 #define kMessageInputView_PadingHeight 7.0
 #define kMessageInputView_Font [UIFont systemFontOfSize:16]
 #define kMessageInputView_Width_Tool 35.0
@@ -44,6 +44,9 @@ static NSMutableDictionary *_inputDict;
     [super setFrame:frame];
     if (fabs(oldheightToBottom - newheightToBottom) > 0.1) {
         NSLog(@"heightToBottom-----:%.2f", newheightToBottom);
+        if (oldheightToBottom > newheightToBottom) {//降下去的时候保存
+            [self saveInputStr];
+        }
         if (_delegate && [_delegate respondsToSelector:@selector(messageInputView:heightToBottomChenged:)]) {
             [self.delegate messageInputView:self heightToBottomChenged:newheightToBottom];
         }
@@ -112,6 +115,29 @@ static NSMutableDictionary *_inputDict;
         _inputState = UIMessageInputViewStateSystem;
         _isAlwaysShow = NO;
         _curProject = nil;
+        
+        
+        @weakify(self);
+        [[RACObserve(self.inputTextView, contentSize) takeUntil:self.rac_willDeallocSignal] subscribeNext:^(NSValue *contentSize) {
+            @strongify(self);
+            CGFloat contentHeight = [contentSize CGSizeValue].height;
+            CGFloat viewHeight = MAX(kMessageInputView_Height, contentHeight + 2*kMessageInputView_PadingHeight);
+            viewHeight = MIN(kMessageInputView_HeightMax, viewHeight);
+            CGFloat diffHeight = viewHeight - _viewHeightOld;
+            if (ABS(diffHeight) > 0.5) {
+                CGRect viewFrame = self.frame;
+                CGRect textViewFrame = self.inputTextView.frame;
+                
+                viewFrame.size.height += diffHeight;
+                viewFrame.origin.y -= diffHeight;
+                textViewFrame.size.height += diffHeight;
+                
+                [self setFrame:viewFrame];
+                [self.inputTextView setFrame:textViewFrame];
+                self.viewHeightOld = viewHeight;
+            }
+            [self.inputTextView setContentOffset:CGPointMake(0, MAX(0, contentHeight - self.inputTextView.frame.size.height)) animated:YES];
+        }];
     }
     return self;
 }
@@ -408,33 +434,6 @@ static NSMutableDictionary *_inputDict;
         appendingStr = @"@";
     }
     [textView insertText:appendingStr];
-}
-- (void)textViewDidChange:(UITextView *)textView{
-    [self saveInputStr];
-    CGFloat viewHeightNew = [textView.text getHeightWithFont:textView.font constrainedToSize:CGSizeMake(CGRectGetWidth(textView.frame)-16, kMessageInputView_HeightMax)]+16 + 2*kMessageInputView_PadingHeight;
-    viewHeightNew = MAX(kMessageInputView_Height, viewHeightNew);
-    if (viewHeightNew != _viewHeightOld) {
-
-        CGFloat diffHeight = viewHeightNew - _viewHeightOld;
-        
-        CGRect viewFrame = self.frame;
-        CGRect textViewFrame = textView.frame;
- 
-        viewFrame.size.height += diffHeight;
-        viewFrame.origin.y -= diffHeight;
-        textViewFrame.size.height += diffHeight;
-        self.frame = viewFrame;
-        textView.frame = textViewFrame;
-        if (viewHeightNew < _viewHeightOld) {
-            //textView的contentSize并没有根据现实内容的大小马上改变，所以在这里对它的ContentOffset处理也做一个延时
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [textView setContentOffset:CGPointMake(0, MAX(0, textView.contentSize.height - textViewFrame.size.height)) animated:YES];
-            });
-        }else{
-            [textView setContentOffset:CGPointMake(0, MAX(0, textView.contentSize.height - textViewFrame.size.height)) animated:YES];
-        }
-        _viewHeightOld = viewHeightNew;
-    }
 }
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView{
     if (self.inputState != UIMessageInputViewStateSystem) {
