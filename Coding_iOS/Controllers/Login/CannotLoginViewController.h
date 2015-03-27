@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 typedef NS_ENUM(NSInteger, CannotLoginType) {
-    CannotLoginTypePassword = 0,
+    CannotLoginTypeResetPassword = 0,
     CannotLoginTypeActivate,
 };
 

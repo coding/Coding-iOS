@@ -204,11 +204,11 @@
     }
     UIViewController *vc = [self analyseVCFromLinkStr:linkStr];
     if (vc) {
-        [self presentViewController:vc];
+        [self presentVC:vc];
     }else{
         //网页
         WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
-        [self presentViewController:webVc];
+        [self presentVC:webVc];
     }
 }
 
@@ -239,7 +239,7 @@
     return result;
 }
 
-+ (void)presentViewController:(UIViewController *)viewController{
++ (void)presentVC:(UIViewController *)viewController{
     UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:viewController];
     viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:viewController action:@selector(dismissModalViewControllerAnimated:)];
     [[self presentingVC] presentViewController:nav animated:YES completion:nil];

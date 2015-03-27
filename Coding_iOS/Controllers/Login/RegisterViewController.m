@@ -7,8 +7,6 @@
 //
 
 #import "RegisterViewController.h"
-#import "Input_LeftImgage_Cell.h"
-#import "Input_GlobalKey_Cell.h"
 #import "Input_OnlyText_Cell.h"
 
 #import "Coding_NetAPIManager.h"

@@ -76,6 +76,7 @@
 		4E59E1D31A5E6B34004DAEEC /* TaskDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */; };
 		4E5C06E81AC2B34800F427C5 /* tipIcon_BranchMember@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5C06E71AC2B34800F427C5 /* tipIcon_BranchMember@2x.png */; };
 		4E5C06EB1AC4009100F427C5 /* CannotLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */; };
+		4E5C06EE1AC4405300F427C5 /* PasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5C06ED1AC4405300F427C5 /* PasswordViewController.m */; };
 		4E66EE261A28226000DA1B3E /* button_file_createFolder_enable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE211A28226000DA1B3E /* button_file_createFolder_enable@2x.png */; };
 		4E66EE271A28226000DA1B3E /* button_file_denete_enable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE221A28226000DA1B3E /* button_file_denete_enable@2x.png */; };
 		4E66EE281A28226000DA1B3E /* button_file_denete_unable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE231A28226000DA1B3E /* button_file_denete_unable@2x.png */; };
@@ -553,10 +554,6 @@
 		8EF643AF19FF7E2900F7EEB0 /* TweetSendImageCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6436219FF7E2900F7EEB0 /* TweetSendImageCCell.m */; };
 		8EF643B019FF7E2900F7EEB0 /* CodingTipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6436519FF7E2900F7EEB0 /* CodingTipCell.m */; };
 		8EF643B119FF7E2900F7EEB0 /* ConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6436719FF7E2900F7EEB0 /* ConversationCell.m */; };
-		8EF643B219FF7E2900F7EEB0 /* Input_GlobalKey_Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6436919FF7E2900F7EEB0 /* Input_GlobalKey_Cell.m */; };
-		8EF643B319FF7E2900F7EEB0 /* Input_GlobalKey_Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EF6436A19FF7E2900F7EEB0 /* Input_GlobalKey_Cell.xib */; };
-		8EF643B419FF7E2900F7EEB0 /* Input_LeftImgage_Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6436C19FF7E2900F7EEB0 /* Input_LeftImgage_Cell.m */; };
-		8EF643B519FF7E2900F7EEB0 /* Input_LeftImgage_Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EF6436D19FF7E2900F7EEB0 /* Input_LeftImgage_Cell.xib */; };
 		8EF643B619FF7E2900F7EEB0 /* Input_OnlyText_Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6436F19FF7E2900F7EEB0 /* Input_OnlyText_Cell.m */; };
 		8EF643B719FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EF6437019FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib */; };
 		8EF643B819FF7E2900F7EEB0 /* InputOnlyTextPlainCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6437219FF7E2900F7EEB0 /* InputOnlyTextPlainCell.m */; };
@@ -698,6 +695,8 @@
 		4E5C06E71AC2B34800F427C5 /* tipIcon_BranchMember@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_BranchMember@2x.png"; sourceTree = "<group>"; };
 		4E5C06E91AC4009100F427C5 /* CannotLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CannotLoginViewController.h; sourceTree = "<group>"; };
 		4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CannotLoginViewController.m; sourceTree = "<group>"; };
+		4E5C06EC1AC4405300F427C5 /* PasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordViewController.h; sourceTree = "<group>"; };
+		4E5C06ED1AC4405300F427C5 /* PasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordViewController.m; sourceTree = "<group>"; };
 		4E66EE211A28226000DA1B3E /* button_file_createFolder_enable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_createFolder_enable@2x.png"; sourceTree = "<group>"; };
 		4E66EE221A28226000DA1B3E /* button_file_denete_enable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_denete_enable@2x.png"; sourceTree = "<group>"; };
 		4E66EE231A28226000DA1B3E /* button_file_denete_unable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_denete_unable@2x.png"; sourceTree = "<group>"; };
@@ -1426,12 +1425,6 @@
 		8EF6436519FF7E2900F7EEB0 /* CodingTipCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodingTipCell.m; sourceTree = "<group>"; };
 		8EF6436619FF7E2900F7EEB0 /* ConversationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConversationCell.h; sourceTree = "<group>"; };
 		8EF6436719FF7E2900F7EEB0 /* ConversationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationCell.m; sourceTree = "<group>"; };
-		8EF6436819FF7E2900F7EEB0 /* Input_GlobalKey_Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Input_GlobalKey_Cell.h; sourceTree = "<group>"; };
-		8EF6436919FF7E2900F7EEB0 /* Input_GlobalKey_Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Input_GlobalKey_Cell.m; sourceTree = "<group>"; };
-		8EF6436A19FF7E2900F7EEB0 /* Input_GlobalKey_Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Input_GlobalKey_Cell.xib; sourceTree = "<group>"; };
-		8EF6436B19FF7E2900F7EEB0 /* Input_LeftImgage_Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Input_LeftImgage_Cell.h; sourceTree = "<group>"; };
-		8EF6436C19FF7E2900F7EEB0 /* Input_LeftImgage_Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Input_LeftImgage_Cell.m; sourceTree = "<group>"; };
-		8EF6436D19FF7E2900F7EEB0 /* Input_LeftImgage_Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Input_LeftImgage_Cell.xib; sourceTree = "<group>"; };
 		8EF6436E19FF7E2900F7EEB0 /* Input_OnlyText_Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Input_OnlyText_Cell.h; sourceTree = "<group>"; };
 		8EF6436F19FF7E2900F7EEB0 /* Input_OnlyText_Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Input_OnlyText_Cell.m; sourceTree = "<group>"; };
 		8EF6437019FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Input_OnlyText_Cell.xib; sourceTree = "<group>"; };
@@ -2402,6 +2395,8 @@
 				8EA6CF2C19E240C40076D59C /* RegisterViewController.m */,
 				4E5C06E91AC4009100F427C5 /* CannotLoginViewController.h */,
 				4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */,
+				4E5C06EC1AC4405300F427C5 /* PasswordViewController.h */,
+				4E5C06ED1AC4405300F427C5 /* PasswordViewController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -2922,12 +2917,6 @@
 				8EF6436519FF7E2900F7EEB0 /* CodingTipCell.m */,
 				8EF6436619FF7E2900F7EEB0 /* ConversationCell.h */,
 				8EF6436719FF7E2900F7EEB0 /* ConversationCell.m */,
-				8EF6436819FF7E2900F7EEB0 /* Input_GlobalKey_Cell.h */,
-				8EF6436919FF7E2900F7EEB0 /* Input_GlobalKey_Cell.m */,
-				8EF6436A19FF7E2900F7EEB0 /* Input_GlobalKey_Cell.xib */,
-				8EF6436B19FF7E2900F7EEB0 /* Input_LeftImgage_Cell.h */,
-				8EF6436C19FF7E2900F7EEB0 /* Input_LeftImgage_Cell.m */,
-				8EF6436D19FF7E2900F7EEB0 /* Input_LeftImgage_Cell.xib */,
 				8EF6436E19FF7E2900F7EEB0 /* Input_OnlyText_Cell.h */,
 				8EF6436F19FF7E2900F7EEB0 /* Input_OnlyText_Cell.m */,
 				8EF6437019FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib */,
@@ -3226,7 +3215,6 @@
 				4E9113AB1A1CB19900AC9431 /* icon_file_state_look@2x.png in Resources */,
 				8E97CEA31A0C7E26006F9AD7 /* coding_emoji_12@2x.png in Resources */,
 				4EBD0C661A1F2011004B4284 /* nav_project_file@2x.png in Resources */,
-				8EF643B519FF7E2900F7EEB0 /* Input_LeftImgage_Cell.xib in Resources */,
 				4E923E781A2F040D00427514 /* messageLeft_bg_img@2x.png in Resources */,
 				8EA6D17E19E240C40076D59C /* section_btn_close@2x.png in Resources */,
 				8E97CE9E1A0C7E26006F9AD7 /* coding_emoji_07@2x.png in Resources */,
@@ -3271,7 +3259,6 @@
 				4E996C051ABBF56A00C704F1 /* n_sex_man_icon@2x.png in Resources */,
 				8EA6D15919E240C40076D59C /* AppIcon120x120.png in Resources */,
 				8E97CEB71A0C7E26006F9AD7 /* coding_emoji_32@2x.png in Resources */,
-				8EF643B319FF7E2900F7EEB0 /* Input_GlobalKey_Cell.xib in Resources */,
 				8E97CEA71A0C7E26006F9AD7 /* coding_emoji_16@2x.png in Resources */,
 				4E1A22921AB19D1F00CFC14F /* git_icon_watched@2x.png in Resources */,
 				8E8F7B2C19EF6306006BA8BD /* btn_followed_both@2x.png in Resources */,
@@ -3516,7 +3503,6 @@
 				4E07D3111A4D1484009EDDF2 /* EaseStartView.m in Sources */,
 				8EA6D13819E240C40076D59C /* Message_RootViewController.m in Sources */,
 				0A782FD81AB5B69200E96661 /* TweetSendCreateLocationViewController.m in Sources */,
-				8EF643B219FF7E2900F7EEB0 /* Input_GlobalKey_Cell.m in Sources */,
 				8EA6D1BD19E240C40076D59C /* QcTask.m in Sources */,
 				4E35A99F1A3EC47E00CE35F1 /* FileViewController.m in Sources */,
 				0A6E6BAD1AB08540004C0107 /* TweetSendLocation.m in Sources */,
@@ -3644,6 +3630,7 @@
 				8EA6D12A19E240C40076D59C /* Coding_iOS.xcdatamodeld in Sources */,
 				8EA6D12D19E240C40076D59C /* ConversationViewController.m in Sources */,
 				4ECE8ADB1A3943E80021E29C /* NSDate+convenience.m in Sources */,
+				4E5C06EE1AC4405300F427C5 /* PasswordViewController.m in Sources */,
 				4E217F0E1A70EDC700F6DF88 /* SVWebViewController.m in Sources */,
 				4E6BA2DE1A1EE6AF005FD721 /* AFSecurityPolicy.m in Sources */,
 				4EA7F1631A6D192B00A046BD /* UIImage+MultiFormat.m in Sources */,
@@ -3693,7 +3680,6 @@
 				0A6E6BA71AAF4162004C0107 /* TweetSendLocationCell.m in Sources */,
 				4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				8ECA8BB419FB42CC00C598C6 /* UILongPressMenuImageView.m in Sources */,
-				8EF643B419FF7E2900F7EEB0 /* Input_LeftImgage_Cell.m in Sources */,
 				8EA6D1BE19E240C40076D59C /* Register.m in Sources */,
 				8EF643B019FF7E2900F7EEB0 /* CodingTipCell.m in Sources */,
 				8EA6D1BA19E240C40076D59C /* Projects.m in Sources */,

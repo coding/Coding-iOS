@@ -38,4 +38,13 @@
     }
     return NO;
 }
+- (NSDictionary *)queryParams{
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
+    for (NSString *param in [[self query] componentsSeparatedByString:@"&"]) {
+        NSArray *elts = [param componentsSeparatedByString:@"="];
+        if([elts count] < 2) continue;
+        [params setObject:elts[1] forKey:elts[0]];
+    }
+    return params;
+}
 @end

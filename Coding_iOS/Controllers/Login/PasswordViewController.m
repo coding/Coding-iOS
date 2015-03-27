@@ -1,24 +1,31 @@
 //
-//  CannotLoginViewController.m
+//  PasswordViewController.m
 //  Coding_iOS
 //
 //  Created by Ease on 15/3/26.
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#import "CannotLoginViewController.h"
+#import "PasswordViewController.h"
 #import "TPKeyboardAvoidingTableView.h"
 #import "Coding_NetAPIManager.h"
 #import "Input_OnlyText_Cell.h"
 
-@interface CannotLoginViewController ()<UITableViewDataSource, UITableViewDelegate>
-
+@interface PasswordViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UIButton *footerBtn;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
 @end
 
-@implementation CannotLoginViewController
+@implementation PasswordViewController
++ (id)passwordVCWithType:(PasswordType)type email:(NSString *)email andKey:(NSString *)key{
+    PasswordViewController *vc = [[PasswordViewController alloc] init];
+    vc.type = type;
+    vc.email = email;
+    vc.key = key;
+    return vc;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -40,16 +47,13 @@
     self.myTableView.tableFooterView=[self customFooterView];
     self.myTableView.tableHeaderView = [self customHeaderView];
 }
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
+
 - (NSString *)titleStr{
     NSString *curStr = @"";
-    if (_type == CannotLoginTypeResetPassword) {
-        curStr = @"找回密码";
-    }else if (_type == CannotLoginTypeActivate){
-        curStr = @"重发激活邮件";
+    if (_type == PasswordReset){
+        curStr = @"重置密码";
+    }else if (_type == PasswordActivate) {
+        curStr = @"用户激活";
     }
     return curStr;
 }
@@ -75,51 +79,62 @@
     [footerV addSubview:_footerBtn];
     
     RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, email),
-                                                              RACObserve(self, j_captcha)]
-                                                     reduce:^id(NSString *email, NSString *j_captcha){
-                                                         return @((email && email.length > 0) && (j_captcha && j_captcha.length > 0));
+                                                              RACObserve(self, password),
+                                                              RACObserve(self, confirm_password)]
+                                                     reduce:^id(NSString *email, NSString *password, NSString *confirm_password){
+                                                         return @((email && email.length > 0) && (password && password.length > 0) && (confirm_password && confirm_password.length > 0));
                                                      }];
     return footerV;
 }
 
 - (NSString *)footerBtnTitle{
     NSString *curStr = @"";
-    if (_type == CannotLoginTypeResetPassword) {
-        curStr = @"发送重置密码邮件";
-    }else if (_type == CannotLoginTypeActivate){
-        curStr = @"重发激活邮件";
+    if (_type == PasswordReset) {
+        curStr = @"确定";
+    }else if (_type == PasswordActivate){
+        curStr = @"完成注册";
     }
     return curStr;
 }
+
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 2;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Input_OnlyText_Cell";
+    static NSString *CellIdentifier = @"Input_OnlyText_Cell_Enabled";
     Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[NSBundle mainBundle] loadNibNamed:@"Input_OnlyText_Cell" owner:self options:nil] firstObject];
     }
     cell.isForLoginVC = NO;
-    
+    cell.isCaptcha = NO;
+
     __weak typeof(self) weakSelf = self;
     if (indexPath.row == 0) {
-        cell.isCaptcha = NO;
         [cell configWithPlaceholder:@" 电子邮箱" andValue:self.email];
         cell.textField.secureTextEntry = NO;
+        cell.textField.userInteractionEnabled = NO;
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.email = valueStr;
         };
         cell.editDidEndBlock = nil;
-    }else{
-        cell.isCaptcha = YES;
-        [cell configWithPlaceholder:@" 验证码" andValue:self.j_captcha];
-        cell.textField.secureTextEntry = NO;
+    }else if (indexPath.row == 1) {
+        [cell configWithPlaceholder:@" 密码" andValue:self.password];
+        cell.textField.secureTextEntry = YES;
+        cell.textField.userInteractionEnabled = YES;
         cell.textValueChangedBlock = ^(NSString *valueStr){
-            weakSelf.j_captcha = valueStr;
+            weakSelf.password = valueStr;
+        };
+        cell.editDidEndBlock = nil;
+    }else{
+        [cell configWithPlaceholder:@" 确认密码" andValue:self.confirm_password];
+        cell.textField.secureTextEntry = YES;
+        cell.textField.userInteractionEnabled = YES;
+        cell.textValueChangedBlock = ^(NSString *valueStr){
+            weakSelf.confirm_password = valueStr;
         };
         cell.editDidEndBlock = nil;
     }
@@ -134,15 +149,33 @@
 #pragma mark Btn Clicked
 - (NSString *)requestPath{
     NSString *curStr = @"";
-    if (_type == CannotLoginTypeResetPassword) {
+    if (_type == PasswordReset) {
         curStr = @"api/resetPassword";
-    }else if (_type == CannotLoginTypeActivate){
+    }else if (_type == PasswordActivate){
         curStr = @"api/activate";
     }
     return curStr;
 }
 
 - (void)footerBtnClicked:(id)sender{
+    NSString *tipStr = nil;
+    if (![self.password isEqualToString:self.confirm_password]){
+        tipStr = @"两次输入的密码不一致";
+    }else if (self.password.length < 6){
+        tipStr = @"新密码不能少于6位";
+    }else if (self.password.length > 64){
+        tipStr = @"新密码不得长于64位";
+    }
+    if (tipStr) {
+        [self showHudTipStr:tipStr];
+        return;
+    }
+    [self.view endEditing:YES];
+    NSDictionary *params = @{@"email": _email,
+                             @"key": _key? _key: @"",
+                             @"password": [_password sha1Str],
+                             @"confirm_password": [_confirm_password sha1Str]};
+
     if (!_activityIndicator) {
         _activityIndicator = [[UIActivityIndicatorView alloc]
                               initWithActivityIndicatorStyle:
@@ -153,23 +186,18 @@
         [_footerBtn addSubview:_activityIndicator];
     }
     [_activityIndicator startAnimating];
-
+    
     self.footerBtn.enabled = NO;
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_SendMailToPath:[self requestPath] email:_email j_captcha:_j_captcha andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_SetPasswordToPath:[self requestPath] params:params andBlock:^(id data, NSError *error) {
         weakSelf.footerBtn.enabled = YES;
         [weakSelf.activityIndicator stopAnimating];
         if (data) {
-            [weakSelf popToRootVC];//返回登录页面
-        }else{
-            [weakSelf.myTableView reloadData];//更新验证码
+            if (weakSelf.successBlock) {
+                weakSelf.successBlock(weakSelf, data);
+            }
         }
     }];
-}
-
-- (void)popToRootVC{
-    [self showHudTipStr:@"已发送邮件"];
-    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

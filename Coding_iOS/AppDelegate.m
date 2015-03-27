@@ -23,6 +23,7 @@
 #import "XGPush.h"
 #import "EaseStartView.h"
 #import "BaseNavigationController.h"
+#import "PasswordViewController.h"
 
 #import "Tweet.h"
 
@@ -141,7 +142,9 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [[UnReadManager shareManager] updateUnRead];
+    if ([Login isLogin]) {
+        [[UnReadManager shareManager] updateUnRead];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -211,13 +214,49 @@
 
 #pragma mark URL Schemes
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-    for (NSString *param in [[url query] componentsSeparatedByString:@"&"]) {
-        NSArray *elts = [param componentsSeparatedByString:@"="];
-        if([elts count] < 2) continue;
-        [params setObject:elts[1] forKey:elts[0]];
+    NSLog(@"path: %@, params: %@", [url path], [url queryParams]);
+    return [self showPasswordWithURL:url];
+}
+
+- (BOOL)showPasswordWithURL:(NSURL *)url{
+    PasswordType type;
+    NSString *email, *key;
+    
+    if ([[url lastPathComponent] isEqualToString:@"resetPassword"]) {
+        type = PasswordReset;
+    }else if ([[url lastPathComponent] isEqualToString:@"activate"]){
+        type = PasswordActivate;
+    }else{
+        return NO;
     }
-    NSLog(@"path: %@, params: %@", [url path], params);
+    email = [[url queryParams] objectForKey:@"email"];
+    key = [[url queryParams] objectForKey:@"key"];
+    if (email.length <= 0 || key.length <= 0) {
+        return NO;
+    }
+    
+    //弹出临时会话
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        PasswordViewController *vc = [PasswordViewController passwordVCWithType:type email:[email URLDecoding] andKey:key];
+        vc.successBlock = ^(PasswordViewController *presentVC, id data){
+            [presentVC dismissViewControllerAnimated:YES completion:^{
+                NSString *tipStr;
+                switch (presentVC.type) {
+                    case PasswordReset:
+                        tipStr = @"修改密码成功～";
+                        break;
+                    case PasswordActivate:
+                        tipStr = @"账号激活成功～";
+                        break;
+                    default:
+                        tipStr = @"操作成功";
+                        break;
+                }
+                kTipAlert(@"%@", tipStr);
+            }];
+        };
+        [BaseViewController presentVC:vc];
+    });
     return YES;
 }
 
