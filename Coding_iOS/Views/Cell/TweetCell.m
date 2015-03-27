@@ -606,7 +606,7 @@
 - (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
     if (action == @selector(copy:)) {
         Comment *curComment = [_tweet.comment_list objectAtIndex:indexPath.row];
-        [UIPasteboard generalPasteboard].string = curComment.content;
+        [UIPasteboard generalPasteboard].string = curComment.content? curComment.content: @"";
     }
 }
 

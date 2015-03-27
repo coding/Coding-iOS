@@ -306,10 +306,10 @@
 - (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
     if (action == @selector(copy:)) {
         if (indexPath.row == 0) {
-            [UIPasteboard generalPasteboard].string = _curTweet.content;
+            [UIPasteboard generalPasteboard].string = _curTweet.content? _curTweet.content: @"";
         }else{
             Comment *curComment = [_curTweet.comment_list objectAtIndex:indexPath.row-1];
-            [UIPasteboard generalPasteboard].string = curComment.content;
+            [UIPasteboard generalPasteboard].string = curComment.content? curComment.content: @"";
         }
     }
 }
