@@ -115,7 +115,7 @@
         make.left.equalTo(_proImgView.mas_right).offset(pading);
         make.width.mas_lessThanOrEqualTo(titleWidth);
         if (hasDetail) {
-            make.bottom.equalTo(_proImgView.mas_centerY);
+            make.centerY.equalTo(_proImgView.mas_centerY).offset(-kProjectInfoCell_ProImgViewWidth/5);
         }else{
             make.centerY.equalTo(_proImgView.mas_centerY);
         }
@@ -130,7 +130,7 @@
     [_proInfoL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_proTitleL);
         make.right.equalTo(self.contentView.mas_right).offset(-pading);
-        make.top.equalTo(_proTitleL.mas_bottom).offset(5);
+        make.centerY.equalTo(_proImgView.mas_centerY).offset(kProjectInfoCell_ProImgViewWidth/5);
         make.height.mas_equalTo(15);
     }];
     [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
