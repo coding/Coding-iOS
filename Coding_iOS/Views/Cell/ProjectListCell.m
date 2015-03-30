@@ -52,10 +52,22 @@
             [self.contentView addSubview:_privateIconView];
         }
         
+        [_projectTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.contentView).offset(10);
+            make.height.mas_equalTo(25);
+            make.left.equalTo(self.contentView.mas_left).offset(kProjectListCell_ContentLeft);
+            make.right.lessThanOrEqualTo(self.contentView).offset(0);
+        }];
+        [_ownerTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.height.equalTo(self.projectTitleLabel);
+            make.top.equalTo(self.projectTitleLabel.mas_bottom).offset(5);
+        }];
         [_privateIconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_projectTitleLabel);
             make.centerY.mas_equalTo(_ownerTitleLabel.mas_centerY).offset(1);
         }];
+        
+        
         
     }
     return self;
@@ -69,7 +81,10 @@
     //Icon
     [_projectIconView sd_setImageWithURL:[_project.icon urlImageWithCodePathResizeToView:_projectIconView] placeholderImage:kPlaceholderCodingSquareWidth(55.0)];
     _privateIconView.hidden = _project.is_public.boolValue;
-    [_ownerTitleLabel setX:(_project.is_public.boolValue? kProjectListCell_ContentLeft: kProjectListCell_ContentLeft+CGRectGetWidth(_privateIconView.frame)+10)];
+    
+    [_ownerTitleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.projectTitleLabel.mas_left).offset(_project.is_public.boolValue? 0: CGRectGetWidth(_privateIconView.frame)+10);
+    }];
     //Title & UserName
     _projectTitleLabel.text = _project.name;
     _ownerTitleLabel.text = _project.owner_user_name;
@@ -83,8 +98,7 @@
         }
     }
     [self.contentView addBadgeTip:badgeTip withCenterPosition:CGPointMake(10+kProjectListCell_IconHeight, 15)];
-    [_projectTitleLabel sizeToFit];
-    [_ownerTitleLabel sizeToFit];
+
 }
 
 + (CGFloat)cellHeight{
