@@ -17,6 +17,7 @@
 #import "EditTaskViewController.h"
 #import "ProjectViewController.h"
 #import "NProjectViewController.h"
+#import "UserTweetsViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "AppDelegate.h"
 #import "WebViewController.h"
@@ -139,6 +140,7 @@
     UIViewController *analyseVC = nil;
 
     NSString *userRegexStr = @"/u/([^/]+)$";
+    NSString *userTweetRegexStr = @"/u/([^/]+)/bubble$";
     NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)$";
     NSString *topicRegexStr = @"/u/([^/]+)/p/([^/]+)/topic/(\\d+)";
     NSString *taskRegexStr = @"/u/([^/]+)/p/([^/]+)/task/(\\d+)";
@@ -151,6 +153,12 @@
         NSString *user_global_key = matchedCaptures[1];
         UserInfoViewController *vc = [[UserInfoViewController alloc] init];
         vc.curUser = [User userWithGlobalKey:user_global_key];
+        analyseVC = vc;
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userTweetRegexStr]).count > 0){
+        //某人的冒泡
+        UserTweetsViewController *vc = [[UserTweetsViewController alloc] init];
+        NSString *user_global_key = matchedCaptures[1];
+        vc.curTweets = [Tweets tweetsWithUser:[User userWithGlobalKey:user_global_key]];
         analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:ppRegexStr]).count > 0){
         //冒泡

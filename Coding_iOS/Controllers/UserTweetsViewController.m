@@ -176,6 +176,11 @@
         [self.view beginLoading];
     }
     __weak typeof(self) weakSelf = self;
+    if (_curTweets.curUser.name.length <= 0) {
+        [self refreshCurUser];
+        return;
+    }
+    
     [[Coding_NetAPIManager sharedManager] request_Tweets_WithObj:_curTweets andBlock:^(id data, NSError *error) {
         [weakSelf.refreshControl endRefreshing];
         [weakSelf.view endLoading];
@@ -190,6 +195,24 @@
         }];
     }];
 }
+
+
+- (void)refreshCurUser{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_UserInfo_WithObj:_curTweets.curUser andBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.curTweets.curUser = data;
+            weakSelf.title = weakSelf.curTweets.curUser.name;
+            [weakSelf sendRequest];
+        }else{
+            [weakSelf.view endLoading];
+            [weakSelf.view configBlankPage:([[Login curLoginUser] isSameToUser:self.curTweets.curUser]? EaseBlankPageTypeTweet: EaseBlankPageTypeTweetOther) hasData:(weakSelf.curTweets.list.count > 0) hasError:YES reloadButtonBlock:^(id sender) {
+                [weakSelf sendRequest];
+            }];
+        }
+    }];
+}
+
 
 #pragma mark TableM
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
