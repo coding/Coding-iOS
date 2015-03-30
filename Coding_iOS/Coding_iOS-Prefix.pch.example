@@ -88,6 +88,7 @@
 #define kScreen_Height [UIScreen mainScreen].bounds.size.height
 #define kScreen_Width [UIScreen mainScreen].bounds.size.width
 #define kPaddingLeftWidth 15.0
+#define kLoginPaddingLeftWidth 18.0
 #define kMySegmentControl_Height 44.0
 #define kMySegmentControlIcon_Height 70.0
 
