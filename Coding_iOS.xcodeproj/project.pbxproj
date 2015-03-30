@@ -588,6 +588,9 @@
 		8EF83F8A19E92AA500E86DE7 /* SettingTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF83F8919E92AA500E86DE7 /* SettingTagsViewController.m */; };
 		8EF83F8C19E931D200E86DE7 /* me_info_arrow_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF83F8B19E931D200E86DE7 /* me_info_arrow_left@2x.png */; };
 		8EF83F9419EB78CC00E86DE7 /* SettingTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF83F9319EB78CC00E86DE7 /* SettingTextViewController.m */; };
+		B94C1B691AC945D30000C271 /* NewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B94C1B681AC945D30000C271 /* NewProjectViewController.m */; };
+		B94C1B6B1AC945FB0000C271 /* NewProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */; };
+		B94C1B6E1AC98CCE0000C271 /* NewProjectTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B94C1B6D1AC98CCE0000C271 /* NewProjectTypeViewController.m */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
 /* End PBXBuildFile section */
 
@@ -1491,6 +1494,11 @@
 		8EF83F8B19E931D200E86DE7 /* me_info_arrow_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "me_info_arrow_left@2x.png"; sourceTree = "<group>"; };
 		8EF83F9219EB78CC00E86DE7 /* SettingTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTextViewController.h; sourceTree = "<group>"; };
 		8EF83F9319EB78CC00E86DE7 /* SettingTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTextViewController.m; sourceTree = "<group>"; };
+		B94C1B671AC945D30000C271 /* NewProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewProjectViewController.h; sourceTree = "<group>"; };
+		B94C1B681AC945D30000C271 /* NewProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewProjectViewController.m; sourceTree = "<group>"; };
+		B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewProject.storyboard; sourceTree = "<group>"; };
+		B94C1B6C1AC98CCE0000C271 /* NewProjectTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewProjectTypeViewController.h; sourceTree = "<group>"; };
+		B94C1B6D1AC98CCE0000C271 /* NewProjectTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewProjectTypeViewController.m; sourceTree = "<group>"; };
 		C613B8719C3D38FED828A1E2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E7A0469E1A47279E00528C12 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		E7A0469F1A47279E00528C12 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
@@ -2318,6 +2326,7 @@
 		8EA6CF1B19E240C40076D59C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				B94C1B661AC945C60000C271 /* NewProject */,
 				8EA6CF2819E240C40076D59C /* Login */,
 				8EA6CF3219E240C40076D59C /* RootControllers */,
 				8E1C3DF919E8DFE300EF3032 /* MeSetting */,
@@ -3020,6 +3029,18 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		B94C1B661AC945C60000C271 /* NewProject */ = {
+			isa = PBXGroup;
+			children = (
+				B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */,
+				B94C1B671AC945D30000C271 /* NewProjectViewController.h */,
+				B94C1B681AC945D30000C271 /* NewProjectViewController.m */,
+				B94C1B6C1AC98CCE0000C271 /* NewProjectTypeViewController.h */,
+				B94C1B6D1AC98CCE0000C271 /* NewProjectTypeViewController.m */,
+			);
+			path = NewProject;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3177,6 +3198,7 @@
 				8EA6D18419E240C40076D59C /* me_selected@2x.png in Resources */,
 				4E07D3151A4D3CA6009EDDF2 /* icon_user_monkey@2x.png in Resources */,
 				8EA6D17519E240C40076D59C /* placeholder_coding_square_80@2x.png in Resources */,
+				B94C1B6B1AC945FB0000C271 /* NewProject.storyboard in Resources */,
 				8EA6D1A519E240C40076D59C /* tweet_liked_btn@2x.png in Resources */,
 				8ED2AAFA19F60D5200607A1D /* loading_loop@2x.png in Resources */,
 				4E5C06E81AC2B34800F427C5 /* tipIcon_BranchMember@2x.png in Resources */,
@@ -3401,6 +3423,7 @@
 				4ECE8B041A3946C10021E29C /* UnReadManager.m in Sources */,
 				4EA679131A1466A6001A0324 /* ProjectFiles.m in Sources */,
 				4EBDA87C1A6640340035ED96 /* UIActionSheet+Common.m in Sources */,
+				B94C1B6E1AC98CCE0000C271 /* NewProjectTypeViewController.m in Sources */,
 				4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */,
 				4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */,
 				4E6BA2E41A1EE6AF005FD721 /* UIButton+AFNetworking.m in Sources */,
@@ -3638,6 +3661,7 @@
 				8EF643AC19FF7E2900F7EEB0 /* TweetLikeUserCCell.m in Sources */,
 				8E64ED7B19ED0CE3006E99DA /* QBAssetsCollectionCheckmarkView.m in Sources */,
 				8EA6D1AB19E240C40076D59C /* main.m in Sources */,
+				B94C1B691AC945D30000C271 /* NewProjectViewController.m in Sources */,
 				4E996BD91ABA776500C704F1 /* UserInfoTextCell.m in Sources */,
 				8E1C3E0819E8DFE300EF3032 /* AboutViewController.m in Sources */,
 				4E6BA2D71A1EE6AF005FD721 /* AFHTTPRequestOperation.m in Sources */,
