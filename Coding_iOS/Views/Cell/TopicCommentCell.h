@@ -7,6 +7,7 @@
 //
 
 #define kCellIdentifier_TopicComment @"TopicCommentCell"
+#define kCellIdentifier_TopicComment_Media @"TopicCommentCell_Media"
 
 #import <UIKit/UIKit.h>
 #import "ProjectTopic.h"

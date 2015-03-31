@@ -52,7 +52,7 @@
         if ([reuseIdentifier isEqualToString:kCellIdentifier_TaskComment_Media]) {
             if (!self.imageCollectionView) {
                 UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-                self.imageCollectionView = [[UICustomCollectionView alloc] initWithFrame:CGRectMake(kTaskCommentCell_LeftContentPading, 0, kScreen_Width - kTaskCommentCell_LeftContentPading, 43) collectionViewLayout:layout];
+                self.imageCollectionView = [[UICustomCollectionView alloc] initWithFrame:CGRectMake(kTaskCommentCell_LeftContentPading, 0, kTaskCommentCell_ContentWidth, 43) collectionViewLayout:layout];
                 self.imageCollectionView.scrollEnabled = NO;
                 [self.imageCollectionView setBackgroundView:nil];
                 [self.imageCollectionView setBackgroundColor:[UIColor clearColor]];
