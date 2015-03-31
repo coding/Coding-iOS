@@ -60,6 +60,15 @@ typedef NS_ENUM(NSInteger, ProjectsType)
 + (Project *)project_All;
 + (Project *)project_FeedBack;
 
+- (NSString *)toProjectPath;
+- (NSDictionary *)toCreateParams;
+
+- (NSString *)toUpdatePath;
+- (NSDictionary *)toUpdateParams;
+
+- (NSString *)toDeletePath;
+- (NSDictionary *)toDeleteParamsWithPassword:(NSString *)password;
+
 - (NSString *)toMembersPath;
 - (NSDictionary *)toMembersParams;
 

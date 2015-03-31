@@ -7,6 +7,7 @@
 //
 
 #import "ProjectAdvancedSettingViewController.h"
+#import "Coding_NetAPIManager.h"
 
 @interface ProjectAdvancedSettingViewController ()<UIAlertViewDelegate>
 
@@ -51,14 +52,26 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    UIAlertView *alert = [UIAlertView bk_showAlertViewWithTitle:@"需要验证密码" message:@"这是一个危险的操作，请提供登录密码确认！" cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-        if (buttonIndex == 1) {
-            // 确定
-        }
-    }];
-    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"需要验证密码" message:@"这是一个危险的操作，请提供登录密码确认！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
     [alert show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        // 确定
+        NSString *password = [[alertView textFieldAtIndex:0].text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        
+        if (password > 0) {
+            // 删除项目
+            [[Coding_NetAPIManager sharedManager] request_DeleteProject_WithObj:self.project password:password andBlock:^(Project *data, NSError *error) {
+                if (!error) {
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+                
+            }];
+        }
+    }
 }
 
 @end

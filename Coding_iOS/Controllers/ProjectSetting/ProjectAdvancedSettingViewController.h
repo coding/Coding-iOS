@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class Project;
+
 @interface ProjectAdvancedSettingViewController : UITableViewController
+
+@property (nonatomic, strong) Project *project;
 
 @end

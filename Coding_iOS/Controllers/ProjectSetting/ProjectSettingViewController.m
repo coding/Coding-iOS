@@ -9,6 +9,7 @@
 #import "ProjectSettingViewController.h"
 #import "Projects.h"
 #import "UIImageView+WebCache.h"
+#import "Coding_NetAPIManager.h"
 
 @interface ProjectSettingViewController ()<UITextViewDelegate>
 
@@ -42,7 +43,13 @@
 }
 
 -(void)submit{
-
+    self.project.description_mine = [self.descTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    // 更新项目
+    [[Coding_NetAPIManager sharedManager] request_UpdateProject_WithObj:self.project andBlock:^(Project *data, NSError *error) {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }];
+    
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
@@ -93,7 +100,7 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     UIViewController *vc = segue.destinationViewController;
-//    [vc setValue:nil forKey:@""];
+    [vc setValue:self.project forKey:@"project"];
 }
 
 @end

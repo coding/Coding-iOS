@@ -8,6 +8,7 @@
 
 #import "NewProjectViewController.h"
 #import "NewProjectTypeViewController.h"
+#import "Coding_NetAPIManager.h"
 
 @interface NewProjectViewController ()<NewProjectTypeDelegate,UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
@@ -88,9 +89,21 @@
     }else{
         if ([self projectNameVerification:projectName]) {
             
-            // 效验完成，开始发送请求创建项目
+            // init a Project
+            Project *project = [[Project alloc] init];
+            project.name = projectName;
+            project.description_mine = [self.descTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            if (self.projectType == NewProjectTypePublic) {
+                project.is_public = @YES;
+            }else{
+                project.is_public = @NO;
+            }
+            
+            // 效验完成，开始发送请求创建项目
+            [[Coding_NetAPIManager sharedManager] request_NewProject_WithObj:project andBlock:^(Project *data, NSError *error) {
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }];
         }else{
             [[[UIAlertView alloc] initWithTitle:@"提示" message:@"项目名只允许字母、数字或者下划线(_)、中划线(-)，必须以字母或者数字开头,且不能以.git结尾" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil] show];
         }
