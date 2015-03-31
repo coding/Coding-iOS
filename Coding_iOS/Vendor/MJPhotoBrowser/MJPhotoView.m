@@ -11,7 +11,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "YLGIFImage.h"
 #import "YLImageView.h"
-#import "UIImageView+AFNetworking.h"
 
 @interface MJPhotoView ()
 {
@@ -95,32 +94,17 @@
         ESWeak_(_photoLoadingView);
         ESWeak_(_imageView);
         
-        if ([_photo.url.absoluteString rangeOfString:@"imagePreview"].location != NSNotFound) {
-            [_imageView setImageWithURLRequest:[[NSURLRequest alloc] initWithURL:_photo.url] placeholderImage:nil success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                ESStrongSelf;
-                ESStrong_(_imageView);
-                __imageView.image = image;
-                [_self photoDidFinishLoadWithImage:image];
-
-            } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                ESStrongSelf;
-                ESStrong_(_imageView);
-                __imageView.image = nil;
-                [_self photoDidFinishLoadWithImage:nil];
-            }];
-        }else{
-            [SDWebImageManager.sharedManager downloadImageWithURL:_photo.url options:SDWebImageRetryFailed|SDWebImageLowPriority| SDWebImageHandleCookies progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                ESStrong_(_photoLoadingView);
-                if (receivedSize > kMinProgress) {
-                    __photoLoadingView.progress = (float)receivedSize/expectedSize;
-                }
-            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                ESStrongSelf;
-                ESStrong_(_imageView);
-                __imageView.image = image;
-                [_self photoDidFinishLoadWithImage:image];
-            }];
-        }
+        [SDWebImageManager.sharedManager downloadImageWithURL:_photo.url options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            ESStrong_(_photoLoadingView);
+            if (receivedSize > kMinProgress) {
+                __photoLoadingView.progress = (float)receivedSize/expectedSize;
+            }
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            ESStrongSelf;
+            ESStrong_(_imageView);
+            __imageView.image = image;
+            [_self photoDidFinishLoadWithImage:image];
+        }];
     }
 }
 

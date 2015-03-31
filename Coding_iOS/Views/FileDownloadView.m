@@ -9,7 +9,6 @@
 #import "FileDownloadView.h"
 #import "ASProgressPopUpView.h"
 #import "Coding_FileManager.h"
-#import "UIImageView+AFNetworking.h"
 #import "YLImageView.h"
 
 @interface FileDownloadView ()
@@ -39,8 +38,9 @@
     [self loadLayoutWithCurFile];
     
     if (_file.preview && _file.preview.length > 0) {
-        
-        [_iconView setImageWithURLRequest:[[NSURLRequest alloc] initWithURL:[NSURL URLWithString:_file.owner_preview]] placeholderImage:nil success:nil failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+        [_iconView sd_setImageWithURL:[NSURL URLWithString:_file.owner_preview] placeholderImage:nil options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (error) {
                 [error showError:error];
             }

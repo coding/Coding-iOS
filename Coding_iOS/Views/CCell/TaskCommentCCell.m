@@ -9,7 +9,6 @@
 #define kTaskCommentCCell_Width 33.0
 
 #import "TaskCommentCCell.h"
-#include "UIImageView+AFNetworking.h"
 
 @implementation TaskCommentCCell
 - (id)initWithFrame:(CGRect)frame
@@ -36,7 +35,7 @@
     
     if (_curMediaItem != curMediaItem) {
         _curMediaItem = curMediaItem;
-        [self.imgView setImageWithURLRequest:[[NSURLRequest alloc] initWithURL:[_curMediaItem.src urlImageWithCodePathResize:2*kTaskCommentCCell_Width]] placeholderImage:kPlaceholderCodingSquareWidth(55.0) success:nil failure:nil];
+        [self.imgView sd_setImageWithURL:[_curMediaItem.src urlImageWithCodePathResize:2*kTaskCommentCCell_Width] placeholderImage:kPlaceholderCodingSquareWidth(55.0) options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies];
     }
 }
 
