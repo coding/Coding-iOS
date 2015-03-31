@@ -110,6 +110,13 @@ static NSMutableDictionary *_inputDict;
             _inputTextView.returnKeyType = UIReturnKeySend;
             _inputTextView.scrollsToTop = NO;
             _inputTextView.delegate = self;
+            
+            //输入框缩进
+            UIEdgeInsets insets = _inputTextView.textContainerInset;
+            insets.left += 8.0;
+            insets.right += 8.0;
+            _inputTextView.textContainerInset = insets;
+            
             [self addSubview:_inputTextView];
         }
         _inputState = UIMessageInputViewStateSystem;
