@@ -77,6 +77,7 @@
 		4E5C06E81AC2B34800F427C5 /* tipIcon_BranchMember@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5C06E71AC2B34800F427C5 /* tipIcon_BranchMember@2x.png */; };
 		4E5C06EB1AC4009100F427C5 /* CannotLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */; };
 		4E5C06EE1AC4405300F427C5 /* PasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5C06ED1AC4405300F427C5 /* PasswordViewController.m */; };
+		4E5F39021AC951060010515D /* TaskCommentCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5F39011AC951060010515D /* TaskCommentCCell.m */; };
 		4E66EE261A28226000DA1B3E /* button_file_createFolder_enable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE211A28226000DA1B3E /* button_file_createFolder_enable@2x.png */; };
 		4E66EE271A28226000DA1B3E /* button_file_denete_enable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE221A28226000DA1B3E /* button_file_denete_enable@2x.png */; };
 		4E66EE281A28226000DA1B3E /* button_file_denete_unable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE231A28226000DA1B3E /* button_file_denete_unable@2x.png */; };
@@ -697,6 +698,8 @@
 		4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CannotLoginViewController.m; sourceTree = "<group>"; };
 		4E5C06EC1AC4405300F427C5 /* PasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordViewController.h; sourceTree = "<group>"; };
 		4E5C06ED1AC4405300F427C5 /* PasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordViewController.m; sourceTree = "<group>"; };
+		4E5F39001AC951060010515D /* TaskCommentCCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCommentCCell.h; sourceTree = "<group>"; };
+		4E5F39011AC951060010515D /* TaskCommentCCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCommentCCell.m; sourceTree = "<group>"; };
 		4E66EE211A28226000DA1B3E /* button_file_createFolder_enable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_createFolder_enable@2x.png"; sourceTree = "<group>"; };
 		4E66EE221A28226000DA1B3E /* button_file_denete_enable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_denete_enable@2x.png"; sourceTree = "<group>"; };
 		4E66EE231A28226000DA1B3E /* button_file_denete_unable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_denete_unable@2x.png"; sourceTree = "<group>"; };
@@ -2906,6 +2909,8 @@
 				8EF6436019FF7E2900F7EEB0 /* TweetMediaItemSingleCCell.m */,
 				8EF6436119FF7E2900F7EEB0 /* TweetSendImageCCell.h */,
 				8EF6436219FF7E2900F7EEB0 /* TweetSendImageCCell.m */,
+				4E5F39001AC951060010515D /* TaskCommentCCell.h */,
+				4E5F39011AC951060010515D /* TaskCommentCCell.m */,
 			);
 			path = CCell;
 			sourceTree = "<group>";
@@ -3483,6 +3488,7 @@
 				4E03ACA61A5D2060002B000B /* UIVerticalAlignmentLabel.m in Sources */,
 				4E6BA2DF1A1EE6AF005FD721 /* AFURLRequestSerialization.m in Sources */,
 				8EA6D1CD19E240C40076D59C /* UIUnderlinedButton.m in Sources */,
+				4E5F39021AC951060010515D /* TaskCommentCCell.m in Sources */,
 				4ECE8AD91A3943E80021E29C /* UIViewController+DownMenu.m in Sources */,
 				8EA6D23819E240C40076D59C /* ProjectTasksView.m in Sources */,
 				8EA6D13019E240C40076D59C /* LikersViewController.m in Sources */,

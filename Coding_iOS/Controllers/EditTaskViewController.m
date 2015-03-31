@@ -82,6 +82,7 @@
         [tableView registerClass:[TaskContentCell class] forCellReuseIdentifier:kCellIdentifier_TaskContent];
         [tableView registerClass:[LeftImage_LRTextCell class] forCellReuseIdentifier:kCellIdentifier_LeftImage_LRText];
         [tableView registerClass:[TaskCommentCell class] forCellReuseIdentifier:kCellIdentifier_TaskComment];
+        [tableView registerClass:[TaskCommentCell class] forCellReuseIdentifier:kCellIdentifier_TaskComment_Media];
         [tableView registerClass:[TaskCommentBlankCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentBlank];
         [tableView registerClass:[TaskCommentTopCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentTop];
         [tableView registerClass:[TaskDescriptionCell class] forCellReuseIdentifier:kCellIdentifier_TaskDescriptionCell];
@@ -371,8 +372,13 @@
             return cell;
         }else{
             if ([self hasComment]) {
-                TaskCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskComment forIndexPath:indexPath];
                 TaskComment *curComment = [_myCopyTask.commentList objectAtIndex:indexPath.row-1];
+                TaskCommentCell *cell;
+                if (curComment.htmlMedia.imageItems.count > 0) {
+                    cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskComment_Media forIndexPath:indexPath];
+                }else{
+                    cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskComment forIndexPath:indexPath];
+                }
                 cell.curComment = curComment;
                 cell.backgroundColor = kColorTableBG;
                 [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
