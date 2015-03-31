@@ -9,9 +9,10 @@
 #import "NewProjectViewController.h"
 #import "NewProjectTypeViewController.h"
 
-@interface NewProjectViewController ()<NewProjectTypeDelegate>
+@interface NewProjectViewController ()<NewProjectTypeDelegate,UITextFieldDelegate>
 
 @property (nonatomic, assign) NewProjectType projectType;
+@property (nonatomic, strong) UIBarButtonItem *submitButtonItem;
 
 @end
 
@@ -25,14 +26,16 @@
     
     //
     self.descTextView.placeholder = @"填写项目描述...";
+
     
     //
     self.projectImageView.layer.cornerRadius = 5;
     self.projectImageView.image = [UIImage imageNamed:@"AppIcon120x120"];
     
     // 添加 “完成” 按钮
-    UIBarButtonItem *submitButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(submit)];
-    self.navigationItem.rightBarButtonItem = submitButtonItem;
+    self.submitButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(submit)];
+    self.submitButtonItem.enabled = NO;
+    self.navigationItem.rightBarButtonItem = self.submitButtonItem;
     
     // 默认类型
     self.projectType = NewProjectTypePrivate;
@@ -69,6 +72,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    
+    if ([str length] > 0) {
+        self.submitButtonItem.enabled = YES;
+    }else{
+        self.submitButtonItem.enabled = NO;
+    }
+    
+    return YES;
+}
+
 #pragma mark UITableView
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -82,6 +97,29 @@
         vc.projectType = self.projectType;
         vc.delegate = self;
         [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //
+    if (indexPath.section == 0 && indexPath.row == 0) {
+        return;
+    }
+    
+    // Remove seperator inset
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    // Prevent the cell from inheriting the Table View's margin settings
+    if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
+        [cell setPreservesSuperviewLayoutMargins:NO];
+    }
+    
+    // Explictly set your cell's layout margins
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
     }
 }
 

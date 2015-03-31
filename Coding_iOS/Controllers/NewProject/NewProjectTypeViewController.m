@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSIndexPath *checkedIndexPath;
 @property (nonatomic, strong) UIView *helpView;
+
 @end
 
 @implementation NewProjectTypeViewController
@@ -22,11 +23,10 @@
     self.tableView.tableFooterView = [UIView new];
     
     // 添加右上角按钮
-    UIBarButtonItem *submitButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(showHelpView)];
+    UIButton *submitButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    [submitButton addTarget:self action:@selector(showHelpView) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *submitButtonItem = [[UIBarButtonItem alloc] initWithCustomView:submitButton];
     self.navigationItem.rightBarButtonItem = submitButtonItem;
-    
-    // 默认选择
-//    self.checkedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
 }
 
 -(void)showHelpView{
@@ -107,9 +107,30 @@
         }
     }
     
-    
-    
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //
+    if (indexPath.row == 0) {
+        return;
+    }
+    
+    // Remove seperator inset
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    // Prevent the cell from inheriting the Table View's margin settings
+    if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
+        [cell setPreservesSuperviewLayoutMargins:NO];
+    }
+    
+    // Explictly set your cell's layout margins
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
