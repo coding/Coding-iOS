@@ -591,6 +591,9 @@
 		B94C1B691AC945D30000C271 /* NewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B94C1B681AC945D30000C271 /* NewProjectViewController.m */; };
 		B94C1B6B1AC945FB0000C271 /* NewProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */; };
 		B94C1B6E1AC98CCE0000C271 /* NewProjectTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B94C1B6D1AC98CCE0000C271 /* NewProjectTypeViewController.m */; };
+		B9A00D7F1ACA3A05008BA008 /* ProjectSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9A00D7E1ACA3A05008BA008 /* ProjectSetting.storyboard */; };
+		B9A00D821ACA3A17008BA008 /* ProjectSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */; };
+		B9A00D851ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
 /* End PBXBuildFile section */
 
@@ -1499,6 +1502,11 @@
 		B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewProject.storyboard; sourceTree = "<group>"; };
 		B94C1B6C1AC98CCE0000C271 /* NewProjectTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewProjectTypeViewController.h; sourceTree = "<group>"; };
 		B94C1B6D1AC98CCE0000C271 /* NewProjectTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewProjectTypeViewController.m; sourceTree = "<group>"; };
+		B9A00D7E1ACA3A05008BA008 /* ProjectSetting.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ProjectSetting.storyboard; sourceTree = "<group>"; };
+		B9A00D801ACA3A17008BA008 /* ProjectSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSettingViewController.h; sourceTree = "<group>"; };
+		B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSettingViewController.m; sourceTree = "<group>"; };
+		B9A00D831ACA3A55008BA008 /* ProjectAdvancedSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectAdvancedSettingViewController.h; sourceTree = "<group>"; };
+		B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectAdvancedSettingViewController.m; sourceTree = "<group>"; };
 		C613B8719C3D38FED828A1E2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E7A0469E1A47279E00528C12 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		E7A0469F1A47279E00528C12 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
@@ -2326,6 +2334,7 @@
 		8EA6CF1B19E240C40076D59C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				B9A00D7D1ACA39F1008BA008 /* ProjectSetting */,
 				B94C1B661AC945C60000C271 /* NewProject */,
 				8EA6CF2819E240C40076D59C /* Login */,
 				8EA6CF3219E240C40076D59C /* RootControllers */,
@@ -3041,6 +3050,18 @@
 			path = NewProject;
 			sourceTree = "<group>";
 		};
+		B9A00D7D1ACA39F1008BA008 /* ProjectSetting */ = {
+			isa = PBXGroup;
+			children = (
+				B9A00D7E1ACA3A05008BA008 /* ProjectSetting.storyboard */,
+				B9A00D801ACA3A17008BA008 /* ProjectSettingViewController.h */,
+				B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */,
+				B9A00D831ACA3A55008BA008 /* ProjectAdvancedSettingViewController.h */,
+				B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */,
+			);
+			path = ProjectSetting;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3338,6 +3359,7 @@
 				4E76D4E41A5A90CA0094A35E /* taskPriority1@2x.png in Resources */,
 				4EA679071A130C24001A0324 /* icon_code_tree@2x.png in Resources */,
 				8EA6D16719E240C40076D59C /* nav_project_activity@2x.png in Resources */,
+				B9A00D7F1ACA3A05008BA008 /* ProjectSetting.storyboard in Resources */,
 				8EA6D19219E240C40076D59C /* timeline_icon_unread@2x.png in Resources */,
 				4E217F141A70EDC700F6DF88 /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
 				8EA6D19119E240C40076D59C /* timeline_icon_read@2x.png in Resources */,
@@ -3571,6 +3593,7 @@
 				8EA6D13519E240C40076D59C /* ProjectViewController.m in Sources */,
 				8EF643AB19FF7E2900F7EEB0 /* TagCCell.m in Sources */,
 				4E996BDC1ABA79AB00C704F1 /* UserInfoDetailViewController.m in Sources */,
+				B9A00D851ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m in Sources */,
 				4E8765671A22E5B40090CFB9 /* SWLongPressGestureRecognizer.m in Sources */,
 				0AB591AC1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m in Sources */,
 				4EA7F1611A6D192B00A046BD /* UIButton+WebCache.m in Sources */,
@@ -3682,6 +3705,7 @@
 				8EF643C319FF7E2900F7EEB0 /* TaskContentCell.m in Sources */,
 				4E59E1D31A5E6B34004DAEEC /* TaskDescriptionViewController.m in Sources */,
 				4ECE8AFD1A3946C10021E29C /* AddressManager.m in Sources */,
+				B9A00D821ACA3A17008BA008 /* ProjectSettingViewController.m in Sources */,
 				8E1C3DED19E7D58A00EF3032 /* ActionSheetDistancePicker.m in Sources */,
 				4E6FFB311AB3176900F27B3F /* ProjectReadMeCell.m in Sources */,
 				8E59F0F41A00F3B9009A905F /* ProjectCodeListCell.m in Sources */,

@@ -332,6 +332,18 @@
         ProjectActivity *curProAct = [_myProActs.list objectAtIndex:row];
         [self goToVCWithItem:nil activity:curProAct isContent:YES inProject:self.myProject];
     }
+    
+    // 如果是自己的项目才能进入设置
+    if ([self.myProject.owner_id isEqual:[Login curLoginUser].id]) {
+        // 项目设置
+        if (indexPath.section == 0 && indexPath.row == 0) {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProjectSetting" bundle:nil];
+            UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ProjectSettingVC"];
+            [vc setValue:self.myProject forKey:@"project"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+
 }
 
 #pragma mark goTo VC
