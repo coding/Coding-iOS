@@ -9,7 +9,7 @@
 #import "NewProjectViewController.h"
 #import "NewProjectTypeViewController.h"
 
-@interface NewProjectViewController ()<NewProjectTypeDelegate,UITextFieldDelegate>
+@interface NewProjectViewController ()<NewProjectTypeDelegate,UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
 @property (nonatomic, assign) NewProjectType projectType;
 @property (nonatomic, strong) UIBarButtonItem *submitButtonItem;
@@ -17,6 +17,10 @@
 @end
 
 @implementation NewProjectViewController
+
+-(void)viewWillAppear:(BOOL)animated{
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,10 +31,11 @@
     //
     self.descTextView.placeholder = @"填写项目描述...";
 
-    
     //
     self.projectImageView.layer.cornerRadius = 5;
     self.projectImageView.image = [UIImage imageNamed:@"AppIcon120x120"];
+    UITapGestureRecognizer *tapProjectImageViewGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectProjectImage)];
+    [self.projectImageView addGestureRecognizer:tapProjectImageViewGR];
     
     // 添加 “完成” 按钮
     self.submitButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(submit)];
@@ -39,6 +44,39 @@
     
     // 默认类型
     self.projectType = NewProjectTypePrivate;
+
+}
+
+-(void)selectProjectImage{
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"选择照片" buttonTitles:@[@"拍照",@"从相册选择"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        
+        if (index > 1) {
+            return ;
+        }
+        
+        UIImagePickerController *avatarPicker = [[UIImagePickerController alloc] init];
+        avatarPicker.delegate = self;
+        if (index == 0) {
+            avatarPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        }else{
+            avatarPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        }
+        [self presentViewController:avatarPicker animated:YES completion:nil];
+    }] showInView:self.view];
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    if (image) {
+        self.projectImageView.image = image;
+    }
+
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)submit{
