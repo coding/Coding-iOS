@@ -137,11 +137,11 @@
     return @{@"name":self.name,
              @"description":self.description_mine,
              @"type":type,
-             @"gitEnable":@"false",
+             @"gitEnabled":@"false",
              @"gitReadmeEnabled":@"false",
              @"gitIgnore":@"no",
              @"gitLicense":@"no",
-             @"importFrom":@"no",
+//             @"importFrom":@"no",
              @"vcsType":@"git"};
 }
 
@@ -162,8 +162,8 @@
 }
 
 -(NSDictionary *)toDeleteParamsWithPassword:(NSString *)password{
-    return @{@"user_name":[Login curLoginUser].email,
-             @"project_name":self.name,
+    return @{@"user_name":[Login curLoginUser].name,
+             @"name":self.name,
              @"porject_id":[self.id stringValue],
              @"password":[password sha1Str]};
 }

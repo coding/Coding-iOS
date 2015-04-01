@@ -9,7 +9,10 @@
 #import "ProjectAdvancedSettingViewController.h"
 #import "Coding_NetAPIManager.h"
 
-@interface ProjectAdvancedSettingViewController ()<UIAlertViewDelegate>
+#import <SDCAlertController.h>
+#import "ProjectDeleteAlertControllerVisualStyle.h"
+
+@interface ProjectAdvancedSettingViewController ()
 
 @end
 
@@ -52,15 +55,27 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"需要验证密码" message:@"这是一个危险的操作，请提供登录密码确认！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    alert.alertViewStyle = UIAlertViewStyleSecureTextInput;
-    [alert show];
-}
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if (buttonIndex == 1) {
-        // 确定
-        NSString *password = [[alertView textFieldAtIndex:0].text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    static NSString *title = @"需要验证密码";
+    static NSString *message = @"这是一个危险的操作，请提供登录密码确认！";
+    
+    SDCAlertController *alert = [SDCAlertController alertControllerWithTitle:title message:message preferredStyle:SDCAlertControllerStyleAlert];
+    
+    // Style
+    alert.visualStyle = [ProjectDeleteAlertControllerVisualStyle new];
+    
+    // 添加密码框
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.secureTextEntry = YES;
+    }];
+    
+    // 添加按钮
+    alert.actionLayout = SDCAlertControllerActionLayoutHorizontal;
+    [alert addAction:[SDCAlertAction actionWithTitle:@"取消" style:SDCAlertActionStyleCancel handler:^(SDCAlertAction *action) {
+        [alert dismissWithCompletion:nil];
+    }]];
+    [alert addAction:[SDCAlertAction actionWithTitle:@"确定" style:SDCAlertActionStyleDefault handler:^(SDCAlertAction *action) {
+        UITextField *passwordTextField = [[alert textFields] firstObject];
+        NSString *password = [passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         
         if (password > 0) {
             // 删除项目
@@ -71,7 +86,9 @@
                 
             }];
         }
-    }
+    }]];
+    
+    [alert presentWithCompletion:nil];
 }
 
 @end

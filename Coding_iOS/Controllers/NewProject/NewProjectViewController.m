@@ -14,6 +14,7 @@
 
 @property (nonatomic, assign) NewProjectType projectType;
 @property (nonatomic, strong) UIBarButtonItem *submitButtonItem;
+@property (nonatomic, strong) UIImage *projectIconImage;
 
 @end
 
@@ -62,15 +63,17 @@
         }else{
             avatarPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         }
+        avatarPicker.allowsEditing = YES;
         [self presentViewController:avatarPicker animated:YES completion:nil];
     }] showInView:self.view];
 }
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     
     if (image) {
         self.projectImageView.image = image;
+        self.projectIconImage = image;
     }
 
     [picker dismissViewControllerAnimated:YES completion:nil];
@@ -100,9 +103,14 @@
                 project.is_public = @NO;
             }
             
+            self.submitButtonItem.enabled = NO;
+            
             // 效验完成，开始发送请求创建项目
-            [[Coding_NetAPIManager sharedManager] request_NewProject_WithObj:project andBlock:^(Project *data, NSError *error) {
-                [self.navigationController popToRootViewControllerAnimated:YES];
+            [[Coding_NetAPIManager sharedManager] request_NewProject_WithObj:project image:self.projectIconImage andBlock:^(Project *data, NSError *error) {
+                if (!error) {
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+                self.submitButtonItem.enabled = YES;
             }];
         }else{
             [[[UIAlertView alloc] initWithTitle:@"提示" message:@"项目名只允许字母、数字或者下划线(_)、中划线(-)，必须以字母或者数字开头,且不能以.git结尾" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil] show];

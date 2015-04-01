@@ -11,9 +11,10 @@
 #import "UIImageView+WebCache.h"
 #import "Coding_NetAPIManager.h"
 
-@interface ProjectSettingViewController ()<UITextViewDelegate>
+@interface ProjectSettingViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UIBarButtonItem *submitButtonItem;
+@property (nonatomic, strong) UIImage *projectIconImage;
 
 @end
 
@@ -34,6 +35,8 @@
     //
     self.projectImageView.layer.cornerRadius = 5;
     [self.projectImageView sd_setImageWithURL:[self.project.icon urlImageWithCodePathResizeToView:self.projectImageView]];
+    UITapGestureRecognizer *tapProjectImageViewGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectProjectImage)];
+    [self.projectImageView addGestureRecognizer:tapProjectImageViewGR];
     
     // 添加 “完成” 按钮
     self.submitButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(submit)];
@@ -45,12 +48,51 @@
 -(void)submit{
     self.project.description_mine = [self.descTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
+    self.submitButtonItem.enabled = NO;
+    
     // 更新项目
-    [[Coding_NetAPIManager sharedManager] request_UpdateProject_WithObj:self.project andBlock:^(Project *data, NSError *error) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
+    [[Coding_NetAPIManager sharedManager] request_UpdateProject_WithObj:self.project image:self.projectIconImage andBlock:^(Project *data, NSError *error) {
+        if (!error) {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+        self.submitButtonItem.enabled = YES;
     }];
     
 }
+
+-(void)selectProjectImage{
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"选择照片" buttonTitles:@[@"拍照",@"从相册选择"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        
+        if (index > 1) {
+            return ;
+        }
+        
+        UIImagePickerController *avatarPicker = [[UIImagePickerController alloc] init];
+        avatarPicker.delegate = self;
+        if (index == 0) {
+            avatarPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        }else{
+            avatarPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+        }
+        [self presentViewController:avatarPicker animated:YES completion:nil];
+    }] showInView:self.view];
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    if (image) {
+        self.projectImageView.image = image;
+        self.projectIconImage = image;
+    }
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     NSString *string = [textView.text stringByReplacingCharactersInRange:range withString:text];

@@ -244,10 +244,16 @@
     }
 }
 
--(void)request_NewProject_WithObj:(Project *)project andBlock:(void (^)(Project *, NSError *))block{
+-(void)request_NewProject_WithObj:(Project *)project image:(UIImage *)image andBlock:(void (^)(Project *, NSError *))block{
     [MobClick event:kUmeng_Event_Request label:@"创建项目"];
     [self showStatusBarQueryStr:@"正在创建项目"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toProjectPath] withParams:[project toCreateParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+    
+    NSDictionary *fileDic;
+    if (image) {
+        fileDic = @{@"image":image,@"name":@"icon",@"fileName":@"icon.jpg"};
+    }
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toProjectPath] file:fileDic withParams:[project toCreateParams] withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [self showStatusBarSuccessStr:@"创建项目成功"];
             block(data, nil);
@@ -258,10 +264,16 @@
     }];
 }
 
--(void)request_UpdateProject_WithObj:(Project *)project andBlock:(void (^)(Project *, NSError *))block{
+-(void)request_UpdateProject_WithObj:(Project *)project image:(UIImage *)image andBlock:(void (^)(Project *, NSError *))block{
     [MobClick event:kUmeng_Event_Request label:@"更新项目"];
     [self showStatusBarQueryStr:@"正在更新项目"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toDeletePath] withParams:[project toUpdateParams] withMethodType:Put andBlock:^(id data, NSError *error) {
+    
+    NSDictionary *fileDic;
+    if (image) {
+        fileDic = @{@"image":image,@"name":@"icon",@"fileName":@"icon.jpg"};
+    }
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toUpdatePath]  file:fileDic withParams:[project toUpdateParams]  withMethodType:Put andBlock:^(id data, NSError *error) {
         if (data) {
             [self showStatusBarSuccessStr:@"更新项目成功"];
             block(data, nil);

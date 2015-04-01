@@ -116,6 +116,61 @@
     }
 }
 
+-(void)requestJsonDataWithPath:(NSString *)aPath file:(NSDictionary *)file withParams:(NSDictionary *)params withMethodType:(int)NetworkMethod andBlock:(void (^)(id, NSError *))block{
+    //log请求数据
+    DebugLog(@"\n===========request===========\n%@:\n%@", aPath, params);
+    aPath = [aPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    // Data
+    NSData *data;
+    NSString *name, *fileName;
+    
+    if (file) {
+        UIImage *image = file[@"image"];
+        
+        // 缩小到最大 800x800
+        image = [image scaledToMaxSize:CGSizeMake(799, 799)];
+        
+        // 压缩
+        data = UIImageJPEGRepresentation(image, 1.0);
+        if ((float)data.length/1024 > 1000) {
+            data = UIImageJPEGRepresentation(image, 1024*1000.0/(float)data.length);
+        }
+        
+        name = file[@"name"];
+        fileName = file[@"fileName"];
+    }
+    
+    switch (NetworkMethod) {
+        case Post:{
+            
+            AFHTTPRequestOperation *operation = [self POST:aPath parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                if (file) {
+                    [formData appendPartWithFileData:data name:name fileName:fileName mimeType:@"image/jpeg"];
+                }
+            } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
+                id error = [self handleResponse:responseObject];
+                if (error) {
+                    block(nil, error);
+                }else{
+                    block(responseObject, nil);
+                }
+
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
+                [self showError:error];
+                block(nil, error);
+            }];
+            [operation start];
+            
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 - (void)reportIllegalContentWithType:(IllegalContentType)type
                           withParams:(NSDictionary*)params{
     NSString *aPath;

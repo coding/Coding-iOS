@@ -49,8 +49,8 @@
 - (void)request_ProjectMembersHaveTasks_WithObj:(Project *)project andBlock:(void (^)(NSArray *data, NSError *error))block;
 - (void)request_ProjectMember_Quit:(ProjectMember *)curMember andBlock:(void (^)(id data, NSError *error))block;
 
-- (void)request_NewProject_WithObj:(Project *)project andBlock:(void (^)(Project *data, NSError *error))block;
-- (void)request_UpdateProject_WithObj:(Project *)project andBlock:(void (^)(Project *data, NSError *error))block;
+- (void)request_NewProject_WithObj:(Project *)project image:(UIImage *)image andBlock:(void (^)(Project *data, NSError *error))block;
+- (void)request_UpdateProject_WithObj:(Project *)project image:(UIImage *)image andBlock:(void (^)(Project *data, NSError *error))block;
 - (void)request_DeleteProject_WithObj:(Project *)project password:(NSString *)password andBlock:(void (^)(Project *data, NSError *error))block;
 
 //File

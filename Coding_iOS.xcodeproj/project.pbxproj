@@ -588,6 +588,7 @@
 		8EF83F8A19E92AA500E86DE7 /* SettingTagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF83F8919E92AA500E86DE7 /* SettingTagsViewController.m */; };
 		8EF83F8C19E931D200E86DE7 /* me_info_arrow_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EF83F8B19E931D200E86DE7 /* me_info_arrow_left@2x.png */; };
 		8EF83F9419EB78CC00E86DE7 /* SettingTextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF83F9319EB78CC00E86DE7 /* SettingTextViewController.m */; };
+		B93D904B1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D904A1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m */; };
 		B94C1B691AC945D30000C271 /* NewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B94C1B681AC945D30000C271 /* NewProjectViewController.m */; };
 		B94C1B6B1AC945FB0000C271 /* NewProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */; };
 		B94C1B6E1AC98CCE0000C271 /* NewProjectTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B94C1B6D1AC98CCE0000C271 /* NewProjectTypeViewController.m */; };
@@ -1497,6 +1498,8 @@
 		8EF83F8B19E931D200E86DE7 /* me_info_arrow_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "me_info_arrow_left@2x.png"; sourceTree = "<group>"; };
 		8EF83F9219EB78CC00E86DE7 /* SettingTextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingTextViewController.h; sourceTree = "<group>"; };
 		8EF83F9319EB78CC00E86DE7 /* SettingTextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingTextViewController.m; sourceTree = "<group>"; };
+		B93D90491ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectDeleteAlertControllerVisualStyle.h; sourceTree = "<group>"; };
+		B93D904A1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectDeleteAlertControllerVisualStyle.m; sourceTree = "<group>"; };
 		B94C1B671AC945D30000C271 /* NewProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewProjectViewController.h; sourceTree = "<group>"; };
 		B94C1B681AC945D30000C271 /* NewProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewProjectViewController.m; sourceTree = "<group>"; };
 		B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewProject.storyboard; sourceTree = "<group>"; };
@@ -3058,6 +3061,8 @@
 				B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */,
 				B9A00D831ACA3A55008BA008 /* ProjectAdvancedSettingViewController.h */,
 				B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */,
+				B93D90491ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.h */,
+				B93D904A1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m */,
 			);
 			path = ProjectSetting;
 			sourceTree = "<group>";
@@ -3094,7 +3099,6 @@
 				ORGANIZATIONNAME = Coding;
 				TargetAttributes = {
 					8E47700F198770E700997D05 = {
-						DevelopmentTeam = QN5Z87S3LH;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -3640,6 +3644,7 @@
 				4EA7F15A1A6D192B00A046BD /* SDImageCache.m in Sources */,
 				4EBB624C1A6F526C0045DAEF /* NJKWebViewProgress.m in Sources */,
 				8EA6D13C19E240C40076D59C /* Tweet_RootViewController.m in Sources */,
+				B93D904B1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m in Sources */,
 				4E1A22851AB172C400CFC14F /* ProjectItemsCell.m in Sources */,
 				4ECE8B051A3946C10021E29C /* WebContentManager.m in Sources */,
 				8EA6D1F819E240C40076D59C /* MJPhotoBrowser.m in Sources */,
