@@ -58,8 +58,7 @@
 //    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
 //    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     
-    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeMedia placeHolder:@"请输入私信内容"];
-    _myMsgInputView.contentType = UIMessageInputViewContentTypePriMsg;
+    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypePriMsg placeHolder:@"请输入私信内容"];
     _myMsgInputView.isAlwaysShow = YES;
     _myMsgInputView.delegate = self;
     

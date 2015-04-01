@@ -71,8 +71,7 @@
     
     //评论
     __weak typeof(self) weakSelf = self;
-    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
-    _myMsgInputView.contentType = UIMessageInputViewContentTypeTweet;
+    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTweet];
     _myMsgInputView.delegate = self;
     
     [_myTableView addInfiniteScrollingWithActionHandler:^{

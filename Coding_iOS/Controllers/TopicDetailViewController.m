@@ -71,8 +71,7 @@
     
     //评论
     __weak typeof(self) weakSelf = self;
-    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
-    _myMsgInputView.contentType = UIMessageInputViewContentTypeTopic;
+    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTopic];
     _myMsgInputView.isAlwaysShow = YES;
     _myMsgInputView.delegate = self;
     

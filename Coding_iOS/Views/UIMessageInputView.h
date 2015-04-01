@@ -17,10 +17,6 @@ typedef NS_ENUM(NSInteger, UIMessageInputViewContentType) {
     UIMessageInputViewContentTypeTask
 };
 
-typedef NS_ENUM(NSInteger, UIMessageInputViewType) {
-    UIMessageInputViewTypeSimple,
-    UIMessageInputViewTypeMedia
-};
 typedef NS_ENUM(NSInteger, UIMessageInputViewState) {
     UIMessageInputViewStateSystem,
     UIMessageInputViewStateEmotion,
@@ -31,14 +27,14 @@ typedef NS_ENUM(NSInteger, UIMessageInputViewState) {
 @interface UIMessageInputView : UIView<UITextViewDelegate>
 @property (strong, nonatomic) NSString *placeHolder;
 @property (assign, nonatomic) BOOL isAlwaysShow;
-@property (assign, nonatomic) UIMessageInputViewContentType contentType;
+@property (assign, nonatomic, readonly) UIMessageInputViewContentType contentType;
 @property (strong, nonatomic) User *toUser;
 @property (strong, nonatomic) NSNumber *commentOfId;
 @property (strong, nonatomic) Project *curProject;
 
 @property (nonatomic, weak) id<UIMessageInputViewDelegate> delegate;
-+ (instancetype)messageInputViewWithType:(UIMessageInputViewType)type;
-+ (instancetype)messageInputViewWithType:(UIMessageInputViewType)type placeHolder:(NSString *)placeHolder;
++ (instancetype)messageInputViewWithType:(UIMessageInputViewContentType)type;
++ (instancetype)messageInputViewWithType:(UIMessageInputViewContentType)type placeHolder:(NSString *)placeHolder;
 
 - (void)prepareToShow;
 - (void)prepareToDismiss;

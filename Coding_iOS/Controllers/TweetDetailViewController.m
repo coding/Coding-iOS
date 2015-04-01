@@ -72,8 +72,7 @@
     [_refreshControl addTarget:self action:@selector(refreshTweet) forControlEvents:UIControlEventValueChanged];
     
     //评论
-    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
-    _myMsgInputView.contentType = UIMessageInputViewContentTypeTweet;
+    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTweet];
     _myMsgInputView.isAlwaysShow = YES;
     _myMsgInputView.delegate = self;
 

@@ -55,8 +55,7 @@
             _myCopyTask = [Task taskWithTask:_myTask];
             
             //评论
-            _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
-            _myMsgInputView.contentType = UIMessageInputViewContentTypeTask;
+            _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTask];
             _myMsgInputView.isAlwaysShow = YES;
             _myMsgInputView.delegate = self;
             

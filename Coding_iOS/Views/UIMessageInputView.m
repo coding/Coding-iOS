@@ -296,10 +296,10 @@ static NSMutableDictionary *_inputDict;
     return ([_inputTextView isFirstResponder] || self.inputState == UIMessageInputViewStateAdd || self.inputState == UIMessageInputViewStateEmotion);
 }
 
-+ (instancetype)messageInputViewWithType:(UIMessageInputViewType)type{
++ (instancetype)messageInputViewWithType:(UIMessageInputViewContentType)type{
     return [self messageInputViewWithType:type placeHolder:nil];
 }
-+ (instancetype)messageInputViewWithType:(UIMessageInputViewType)type placeHolder:(NSString *)placeHolder{
++ (instancetype)messageInputViewWithType:(UIMessageInputViewContentType)type placeHolder:(NSString *)placeHolder{
     UIMessageInputView *messageInputView = [[UIMessageInputView alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, kMessageInputView_Height)];
     [messageInputView customUIWithType:type];
     if (placeHolder) {
@@ -310,56 +310,61 @@ static NSMutableDictionary *_inputDict;
     return messageInputView;
 }
 
-- (void)customUIWithType:(UIMessageInputViewType)type{
-    if (type == UIMessageInputViewTypeSimple) {
-        [_inputTextView setWidth:(kScreen_Width -2*kPaddingLeftWidth - kMessageInputView_Width_Tool)];
-        if (_addButton) {
-            _addButton.hidden = YES;
-        }
-        if (!_emotionButton) {
-            _emotionButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth/2 -kMessageInputView_Width_Tool, (kMessageInputView_Height - kMessageInputView_Width_Tool)/2, kMessageInputView_Width_Tool, kMessageInputView_Width_Tool)];
-            [_emotionButton setImage:[UIImage imageNamed:@"keyboard_emotion"] forState:UIControlStateNormal];
-            [_emotionButton addTarget:self action:@selector(emotionButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [self addSubview:_emotionButton];
-        }
-        _emotionButton.hidden = NO;
-    }else if (type == UIMessageInputViewTypeMedia){
-        [_inputTextView setWidth:(kScreen_Width -2*kPaddingLeftWidth - 2*kMessageInputView_Width_Tool)];
-        if (!_addButton) {
-            _addButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth/2 -kMessageInputView_Width_Tool, (kMessageInputView_Height - kMessageInputView_Width_Tool)/2, kMessageInputView_Width_Tool, kMessageInputView_Width_Tool)];
-
-            [_addButton setImage:[UIImage imageNamed:@"keyboard_add"] forState:UIControlStateNormal];
-            [_addButton addTarget:self action:@selector(addButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [self addSubview:_addButton];
-        }
-        _addButton.hidden = NO;
-        if (!_emotionButton) {
-            _emotionButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth/2 -2*kMessageInputView_Width_Tool, (kMessageInputView_Height - kMessageInputView_Width_Tool)/2, kMessageInputView_Width_Tool, kMessageInputView_Width_Tool)];
-            [_emotionButton setImage:[UIImage imageNamed:@"keyboard_emotion"] forState:UIControlStateNormal];
-            [_emotionButton addTarget:self action:@selector(emotionButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [self addSubview:_emotionButton];
-        }
-        _emotionButton.hidden = NO;
-    }
+- (void)customUIWithType:(UIMessageInputViewContentType)type{
+    _contentType = type;
     
-    if (!_emojiKeyboardView) {
-        _emojiKeyboardView = [[AGEmojiKeyboardView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kKeyboardView_Height) dataSource:self showBigEmotion:(type == UIMessageInputViewTypeMedia)];
-        _emojiKeyboardView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-        _emojiKeyboardView.delegate = self;
-        [_emojiKeyboardView setY:kScreen_Height];
-    }
-    if (type == UIMessageInputViewTypeMedia) {
-        if (!_addKeyboardView) {
-            _addKeyboardView = [[UIMessageInputView_Add alloc] initWithFrame:_emojiKeyboardView.bounds];
-            [_addKeyboardView setY:kScreen_Height];
-        }
-        __weak typeof(self) weakSelf = self;
-        _addKeyboardView.addIndexBlock = ^(NSInteger index){
-            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(messageInputView:addIndexClicked:)]) {
-                [weakSelf.delegate messageInputView:weakSelf addIndexClicked:index];
-            }
-        };
-    }
+    
+    
+    
+//    if (type == UIMessageInputViewTypeSimple) {
+//        [_inputTextView setWidth:(kScreen_Width -2*kPaddingLeftWidth - kMessageInputView_Width_Tool)];
+//        if (_addButton) {
+//            _addButton.hidden = YES;
+//        }
+//        if (!_emotionButton) {
+//            _emotionButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth/2 -kMessageInputView_Width_Tool, (kMessageInputView_Height - kMessageInputView_Width_Tool)/2, kMessageInputView_Width_Tool, kMessageInputView_Width_Tool)];
+//            [_emotionButton setImage:[UIImage imageNamed:@"keyboard_emotion"] forState:UIControlStateNormal];
+//            [_emotionButton addTarget:self action:@selector(emotionButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+//            [self addSubview:_emotionButton];
+//        }
+//        _emotionButton.hidden = NO;
+//    }else if (type == UIMessageInputViewTypeMedia){
+//        [_inputTextView setWidth:(kScreen_Width -2*kPaddingLeftWidth - 2*kMessageInputView_Width_Tool)];
+//        if (!_addButton) {
+//            _addButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth/2 -kMessageInputView_Width_Tool, (kMessageInputView_Height - kMessageInputView_Width_Tool)/2, kMessageInputView_Width_Tool, kMessageInputView_Width_Tool)];
+//
+//            [_addButton setImage:[UIImage imageNamed:@"keyboard_add"] forState:UIControlStateNormal];
+//            [_addButton addTarget:self action:@selector(addButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+//            [self addSubview:_addButton];
+//        }
+//        _addButton.hidden = NO;
+//        if (!_emotionButton) {
+//            _emotionButton = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth/2 -2*kMessageInputView_Width_Tool, (kMessageInputView_Height - kMessageInputView_Width_Tool)/2, kMessageInputView_Width_Tool, kMessageInputView_Width_Tool)];
+//            [_emotionButton setImage:[UIImage imageNamed:@"keyboard_emotion"] forState:UIControlStateNormal];
+//            [_emotionButton addTarget:self action:@selector(emotionButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+//            [self addSubview:_emotionButton];
+//        }
+//        _emotionButton.hidden = NO;
+//    }
+//    
+//    if (!_emojiKeyboardView) {
+//        _emojiKeyboardView = [[AGEmojiKeyboardView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kKeyboardView_Height) dataSource:self showBigEmotion:(type == UIMessageInputViewTypeMedia)];
+//        _emojiKeyboardView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+//        _emojiKeyboardView.delegate = self;
+//        [_emojiKeyboardView setY:kScreen_Height];
+//    }
+//    if (type == UIMessageInputViewTypeMedia) {
+//        if (!_addKeyboardView) {
+//            _addKeyboardView = [[UIMessageInputView_Add alloc] initWithFrame:_emojiKeyboardView.bounds];
+//            [_addKeyboardView setY:kScreen_Height];
+//        }
+//        __weak typeof(self) weakSelf = self;
+//        _addKeyboardView.addIndexBlock = ^(NSInteger index){
+//            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(messageInputView:addIndexClicked:)]) {
+//                [weakSelf.delegate messageInputView:weakSelf addIndexClicked:index];
+//            }
+//        };
+//    }
 }
 #pragma mark addButton M
 - (void)addButtonClicked:(id)sender{
