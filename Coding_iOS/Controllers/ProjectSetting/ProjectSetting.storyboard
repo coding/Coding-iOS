@@ -30,7 +30,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="项目名称" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1wU-rL-E1K">
-                                                    <rect key="frame" x="82" y="29" width="200" height="21"/>
+                                                    <rect key="frame" x="103" y="29" width="179" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="apB-Ie-eRA"/>
                                                     </constraints>
@@ -41,11 +41,20 @@
                                                         <outlet property="delegate" destination="aBN-lC-vWq" id="KWl-P0-uvq"/>
                                                     </connections>
                                                 </textField>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_project_private.png" translatesAutoresizingMaskIntoConstraints="NO" id="Q1S-eW-kft">
+                                                    <rect key="frame" x="82" y="33" width="13" height="13"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="13" id="lf9-qr-Bx7"/>
+                                                        <constraint firstAttribute="width" constant="13" id="xVX-ar-52P"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="1wU-rL-E1K" firstAttribute="leading" secondItem="Q1S-eW-kft" secondAttribute="trailing" constant="8" id="0oi-S5-x4x"/>
                                                 <constraint firstAttribute="trailingMargin" relation="lessThanOrEqual" secondItem="1wU-rL-E1K" secondAttribute="trailing" constant="30" id="9lE-Bw-eeC"/>
-                                                <constraint firstItem="1wU-rL-E1K" firstAttribute="leading" secondItem="wnT-zR-nIE" secondAttribute="trailing" constant="12" id="TQV-Lt-WVw"/>
+                                                <constraint firstItem="Q1S-eW-kft" firstAttribute="leading" secondItem="wnT-zR-nIE" secondAttribute="trailing" constant="12" id="Dj5-ft-vvh"/>
                                                 <constraint firstItem="1wU-rL-E1K" firstAttribute="top" secondItem="Fqp-oM-cmM" secondAttribute="topMargin" constant="21" id="eeX-Iw-Lf0"/>
+                                                <constraint firstItem="Q1S-eW-kft" firstAttribute="top" secondItem="Fqp-oM-cmM" secondAttribute="topMargin" constant="25" id="gMb-gl-p5f"/>
                                                 <constraint firstItem="wnT-zR-nIE" firstAttribute="leading" secondItem="Fqp-oM-cmM" secondAttribute="leadingMargin" constant="7" id="jeQ-le-K6x"/>
                                                 <constraint firstItem="wnT-zR-nIE" firstAttribute="top" secondItem="Fqp-oM-cmM" secondAttribute="topMargin" constant="4" id="pf3-27-iaQ"/>
                                             </constraints>
@@ -59,6 +68,7 @@
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sis-TG-0f8" customClass="UIPlaceHolderTextView">
                                                     <rect key="frame" x="16" y="13" width="296" height="93"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
@@ -118,7 +128,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XTZ-Sc-Qlw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="172.80000000000001" y="302.93333333333334"/>
+            <point key="canvasLocation" x="172" y="300"/>
         </scene>
         <!--高级设置-->
         <scene sceneID="aKh-1D-3YA">
@@ -206,6 +216,9 @@
             <point key="canvasLocation" x="598" y="302"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icon_project_private.png" width="13" height="13"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
