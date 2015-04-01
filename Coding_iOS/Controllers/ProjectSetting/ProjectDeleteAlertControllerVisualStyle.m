@@ -10,6 +10,10 @@
 
 @implementation ProjectDeleteAlertControllerVisualStyle
 
+- (CGFloat)labelSpacing {
+    return 30;
+}
+
 -(UIColor *)titleLabelColor{
     return [UIColor colorWithRGBHex:0x222222];
 }
@@ -18,12 +22,16 @@
     return [UIColor colorWithRGBHex:0xf34a4a];
 }
 
-- (CGFloat)labelSpacing {
-    return 30;
+- (CGFloat)messageLabelBottomSpacing {
+    return 14;
 }
 
-- (CGFloat)messageLabelBottomSpacing {
-    return 20;
+-(UIFont *)titleLabelFont{
+    return [UIFont boldSystemFontOfSize:17.0];
+}
+
+-(UIFont *)messageLabelFont{
+    return [UIFont boldSystemFontOfSize:14.0];
 }
 
 @end

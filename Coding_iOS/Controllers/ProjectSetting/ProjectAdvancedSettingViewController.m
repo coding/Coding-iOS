@@ -10,6 +10,8 @@
 #import "Coding_NetAPIManager.h"
 
 #import <SDCAlertController.h>
+#import <SDCAlertView.h>
+#import <UIView+SDCAutoLayout.h>
 #import "ProjectDeleteAlertControllerVisualStyle.h"
 
 @interface ProjectAdvancedSettingViewController ()
@@ -21,6 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = @"高级设置";
     self.tableView.tableFooterView = [UIView new];
 }
 
@@ -60,24 +63,38 @@
     
     SDCAlertController *alert = [SDCAlertController alertControllerWithTitle:title message:message preferredStyle:SDCAlertControllerStyleAlert];
     
+    UITextField *passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(15, 0, 240.0, 30.0)];
+    passwordTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 30)];
+    passwordTextField.leftViewMode = UITextFieldViewModeAlways;
+    passwordTextField.layer.borderColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.6].CGColor;
+    passwordTextField.layer.borderWidth = 1;
+    passwordTextField.secureTextEntry = YES;
+    passwordTextField.backgroundColor = [UIColor whiteColor];
+    
+    [alert.contentView addSubview:passwordTextField];
+    
+    NSDictionary* passwordViews = NSDictionaryOfVariableBindings(passwordTextField);
+    
+    [alert.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[passwordTextField]-(>=14)-|" options:0 metrics:nil views:passwordViews]];
+    
+    [passwordTextField becomeFirstResponder];
+    
     // Style
     alert.visualStyle = [ProjectDeleteAlertControllerVisualStyle new];
     
     // 添加密码框
-    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.secureTextEntry = YES;
-    }];
+//    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+//        textField.secureTextEntry = YES;
+//    }];
     
     // 添加按钮
     alert.actionLayout = SDCAlertControllerActionLayoutHorizontal;
-    [alert addAction:[SDCAlertAction actionWithTitle:@"取消" style:SDCAlertActionStyleCancel handler:^(SDCAlertAction *action) {
-        [alert dismissWithCompletion:nil];
-    }]];
+    [alert addAction:[SDCAlertAction actionWithTitle:@"取消" style:SDCAlertActionStyleDefault handler:nil]];
     [alert addAction:[SDCAlertAction actionWithTitle:@"确定" style:SDCAlertActionStyleDefault handler:^(SDCAlertAction *action) {
-        UITextField *passwordTextField = [[alert textFields] firstObject];
+        
         NSString *password = [passwordTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         
-        if (password > 0) {
+        if ([password length] > 0) {
             // 删除项目
             [[Coding_NetAPIManager sharedManager] request_DeleteProject_WithObj:self.project password:password andBlock:^(Project *data, NSError *error) {
                 if (!error) {
@@ -87,7 +104,7 @@
             }];
         }
     }]];
-    
+
     [alert presentWithCompletion:nil];
 }
 
