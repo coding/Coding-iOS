@@ -29,6 +29,7 @@
     
     //
     self.tableView.tableFooterView = [UIView new];
+    [self.tableView setSeparatorColor:[UIColor colorWithRGBHex:0xe5e5e5]];
     
     //
     self.descTextView.placeholder = @"填写项目描述...";
@@ -150,6 +151,8 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (indexPath.section == 1 && indexPath.row == 0) {
         // 类型
         NewProjectTypeViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"NewProjectTypeVC"];
@@ -180,6 +183,7 @@
     if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
         [cell setLayoutMargins:UIEdgeInsetsZero];
     }
+
 }
 
 #pragma mark NewProjectTypeViewController Delegate

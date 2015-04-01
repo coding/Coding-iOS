@@ -25,6 +25,7 @@
     
     //
     self.tableView.tableFooterView = [UIView new];
+    [self.tableView setSeparatorColor:[UIColor colorWithRGBHex:0xe5e5e5]];
     
     self.projectNameTextField.text = self.project.name;
     //
