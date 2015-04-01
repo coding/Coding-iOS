@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kTweetDetailCell_PadingLeft 50.0
+#define kTweetDetailCell_PadingLeft 55.0
 #define kTweet_TimtFont [UIFont systemFontOfSize:12]
 #define kTweetDetailCell_LikeComment_Height 25.0
 #define kTweetDetailCell_LikeComment_Width 50.0
@@ -58,17 +58,17 @@
         }
         if (!self.ownerNameBtn) {
             self.ownerNameBtn = [UIButton buttonWithUserStyle];
-            self.ownerNameBtn.frame = CGRectMake(kTweetDetailCell_PadingLeft, 15, 50, 20);
+            self.ownerNameBtn.frame = CGRectMake(kTweetDetailCell_PadingLeft, 18, 50, 20);
             [self.ownerNameBtn addTarget:self action:@selector(userBtnClicked) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:self.ownerNameBtn];
         }
         if (!self.timeClockIconView) {
-            self.timeClockIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 85, 17, 12, 12)];
+            self.timeClockIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 85, 20, 12, 12)];
             self.timeClockIconView.image = [UIImage imageNamed:@"time_clock_icon"];
             [self.contentView addSubview:self.timeClockIconView];
         }
         if (!self.timeLabel) {
-            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 70, 15, 70, 12)];
+            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 70, 18, 70, 12)];
             self.timeLabel.font = kTweet_TimtFont;
             self.timeLabel.textAlignment = NSTextAlignmentRight;
             self.timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
