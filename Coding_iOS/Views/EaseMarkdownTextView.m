@@ -323,11 +323,16 @@
 - (void)hudTipWillShow:(BOOL)willShow{
     if (willShow) {
         [self resignFirstResponder];
-        
-        _HUD = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
-        _HUD.mode = MBProgressHUDModeDeterminateHorizontalBar;
-        _HUD.labelText = @"正在上传图片...";
-        _HUD.removeFromSuperViewOnHide = YES;
+        if (!_HUD) {
+            _HUD = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
+            _HUD.mode = MBProgressHUDModeDeterminateHorizontalBar;
+            _HUD.labelText = @"正在上传图片...";
+            _HUD.removeFromSuperViewOnHide = YES;
+        }else{
+            _HUD.progress = 0;
+            [kKeyWindow addSubview:_HUD];
+            [_HUD show:YES];
+        }
     }else{
         [_HUD hide:YES];
     }

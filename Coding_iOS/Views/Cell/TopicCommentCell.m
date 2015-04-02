@@ -140,8 +140,6 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    HtmlMediaItem *curMediaItem = [_toComment.htmlMedia.imageItems objectAtIndex:indexPath.row];
-    NSLog(@"curMediaItem: %@", curMediaItem.src);
     //        显示大图
     int count = (int)_toComment.htmlMedia.imageItems.count;
     NSMutableArray *photos = [NSMutableArray arrayWithCapacity:count];
