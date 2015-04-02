@@ -66,6 +66,8 @@ typedef NS_ENUM(NSInteger, ProjectsType)
 - (NSString *)toUpdatePath;
 - (NSDictionary *)toUpdateParams;
 
+- (NSString *)toUpdateIconPath;
+
 - (NSString *)toDeletePath;
 - (NSDictionary *)toDeleteParamsWithPassword:(NSString *)password;
 

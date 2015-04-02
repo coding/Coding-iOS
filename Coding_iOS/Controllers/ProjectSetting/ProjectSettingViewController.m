@@ -10,11 +10,14 @@
 #import "Projects.h"
 #import "UIImageView+WebCache.h"
 #import "Coding_NetAPIManager.h"
+#import "MBProgressHUD+Add.h"
+#import "JDStatusBarNotification.h"
 
 @interface ProjectSettingViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UIBarButtonItem *submitButtonItem;
 @property (nonatomic, strong) UIImage *projectIconImage;
+@property (nonatomic, strong) MBProgressHUD *uploadHUD;
 
 @end
 
@@ -44,6 +47,10 @@
     self.submitButtonItem.enabled = NO;
     self.navigationItem.rightBarButtonItem = self.submitButtonItem;
     
+    //HUD
+    self.uploadHUD = [[MBProgressHUD alloc] initWithView:self.view];
+    self.uploadHUD.mode = MBProgressHUDModeDeterminate;
+    [self.view addSubview:self.uploadHUD];
 }
 
 -(void)submit{
@@ -75,19 +82,41 @@
         }else{
             avatarPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
         }
+        avatarPicker.allowsEditing = YES;
         [self presentViewController:avatarPicker animated:YES completion:nil];
     }] showInView:self.view];
 }
 
 -(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    
+    [self.view endEditing:YES];
     
     if (image) {
-        self.projectImageView.image = image;
-        self.projectIconImage = image;
+
+        self.uploadHUD.progress = 0;
+        [self.uploadHUD show:YES];
+        [[Coding_NetAPIManager sharedManager] request_UpdateProject_WithObj:self.project icon:image andBlock:^(id data, NSError *error) {
+            if (data) {
+                NSDictionary *dataDic = data[@"data"];
+                if (dataDic) {
+                    self.project.icon = dataDic[@"icon"];
+                    [[[SDWebImageManager sharedManager] imageCache] storeImage:image forKey:self.project.icon];
+                }
+                //
+                self.projectImageView.image = image;
+                self.projectIconImage = image;
+            }
+            [self.uploadHUD hide:YES];
+        } progerssBlock:^(CGFloat progressValue) {
+            self.uploadHUD.progress = progressValue;
+        }];
     }
     
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [JDStatusBarNotification showWithStatus:@"正在上传项目图标" styleName:JDStatusBarStyleSuccess];
+        [JDStatusBarNotification showActivityIndicator:YES indicatorStyle:UIActivityIndicatorViewStyleWhite];
+    }];
 }
 
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{

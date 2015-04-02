@@ -34,6 +34,13 @@
 @end
 
 @implementation NProjectViewController
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [self.myTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     

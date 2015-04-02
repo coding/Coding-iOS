@@ -129,7 +129,7 @@
         UIImage *image = file[@"image"];
         
         // 缩小到最大 800x800
-        image = [image scaledToMaxSize:CGSizeMake(799, 799)];
+//        image = [image scaledToMaxSize:CGSizeMake(500, 500)];
         
         // 压缩
         data = UIImageJPEGRepresentation(image, 1.0);

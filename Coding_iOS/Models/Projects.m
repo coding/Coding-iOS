@@ -157,6 +157,10 @@
              };
 }
 
+-(NSString *)toUpdateIconPath{
+    return [NSString stringWithFormat:@"api/project/%@/project_icon",self.id];
+}
+
 -(NSString *)toDeletePath{
     return [NSString stringWithFormat:@"api/project/%@",self.id];
 }

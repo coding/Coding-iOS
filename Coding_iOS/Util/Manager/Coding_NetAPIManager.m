@@ -278,6 +278,28 @@
     }];
 }
 
+-(void)request_UpdateProject_WithObj:(Project *)project icon:(UIImage *)icon andBlock:(void (^)(id, NSError *))block progerssBlock:(void (^)(CGFloat))progress{
+    [MobClick event:kUmeng_Event_Request label:@"更新项目图标"];
+//    [self showStatusBarQueryStr:@"正在上传项目图标"];
+    
+    // 缩小到最大 500x500
+//    icon = [icon scaledToMaxSize:CGSizeMake(500, 500)];
+    
+    [[CodingNetAPIClient sharedJsonClient] uploadImage:icon path:[project toUpdateIconPath] name:@"file" successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+        id error = [self handleResponse:responseObject];
+        if (error) {
+            block(nil, error);
+        }else{
+            block(responseObject, nil);
+            [self showStatusBarSuccessStr:@"更新项目图标成功"];
+        }
+        [self hideStatusBarProgress];
+    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil, error);
+        [self showStatusBarError:error];
+    } progerssBlock:progress];
+}
+
 -(void)request_DeleteProject_WithObj:(Project *)project password:(NSString *)password andBlock:(void (^)(Project *, NSError *))block{
     [MobClick event:kUmeng_Event_Request label:@"删除项目"];
     [self showStatusBarQueryStr:@"正在删除项目"];

@@ -51,6 +51,7 @@
 
 - (void)request_NewProject_WithObj:(Project *)project image:(UIImage *)image andBlock:(void (^)(Project *data, NSError *error))block;
 - (void)request_UpdateProject_WithObj:(Project *)project andBlock:(void (^)(Project *data, NSError *error))block;
+- (void)request_UpdateProject_WithObj:(Project *)project icon:(UIImage *)icon andBlock:(void (^)(id data, NSError *error))block progerssBlock:(void (^)(CGFloat progressValue))progress;;
 - (void)request_DeleteProject_WithObj:(Project *)project password:(NSString *)password andBlock:(void (^)(Project *data, NSError *error))block;
 
 //File
