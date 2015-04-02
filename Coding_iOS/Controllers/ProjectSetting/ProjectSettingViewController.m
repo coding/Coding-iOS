@@ -52,7 +52,7 @@
     self.submitButtonItem.enabled = NO;
     
     // 更新项目
-    [[Coding_NetAPIManager sharedManager] request_UpdateProject_WithObj:self.project image:self.projectIconImage andBlock:^(Project *data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_UpdateProject_WithObj:self.project andBlock:^(Project *data, NSError *error) {
         if (!error) {
             [self.navigationController popToRootViewControllerAnimated:YES];
         }
