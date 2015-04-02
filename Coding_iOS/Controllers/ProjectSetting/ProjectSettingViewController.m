@@ -106,7 +106,7 @@
                 if (dataDic) {
                     self.project.icon = dataDic[@"icon"];
                     [[[SDWebImageManager sharedManager] imageCache] storeImage:image forKey:self.project.icon];
-                    [self.navigationController popViewControllerAnimated:YES];
+//                    [self.navigationController popViewControllerAnimated:YES];
                 }
                 //
                 self.projectImageView.image = image;
