@@ -21,6 +21,7 @@
     [super viewDidLoad];
     
     self.tableView.tableFooterView = [UIView new];
+    [self.tableView setSeparatorColor:[UIColor colorWithRGBHex:0xe5e5e5]];
     
     // 添加右上角按钮
     UIButton *submitButton = [UIButton buttonWithType:UIButtonTypeInfoLight];

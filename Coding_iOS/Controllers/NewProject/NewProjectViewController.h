@@ -15,5 +15,6 @@
 @property (strong, nonatomic) IBOutlet UITextField *projectNameTextField;
 @property (strong, nonatomic) IBOutlet UILabel *projectTypeLabel;
 @property (strong, nonatomic) IBOutlet UIPlaceHolderTextView *descTextView;
+@property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *lines;
 
 @end

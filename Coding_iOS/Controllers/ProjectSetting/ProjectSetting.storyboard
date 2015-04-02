@@ -164,6 +164,10 @@
                         <outlet property="descTextView" destination="sis-TG-0f8" id="aTT-Mv-rPy"/>
                         <outlet property="projectImageView" destination="wnT-zR-nIE" id="4JP-FP-d6b"/>
                         <outlet property="projectNameTextField" destination="1wU-rL-E1K" id="CGZ-z5-mw4"/>
+                        <outletCollection property="lines" destination="81D-Ss-W9I" id="knO-fi-sN1"/>
+                        <outletCollection property="lines" destination="aJc-kT-Rp8" id="8m6-ON-K1l"/>
+                        <outletCollection property="lines" destination="tbw-AN-t3X" id="JUv-MK-2Uc"/>
+                        <outletCollection property="lines" destination="mRc-s2-OL3" id="yux-r4-pOj"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XTZ-Sc-Qlw" userLabel="First Responder" sceneMemberID="firstResponder"/>

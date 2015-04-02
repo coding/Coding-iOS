@@ -26,6 +26,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    for (NSLayoutConstraint *cons in self.lines) {
+        cons.constant = 0.5;
+    }
+    
     //
     self.tableView.tableFooterView = [UIView new];
     [self.tableView setSeparatorColor:[UIColor colorWithRGBHex:0xe5e5e5]];

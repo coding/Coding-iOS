@@ -25,6 +25,7 @@
     
     self.title = @"高级设置";
     self.tableView.tableFooterView = [UIView new];
+    [self.tableView setSeparatorColor:[UIColor colorWithRGBHex:0xe5e5e5]];
 }
 
 - (void)didReceiveMemoryWarning {
