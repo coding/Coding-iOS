@@ -503,13 +503,13 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     
     CGFloat maxSelfHeight = kScreen_Height/2;
     if (kDevice_Is_iPhone5){
-        maxSelfHeight = 260;
+        maxSelfHeight = 230;
     }else if (kDevice_Is_iPhone6) {
-        maxSelfHeight = 320;
+        maxSelfHeight = 290;
     }else if (kDevice_Is_iPhone6Plus){
         maxSelfHeight = kScreen_Height/2;
     }else{
-        maxSelfHeight = 170;
+        maxSelfHeight = 140;
     }
     
     selfHeight = MIN(maxSelfHeight, selfHeight);
@@ -570,6 +570,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    [self isAndResignFirstResponder];
     //        显示大图
     int count = (int)_mediaList.count;
     NSMutableArray *photos = [NSMutableArray arrayWithCapacity:count];
