@@ -65,7 +65,7 @@
     // 更新项目
     [[Coding_NetAPIManager sharedManager] request_UpdateProject_WithObj:self.project andBlock:^(Project *data, NSError *error) {
         if (!error) {
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         }
         self.submitButtonItem.enabled = YES;
     }];
@@ -106,6 +106,7 @@
                 if (dataDic) {
                     self.project.icon = dataDic[@"icon"];
                     [[[SDWebImageManager sharedManager] imageCache] storeImage:image forKey:self.project.icon];
+                    [self.navigationController popViewControllerAnimated:YES];
                 }
                 //
                 self.projectImageView.image = image;
