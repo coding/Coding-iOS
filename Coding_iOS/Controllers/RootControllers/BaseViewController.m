@@ -130,6 +130,9 @@
     }
 }
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr{
+    return [self analyseVCFromLinkStr:linkStr justForRefreshData:NO isNewVC:nil];
+}
++ (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr justForRefreshData:(BOOL)justForRefreshData isNewVC:(BOOL *)isNewVC{
     NSLog(@"\n analyseVCFromLinkStr : %@", linkStr);
     if (!linkStr || linkStr.length <= 0) {
         return nil;
@@ -138,6 +141,11 @@
     }
     
     UIViewController *analyseVC = nil;
+    UIViewController *tempVC = nil;
+    if (justForRefreshData) {
+        tempVC = [BaseViewController presentingVC];
+    }
+   
 
     NSString *userRegexStr = @"/u/([^/]+)$";
     NSString *userTweetRegexStr = @"/u/([^/]+)/bubble$";
@@ -147,7 +155,7 @@
     NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
     NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
     NSArray *matchedCaptures = nil;
-    
+
     if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userRegexStr]).count > 0) {
         //AT某人
         NSString *user_global_key = matchedCaptures[1];
@@ -200,6 +208,14 @@
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:conversionRegexStr]).count > 0) {
         //私信
         NSString *user_global_key = matchedCaptures[1];
+        
+        if ([tempVC isKindOfClass:[ConversationViewController class]]) {
+            ConversationViewController *vc = (ConversationViewController *)tempVC;
+            if ([vc.myPriMsgs.curFriend.global_key isEqualToString:user_global_key]) {
+                [vc refreshLoadMore:NO];
+                return vc;
+            }
+        }
         ConversationViewController *vc = [[ConversationViewController alloc] init];
         vc.myPriMsgs = [PrivateMessages priMsgsWithUser:[User userWithGlobalKey:user_global_key]];
         analyseVC = vc;
@@ -210,8 +226,9 @@
     if (!linkStr || linkStr.length == 0) {
         return;
     }
-    UIViewController *vc = [self analyseVCFromLinkStr:linkStr];
-    if (vc) {
+    BOOL *isNewVC;
+    UIViewController *vc = [self analyseVCFromLinkStr:linkStr justForRefreshData:YES isNewVC:isNewVC];
+    if (vc && *isNewVC) {
         [self presentVC:vc];
     }else{
         //网页
