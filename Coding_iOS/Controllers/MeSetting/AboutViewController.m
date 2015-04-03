@@ -65,7 +65,7 @@
     versionLabel.font = [UIFont systemFontOfSize:12];
     versionLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
     versionLabel.textAlignment = NSTextAlignmentCenter;
-    versionLabel.text = [NSString stringWithFormat:@"版本：V%@", kVersion_Coding];
+    versionLabel.text = [NSString stringWithFormat:@"版本：V%@", kVersionBuild_Coding];
     [self.view addSubview:versionLabel];
     
     UILabel *infoLabel = [[UILabel alloc] init];
