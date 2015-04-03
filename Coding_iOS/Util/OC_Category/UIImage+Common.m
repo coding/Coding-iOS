@@ -62,6 +62,33 @@
     return [self scaledToSize:targetSize];
 }
 
+-(UIImage *)scaledToMaxSize:(CGSize)size{
+    
+    CGFloat width = size.width;
+    CGFloat height = size.height;
+    
+    CGFloat oldWidth = self.size.width;
+    CGFloat oldHeight = self.size.height;
+    
+    CGFloat scaleFactor = (oldWidth > oldHeight) ? width / oldWidth : height / oldHeight;
+    
+    // 如果不需要缩放
+    if (scaleFactor > 1.0) {
+        return self;
+    }
+    
+    CGFloat newHeight = oldHeight * scaleFactor;
+    CGFloat newWidth = oldWidth * scaleFactor;
+    CGSize newSize = CGSizeMake(newWidth, newHeight);
+    
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [self drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
+
 + (UIImage *)fullResolutionImageFromALAsset:(ALAsset *)asset{
     ALAssetRepresentation *assetRep = [asset defaultRepresentation];
     CGImageRef imgRef = [assetRep fullResolutionImage];

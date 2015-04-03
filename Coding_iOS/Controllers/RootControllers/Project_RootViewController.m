@@ -82,6 +82,15 @@
     }];
     [self.view addSubview:_mySegmentControl];
     
+    // 添加 “创建项目” 按钮
+    UIBarButtonItem *newProjectButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(gotoNewProject)];
+    self.navigationItem.rightBarButtonItem = newProjectButtonItem;
+}
+
+-(void)gotoNewProject{
+    UIStoryboard *newProjectStoryboard = [UIStoryboard storyboardWithName:@"NewProject" bundle:nil];
+    UIViewController *newProjectVC = [newProjectStoryboard instantiateViewControllerWithIdentifier:@"NewProjectVC"];
+    [self.navigationController pushViewController:newProjectVC animated:YES];
 }
 
 - (void)configSegmentItems{

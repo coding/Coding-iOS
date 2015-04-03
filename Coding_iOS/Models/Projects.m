@@ -7,6 +7,8 @@
 //
 
 #import "Projects.h"
+#import "Login.h"
+#import "NSString+Common.h"
 
 @implementation Projects
 
@@ -117,6 +119,57 @@
     pro.id = [NSNumber numberWithInteger:38894];//iOS公开项目
     pro.is_public = [NSNumber numberWithBool:YES];
     return pro;
+}
+
+-(NSString *)toProjectPath{
+    return @"api/project";
+}
+
+-(NSDictionary *)toCreateParams{
+    
+    NSString *type;
+    if ([self.is_public isEqual:@YES]) {
+        type = @"1";
+    }else{
+        type = @"2";
+    }
+    
+    return @{@"name":self.name,
+             @"description":self.description_mine,
+             @"type":type,
+             @"gitEnabled":@"false",
+             @"gitReadmeEnabled":@"false",
+             @"gitIgnore":@"no",
+             @"gitLicense":@"no",
+//             @"importFrom":@"no",
+             @"vcsType":@"git"};
+}
+
+-(NSString *)toUpdatePath{
+    return [self toProjectPath];
+}
+
+-(NSDictionary *)toUpdateParams{
+    return @{@"name":self.name,
+             @"description":self.description_mine,
+             @"id":self.id
+//             @"default_branch":[NSNull null]
+             };
+}
+
+-(NSString *)toUpdateIconPath{
+    return [NSString stringWithFormat:@"api/project/%@/project_icon",self.id];
+}
+
+-(NSString *)toDeletePath{
+    return [NSString stringWithFormat:@"api/project/%@",self.id];
+}
+
+-(NSDictionary *)toDeleteParamsWithPassword:(NSString *)password{
+    return @{@"user_name":[Login curLoginUser].name,
+             @"name":self.name,
+             @"porject_id":[self.id stringValue],
+             @"password":[password sha1Str]};
 }
 
 - (NSString *)toMembersPath{

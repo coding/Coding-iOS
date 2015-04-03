@@ -35,6 +35,13 @@ typedef NS_ENUM(NSInteger, IllegalContentType) {
                  withMethodType:(int)NetworkMethod
                        andBlock:(void (^)(id data, NSError *error))block;
 
+- (void)requestJsonDataWithPath:(NSString *)aPath
+                           file:(NSDictionary *)file
+                     withParams:(NSDictionary*)params
+                 withMethodType:(int)NetworkMethod
+                       andBlock:(void (^)(id data, NSError *error))block;
+
+
 - (void)reportIllegalContentWithType:(IllegalContentType)type
                           withParams:(NSDictionary*)params;
 
