@@ -11,6 +11,7 @@
 #define kMessageInputView_HeightMax 120.0
 #define kMessageInputView_PadingHeight 7.0
 #define kMessageInputView_Width_Tool 35.0
+#define kMessageInputView_MediaPadding 2.0
 
 #import "UIMessageInputView.h"
 #import "UIPlaceHolderTextView.h"
@@ -490,7 +491,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         }
     }
     if (_mediaView) {
-        CGFloat mediaHeight = ceilf(_mediaList.count/3.0) * [self collectionView:_mediaView layout:nil sizeForItemAtIndexPath:nil].height;
+        CGFloat mediaHeight = ceilf(_mediaList.count/3.0)* ([self collectionView:_mediaView layout:nil sizeForItemAtIndexPath:nil].height+ kMessageInputView_MediaPadding) - kMessageInputView_MediaPadding;
         mediaSize = CGSizeMake(CGRectGetWidth(_mediaView.frame), mediaHeight);
         
         CGRect mediaFrame = CGRectMake(0, CGRectGetMaxY(_inputTextView.frame), mediaSize.width, mediaSize.height);
@@ -535,8 +536,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UIMessageInputView_CCell *ccell = [collectionView dequeueReusableCellWithReuseIdentifier:kCCellIdentifier_UIMessageInputView_CCell forIndexPath:indexPath];
-    ccell.curMedia = [_mediaList objectAtIndex:indexPath.row];
-    
+    [ccell setCurMedia:[_mediaList objectAtIndex:indexPath.row] andTotalCount:_mediaList.count];
     @weakify(self);
     ccell.deleteBlock = ^(UIMessageInputView_Media *toDelete){
         @strongify(self);
@@ -553,9 +553,9 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }else if (_mediaList.count == 1) {
         ccellSize = CGSizeMake(contentWidth, 0.6* contentWidth);
     }else if (_mediaList.count == 2){
-        ccellSize = CGSizeMake((contentWidth - 10)/2, (contentWidth - 10)/2);
+        ccellSize = CGSizeMake((contentWidth - kMessageInputView_MediaPadding)/2, (contentWidth - kMessageInputView_MediaPadding)/3);
     }else{
-        ccellSize = CGSizeMake((contentWidth - 20)/3, (contentWidth - 20)/3);
+        ccellSize = CGSizeMake((contentWidth - 2* kMessageInputView_MediaPadding)/3, (contentWidth - 2* kMessageInputView_MediaPadding)/3);
     }
     return ccellSize;
 }
@@ -563,10 +563,10 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     return UIEdgeInsetsZero;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    return 10;
+    return kMessageInputView_MediaPadding;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return 10/2;
+    return kMessageInputView_MediaPadding/2;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -976,13 +976,13 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 
 
 @interface UIMessageInputView_CCell ()
+@property (strong, nonatomic) UIMessageInputView_Media *media;
 @property (strong, nonatomic) YLImageView *imgView;
 @property (strong, nonatomic) UIButton *deleteBtn;
-
 @end
 
 @implementation UIMessageInputView_CCell
-- (void)setCurMedia:(UIMessageInputView_Media *)curMedia{
+- (void)setCurMedia:(UIMessageInputView_Media *)curMedia andTotalCount:(NSInteger)totalCount{
     if (!_imgView) {
         _imgView = [[YLImageView alloc] initWithFrame:CGRectZero];
         _imgView.contentMode = UIViewContentModeScaleAspectFill;
@@ -1008,35 +1008,40 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         }];
     }
     
-    if (_curMedia != curMedia) {
-        _curMedia = curMedia;
+    if (_media != curMedia) {
+        _media = curMedia;
 
         ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
         dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
         dispatch_queue_t queue = dispatch_queue_create("UIMessageInputView_CCellForAsset", DISPATCH_QUEUE_SERIAL);
         dispatch_async(queue, ^{
-            [assetsLibrary assetForURL:_curMedia.assetURL resultBlock:^(ALAsset *asset) {
-                _curMedia.curAsset = asset;
+            [assetsLibrary assetForURL:_media.assetURL resultBlock:^(ALAsset *asset) {
+                _media.curAsset = asset;
                 dispatch_semaphore_signal(semaphore);
             } failureBlock:^(NSError *error) {
-                _curMedia.curAsset = nil;
+                _media.curAsset = nil;
                 dispatch_semaphore_signal(semaphore);
             }];
         });
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
 
-        CGImageRef thumbnailImageRef = [_curMedia.curAsset thumbnail];
-        if (thumbnailImageRef) {
-            self.imgView.image = [UIImage imageWithCGImage:thumbnailImageRef];
+        CGImageRef imageRef = nil;
+        if (totalCount < 3) {
+            imageRef = _media.curAsset.defaultRepresentation.fullScreenImage;
+        }else{
+            imageRef = _media.curAsset.thumbnail;
+        }
+        if (imageRef) {
+            self.imgView.image = [UIImage imageWithCGImage:imageRef];
         } else {
-            [self.imgView sd_setImageWithURL:[_curMedia.urlStr urlImageWithCodePathResizeToView:self.contentView] placeholderImage:kPlaceholderCodingSquareWidth(55.0) options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies];
+            [self.imgView sd_setImageWithURL:[_media.urlStr urlImageWithCodePathResizeToView:self.contentView] placeholderImage:kPlaceholderCodingSquareWidth(55.0) options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies];
         }
     }
 }
 
 - (void)deleteBtnClicked:(id)sender{
     if (_deleteBlock) {
-        _deleteBlock(_curMedia);
+        _deleteBlock(_media);
     }
 }
 

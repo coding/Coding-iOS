@@ -81,6 +81,7 @@
 - (void)photoStartLoad
 {
     if (_photo.image) {
+        [_photoLoadingView removeFromSuperview];
         _imageView.image = _photo.image;
         self.scrollEnabled = YES;
     } else {

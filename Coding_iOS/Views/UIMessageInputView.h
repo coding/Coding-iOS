@@ -75,6 +75,6 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_MediaState) {
 #define kCCellIdentifier_UIMessageInputView_CCell @"UIMessageInputView_CCell"
 
 @interface UIMessageInputView_CCell : UICollectionViewCell
-@property (strong, nonatomic) UIMessageInputView_Media *curMedia;
 @property (copy, nonatomic) void (^deleteBlock)(UIMessageInputView_Media *toDelete);
+- (void)setCurMedia:(UIMessageInputView_Media *)curMedia andTotalCount:(NSInteger)totalCount;
 @end
