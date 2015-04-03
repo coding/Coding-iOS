@@ -19,5 +19,5 @@ typedef NS_ENUM(NSInteger, TaskEditType) {
 @interface EditTaskViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIMessageInputViewDelegate>
 @property (strong, nonatomic) Task *myTask, *myCopyTask;
 @property (copy, nonatomic) void(^taskChangedBlock)(Task *curTask, TaskEditType type);
-
+- (void)queryToRefreshTaskDetail;
 @end

@@ -132,23 +132,18 @@
         make.height.mas_equalTo(20);
     }];
     [_recommendedView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_lessThanOrEqualTo(self.contentView.mas_right).offset(-pading);
+        make.right.mas_lessThanOrEqualTo(self.contentView.mas_right);
         make.left.equalTo(_proTitleL.mas_right).offset(5);
         make.centerY.equalTo(_proTitleL.mas_centerY);
         make.size.mas_equalTo(is_recommended? CGSizeMake(20, 20): CGSizeZero);
     }];
     [_proInfoL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_proTitleL);
-        make.right.equalTo(self.contentView.mas_right).offset(-pading);
+        make.right.equalTo(self.contentView.mas_right);
         make.centerY.equalTo(_proImgView.mas_centerY).offset(kProjectInfoCell_ProImgViewWidth/5);
         make.height.mas_equalTo(15);
     }];
-    [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_proImgView.mas_left);
-        make.right.equalTo(self.contentView.mas_right).offset(-pading);
-        make.bottom.equalTo(self.contentView);
-        make.height.mas_equalTo(1.0);
-    }];
+    [_lineView setFrame:CGRectMake(pading, [ProjectInfoCell cellHeight] - 1.0, kScreen_Width - 2*pading, 1.0)];
 }
 
 #pragma mark TTTAttributedLabelDelegate

@@ -14,7 +14,8 @@
 
 @interface TweetDetailViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, TTTAttributedLabelDelegate, UIMessageInputViewDelegate>
 @property (strong, nonatomic) Tweet *curTweet;
-
 @property (copy, nonatomic) void(^deleteTweetBlock)(Tweet *);
+
+- (void)refreshTweet;
 
 @end
