@@ -13,5 +13,6 @@
 @interface ProjectAdvancedSettingViewController : UITableViewController
 
 @property (nonatomic, strong) Project *project;
+@property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *lines;
 
 @end

@@ -23,6 +23,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    for (NSLayoutConstraint *cons in self.lines) {
+        cons.constant = 0.5;
+    }
+    
     self.title = @"高级设置";
     self.tableView.tableFooterView = [UIView new];
     [self.tableView setSeparatorColor:[UIColor colorWithRGBHex:0xe5e5e5]];
@@ -40,6 +44,11 @@
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == 1 && indexPath.row == 0) {
+        cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
+        return;
+    }
+    
     // Remove seperator inset
     if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
         [cell setSeparatorInset:UIEdgeInsetsZero];
