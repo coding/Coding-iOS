@@ -16,6 +16,7 @@
 +(UIImage *)imageWithColor:(UIColor *)aColor withFrame:(CGRect)aFrame;
 -(UIImage*)scaledToSize:(CGSize)targetSize;
 -(UIImage*)scaledToSize:(CGSize)targetSize highQuality:(BOOL)highQuality;
+-(UIImage*)scaledToMaxSize:(CGSize )size;
 + (UIImage *)fullResolutionImageFromALAsset:(ALAsset *)asset;
 
 @end
