@@ -109,22 +109,8 @@
             [self presentLinkStr:param_url];
         });
     }else if (applicationState == UIApplicationStateActive){
-        //处理私信
         NSString *param_url = [userInfo objectForKey:@"param_url"];
-        NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
-        NSArray *matchedCaptures = [param_url captureComponentsMatchedByRegex:conversionRegexStr];
-        
-        if (matchedCaptures.count >0) {
-            NSString *user_global_key = [matchedCaptures lastObject];
-            UIViewController *tempVC = [BaseViewController presentingVC];
-            if ([tempVC isKindOfClass:[ConversationViewController class]]) {
-                ConversationViewController *vc = (ConversationViewController *)tempVC;
-                if ([vc.myPriMsgs.curFriend.global_key isEqualToString:user_global_key]) {
-                    [vc refreshLoadMore:NO];
-                    return;
-                }
-            }
-        }
+        [self analyseVCFromLinkStr:param_url justForRefreshData:YES isNewVC:nil];
         //标记未读
         [[UnReadManager shareManager] updateUnRead];
     }
@@ -137,7 +123,6 @@
 
 //解析linkStr，返回对应的VC。
 //如果justForRefreshData的值为YES，且当前最顶部显示的VC就是解析结果，那么就只是更新数据，并设置isNewVC的值为NO
-//如果isNewVC参数的值nil，则会强制修改justForRefreshData的值为NO。
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr justForRefreshData:(BOOL)justForRefreshData isNewVC:(BOOL *)isNewVC{
     NSLog(@"\n analyseVCFromLinkStr : %@", linkStr);
 
@@ -149,11 +134,11 @@
     
     UIViewController *analyseVC = nil;
     UIViewController *tempVC = nil;
-    if (!isNewVC) {
-        justForRefreshData = NO;
-    }
+
     if (justForRefreshData) {
-        *isNewVC = YES;
+        if (isNewVC) {
+            *isNewVC = YES;
+        }
         tempVC = [BaseViewController presentingVC];
     }
 
@@ -187,7 +172,9 @@
             if ([vc.curTweet.pp_id isEqualToString:pp_id]
                 && [vc.curTweet.user_global_key isEqualToString:user_global_key]) {
                 [vc refreshTweet];
-                *isNewVC = NO;
+                if (isNewVC) {
+                    *isNewVC = NO;
+                }
                 return vc;
             }
         }
@@ -201,7 +188,9 @@
             TopicDetailViewController *vc = (TopicDetailViewController *)tempVC;
             if ([vc.curTopic.id.stringValue isEqualToString:topic_id]) {
                 [vc refreshTopic];
-                *isNewVC = NO;
+                if (isNewVC) {
+                    *isNewVC = NO;
+                }
                 return vc;
             }
         }
@@ -219,7 +208,9 @@
             if ([vc.myTask.backend_project_path isEqualToString:backend_project_path]
                 && [vc.myTask.id.stringValue isEqualToString:taskId]) {
                 [vc queryToRefreshTaskDetail];
-                *isNewVC = NO;
+                if (isNewVC) {
+                    *isNewVC = NO;
+                }
                 return vc;
             }
         }
@@ -248,7 +239,9 @@
             ConversationViewController *vc = (ConversationViewController *)tempVC;
             if ([vc.myPriMsgs.curFriend.global_key isEqualToString:user_global_key]) {
                 [vc refreshLoadMore:NO];
-                *isNewVC = NO;
+                if (isNewVC) {
+                    *isNewVC = NO;
+                }
                 return vc;
             }
         }

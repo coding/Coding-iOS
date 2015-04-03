@@ -137,12 +137,15 @@
         return;
     }
     _myPriMsgs.willLoadMore = willLoadMore;
-    if (!_myPriMsgs.canLoadMore) {
-        [_refreshControl endRefreshing];
-        return;
+    if (willLoadMore) {
+        if (!_myPriMsgs.canLoadMore) {
+            [_refreshControl endRefreshing];
+            return;
+        }else{
+            [_refreshControl beginRefreshing];
+        }
     }
     __weak typeof(self) weakSelf = self;
-    [_refreshControl beginRefreshing];
     [[Coding_NetAPIManager sharedManager] request_PrivateMessages:_myPriMsgs andBlock:^(id data, NSError *error) {
         [weakSelf.refreshControl endRefreshing];
         if (data) {
@@ -160,9 +163,6 @@
         }];
     }];
 }
-
-
-
 
 #pragma mark Table M
 
