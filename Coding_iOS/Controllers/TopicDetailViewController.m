@@ -58,6 +58,7 @@
         tableView.dataSource = self;
         [tableView registerClass:[TopicContentCell class] forCellReuseIdentifier:kCellIdentifier_TopicContent];
         [tableView registerClass:[TopicCommentCell class] forCellReuseIdentifier:kCellIdentifier_TopicComment];
+        [tableView registerClass:[TopicCommentCell class] forCellReuseIdentifier:kCellIdentifier_TopicComment_Media];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -70,8 +71,7 @@
     
     //评论
     __weak typeof(self) weakSelf = self;
-    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewTypeSimple];
-    _myMsgInputView.contentType = UIMessageInputViewContentTypeTopic;
+    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTopic];
     _myMsgInputView.isAlwaysShow = YES;
     _myMsgInputView.delegate = self;
     
@@ -254,8 +254,9 @@
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
         return cell;
     }else{
-        TopicCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TopicComment forIndexPath:indexPath];
         ProjectTopic *toComment = [_curTopic.comments.list objectAtIndex:indexPath.row-1];
+
+        TopicCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:toComment.htmlMedia.imageItems.count > 0? kCellIdentifier_TopicComment_Media: kCellIdentifier_TopicComment forIndexPath:indexPath];
         cell.toComment = toComment;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:45];
         return cell;

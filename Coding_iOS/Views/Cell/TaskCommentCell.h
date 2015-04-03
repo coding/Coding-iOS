@@ -7,6 +7,7 @@
 //
 
 #define kCellIdentifier_TaskComment @"TaskCommentCell"
+#define kCellIdentifier_TaskComment_Media @"TaskCommentCell_Media"
 
 #import <UIKit/UIKit.h>
 #import "TaskComment.h"

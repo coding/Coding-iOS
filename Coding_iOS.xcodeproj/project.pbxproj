@@ -77,6 +77,9 @@
 		4E5C06E81AC2B34800F427C5 /* tipIcon_BranchMember@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5C06E71AC2B34800F427C5 /* tipIcon_BranchMember@2x.png */; };
 		4E5C06EB1AC4009100F427C5 /* CannotLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */; };
 		4E5C06EE1AC4405300F427C5 /* PasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5C06ED1AC4405300F427C5 /* PasswordViewController.m */; };
+		4E5F39021AC951060010515D /* TaskCommentCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5F39011AC951060010515D /* TaskCommentCCell.m */; };
+		4E5F39051ACA958C0010515D /* TopicCommentCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5F39041ACA958C0010515D /* TopicCommentCCell.m */; };
+		4E5F39071ACBFDCD0010515D /* keyboard_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5F39061ACBFDCD0010515D /* keyboard_photo@2x.png */; };
 		4E66EE261A28226000DA1B3E /* button_file_createFolder_enable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE211A28226000DA1B3E /* button_file_createFolder_enable@2x.png */; };
 		4E66EE271A28226000DA1B3E /* button_file_denete_enable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE221A28226000DA1B3E /* button_file_denete_enable@2x.png */; };
 		4E66EE281A28226000DA1B3E /* button_file_denete_unable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE231A28226000DA1B3E /* button_file_denete_unable@2x.png */; };
@@ -704,6 +707,11 @@
 		4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CannotLoginViewController.m; sourceTree = "<group>"; };
 		4E5C06EC1AC4405300F427C5 /* PasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordViewController.h; sourceTree = "<group>"; };
 		4E5C06ED1AC4405300F427C5 /* PasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordViewController.m; sourceTree = "<group>"; };
+		4E5F39001AC951060010515D /* TaskCommentCCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCommentCCell.h; sourceTree = "<group>"; };
+		4E5F39011AC951060010515D /* TaskCommentCCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCommentCCell.m; sourceTree = "<group>"; };
+		4E5F39031ACA958C0010515D /* TopicCommentCCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicCommentCCell.h; sourceTree = "<group>"; };
+		4E5F39041ACA958C0010515D /* TopicCommentCCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicCommentCCell.m; sourceTree = "<group>"; };
+		4E5F39061ACBFDCD0010515D /* keyboard_photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_photo@2x.png"; sourceTree = "<group>"; };
 		4E66EE211A28226000DA1B3E /* button_file_createFolder_enable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_createFolder_enable@2x.png"; sourceTree = "<group>"; };
 		4E66EE221A28226000DA1B3E /* button_file_denete_enable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_denete_enable@2x.png"; sourceTree = "<group>"; };
 		4E66EE231A28226000DA1B3E /* button_file_denete_unable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_denete_unable@2x.png"; sourceTree = "<group>"; };
@@ -2237,6 +2245,7 @@
 		8E97CE561A0A3424006F9AD7 /* keyboard */ = {
 			isa = PBXGroup;
 			children = (
+				4E5F39061ACBFDCD0010515D /* keyboard_photo@2x.png */,
 				8E97CE6B1A0B243B006F9AD7 /* keyboard_add@2x.png */,
 				8E97CE571A0A3424006F9AD7 /* keyboard_add_photo@2x.png */,
 				8E97CE581A0A3424006F9AD7 /* keyboard_add_camera@2x.png */,
@@ -2927,6 +2936,10 @@
 				8EF6436019FF7E2900F7EEB0 /* TweetMediaItemSingleCCell.m */,
 				8EF6436119FF7E2900F7EEB0 /* TweetSendImageCCell.h */,
 				8EF6436219FF7E2900F7EEB0 /* TweetSendImageCCell.m */,
+				4E5F39001AC951060010515D /* TaskCommentCCell.h */,
+				4E5F39011AC951060010515D /* TaskCommentCCell.m */,
+				4E5F39031ACA958C0010515D /* TopicCommentCCell.h */,
+				4E5F39041ACA958C0010515D /* TopicCommentCCell.m */,
 			);
 			path = CCell;
 			sourceTree = "<group>";
@@ -3279,6 +3292,7 @@
 				8EA6D18319E240C40076D59C /* me_normal@2x.png in Resources */,
 				8EA6D19719E240C40076D59C /* tipIcon_Project@2x.png in Resources */,
 				8E97CEB91A0C7E26006F9AD7 /* coding_emoji_34@2x.png in Resources */,
+				4E5F39071ACBFDCD0010515D /* keyboard_photo@2x.png in Resources */,
 				4E76D4DE1A5A7B4A0094A35E /* text_clear_btn@2x.png in Resources */,
 				8E7612F21A08A4EB005BE797 /* code.html in Resources */,
 				4E96E7E41A1B537E0037C098 /* icon_file_xls@2x.png in Resources */,
@@ -3532,6 +3546,7 @@
 				4E03ACA61A5D2060002B000B /* UIVerticalAlignmentLabel.m in Sources */,
 				4E6BA2DF1A1EE6AF005FD721 /* AFURLRequestSerialization.m in Sources */,
 				8EA6D1CD19E240C40076D59C /* UIUnderlinedButton.m in Sources */,
+				4E5F39021AC951060010515D /* TaskCommentCCell.m in Sources */,
 				4ECE8AD91A3943E80021E29C /* UIViewController+DownMenu.m in Sources */,
 				8EA6D23819E240C40076D59C /* ProjectTasksView.m in Sources */,
 				8EA6D13019E240C40076D59C /* LikersViewController.m in Sources */,
@@ -3634,6 +3649,7 @@
 				8E64ED7C19ED0CE3006E99DA /* QBAssetsCollectionFooterView.m in Sources */,
 				8E6F1C951A03BD6000BF79C8 /* ProjectMemberActivityListViewController.m in Sources */,
 				8EA6D13619E240C40076D59C /* BaseViewController.m in Sources */,
+				4E5F39051ACA958C0010515D /* TopicCommentCCell.m in Sources */,
 				4E15C7D61A271A6300FB8DAD /* EaseToolBar.m in Sources */,
 				4E6BA2D81A1EE6AF005FD721 /* AFHTTPRequestOperationManager.m in Sources */,
 				4ECE8AE21A3943E80021E29C /* UIColor+expanded.m in Sources */,

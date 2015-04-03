@@ -94,7 +94,7 @@
         ESWeak_(_photoLoadingView);
         ESWeak_(_imageView);
         
-        [SDWebImageManager.sharedManager downloadImageWithURL:_photo.url options:SDWebImageRetryFailed|SDWebImageLowPriority progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+        [SDWebImageManager.sharedManager downloadImageWithURL:_photo.url options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             ESStrong_(_photoLoadingView);
             if (receivedSize > kMinProgress) {
                 __photoLoadingView.progress = (float)receivedSize/expectedSize;

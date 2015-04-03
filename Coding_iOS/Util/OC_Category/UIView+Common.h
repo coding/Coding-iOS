@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
     EaseBlankPageTypeTweet,
     EaseBlankPageTypeTweetOther,
     EaseBlankPageTypeProject,
+    EaseBlankPageTypeProjectOther,
     EaseBlankPageTypeFileDleted,
     EaseBlankPageTypeFolderDleted,
     EaseBlankPageTypePrivateMsg

@@ -9,10 +9,11 @@
 #define kProjectInfoCell_ProImgViewWidth kScaleFrom_iPhone5_Desgin(55.0)
 
 #import "ProjectInfoCell.h"
+#import <MarqueeLabel/MarqueeLabel.h>
 
 @interface ProjectInfoCell ()<TTTAttributedLabelDelegate>
 @property (strong, nonatomic) UIImageView *proImgView, *recommendedView;
-@property (strong, nonatomic) UILabel *proTitleL;
+@property (strong, nonatomic) MarqueeLabel *proTitleL;
 @property (strong, nonatomic) UITTTAttributedLabel *proInfoL;
 @property (strong, nonatomic) UIView *lineView;
 @end
@@ -33,7 +34,11 @@
             [self.contentView addSubview:_proImgView];
         }
         if (!_proTitleL) {
-            _proTitleL = [[UILabel alloc] init];
+            _proTitleL = [[MarqueeLabel alloc] initWithFrame:CGRectZero rate:50.0 andFadeLength:20];
+            _proTitleL.marqueeType = MLContinuous;
+            _proTitleL.trailingBuffer = 30.0f;
+
+
             _proTitleL.font = [UIFont systemFontOfSize:17];
             _proTitleL.textColor = [UIColor colorWithHexString:@"0x222222"];
             [self.contentView addSubview:_proTitleL];
