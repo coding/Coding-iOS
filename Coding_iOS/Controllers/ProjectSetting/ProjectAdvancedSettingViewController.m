@@ -14,7 +14,7 @@
 #import <UIView+SDCAutoLayout.h>
 #import "ProjectDeleteAlertControllerVisualStyle.h"
 
-@interface ProjectAdvancedSettingViewController ()
+@interface ProjectAdvancedSettingViewController ()<UITextFieldDelegate>
 
 @end
 
@@ -80,14 +80,13 @@
     passwordTextField.layer.borderWidth = 1;
     passwordTextField.secureTextEntry = YES;
     passwordTextField.backgroundColor = [UIColor whiteColor];
+    passwordTextField.delegate = self;
     
     [alert.contentView addSubview:passwordTextField];
     
     NSDictionary* passwordViews = NSDictionaryOfVariableBindings(passwordTextField);
     
     [alert.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[passwordTextField]-(>=14)-|" options:0 metrics:nil views:passwordViews]];
-    
-    [passwordTextField becomeFirstResponder];
     
     // Style
     alert.visualStyle = [ProjectDeleteAlertControllerVisualStyle new];
@@ -115,7 +114,15 @@
         }
     }]];
 
-    [alert presentWithCompletion:nil];
+    [alert presentWithCompletion:^{
+        [passwordTextField becomeFirstResponder];
+    }];
+}
+
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end
