@@ -1372,25 +1372,29 @@
     
     [[Coding_NetAPIManager sharedManager] request_CodeBranchOrTagWithPath:@"list_branches" withPro:project andBlock:^(id dataTemp, NSError *errorTemp) {
         if (dataTemp) {
-            __block NSString *defultBranch = @"master";
             NSArray *branchList = (NSArray *)dataTemp;
-            [branchList enumerateObjectsUsingBlock:^(CodeBranchOrTag *obj, NSUInteger idx, BOOL *stop) {
-                if (obj.is_default_branch.boolValue) {
-                    defultBranch = obj.name;
-                }
-            }];
-            
-            NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/tree/%@",project.owner_user_name, project.name, defultBranch];
-            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-                if (data) {
-                    NSString *readMeHtml = [[[data valueForKey:@"data"] valueForKey:@"readme"] valueForKey:@"preview"];
-                    block(readMeHtml? readMeHtml: @"我们推荐每个项目都新建一个README文件", nil);
-                }else{
-                    block(nil, error);
-                }
-            }];
+            if (branchList.count > 0) {
+                __block NSString *defultBranch = @"master";
+                [branchList enumerateObjectsUsingBlock:^(CodeBranchOrTag *obj, NSUInteger idx, BOOL *stop) {
+                    if (obj.is_default_branch.boolValue) {
+                        defultBranch = obj.name;
+                    }
+                }];
+                
+                NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/tree/%@",project.owner_user_name, project.name, defultBranch];
+                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+                    if (data) {
+                        NSString *readMeHtml = [[[data valueForKey:@"data"] valueForKey:@"readme"] valueForKey:@"preview"];
+                        block(readMeHtml? readMeHtml: @"我们推荐每个项目都新建一个README文件", nil);
+                    }else{
+                        block(nil, error);
+                    }
+                }];
+            }else{
+                block(@"我们推荐每个项目都新建一个README文件", nil);
+            }
         }else{
-            block(nil, errorTemp);
+            block(@"加载失败...", errorTemp);
         }
     }];
 }

@@ -384,7 +384,11 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     NSInteger row = 0;
     if (_tweet.like_users.count > 0) {
-        row = MIN(_tweet.like_users.count, kTweetDetailCell_LikeNumMax);
+        row = _tweet.like_users.count;
+        if (_tweet.likes.integerValue > _tweet.like_users.count) {
+            row++;
+        }
+        row = MIN(row, kTweetDetailCell_LikeNumMax);
     }
     return row;
 }
