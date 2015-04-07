@@ -16,7 +16,11 @@
 }
 
 - (void)configSegmentItems{
-    self.segmentItems = @[@"Ta参与的", @"Ta收藏的"];
+    if ([_curUser.global_key isEqualToString:[Login curLoginUser].global_key]) {
+        self.segmentItems = @[@"我参与的", @"我收藏的"];
+    }else{
+        self.segmentItems = @[@"Ta参与的", @"Ta收藏的"];
+    }
 }
 
 - (Projects *)projectsWithIndex:(NSUInteger)index{
