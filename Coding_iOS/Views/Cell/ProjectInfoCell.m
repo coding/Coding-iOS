@@ -13,7 +13,7 @@
 
 @interface ProjectInfoCell ()<TTTAttributedLabelDelegate>
 @property (strong, nonatomic) UIImageView *proImgView, *recommendedView;
-@property (strong, nonatomic) MarqueeLabel *proTitleL;
+@property (strong, nonatomic) UILabel *proTitleL;
 @property (strong, nonatomic) UITTTAttributedLabel *proInfoL;
 @property (strong, nonatomic) UIView *lineView;
 @end
@@ -34,11 +34,16 @@
             [self.contentView addSubview:_proImgView];
         }
         if (!_proTitleL) {
-            _proTitleL = [[MarqueeLabel alloc] initWithFrame:CGRectZero rate:50.0 andFadeLength:20];
-            _proTitleL.marqueeType = MLContinuous;
-            _proTitleL.trailingBuffer = 30.0f;
-
-
+            
+//            滚动Label
+//            _proTitleL = ({
+//                MarqueeLabel *label = [[MarqueeLabel alloc] initWithFrame:CGRectZero rate:50.0 andFadeLength:20];
+//                label.marqueeType = MLContinuous;
+//                label.trailingBuffer = 30.0f;
+//                label;
+//            });
+            
+            _proTitleL = [[UILabel alloc] init];
             _proTitleL.font = [UIFont systemFontOfSize:17];
             _proTitleL.textColor = [UIColor colorWithHexString:@"0x222222"];
             [self.contentView addSubview:_proTitleL];
