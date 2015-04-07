@@ -102,7 +102,9 @@
     self.locationManager.delegate = self;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     self.locationManager.distanceFilter = kCLDistanceFilterNone;
-    [self.locationManager requestWhenInUseAuthorization];//iOS 8 添加这句
+    if ([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {//iOS 8
+        [self.locationManager requestWhenInUseAuthorization];
+    }
     [self.locationManager startMonitoringSignificantLocationChanges];
     [self.locationManager startUpdatingLocation];
 }
