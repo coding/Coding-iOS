@@ -82,7 +82,7 @@
     if (_slogan && _slogan.length > 0) {
         return _slogan;
     }else{
-        return @"座右铭未填写";
+        return @"未填写";
     }
 }
 
