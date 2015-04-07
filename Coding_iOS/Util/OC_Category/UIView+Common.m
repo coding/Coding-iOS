@@ -471,6 +471,7 @@ static char LoadingViewKey, BlankPageViewKey;
                 imageName = @"blankpage_image_Sleep";
                 tipStr = @"您还木有项目呢，赶快起来创建吧～";
             }
+                break;
             case EaseBlankPageTypeProjectOther:
             {
                 imageName = @"blankpage_image_Sleep";

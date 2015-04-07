@@ -204,6 +204,10 @@
 		4EA7F1651A6D192B00A046BD /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA7F1531A6D192B00A046BD /* UIImageView+WebCache.m */; };
 		4EA7F1661A6D192B00A046BD /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA7F1551A6D192B00A046BD /* UIView+WebCacheOperation.m */; };
 		4EA7F1671A6D192B00A046BD /* ODRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA7F1581A6D192B00A046BD /* ODRefreshControl.m */; };
+		4EABD2541AD3CA7E005E515F /* UIMessageInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EABD2531AD3CA7E005E515F /* UIMessageInputView.m */; };
+		4EABD2571AD3CAAC005E515F /* UIMessageInputView_Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EABD2561AD3CAAC005E515F /* UIMessageInputView_Add.m */; };
+		4EABD25A1AD3CB4A005E515F /* UIMessageInputView_CCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EABD2591AD3CB4A005E515F /* UIMessageInputView_CCell.m */; };
+		4EABD25D1AD3CBB9005E515F /* UIMessageInputView_Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EABD25C1AD3CBB9005E515F /* UIMessageInputView_Media.m */; };
 		4EACB43F1A2C448F0097ABB3 /* button_file_createFolder_unable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EACB43C1A2C448F0097ABB3 /* button_file_createFolder_unable@2x.png */; };
 		4EACB4401A2C448F0097ABB3 /* button_file_download_unable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EACB43D1A2C448F0097ABB3 /* button_file_download_unable@2x.png */; };
 		4EACB4411A2C448F0097ABB3 /* button_file_move_unable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EACB43E1A2C448F0097ABB3 /* button_file_move_unable@2x.png */; };
@@ -530,7 +534,6 @@
 		8EA6D23819E240C40076D59C /* ProjectTasksView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6D0F419E240C40076D59C /* ProjectTasksView.m */; };
 		8EA6D23A19E240C40076D59C /* ProjectTopicListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6D0F819E240C40076D59C /* ProjectTopicListView.m */; };
 		8EA6D23B19E240C40076D59C /* ProjectTopicsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6D0FA19E240C40076D59C /* ProjectTopicsView.m */; };
-		8EA6D25019E240C40076D59C /* UIMessageInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6D12419E240C40076D59C /* UIMessageInputView.m */; };
 		8EABB20119EE7A85009EB53A /* AddUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EABB20019EE7A85009EB53A /* AddUserViewController.m */; };
 		8EABE3C819F10D2400A17784 /* TaskComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EABE3C719F10D2400A17784 /* TaskComment.m */; };
 		8EABE3CB19F1211D00A17784 /* topic.html in Resources */ = {isa = PBXBuildFile; fileRef = 8EABE3C919F1211D00A17784 /* topic.html */; };
@@ -911,6 +914,14 @@
 		4EA7F1551A6D192B00A046BD /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		4EA7F1571A6D192B00A046BD /* ODRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODRefreshControl.h; sourceTree = "<group>"; };
 		4EA7F1581A6D192B00A046BD /* ODRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODRefreshControl.m; sourceTree = "<group>"; };
+		4EABD2521AD3CA7E005E515F /* UIMessageInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIMessageInputView.h; sourceTree = "<group>"; };
+		4EABD2531AD3CA7E005E515F /* UIMessageInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIMessageInputView.m; sourceTree = "<group>"; };
+		4EABD2551AD3CAAC005E515F /* UIMessageInputView_Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIMessageInputView_Add.h; sourceTree = "<group>"; };
+		4EABD2561AD3CAAC005E515F /* UIMessageInputView_Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIMessageInputView_Add.m; sourceTree = "<group>"; };
+		4EABD2581AD3CB4A005E515F /* UIMessageInputView_CCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIMessageInputView_CCell.h; sourceTree = "<group>"; };
+		4EABD2591AD3CB4A005E515F /* UIMessageInputView_CCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIMessageInputView_CCell.m; sourceTree = "<group>"; };
+		4EABD25B1AD3CBB9005E515F /* UIMessageInputView_Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIMessageInputView_Media.h; sourceTree = "<group>"; };
+		4EABD25C1AD3CBB9005E515F /* UIMessageInputView_Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIMessageInputView_Media.m; sourceTree = "<group>"; };
 		4EACB43C1A2C448F0097ABB3 /* button_file_createFolder_unable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_createFolder_unable@2x.png"; sourceTree = "<group>"; };
 		4EACB43D1A2C448F0097ABB3 /* button_file_download_unable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_download_unable@2x.png"; sourceTree = "<group>"; };
 		4EACB43E1A2C448F0097ABB3 /* button_file_move_unable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_move_unable@2x.png"; sourceTree = "<group>"; };
@@ -1394,8 +1405,6 @@
 		8EA6D0F819E240C40076D59C /* ProjectTopicListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTopicListView.m; sourceTree = "<group>"; };
 		8EA6D0F919E240C40076D59C /* ProjectTopicsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTopicsView.h; sourceTree = "<group>"; };
 		8EA6D0FA19E240C40076D59C /* ProjectTopicsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTopicsView.m; sourceTree = "<group>"; };
-		8EA6D12319E240C40076D59C /* UIMessageInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIMessageInputView.h; sourceTree = "<group>"; };
-		8EA6D12419E240C40076D59C /* UIMessageInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIMessageInputView.m; sourceTree = "<group>"; };
 		8EA6D12719E240C40076D59C /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		8EABB1FF19EE7A85009EB53A /* AddUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddUserViewController.h; sourceTree = "<group>"; };
 		8EABB20019EE7A85009EB53A /* AddUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddUserViewController.m; sourceTree = "<group>"; };
@@ -1897,6 +1906,21 @@
 				4EA7F1581A6D192B00A046BD /* ODRefreshControl.m */,
 			);
 			path = ODRefreshControl;
+			sourceTree = "<group>";
+		};
+		4EABD2511AD3CA7E005E515F /* UIMessageInputView */ = {
+			isa = PBXGroup;
+			children = (
+				4EABD2521AD3CA7E005E515F /* UIMessageInputView.h */,
+				4EABD2531AD3CA7E005E515F /* UIMessageInputView.m */,
+				4EABD2551AD3CAAC005E515F /* UIMessageInputView_Add.h */,
+				4EABD2561AD3CAAC005E515F /* UIMessageInputView_Add.m */,
+				4EABD2581AD3CB4A005E515F /* UIMessageInputView_CCell.h */,
+				4EABD2591AD3CB4A005E515F /* UIMessageInputView_CCell.m */,
+				4EABD25B1AD3CBB9005E515F /* UIMessageInputView_Media.h */,
+				4EABD25C1AD3CBB9005E515F /* UIMessageInputView_Media.m */,
+			);
+			path = UIMessageInputView;
 			sourceTree = "<group>";
 		};
 		4EBB62471A6F526C0045DAEF /* NJKWebViewProgress */ = {
@@ -2866,6 +2890,7 @@
 			children = (
 				8EF6436319FF7E2900F7EEB0 /* Cell */,
 				8EF6435419FF7E2900F7EEB0 /* CCell */,
+				4EABD2511AD3CA7E005E515F /* UIMessageInputView */,
 				8EA6D0ED19E240C40076D59C /* ProjectListView.h */,
 				8EA6D0EE19E240C40076D59C /* ProjectListView.m */,
 				8EA6D0E519E240C40076D59C /* ProjectActivitiesView.h */,
@@ -2884,8 +2909,6 @@
 				8E59F0ED1A00F34E009A905F /* ProjectCodeListView.m */,
 				8E59F0EF1A00F38A009A905F /* ProjectFolderListView.h */,
 				8E59F0F01A00F38A009A905F /* ProjectFolderListView.m */,
-				8EA6D12319E240C40076D59C /* UIMessageInputView.h */,
-				8EA6D12419E240C40076D59C /* UIMessageInputView.m */,
 				4E2906A01A403B7D008A5B97 /* FileDownloadView.h */,
 				4E2906A11A403B7D008A5B97 /* FileDownloadView.m */,
 				4E07D30F1A4D1484009EDDF2 /* EaseStartView.h */,
@@ -3491,6 +3514,7 @@
 				8EA6D1B219E240C40076D59C /* Depot.m in Sources */,
 				4ED6731E1A8DD38C00DF2D1A /* ReportIllegalViewController.m in Sources */,
 				8EF643CE19FF7E2900F7EEB0 /* TweetDetailCell.m in Sources */,
+				4EABD2571AD3CAAC005E515F /* UIMessageInputView_Add.m in Sources */,
 				8E59F0E21A0098BA009A905F /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				4E15C7D01A26D2F000FB8DAD /* FolderToMoveViewController.m in Sources */,
 				4EA7F1621A6D192B00A046BD /* UIImage+GIF.m in Sources */,
@@ -3517,6 +3541,7 @@
 				8EA6D1B719E240C40076D59C /* PrivateMessage.m in Sources */,
 				8EF643BE19FF7E2900F7EEB0 /* ProjectTaskListViewCell.m in Sources */,
 				4ECE8AE31A3943E80021E29C /* UIDevice+Info.m in Sources */,
+				4EABD25D1AD3CBB9005E515F /* UIMessageInputView_Media.m in Sources */,
 				4E6BA2E31A1EE6AF005FD721 /* UIAlertView+AFNetworking.m in Sources */,
 				4EA7F15F1A6D192B00A046BD /* SDWebImageManager.m in Sources */,
 				8E64ED8519ED0CE3006E99DA /* QBImagePickerThumbnailView.m in Sources */,
@@ -3555,6 +3580,7 @@
 				8E97CE481A0A2DF8006F9AD7 /* AGEmojiPageView.m in Sources */,
 				4E9113A31A1C426000AC9431 /* ASProgressPopUpView.m in Sources */,
 				4ECE8AFE1A3946C10021E29C /* Coding_FileManager.m in Sources */,
+				4EABD2541AD3CA7E005E515F /* UIMessageInputView.m in Sources */,
 				4ECE8AE51A3943E80021E29C /* UIImageView+Common.m in Sources */,
 				8EF643CA19FF7E2900F7EEB0 /* TopicContentCell.m in Sources */,
 				4ECE8AE81A3943E80021E29C /* UIView+Common.m in Sources */,
@@ -3593,7 +3619,6 @@
 				8EA6D14419E240C40076D59C /* TopicDetailViewController.m in Sources */,
 				4EA7F1641A6D192B00A046BD /* UIImageView+HighlightedWebCache.m in Sources */,
 				8EA6D23B19E240C40076D59C /* ProjectTopicsView.m in Sources */,
-				8EA6D25019E240C40076D59C /* UIMessageInputView.m in Sources */,
 				E7A046A01A47279E00528C12 /* Helper.m in Sources */,
 				8E64ED8019ED0CE3006E99DA /* QBAssetsCollectionViewController.m in Sources */,
 				4E996BD71ABA776500C704F1 /* UserInfoDetailTagCell.m in Sources */,
@@ -3626,6 +3651,7 @@
 				4E6C41201A846AC30098DC17 /* RFToolbarButton.m in Sources */,
 				4ECE8B011A3946C10021E29C /* ImageSizeManager.m in Sources */,
 				8EA6D1B319E240C40076D59C /* File.m in Sources */,
+				4EABD25A1AD3CB4A005E515F /* UIMessageInputView_CCell.m in Sources */,
 				8EF643C019FF7E2900F7EEB0 /* TaskCommentBlankCell.m in Sources */,
 				4E6BA2E11A1EE6AF005FD721 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				8EA6D1B619E240C40076D59C /* Login.m in Sources */,

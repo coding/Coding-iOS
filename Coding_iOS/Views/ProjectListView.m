@@ -122,7 +122,14 @@
             [weakSelf updateFilteredContentForSearchString:weakSelf.searchString];
             [weakSelf.myTableView reloadData];
         }
-        [weakSelf configBlankPage:([weakSelf.myProjects.curUser.global_key isEqualToString:[Login curLoginUser].global_key]? EaseBlankPageTypeProject: EaseBlankPageTypeProjectOther) hasData:(weakSelf.myProjects.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        EaseBlankPageType blankPageType;
+        if (weakSelf.myProjects.type < ProjectsTypeTaProject
+            || [weakSelf.myProjects.curUser.global_key isEqualToString:[Login curLoginUser].global_key]) {
+            blankPageType = EaseBlankPageTypeProject;
+        }else{
+            blankPageType = EaseBlankPageTypeProjectOther;
+        }
+        [weakSelf configBlankPage:blankPageType hasData:(weakSelf.myProjects.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
     }];

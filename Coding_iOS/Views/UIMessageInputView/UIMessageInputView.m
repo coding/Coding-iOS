@@ -15,6 +15,8 @@
 
 #import "UIMessageInputView.h"
 #import "UIPlaceHolderTextView.h"
+#import "UIMessageInputView_Add.h"
+#import "UIMessageInputView_CCell.h"
 
 //at某人的功能
 #import "UsersViewController.h"
@@ -675,28 +677,30 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 #pragma uploadMedia
 - (void)doUploadMediaList{
     __block UIMessageInputView_Media *media = nil;
+    __block NSInteger index = 0;
     [_uploadMediaList enumerateObjectsUsingBlock:^(UIMessageInputView_Media *obj, NSUInteger idx, BOOL *stop) {
         if (obj.state == UIMessageInputView_MediaStateInit) {
             media = obj;
+            index = idx;
             *stop = YES;
         }
     }];
     if (media && media.curAsset) {
-        [self doUploadMedia:media];
+        [self doUploadMedia:media withIndex:index];
     }else{
-        [self hudTipWillShow:NO];
+        [self hudTipWillShow:nil];
         [[BaseViewController presentingVC] dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
-- (void)doUploadMedia:(UIMessageInputView_Media *)media{
+- (void)doUploadMedia:(UIMessageInputView_Media *)media withIndex:(NSInteger)index{
     //保存到app内
     NSString* originalFileName = [[media.curAsset defaultRepresentation] filename];
     NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@", self.curProject.id.stringValue, @"0", originalFileName];
     
     if ([Coding_FileManager writeUploadDataWithName:fileName andAsset:media.curAsset]) {
+        [self hudTipWillShow:[NSString stringWithFormat:@"正在上传第 %ld 张图片...", (long)index]];
         media.state = UIMessageInputView_MediaStateUploading;
-        [self hudTipWillShow:YES];
         self.uploadingPhotoName = originalFileName;
         Coding_UploadTask *uploadTask =[[Coding_FileManager sharedManager] addUploadTaskWithFileName:fileName projectIsPublic:_curProject.is_public.boolValue];
         @weakify(self)
@@ -754,13 +758,13 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }
 }
 
-- (void)hudTipWillShow:(BOOL)willShow{
-    if (willShow) {
+- (void)hudTipWillShow:(NSString *)tipStr{
+    if (tipStr.length > 0) {
         [self resignFirstResponder];
         if (!_HUD) {
             _HUD = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
             _HUD.mode = MBProgressHUDModeDeterminateHorizontalBar;
-            _HUD.labelText = @"正在上传图片...";
+            _HUD.labelText = tipStr;
             _HUD.removeFromSuperViewOnHide = YES;
         }else{
             _HUD.progress = 0;
@@ -915,134 +919,6 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 - (UIImage *)backSpaceButtonImageForEmojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView {
     UIImage *img = [UIImage imageNamed:@"keyboard_emotion_delete"];
     return img;
-}
-
-@end
-
-@implementation UIMessageInputView_Add
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-        self.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
-        UIButton *photoItem = [self buttonWithImageName:@"keyboard_add_photo" title:@"照片" index:0];
-        UIButton *cameraItem = [self buttonWithImageName:@"keyboard_add_camera" title:@"拍摄" index:1];
-        [self addSubview:photoItem];
-        [self addSubview:cameraItem];
-    }
-    return self;
-}
-
-- (UIButton *)buttonWithImageName:(NSString *)imageName title:(NSString *)title index:(NSInteger)index{
-    CGFloat itemWidth = (kScreen_Width- 2*kPaddingLeftWidth)/3;
-    CGFloat leftX = kPaddingLeftWidth, topY = 10;
-    UIButton *addItem = [[UIButton alloc] initWithFrame:CGRectMake(leftX +index*itemWidth +(itemWidth -50)/2, topY, 50, 80)];
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 60, 50, 20)];
-    titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.font = [UIFont systemFontOfSize:14];
-    titleLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.text = title;
-    [addItem addSubview:titleLabel];
-    
-    [addItem setImageEdgeInsets:UIEdgeInsetsMake(-10, 0, 10, 0)];
-    [addItem setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
-    addItem.tag = 2000+index;
-    [addItem addTarget:self action:@selector(clickedItem:) forControlEvents:UIControlEventTouchUpInside];
-    return addItem;
-}
-
-- (void)clickedItem:(UIButton *)sender{
-    NSInteger index = sender.tag - 2000;
-    if (_addIndexBlock) {
-        _addIndexBlock(index);
-    }
-}
-
-@end
-
-
-@implementation UIMessageInputView_Media
-+ (id)mediaWithAsset:(ALAsset *)asset urlStr:(NSString *)urlStr{
-    UIMessageInputView_Media *media = [[UIMessageInputView_Media alloc] init];
-    media.curAsset = asset;
-    media.assetURL = [asset valueForProperty:ALAssetPropertyAssetURL];
-    media.urlStr = urlStr;
-    media.state = urlStr.length > 0? UIMessageInputView_MediaStateUploadSucess: UIMessageInputView_MediaStateInit;
-    return media;
-}
-@end
-
-
-@interface UIMessageInputView_CCell ()
-@property (strong, nonatomic) UIMessageInputView_Media *media;
-@property (strong, nonatomic) YLImageView *imgView;
-@property (strong, nonatomic) UIButton *deleteBtn;
-@end
-
-@implementation UIMessageInputView_CCell
-- (void)setCurMedia:(UIMessageInputView_Media *)curMedia andTotalCount:(NSInteger)totalCount{
-    if (!_imgView) {
-        _imgView = [[YLImageView alloc] initWithFrame:CGRectZero];
-        _imgView.contentMode = UIViewContentModeScaleAspectFill;
-        _imgView.clipsToBounds = YES;
-        _imgView.layer.masksToBounds = YES;
-        _imgView.layer.cornerRadius = 2.0;
-        [self.contentView addSubview:_imgView];
-        [_imgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.contentView);
-        }];
-    }
-    if (!_deleteBtn) {
-        _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_deleteBtn setImage:[UIImage imageNamed:@"btn_delete_tweetimage"] forState:UIControlStateNormal];
-        _deleteBtn.backgroundColor = [UIColor blackColor];
-        _deleteBtn.layer.cornerRadius = 10;
-        _deleteBtn.layer.masksToBounds = YES;
-        [_deleteBtn addTarget:self action:@selector(deleteBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [self.contentView addSubview:_deleteBtn];
-        [_deleteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.right.equalTo(self.contentView);
-            make.size.mas_equalTo(CGSizeMake(20, 20));
-        }];
-    }
-    
-    if (_media != curMedia) {
-        _media = curMedia;
-
-        ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
-        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-        dispatch_queue_t queue = dispatch_queue_create("UIMessageInputView_CCellForAsset", DISPATCH_QUEUE_SERIAL);
-        dispatch_async(queue, ^{
-            [assetsLibrary assetForURL:_media.assetURL resultBlock:^(ALAsset *asset) {
-                _media.curAsset = asset;
-                dispatch_semaphore_signal(semaphore);
-            } failureBlock:^(NSError *error) {
-                _media.curAsset = nil;
-                dispatch_semaphore_signal(semaphore);
-            }];
-        });
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-
-        CGImageRef imageRef = nil;
-        if (totalCount < 3) {
-            imageRef = _media.curAsset.defaultRepresentation.fullScreenImage;
-        }else{
-            imageRef = _media.curAsset.thumbnail;
-        }
-        if (imageRef) {
-            self.imgView.image = [UIImage imageWithCGImage:imageRef];
-        } else {
-            [self.imgView sd_setImageWithURL:[_media.urlStr urlImageWithCodePathResizeToView:self.contentView] placeholderImage:kPlaceholderCodingSquareWidth(55.0) options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies];
-        }
-    }
-}
-
-- (void)deleteBtnClicked:(id)sender{
-    if (_deleteBlock) {
-        _deleteBlock(_media);
-    }
 }
 
 @end
