@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
@@ -29,18 +29,6 @@
                                                         <constraint firstAttribute="width" constant="55" id="CIb-cN-IRf"/>
                                                     </constraints>
                                                 </imageView>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="项目名称" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1wU-rL-E1K">
-                                                    <rect key="frame" x="103" y="29" width="179" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="apB-Ie-eRA"/>
-                                                    </constraints>
-                                                    <color key="textColor" red="0.1333333333" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                    <connections>
-                                                        <outlet property="delegate" destination="aBN-lC-vWq" id="KWl-P0-uvq"/>
-                                                    </connections>
-                                                </textField>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_project_private.png" translatesAutoresizingMaskIntoConstraints="NO" id="Q1S-eW-kft">
                                                     <rect key="frame" x="82" y="33" width="13" height="13"/>
                                                     <constraints>
@@ -55,18 +43,27 @@
                                                         <constraint firstAttribute="height" constant="1" id="mRc-s2-OL3"/>
                                                     </constraints>
                                                 </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="项目名称" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SyM-aU-EMa">
+                                                    <rect key="frame" x="103" y="30" width="68" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="sh8-vb-Oei"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="1wU-rL-E1K" firstAttribute="leading" secondItem="Q1S-eW-kft" secondAttribute="trailing" constant="8" id="0oi-S5-x4x"/>
                                                 <constraint firstItem="DwG-SB-LhI" firstAttribute="top" secondItem="Fqp-oM-cmM" secondAttribute="top" id="1yA-31-v1y"/>
                                                 <constraint firstAttribute="trailing" secondItem="DwG-SB-LhI" secondAttribute="trailing" id="2EY-jo-xkV"/>
-                                                <constraint firstAttribute="trailingMargin" relation="lessThanOrEqual" secondItem="1wU-rL-E1K" secondAttribute="trailing" constant="30" id="9lE-Bw-eeC"/>
                                                 <constraint firstItem="Q1S-eW-kft" firstAttribute="leading" secondItem="wnT-zR-nIE" secondAttribute="trailing" constant="12" id="Dj5-ft-vvh"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SyM-aU-EMa" secondAttribute="trailing" constant="15" id="QZd-Ow-0jd"/>
                                                 <constraint firstItem="DwG-SB-LhI" firstAttribute="leading" secondItem="Fqp-oM-cmM" secondAttribute="leading" id="U7B-R0-4bL"/>
-                                                <constraint firstItem="1wU-rL-E1K" firstAttribute="top" secondItem="Fqp-oM-cmM" secondAttribute="topMargin" constant="21" id="eeX-Iw-Lf0"/>
                                                 <constraint firstItem="Q1S-eW-kft" firstAttribute="top" secondItem="Fqp-oM-cmM" secondAttribute="topMargin" constant="25" id="gMb-gl-p5f"/>
                                                 <constraint firstItem="wnT-zR-nIE" firstAttribute="leading" secondItem="Fqp-oM-cmM" secondAttribute="leading" constant="15" id="jeQ-le-K6x"/>
+                                                <constraint firstItem="SyM-aU-EMa" firstAttribute="leading" secondItem="Q1S-eW-kft" secondAttribute="trailing" constant="8" id="kXp-Cb-c2D"/>
                                                 <constraint firstItem="wnT-zR-nIE" firstAttribute="top" secondItem="Fqp-oM-cmM" secondAttribute="topMargin" constant="4" id="pf3-27-iaQ"/>
+                                                <constraint firstItem="SyM-aU-EMa" firstAttribute="top" secondItem="Fqp-oM-cmM" secondAttribute="top" constant="30" id="v68-bF-4QZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -162,8 +159,10 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="descTextView" destination="sis-TG-0f8" id="aTT-Mv-rPy"/>
+                        <outlet property="privateIconLeftConstraint" destination="Dj5-ft-vvh" id="h3A-uJ-sib"/>
+                        <outlet property="privateImageView" destination="Q1S-eW-kft" id="9Xk-p1-Ldy"/>
                         <outlet property="projectImageView" destination="wnT-zR-nIE" id="4JP-FP-d6b"/>
-                        <outlet property="projectNameTextField" destination="1wU-rL-E1K" id="CGZ-z5-mw4"/>
+                        <outlet property="projectNameLabel" destination="SyM-aU-EMa" id="0Qz-12-NVA"/>
                         <outletCollection property="lines" destination="81D-Ss-W9I" id="knO-fi-sN1"/>
                         <outletCollection property="lines" destination="aJc-kT-Rp8" id="8m6-ON-K1l"/>
                         <outletCollection property="lines" destination="tbw-AN-t3X" id="JUv-MK-2Uc"/>
@@ -172,7 +171,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XTZ-Sc-Qlw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="172" y="300"/>
+            <point key="canvasLocation" x="172" y="299"/>
         </scene>
         <!--高级设置-->
         <scene sceneID="aKh-1D-3YA">
