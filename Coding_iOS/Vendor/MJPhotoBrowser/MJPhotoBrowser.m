@@ -75,6 +75,8 @@
 
 - (void)show
 {
+    [kKeyWindow endEditing:YES];
+
     //初始化数据
     {
         if (!_visiblePhotoViews) {

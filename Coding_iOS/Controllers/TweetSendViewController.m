@@ -16,6 +16,7 @@
 #import "TweetSendLocationCell.h"
 #import "TweetSendLocationViewController.h"
 #import "TweetSendLocation.h"
+#import <TPKeyboardAvoiding/TPKeyboardAvoidingTableView.h>
 
 @interface TweetSendViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
@@ -55,7 +56,7 @@
     
     //    添加myTableView
     _myTableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         tableView.backgroundColor = [UIColor clearColor];
         tableView.dataSource = self;
         tableView.delegate = self;
