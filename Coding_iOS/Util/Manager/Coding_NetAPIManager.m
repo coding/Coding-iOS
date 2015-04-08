@@ -244,7 +244,7 @@
     }
 }
 
--(void)request_NewProject_WithObj:(Project *)project image:(UIImage *)image andBlock:(void (^)(Project *, NSError *))block{
+-(void)request_NewProject_WithObj:(Project *)project image:(UIImage *)image andBlock:(void (^)(NSString *, NSError *))block{
     [MobClick event:kUmeng_Event_Request label:@"创建项目"];
     [self showStatusBarQueryStr:@"正在创建项目"];
     
@@ -256,7 +256,8 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toProjectPath] file:fileDic withParams:[project toCreateParams] withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [self showStatusBarSuccessStr:@"创建项目成功"];
-            block(data, nil);
+            id resultData = [data valueForKeyPath:@"data"];
+            block(resultData, nil);
         }else{
             [self showStatusBarError:error];
             block(nil, error);
@@ -270,7 +271,9 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toUpdatePath] withParams:[project toUpdateParams] withMethodType:Put andBlock:^(id data, NSError *error) {
         if (data) {
             [self showStatusBarSuccessStr:@"更新项目成功"];
-            block(data, nil);
+            id resultData = [data valueForKeyPath:@"data"];
+            Project *resultA = [NSObject objectOfClass:@"Project" fromJSON:resultData];
+            block(resultA, nil);
         }else{
             [self showStatusBarError:error];
             block(nil, error);

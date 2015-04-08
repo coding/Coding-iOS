@@ -10,6 +10,9 @@
 #import "NewProjectTypeViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "UIImageView+WebCache.h"
+#import "NProjectViewController.h"
+#import <RegexKitLite/RegexKitLite.h>
+#import "RDVTabBarController.h"
 
 @interface NewProjectViewController ()<NewProjectTypeDelegate,UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
@@ -23,6 +26,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [self.rdv_tabBarController setTabBarHidden:YES animated:YES];
 }
 
 - (void)viewDidLoad {
@@ -42,7 +46,7 @@
 
     //
     self.projectImageView.layer.cornerRadius = 2;
-    self.projectImageView.image = [UIImage imageNamed:@"AppIcon120x120"];
+    self.projectImageView.image = kPlaceholderCodingSquareWidth(55.0);
     UITapGestureRecognizer *tapProjectImageViewGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectProjectImage)];
     [self.projectImageView addGestureRecognizer:tapProjectImageViewGR];
     
@@ -57,7 +61,7 @@
     static NSString *projectIconURLString = @"https://coding.net/static/project_icon/scenery-%d.png";
     int x = arc4random() % 24 + 1;
     NSString *randomIconURLString = [NSString stringWithFormat:projectIconURLString,x];
-    [self.projectImageView sd_setImageWithURL:[NSURL URLWithString:randomIconURLString] placeholderImage:[UIImage imageNamed:@"AppIcon120x120"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [self.projectImageView sd_setImageWithURL:[NSURL URLWithString:randomIconURLString] placeholderImage:kPlaceholderCodingSquareWidth(55.0) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (image) {
             self.projectIconImage = image;
         }
@@ -103,7 +107,7 @@
     NSString *projectName = [self.projectNameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     if ([projectName length] < 2 || [projectName length] > 31) {
-        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入2 ~ 31位以内的项目名称" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil] show];
+        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"请输入2 ~ 31位以内的项目名称" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles: nil] show];
     }else{
         if ([self projectNameVerification:projectName]) {
             
@@ -121,14 +125,15 @@
             self.submitButtonItem.enabled = NO;
             
             // 效验完成，开始发送请求创建项目
-            [[Coding_NetAPIManager sharedManager] request_NewProject_WithObj:project image:self.projectIconImage andBlock:^(Project *data, NSError *error) {
-                if (!error) {
-                    [self.navigationController popToRootViewControllerAnimated:YES];
+            __weak typeof(self) weakSelf = self;
+            [[Coding_NetAPIManager sharedManager] request_NewProject_WithObj:project image:self.projectIconImage andBlock:^(NSString *data, NSError *error) {
+                if (data.length > 0) {
+                    [weakSelf gotoProWithStr:data];
                 }
                 self.submitButtonItem.enabled = YES;
             }];
         }else{
-            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"项目名只允许字母、数字或者下划线(_)、中划线(-)，必须以字母或者数字开头,且不能以.git结尾" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles: nil] show];
+            [[[UIAlertView alloc] initWithTitle:@"提示" message:@"项目名只允许字母、数字或者下划线(_)、中划线(-)，必须以字母或者数字开头,且不能以.git结尾" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles: nil] show];
         }
     }
 
@@ -156,6 +161,27 @@
     }
     
     return YES;
+}
+
+#pragma mark gotoVC
+- (void)gotoProWithStr:(NSString *)data{
+    NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
+    NSArray *matchedCaptures = [data captureComponentsMatchedByRegex:projectRegexStr];
+    if (matchedCaptures.count >= 3) {
+        NSString *user_global_key = matchedCaptures[1];
+        NSString *project_name = matchedCaptures[2];
+        Project *curPro = [[Project alloc] init];
+        curPro.owner_user_name = user_global_key;
+        curPro.name = project_name;
+        NProjectViewController *vc = [[NProjectViewController alloc] init];
+        vc.myProject = curPro;
+        
+        NSMutableArray *curViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
+        if (curViewControllers.count >= 2) {
+            [curViewControllers replaceObjectAtIndex:curViewControllers.count - 1 withObject:vc];
+            [self.navigationController setViewControllers:curViewControllers animated:YES];
+        }
+    }
 }
 
 #pragma mark UITableView

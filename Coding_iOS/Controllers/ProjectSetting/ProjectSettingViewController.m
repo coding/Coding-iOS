@@ -50,7 +50,7 @@
     
     //
     self.projectImageView.layer.cornerRadius = 2;
-    [self.projectImageView sd_setImageWithURL:[self.project.icon urlImageWithCodePathResizeToView:self.projectImageView]];
+    [self.projectImageView sd_setImageWithURL:[self.project.icon urlImageWithCodePathResizeToView:self.projectImageView] placeholderImage:kPlaceholderCodingSquareWidth(55.0)];
     UITapGestureRecognizer *tapProjectImageViewGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectProjectImage)];
     [self.projectImageView addGestureRecognizer:tapProjectImageViewGR];
     
