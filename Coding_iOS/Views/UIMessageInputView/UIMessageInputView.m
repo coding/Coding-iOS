@@ -699,7 +699,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@", self.curProject.id.stringValue, @"0", originalFileName];
     
     if ([Coding_FileManager writeUploadDataWithName:fileName andAsset:media.curAsset]) {
-        [self hudTipWillShow:[NSString stringWithFormat:@"正在上传第 %ld 张图片...", (long)index]];
+        [self hudTipWillShow:[NSString stringWithFormat:@"正在上传第 %ld 张图片...", (long)index +1]];
         media.state = UIMessageInputView_MediaStateUploading;
         self.uploadingPhotoName = originalFileName;
         Coding_UploadTask *uploadTask =[[Coding_FileManager sharedManager] addUploadTaskWithFileName:fileName projectIsPublic:_curProject.is_public.boolValue];
@@ -764,13 +764,13 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         if (!_HUD) {
             _HUD = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
             _HUD.mode = MBProgressHUDModeDeterminateHorizontalBar;
-            _HUD.labelText = tipStr;
             _HUD.removeFromSuperViewOnHide = YES;
         }else{
-            _HUD.progress = 0;
             [kKeyWindow addSubview:_HUD];
             [_HUD show:NO];
         }
+        _HUD.progress = 0;
+        _HUD.labelText = tipStr;
     }else{
         [_HUD hide:NO];
     }
