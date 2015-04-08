@@ -208,6 +208,7 @@
 		4EABD2571AD3CAAC005E515F /* UIMessageInputView_Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EABD2561AD3CAAC005E515F /* UIMessageInputView_Add.m */; };
 		4EABD25A1AD3CB4A005E515F /* UIMessageInputView_CCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EABD2591AD3CB4A005E515F /* UIMessageInputView_CCell.m */; };
 		4EABD25D1AD3CBB9005E515F /* UIMessageInputView_Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EABD25C1AD3CBB9005E515F /* UIMessageInputView_Media.m */; };
+		4EABD25F1AD4D612005E515F /* bubble.html in Resources */ = {isa = PBXBuildFile; fileRef = 4EABD25E1AD4D612005E515F /* bubble.html */; };
 		4EACB43F1A2C448F0097ABB3 /* button_file_createFolder_unable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EACB43C1A2C448F0097ABB3 /* button_file_createFolder_unable@2x.png */; };
 		4EACB4401A2C448F0097ABB3 /* button_file_download_unable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EACB43D1A2C448F0097ABB3 /* button_file_download_unable@2x.png */; };
 		4EACB4411A2C448F0097ABB3 /* button_file_move_unable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EACB43E1A2C448F0097ABB3 /* button_file_move_unable@2x.png */; };
@@ -537,7 +538,6 @@
 		8EABB20119EE7A85009EB53A /* AddUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EABB20019EE7A85009EB53A /* AddUserViewController.m */; };
 		8EABE3C819F10D2400A17784 /* TaskComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EABE3C719F10D2400A17784 /* TaskComment.m */; };
 		8EABE3CB19F1211D00A17784 /* topic.html in Resources */ = {isa = PBXBuildFile; fileRef = 8EABE3C919F1211D00A17784 /* topic.html */; };
-		8EABE3CC19F1211D00A17784 /* bubble.html in Resources */ = {isa = PBXBuildFile; fileRef = 8EABE3CA19F1211D00A17784 /* bubble.html */; };
 		8EBAA73F19B9695600829E2A /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EBAA73E19B9695600829E2A /* libxml2.2.dylib */; };
 		8EC911291A027A54009EAE99 /* nav_project_code@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EC911281A027A54009EAE99 /* nav_project_code@2x.png */; };
 		8ECA8BB419FB42CC00C598C6 /* UILongPressMenuImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECA8BB319FB42CC00C598C6 /* UILongPressMenuImageView.m */; };
@@ -922,6 +922,7 @@
 		4EABD2591AD3CB4A005E515F /* UIMessageInputView_CCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIMessageInputView_CCell.m; sourceTree = "<group>"; };
 		4EABD25B1AD3CBB9005E515F /* UIMessageInputView_Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIMessageInputView_Media.h; sourceTree = "<group>"; };
 		4EABD25C1AD3CBB9005E515F /* UIMessageInputView_Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIMessageInputView_Media.m; sourceTree = "<group>"; };
+		4EABD25E1AD4D612005E515F /* bubble.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = bubble.html; sourceTree = "<group>"; };
 		4EACB43C1A2C448F0097ABB3 /* button_file_createFolder_unable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_createFolder_unable@2x.png"; sourceTree = "<group>"; };
 		4EACB43D1A2C448F0097ABB3 /* button_file_download_unable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_download_unable@2x.png"; sourceTree = "<group>"; };
 		4EACB43E1A2C448F0097ABB3 /* button_file_move_unable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_move_unable@2x.png"; sourceTree = "<group>"; };
@@ -1411,7 +1412,6 @@
 		8EABE3C619F10D2400A17784 /* TaskComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskComment.h; sourceTree = "<group>"; };
 		8EABE3C719F10D2400A17784 /* TaskComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskComment.m; sourceTree = "<group>"; };
 		8EABE3C919F1211D00A17784 /* topic.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = topic.html; sourceTree = "<group>"; };
-		8EABE3CA19F1211D00A17784 /* bubble.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = bubble.html; sourceTree = "<group>"; };
 		8EBAA73E19B9695600829E2A /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		8EC911281A027A54009EAE99 /* nav_project_code@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_project_code@2x.png"; sourceTree = "<group>"; };
 		8ECA8BB219FB42CC00C598C6 /* UILongPressMenuImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UILongPressMenuImageView.h; sourceTree = "<group>"; };
@@ -2747,7 +2747,7 @@
 				8E7612EF1A08A4EB005BE797 /* markdown.html */,
 				8E7612F01A08A4EB005BE797 /* code.html */,
 				8EABE3C919F1211D00A17784 /* topic.html */,
-				8EABE3CA19F1211D00A17784 /* bubble.html */,
+				4EABD25E1AD4D612005E515F /* bubble.html */,
 				8E1C3DF519E7F4CA00EF3032 /* address.json */,
 			);
 			path = Resources;
@@ -3196,6 +3196,7 @@
 				8E525C8A19F7E3F800496B34 /* blankpage_image_loadFail@2x.png in Resources */,
 				4E96E7D81A1B537E0037C098 /* icon_file_ai@2x.png in Resources */,
 				8E525C8919F7E3F800496B34 /* blankpage_button_reload@2x.png in Resources */,
+				4EABD25F1AD4D612005E515F /* bubble.html in Resources */,
 				8E97CEAC1A0C7E26006F9AD7 /* coding_emoji_21@2x.png in Resources */,
 				8E97CEB01A0C7E26006F9AD7 /* coding_emoji_25@2x.png in Resources */,
 				8EF643B719FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib in Resources */,
@@ -3276,7 +3277,6 @@
 				8EA6D16919E240C40076D59C /* nav_project_task@2x.png in Resources */,
 				4E03ACA81A5D3BD1002B000B /* topic_comment_icon@2x.png in Resources */,
 				8EA6D18F19E240C40076D59C /* tasks_all@2x.png in Resources */,
-				8EABE3CC19F1211D00A17784 /* bubble.html in Resources */,
 				8EA6D16A19E240C40076D59C /* nav_project_topic@2x.png in Resources */,
 				4E96E7E51A1B537E0037C098 /* icon_file_zip@2x.png in Resources */,
 				4E66EE261A28226000DA1B3E /* button_file_createFolder_enable@2x.png in Resources */,
