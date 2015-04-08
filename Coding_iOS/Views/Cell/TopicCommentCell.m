@@ -78,7 +78,6 @@
     [_contentLabel setLongString:_toComment.content withFitWidth:curWidth];
     curBottomY += [_toComment.content getHeightWithFont:kTopicCommentCell_FontContent constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 5;
     
-    
     NSInteger imagesCount = _toComment.htmlMedia.imageItems.count;
     if (imagesCount > 0) {
         self.imageCollectionView.hidden = NO;
@@ -110,7 +109,7 @@
         return 0;
     }
     CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
-    NSInteger numInOneLine = floorf((curWidth +10)/43);
+    NSInteger numInOneLine = floorf((curWidth +5)/(33 + 5));
     NSInteger numOfline = ceilf(countNum/(float)numInOneLine);
     return (43 *numOfline);
 }
@@ -136,7 +135,7 @@
     return 10;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return 10/2;
+    return 5;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{

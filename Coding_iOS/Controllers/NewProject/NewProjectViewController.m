@@ -41,7 +41,7 @@
     self.descTextView.placeholder = @"填写项目描述...";
 
     //
-    self.projectImageView.layer.cornerRadius = 5;
+    self.projectImageView.layer.cornerRadius = 2;
     self.projectImageView.image = [UIImage imageNamed:@"AppIcon120x120"];
     UITapGestureRecognizer *tapProjectImageViewGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectProjectImage)];
     [self.projectImageView addGestureRecognizer:tapProjectImageViewGR];

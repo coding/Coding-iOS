@@ -49,7 +49,7 @@
     self.descTextView.delegate = self;
     
     //
-    self.projectImageView.layer.cornerRadius = 5;
+    self.projectImageView.layer.cornerRadius = 2;
     [self.projectImageView sd_setImageWithURL:[self.project.icon urlImageWithCodePathResizeToView:self.projectImageView]];
     UITapGestureRecognizer *tapProjectImageViewGR = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectProjectImage)];
     [self.projectImageView addGestureRecognizer:tapProjectImageViewGR];

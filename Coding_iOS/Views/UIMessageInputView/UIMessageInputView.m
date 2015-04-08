@@ -568,7 +568,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     return kMessageInputView_MediaPadding;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return kMessageInputView_MediaPadding/2;
+    return kMessageInputView_MediaPadding;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{

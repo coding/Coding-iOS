@@ -107,7 +107,7 @@
     if (countNum <= 0) {
         return 0;
     }
-    NSInteger numInOneLine = floorf((kTaskCommentCell_ContentWidth +10)/43);
+    NSInteger numInOneLine = floorf((kTaskCommentCell_ContentWidth +5)/(33 + 5));
     NSInteger numOfline = ceilf(countNum/(float)numInOneLine);
     return (43 *numOfline);
 }
@@ -134,7 +134,7 @@
     return 10;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return 10/2;
+    return 5;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
