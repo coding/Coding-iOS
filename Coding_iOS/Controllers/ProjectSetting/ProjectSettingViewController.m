@@ -26,15 +26,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // Private Icon
+    if ([self.project.is_public isEqual:@YES]) {
+        self.privateImageView.hidden = YES;
+        self.privateIconLeftConstraint.constant = -5;
+    }
+    
+    // sep
     for (NSLayoutConstraint *cons in self.lines) {
         cons.constant = 0.5;
     }
     
-    //
+    //tabview
     self.tableView.tableFooterView = [UIView new];
     [self.tableView setSeparatorColor:[UIColor colorWithRGBHex:0xe5e5e5]];
     
-    self.projectNameTextField.text = self.project.name;
+    self.projectNameLabel.text = self.project.name;
+    
     //
     self.descTextView.placeholder = @"填写项目描述...";
     self.descTextView.text = self.project.description_mine;
