@@ -787,10 +787,11 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }
     if (sendStr && ![sendStr isEmpty] && _delegate && [_delegate respondsToSelector:@selector(messageInputView:sendText:)]) {
         [self.delegate messageInputView:self sendText:sendStr];
-        
-        _inputTextView.selectedRange = NSMakeRange(0, _inputTextView.text.length);
-        [_inputTextView insertText:@""];
     }
+    [_mediaList removeAllObjects];
+    _inputTextView.selectedRange = NSMakeRange(0, _inputTextView.text.length);
+    [_inputTextView insertText:@""];
+    [self updateContentViewBecauseOfMedia:NO];
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if ([text isEqualToString:@"\n"]) {
