@@ -180,7 +180,11 @@
              @"pageSize" : [NSNumber numberWithInteger:500]};
 }
 - (NSString *)toUpdateVisitPath{
-    return [NSString stringWithFormat:@"api/project/%d/update_visit", self.id.intValue];
+    if (self.owner_user_name.length > 0 && self.name.length > 0) {
+        return [NSString stringWithFormat:@"api/user/%@/project/%@/update_visit", self.owner_user_name, self.name];
+    }else{
+        return [NSString stringWithFormat:@"api/project/%d/update_visit", self.id.intValue];
+    }
 }
 - (NSString *)toDetailPath{
     return [NSString stringWithFormat:@"api/user/%@/project/%@", self.owner_user_name, self.name];

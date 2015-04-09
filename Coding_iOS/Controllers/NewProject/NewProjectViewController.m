@@ -128,7 +128,20 @@
             __weak typeof(self) weakSelf = self;
             [[Coding_NetAPIManager sharedManager] request_NewProject_WithObj:project image:self.projectIconImage andBlock:^(NSString *data, NSError *error) {
                 if (data.length > 0) {
-                    [weakSelf gotoProWithStr:data];
+                    
+                    NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
+                    NSArray *matchedCaptures = [data captureComponentsMatchedByRegex:projectRegexStr];
+                    if (matchedCaptures.count >= 3) {
+                        NSString *user_global_key = matchedCaptures[1];
+                        NSString *project_name = matchedCaptures[2];
+                        Project *curPro = [[Project alloc] init];
+                        curPro.owner_user_name = user_global_key;
+                        curPro.name = project_name;
+                        //标记已读
+                        [[Coding_NetAPIManager sharedManager] request_Project_UpdateVisit_WithObj:curPro andBlock:^(id dataTemp, NSError *errorTemp) {
+                        }];
+                        [weakSelf gotoPro:curPro];
+                    }
                 }
                 self.submitButtonItem.enabled = YES;
             }];
@@ -164,23 +177,13 @@
 }
 
 #pragma mark gotoVC
-- (void)gotoProWithStr:(NSString *)data{
-    NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
-    NSArray *matchedCaptures = [data captureComponentsMatchedByRegex:projectRegexStr];
-    if (matchedCaptures.count >= 3) {
-        NSString *user_global_key = matchedCaptures[1];
-        NSString *project_name = matchedCaptures[2];
-        Project *curPro = [[Project alloc] init];
-        curPro.owner_user_name = user_global_key;
-        curPro.name = project_name;
-        NProjectViewController *vc = [[NProjectViewController alloc] init];
-        vc.myProject = curPro;
-        
-        NSMutableArray *curViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
-        if (curViewControllers.count >= 2) {
-            [curViewControllers replaceObjectAtIndex:curViewControllers.count - 1 withObject:vc];
-            [self.navigationController setViewControllers:curViewControllers animated:YES];
-        }
+- (void)gotoPro:(Project *)curPro{
+    NProjectViewController *vc = [[NProjectViewController alloc] init];
+    vc.myProject = curPro;
+    NSMutableArray *curViewControllers = [NSMutableArray arrayWithArray:[self.navigationController viewControllers]];
+    if (curViewControllers.count >= 2) {
+        [curViewControllers replaceObjectAtIndex:curViewControllers.count - 1 withObject:vc];
+        [self.navigationController setViewControllers:curViewControllers animated:YES];
     }
 }
 
