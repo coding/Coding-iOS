@@ -116,6 +116,8 @@
                 }
             }else if ([urlStr rangeOfString:@"www.gravatar.com"].location != NSNotFound){
                 urlStr = [urlStr stringByReplacingOccurrencesOfString:@"s=[0-9]*" withString:[NSString stringWithFormat:@"s=%.0f", width] options:NSRegularExpressionSearch range:NSMakeRange(0, [urlStr length])];
+            }else if ([urlStr hasSuffix:@"/imagePreview"]){
+                urlStr = [urlStr stringByAppendingFormat:@"?width=%.0f", width];
             }
         }
         return [NSURL URLWithString:urlStr];
