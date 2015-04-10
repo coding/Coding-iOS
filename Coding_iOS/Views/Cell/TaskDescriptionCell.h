@@ -11,6 +11,6 @@
 #import <UIKit/UIKit.h>
 
 @interface TaskDescriptionCell : UITableViewCell
-- (void)setTitleStr:(NSString *)title;
+- (void)setTitleStr:(NSString *)title andSpecail:(BOOL)isSpecail;
 + (CGFloat)cellHeight;
 @end

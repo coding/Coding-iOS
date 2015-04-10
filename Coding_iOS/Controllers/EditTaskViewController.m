@@ -352,7 +352,7 @@
             }else{
                 titleStr = _myCopyTask.has_description.boolValue? @"查看描述": @"补充描述";
             }
-            [cell setTitleStr:titleStr];
+            [cell setTitleStr:titleStr andSpecail:[titleStr isEqualToString:@"查看描述"]];
             cell.backgroundColor = kColorTableBG;
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
             return cell;

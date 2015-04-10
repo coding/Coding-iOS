@@ -23,15 +23,16 @@
             _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 7, (kScreen_Width - 120), 30)];
             _titleLabel.backgroundColor = [UIColor clearColor];
             _titleLabel.font = [UIFont systemFontOfSize:16];
-            _titleLabel.textColor = [UIColor blackColor];
+            _titleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             [self.contentView addSubview:_titleLabel];
         }
     }
     return self;
 }
 
-- (void)setTitleStr:(NSString *)title{
+- (void)setTitleStr:(NSString *)title andSpecail:(BOOL)isSpecail{
     _titleLabel.text = title;
+    _titleLabel.textColor = [UIColor colorWithHexString:isSpecail? @"0x3bbd79": @"0x222222"];
 }
 
 + (CGFloat)cellHeight{
