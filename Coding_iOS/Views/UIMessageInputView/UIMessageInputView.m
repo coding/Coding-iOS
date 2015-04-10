@@ -11,7 +11,7 @@
 #define kMessageInputView_HeightMax 120.0
 #define kMessageInputView_PadingHeight 7.0
 #define kMessageInputView_Width_Tool 35.0
-#define kMessageInputView_MediaPadding 2.0
+#define kMessageInputView_MediaPadding 1.0
 
 #import "UIMessageInputView.h"
 #import "UIPlaceHolderTextView.h"
@@ -142,12 +142,23 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         _inputState = UIMessageInputViewStateSystem;
         _isAlwaysShow = NO;
         _curProject = nil;
-        
+        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];
+        [self addGestureRecognizer:panGesture];
     }
     return self;
 }
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)didPan:(UIPanGestureRecognizer *)panGesture
+{
+    if (panGesture.state == UIGestureRecognizerStateChanged) {
+        CGFloat verticalDiff = [panGesture translationInView:self].y;
+        if (verticalDiff > 60) {
+            [self isAndResignFirstResponder];
+        }
+    }
 }
 
 #pragma mark remember input
@@ -242,7 +253,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     NSString *inputStr = [self inputStr];
     if (_inputTextView) {
         if (_contentType != UIMessageInputViewContentTypePriMsg) {
-            self.placeHolder = _toUser? [NSString stringWithFormat:@"回复 %@:", _toUser.name]: @"撰写评论";
+            self.placeHolder = _toUser? [NSString stringWithFormat:@"回复 %@", _toUser.name]: @"撰写评论";
         }else{
             self.placeHolder = @"请输入私信内容";
         }
