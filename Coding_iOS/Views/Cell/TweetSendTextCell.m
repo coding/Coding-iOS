@@ -39,7 +39,6 @@
         }
         if (!_emojiKeyboardView) {
             _emojiKeyboardView = [[AGEmojiKeyboardView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kKeyboardView_Height) dataSource:self showBigEmotion:YES];
-            _emojiKeyboardView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
             _emojiKeyboardView.delegate = self;
             [_emojiKeyboardView setDoneButtonTitle:@"完成"];
         }

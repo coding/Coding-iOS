@@ -442,7 +442,6 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     
     if (hasEmotionBtn && !_emojiKeyboardView) {
         _emojiKeyboardView = [[AGEmojiKeyboardView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kKeyboardView_Height) dataSource:self showBigEmotion:showBigEmotion];
-        _emojiKeyboardView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         _emojiKeyboardView.delegate = self;
         [_emojiKeyboardView setY:kScreen_Height];
     }
