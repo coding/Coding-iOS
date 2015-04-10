@@ -103,16 +103,17 @@
         _curTopic = curTopic;
     }
     
-    CGFloat curBottomY = 10;
-    CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth - 50;
+    CGFloat curBottomY = 0;
+    CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
     [_userIconView sd_setImageWithURL:[_curTopic.owner.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
     [_titleLabel setLongString:_curTopic.title withFitWidth:curWidth];
-    curBottomY += 15+ [_curTopic.title getHeightWithFont:kTopicContentCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)];
+    curBottomY += CGRectGetMaxY(_titleLabel.frame) + 15;
     
     [_userIconView setY:curBottomY];
     [_timeLabel setY:curBottomY];
-    _timeLabel.text = [NSString stringWithFormat:@"%@ 发布于 %@", _curTopic.owner.name, [_curTopic.created_at stringTimesAgo]];
-    curBottomY += 10+ 20;
+    _timeLabel.attributedText = [self getStringWithName:_curTopic.owner.name andTime:[_curTopic.created_at stringTimesAgo]];
+
+    curBottomY += 15+ 20;
     
     //    讨论的内容
     [self.webContentView setY:curBottomY];
@@ -138,15 +139,26 @@
     }
 }
 
+- (NSMutableAttributedString*)getStringWithName:(NSString *)nameStr andTime:(NSString *)timeStr{
+    NSMutableAttributedString *attriString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ 发布于 %@", nameStr, timeStr]];
+    [attriString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
+                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+                         range:NSMakeRange(0, nameStr.length)];
+    
+    [attriString addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12],
+                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
+                         range:NSMakeRange(nameStr.length, attriString.length - nameStr.length)];
+    return  attriString;
+}
+
 + (CGFloat)cellHeightWithObj:(id)obj{
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[ProjectTopic class]]) {
         ProjectTopic *topic = (ProjectTopic *)obj;
-        CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth - 50;
-        cellHeight += 10 + [topic.title getHeightWithFont:kTopicContentCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] +5 +20 +10;
+        CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
+        cellHeight += 15 + [topic.title getHeightWithFont:kTopicContentCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] +15 +20 +15;
         cellHeight += topic.contentHeight;
-        cellHeight += 20+10;
-        cellHeight += 15;
+        cellHeight += 5+ 25+ 5;
     }
     return cellHeight;
 }
