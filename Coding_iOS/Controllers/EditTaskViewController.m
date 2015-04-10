@@ -20,8 +20,9 @@
 #import "TaskDescriptionCell.h"
 #import "ActionSheetDatePicker.h"
 #import "TaskDescriptionViewController.h"
+#import "WebViewController.h"
 
-@interface EditTaskViewController ()
+@interface EditTaskViewController ()<TTTAttributedLabelDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
 
 //评论
@@ -379,6 +380,7 @@
                     cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskComment forIndexPath:indexPath];
                 }
                 cell.curComment = curComment;
+                cell.contentLabel.delegate = self;
                 cell.backgroundColor = kColorTableBG;
                 [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
                 return cell;
@@ -554,6 +556,24 @@
     if (scrollView == _myTableView) {
         [self.view endEditing:YES];
         [self.myMsgInputView isAndResignFirstResponder];
+    }
+}
+
+#pragma mark TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
+    DebugLog(@"%@", components.description);
+    HtmlMediaItem *clickedItem = [components objectForKey:@"value"];
+    [self analyseLinkStr:clickedItem.href];
+}
+
+- (void)analyseLinkStr:(NSString *)linkStr{
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        //跳转去网页
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self.navigationController pushViewController:webVc animated:YES];
     }
 }
 

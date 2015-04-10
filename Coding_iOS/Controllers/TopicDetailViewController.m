@@ -22,7 +22,7 @@
 #import "WebViewController.h"
 #import "EditTopicViewController.h"
 
-@interface TopicDetailViewController ()
+@interface TopicDetailViewController ()<TTTAttributedLabelDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 
@@ -258,6 +258,7 @@
 
         TopicCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:toComment.htmlMedia.imageItems.count > 0? kCellIdentifier_TopicComment_Media: kCellIdentifier_TopicComment forIndexPath:indexPath];
         cell.toComment = toComment;
+        cell.contentLabel.delegate = self;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:45];
         return cell;
     }
@@ -376,6 +377,13 @@
         WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
         [self.navigationController pushViewController:webVc animated:YES];
     }
+}
+
+#pragma mark TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
+    DebugLog(@"%@", components.description);
+    HtmlMediaItem *clickedItem = [components objectForKey:@"value"];
+    [self analyseLinkStr:clickedItem.href];
 }
 
 - (void)dealloc

@@ -19,7 +19,7 @@
 
 @interface TaskCommentCell ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UIImageView *ownerIconView;
-@property (strong, nonatomic) UILabel *contentLabel, *timeLabel;
+@property (strong, nonatomic) UILabel *timeLabel;
 @property (strong, nonatomic) UICustomCollectionView *imageCollectionView;
 
 @end
@@ -38,9 +38,11 @@
             [self.contentView addSubview:_ownerIconView];
         }
         if (!_contentLabel) {
-            _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(kTaskCommentCell_LeftContentPading, curBottomY, kTaskCommentCell_ContentWidth, 30)];
+            _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTaskCommentCell_LeftContentPading, curBottomY, kTaskCommentCell_ContentWidth, 30)];
             _contentLabel.textColor = [UIColor colorWithHexString:@"0x555555"];
             _contentLabel.font = kTaskCommentCell_FontContent;
+            _contentLabel.linkAttributes = kLinkAttributes;
+            _contentLabel.activeLinkAttributes = kLinkAttributesActive;
             [self.contentView addSubview:_contentLabel];
         }
         if (!_timeLabel) {
@@ -75,6 +77,13 @@
     [_ownerIconView sd_setImageWithURL:[_curComment.owner.avatar urlImageWithCodePathResizeToView:_ownerIconView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerIconView)];
     NSString *contentStr = _curComment.content;
     [_contentLabel setLongString:contentStr withFitWidth:kTaskCommentCell_ContentWidth];
+    
+    for (HtmlMediaItem *item in _curComment.htmlMedia.mediaItems) {
+        if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
+            [_contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
+        }
+    }
+    
     curBottomY += [contentStr getHeightWithFont:kTaskCommentCell_FontContent constrainedToSize:CGSizeMake(kTaskCommentCell_ContentWidth, CGFLOAT_MAX)] + 5;
     
     NSInteger imagesCount = _curComment.htmlMedia.imageItems.count;

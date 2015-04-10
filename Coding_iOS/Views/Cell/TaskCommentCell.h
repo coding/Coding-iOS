@@ -14,6 +14,8 @@
 
 @interface TaskCommentCell : UITableViewCell
 @property (strong, nonatomic) TaskComment *curComment;
+@property (strong, nonatomic) UITTTAttributedLabel *contentLabel;
+
 + (CGFloat)cellHeightWithObj:(id)obj;
 
 @end

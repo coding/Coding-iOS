@@ -17,7 +17,7 @@
 
 @interface TopicCommentCell ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UIImageView *ownerIconView;
-@property (strong, nonatomic) UILabel *contentLabel, *timeLabel;
+@property (strong, nonatomic) UILabel *timeLabel;
 @property (strong, nonatomic) UICustomCollectionView *imageCollectionView;
 @end
 
@@ -37,9 +37,11 @@
         }
         CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
         if (!_contentLabel) {
-            _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth + 40, curBottomY, curWidth, 30)];
+            _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth + 40, curBottomY, curWidth, 30)];
             _contentLabel.textColor = [UIColor colorWithHexString:@"0x555555"];
             _contentLabel.font = kTopicCommentCell_FontContent;
+            _contentLabel.linkAttributes = kLinkAttributes;
+            _contentLabel.activeLinkAttributes = kLinkAttributesActive;
             [self.contentView addSubview:_contentLabel];
         }
         CGFloat commentBtnWidth = 40;
@@ -76,6 +78,13 @@
     CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
     [_ownerIconView sd_setImageWithURL:[_toComment.owner.avatar urlImageWithCodePathResizeToView:_ownerIconView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerIconView)];
     [_contentLabel setLongString:_toComment.content withFitWidth:curWidth];
+    
+    for (HtmlMediaItem *item in _toComment.htmlMedia.mediaItems) {
+        if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
+            [_contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
+        }
+    }
+    
     curBottomY += [_toComment.content getHeightWithFont:kTopicCommentCell_FontContent constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 5;
     
     NSInteger imagesCount = _toComment.htmlMedia.imageItems.count;
