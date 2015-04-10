@@ -415,6 +415,9 @@
 }
 
 - (void)analyseLinkStr:(NSString *)linkStr{
+    if (linkStr.length <= 0) {
+        return;
+    }
     UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];
