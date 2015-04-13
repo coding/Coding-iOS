@@ -29,7 +29,7 @@
         if (error) {
             DebugLog(@"bubble_pattern_htmlStr fail: %@", error.description);
         }
-        path = [[NSBundle mainBundle] pathForResource:@"topic" ofType:@"html"];
+        path = [[NSBundle mainBundle] pathForResource:@"topic-ios" ofType:@"html"];
         shared_manager.topic_pattern_htmlStr = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
         if (error) {
             DebugLog(@"topic_pattern_htmlStr fail: %@", error.description);

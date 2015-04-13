@@ -28,7 +28,7 @@
                                                       options:NSJSONReadingAllowFragments
                                                           error:&error];
         if (error) {
-            DebugLog(@"bubble_pattern_htmlStr fail: %@", error.description);
+            DebugLog(@"address.json - fail: %@", error.description);
         }
         if (jsonObject) {
             shared_manager.addressArray = jsonObject;
