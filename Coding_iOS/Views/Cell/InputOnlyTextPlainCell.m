@@ -23,7 +23,6 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_textField) {
             _textField = [[UITextField alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 7.0, kScreen_Width-kPaddingLeftWidth*2, 30)];
-            [_textField setValue:[UIColor colorWithHexString:@"0x999999"] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
             _textField.backgroundColor = [UIColor clearColor];
             _textField.borderStyle = UITextBorderStyleNone;
             _textField.font = [UIFont systemFontOfSize:16];
@@ -37,7 +36,7 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    _textField.placeholder = _phStr;
+    _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:_phStr? _phStr: @"" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x999999"]}];
     _textField.text = _valueStr;
     _textField.secureTextEntry = _isSecure;
 }

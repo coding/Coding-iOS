@@ -172,10 +172,7 @@
                             && (![title isEqualToString:self.curProTopic.mdTitle] || ![content isEqualToString:self.curProTopic.mdContent]));
             return @(enabled);
         }];
-        _inputTitleView.placeholder = self.type == TopicEditTypeFeedBack? @"反馈标题": @"讨论标题";
-        [_inputTitleView setValue:[UIColor lightGrayColor] forKeyPath:@"_placeholderLabel.textColor"];
-        _inputContentView.placeholder = self.type == TopicEditTypeFeedBack? @"反馈内容": @"讨论内容";
-        
+        _inputTitleView.attributedPlaceholder = [[NSAttributedString alloc] initWithString:(self.type == TopicEditTypeFeedBack? @"反馈标题": @"讨论标题") attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
         _inputTitleView.text = _curProTopic.mdTitle;
         _inputContentView.text = _curProTopic.mdContent;
     }

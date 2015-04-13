@@ -42,7 +42,7 @@
 }
 
 - (void)configWithPlaceholder:(NSString *)phStr andValue:(NSString *)valueStr{
-    self.textField.placeholder = phStr;
+    self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:phStr? phStr: @"" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:_isForLoginVC? @"0xffffff": @"0x999999" andAlpha:_isForLoginVC? 0.5: 1.0]}];
     self.textField.text = valueStr;
 }
 - (IBAction)textValueChanged:(id)sender {
@@ -63,7 +63,6 @@
     self.backgroundColor = _isForLoginVC? [UIColor clearColor]: [UIColor whiteColor];
     self.textField.font = [UIFont systemFontOfSize:17];
     self.textField.textColor = _isForLoginVC? [UIColor whiteColor]: [UIColor colorWithHexString:@"0x222222"];
-    [self.textField setValue:[UIColor colorWithHexString:_isForLoginVC? @"0xffffff": @"0x999999" andAlpha:_isForLoginVC? 0.5: 1.0] forKeyPath:@"_placeholderLabel.textColor"];//修改placeholder颜色
     if (!_lineView && _isForLoginVC) {
         _lineView = [[UIView alloc] initWithFrame:CGRectMake(kLoginPaddingLeftWidth, 43.5, kScreen_Width-2*kLoginPaddingLeftWidth, 0.5)];
         _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
