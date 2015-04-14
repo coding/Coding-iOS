@@ -113,7 +113,7 @@
     [_timeLabel setY:curBottomY];
     _timeLabel.attributedText = [self getStringWithName:_curTopic.owner.name andTime:[_curTopic.created_at stringTimesAgo]];
 
-    curBottomY += 15+ 20;
+    curBottomY += 8+ 20;
     
     //    讨论的内容
     [self.webContentView setY:curBottomY];
@@ -141,7 +141,7 @@
 
 - (NSMutableAttributedString*)getStringWithName:(NSString *)nameStr andTime:(NSString *)timeStr{
     NSMutableAttributedString *attriString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ 发布于 %@", nameStr, timeStr]];
-    [attriString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
+    [attriString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
                                  NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
                          range:NSMakeRange(0, nameStr.length)];
     
@@ -156,7 +156,7 @@
     if ([obj isKindOfClass:[ProjectTopic class]]) {
         ProjectTopic *topic = (ProjectTopic *)obj;
         CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
-        cellHeight += 15 + [topic.title getHeightWithFont:kTopicContentCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] +15 +20 +15;
+        cellHeight += 8 + [topic.title getHeightWithFont:kTopicContentCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] +15 +20 +15;
         cellHeight += topic.contentHeight;
         cellHeight += 5+ 25+ 5;
     }
