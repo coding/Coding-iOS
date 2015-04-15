@@ -22,7 +22,11 @@
 - (void)setContent:(NSString *)content{
     if (_content != content) {
         _htmlMedia = [HtmlMedia htmlMediaWithString:content showType:MediaShowTypeCode];
-        _content = _htmlMedia.contentDisplay;
+        if (_htmlMedia.contentDisplay.length <= 0 && _htmlMedia.imageItems.count <= 0) {
+            _content = @"    ";//占位
+        }else{
+            _content = _htmlMedia.contentDisplay;
+        }
     }
 }
 - (BOOL)hasMedia{

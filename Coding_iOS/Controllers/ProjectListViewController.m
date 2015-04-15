@@ -13,6 +13,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = _curUser.name;
+    self.navigationItem.rightBarButtonItem = nil;
 }
 
 - (void)configSegmentItems{

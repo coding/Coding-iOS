@@ -184,7 +184,7 @@
     
     if (_mediaView) {
         [_mediaView setHeight:mediaViewHeight];
-        [_mediaView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+        [_mediaView reloadData];
     }
     [self configSendStatus];
     

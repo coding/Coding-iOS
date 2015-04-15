@@ -207,11 +207,10 @@
         [actionSheet showInView:self.view];
     };
     cell.refreshMessageMediaCCellBlock = ^(CGFloat diff){
-//        ESStrongSelf;
-//        static int count = 0;
-//        NSLog(@"\ncount : ----------------%d", count++);
-//        [_self.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-//        [_self.myTableView setContentOffset:CGPointMake(0, diff+_self.myTableView.contentOffset.y)];
+        if (ABS(diff) > 1) {
+            ESStrongSelf;
+            [_self.myTableView reloadData];
+        }
     };
     NSMutableArray *menuItemArray = [[NSMutableArray alloc] init];
     BOOL hasTaxtToCopy = (curMsg.content && ![curMsg.content isEmpty]);
