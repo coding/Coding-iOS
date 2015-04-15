@@ -68,6 +68,10 @@
 {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
++ (void)load{
+    swizzleAllViewController();
+}
 @end
 
 void swizzleAllViewController()
