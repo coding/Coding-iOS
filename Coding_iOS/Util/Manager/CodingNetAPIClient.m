@@ -43,6 +43,9 @@
                      withParams:(NSDictionary*)params
                  withMethodType:(int)NetworkMethod
                        andBlock:(void (^)(id data, NSError *error))block{
+    if (!aPath || aPath.length <= 0) {
+        return;
+    }
     //log请求数据
     DebugLog(@"\n===========request===========\n%@:\n%@", aPath, params);
     aPath = [aPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
