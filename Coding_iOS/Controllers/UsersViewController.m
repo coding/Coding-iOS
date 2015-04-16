@@ -319,13 +319,13 @@
     }
     __weak typeof(self) weakSelf = self;
     if (_curUsers.type == UsersTypeFriends_Message) {
-        if (indexPath.section == 0) {
-            AddUserViewController *vc = [[AddUserViewController alloc] init];
-            vc.type = AddUserTypeFollow;
-            [self.navigationController pushViewController:vc animated:YES];
-        }else if (user){
+        if (user) {
             ConversationViewController *vc = [[ConversationViewController alloc] init];
             vc.myPriMsgs = [PrivateMessages priMsgsWithUser:user];
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            AddUserViewController *vc = [[AddUserViewController alloc] init];
+            vc.type = AddUserTypeFollow;
             [self.navigationController pushViewController:vc animated:YES];
         }
     }else if (_curUsers.type == UsersTypeFriends_At){
