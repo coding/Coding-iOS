@@ -223,7 +223,7 @@
 }
 #pragma mark TableViewHeader
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 24;
+    return kScaleFrom_iPhone5_Desgin(24);
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{

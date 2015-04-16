@@ -294,6 +294,8 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 
 - (void)moveIndexWithProgress:(float)progress
 {
+    progress = MAX(0, MIN(progress, _items.count));
+    
     float delta = progress - _currentIndex;
 
     CGRect origionRect = [_itemFrames[_currentIndex] CGRectValue];;
@@ -344,6 +346,8 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 }
 
 - (void)setCurrentIndex:(NSInteger)currentIndex{
+    currentIndex = MAX(0, MIN(currentIndex, _items.count));
+    
     if (currentIndex != _currentIndex) {
         XTSegmentControlItem *preItem = [_items objectAtIndex:_currentIndex];
         XTSegmentControlItem *curItem = [_items objectAtIndex:currentIndex];

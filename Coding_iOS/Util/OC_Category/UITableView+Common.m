@@ -175,10 +175,10 @@
     UITapImageView *headerView = [[UITapImageView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScaleFrom_iPhone5_Desgin(24))];
     [headerView setImage:[UIImage imageWithColor:color]];
     
-    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (CGRectGetHeight(headerView.frame)-20)/2, kScreen_Width-20, 20)];
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, kScreen_Width-20, CGRectGetHeight(headerView.frame))];
     headerLabel.backgroundColor = [UIColor clearColor];
     headerLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
-    headerLabel.font = [UIFont systemFontOfSize:12];
+    headerLabel.font = [UIFont systemFontOfSize:kScaleFrom_iPhone5_Desgin(12)];
     headerLabel.text = headerStr;
     [headerView addSubview:headerLabel];
     [headerView addTapBlock:tapAction];

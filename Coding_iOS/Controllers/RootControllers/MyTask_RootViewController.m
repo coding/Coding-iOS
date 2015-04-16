@@ -20,8 +20,6 @@
 
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) iCarousel *myCarousel;
-
-@property (assign, nonatomic) BOOL needToRefreshSegmentControl;
 @end
 
 @implementation MyTask_RootViewController
@@ -69,8 +67,6 @@
         }];
         icarousel;
     });
-    _needToRefreshSegmentControl = YES;
-    [self resetCurView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -86,39 +82,35 @@
 
 
 - (void)resetCurView{
-    if (_needToRefreshSegmentControl && !_myProjects.isLoading) {
+    if (!_myProjects.isLoading) {
         __weak typeof(self) weakSelf = self;
         [[Coding_NetAPIManager sharedManager] request_ProjectsHaveTasks_WithObj:_myProjects andBlock:^(id data, NSError *error) {
             if (data) {
-                _needToRefreshSegmentControl = NO;
                 weakSelf.myProjectList = [[NSMutableArray alloc] initWithObjects:[Project project_All], nil];
                 [weakSelf.myProjectList addObjectsFromArray:((Projects*)data).list];
-                [weakSelf configSegmentControl];
-            }else{
-                //            viewWillAppear的时候重新加载
-                _needToRefreshSegmentControl = YES;
-                weakSelf.myProjectList = [[NSMutableArray alloc] initWithObjects:[Project project_All], nil];
-                [weakSelf configSegmentControl];
             }
+            [weakSelf configSegmentControl];
         }];
     }
 }
 
 - (void)configSegmentControl{
     //添加滑块
+    if (_mySegmentControl) {
+        [_mySegmentControl removeFromSuperview];
+    }
+    
     __weak typeof(self) weakSelf = self;
     CGRect segmentFrame = CGRectMake(0, 0, kScreen_Width, kMySegmentControlIcon_Height);
-    __weak typeof(_myCarousel) weakCarousel = weakSelf.myCarousel;
-    if (weakSelf.mySegmentControl) {
-        [weakSelf.mySegmentControl removeFromSuperview];
-    }
-    weakSelf.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:segmentFrame Items:weakSelf.myProjectList selectedBlock:^(NSInteger index) {
-        [weakCarousel scrollToItemAtIndex:index animated:NO];
+    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:segmentFrame Items:_myProjectList selectedBlock:^(NSInteger index) {
+        [weakSelf.myCarousel scrollToItemAtIndex:index animated:NO];
     }];
-    [weakSelf.view addSubview:self.mySegmentControl];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [weakSelf.myCarousel reloadData];
-    });
+    [self.view addSubview:_mySegmentControl];
+    
+    if (_myCarousel.currentItemIndex != 0) {
+        _myCarousel.currentItemIndex = 0;
+    }
+    [_myCarousel reloadData];
 }
 
 #pragma mark iCarousel M
