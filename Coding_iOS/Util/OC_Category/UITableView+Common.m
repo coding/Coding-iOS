@@ -178,7 +178,11 @@
     UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, kScreen_Width-20, CGRectGetHeight(headerView.frame))];
     headerLabel.backgroundColor = [UIColor clearColor];
     headerLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
-    headerLabel.font = [UIFont systemFontOfSize:kScaleFrom_iPhone5_Desgin(12)];
+    if (kDevice_Is_iPhone6Plus) {
+        headerLabel.font = [UIFont systemFontOfSize:14];
+    }else{
+        headerLabel.font = [UIFont systemFontOfSize:kScaleFrom_iPhone5_Desgin(12)];
+    }
     headerLabel.text = headerStr;
     [headerView addSubview:headerLabel];
     [headerView addTapBlock:tapAction];
