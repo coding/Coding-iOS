@@ -24,6 +24,9 @@
         _content = @"";
         _mdTitle = @"";
         _mdContent = @"";
+        
+        _labels = [[NSMutableArray alloc] initWithCapacity:3];
+        _mdLabels = [[NSMutableArray alloc] initWithCapacity:3];
     }
     return self;
 }
@@ -58,17 +61,29 @@
     return [NSString stringWithFormat:@"api/topic/%d", self.id.intValue];
 }
 
-- (NSDictionary *)toEditParams{
+- (NSDictionary *)toEditParams
+{
+    NSMutableString *tempStr = [[NSMutableString alloc] initWithString:@""];
+    for (NSString *lbl in _mdLabels) {
+        [tempStr appendString:lbl];
+    }
     return @{@"title" : [_mdTitle aliasedString],
-             @"content" : [_mdContent aliasedString]};
+             @"content" : [_mdContent aliasedString],
+             @"label" : tempStr};
 }
 
 - (NSString *)toAddTopicPath{
     return [NSString stringWithFormat:@"api/project/%d/topic?parent=0", [self.project_id intValue]];
 }
-- (NSDictionary *)toAddTopicParams{
+- (NSDictionary *)toAddTopicParams
+{
+    NSMutableString *tempStr = [[NSMutableString alloc] initWithString:@""];
+    for (NSString *lbl in _mdLabels) {
+        [tempStr appendString:lbl];
+    }
     return @{@"title" : [_mdTitle aliasedString],
-             @"content" : [_mdContent aliasedString]};
+             @"content" : [_mdContent aliasedString],
+             @"label" : tempStr};
 }
 
 - (NSString *)toCommentsPath{

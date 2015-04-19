@@ -11,6 +11,7 @@
 #import "Coding_NetAPIManager.h"
 #import "EaseMarkdownTextView.h"
 #import "WebContentManager.h"
+#import "EditLabelViewController.h"
 
 @interface EditTopicViewController ()<UIWebViewDelegate>
 
@@ -25,6 +26,7 @@
 @property (strong, nonatomic) UITextField *inputTitleView;
 @property (strong, nonatomic) EaseMarkdownTextView *inputContentView;
 
+@property (strong, nonatomic) UIView *labelView;
 
 @end
 
@@ -122,6 +124,59 @@
         _inputTitleView.font = [UIFont systemFontOfSize:18];
         [_editView addSubview:_inputTitleView];
         
+        // 标签编辑
+        CGFloat labelH = 15;
+        _labelView = [[UIView alloc] initWithFrame:CGRectZero];
+        if (_curProTopic.mdLabels.count > 0) {
+            CGFloat x = 0.0f;
+            CGFloat y = 0.0f;
+            CGFloat limitW = kScreen_Width - kPaddingLeftWidth * 2 - 40;
+            
+            for (NSString *str in _curProTopic.mdLabels) {
+                UILabel *tLbl = [[UILabel alloc] initWithFrame:CGRectMake(x, y, 0, 0)];
+                
+                tLbl.font = [UIFont systemFontOfSize:12];
+                tLbl.text = str;
+                tLbl.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+                tLbl.textAlignment = NSTextAlignmentCenter;
+                tLbl.backgroundColor = [UIColor redColor];
+                tLbl.layer.cornerRadius = 5;
+                
+                [tLbl sizeToFit];
+                
+                CGFloat width = tLbl.frame.size.width + 10;
+                if (x + width > limitW) {
+                    y += 20.0f;
+                    x = 0.0f;
+                }
+                [tLbl setFrame:CGRectMake(x, y, width - 4, 20 - 4)];
+                x += width;
+                
+                [_labelView addSubview:tLbl];
+            }
+            labelH = y + 20;
+            
+        } else {
+            UIImageView *iconImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, 15)];
+            [iconImg setImage:[UIImage imageNamed:@"tag_icon"]];
+            
+            UILabel *tLbl = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 30, 15)];
+            
+            tLbl.font = [UIFont systemFontOfSize:14];
+            tLbl.text = @"标签";
+            tLbl.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+            
+            [_labelView addSubview:iconImg];
+            [_labelView addSubview:tLbl];
+        }
+        [_editView addSubview:_labelView];
+        
+        UIButton *addTitleBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+        [addTitleBtn setImage:[UIImage imageNamed:@"tag_add"] forState:UIControlStateNormal];
+        [addTitleBtn setImageEdgeInsets:UIEdgeInsetsMake(14, 12, 14, 12)];
+        [addTitleBtn addTarget:self action:@selector(addtitleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_editView addSubview:addTitleBtn];
+        
         _inputContentView = [[EaseMarkdownTextView alloc] initWithFrame:CGRectZero];
         _inputContentView.curProject = self.curProTopic.project;
         _inputContentView.textColor = [UIColor colorWithHexString:@"0x666666"];
@@ -136,12 +191,13 @@
         
         [self.view addSubview:_editView];
 
-        //布局
+        // 布局
         _inputContentView.textContainerInset = UIEdgeInsetsMake(10, kPaddingLeftWidth - 5, 8, kPaddingLeftWidth - 5);
 
         [_editView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
+        
         [_inputTitleView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_editView.mas_top).offset(10.0);
             make.height.mas_equalTo(30);
@@ -149,14 +205,33 @@
             make.left.equalTo(_editView).offset(kPaddingLeftWidth);
             make.right.equalTo(_editView).offset(-kPaddingLeftWidth);
         }];
+        
+        // 标签
+        [_labelView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_inputTitleView.mas_bottom).offset(22.0);
+            make.height.mas_equalTo(labelH);
+            
+            make.left.equalTo(_editView).offset(kPaddingLeftWidth);
+            make.right.equalTo(_editView).offset(-kPaddingLeftWidth);
+        }];
+        
+        [addTitleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_labelView.mas_top).offset(-14.0);
+            make.right.equalTo(_editView);
+            
+            make.width.mas_equalTo(40);
+            make.height.mas_equalTo(44);
+        }];
+        
         [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_inputTitleView.mas_bottom).offset(5.0);
+            make.top.equalTo(_labelView.mas_bottom).offset(12.0);
             make.left.equalTo(_editView).offset(kPaddingLeftWidth);
             make.height.mas_equalTo(1.0);
             make.right.equalTo(_editView);
         }];
+        
         [_inputContentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(lineView.mas_bottom);
+            make.top.equalTo(lineView.mas_bottom).offset(5.0);
             make.left.right.bottom.equalTo(_editView);
         }];
         
@@ -222,9 +297,16 @@
     }];
 }
 
-#pragma mark nav_btn 
+#pragma mark - click
+- (void)addtitleBtnClick:(UIButton *)sender
+{
+    EditLabelViewController *vc = [[EditLabelViewController alloc] init];
+    vc.curProTopic = _curProTopic;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
-- (void)saveBtnClicked{
+- (void)saveBtnClicked
+{
     self.curProTopic.mdTitle = _inputTitleView.text;
     self.curProTopic.mdContent = _inputContentView.text;
 
