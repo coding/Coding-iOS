@@ -12,10 +12,17 @@
 #import "ProjectTopicCell.h"
 #import "SVPullToRefresh.h"
 
+
 @interface ProjectTopicListView ()
+{
+    NSString *_tempLabel;
+    NSMutableArray *_tempAry;
+    NSInteger _tempOrder;
+}
 
 @property (strong, nonatomic) ProjectTopics *myProTopics;
 @property (copy, nonatomic) ProjectTopicBlock block;
+@property (copy, nonatomic) TopicListBlock listBlock;
 @property (strong, nonatomic) UITableView *myTableView;
 @property (strong, nonatomic) ODRefreshControl *myRefreshControl;
 
@@ -23,13 +30,18 @@
 
 @implementation ProjectTopicListView
 
-- (id)initWithFrame:(CGRect)frame projectTopics:(ProjectTopics *)projectTopics block:(ProjectTopicBlock)block{
+- (id)initWithFrame:(CGRect)frame
+      projectTopics:(ProjectTopics *)projectTopics
+              block:(ProjectTopicBlock)block
+       andListBlock:(TopicListBlock)listBlock
+{
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
         _myProTopics = projectTopics;
         _block = block;
-        
+        self.listBlock = listBlock;
+        _tempAry = [NSMutableArray arrayWithCapacity:10];
         
         _myTableView = ({
             UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
@@ -59,6 +71,59 @@
         }
     }
     return self;
+}
+
+- (void)setOrder:(NSInteger)order withLabel:(NSString *)label
+{
+    BOOL change = FALSE;
+    if (label) {
+        change = [label isEqualToString:_tempLabel] ? FALSE : TRUE;
+    } else if (_tempLabel) {
+        change = TRUE;
+    }
+    if (order != _tempOrder || change) {
+        _tempOrder = order;
+        _tempLabel = label;
+        
+        [self resetAry];
+    }
+}
+
+- (void)resetAry
+{
+    [_tempAry removeAllObjects];
+    for (ProjectTopic *topic in _myProTopics.list) {
+    }
+}
+
+- (void)getLabelArray:(NSMutableArray *)labelAry andNumberArray:(NSMutableArray *)numberAry
+{
+    BOOL isExist;
+    for (ProjectTopic *topic in _myProTopics.list) {
+        for (NSString *label in topic.labels) {
+            isExist = FALSE;
+            for (int i=1; i<labelAry.count; i++) {
+                NSString *temp = labelAry[i];
+                if ([temp isEqualToString:label]) {
+                    isExist = TRUE;
+                    NSNumber *tNumber = numberAry[i];
+                    [numberAry replaceObjectAtIndex:i withObject:[NSNumber numberWithInteger:[tNumber integerValue] + 1]];
+                    break;
+                }
+            }
+            if (!isExist) {
+                [labelAry addObject:label];
+                [numberAry addObject:[NSNumber numberWithInteger:1]];
+            }
+        }
+    }
+    [numberAry replaceObjectAtIndex:0 withObject:[NSNumber numberWithInteger:_myProTopics.list.count]];
+}
+
+
+- (NSInteger)getCount
+{
+    return _myProTopics.list.count;
 }
 
 - (void)setProTopics:(ProjectTopics *)proTopics{
@@ -108,6 +173,9 @@
             [weakSelf.myProTopics configWithTopics:data];
             [weakSelf.myTableView reloadData];
             weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myProTopics.canLoadMore;
+            if (weakSelf.listBlock) {
+                weakSelf.listBlock(self);
+            }
         }
         [weakSelf configBlankPage:EaseBlankPageTypeTopic hasData:(weakSelf.myProTopics.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];

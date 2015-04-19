@@ -31,6 +31,8 @@
 		3A3878401AE295970078D5DE /* ResetLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A38783F1AE295970078D5DE /* ResetLabelCell.m */; };
 		3A3878451AE296240078D5DE /* EditLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3878421AE296240078D5DE /* EditLabelCell.m */; };
 		3A3878461AE296240078D5DE /* EditLabelHeadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3878441AE296240078D5DE /* EditLabelHeadCell.m */; };
+		3A3878491AE36ED70078D5DE /* TopicListButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3878481AE36ED70078D5DE /* TopicListButton.m */; };
+		3A38784C1AE36EF00078D5DE /* TopicListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A38784B1AE36EF00078D5DE /* TopicListView.m */; };
 		4E03AC9A1A5BDDF9002B000B /* STARTIMAGE.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E03AC991A5BDDF9002B000B /* STARTIMAGE.jpg */; };
 		4E03ACA01A5CEB41002B000B /* taskDeadline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E03AC9E1A5CEB41002B000B /* taskDeadline@2x.png */; };
 		4E03ACA11A5CEB41002B000B /* taskProgress@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E03AC9F1A5CEB41002B000B /* taskProgress@2x.png */; };
@@ -651,6 +653,10 @@
 		3A3878421AE296240078D5DE /* EditLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditLabelCell.m; sourceTree = "<group>"; };
 		3A3878431AE296240078D5DE /* EditLabelHeadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditLabelHeadCell.h; sourceTree = "<group>"; };
 		3A3878441AE296240078D5DE /* EditLabelHeadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditLabelHeadCell.m; sourceTree = "<group>"; };
+		3A3878471AE36ED70078D5DE /* TopicListButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicListButton.h; sourceTree = "<group>"; };
+		3A3878481AE36ED70078D5DE /* TopicListButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicListButton.m; sourceTree = "<group>"; };
+		3A38784A1AE36EF00078D5DE /* TopicListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicListView.h; sourceTree = "<group>"; };
+		3A38784B1AE36EF00078D5DE /* TopicListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicListView.m; sourceTree = "<group>"; };
 		3B024F2227BD4152BC7C9A7A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E03AC991A5BDDF9002B000B /* STARTIMAGE.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = STARTIMAGE.jpg; sourceTree = "<group>"; };
 		4E03AC9E1A5CEB41002B000B /* taskDeadline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskDeadline@2x.png"; sourceTree = "<group>"; };
@@ -2931,6 +2937,10 @@
 				8EA6D0F419E240C40076D59C /* ProjectTasksView.m */,
 				8EA6D0F919E240C40076D59C /* ProjectTopicsView.h */,
 				8EA6D0FA19E240C40076D59C /* ProjectTopicsView.m */,
+				3A38784A1AE36EF00078D5DE /* TopicListView.h */,
+				3A38784B1AE36EF00078D5DE /* TopicListView.m */,
+				3A3878471AE36ED70078D5DE /* TopicListButton.h */,
+				3A3878481AE36ED70078D5DE /* TopicListButton.m */,
 				8EA6D0E919E240C40076D59C /* ProjectActivityListView.h */,
 				8EA6D0EA19E240C40076D59C /* ProjectActivityListView.m */,
 				8EA6D0EF19E240C40076D59C /* ProjectTaskListView.h */,
@@ -3681,6 +3691,7 @@
 				0AB591AC1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m in Sources */,
 				4EA7F1611A6D192B00A046BD /* UIButton+WebCache.m in Sources */,
 				8EE72BE419E3F2E8002C11D9 /* SDWebImageManager+MJ.m in Sources */,
+				3A38784C1AE36EF00078D5DE /* TopicListView.m in Sources */,
 				8E1C3DEA19E7D58A00EF3032 /* AbstractActionSheetPicker.m in Sources */,
 				8EA6D1AF19E240C40076D59C /* CodingTips.m in Sources */,
 				8EF643C219FF7E2900F7EEB0 /* TaskCommentTopCell.m in Sources */,
@@ -3688,6 +3699,7 @@
 				8EA6D14919E240C40076D59C /* UserTweetsViewController.m in Sources */,
 				4ECE8AD71A3943E80021E29C /* DownMenuCell.m in Sources */,
 				4E6C41201A846AC30098DC17 /* RFToolbarButton.m in Sources */,
+				3A3878491AE36ED70078D5DE /* TopicListButton.m in Sources */,
 				4ECE8B011A3946C10021E29C /* ImageSizeManager.m in Sources */,
 				8EA6D1B319E240C40076D59C /* File.m in Sources */,
 				4EABD25A1AD3CB4A005E515F /* UIMessageInputView_CCell.m in Sources */,

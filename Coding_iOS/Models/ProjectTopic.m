@@ -14,6 +14,9 @@
 {
     self = [super init];
     if (self) {
+        _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"ProjectTopicLabel", @"labels", nil];
+        
         _page = [NSNumber numberWithInteger:1];
         _pageSize = [NSNumber numberWithInteger:20];
         _canLoadMore = YES;

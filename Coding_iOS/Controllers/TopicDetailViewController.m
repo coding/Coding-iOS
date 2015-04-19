@@ -119,11 +119,13 @@
 }
 
 #pragma mark nav 
-- (void)configNavBtn{
-    [self.navigationItem setRightBarButtonItem:[self.curTopic canEdit]? [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(editBtnClicked)]: nil animated:YES];
+- (void)configNavBtn
+{
+    [self.navigationItem setRightBarButtonItem:[self.curTopic canEdit]? [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(editBtnClicked)]:nil animated:YES];
 }
 
-- (void)editBtnClicked{
+- (void)editBtnClicked
+{
     EditTopicViewController *vc = [[EditTopicViewController alloc] init];
     vc.curProTopic = self.curTopic;
     vc.type = TopicEditTypeModify;

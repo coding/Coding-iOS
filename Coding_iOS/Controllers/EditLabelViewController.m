@@ -106,6 +106,12 @@
     return [NSString stringWithFormat:@"api/project/%d/topic/label?", _curProTopic.project_id.intValue];
 }
 
+- (NSString *)toDelPath:(NSInteger)index
+{
+    ProjectTopicLabel *ptLabel = [_labels objectAtIndex:index];
+    return [NSString stringWithFormat:@"api/project/%d/topic/label/%lld", _curProTopic.project_id.intValue, ptLabel.id.longLongValue];
+}
+
 #pragma mark - click
 - (void)okBtnClick
 {
@@ -272,8 +278,7 @@
 - (void)deleteLabel:(NSInteger)index
 {
     __weak typeof(self) weakSelf = self;
-    ProjectTopicLabel *ptLabel = [_labels objectAtIndex:index];
-   [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Del_WithPath:[ptLabel toDelPath] andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Del_WithPath:[self toDelPath:index] andBlock:^(id data, NSError *error) {
         if (!error) {
             [weakSelf.labels removeObjectAtIndex:index];
             [weakSelf.myTableView reloadData];

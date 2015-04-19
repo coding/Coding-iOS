@@ -20,6 +20,8 @@
 @property (readwrite, nonatomic, strong) NSDate *created_at, *updated_at;
 @property (readwrite, nonatomic, strong) NSString *title, *content, *path;
 @property (readwrite, strong, nonatomic) NSMutableArray *labels;
+@property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
+
 @property (readwrite, nonatomic, strong) User *owner;
 @property (readwrite, nonatomic, strong) Project *project;
 @property (readwrite, nonatomic, strong) ProjectTopic *parent;

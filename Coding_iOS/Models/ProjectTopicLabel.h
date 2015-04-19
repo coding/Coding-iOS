@@ -13,8 +13,4 @@
 @property (readwrite, nonatomic, strong) NSNumber *id, *owner_id, *count, *type;
 @property (readwrite, nonatomic, strong) NSString *name, *color;
 
-- (NSDictionary *)toModifyParams;
-- (NSString *)toDelPath;
-- (NSString *)toLabelPath;
-
 @end

@@ -25,21 +25,4 @@
     return self;
 }
 
-- (NSString *)toLabelPath
-{
-    return [NSString stringWithFormat:@"api/project/%d/topic/label?", _owner_id.intValue];
-}
-
-- (NSString *)toDelPath
-{
-    return [NSString stringWithFormat:@"api/project/%d/topic/label/%lld", _owner_id.intValue, _id.longLongValue];
-}
-
-- (NSDictionary *)toModifyParams
-{
-    return @{@"label_id" : _id,
-             @"name" : _name,
-             @"color" : _color};
-}
-
 @end

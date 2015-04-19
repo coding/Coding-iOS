@@ -64,6 +64,11 @@
     _myTableView.dataSource = nil;
 }
 
+- (NSString *)toModifyPath
+{
+    return [NSString stringWithFormat:@"api/project/%d/topic/label/%lld", _curProTopic.project_id.intValue, _ptLabel.id.longLongValue];
+}
+
 #pragma mark - click
 - (void)cancelBtnClick
 {
@@ -74,16 +79,8 @@
 {
     if (_tempStr.length > 0) {
         __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Modify_WithPath:[_ptLabel toDelPath] withParams:@{@"name" : _tempStr, @"color" : @"#d8f3e4", @"label_id" : _ptLabel.id} andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Modify_WithPath:[self toModifyPath] withParams:@{@"name" : _tempStr, @"color" : @"#d8f3e4", @"label_id" : _ptLabel.id} andBlock:^(id data, NSError *error) {
             if (!error) {
-                //[self.parentViewController modifyLabel:];
-
-//                ProjectTopicLabel *ptLabel = [[ProjectTopicLabel alloc] init];
-//                ptLabel.name = _tempLabel;
-//                ptLabel.id = d®ata;
-//                ptLabel.owner_id = _curProTopic.project_id;
-//                ptLabel.color = @"#d8f3e4";
-//                [_labels addObject:ptLabel];
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             }
         }];

@@ -20,16 +20,18 @@
 
 #define XTSegmentControlIconWidth (50.0)
 
+#define XTSegmentControlIconSpace (4)
 
 typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 {
     XTSegmentControlItemTypeTitle = 0,
-    XTSegmentControlItemTypeIconUrl
+    XTSegmentControlItemTypeIconUrl,
+    XTSegmentControlItemTypeTitleAndIcon,
 };
 
 @interface XTSegmentControlItem : UIView
 
-@property (nonatomic , strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIImageView *titleIconView;
 @property (nonatomic, assign) XTSegmentControlItemType type;
 
@@ -56,6 +58,28 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
                 [self addSubview:_titleIconView];
             }
                 break;
+            case XTSegmentControlItemTypeTitleAndIcon:
+            {
+                _titleLabel = ({
+                    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))];
+                    label.font = [UIFont systemFontOfSize:XTSegmentControlItemFont];
+                    label.textAlignment = NSTextAlignmentCenter;
+                    label.text = title;
+                    label.textColor = [UIColor colorWithHexString:@"0x222222"];
+                    label.backgroundColor = [UIColor clearColor];
+                    [label sizeToFit];
+                    label.center = CGPointMake(CGRectGetWidth(self.bounds) * 0.5, CGRectGetHeight(self.bounds) * 0.5);
+                    label;
+                });
+                
+                [self addSubview:_titleLabel];
+                
+                CGFloat x = CGRectGetMaxX(_titleLabel.frame) + XTSegmentControlIconSpace;
+                _titleIconView = [[UIImageView alloc] initWithFrame:CGRectMake(x, (CGRectGetHeight(self.bounds) - 10) * 0.5, 10, 10)];
+                [_titleIconView setImage:[UIImage imageNamed:@"tag_list_up"]];
+                [self addSubview:_titleIconView];
+            }
+                break;
             case XTSegmentControlItemTypeTitle:
             default:
             {
@@ -68,6 +92,8 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
                     label.backgroundColor = [UIColor clearColor];
                     label;
                 });
+                
+                
                 [self addSubview:_titleLabel];
             }
                 break;
@@ -76,22 +102,47 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
     return self;
 }
 
-- (void)setSelected:(BOOL)selected{
+- (void)setSelected:(BOOL)selected
+{
     switch (_type) {
         case XTSegmentControlItemTypeIconUrl:
         {
         }
             break;
+        case XTSegmentControlItemTypeTitleAndIcon:
+        {
+            if (_titleLabel) {
+                [_titleLabel setTextColor:(selected ? [UIColor colorWithHexString:@"0x3bbd79"]:[UIColor colorWithHexString:@"0x222222"])];
+            }
+            if (_titleIconView) {
+                [_titleIconView setImage:[UIImage imageNamed: selected ? @"tag_list_up_s" : @"tag_list_up"]];
+            }
+        }
+            break;
         default:
         {
             if (_titleLabel) {
-                [_titleLabel setTextColor:(selected? [UIColor colorWithHexString:@"0x3bbd79"]:[UIColor colorWithHexString:@"0x222222"])];
+                [_titleLabel setTextColor:(selected ? [UIColor colorWithHexString:@"0x3bbd79"]:[UIColor colorWithHexString:@"0x222222"])];
             }
         }
             break;
     }
 }
 
+- (void)resetTitle:(NSString *)title
+{
+    if (_titleLabel) {
+        _titleLabel.text = title;
+    }
+    if (_type == XTSegmentControlItemTypeTitleAndIcon) {
+        [_titleLabel sizeToFit];
+        _titleLabel.center = CGPointMake(CGRectGetWidth(self.bounds) * 0.5, CGRectGetHeight(self.bounds) * 0.5);
+    
+        CGRect frame = _titleIconView.frame;
+        frame.origin.x = CGRectGetMaxX(_titleLabel.frame) + XTSegmentControlIconSpace;
+        _titleIconView.frame = frame;
+    }
+}
 
 @end
 
@@ -117,33 +168,53 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 
 @implementation XTSegmentControl
 
+- (id)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem withIcon:(BOOL)isIcon
+{
+    if (self = [super initWithFrame:frame]) {
+        [self initUIWith:isIcon Items:titleItem];
+    }
+    return self;
+}
+
 - (id)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem
 {
     if (self = [super initWithFrame:frame]) {
-        _contentView = ({
-            UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
-            scrollView.backgroundColor = [UIColor clearColor];
-            scrollView.delegate = self;
-            scrollView.showsHorizontalScrollIndicator = NO;
-            scrollView.scrollsToTop = NO;
-            [self addSubview:scrollView];
-            
-            UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doTap:)];
-            [scrollView addGestureRecognizer:tapGes];
-            [tapGes requireGestureRecognizerToFail:scrollView.panGestureRecognizer];
-            scrollView;
-        });
-        
-        [self initItemsWithTitleArray:titleItem];
-        
+        [self initUIWith:NO Items:titleItem];
     }
     return self;
+}
+
+- (void)initUIWith:(BOOL)isIcon Items:(NSArray *)titleItem
+{
+    _contentView = ({
+        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+        scrollView.backgroundColor = [UIColor clearColor];
+        scrollView.delegate = self;
+        scrollView.showsHorizontalScrollIndicator = NO;
+        scrollView.scrollsToTop = NO;
+        [self addSubview:scrollView];
+        
+        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doTap:)];
+        [scrollView addGestureRecognizer:tapGes];
+        [tapGes requireGestureRecognizerToFail:scrollView.panGestureRecognizer];
+        scrollView;
+    });
+    
+    [self initItemsWithTitleArray:titleItem withIcon:isIcon];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem delegate:(id<XTSegmentControlDelegate>)delegate
 {
     if (self = [self initWithFrame:frame Items:titleItem]) {
         self.delegate = delegate;
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem withIcon:(BOOL)isIcon selectedBlock:(XTSegmentControlBlock)selectedHandle
+{
+    if (self = [self initWithFrame:frame Items:titleItem withIcon:isIcon]) {
+        self.block = selectedHandle;
     }
     return self;
 }
@@ -189,7 +260,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
     }
 }
 
-- (void)initItemsWithTitleArray:(NSArray *)titleArray
+- (void)initItemsWithTitleArray:(NSArray *)titleArray withIcon:(BOOL)isIcon
 {
     _itemFrames = @[].mutableCopy;
     _items = @[].mutableCopy;
@@ -208,7 +279,8 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         for (int i = 0; i < titleArray.count; i++) {
             CGRect rect = [_itemFrames[i] CGRectValue];
             NSString *title = titleArray[i];
-            XTSegmentControlItem *item = [[XTSegmentControlItem alloc] initWithFrame:rect title:title type:XTSegmentControlItemTypeTitle];
+            XTSegmentControlItem *item = [[XTSegmentControlItem alloc] initWithFrame:rect title:title type: isIcon ?
+                                                                                   XTSegmentControlItemTypeTitleAndIcon : XTSegmentControlItemTypeTitle];
             if (i == 0) {
                 [item setSelected:YES];
             }
@@ -216,9 +288,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
             [_contentView addSubview:item];
         }
 
-    }else if ([obj isKindOfClass:[ProjectMember class]] ||
-              [obj isKindOfClass:[Project class]]){
-        
+    } else if ([obj isKindOfClass:[ProjectMember class]] || [obj isKindOfClass:[Project class]]) {
 //        全部任务的frame
         CGRect firstFrame = CGRectMake(5.0, 0, XTSegmentControlIconWidth, height);
         [_itemFrames addObject:[NSValue valueWithCGRect:firstFrame]];
@@ -235,7 +305,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
             if ([obj isKindOfClass:[ProjectMember class]]) {
                 ProjectMember *title = titleArray[i];
                 item = [[XTSegmentControlItem alloc] initWithFrame:rect title:title.user.avatar type:XTSegmentControlItemTypeIconUrl];
-            }else if ([obj isKindOfClass:[Project class]]){
+            } else if ([obj isKindOfClass:[Project class]]){
                 Project *title = titleArray[i];
                 item = [[XTSegmentControlItem alloc] initWithFrame:rect title:title.icon type:XTSegmentControlItemTypeIconUrl];
             }
@@ -252,6 +322,19 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
     [_contentView setContentSize:CGSizeMake(CGRectGetMaxX([[_itemFrames lastObject] CGRectValue]), CGRectGetHeight(self.bounds))];
     self.currentIndex = 0;
     [self selectIndex:0];
+    if (isIcon) {
+        for (int i=1; i<_itemFrames.count; i++) {
+            CGRect rect = [_itemFrames[i] CGRectValue];
+            
+            UIView *lineView  = [[UIView alloc] initWithFrame:CGRectMake(
+                                                                         CGRectGetMinX(rect),
+                                                                         (CGRectGetHeight(rect) - 14) * 0.5,
+                                                                         0.6,
+                                                                         14)];
+            lineView.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+            [self addSubview:lineView];
+        }
+    }
 }
 
 - (void)addRedLine
@@ -265,11 +348,17 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
                                                              XTSegmentControlLineHeight)];
         _lineView.backgroundColor = [UIColor colorWithHexString:@"0x3bbd79"];
         [_contentView addSubview:_lineView];
-        
+       
         UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(rect)-0.5, CGRectGetWidth(self.bounds), 0.5)];
         bottomLineView.backgroundColor = [UIColor colorWithHexString:@"0xc8c7cc"];
         [self addSubview:bottomLineView];
     }
+}
+
+- (void)setTitle:(NSString *)title withIndex:(NSInteger)index
+{
+    XTSegmentControlItem *curItem = [_items objectAtIndex:index];
+    [curItem resetTitle:title];
 }
 
 - (void)selectIndex:(NSInteger)index
