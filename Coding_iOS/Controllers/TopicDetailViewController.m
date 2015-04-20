@@ -21,17 +21,18 @@
 #import "EditTaskViewController.h"
 #import "WebViewController.h"
 #import "EditTopicViewController.h"
+#import "EditLabelViewController.h"
 
 @interface TopicDetailViewController ()<TTTAttributedLabelDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 
-//评论
+// 评论
 @property (nonatomic, strong) UIMessageInputView *myMsgInputView;
 @property (nonatomic, strong) ProjectTopic *toComment;
 @property (nonatomic, strong) UIView *commentSender;
 
-//链接
+// 链接
 @property (strong, nonatomic) NSString *clickedAutoLinkStr;
 
 @end
@@ -69,7 +70,7 @@
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refreshTopic) forControlEvents:UIControlEventValueChanged];
     
-    //评论
+    // 评论
     __weak typeof(self) weakSelf = self;
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTopic];
     _myMsgInputView.isAlwaysShow = YES;
@@ -89,12 +90,13 @@
     [self refreshTopic];
 }
 
-- (void)setCurTopic:(ProjectTopic *)curTopic{
+- (void)setCurTopic:(ProjectTopic *)curTopic
+{
     _curTopic = curTopic;
-    self.title = curTopic.project.name? curTopic.project.name: @"讨论详情";
+    self.title = curTopic.project.name ? curTopic.project.name : @"讨论详情";
 }
 
-- (void)viewWillDisappear:(BOOL)animated{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     if (_myMsgInputView) {
         [_myMsgInputView prepareToDismiss];
@@ -103,7 +105,7 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    //    键盘
+    // 键盘
     if (_myMsgInputView) {
         if (!_myMsgInputView.toUser) {
             _myMsgInputView.toUser = nil;
@@ -118,10 +120,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - click
+- (void)addtitleBtnClick
+{
+    EditLabelViewController *vc = [[EditLabelViewController alloc] init];
+    vc.curProTopic = self.curTopic;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark nav 
 - (void)configNavBtn
 {
-    [self.navigationItem setRightBarButtonItem:[self.curTopic canEdit]? [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(editBtnClicked)]:nil animated:YES];
+    [self.navigationItem setRightBarButtonItem:[self.curTopic canEdit] ? [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(editBtnClicked)]:nil animated:YES];
 }
 
 - (void)editBtnClicked
@@ -138,10 +148,12 @@
 }
 
 #pragma mark UIMessageInputViewDelegate
-- (void)messageInputView:(UIMessageInputView *)inputView sendText:(NSString *)text{
+- (void)messageInputView:(UIMessageInputView *)inputView sendText:(NSString *)text
+{
     [self sendCommentMessage:text];
 }
-- (void)messageInputView:(UIMessageInputView *)inputView heightToBottomChenged:(CGFloat)heightToBottom{
+- (void)messageInputView:(UIMessageInputView *)inputView heightToBottomChenged:(CGFloat)heightToBottom
+{
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         UIEdgeInsets contentInsets= UIEdgeInsetsMake(0.0, 0.0, MAX(CGRectGetHeight(inputView.frame), heightToBottom), 0.0);;
         CGFloat msgInputY = kScreen_Height - heightToBottom - 64;
@@ -160,7 +172,6 @@
 }
 
 #pragma mark Refresh M
-
 - (void)refreshComments{
     if (_curTopic.isLoading) {
         return;
@@ -169,7 +180,8 @@
     [self sendRequest];
 }
 
-- (void)refreshTopic{
+- (void)refreshTopic
+{
     if (_curTopic.isTopicLoading) {
         return;
     }
@@ -186,13 +198,14 @@
             [weakSelf configNavBtn];
             [weakSelf.myTableView reloadData];
             [weakSelf refreshComments];
-        }else{
+        } else {
             [weakSelf.refreshControl endRefreshing];
         }
     }];
 }
 
-- (void)refreshMore{
+- (void)refreshMore
+{
     if (_curTopic.isLoading || !_curTopic.canLoadMore) {
         return;
     }
@@ -200,7 +213,8 @@
     [self sendRequest];
 }
 
-- (void)sendRequest{
+- (void)sendRequest
+{
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Comments_WithProjectTpoic:self.curTopic andBlock:^(id data, NSError *error) {
         [weakSelf.refreshControl endRefreshing];
@@ -213,14 +227,16 @@
     }];
 }
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
     if (scrollView == _myTableView) {
         [self.myMsgInputView isAndResignFirstResponder];
     }
 }
 
 #pragma mark Table M
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     NSInteger row = 0;
     if (_curTopic) {
         row = 1;
@@ -231,7 +247,8 @@
     return row;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (indexPath.row == 0) {
         TopicContentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TopicContent forIndexPath:indexPath];
         cell.curTopic = self.curTopic;
@@ -241,6 +258,9 @@
         };
         cell.cellHeightChangedBlock = ^(){
             [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+        };
+        cell.addLabelBlock = ^(){
+            [weakSelf addtitleBtnClick];
         };
         cell.loadRequestBlock = ^(NSURLRequest *curRequest){
             [weakSelf loadRequest:curRequest];
@@ -255,7 +275,7 @@
         };
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
         return cell;
-    }else{
+    } else {
         ProjectTopic *toComment = [_curTopic.comments.list objectAtIndex:indexPath.row-1];
 
         TopicCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:toComment.htmlMedia.imageItems.count > 0? kCellIdentifier_TopicComment_Media: kCellIdentifier_TopicComment forIndexPath:indexPath];
@@ -266,18 +286,20 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     CGFloat cellHeight = 0;
     if (indexPath.row == 0) {
         cellHeight = [TopicContentCell cellHeightWithObj:self.curTopic];
-    }else{
+    } else {
         ProjectTopic *toComment = [_curTopic.comments.list objectAtIndex:indexPath.row - 1];
         cellHeight = [TopicCommentCell cellHeightWithObj:toComment];
     }
     return cellHeight;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row != 0) {
         ProjectTopic *toComment = [_curTopic.comments.list objectAtIndex:indexPath.row-1];
@@ -285,7 +307,8 @@
     }
 }
 
-- (void)doCommentToTopic:(ProjectTopic *)toComment sender:(id)sender{
+- (void)doCommentToTopic:(ProjectTopic *)toComment sender:(id)sender
+{
     if ([self.myMsgInputView isAndResignFirstResponder]) {
         return ;
     }
@@ -331,7 +354,8 @@
 }
 
 #pragma mark Comment To Topic
-- (void)sendCommentMessage:(id)obj{
+- (void)sendCommentMessage:(id)obj
+{
     __weak typeof(self) weakSelf = self;
     if (_toComment) {
         _curTopic.nextCommentStr = [NSString stringWithFormat:@"@%@ %@", _toComment.owner.name, obj];
@@ -353,13 +377,15 @@
 }
 
 #pragma mark loadCellRequest
-- (void)loadRequest:(NSURLRequest *)curRequest{
+- (void)loadRequest:(NSURLRequest *)curRequest
+{
     NSString *linkStr = curRequest.URL.absoluteString;
     NSLog(@"\n linkStr : %@", linkStr);
     [self analyseLinkStr:linkStr];
 }
 
-- (void)analyseLinkStr:(NSString *)linkStr{
+- (void)analyseLinkStr:(NSString *)linkStr
+{
     if (linkStr.length <= 0) {
         return;
     }
@@ -367,7 +393,7 @@
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];
     }else{
-        //可能是图片链接
+        // 可能是图片链接
         HtmlMedia *htmlMedia = self.curTopic.htmlMedia;
         if (htmlMedia.imageItems.count > 0) {
             for (HtmlMediaItem *item in htmlMedia.imageItems) {
@@ -378,7 +404,7 @@
                 }
             }
         }
-        //跳转去网页
+        // 跳转去网页
         WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
         [self.navigationController pushViewController:webVc animated:YES];
     }

@@ -13,10 +13,12 @@
 typedef void (^CommentTopicBlock) ();
 @interface TopicContentCell : UITableViewCell<UIWebViewDelegate>
 @property (strong, nonatomic) ProjectTopic *curTopic;
+
 @property (nonatomic, copy) void (^commentTopicBlock)(ProjectTopic *, id);
 @property (nonatomic, copy) void (^cellHeightChangedBlock)();
 @property (nonatomic, copy) void (^loadRequestBlock)(NSURLRequest *curRequest);
 @property (nonatomic, copy) void (^deleteTopicBlock)(ProjectTopic *);
+@property (nonatomic, copy) void (^addLabelBlock)();
 
 + (CGFloat)cellHeightWithObj:(id)obj;
 @end

@@ -12,8 +12,9 @@
 #import "EaseMarkdownTextView.h"
 #import "WebContentManager.h"
 #import "EditLabelViewController.h"
+#import "TopicPreviewCell.h"
 
-@interface EditTopicViewController ()<UIWebViewDelegate>
+@interface EditTopicViewController ()<UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     CGFloat _labelH;
 }
@@ -21,10 +22,7 @@
 @property (strong, nonatomic) UISegmentedControl *segmentedControl;
 @property (assign, nonatomic) NSInteger curIndex;
 
-@property (strong, nonatomic) UIView *preView;
-@property (strong, nonatomic) UILabel *titleLbl;
-@property (strong, nonatomic) UIWebView *contentView;
-@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) UITableView *preView;
 
 @property (strong, nonatomic) UIView *editView;
 @property (strong, nonatomic) UITextField *inputTitleView;
@@ -124,7 +122,7 @@
     if (_curProTopic.mdLabels.count > 0) {
         CGFloat x = 0.0f;
         CGFloat y = 0.0f;
-        CGFloat limitW = kScreen_Width - kPaddingLeftWidth * 2 - 40;
+        CGFloat limitW = kScreen_Width - kPaddingLeftWidth * 2 - 44;
         
         for (NSString *str in _curProTopic.mdLabels) {
             UILabel *tLbl = [[UILabel alloc] initWithFrame:CGRectMake(x, y, 0, 0)];
@@ -166,11 +164,8 @@
     
     _labelAddBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     [_labelAddBtn setImage:[UIImage imageNamed:@"tag_add"] forState:UIControlStateNormal];
-    [_labelAddBtn setImageEdgeInsets:UIEdgeInsetsMake(14, 12, 14, 12)];
-    [_labelAddBtn addTarget:self action:@selector(addtitleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    _lineView = [[UIView alloc] initWithFrame:CGRectZero];
-    _lineView.backgroundColor = kColorTableSectionBg;
+    [_labelAddBtn setImageEdgeInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
+    [_labelAddBtn addTarget:self action:@selector(addtitleBtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)loadEditView
@@ -182,29 +177,45 @@
         _inputTitleView = [[UITextField alloc] initWithFrame:CGRectZero];
         _inputTitleView.textColor = [UIColor colorWithHexString:@"0x222222"];
         _inputTitleView.font = [UIFont systemFontOfSize:18];
+        _inputTitleView.attributedPlaceholder = [[NSAttributedString alloc] initWithString:(self.type == TopicEditTypeFeedBack ? @"反馈标题" : @"讨论标题") attributes:@{NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
         [_editView addSubview:_inputTitleView];
+        
+        if (self.type != TopicEditTypeFeedBack) {
+            [self loadLabelView];
+            [_editView addSubview:_labelView];
+            [_editView addSubview:_labelAddBtn];
+        }
+        
+        _lineView = [[UIView alloc] initWithFrame:CGRectZero];
+        _lineView.backgroundColor = kColorTableSectionBg;
+        [_editView addSubview:_lineView];
         
         _inputContentView = [[EaseMarkdownTextView alloc] initWithFrame:CGRectZero];
         _inputContentView.curProject = self.curProTopic.project;
         _inputContentView.textColor = [UIColor colorWithHexString:@"0x666666"];
+        _inputContentView.placeholder = self.type == TopicEditTypeFeedBack ? @"反馈内容" : @"讨论内容";
         
         _inputContentView.backgroundColor = [UIColor clearColor];
         _inputContentView.font = [UIFont systemFontOfSize:15];
         [_editView addSubview:_inputContentView];
         
         [self.view addSubview:_editView];
+        
+        // 内容
+        @weakify(self);
+        RAC(self.navigationItem.rightBarButtonItem, enabled) = [RACSignal combineLatest:@[self.inputTitleView.rac_textSignal, self.inputContentView.rac_textSignal] reduce:^id (NSString *title, NSString *content) {
+            // 刚开始编辑content的时候，title传过来的总是nil
+            @strongify(self);
+            title = self.inputTitleView.text;
+            content = self.inputContentView.text;
+            BOOL enabled = ([title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
+                            && [content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
+                            && (![title isEqualToString:self.curProTopic.mdTitle] || ![content isEqualToString:self.curProTopic.mdContent]));
+            return @(enabled);
+        }];
+        _inputTitleView.text = _curProTopic.mdTitle;
+        _inputContentView.text = _curProTopic.mdContent;
     }
-    
-    if (_labelView) {
-        [_labelView removeFromSuperview];
-        [_labelAddBtn removeFromSuperview];
-        [_lineView removeFromSuperview];
-    } else {
-        [self loadLabelView];
-    }
-    [_editView addSubview:_labelView];
-    [_editView addSubview:_labelAddBtn];
-    [_editView addSubview:_lineView];
     
     // 布局
     _inputContentView.textContainerInset = UIEdgeInsetsMake(10, kPaddingLeftWidth - 5, 8, kPaddingLeftWidth - 5);
@@ -221,50 +232,43 @@
         make.right.equalTo(_editView).offset(-kPaddingLeftWidth);
     }];
     
-    // 标签
-    [_labelView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_inputTitleView.mas_bottom).offset(22.0);
-        make.height.mas_equalTo(_labelH);
+    if (self.type != TopicEditTypeFeedBack) {
+        // 标签
+        [_labelView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_inputTitleView.mas_bottom).offset(22.0);
+            make.height.mas_equalTo(_labelH);
+            
+            make.left.equalTo(_editView).offset(kPaddingLeftWidth);
+            make.right.equalTo(_editView).offset(-kPaddingLeftWidth);
+        }];
         
-        make.left.equalTo(_editView).offset(kPaddingLeftWidth);
-        make.right.equalTo(_editView).offset(-kPaddingLeftWidth);
-    }];
-    
-    [_labelAddBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_labelView.mas_top).offset(-14.0);
-        make.right.equalTo(_editView);
+        [_labelAddBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_labelView.mas_top).offset(-14.0);
+            make.right.equalTo(_editView);
+            
+            make.width.mas_equalTo(44);
+            make.height.mas_equalTo(44);
+        }];
         
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(44);
-    }];
-    
-    [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_labelView.mas_bottom).offset(12.0);
-        make.left.equalTo(_editView).offset(kPaddingLeftWidth);
-        make.height.mas_equalTo(1.0);
-        make.right.equalTo(_editView);
-    }];
+        [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_labelView.mas_bottom).offset(12.0);
+            make.left.equalTo(_editView).offset(kPaddingLeftWidth);
+            make.height.mas_equalTo(1.0);
+            make.right.equalTo(_editView);
+        }];
+    } else {
+        [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_inputTitleView.mas_bottom).offset(12.0);
+            make.left.equalTo(_editView).offset(kPaddingLeftWidth);
+            make.height.mas_equalTo(1.0);
+            make.right.equalTo(_editView);
+        }];
+    }
     
     [_inputContentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_lineView.mas_bottom).offset(5.0);
         make.left.right.bottom.equalTo(_editView);
     }];
-    
-    // 内容
-    @weakify(self);
-    RAC(self.navigationItem.rightBarButtonItem, enabled) = [RACSignal combineLatest:@[self.inputTitleView.rac_textSignal, self.inputContentView.rac_textSignal] reduce:^id (NSString *title, NSString *content) {
-        //刚开始编辑content的时候，title传过来的总是nil
-        @strongify(self);
-        title = self.inputTitleView.text;
-        content = self.inputContentView.text;
-        BOOL enabled = ([title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
-                        && [content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
-                        && (![title isEqualToString:self.curProTopic.mdTitle] || ![content isEqualToString:self.curProTopic.mdContent]));
-        return @(enabled);
-    }];
-    _inputTitleView.attributedPlaceholder = [[NSAttributedString alloc] initWithString:(self.type == TopicEditTypeFeedBack? @"反馈标题": @"讨论标题") attributes:@{NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
-    _inputTitleView.text = _curProTopic.mdTitle;
-    _inputContentView.text = _curProTopic.mdContent;
 
     _editView.hidden = NO;
     _preView.hidden = YES;
@@ -273,118 +277,32 @@
 - (void)loadPreview
 {
     if (!_preView) {
-        _titleLbl = [[UILabel alloc] initWithFrame:CGRectZero];
-        _titleLbl.textColor = [UIColor colorWithHexString:@"0x222222"];
-        _titleLbl.font = [UIFont systemFontOfSize:18];
-        _titleLbl.lineBreakMode = NSLineBreakByWordWrapping;
-        _titleLbl.numberOfLines = 0;
-        [_preView addSubview:_titleLbl];
-        
-        _contentView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-        _contentView.delegate = self;
-        _contentView.backgroundColor = [UIColor clearColor];
-        _contentView.opaque = NO;
-        _contentView.scalesPageToFit = YES;
-        
-        //webview加载指示
-        _activityIndicator = [[UIActivityIndicatorView alloc]
-                              initWithActivityIndicatorStyle:
-                              UIActivityIndicatorViewStyleGray];
-        _activityIndicator.hidesWhenStopped = YES;
-        [_contentView addSubview:_activityIndicator];
-        [_preView addSubview:_contentView];
+        _preView = ({
+            UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+            tableView.backgroundColor = [UIColor clearColor];
+            tableView.delegate = self;
+            tableView.dataSource = self;
+            tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+            [tableView registerClass:[TopicPreviewCell class] forCellReuseIdentifier:kCellIdentifier_TopicPreviewCell];
+            tableView;
+        });
         
         [self.view addSubview:_preView];
     }
-    
-    if (_labelView) {
-        [_labelView removeFromSuperview];
-        [_labelAddBtn removeFromSuperview];
-        [_lineView removeFromSuperview];
-    } else {
-        [self loadLabelView];
-    }
-    [_preView addSubview:_labelView];
-    [_preView addSubview:_labelAddBtn];
-    [_preView addSubview:_lineView];
     
     // 布局
     [_preView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
-//    _titleLbl.text = _inputTitleView.text;
-//    if (_titleLbl.text.length <= 0) {
-//        _titleLbl.text = @" "; 
-//    }
-//    [_titleLbl sizeThatFits:CGSizeMake(kScreen_Width - kPaddingLeftWidth * 2, self.view.frame.size.height)];
-//    CGFloat h = _titleLbl.frame.size.height;
-//    if (h < 30) {
-//        h = 30;
-//    }
-    [_titleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).offset(10.0);
-        
-        make.left.equalTo(_preView).offset(kPaddingLeftWidth);
-        make.right.equalTo(_preView).offset(-kPaddingLeftWidth);
-    }];
-    _titleLbl.text = _inputTitleView.text;
-   
-    // 标签
-    [_labelView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_titleLbl.mas_bottom).offset(22.0);
-        make.height.mas_equalTo(_labelH);
-        
-        make.left.equalTo(_preView).offset(kPaddingLeftWidth);
-        make.right.equalTo(_preView).offset(-kPaddingLeftWidth);
-    }];
-    
-    [_labelAddBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_labelView.mas_top).offset(-14.0);
-        make.right.equalTo(_preView);
-        
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(44);
-    }];
-    
-    [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_labelView.mas_bottom).offset(12.0);
-        make.left.equalTo(_preView).offset(kPaddingLeftWidth);
-        make.height.mas_equalTo(1.0);
-        make.right.equalTo(_preView);
-    }];
-    
-    [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_lineView.mas_bottom).offset(5.0);
-        make.left.right.bottom.equalTo(_preView);
-    }];
-    
-    [_activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(_contentView);
-    }];
-
     
     _preView.hidden = NO;
+    [_preView reloadData];
     _editView.hidden = YES;
     [_editView endEditing:YES];
-    [self previewLoadMDData];
-}
-
-- (void)previewLoadMDData
-{
-    NSString *mdStr = [NSString stringWithFormat:@"%@", _inputContentView.text];
-    [_activityIndicator startAnimating];
-    
-    @weakify(self);
-    [[Coding_NetAPIManager sharedManager] request_MDHtmlStr_WithMDStr:mdStr andBlock:^(id data, NSError *error) {
-        @strongify(self);
-        NSString *htmlStr = data? data : error.description;
-        NSString *contentStr = [WebContentManager markdownPatternedWithContent:htmlStr];
-        [self.contentView loadHTMLString:contentStr baseURL:nil];
-    }];
 }
 
 #pragma mark - click
-- (void)addtitleBtnClick:(UIButton *)sender
+- (void)addtitleBtnClick
 {
     EditLabelViewController *vc = [[EditLabelViewController alloc] init];
     vc.curProTopic = _curProTopic;
@@ -427,30 +345,39 @@
         }];
     }
 }
-
-#pragma mark UIWebViewDelegate
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+#pragma mark Table M
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"strLink=[%@]", request.URL.absoluteString);
-    return YES;
-}
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
-    [_activityIndicator startAnimating];
-}
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    [_activityIndicator stopAnimating];
+    return 1;
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if([error code] == NSURLErrorCancelled)
-        return;
-    else {
-        DebugLog(@"%@", error.description);
-        [self showError:error];
-    }
+    TopicPreviewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TopicPreviewCell forIndexPath:indexPath];
+    _curProTopic.created_at = [NSDate date];
+    cell.isLabel = (self.type == TopicEditTypeFeedBack ? FALSE : TRUE);
+    self.curProTopic.mdTitle = _inputTitleView.text;
+    self.curProTopic.mdContent = _inputContentView.text;
+    cell.curTopic = self.curProTopic;
+    __weak typeof(self) weakSelf = self;
+    cell.cellHeightChangedBlock = ^(){
+        [weakSelf.preView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
+    };
+    cell.addLabelBlock = ^(){
+        [weakSelf addtitleBtnClick];
+    };
+    //[tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return (self.type == TopicEditTypeFeedBack ? [TopicPreviewCell cellHeightWithObj:self.curProTopic] : [TopicPreviewCell cellHeightWithObjWithLabel:self.curProTopic]);
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "ProjectTopic.h"
+#import "Login.h"
 
 @implementation ProjectTopic
 
@@ -50,6 +51,7 @@
 
 + (ProjectTopic *)topicWithPro:(Project *)pro{
     ProjectTopic *topic = [[ProjectTopic alloc] init];
+    topic.owner = [Login curLoginUser];
     topic.project = pro;
     topic.project_id = pro.id;
     return topic;
@@ -80,13 +82,14 @@
 }
 - (NSDictionary *)toAddTopicParams
 {
-    NSMutableString *tempStr = [[NSMutableString alloc] initWithString:@""];
+    //NSMutableString *tempStr = [[NSMutableString alloc] initWithString:@""];
+    NSMutableString *tempStr = [[NSMutableString alloc] initWithString:@"Bug, Feature"];
     for (NSString *lbl in _mdLabels) {
         [tempStr appendString:lbl];
     }
     return @{@"title" : [_mdTitle aliasedString],
              @"content" : [_mdContent aliasedString],
-             @"label" : tempStr};
+             @"labels" : [tempStr aliasedString]};
 }
 
 - (NSString *)toCommentsPath{
@@ -129,9 +132,10 @@
     return [NSString stringWithFormat:@"api/topic/%d", self.id.intValue];
 }
 
-- (BOOL)canEdit{
+- (BOOL)canEdit
+{
     return (self.owner_id.integerValue == [Login curLoginUser].id.integerValue // 讨论创建者
-            || [Login isOwnerOfProjectWithOwnerId:self.project.owner_id]); //项目创建者
+            || [Login isOwnerOfProjectWithOwnerId:self.project.owner_id]); // 项目创建者
 }
 
 @end
