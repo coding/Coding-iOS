@@ -12,7 +12,7 @@
 
 @interface AGEmojiPageView : UIView
 
-@property (nonatomic, assign) id<AGEmojiPageViewDelegate> delegate;
+@property (nonatomic, weak) id<AGEmojiPageViewDelegate> delegate;
 
 /**
  Creates and returns an EmojiPageView
