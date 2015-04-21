@@ -59,7 +59,7 @@
         
         // 添加滑块
         _one = @[@"全部讨论", @"我参与的"];
-        _two = [NSMutableArray arrayWithObjects:@"全部标签", @"bug", @"Feature", @"反馈", nil];
+        _two = [NSMutableArray arrayWithObjects:@"全部标签", @"Bug", @"Feature", @"反馈", nil];
         _three = @[@"最后评论排序", @"发布时间排序", @"热门排序"];
         _total = @[_one, _two, _three];
         _oneNumber = [NSMutableArray arrayWithObjects:@0, @0, nil];
@@ -190,9 +190,9 @@
 - (void)getInfo:(ProjectTopicListView *)listView andIndex:(NSInteger)index
 {
     if (index == 0) {
-        [listView getLabelArray:_total[1] andNumberArray:_totalNumber[1]];
+        [listView getLabelArray:_total[1] andNumberArray:_totalNumber[1] andAry:_totalNumber[2]];
     } else {
-        [listView getLabelArray:_total[1] andNumberArray:_totalNumber[2]];
+        [listView getLabelArray:_total[1] andNumberArray:_totalNumber[2] andAry:_totalNumber[1]];
     }
     [_totalNumber[0] replaceObjectAtIndex:index withObject:[NSNumber numberWithInteger:[listView getCount]]];
 }

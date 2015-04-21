@@ -125,6 +125,11 @@
 {
     EditLabelViewController *vc = [[EditLabelViewController alloc] init];
     vc.curProTopic = self.curTopic;
+    vc.isSaveChange = TRUE;
+    __weak typeof(self) weakSelf = self;
+    vc.topicChangedBlock = ^(){
+        [weakSelf refreshTopic];
+    };
     [self.navigationController pushViewController:vc animated:YES];
 }
 

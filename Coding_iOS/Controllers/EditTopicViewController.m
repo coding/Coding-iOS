@@ -13,6 +13,7 @@
 #import "WebContentManager.h"
 #import "EditLabelViewController.h"
 #import "TopicPreviewCell.h"
+#import "ProjectTopicLabel.h"
 
 @interface EditTopicViewController ()<UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate>
 {
@@ -72,7 +73,7 @@
         self.navigationItem.titleView = _segmentedControl;
     }
     
-    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:self.type == TopicEditTypeFeedBack? @"发送": @"完成" target:self action:@selector(saveBtnClicked)] animated:YES];
+    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:self.type == TopicEditTypeFeedBack ? @"发送" : @"完成" target:self action:@selector(saveBtnClicked)] animated:YES];
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
     [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillChangeFrameNotification object:nil] takeUntil:self.rac_willDeallocSignal] subscribeNext:^(NSNotification *aNotification) {
@@ -85,6 +86,17 @@
     }];
     
     self.curIndex = 0;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (_curIndex == 0) {
+        [self loadEditView];
+    } else {
+        [self loadPreview];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -122,31 +134,31 @@
     if (_curProTopic.mdLabels.count > 0) {
         CGFloat x = 0.0f;
         CGFloat y = 0.0f;
-        CGFloat limitW = kScreen_Width - kPaddingLeftWidth * 2 - 44;
+        CGFloat limitW = kScreen_Width - kPaddingLeftWidth - 44;
         
-        for (NSString *str in _curProTopic.mdLabels) {
+        for (ProjectTopicLabel *label in _curProTopic.mdLabels) {
             UILabel *tLbl = [[UILabel alloc] initWithFrame:CGRectMake(x, y, 0, 0)];
             
             tLbl.font = [UIFont systemFontOfSize:12];
-            tLbl.text = str;
-            tLbl.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+            tLbl.text = label.name;
+            tLbl.textColor = kColorLabelText;
             tLbl.textAlignment = NSTextAlignmentCenter;
-            tLbl.backgroundColor = [UIColor redColor];
-            tLbl.layer.cornerRadius = 5;
-            
+            tLbl.layer.cornerRadius = 10;
+            tLbl.layer.backgroundColor = kColorLabelBgColor.CGColor;
+        
             [tLbl sizeToFit];
             
-            CGFloat width = tLbl.frame.size.width + 10;
+            CGFloat width = tLbl.frame.size.width + 20;
             if (x + width > limitW) {
-                y += 20.0f;
+                y += 26.0f;
                 x = 0.0f;
             }
-            [tLbl setFrame:CGRectMake(x, y, width - 4, 20 - 4)];
+            [tLbl setFrame:CGRectMake(x, y, width - 4, 20)];
             x += width;
             
             [_labelView addSubview:tLbl];
         }
-        _labelH = y + 20;
+        _labelH = y + 26;
         
     } else {
         UIImageView *iconImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, 15)];
@@ -156,7 +168,7 @@
         
         tLbl.font = [UIFont systemFontOfSize:14];
         tLbl.text = @"标签";
-        tLbl.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+        tLbl.textColor = kColorLabelText;
         
         [_labelView addSubview:iconImg];
         [_labelView addSubview:tLbl];
@@ -216,6 +228,7 @@
         _inputTitleView.text = _curProTopic.mdTitle;
         _inputContentView.text = _curProTopic.mdContent;
     }
+    
     
     // 布局
     _inputContentView.textContainerInset = UIEdgeInsetsMake(10, kPaddingLeftWidth - 5, 8, kPaddingLeftWidth - 5);

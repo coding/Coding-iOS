@@ -20,6 +20,7 @@
 @interface EditLabelViewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UITextFieldDelegate>
 {
     NSString *_tempLabel;
+    NSMutableArray *_tempArray;
 }
 @property (strong, nonatomic) NSMutableArray *labels;
 
@@ -86,6 +87,12 @@
     _myTableView.dataSource = nil;
 }
 
+- (void)setCurProTopic:(ProjectTopic *)curProTopic
+{
+    _curProTopic = curProTopic;
+    _tempArray = [NSMutableArray arrayWithArray:_curProTopic.mdLabels];
+}
+
 - (void)sendRequest
 {
     [self.view beginLoading];
@@ -95,7 +102,20 @@
         [weakSelf.view endLoading];
         if (data) {
             [_labels addObjectsFromArray:data];
-
+            for (ProjectTopicLabel *lbl in _labels) {
+                for (ProjectTopicLabel *tLbl in _curProTopic.mdLabels) {
+                    if ([lbl.id integerValue] == [tLbl.id integerValue]) {
+                        tLbl.name = lbl.name;
+                        break;
+                    }
+                }
+                for (ProjectTopicLabel *tLbl in _tempArray) {
+                    if ([lbl.id integerValue] == [tLbl.id integerValue]) {
+                        tLbl.name = lbl.name;
+                        break;
+                    }
+                }
+            }
             [weakSelf.myTableView reloadData];
         }
     }];
@@ -115,8 +135,25 @@
 #pragma mark - click
 - (void)okBtnClick
 {
+    _curProTopic.mdLabels = _tempArray;
     
-    [self.navigationController popViewControllerAnimated:YES];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    if (_isSaveChange) {
+        @weakify(self);
+        [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoic:self.curProTopic andBlock:^(id data, NSError *error) {
+            @strongify(self);
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+            if (data) {
+                _curProTopic.labels = [NSMutableArray arrayWithArray:_curProTopic.mdLabels];
+                if (self.topicChangedBlock) {
+                    self.topicChangedBlock();
+                }
+                [self.navigationController popViewControllerAnimated:YES];
+            } 
+        }];
+    } else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)addBtnClick:(UIButton *)sender
@@ -124,13 +161,13 @@
     [_mCurrentTextField resignFirstResponder];
     if (_tempLabel.length > 0) {
         __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Add_WithPath:[self toLabelPath] withParams:@{@"name" : [_tempLabel aliasedString], @"color" : @"#d8f3e4"} andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Add_WithPath:[self toLabelPath] withParams:@{@"name" : [_tempLabel aliasedString], @"color" : kColorLabelBg} andBlock:^(id data, NSError *error) {
             if (!error) {
                 ProjectTopicLabel *ptLabel = [[ProjectTopicLabel alloc] init];
                 ptLabel.name = _tempLabel;
                 ptLabel.id = data;
                 ptLabel.owner_id = _curProTopic.project_id;
-                ptLabel.color = @"#d8f3e4";
+                ptLabel.color = kColorLabelBg;
                 [_labels addObject:ptLabel];
                 [weakSelf.myTableView reloadData];
                 _tempLabel = @"";
@@ -172,6 +209,15 @@
     EditLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_EditLabelCell forIndexPath:indexPath];
     cell.nameLbl.text = ptLabel.name;
     
+    BOOL selected = FALSE;
+    for (ProjectTopicLabel *lbl in _curProTopic.mdLabels) {
+        if ([lbl.id integerValue] == [ptLabel.id integerValue]) {
+            selected = TRUE;
+            break;
+        }
+    }
+    cell.selectBtn.selected = selected;
+    
     [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:[EditLabelCell cellHeight]];
     cell.delegate = self;
     
@@ -202,6 +248,31 @@
     if (indexPath.section > 0) {
         EditLabelCell *cell = (EditLabelCell *)[tableView cellForRowAtIndexPath:indexPath];
         cell.selectBtn.selected = !cell.selectBtn.selected;
+        
+        ProjectTopicLabel *lbl = _labels[indexPath.row];
+  
+        if (cell.selectBtn.selected) {
+            BOOL add = TRUE;
+            for (ProjectTopicLabel *tempLbl in _tempArray) {
+                if ([tempLbl.id integerValue] == [lbl.id integerValue]) {
+                    add = FALSE;
+                    break;
+                }
+            }
+            if (add) {
+                [_tempArray addObject:lbl];
+                self.navigationItem.rightBarButtonItem.enabled = YES;
+            }
+        } else {
+            for (ProjectTopicLabel *tempLbl in _tempArray) {
+                if ([tempLbl.id integerValue] == [lbl.id integerValue]) {
+                    [_tempArray removeObject:tempLbl];
+                    self.navigationItem.rightBarButtonItem.enabled = YES;
+                
+                    break;
+                }
+            }
+        }
     }
 }
 
@@ -255,38 +326,55 @@
     NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
 
     if (index == 0) {
-        [self renameLabel:indexPath.row];
+        [self renameBtnClick:indexPath.row];
     } else {
         __weak typeof(self) weakSelf = self;
         ProjectTopicLabel *ptLabel = [_labels objectAtIndex:indexPath.row];
         NSString *tip = [NSString stringWithFormat:@"确定要删除标签:%@？", ptLabel.name];
         UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:tip buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
-                [weakSelf deleteLabel:indexPath.row];
+                [weakSelf deleteBtnClick:indexPath.row];
             }
         }];
         [actionSheet showInView:self.view];
     }
 }
 
-- (void)renameLabel:(NSInteger)index
+- (void)renameBtnClick:(NSInteger)index
 {
     ResetLabelViewController *vc = [[ResetLabelViewController alloc] init];
     vc.ptLabel = [_labels objectAtIndex:index];
+    vc.curProTopic = _curProTopic;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)deleteLabel:(NSInteger)index
+- (void)deleteBtnClick:(NSInteger)index
 {
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Del_WithPath:[self toDelPath:index] andBlock:^(id data, NSError *error) {
         if (!error) {
-            [weakSelf.labels removeObjectAtIndex:index];
-            [weakSelf.myTableView reloadData];
+            [weakSelf deleteLabel:index];
         }
     }];
 }
 
+- (void)deleteLabel:(NSInteger)index
+{
+    ProjectTopicLabel *lbl = _labels[index];
+    for (ProjectTopicLabel *tempLbl in _tempArray) {
+        if ([tempLbl.id integerValue] == [lbl.id integerValue]) {
+            [_tempArray removeObject:tempLbl];
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+            break;
+        }
+    }
+    [self.labels removeObjectAtIndex:index];
+    [self.myTableView reloadData];
+}
+
+- (void)renameLabel:(NSInteger)index
+{
+}
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {

@@ -788,6 +788,8 @@
                 if (dataMD) {
                     resultT.mdTitle = [[dataMD valueForKey:@"data"] valueForKey:@"title"];
                     resultT.mdContent = [[dataMD valueForKey:@"data"] valueForKey:@"content"];
+                    id labels = [[dataMD valueForKey:@"data"] valueForKey:@"labels"];
+                    resultT.mdLabels = [NSObject arrayFromJSON:labels  ofObjects:@"ProjectTopicLabel"];
                     block(resultT, nil);
                 }else{
                     proTopic.isTopicLoading = NO;

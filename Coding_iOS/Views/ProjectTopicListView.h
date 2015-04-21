@@ -23,7 +23,8 @@ typedef void(^TopicListBlock)(ProjectTopicListView *projectTopicListView);
 - (void)refreshToQueryData;
 
 - (NSInteger)getCount;
-- (void)getLabelArray:(NSMutableArray *)labelAry andNumberArray:(NSMutableArray *)numberAry;
+- (void)getLabelArray:(NSMutableArray *)labelAry andNumberArray:(NSMutableArray *)numberAry andAry:(NSMutableArray *)aAry;
+
 - (void)setOrder:(NSInteger)order withLabel:(NSString *)label;
 
 @end

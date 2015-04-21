@@ -8,6 +8,7 @@
 
 #import "ProjectTopic.h"
 #import "Login.h"
+#import "ProjectTopicLabel.h"
 
 @implementation ProjectTopic
 
@@ -62,34 +63,35 @@
     return topic;
 }
 
-- (NSString *)toTopicPath{
+- (NSString *)toTopicPath
+{
     return [NSString stringWithFormat:@"api/topic/%d", self.id.intValue];
 }
 
 - (NSDictionary *)toEditParams
 {
-    NSMutableString *tempStr = [[NSMutableString alloc] initWithString:@""];
-    for (NSString *lbl in _mdLabels) {
-        [tempStr appendString:lbl];
+    NSMutableArray *tempAry = [NSMutableArray arrayWithCapacity:_mdLabels.count];
+    for (ProjectTopicLabel *lbl in _mdLabels) {
+        [tempAry addObject:lbl.id];
     }
     return @{@"title" : [_mdTitle aliasedString],
              @"content" : [_mdContent aliasedString],
-             @"label" : tempStr};
+             @"label" : tempAry};
 }
 
-- (NSString *)toAddTopicPath{
+- (NSString *)toAddTopicPath
+{
     return [NSString stringWithFormat:@"api/project/%d/topic?parent=0", [self.project_id intValue]];
 }
 - (NSDictionary *)toAddTopicParams
 {
-    //NSMutableString *tempStr = [[NSMutableString alloc] initWithString:@""];
-    NSMutableString *tempStr = [[NSMutableString alloc] initWithString:@"Bug, Feature"];
-    for (NSString *lbl in _mdLabels) {
-        [tempStr appendString:lbl];
+    NSMutableArray *tempAry = [NSMutableArray arrayWithCapacity:_mdLabels.count];
+    for (ProjectTopicLabel *lbl in _mdLabels) {
+        [tempAry addObject:lbl.id];
     }
     return @{@"title" : [_mdTitle aliasedString],
              @"content" : [_mdContent aliasedString],
-             @"labels" : [tempStr aliasedString]};
+             @"labels" : tempAry};
 }
 
 - (NSString *)toCommentsPath{

@@ -11,7 +11,7 @@
 #import "Coding_NetAPIManager.h"
 #import "ProjectTopicCell.h"
 #import "SVPullToRefresh.h"
-
+#import "ProjectTopicLabel.h"
 
 @interface ProjectTopicListView ()
 {
@@ -96,24 +96,25 @@
     }
 }
 
-- (void)getLabelArray:(NSMutableArray *)labelAry andNumberArray:(NSMutableArray *)numberAry
+- (void)getLabelArray:(NSMutableArray *)labelAry andNumberArray:(NSMutableArray *)numberAry andAry:(NSMutableArray *)aAry
 {
     BOOL isExist;
     for (ProjectTopic *topic in _myProTopics.list) {
-        for (NSString *label in topic.labels) {
+        for (ProjectTopicLabel *label in topic.labels) {
             isExist = FALSE;
             for (int i=1; i<labelAry.count; i++) {
                 NSString *temp = labelAry[i];
-                if ([temp isEqualToString:label]) {
+                if ([temp isEqualToString:label.name]) {
                     isExist = TRUE;
-                    NSNumber *tNumber = numberAry[i];
-                    [numberAry replaceObjectAtIndex:i withObject:[NSNumber numberWithInteger:[tNumber integerValue] + 1]];
+                    NSInteger number = [numberAry[i] integerValue] + 1;
+                    [numberAry replaceObjectAtIndex:i withObject:[NSNumber numberWithInteger:number]];
                     break;
                 }
             }
             if (!isExist) {
-                [labelAry addObject:label];
+                [labelAry addObject:label.name];
                 [numberAry addObject:[NSNumber numberWithInteger:1]];
+                [aAry addObject:[NSNumber numberWithInteger:0]];
             }
         }
     }

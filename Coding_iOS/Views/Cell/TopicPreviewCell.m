@@ -12,6 +12,7 @@
 #import "TopicPreviewCell.h"
 #import "WebContentManager.h"
 #import "Coding_NetAPIManager.h"
+#import "ProjectTopicLabel.h"
 
 @interface TopicPreviewCell () <UIWebViewDelegate>
 {
@@ -139,38 +140,38 @@
     if (_labelView) {
         [_labelView removeFromSuperview];
         _labelView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, _labelH)];
-        [self.contentView addSubview:_labelView];
+        [self.contentView insertSubview:_labelView belowSubview:_labelAddBtn];
     }
     [_labelAddBtn setY:curBottomY - 15];
     [_labelView setY:curBottomY];
-    if (_curTopic.labels.count > 0) {
+    if (_curTopic.mdLabels.count > 0) {
         CGFloat x = 0.0f;
         CGFloat y = 0.0f;
-        CGFloat limitW = kScreen_Width - kPaddingLeftWidth * 2 - 44;
+        CGFloat limitW = kScreen_Width - kPaddingLeftWidth - 44;
         
-        for (NSString *str in _curTopic.labels) {
+        for (ProjectTopicLabel *label in _curTopic.mdLabels) {
             UILabel *tLbl = [[UILabel alloc] initWithFrame:CGRectMake(x, y, 0, 0)];
             
             tLbl.font = [UIFont systemFontOfSize:12];
-            tLbl.text = str;
-            tLbl.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+            tLbl.text = label.name;
+            tLbl.textColor = kColorLabelText;
             tLbl.textAlignment = NSTextAlignmentCenter;
-            tLbl.backgroundColor = [UIColor redColor];
-            tLbl.layer.cornerRadius = 5;
+            tLbl.layer.cornerRadius = 10;
+            tLbl.layer.backgroundColor = kColorLabelBgColor.CGColor;
             
             [tLbl sizeToFit];
             
-            CGFloat width = tLbl.frame.size.width + 10;
+            CGFloat width = tLbl.frame.size.width + 20;
             if (x + width > limitW) {
-                y += 20.0f;
+                y += 26.0f;
                 x = 0.0f;
             }
-            [tLbl setFrame:CGRectMake(x, y, width - 4, 20 - 4)];
+            [tLbl setFrame:CGRectMake(x, y, width - 4, 20)];
             x += width;
             
             [_labelView addSubview:tLbl];
         }
-        _labelH = y + 20;
+        _labelH = y + 26;
     } else {
         UIImageView *iconImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, 15)];
         [iconImg setImage:[UIImage imageNamed:@"tag_icon"]];
@@ -179,7 +180,7 @@
         
         tLbl.font = [UIFont systemFontOfSize:14];
         tLbl.text = @"标签";
-        tLbl.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+        tLbl.textColor = kColorLabelText;
         
         [_labelView addSubview:iconImg];
         [_labelView addSubview:tLbl];
@@ -243,24 +244,24 @@
         if (topic.mdLabels.count > 0) {
             CGFloat x = 0.0f;
             CGFloat y = 0.0f;
-            CGFloat limitW = kScreen_Width - kPaddingLeftWidth * 2 - 44;
+            CGFloat limitW = kScreen_Width - kPaddingLeftWidth - 44;
             
             UILabel *tLbl = [[UILabel alloc] initWithFrame:CGRectMake(x, y, 0, 0)];
             tLbl.font = [UIFont systemFontOfSize:12];
             tLbl.textAlignment = NSTextAlignmentCenter;
             
-            for (NSString *str in topic.mdLabels) {
-                tLbl.text = str;
+            for (ProjectTopicLabel *label in topic.mdLabels) {
+                tLbl.text = label.name;
                 [tLbl sizeToFit];
                 
-                CGFloat width = tLbl.frame.size.width + 10;
+                CGFloat width = tLbl.frame.size.width + 20;
                 if (x + width > limitW) {
-                    y += 20.0f;
+                    y += 26.0f;
                     x = 0.0f;
                 }
                 x += width;
             }
-            labelH = y + 20;
+            labelH = y + 26;
         }
         cellHeight += labelH + 3;
         cellHeight += topic.contentHeight + 5;

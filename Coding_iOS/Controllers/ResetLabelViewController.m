@@ -79,7 +79,7 @@
 {
     if (_tempStr.length > 0) {
         __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Modify_WithPath:[self toModifyPath] withParams:@{@"name" : _tempStr, @"color" : @"#d8f3e4", @"label_id" : _ptLabel.id} andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Modify_WithPath:[self toModifyPath] withParams:@{@"name" : _tempStr, @"color" : kColorLabelBg, @"label_id" : _ptLabel.id} andBlock:^(id data, NSError *error) {
             if (!error) {
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             }

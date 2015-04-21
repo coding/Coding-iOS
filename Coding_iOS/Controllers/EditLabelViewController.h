@@ -12,5 +12,8 @@
 @interface EditLabelViewController : BaseViewController
 
 @property (weak, nonatomic) ProjectTopic *curProTopic;
+@property (assign, nonatomic) BOOL isSaveChange;
+
+@property (copy, nonatomic) void(^topicChangedBlock)();
 
 @end
