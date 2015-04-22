@@ -40,6 +40,8 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
 - (void)setSize:(CGSize)size;
 - (CGFloat)maxXOfFrame;
 
+- (void)setSubScrollsToTop:(BOOL)scrollsToTop;
+
 
 - (void)addGradientLayerWithColors:(NSArray *)cgColorArray;
 - (void)addGradientLayerWithColors:(NSArray *)cgColorArray locations:(NSArray *)floatNumArray startPoint:(CGPoint )aPoint endPoint:(CGPoint)endPoint;

@@ -150,7 +150,7 @@
             NSLog(@"\n=====%@", project.name);
         } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
     }
-    
+    [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
 }
 
@@ -177,7 +177,10 @@
         _oldSelectedIndex = carousel.currentItemIndex;
         ProjectListView *curView = (ProjectListView *)carousel.currentItemView;
         [curView refreshToQueryData];
-    }    
+    }
+    [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
+    }];
 }
 
 @end

@@ -77,6 +77,7 @@
     }else{
         listView = [[ProjectTopicListView alloc] initWithFrame:carousel.bounds projectTopics:curProTopics block:_block];
     }
+    [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
 }
 
@@ -92,6 +93,9 @@
     if (_mySegmentControl) {
         _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
+    [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
+    }];
 }
 
 @end

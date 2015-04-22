@@ -95,6 +95,7 @@
     }else{
         listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks block:_block tabBarHeight:0];
     }
+    [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
 }
 
@@ -110,6 +111,9 @@
     if (_mySegmentControl) {
         _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
+    [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
+    }];
 }
 
 @end
