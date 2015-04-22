@@ -187,17 +187,17 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     NSLog(@"textDidChange: %@", searchText);
-    [self searchUserWithStr:searchText];
+    [self searchProjectWithStr:searchText];
 }
 
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     NSLog(@"searchBarSearchButtonClicked: %@", searchBar.text);
     [searchBar resignFirstResponder];
-    [self searchUserWithStr:searchBar.text];
+    [self searchProjectWithStr:searchBar.text];
 }
 
-- (void)searchUserWithStr:(NSString *)string{
+- (void)searchProjectWithStr:(NSString *)string{
     self.searchString = string;
     [self updateFilteredContentForSearchString:string];
     [self.myTableView reloadData];

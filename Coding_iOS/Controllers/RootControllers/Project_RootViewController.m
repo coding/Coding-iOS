@@ -81,10 +81,13 @@
         [weakCarousel scrollToItemAtIndex:index animated:NO];
     }];
     [self.view addSubview:_mySegmentControl];
-    
-    // 添加 “创建项目” 按钮
-    UIBarButtonItem *newProjectButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(gotoNewProject)];
-    self.navigationItem.rightBarButtonItem = newProjectButtonItem;
+    [self setupNavBtn];
+}
+
+- (void)setupNavBtn{
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchItemClicked:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(gotoNewProject)];
+
 }
 
 -(void)gotoNewProject{
@@ -181,6 +184,11 @@
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
     }];
+}
+
+#pragma mark Search
+- (void)searchItemClicked:(id)sender{
+    NSLog(@"%@", sender);
 }
 
 @end
