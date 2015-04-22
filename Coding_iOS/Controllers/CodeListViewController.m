@@ -8,6 +8,7 @@
 
 #import "CodeListViewController.h"
 #import "CodeViewController.h"
+#import "ProjectViewController.h"
 
 @interface CodeListViewController ()
 
@@ -19,6 +20,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = [[_myCodeTree.path componentsSeparatedByString:@"/"] lastObject];
+    [self configRightNavBtn];
     
     ProjectCodeListView *listView = [[ProjectCodeListView alloc] initWithFrame:self.view.bounds project:_myProject andCodeTree:_myCodeTree];
     __weak typeof(self) weakSelf = self;
@@ -30,6 +32,40 @@
         make.edges.equalTo(self.view);
     }];
     [listView addBranchTagButton];
+    
+}
+
+- (void)configRightNavBtn{
+    if (!self.navigationItem.rightBarButtonItem) {
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)] animated:NO];
+    }
+}
+
+- (void)rightNavBtnClicked{
+    __weak typeof(self) weakSelf = self;
+    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"退出代码查看"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        switch (index) {
+            case 0:{
+                [weakSelf.navigationController.viewControllers enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UIViewController *obj, NSUInteger idx, BOOL *stop) {
+                    if (![obj isKindOfClass:[weakSelf class]]) {
+                        if ([obj isKindOfClass:[ProjectViewController class]]) {
+                            if ([(ProjectViewController *)obj curType] != ProjectViewTypeCodes) {
+                                *stop = YES;
+                            }
+                        }else{
+                            *stop = YES;
+                        }
+                    }
+                    if (*stop) {
+                        [weakSelf.navigationController popToViewController:obj animated:YES];
+                    }
+                }];
+            }
+                break;
+            default:
+                break;
+        }
+    }] showInView:self.view];
 }
 
 - (void)didReceiveMemoryWarning {
