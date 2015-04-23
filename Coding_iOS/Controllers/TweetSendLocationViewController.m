@@ -477,8 +477,13 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
+    [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
     [self.mySearchDisplayController setActive:YES animated:YES];
-    
+    return YES;
+}
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar{
+    [searchBar insertBGColor:nil];
     return YES;
 }
 

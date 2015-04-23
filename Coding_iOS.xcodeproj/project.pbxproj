@@ -271,6 +271,7 @@
 		4EE083D91ADB72AA00CA342E /* bubble.html in Resources */ = {isa = PBXBuildFile; fileRef = 4EE083D71ADB72AA00CA342E /* bubble.html */; };
 		4EE083DA1ADB72AA00CA342E /* topic-ios.html in Resources */ = {isa = PBXBuildFile; fileRef = 4EE083D81ADB72AA00CA342E /* topic-ios.html */; };
 		4EE083DC1ADB736800CA342E /* service_terms.html in Resources */ = {isa = PBXBuildFile; fileRef = 4EE083DB1ADB736800CA342E /* service_terms.html */; };
+		4EE5481E1AE7B7CA00A92306 /* UISearchBar+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5481D1AE7B7CA00A92306 /* UISearchBar+Common.m */; };
 		68D9A2AD062641F5BCA573C5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B024F2227BD4152BC7C9A7A /* libPods.a */; };
 		8E03D4A219F695FE0092F8C8 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */; };
 		8E03D4A419F696970092F8C8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D4A319F696970092F8C8 /* libz.dylib */; };
@@ -1024,6 +1025,8 @@
 		4EE083D71ADB72AA00CA342E /* bubble.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bubble.html; path = webview/app/build/bubble.html; sourceTree = "<group>"; };
 		4EE083D81ADB72AA00CA342E /* topic-ios.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = "topic-ios.html"; path = "webview/app/build/topic-ios.html"; sourceTree = "<group>"; };
 		4EE083DB1ADB736800CA342E /* service_terms.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = service_terms.html; sourceTree = "<group>"; };
+		4EE5481C1AE7B7CA00A92306 /* UISearchBar+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISearchBar+Common.h"; sourceTree = "<group>"; };
+		4EE5481D1AE7B7CA00A92306 /* UISearchBar+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+Common.m"; sourceTree = "<group>"; };
 		8B18B0211092D3903D031B13 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		8E03D4A019F695FE0092F8C8 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
@@ -1984,6 +1987,8 @@
 				4EBDA87B1A6640340035ED96 /* UIActionSheet+Common.m */,
 				4EB0C1FE1A807ED00042FC4F /* NSURL+Common.h */,
 				4EB0C1FF1A807ED00042FC4F /* NSURL+Common.m */,
+				4EE5481C1AE7B7CA00A92306 /* UISearchBar+Common.h */,
+				4EE5481D1AE7B7CA00A92306 /* UISearchBar+Common.m */,
 			);
 			path = OC_Category;
 			sourceTree = "<group>";
@@ -3525,6 +3530,7 @@
 				4EABD2571AD3CAAC005E515F /* UIMessageInputView_Add.m in Sources */,
 				8E59F0E21A0098BA009A905F /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				4E15C7D01A26D2F000FB8DAD /* FolderToMoveViewController.m in Sources */,
+				4EE5481E1AE7B7CA00A92306 /* UISearchBar+Common.m in Sources */,
 				4EA7F1621A6D192B00A046BD /* UIImage+GIF.m in Sources */,
 				8EF643BB19FF7E2900F7EEB0 /* MessageCell.m in Sources */,
 				8E1C3E0B19E8DFE300EF3032 /* SettingMineInfoViewController.m in Sources */,

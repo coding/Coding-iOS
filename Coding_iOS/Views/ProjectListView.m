@@ -63,15 +63,20 @@
             }
             tableView;
         });
-        _mySearchBar = ({
-            UISearchBar *searchBar = [[UISearchBar alloc] init];
-            searchBar.delegate = self;
-            [searchBar sizeToFit];
-            [searchBar setPlaceholder:@"项目名称/创建人"];
-            searchBar.backgroundColor = [UIColor colorWithHexString:@"0x28303b"];
-            searchBar;
-        });
-        _myTableView.tableHeaderView = _mySearchBar;
+        if (projects.type < ProjectsTypeTaProject) {
+            _mySearchBar = nil;
+            _myTableView.tableHeaderView = nil;
+        }else{
+            _mySearchBar = ({
+                UISearchBar *searchBar = [[UISearchBar alloc] init];
+                searchBar.delegate = self;
+                [searchBar sizeToFit];
+                [searchBar setPlaceholder:@"项目名称/创建人"];
+                searchBar;
+            });
+            _myTableView.tableHeaderView = _mySearchBar;
+        }
+
         
         _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
         [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];

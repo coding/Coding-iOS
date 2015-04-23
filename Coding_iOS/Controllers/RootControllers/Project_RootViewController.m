@@ -16,12 +16,21 @@
 #import "RDVTabBarController.h"
 #import "RDVTabBarItem.h"
 #import "NProjectViewController.h"
+#import "ProjectListCell.h"
 
-@interface Project_RootViewController ()
+
+@interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) iCarousel *myCarousel;
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
 @property (assign, nonatomic) NSInteger oldSelectedIndex;
+
+@property (strong, nonatomic) UISearchBar *mySearchBar;
+@property (strong, nonatomic) UISearchDisplayController *mySearchDisplayController;
+
+@property (strong, nonatomic) NSMutableArray *searchResults;
+@property (strong, nonatomic) NSString *searchString;
+
 @end
 
 @implementation Project_RootViewController
@@ -85,15 +94,9 @@
 }
 
 - (void)setupNavBtn{
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchItemClicked:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchItemClicked:)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(gotoNewProject)];
 
-}
-
--(void)gotoNewProject{
-    UIStoryboard *newProjectStoryboard = [UIStoryboard storyboardWithName:@"NewProject" bundle:nil];
-    UIViewController *newProjectVC = [newProjectStoryboard instantiateViewControllerWithIdentifier:@"NewProjectVC"];
-    [self.navigationController pushViewController:newProjectVC animated:YES];
 }
 
 - (void)configSegmentItems{
@@ -137,19 +140,7 @@
     }else{
         __weak Project_RootViewController *weakSelf = self;
         listView = [[ProjectListView alloc] initWithFrame:carousel.bounds projects:curPros block:^(Project *project) {
-            if (curPros.type < ProjectsTypeTaProject) {
-                [[Coding_NetAPIManager sharedManager] request_Project_UpdateVisit_WithObj:project andBlock:^(id data, NSError *error) {
-                    if (data) {
-                        project.un_read_activities_count = [NSNumber numberWithInteger:0];
-                        [listView refreshUI];
-                    }
-                }];
-            }
-
-            NProjectViewController *vc = [[NProjectViewController alloc] init];
-            vc.myProject = project;
-            [weakSelf.navigationController pushViewController:vc animated:YES];
-
+            [weakSelf goToProject:project];
             NSLog(@"\n=====%@", project.name);
         } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
     }
@@ -186,9 +177,170 @@
     }];
 }
 
+#pragma mark VC
+-(void)gotoNewProject{
+    UIStoryboard *newProjectStoryboard = [UIStoryboard storyboardWithName:@"NewProject" bundle:nil];
+    UIViewController *newProjectVC = [newProjectStoryboard instantiateViewControllerWithIdentifier:@"NewProjectVC"];
+    [self.navigationController pushViewController:newProjectVC animated:YES];
+}
+
+- (void)goToProject:(Project *)project{
+    Projects *curPros = [_myProjectsDict objectForKey:[NSNumber numberWithUnsignedInteger:_myCarousel.currentItemIndex]];
+    ProjectListView *listView = (ProjectListView *)self.myCarousel.currentItemView;
+    if (curPros.type < ProjectsTypeTaProject) {
+        [[Coding_NetAPIManager sharedManager] request_Project_UpdateVisit_WithObj:project andBlock:^(id data, NSError *error) {
+            if (data) {
+                project.un_read_activities_count = [NSNumber numberWithInteger:0];
+                [listView refreshUI];
+            }
+        }];
+    }
+    NProjectViewController *vc = [[NProjectViewController alloc] init];
+    vc.myProject = project;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark Search
 - (void)searchItemClicked:(id)sender{
     NSLog(@"%@", sender);
+    if (!_mySearchBar) {
+        _mySearchBar = ({
+            UISearchBar *searchBar = [[UISearchBar alloc] init];
+            searchBar.delegate = self;
+            [searchBar sizeToFit];
+            [searchBar setPlaceholder:@"项目名称/创建人"];
+            [searchBar setTintColor:[UIColor whiteColor]];
+            [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
+            searchBar;
+        });
+        [self.navigationController.view addSubview:_mySearchBar];
+        [_mySearchBar setY:20];
+    }
+    if (!_mySearchDisplayController) {
+        _mySearchDisplayController = ({
+            UISearchDisplayController *searchVC = [[UISearchDisplayController alloc] initWithSearchBar:_mySearchBar contentsController:self];
+            searchVC.searchResultsTableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.mySearchBar.frame), 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
+            searchVC.searchResultsTableView.tableFooterView = [[UIView alloc] init];
+            [searchVC.searchResultsTableView registerClass:[ProjectListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectList];
+            searchVC.searchResultsDataSource = self;
+            searchVC.searchResultsDelegate = self;
+            if (kHigher_iOS_6_1) {
+                searchVC.displaysSearchBarInNavigationBar = NO;
+            }
+            searchVC;
+        });
+    }
+    
+    [_mySearchBar becomeFirstResponder];
+}
+
+#pragma mark Table
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (self.searchResults) {
+        return [self.searchResults count];
+    }else{
+        return 0;
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectList forIndexPath:indexPath];
+    cell.project = [self.searchResults objectAtIndex:indexPath.row];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+    return cell;
+
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return [ProjectListCell cellHeight];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.mySearchBar resignFirstResponder];
+    [self goToProject:[self.searchResults objectAtIndex:indexPath.row]];
+}
+
+#pragma mark UISearchBarDelegate
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    NSLog(@"textDidChange: %@", searchText);
+    [self searchProjectWithStr:searchText];
+}
+
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    NSLog(@"searchBarSearchButtonClicked: %@", searchBar.text);
+    [self searchProjectWithStr:searchBar.text];
+}
+
+- (void)searchProjectWithStr:(NSString *)string{
+    self.searchString = string;
+    [self updateFilteredContentForSearchString:string];
+    [self.mySearchDisplayController.searchResultsTableView reloadData];
+}
+
+- (void)updateFilteredContentForSearchString:(NSString *)searchString{
+    // start out with the entire list
+    Projects *curPros = [_myProjectsDict objectForKey:@0];
+    if (curPros) {
+        self.searchResults = [curPros.list mutableCopy];
+    }else{
+        self.searchResults = nil;
+    }
+    
+    // strip out all the leading and trailing spaces
+    NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    // break up the search terms (separated by spaces)
+    NSArray *searchItems = nil;
+    if (strippedStr.length > 0)
+    {
+        searchItems = [strippedStr componentsSeparatedByString:@" "];
+    }
+    
+    // build all the "AND" expressions for each value in the searchString
+    NSMutableArray *andMatchPredicates = [NSMutableArray array];
+    
+    for (NSString *searchString in searchItems)
+    {
+        // each searchString creates an OR predicate for: name, global_key
+        NSMutableArray *searchItemsPredicate = [NSMutableArray array];
+        
+        // name field matching
+        NSExpression *lhs = [NSExpression expressionForKeyPath:@"name"];
+        NSExpression *rhs = [NSExpression expressionForConstantValue:searchString];
+        NSPredicate *finalPredicate = [NSComparisonPredicate
+                                       predicateWithLeftExpression:lhs
+                                       rightExpression:rhs
+                                       modifier:NSDirectPredicateModifier
+                                       type:NSContainsPredicateOperatorType
+                                       options:NSCaseInsensitivePredicateOption];
+        [searchItemsPredicate addObject:finalPredicate];
+        
+        //        owner_user_name field matching
+        lhs = [NSExpression expressionForKeyPath:@"owner_user_name"];
+        rhs = [NSExpression expressionForConstantValue:searchString];
+        finalPredicate = [NSComparisonPredicate
+                          predicateWithLeftExpression:lhs
+                          rightExpression:rhs
+                          modifier:NSDirectPredicateModifier
+                          type:NSContainsPredicateOperatorType
+                          options:NSCaseInsensitivePredicateOption];
+        [searchItemsPredicate addObject:finalPredicate];
+        
+        // at this OR predicate to ourr master AND predicate
+        NSCompoundPredicate *orMatchPredicates = (NSCompoundPredicate *)[NSCompoundPredicate orPredicateWithSubpredicates:searchItemsPredicate];
+        [andMatchPredicates addObject:orMatchPredicates];
+    }
+    
+    NSCompoundPredicate *finalCompoundPredicate = (NSCompoundPredicate *)[NSCompoundPredicate andPredicateWithSubpredicates:andMatchPredicates];
+    
+    self.searchResults = [[self.searchResults filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
 }
 
 @end
