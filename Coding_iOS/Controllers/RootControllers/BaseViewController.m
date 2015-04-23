@@ -25,6 +25,12 @@
 
 #import "UnReadManager.h"
 
+typedef NS_ENUM(NSInteger, AnalyseMethodType) {
+    AnalyseMethodTypeJustRefresh = 0,
+    AnalyseMethodTypeLazyCreate,
+    AnalyseMethodTypeForceCreate
+};
+
 @interface BaseViewController ()
 
 @end
@@ -110,22 +116,19 @@
         });
     }else if (applicationState == UIApplicationStateActive){
         NSString *param_url = [userInfo objectForKey:@"param_url"];
-        [self analyseVCFromLinkStr:param_url justForRefreshData:YES isNewVC:nil];
+        [self analyseVCFromLinkStr:param_url analyseMethod:AnalyseMethodTypeJustRefresh isNewVC:nil];
         //标记未读
         [[UnReadManager shareManager] updateUnRead];
     }
 }
 
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr{
-    return [self analyseVCFromLinkStr:linkStr justForRefreshData:NO isNewVC:nil];
+    return [self analyseVCFromLinkStr:linkStr analyseMethod:AnalyseMethodTypeForceCreate isNewVC:nil];
 }
 
-
-//解析linkStr，返回对应的VC。
-//如果justForRefreshData的值为YES，且当前最顶部显示的VC就是解析结果，那么就只是更新数据，并设置isNewVC的值为NO
-+ (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr justForRefreshData:(BOOL)justForRefreshData isNewVC:(BOOL *)isNewVC{
++ (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr analyseMethod:(AnalyseMethodType)methodType isNewVC:(BOOL *)isNewVC{
     NSLog(@"\n analyseVCFromLinkStr : %@", linkStr);
-
+    
     if (!linkStr || linkStr.length <= 0) {
         return nil;
     }else if (![linkStr hasPrefix:@"/"] && ![linkStr hasPrefix:kNetPath_Code_Base]){
@@ -133,135 +136,137 @@
     }
     
     UIViewController *analyseVC = nil;
-    UIViewController *tempVC = nil;
-
-    if (justForRefreshData) {
-        if (isNewVC) {
-            *isNewVC = YES;
-        }
-        tempVC = [BaseViewController presentingVC];
+    UIViewController *presentingVC = nil;
+    BOOL analyseVCIsNew = YES;
+    if (methodType != AnalyseMethodTypeForceCreate) {
+        presentingVC = [BaseViewController presentingVC];
     }
-
+    
     NSString *userRegexStr = @"/u/([^/]+)$";
     NSString *userTweetRegexStr = @"/u/([^/]+)/bubble$";
     NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)$";
     NSString *topicRegexStr = @"/u/([^/]+)/p/([^/]+)/topic/(\\d+)";
     NSString *taskRegexStr = @"/u/([^/]+)/p/([^/]+)/task/(\\d+)";
-    NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
     NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
+    NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
     NSArray *matchedCaptures = nil;
-
-    if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userRegexStr]).count > 0) {
-        //AT某人
-        NSString *user_global_key = matchedCaptures[1];
-        UserInfoViewController *vc = [[UserInfoViewController alloc] init];
-        vc.curUser = [User userWithGlobalKey:user_global_key];
-        analyseVC = vc;
-    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userTweetRegexStr]).count > 0){
-        //某人的冒泡
-        UserTweetsViewController *vc = [[UserTweetsViewController alloc] init];
-        NSString *user_global_key = matchedCaptures[1];
-        vc.curTweets = [Tweets tweetsWithUser:[User userWithGlobalKey:user_global_key]];
-        analyseVC = vc;
-    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:ppRegexStr]).count > 0){
+    
+    if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:ppRegexStr]).count > 0){
         //冒泡
         NSString *user_global_key = matchedCaptures[1];
         NSString *pp_id = matchedCaptures[2];
-        if ([tempVC isKindOfClass:[TweetDetailViewController class]]) {
-            TweetDetailViewController *vc = (TweetDetailViewController *)tempVC;
+        if ([presentingVC isKindOfClass:[TweetDetailViewController class]]) {
+            TweetDetailViewController *vc = (TweetDetailViewController *)presentingVC;
             if ([vc.curTweet.pp_id isEqualToString:pp_id]
                 && [vc.curTweet.user_global_key isEqualToString:user_global_key]) {
                 [vc refreshTweet];
-                if (isNewVC) {
-                    *isNewVC = NO;
-                }
-                return vc;
+                analyseVCIsNew = NO;
+                analyseVC = vc;
             }
         }
-        TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
-        vc.curTweet = [Tweet tweetWithGlobalKey:user_global_key andPPID:pp_id];
-        analyseVC = vc;
+        if (!analyseVC) {
+            TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
+            vc.curTweet = [Tweet tweetWithGlobalKey:user_global_key andPPID:pp_id];
+            analyseVC = vc;
+        }
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:topicRegexStr]).count > 0){
         //讨论
         NSString *topic_id = matchedCaptures[3];
-        if ([tempVC isKindOfClass:[TopicDetailViewController class]]) {
-            TopicDetailViewController *vc = (TopicDetailViewController *)tempVC;
+        if ([presentingVC isKindOfClass:[TopicDetailViewController class]]) {
+            TopicDetailViewController *vc = (TopicDetailViewController *)presentingVC;
             if ([vc.curTopic.id.stringValue isEqualToString:topic_id]) {
                 [vc refreshTopic];
-                if (isNewVC) {
-                    *isNewVC = NO;
-                }
-                return vc;
+                analyseVCIsNew = NO;
+                analyseVC = vc;
             }
         }
-        TopicDetailViewController *vc = [[TopicDetailViewController alloc] init];
-        vc.curTopic = [ProjectTopic topicWithId:[NSNumber numberWithInteger:topic_id.integerValue]];
-        analyseVC = vc;
+        if (!analyseVC) {
+            TopicDetailViewController *vc = [[TopicDetailViewController alloc] init];
+            vc.curTopic = [ProjectTopic topicWithId:[NSNumber numberWithInteger:topic_id.integerValue]];
+            analyseVC = vc;
+        }
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:taskRegexStr]).count > 0){
         //任务
         NSString *user_global_key = matchedCaptures[1];
         NSString *project_name = matchedCaptures[2];
         NSString *taskId = matchedCaptures[3];
         NSString *backend_project_path = [NSString stringWithFormat:@"/user/%@/project/%@", user_global_key, project_name];
-        if ([tempVC isKindOfClass:[EditTaskViewController class]]) {
-            EditTaskViewController *vc = (EditTaskViewController *)tempVC;
+        if ([presentingVC isKindOfClass:[EditTaskViewController class]]) {
+            EditTaskViewController *vc = (EditTaskViewController *)presentingVC;
             if ([vc.myTask.backend_project_path isEqualToString:backend_project_path]
                 && [vc.myTask.id.stringValue isEqualToString:taskId]) {
                 [vc queryToRefreshTaskDetail];
-                if (isNewVC) {
-                    *isNewVC = NO;
-                }
-                return vc;
+                analyseVCIsNew = NO;
+                analyseVC = vc;
             }
         }
-        EditTaskViewController *vc = [[EditTaskViewController alloc] init];
-        vc.myTask = [Task taskWithBackend_project_path:[NSString stringWithFormat:@"/user/%@/project/%@", user_global_key, project_name] andId:taskId];
-        @weakify(vc);
-        vc.taskChangedBlock = ^(Task *curTask, TaskEditType type){
-            @strongify(vc);
-            [vc dismissViewControllerAnimated:YES completion:nil];
-        };
-        analyseVC = vc;
-    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:projectRegexStr]).count > 0){
-        //项目
-        NSString *user_global_key = matchedCaptures[1];
-        NSString *project_name = matchedCaptures[2];
-        Project *curPro = [[Project alloc] init];
-        curPro.owner_user_name = user_global_key;
-        curPro.name = project_name;
-        NProjectViewController *vc = [[NProjectViewController alloc] init];
-        vc.myProject = curPro;
-        analyseVC = vc;
+        if (!analyseVC) {
+            EditTaskViewController *vc = [[EditTaskViewController alloc] init];
+            vc.myTask = [Task taskWithBackend_project_path:[NSString stringWithFormat:@"/user/%@/project/%@", user_global_key, project_name] andId:taskId];
+            @weakify(vc);
+            vc.taskChangedBlock = ^(Task *curTask, TaskEditType type){
+                @strongify(vc);
+                [vc dismissViewControllerAnimated:YES completion:nil];
+            };
+            analyseVC = vc;
+        }
+
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:conversionRegexStr]).count > 0) {
         //私信
         NSString *user_global_key = matchedCaptures[1];
-        if ([tempVC isKindOfClass:[ConversationViewController class]]) {
-            ConversationViewController *vc = (ConversationViewController *)tempVC;
+        if ([presentingVC isKindOfClass:[ConversationViewController class]]) {
+            ConversationViewController *vc = (ConversationViewController *)presentingVC;
             if ([vc.myPriMsgs.curFriend.global_key isEqualToString:user_global_key]) {
                 [vc refreshLoadMore:NO];
-                if (isNewVC) {
-                    *isNewVC = NO;
-                }
-                return vc;
+                analyseVCIsNew = NO;
+                analyseVC = vc;
             }
         }
-        ConversationViewController *vc = [[ConversationViewController alloc] init];
-        vc.myPriMsgs = [PrivateMessages priMsgsWithUser:[User userWithGlobalKey:user_global_key]];
-        analyseVC = vc;
+        if (!analyseVC) {
+            ConversationViewController *vc = [[ConversationViewController alloc] init];
+            vc.myPriMsgs = [PrivateMessages priMsgsWithUser:[User userWithGlobalKey:user_global_key]];
+            analyseVC = vc;
+        }
+    }else if (methodType != AnalyseMethodTypeJustRefresh){
+        if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userRegexStr]).count > 0) {
+            //AT某人
+            NSString *user_global_key = matchedCaptures[1];
+            UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+            vc.curUser = [User userWithGlobalKey:user_global_key];
+            analyseVC = vc;
+        }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userTweetRegexStr]).count > 0){
+            //某人的冒泡
+            UserTweetsViewController *vc = [[UserTweetsViewController alloc] init];
+            NSString *user_global_key = matchedCaptures[1];
+            vc.curTweets = [Tweets tweetsWithUser:[User userWithGlobalKey:user_global_key]];
+            analyseVC = vc;
+        }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:projectRegexStr]).count > 0){
+            //项目
+            NSString *user_global_key = matchedCaptures[1];
+            NSString *project_name = matchedCaptures[2];
+            Project *curPro = [[Project alloc] init];
+            curPro.owner_user_name = user_global_key;
+            curPro.name = project_name;
+            NProjectViewController *vc = [[NProjectViewController alloc] init];
+            vc.myProject = curPro;
+            analyseVC = vc;
+        }
+    }
+    if (isNewVC) {
+        *isNewVC = analyseVCIsNew;
     }
     return analyseVC;
 }
+
 + (void)presentLinkStr:(NSString *)linkStr{
     if (!linkStr || linkStr.length == 0) {
         return;
     }
     BOOL isNewVC = YES;
-    UIViewController *vc = [self analyseVCFromLinkStr:linkStr justForRefreshData:YES isNewVC:&isNewVC];
-    if (vc) {
-        if (isNewVC) {
-            [self presentVC:vc];
-        }
-    }else{
+    UIViewController *vc = [self analyseVCFromLinkStr:linkStr analyseMethod:AnalyseMethodTypeLazyCreate isNewVC:&isNewVC];
+    if (vc && isNewVC) {
+        [self presentVC:vc];
+    }else if (!vc){
         //网页
         WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
         [self presentVC:webVc];
