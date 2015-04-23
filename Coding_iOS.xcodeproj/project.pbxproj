@@ -272,6 +272,7 @@
 		4EE083DA1ADB72AA00CA342E /* topic-ios.html in Resources */ = {isa = PBXBuildFile; fileRef = 4EE083D81ADB72AA00CA342E /* topic-ios.html */; };
 		4EE083DC1ADB736800CA342E /* service_terms.html in Resources */ = {isa = PBXBuildFile; fileRef = 4EE083DB1ADB736800CA342E /* service_terms.html */; };
 		4EE5481E1AE7B7CA00A92306 /* UISearchBar+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5481D1AE7B7CA00A92306 /* UISearchBar+Common.m */; };
+		4EE548211AE8DB5600A92306 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE548201AE8DB5600A92306 /* Project.m */; };
 		68D9A2AD062641F5BCA573C5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B024F2227BD4152BC7C9A7A /* libPods.a */; };
 		8E03D4A219F695FE0092F8C8 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */; };
 		8E03D4A419F696970092F8C8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D4A319F696970092F8C8 /* libz.dylib */; };
@@ -1027,6 +1028,8 @@
 		4EE083DB1ADB736800CA342E /* service_terms.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = service_terms.html; sourceTree = "<group>"; };
 		4EE5481C1AE7B7CA00A92306 /* UISearchBar+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISearchBar+Common.h"; sourceTree = "<group>"; };
 		4EE5481D1AE7B7CA00A92306 /* UISearchBar+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+Common.m"; sourceTree = "<group>"; };
+		4EE5481F1AE8DB5600A92306 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project.h; sourceTree = "<group>"; };
+		4EE548201AE8DB5600A92306 /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Project.m; sourceTree = "<group>"; };
 		8B18B0211092D3903D031B13 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		8E03D4A019F695FE0092F8C8 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
@@ -2712,6 +2715,8 @@
 				8EA6CFE319E240C40076D59C /* ProjectMember.m */,
 				8EA6CFE419E240C40076D59C /* Projects.h */,
 				8EA6CFE519E240C40076D59C /* Projects.m */,
+				4EE5481F1AE8DB5600A92306 /* Project.h */,
+				4EE548201AE8DB5600A92306 /* Project.m */,
 				4EACB4441A2C60110097ABB3 /* ProjectActivities.h */,
 				4EACB4451A2C60110097ABB3 /* ProjectActivities.m */,
 				8EA6CFE619E240C40076D59C /* ProjectTopic.h */,
@@ -3691,6 +3696,7 @@
 				8EA6D13619E240C40076D59C /* BaseViewController.m in Sources */,
 				4E5F39051ACA958C0010515D /* TopicCommentCCell.m in Sources */,
 				4E15C7D61A271A6300FB8DAD /* EaseToolBar.m in Sources */,
+				4EE548211AE8DB5600A92306 /* Project.m in Sources */,
 				4E6BA2D81A1EE6AF005FD721 /* AFHTTPRequestOperationManager.m in Sources */,
 				4ECE8AE21A3943E80021E29C /* UIColor+expanded.m in Sources */,
 				4EA7F15D1A6D192B00A046BD /* SDWebImageDownloader.m in Sources */,

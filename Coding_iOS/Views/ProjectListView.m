@@ -12,19 +12,20 @@
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"
 
-@interface ProjectListView ()<UISearchBarDelegate>
+@interface ProjectListView ()<UISearchBarDelegate, SWTableViewCellDelegate>
 @property (nonatomic, strong) Projects *myProjects;
 @property (nonatomic , copy) ProjectListViewBlock block;
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
+@property (strong, nonatomic) NSMutableArray *dataList;
 
 @property (strong, nonatomic) UISearchBar *mySearchBar;
-@property (strong, nonatomic) NSMutableArray *searchResults;
-@property (strong, nonatomic) NSString *searchString;
-
 @end
 
 @implementation ProjectListView
+
+static NSString *const kTitleKey = @"kTitleKey";
+static NSString *const kValueKey = @"kValueKey";
 
 #pragma TabBar
 - (void)tabBarItemClicked{
@@ -91,8 +92,48 @@
 }
 - (void)setProjects:(Projects *)projects{
     self.myProjects = projects;
+    [self setupDataList];
     [self refreshUI];
 }
+
+- (void)setupDataList{
+    if (!_dataList) {
+        _dataList = [[NSMutableArray alloc] initWithCapacity:2];
+    }
+    [_dataList removeAllObjects];
+    if (_myProjects.type < ProjectsTypeTaProject) {
+        NSArray *pinList = _myProjects.pinList, *noPinList = _myProjects.noPinList;
+        if (pinList.count > 0) {
+            [_dataList addObject:@{kTitleKey : @"常用项目",
+                                   kValueKey : pinList}];
+        }
+        if (noPinList.count > 0) {
+            [_dataList addObject:@{kTitleKey : @"一般项目",
+                                   kValueKey : noPinList}];
+        }
+    }else{
+        NSArray *list = [self updateFilteredContentForSearchString:self.mySearchBar.text];
+        if (list.count > 0) {
+            [_dataList addObject:@{kTitleKey : @"一般项目",
+                                   kValueKey : list}];
+        }
+    }
+}
+
+- (NSString *)titleForSection:(NSUInteger)section{
+    if (section < self.dataList.count) {
+        return [[self.dataList objectAtIndex:section] valueForKey:kTitleKey];
+    }
+    return nil;
+}
+
+- (NSArray *)valueForSection:(NSUInteger)section{
+    if (section < self.dataList.count) {
+        return [[self.dataList objectAtIndex:section] valueForKey:kValueKey];
+    }
+    return nil;
+}
+
 - (void)refreshUI{
     [_myTableView reloadData];
     [self refreshFirst];
@@ -124,7 +165,7 @@
         [self endLoading];
         if (data) {
             [weakSelf.myProjects configWithProjects:data];
-            [weakSelf updateFilteredContentForSearchString:weakSelf.searchString];
+            [weakSelf setupDataList];
             [weakSelf.myTableView reloadData];
         }
         EaseBlankPageType blankPageType;
@@ -140,27 +181,33 @@
     }];
 }
 #pragma mark Table M
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return _dataList.count > 1? kScaleFrom_iPhone5_Desgin(24): 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    NSString *headerStr = [self titleForSection:section];
+    return [tableView getHeaderViewWithStr:headerStr andBlock:nil];
+}
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    return [_dataList count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.searchResults) {
-        return [self.searchResults count];
-    }else{
-        return 0;
-    }
+    return [[self valueForSection:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_myProjects.type < ProjectsTypeTaProject) {
         ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectList forIndexPath:indexPath];
-        cell.project = [self.searchResults objectAtIndex:indexPath.row];
+        [cell setProject:[[self valueForSection:indexPath.section] objectAtIndex:indexPath.row] withSWButtons:YES];
+        cell.delegate = self;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else{
         ProjectListTaCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectListTaCell forIndexPath:indexPath];
-        cell.project = [self.searchResults objectAtIndex:indexPath.row];
+        cell.project = [[self valueForSection:indexPath.section] objectAtIndex:indexPath.row];
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }
@@ -177,10 +224,30 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (_block) {
-        _block([self.searchResults objectAtIndex:indexPath.row]);
+        _block([[self valueForSection:indexPath.section] objectAtIndex:indexPath.row]);
     }
 }
 
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+    [cell hideUtilityButtonsAnimated:YES];
+    NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
+    Project *curPro = [[self valueForSection:indexPath.section] objectAtIndex:indexPath.row];
+    
+    __weak typeof(curPro) weakPro = curPro;
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_Project_Pin:curPro andBlock:^(id data, NSError *error) {
+        if (data) {
+            weakPro.pin = @(!weakPro.pin.boolValue);
+            [weakSelf setupDataList];
+            [weakSelf.myTableView reloadData];
+        }
+    }];
+}
+
+#pragma mark SWTableViewCellDelegate
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell{
+    return YES;
+}
 #pragma mark ScrollView Delegate
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     if (scrollView == _myTableView) {
@@ -191,26 +258,23 @@
 #pragma mark UISearchBarDelegate
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    NSLog(@"textDidChange: %@", searchText);
     [self searchProjectWithStr:searchText];
 }
 
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    NSLog(@"searchBarSearchButtonClicked: %@", searchBar.text);
     [searchBar resignFirstResponder];
     [self searchProjectWithStr:searchBar.text];
 }
 
 - (void)searchProjectWithStr:(NSString *)string{
-    self.searchString = string;
-    [self updateFilteredContentForSearchString:string];
+    [self setupDataList];
     [self.myTableView reloadData];
 }
 
-- (void)updateFilteredContentForSearchString:(NSString *)searchString{
+- (NSArray *)updateFilteredContentForSearchString:(NSString *)searchString{
     // start out with the entire list
-    self.searchResults = [self.myProjects.list mutableCopy];
+    NSMutableArray *searchResults = [self.myProjects.list mutableCopy];
     
     // strip out all the leading and trailing spaces
     NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -259,7 +323,8 @@
     
     NSCompoundPredicate *finalCompoundPredicate = (NSCompoundPredicate *)[NSCompoundPredicate andPredicateWithSubpredicates:andMatchPredicates];
     
-    self.searchResults = [[self.searchResults filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
+    searchResults = [[searchResults filteredArrayUsingPredicate:finalCompoundPredicate] copy];
+    return searchResults;
 }
 
 @end

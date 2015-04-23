@@ -10,9 +10,10 @@
 
 #import <UIKit/UIKit.h>
 #import "Projects.h"
+#import "SWTableViewCell.h"
 
-@interface ProjectListCell : UITableViewCell
-@property (nonatomic, strong) Project *project;
+@interface ProjectListCell : SWTableViewCell
+- (void)setProject:(Project *)project withSWButtons:(BOOL)hasSWButtons;
 
 + (CGFloat)cellHeight;
 

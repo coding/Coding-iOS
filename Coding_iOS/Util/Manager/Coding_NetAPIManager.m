@@ -243,6 +243,18 @@
         }];
     }
 }
+- (void)request_Project_Pin:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"设置常用项目"];
+    NSString *path = [NSString stringWithFormat:@"api/user/projects/pin"];
+    NSDictionary *params = @{@"ids": project.id.stringValue};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:project.pin.boolValue? Delete: Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 
 -(void)request_NewProject_WithObj:(Project *)project image:(UIImage *)image andBlock:(void (^)(NSString *, NSError *))block{
     [MobClick event:kUmeng_Event_Request label:@"创建项目"];
