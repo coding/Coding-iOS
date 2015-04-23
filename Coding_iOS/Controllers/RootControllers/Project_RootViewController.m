@@ -91,6 +91,11 @@
     }];
     [self.view addSubview:_mySegmentControl];
     [self setupNavBtn];
+    self.icarouselScrollEnabled = NO;
+}
+
+- (void)setIcarouselScrollEnabled:(BOOL)icarouselScrollEnabled{
+    _myCarousel.scrollEnabled = icarouselScrollEnabled;
 }
 
 - (void)setupNavBtn{
