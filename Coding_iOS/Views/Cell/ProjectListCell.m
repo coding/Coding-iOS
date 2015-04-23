@@ -68,9 +68,6 @@
             make.left.equalTo(_projectTitleLabel);
             make.centerY.mas_equalTo(_ownerTitleLabel.mas_centerY).offset(1);
         }];
-        
-        
-        
     }
     return self;
 }
@@ -107,7 +104,7 @@
 - (NSArray *)rightButtons{
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:_project.pin.boolValue? @"0xe6e6e6": @"0x3bbd79"]
-                                                 icon:[UIImage imageNamed:_project.pin.boolValue? @"icon_file_cell_rename": @"icon_file_cell_delete"]];
+                                                 icon:[UIImage imageNamed:_project.pin.boolValue? @"icon_project_cell_pin": @"icon_project_cell_nopin"]];
     return rightUtilityButtons;
 }
 
