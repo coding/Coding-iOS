@@ -117,19 +117,20 @@
 }
 
 - (void)refresh{
-    if (_myPriMsgs.isLoading) {
-        return;
-    }
-    _myPriMsgs.willLoadMore = NO;
     __weak typeof(self) weakSelf = self;
-    [self sendRequest_PrivateMessages];
-    
     [[Coding_NetAPIManager sharedManager] request_UnReadNotificationsWithBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.notificationDict = [NSMutableDictionary dictionaryWithDictionary:data];
             [weakSelf.myTableView reloadData];
         }
     }];
+    [[UnReadManager shareManager] updateUnRead];
+    
+    if (_myPriMsgs.isLoading) {
+        return;
+    }
+    _myPriMsgs.willLoadMore = NO;
+    [self sendRequest_PrivateMessages];
 }
 
 - (void)refreshMore{

@@ -86,7 +86,6 @@
         if (index == _oldSelectedIndex) {
             return;
         }
-        _oldSelectedIndex = index;
         [weakCarousel scrollToItemAtIndex:index animated:NO];
     }];
     [self.view addSubview:_mySegmentControl];

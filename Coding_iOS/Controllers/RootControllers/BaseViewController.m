@@ -22,6 +22,7 @@
 #import "AppDelegate.h"
 #import "WebViewController.h"
 #import "RootTabViewController.h"
+#import "Message_RootViewController.h"
 
 #import "UnReadManager.h"
 
@@ -118,6 +119,10 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         NSString *param_url = [userInfo objectForKey:@"param_url"];
         [self analyseVCFromLinkStr:param_url analyseMethod:AnalyseMethodTypeJustRefresh isNewVC:nil];
         //标记未读
+        UIViewController *presentingVC = [BaseViewController presentingVC];
+        if ([presentingVC isKindOfClass:[Message_RootViewController class]]) {
+            [(Message_RootViewController *)presentingVC refresh];
+        }
         [[UnReadManager shareManager] updateUnRead];
     }
 }

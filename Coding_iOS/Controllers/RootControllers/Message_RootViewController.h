@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface Message_RootViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
-
+- (void)refresh;
 @end
