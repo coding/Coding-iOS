@@ -18,6 +18,7 @@
 
 @property (nonatomic, copy) void (^cellHeightChangedBlock)();
 @property (nonatomic, copy) void (^addLabelBlock)();
+@property (nonatomic, copy) void (^delLabelBlock)();
 
 + (CGFloat)cellHeightWithObjWithLabel:(id)obj;
 + (CGFloat)cellHeightWithObj:(id)obj;

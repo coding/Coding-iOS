@@ -15,14 +15,11 @@
 
 @interface ProjectTopicListView ()
 {
-    NSString *_tempLabel;
-    NSMutableArray *_tempAry;
     NSInteger _tempOrder;
 }
 
 @property (strong, nonatomic) ProjectTopics *myProTopics;
 @property (copy, nonatomic) ProjectTopicBlock block;
-@property (copy, nonatomic) TopicListBlock listBlock;
 @property (strong, nonatomic) UITableView *myTableView;
 @property (strong, nonatomic) ODRefreshControl *myRefreshControl;
 
@@ -33,15 +30,12 @@
 - (id)initWithFrame:(CGRect)frame
       projectTopics:(ProjectTopics *)projectTopics
               block:(ProjectTopicBlock)block
-       andListBlock:(TopicListBlock)listBlock
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
         _myProTopics = projectTopics;
         _block = block;
-        self.listBlock = listBlock;
-        _tempAry = [NSMutableArray arrayWithCapacity:10];
         
         _myTableView = ({
             UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
@@ -66,68 +60,38 @@
         }];
         if (_myProTopics.list.count > 0) {
             [_myTableView reloadData];
-        }else{
+        } else {
             [self sendRequest];
         }
     }
     return self;
 }
 
-- (void)setOrder:(NSInteger)order withLabel:(NSString *)label
+- (void)setOrder:(NSInteger)order withLabelID:(NSNumber *)labelID andType:(TopicQueryType)type
 {
-    BOOL change = FALSE;
-    if (label) {
-        change = [label isEqualToString:_tempLabel] ? FALSE : TRUE;
-    } else if (_tempLabel) {
-        change = TRUE;
-    }
-    if (order != _tempOrder || change) {
+    if (order != _tempOrder || ![_myProTopics.labelID isEqualToNumber:labelID] || _myProTopics.queryType != type) {
         _tempOrder = order;
-        _tempLabel = label;
-        
-        [self resetAry];
-    }
-}
-
-- (void)resetAry
-{
-    [_tempAry removeAllObjects];
-    for (ProjectTopic *topic in _myProTopics.list) {
-    }
-}
-
-- (void)getLabelArray:(NSMutableArray *)labelAry andNumberArray:(NSMutableArray *)numberAry andAry:(NSMutableArray *)aAry
-{
-    BOOL isExist;
-    for (ProjectTopic *topic in _myProTopics.list) {
-        for (ProjectTopicLabel *label in topic.labels) {
-            isExist = FALSE;
-            for (int i=1; i<labelAry.count; i++) {
-                NSString *temp = labelAry[i];
-                if ([temp isEqualToString:label.name]) {
-                    isExist = TRUE;
-                    NSInteger number = [numberAry[i] integerValue] + 1;
-                    [numberAry replaceObjectAtIndex:i withObject:[NSNumber numberWithInteger:number]];
-                    break;
-                }
-            }
-            if (!isExist) {
-                [labelAry addObject:label.name];
-                [numberAry addObject:[NSNumber numberWithInteger:1]];
-                [aAry addObject:[NSNumber numberWithInteger:0]];
-            }
+        _myProTopics.labelID = labelID;
+        _myProTopics.queryType = type;
+        switch (_tempOrder) {
+            case 0:
+                _myProTopics.labelType = LabelOrderTypeUpdate;
+                break;
+            case 1:
+                _myProTopics.labelType = LabelOrderTypeCreate;
+                break;
+            case 2:
+                _myProTopics.labelType = LabelOrderTypeHot;
+                break;
+            default:
+                break;
         }
+        [self refreshToQueryData];
     }
-    [numberAry replaceObjectAtIndex:0 withObject:[NSNumber numberWithInteger:_myProTopics.list.count]];
 }
 
-
-- (NSInteger)getCount
+- (void)setProTopics:(ProjectTopics *)proTopics
 {
-    return _myProTopics.list.count;
-}
-
-- (void)setProTopics:(ProjectTopics *)proTopics{
     if (_myProTopics != proTopics) {
         self.myProTopics = proTopics;
         [_myTableView reloadData];
@@ -139,10 +103,14 @@
         [self refreshFirst];
     }
 }
-- (void)refreshToQueryData{
+
+- (void)refreshToQueryData
+{
     [self refresh];
 }
-- (void)refresh{
+
+- (void)refresh
+{
     if (_myProTopics.isLoading) {
         return;
     }
@@ -150,7 +118,8 @@
     [self sendRequest];
 }
 
-- (void)refreshMore{
+- (void)refreshMore
+{
     if (_myProTopics.isLoading || !_myProTopics.canLoadMore) {
         [_myTableView.infiniteScrollingView stopAnimating];
         return;
@@ -159,7 +128,8 @@
     [self sendRequest];
 }
 
-- (void)sendRequest{
+- (void)sendRequest
+{
     if (!_myProTopics.willLoadMore) {
         if (_myProTopics.list.count <= 0) {
             [self beginLoading];
@@ -174,9 +144,6 @@
             [weakSelf.myProTopics configWithTopics:data];
             [weakSelf.myTableView reloadData];
             weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myProTopics.canLoadMore;
-            if (weakSelf.listBlock) {
-                weakSelf.listBlock(self);
-            }
         }
         [weakSelf configBlankPage:EaseBlankPageTypeTopic hasData:(weakSelf.myProTopics.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
@@ -184,18 +151,21 @@
     }];
 }
 
-- (void)refreshFirst{
+- (void)refreshFirst
+{
     if (_myProTopics && !_myProTopics.list) {
         [self performSelector:@selector(refresh) withObject:nil afterDelay:0.3];
     }
 }
 
 #pragma mark Table M
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     if (self.myProTopics.list) {
         return [self.myProTopics.list count];
     }else{
@@ -203,18 +173,21 @@
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     ProjectTopicCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectTopic forIndexPath:indexPath];
     cell.curTopic = [self.myProTopics.list objectAtIndex:indexPath.row];
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return [ProjectTopicCell cellHeightWithObj:[_myProTopics.list objectAtIndex:indexPath.row]];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (_block) {
         ProjectTopic *curTopic = [self.myProTopics.list objectAtIndex:indexPath.row];
@@ -222,7 +195,5 @@
         _block(self, curTopic);
     }
 }
-
-
 
 @end

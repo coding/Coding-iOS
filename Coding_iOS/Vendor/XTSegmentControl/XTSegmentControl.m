@@ -68,7 +68,12 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
                     label.textColor = [UIColor colorWithHexString:@"0x222222"];
                     label.backgroundColor = [UIColor clearColor];
                     [label sizeToFit];
-                    label.center = CGPointMake(CGRectGetWidth(self.bounds) * 0.5, CGRectGetHeight(self.bounds) * 0.5);
+                    if (label.frame.size.width > CGRectGetWidth(self.bounds) - XTSegmentControlIconSpace - 10) {
+                        CGRect frame = label.frame;
+                        frame.size.width = CGRectGetWidth(self.bounds) - XTSegmentControlIconSpace - 10;
+                        label.frame = frame;
+                    }
+                    label.center = CGPointMake((CGRectGetWidth(self.bounds) - XTSegmentControlIconSpace - 10) * 0.5, CGRectGetHeight(self.bounds) * 0.5);
                     label;
                 });
                 
@@ -136,7 +141,12 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
     }
     if (_type == XTSegmentControlItemTypeTitleAndIcon) {
         [_titleLabel sizeToFit];
-        _titleLabel.center = CGPointMake(CGRectGetWidth(self.bounds) * 0.5, CGRectGetHeight(self.bounds) * 0.5);
+        if (_titleLabel.frame.size.width > CGRectGetWidth(self.bounds) - XTSegmentControlIconSpace - 10) {
+            CGRect frame = _titleLabel.frame;
+            frame.size.width = CGRectGetWidth(self.bounds) - XTSegmentControlIconSpace - 10;
+            _titleLabel.frame = frame;
+        }
+        _titleLabel.center = CGPointMake((CGRectGetWidth(self.bounds) - XTSegmentControlIconSpace - 10) * 0.5, CGRectGetHeight(self.bounds) * 0.5);
     
         CGRect frame = _titleIconView.frame;
         frame.origin.x = CGRectGetMaxX(_titleLabel.frame) + XTSegmentControlIconSpace;

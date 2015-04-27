@@ -20,7 +20,7 @@
         _type = [NSNumber numberWithInteger:1];
         
         _name = @"";
-        _color = kColorLabelBg;
+        _color = @"#d8f3e4";
     }
     return self;
 }

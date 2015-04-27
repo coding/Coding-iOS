@@ -18,41 +18,53 @@
                              @"ProjectTopic", @"list", nil];
         _page = [NSNumber numberWithInteger:1];
         _pageSize = [NSNumber numberWithInteger:20];
+        _labelID = [NSNumber numberWithInteger:0];
         _canLoadMore = YES;
         _isLoading = _willLoadMore = NO;
         _queryType = TopicQueryTypeAll;
+        _labelType = LabelOrderTypeUpdate;
     }
     return self;
 }
 
-+ (ProjectTopics *)topicsWithPro:(Project *)project queryType:(TopicQueryType)type{
++ (ProjectTopics *)topicsWithPro:(Project *)project queryType:(TopicQueryType)type
+{
     ProjectTopics *topics = [[ProjectTopics alloc] init];
     topics.project = project;
     topics.queryType = type;
     return topics;
 }
-- (NSDictionary *)toParams{
+
+- (NSDictionary *)toParams
+{
     NSDictionary *dict;
-    if (_queryType == TopicQueryTypeAll) {
+    if (_labelID && [_labelID integerValue] > 0 ) {
         dict = @{@"page" : (_willLoadMore? [NSNumber numberWithInteger:_page.intValue+1] : [NSNumber numberWithInteger:1]),
                  @"pageSize" : _pageSize,
-                 @"type" : @"1"};
-    }else if (_queryType == TopicQueryTypeMe){
+                 @"type" : (_queryType == TopicQueryTypeAll ? @"all" : @"my"),
+                 @"orderBy" : [NSNumber numberWithInteger:_labelType],
+                 @"labelId" : _labelID
+                 };
+    } else {
         dict = @{@"page" : (_willLoadMore? [NSNumber numberWithInteger:_page.intValue+1] : [NSNumber numberWithInteger:1]),
-                 @"pageSize" : _pageSize};
+                 @"pageSize" : _pageSize,
+                 @"type" : (_queryType == TopicQueryTypeAll ? @"all" : @"my"),
+                 @"orderBy" : [NSNumber numberWithInteger:_labelType]
+                 };
     }
     return dict;
 }
-- (NSString *)toRequestPath{
+
+- (NSString *)toRequestPath
+{
     NSString *path;
-    if (_queryType == TopicQueryTypeAll) {
-        path = [NSString stringWithFormat:@"api/project/%d/topics", _project.id.intValue];
-    }else{
-        path = [NSString stringWithFormat:@"api/project/%d/topics/me", _project.id.intValue];
-    }
+    path = [NSString stringWithFormat:@"api/user/%@/project/%@/topics/mobile", _project.owner_user_name, _project.name];
+    // https://coding.net/api/user/wzw/project/coding/topics/mobile
     return path;
 }
-- (void)configWithTopics:(ProjectTopics *)resultA{
+
+- (void)configWithTopics:(ProjectTopics *)resultA
+{
     self.page = resultA.page;
     self.totalPage = resultA.totalPage;
     self.totalRow = resultA.totalRow;

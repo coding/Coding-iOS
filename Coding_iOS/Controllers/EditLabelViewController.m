@@ -123,7 +123,7 @@
 
 - (NSString *)toLabelPath
 {
-    return [NSString stringWithFormat:@"api/project/%d/topic/label?", _curProTopic.project_id.intValue];
+    return [NSString stringWithFormat:@"api/project/%d/topic/label?withCount=true", _curProTopic.project_id.intValue];
 }
 
 - (NSString *)toDelPath:(NSInteger)index
@@ -136,6 +136,8 @@
 - (void)okBtnClick
 {
     _curProTopic.mdLabels = _tempArray;
+    //_curProTopic.mdTitle = _tempArray;
+    //_curProTopic.mdContent = _tempArray;
     
     self.navigationItem.rightBarButtonItem.enabled = NO;
     if (_isSaveChange) {
@@ -152,6 +154,9 @@
             } 
         }];
     } else {
+        if (self.topicChangedBlock) {
+            self.topicChangedBlock();
+        }
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
@@ -161,13 +166,13 @@
     [_mCurrentTextField resignFirstResponder];
     if (_tempLabel.length > 0) {
         __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Add_WithPath:[self toLabelPath] withParams:@{@"name" : [_tempLabel aliasedString], @"color" : kColorLabelBg} andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Add_WithPath:[self toLabelPath] withParams:@{@"name" : [_tempLabel aliasedString], @"color" : @"#d8f3e4"} andBlock:^(id data, NSError *error) {
             if (!error) {
                 ProjectTopicLabel *ptLabel = [[ProjectTopicLabel alloc] init];
                 ptLabel.name = _tempLabel;
                 ptLabel.id = data;
                 ptLabel.owner_id = _curProTopic.project_id;
-                ptLabel.color = kColorLabelBg;
+                ptLabel.color = @"#d8f3e4";
                 [_labels addObject:ptLabel];
                 [weakSelf.myTableView reloadData];
                 _tempLabel = @"";
@@ -372,9 +377,6 @@
     [self.myTableView reloadData];
 }
 
-- (void)renameLabel:(NSInteger)index
-{
-}
 #pragma mark - UITextFieldDelegate
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {

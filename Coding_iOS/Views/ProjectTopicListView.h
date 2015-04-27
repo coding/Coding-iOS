@@ -17,14 +17,10 @@ typedef void(^TopicListBlock)(ProjectTopicListView *projectTopicListView);
 
 - (id)initWithFrame:(CGRect)frame
       projectTopics:(ProjectTopics *)projectTopics
-              block:(ProjectTopicBlock)block
-       andListBlock:(TopicListBlock)listBlock;
+              block:(ProjectTopicBlock)block;
 - (void)setProTopics:(ProjectTopics *)proTopics;
 - (void)refreshToQueryData;
 
-- (NSInteger)getCount;
-- (void)getLabelArray:(NSMutableArray *)labelAry andNumberArray:(NSMutableArray *)numberAry andAry:(NSMutableArray *)aAry;
-
-- (void)setOrder:(NSInteger)order withLabel:(NSString *)label;
+- (void)setOrder:(NSInteger)order withLabelID:(NSNumber *)labelID andType:(TopicQueryType)type;
 
 @end

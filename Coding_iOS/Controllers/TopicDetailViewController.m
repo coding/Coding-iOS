@@ -76,7 +76,7 @@
     _myMsgInputView.isAlwaysShow = YES;
     _myMsgInputView.delegate = self;
     
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myMsgInputView.frame), 0.0);
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, CGRectGetHeight(_myMsgInputView.frame), 0.0);
     self.myTableView.contentInset = contentInsets;
     self.myTableView.scrollIndicatorInsets = contentInsets;
     
@@ -87,7 +87,7 @@
         _myMsgInputView.curProject = _curTopic.project;
         _myMsgInputView.commentOfId = _curTopic.id;
     }
-    [self refreshTopic];
+    //[self refreshTopic];
 }
 
 - (void)setCurTopic:(ProjectTopic *)curTopic
@@ -96,14 +96,22 @@
     self.title = curTopic.project.name ? curTopic.project.name : @"讨论详情";
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self refreshTopic];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
     if (_myMsgInputView) {
         [_myMsgInputView prepareToDismiss];
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
     // 键盘
     if (_myMsgInputView) {
@@ -157,6 +165,7 @@
 {
     [self sendCommentMessage:text];
 }
+
 - (void)messageInputView:(UIMessageInputView *)inputView heightToBottomChenged:(CGFloat)heightToBottom
 {
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{

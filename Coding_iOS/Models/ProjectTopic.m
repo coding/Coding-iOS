@@ -43,14 +43,16 @@
     }
 }
 
-+ (ProjectTopic *)feedbackTopic{
++ (ProjectTopic *)feedbackTopic
+{
     ProjectTopic *topic = [[ProjectTopic alloc] init];
     topic.project = [Project project_FeedBack];
     topic.project_id = topic.project.id;
     return topic;
 }
 
-+ (ProjectTopic *)topicWithPro:(Project *)pro{
++ (ProjectTopic *)topicWithPro:(Project *)pro
+{
     ProjectTopic *topic = [[ProjectTopic alloc] init];
     topic.owner = [Login curLoginUser];
     topic.project = pro;
@@ -83,6 +85,7 @@
 {
     return [NSString stringWithFormat:@"api/project/%d/topic?parent=0", [self.project_id intValue]];
 }
+
 - (NSDictionary *)toAddTopicParams
 {
     NSMutableArray *tempAry = [NSMutableArray arrayWithCapacity:_mdLabels.count];
@@ -94,34 +97,39 @@
              @"labels" : tempAry};
 }
 
-- (NSString *)toCommentsPath{
+- (NSString *)toCommentsPath
+{
     return [NSString stringWithFormat:@"api/topic/%d/comments", _id.intValue];
 }
-- (NSDictionary *)toCommentsParams{
+- (NSDictionary *)toCommentsParams
+{
     return @{@"page" : (_willLoadMore? [NSNumber numberWithInteger:_page.integerValue +1] : [NSNumber numberWithInteger:1]),
              @"pageSize" : _pageSize};
 }
-- (void)configWithComments:(ProjectTopics *)comments{
+- (void)configWithComments:(ProjectTopics *)comments
+{
     self.page = comments.page;
     self.totalRow = comments.totalRow;
     self.totalPage = comments.totalPage;
     
     if (_willLoadMore) {
         [_comments.list addObjectsFromArray:comments.list];
-    }else{
+    } else {
         self.comments = comments;
     }
     _canLoadMore = (_page.integerValue < _totalPage.integerValue);
-    
 }
 
-- (NSString *)toDoCommentPath{
-    return [NSString stringWithFormat:@"api/project/%d/topic?parent=%d",_project_id.intValue, _id.intValue];
+- (NSString *)toDoCommentPath
+{
+    return [NSString stringWithFormat:@"api/project/%d/topic?parent=%d", _project_id.intValue, _id.intValue];
 }
-- (NSDictionary *)toDoCommentParams{
+- (NSDictionary *)toDoCommentParams
+{
     return @{@"content" : [_nextCommentStr aliasedString]};
 }
-- (void)configWithComment:(ProjectTopic *)comment{
+- (void)configWithComment:(ProjectTopic *)comment
+{
     if (self.comments && self.comments.list) {
         [self.comments.list addObject:comment];
     }else{
@@ -130,7 +138,8 @@
     }
     self.child_count = [NSNumber numberWithInteger:_child_count.intValue +1];
 }
-- (NSString *)toDeletePath{
+- (NSString *)toDeletePath
+{
     return [NSString stringWithFormat:@"api/topic/%d", self.id.intValue];
 }
 

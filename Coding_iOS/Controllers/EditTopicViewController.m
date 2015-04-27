@@ -14,11 +14,9 @@
 #import "EditLabelViewController.h"
 #import "TopicPreviewCell.h"
 #import "ProjectTopicLabel.h"
+#import "ProjectTopicLabelView.h"
 
 @interface EditTopicViewController ()<UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate>
-{
-    CGFloat _labelH;
-}
 
 @property (strong, nonatomic) UISegmentedControl *segmentedControl;
 @property (assign, nonatomic) NSInteger curIndex;
@@ -31,7 +29,7 @@
 
 @property (strong, nonatomic) UIView *lineView;
 
-@property (strong, nonatomic) UIView *labelView;
+@property (strong, nonatomic) ProjectTopicLabelView *labelView;
 @property (strong, nonatomic) UIButton *labelAddBtn;
 
 @end
@@ -129,55 +127,17 @@
 
 - (void)loadLabelView
 {
-    _labelH = 15;
-    _labelView = [[UIView alloc] initWithFrame:CGRectZero];
-    if (_curProTopic.mdLabels.count > 0) {
-        CGFloat x = 0.0f;
-        CGFloat y = 0.0f;
-        CGFloat limitW = kScreen_Width - kPaddingLeftWidth - 44;
-        
-        for (ProjectTopicLabel *label in _curProTopic.mdLabels) {
-            UILabel *tLbl = [[UILabel alloc] initWithFrame:CGRectMake(x, y, 0, 0)];
-            
-            tLbl.font = [UIFont systemFontOfSize:12];
-            tLbl.text = label.name;
-            tLbl.textColor = kColorLabelText;
-            tLbl.textAlignment = NSTextAlignmentCenter;
-            tLbl.layer.cornerRadius = 10;
-            tLbl.layer.backgroundColor = kColorLabelBgColor.CGColor;
-        
-            [tLbl sizeToFit];
-            
-            CGFloat width = tLbl.frame.size.width + 20;
-            if (x + width > limitW) {
-                y += 26.0f;
-                x = 0.0f;
-            }
-            [tLbl setFrame:CGRectMake(x, y, width - 4, 20)];
-            x += width;
-            
-            [_labelView addSubview:tLbl];
-        }
-        _labelH = y + 26;
-        
-    } else {
-        UIImageView *iconImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, 15)];
-        [iconImg setImage:[UIImage imageNamed:@"tag_icon"]];
-        
-        UILabel *tLbl = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 30, 15)];
-        
-        tLbl.font = [UIFont systemFontOfSize:14];
-        tLbl.text = @"标签";
-        tLbl.textColor = kColorLabelText;
-        
-        [_labelView addSubview:iconImg];
-        [_labelView addSubview:tLbl];
+    if (_labelView) {
+        [_labelView removeFromSuperview];
     }
-    
-    _labelAddBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-    [_labelAddBtn setImage:[UIImage imageNamed:@"tag_add"] forState:UIControlStateNormal];
-    [_labelAddBtn setImageEdgeInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
-    [_labelAddBtn addTarget:self action:@selector(addtitleBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    _labelView = [[ProjectTopicLabelView alloc] initWithFrame:CGRectZero projectTopic:_curProTopic md:YES];
+    __weak typeof(self) weakSelf = self;
+    _labelView.delLabelBlock = ^(NSInteger index){
+        [weakSelf.curProTopic.mdLabels removeObjectAtIndex:index];
+        [weakSelf loadEditView];
+        weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+    };
+    [_editView insertSubview:_labelView belowSubview:_labelAddBtn];
 }
 
 - (void)loadEditView
@@ -193,8 +153,10 @@
         [_editView addSubview:_inputTitleView];
         
         if (self.type != TopicEditTypeFeedBack) {
-            [self loadLabelView];
-            [_editView addSubview:_labelView];
+            _labelAddBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+            [_labelAddBtn setImage:[UIImage imageNamed:@"tag_add"] forState:UIControlStateNormal];
+            [_labelAddBtn setImageEdgeInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
+            [_labelAddBtn addTarget:self action:@selector(addtitleBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [_editView addSubview:_labelAddBtn];
         }
         
@@ -229,6 +191,9 @@
         _inputContentView.text = _curProTopic.mdContent;
     }
     
+    if (self.type != TopicEditTypeFeedBack) {
+        [self loadLabelView];
+    }
     
     // 布局
     _inputContentView.textContainerInset = UIEdgeInsetsMake(10, kPaddingLeftWidth - 5, 8, kPaddingLeftWidth - 5);
@@ -248,15 +213,15 @@
     if (self.type != TopicEditTypeFeedBack) {
         // 标签
         [_labelView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_inputTitleView.mas_bottom).offset(22.0);
-            make.height.mas_equalTo(_labelH);
+            make.top.equalTo(_inputTitleView.mas_bottom).offset(16.0);
+            make.height.mas_equalTo(_labelView.labelH);
             
             make.left.equalTo(_editView).offset(kPaddingLeftWidth);
             make.right.equalTo(_editView).offset(-kPaddingLeftWidth);
         }];
         
         [_labelAddBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_labelView.mas_top).offset(-14.0);
+            make.top.equalTo(_labelView.mas_top).offset(-12.0);
             make.right.equalTo(_editView);
             
             make.width.mas_equalTo(44);
@@ -319,6 +284,12 @@
 {
     EditLabelViewController *vc = [[EditLabelViewController alloc] init];
     vc.curProTopic = _curProTopic;
+    if (self.type == TopicEditTypeModify) {
+        __weak typeof(self) weakSelf = self;
+        vc.topicChangedBlock = ^(){
+            weakSelf.navigationItem.rightBarButtonItem.enabled = TRUE;
+        };
+    }
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -358,6 +329,7 @@
         }];
     }
 }
+
 #pragma mark Table M
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -378,6 +350,9 @@
     };
     cell.addLabelBlock = ^(){
         [weakSelf addtitleBtnClick];
+    };
+    cell.delLabelBlock = ^(){
+         weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
     };
     //[tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     return cell;

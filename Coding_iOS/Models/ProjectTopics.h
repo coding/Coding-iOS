@@ -14,14 +14,21 @@ typedef NS_ENUM(NSInteger, TopicQueryType){
     TopicQueryTypeMe
 };
 
+typedef NS_ENUM(NSInteger, LabelOrderType){
+    LabelOrderTypeUpdate = 51,
+    LabelOrderTypeCreate = 49,
+    LabelOrderTypeHot = 53,
+};
+
 @class Project;
 
 @interface ProjectTopics : NSObject
 
-@property (readwrite, nonatomic, strong) NSNumber *page, *pageSize, *totalPage, *totalRow;
+@property (readwrite, nonatomic, strong) NSNumber *page, *pageSize, *totalPage, *totalRow, *labelID;
 @property (readwrite, nonatomic, strong) NSMutableArray *list;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 @property (assign, nonatomic) TopicQueryType queryType;
+@property (assign, nonatomic) LabelOrderType labelType;
 
 @property (readwrite, nonatomic, strong) Project *project;
 @property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading;

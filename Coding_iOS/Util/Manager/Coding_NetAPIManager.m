@@ -796,7 +796,7 @@
                     block(nil, errorMD);
                 }
             }];
-        }else{
+        } else {
             proTopic.isTopicLoading = NO;
             block(nil, error);
         }
@@ -869,6 +869,24 @@
             block(nil, error);
         }
     }];
+}
+
+- (void)request_ProjectTopic_Count_WithPath:(NSString *)path
+                                   andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"项目讨论计数"];
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
+                                                        withParams:nil
+                                                    withMethodType:Get
+                                                          andBlock:^(id data, NSError *error) {
+                                                              if (data) {
+                                                                  id resultData = [data valueForKeyPath:@"data"];
+                                                                  block(resultData, nil);
+                                                              } else {
+                                                                  block(nil, error);
+                                                              }
+                                                          }];
 }
 
 #pragma mark - Topic Label

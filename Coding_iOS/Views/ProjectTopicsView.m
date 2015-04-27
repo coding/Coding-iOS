@@ -8,6 +8,8 @@
 
 #import "ProjectTopicsView.h"
 #import "TopicListView.h"
+#import "Coding_NetAPIManager.h"
+#import "ProjectTopicLabel.h"
 
 @interface ProjectTopicsView ()
 {
@@ -17,55 +19,50 @@
     NSArray *_total;
     NSMutableArray *_oneNumber;
     NSMutableArray *_twoNumber;
-    NSMutableArray *_threeNumber;
     NSArray *_totalNumber;
     NSMutableArray *_totalIndex;
     NSInteger _segIndex;
 }
 
 @property (nonatomic, strong) Project *myProject;
-@property (nonatomic , copy) ProjectTopicBlock block;
-@property (strong, nonatomic) NSMutableDictionary *myProTopicsDict;
+@property (nonatomic, copy) ProjectTopicBlock block;
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
-@property (strong, nonatomic) iCarousel *myCarousel;
+@property (strong, nonatomic) ProjectTopicListView *mylistView;
+
+@property (strong, nonatomic) NSMutableArray *labels;
+
 @end
 
 @implementation ProjectTopicsView
 
-- (id)initWithFrame:(CGRect)frame project:(Project *)project block:(ProjectTopicBlock)block defaultIndex:(NSInteger)index{
+- (id)initWithFrame:(CGRect)frame
+            project:(Project *)project
+              block:(ProjectTopicBlock)block
+       defaultIndex:(NSInteger)index
+{
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
         _myProject = project;
         _block = block;
-        _myProTopicsDict = [[NSMutableDictionary alloc] initWithCapacity:2];
-        //添加myCarousel
-        self.myCarousel = ({
-            iCarousel *icarousel = [[iCarousel alloc] init];
-            icarousel.dataSource = self;
-            icarousel.delegate = self;
-            icarousel.decelerationRate = 1.0;
-            icarousel.scrollSpeed = 1.0;
-            icarousel.type = iCarouselTypeLinear;
-            icarousel.pagingEnabled = YES;
-            icarousel.clipsToBounds = YES;
-            icarousel.bounceDistance = 0.2;
-            [self addSubview:icarousel];
-            [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.edges.equalTo(self).insets(UIEdgeInsetsMake(kMySegmentControl_Height, 0, 0, 0));
-            }];
-            icarousel;
-        });
+
+        ProjectTopics *curProTopics = [ProjectTopics topicsWithPro:_myProject queryType:0];
+        _mylistView = [[ProjectTopicListView alloc] initWithFrame:CGRectMake(0, kMySegmentControl_Height, kScreen_Width, self.frame.size.height - kMySegmentControl_Height)
+                                                     projectTopics:curProTopics
+                                                            block:_block];
+        [self addSubview:_mylistView];
+        [_mylistView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self).insets(UIEdgeInsetsMake(kMySegmentControl_Height, 0, 0, 0));
+        }];
         
         // 添加滑块
-        _one = @[@"全部讨论", @"我参与的"];
-        _two = [NSMutableArray arrayWithObjects:@"全部标签", @"Bug", @"Feature", @"反馈", nil];
+        _one = @[@"全部讨论", @"我的讨论"];
+        _two = [NSMutableArray arrayWithObjects:@"全部标签", nil];
         _three = @[@"最后评论排序", @"发布时间排序", @"热门排序"];
         _total = @[_one, _two, _three];
         _oneNumber = [NSMutableArray arrayWithObjects:@0, @0, nil];
-        _twoNumber = [NSMutableArray arrayWithObjects:@0, @0, @0, @0, nil];
-        _threeNumber = [NSMutableArray arrayWithObjects:@0, @0, @0, @0, nil];
-       _totalNumber = @[_oneNumber, _twoNumber, _threeNumber];
+        _twoNumber = [NSMutableArray arrayWithObjects:@0, nil];
+       _totalNumber = @[_oneNumber, _twoNumber];
         _totalIndex = [NSMutableArray arrayWithObjects:@0, @0, @0, nil];
         __weak typeof(self) weakSelf = self;
         self.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height)
@@ -75,22 +72,82 @@
                                                               [weakSelf openList:index];
                                                           }];
         [self addSubview:self.mySegmentControl];
+        
+        _labels = [[NSMutableArray alloc] initWithCapacity:4];
+
     }
     return self;
+}
+
+- (void)refreshToQueryData
+{
+    [self sendLabelRequest];
+    [self sendCountRequest];
+    [_mylistView refreshToQueryData];
+}
+
+- (NSString *)toLabelPath
+{
+    return [NSString stringWithFormat:@"api/project/%d/topic/label?withCount=true", _myProject.id.intValue];
+}
+
+- (NSString *)toCountPath
+{
+    return [NSString stringWithFormat:@"api/project/%d/topic/count", _myProject.id.intValue];
+}
+
+- (void)sendLabelRequest
+{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_WithPath:[self toLabelPath] andBlock:^(id data, NSError *error) {
+        if (data) {
+            [weakSelf parseLabelInfo:data];
+        }
+    }];
+}
+
+- (void)sendCountRequest
+{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_ProjectTopic_Count_WithPath:[self toCountPath] andBlock:^(id data, NSError *error) {
+        if (data) {
+            [weakSelf parseCountInfo:data];
+        }
+    }];
+}
+
+- (void)parseLabelInfo:(NSArray *)labelInfo
+{
+    [_labels removeAllObjects];
+    [_labels addObjectsFromArray:labelInfo];
+    [_two removeAllObjects];
+    [_two addObject:@"全部标签"];
+    [_twoNumber removeAllObjects];
+    [_twoNumber addObject:_oneNumber[0]];
+    for (ProjectTopicLabel *lbl in _labels) {
+        
+        [_two addObject:lbl.name];
+        [_twoNumber addObject:lbl.count];
+    }
+}
+
+- (void)parseCountInfo:(NSDictionary *)dic
+{
+    _oneNumber[0] = [dic objectForKey:@"all"];
+    _oneNumber[1] = [dic objectForKey:@"my"];
+    _twoNumber[0] = [dic objectForKey:@"all"];
 }
 
 - (void)changeIndex:(NSInteger)index withSegmentIndex:(NSInteger)segmentIndex
 {
     [_totalIndex replaceObjectAtIndex:segmentIndex withObject:[NSNumber numberWithInteger:index]];
     [self.mySegmentControl setTitle:_total[segmentIndex][index] withIndex:segmentIndex];
-    if (segmentIndex == 0) {
-        [_myCarousel scrollToItemAtIndex:index animated:NO];
-    }
-    ProjectTopicListView *listView = (ProjectTopicListView *)[_myCarousel itemViewAtIndex:[_totalIndex[0] integerValue]];
-    if ([_totalIndex[1] integerValue] == 0) {
-        [listView setOrder:[_totalIndex[2] integerValue] withLabel:nil];
+
+    if ([_totalIndex[1] integerValue] > 0) {
+        ProjectTopicLabel *lbl = _labels[[_totalIndex[1] integerValue] - 1];
+        [_mylistView setOrder:[_totalIndex[2] integerValue] withLabelID:lbl.id andType:[_totalIndex[0] integerValue]];
     } else {
-        [listView setOrder:[_totalIndex[2] integerValue] withLabel:_two[[_totalIndex[1] integerValue]]];
+        [_mylistView setOrder:[_totalIndex[2] integerValue] withLabelID:@0 andType:[_totalIndex[0] integerValue]];
     }
 }
 
@@ -103,17 +160,11 @@
         CGRect rect = CGRectMake(0, kMySegmentControl_Height, kScreen_Width, self.frame.size.height - kMySegmentControl_Height);
 
         NSArray *nAry = nil;
-        if (segmentIndex == 0 ) {
-            nAry = _totalNumber[0];
-        } else if (segmentIndex == 1) {
-            if ([_totalIndex[0] integerValue] == 0) {
-                nAry = _totalNumber[1];
-            } else {
-                nAry = _totalNumber[2];
-            }
+        if (segmentIndex == 0 || segmentIndex == 1) {
+            nAry = _totalNumber[segmentIndex];
         }
         __weak typeof(self) weakSelf = self;
-       TopicListView *listView = [[TopicListView alloc] initWithFrame:rect
+        TopicListView *listView = [[TopicListView alloc] initWithFrame:rect
                                                                 titles:lists
                                                                numbers:nAry
                                                           defaultIndex:[_totalIndex[segmentIndex] integerValue]
@@ -127,14 +178,8 @@
         _segIndex = segmentIndex;
         
         NSArray *nAry = nil;
-        if (segmentIndex == 0 ) {
-            nAry = _totalNumber[0];
-        } else if (segmentIndex == 1) {
-            if ([_totalIndex[0] integerValue] == 0) {
-                nAry = _totalNumber[1];
-            } else {
-                nAry = _totalNumber[2];
-            }
+        if (segmentIndex == 0 || segmentIndex == 1) {
+            nAry = _totalNumber[segmentIndex];
         }
         NSArray *lists = (NSArray *)_total[segmentIndex];
         __weak typeof(self) weakSelf = self;
@@ -147,71 +192,6 @@
     } else {
         [lView hideBtnView];
     }
-}
-
-- (void)refreshToQueryData
-{
-    UIView *currentItemView = self.myCarousel.currentItemView;
-    if ([currentItemView isKindOfClass:[ProjectTopicListView class]]) {
-        ProjectTopicListView *listView = (ProjectTopicListView *)currentItemView;
-        [listView refreshToQueryData];
-    }
-}
-
-#pragma mark iCarousel M
-- (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel
-{
-    return 2;
-}
-
-- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view
-{
-    ProjectTopics *curProTopics = [_myProTopicsDict objectForKey:[NSNumber numberWithUnsignedInteger:index]];
-    if (!curProTopics) {
-        curProTopics = [ProjectTopics topicsWithPro:_myProject queryType:index];
-        [_myProTopicsDict setObject:curProTopics forKey:[NSNumber numberWithUnsignedInteger:index]];
-    }
-    ProjectTopicListView *listView = (ProjectTopicListView *)view;
-    if (listView) {
-        [listView setProTopics:curProTopics];
-    } else {
-        __weak typeof(self) weakSelf = self;
-        listView = [[ProjectTopicListView alloc] initWithFrame:carousel.bounds
-                                                 projectTopics:curProTopics
-                                                         block:_block
-                                                  andListBlock:^(ProjectTopicListView *projectTopicListView) {
-                                                      [weakSelf getInfo:projectTopicListView andIndex:index];
-                                                  }];
-    }
-   
-    return listView;
-}
-
-- (void)getInfo:(ProjectTopicListView *)listView andIndex:(NSInteger)index
-{
-    if (index == 0) {
-        [listView getLabelArray:_total[1] andNumberArray:_totalNumber[1] andAry:_totalNumber[2]];
-    } else {
-        [listView getLabelArray:_total[1] andNumberArray:_totalNumber[2] andAry:_totalNumber[1]];
-    }
-    [_totalNumber[0] replaceObjectAtIndex:index withObject:[NSNumber numberWithInteger:[listView getCount]]];
-}
-
-- (void)carouselDidScroll:(iCarousel *)carousel
-{
-//    if (_mySegmentControl) {
-//        float offset = carousel.scrollOffset;
-//        if (offset > 0) {
-//            [_mySegmentControl moveIndexWithProgress:offset];
-//        }
-//    }
-}
-
-- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel
-{
-//    if (_mySegmentControl) {
-//        _mySegmentControl.currentIndex = carousel.currentItemIndex;
-//    }
 }
 
 @end
