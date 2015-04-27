@@ -96,6 +96,10 @@
 
 - (void)request_ProjectTopic_Count_WithPath:(NSString *)path
                                    andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectTopic_AddLabel_WithPath:(NSString *)path
+                                      andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectTopic_DelLabel_WithPath:(NSString *)path
+                                      andBlock:(void (^)(id data, NSError *error))block;
 
 // Topic Label
 - (void)request_ProjectTopicLabel_WithPath:(NSString *)path

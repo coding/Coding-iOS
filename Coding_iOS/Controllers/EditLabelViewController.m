@@ -46,8 +46,10 @@
     self.title = @"标签管理";
     self.navigationController.title = @"标签管理";
     
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(okBtnClick)];
-    self.navigationItem.rightBarButtonItem.enabled = FALSE;
+    if (!_isSaveChange) {
+        self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(okBtnClick)];
+        self.navigationItem.rightBarButtonItem.enabled = FALSE;
+    }
     
     self.view.backgroundColor = kColorTableSectionBg;
     
@@ -132,6 +134,11 @@
     return [NSString stringWithFormat:@"api/project/%d/topic/label/%lld", _curProTopic.project_id.intValue, ptLabel.id.longLongValue];
 }
 
+- (NSString *)toMedifyPath:(NSNumber *)labelID
+{
+    return [NSString stringWithFormat:@"api/topic/%d/label/%lld", _curProTopic.id.intValue, labelID.longLongValue];
+}
+
 #pragma mark - click
 - (void)okBtnClick
 {
@@ -139,26 +146,26 @@
     //_curProTopic.mdTitle = _tempArray;
     //_curProTopic.mdContent = _tempArray;
     
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    if (_isSaveChange) {
-        @weakify(self);
-        [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoic:self.curProTopic andBlock:^(id data, NSError *error) {
-            @strongify(self);
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-            if (data) {
-                _curProTopic.labels = [NSMutableArray arrayWithArray:_curProTopic.mdLabels];
-                if (self.topicChangedBlock) {
-                    self.topicChangedBlock();
-                }
-                [self.navigationController popViewControllerAnimated:YES];
-            } 
-        }];
-    } else {
+    //self.navigationItem.rightBarButtonItem.enabled = NO;
+//    if (_isSaveChange) {
+//        @weakify(self);
+//        [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoic:self.curProTopic andBlock:^(id data, NSError *error) {
+//            @strongify(self);
+//            self.navigationItem.rightBarButtonItem.enabled = YES;
+//            if (data) {
+//                _curProTopic.labels = [NSMutableArray arrayWithArray:_curProTopic.mdLabels];
+//                if (self.topicChangedBlock) {
+//                    self.topicChangedBlock();
+//                }
+//                [self.navigationController popViewControllerAnimated:YES];
+//            } 
+//        }];
+//    } else {
         if (self.topicChangedBlock) {
             self.topicChangedBlock();
         }
         [self.navigationController popViewControllerAnimated:YES];
-    }
+    //}
 }
 
 - (void)addBtnClick:(UIButton *)sender
@@ -265,15 +272,40 @@
                 }
             }
             if (add) {
-                [_tempArray addObject:lbl];
-                self.navigationItem.rightBarButtonItem.enabled = YES;
+                if (_isSaveChange) {
+                    __weak typeof(self) weakSelf = self;
+                    [[Coding_NetAPIManager sharedManager] request_ProjectTopic_AddLabel_WithPath:[self toMedifyPath:lbl.id] andBlock:^(id data, NSError *error) {
+                        if (!error) {
+                            [_tempArray addObject:lbl];
+                            weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+                        } else {
+                            cell.selectBtn.selected = FALSE;
+                        }
+                    }];
+                    [_tempArray addObject:lbl];
+                    self.navigationItem.rightBarButtonItem.enabled = YES;
+                } else {
+                    [_tempArray addObject:lbl];
+                    self.navigationItem.rightBarButtonItem.enabled = YES;
+                }
             }
         } else {
             for (ProjectTopicLabel *tempLbl in _tempArray) {
                 if ([tempLbl.id integerValue] == [lbl.id integerValue]) {
-                    [_tempArray removeObject:tempLbl];
-                    self.navigationItem.rightBarButtonItem.enabled = YES;
-                
+                    if (_isSaveChange) {
+                        __weak typeof(self) weakSelf = self;
+                        [[Coding_NetAPIManager sharedManager] request_ProjectTopic_DelLabel_WithPath:[self toMedifyPath:lbl.id] andBlock:^(id data, NSError *error) {
+                            if (!error) {
+                                [_tempArray removeObject:tempLbl];
+                                weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+                            } else {
+                                cell.selectBtn.selected = TRUE;
+                            }
+                        }];
+                    } else {
+                        [_tempArray removeObject:tempLbl];
+                        self.navigationItem.rightBarButtonItem.enabled = YES;
+                    }
                     break;
                 }
             }

@@ -43,6 +43,7 @@
 - (NSString *)toTopicPath;
 
 - (NSDictionary *)toEditParams;
+- (NSDictionary *)toLabelParams;
 
 - (NSString *)toAddTopicPath;
 - (NSDictionary *)toAddTopicParams;

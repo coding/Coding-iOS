@@ -802,7 +802,23 @@
         }
     }];
 }
-- (void)request_ModifyProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block{
+- (void)request_ModifyProjectTpoicLabel:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"项目讨论详情_修改标签"];
+    proTopic.isTopicEditLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:[proTopic toLabelParams] withMethodType:Put andBlock:^(id data, NSError *error) {
+        proTopic.isTopicEditLoading = NO;
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            ProjectTopic *resultT = [NSObject objectOfClass:@"ProjectTopic" fromJSON:resultData];
+            block(resultT, nil);
+        } else {
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_ModifyProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block
+{
     [MobClick event:kUmeng_Event_Request label:@"项目讨论详情_提交编辑"];
     proTopic.isTopicEditLoading = YES;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:[proTopic toEditParams] withMethodType:Put andBlock:^(id data, NSError *error) {
@@ -889,6 +905,40 @@
                                                           }];
 }
 
+- (void)request_ProjectTopic_AddLabel_WithPath:(NSString *)path
+                                   andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"项目讨论增加标签"];
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
+                                                        withParams:nil
+                                                    withMethodType:Post
+                                                          andBlock:^(id data, NSError *error) {
+                                                              if (data) {
+                                                                  block(nil, nil);
+                                                              } else {
+                                                                  block(nil, error);
+                                                              }
+                                                          }];
+}
+
+- (void)request_ProjectTopic_DelLabel_WithPath:(NSString *)path
+                                   andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"项目讨论删除标签"];
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
+                                                        withParams:nil
+                                                    withMethodType:Delete
+                                                          andBlock:^(id data, NSError *error) {
+                                                              if (data) {
+                                                                  block(nil, nil);
+                                                              } else {
+                                                                  block(nil, error);
+                                                              }
+                                                          }];
+}
+
 #pragma mark - Topic Label
 - (void)request_ProjectTopicLabel_WithPath:(NSString *)path
                                   andBlock:(void (^)(id data, NSError *error))block
@@ -927,7 +977,7 @@
                                     withParams:params
                                       andBlock:(void (^)(id data, NSError *error))block
 {
-    [MobClick event:kUmeng_Event_Request label:@"项目讨论添加标签"];
+    [MobClick event:kUmeng_Event_Request label:@"添加项目讨论标签"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
                                                         withParams:params
                                                     withMethodType:Post

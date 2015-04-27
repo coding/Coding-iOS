@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
             {
                 _titleLabel = ({
                     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))];
-                    label.font = [UIFont systemFontOfSize:XTSegmentControlItemFont];
+                    label.font = [UIFont systemFontOfSize:XTSegmentControlItemFont - 2];
                     label.textAlignment = NSTextAlignmentCenter;
                     label.text = title;
                     label.textColor = [UIColor colorWithHexString:@"0x222222"];
@@ -339,7 +339,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
             UIView *lineView  = [[UIView alloc] initWithFrame:CGRectMake(
                                                                          CGRectGetMinX(rect),
                                                                          (CGRectGetHeight(rect) - 14) * 0.5,
-                                                                         0.6,
+                                                                         1,
                                                                          14)];
             lineView.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
             [self addSubview:lineView];

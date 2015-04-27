@@ -24,6 +24,7 @@
 
 @property (strong, nonatomic) ProjectTopicLabelView *labelView;
 @property (strong, nonatomic) UIButton *labelAddBtn;
+@property (strong, nonatomic) UIView *lineView;
 
 @end
 
@@ -41,7 +42,7 @@
             [_userIconView doCircleFrame];
             [self.contentView addSubview:_userIconView];
         }
-        CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
+        CGFloat curWidth = kScreen_Width - 2 * kPaddingLeftWidth;
         if (!_titleLabel) {
             _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15,  curWidth, 30)];
             _titleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
@@ -61,7 +62,11 @@
             [_labelAddBtn addTarget:self action:@selector(addtitleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:_labelAddBtn];
         }
-        curWidth = kScreen_Width - 2*kPaddingLeftWidth;
+        if (!_lineView) {
+            _lineView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, 1)];
+            _lineView.backgroundColor = kColorTableSectionBg;
+            [self.contentView addSubview:_lineView];
+        }
         if (!self.webContentView) {
             self.webContentView = [[UIWebView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, 1)];
             self.webContentView.delegate = self;
@@ -144,9 +149,11 @@
     [_labelView setY:curBottomY];
     [_labelView setHeight:_labelView.labelH];
     
-    curBottomY += _labelView.labelH + 5;
-    
+    curBottomY += _labelView.labelH + 12;
+    [_lineView setY:curBottomY];
+ 
     // 讨论的内容
+    curBottomY += 12;
     [self.webContentView setY:curBottomY];
     [self.activityIndicator setCenter:CGPointMake(self.webContentView.center.x, curBottomY + 10)];
     [self.webContentView setHeight:_curTopic.contentHeight];
@@ -229,7 +236,7 @@
             }
             labelH = y + 20;
         }
-        cellHeight += labelH + 5;
+        cellHeight += labelH + 24;
         cellHeight += topic.contentHeight + 5;
     }
     return cellHeight;
