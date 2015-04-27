@@ -125,7 +125,6 @@
     [_twoNumber removeAllObjects];
     [_twoNumber addObject:_oneNumber[0]];
     for (ProjectTopicLabel *lbl in _labels) {
-        
         [_two addObject:lbl.name];
         [_twoNumber addObject:lbl.count];
     }

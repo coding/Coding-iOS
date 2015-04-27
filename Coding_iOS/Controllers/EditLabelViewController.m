@@ -230,8 +230,10 @@
     }
     cell.selectBtn.selected = selected;
     
-    [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:[EditLabelCell cellHeight]];
-    cell.delegate = self;
+    if (indexPath.row > 2) {
+        [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:[EditLabelCell cellHeight]];
+        cell.delegate = self;
+    }
     
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     cell.backgroundColor = kColorTableBG;
