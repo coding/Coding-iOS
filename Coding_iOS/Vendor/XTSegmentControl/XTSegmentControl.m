@@ -62,7 +62,8 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
             {
                 _titleLabel = ({
                     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))];
-                    label.font = [UIFont systemFontOfSize:XTSegmentControlItemFont - 2];
+                    
+                    label.font = [UIFont systemFontOfSize:(kDevice_Is_iPhone6Plus) ? (XTSegmentControlItemFont + 1) : (kDevice_Is_iPhone6 ? XTSegmentControlItemFont : XTSegmentControlItemFont - 2)];
                     label.textAlignment = NSTextAlignmentCenter;
                     label.text = title;
                     label.textColor = [UIColor colorWithHexString:@"0x222222"];
@@ -120,7 +121,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
                 [_titleLabel setTextColor:(selected ? [UIColor colorWithHexString:@"0x3bbd79"]:[UIColor colorWithHexString:@"0x222222"])];
             }
             if (_titleIconView) {
-                [_titleIconView setImage:[UIImage imageNamed: selected ? @"tag_list_up_s" : @"tag_list_up"]];
+                [_titleIconView setImage:[UIImage imageNamed: selected ? @"tag_list_down" : @"tag_list_up"]];
             }
         }
             break;
@@ -291,7 +292,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
             NSString *title = titleArray[i];
             XTSegmentControlItem *item = [[XTSegmentControlItem alloc] initWithFrame:rect title:title type: isIcon ?
                                                                                    XTSegmentControlItemTypeTitleAndIcon : XTSegmentControlItemTypeTitle];
-            if (i == 0) {
+            if (!isIcon && i == 0) {
                 [item setSelected:YES];
             }
             [_items addObject:item];
@@ -333,6 +334,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
     self.currentIndex = 0;
     [self selectIndex:0];
     if (isIcon) {
+        [self selectIndex:-1];
         for (int i=1; i<_itemFrames.count; i++) {
             CGRect rect = [_itemFrames[i] CGRectValue];
             
@@ -374,21 +376,37 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 - (void)selectIndex:(NSInteger)index
 {
     [self addRedLine];
-    if (index != _currentIndex) {
-        XTSegmentControlItem *curItem = [_items objectAtIndex:index];
-        CGRect rect = [_itemFrames[index] CGRectValue];
-        CGRect lineRect = CGRectMake(CGRectGetMinX(rect) + XTSegmentControlHspace, CGRectGetHeight(rect) - XTSegmentControlLineHeight, CGRectGetWidth(rect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
-        [UIView animateWithDuration:XTSegmentControlAnimationTime animations:^{
-            _lineView.frame = lineRect;
-        } completion:^(BOOL finished) {
-            [_items enumerateObjectsUsingBlock:^(XTSegmentControlItem *item, NSUInteger idx, BOOL *stop) {
-                [item setSelected:NO];
-            }];
-            [curItem setSelected:YES];
-            _currentIndex = index;
-        }];
+    if (index < 0) {
+        _currentIndex = -1;
+        _lineView.hidden = TRUE;
+        for (XTSegmentControlItem *curItem in _items) {
+            [curItem setSelected:NO];
+        }
+    } else {
+        _lineView.hidden = FALSE;
+    
+        if (index != _currentIndex) {
+            XTSegmentControlItem *curItem = [_items objectAtIndex:index];
+            CGRect rect = [_itemFrames[index] CGRectValue];
+            CGRect lineRect = CGRectMake(CGRectGetMinX(rect) + XTSegmentControlHspace, CGRectGetHeight(rect) - XTSegmentControlLineHeight, CGRectGetWidth(rect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
+            if (_currentIndex < 0) {
+                _lineView.frame = lineRect;
+                [curItem setSelected:YES];
+                _currentIndex = index;
+            } else {
+                [UIView animateWithDuration:XTSegmentControlAnimationTime animations:^{
+                    _lineView.frame = lineRect;
+                } completion:^(BOOL finished) {
+                    [_items enumerateObjectsUsingBlock:^(XTSegmentControlItem *item, NSUInteger idx, BOOL *stop) {
+                        [item setSelected:NO];
+                    }];
+                    [curItem setSelected:YES];
+                    _currentIndex = index;
+                }];
+            }
+        }
+        [self setScrollOffset:index];
     }
-    [self setScrollOffset:index];
 }
 
 - (void)moveIndexWithProgress:(float)progress
@@ -427,7 +445,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         moveRect.size = CGSizeMake(CGRectGetWidth(origionLineRect) + delta * (CGRectGetWidth(lineRect) - CGRectGetWidth(origionLineRect)), CGRectGetHeight(lineRect));
         moveRect.origin = CGPointMake(CGRectGetMidX(origionLineRect) + delta * (CGRectGetMidX(lineRect) - CGRectGetMidX(origionLineRect)) - CGRectGetMidX(moveRect), CGRectGetMidY(origionLineRect) - CGRectGetMidY(moveRect));
         _lineView.frame = moveRect;
-    }else if (delta < 0){
+    } else if (delta < 0){
         
         if (_currentIndex == 0) {
             return;
@@ -444,7 +462,8 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
     }    
 }
 
-- (void)setCurrentIndex:(NSInteger)currentIndex{
+- (void)setCurrentIndex:(NSInteger)currentIndex
+{
     currentIndex = MAX(0, MIN(currentIndex, _items.count));
     
     if (currentIndex != _currentIndex) {

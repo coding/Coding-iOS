@@ -154,6 +154,7 @@
 {
     TopicListView *lView = (TopicListView *)[self viewWithTag:9898];
     if (!lView) {
+        // 显示
         _segIndex = segmentIndex;
         NSArray *lists = (NSArray *)_total[segmentIndex];
         CGRect rect = CGRectMake(0, kMySegmentControl_Height, kScreen_Width, self.frame.size.height - kMySegmentControl_Height);
@@ -174,6 +175,7 @@
         [self addSubview:listView];
         [listView showBtnView];
     } else if (_segIndex != segmentIndex) {
+        // 另展示
         _segIndex = segmentIndex;
         
         NSArray *nAry = nil;
@@ -189,6 +191,9 @@
                        [weakSelf changeIndex:index withSegmentIndex:segmentIndex];
                    }];
     } else {
+        // 隐藏
+        [self.mySegmentControl selectIndex:-1];
+
         [lView hideBtnView];
     }
 }
