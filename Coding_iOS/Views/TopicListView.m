@@ -18,6 +18,7 @@
 }
 
 @property (nonatomic , copy) TopicListViewBlock block;
+@property (nonatomic , copy) TopicListViewHideBlock hideBlock;
 
 @end
 
@@ -28,11 +29,13 @@
             numbers:(NSArray *)numbers
        defaultIndex:(NSInteger)index
       selectedBlock:(TopicListViewBlock)selectedHandle
+          hideBlock:(TopicListViewHideBlock)hideHandle
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
         self.block = selectedHandle;
+        self.hideBlock = hideHandle;
         self.clipsToBounds = YES;
         
         _baseBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, self.frame.size.height)];
@@ -80,9 +83,11 @@
                  numbers:(NSArray *)numbers
             defaultIndex:(NSInteger)index
            selectedBlock:(TopicListViewBlock)selectedHandle
+               hideBlock:(TopicListViewHideBlock)hideHandle
 {
     self.block = selectedHandle;
-    
+    self.hideBlock = hideHandle;
+   
     CGRect frame = _baseView.frame;
     frame.origin.y = -frame.size.height;
     [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
@@ -144,7 +149,10 @@
     [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
         _baseView.frame = frame;
     } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.1 animations:^{
+        if (self.hideBlock) {
+            self.hideBlock();
+        }
+        [UIView animateWithDuration:0.2 animations:^{
             self.alpha = 0;
         } completion:^(BOOL finished) {
             [self removeFromSuperview];

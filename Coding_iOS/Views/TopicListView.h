@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 typedef void(^TopicListViewBlock)(NSInteger index);
+typedef void(^TopicListViewHideBlock)();
 
 @interface TopicListView : UIView
 
@@ -16,11 +17,13 @@ typedef void(^TopicListViewBlock)(NSInteger index);
              titles:(NSArray *)titles
             numbers:(NSArray *)numbers
        defaultIndex:(NSInteger)index
-      selectedBlock:(TopicListViewBlock)selectedHandle;
+      selectedBlock:(TopicListViewBlock)selectedHandle
+          hideBlock:(TopicListViewHideBlock)hideHandle;
 - (void)changeWithTitles:(NSArray *)titles
                  numbers:(NSArray *)numbers
             defaultIndex:(NSInteger)index
-           selectedBlock:(TopicListViewBlock)selectedHandle;
+           selectedBlock:(TopicListViewBlock)selectedHandle
+               hideBlock:(TopicListViewHideBlock)hideHandle;
 
 - (void)showBtnView;
 - (void)hideBtnView;

@@ -170,6 +170,9 @@
                                                           defaultIndex:[_totalIndex[segmentIndex] integerValue]
                                                          selectedBlock:^(NSInteger index) {
                                                              [weakSelf changeIndex:index withSegmentIndex:segmentIndex];
+                                                         }
+                                                             hideBlock:^() {
+                                                             [weakSelf.mySegmentControl selectIndex:-1];
                                                          }];
         listView.tag = 9898;
         [self addSubview:listView];
@@ -189,11 +192,12 @@
                    defaultIndex:[_totalIndex[segmentIndex] integerValue]
                   selectedBlock:^(NSInteger index) {
                        [weakSelf changeIndex:index withSegmentIndex:segmentIndex];
-                   }];
+                   }
+                      hideBlock:^() {
+                          [weakSelf.mySegmentControl selectIndex:-1];
+                      }];
     } else {
         // 隐藏
-        [self.mySegmentControl selectIndex:-1];
-
         [lView hideBtnView];
     }
 }
