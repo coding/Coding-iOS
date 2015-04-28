@@ -94,8 +94,14 @@
 - (void)request_DoComment_WithProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectTopic_Delete_WithObj:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block;
 
+- (void)request_ModifyProjectTpoicLabel:(ProjectTopic *)proTopic
+                               andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectTopic_Count_WithPath:(NSString *)path
                                    andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectTopic_LabelAll_WithPath:(NSString *)path
+                                      andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectTopic_LabelMy_WithPath:(NSString *)path
+                                     andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectTopic_AddLabel_WithPath:(NSString *)path
                                       andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectTopic_DelLabel_WithPath:(NSString *)path

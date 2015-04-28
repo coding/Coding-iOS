@@ -18,8 +18,6 @@
     NSArray *_three;
     NSArray *_total;
     NSMutableArray *_oneNumber;
-    NSMutableArray *_twoNumber;
-    NSArray *_totalNumber;
     NSMutableArray *_totalIndex;
     NSInteger _segIndex;
 }
@@ -29,7 +27,8 @@
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) ProjectTopicListView *mylistView;
 
-@property (strong, nonatomic) NSMutableArray *labels;
+@property (strong, nonatomic) NSMutableArray *labelsAll;
+@property (strong, nonatomic) NSMutableArray *labelsMy;
 
 @end
 
@@ -61,8 +60,6 @@
         _three = @[@"最后评论排序", @"发布时间排序", @"热门排序"];
         _total = @[_one, _two, _three];
         _oneNumber = [NSMutableArray arrayWithObjects:@0, @0, nil];
-        _twoNumber = [NSMutableArray arrayWithObjects:@0, nil];
-       _totalNumber = @[_oneNumber, _twoNumber];
         _totalIndex = [NSMutableArray arrayWithObjects:@0, @0, @0, nil];
         __weak typeof(self) weakSelf = self;
         self.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height)
@@ -73,38 +70,48 @@
                                                           }];
         [self addSubview:self.mySegmentControl];
         
-        _labels = [[NSMutableArray alloc] initWithCapacity:4];
-
+        _labelsAll = [[NSMutableArray alloc] initWithCapacity:4];
+        _labelsMy = [[NSMutableArray alloc] initWithCapacity:4];
     }
     return self;
 }
 
 - (void)refreshToQueryData
 {
-    [self sendLabelRequest];
+    //[self sendLabelRequest];
     [self sendCountRequest];
     [_mylistView refreshToQueryData];
 }
 
-- (NSString *)toLabelPath
-{
-    return [NSString stringWithFormat:@"api/project/%d/topic/label?withCount=true", _myProject.id.intValue];
-}
+//- (NSString *)toLabelPath
+//{
+//    return [NSString stringWithFormat:@"api/project/%d/topic/label?withCount=true", _myProject.id.intValue];
+//}
 
 - (NSString *)toCountPath
 {
     return [NSString stringWithFormat:@"api/project/%d/topic/count", _myProject.id.intValue];
 }
 
-- (void)sendLabelRequest
+- (NSString *)toLabelAllPath
 {
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_WithPath:[self toLabelPath] andBlock:^(id data, NSError *error) {
-        if (data) {
-            [weakSelf parseLabelInfo:data];
-        }
-    }];
+    return [NSString stringWithFormat:@"api/user/%@/project/%@/topics/labels", _myProject.owner_user_name, _myProject.name];
 }
+
+- (NSString *)toLabelMyPath
+{
+    return [NSString stringWithFormat:@"api/user/%@/project/%@/topics/labels/my", _myProject.owner_user_name, _myProject.name];
+}
+
+//- (void)sendLabelRequest
+//{
+//    __weak typeof(self) weakSelf = self;
+//    [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_WithPath:[self toLabelPath] andBlock:^(id data, NSError *error) {
+//        if (data) {
+//            [weakSelf parseLabelInfo:data];
+//        }
+//    }];
+//}
 
 - (void)sendCountRequest
 {
@@ -114,37 +121,84 @@
             [weakSelf parseCountInfo:data];
         }
     }];
+    [[Coding_NetAPIManager sharedManager] request_ProjectTopic_LabelAll_WithPath:[self toLabelAllPath] andBlock:^(id data, NSError *error) {
+        if (data) {
+            [weakSelf parseCountAllInfo:data];
+        }
+    }];
+    [[Coding_NetAPIManager sharedManager] request_ProjectTopic_LabelMy_WithPath:[self toLabelMyPath] andBlock:^(id data, NSError *error) {
+        if (data) {
+            [weakSelf parseCountMyInfo:data];
+        }
+    }];
 }
 
-- (void)parseLabelInfo:(NSArray *)labelInfo
+//- (void)parseLabelInfo:(NSArray *)labelInfo
+//{
+//    [_labels removeAllObjects];
+//    [_labels addObjectsFromArray:labelInfo];
+//    [_two removeAllObjects];
+//    [_two addObject:@"全部标签"];
+//    [_twoNumber removeAllObjects];
+//    [_twoNumber addObject:_oneNumber[0]];
+//    for (ProjectTopicLabel *lbl in _labels) {
+//        [_two addObject:lbl.name];
+//        [_twoNumber addObject:lbl.count];
+//    }
+//}
+
+- (void)parseCountAllInfo:(NSArray *)labelInfo
 {
-    [_labels removeAllObjects];
-    [_labels addObjectsFromArray:labelInfo];
+    [_labelsAll removeAllObjects];
+    [_labelsAll addObjectsFromArray:labelInfo];
     [_two removeAllObjects];
     [_two addObject:@"全部标签"];
-    [_twoNumber removeAllObjects];
-    [_twoNumber addObject:_oneNumber[0]];
-    for (ProjectTopicLabel *lbl in _labels) {
+    for (ProjectTopicLabel *lbl in _labelsAll) {
         [_two addObject:lbl.name];
-        [_twoNumber addObject:lbl.count];
     }
+}
+
+- (void)parseCountMyInfo:(NSArray *)labelInfo
+{
+    [_labelsMy removeAllObjects];
+    [_labelsMy addObjectsFromArray:labelInfo];
 }
 
 - (void)parseCountInfo:(NSDictionary *)dic
 {
     _oneNumber[0] = [dic objectForKey:@"all"];
     _oneNumber[1] = [dic objectForKey:@"my"];
-    _twoNumber[0] = [dic objectForKey:@"all"];
 }
 
 - (void)changeIndex:(NSInteger)index withSegmentIndex:(NSInteger)segmentIndex
 {
     [_totalIndex replaceObjectAtIndex:segmentIndex withObject:[NSNumber numberWithInteger:index]];
+    if (segmentIndex == 0) {
+        if (index == 0) {
+            [_two removeAllObjects];
+            [_two addObject:@"全部标签"];
+            for (ProjectTopicLabel *lbl in _labelsAll) {
+                [_two addObject:lbl.name];
+            }
+        } else {
+            [_two removeAllObjects];
+            [_two addObject:@"全部标签"];
+            for (ProjectTopicLabel *lbl in _labelsMy) {
+                [_two addObject:lbl.name];
+            }
+        }
+    }
+    
     [self.mySegmentControl setTitle:_total[segmentIndex][index] withIndex:segmentIndex];
 
     if ([_totalIndex[1] integerValue] > 0) {
-        ProjectTopicLabel *lbl = _labels[[_totalIndex[1] integerValue] - 1];
-        [_mylistView setOrder:[_totalIndex[2] integerValue] withLabelID:lbl.id andType:[_totalIndex[0] integerValue]];
+        if ([_totalIndex[0] integerValue] > 0) {
+            ProjectTopicLabel *lbl = _labelsMy[[_totalIndex[1] integerValue] - 1];
+            [_mylistView setOrder:[_totalIndex[2] integerValue] withLabelID:lbl.id andType:[_totalIndex[0] integerValue]];
+        } else {
+            ProjectTopicLabel *lbl = _labelsAll[[_totalIndex[1] integerValue] - 1];
+            [_mylistView setOrder:[_totalIndex[2] integerValue] withLabelID:lbl.id andType:[_totalIndex[0] integerValue]];
+        }
     } else {
         [_mylistView setOrder:[_totalIndex[2] integerValue] withLabelID:@0 andType:[_totalIndex[0] integerValue]];
     }
@@ -160,8 +214,8 @@
         CGRect rect = CGRectMake(0, kMySegmentControl_Height, kScreen_Width, self.frame.size.height - kMySegmentControl_Height);
 
         NSArray *nAry = nil;
-        if (segmentIndex == 0 || segmentIndex == 1) {
-            nAry = _totalNumber[segmentIndex];
+        if (segmentIndex == 0) {
+            nAry = _oneNumber;
         }
         __weak typeof(self) weakSelf = self;
         TopicListView *listView = [[TopicListView alloc] initWithFrame:rect
@@ -182,8 +236,8 @@
         _segIndex = segmentIndex;
         
         NSArray *nAry = nil;
-        if (segmentIndex == 0 || segmentIndex == 1) {
-            nAry = _totalNumber[segmentIndex];
+        if (segmentIndex == 0) {
+            nAry = _oneNumber;
         }
         NSArray *lists = (NSArray *)_total[segmentIndex];
         __weak typeof(self) weakSelf = self;

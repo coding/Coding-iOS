@@ -40,9 +40,11 @@
 + (ProjectTopic *)feedbackTopic;
 + (ProjectTopic *)topicWithPro:(Project *)pro;
 + (ProjectTopic *)topicWithId:(NSNumber *)topicId;
-- (NSString *)toTopicPath;
 
+- (NSString *)toTopicPath;
 - (NSDictionary *)toEditParams;
+
+- (NSString *)toLabelPath;
 - (NSDictionary *)toLabelParams;
 
 - (NSString *)toAddTopicPath;

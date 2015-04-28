@@ -81,13 +81,18 @@
              @"label" : tempAry};
 }
 
+- (NSString *)toLabelPath
+{
+    return [NSString stringWithFormat:@"api/user/%@/project/%@/topics/%d/labels", _project.owner_user_name, _project.name, self.id.intValue];
+}
+
 - (NSDictionary *)toLabelParams
 {
     NSMutableArray *tempAry = [NSMutableArray arrayWithCapacity:_mdLabels.count];
     for (ProjectTopicLabel *lbl in _mdLabels) {
         [tempAry addObject:lbl.id];
     }
-    return @{@"label" : tempAry};
+    return @{@"label_id" : tempAry};
 }
 
 - (NSString *)toAddTopicPath
