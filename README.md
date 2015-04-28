@@ -6,7 +6,7 @@
 1. 把文件`Coding_iOS-Prefix.pch.example`改成`Coding_iOS-Prefix.pch`
 2. 配置pod相关。进到`Podfile`文件所在的目录，执行`pod install` or `pod update`命令。
 3. 打开`Coding_iOS.xcworkspace`，将`Pods-Pods -> SDCAlertView -> IPHONEOS_DEPLOYMENT_TARGET`的值设置为`iOS7.0`（SDCAlertView的问题，暂不知为何）。
-4. 由于项目代码管理用到了[submodule](http://git-scm.com/book/be/v2/Git-Tools-Submodules)（[中文参考阅读](http://www.kafeitu.me/git/2012/03/27/git-submodule.html)） ，所以还需要定位到路径`Coding_iOS/Resources/`然后执行代码：`git submodule init; git submudule update`
+4. 由于项目代码管理用到了[submodule](http://git-scm.com/book/be/v2/Git-Tools-Submodules)（[中文参考阅读](http://www.kafeitu.me/git/2012/03/27/git-submodule.html)） ，所以还需要定位到路径`Coding_iOS/Resources/`然后执行代码：`git submodule init; git submodule update`
 
 ####下面介绍一下文件的大概目录先：
     .
