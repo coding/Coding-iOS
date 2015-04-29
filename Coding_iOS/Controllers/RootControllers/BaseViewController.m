@@ -222,7 +222,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         if ([presentingVC isKindOfClass:[ConversationViewController class]]) {
             ConversationViewController *vc = (ConversationViewController *)presentingVC;
             if ([vc.myPriMsgs.curFriend.global_key isEqualToString:user_global_key]) {
-                [vc refreshLoadMore:NO];
+                [vc doPoll];
                 analyseVCIsNew = NO;
                 analyseVC = vc;
             }

@@ -15,6 +15,7 @@
 #import "UsersViewController.h"
 #import "Helper.h"
 #import "WebViewController.h"
+#import "NSTimer+Common.h"
 
 @interface ConversationViewController ()<TTTAttributedLabelDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
@@ -22,9 +23,12 @@
 @property (nonatomic, strong) UIMessageInputView *myMsgInputView;
 @property (nonatomic, assign) CGFloat preContentHeight;
 @property (nonatomic, strong) PrivateMessage *messageToResendOrDelete;
+@property (strong, nonatomic) NSTimer *pollTimer;
 @end
 
 @implementation ConversationViewController
+
+static const NSTimeInterval kPollTimeInterval = 10.0;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -79,6 +83,7 @@
     if (_myMsgInputView) {
         [_myMsgInputView prepareToDismiss];
     }
+    [self stopPolling];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -88,6 +93,18 @@
         [_myMsgInputView prepareToShow];
     }
     [self.myTableView reloadData];
+    [self startPolling];
+}
+
+- (void)dataChangedWithError:(BOOL)hasError scrollToBottom:(BOOL)scrollToBottom animated:(BOOL)animated{
+    [self.myTableView reloadData];
+    if (scrollToBottom) {
+        [self scrollToBottomAnimated:animated];
+    }
+    __weak typeof(self) weakSelf = self;
+    [self.view configBlankPage:EaseBlankPageTypePrivateMsg hasData:(self.myPriMsgs.dataList.count > 0) hasError:hasError reloadButtonBlock:^(id sender) {
+        [weakSelf refreshLoadMore:NO];
+    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -161,6 +178,39 @@
         [weakSelf.view configBlankPage:EaseBlankPageTypePrivateMsg hasData:(weakSelf.myPriMsgs.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refreshLoadMore:NO];
         }];
+    }];
+}
+
+#pragma mark Poll
+
+- (void)startPolling{
+    [self stopPolling];
+    __weak ConversationViewController *weakSelf = self;
+    _pollTimer = [NSTimer scheduledTimerWithTimeInterval:kPollTimeInterval block:^{
+        __strong ConversationViewController *strongSelf = weakSelf;
+        [strongSelf doPoll];
+    } repeats:YES];
+}
+
+- (void)stopPolling{
+    [_pollTimer invalidate];
+    _pollTimer = nil;
+}
+
+- (void)doPoll{
+    if (!_myPriMsgs ||  _myPriMsgs.isLoading) {
+        return;
+    }
+    if (_myPriMsgs.list.count <= 0) {
+        [self refreshLoadMore:NO];
+        return;
+    }
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_Fresh_PrivateMessages:_myPriMsgs andBlock:^(id data, NSError *error) {
+        if (data) {
+            [weakSelf.myPriMsgs configWithPollArray:data];
+            [weakSelf dataChangedWithError:NO scrollToBottom:YES animated:YES];
+        }
     }];
 }
 
@@ -327,16 +377,14 @@
 
 - (void)sendPrivateMessageWithMsg:(PrivateMessage *)nextMsg{
     [_myPriMsgs sendNewMessage:nextMsg];
-    [self.myTableView reloadData];
-    [self scrollToBottomAnimated:YES];
+    [self dataChangedWithError:NO scrollToBottom:YES animated:YES];
     
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_SendPrivateMessage:nextMsg andBlock:^(id data, NSError *error) {
         if (data) {
             [weakSelf.myPriMsgs sendSuccessMessage:data andOldMessage:nextMsg];
         }
-        [weakSelf.myTableView reloadData];
-        [weakSelf scrollToBottomAnimated:YES];
+        [weakSelf dataChangedWithError:NO scrollToBottom:YES animated:YES];
     } progerssBlock:^(CGFloat progressValue) {
         DebugLog(@"\n%.2f", progressValue);
     }];
@@ -348,11 +396,11 @@
     __weak typeof(self) weakSelf = self;
     if (curMsg.sendStatus == PrivateMessageStatusSendFail) {
         [_myPriMsgs deleteMessage:curMsg];
-        [_myTableView reloadData];
+        [self dataChangedWithError:NO scrollToBottom:NO animated:NO];
     }else if (curMsg.sendStatus == PrivateMessageStatusSendSucess) {
         [[Coding_NetAPIManager sharedManager] request_DeletePrivateMessage:curMsg andBlock:^(id data, NSError *error) {
             [weakSelf.myPriMsgs deleteMessage:curMsg];
-            [weakSelf.myTableView reloadData];
+            [self dataChangedWithError:NO scrollToBottom:NO animated:NO];
         }];
     }
 }
@@ -437,5 +485,6 @@
 {
     _myTableView.delegate = nil;
     _myTableView.dataSource = nil;
+    [_pollTimer invalidate];
 }
 @end

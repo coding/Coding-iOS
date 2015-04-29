@@ -140,6 +140,7 @@
 		4E9113AC1A1CB19900AC9431 /* icon_file_state_pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9113A81A1CB19900AC9431 /* icon_file_state_pause@2x.png */; };
 		4E923E781A2F040D00427514 /* messageLeft_bg_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E923E761A2F040D00427514 /* messageLeft_bg_img@2x.png */; };
 		4E923E791A2F040D00427514 /* messageRight_bg_img@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E923E771A2F040D00427514 /* messageRight_bg_img@2x.png */; };
+		4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */; };
 		4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E96E7BA1A1B25D40037C098 /* DirectoryWatcher.m */; };
 		4E96E7C81A1B46740037C098 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96E7C71A1B46740037C098 /* QuickLook.framework */; };
 		4E96E7D81A1B537E0037C098 /* icon_file_ai@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E96E7CA1A1B537E0037C098 /* icon_file_ai@2x.png */; };
@@ -817,6 +818,8 @@
 		4E9113A81A1CB19900AC9431 /* icon_file_state_pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_state_pause@2x.png"; sourceTree = "<group>"; };
 		4E923E761A2F040D00427514 /* messageLeft_bg_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messageLeft_bg_img@2x.png"; sourceTree = "<group>"; };
 		4E923E771A2F040D00427514 /* messageRight_bg_img@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messageRight_bg_img@2x.png"; sourceTree = "<group>"; };
+		4E969CCE1AF0EB87005C0CCE /* NSTimer+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+Common.h"; sourceTree = "<group>"; };
+		4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+Common.m"; sourceTree = "<group>"; };
 		4E96E7B91A1B25D40037C098 /* DirectoryWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryWatcher.h; sourceTree = "<group>"; };
 		4E96E7BA1A1B25D40037C098 /* DirectoryWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectoryWatcher.m; sourceTree = "<group>"; };
 		4E96E7C71A1B46740037C098 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
@@ -1996,6 +1999,8 @@
 				4EB0C1FF1A807ED00042FC4F /* NSURL+Common.m */,
 				4EE5481C1AE7B7CA00A92306 /* UISearchBar+Common.h */,
 				4EE5481D1AE7B7CA00A92306 /* UISearchBar+Common.m */,
+				4E969CCE1AF0EB87005C0CCE /* NSTimer+Common.h */,
+				4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */,
 			);
 			path = OC_Category;
 			sourceTree = "<group>";
@@ -3804,6 +3809,7 @@
 				4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				8ECA8BB419FB42CC00C598C6 /* UILongPressMenuImageView.m in Sources */,
 				8EA6D1BE19E240C40076D59C /* Register.m in Sources */,
+				4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */,
 				8EF643B019FF7E2900F7EEB0 /* CodingTipCell.m in Sources */,
 				8EA6D1BA19E240C40076D59C /* Projects.m in Sources */,
 				4E996BDF1ABA7CE100C704F1 /* UserInfoDetailUserCell.m in Sources */,

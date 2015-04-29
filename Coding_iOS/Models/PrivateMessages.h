@@ -11,20 +11,23 @@
 
 @interface PrivateMessages : NSObject
 @property (readwrite, nonatomic, strong) NSNumber *page, *pageSize, *totalPage, *totalRow;
-@property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading;
+@property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading, isPolling;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
-@property (readwrite, nonatomic, strong) NSMutableArray *list, *nextMessages;
+@property (readwrite, nonatomic, strong) NSMutableArray *list, *nextMessages, *dataList;
 @property (readwrite, nonatomic, strong) User *curFriend;
-//@property (readwrite, nonatomic, strong) NSString *nextContent;
 + (PrivateMessages *)priMsgsWithUser:(User *)user;
 
 - (NSString *)localPrivateMessagesPath;
 - (NSString *)toPath;
 - (NSDictionary *)toParams;
-- (void)configWithObj:(PrivateMessages *)priMsgs;
 
+- (NSString *)toPollPath;
+- (NSDictionary *)toPollParams;
+
+- (void)configWithObj:(PrivateMessages *)priMsgs;
+- (void)configWithPollArray:(NSArray *)pollList;
 - (void)sendNewMessage:(PrivateMessage *)nextMsg;
 - (void)sendSuccessMessage:(PrivateMessage *)sucessMsg andOldMessage:(PrivateMessage *)oldMsg;
-
 - (void)deleteMessage:(PrivateMessage *)msg;
+
 @end

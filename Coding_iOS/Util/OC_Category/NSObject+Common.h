@@ -12,7 +12,7 @@
 
 #pragma mark Tip M
 - (NSString *)tipFromError:(NSError *)error;
-- (void)showError:(NSError *)error;
+- (BOOL)showError:(NSError *)error;
 - (void)showHudTipStr:(NSString *)tipStr;
 - (void)showStatusBarQueryStr:(NSString *)tipStr;
 - (void)showStatusBarSuccessStr:(NSString *)tipStr;
@@ -39,6 +39,6 @@
 
 #pragma mark NetError
 -(id)handleResponse:(id)responseJSON;
-
+-(id)handleResponse:(id)responseJSON autoShowError:(BOOL)autoShowError;
 
 @end

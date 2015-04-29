@@ -1228,6 +1228,23 @@
     }];
 }
 
+- (void)request_Fresh_PrivateMessages:(PrivateMessages *)priMsgs andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"轮询私信列表"];
+    priMsgs.isPolling = YES;
+    __weak PrivateMessages *weakMsgs = priMsgs;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[priMsgs toPollPath] withParams:[priMsgs toPollParams] withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        __strong PrivateMessages *strongMsgs = weakMsgs;
+        strongMsgs.isPolling = NO;
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"PrivateMessage"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_SendPrivateMessage:(PrivateMessage *)nextMsg andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"发送私信"];
     nextMsg.sendStatus = PrivateMessageStatusSending;

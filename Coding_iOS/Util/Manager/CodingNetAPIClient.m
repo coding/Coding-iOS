@@ -43,6 +43,14 @@
                      withParams:(NSDictionary*)params
                  withMethodType:(int)NetworkMethod
                        andBlock:(void (^)(id data, NSError *error))block{
+    [self requestJsonDataWithPath:aPath withParams:params withMethodType:NetworkMethod autoShowError:YES andBlock:block];
+}
+
+- (void)requestJsonDataWithPath:(NSString *)aPath
+                     withParams:(NSDictionary*)params
+                 withMethodType:(int)NetworkMethod
+                  autoShowError:(BOOL)autoShowError
+                       andBlock:(void (^)(id data, NSError *error))block{
     if (!aPath || aPath.length <= 0) {
         return;
     }
@@ -55,7 +63,7 @@
         case Get:{
             [self GET:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
-                id error = [self handleResponse:responseObject];
+                id error = [self handleResponse:responseObject autoShowError:autoShowError];
                 if (error) {
                     block(nil, error);
                 }else{
@@ -63,14 +71,14 @@
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
-                [self showError:error];
+                !autoShowError || [self showError:error];
                 block(nil, error);
             }];
             break;}
         case Post:{
             [self POST:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
-                id error = [self handleResponse:responseObject];
+                id error = [self handleResponse:responseObject autoShowError:autoShowError];
                 if (error) {
                     block(nil, error);
                 }else{
@@ -81,14 +89,14 @@
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
-                [self showError:error];
+                !autoShowError || [self showError:error];
                 block(nil, error);
             }];
             break;}
         case Put:{
             [self PUT:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
-                id error = [self handleResponse:responseObject];
+                id error = [self handleResponse:responseObject autoShowError:autoShowError];
                 if (error) {
                     block(nil, error);
                 }else{
@@ -96,14 +104,14 @@
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
-                [self showError:error];
+                !autoShowError || [self showError:error];
                 block(nil, error);
             }];
             break;}
         case Delete:{
             [self DELETE:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
-                id error = [self handleResponse:responseObject];
+                id error = [self handleResponse:responseObject autoShowError:autoShowError];
                 if (error) {
                     block(nil, error);
                 }else{
@@ -111,12 +119,13 @@
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
-                [self showError:error];
+                !autoShowError || [self showError:error];
                 block(nil, error);
             }];}
         default:
             break;
     }
+    
 }
 
 -(void)requestJsonDataWithPath:(NSString *)aPath file:(NSDictionary *)file withParams:(NSDictionary *)params withMethodType:(int)NetworkMethod andBlock:(void (^)(id, NSError *))block{
