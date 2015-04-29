@@ -186,10 +186,10 @@
 {
     [_curTopic.mdLabels removeObjectAtIndex:index];
     @weakify(self);
-    [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoic:_curTopic andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoicLabel:self.curTopic andBlock:^(id data, NSError *error) {
         @strongify(self);
         if (data) {
-            [_curTopic.labels removeObjectAtIndex:index];
+            _curTopic.labels = [NSMutableArray arrayWithArray:_curTopic.mdLabels];
             [self setCurTopic:_curTopic];
         }
     }];
