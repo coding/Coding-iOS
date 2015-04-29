@@ -28,7 +28,7 @@
 
 @implementation ConversationViewController
 
-static const NSTimeInterval kPollTimeInterval = 10.0;
+static const NSTimeInterval kPollTimeInterval = 3.0;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
