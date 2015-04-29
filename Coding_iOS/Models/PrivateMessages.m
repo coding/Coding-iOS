@@ -52,7 +52,7 @@
         self.dataList = [_list mutableCopy];
     }
     if (_nextMessages.count > 0) {
-        [self.dataList addObjectsFromArray:_nextMessages];
+        [self.dataList insertObjects:_nextMessages atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _nextMessages.count)]];
     }
     return _dataList;
 }

@@ -175,7 +175,7 @@ static const NSTimeInterval kPollTimeInterval = 10.0;
                 [weakSelf.myTableView setContentOffset:CGPointMake(0, (curContentHeight -_preContentHeight)+weakSelf.myTableView.contentOffset.y)];
             }
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypePrivateMsg hasData:(weakSelf.myPriMsgs.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypePrivateMsg hasData:(weakSelf.myPriMsgs.dataList.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refreshLoadMore:NO];
         }];
     }];
@@ -218,15 +218,15 @@ static const NSTimeInterval kPollTimeInterval = 10.0;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = 0;
-    if (_myPriMsgs.list) {
-        row = [_myPriMsgs.list count];
+    if (_myPriMsgs.dataList) {
+        row = [_myPriMsgs.dataList count];
     }
     return row;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MessageCell *cell;
-    NSUInteger curIndex = ([_myPriMsgs.list count] -1) - indexPath.row;
-    PrivateMessage *curMsg = [_myPriMsgs.list objectAtIndex:curIndex];
+    NSUInteger curIndex = ([_myPriMsgs.dataList count] -1) - indexPath.row;
+    PrivateMessage *curMsg = [_myPriMsgs.dataList objectAtIndex:curIndex];
     if (curMsg.hasMedia) {
         cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MessageMedia forIndexPath:indexPath];
     }else{
@@ -234,8 +234,8 @@ static const NSTimeInterval kPollTimeInterval = 10.0;
     }
     cell.contentLabel.delegate = self;
     PrivateMessage *preMsg = nil;
-    if (curIndex +1 < _myPriMsgs.list.count) {
-        preMsg = [_myPriMsgs.list objectAtIndex:curIndex+1];
+    if (curIndex +1 < _myPriMsgs.dataList.count) {
+        preMsg = [_myPriMsgs.dataList objectAtIndex:curIndex+1];
     }
     [cell setCurPriMsg:curMsg andPrePriMsg:preMsg];
     cell.tapUserIconBlock = ^(User *sender){
@@ -308,11 +308,11 @@ static const NSTimeInterval kPollTimeInterval = 10.0;
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     PrivateMessage *preMessage = nil;
-    NSUInteger curIndex = ([_myPriMsgs.list count] -1) - indexPath.row;
-    if (curIndex +1 < _myPriMsgs.list.count) {
-        preMessage = [_myPriMsgs.list objectAtIndex:curIndex+1];
+    NSUInteger curIndex = ([_myPriMsgs.dataList count] -1) - indexPath.row;
+    if (curIndex +1 < _myPriMsgs.dataList.count) {
+        preMessage = [_myPriMsgs.dataList objectAtIndex:curIndex+1];
     }
-    return [MessageCell cellHeightWithObj:[_myPriMsgs.list objectAtIndex:curIndex] preObj:preMessage];
+    return [MessageCell cellHeightWithObj:[_myPriMsgs.dataList objectAtIndex:curIndex] preObj:preMessage];
 }
 
 - (void)scrollToBottomAnimated:(BOOL)animated
@@ -387,9 +387,6 @@ static const NSTimeInterval kPollTimeInterval = 10.0;
         [weakSelf dataChangedWithError:NO scrollToBottom:YES animated:YES];
     } progerssBlock:^(CGFloat progressValue) {
         DebugLog(@"\n%.2f", progressValue);
-    }];
-    [weakSelf.view configBlankPage:EaseBlankPageTypePrivateMsg hasData:(weakSelf.myPriMsgs.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
-        [weakSelf refreshLoadMore:NO];
     }];
 }
 - (void)deletePrivateMessageWithMsg:(PrivateMessage *)curMsg{
