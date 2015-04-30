@@ -13,6 +13,7 @@
 #import "TPKeyboardAvoidingTableView.h"
 #import "Coding_NetAPIManager.h"
 #import "ProjectTopicLabel.h"
+#import "MBProgressHUD+Add.h"
 
 #define kCellIdentifier_EditLabelHeadCell @"EditLabelHeadCell"
 #define kCellIdentifier_EditLabelCell @"EditLabelCell"
@@ -181,12 +182,26 @@
                 ptLabel.id = data;
                 ptLabel.owner_id = _curProTopic.project_id;
                 ptLabel.color = @"#d8f3e4";
-                [_labels addObject:ptLabel];
+                [weakSelf.labels addObject:ptLabel];
                 [weakSelf.myTableView reloadData];
                 _tempLabel = @"";
+                weakSelf.mCurrentTextField.text = @"";
+                [weakSelf showHudTipStr:@"添加标签成功^^"];
                 sender.enabled = FALSE;
            }
         }];
+    }
+}
+
+- (void)showHudTipStr:(NSString *)tipStr
+{
+    if (tipStr && tipStr.length > 0) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = tipStr;
+        hud.margin = 10.f;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:1.0];
     }
 }
 
