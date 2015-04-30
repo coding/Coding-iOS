@@ -32,7 +32,6 @@
     
     self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", nil];
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    self.securityPolicy.allowInvalidCertificates = YES;
     
     return self;
 }
