@@ -63,6 +63,20 @@
     return priMsgs;
 }
 
++ (id)analyzeResponseData:(NSDictionary *)responseData{
+    id data = [responseData valueForKeyPath:@"data"];
+    if (!data) {//旧数据直接保存的data属性
+        data = responseData;
+    }
+    id resultA = nil;
+    if ([data isKindOfClass:[NSArray class]]) {
+        resultA = [NSObject arrayFromJSON:data ofObjects:@"PrivateMessage"];
+    }else if (data){
+        resultA = [NSObject objectOfClass:@"PrivateMessages" fromJSON:data];
+    }
+    return resultA;
+}
+
 - (NSString *)localPrivateMessagesPath{
     NSString *path;
     if (_curFriend) {
@@ -75,15 +89,27 @@
 - (NSString *)toPath{
     NSString *path;
     if (_curFriend) {
-        path = [NSString stringWithFormat:@"api/message/conversations/%@", _curFriend.global_key];
+        path = [NSString stringWithFormat:@"api/message/conversations/%@/prev", _curFriend.global_key];
     }else{
         path = @"api/message/conversations";
     }
     return path;
 }
 - (NSDictionary *)toParams{
-    return @{@"page" : _willLoadMore? [NSNumber numberWithInt:_page.intValue +1]: [NSNumber numberWithInt:1],
-             @"pageSize" : _pageSize};
+    NSDictionary *params = nil;
+    if (_curFriend) {
+        NSNumber *prevId = kDefaultLastId;
+        if (_willLoadMore && _list.count > 0) {
+            PrivateMessage *prev_Msg = [_list lastObject];
+            prevId = prev_Msg.id;
+        }
+        params = @{@"id" : prevId,
+                   @"pageSize" : _pageSize};
+    }else{
+        params = @{@"page" : _willLoadMore? [NSNumber numberWithInt:_page.intValue +1]: [NSNumber numberWithInt:1],
+                   @"pageSize" : _pageSize};
+    }
+    return params;
 }
 
 - (NSString *)toPollPath{
@@ -105,17 +131,26 @@
     return last_id;
 }
 
-- (void)configWithObj:(PrivateMessages *)priMsgs{
-    self.page = priMsgs.page;
-    self.pageSize = priMsgs.pageSize;
-    self.totalPage = priMsgs.totalPage;
-    if (!_willLoadMore) {
-        [self.list removeAllObjects];
+- (void)configWithObj:(id)anObj{
+    if ([anObj isKindOfClass:[PrivateMessages class]]) {
+        PrivateMessages *priMsgs = (PrivateMessages *)anObj;
+        self.page = priMsgs.page;
+        self.pageSize = priMsgs.pageSize;
+        self.totalPage = priMsgs.totalPage;
+        if (!_willLoadMore) {
+            [self.list removeAllObjects];
+        }
+        [self.list addObjectsFromArray:priMsgs.list];
+        self.canLoadMore = _page.intValue < _totalPage.intValue;
+    }else if ([anObj isKindOfClass:[NSArray class]]){
+        NSArray *list = (NSArray *)anObj;
+        if (!_willLoadMore) {
+            [self.list removeAllObjects];
+        }
+        [self.list addObjectsFromArray:list];
+        self.canLoadMore = list.count > 0;
     }
-    [self.list addObjectsFromArray:priMsgs.list];
     [self reset_dataList];
-    
-    _canLoadMore = _page.intValue < _totalPage.intValue;
 }
 
 - (void)configWithPollArray:(NSArray *)pollList{

@@ -1197,11 +1197,10 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[priMsgs toPath] withParams:[priMsgs toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
         priMsgs.isLoading = NO;
         if (data) {
-            id resultData = [data valueForKeyPath:@"data"];
-            PrivateMessages *resultA = [NSObject objectOfClass:@"PrivateMessages" fromJSON:resultData];
+            id resultA = [PrivateMessages analyzeResponseData:data];
             block(resultA, nil);
-            if (priMsgs.curFriend && priMsgs.curFriend.global_key) {
-                //            标记为已读
+            
+            if (priMsgs.curFriend && priMsgs.curFriend.global_key) {//标记为已读
                 [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"api/message/conversations/%@/read", priMsgs.curFriend.global_key] withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
                     if (data) {
                         [[UnReadManager shareManager] updateUnRead];
@@ -1210,15 +1209,15 @@
                 }];
             }
             //存储到本地
-            if (!priMsgs.willLoadMore && resultData) {
-                [NSObject saveResponseData:resultData toPath:[priMsgs localPrivateMessagesPath]];
+            if (!priMsgs.willLoadMore && data) {
+                [NSObject saveResponseData:data toPath:[priMsgs localPrivateMessagesPath]];
             }
         }else{
             //读取本地存储
             if (!priMsgs.willLoadMore) {
                 NSDictionary *resultData = [NSObject loadResponseWithPath:[priMsgs localPrivateMessagesPath]];
                 if (resultData) {
-                    PrivateMessages *resultA = [NSObject objectOfClass:@"PrivateMessages" fromJSON:resultData];
+                    id resultA = [PrivateMessages analyzeResponseData:resultData];
                     block(resultA, nil);
                     return;
                 }

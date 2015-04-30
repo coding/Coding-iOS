@@ -16,6 +16,7 @@
 @property (readwrite, nonatomic, strong) NSMutableArray *list, *nextMessages, *dataList;
 @property (readwrite, nonatomic, strong) User *curFriend;
 + (PrivateMessages *)priMsgsWithUser:(User *)user;
++ (id)analyzeResponseData:(NSDictionary *)responseData;
 
 - (NSString *)localPrivateMessagesPath;
 - (NSString *)toPath;
@@ -24,7 +25,7 @@
 - (NSString *)toPollPath;
 - (NSDictionary *)toPollParams;
 
-- (void)configWithObj:(PrivateMessages *)priMsgs;
+- (void)configWithObj:(id)anObj;
 - (void)configWithPollArray:(NSArray *)pollList;
 - (void)sendNewMessage:(PrivateMessage *)nextMsg;
 - (void)sendSuccessMessage:(PrivateMessage *)sucessMsg andOldMessage:(PrivateMessage *)oldMsg;
