@@ -86,7 +86,11 @@
             default:
                 break;
         }
-        [self refreshToQueryData];
+        if (_myProTopics.isLoading || !_myProTopics.canLoadMore) {
+            [_myTableView.infiniteScrollingView stopAnimating];
+        }
+        _myProTopics.willLoadMore = NO;
+        [self sendRequest];
     }
 }
 

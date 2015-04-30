@@ -137,18 +137,42 @@
 
 - (void)parseLabelInfo:(NSArray *)labelInfo
 {
-    [_labelsAll removeAllObjects];
-    [_two removeAllObjects];
-    [_two addObject:@"全部标签"];
-    [_twoNumber removeAllObjects];
-    [_twoNumber addObject:_oneNumber[0]];
-    for (ProjectTopicLabel *lbl in labelInfo) {
-        if ([lbl.count integerValue] > 0) {
-            [_labelsAll addObject:lbl];
-            [_two addObject:lbl.name];
-            [_twoNumber addObject:lbl.count];
+    if ([_totalIndex[0] integerValue] == 0) {
+        NSInteger tempIndex = 0;
+        ProjectTopicLabel *tempLbl = [_totalIndex[1] integerValue] > 0 ? _labelsAll[[_totalIndex[1] integerValue] - 1] : nil;
+        
+        [_labelsAll removeAllObjects];
+        [_two removeAllObjects];
+        [_two addObject:@"全部标签"];
+        [_twoNumber removeAllObjects];
+        [_twoNumber addObject:_oneNumber[0]];
+        for (ProjectTopicLabel *lbl in labelInfo) {
+            if ([lbl.count integerValue] > 0) {
+                [_labelsAll addObject:lbl];
+                [_two addObject:lbl.name];
+                [_twoNumber addObject:lbl.count];
+                
+                if (tempLbl && [tempLbl.id isEqualToNumber:lbl.id]) {
+                    tempIndex = _two.count - 1;
+                }
+            }
         }
-   }
+    
+        [_totalIndex replaceObjectAtIndex:1 withObject:[NSNumber numberWithInteger:tempIndex]];
+        [self.mySegmentControl setTitle:_two[tempIndex] withIndex:1];
+        
+        [self changeOrder];
+    } else {
+        [_labelsAll removeAllObjects];
+        [_twoNumber removeAllObjects];
+        [_twoNumber addObject:_oneNumber[0]];
+        for (ProjectTopicLabel *lbl in labelInfo) {
+            if ([lbl.count integerValue] > 0) {
+                [_labelsAll addObject:lbl];
+                [_twoNumber addObject:lbl.count];
+            }
+        }
+    }
 }
 
 //- (void)parseCountAllInfo:(NSArray *)labelInfo
@@ -164,8 +188,30 @@
 
 - (void)parseCountMyInfo:(NSArray *)labelInfo
 {
-    [_labelsMy removeAllObjects];
-    [_labelsMy addObjectsFromArray:labelInfo];
+    if ([_totalIndex[0] integerValue] == 1) {
+        NSInteger tempIndex = 0;
+        ProjectTopicLabel *tempLbl = [_totalIndex[1] integerValue] > 0 ? _labelsMy[[_totalIndex[1] integerValue] - 1] : nil;
+        
+        [_labelsMy removeAllObjects];
+        [_labelsMy addObjectsFromArray:labelInfo];
+        [_two removeAllObjects];
+        [_two addObject:@"全部标签"];
+        for (ProjectTopicLabel *lbl in labelInfo) {
+            [_two addObject:lbl.name];
+            
+            if (tempLbl && [tempLbl.id isEqualToNumber:lbl.id]) {
+                tempIndex = _two.count - 1;
+            }
+        }
+        
+        [_totalIndex replaceObjectAtIndex:1 withObject:[NSNumber numberWithInteger:tempIndex]];
+        [self.mySegmentControl setTitle:_two[tempIndex] withIndex:1];
+        
+        [self changeOrder];
+    } else {
+        [_labelsMy removeAllObjects];
+        [_labelsMy addObjectsFromArray:labelInfo];
+    }
 }
 
 - (void)parseCountInfo:(NSDictionary *)dic
@@ -212,6 +258,11 @@
     
     [self.mySegmentControl setTitle:_total[segmentIndex][index] withIndex:segmentIndex];
 
+    [self changeOrder];
+}
+
+- (void)changeOrder
+{
     if ([_totalIndex[1] integerValue] > 0) {
         if ([_totalIndex[0] integerValue] > 0) {
             ProjectTopicLabel *lbl = _labelsMy[[_totalIndex[1] integerValue] - 1];
