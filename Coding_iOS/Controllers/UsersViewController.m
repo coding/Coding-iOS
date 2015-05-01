@@ -16,7 +16,7 @@
 #import "SVPullToRefresh.h"
 #import "AddUserViewController.h"
 
-@interface UsersViewController ()
+@interface UsersViewController ()<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate,UISearchDisplayDelegate>
 @property (strong, nonatomic) UISearchBar *mySearchBar;
 @property (strong, nonatomic) UISearchDisplayController *mySearchDisplayController;
 @property (strong, nonatomic) UITableView *myTableView;
@@ -95,8 +95,6 @@
         searchBar.delegate = self;
         [searchBar sizeToFit];
         [searchBar setPlaceholder:@"姓名/个性后缀"];
-        searchBar.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
-        
         searchBar;
     });
     _myTableView.tableHeaderView = _mySearchBar;
@@ -367,6 +365,16 @@
     DebugLog(@"\n%@", user.name);
 }
 
+
+#pragma mark UISearchBarDelegate
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
+    [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
+    return YES;
+}
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar{
+    [searchBar insertBGColor:nil];
+    return YES;
+}
 
 #pragma mark UISearchDisplayDelegate M
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString

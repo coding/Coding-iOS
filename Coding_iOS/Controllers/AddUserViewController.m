@@ -48,7 +48,6 @@
         searchBar.delegate = self;
         [searchBar sizeToFit];
         [searchBar setPlaceholder:@"姓名/个性后缀"];
-        searchBar.backgroundColor = [UIColor colorWithHexString:@"0x28303b"];
         searchBar;
     });
     _myTableView.tableHeaderView = _mySearchBar;

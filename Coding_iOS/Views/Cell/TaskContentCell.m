@@ -7,7 +7,7 @@
 //
 #define kTaskContentCell_PadingLeft 20.0
 #define kTaskContentCell_PadingRight 20.0
-#define kTaskContentCell_ContentHeightMin 100.0
+#define kTaskContentCell_ContentHeightMin kScaleFrom_iPhone5_Desgin(120.0)
 #define kTextView_Pading 8.0
 #define kTaskContentCell_ContentWidth (kScreen_Width-kTaskContentCell_PadingLeft-kTaskContentCell_PadingRight + 2*kTextView_Pading)
 #define kTaskContentCell_ContentFont [UIFont systemFontOfSize:18]
@@ -54,7 +54,7 @@
             });
         }
         [_taskContentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(5, kTaskContentCell_PadingLeft-kTextView_Pading, 40, kTaskContentCell_PadingLeft-kTextView_Pading));
+            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(5, kTaskContentCell_PadingLeft-kTextView_Pading, 35, kTaskContentCell_PadingLeft-kTextView_Pading));
         }];
         [_creatorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.contentView.mas_left).offset(kTaskContentCell_PadingLeft);
@@ -101,12 +101,13 @@
 
 + (CGFloat)cellHeightWithObj:(id)obj{
     CGFloat cellHeight = 0;
-    if ([obj isKindOfClass:[Task class]]) {
-        Task *task = (Task *)obj;
-        CGFloat taskViewHeight = [task.content getHeightWithFont:kTaskContentCell_ContentFont constrainedToSize:CGSizeMake(kTaskContentCell_ContentWidth, CGFLOAT_MAX)];
-        taskViewHeight = MAX(taskViewHeight+kTextView_Pading*2, kTaskContentCell_ContentHeightMin);
-        cellHeight += taskViewHeight +40;
-    }
+    cellHeight += kTaskContentCell_ContentHeightMin + 40;
+//    if ([obj isKindOfClass:[Task class]]) {
+//        Task *task = (Task *)obj;
+//        CGFloat taskViewHeight = [task.content getHeightWithFont:kTaskContentCell_ContentFont constrainedToSize:CGSizeMake(kTaskContentCell_ContentWidth, CGFLOAT_MAX)];
+//        taskViewHeight = MAX(taskViewHeight+kTextView_Pading*2, kTaskContentCell_ContentHeightMin);
+//        cellHeight += taskViewHeight +40;
+//    }
     return cellHeight;
 }
 

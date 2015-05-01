@@ -13,6 +13,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = _curUser.name;
+    self.icarouselScrollEnabled = YES;
+}
+
+- (void)setupNavBtn{
+    self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = nil;
 }
 
@@ -25,7 +30,7 @@
 }
 
 - (Projects *)projectsWithIndex:(NSUInteger)index{
-    return [Projects projectsWithType:(index +3) andUser:self.curUser];
+    return [Projects projectsWithType:(index +ProjectsTypeTaProject) andUser:self.curUser];
 }
 
 @end

@@ -477,8 +477,13 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
+    [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
     [self.mySearchDisplayController setActive:YES animated:YES];
-    
+    return YES;
+}
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar{
+    [searchBar insertBGColor:nil];
     return YES;
 }
 
@@ -720,6 +725,7 @@
             cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
             cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
         }
+        cell.tintColor = [UIColor colorWithHexString:@"0x3bbd79"];
         //如果为自定义数据
         if([self.locationArray[indexPath.row][@"cellType"] isEqualToString:@"defualt"])
         {
@@ -732,7 +738,6 @@
                     }else {
                         cell.accessoryType = UITableViewCellAccessoryNone;
                     }
-                    cell.tintColor = [UIColor colorWithHexString:@"0x3bbd79"];
                     break;
                 case 1:
                     cell.textLabel.text = self.locationArray[indexPath.row][@"cityName"];

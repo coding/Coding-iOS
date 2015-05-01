@@ -9,8 +9,19 @@
 #import "BaseViewController.h"
 #import "Projects.h"
 
+typedef NS_ENUM(NSInteger, ProjectViewType)
+{
+    ProjectViewTypeActivities = 0,
+    ProjectViewTypeTasks,
+    ProjectViewTypeTopics,
+    ProjectViewTypeFiles,
+    ProjectViewTypeCodes,
+    ProjectViewTypeMembers
+};
+
 @interface ProjectViewController : BaseViewController
 @property (nonatomic, strong) Project *myProject;
 @property (nonatomic, assign) NSInteger curIndex;
+@property (nonatomic, assign, readonly) ProjectViewType curType;
 
 @end

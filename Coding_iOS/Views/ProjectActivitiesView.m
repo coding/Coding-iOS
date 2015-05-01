@@ -111,6 +111,7 @@
         listView.htmlItemClickedBlock = _htmlItemClickedBlock;
         listView.userIconClickedBlock = _userIconClickedBlock;
     }
+    [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
 }
 
@@ -127,5 +128,8 @@
     if (_mySegmentControl) {
         _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
+    [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
+    }];
 }
 @end

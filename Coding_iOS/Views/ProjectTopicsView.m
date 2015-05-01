@@ -255,7 +255,7 @@
         [_totalIndex replaceObjectAtIndex:1 withObject:[NSNumber numberWithInteger:tempIndex]];
         [self.mySegmentControl setTitle:_two[tempIndex] withIndex:1];
     }
-    
+ 
     [self.mySegmentControl setTitle:_total[segmentIndex][index] withIndex:segmentIndex];
 
     [self changeOrder];

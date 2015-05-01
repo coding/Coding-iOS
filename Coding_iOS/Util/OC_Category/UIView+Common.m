@@ -105,6 +105,15 @@ static char LoadingViewKey, BlankPageViewKey;
     return CGRectGetMaxX(self.frame);
 }
 
+- (void)setSubScrollsToTop:(BOOL)scrollsToTop{
+    [[self subviews] enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isKindOfClass:[UIScrollView class]]) {
+            [(UIScrollView *)obj setScrollEnabled:scrollsToTop];
+            *stop = YES;
+        }
+    }];
+}
+
 - (void)addGradientLayerWithColors:(NSArray *)cgColorArray{
     [self addGradientLayerWithColors:cgColorArray locations:nil startPoint:CGPointMake(0.0, 0.5) endPoint:CGPointMake(1.0, 0.5)];
 }

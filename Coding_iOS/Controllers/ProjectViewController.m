@@ -29,16 +29,6 @@
 #import "FolderToMoveViewController.h"
 #import "FileViewController.h"
 
-typedef NS_ENUM(NSInteger, ProjectViewType)
-{
-    ProjectViewTypeActivities = 0,
-    ProjectViewTypeTasks,
-    ProjectViewTypeTopics,
-    ProjectViewTypeFiles,
-    ProjectViewTypeCodes,
-    ProjectViewTypeMembers
-};
-
 @interface ProjectViewController ()
 
 @property (nonatomic, strong) NSMutableDictionary *projectContentDict;
@@ -170,6 +160,9 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
     return type;
 }
 
+- (ProjectViewType)curType{
+    return [self viewTypeFromIndex:_curIndex];
+}
 
 - (void)refreshWithNewIndex:(NSInteger)newIndex{
     ProjectViewType curViewType = [self viewTypeFromIndex:_curIndex];

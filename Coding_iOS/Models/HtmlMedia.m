@@ -68,14 +68,7 @@
     }else if ([element.tagName isEqualToString:@"a"]) {
         NSDictionary *attributes = element.attributes;
         NSString *element_Class = [attributes objectForKey:@"class"];
-        if (!element_Class || [element_Class isEqualToString:@"auto-link"]) {
-            //网址
-            if (element.text.length > 0) {
-                item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_AutoLink];
-                item.href = [attributes objectForKey:@"href"];
-                item.linkStr = element.text;
-            }
-        }else if ([element_Class isEqualToString:@"at-someone"]) {
+        if ([element_Class isEqualToString:@"at-someone"]) {
             //@了某个人
             item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_ATUser];
             item.href = [attributes objectForKey:@"href"];
@@ -90,6 +83,13 @@
                 item.src = [child.attributes objectForKey:@"src"];
             }else{
                 item.src = [attributes objectForKey:@"href"];
+            }
+        }else{
+            //网址
+            if (element.text.length > 0) {
+                item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_AutoLink];
+                item.href = [attributes objectForKey:@"href"];
+                item.linkStr = element.text;
             }
         }
     }else if ([element.tagName isEqualToString:@"img"]){

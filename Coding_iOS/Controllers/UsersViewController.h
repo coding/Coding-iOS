@@ -10,7 +10,7 @@
 #import "Users.h"
 #import "PrivateMessage.h"
 
-@interface UsersViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate,UISearchDisplayDelegate>
+@interface UsersViewController : BaseViewController
 @property (strong, nonatomic) Users *curUsers;
 @property (strong, nonatomic) PrivateMessage *curMessage;
 @property (copy, nonatomic) void(^selectUserBlock)(User *selectedUser);

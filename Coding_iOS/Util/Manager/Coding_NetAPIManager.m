@@ -243,6 +243,18 @@
         }];
     }
 }
+- (void)request_Project_Pin:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"设置常用项目"];
+    NSString *path = [NSString stringWithFormat:@"api/user/projects/pin"];
+    NSDictionary *params = @{@"ids": project.id.stringValue};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:project.pin.boolValue? Delete: Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 
 -(void)request_NewProject_WithObj:(Project *)project image:(UIImage *)image andBlock:(void (^)(NSString *, NSError *))block{
     [MobClick event:kUmeng_Event_Request label:@"创建项目"];
@@ -1363,11 +1375,10 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[priMsgs toPath] withParams:[priMsgs toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
         priMsgs.isLoading = NO;
         if (data) {
-            id resultData = [data valueForKeyPath:@"data"];
-            PrivateMessages *resultA = [NSObject objectOfClass:@"PrivateMessages" fromJSON:resultData];
+            id resultA = [PrivateMessages analyzeResponseData:data];
             block(resultA, nil);
-            if (priMsgs.curFriend && priMsgs.curFriend.global_key) {
-                //            标记为已读
+            
+            if (priMsgs.curFriend && priMsgs.curFriend.global_key) {//标记为已读
                 [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"api/message/conversations/%@/read", priMsgs.curFriend.global_key] withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
                     if (data) {
                         [[UnReadManager shareManager] updateUnRead];
@@ -1376,19 +1387,36 @@
                 }];
             }
             //存储到本地
-            if (!priMsgs.willLoadMore && resultData) {
-                [NSObject saveResponseData:resultData toPath:[priMsgs localPrivateMessagesPath]];
+            if (!priMsgs.willLoadMore && data) {
+                [NSObject saveResponseData:data toPath:[priMsgs localPrivateMessagesPath]];
             }
         }else{
             //读取本地存储
             if (!priMsgs.willLoadMore) {
                 NSDictionary *resultData = [NSObject loadResponseWithPath:[priMsgs localPrivateMessagesPath]];
                 if (resultData) {
-                    PrivateMessages *resultA = [NSObject objectOfClass:@"PrivateMessages" fromJSON:resultData];
+                    id resultA = [PrivateMessages analyzeResponseData:resultData];
                     block(resultA, nil);
                     return;
                 }
             }
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_Fresh_PrivateMessages:(PrivateMessages *)priMsgs andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"轮询私信列表"];
+    priMsgs.isPolling = YES;
+    __weak PrivateMessages *weakMsgs = priMsgs;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[priMsgs toPollPath] withParams:[priMsgs toPollParams] withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        __strong PrivateMessages *strongMsgs = weakMsgs;
+        strongMsgs.isPolling = NO;
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"PrivateMessage"];
+            block(resultA, nil);
+        }else{
             block(nil, error);
         }
     }];

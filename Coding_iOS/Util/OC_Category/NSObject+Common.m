@@ -42,13 +42,14 @@
     }
     return nil;
 }
-- (void)showError:(NSError *)error{
+- (BOOL)showError:(NSError *)error{
     if ([JDStatusBarNotification isVisible]) {//如果statusBar上面正在显示信息，则不再用hud显示error
         NSLog(@"如果statusBar上面正在显示信息，则不再用hud显示error");
-        return;
+        return NO;
     }
     NSString *tipStr = [self tipFromError:error];
     [self showHudTipStr:tipStr];
+    return YES;
 }
 - (void)showHudTipStr:(NSString *)tipStr{
     if (tipStr && tipStr.length > 0) {
@@ -239,13 +240,18 @@
 
 #pragma mark NetError
 -(id)handleResponse:(id)responseJSON{
+    return [self handleResponse:responseJSON autoShowError:YES];
+}
+-(id)handleResponse:(id)responseJSON autoShowError:(BOOL)autoShowError{
     NSError *error = nil;
     //code为非0值时，表示有错
     NSNumber *resultCode = [responseJSON valueForKeyPath:@"code"];
     
     if (resultCode.intValue != 0) {
         error = [NSError errorWithDomain:kNetPath_Code_Base code:resultCode.intValue userInfo:responseJSON];
-        [self showError:error];
+        if (autoShowError) {
+            [self showError:error];
+        }
         
         if (resultCode.intValue == 1000) {//用户未登录
             [Login doLogout];

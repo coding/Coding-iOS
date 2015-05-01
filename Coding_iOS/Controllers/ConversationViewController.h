@@ -13,5 +13,5 @@
 
 @interface ConversationViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, QBImagePickerControllerDelegate, UIMessageInputViewDelegate>
 @property (strong, nonatomic) PrivateMessages *myPriMsgs;
-- (void)refreshLoadMore:(BOOL)willLoadMore;
+- (void)doPoll;
 @end

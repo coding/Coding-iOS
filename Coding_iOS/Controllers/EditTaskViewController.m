@@ -324,6 +324,7 @@
             };
             cell.textViewBecomeFirstResponderBlock = ^(){
                 [weakSelf.myMsgInputView isAndResignFirstResponder];
+                [weakSelf.myTableView setContentOffset:CGPointZero animated:YES];
             };
             cell.deleteBtnClickedBlock = ^(Task *toDelete){
                 [weakSelf.view endEditing:YES];

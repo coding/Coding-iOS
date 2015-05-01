@@ -14,6 +14,8 @@
 #import "ProjectListCell.h"
 
 @interface ProjectListCell ()
+@property (nonatomic, strong) Project *project;
+
 @property (nonatomic, strong) UIImageView *projectIconView, *privateIconView;
 @property (nonatomic, strong) UILabel *projectTitleLabel;
 @property (nonatomic, strong) UILabel *ownerTitleLabel;
@@ -66,15 +68,12 @@
             make.left.equalTo(_projectTitleLabel);
             make.centerY.mas_equalTo(_ownerTitleLabel.mas_centerY).offset(1);
         }];
-        
-        
-        
     }
     return self;
 }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
+- (void)setProject:(Project *)project withSWButtons:(BOOL)hasSWButtons{
+    _project = project;
     if (!_project) {
         return;
     }
@@ -98,7 +97,15 @@
         }
     }
     [self.contentView addBadgeTip:badgeTip withCenterPosition:CGPointMake(10+kProjectListCell_IconHeight, 15)];
+    [self setRightUtilityButtons:hasSWButtons? [self rightButtons]: nil
+                 WithButtonWidth:[[self class] cellHeight]];
+}
 
+- (NSArray *)rightButtons{
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:_project.pin.boolValue? @"0xe6e6e6": @"0x3bbd79"]
+                                                 icon:[UIImage imageNamed:_project.pin.boolValue? @"icon_project_cell_pin": @"icon_project_cell_nopin"]];
+    return rightUtilityButtons;
 }
 
 + (CGFloat)cellHeight{
