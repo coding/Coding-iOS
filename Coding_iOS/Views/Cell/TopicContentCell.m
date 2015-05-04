@@ -9,17 +9,26 @@
 #define kTopicContentCell_FontTitle [UIFont boldSystemFontOfSize:18]
 #define kTopicContentCell_FontContent [UIFont systemFontOfSize:15]
 
-
 #import "TopicContentCell.h"
 #import "WebContentManager.h"
+#import "ProjectTopicLabel.h"
+#import "Coding_NetAPIManager.h"
+#import "ProjectTopicLabelView.h"
 
-@interface TopicContentCell ()
+@interface TopicContentCell () <UIWebViewDelegate>
+
 @property (strong, nonatomic) UIImageView *userIconView;
 @property (strong, nonatomic) UILabel *titleLabel, *timeLabel, *commentCountLabel;
 @property (strong, nonatomic) UIButton *commentBtn, *deleteBtn;
 @property (strong, nonatomic) UIWebView *webContentView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+
+@property (strong, nonatomic) ProjectTopicLabelView *labelView;
+@property (strong, nonatomic) UIButton *labelAddBtn;
+//@property (strong, nonatomic) UIView *lineView;
+
 @end
+
 @implementation TopicContentCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -34,7 +43,7 @@
             [_userIconView doCircleFrame];
             [self.contentView addSubview:_userIconView];
         }
-        CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
+        CGFloat curWidth = kScreen_Width - 2 * kPaddingLeftWidth;
         if (!_titleLabel) {
             _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15,  curWidth, 30)];
             _titleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
@@ -47,7 +56,18 @@
             _timeLabel.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_timeLabel];
         }
-        curWidth = kScreen_Width - 2*kPaddingLeftWidth;
+        if (!_labelAddBtn) {
+            _labelAddBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width-44, 0, 44, 44)];
+            [_labelAddBtn setImage:[UIImage imageNamed:@"tag_add"] forState:UIControlStateNormal];
+            [_labelAddBtn setImageEdgeInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
+            [_labelAddBtn addTarget:self action:@selector(addtitleBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:_labelAddBtn];
+        }
+//        if (!_lineView) {
+//            _lineView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, 1)];
+//            _lineView.backgroundColor = kColorTableSectionBg;
+//            [self.contentView addSubview:_lineView];
+//        }
         if (!self.webContentView) {
             self.webContentView = [[UIWebView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, 1)];
             self.webContentView.delegate = self;
@@ -98,26 +118,49 @@
     return self;
 }
 
-- (void)setCurTopic:(ProjectTopic *)curTopic{
+- (void)setCurTopic:(ProjectTopic *)curTopic
+{
     if (curTopic) {
         _curTopic = curTopic;
     }
-    
+
     CGFloat curBottomY = 0;
     CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
-    [_userIconView sd_setImageWithURL:[_curTopic.owner.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
     [_titleLabel setLongString:_curTopic.title withFitWidth:curWidth];
-    curBottomY += CGRectGetMaxY(_titleLabel.frame) + 15;
     
+    curBottomY += CGRectGetMaxY(_titleLabel.frame) + 15;
+
+    [_userIconView sd_setImageWithURL:[_curTopic.owner.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
     [_userIconView setY:curBottomY];
     [_timeLabel setY:curBottomY];
     _timeLabel.attributedText = [self getStringWithName:_curTopic.owner.name andTime:[_curTopic.created_at stringTimesAgo]];
 
-    curBottomY += 8+ 20;
+    curBottomY += 16 + 20;
     
-    //    讨论的内容
+    if (_labelView) {
+        [_labelView removeFromSuperview];
+    }
+    _labelView = [[ProjectTopicLabelView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, 20) projectTopic:_curTopic md:NO];
+    __weak typeof(self) weakSelf = self;
+   _labelView.delLabelBlock = ^(NSInteger index) {
+       [weakSelf delBtnClick:index];
+    };
+    [self.contentView insertSubview:_labelView belowSubview:_labelAddBtn];
+    
+    [_labelAddBtn setY:curBottomY - 11];
+    [_labelView setY:curBottomY];
+    [_labelView setHeight:_labelView.labelH];
+    //_labelAddBtn.hidden = [_curTopic canEdit] ? FALSE : TRUE;
+    
+    //curBottomY += _labelView.labelH + 12;
+    //[_lineView setY:curBottomY];
+
+    
+    // 讨论的内容
+    //curBottomY += 12;
+    curBottomY += _labelView.labelH + 3;
     [self.webContentView setY:curBottomY];
-    [self.activityIndicator setCenter:CGPointMake(self.webContentView.center.x, curBottomY +10)];
+    [self.activityIndicator setCenter:CGPointMake(self.webContentView.center.x, curBottomY + 10)];
     [self.webContentView setHeight:_curTopic.contentHeight];
     
     if (!_webContentView.isLoading) {
@@ -127,19 +170,33 @@
         }
     }
     
-    curBottomY += _curTopic.contentHeight+5;
-    [_commentCountLabel setY:curBottomY+2];
+    curBottomY += _curTopic.contentHeight + 5;
+    [_commentCountLabel setY:curBottomY + 2];
     _commentCountLabel.text = [NSString stringWithFormat:@"%d条评论", _curTopic.child_count.intValue];
     [_commentBtn setY:curBottomY];
     if ([_curTopic canEdit]) {
         _deleteBtn.hidden = NO;
         [_deleteBtn setY:curBottomY];
-    }else{
+    } else {
         _deleteBtn.hidden = YES;
     }
 }
 
-- (NSMutableAttributedString*)getStringWithName:(NSString *)nameStr andTime:(NSString *)timeStr{
+- (void)delBtnClick:(NSInteger )index;
+{
+    [_curTopic.mdLabels removeObjectAtIndex:index];
+    @weakify(self);
+    [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoicLabel:self.curTopic andBlock:^(id data, NSError *error) {
+        @strongify(self);
+        if (data) {
+            _curTopic.labels = [NSMutableArray arrayWithArray:_curTopic.mdLabels];
+            [self setCurTopic:_curTopic];
+        }
+    }];
+}
+
+- (NSMutableAttributedString*)getStringWithName:(NSString *)nameStr andTime:(NSString *)timeStr
+{
     NSMutableAttributedString *attriString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ 发布于 %@", nameStr, timeStr]];
     [attriString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
                                  NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
@@ -151,35 +208,65 @@
     return  attriString;
 }
 
-+ (CGFloat)cellHeightWithObj:(id)obj{
++ (CGFloat)cellHeightWithObj:(id)obj
+{
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[ProjectTopic class]]) {
         ProjectTopic *topic = (ProjectTopic *)obj;
         CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
-        cellHeight += 8 + [topic.title getHeightWithFont:kTopicContentCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] +15 +20 +15;
+        cellHeight += 8 + [topic.title getHeightWithFont:kTopicContentCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 16 + 20;
+        
+        CGFloat labelH = 20;
+        if (topic.labels.count > 0) {
+            CGFloat x = 0.0f;
+            CGFloat y = 0.0f;
+            CGFloat limitW = kScreen_Width - kPaddingLeftWidth - 44;
+            
+            UILabel *tLbl = [[UILabel alloc] initWithFrame:CGRectMake(x, y, 0, 0)];
+            tLbl.font = [UIFont systemFontOfSize:12];
+            tLbl.textAlignment = NSTextAlignmentCenter;
+            
+            for (ProjectTopicLabel *label in topic.labels) {
+                tLbl.text = label.name;
+                [tLbl sizeToFit];
+                
+                CGFloat width = tLbl.frame.size.width + 20;
+                if (x + width > limitW) {
+                    y += 26.0f;
+                    x = 0.0f;
+                }
+                x += width;
+            }
+            labelH = y + 20;
+        }
+        //cellHeight += labelH + 24;
+        cellHeight += labelH + 3;
         cellHeight += topic.contentHeight;
-        cellHeight += 5+ 25+ 5;
+        cellHeight += 25 + 25 + 5;
     }
     return cellHeight;
 }
 
 #pragma mark UIWebViewDelegate
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
     NSString *strLink = request.URL.absoluteString;
-    NSLog(@"strLink=[%@]",strLink);
+    NSLog(@"strLink=[%@]", strLink);
     if ([strLink rangeOfString:@"about:blank"].location != NSNotFound) {
         return YES;
-    }else{
+    } else {
         if (_loadRequestBlock) {
             _loadRequestBlock(request);
         }
         return NO;
     }
 }
-- (void)webViewDidStartLoad:(UIWebView *)webView{
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
     [_activityIndicator startAnimating];
 }
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
     [self refreshwebContentView];
     [_activityIndicator stopAnimating];
     CGFloat scrollHeight = webView.scrollView.contentSize.height;
@@ -191,7 +278,8 @@
         }
     }
 }
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
     [_activityIndicator stopAnimating];
     if([error code] == NSURLErrorCancelled)
         return;
@@ -199,7 +287,8 @@
         DebugLog(@"%@", error.description);
 }
 
-- (void)refreshwebContentView{
+- (void)refreshwebContentView
+{
     if (_webContentView) {
         //        NSString *js = @"window.onload = function(){ document.body.style.backgroundColor = '#333333';}";
         //        [_webContentView stringByEvaluatingJavaScriptFromString:js];
@@ -208,6 +297,15 @@
         [_webContentView stringByEvaluatingJavaScriptFromString:meta];
     }
 }
+
+#pragma mark - click
+- (void)addtitleBtnClick
+{
+    if (_addLabelBlock) {
+        _addLabelBlock();
+    }
+}
+
 #pragma mark Btn M
 - (void)commentBtnClicked:(id)sender{
     __weak typeof(self) weakSelf = self;

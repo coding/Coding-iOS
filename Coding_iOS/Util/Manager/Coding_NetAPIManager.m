@@ -11,7 +11,7 @@
 #import "UnReadManager.h"
 #import <NYXImagesKit/NYXImagesKit.h>
 #import "MBProgressHUD+Add.h"
-
+#import "ProjectTopicLabel.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -800,19 +800,38 @@
                 if (dataMD) {
                     resultT.mdTitle = [[dataMD valueForKey:@"data"] valueForKey:@"title"];
                     resultT.mdContent = [[dataMD valueForKey:@"data"] valueForKey:@"content"];
+                    id labels = [[dataMD valueForKey:@"data"] valueForKey:@"labels"];
+                    resultT.mdLabels = [NSObject arrayFromJSON:labels  ofObjects:@"ProjectTopicLabel"];
                     block(resultT, nil);
                 }else{
                     proTopic.isTopicLoading = NO;
                     block(nil, errorMD);
                 }
             }];
-        }else{
+        } else {
             proTopic.isTopicLoading = NO;
             block(nil, error);
         }
     }];
 }
-- (void)request_ModifyProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block{
+- (void)request_ModifyProjectTpoicLabel:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"项目讨论_批量修改标签"];
+    proTopic.isTopicEditLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toLabelPath]
+                                                        withParams:[proTopic toLabelParams]
+                                                    withMethodType:Post
+                                                          andBlock:^(id data, NSError *error) {
+        proTopic.isTopicEditLoading = NO;
+        if (data) {
+            block(data, nil);
+        } else {
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_ModifyProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block
+{
     [MobClick event:kUmeng_Event_Request label:@"项目讨论详情_提交编辑"];
     proTopic.isTopicEditLoading = YES;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:[proTopic toEditParams] withMethodType:Put andBlock:^(id data, NSError *error) {
@@ -880,6 +899,165 @@
         }
     }];
 }
+
+- (void)request_ProjectTopic_Count_WithPath:(NSString *)path
+                                   andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"项目讨论计数"];
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
+                                                        withParams:nil
+                                                    withMethodType:Get
+                                                          andBlock:^(id data, NSError *error) {
+                                                              if (data) {
+                                                                  id resultData = [data valueForKeyPath:@"data"];
+                                                                  block(resultData, nil);
+                                                              } else {
+                                                                  block(nil, error);
+                                                              }
+                                                          }];
+}
+- (void)request_ProjectTopic_LabelAll_WithPath:(NSString *)path
+                                      andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"项目讨论所有被使用标签"];
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
+                                                        withParams:nil
+                                                    withMethodType:Get
+                                                          andBlock:^(id data, NSError *error) {
+                                                              if (data) {
+                                                                  id resultData = [data valueForKeyPath:@"data"];
+                                                                  NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectTopicLabel"];
+                                                                  block(resultA, nil);
+                                                              } else {
+                                                                  block(nil, error);
+                                                              }
+                                                          }];
+}
+- (void)request_ProjectTopic_LabelMy_WithPath:(NSString *)path
+                                     andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"项目讨论与我相关被使用标签"];
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
+                                                        withParams:nil
+                                                    withMethodType:Get
+                                                          andBlock:^(id data, NSError *error) {
+                                                              if (data) {
+                                                                  id resultData = [data valueForKeyPath:@"data"];
+                                                                  NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectTopicLabel"];
+                                                                  block(resultA, nil);
+                                                              } else {
+                                                                  block(nil, error);
+                                                              }
+                                                          }];
+}
+
+- (void)request_ProjectTopic_AddLabel_WithPath:(NSString *)path
+                                   andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"项目讨论增加标签"];
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
+                                                        withParams:nil
+                                                    withMethodType:Post
+                                                          andBlock:^(id data, NSError *error) {
+                                                              if (data) {
+                                                                  block(nil, nil);
+                                                              } else {
+                                                                  block(nil, error);
+                                                              }
+                                                          }];
+}
+
+- (void)request_ProjectTopic_DelLabel_WithPath:(NSString *)path
+                                   andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"项目讨论删除标签"];
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
+                                                        withParams:nil
+                                                    withMethodType:Delete
+                                                          andBlock:^(id data, NSError *error) {
+                                                              if (data) {
+                                                                  block(nil, nil);
+                                                              } else {
+                                                                  block(nil, error);
+                                                              }
+                                                          }];
+}
+
+#pragma mark - Topic Label
+- (void)request_ProjectTopicLabel_WithPath:(NSString *)path
+                                  andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"项目讨论标签"];
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
+                                                        withParams:nil
+                                                    withMethodType:Get
+                                                          andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectTopicLabel"];
+            block(resultA, nil);
+        } else {
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_ProjectTopicLabel_Del_WithPath:(NSString *)path
+                                      andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"删除项目讨论标签"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
+                                                        withParams:nil
+                                                    withMethodType:Delete
+                                                          andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        } else {
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_ProjectTopicLabel_Add_WithPath:(NSString *)path
+                                    withParams:params
+                                      andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"添加项目讨论标签"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
+                                                        withParams:params
+                                                    withMethodType:Post
+                                                          andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            block(resultData, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_ProjectTopicLabel_Modify_WithPath:(NSString *)path
+                                       withParams:params
+                                         andBlock:(void (^)(id data, NSError *error))block
+{
+    [MobClick event:kUmeng_Event_Request label:@"更新项目讨论标签"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
+                                                        withParams:params
+                                                    withMethodType:Put
+                                                          andBlock:^(id data, NSError *error) {
+                                                              if (data) {
+                                                                  id resultData = [data valueForKeyPath:@"data"];
+                                                                  ProjectTopicLabel *resultT = [NSObject objectOfClass:@"ProjectTopicLabel" fromJSON:resultData];
+                                                                  block(resultT, nil);
+                                                              }else{
+                                                                  block(nil, error);
+                                                              }
+                                                          }];
+}
+
 #pragma mark Tweet
 - (void)request_Tweets_WithObj:(Tweets *)tweets andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"冒泡列表"];

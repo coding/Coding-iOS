@@ -17,8 +17,12 @@
 @interface ProjectTopic : NSObject
 
 @property (readwrite, nonatomic, strong) NSNumber *id, *child_count, *current_user_role_id, *owner_id, *project_id, *parent_id;
-@property (readwrite, nonatomic, strong) NSDate *created_at, *updated_at;
+@property (readwrite, nonatomic, strong) NSDate *created_at;
+@property (readwrite, nonatomic, strong) NSDate *updated_at;
 @property (readwrite, nonatomic, strong) NSString *title, *content, *path;
+@property (readwrite, strong, nonatomic) NSMutableArray *labels;
+@property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
+
 @property (readwrite, nonatomic, strong) User *owner;
 @property (readwrite, nonatomic, strong) Project *project;
 @property (readwrite, nonatomic, strong) ProjectTopic *parent;
@@ -28,6 +32,7 @@
 @property (assign, nonatomic) CGFloat contentHeight;
 
 @property (strong, nonatomic) NSString *mdTitle, *mdContent;
+@property (strong, nonatomic) NSMutableArray *mdLabels;
 
 @property (readwrite, nonatomic, strong) NSNumber *page, *pageSize, *totalPage, *totalRow;
 @property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading, isTopicLoading, isTopicEditLoading;
@@ -35,9 +40,12 @@
 + (ProjectTopic *)feedbackTopic;
 + (ProjectTopic *)topicWithPro:(Project *)pro;
 + (ProjectTopic *)topicWithId:(NSNumber *)topicId;
-- (NSString *)toTopicPath;
 
+- (NSString *)toTopicPath;
 - (NSDictionary *)toEditParams;
+
+- (NSString *)toLabelPath;
+- (NSDictionary *)toLabelParams;
 
 - (NSString *)toAddTopicPath;
 - (NSDictionary *)toAddTopicParams;

@@ -126,7 +126,8 @@
     _preview.hidden = YES;
 }
 
-- (void)loadPreview{
+- (void)loadPreview
+{
     if (!_preview) {
         _preview = [[UIWebView alloc] initWithFrame:self.view.bounds];
         _preview.delegate = self;

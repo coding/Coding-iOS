@@ -31,11 +31,14 @@ typedef void(^XTSegmentControlBlock)(NSInteger index);
 - (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem delegate:(id <XTSegmentControlDelegate>)delegate;
 
 - (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem selectedBlock:(XTSegmentControlBlock)selectedHandle;
+- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem withIcon:(BOOL)isIcon selectedBlock:(XTSegmentControlBlock)selectedHandle;
 
 - (void)selectIndex:(NSInteger)index;
 
 - (void)moveIndexWithProgress:(float)progress;
 
 - (void)endMoveIndex:(NSInteger)index;
+
+- (void)setTitle:(NSString *)title withIndex:(NSInteger)index;
 
 @end

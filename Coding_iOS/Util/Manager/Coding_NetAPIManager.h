@@ -95,6 +95,30 @@
 - (void)request_DoComment_WithProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectTopic_Delete_WithObj:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block;
 
+- (void)request_ModifyProjectTpoicLabel:(ProjectTopic *)proTopic
+                               andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectTopic_Count_WithPath:(NSString *)path
+                                   andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectTopic_LabelAll_WithPath:(NSString *)path
+                                      andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectTopic_LabelMy_WithPath:(NSString *)path
+                                     andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectTopic_AddLabel_WithPath:(NSString *)path
+                                      andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectTopic_DelLabel_WithPath:(NSString *)path
+                                      andBlock:(void (^)(id data, NSError *error))block;
+
+// Topic Label
+- (void)request_ProjectTopicLabel_WithPath:(NSString *)path
+                                  andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectTopicLabel_Del_WithPath:(NSString *)path
+                                      andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectTopicLabel_Add_WithPath:(NSString *)path
+                                    withParams:params
+                                      andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectTopicLabel_Modify_WithPath:(NSString *)path
+                                       withParams:params
+                                         andBlock:(void (^)(id data, NSError *error))block;
 
 //Tweet
 - (void)request_Tweets_WithObj:(Tweets *)tweets andBlock:(void (^)(id data, NSError *error))block;
