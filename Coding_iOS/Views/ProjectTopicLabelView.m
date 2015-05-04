@@ -21,7 +21,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _labelH = 24;
+        _labelH = 22;
         NSArray *labelAry = isMD ? topic.mdLabels : topic.labels;
         if (labelAry.count > 0) {
             CGFloat x = 0.0f;
@@ -45,12 +45,12 @@
                     y += 30.0f;
                     x = 0.0f;
                 }
-                [tLbl setFrame:CGRectMake(x, y, width - 4, 24)];
+                [tLbl setFrame:CGRectMake(x, y, width - 4, 22)];
                 x += width;
                 
                 [self addSubview:tLbl];
             }
-            _labelH = y + 24;
+            _labelH = y + 22;
         } else {
             UIImageView *iconImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, (_labelH - 20) * 0.5, 20, 20)];
             [iconImg setImage:[UIImage imageNamed:@"tag_icon"]];

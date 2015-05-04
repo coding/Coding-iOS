@@ -216,7 +216,7 @@
         CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
         cellHeight += 8 + [topic.title getHeightWithFont:kTopicContentCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 16 + 20;
         
-        CGFloat labelH = 24;
+        CGFloat labelH = 22;
         if (topic.labels.count > 0) {
             CGFloat x = 0.0f;
             CGFloat y = 0.0f;
@@ -237,7 +237,7 @@
                 }
                 x += width;
             }
-            labelH = y + 24;
+            labelH = y + 22;
         }
         //cellHeight += labelH + 24;
         cellHeight += labelH + 3;
