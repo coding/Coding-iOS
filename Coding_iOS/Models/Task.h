@@ -33,7 +33,7 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 @property (readwrite, nonatomic, strong) NSString *nextCommentStr;
 @property (strong, nonatomic) Task_Description *task_description;
 
-+ (Task *)taskWithProject:(Project *)project;
++ (Task *)taskWithProject:(Project *)project andUser:(User *)user;
 + (Task *)taskWithBackend_project_path:(NSString *)backend_project_path andId:(NSString *)taskId;
 + (Task *)taskWithTask:(Task *)task;
 - (BOOL)isSameToTask:(Task *)task;

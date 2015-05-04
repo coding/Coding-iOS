@@ -7,10 +7,11 @@
 //
 
 #import "ProjectTasksView.h"
-#import "Tasks.h"
 #import "Coding_NetAPIManager.h"
+#import "XTSegmentControl.h"
+#import "iCarousel.h"
 
-@interface ProjectTasksView ()
+@interface ProjectTasksView ()<iCarouselDataSource, iCarouselDelegate>
 @property (nonatomic, strong) Project *myProject;
 @property (nonatomic , copy) ProjectTaskBlock block;
 @property (strong, nonatomic) NSMutableDictionary *myProTksDict;
@@ -75,6 +76,10 @@
         ProjectTaskListView *listView = (ProjectTaskListView *)currentItemView;
         [listView refreshToQueryData];
     }
+}
+- (ProjectMember *)selectedMember{
+    ProjectMember *curMember = [_myMemberList objectAtIndex:_myCarousel.currentItemIndex];
+    return curMember;
 }
 
 #pragma mark iCarousel M

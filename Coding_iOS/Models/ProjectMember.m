@@ -12,6 +12,7 @@
 + (ProjectMember *)member_All{
     ProjectMember *mem = [[ProjectMember alloc] init];
     mem.user_id = [NSNumber numberWithInteger:-1];
+    mem.user = nil;
     return mem;
 }
 - (NSString *)toQuitPath{

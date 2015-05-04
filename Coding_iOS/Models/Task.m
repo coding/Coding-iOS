@@ -42,11 +42,11 @@
     }
 }
 
-+ (Task *)taskWithProject:(Project *)project{
++ (Task *)taskWithProject:(Project *)project andUser:(User *)user{
     Task *curTask = [[Task alloc] init];
     curTask.project = project;
     curTask.creator = [Login curLoginUser];
-    curTask.owner = [Login curLoginUser];
+    curTask.owner = user? user: [Login curLoginUser];
     curTask.status = [NSNumber numberWithInt:1];
     curTask.handleType = TaskHandleTypeAdd;
     curTask.priority = [NSNumber numberWithInt:1];

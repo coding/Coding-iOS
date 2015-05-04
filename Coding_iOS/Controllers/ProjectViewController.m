@@ -413,8 +413,13 @@
     switch (curViewType) {
         case ProjectViewTypeTasks:
         {
+            UIView *curView = [self getCurContentView];
+            if (![curView isKindOfClass:[ProjectTasksView class]]) {
+                return;
+            }
+            ProjectTasksView *tasksView = (ProjectTasksView *)curView;
             EditTaskViewController *vc = [[EditTaskViewController alloc] init];
-            vc.myTask = [Task taskWithProject:self.myProject];
+            vc.myTask = [Task taskWithProject:self.myProject andUser:tasksView.selectedMember.user];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
