@@ -21,7 +21,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _labelH = 20;
+        _labelH = 24;
         NSArray *labelAry = isMD ? topic.mdLabels : topic.labels;
         if (labelAry.count > 0) {
             CGFloat x = 0.0f;
@@ -40,24 +40,24 @@
               
                 [tLbl sizeToFit];
                 
-                CGFloat width = tLbl.frame.size.width + 20;
+                CGFloat width = tLbl.frame.size.width + 30;
                 if (x + width > limitW) {
-                    y += 26.0f;
+                    y += 30.0f;
                     x = 0.0f;
                 }
-                [tLbl setFrame:CGRectMake(x, y, width - 4, 20)];
+                [tLbl setFrame:CGRectMake(x, y, width - 4, 24)];
                 x += width;
                 
                 [self addSubview:tLbl];
             }
-            _labelH = y + 20;
+            _labelH = y + 24;
         } else {
-            UIImageView *iconImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 2, 15, 15)];
+            UIImageView *iconImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, (_labelH - 20) * 0.5, 20, 20)];
             [iconImg setImage:[UIImage imageNamed:@"tag_icon"]];
             
-            UILabel *tLbl = [[UILabel alloc] initWithFrame:CGRectMake(20, 2, 30, 15)];
+            UILabel *tLbl = [[UILabel alloc] initWithFrame:CGRectMake(25, (_labelH - 20) * 0.5, 40, 20)];
             
-            tLbl.font = [UIFont systemFontOfSize:14];
+            tLbl.font = [UIFont systemFontOfSize:15];
             tLbl.text = @"标签";
             tLbl.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
             

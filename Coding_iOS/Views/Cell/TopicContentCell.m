@@ -59,7 +59,7 @@
         if (!_labelAddBtn) {
             _labelAddBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width-44, 0, 44, 44)];
             [_labelAddBtn setImage:[UIImage imageNamed:@"tag_add"] forState:UIControlStateNormal];
-            [_labelAddBtn setImageEdgeInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
+            [_labelAddBtn setImageEdgeInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
             [_labelAddBtn addTarget:self action:@selector(addtitleBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:_labelAddBtn];
         }
@@ -140,14 +140,14 @@
     if (_labelView) {
         [_labelView removeFromSuperview];
     }
-    _labelView = [[ProjectTopicLabelView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, 20) projectTopic:_curTopic md:NO];
+    _labelView = [[ProjectTopicLabelView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, 24) projectTopic:_curTopic md:NO];
     __weak typeof(self) weakSelf = self;
    _labelView.delLabelBlock = ^(NSInteger index) {
        [weakSelf delBtnClick:index];
     };
     [self.contentView insertSubview:_labelView belowSubview:_labelAddBtn];
     
-    [_labelAddBtn setY:curBottomY - 11];
+    [_labelAddBtn setY:curBottomY - 10];
     [_labelView setY:curBottomY];
     [_labelView setHeight:_labelView.labelH];
     //_labelAddBtn.hidden = [_curTopic canEdit] ? FALSE : TRUE;
@@ -216,7 +216,7 @@
         CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
         cellHeight += 8 + [topic.title getHeightWithFont:kTopicContentCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 16 + 20;
         
-        CGFloat labelH = 20;
+        CGFloat labelH = 24;
         if (topic.labels.count > 0) {
             CGFloat x = 0.0f;
             CGFloat y = 0.0f;
@@ -230,14 +230,14 @@
                 tLbl.text = label.name;
                 [tLbl sizeToFit];
                 
-                CGFloat width = tLbl.frame.size.width + 20;
+                CGFloat width = tLbl.frame.size.width + 30;
                 if (x + width > limitW) {
-                    y += 26.0f;
+                    y += 30.0f;
                     x = 0.0f;
                 }
                 x += width;
             }
-            labelH = y + 20;
+            labelH = y + 24;
         }
         //cellHeight += labelH + 24;
         cellHeight += labelH + 3;

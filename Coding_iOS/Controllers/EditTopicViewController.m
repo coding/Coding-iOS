@@ -155,7 +155,7 @@
         if (self.type != TopicEditTypeFeedBack) {
             _labelAddBtn = [[UIButton alloc] initWithFrame:CGRectZero];
             [_labelAddBtn setImage:[UIImage imageNamed:@"tag_add"] forState:UIControlStateNormal];
-            [_labelAddBtn setImageEdgeInsets:UIEdgeInsetsMake(14, 14, 14, 14)];
+            [_labelAddBtn setImageEdgeInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
             [_labelAddBtn addTarget:self action:@selector(addtitleBtnClick) forControlEvents:UIControlEventTouchUpInside];
             [_editView addSubview:_labelAddBtn];
         }
@@ -221,7 +221,7 @@
         }];
         
         [_labelAddBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_labelView.mas_top).offset(-12.0);
+            make.top.equalTo(_labelView.mas_top).offset(-10);
             make.right.equalTo(_editView);
             
             make.width.mas_equalTo(44);
