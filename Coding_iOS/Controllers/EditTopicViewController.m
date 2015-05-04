@@ -86,9 +86,9 @@
     self.curIndex = 0;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
     
     if (_curIndex == 0) {
         [self loadEditView];

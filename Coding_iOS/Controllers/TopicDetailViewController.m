@@ -99,7 +99,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self refreshTopic];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -113,6 +112,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self refreshTopic];
     // 键盘
     if (_myMsgInputView) {
         if (!_myMsgInputView.toUser) {
