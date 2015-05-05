@@ -1553,7 +1553,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
     hud.removeFromSuperViewOnHide = YES;
     hud.labelText = @"正在Fork项目";
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
 //        此处得到的 data 是一个GitPro，需要在请求一次Pro的详细信息
         if (data) {
             project.forked = [NSNumber numberWithBool:!project.forked.boolValue];
