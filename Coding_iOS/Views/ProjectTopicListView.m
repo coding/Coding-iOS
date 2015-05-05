@@ -181,7 +181,7 @@
 {
     ProjectTopicCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectTopic forIndexPath:indexPath];
     cell.curTopic = [self.myProTopics.list objectAtIndex:indexPath.row];
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0 hasSectionLine:indexPath.row != 0];
     return cell;
 }
 
