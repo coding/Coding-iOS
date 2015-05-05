@@ -121,14 +121,41 @@
 }
 
 - (NSInteger)p_lastId{
-    NSInteger last_id;
-    if (!_list || _list.count <= 0) {
-        last_id = 0;
-    }else{
-        PrivateMessage *last_Msg = [_list firstObject];
-        last_id = last_Msg.id.integerValue;
-    }
+    __block NSInteger last_id = 0;
+    [_list enumerateObjectsUsingBlock:^(PrivateMessage *obj, NSUInteger idx, BOOL *stop) {
+        if (obj.sender.id.integerValue != obj.friend.id.integerValue) {
+            last_id = obj.id.integerValue;
+            *stop = YES;
+        }
+    }];
     return last_id;
+}
+
+- (BOOL)p_addMsg:(PrivateMessage *)aMsg{
+    NSInteger curId = aMsg.id.integerValue;
+    
+    __block NSInteger add_index;
+    __block BOOL needToAdd = NO;
+    
+    if (self.list.count > 0) {
+        [self.list enumerateObjectsUsingBlock:^(PrivateMessage *obj, NSUInteger idx, BOOL *stop) {
+            if (curId == obj.id.integerValue) {
+                needToAdd = NO;
+                *stop = YES;
+            }else if (curId > obj.id.integerValue){
+                needToAdd = YES;
+                add_index = idx;
+                *stop = YES;
+            }
+        }];
+        if (needToAdd) {
+            [self.list insertObject:aMsg atIndex:add_index];
+        }
+    }else{
+        needToAdd = YES;
+        [self.list addObject:aMsg];
+    }
+    return needToAdd;
 }
 
 - (void)configWithObj:(id)anObj{
@@ -157,20 +184,15 @@
     if (pollList.count <= 0) {
         return;
     }
-    NSInteger last_id = [self p_lastId];
-    __block NSInteger bridge_index;
+    
     __block BOOL hasNewData = NO;
+    __weak typeof(self) weakSelf = self;
     [pollList enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(PrivateMessage *obj, NSUInteger idx, BOOL *stop) {
-        if (obj.id.integerValue > last_id) {
+        if ([weakSelf p_addMsg:obj]) {
             hasNewData = YES;
-            bridge_index = idx;
-            *stop = YES;
         }
     }];
     if (hasNewData) {
-        NSRange freshDataRange = NSMakeRange(0, bridge_index +1);
-        NSArray *freshDataList = [pollList subarrayWithRange:freshDataRange];
-        [self.list insertObjects:freshDataList atIndexes:[NSIndexSet indexSetWithIndexesInRange:freshDataRange]];
         [self reset_dataList];
     }
 }
@@ -197,7 +219,7 @@
         return;
     }
     [self.nextMessages removeObject:oldMsg];
-    [self.list insertObject:sucessMsg atIndex:0];
+    [self p_addMsg:sucessMsg];
     [self reset_dataList];
 }
 - (void)deleteMessage:(PrivateMessage *)msg{
