@@ -116,14 +116,13 @@
     return [NSString stringWithFormat:@"api/message/conversations/%@/last", _curFriend.global_key];
 }
 - (NSDictionary *)toPollParams{
-
     return @{@"id" : [NSNumber numberWithInteger:[self p_lastId]]};
 }
 
 - (NSInteger)p_lastId{
     __block NSInteger last_id = 0;
     [_list enumerateObjectsUsingBlock:^(PrivateMessage *obj, NSUInteger idx, BOOL *stop) {
-        if (obj.sender.id.integerValue != obj.friend.id.integerValue) {
+        if (obj.sender.id.integerValue == obj.friend.id.integerValue) {
             last_id = obj.id.integerValue;
             *stop = YES;
         }
