@@ -108,7 +108,7 @@
     }
     return @{@"title" : [_mdTitle aliasedString],
              @"content" : [_mdContent aliasedString],
-             @"labels" : tempAry};
+             @"label" : tempAry};
 }
 
 - (NSString *)toCommentsPath
