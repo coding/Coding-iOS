@@ -13,13 +13,8 @@
 
 @implementation UIViewController (Swizzle)
 - (void)customViewDidAppear:(BOOL)animated{
-    if ([self isKindOfClass:[UINavigationController class]]) {
-//        do nothing
-    }else{
-        NSString *classStr = NSStringFromClass([self class]);
-        if ([classStr rangeOfString:@"_RootViewController"].location != NSNotFound) {
-            [self.rdv_tabBarController setTabBarHidden:NO animated:YES];
-        }
+    if ([[self.navigationController childViewControllers] count] <= 1) {
+        [self.rdv_tabBarController setTabBarHidden:NO animated:YES];
     }
     [self customViewDidAppear:animated];
 }
@@ -34,13 +29,8 @@
 }
 
 - (void)customviewWillAppear:(BOOL)animated{
-    if ([self isKindOfClass:[UINavigationController class]]) {
-//        do nothing
-    }else{
-        NSString *classStr = NSStringFromClass([self class]);
-        if ([classStr rangeOfString:@"_RootViewController"].location == NSNotFound) {
-            [self.rdv_tabBarController setTabBarHidden:YES animated:YES];
-        }
+    if ([[self.navigationController childViewControllers] count] > 1) {
+        [self.rdv_tabBarController setTabBarHidden:YES animated:YES];
     }
     [self customviewWillAppear:animated];
 }

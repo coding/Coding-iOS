@@ -15,6 +15,7 @@
 #import "RDVTabBarItem.h"
 #import "UnReadManager.h"
 #import "BaseNavigationController.h"
+#import "RKSwipeBetweenViewControllers.h"
 
 @interface RootTabViewController ()
 
@@ -67,8 +68,11 @@
     MyTask_RootViewController *mytask = [[MyTask_RootViewController alloc] init];
     UINavigationController *nav_mytask = [[BaseNavigationController alloc] initWithRootViewController:mytask];
     
-    Tweet_RootViewController *tweet = [[Tweet_RootViewController alloc] init];
-    UINavigationController *nav_tweet = [[BaseNavigationController alloc] initWithRootViewController:tweet];
+    RKSwipeBetweenViewControllers *nav_tweet = [RKSwipeBetweenViewControllers newSwipeBetweenViewControllers];
+    [nav_tweet.viewControllerArray addObjectsFromArray:@[[Tweet_RootViewController newTweetVCWithType:Tweet_RootViewControllerTypeAll],
+                                                         [Tweet_RootViewController newTweetVCWithType:Tweet_RootViewControllerTypeFriend],
+                                                         [Tweet_RootViewController newTweetVCWithType:Tweet_RootViewControllerTypeHot]]];
+    nav_tweet.buttonText = @[@"冒泡广成", @"朋友圈", @"热门冒泡"];
     
     Message_RootViewController *message = [[Message_RootViewController alloc] init];
     RAC(message, rdv_tabBarItem.badgeValue) = [RACSignal combineLatest:@[RACObserve([UnReadManager shareManager], messages),

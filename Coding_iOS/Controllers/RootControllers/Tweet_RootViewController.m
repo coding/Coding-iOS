@@ -46,6 +46,21 @@
 @end
 
 @implementation Tweet_RootViewController
++ (instancetype)newTweetVCWithType:(Tweet_RootViewControllerType)type{
+    Tweet_RootViewController *vc = [Tweet_RootViewController new];
+    vc.curIndex = type;
+    return vc;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _curIndex = 0;
+        _tweetsDict = [[NSMutableDictionary alloc] initWithCapacity:4];
+    }
+    return self;
+}
 
 #pragma mark TabBar
 - (void)tabBarItemClicked{
@@ -58,25 +73,26 @@
     }
 }
 
+#pragma mark lifeCycle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _curIndex = 0;
+//    _curIndex = 0;
+    
+//    [self customDownMenuWithTitles:@[[DownMenuTitle title:@"冒泡广场" image:@"nav_tweet_all" badge:nil],
+//                                     [DownMenuTitle title:@"好友圈" image:@"nav_tweet_friend" badge:nil],
+//                                     [DownMenuTitle title:@"热门冒泡" image:@"nav_tweet_hot" badge:nil],
+//                                     [DownMenuTitle title:@"我的冒泡" image:@"nav_tweet_mine" badge:nil]]
+//                   andDefaultIndex:_curIndex
+//                          andBlock:^(id titleObj, NSInteger index) {
+//                              [(DownMenuTitle *)titleObj setBadgeValue:nil];
+//                              _curIndex = index;
+//                              [self refreshFirst];
+//                          }];
+    
     _tweetsDict = [[NSMutableDictionary alloc] initWithCapacity:4];
-    
-    [self customDownMenuWithTitles:@[[DownMenuTitle title:@"冒泡广场" image:@"nav_tweet_all" badge:nil],
-                                     [DownMenuTitle title:@"好友圈" image:@"nav_tweet_friend" badge:nil],
-                                     [DownMenuTitle title:@"热门冒泡" image:@"nav_tweet_hot" badge:nil],
-                                     [DownMenuTitle title:@"我的冒泡" image:@"nav_tweet_mine" badge:nil]]
-                   andDefaultIndex:_curIndex
-                          andBlock:^(id titleObj, NSInteger index) {
-                              [(DownMenuTitle *)titleObj setBadgeValue:nil];
-                              _curIndex = index;
-                              [self refreshFirst];
-                          }];
-    
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(sendTweet)] animated:NO];
+    [self.parentViewController.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(sendTweet)] animated:NO];
 
     //    添加myTableView
     _myTableView = ({
