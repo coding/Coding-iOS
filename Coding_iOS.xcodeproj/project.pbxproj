@@ -82,6 +82,7 @@
 		4E38CF641A7B8DD4005536C0 /* icon_triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E38CF631A7B8DD4005536C0 /* icon_triangle@2x.png */; };
 		4E42FFF41A10C43C00A9A0C8 /* addPictureBgImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E42FFF31A10C43C00A9A0C8 /* addPictureBgImage@2x.png */; };
 		4E4ABBEA1A653027004760D9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4ABBE91A653027004760D9 /* WebViewController.m */; };
+		4E53EB521AFA03990034FE1C /* RKSwipeBetweenViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */; };
 		4E59E1D31A5E6B34004DAEEC /* TaskDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */; };
 		4E5C06E81AC2B34800F427C5 /* tipIcon_BranchMember@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5C06E71AC2B34800F427C5 /* tipIcon_BranchMember@2x.png */; };
 		4E5C06EB1AC4009100F427C5 /* CannotLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */; };
@@ -737,6 +738,8 @@
 		4E42FFF31A10C43C00A9A0C8 /* addPictureBgImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addPictureBgImage@2x.png"; sourceTree = "<group>"; };
 		4E4ABBE81A653027004760D9 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		4E4ABBE91A653027004760D9 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		4E53EB501AFA03990034FE1C /* RKSwipeBetweenViewControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSwipeBetweenViewControllers.h; sourceTree = "<group>"; };
+		4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSwipeBetweenViewControllers.m; sourceTree = "<group>"; };
 		4E59E1D11A5E6B34004DAEEC /* TaskDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDescriptionViewController.h; sourceTree = "<group>"; };
 		4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDescriptionViewController.m; sourceTree = "<group>"; };
 		4E5C06E71AC2B34800F427C5 /* tipIcon_BranchMember@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_BranchMember@2x.png"; sourceTree = "<group>"; };
@@ -1679,6 +1682,15 @@
 				4E2719B71AB02F31006AE214 /* NProjectViewController.m */,
 			);
 			path = NProjectViewController;
+			sourceTree = "<group>";
+		};
+		4E53EB4C1AF9CC520034FE1C /* RKSwipeBetweenViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				4E53EB501AFA03990034FE1C /* RKSwipeBetweenViewControllers.h */,
+				4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */,
+			);
+			path = RKSwipeBetweenViewControllers;
 			sourceTree = "<group>";
 		};
 		4E66EE201A28226000DA1B3E /* button_file_manage */ = {
@@ -2877,6 +2889,7 @@
 		8EA6D03E19E240C40076D59C /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4E53EB4C1AF9CC520034FE1C /* RKSwipeBetweenViewControllers */,
 				EBDD2E3E1AE7B84D0024B952 /* WMDelLabel */,
 				4E996BC11ABA754600C704F1 /* JDStatusBarNotification */,
 				4E6C411A1A846AC30098DC17 /* RFKeyboardToolbar */,
@@ -3723,6 +3736,7 @@
 				4E87656A1A22E5B40090CFB9 /* SWUtilityButtonView.m in Sources */,
 				8EABE3C819F10D2400A17784 /* TaskComment.m in Sources */,
 				8E97CE471A0A2DF8006F9AD7 /* AGEmojiKeyBoardView.m in Sources */,
+				4E53EB521AFA03990034FE1C /* RKSwipeBetweenViewControllers.m in Sources */,
 				8EA6D12C19E240C40076D59C /* EditTopicViewController.m in Sources */,
 				4EA7F15B1A6D192B00A046BD /* SDWebImageCompat.m in Sources */,
 				8EA6D13A19E240C40076D59C /* Project_RootViewController.m in Sources */,
