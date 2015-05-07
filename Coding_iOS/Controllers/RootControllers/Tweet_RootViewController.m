@@ -92,7 +92,6 @@
 //                          }];
     
     _tweetsDict = [[NSMutableDictionary alloc] initWithCapacity:4];
-    [self.parentViewController.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(sendTweet)] animated:NO];
 
     //    添加myTableView
     _myTableView = ({
@@ -143,6 +142,7 @@
         [_myMsgInputView prepareToShow];
     }
     [self.myTableView reloadData];
+    [self.parentViewController.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(sendTweet)] animated:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -211,7 +211,6 @@
     };
     UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
     [self.parentViewController presentViewController:nav animated:YES completion:nil];
-
 }
 
 - (void)deleteTweet:(Tweet *)curTweet outTweetsIndex:(NSInteger)outTweetsIndex{

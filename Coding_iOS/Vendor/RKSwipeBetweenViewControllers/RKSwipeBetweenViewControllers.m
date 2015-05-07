@@ -120,8 +120,8 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
     if (!pageController) {
         [self setupPageViewController];
         [self setupSegmentButtons];
+        [self updateNavigationViewWithPercentX:self.currentPageIndex];
     }
-    [self updateNavigationViewWithPercentX:self.currentPageIndex];
 }
 
 //%%% generic setup stuff for a pageview controller.  Sets up the scrolling style and delegate for the controller
@@ -212,14 +212,12 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 }
 
 - (void)updateNavigationViewWithPercentX:(CGFloat)percentX{
-    if (_buttonContainer) {
-        CGPoint buttonContentOffset = _buttonContainer.contentOffset;
-        buttonContentOffset.x = percentX * BUTTON_WIDTH;
-        _buttonContainer.contentOffset = buttonContentOffset;
-        
-        [[_buttonContainer subviews] enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
-            CGFloat distanceTp_percentX = ABS(percentX - idx);
-            button.alpha = MAX(0, 1.0 - distanceTp_percentX);
+    NSArray *buttons = [_buttonContainer subviews];
+    if (buttons.count > 0) {
+        [buttons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+            CGFloat distanceTp_percentX = percentX - idx;
+            [button setCenter:CGPointMake(_buttonContainer.center.x - distanceTp_percentX *BUTTON_WIDTH, button.center.y)];
+            button.alpha = MAX(0, 1.0 - ABS(distanceTp_percentX));
         }];
     }
 }
