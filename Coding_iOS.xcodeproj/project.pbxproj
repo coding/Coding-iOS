@@ -276,6 +276,7 @@
 		4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED673211A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m */; };
 		4ED673261A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED673251A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png */; };
 		4ED673281A8E12F900DF2D1A /* SVWebViewControllerActivityReport-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED673271A8E12F900DF2D1A /* SVWebViewControllerActivityReport-iPad@2x.png */; };
+		4EDC33CE1AFB4DCC00698315 /* EaseInputTipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EDC33CD1AFB4DCC00698315 /* EaseInputTipsView.m */; };
 		4EDD8F511A36F42200E9E232 /* libXG-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EDD8F4D1A36F42200E9E232 /* libXG-SDK.a */; };
 		4EDD8F521A36F42300E9E232 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4EDD8F4E1A36F42200E9E232 /* ReleaseNotes.txt */; };
 		4EDD8F541A36F4AC00E9E232 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EDD8F531A36F4AC00E9E232 /* CFNetwork.framework */; };
@@ -1057,6 +1058,8 @@
 		4ED673211A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVWebViewControllerActivityReport.m; sourceTree = "<group>"; };
 		4ED673251A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SVWebViewControllerActivityReport@2x.png"; sourceTree = "<group>"; };
 		4ED673271A8E12F900DF2D1A /* SVWebViewControllerActivityReport-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SVWebViewControllerActivityReport-iPad@2x.png"; sourceTree = "<group>"; };
+		4EDC33CC1AFB4DCC00698315 /* EaseInputTipsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseInputTipsView.h; sourceTree = "<group>"; };
+		4EDC33CD1AFB4DCC00698315 /* EaseInputTipsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseInputTipsView.m; sourceTree = "<group>"; };
 		4EDD8F4D1A36F42200E9E232 /* libXG-SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libXG-SDK.a"; sourceTree = "<group>"; };
 		4EDD8F4E1A36F42200E9E232 /* ReleaseNotes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReleaseNotes.txt; sourceTree = "<group>"; };
 		4EDD8F4F1A36F42200E9E232 /* XGPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XGPush.h; sourceTree = "<group>"; };
@@ -3015,6 +3018,8 @@
 				0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */,
 				4E996BCE1ABA774800C704F1 /* EaseUserHeaderView.h */,
 				4E996BCF1ABA774800C704F1 /* EaseUserHeaderView.m */,
+				4EDC33CC1AFB4DCC00698315 /* EaseInputTipsView.h */,
+				4EDC33CD1AFB4DCC00698315 /* EaseInputTipsView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3849,6 +3854,7 @@
 				8E97CEBF1A0CB7E3006F9AD7 /* SMPageControl.m in Sources */,
 				8EA6D12A19E240C40076D59C /* Coding_iOS.xcdatamodeld in Sources */,
 				8EA6D12D19E240C40076D59C /* ConversationViewController.m in Sources */,
+				4EDC33CE1AFB4DCC00698315 /* EaseInputTipsView.m in Sources */,
 				4ECE8ADB1A3943E80021E29C /* NSDate+convenience.m in Sources */,
 				4E5C06EE1AC4405300F427C5 /* PasswordViewController.m in Sources */,
 				4E217F0E1A70EDC700F6DF88 /* SVWebViewController.m in Sources */,

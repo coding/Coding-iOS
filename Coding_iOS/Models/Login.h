@@ -24,4 +24,5 @@
 + (void)setXGAccountWithCurUser;
 + (BOOL)isOwnerOfProjectWithOwnerId:(NSNumber *)owner_id;
 + (User *)userWithGlobaykeyOrEmail:(NSString *)textStr;
++ (NSMutableDictionary *)readLoginDataList;
 @end

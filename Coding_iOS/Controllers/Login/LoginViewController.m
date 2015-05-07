@@ -16,13 +16,14 @@
 #import <NYXImagesKit/NYXImagesKit.h>
 #import <UIImage+BlurredFrame/UIImage+BlurredFrame.h>
 #import "UIImageView+WebCache.h"
-
+#import "EaseInputTipsView.h"
 
 @interface LoginViewController ()
 @property (assign, nonatomic) BOOL captchaNeeded;
 @property (strong, nonatomic) UIButton *loginBtn;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) UIImageView *iconUserView, *bgBlurredView;
+@property (strong, nonatomic) EaseInputTipsView *inputTipsView;
 @end
 
 @implementation LoginViewController
@@ -108,6 +109,23 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     [self refreshCaptchaNeeded];
 }
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (!_inputTipsView) {
+        _inputTipsView = [EaseInputTipsView tipsViewWithType:EaseInputTipsViewTypeLogin];
+        _inputTipsView.valueStr = nil;
+        
+        __weak typeof(self) weakSelf = self;
+        _inputTipsView.selectedStringBlock = ^(NSString *valueStr){
+            weakSelf.myLogin.email = valueStr;
+            [weakSelf.myTableView reloadData];
+            [weakSelf.view endEditing:YES];
+        };
+        UITableViewCell *cell = [_myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+        [_inputTipsView setY:CGRectGetMaxY(cell.frame) - 0.5];
+        [_myTableView addSubview:_inputTipsView];
+    }
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -152,10 +170,13 @@
         [cell configWithPlaceholder:@" 电子邮箱/个性后缀" andValue:self.myLogin.email];
         cell.textField.secureTextEntry = NO;
         cell.textValueChangedBlock = ^(NSString *valueStr){
+            weakSelf.inputTipsView.valueStr = valueStr;
+            weakSelf.inputTipsView.active = YES;
             weakSelf.myLogin.email = valueStr;
             [weakSelf.iconUserView setImage:[UIImage imageNamed:@"icon_user_monkey"]];
         };
         cell.editDidEndBlock = ^(NSString *textStr){
+            weakSelf.inputTipsView.active = NO;
             [weakSelf refreshIconUserImage:textStr];
         };
     }else if (indexPath.row == 1){

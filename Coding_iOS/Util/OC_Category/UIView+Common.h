@@ -49,6 +49,8 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown andColor:(UIColor *)color;
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown andColor:(UIColor *)color andLeftSpace:(CGFloat)leftSpace;
 
+- (void)addRoundingCorners:(UIRectCorner)corners cornerRadii:(CGSize)cornerRadii;
+
 - (void)removeViewWithTag:(NSInteger)tag;
 - (CGSize)doubleSizeOfFrame;
 

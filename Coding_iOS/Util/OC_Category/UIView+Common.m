@@ -214,6 +214,14 @@ static char LoadingViewKey, BlankPageViewKey;
     }
 }
 
+- (void)addRoundingCorners:(UIRectCorner)corners cornerRadii:(CGSize)cornerRadii{
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corners cornerRadii:cornerRadii];
+    CAShapeLayer *maskLayer = [CAShapeLayer new];
+    maskLayer.frame = self.bounds;
+    maskLayer.path = maskPath.CGPath;
+    self.layer.mask = maskLayer;
+}
+
 - (CGSize)doubleSizeOfFrame{
     CGSize size = self.frame.size;
     return CGSizeMake(size.width*2, size.height*2);
