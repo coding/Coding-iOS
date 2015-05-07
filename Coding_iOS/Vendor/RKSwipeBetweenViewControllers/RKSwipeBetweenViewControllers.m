@@ -7,18 +7,20 @@
 //
 //  @cwRichardKim for regular updates
 
+
 #import "RKSwipeBetweenViewControllers.h"
+#import "SMPageControl.h"
 
 //%%% customizeable button attributes
-CGFloat X_BUFFER = 44.0; //%%% the number of pixels on either side of the segment
-CGFloat Y_BUFFER = 0.0; //%%% number of pixels on top of the segment
-CGFloat HEIGHT = 44.0; //%%% height of the segment
+CGFloat X_BUFFER = 52.0; //%%% the number of pixels on either side of the segment
+CGFloat HEIGHT = 40.0; //%%% height of the segment
+#define BUTTON_WIDTH  ([UIScreen mainScreen].bounds.size.width/3)
 
 //%%% customizeable selector bar attributes (the black bar under the buttons)
 CGFloat BOUNCE_BUFFER = 0.0; //%%% adds bounce to the selection bar when you scroll
 CGFloat ANIMATION_SPEED = 0.2; //%%% the number of seconds it takes to complete the animation
-CGFloat SELECTOR_Y_BUFFER = 42.0; //%%% the y-value of the bar that shows what page you are on (0 is the top)
-CGFloat SELECTOR_HEIGHT = 2.0; //%%% thickness of the selector bar
+CGFloat SELECTOR_Y_BUFFER = 34.0; //%%% the y-value of the bar that shows what page you are on (0 is the top)
+CGFloat SELECTOR_HEIGHT = 7.0; //%%% thickness of the selector bar
 
 CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy offset.  I'm going to look for a better workaround in the future
 
@@ -28,11 +30,12 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 @property (nonatomic) NSInteger currentPageIndex;
 @property (nonatomic) BOOL isPageScrollingFlag; //%%% prevents scrolling / segment tap crash
 
+@property (nonatomic, strong) SMPageControl *pageControl;
+@property (strong, nonatomic) UIScrollView *buttonContainer;
 @end
 
 @implementation RKSwipeBetweenViewControllers
 @synthesize viewControllerArray;
-@synthesize selectionBar;
 @synthesize pageController;
 @synthesize navigationView;
 @synthesize buttonText;
@@ -71,35 +74,44 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 
 //%%% sets up the tabs using a loop.  You can take apart the loop to customize individual buttons, but remember to tag the buttons.  (button.tag=0 and the second button.tag=1, etc)
 -(void)setupSegmentButtons {
-    navigationView = [[UIView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.navigationBar.frame.size.height)];
-    
     NSInteger numControllers = [viewControllerArray count];
-    
     if (!buttonText) {
-        buttonText = [[NSArray alloc]initWithObjects: @"first",@"second",@"third",@"fourth",@"etc",@"etc",@"etc",@"etc",nil]; //%%%buttontitle
+        buttonText = [[NSArray alloc]initWithObjects: @"first",@"second",@"third",@"fourth",@"etc",@"etc",@"etc",@"etc",nil]; //buttontitle
     }
+    navigationView = [[UIView alloc]initWithFrame:CGRectMake(X_BUFFER,0,self.view.frame.size.width - 2*X_BUFFER,self.navigationBar.frame.size.height)];
+    
+    //buttons
+    CGRect frameTemp = navigationView.bounds;
+    frameTemp.size.height = HEIGHT;
+    _buttonContainer = [[UIScrollView alloc] initWithFrame:frameTemp];
+    CGFloat containerWidth = CGRectGetWidth(_buttonContainer.frame);
+    CGFloat containerHeight = CGRectGetHeight(_buttonContainer.frame);
     
     for (int i = 0; i<numControllers; i++) {
-        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(X_BUFFER+i*(self.view.frame.size.width-2*X_BUFFER)/numControllers-X_OFFSET, Y_BUFFER, (self.view.frame.size.width-2*X_BUFFER)/numControllers, HEIGHT)];
-        [navigationView addSubview:button];
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(containerWidth/2 - BUTTON_WIDTH/2 + BUTTON_WIDTH * i, 0, BUTTON_WIDTH, containerHeight)];
+        [_buttonContainer addSubview:button];
         button.tag = i; //%%% IMPORTANT: if you make your own custom buttons, you have to tag them appropriately
         [button addTarget:self action:@selector(tapSegmentButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        button.titleLabel.font = [UIFont boldSystemFontOfSize:kNavTitleFontSize];
+        button.titleLabel.textColor = [UIColor whiteColor];
         [button setTitle:[buttonText objectAtIndex:i] forState:UIControlStateNormal]; //%%%buttontitle
     }
-    pageController.navigationController.navigationBar.topItem.titleView = navigationView;
+    [navigationView addSubview:_buttonContainer];
     
-    [self setupSelector];
+    //pageControl
+    _pageControl = ({
+        SMPageControl *pageControl = [[SMPageControl alloc] init];
+        pageControl.backgroundColor = [UIColor clearColor];
+        pageControl.pageIndicatorImage = [UIImage imageNamed:@"nav_page_unselected"];
+        pageControl.currentPageIndicatorImage = [UIImage imageNamed:@"nav_page_selected"];
+        pageControl.frame = (CGRect){0, SELECTOR_Y_BUFFER, CGRectGetWidth(navigationView.frame), SELECTOR_HEIGHT};
+        pageControl.numberOfPages = numControllers;
+        pageControl.currentPage = 0;
+        pageControl;
+    });
+    [navigationView addSubview:_pageControl];
+    pageController.navigationController.navigationBar.topItem.titleView = navigationView;
 }
-
-
-//%%% sets up the selection bar under the buttons on the navigation bar
--(void)setupSelector {
-    selectionBar = [[UIView alloc]initWithFrame:CGRectMake(X_BUFFER-X_OFFSET, SELECTOR_Y_BUFFER,(self.view.frame.size.width-2*X_BUFFER)/[viewControllerArray count], SELECTOR_HEIGHT)];
-    selectionBar.backgroundColor = [UIColor greenColor]; //%%% sbcolor
-    selectionBar.alpha = 0.8; //%%% sbalpha
-    [navigationView addSubview:selectionBar];
-}
-
 
 //generally, this shouldn't be changed unless you know what you're changing
 #pragma mark Setup
@@ -109,6 +121,7 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
         [self setupPageViewController];
         [self setupSegmentButtons];
     }
+    [self updateNavigationViewWithPercentX:self.currentPageIndex];
 }
 
 //%%% generic setup stuff for a pageview controller.  Sets up the scrolling style and delegate for the controller
@@ -185,17 +198,30 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
     self.currentPageIndex = newIndex;
 }
 
+- (void)setCurrentPageIndex:(NSInteger)currentPageIndex{
+    _currentPageIndex = currentPageIndex;
+    _pageControl.currentPage = currentPageIndex;
+}
+
 //%%% method is called when any of the pages moves.
 //It extracts the xcoordinate from the center point and instructs the selection bar to move accordingly
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat xFromCenter = self.view.frame.size.width-scrollView.contentOffset.x; //%%% positive for right swipe, negative for left
-    
-    //%%% checks to see what page you are on and adjusts the xCoor accordingly.
-    //i.e. if you're on the second page, it makes sure that the bar starts from the frame.origin.x of the
-    //second tab instead of the beginning
-    NSInteger xCoor = X_BUFFER+selectionBar.frame.size.width*self.currentPageIndex-X_OFFSET;
-    
-    selectionBar.frame = CGRectMake(xCoor-xFromCenter/[viewControllerArray count], selectionBar.frame.origin.y, selectionBar.frame.size.width, selectionBar.frame.size.height);
+    CGFloat percentX = scrollView.contentOffset.x / CGRectGetWidth(scrollView.frame);
+    percentX += self.currentPageIndex -1;
+    [self updateNavigationViewWithPercentX:percentX];
+}
+
+- (void)updateNavigationViewWithPercentX:(CGFloat)percentX{
+    if (_buttonContainer) {
+        CGPoint buttonContentOffset = _buttonContainer.contentOffset;
+        buttonContentOffset.x = percentX * BUTTON_WIDTH;
+        _buttonContainer.contentOffset = buttonContentOffset;
+        
+        [[_buttonContainer subviews] enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
+            CGFloat distanceTp_percentX = ABS(percentX - idx);
+            button.alpha = MAX(0, 1.0 - distanceTp_percentX);
+        }];
+    }
 }
 
 

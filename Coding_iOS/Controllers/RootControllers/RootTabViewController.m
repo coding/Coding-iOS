@@ -72,7 +72,7 @@
     [nav_tweet.viewControllerArray addObjectsFromArray:@[[Tweet_RootViewController newTweetVCWithType:Tweet_RootViewControllerTypeAll],
                                                          [Tweet_RootViewController newTweetVCWithType:Tweet_RootViewControllerTypeFriend],
                                                          [Tweet_RootViewController newTweetVCWithType:Tweet_RootViewControllerTypeHot]]];
-    nav_tweet.buttonText = @[@"冒泡广成", @"朋友圈", @"热门冒泡"];
+    nav_tweet.buttonText = @[@"冒泡广场", @"朋友圈", @"热门冒泡"];
     
     Message_RootViewController *message = [[Message_RootViewController alloc] init];
     RAC(message, rdv_tabBarItem.badgeValue) = [RACSignal combineLatest:@[RACObserve([UnReadManager shareManager], messages),

@@ -210,7 +210,7 @@
 
     };
     UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
-    [self presentViewController:nav animated:YES completion:nil];
+    [self.parentViewController presentViewController:nav animated:YES completion:nil];
 
 }
 
