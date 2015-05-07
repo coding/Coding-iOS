@@ -562,7 +562,6 @@
 
 #pragma mark TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
-    DebugLog(@"%@", components.description);
     HtmlMediaItem *clickedItem = [components objectForKey:@"value"];
     [self analyseLinkStr:clickedItem.href];
 }

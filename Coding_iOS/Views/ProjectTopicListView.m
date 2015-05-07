@@ -195,7 +195,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (_block) {
         ProjectTopic *curTopic = [self.myProTopics.list objectAtIndex:indexPath.row];
-        DebugLog(@"%@", curTopic.title);
         _block(self, curTopic);
     }
 }

@@ -302,10 +302,10 @@
 }
 
 - (void)creatFolderBtnClicked{
-    NSLog(@"新建文件夹");
+    DebugLog(@"新建文件夹");
     __weak typeof(self) weakSelf = self;
     [SettingTextViewController showSettingFolderNameVCFromVC:self withTitle:@"新建文件夹" textValue:nil type:SettingTypeNewFolderName doneBlock:^(NSString *textValue) {
-        NSLog(@"%@", textValue);
+        DebugLog(@"%@", textValue);
         [[Coding_NetAPIManager sharedManager] request_CreatFolder:textValue inFolder:weakSelf.curFolder inProject:weakSelf.curProject andBlock:^(id data, NSError *error) {
             if (data) {
                 if (weakSelf.curFolder) {
@@ -321,7 +321,7 @@
 }
 
 - (void)uploadFileBtnClicked{
-    NSLog(@"上传文件");
+    DebugLog(@"上传文件");
     //        相册
     if (![Helper checkPhotoLibraryAuthorizationStatus]) {
         return;
@@ -353,7 +353,7 @@
         Coding_FileManager *manager = [Coding_FileManager sharedManager];
         for (ProjectFile *file in selectedFiles) {
             if ([file hasBeenDownload] || [file cDownloadTask]) {//已下载，或正在下载
-                NSLog(@"%@: 已在队列", file.name);
+                DebugLog(@"%@: 已在队列", file.name);
             }else{
                 [manager addDownloadTaskForFile:file completionHandler:nil];
             }

@@ -34,7 +34,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
         NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"emotion_list"
                                                               ofType:@"plist"];
         _emojis = [[NSDictionary dictionaryWithContentsOfFile:plistPath] copy];
-        NSLog(@"File read");
+        DebugLog(@"File read");
     }
     return _emojis;
 }
@@ -129,7 +129,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
             [weakSelf categoryChangedViaSegmentsBar:sender];
         };
         self.easeTabBar.sendButtonClickedBlock = ^(){
-            NSLog(@"ease Send");
+            DebugLog(@"ease Send");
             [weakSelf.delegate emojiKeyBoardViewDidPressSendButton:weakSelf];
         };
         self.easeTabBar.selectedIndex = self.defaultSelectedCategory;
@@ -198,7 +198,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 
 - (void)categoryChangedViaSegmentsBar:(UIEaseTabBar *)sender {
     // recalculate number of pages for new category and recreate emoji pages
-    NSLog(@"%@", @( sender.selectedIndex ));
+    DebugLog(@"%@", @( sender.selectedIndex ));
     
     self.category = [self categoryNameAtIndex:sender.selectedIndex];
     self.pageControl.currentPage = 0;
@@ -206,7 +206,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 }
 
 - (void)pageControlTouched:(UIPageControl *)sender {
-    NSLog(@"%@", @( sender.currentPage ));
+    DebugLog(@"%@", @( sender.currentPage ));
     CGRect bounds = self.scrollView.bounds;
     bounds.origin.x = CGRectGetWidth(bounds) * sender.currentPage;
     bounds.origin.y = 0;
@@ -309,7 +309,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
     NSMutableArray *buttonTexts = [self emojiTextsForCategory:self.category
                                                     fromIndex:startingIndex
                                                       toIndex:endingIndex];
-    NSLog(@"Setting page at index %@", @( index ));
+    DebugLog(@"Setting page at index %@", @( index ));
     [pageView setButtonTexts:buttonTexts forCategory:self.category];
     pageView.frame = CGRectMake(index * CGRectGetWidth(scrollView.bounds), 0, CGRectGetWidth(scrollView.bounds), CGRectGetHeight(scrollView.bounds));
 }
@@ -376,7 +376,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
         numberOfEmojisOnAPage = (numberOfRows * numberOfColumns) - 1;
     }
     NSUInteger numberOfPages = (NSUInteger)ceil((float)emojiCount / numberOfEmojisOnAPage);
-    NSLog(@"%@ %@ %@ :: %@", @( numberOfRows ), @( numberOfColumns ), @( emojiCount ), @( numberOfPages ));
+    DebugLog(@"%@ %@ %@ :: %@", @( numberOfRows ), @( numberOfColumns ), @( emojiCount ), @( numberOfPages ));
     return numberOfPages;
 }
 
@@ -410,7 +410,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 }
 
 - (void)emojiPageViewDidPressBackSpace:(AGEmojiPageView *)emojiPageView {
-    NSLog(@"Back button pressed");
+    DebugLog(@"Back button pressed");
     [self.delegate emojiKeyBoardViewDidPressBackSpace:self];
 }
 

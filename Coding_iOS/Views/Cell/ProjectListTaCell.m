@@ -125,7 +125,7 @@
         return;
     }
     [_iconV sd_setImageWithURL:[_project.icon urlImageWithCodePathResize:2*kProjectListTaCell_IconWidth] placeholderImage:kPlaceholderCodingSquareWidth(55.0) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        NSLog(@"_project: %@, imageURL: %@", _project.name, imageURL.absoluteString);
+        DebugLog(@"_project: %@, imageURL: %@", _project.name, imageURL.absoluteString);
     }];
     _nameL.text = _project.name;
     _desL.text = _project.description_mine;

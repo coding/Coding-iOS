@@ -1140,7 +1140,7 @@
 //                        }
 //                    } progerssBlock:^(CGFloat progressValue) {
 //                        [self showStatusBarProgress:progressValue];
-//                        NSLog(@"showStatusBarProgress %d : %.2f", i, progressValue);
+//                        DebugLog(@"showStatusBarProgress %d : %.2f", i, progressValue);
 //                    }];
 //                    break;
 //                }
@@ -1181,7 +1181,7 @@
                         }];
                     }
                 } progerssBlock:^(CGFloat progressValue) {
-                    NSLog(@"showStatusBarProgress %d : %.2f", i, progressValue);
+                    DebugLog(@"showStatusBarProgress %d : %.2f", i, progressValue);
                 }];
             }
         }
@@ -1382,7 +1382,6 @@
                 [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"api/message/conversations/%@/read", priMsgs.curFriend.global_key] withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
                     if (data) {
                         [[UnReadManager shareManager] updateUnRead];
-                        DebugLog(@"标记已读成功");
                     }
                 }];
             }
@@ -1474,7 +1473,6 @@
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/mark-read" withParams:[curTips toMarkReadParams] withMethodType:Post andBlock:^(id data1, NSError *error1) {
                 if (data1) {
                     [[UnReadManager shareManager] updateUnRead];
-                    DebugLog(@"标记已读成功");
                 }
             }];
         }else{
@@ -1491,7 +1489,6 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/mark-read" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [[UnReadManager shareManager] updateUnRead];
-            DebugLog(@"标记已读成功");
         }
     }];
 }
@@ -1666,10 +1663,10 @@
     AFHTTPRequestOperation *requestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     requestOperation.responseSerializer = [AFImageResponseSerializer serializer];
     [requestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Response: %@", responseObject);
+        DebugLog(@"Response: %@", responseObject);
         block(responseObject, nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Image error: %@", error);
+        DebugLog(@"Image error: %@", error);
         block(nil, error);
     }];
     [requestOperation start];

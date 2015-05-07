@@ -394,7 +394,7 @@
 - (void)loadRequest:(NSURLRequest *)curRequest
 {
     NSString *linkStr = curRequest.URL.absoluteString;
-    NSLog(@"\n linkStr : %@", linkStr);
+    DebugLog(@"\n linkStr : %@", linkStr);
     [self analyseLinkStr:linkStr];
 }
 
@@ -426,7 +426,6 @@
 
 #pragma mark TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
-    DebugLog(@"%@", components.description);
     HtmlMediaItem *clickedItem = [components objectForKey:@"value"];
     [self analyseLinkStr:clickedItem.href];
 }

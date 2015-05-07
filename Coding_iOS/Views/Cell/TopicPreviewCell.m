@@ -248,7 +248,7 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString *strLink = request.URL.absoluteString;
-    NSLog(@"strLink=[%@]", strLink);
+    DebugLog(@"strLink=[%@]", strLink);
     if ([strLink rangeOfString:@"about:blank"].location != NSNotFound) {
         return YES;
     } else {

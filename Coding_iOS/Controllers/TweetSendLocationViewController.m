@@ -265,15 +265,15 @@
              
              [weakSelf requestLocationWithObj:weakSelf.locationRequest];
              
-             NSLog(@"city = %@", city);
+             DebugLog(@"city = %@", city);
          }
          else if (error == nil && [array count] == 0)
          {
-             NSLog(@"No results were returned.");
+             DebugLog(@"No results were returned.");
          }
          else if (error != nil)
          {
-             NSLog(@"An error occurred = %@", error);
+             DebugLog(@"An error occurred = %@", error);
          }
      }];
     [manager stopUpdatingLocation];
@@ -297,7 +297,7 @@
     __weak typeof (self)weakSelf = self;
     [[TweetSendLocationClient sharedJsonClient] requestGeodataSearchCustomerWithParams:obj andBlock:^(id data, NSError *error) {
         
-        NSLog(@"obj:%@",data[@"contents"]);
+        DebugLog(@"obj:%@",data[@"contents"]);
         
         NSDictionary *dict = (NSDictionary *)data;
         
@@ -333,7 +333,7 @@
     __weak typeof (self)weakSelf = self;
     [[TweetSendLocationClient sharedJsonClient] requestGeodataSearchCustomerWithParams:obj andBlock:^(id data, NSError *error) {
 
-        NSLog(@"obj:%@",data[@"contents"]);
+        DebugLog(@"obj:%@",data[@"contents"]);
         
         NSDictionary *dict = (NSDictionary *)data;
         
@@ -365,7 +365,7 @@
 {
     __weak typeof (self)weakSelf = self;
     [[TweetSendLocationClient sharedJsonClient] requestPlaceAPIWithParams:obj andBlock:^(id data, NSError *error) {
-        NSLog(@"obj:%@",data[@"message"]);
+        DebugLog(@"obj:%@",data[@"message"]);
         
         NSDictionary *dict = (NSDictionary *)data;
         
@@ -404,7 +404,7 @@
 {
     __weak typeof (self)weakSelf = self;
     [[TweetSendLocationClient sharedJsonClient] requestPlaceAPIWithParams:obj andBlock:^(id data, NSError *error) {
-        NSLog(@"obj:%@",data[@"message"]);
+        DebugLog(@"obj:%@",data[@"message"]);
         
         NSDictionary *dict = (NSDictionary *)data;
         

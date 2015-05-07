@@ -257,7 +257,7 @@
     AFHTTPRequestOperation *operation = [self POST:path parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:data name:name fileName:fileName mimeType:@"image/jpeg"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
+        DebugLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
         id error = [self handleResponse:responseObject];
         if (error && failure) {
             failure(operation, error);
@@ -265,7 +265,7 @@
             success(operation, responseObject);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@ ***** %@", operation.responseString, error);
+        DebugLog(@"Error: %@ ***** %@", operation.responseString, error);
         if (failure) {
             failure(operation, error);
         }

@@ -537,7 +537,6 @@
             }
         }else{
             User *curUser = [_tweet.like_users objectAtIndex:indexPath.row];
-            DebugLog(@"%@", curUser.name);
             if (_userBtnClickedBlock) {
                 _userBtnClickedBlock(curUser);
             }
@@ -577,7 +576,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row >= _tweet.numOfComments-1 && _tweet.hasMoreComments) {
-        NSLog(@"More Comment");
+        DebugLog(@"More Comment");
         if (_goToDetailTweetBlock) {
             _goToDetailTweetBlock(_tweet);
         }
@@ -612,7 +611,6 @@
 
 #pragma mark Btn M
 - (void)likeBtnClicked:(id)sender{
-    DebugLog(@"likeBtnClicked");
     [[Coding_NetAPIManager sharedManager] request_Tweet_DoLike_WithObj:_tweet andBlock:^(id data, NSError *error) {
         if (data) {
             [_tweet changeToLiked:[NSNumber numberWithBool:!_tweet.liked.boolValue]];
@@ -646,7 +644,6 @@
 }
 #pragma mark TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
-    DebugLog(@"%@", components.description);
     if (_mediaItemClickedBlock) {
         _mediaItemClickedBlock([components objectForKey:@"value"]);
     }

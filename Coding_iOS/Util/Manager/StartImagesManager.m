@@ -216,7 +216,7 @@
         NSString *pathDisk = [[documentPath stringByAppendingPathComponent:@"Coding_StartImages"] stringByAppendingPathComponent:[response suggestedFilename]];
         return [NSURL fileURLWithPath:pathDisk];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        NSLog(@"downloaded file_path is to: %@", filePath);
+        DebugLog(@"downloaded file_path is to: %@", filePath);
     }];
     [downloadTask resume];
 }

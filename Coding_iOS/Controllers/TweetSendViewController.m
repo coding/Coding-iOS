@@ -192,7 +192,6 @@
 
 #pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-//    NSLog(@"%@", info);
     UIImage *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     TweetImage *tweetImg = [TweetImage tweetImageWithImage:[originalImage scaledToSize:kScreen_Bounds.size highQuality:YES]];
     

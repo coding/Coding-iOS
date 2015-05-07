@@ -156,7 +156,7 @@
         
         [downloadUrl setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
         
-        NSLog(@"download_destinationPath------\n%@", downloadUrl.absoluteString);
+        DebugLog(@"download_destinationPath------\n%@", downloadUrl.absoluteString);
         return downloadUrl;
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         if (error) {
@@ -283,7 +283,7 @@
                 [[NSFileManager defaultManager] moveItemAtPath:block_filePath toPath:diskFilePath error:nil];
                 [manager directoryDidChange:manager.docUploadWatcher];
                 [manager directoryDidChange:manager.docDownloadWatcher];
-                NSLog(@"upload_fileName------\n%@", block_fileName);
+                DebugLog(@"upload_fileName------\n%@", block_fileName);
                 
                 //移除任务
                 [[Coding_FileManager sharedManager] removeCUploadTaskForFile:block_fileName hasError:(error != nil)];

@@ -133,7 +133,7 @@ static User *curLoginUser;
         NSString *global_key = user.global_key;
         //移除友盟推送的Alias
         [UMessage removeAlias:global_key type:kUmeng_MessageAliasTypeCoding response:^(id responseObject, NSError *error) {
-            NSLog(@"removeAlias--------responseObject:%@-------error:%@", responseObject, error.description);
+            DebugLog(@"removeAlias--------responseObject:%@-------error:%@", responseObject, error.description);
         }];
     }
 }

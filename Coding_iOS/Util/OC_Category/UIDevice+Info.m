@@ -189,7 +189,7 @@
     }
     
     
-    NSLog(@"----设备类型---%@",modelNameString);
+    DebugLog(@"----设备类型---%@",modelNameString);
     return modelNameString;
 }
 @end

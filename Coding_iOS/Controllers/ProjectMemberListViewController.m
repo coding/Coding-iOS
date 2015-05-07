@@ -245,9 +245,6 @@
     }else{
         member = [_myMemberArray objectAtIndex:indexPath.row];
     }
-    DebugLog(@"\n%@", member.user.name);
-    
-
     if (_type == ProMemTypeAT) {
         [self dismissViewControllerAnimated:YES completion:^{
             if (weakSelf.selectUserBlock) {
@@ -301,7 +298,7 @@
 }
 
 - (void)removeMember:(ProjectMember *)curMember inTableView:(UITableView *)tableView{
-    NSLog(@"remove - ProjectMember : %@", curMember.user.name);
+    DebugLog(@"remove - ProjectMember : %@", curMember.user.name);
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_ProjectMember_Quit:curMember andBlock:^(id data, NSError *error) {
         if (data) {

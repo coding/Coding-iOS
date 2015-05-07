@@ -362,7 +362,6 @@
         };
         [self.navigationController pushViewController:vc animated:YES];
     }
-    DebugLog(@"\n%@", user.name);
 }
 
 

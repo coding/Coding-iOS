@@ -303,7 +303,7 @@
 #pragma mark UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     NSString *strLink = request.URL.absoluteString;
-    NSLog(@"strLink=[%@]",strLink);
+    DebugLog(@"strLink=[%@]",strLink);
     if ([strLink rangeOfString:@"about:blank"].location != NSNotFound) {
         return YES;
     }else{
@@ -352,7 +352,6 @@
     }
 }
 - (void)likeBtnClicked:(id)sender{
-    DebugLog(@"likeBtnClicked");
     [[Coding_NetAPIManager sharedManager] request_Tweet_DoLike_WithObj:_tweet andBlock:^(id data, NSError *error) {
         if (data) {
             [_tweet changeToLiked:[NSNumber numberWithBool:!_tweet.liked.boolValue]];
@@ -434,7 +433,6 @@
         }
     }else if (_tweet.like_users.count > indexPath.row){
         User *curUser = [_tweet.like_users objectAtIndex:indexPath.row];
-        DebugLog(@"%@", curUser.name);
         if (_userBtnClickedBlock) {
             _userBtnClickedBlock(curUser);
         }

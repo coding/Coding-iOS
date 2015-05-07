@@ -198,10 +198,10 @@
                 if (error) {
                     [weakSelf changeToState:DownloadStateDefault];
                     [weakSelf showError:error];
-                    NSLog(@"ERROR:%@", error.description);
+                    DebugLog(@"ERROR:%@", error.description);
                 }else{
                     [weakSelf changeToState:DownloadStateDownloaded];
-                    NSLog(@"File downloaded to: %@", filePath);
+                    DebugLog(@"File downloaded to: %@", filePath);
                 }
             }];
             
@@ -227,7 +227,7 @@
             }
         }else{
             //更新进度
-            NSLog(@"Progress… %f", progress.fractionCompleted);
+            DebugLog(@"Progress… %f", progress.fractionCompleted);
             self.progressView.progress = progress.fractionCompleted;
             if (ABS(progress.fractionCompleted - 1.0) < 0.0001) {
                 //已完成

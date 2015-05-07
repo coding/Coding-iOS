@@ -247,7 +247,7 @@
                             [weakSelf.myTableView reloadData];
                         }];
                     } cancelBlock:^(ActionSheetDatePicker *picker) {
-                        NSLog(@"%@", picker.description);
+                        DebugLog(@"%@", picker.description);
                     } origin:self.view];
                     picker.minimumDate = [[NSDate date] offsetYear:-120];
                     picker.maximumDate = [NSDate date];
@@ -426,7 +426,6 @@
         } failureBlock:^(NSError *error) {
             [weakSelf showError:error];
         } progerssBlock:^(CGFloat progressValue) {
-            DebugLog(@"%.1f", progressValue);
         }];
         
         // 保存原图片到相册中

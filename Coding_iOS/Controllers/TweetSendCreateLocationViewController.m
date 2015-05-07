@@ -77,7 +77,7 @@
 
             return ;
         }
-        NSLog(@"obj:%@",data[@"message"]);
+        DebugLog(@"obj:%@",data[@"message"]);
         
         NSDictionary *dict = (NSDictionary *)data;
         

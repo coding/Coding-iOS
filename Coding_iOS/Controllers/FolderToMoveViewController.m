@@ -137,10 +137,10 @@
     switch (index) {
         case 0:
         {//新建文件夹
-            NSLog(@"新建文件夹");
+            DebugLog(@"新建文件夹");
             __weak typeof(self) weakSelf = self;
             [SettingTextViewController showSettingFolderNameVCFromVC:self withTitle:@"新建文件夹" textValue:nil type:SettingTypeNewFolderName doneBlock:^(NSString *textValue) {
-                NSLog(@"%@", textValue);
+                DebugLog(@"%@", textValue);
                 [[Coding_NetAPIManager sharedManager] request_CreatFolder:textValue inFolder:weakSelf.curFolder inProject:weakSelf.curProject andBlock:^(id data, NSError *error) {
                     if (data) {
                         if (weakSelf.curFolder) {
@@ -157,7 +157,7 @@
             break;
         case 1:
         {//移动文件
-            NSLog(@"移动文件");
+            DebugLog(@"移动文件");
             if (self.moveToFolderBlock) {
                 self.moveToFolderBlock(self.curFolder, self.toMovedFileIdList);
             }

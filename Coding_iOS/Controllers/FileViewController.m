@@ -255,7 +255,7 @@
 
 #pragma mark UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    NSLog(@"strLink=[%@]",request.URL.absoluteString);
+    DebugLog(@"strLink=[%@]",request.URL.absoluteString);
     return YES;
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{

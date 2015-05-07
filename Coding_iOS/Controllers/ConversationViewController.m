@@ -327,7 +327,6 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
 
 #pragma mark TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
-    DebugLog(@"%@", components.description);
     HtmlMediaItem *clickedItem = [components objectForKey:@"value"];
     [self analyseLinkStr:clickedItem.href];
 }
@@ -350,7 +349,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
 - (void)willTranspondMessage:(PrivateMessage *)message{
     __weak typeof(self) weakSelf = self;
     [UsersViewController showTranspondMessage:message withBlock:^(PrivateMessage *curMessage) {
-        NSLog(@"%@, %@", curMessage.friend.name, curMessage.content);
+        DebugLog(@"%@, %@", curMessage.friend.name, curMessage.content);
         [weakSelf doTranspondMessage:curMessage];
     }];
 }
@@ -362,7 +361,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
     }else{
         [[Coding_NetAPIManager sharedManager] request_SendPrivateMessage:curMessage andBlock:^(id data, NSError *error) {
             if (data) {
-                NSLog(@"转发成功：%@, %@", curMessage.friend.name, curMessage.htmlMedia.contentOrigional);
+                DebugLog(@"转发成功：%@, %@", curMessage.friend.name, curMessage.htmlMedia.contentOrigional);
             }
         }];
     }
@@ -386,7 +385,6 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
         }
         [weakSelf dataChangedWithError:NO scrollToBottom:YES animated:YES];
     } progerssBlock:^(CGFloat progressValue) {
-        DebugLog(@"\n%.2f", progressValue);
     }];
 }
 - (void)deletePrivateMessageWithMsg:(PrivateMessage *)curMsg{
@@ -474,7 +472,6 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
         && scrollView.contentOffset.y < 5) {
         _preContentHeight = self.myTableView.contentSize.height;
         [self refreshLoadMore:YES];
-        DebugLog(@"加载更多");
     }
 }
 

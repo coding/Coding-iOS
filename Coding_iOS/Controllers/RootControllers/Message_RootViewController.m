@@ -238,7 +238,7 @@
 }
 
 - (void)removeConversation:(PrivateMessage *)curMsg inTableView:(UITableView *)tableView{
-    NSLog(@"removeConversationWithFriend : %@", curMsg.friend.name);
+    DebugLog(@"removeConversationWithFriend : %@", curMsg.friend.name);
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_DeletePrivateMessagesWithObj:curMsg andBlock:^(id data, NSError *error) {
         if (data) {

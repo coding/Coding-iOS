@@ -161,12 +161,12 @@
     [Login addUmengAliasWithCurUser:[Login isLogin]];
 
     NSString * deviceTokenStr = [XGPush registerDevice:deviceToken];
-    NSLog(@"deviceTokenStr : %@", deviceTokenStr);
+    DebugLog(@"deviceTokenStr : %@", deviceTokenStr);
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    NSLog(@"didReceiveRemoteNotification-userInfo:-----\n%@", userInfo);
+    DebugLog(@"didReceiveRemoteNotification-userInfo:-----\n%@", userInfo);
     [XGPush handleReceiveNotification:userInfo];
     [BaseViewController handleNotificationInfo:userInfo applicationState:[application applicationState]];
 }
@@ -216,7 +216,7 @@
 
 #pragma mark URL Schemes
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    NSLog(@"path: %@, params: %@", [url path], [url queryParams]);
+    DebugLog(@"path: %@, params: %@", [url path], [url queryParams]);
     return [self showPasswordWithURL:url];
 }
 
@@ -272,7 +272,7 @@
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
              // Replace this implementation with code to handle the error appropriately.
              // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            DebugLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         } 
     }
@@ -344,7 +344,7 @@
          Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
          
          */
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        DebugLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }    
     

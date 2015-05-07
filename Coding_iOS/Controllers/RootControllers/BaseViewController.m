@@ -74,7 +74,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
 }
 
 - (void)tabBarItemClicked{
-    NSLog(@"\ntabBarItemClicked : %@", NSStringFromClass([self class]));
+    DebugLog(@"\ntabBarItemClicked : %@", NSStringFromClass([self class]));
 }
 
 #pragma mark - Orientations
@@ -103,15 +103,15 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         if (notification_id) {
             [[Coding_NetAPIManager sharedManager] request_markReadWithCodingTip:notification_id andBlock:^(id data, NSError *error) {
                 if (error) {
-                    NSLog(@"request_markReadWithCodingTip: %@", error.description);
+                    DebugLog(@"request_markReadWithCodingTip: %@", error.description);
                 }else{
-                    NSLog(@"request_markReadWithCodingTip: %@", data);
+                    DebugLog(@"request_markReadWithCodingTip: %@", data);
                 }
             }];
         }
         //弹出临时会话
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            NSLog(@"handleNotificationInfo : %@", userInfo);
+            DebugLog(@"handleNotificationInfo : %@", userInfo);
             NSString *param_url = [userInfo objectForKey:@"param_url"];
             [self presentLinkStr:param_url];
         });
@@ -132,7 +132,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
 }
 
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr analyseMethod:(AnalyseMethodType)methodType isNewVC:(BOOL *)isNewVC{
-    NSLog(@"\n analyseVCFromLinkStr : %@", linkStr);
+    DebugLog(@"\n analyseVCFromLinkStr : %@", linkStr);
     
     if (!linkStr || linkStr.length <= 0) {
         return nil;

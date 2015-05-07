@@ -217,7 +217,6 @@
     NSArray *dataList = [self tableDataListInSection:indexPath.section];
     if (_block) {
         Task *curTask = [dataList objectAtIndex:indexPath.row];
-        DebugLog(@"%@", curTask.content);
         _block(self, curTask);
     }
 }
@@ -238,7 +237,6 @@
         headerStr = @"已完成的任务";
     }
     return [tableView getHeaderViewWithStr:headerStr andBlock:^(id obj) {
-        DebugLog(@"headerStr :%@", headerStr);
     }];
 }
 

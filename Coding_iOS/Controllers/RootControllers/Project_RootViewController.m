@@ -145,7 +145,7 @@
         __weak Project_RootViewController *weakSelf = self;
         listView = [[ProjectListView alloc] initWithFrame:carousel.bounds projects:curPros block:^(Project *project) {
             [weakSelf goToProject:project];
-            NSLog(@"\n=====%@", project.name);
+            DebugLog(@"\n=====%@", project.name);
         } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
     }
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
@@ -206,7 +206,6 @@
 
 #pragma mark Search
 - (void)searchItemClicked:(id)sender{
-    NSLog(@"%@", sender);
     if (!_mySearchBar) {
         _mySearchBar = ({
             UISearchBar *searchBar = [[UISearchBar alloc] init];
@@ -271,13 +270,11 @@
 #pragma mark UISearchBarDelegate
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    NSLog(@"textDidChange: %@", searchText);
     [self searchProjectWithStr:searchText];
 }
 
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    NSLog(@"searchBarSearchButtonClicked: %@", searchBar.text);
     [self searchProjectWithStr:searchBar.text];
 }
 

@@ -200,7 +200,6 @@
             case ProjectViewTypeTasks:{
                 curView = ({
                     [[ProjectTasksView alloc] initWithFrame:self.view.bounds project:_myProject block:^(ProjectTaskListView *taskListView, Task *task) {
-                        DebugLog(@"%@--%@", task.owner.name, task.content);
                         EditTaskViewController *vc = [[EditTaskViewController alloc] init];
                         vc.myTask = task;
                         vc.taskChangedBlock = ^(Task *curTask, TaskEditType type){
@@ -213,7 +212,6 @@
                 break;
             case ProjectViewTypeTopics:{
                 curView = [[ProjectTopicsView alloc] initWithFrame:self.view.bounds project:_myProject block:^(ProjectTopicListView *projectTopicListView, ProjectTopic *projectTopic) {
-                    DebugLog(@"%@--\nProjectTopic:%@", projectTopicListView, projectTopic.title);
                     TopicDetailViewController *vc = [[TopicDetailViewController alloc] init];
                     vc.curTopic = projectTopic;
                     [weakSelf.navigationController pushViewController:vc animated:YES];
@@ -224,7 +222,7 @@
                 curView = ({
                     ProjectFolderListView *folderListView = [[ProjectFolderListView alloc] initWithFrame:self.view.bounds project:_myProject];
                     folderListView.folderInProjectBlock = ^(ProjectFolders *rootFolders, ProjectFolder *clickedFolder, Project *inProject){
-                        NSLog(@"folderInProjectBlock-----: %@- %@", clickedFolder.name, inProject.name);
+                        DebugLog(@"folderInProjectBlock-----: %@- %@", clickedFolder.name, inProject.name);
                         [weakSelf goToVCWithRootFolder:rootFolders folder:clickedFolder inProject:inProject];
                     };
                     folderListView;
@@ -245,12 +243,9 @@
             case ProjectViewTypeMembers:{
                 _proMemberVC = [[ProjectMemberListViewController alloc] init];
                 [_proMemberVC setFrame:self.view.bounds project:_myProject type:ProMemTypeProject refreshBlock:^(NSArray *memberArray) {
-                    DebugLog(@"%@", memberArray.description);
                 } selectBlock:^(ProjectMember *member) {
-                    DebugLog(@"%@", member.user.name);
                     [weakSelf goToActivityListOfUser:member.user];
                 } cellBtnBlock:^(ProjectMember *member) {
-                    DebugLog(@"%@", member.user.name);
                     if (member.user_id.intValue == [Login curLoginUser].id.intValue) {//自己，退出了项目
                         [weakSelf.navigationController popToRootViewControllerAnimated:YES];
                     }else{//别人，发起私信
@@ -292,7 +287,7 @@
 }
 
 - (void)goToVCWith:(CodeTree_File *)codeTreeFile andRef:(NSString *)ref{
-    NSLog(@"%@", codeTreeFile.path);
+    DebugLog(@"%@", codeTreeFile.path);
     if ([codeTreeFile.mode isEqualToString:@"tree"]) {//文件夹
         CodeTree *nextCodeTree = [CodeTree codeTreeWithRef:ref andPath:codeTreeFile.path];
         CodeListViewController *vc = [[CodeListViewController alloc] init];
@@ -452,7 +447,7 @@
             //新建文件夹
             __weak typeof(self) weakSelf = self;
             [SettingTextViewController showSettingFolderNameVCFromVC:self withTitle:@"新建文件夹" textValue:nil type:SettingTypeNewFolderName doneBlock:^(NSString *textValue) {
-                NSLog(@"%@", textValue);
+                DebugLog(@"%@", textValue);
                 [[Coding_NetAPIManager sharedManager] request_CreatFolder:textValue inFolder:nil inProject:weakSelf.myProject andBlock:^(id data, NSError *error) {
                     if (data) {
                         [weakSelf showHudTipStr:@"创建文件夹成功"];

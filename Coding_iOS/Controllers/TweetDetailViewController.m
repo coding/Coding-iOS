@@ -416,7 +416,7 @@
 #pragma mark loadCellRequest
 - (void)loadRequest:(NSURLRequest *)curRequest{
     NSString *linkStr = curRequest.URL.absoluteString;
-    NSLog(@"\n linkStr : %@", linkStr);
+    DebugLog(@"\n linkStr : %@", linkStr);
     [self analyseLinkStr:linkStr];
 }
 

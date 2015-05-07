@@ -171,7 +171,7 @@ static NSString *CodingGetSN(NSString *path, NSString *sk, NSDictionary *paramet
     
     NSString *sn = CodingGetSN(kBaiduAPIGeosearchPath,kBaiduSK,dict);
     
-    NSLog(@"%@",sn);
+    DebugLog(@"%@",sn);
     
     [dict setValue:sn forKey:@"sn"];
     
@@ -205,7 +205,7 @@ static NSString *CodingGetSN(NSString *path, NSString *sk, NSDictionary *paramet
     
     NSString *sn = CodingGetSN(kBaiduAPIPlacePath,kBaiduSK,dict);
     
-    NSLog(@"%@",sn);
+    DebugLog(@"%@",sn);
     
     [dict setValue:sn forKey:@"sn"];
 

@@ -85,7 +85,7 @@
 - (void)refreshCodeViewData{
     if ([_myCodeFile.file.mode isEqualToString:@"image"]) {
         NSURL *imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@u/%@/p/%@/git/raw/%@/%@", kNetPath_Code_Base, _myProject.owner_user_name, _myProject.name, _myCodeFile.ref, _myCodeFile.file.path]];
-        NSLog(@"imageUrl: %@", imageUrl);
+        DebugLog(@"imageUrl: %@", imageUrl);
         [self.webContentView loadRequest:[NSURLRequest requestWithURL:imageUrl]];
     }else if ([_myCodeFile.file.mode isEqualToString:@"file"]){
         NSString *contentStr = [WebContentManager codePatternedWithContent:_myCodeFile];
@@ -95,7 +95,7 @@
 
 #pragma mark UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    NSLog(@"strLink=[%@]",request.URL.absoluteString);
+    DebugLog(@"strLink=[%@]",request.URL.absoluteString);
     return YES;
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{

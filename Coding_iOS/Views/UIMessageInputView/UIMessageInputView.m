@@ -67,7 +67,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     CGFloat newheightToBottom = kScreen_Height - CGRectGetMinY(frame);
     [super setFrame:frame];
     if (fabs(oldheightToBottom - newheightToBottom) > 0.1) {
-        NSLog(@"heightToBottom-----:%.2f", newheightToBottom);
+        DebugLog(@"heightToBottom-----:%.2f", newheightToBottom);
         if (oldheightToBottom > newheightToBottom) {//降下去的时候保存
             [self saveInputStr];
             [self saveInputMedia];
@@ -667,7 +667,6 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     imagePickerController.maximumNumberOfSelection = 6;
     UINavigationController *navigationController = [[BaseNavigationController alloc] initWithRootViewController:imagePickerController];
     [[BaseViewController presentingVC] presentViewController:navigationController animated:YES completion:^{
-        NSLog(@"hehehehhehe");
     }];
 }
 
@@ -719,7 +718,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (self.HUD) {
                     self.HUD.progress = MAX(0, fractionCompleted.floatValue-0.05);
-                    NSLog(@"uploadingPhotoName - %@ : %.2f", self.uploadingPhotoName, fractionCompleted.floatValue);
+                    DebugLog(@"uploadingPhotoName - %@ : %.2f", self.uploadingPhotoName, fractionCompleted.floatValue);
                 }
             });
         }];

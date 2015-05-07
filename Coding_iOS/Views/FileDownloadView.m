@@ -242,10 +242,10 @@
                 if (error) {
                     [weakSelf changeToState:DownloadStateDefault];
                     [weakSelf showError:error];
-                    NSLog(@"ERROR:%@", error.description);
+                    DebugLog(@"ERROR:%@", error.description);
                 }else{
                     [weakSelf changeToState:DownloadStateDownloaded];
-                    NSLog(@"File downloaded to: %@", filePath);
+                    DebugLog(@"File downloaded to: %@", filePath);
                 }
             }];
             

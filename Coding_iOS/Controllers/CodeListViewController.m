@@ -84,7 +84,7 @@
 */
 
 - (void)goToVCWith:(CodeTree_File *)codeTreeFile andRef:(NSString *)ref{
-    NSLog(@"%@", codeTreeFile.path);
+    DebugLog(@"%@", codeTreeFile.path);
     if ([codeTreeFile.mode isEqualToString:@"tree"]) {//文件夹
         CodeTree *nextCodeTree = [CodeTree codeTreeWithRef:ref andPath:codeTreeFile.path];
         CodeListViewController *vc = [[CodeListViewController alloc] init];
