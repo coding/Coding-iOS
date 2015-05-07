@@ -13,13 +13,13 @@
 
 //%%% customizeable button attributes
 CGFloat X_BUFFER = 52.0; //%%% the number of pixels on either side of the segment
-CGFloat HEIGHT = 40.0; //%%% height of the segment
+CGFloat HEIGHT = 35.0; //%%% height of the segment
 #define BUTTON_WIDTH  ([UIScreen mainScreen].bounds.size.width/3)
 
 //%%% customizeable selector bar attributes (the black bar under the buttons)
 CGFloat BOUNCE_BUFFER = 0.0; //%%% adds bounce to the selection bar when you scroll
 CGFloat ANIMATION_SPEED = 0.2; //%%% the number of seconds it takes to complete the animation
-CGFloat SELECTOR_Y_BUFFER = 34.0; //%%% the y-value of the bar that shows what page you are on (0 is the top)
+CGFloat SELECTOR_Y_BUFFER = 32.0; //%%% the y-value of the bar that shows what page you are on (0 is the top)
 CGFloat SELECTOR_HEIGHT = 7.0; //%%% thickness of the selector bar
 
 CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy offset.  I'm going to look for a better workaround in the future
