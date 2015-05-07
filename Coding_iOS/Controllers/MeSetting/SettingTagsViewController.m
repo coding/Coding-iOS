@@ -118,6 +118,10 @@
     if ([tempArray containsObject:tagId]) {
         [tempArray removeObject:tagId];
     }else{
+        if (tempArray.count >= 10) {
+            [self showHudTipStr:@"用户个性标签不能超过10个"];
+            return;
+        }
         [tempArray addObject:tagId];
     }
     [collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
