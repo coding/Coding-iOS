@@ -246,13 +246,14 @@
     }
     cell.selectBtn.selected = selected;
     
-    if (indexPath.row > 2) {
+    //if (indexPath.row > 2) {
         [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:[EditLabelCell cellHeight]];
         cell.delegate = self;
-    }
+    //}
     
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     cell.backgroundColor = kColorTableBG;
+    [cell resetLbl];
     return cell;
 }
 
@@ -367,10 +368,10 @@
 
 - (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state
 {
-    NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
-    if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2) {
-        return NO;
-    }
+//    NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
+//    if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2) {
+//        return NO;
+//    }
     return YES;
 }
 
