@@ -42,20 +42,26 @@
     [super layoutSubviews];
 }
 
+- (void)resetLbl
+{
+//    _nameLbl.frame = CGRectMake(kPaddingLeftWidth, 0, (kScreen_Width - kPaddingLeftWidth * 2 - 30), 44);
+//    _selectBtn.hidden = FALSE;
+}
+
 - (void)showRightBtn:(BOOL)show
 {
-    if (show) {
-        _selectBtn.hidden = show;
-        [UIView animateWithDuration:0.3 animations:^{
-            _nameLbl.frame = CGRectMake(kPaddingLeftWidth + 88, 0, (kScreen_Width - kPaddingLeftWidth * 2 - 30 - 88), 44);
-        }];
-    } else {
-        [UIView animateWithDuration:0.3 animations:^{
-            _nameLbl.frame = CGRectMake(kPaddingLeftWidth, 0, (kScreen_Width - kPaddingLeftWidth * 2 - 30), 44);
-        } completion:^(BOOL finished) {
-            _selectBtn.hidden = show;
-        }];
-    }
+//    if (show) {
+//        _selectBtn.hidden = show;
+//        [UIView animateWithDuration:0.1 animations:^{
+//            _nameLbl.frame = CGRectMake(kPaddingLeftWidth + 88, 0, (kScreen_Width - kPaddingLeftWidth * 2 - 30 - 88), 44);
+//        }];
+//    } else {
+//        [UIView animateWithDuration:0.1 animations:^{
+//            _nameLbl.frame = CGRectMake(kPaddingLeftWidth, 0, (kScreen_Width - kPaddingLeftWidth * 2 - 30), 44);
+//        } completion:^(BOOL finished) {
+//            _selectBtn.hidden = show;
+//        }];
+//    }
 }
 
 + (CGFloat)cellHeight

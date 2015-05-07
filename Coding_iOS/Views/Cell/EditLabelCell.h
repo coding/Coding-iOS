@@ -14,6 +14,7 @@
 @property (strong, nonatomic) UILabel *nameLbl;
 
 - (void)showRightBtn:(BOOL)show;
+- (void)resetLbl;
 
 + (CGFloat)cellHeight;
 
