@@ -35,6 +35,8 @@
 // 链接
 @property (strong, nonatomic) NSString *clickedAutoLinkStr;
 
+@property (nonatomic, assign) BOOL appearToRefresh;
+
 @end
 
 @implementation TopicDetailViewController
@@ -87,7 +89,8 @@
         _myMsgInputView.curProject = _curTopic.project;
         _myMsgInputView.commentOfId = _curTopic.id;
     }
-    //[self refreshTopic];
+    
+    _appearToRefresh = YES;
 }
 
 - (void)setCurTopic:(ProjectTopic *)curTopic
@@ -112,13 +115,16 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self refreshTopic];
     // 键盘
     if (_myMsgInputView) {
         if (!_myMsgInputView.toUser) {
             _myMsgInputView.toUser = nil;
         }
         [_myMsgInputView prepareToShow];
+    }
+    if (_appearToRefresh) {
+        [self refreshTopic];
+        _appearToRefresh = NO;
     }
 }
 
@@ -138,6 +144,7 @@
     vc.topicChangedBlock = ^(){
         [weakSelf refreshTopic];
     };
+    _appearToRefresh = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
