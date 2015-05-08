@@ -57,6 +57,8 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 @property (strong, nonatomic) MBProgressHUD *HUD;
 @property (strong, nonatomic) NSString *uploadingPhotoName;
 
+@property (nonatomic, assign) CGFloat curKeyboardEndFrameY;
+
 @end
 
 @implementation UIMessageInputView
@@ -137,6 +139,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         // Initialization code
         self.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
         [self addLineUp:YES andDown:NO andColor:[UIColor lightGrayColor]];
+        _curKeyboardEndFrameY = -1;
         
         _viewHeightOld = CGRectGetHeight(frame);
         _inputState = UIMessageInputViewStateSystem;
@@ -267,25 +270,25 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 
 #pragma mark Public M
 - (void)prepareToShow{
+    if ([self superview] == kKeyWindow) {
+        return;
+    }
     [self setY:kScreen_Height];
     [kKeyWindow addSubview:self];
     [kKeyWindow addSubview:_emojiKeyboardView];
     [kKeyWindow addSubview:_addKeyboardView];
-    if (_isAlwaysShow) {
-        if ([self isCustomFirstResponder]) {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
-        }else{
-            [UIView animateWithDuration:0.25 animations:^{
-                [self setY:kScreen_Height - CGRectGetHeight(self.frame)];
-            } completion:^(BOOL finished) {
-                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
-            }];
-        }
-    }else{
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    
+    if (_isAlwaysShow && ![self isCustomFirstResponder]) {
+        [UIView animateWithDuration:0.25 animations:^{
+            [self setY:kScreen_Height - CGRectGetHeight(self.frame)];
+        }];
     }
 }
 - (void)prepareToDismiss{
+    if ([self superview] == nil) {
+        return;
+    }
     [self isAndResignFirstResponder];
     [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         [self setY:kScreen_Height];
@@ -808,7 +811,6 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         return NO;
     }else if ([text isEqualToString:@"@"]){
         __weak typeof(self) weakSelf = self;
-        
         if (self.curProject) {
             //@项目成员
             [ProjectMemberListViewController showATSomeoneWithBlock:^(User *curUser) {
@@ -825,6 +827,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     return YES;
 }
 - (void)atSomeUser:(User *)curUser inTextView:(UITextView *)textView andRange:(NSRange)range{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardDidChangeFrameNotification object:nil];//英文键盘，重新弹出键盘时，没有WillChange的通知
     NSString *appendingStr;
     if (curUser) {
         appendingStr = [NSString stringWithFormat:@"@%@ ", curUser.name];
@@ -860,13 +863,19 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 }
 #pragma mark - KeyBoard Notification Handlers
 - (void)keyboardChange:(NSNotification*)aNotification{
+    if ([aNotification name] == UIKeyboardDidChangeFrameNotification) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidChangeFrameNotification object:nil];
+    }
     if (self.inputState == UIMessageInputViewStateSystem && [self.inputTextView isFirstResponder]) {
         NSDictionary* userInfo = [aNotification userInfo];
-        NSTimeInterval animationDuration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-        UIViewAnimationCurve animationCurve = [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue];
         CGRect keyboardEndFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        
-        [UIView animateWithDuration:animationDuration delay:0.0f options:[UIView animationOptionsForCurve:animationCurve] animations:^{
+        if (_curKeyboardEndFrameY == keyboardEndFrame.origin.y) {
+            return;
+        }else{
+            _curKeyboardEndFrameY = keyboardEndFrame.origin.y;
+        }
+
+        void (^endFrameBlock)() = ^(){
             CGFloat keyboardY =  keyboardEndFrame.origin.y;
             if (ABS(keyboardY - kScreen_Height) < 0.1) {
                 if (_isAlwaysShow) {
@@ -877,9 +886,18 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
             }else{
                 [self setY:keyboardY-CGRectGetHeight(self.frame)];
             }
-
-        } completion:^(BOOL finished) {
-        }];
+        };
+        
+        if ([aNotification name] == UIKeyboardWillChangeFrameNotification) {
+            NSTimeInterval animationDuration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+            UIViewAnimationCurve animationCurve = [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue];
+            
+            [UIView animateWithDuration:animationDuration delay:0.0f options:[UIView animationOptionsForCurve:animationCurve] animations:^{
+                endFrameBlock();
+            } completion:nil];
+        }else{
+            endFrameBlock();
+        }
     }
 }
 
