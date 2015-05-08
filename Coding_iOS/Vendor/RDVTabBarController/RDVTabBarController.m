@@ -48,14 +48,12 @@
     
     [self.view addSubview:[self contentView]];
     [self.view addSubview:[self tabBar]];
+    [self setTabBarHidden:NO animated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     [self setSelectedIndex:[self selectedIndex]];
-    
-    [self setTabBarHidden:NO animated:NO];
 }
 
 - (BOOL)shouldAutorotate{
