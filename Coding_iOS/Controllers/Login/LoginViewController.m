@@ -112,18 +112,23 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     if (!_inputTipsView) {
-        _inputTipsView = [EaseInputTipsView tipsViewWithType:EaseInputTipsViewTypeLogin];
-        _inputTipsView.valueStr = nil;
-        
-        __weak typeof(self) weakSelf = self;
-        _inputTipsView.selectedStringBlock = ^(NSString *valueStr){
-            weakSelf.myLogin.email = valueStr;
-            [weakSelf.myTableView reloadData];
-            [weakSelf.view endEditing:YES];
-        };
-        UITableViewCell *cell = [_myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-        [_inputTipsView setY:CGRectGetMaxY(cell.frame) - 0.5];
-        [_myTableView addSubview:_inputTipsView];
+        _inputTipsView = ({
+            EaseInputTipsView *tipsView = [EaseInputTipsView tipsViewWithType:EaseInputTipsViewTypeLogin];
+            tipsView.valueStr = nil;
+            
+            __weak typeof(self) weakSelf = self;
+            tipsView.selectedStringBlock = ^(NSString *valueStr){
+                weakSelf.myLogin.email = valueStr;
+                [weakSelf refreshIconUserImage:valueStr];
+                [weakSelf.myTableView reloadData];
+                [weakSelf.view endEditing:YES];
+            };
+            UITableViewCell *cell = [_myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+            [tipsView setY:CGRectGetMaxY(cell.frame) - 0.5];
+            
+            [_myTableView addSubview:tipsView];
+            tipsView;
+        });
     }
 }
 

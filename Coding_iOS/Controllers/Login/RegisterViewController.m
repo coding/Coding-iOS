@@ -15,6 +15,7 @@
 #import "TPKeyboardAvoidingTableView.h"
 #import "WebViewController.h"
 #import "CannotLoginViewController.h"
+#import "EaseInputTipsView.h"
 
 @interface RegisterViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 @property (assign, nonatomic) BOOL captchaNeeded;
@@ -23,6 +24,7 @@
 @property (strong, nonatomic) UIView *bottomView;
 
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
+@property (strong, nonatomic) EaseInputTipsView *inputTipsView;
 
 @end
 
@@ -72,6 +74,28 @@
     [self refreshCaptchaNeeded];
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (!_inputTipsView) {
+        _inputTipsView = ({
+            EaseInputTipsView *tipsView = [EaseInputTipsView tipsViewWithType:EaseInputTipsViewTypeRegister];
+            tipsView.valueStr = nil;
+            
+            __weak typeof(self) weakSelf = self;
+            tipsView.selectedStringBlock = ^(NSString *valueStr){
+                weakSelf.myRegister.email = valueStr;
+                [weakSelf.myTableView reloadData];
+                [weakSelf.view endEditing:YES];
+            };
+            UITableViewCell *cell = [_myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+            [tipsView setY:CGRectGetMaxY(cell.frame)];
+            
+            [_myTableView addSubview:tipsView];
+            tipsView;
+        });
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -100,9 +124,12 @@
         [cell configWithPlaceholder:@" 电子邮箱" andValue:self.myRegister.email];
         cell.textField.secureTextEntry = NO;
         cell.textValueChangedBlock = ^(NSString *valueStr){
+            weakSelf.inputTipsView.valueStr = valueStr;
+            weakSelf.inputTipsView.active = YES;
             weakSelf.myRegister.email = valueStr;
         };
         cell.editDidEndBlock = ^(NSString *textStr){
+            weakSelf.inputTipsView.active = NO;
         };
     }else if (indexPath.row == 1){
         cell.isCaptcha = NO;

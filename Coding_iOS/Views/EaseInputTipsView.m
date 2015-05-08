@@ -25,20 +25,22 @@
 }
 
 - (instancetype)initWithTipsType:(EaseInputTipsViewType)type{
-    self = [super initWithFrame:CGRectMake(kLoginPaddingLeftWidth, 0, kScreen_Width-2*kLoginPaddingLeftWidth, 120)];
+    CGFloat padingWith = type == EaseInputTipsViewTypeLogin? kLoginPaddingLeftWidth: 0.0;
+    self = [super initWithFrame:CGRectMake(padingWith, 0, kScreen_Width-2*padingWith, 120)];
     if (self) {
         [self addRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(2, 2)];
         [self setClipsToBounds:YES];
         _myTableView = ({
             UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
-            tableView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.9];
+            tableView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.95];
             tableView.dataSource = self;
             tableView.delegate = self;
-            tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+            tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             [self addSubview:tableView];
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self);
             }];
+            tableView.tableFooterView = [UIView new];
             tableView;
         });
         _type = type;
@@ -125,15 +127,26 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *CellIdentifier = @"EaseInputTipsViewCell";
+    NSInteger labelTag = 99;
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.backgroundColor = [UIColor clearColor];
-        cell.textLabel.font = [UIFont systemFontOfSize:14];
-        cell.textLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(kLoginPaddingLeftWidth, 0, kScreen_Width - 2*kLoginPaddingLeftWidth, 35)];
+        label.font = [UIFont systemFontOfSize:14];
+        label.tag = labelTag;
+        [cell.contentView addSubview:label];
     }
-    cell.textLabel.text = [_dataList objectAtIndex:indexPath.row];
+    
+    UILabel *label = (UILabel *)[cell.contentView viewWithTag:labelTag];
+    label.textColor =  [UIColor colorWithHexString:_type == EaseInputTipsViewTypeLogin? @"0x222222": @"0x666666"];
+    label.text = [_dataList objectAtIndex:indexPath.row];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kLoginPaddingLeftWidth hasSectionLine:NO];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
