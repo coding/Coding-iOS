@@ -42,6 +42,23 @@
     }
 }
 
+#pragma mark - Orientations
+- (BOOL)shouldAutorotate{
+    return UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationPortrait;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (void)forceChangeToOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:interfaceOrientation] forKey:@"orientation"];
+}
+
 /*
 #pragma mark - Navigation
 
