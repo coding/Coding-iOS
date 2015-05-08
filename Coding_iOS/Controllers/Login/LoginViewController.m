@@ -118,10 +118,10 @@
             
             __weak typeof(self) weakSelf = self;
             tipsView.selectedStringBlock = ^(NSString *valueStr){
+                [weakSelf.view endEditing:YES];
                 weakSelf.myLogin.email = valueStr;
                 [weakSelf refreshIconUserImage:valueStr];
                 [weakSelf.myTableView reloadData];
-                [weakSelf.view endEditing:YES];
             };
             UITableViewCell *cell = [_myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
             [tipsView setY:CGRectGetMaxY(cell.frame) - 0.5];
