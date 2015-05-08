@@ -108,6 +108,7 @@
     
     NSInteger index = 0;
     for (RDVTabBarItem *item in [[self tabBar] items]) {
+        item.titlePositionAdjustment = UIOffsetMake(0, 3);
         [item setBackgroundSelectedImage:backgroundImage withUnselectedImage:backgroundImage];
         UIImage *selectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_selected",
                                                       [tabBarItemImages objectAtIndex:index]]];
