@@ -272,6 +272,7 @@
 		4ECE8B041A3946C10021E29C /* UnReadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECE8AFA1A3946C10021E29C /* UnReadManager.m */; };
 		4ECE8B051A3946C10021E29C /* WebContentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECE8AFC1A3946C10021E29C /* WebContentManager.m */; };
 		4ECE8B081A3947300021E29C /* BasicPreviewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECE8B071A3947300021E29C /* BasicPreviewItem.m */; };
+		4ED20A781AFC7C8B00C63498 /* EasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED20A771AFC7C8B00C63498 /* EasePageViewController.m */; };
 		4ED6731E1A8DD38C00DF2D1A /* ReportIllegalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */; };
 		4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED673211A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m */; };
 		4ED673261A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED673251A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png */; };
@@ -1052,6 +1053,8 @@
 		4ECE8AFC1A3946C10021E29C /* WebContentManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebContentManager.m; sourceTree = "<group>"; };
 		4ECE8B061A3947300021E29C /* BasicPreviewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicPreviewItem.h; sourceTree = "<group>"; };
 		4ECE8B071A3947300021E29C /* BasicPreviewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicPreviewItem.m; sourceTree = "<group>"; };
+		4ED20A761AFC7C8B00C63498 /* EasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasePageViewController.h; sourceTree = "<group>"; };
+		4ED20A771AFC7C8B00C63498 /* EasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasePageViewController.m; sourceTree = "<group>"; };
 		4ED6731C1A8DD38C00DF2D1A /* ReportIllegalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportIllegalViewController.h; sourceTree = "<group>"; };
 		4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportIllegalViewController.m; sourceTree = "<group>"; };
 		4ED673201A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVWebViewControllerActivityReport.h; sourceTree = "<group>"; };
@@ -1696,6 +1699,8 @@
 			children = (
 				4E53EB501AFA03990034FE1C /* RKSwipeBetweenViewControllers.h */,
 				4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */,
+				4ED20A761AFC7C8B00C63498 /* EasePageViewController.h */,
+				4ED20A771AFC7C8B00C63498 /* EasePageViewController.m */,
 			);
 			path = RKSwipeBetweenViewControllers;
 			sourceTree = "<group>";
@@ -3689,6 +3694,7 @@
 				4E996BC81ABA754600C704F1 /* JDStatusBarNotification.m in Sources */,
 				4E6C411F1A846AC30098DC17 /* RFKeyboardToolbar.m in Sources */,
 				4E38CF621A7B7C99005536C0 /* CodeBranchOrTag.m in Sources */,
+				4ED20A781AFC7C8B00C63498 /* EasePageViewController.m in Sources */,
 				8EA6D1CF19E240C40076D59C /* ObjcRuntime.m in Sources */,
 				4E03ACA61A5D2060002B000B /* UIVerticalAlignmentLabel.m in Sources */,
 				4E6BA2DF1A1EE6AF005FD721 /* AFURLRequestSerialization.m in Sources */,

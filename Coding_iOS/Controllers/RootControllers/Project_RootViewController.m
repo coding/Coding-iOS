@@ -37,6 +37,7 @@
 
 #pragma mark TabBar
 - (void)tabBarItemClicked{
+    [super tabBarItemClicked];
     if (_myCarousel.currentItemView && [_myCarousel.currentItemView isKindOfClass:[ProjectListView class]]) {
         ProjectListView *listView = (ProjectListView *)_myCarousel.currentItemView;
         [listView tabBarItemClicked];

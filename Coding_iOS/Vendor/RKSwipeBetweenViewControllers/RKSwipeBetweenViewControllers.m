@@ -10,6 +10,7 @@
 
 #import "RKSwipeBetweenViewControllers.h"
 #import "SMPageControl.h"
+#import "EasePageViewController.h"
 
 //%%% customizeable button attributes
 CGFloat X_BUFFER = 52.0; //%%% the number of pixels on either side of the segment
@@ -41,8 +42,16 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 @synthesize buttonText;
 
 + (instancetype)newSwipeBetweenViewControllers{
-    UIPageViewController *pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    EasePageViewController *pageController = [[EasePageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     return [[RKSwipeBetweenViewControllers alloc] initWithRootViewController:pageController];
+}
+
+- (UIViewController *)curViewController{
+    if (self.viewControllerArray.count > self.currentPageIndex) {
+        return [self.viewControllerArray objectAtIndex:self.currentPageIndex];
+    }else{
+        return nil;
+    }
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

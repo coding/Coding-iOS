@@ -161,4 +161,6 @@
 @property (nonatomic, strong)UIView *navigationView;
 @property (nonatomic, strong)NSArray *buttonText;
 + (instancetype)newSwipeBetweenViewControllers;
+- (UIViewController *)curViewController;
+
 @end

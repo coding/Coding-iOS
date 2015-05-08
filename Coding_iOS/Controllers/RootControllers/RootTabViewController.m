@@ -121,16 +121,26 @@
 }
 
 - (BOOL)tabBarController:(RDVTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController{
-    if (tabBarController.selectedViewController == viewController) {        
-        if ([viewController isKindOfClass:[UINavigationController class]]) {
-            UINavigationController *nav = (UINavigationController *)viewController;
-            if (nav.topViewController == nav.viewControllers[0]) {
-                BaseViewController *rootVC = (BaseViewController *)nav.topViewController;
-#pragma clang diagnostic ignored "-Warc-performSelector"
-                if ([rootVC respondsToSelector:@selector(tabBarItemClicked)]) {
-                    [rootVC performSelector:@selector(tabBarItemClicked)];
-                }
-            }
+    if (tabBarController.selectedViewController != viewController) {
+        return YES;
+    }
+    if (![viewController isKindOfClass:[UINavigationController class]]) {
+        return YES;
+    }
+    UINavigationController *nav = (UINavigationController *)viewController;
+    if (nav.topViewController != nav.viewControllers[0]) {
+        return YES;
+    }
+    if ([nav isKindOfClass:[RKSwipeBetweenViewControllers class]]) {
+        RKSwipeBetweenViewControllers *swipeVC = (RKSwipeBetweenViewControllers *)nav;
+        if ([[swipeVC curViewController] isKindOfClass:[BaseViewController class]]) {
+            BaseViewController *rootVC = (BaseViewController *)[swipeVC curViewController];
+            [rootVC tabBarItemClicked];
+        }
+    }else{
+        if ([nav.topViewController isKindOfClass:[BaseViewController class]]) {
+            BaseViewController *rootVC = (BaseViewController *)nav.topViewController;
+            [rootVC tabBarItemClicked];
         }
     }
     return YES;
