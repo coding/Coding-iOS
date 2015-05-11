@@ -13,9 +13,11 @@
 
 @interface FileDownloadView ()
 @property (strong, nonatomic) UIImageView *iconView;
-@property (strong, nonatomic) UILabel *nameLabel, *infoLabel, *sizeLabel;
 @property (strong, nonatomic) ASProgressPopUpView *progressView;
 @property (strong, nonatomic) UIButton *stateButton;
+@property (strong, nonatomic) UIView *toolBarView;
+
+@property (strong, nonatomic) UILabel *nameLabel, *sizeLabel;
 @property (strong, nonatomic) NSProgress *progress;
 @end
 
@@ -48,10 +50,6 @@
     }else{
         _iconView.image = [UIImage imageNamed:[_file fileIconName]];
     }
-    _nameLabel.text = _file.name;
-    _sizeLabel.text = [NSString sizeDisplayWithByte:_file.size.floatValue];
-    
-    [self changeToState:_file.downloadState];
     
     [_progressView showPopUpViewAnimated:NO];
     
@@ -59,6 +57,7 @@
     if (cDownloadTask) {
         self.progress = cDownloadTask.progress;
     }
+    [self changeToState:_file.downloadState];
 }
 
 - (void)loadLayoutWithCurFile{
@@ -67,46 +66,58 @@
     }
     CGFloat buttonHeight;
     if (_file.preview && _file.preview.length > 0) {
-        buttonHeight = 30;
         if (!_iconView) {
             _iconView = [[YLImageView alloc] initWithFrame:self.bounds];
             _iconView.backgroundColor = [UIColor blackColor];
             _iconView.contentMode = UIViewContentModeScaleAspectFit;
             [self addSubview:_iconView];
+            [_iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(self);
+            }];
         }
-
+        if (!_toolBarView) {
+            _toolBarView = [UIView new];
+            _toolBarView.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+            [self addSubview:_toolBarView];
+            [_toolBarView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.bottom.equalTo(self);
+                make.height.mas_equalTo(49);
+            }];
+        }
+        if (!_sizeLabel) {
+            _sizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+            _sizeLabel.textAlignment = NSTextAlignmentCenter;
+            _sizeLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+            _sizeLabel.font = [UIFont systemFontOfSize:14];
+            _sizeLabel.text = @"正在下载中...";
+            [_toolBarView addSubview:_sizeLabel];
+            [_sizeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.top.equalTo(_toolBarView);
+                make.height.mas_equalTo(30);
+            }];
+        }
         if (!_progressView) {
             _progressView = [[ASProgressPopUpView alloc] initWithFrame:CGRectZero];
             _progressView.popUpViewCornerRadius = 12.0;
             _progressView.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:12];
-            [_progressView setTrackTintColor:[UIColor colorWithHexString:@"0xe6e6e6"]];
+            [_progressView setTrackTintColor:[UIColor colorWithHexString:@"0x999999"]];
             _progressView.popUpViewAnimatedColors = @[[UIColor colorWithHexString:@"0x3bbd79"]];
             _progressView.hidden = YES;
-            [_progressView hidePopUpViewAnimated:NO];
-            [self addSubview:self.progressView];
+            [_progressView hidePopUpViewAnimated:YES];
+            [_toolBarView addSubview:self.progressView];
+            [_progressView mas_makeConstraints:^(MASConstraintMaker *make) {//上下居中基准
+                make.height.mas_equalTo(2.0);
+                make.bottom.equalTo(_toolBarView).offset(-15);
+                make.left.equalTo(_toolBarView).offset(20);
+                make.right.equalTo(_toolBarView).offset(-60);
+            }];
         }
         if (!_stateButton) {
-            _stateButton = [[UIButton alloc] init];
-            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载原文件" andFrame:CGRectMake(0, 0, buttonHeight, buttonHeight) target:self action:@selector(clickedByUser)];
-            [_stateButton setCenter:self.center];
-            [self addSubview:_stateButton];
+            _stateButton = [UIButton new];
+            [_stateButton setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
+            [_stateButton addTarget:self action:@selector(clickedByUser) forControlEvents:UIControlEventTouchUpInside];
+            [_toolBarView addSubview:_stateButton];
         }
-        [_iconView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self);
-        }];
-        [_progressView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(2.0);
-            make.bottom.equalTo(_stateButton.mas_top).offset(-20);
-        }];
-        
-        [_stateButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(buttonHeight);
-            make.bottom.equalTo(self.mas_bottom).offset(-30);
-            
-            make.width.equalTo(@[@(kScreen_Width- 2*kPaddingLeftWidth), _progressView]);
-            make.centerX.equalTo(@[self, _progressView]);
-        }];
-        
     }else{
         buttonHeight = 45;
         if (!_iconView) {
@@ -275,15 +286,43 @@
         default:
             break;
     }
+    
+    
+    if (_file.preview && _file.preview.length > 0) {
+        if (state == DownloadStateDownloading) {
+            _sizeLabel.hidden = NO;
+            _progressView.hidden = NO;
+            [_stateButton setTitle:nil forState:UIControlStateNormal];
+            [_stateButton setImage:[UIImage imageNamed:@"button_download_cancel"] forState:UIControlStateNormal];
+            [_stateButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.height.width.mas_equalTo(44);
+                make.centerY.mas_equalTo(_toolBarView);
+                make.right.mas_equalTo(_toolBarView).offset(-9);
+            }];
+        }else{
+            _sizeLabel.hidden = YES;
+            _progressView.hidden = YES;
+            [_stateButton setTitle:stateTitle forState:UIControlStateNormal];
+            [_stateButton setImage:nil forState:UIControlStateNormal];
+            [_stateButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(_toolBarView);
+            }];
+        }
+    }else{
+        _nameLabel.text = _file.name;
+        _sizeLabel.text = [NSString sizeDisplayWithByte:_file.size.floatValue];
+
+        [self.progressView setHidden:!(state == DownloadStateDownloading || state == DownloadStatePausing)];
+        [_stateButton setTitle:stateTitle forState:UIControlStateNormal];
+        if (state == DownloadStateDownloaded) {
+            [_stateButton defaultStyle];
+        }else{
+            [_stateButton primaryStyle];
+        }
+    }
+    
     if (state == DownloadStateDownloaded && self.completionBlock && !self.hidden) {
         self.completionBlock();
-    }
-    [self.progressView setHidden:!(state == DownloadStateDownloading || state == DownloadStatePausing)];
-    [_stateButton setTitle:stateTitle forState:UIControlStateNormal];
-    if (state == DownloadStateDownloaded) {
-        [_stateButton defaultStyle];
-    }else{
-        [_stateButton primaryStyle];
     }
 }
 
