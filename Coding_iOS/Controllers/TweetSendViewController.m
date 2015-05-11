@@ -18,7 +18,7 @@
 #import "TweetSendLocation.h"
 #import <TPKeyboardAvoiding/TPKeyboardAvoidingTableView.h>
 
-@interface TweetSendViewController ()
+@interface TweetSendViewController ()<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, QBImagePickerControllerDelegate, UIScrollViewDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
 @property (strong, nonatomic) Tweet *curTweet;;
 @end
@@ -72,6 +72,14 @@
     });
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    TweetSendTextCell *cell = (TweetSendTextCell *)[self.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    if ([cell respondsToSelector:@selector(becomeFirstResponder)]) {
+        [cell becomeFirstResponder];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -92,60 +100,32 @@
     return row;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    __weak typeof(self) weakSelf = self;
     if (indexPath.row == 0) {
-        __weak typeof(self) weakSelf = self;
         TweetSendTextCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetSendText forIndexPath:indexPath];
         cell.tweetContentView.text = _curTweet.tweetContent;
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.curTweet.tweetContent = valueStr;
         };
-        cell.atSomeoneBlock = ^(UITextView *tweetContentView){
-            [tweetContentView resignFirstResponder];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [UsersViewController showATSomeoneWithBlock:^(User *curUser) {
-                    if (curUser) {
-                        NSString *appendingStr = [NSString stringWithFormat:@"@%@ ", curUser.name];
-                        weakSelf.curTweet.tweetContent = [weakSelf.curTweet.tweetContent stringByAppendingString:appendingStr];
-                    }
-                    [tweetContentView becomeFirstResponder];
-                    tweetContentView.text = weakSelf.curTweet.tweetContent;
-                }];
-            });
+        cell.photoBtnBlock = ^(){
+            [weakSelf showActionForPhoto];
         };
         return cell;
     }else if(indexPath.row == 1){
         TweetSendImagesCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetSendImages forIndexPath:indexPath];
         cell.curTweet = _curTweet;
         cell.addPicturesBlock = ^(){
-            [self.view endEditing:YES];
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从相册选择", nil];
-            [actionSheet showInView:self.view];
+            [self showActionForPhoto];
+        };
+        cell.deleteTweetImageBlock = ^(){
+            [weakSelf.myTableView reloadData];
         };
         return cell;
     }else if(indexPath.row == 2){
-        __weak typeof (self)weakSelf = self;
         TweetSendLocationCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetSendLocation forIndexPath:indexPath];
-        if (self.locationData) {
-
-            [cell setButtonText:self.locationData.displayLocaiton button:cell.locationButton];
-            
-            [cell.iconImageView setImage:[UIImage imageNamed:@"icon_locationed"]];
-        }else {
-        
-            [cell setButtonText:@"所在位置" button:cell.locationButton];
-            
-            [cell.iconImageView setImage:[UIImage imageNamed:@"icon_not_locationed"]];
-        }
-        
-        cell.locationClickBlock = ^(){
-            TweetSendLocationViewController *vc = [[TweetSendLocationViewController alloc] init];
-            vc.responseData = self.locationData;
-            UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
-            [weakSelf presentViewController:nav animated:YES completion:nil];
-        };
+        [cell setLocation:self.locationData.displayLocaiton];
         return cell;
     }
-    
     return nil;
 }
 
@@ -161,9 +141,27 @@
     return cellHeight;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 2) {
+        TweetSendLocationViewController *vc = [[TweetSendLocationViewController alloc] init];
+        vc.responseData = self.locationData;
+        UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
+        [self presentViewController:nav animated:YES completion:nil];
+    }
+}
 
-#pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+#pragma mark UIActionSheet M
+
+- (void)showActionForPhoto{
+    @weakify(self);
+    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"拍照", @"从相册选择"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        @strongify(self);
+        [self photoActionSheet:sheet DismissWithButtonIndex:index];
+    }] showInView:self.view];
+}
+
+- (void)photoActionSheet:(UIActionSheet *)sheet DismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0) {
         //        拍照
         if (![Helper checkCameraAuthorizationStatus]) {
@@ -187,7 +185,6 @@
         UINavigationController *navigationController = [[BaseNavigationController alloc] initWithRootViewController:imagePickerController];
         [self presentViewController:navigationController animated:YES completion:NULL];
     }
-    
 }
 
 #pragma mark UIImagePickerControllerDelegate
@@ -278,6 +275,13 @@
 {
     _myTableView.delegate = nil;
     _myTableView.dataSource = nil;
+}
+
+#pragma mark 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    if (scrollView == self.myTableView) {
+        [self.view endEditing:YES];
+    }
 }
 
 @end

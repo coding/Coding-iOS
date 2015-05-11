@@ -12,15 +12,9 @@
 
 @interface TweetSendLocationCell : UITableViewCell
 
-@property (strong, nonatomic) UIImageView *iconImageView;
-@property (strong, nonatomic) UIButton *locationButton;
-
-@property (copy, nonatomic) void(^locationClickBlock)();
-- (void)setButtonText:(NSString *)str button:(UIButton *)btn;
-
+- (void)setLocation:(NSString *)locationStr;
 
 + (CGFloat)cellHeight;
-
 @end
 
 

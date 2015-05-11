@@ -8,6 +8,11 @@
 
 #import "TweetSendLocationCell.h"
 
+@interface TweetSendLocationCell ()
+@property (strong, nonatomic) UIImageView *iconImageView;
+@property (strong, nonatomic) UILabel *locationL;
+@end
+
 @implementation TweetSendLocationCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -15,74 +20,52 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
         if (!_iconImageView) {
-            _iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 23, 22, 22)];
-            _iconImageView.backgroundColor = [UIColor clearColor];
-            [_iconImageView setImage:[UIImage imageNamed:@"icon_not_locationed"]];
+            _iconImageView = [UIImageView new];
             [self.contentView addSubview:_iconImageView];
         }
-        if (!_locationButton) {
-            _locationButton = [UIButton buttonWithType:UIButtonTypeSystem];
-            _locationButton.backgroundColor = [UIColor clearColor];
-            [_locationButton setTitleColor:[UIColor colorWithHexString:@"0x222222"] forState:UIControlStateNormal];
-            _locationButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            _locationButton.titleLabel.font = [UIFont systemFontOfSize:15.0];
-            CGRect btnFrame = _locationButton.frame;
-            btnFrame.origin.x = 15 + 22 + 9;
-            btnFrame.origin.y = 23;
-            btnFrame.size.height = 22;
-            btnFrame.size.width = 100;
-            [_locationButton setFrame:btnFrame];
-            _locationButton.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-            
-            [self setButtonText:@"所在位置" button:_locationButton];
-            [_locationButton addTarget:self action:@selector(locationClick:) forControlEvents:UIControlEventTouchUpInside];
-            
-            [self.contentView addSubview:_locationButton];
+        if (!_locationL) {
+            _locationL = [UILabel new];
+            _locationL.font = [UIFont systemFontOfSize:13.0];
+            [self.contentView addSubview:_locationL];
         }
+        
+        [_iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView).offset(15);
+            make.centerY.equalTo(self.contentView);
+            make.size.mas_equalTo(CGSizeMake(15, 15));
+        }];
+        
+        [_locationL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_iconImageView.mas_right).offset(10);
+            make.right.equalTo(self.contentView).offset(-15);
+            make.bottom.top.equalTo(self.contentView);
+        }];
     }
     return self;
 }
-- (void)awakeFromNib
-{
-    // Initialization code
+
+- (void)setImage:(NSString *)imageStr andLocation:(NSString *)locationStr{
+
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
-}
-
-- (void)setButtonText:(NSString *)str button:(UIButton *)btn
-{
-    UIFont *font = btn.titleLabel.font;
-    CGSize size = CGSizeMake(CGFLOAT_MAX, 22.0);
-    CGRect rect = [str boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont fontWithName:font.fontName size:font.pointSize]} context:nil];
-    CGRect buttonFrame = btn.frame;
-    buttonFrame.size.width = CGRectGetWidth(rect) + 5;
-    
-    if (buttonFrame.size.width > kScreen_Width - (15+22+9)) {
-        buttonFrame.size.width = kScreen_Width - (15+22+9) - 5;
-    }
-    [btn setTitle:str forState:UIControlStateNormal];
-    [btn setFrame:buttonFrame];
-}
-
-- (void)locationClick:(id)sender
-{
-    if (self.locationClickBlock) {
-        self.locationClickBlock();
+- (void)setLocation:(NSString *)locationStr{
+    if (locationStr.length > 0) {
+        [self.iconImageView setImage:[UIImage imageNamed:@"icon_locationed"]];
+        self.locationL.text = locationStr;
+        self.locationL.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+    }else{
+        [self.iconImageView setImage:[UIImage imageNamed:@"icon_not_locationed"]];
+        self.locationL.text = @"所在位置";
+        self.locationL.textColor = [UIColor lightGrayColor];
     }
 }
 
 
 + (CGFloat)cellHeight
 {
-    return 45;
+    return 30;
 }
 
 @end

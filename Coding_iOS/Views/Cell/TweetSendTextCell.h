@@ -16,6 +16,6 @@
 @interface TweetSendTextCell : UITableViewCell<UITextViewDelegate>
 @property (strong, nonatomic) UIPlaceHolderTextView *tweetContentView;
 @property (nonatomic,copy) void(^textValueChangedBlock)(NSString*);
-@property (nonatomic,copy) void(^atSomeoneBlock)(UITextView *tweetContentView);
+@property (nonatomic,copy) void(^photoBtnBlock)();
 + (CGFloat)cellHeight;
 @end

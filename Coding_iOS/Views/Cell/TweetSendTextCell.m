@@ -11,11 +11,12 @@
 
 
 #import "TweetSendTextCell.h"
+#import "UsersViewController.h"
 
 @interface TweetSendTextCell () <AGEmojiKeyboardViewDelegate, AGEmojiKeyboardViewDataSource>
 @property (nonatomic, strong) UIView *keyboardToolBar;
 @property (strong, nonatomic) AGEmojiKeyboardView *emojiKeyboardView;
-@property (strong, nonatomic) UIButton *emotionButton, *atButton;
+@property (strong, nonatomic) UIButton *emotionButton;
 @end
 
 
@@ -65,9 +66,22 @@
 }
 
 + (CGFloat)cellHeight{
-    CGFloat cellHeight = 95;
-
+    CGFloat cellHeight;
+    if (kDevice_Is_iPhone5){
+        cellHeight = 150;
+    }else if (kDevice_Is_iPhone6) {
+        cellHeight = 150;
+    }else if (kDevice_Is_iPhone6Plus){
+        cellHeight = 150;
+    }else{
+        cellHeight = 95;
+    }
     return cellHeight;
+}
+- (BOOL)becomeFirstResponder{
+    [super becomeFirstResponder];
+    [self.tweetContentView becomeFirstResponder];
+    return YES;
 }
 
 #pragma mark TextView Delegate
@@ -78,10 +92,6 @@
 }
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-//    if ([text isEqualToString:@"\n"]) {
-//        [_tweetContentView resignFirstResponder];
-//        return NO;
-//    }
     return YES;
 }
 
@@ -101,15 +111,20 @@
         _keyboardToolBar.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
 
         CGFloat toolBarHeight = CGRectGetHeight(_keyboardToolBar.frame);
-        _emotionButton = [[UIButton alloc] initWithFrame:CGRectMake(15, (toolBarHeight - 30)/2, 30, 30)];
+        _emotionButton = [[UIButton alloc] initWithFrame:CGRectMake(15 + 50 * 1, (toolBarHeight - 30)/2, 30, 30)];
         [_emotionButton setImage:[UIImage imageNamed:@"keyboard_emotion"] forState:UIControlStateNormal];
         [_emotionButton addTarget:self action:@selector(emotionButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [_keyboardToolBar addSubview:_emotionButton];
         
-        _atButton = [[UIButton alloc] initWithFrame:CGRectMake(15+30+20, (toolBarHeight - 30)/2, 30, 30)];
-        [_atButton setImage:[UIImage imageNamed:@"keyboard_at"] forState:UIControlStateNormal];
-        [_atButton addTarget:self action:@selector(atButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [_keyboardToolBar addSubview:_atButton];
+        UIButton *photoButton = [[UIButton alloc] initWithFrame:CGRectMake(15 + 50 * 0, (toolBarHeight - 30)/2, 30, 30)];
+        [photoButton setImage:[UIImage imageNamed:@"keyboard_photo"] forState:UIControlStateNormal];
+        [photoButton addTarget:self action:@selector(photoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [_keyboardToolBar addSubview:photoButton];
+        
+        UIButton *atButton = [[UIButton alloc] initWithFrame:CGRectMake(15 + 50 * 2, (toolBarHeight - 30)/2, 30, 30)];
+        [atButton setImage:[UIImage imageNamed:@"keyboard_at"] forState:UIControlStateNormal];
+        [atButton addTarget:self action:@selector(atButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [_keyboardToolBar addSubview:atButton];
     }
     return _keyboardToolBar;
 }
@@ -127,10 +142,22 @@
     });
 }
 - (void)atButtonClicked:(id)sender{
-    if (_atSomeoneBlock) {
-        _atSomeoneBlock(self.tweetContentView);
+    @weakify(self);
+    [UsersViewController showATSomeoneWithBlock:^(User *curUser) {
+        @strongify(self);
+        if (curUser) {
+            NSString *atStr = [NSString stringWithFormat:@"@%@ ", curUser.name];
+            [self.tweetContentView insertText:atStr];
+        }
+    }];
+}
+
+- (void)photoButtonClicked:(id)sender{
+    if (self.photoBtnBlock) {
+        self.photoBtnBlock();
     }
 }
+
 
 #pragma mark - KeyBoard Notification Handlers
 - (void)keyboardChange:(NSNotification*)aNotification{

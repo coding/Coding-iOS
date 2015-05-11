@@ -14,6 +14,8 @@
 @interface TweetSendImagesCell : UITableViewCell<UICollectionViewDataSource, UICollectionViewDelegate>
 @property (strong, nonatomic) Tweet *curTweet;
 @property (copy, nonatomic) void(^addPicturesBlock)();
+@property (copy, nonatomic) void (^deleteTweetImageBlock)();
+
 + (CGFloat)cellHeightWithObj:(id)obj;
 @end
 

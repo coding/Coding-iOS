@@ -13,7 +13,7 @@
 
 @class TweetSendLocationResponse;
 
-@interface TweetSendViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, QBImagePickerControllerDelegate>
+@interface TweetSendViewController : BaseViewController
 @property (copy, nonatomic) void(^sendNextTweet)(Tweet *nextTweet);
 
 @property (nonatomic,strong) TweetSendLocationResponse *locationData;

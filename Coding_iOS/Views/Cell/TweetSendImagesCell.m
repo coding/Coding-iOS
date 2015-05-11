@@ -65,7 +65,12 @@
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[Tweet class]]) {
         Tweet *curTweet = (Tweet *)obj;
-        NSInteger row = ceilf((float)(curTweet.tweetImages.count +1)/4.0);
+        NSInteger row;
+        if (curTweet.tweetImages.count <= 0) {
+            row = 0;
+        }else{
+            row = ceilf((float)(curTweet.tweetImages.count +1)/4.0);
+        }
         cellHeight = ([TweetSendImageCCell ccellSize].height +10) *row;
     }
     return cellHeight;
@@ -73,7 +78,7 @@
 
 #pragma mark Collection M
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return  _curTweet.tweetImages.count +1;
+    return  _curTweet.tweetImages.count > 0? _curTweet.tweetImages.count +1 : 0;
 }
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
@@ -90,7 +95,9 @@
     ccell.deleteTweetImageBlock = ^(TweetImage *toDelete){
         NSMutableArray *tweetImages = [weakSelf.curTweet mutableArrayValueForKey:@"tweetImages"];
         [tweetImages removeObject:toDelete];
-        [weakSelf.mediaView reloadData];
+        if (weakSelf.deleteTweetImageBlock) {
+            weakSelf.deleteTweetImageBlock();
+        }
     };
     [_imageViewsDict setObject:ccell.imgView forKey:indexPath];
     return ccell;

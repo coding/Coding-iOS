@@ -15,8 +15,6 @@
 		0A6E6BA71AAF4162004C0107 /* TweetSendLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E6BA61AAF4162004C0107 /* TweetSendLocationCell.m */; };
 		0A6E6BAA1AAF4B24004C0107 /* TweetSendLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E6BA91AAF4B24004C0107 /* TweetSendLocationViewController.m */; };
 		0A6E6BAD1AB08540004C0107 /* TweetSendLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6E6BAC1AB08540004C0107 /* TweetSendLocation.m */; };
-		0A6E6BB91AB168B0004C0107 /* icon_locationed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A6E6BB61AB168B0004C0107 /* icon_locationed@2x.png */; };
-		0A6E6BBA1AB168B0004C0107 /* icon_not_locationed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A6E6BB71AB168B0004C0107 /* icon_not_locationed@2x.png */; };
 		0A6E6BBB1AB168B0004C0107 /* location_checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A6E6BB81AB168B0004C0107 /* location_checkmark@2x.png */; };
 		0A6E6BBF1AB180CB004C0107 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6E6BBE1AB180CB004C0107 /* CoreLocation.framework */; };
 		0A782FD81AB5B69200E96661 /* TweetSendCreateLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A782FD61AB5B69200E96661 /* TweetSendCreateLocationViewController.m */; };
@@ -291,6 +289,9 @@
 		4EE548211AE8DB5600A92306 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE548201AE8DB5600A92306 /* Project.m */; };
 		4EE548281AE9166B00A92306 /* icon_project_cell_nopin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EE548261AE9166B00A92306 /* icon_project_cell_nopin@2x.png */; };
 		4EE548291AE9166B00A92306 /* icon_project_cell_pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EE548271AE9166B00A92306 /* icon_project_cell_pin@2x.png */; };
+		4EF91F601B00AF920021C951 /* keyboard_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF91F5F1B00AF920021C951 /* keyboard_photo@2x.png */; };
+		4EF91F631B00B62B0021C951 /* icon_locationed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF91F611B00B62A0021C951 /* icon_locationed@2x.png */; };
+		4EF91F641B00B62B0021C951 /* icon_not_locationed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF91F621B00B62A0021C951 /* icon_not_locationed@2x.png */; };
 		68D9A2AD062641F5BCA573C5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B024F2227BD4152BC7C9A7A /* libPods.a */; };
 		8E03D4A219F695FE0092F8C8 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */; };
 		8E03D4A419F696970092F8C8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D4A319F696970092F8C8 /* libz.dylib */; };
@@ -641,8 +642,6 @@
 		0A6E6BA91AAF4B24004C0107 /* TweetSendLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocationViewController.m; sourceTree = "<group>"; };
 		0A6E6BAB1AB08540004C0107 /* TweetSendLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocation.h; sourceTree = "<group>"; };
 		0A6E6BAC1AB08540004C0107 /* TweetSendLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocation.m; sourceTree = "<group>"; };
-		0A6E6BB61AB168B0004C0107 /* icon_locationed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_locationed@2x.png"; sourceTree = "<group>"; };
-		0A6E6BB71AB168B0004C0107 /* icon_not_locationed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_not_locationed@2x.png"; sourceTree = "<group>"; };
 		0A6E6BB81AB168B0004C0107 /* location_checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location_checkmark@2x.png"; sourceTree = "<group>"; };
 		0A6E6BBC1AB180AE004C0107 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0A6E6BBE1AB180CB004C0107 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -1081,6 +1080,9 @@
 		4EE548201AE8DB5600A92306 /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Project.m; sourceTree = "<group>"; };
 		4EE548261AE9166B00A92306 /* icon_project_cell_nopin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_project_cell_nopin@2x.png"; sourceTree = "<group>"; };
 		4EE548271AE9166B00A92306 /* icon_project_cell_pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_project_cell_pin@2x.png"; sourceTree = "<group>"; };
+		4EF91F5F1B00AF920021C951 /* keyboard_photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_photo@2x.png"; sourceTree = "<group>"; };
+		4EF91F611B00B62A0021C951 /* icon_locationed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_locationed@2x.png"; sourceTree = "<group>"; };
+		4EF91F621B00B62A0021C951 /* icon_not_locationed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_not_locationed@2x.png"; sourceTree = "<group>"; };
 		8B18B0211092D3903D031B13 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		8E03D4A019F695FE0092F8C8 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
@@ -2656,8 +2658,6 @@
 				4EBFBD171AA85B8500E4B10E /* add_user_icon@2x.png */,
 				4E2719C61AB07ED6006AE214 /* dot_line@2x.png */,
 				0A06C2521AB9E57900AB3B03 /* map_annotation@2x.png */,
-				0A6E6BB61AB168B0004C0107 /* icon_locationed@2x.png */,
-				0A6E6BB71AB168B0004C0107 /* icon_not_locationed@2x.png */,
 				0A6E6BB81AB168B0004C0107 /* location_checkmark@2x.png */,
 				4E8C51AF1AC1081500B4C51F /* icon_recommended@2x.png */,
 				4EE548261AE9166B00A92306 /* icon_project_cell_nopin@2x.png */,
@@ -2665,6 +2665,9 @@
 				4E53EB571AFB090E0034FE1C /* nav_page_selected@2x.png */,
 				4E53EB581AFB090E0034FE1C /* nav_page_unselected@2x.png */,
 				4ED20A791AFCC43600C63498 /* button_download_cancel@2x.png */,
+				4EF91F5F1B00AF920021C951 /* keyboard_photo@2x.png */,
+				4EF91F611B00B62A0021C951 /* icon_locationed@2x.png */,
+				4EF91F621B00B62A0021C951 /* icon_not_locationed@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -3369,6 +3372,7 @@
 				8EA6D17B19E240C40076D59C /* placeholder_monkey_round_54@2x.png in Resources */,
 				0A0519E31ABA918100551B61 /* TweetSendDetailLoctionCell.xib in Resources */,
 				4E923E791A2F040D00427514 /* messageRight_bg_img@2x.png in Resources */,
+				4EF91F631B00B62B0021C951 /* icon_locationed@2x.png in Resources */,
 				4EE548281AE9166B00A92306 /* icon_project_cell_nopin@2x.png in Resources */,
 				4E0849811A918A7F00BD27F6 /* coding_emoji_39@2x.png in Resources */,
 				8E97CE9F1A0C7E26006F9AD7 /* coding_emoji_08@2x.png in Resources */,
@@ -3414,6 +3418,7 @@
 				8EF6434119FE696B00F7EEB0 /* cell_checkmark@2x.png in Resources */,
 				8EA6D17319E240C40076D59C /* placeholder_coding_square_150@2x.png in Resources */,
 				8EA6D17619E240C40076D59C /* placeholder_monkey_round_25@2x.png in Resources */,
+				4EF91F601B00AF920021C951 /* keyboard_photo@2x.png in Resources */,
 				8E97CEAD1A0C7E26006F9AD7 /* coding_emoji_22@2x.png in Resources */,
 				4E66EE291A28226000DA1B3E /* button_file_move_enable@2x.png in Resources */,
 				8EA6D19319E240C40076D59C /* timeline_line_read@2x.png in Resources */,
@@ -3477,7 +3482,6 @@
 				4E0849841A918A7F00BD27F6 /* coding_emoji_42@2x.png in Resources */,
 				8E97CEB61A0C7E26006F9AD7 /* coding_emoji_31@2x.png in Resources */,
 				8E7612E61A087CD1005BE797 /* checkbox_checked@2x.png in Resources */,
-				0A6E6BB91AB168B0004C0107 /* icon_locationed@2x.png in Resources */,
 				4EACB4431A2C45300097ABB3 /* button_file_download_enable@2x.png in Resources */,
 				8E97CE691A0A3424006F9AD7 /* keyboard_page_selected@2x.png in Resources */,
 				8E97CE611A0A3424006F9AD7 /* keyboard_add_photo@2x.png in Resources */,
@@ -3530,6 +3534,7 @@
 				B9A00D7F1ACA3A05008BA008 /* ProjectSetting.storyboard in Resources */,
 				8EA6D19219E240C40076D59C /* timeline_icon_unread@2x.png in Resources */,
 				4E217F141A70EDC700F6DF88 /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
+				4EF91F641B00B62B0021C951 /* icon_not_locationed@2x.png in Resources */,
 				8EA6D19119E240C40076D59C /* timeline_icon_read@2x.png in Resources */,
 				8E97CEB21A0C7E26006F9AD7 /* coding_emoji_27@2x.png in Resources */,
 				8E97CEAF1A0C7E26006F9AD7 /* coding_emoji_24@2x.png in Resources */,
@@ -3538,7 +3543,6 @@
 				8E97CEAE1A0C7E26006F9AD7 /* coding_emoji_23@2x.png in Resources */,
 				8EA6D19D19E240C40076D59C /* tipIcon_Task@2x.png in Resources */,
 				8E97CEAA1A0C7E26006F9AD7 /* coding_emoji_19@2x.png in Resources */,
-				0A6E6BBA1AB168B0004C0107 /* icon_not_locationed@2x.png in Resources */,
 				4EB845331AB83C3B0030DC69 /* git_icon_fork@2x.png in Resources */,
 				4E90F89D1AF709C100B44F03 /* markdown.html in Resources */,
 				4EB845351AB83C3B0030DC69 /* git_icon_watch@2x.png in Resources */,
