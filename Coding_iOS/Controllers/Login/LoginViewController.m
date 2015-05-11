@@ -43,6 +43,7 @@
     // Do any additional setup after loading the view.
 
     self.myLogin = [[Login alloc] init];
+    self.myLogin.email = [Login preUserEmail];
     _captchaNeeded = NO;
 
     //    添加myTableView
@@ -108,6 +109,7 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     [self refreshCaptchaNeeded];
+    [self refreshIconUserImage];
 }
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -120,7 +122,7 @@
             tipsView.selectedStringBlock = ^(NSString *valueStr){
                 [weakSelf.view endEditing:YES];
                 weakSelf.myLogin.email = valueStr;
-                [weakSelf refreshIconUserImage:valueStr];
+                [weakSelf refreshIconUserImage];
                 [weakSelf.myTableView reloadData];
             };
             UITableViewCell *cell = [_myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -182,7 +184,7 @@
         };
         cell.editDidEndBlock = ^(NSString *textStr){
             weakSelf.inputTipsView.active = NO;
-            [weakSelf refreshIconUserImage:textStr];
+            [weakSelf refreshIconUserImage];
         };
     }else if (indexPath.row == 1){
         cell.isCaptcha = NO;
@@ -204,7 +206,8 @@
     return cell;
 }
 
-- (void)refreshIconUserImage:(NSString *)textStr{
+- (void)refreshIconUserImage{
+    NSString *textStr = self.myLogin.email;
     if (textStr) {
         User *curUser = [Login userWithGlobaykeyOrEmail:textStr];
         if (curUser && curUser.avatar) {

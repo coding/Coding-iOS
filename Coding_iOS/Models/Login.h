@@ -19,6 +19,7 @@
 + (BOOL) isLogin;
 + (void) doLogin:(NSDictionary *)loginData;
 + (void) doLogout;
++ (NSString *)preUserEmail;
 + (User *)curLoginUser;
 + (void)addUmengAliasWithCurUser:(BOOL)add;
 + (void)setXGAccountWithCurUser;

@@ -12,7 +12,7 @@
 #import "AppDelegate.h"
 
 #define kLoginStatus @"login_status"
-#define kLoginUserId @"user_id"
+#define kLoginPreUserEmail @"pre_user_email"
 #define kLoginUserDict @"user_dict"
 #define kLoginDataListPath @"login_data_list_path.plist"
 
@@ -152,12 +152,26 @@ static User *curLoginUser;
 }
 
 + (void)doLogout{
-    [Login addUmengAliasWithCurUser:NO];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *userEmail = [self curLoginUser].email;
+    if (userEmail.length > 0) {
+        [defaults setObject:userEmail forKey:kLoginPreUserEmail];
+    }else{
+        [defaults removeObjectForKey:kLoginPreUserEmail];
+    }
+
+    [Login addUmengAliasWithCurUser:NO];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:kLoginStatus];
     [defaults synchronize];
     [Login setXGAccountWithCurUser];
 }
+
++ (NSString *)preUserEmail{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults objectForKey:kLoginPreUserEmail];
+}
+
 + (User *)curLoginUser{
     if (!curLoginUser) {
         NSDictionary *loginData = [[NSUserDefaults standardUserDefaults] objectForKey:kLoginUserDict];
