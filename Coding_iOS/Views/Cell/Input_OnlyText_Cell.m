@@ -76,7 +76,7 @@
         [self.textField setWidth:(kScreen_Width - 2*kLoginPaddingLeftWidth) - (_isForLoginVC? 20:0)];
         _captchaView.hidden = YES;
     }
-    [self.clearBtn setX:self.textField.maxXOfFrame];
+    [self.clearBtn setX:self.textField.maxXOfFrame - 10];
     _lineView.hidden = !_isForLoginVC;
     _clearBtn.hidden = YES;
     self.textField.clearButtonMode = _isForLoginVC? UITextFieldViewModeNever: UITextFieldViewModeWhileEditing;
