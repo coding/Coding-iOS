@@ -86,7 +86,7 @@
             {
                 [_iconView doNotCircleFrame];
                 [_iconView setImage:[UIImage imageNamed:@"taskDeadline"]];
-                _leftLabel.text = @"截止期日";
+                _leftLabel.text = @"截止日期";
                 if (task.deadline_date) {
                     _rightLabel.text = [NSDate stringFromDate:task.deadline_date withFormat:@"MM月dd日"];
                 }else{
