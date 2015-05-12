@@ -209,7 +209,6 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 
 - (void)setCurrentPageIndex:(NSInteger)currentPageIndex{
     _currentPageIndex = currentPageIndex;
-    _pageControl.currentPage = currentPageIndex;
 }
 
 //%%% method is called when any of the pages moves.
@@ -221,6 +220,10 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 }
 
 - (void)updateNavigationViewWithPercentX:(CGFloat)percentX{
+    if (ABS(percentX - self.currentPageIndex) > 0.9) {
+        NSInteger nearestPage = floorf(percentX + 0.5);
+        _pageControl.currentPage = nearestPage;
+    }
     NSArray *buttons = [_buttonContainer subviews];
     if (buttons.count > 0) {
         [buttons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {

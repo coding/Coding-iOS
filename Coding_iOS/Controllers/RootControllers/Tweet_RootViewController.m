@@ -126,7 +126,6 @@
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTweet];
     _myMsgInputView.delegate = self;
 
-    [self refreshFirst];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -138,11 +137,13 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    
+    [self refreshFirst];
+
     //    键盘
     if (_myMsgInputView) {
         [_myMsgInputView prepareToShow];
     }
-    [self.myTableView reloadData];
     [self.parentViewController.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(sendTweet)] animated:NO];
 }
 
