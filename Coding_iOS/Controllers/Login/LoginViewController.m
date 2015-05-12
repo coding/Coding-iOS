@@ -345,8 +345,8 @@
     [[Coding_NetAPIManager sharedManager] request_Login_WithParams:[self.myLogin toParams] andBlock:^(id data, NSError *error) {
         weakSelf.loginBtn.enabled = YES;
         [weakSelf.activityIndicator stopAnimating];
-
         if (data) {
+            [Login setPreUserEmail:self.myLogin.email];//记住登录账号
             [((AppDelegate *)[UIApplication sharedApplication].delegate) setupTabViewController];
         }else{
             [weakSelf refreshCaptchaNeeded];

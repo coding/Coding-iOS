@@ -154,17 +154,20 @@ static User *curLoginUser;
 + (void)doLogout{
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *userEmail = [self curLoginUser].email;
-    if (userEmail.length > 0) {
-        [defaults setObject:userEmail forKey:kLoginPreUserEmail];
-    }else{
-        [defaults removeObjectForKey:kLoginPreUserEmail];
-    }
-
+    
     [Login addUmengAliasWithCurUser:NO];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:kLoginStatus];
     [defaults synchronize];
     [Login setXGAccountWithCurUser];
+}
+
++ (void)setPreUserEmail:(NSString *)emailStr{
+    if (emailStr.length <= 0) {
+        return;
+    }
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:emailStr forKey:kLoginPreUserEmail];
+    [defaults synchronize];
 }
 
 + (NSString *)preUserEmail{

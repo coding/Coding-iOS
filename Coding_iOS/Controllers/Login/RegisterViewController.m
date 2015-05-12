@@ -271,8 +271,8 @@
     [[Coding_NetAPIManager sharedManager] request_Register_WithParams:[self.myRegister toParams] andBlock:^(id data, NSError *error) {
         weakSelf.footerBtn.enabled = YES;
         [weakSelf.activityIndicator stopAnimating];
-        
         if (data) {
+            [Login setPreUserEmail:self.myRegister.email];//记住登录账号
             [((AppDelegate *)[UIApplication sharedApplication].delegate) setupTabViewController];
             kTipAlert(@"欢迎注册 Coding，请尽快去邮箱查收邮件并激活账号。如若在收件箱中未看到激活邮件，请留意一下垃圾邮件箱(T_T)。");
         }else{
