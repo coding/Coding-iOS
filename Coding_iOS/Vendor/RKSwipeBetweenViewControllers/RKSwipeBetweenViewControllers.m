@@ -93,6 +93,7 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
     CGRect frameTemp = navigationView.bounds;
     frameTemp.size.height = HEIGHT;
     _buttonContainer = [[UIScrollView alloc] initWithFrame:frameTemp];
+    _buttonContainer.scrollsToTop = NO;
     CGFloat containerWidth = CGRectGetWidth(_buttonContainer.frame);
     CGFloat containerHeight = CGRectGetHeight(_buttonContainer.frame);
     
@@ -110,6 +111,7 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
     //pageControl
     _pageControl = ({
         SMPageControl *pageControl = [[SMPageControl alloc] init];
+        pageControl.userInteractionEnabled = NO;
         pageControl.backgroundColor = [UIColor clearColor];
         pageControl.pageIndicatorImage = [UIImage imageNamed:@"nav_page_unselected"];
         pageControl.currentPageIndicatorImage = [UIImage imageNamed:@"nav_page_selected"];
@@ -150,6 +152,7 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
         if([view isKindOfClass:[UIScrollView class]]) {
             self.pageScrollView = (UIScrollView *)view;
             self.pageScrollView.delegate = self;
+            self.pageScrollView.scrollsToTop = NO;
         }
     }
 }
@@ -209,6 +212,13 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 
 - (void)setCurrentPageIndex:(NSInteger)currentPageIndex{
     _currentPageIndex = currentPageIndex;
+    [self.viewControllerArray enumerateObjectsUsingBlock:^(UIViewController *obj, NSUInteger idx, BOOL *stop) {
+        for (UIView *aView in [obj.view subviews]) {
+            if ([aView isKindOfClass:[UIScrollView class]]) {
+                [(UIScrollView *)aView setScrollsToTop:idx == currentPageIndex];
+            }
+        }
+    }];
 }
 
 //%%% method is called when any of the pages moves.
