@@ -134,6 +134,8 @@
 		4E76D4E41A5A90CA0094A35E /* taskPriority1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E76D4E01A5A90CA0094A35E /* taskPriority1@2x.png */; };
 		4E76D4E51A5A90CA0094A35E /* taskPriority2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E76D4E11A5A90CA0094A35E /* taskPriority2@2x.png */; };
 		4E76D4E61A5A90CA0094A35E /* taskPriority3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E76D4E21A5A90CA0094A35E /* taskPriority3@2x.png */; };
+		4E787DE21B0329B300F06E83 /* ProjectLineNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E787DE11B0329B300F06E83 /* ProjectLineNote.m */; };
+		4E787DE51B03342000F06E83 /* ProjectActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E787DE41B03342000F06E83 /* ProjectActivity.m */; };
 		4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87655A1A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m */; };
 		4E8765661A22E5B40090CFB9 /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87655C1A22E5B40090CFB9 /* SWCellScrollView.m */; };
 		4E8765671A22E5B40090CFB9 /* SWLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87655E1A22E5B40090CFB9 /* SWLongPressGestureRecognizer.m */; };
@@ -828,6 +830,10 @@
 		4E76D4E01A5A90CA0094A35E /* taskPriority1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskPriority1@2x.png"; sourceTree = "<group>"; };
 		4E76D4E11A5A90CA0094A35E /* taskPriority2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskPriority2@2x.png"; sourceTree = "<group>"; };
 		4E76D4E21A5A90CA0094A35E /* taskPriority3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskPriority3@2x.png"; sourceTree = "<group>"; };
+		4E787DE01B0329B300F06E83 /* ProjectLineNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectLineNote.h; sourceTree = "<group>"; };
+		4E787DE11B0329B300F06E83 /* ProjectLineNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectLineNote.m; sourceTree = "<group>"; };
+		4E787DE31B03342000F06E83 /* ProjectActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectActivity.h; sourceTree = "<group>"; };
+		4E787DE41B03342000F06E83 /* ProjectActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectActivity.m; sourceTree = "<group>"; };
 		4E8765591A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
 		4E87655A1A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+SWUtilityButtons.m"; sourceTree = "<group>"; };
 		4E87655B1A22E5B40090CFB9 /* SWCellScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWCellScrollView.h; sourceTree = "<group>"; };
@@ -2799,6 +2805,10 @@
 				4EE548201AE8DB5600A92306 /* Project.m */,
 				4EACB4441A2C60110097ABB3 /* ProjectActivities.h */,
 				4EACB4451A2C60110097ABB3 /* ProjectActivities.m */,
+				4E787DE31B03342000F06E83 /* ProjectActivity.h */,
+				4E787DE41B03342000F06E83 /* ProjectActivity.m */,
+				4E787DE01B0329B300F06E83 /* ProjectLineNote.h */,
+				4E787DE11B0329B300F06E83 /* ProjectLineNote.m */,
 				8EA6CFE619E240C40076D59C /* ProjectTopic.h */,
 				8EA6CFE719E240C40076D59C /* ProjectTopic.m */,
 				8EA6CFE819E240C40076D59C /* ProjectTopics.h */,
@@ -3614,6 +3624,7 @@
 				8EA6D1B919E240C40076D59C /* ProjectMember.m in Sources */,
 				4E996BCD1ABA773800C704F1 /* UserInfoViewController.m in Sources */,
 				8EA6D13719E240C40076D59C /* Me_RootViewController.m in Sources */,
+				4E787DE51B03342000F06E83 /* ProjectActivity.m in Sources */,
 				4E8765691A22E5B40090CFB9 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				8E59F0EE1A00F34E009A905F /* ProjectCodeListView.m in Sources */,
 				4ECE8B041A3946C10021E29C /* UnReadManager.m in Sources */,
@@ -3860,6 +3871,7 @@
 				8EE72BE819E3F4A8002C11D9 /* MBProgressHUD+Add.m in Sources */,
 				8E59F10D1A02188D009A905F /* CodeViewController.m in Sources */,
 				8EA6D20B19E240C40076D59C /* RDVTabBarController.m in Sources */,
+				4E787DE21B0329B300F06E83 /* ProjectLineNote.m in Sources */,
 				8EA6D12E19E240C40076D59C /* EditTaskViewController.m in Sources */,
 				8EA6D1BC19E240C40076D59C /* ProjectTopics.m in Sources */,
 				8EA6D1C919E240C40076D59C /* UICustomCollectionView.m in Sources */,
