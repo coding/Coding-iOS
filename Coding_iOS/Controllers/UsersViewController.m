@@ -94,7 +94,7 @@
         UISearchBar *searchBar = [[UISearchBar alloc] init];
         searchBar.delegate = self;
         [searchBar sizeToFit];
-        [searchBar setPlaceholder:@"姓名/个性后缀"];
+        [searchBar setPlaceholder:@"昵称/个性后缀"];
         searchBar;
     });
     _myTableView.tableHeaderView = _mySearchBar;
