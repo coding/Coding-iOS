@@ -14,8 +14,12 @@
 #import "AGEmojiKeyBoardView.h"
 
 @interface TweetSendTextCell : UITableViewCell<UITextViewDelegate>
+@property (nonatomic, strong) UIView *footerToolBar;
 @property (strong, nonatomic) UIPlaceHolderTextView *tweetContentView;
+- (void)setLocationStr:(NSString *)locationStr;
+
 @property (nonatomic,copy) void(^textValueChangedBlock)(NSString*);
 @property (nonatomic,copy) void(^photoBtnBlock)();
+@property (nonatomic,copy) void(^locationBtnBlock)();
 + (CGFloat)cellHeight;
 @end

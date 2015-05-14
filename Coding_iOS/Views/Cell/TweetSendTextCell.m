@@ -14,9 +14,8 @@
 #import "UsersViewController.h"
 
 @interface TweetSendTextCell () <AGEmojiKeyboardViewDelegate, AGEmojiKeyboardViewDataSource>
-@property (nonatomic, strong) UIView *keyboardToolBar;
 @property (strong, nonatomic) AGEmojiKeyboardView *emojiKeyboardView;
-@property (strong, nonatomic) UIButton *emotionButton;
+@property (strong, nonatomic) UIButton *locationButton;
 @end
 
 
@@ -44,7 +43,6 @@
             [_emojiKeyboardView setDoneButtonTitle:@"完成"];
         }
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
-
     }
     return self;
 }
@@ -100,47 +98,84 @@
     return YES;
 }
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView{
-    [self.keyboardToolBar removeFromSuperview];
     return YES;
 }
 #pragma mark KeyboardToolBar
 - (UIView *)keyboardToolBar{
-    if (!_keyboardToolBar) {
-        _keyboardToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, 40)];
-        [_keyboardToolBar addLineUp:YES andDown:NO andColor:[UIColor colorWithHexString:@"0xc8c7cc"]];
-        _keyboardToolBar.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
-
-        CGFloat toolBarHeight = CGRectGetHeight(_keyboardToolBar.frame);
-        _emotionButton = [[UIButton alloc] initWithFrame:CGRectMake(15 + 50 * 1, (toolBarHeight - 30)/2, 30, 30)];
-        [_emotionButton setImage:[UIImage imageNamed:@"keyboard_emotion"] forState:UIControlStateNormal];
-        [_emotionButton addTarget:self action:@selector(emotionButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [_keyboardToolBar addSubview:_emotionButton];
+    if (!_footerToolBar) {
+        _footerToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, 80)];
         
-        UIButton *photoButton = [[UIButton alloc] initWithFrame:CGRectMake(15 + 50 * 0, (toolBarHeight - 30)/2, 30, 30)];
-        [photoButton setImage:[UIImage imageNamed:@"keyboard_photo"] forState:UIControlStateNormal];
-        [photoButton addTarget:self action:@selector(photoButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [_keyboardToolBar addSubview:photoButton];
+        UIView  *keyboardToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(_footerToolBar.frame) - 40, kScreen_Width, 40)];
+        [keyboardToolBar addLineUp:YES andDown:NO andColor:[UIColor colorWithHexString:@"0xc8c7cc"]];
+        keyboardToolBar.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
+        {//location button
+            _locationButton = [self locationButtonWithStr:nil];
+            [_footerToolBar addSubview:_locationButton];
+        }
+        {//tool button
+            UIButton *photoButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:0 imageStr:@"keyboard_photo" andSelecter:@selector(photoButtonClicked:)];
+            [keyboardToolBar addSubview:photoButton];
+            
+            UIButton *emotionButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:1 imageStr:@"keyboard_emotion" andSelecter:@selector(emotionButtonClicked:)];
+            [keyboardToolBar addSubview:emotionButton];
+            
+            UIButton *atButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:2 imageStr:@"keyboard_at" andSelecter:@selector(atButtonClicked:)];
+            [keyboardToolBar addSubview:atButton];
+        }
         
-        UIButton *atButton = [[UIButton alloc] initWithFrame:CGRectMake(15 + 50 * 2, (toolBarHeight - 30)/2, 30, 30)];
-        [atButton setImage:[UIImage imageNamed:@"keyboard_at"] forState:UIControlStateNormal];
-        [atButton addTarget:self action:@selector(atButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [_keyboardToolBar addSubview:atButton];
+        [_footerToolBar addSubview:keyboardToolBar];
     }
-    return _keyboardToolBar;
+    return _footerToolBar;
 }
+
+- (UIButton *)toolButtonWithToolBarFrame:(CGRect)toolBarFrame index:(NSInteger)index imageStr:(NSString *)imageStr andSelecter:(SEL)sel{
+    CGFloat toolBarHeight = CGRectGetHeight(toolBarFrame);
+    CGFloat padding = 15;
+    CGFloat buttonWidth = (CGRectGetWidth(toolBarFrame) - padding*2)/4;
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(padding + buttonWidth * index, 0, buttonWidth, toolBarHeight)];
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [button setImage:[UIImage imageNamed:imageStr] forState:UIControlStateNormal];
+    [button addTarget:self action:sel forControlEvents:UIControlEventTouchUpInside];
+    return button;
+}
+
+- (UIButton *)locationButtonWithStr:(NSString *)locationStr{
+    if (!_locationButton) {
+        _locationButton = [[UIButton alloc] initWithFrame:CGRectMake(15, 10, 10, 23)];
+        _locationButton.titleLabel.font = [UIFont systemFontOfSize:13];
+        [_locationButton addTarget:self action:@selector(locationButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        _locationButton.backgroundColor = [UIColor colorWithHexString:@"0xf0f0f0"];
+        _locationButton.layer.cornerRadius = CGRectGetHeight(_locationButton.frame)/2;
+        _locationButton.layer.borderColor = [UIColor colorWithHexString:@"e5e5e5"].CGColor;
+        _locationButton.layer.borderWidth = 0.5;
+        _locationButton.imageEdgeInsets = UIEdgeInsetsMake(0, -3, 0, 3);
+        _locationButton.titleEdgeInsets = UIEdgeInsetsMake(1, 0, -1, 0);
+    }
+    NSString *titleStr = locationStr.length > 0? locationStr: @"所在位置";
+    [_locationButton setWidth:MIN(kScreen_Width - 30,
+                                  35+ [titleStr getWidthWithFont:_locationButton.titleLabel.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)])];
+    
+    [_locationButton setTitleColor:[UIColor colorWithHexString:locationStr.length > 0? @"0x3bbd79": @"0x999999"] forState:UIControlStateNormal];
+    [_locationButton setImage:[UIImage imageNamed:locationStr.length > 0? @"icon_locationed": @"icon_not_locationed"] forState:UIControlStateNormal];
+    [_locationButton setTitle:titleStr forState:UIControlStateNormal];
+    return _locationButton;
+}
+
 - (void)emotionButtonClicked:(id)sender{
+    UIButton *emotionButton = sender;
     if (self.tweetContentView.inputView != self.emojiKeyboardView) {
         self.tweetContentView.inputView = self.emojiKeyboardView;
-        [_emotionButton setImage:[UIImage imageNamed:@"keyboard_keyboard"] forState:UIControlStateNormal];
+        [emotionButton setImage:[UIImage imageNamed:@"keyboard_keyboard"] forState:UIControlStateNormal];
     }else{
         self.tweetContentView.inputView = nil;
-        [_emotionButton setImage:[UIImage imageNamed:@"keyboard_emotion"] forState:UIControlStateNormal];
+        [emotionButton setImage:[UIImage imageNamed:@"keyboard_emotion"] forState:UIControlStateNormal];
     }
     [self.tweetContentView resignFirstResponder];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.tweetContentView becomeFirstResponder];
     });
 }
+
 - (void)atButtonClicked:(id)sender{
     @weakify(self);
     [UsersViewController showATSomeoneWithBlock:^(User *curUser) {
@@ -158,6 +193,15 @@
     }
 }
 
+- (void)locationButtonClicked:(id)sender{
+    if (self.locationBtnBlock) {
+        self.locationBtnBlock();
+    }
+}
+
+- (void)setLocationStr:(NSString *)locationStr{
+    [self locationButtonWithStr:locationStr];
+}
 
 #pragma mark - KeyBoard Notification Handlers
 - (void)keyboardChange:(NSNotification*)aNotification{
@@ -167,7 +211,7 @@
     CGRect keyboardEndFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     [UIView animateWithDuration:animationDuration delay:0.0f options:[UIView animationOptionsForCurve:animationCurve] animations:^{
         CGFloat keyboardY =  keyboardEndFrame.origin.y;
-        [self.keyboardToolBar setY:keyboardY- CGRectGetHeight(self.keyboardToolBar.frame)];
+        [self.footerToolBar setY:keyboardY- CGRectGetHeight(self.footerToolBar.frame)];
     } completion:^(BOOL finished) {
     }];
 }

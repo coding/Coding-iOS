@@ -13,7 +13,6 @@
 #import "Coding_NetAPIManager.h"
 #import "UsersViewController.h"
 #import "Helper.h"
-#import "TweetSendLocationCell.h"
 #import "TweetSendLocationViewController.h"
 #import "TweetSendLocation.h"
 #import <TPKeyboardAvoiding/TPKeyboardAvoidingTableView.h>
@@ -63,7 +62,6 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[TweetSendTextCell class] forCellReuseIdentifier:kCellIdentifier_TweetSendText];
         [tableView registerClass:[TweetSendImagesCell class] forCellReuseIdentifier:kCellIdentifier_TweetSendImages];
-        [tableView registerClass:[TweetSendLocationCell class] forCellReuseIdentifier:kCellIdentifier_TweetSendLocation];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -74,10 +72,16 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    [self becomeFirstResponder];
+}
+
+- (BOOL)becomeFirstResponder{
+    [super becomeFirstResponder];
     TweetSendTextCell *cell = (TweetSendTextCell *)[self.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     if ([cell respondsToSelector:@selector(becomeFirstResponder)]) {
         [cell becomeFirstResponder];
     }
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -96,22 +100,28 @@
 #pragma mark Table M
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSInteger row = 3;
-    return row;
+    return 2;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     __weak typeof(self) weakSelf = self;
     if (indexPath.row == 0) {
         TweetSendTextCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetSendText forIndexPath:indexPath];
         cell.tweetContentView.text = _curTweet.tweetContent;
+        [cell setLocationStr:self.locationData.displayLocaiton];
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.curTweet.tweetContent = valueStr;
         };
         cell.photoBtnBlock = ^(){
             [weakSelf showActionForPhoto];
         };
+        cell.locationBtnBlock = ^(){
+            TweetSendLocationViewController *vc = [[TweetSendLocationViewController alloc] init];
+            vc.responseData = self.locationData;
+            UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
+            [weakSelf presentViewController:nav animated:YES completion:nil];
+        };
         return cell;
-    }else if(indexPath.row == 1){
+    }else {
         TweetSendImagesCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetSendImages forIndexPath:indexPath];
         cell.curTweet = _curTweet;
         cell.addPicturesBlock = ^(){
@@ -121,12 +131,7 @@
             [weakSelf.myTableView reloadData];
         };
         return cell;
-    }else if(indexPath.row == 2){
-        TweetSendLocationCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetSendLocation forIndexPath:indexPath];
-        [cell setLocation:self.locationData.displayLocaiton];
-        return cell;
     }
-    return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -135,20 +140,12 @@
         cellHeight = [TweetSendTextCell cellHeight];
     }else if(indexPath.row == 1){
         cellHeight = [TweetSendImagesCell cellHeightWithObj:_curTweet];
-    }else if (indexPath.row == 2){
-        cellHeight = [TweetSendLocationCell cellHeight];
     }
     return cellHeight;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 2) {
-        TweetSendLocationViewController *vc = [[TweetSendLocationViewController alloc] init];
-        vc.responseData = self.locationData;
-        UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
-        [self presentViewController:nav animated:YES completion:nil];
-    }
 }
 
 #pragma mark UIActionSheet M
@@ -242,10 +239,11 @@
 
 - (void)dismissSelf{
     [self.view endEditing:YES];
-    [self dismissViewControllerAnimated:YES completion:^{
-        [self.view endEditing:YES];
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-    }];
+    TweetSendTextCell *cell = (TweetSendTextCell *)[self.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    if (cell.footerToolBar) {
+        [cell.footerToolBar removeFromSuperview];
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (BOOL)isEmptyTweet{
