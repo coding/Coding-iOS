@@ -47,12 +47,11 @@
                 [error showError:error];
             }
         }];
+        [_progressView hidePopUpViewAnimated:NO];
     }else{
         _iconView.image = [UIImage imageNamed:[_file fileIconName]];
+        [_progressView showPopUpViewAnimated:NO];
     }
-    
-    [_progressView showPopUpViewAnimated:NO];
-    
     Coding_DownloadTask *cDownloadTask = [_file cDownloadTask];
     if (cDownloadTask) {
         self.progress = cDownloadTask.progress;
@@ -100,10 +99,10 @@
             _progressView = [[ASProgressPopUpView alloc] initWithFrame:CGRectZero];
             _progressView.popUpViewCornerRadius = 12.0;
             _progressView.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:12];
-            [_progressView setTrackTintColor:[UIColor colorWithHexString:@"0x999999"]];
+            [_progressView setTrackTintColor:[UIColor colorWithHexString:@"0xfafafa"]];
             _progressView.popUpViewAnimatedColors = @[[UIColor colorWithHexString:@"0x3bbd79"]];
             _progressView.hidden = YES;
-            [_progressView hidePopUpViewAnimated:YES];
+            [_progressView hidePopUpViewAnimated:NO];
             [_toolBarView addSubview:self.progressView];
             [_progressView mas_makeConstraints:^(MASConstraintMaker *make) {//上下居中基准
                 make.height.mas_equalTo(2.0);
