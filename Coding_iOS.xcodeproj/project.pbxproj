@@ -291,6 +291,9 @@
 		4EE548281AE9166B00A92306 /* icon_project_cell_nopin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EE548261AE9166B00A92306 /* icon_project_cell_nopin@2x.png */; };
 		4EE548291AE9166B00A92306 /* icon_project_cell_pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EE548271AE9166B00A92306 /* icon_project_cell_pin@2x.png */; };
 		4EF818161B049C89005F974B /* addPictureBgImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF818151B049C89005F974B /* addPictureBgImage@2x.png */; };
+		4EF818191B05C984005F974B /* ProjectTopicActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF818181B05C984005F974B /* ProjectTopicActivity.m */; };
+		4EF8181C1B05C9AE005F974B /* TaskCommentActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF8181B1B05C9AE005F974B /* TaskCommentActivity.m */; };
+		4EF8181F1B05C9D8005F974B /* ProjectLineNoteActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF8181E1B05C9D8005F974B /* ProjectLineNoteActivity.m */; };
 		4EF91F631B00B62B0021C951 /* icon_locationed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF91F611B00B62A0021C951 /* icon_locationed@2x.png */; };
 		4EF91F641B00B62B0021C951 /* icon_not_locationed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF91F621B00B62A0021C951 /* icon_not_locationed@2x.png */; };
 		68D9A2AD062641F5BCA573C5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B024F2227BD4152BC7C9A7A /* libPods.a */; };
@@ -1085,6 +1088,12 @@
 		4EE548261AE9166B00A92306 /* icon_project_cell_nopin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_project_cell_nopin@2x.png"; sourceTree = "<group>"; };
 		4EE548271AE9166B00A92306 /* icon_project_cell_pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_project_cell_pin@2x.png"; sourceTree = "<group>"; };
 		4EF818151B049C89005F974B /* addPictureBgImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addPictureBgImage@2x.png"; sourceTree = "<group>"; };
+		4EF818171B05C984005F974B /* ProjectTopicActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTopicActivity.h; sourceTree = "<group>"; };
+		4EF818181B05C984005F974B /* ProjectTopicActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTopicActivity.m; sourceTree = "<group>"; };
+		4EF8181A1B05C9AE005F974B /* TaskCommentActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCommentActivity.h; sourceTree = "<group>"; };
+		4EF8181B1B05C9AE005F974B /* TaskCommentActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCommentActivity.m; sourceTree = "<group>"; };
+		4EF8181D1B05C9D8005F974B /* ProjectLineNoteActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectLineNoteActivity.h; sourceTree = "<group>"; };
+		4EF8181E1B05C9D8005F974B /* ProjectLineNoteActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectLineNoteActivity.m; sourceTree = "<group>"; };
 		4EF91F611B00B62A0021C951 /* icon_locationed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_locationed@2x.png"; sourceTree = "<group>"; };
 		4EF91F621B00B62A0021C951 /* icon_not_locationed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_not_locationed@2x.png"; sourceTree = "<group>"; };
 		8B18B0211092D3903D031B13 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -2804,6 +2813,12 @@
 				4EACB4451A2C60110097ABB3 /* ProjectActivities.m */,
 				4E787DE31B03342000F06E83 /* ProjectActivity.h */,
 				4E787DE41B03342000F06E83 /* ProjectActivity.m */,
+				4EF818171B05C984005F974B /* ProjectTopicActivity.h */,
+				4EF818181B05C984005F974B /* ProjectTopicActivity.m */,
+				4EF8181A1B05C9AE005F974B /* TaskCommentActivity.h */,
+				4EF8181B1B05C9AE005F974B /* TaskCommentActivity.m */,
+				4EF8181D1B05C9D8005F974B /* ProjectLineNoteActivity.h */,
+				4EF8181E1B05C9D8005F974B /* ProjectLineNoteActivity.m */,
 				4E787DE01B0329B300F06E83 /* ProjectLineNote.h */,
 				4E787DE11B0329B300F06E83 /* ProjectLineNote.m */,
 				8EA6CFE619E240C40076D59C /* ProjectTopic.h */,
@@ -3642,6 +3657,7 @@
 				8EF643C619FF7E2900F7EEB0 /* TitleValueCell.m in Sources */,
 				4EA7F1671A6D192B00A046BD /* ODRefreshControl.m in Sources */,
 				8EA6D20C19E240C40076D59C /* RDVTabBarItem.m in Sources */,
+				4EF818191B05C984005F974B /* ProjectTopicActivity.m in Sources */,
 				4E996BE21ABA957B00C704F1 /* ProjectListViewController.m in Sources */,
 				4E743E6D1A88A3CC00DADDE5 /* EaseMarkdownTextView.m in Sources */,
 				8EA6D1B519E240C40076D59C /* ListGroupItem.m in Sources */,
@@ -3697,6 +3713,7 @@
 				4E5C06EB1AC4009100F427C5 /* CannotLoginViewController.m in Sources */,
 				8EA6D12819E240C40076D59C /* AppDelegate.m in Sources */,
 				4ECE8AFF1A3946C10021E29C /* Coding_NetAPIManager.m in Sources */,
+				4EF8181C1B05C9AE005F974B /* TaskCommentActivity.m in Sources */,
 				8E59F0FA1A00F3F3009A905F /* FileListFileCell.m in Sources */,
 				8EA6D14219E240C40076D59C /* TipsViewController.m in Sources */,
 				8EA6D1CA19E240C40076D59C /* UIPlaceHolderTextView.m in Sources */,
@@ -3890,6 +3907,7 @@
 				4E996BD91ABA776500C704F1 /* UserInfoTextCell.m in Sources */,
 				8E1C3E0819E8DFE300EF3032 /* AboutViewController.m in Sources */,
 				4E6BA2D71A1EE6AF005FD721 /* AFHTTPRequestOperation.m in Sources */,
+				4EF8181F1B05C9D8005F974B /* ProjectLineNoteActivity.m in Sources */,
 				8EF643A919FF7E2900F7EEB0 /* MessageMediaItemCCell.m in Sources */,
 				4ECE8AE41A3943E80021E29C /* UIImage+Common.m in Sources */,
 				8EF643D619FF7E9F00F7EEB0 /* ProjectTopicCell.m in Sources */,
