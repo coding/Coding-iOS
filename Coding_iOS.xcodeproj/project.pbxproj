@@ -294,6 +294,8 @@
 		4EF818191B05C984005F974B /* ProjectTopicActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF818181B05C984005F974B /* ProjectTopicActivity.m */; };
 		4EF8181C1B05C9AE005F974B /* TaskCommentActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF8181B1B05C9AE005F974B /* TaskCommentActivity.m */; };
 		4EF8181F1B05C9D8005F974B /* ProjectLineNoteActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF8181E1B05C9D8005F974B /* ProjectLineNoteActivity.m */; };
+		4EF818221B09D43D005F974B /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF818211B09D43D005F974B /* UIImage+WebP.m */; };
+		4EF818241B09D8D8005F974B /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EF818231B09D8D8005F974B /* WebP.framework */; };
 		4EF91F631B00B62B0021C951 /* icon_locationed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF91F611B00B62A0021C951 /* icon_locationed@2x.png */; };
 		4EF91F641B00B62B0021C951 /* icon_not_locationed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF91F621B00B62A0021C951 /* icon_not_locationed@2x.png */; };
 		68D9A2AD062641F5BCA573C5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B024F2227BD4152BC7C9A7A /* libPods.a */; };
@@ -1094,6 +1096,9 @@
 		4EF8181B1B05C9AE005F974B /* TaskCommentActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCommentActivity.m; sourceTree = "<group>"; };
 		4EF8181D1B05C9D8005F974B /* ProjectLineNoteActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectLineNoteActivity.h; sourceTree = "<group>"; };
 		4EF8181E1B05C9D8005F974B /* ProjectLineNoteActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectLineNoteActivity.m; sourceTree = "<group>"; };
+		4EF818201B09D43D005F974B /* UIImage+WebP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+WebP.h"; sourceTree = "<group>"; };
+		4EF818211B09D43D005F974B /* UIImage+WebP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+WebP.m"; sourceTree = "<group>"; };
+		4EF818231B09D8D8005F974B /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebP.framework; sourceTree = "<group>"; };
 		4EF91F611B00B62A0021C951 /* icon_locationed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_locationed@2x.png"; sourceTree = "<group>"; };
 		4EF91F621B00B62A0021C951 /* icon_not_locationed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_not_locationed@2x.png"; sourceTree = "<group>"; };
 		8B18B0211092D3903D031B13 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1633,6 +1638,7 @@
 				8E477014198770E700997D05 /* Foundation.framework in Frameworks */,
 				4EA679031A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a in Frameworks */,
 				68D9A2AD062641F5BCA573C5 /* libPods.a in Frameworks */,
+				4EF818241B09D8D8005F974B /* WebP.framework in Frameworks */,
 				8E03D4A219F695FE0092F8C8 /* libMobClickLibrary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1972,6 +1978,8 @@
 				4EA7F1491A6D192B00A046BD /* SDWebImagePrefetcher.m */,
 				4EA7F14A1A6D192B00A046BD /* UIButton+WebCache.h */,
 				4EA7F14B1A6D192B00A046BD /* UIButton+WebCache.m */,
+				4EF818201B09D43D005F974B /* UIImage+WebP.h */,
+				4EF818211B09D43D005F974B /* UIImage+WebP.m */,
 				4EA7F14C1A6D192B00A046BD /* UIImage+GIF.h */,
 				4EA7F14D1A6D192B00A046BD /* UIImage+GIF.m */,
 				4EA7F14E1A6D192B00A046BD /* UIImage+MultiFormat.h */,
@@ -2239,6 +2247,7 @@
 		8E477012198770E700997D05 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4EF818231B09D8D8005F974B /* WebP.framework */,
 				0A6E6BBE1AB180CB004C0107 /* CoreLocation.framework */,
 				0A6E6BBC1AB180AE004C0107 /* MapKit.framework */,
 				4E8AF7891A5406AE00CDC3AE /* QuartzCore.framework */,
@@ -3756,6 +3765,7 @@
 				0A782FD81AB5B69200E96661 /* TweetSendCreateLocationViewController.m in Sources */,
 				8EA6D1BD19E240C40076D59C /* QcTask.m in Sources */,
 				4E35A99F1A3EC47E00CE35F1 /* FileViewController.m in Sources */,
+				4EF818221B09D43D005F974B /* UIImage+WebP.m in Sources */,
 				0A6E6BAD1AB08540004C0107 /* TweetSendLocation.m in Sources */,
 				4ECE8B001A3946C10021E29C /* CodingNetAPIClient.m in Sources */,
 				8EF643B119FF7E2900F7EEB0 /* ConversationCell.m in Sources */,
@@ -4067,6 +4077,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Coding_iOS/Coding_iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -4097,6 +4111,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Coding_iOS/Coding_iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
