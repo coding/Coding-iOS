@@ -15,8 +15,8 @@
 #define kProjectActivityListCell_TextPading 5.0
 //#define kProjectActivityListCell_MaxActionHeight (40.0+kNotHigher_iOS_6_1_DIS(0))
 //#define kProjectActivityListCell_MaxContentHeight (32.0+kNotHigher_iOS_6_1_DIS(0))
-#define kProjectActivityListCell_MaxActionHeight CGFLOAT_MAX
-#define kProjectActivityListCell_MaxContentHeight CGFLOAT_MAX
+#define kProjectActivityListCell_MaxActionHeight 80.0
+#define kProjectActivityListCell_MaxContentHeight 64.0
 
 #define kProjectActivityListCell_TimeHeight 12.0
 #define kProjectActivityListCell_ContentWidth (kScreen_Width - kProjectActivityListCell_LeftPading - kProjectActivityListCell_RightPading)
