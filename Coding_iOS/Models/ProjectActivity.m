@@ -32,7 +32,9 @@
 
 - (void)addActionUser:(User *)curUser{
     if (curUser) {
+        [_actionStr appendString:@" "];
         [HtmlMedia addMediaItemUser:curUser toString:_actionStr andMediaItems:_actionMediaItems];
+        [_actionStr appendString:@" "];
     }
 }
 
@@ -40,9 +42,13 @@
 //    [HtmlMedia addLinkStr:linkStr type:HtmlMediaItemType_CustomLink toString:_actionStr andMediaItems:_actionMediaItems];
 //}
 
-- (void)addContentLinkStr:(NSString *)linkStr{
-    [HtmlMedia addLinkStr:linkStr type:HtmlMediaItemType_CustomLink toString:_contentStr andMediaItems:_contentMediaItems];
-}
+//- (void)addContentLinkStr:(NSString *)linkStr{
+//    if (linkStr.length > 0) {
+//        [_contentStr appendString:@" "];
+//        [HtmlMedia addLinkStr:linkStr type:HtmlMediaItemType_CustomLink toString:_contentStr andMediaItems:_contentMediaItems];
+//        [_contentStr appendString:@" "];
+//    }
+//}
 
 - (NSMutableString *)actionStr{
     if (!_actionStr) {
@@ -50,25 +56,23 @@
         if ([_target_type isEqualToString:@"ProjectMember"]) {
             if ([_action isEqualToString:@"quit"]) {
                 [self addActionUser:_target_user];
-                [_actionStr appendString:_action_msg];
-                [_actionStr appendString:@"项目"];
+                [_actionStr appendFormat:@"%@项目", _action_msg];
             }else{
                 [self addActionUser:_user];
-                [_actionStr appendString:_action_msg];
-                [_actionStr appendString:@"项目成员"];
+                [_actionStr appendFormat:@"%@项目成员", _action_msg];
             }
         }else if ([_target_type isEqualToString:@"Task"]){
             [self addActionUser:_user];
             if ([_action isEqualToString:@"update_priority"]) {
-                [_actionStr appendFormat:@"更新了任务<%@>的优先级", _task.title];
+                [_actionStr appendFormat:@"更新了任务 [%@] 的优先级", _task.title];
             }else if ([_action isEqualToString:@"update_deadline"]) {
                 if (_task.deadline && _task.deadline.length > 0) {
-                    [_actionStr appendFormat:@"更新了任务<%@>的截止日期", _task.title];
+                    [_actionStr appendFormat:@"更新了任务 [%@] 的截止日期", _task.title];
                 }else{
-                    [_actionStr appendFormat:@"移除了任务<%@>的截止日期", _task.title];
+                    [_actionStr appendFormat:@"移除了任务 [%@] 的截止日期", _task.title];
                 }
             }else if ([_action isEqualToString:@"update_description"]) {
-                [_actionStr appendFormat:@"更新了任务<%@>的描述", _task.title];
+                [_actionStr appendFormat:@"更新了任务 [%@] 的描述", _task.title];
             }else{
                 [_actionStr appendString:_action_msg];
                 if (_origin_task.owner) {
@@ -84,61 +88,42 @@
             }
         }else if ([_target_type isEqualToString:@"TaskComment"]){
             [self addActionUser:_user];
-            [_actionStr appendFormat:@"%@任务<%@>的评论", _action_msg, _task.title];
+            [_actionStr appendFormat:@"%@任务 [%@] 的评论", _action_msg, _task.title];
         }else{
             [self addActionUser:_user];
             [_actionStr appendString:_action_msg];
             if ([_target_type isEqualToString:@"ProjectTopic"]){
                 [_actionStr appendString:@"讨论"];
                 if ([_action isEqualToString:@"comment"]) {
-                    [_actionStr appendString:@":"];
-                    [_actionStr appendString:_project_topic.parent.title];
+                    [_actionStr appendFormat:@" [%@] ", _project_topic.parent.title];
                 }
             }else if ([_target_type isEqualToString:@"ProjectFile"]){
-                if ([_type isEqualToString:@"dir"]) {
-                    [_actionStr appendString:@"文件夹"];
-                }else{
-                    [_actionStr appendString:@"文件"];
-                }
+                [_actionStr appendString:[_type isEqualToString:@"dir"]? @"文件夹": @"文件"];
             }else if ([_target_type isEqualToString:@"Depot"]){
-                if (!_ref && _ref.length <= 0) {
-                    _ref = @"";
-                }
                 if ([_action isEqualToString:@"push"]) {
-                    [_actionStr appendString:@"项目分支:"];
-                    [_actionStr appendString:_ref];
+                    [_actionStr appendFormat:@"项目分支 [%@]", _ref];
                 }else if ([_action isEqualToString:@"fork"]){
-                    [_actionStr appendString:@"项目"];
-                    [_actionStr appendString:_source_depot.name];
-                    [_actionStr appendString:@"到"];
-                    [_actionStr appendString:_depot.name];
+                    [_actionStr appendFormat:@"项目 [%@] 到 [%@]", _source_depot.name, _depot.name];
                 }
             }else{
                 [_actionStr appendString:@"项目"];
                 if ([_target_type isEqualToString:@"Project"]){
                 }else if ([_target_type isEqualToString:@"QcTask"]){
-                    [_actionStr appendString:[NSString stringWithFormat:@"[%@]", _project.full_name]];
-                    [_actionStr appendString:@"的质量分析任务"];
+                    [_actionStr appendFormat:@" [%@] 的质量分析任务", _project.full_name];
                 }else if ([_target_type isEqualToString:@"ProjectStar"]){
-                    [_actionStr appendString:[NSString stringWithFormat:@"[%@]", _project.full_name]];
+                    [_actionStr appendFormat:@" [%@] ", _project.full_name];
                 }else if ([_target_type isEqualToString:@"ProjectWatcher"]){
-                    [_actionStr appendString:[NSString stringWithFormat:@"[%@]", _project.full_name]];
+                    [_actionStr appendFormat:@" [%@] ", _project.full_name];
                 }else if ([_target_type isEqualToString:@"PullRequestBean"]){
-                    [_actionStr appendString:[NSString stringWithFormat:@"[%@]", _depot.name]];
-                    [_actionStr appendString:@"中的 Pull Request"];
+                    [_actionStr appendFormat:@" [%@] 中的 Pull Request", _depot.name];
                 }else if ([_target_type isEqualToString:@"PullRequestComment"]){
-                    [_actionStr appendString:[NSString stringWithFormat:@"[%@]", _depot.name]];
-                    [_actionStr appendString:@"中的 Pull Request"];
-                    [_actionStr appendString:_pull_request_title];
+                    [_actionStr appendFormat:@" [%@] 中的 Pull Request [%@]", _depot.name, _pull_request_title];
                 }else if ([_target_type isEqualToString:@"MergeRequestBean"]){
-                    [_actionStr appendString:[NSString stringWithFormat:@"[%@]", _depot.name]];
-                    [_actionStr appendString:@"中的 Merge Request"];
+                    [_actionStr appendFormat:@" [%@] 中的 Merge Request", _depot.name];
                 }else if ([_target_type isEqualToString:@"MergeRequestComment"]){
-                    [_actionStr appendString:[NSString stringWithFormat:@"[%@]", _depot.name]];
-                    [_actionStr appendString:@"中的 Merge Request"];
-                    [_actionStr appendString:_merge_request_title];
+                    [_actionStr appendFormat:@" [%@] 中的 Merge Request [%@]", _depot.name, _merge_request_title];
                 }else if ([_target_type isEqualToString:@"CommitLineNote"]){
-                    [_actionStr appendString:[NSString stringWithFormat:@"[%@]的提交[%@]", _project.full_name, (_line_note.commit_id.length >= 10? [_line_note.commit_id substringToIndex:10]: _line_note.commit_id)]];
+                    [_actionStr appendFormat:@" [%@] 的提交 [%@] ", _project.full_name, (_line_note.commit_id.length >= 10? [_line_note.commit_id substringToIndex:10]: _line_note.commit_id)];
                 }
             }
         }
@@ -151,38 +136,36 @@
         _contentStr = [[NSMutableString alloc] init];
         
         if ([_target_type isEqualToString:@"Task"]) {
-            NSString *linkStr;
             if ([_action isEqualToString:@"update_priority"]) {
                 if (_task.priority && _task.priority.intValue < kTaskPrioritiesDisplay.count) {
-                    linkStr = [NSString stringWithFormat:@"[%@] %@", kTaskPrioritiesDisplay[_task.priority.intValue], _task.title];
+                    [_contentStr appendFormat:@"[%@]", kTaskPrioritiesDisplay[_task.priority.intValue]];
                 }
             }else if ([_action isEqualToString:@"update_deadline"] && _task.deadline && _task.deadline.length > 0) {
-                linkStr = [NSString stringWithFormat:@"[%@] %@", [NSDate convertStr_yyyy_MM_ddToDisplay:_task.deadline], _task.title];
+                [_contentStr appendFormat:@"[%@]", [NSDate convertStr_yyyy_MM_ddToDisplay:_task.deadline]];
             }else if ([_action isEqualToString:@"update_description"]) {
-                linkStr = _task.description_mine;
+                [_contentStr appendString:_task.description_mine];
             }else{
-                linkStr = _task.title;
+                [_contentStr appendString:_task.title];
             }
-            [self addContentLinkStr:linkStr];
         }else if ([_target_type isEqualToString:@"TaskComment"]){
             if (_taskComment.content) {
-                [self addContentLinkStr:_taskComment.content];
+                [_contentStr appendString:_taskComment.content];
             }
         }else if ([_target_type isEqualToString:@"ProjectTopic"]){
             if ([_action isEqualToString:@"comment"]) {
-                [self addContentLinkStr:_project_topic.content];
+                [_contentStr appendString:_project_topic.content];
             }else{
-                [self addContentLinkStr:_project_topic.title];
+                [_contentStr appendString:_project_topic.title];
             }
         }else if ([_target_type isEqualToString:@"ProjectFile"]){
-            [self addContentLinkStr:_file.name];
+            [_contentStr appendString:_file.name];
         }else if ([_target_type isEqualToString:@"Depot"]){
             if (_commits && [_commits count] > 0) {
                 Commit *curCommit = _commits.firstObject;
                 [_contentStr appendString:curCommit.contentStr];
                 for (int i = 1; i<[_commits count]; i++) {
                     curCommit = [_commits objectAtIndex:i];
-                    [_contentStr appendString:[NSString stringWithFormat:@"\n%@",curCommit.contentStr]];
+                    [_contentStr appendFormat:@"\n%@",curCommit.contentStr];
                 }
             }
         }else{
@@ -190,7 +173,7 @@
                 if ([_action isEqualToString:@"quit"]) {
                     [_contentStr appendString:_project.full_name];
                 }else{
-                    [self addContentLinkStr:_target_user.name];
+                    [_contentStr appendString:_target_user.name];
                 }
             }else if ([_target_type isEqualToString:@"Project"]){
                 [_contentStr appendString:_project.full_name];

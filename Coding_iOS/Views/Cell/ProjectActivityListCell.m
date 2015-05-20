@@ -144,11 +144,6 @@
     curBottomY += kProjectActivityListCell_TextPading;
 //    内容
     [_contentLabel setLongString:_proAct.contentStr withFitWidth:kProjectActivityListCell_ContentWidth maxHeight:kProjectActivityListCell_MaxContentHeight];
-//    for (HtmlMediaItem *item in _proAct.contentMediaItems) {
-//        if (item.displayStr.length > 0) {
-//            [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
-//        }
-//    }
     [_contentLabel setY:curBottomY];
     curBottomY += [_proAct.contentStr getHeightWithFont:kProjectActivityListCell_ContentFont constrainedToSize:CGSizeMake(kProjectActivityListCell_ContentWidth, kProjectActivityListCell_MaxContentHeight)];
     curBottomY += kProjectActivityListCell_TextPading;
@@ -160,8 +155,6 @@
         _timeLabel.text = @"";
     }
     [_timeLabel setY:curBottomY];
-//    curBottomY += kProjectActivityListCell_TimeHeight;
-//    curBottomY += kProjectActivityListCell_UpDownPading;
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{
