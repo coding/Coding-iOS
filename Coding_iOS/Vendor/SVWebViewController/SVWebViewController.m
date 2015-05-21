@@ -279,7 +279,7 @@
 
 - (void)actionButtonTapped:(id)sender {
     NSURL *url = self.webView.request.URL ? self.webView.request.URL : self.request.URL;
-    if (url != nil) {
+    if (url.absoluteString && ![url.absoluteString isEmpty]) {
         NSArray *activities = @[[SVWebViewControllerActivitySafari new], [SVWebViewControllerActivityChrome new], [SVWebViewControllerActivityReport new]];
         
         if ([[url absoluteString] hasPrefix:@"file:///"]) {

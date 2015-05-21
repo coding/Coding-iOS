@@ -10,8 +10,6 @@
 
 @interface WebViewController : SVWebViewController
 
-@property (strong, nonatomic) NSString *curUrlStr;
-
 + (instancetype)webVCWithUrlStr:(NSString *)curUrlStr;
 
 @end
