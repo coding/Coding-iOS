@@ -1417,7 +1417,10 @@
             
             {//标记为已读
                 NSString *myGK = [Login curLoginUser].global_key;
-                [resultA enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(PrivateMessage *obj, NSUInteger idx, BOOL *stop) {
+                [resultA enumerateObjectsUsingBlock:^(PrivateMessage *obj, NSUInteger idx, BOOL *stop) {
+                    if (idx == 0) {
+                        [priMsgs freshLastId:obj.id];
+                    }
                     if (obj.sender.global_key.length > 0 && ![obj.sender.global_key isEqualToString:myGK]) {
                         *stop = YES;
                         [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"api/message/conversations/%@/read", obj.sender.global_key] withParams:nil withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {

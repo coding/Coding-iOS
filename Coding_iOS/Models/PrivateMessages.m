@@ -9,6 +9,10 @@
 #import "PrivateMessages.h"
 #include "Login.h"
 
+@interface PrivateMessages ()
+@property (strong, nonatomic) NSNumber *p_lastId;
+@end
+
 @implementation PrivateMessages
 - (instancetype)init
 {
@@ -116,18 +120,25 @@
     return [NSString stringWithFormat:@"api/message/conversations/%@/last", _curFriend.global_key];
 }
 - (NSDictionary *)toPollParams{
-    return @{@"id" : [NSNumber numberWithInteger:[self p_lastId]]};
+    return @{@"id" : self.p_lastId};
 }
 
-- (NSInteger)p_lastId{
-    __block NSInteger last_id = 0;
-    [_list enumerateObjectsUsingBlock:^(PrivateMessage *obj, NSUInteger idx, BOOL *stop) {
-        if (obj.sender.id.integerValue == obj.friend.id.integerValue) {
-            last_id = obj.id.integerValue;
-            *stop = YES;
-        }
-    }];
-    return last_id;
+- (void)freshLastId:(NSNumber *)last_id{
+    self.p_lastId = last_id;
+}
+
+
+- (NSNumber *)p_lastId{
+    if (!_p_lastId) {
+        _p_lastId = @0;
+        [_list enumerateObjectsUsingBlock:^(PrivateMessage *obj, NSUInteger idx, BOOL *stop) {
+            if (obj.sender.id.integerValue == obj.friend.id.integerValue) {
+                _p_lastId = obj.id;
+                *stop = YES;
+            }
+        }];
+    }
+    return _p_lastId;
 }
 
 - (BOOL)p_addMsg:(PrivateMessage *)aMsg{

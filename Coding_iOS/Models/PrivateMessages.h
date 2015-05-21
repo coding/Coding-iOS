@@ -31,4 +31,6 @@
 - (void)sendSuccessMessage:(PrivateMessage *)sucessMsg andOldMessage:(PrivateMessage *)oldMsg;
 - (void)deleteMessage:(PrivateMessage *)msg;
 
+- (void)freshLastId:(NSNumber *)last_id;
+
 @end
