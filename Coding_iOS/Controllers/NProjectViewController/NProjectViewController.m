@@ -462,7 +462,7 @@
             }
         }else if ([target_type isEqualToString:@"ProjectTopic"]){
             
-            ProjectTopic *topic = proAct.project_topic;
+            ProjectTopicActivity *topic = proAct.project_topic;
             NSArray *pathArray;
             if ([proAct.action isEqualToString:@"comment"]) {
                 pathArray = [topic.parent.path componentsSeparatedByString:@"/"];
