@@ -25,7 +25,7 @@
 //UnRead
 - (void)request_UnReadCountWithBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"项目_私信_系统通知"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/unread-count" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/unread-count" withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
             block(resultData, nil);
@@ -1379,7 +1379,7 @@
             block(resultA, nil);
             
             if (priMsgs.curFriend && priMsgs.curFriend.global_key) {//标记为已读
-                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"api/message/conversations/%@/read", priMsgs.curFriend.global_key] withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"api/message/conversations/%@/read", priMsgs.curFriend.global_key] withParams:nil withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
                     if (data) {
                         [[UnReadManager shareManager] updateUnRead];
                     }
@@ -1414,6 +1414,18 @@
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
             NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"PrivateMessage"];
+            
+            {//标记为已读
+                NSString *myGK = [Login curLoginUser].global_key;
+                [resultA enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(PrivateMessage *obj, NSUInteger idx, BOOL *stop) {
+                    if (obj.sender.global_key.length > 0 && ![obj.sender.global_key isEqualToString:myGK]) {
+                        *stop = YES;
+                        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"api/message/conversations/%@/read", obj.sender.global_key] withParams:nil withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+                            DebugLog(@"request_Fresh_PrivateMessages Mark Sucess");
+                        }];
+                    }
+                }];
+            }
             block(resultA, nil);
         }else{
             block(nil, error);
