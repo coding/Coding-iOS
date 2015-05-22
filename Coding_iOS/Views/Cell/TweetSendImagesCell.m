@@ -119,10 +119,6 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == _curTweet.tweetImages.count) {
-        if (_curTweet.tweetImages.count >= 6) {
-            kTipAlert(@"最多只可选择6张照片");
-            return;
-        }
         if (_addPicturesBlock) {
             _addPicturesBlock();
         }

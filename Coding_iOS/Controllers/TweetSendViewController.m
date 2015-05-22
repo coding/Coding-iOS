@@ -151,6 +151,10 @@
 #pragma mark UIActionSheet M
 
 - (void)showActionForPhoto{
+    if (_curTweet.tweetImages.count >= 6) {
+        kTipAlert(@"最多只可选择6张照片");
+        return;
+    }
     @weakify(self);
     [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"拍照", @"从相册选择"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         @strongify(self);
