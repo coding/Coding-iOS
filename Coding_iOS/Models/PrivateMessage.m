@@ -22,7 +22,7 @@
 - (void)setContent:(NSString *)content{
     if (_content != content) {
         _htmlMedia = [HtmlMedia htmlMediaWithString:content showType:MediaShowTypeCode];
-        if (_htmlMedia.contentDisplay.length <= 0 && _htmlMedia.imageItems.count <= 0) {
+        if (_htmlMedia.contentDisplay.length <= 0 && _htmlMedia.imageItems.count <= 0 && !_nextImg) {
             _content = @"    ";//占位
         }else{
             _content = _htmlMedia.contentDisplay;
@@ -35,12 +35,6 @@
 
 + (instancetype)privateMessageWithObj:(id)obj andFriend:(User *)curFriend{
     PrivateMessage *nextMsg = [[PrivateMessage alloc] init];
-    nextMsg.sender = [Login curLoginUser];
-    nextMsg.friend = curFriend;
-    nextMsg.sendStatus = PrivateMessageStatusSending;
-    nextMsg.created_at = [NSDate date];
-    nextMsg.content = @"";
-    nextMsg.extra = @"";
     if ([obj isKindOfClass:[NSString class]]) {
         nextMsg.content = obj;
     }else if ([obj isKindOfClass:[UIImage class]]){
@@ -65,6 +59,12 @@
         nextMsg.content = content;
         nextMsg.extra = extra;
     }
+    nextMsg.sender = [Login curLoginUser];
+    nextMsg.friend = curFriend;
+    nextMsg.sendStatus = PrivateMessageStatusSending;
+    nextMsg.created_at = [NSDate date];
+    nextMsg.content = @"";
+    nextMsg.extra = @"";
     return nextMsg;
 };
 
