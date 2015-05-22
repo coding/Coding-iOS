@@ -451,9 +451,15 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
 #pragma mark QBImagePickerControllerDelegate
 - (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didSelectAssets:(NSArray *)assets{
     for (ALAsset *assetItem in assets) {
-        UIImage *highQualityImage = [UIImage fullResolutionImageFromALAsset:assetItem];
-        highQualityImage = [highQualityImage scaledToSize:kScreen_Bounds.size highQuality:YES];
-        [self sendPrivateMessage:highQualityImage];
+        @weakify(self);
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            UIImage *highQualityImage = [UIImage fullResolutionImageFromALAsset:assetItem];
+            highQualityImage = [highQualityImage scaledToSize:kScreen_Bounds.size highQuality:YES];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                @strongify(self);
+                [self sendPrivateMessage:highQualityImage];
+            });
+        });
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
