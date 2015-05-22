@@ -35,7 +35,7 @@
     
     if (_curMediaItem != curMediaItem) {
         _curMediaItem = curMediaItem;
-        [self.imgView sd_setImageWithURL:[_curMediaItem.src urlImageWithCodePathResize:2*kTaskCommentCCell_Width] placeholderImage:kPlaceholderCodingSquareWidth(55.0) options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies];
+        [self.imgView sd_setImageWithURL:[_curMediaItem.src urlImageWithCodePathResize:2*kTaskCommentCCell_Width crop:YES] placeholderImage:kPlaceholderCodingSquareWidth(55.0) options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies];
     }
 }
 

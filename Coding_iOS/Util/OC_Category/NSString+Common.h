@@ -19,6 +19,7 @@
 - (NSString*) sha1Str;
 - (NSURL *)urlWithCodePath;
 - (NSURL *)urlImageWithCodePathResize:(CGFloat)width;
+- (NSURL *)urlImageWithCodePathResize:(CGFloat)width crop:(BOOL)needCrop;
 - (NSURL *)urlImageWithCodePathResizeToView:(UIView *)view;
 
 
