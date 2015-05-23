@@ -127,7 +127,8 @@
         cell.addPicturesBlock = ^(){
             [self showActionForPhoto];
         };
-        cell.deleteTweetImageBlock = ^(){
+        cell.deleteTweetImageBlock = ^(TweetImage *toDelete){
+            [weakSelf.curTweet deleteATweetImage:toDelete];
             [weakSelf.myTableView reloadData];
         };
         return cell;
@@ -179,10 +180,12 @@
             return;
         }
         QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
+        [imagePickerController.selectedAssetURLs removeAllObjects];
+        [imagePickerController.selectedAssetURLs addObjectsFromArray:self.curTweet.selectedAssetURLs];
         imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
         imagePickerController.delegate = self;
         imagePickerController.allowsMultipleSelection = YES;
-        imagePickerController.maximumNumberOfSelection = 6-_curTweet.tweetImages.count;
+        imagePickerController.maximumNumberOfSelection = 6;
         UINavigationController *navigationController = [[BaseNavigationController alloc] initWithRootViewController:imagePickerController];
         [self presentViewController:navigationController animated:YES completion:NULL];
     }
@@ -190,17 +193,13 @@
 
 #pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    UIImage *originalImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-    TweetImage *tweetImg = [TweetImage tweetImageWithImage:[originalImage scaledToSize:kScreen_Bounds.size highQuality:YES]];
-    
-    NSMutableArray *tweetImages = [self.curTweet mutableArrayValueForKey:@"tweetImages"];
-    [tweetImages addObject:tweetImg];
-    // 保存原图片到相册中
-    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-        UIImageWriteToSavedPhotosAlbum(originalImage, self, nil, NULL);
-    }
-    [picker dismissViewControllerAnimated:YES completion:nil];
-    [_myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    UIImage *pickerImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
+    [assetsLibrary writeImageToSavedPhotosAlbum:[pickerImage CGImage] orientation:(ALAssetOrientation)pickerImage.imageOrientation completionBlock:^(NSURL *assetURL, NSError *error) {
+        [self.curTweet addASelectedAssetURL:assetURL];
+        [self.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    }];
+    [picker dismissViewControllerAnimated:YES completion:^{}];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
@@ -209,13 +208,18 @@
 
 #pragma mark QBImagePickerControllerDelegate
 - (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didSelectAssets:(NSArray *)assets{
-    for (ALAsset *assetItem in assets) {
-        UIImage *highQualityImage = [UIImage fullResolutionImageFromALAsset:assetItem];
-        TweetImage *tweetImg = [TweetImage tweetImageWithImage:[highQualityImage scaledToSize:kScreen_Bounds.size highQuality:YES]];
-        NSMutableArray *tweetImages = [self.curTweet mutableArrayValueForKey:@"tweetImages"];
-        [tweetImages addObject:tweetImg];
-    }
-    [_myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    NSMutableArray *selectedAssetURLs = [NSMutableArray new];
+    [imagePickerController.selectedAssetURLs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [selectedAssetURLs addObject:obj];
+    }];
+    @weakify(self);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        self.curTweet.selectedAssetURLs = selectedAssetURLs;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            @strongify(self);
+            [self.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        });
+    });
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)qb_imagePickerControllerDidCancel:(QBImagePickerController *)imagePickerController{
@@ -225,6 +229,7 @@
 #pragma mark Nav Btn M
 - (void)cancelBtnClicked:(id)sender{
     if ([self isEmptyTweet] && !_curTweet.locationData) {//有位置
+        [Tweet deleteSendData];
         [self dismissSelf];
     }else{
         __weak typeof(self) weakSelf = self;

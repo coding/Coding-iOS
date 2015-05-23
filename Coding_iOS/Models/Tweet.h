@@ -12,6 +12,8 @@
 #import "HtmlMedia.h"
 #import "TweetSendLocation.h"
 
+@class TweetImage;
+
 @interface Tweet : NSObject
 @property (readwrite, nonatomic, strong) NSString *content, *device, *location, *coord, *address;
 @property (readwrite, nonatomic, strong) NSNumber *liked, *activity_id, *id, *comments, *likes;
@@ -23,20 +25,23 @@
 @property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;
 @property (nonatomic,strong) TweetSendLocationResponse *locationData;
 
-@property (readwrite, nonatomic, strong) NSMutableArray *tweetImages;
+@property (readonly, nonatomic, strong) NSMutableArray *tweetImages;
+@property (readwrite, nonatomic, strong) NSMutableArray *selectedAssetURLs;
 @property (readwrite, nonatomic, strong) NSString *tweetContent;
 @property (readwrite, nonatomic, strong) NSString *nextCommentStr;
 @property (assign, nonatomic) CGFloat contentHeight;
 
 @property (strong, nonatomic) NSString *user_global_key, *pp_id;
 
+- (void)addASelectedAssetURL:(NSURL *)assetURL;
+- (void)deleteASelectedAssetURL:(NSURL *)assetURL;
+- (void)deleteATweetImage:(TweetImage *)tweetImage;
+
 - (NSInteger)numOfComments;
 - (BOOL)hasMoreComments;
 
 - (NSInteger)numOfLikers;
 - (BOOL)hasMoreLikers;
-
-
 
 - (NSString *)toDoLikePath;
 - (void)changeToLiked:(NSNumber *)liked;
@@ -76,8 +81,10 @@ typedef NS_ENUM(NSInteger, TweetImageUploadState)
 };
 
 @interface TweetImage : NSObject
-@property (readwrite, nonatomic, strong) UIImage *image;
+@property (readwrite, nonatomic, strong) UIImage *image, *thumbnailImage;
+@property (strong, nonatomic) NSURL *assetURL;
 @property (assign, nonatomic) TweetImageUploadState uploadState;
 @property (readwrite, nonatomic, strong) NSString *imageStr;
-+ (instancetype)tweetImageWithImage:(UIImage *)image;
++ (instancetype)tweetImageWithAssetURL:(NSURL *)assetURL;
++ (instancetype)tweetImageWithAssetURL:(NSURL *)assetURL andImage:(UIImage *)image;
 @end

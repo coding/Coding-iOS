@@ -1160,7 +1160,6 @@
                         imageItem.uploadState = TweetImageUploadStateSuccess;
                         imageItem.imageStr = [NSString stringWithFormat:@" ![图片](%@) ", imagePath];
                     }else{
-                        [self showError:error];
                         [self showStatusBarError:error];
                         imageItem.uploadState = TweetImageUploadStateFail;
                         imageItem.imageStr = [NSString stringWithFormat:@" ![图片]() "];
@@ -1637,6 +1636,10 @@
 - (void)uploadTweetImage:(UIImage *)image
                doneBlock:(void (^)(NSString *imagePath, NSError *error))done
            progerssBlock:(void (^)(CGFloat progressValue))progress{
+    if (!image) {
+        done(nil, [NSError errorWithDomain:@"DATA EMPTY" code:0 userInfo:@{NSLocalizedDescriptionKey : @"有张照片没有读取成功"}]);
+        return;
+    }
     [[CodingNetAPIClient sharedJsonClient] uploadImage:image path:@"api/tweet/insert_image" name:@"tweetImg" successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSString *reslutString = [responseObject objectForKey:@"data"];
         DebugLog(@"%@", reslutString);

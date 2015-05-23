@@ -40,7 +40,6 @@
     }
     _curTweetImg = curTweetImg;
     if (_curTweetImg) {
-        _imgView.image = [_curTweetImg.image scaledToSize:_imgView.bounds.size highQuality:YES];
         if (!_deleteBtn) {
             _deleteBtn = [[UIButton alloc] initWithFrame:CGRectMake(kTweetSendImageCCell_Width-20, 0, 20, 20)];
             [_deleteBtn setImage:[UIImage imageNamed:@"btn_delete_tweetimage"] forState:UIControlStateNormal];
@@ -51,6 +50,7 @@
             [_deleteBtn addTarget:self action:@selector(deleteBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:_deleteBtn];
         }
+        RAC(self.imgView, image) = [RACObserve(self.curTweetImg, thumbnailImage) takeUntil:self.rac_prepareForReuseSignal];
         _deleteBtn.hidden = NO;
     }else{
         _imgView.image = [UIImage imageNamed:@"addPictureBgImage"];

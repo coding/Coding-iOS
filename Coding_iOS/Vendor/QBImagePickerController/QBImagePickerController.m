@@ -254,15 +254,19 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
 {
     // Load assets from URLs
     __block NSMutableArray *assets = [NSMutableArray array];
+    __block NSInteger tryCount = 0;
     
     for (NSURL *selectedAssetURL in self.selectedAssetURLs) {
         __weak typeof(self) weakSelf = self;
         
         // Success block
         void (^selectAsset)(ALAsset *) = ^(ALAsset *asset) {
-            [assets addObject:asset];
+            if (asset) {
+                [assets addObject:asset];
+            }
             // Check if the loading finished
-            if (assets.count == weakSelf.selectedAssetURLs.count) {
+            if (tryCount == weakSelf.selectedAssetURLs.count) {
+                DebugLog(@"照片查找失败张数：%lu", (tryCount - assets.count));
                 // Delegate
                 if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(qb_imagePickerController:didSelectAssets:)]) {
                     [weakSelf.delegate qb_imagePickerController:weakSelf didSelectAssets:[assets copy]];
@@ -272,6 +276,7 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
         
         [self.assetsLibrary assetForURL:selectedAssetURL resultBlock:^(ALAsset *asset) {
             if (asset) {
+                tryCount++;
                 selectAsset(asset);
             }else{
                 // Search in the Photo Stream Album
@@ -280,7 +285,12 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
                         if([result.defaultRepresentation.url isEqual:selectedAssetURL]) {
                             *stopG = YES;
                             *stop = YES;
+                            tryCount++;
                             selectAsset(result);
+                        }else if (index == 0){
+                            NSLog(@"找完了");
+                            tryCount++;//此处为查找失败
+                            selectAsset(nil);
                         }
                     }];
                 } failureBlock:^(NSError *error) {

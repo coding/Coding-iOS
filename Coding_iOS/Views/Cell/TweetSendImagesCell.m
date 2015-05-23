@@ -94,10 +94,8 @@
         ccell.curTweetImg = nil;
     }
     ccell.deleteTweetImageBlock = ^(TweetImage *toDelete){
-        NSMutableArray *tweetImages = [weakSelf.curTweet mutableArrayValueForKey:@"tweetImages"];
-        [tweetImages removeObject:toDelete];
         if (weakSelf.deleteTweetImageBlock) {
-            weakSelf.deleteTweetImageBlock();
+            weakSelf.deleteTweetImageBlock(toDelete);
         }
     };
     [_imageViewsDict setObject:ccell.imgView forKey:indexPath];

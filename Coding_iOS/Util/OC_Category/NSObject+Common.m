@@ -126,6 +126,9 @@
 // 图片缓存到本地
 + (BOOL) saveImage:(UIImage *)image imageName:(NSString *)imageName inFolder:(NSString *)folderName
 {
+    if (!image) {
+        return NO;
+    }
     if (!folderName) {
         folderName = kPath_ImageCache;
     }
