@@ -3,6 +3,7 @@
 *编译环境：Xcode-Version 6.1 (6A1052d)*
 
 #### 让项目跑起来先
+（注：由于用到了submodule，所以必需要把git仓库下载到本地，而不是只点击‘下载’按钮下载zip文件）
 1. 把文件`Coding_iOS-Prefix.pch.example`改成`Coding_iOS-Prefix.pch`
 2. 配置pod相关。进到`Podfile`文件所在的目录，执行`pod install` or `pod update`命令。
 3. 打开`Coding_iOS.xcworkspace`，将`Pods-Pods -> SDCAlertView -> IPHONEOS_DEPLOYMENT_TARGET`的值设置为`iOS7.0`（SDCAlertView的问题，暂不知为何）。
