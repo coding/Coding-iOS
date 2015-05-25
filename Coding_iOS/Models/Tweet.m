@@ -316,8 +316,7 @@ static Tweet *_tweetForSend = nil;
     
     void (^selectAsset)(ALAsset *) = ^(ALAsset *asset){
         if (asset) {
-            UIImage *highQualityImage = [UIImage fullResolutionImageFromALAsset:asset];
-            highQualityImage = [highQualityImage scaledToSize:kScreen_Bounds.size highQuality:YES];
+            UIImage *highQualityImage = [UIImage fullScreenImageALAsset:asset];
             UIImage *thumbnailImage = [UIImage imageWithCGImage:[asset thumbnail]];
             dispatch_async(dispatch_get_main_queue(), ^{
                 tweetImg.image = highQualityImage;

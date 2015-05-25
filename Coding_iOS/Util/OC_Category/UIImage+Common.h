@@ -18,5 +18,6 @@
 -(UIImage*)scaledToSize:(CGSize)targetSize highQuality:(BOOL)highQuality;
 -(UIImage*)scaledToMaxSize:(CGSize )size;
 + (UIImage *)fullResolutionImageFromALAsset:(ALAsset *)asset;
++ (UIImage *)fullScreenImageALAsset:(ALAsset *)asset;
 
 @end

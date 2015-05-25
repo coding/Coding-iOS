@@ -453,8 +453,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
     for (ALAsset *assetItem in assets) {
         @weakify(self);
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            UIImage *highQualityImage = [UIImage fullResolutionImageFromALAsset:assetItem];
-            highQualityImage = [highQualityImage scaledToSize:kScreen_Bounds.size highQuality:YES];
+            UIImage *highQualityImage = [UIImage fullScreenImageALAsset:assetItem];
             dispatch_async(dispatch_get_main_queue(), ^{
                 @strongify(self);
                 [self sendPrivateMessage:highQualityImage];
