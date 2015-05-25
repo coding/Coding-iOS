@@ -152,10 +152,6 @@
 #pragma mark UIActionSheet M
 
 - (void)showActionForPhoto{
-    if (_curTweet.tweetImages.count >= 6) {
-        kTipAlert(@"最多只可选择6张照片");
-        return;
-    }
     @weakify(self);
     [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"拍照", @"从相册选择"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         @strongify(self);
@@ -167,6 +163,9 @@
     if (buttonIndex == 0) {
         //        拍照
         if (![Helper checkCameraAuthorizationStatus]) {
+            return;
+        }else if (_curTweet.tweetImages.count >= 6) {
+            kTipAlert(@"最多只可选择6张照片，已经选满了。先去掉一张照片再拍照呗～");
             return;
         }
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
