@@ -254,7 +254,7 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
 {
     // Load assets from URLs
     __block NSMutableArray *assets = [NSMutableArray array];
-    __block NSInteger tryCount = 0;
+    __block NSUInteger tryCount = 0;
     
     for (NSURL *selectedAssetURL in self.selectedAssetURLs) {
         __weak typeof(self) weakSelf = self;
@@ -266,7 +266,7 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
             }
             // Check if the loading finished
             if (tryCount == weakSelf.selectedAssetURLs.count) {
-                DebugLog(@"照片查找失败张数：%lu", (tryCount - assets.count));
+                DebugLog(@"照片查找失败张数：%lu", (long)(tryCount - assets.count));
                 // Delegate
                 if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(qb_imagePickerController:didSelectAssets:)]) {
                     [weakSelf.delegate qb_imagePickerController:weakSelf didSelectAssets:[assets copy]];
