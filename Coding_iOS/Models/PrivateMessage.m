@@ -35,10 +35,18 @@
 
 + (instancetype)privateMessageWithObj:(id)obj andFriend:(User *)curFriend{
     PrivateMessage *nextMsg = [[PrivateMessage alloc] init];
+    nextMsg.sender = [Login curLoginUser];
+    nextMsg.friend = curFriend;
+    nextMsg.sendStatus = PrivateMessageStatusSending;
+    nextMsg.created_at = [NSDate date];
+    
     if ([obj isKindOfClass:[NSString class]]) {
         nextMsg.content = obj;
+        nextMsg.extra = @"";
     }else if ([obj isKindOfClass:[UIImage class]]){
         nextMsg.nextImg = obj;
+        nextMsg.content = @"";
+        nextMsg.extra = @"";
     }else if ([obj isKindOfClass:[PrivateMessage class]]){
         PrivateMessage *originalMsg = (PrivateMessage *)obj;
         NSMutableString *content = [[NSMutableString alloc] initWithString:originalMsg.content];
@@ -59,12 +67,7 @@
         nextMsg.content = content;
         nextMsg.extra = extra;
     }
-    nextMsg.sender = [Login curLoginUser];
-    nextMsg.friend = curFriend;
-    nextMsg.sendStatus = PrivateMessageStatusSending;
-    nextMsg.created_at = [NSDate date];
-    nextMsg.content = @"";
-    nextMsg.extra = @"";
+
     return nextMsg;
 };
 
