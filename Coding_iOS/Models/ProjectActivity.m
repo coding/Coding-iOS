@@ -7,6 +7,7 @@
 //
 
 #import "ProjectActivity.h"
+#import "NSMutableString+Common.h"
 
 @implementation ProjectActivity
 @synthesize actionStr = _actionStr, contentStr = _contentStr;
@@ -74,7 +75,7 @@
             }else if ([_action isEqualToString:@"update_description"]) {
                 [_actionStr appendFormat:@"更新了任务 [%@] 的描述", _task.title];
             }else{
-                [_actionStr appendString:_action_msg];
+                [_actionStr saveAppendString:_action_msg];
                 if (_origin_task.owner) {
                     [self addActionUser:_origin_task.owner];
                     [_actionStr appendString:@"的"];
@@ -91,7 +92,7 @@
             [_actionStr appendFormat:@"%@任务 [%@] 的评论", _action_msg, _task.title];
         }else{
             [self addActionUser:_user];
-            [_actionStr appendString:_action_msg];
+            [_actionStr saveAppendString:_action_msg];
             if ([_target_type isEqualToString:@"ProjectTopic"]){
                 [_actionStr appendString:@"讨论"];
                 if ([_action isEqualToString:@"comment"]) {
@@ -143,26 +144,26 @@
             }else if ([_action isEqualToString:@"update_deadline"] && _task.deadline && _task.deadline.length > 0) {
                 [_contentStr appendFormat:@"[%@]", [NSDate convertStr_yyyy_MM_ddToDisplay:_task.deadline]];
             }else if ([_action isEqualToString:@"update_description"]) {
-                [_contentStr appendString:_task.description_mine];
+                [_contentStr saveAppendString:_task.description_mine];
             }else{
-                [_contentStr appendString:_task.title];
+                [_contentStr saveAppendString:_task.title];
             }
         }else if ([_target_type isEqualToString:@"TaskComment"]){
             if (_taskComment.content) {
-                [_contentStr appendString:_taskComment.content];
+                [_contentStr saveAppendString:_taskComment.content];
             }
         }else if ([_target_type isEqualToString:@"ProjectTopic"]){
             if ([_action isEqualToString:@"comment"]) {
-                [_contentStr appendString:_project_topic.content];
+                [_contentStr saveAppendString:_project_topic.content];
             }else{
-                [_contentStr appendString:_project_topic.title];
+                [_contentStr saveAppendString:_project_topic.title];
             }
         }else if ([_target_type isEqualToString:@"ProjectFile"]){
-            [_contentStr appendString:_file.name];
+            [_contentStr saveAppendString:_file.name];
         }else if ([_target_type isEqualToString:@"Depot"]){
             if (_commits && [_commits count] > 0) {
                 Commit *curCommit = _commits.firstObject;
-                [_contentStr appendString:curCommit.contentStr];
+                [_contentStr saveAppendString:curCommit.contentStr];
                 for (int i = 1; i<[_commits count]; i++) {
                     curCommit = [_commits objectAtIndex:i];
                     [_contentStr appendFormat:@"\n%@",curCommit.contentStr];
@@ -171,26 +172,26 @@
         }else{
             if ([_target_type isEqualToString:@"ProjectMember"]) {
                 if ([_action isEqualToString:@"quit"]) {
-                    [_contentStr appendString:_project.full_name];
+                    [_contentStr saveAppendString:_project.full_name];
                 }else{
-                    [_contentStr appendString:_target_user.name];
+                    [_contentStr saveAppendString:_target_user.name];
                 }
             }else if ([_target_type isEqualToString:@"Project"]){
-                [_contentStr appendString:_project.full_name];
+                [_contentStr saveAppendString:_project.full_name];
             }else if ([_target_type isEqualToString:@"QcTask"]){
-                [_contentStr appendString:_qc_task.link];
+                [_contentStr saveAppendString:_qc_task.link];
             }else if ([_target_type isEqualToString:@"ProjectStar"]){
-                [_contentStr appendString:_project.full_name];
+                [_contentStr saveAppendString:_project.full_name];
             }else if ([_target_type isEqualToString:@"ProjectWatcher"]){
-                [_contentStr appendString:_project.full_name];
+                [_contentStr saveAppendString:_project.full_name];
             }else if ([_target_type isEqualToString:@"PullRequestBean"]){
-                [_contentStr appendString:_pull_request_title];
+                [_contentStr saveAppendString:_pull_request_title];
             }else if ([_target_type isEqualToString:@"PullRequestComment"]){
-                [_contentStr appendString:_comment_content];
+                [_contentStr saveAppendString:_comment_content];
             }else if ([_target_type isEqualToString:@"MergeRequestBean"]){
-                [_contentStr appendString:_merge_request_title];
+                [_contentStr saveAppendString:_merge_request_title];
             }else if ([_target_type isEqualToString:@"MergeRequestComment"]){
-                [_contentStr appendString:_comment_content];
+                [_contentStr saveAppendString:_comment_content];
             }else if ([_target_type isEqualToString:@"CommitLineNote"]){
                 [_contentStr appendFormat:@"%@", _line_note.content];
             }else{

@@ -119,6 +119,7 @@
 		4E6D718D1A762879005AD988 /* icon_user_monkey_i6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D718B1A762879005AD988 /* icon_user_monkey_i6@2x.png */; };
 		4E6D718E1A762879005AD988 /* icon_user_monkey_i6p@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D718C1A762879005AD988 /* icon_user_monkey_i6p@3x.png */; };
 		4E6FFB311AB3176900F27B3F /* ProjectReadMeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6FFB301AB3176900F27B3F /* ProjectReadMeCell.m */; };
+		4E72F82D1B144778001B6CE6 /* NSMutableString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E72F82C1B144778001B6CE6 /* NSMutableString+Common.m */; };
 		4E743E691A8866E300DADDE5 /* taskDescription_add_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E743E671A8866E300DADDE5 /* taskDescription_add_arrow@2x.png */; };
 		4E743E6A1A8866E300DADDE5 /* taskDescription_check_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E743E681A8866E300DADDE5 /* taskDescription_check_arrow@2x.png */; };
 		4E743E6D1A88A3CC00DADDE5 /* EaseMarkdownTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E743E6C1A88A3CC00DADDE5 /* EaseMarkdownTextView.m */; };
@@ -818,6 +819,8 @@
 		4E6D718C1A762879005AD988 /* icon_user_monkey_i6p@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_user_monkey_i6p@3x.png"; sourceTree = "<group>"; };
 		4E6FFB2F1AB3176900F27B3F /* ProjectReadMeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectReadMeCell.h; sourceTree = "<group>"; };
 		4E6FFB301AB3176900F27B3F /* ProjectReadMeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectReadMeCell.m; sourceTree = "<group>"; };
+		4E72F82B1B144778001B6CE6 /* NSMutableString+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+Common.h"; sourceTree = "<group>"; };
+		4E72F82C1B144778001B6CE6 /* NSMutableString+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+Common.m"; sourceTree = "<group>"; };
 		4E743E671A8866E300DADDE5 /* taskDescription_add_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskDescription_add_arrow@2x.png"; sourceTree = "<group>"; };
 		4E743E681A8866E300DADDE5 /* taskDescription_check_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskDescription_check_arrow@2x.png"; sourceTree = "<group>"; };
 		4E743E6B1A88A3CC00DADDE5 /* EaseMarkdownTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseMarkdownTextView.h; sourceTree = "<group>"; };
@@ -2083,6 +2086,8 @@
 				4EE5481D1AE7B7CA00A92306 /* UISearchBar+Common.m */,
 				4E969CCE1AF0EB87005C0CCE /* NSTimer+Common.h */,
 				4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */,
+				4E72F82B1B144778001B6CE6 /* NSMutableString+Common.h */,
+				4E72F82C1B144778001B6CE6 /* NSMutableString+Common.m */,
 			);
 			path = OC_Category;
 			sourceTree = "<group>";
@@ -3751,6 +3756,7 @@
 				3A3878371AE293D50078D5DE /* EditLabelViewController.m in Sources */,
 				4ECE8AFE1A3946C10021E29C /* Coding_FileManager.m in Sources */,
 				4EABD2541AD3CA7E005E515F /* UIMessageInputView.m in Sources */,
+				4E72F82D1B144778001B6CE6 /* NSMutableString+Common.m in Sources */,
 				4ECE8AE51A3943E80021E29C /* UIImageView+Common.m in Sources */,
 				8EF643CA19FF7E2900F7EEB0 /* TopicContentCell.m in Sources */,
 				4ECE8AE81A3943E80021E29C /* UIView+Common.m in Sources */,
