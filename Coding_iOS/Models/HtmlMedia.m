@@ -218,4 +218,7 @@
     }
     return displayStr? displayStr : @"";
 }
+- (BOOL)isGif{
+    return self.type == HtmlMediaItemType_Image && [self.src rangeOfString:@".gif"].location != NSNotFound;
+}
 @end

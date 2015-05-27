@@ -11,7 +11,7 @@
 
 #define kTweetCommentCell_LeftOrRightPading 10.0
 #define kTweetCommentCell_ContentWidth (kScreen_Width -50 - kPaddingLeftWidth - 2*kTweetCommentCell_LeftOrRightPading)
-
+#define kTweetCommentCell_ContentMaxHeight 105.0
 
 #import "TweetCommentCell.h"
 
@@ -75,9 +75,10 @@
     _curComment = curComment;
     _splitLineView.hidden = !has;
     User *curUser = _curComment.owner;
-    [_commentLabel setWidth:kTweetCommentCell_ContentWidth];
-    _commentLabel.text = _curComment.content;
-    [_commentLabel sizeToFit];
+//    [_commentLabel setWidth:kTweetCommentCell_ContentWidth];
+//    _commentLabel.text = _curComment.content;
+//    [_commentLabel sizeToFit];
+    [_commentLabel setLongString:_curComment.content withFitWidth:kTweetCommentCell_ContentWidth maxHeight:kTweetCommentCell_ContentMaxHeight];
 
     for (HtmlMediaItem *item in _curComment.htmlMedia.mediaItems) {
         if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
@@ -106,7 +107,7 @@
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[Comment class]]) {
         Comment *curComment = (Comment *)obj;
-        cellHeight = [curComment.content getHeightWithFont:kTweet_CommentFont constrainedToSize:CGSizeMake(kTweetCommentCell_ContentWidth, CGFLOAT_MAX)] +15 + kScaleFrom_iPhone5_Desgin(15);
+        cellHeight = MIN(kTweetCommentCell_ContentMaxHeight, [curComment.content getHeightWithFont:kTweet_CommentFont constrainedToSize:CGSizeMake(kTweetCommentCell_ContentWidth, CGFLOAT_MAX)]) +15 + kScaleFrom_iPhone5_Desgin(15);
     }
     return cellHeight;
 }

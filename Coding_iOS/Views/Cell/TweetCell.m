@@ -16,6 +16,7 @@
 #define kTweetCell_LikeUserCCell_Pading 10.0
 #define kTweetCell_LocationCCell_Pading 9.0
 #define kTweet_ContentFont [UIFont systemFontOfSize:16]
+#define kTweet_ContentMaxHeight 125.0
 #define kTweet_CommentFont [UIFont systemFontOfSize:14]
 #define kTweet_TimtFont [UIFont systemFontOfSize:12]
 #define kTweet_LikeUsersLineCount 7.0
@@ -229,10 +230,10 @@
     //owner姓名
     [self.ownerNameBtn setUserTitle:_tweet.owner.name font:[UIFont systemFontOfSize:17] maxWidth:(kTweetCell_ContentWidth-85)];
     //owner冒泡text内容
-    [self.contentLabel setWidth:kTweetCell_ContentWidth];
-    self.contentLabel.text = _tweet.content;
-    [self.contentLabel sizeToFit];
-//    [self.contentLabel setLongString:_tweet.content withFitWidth:kTweetCell_ContentWidth];
+//    [self.contentLabel setWidth:kTweetCell_ContentWidth];
+//    self.contentLabel.text = _tweet.content;
+//    [self.contentLabel sizeToFit];
+    [self.contentLabel setLongString:_tweet.content withFitWidth:kTweetCell_ContentWidth maxHeight:kTweet_ContentMaxHeight];
     for (HtmlMediaItem *item in _tweet.htmlMedia.mediaItems) {
         if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
             [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
@@ -369,7 +370,7 @@
 }
 
 + (CGFloat)contentLabelHeightWithTweet:(Tweet *)tweet{
-    return [tweet.content getHeightWithFont:kTweet_ContentFont constrainedToSize:CGSizeMake(kTweetCell_ContentWidth, CGFLOAT_MAX)];
+    return MIN(kTweet_ContentMaxHeight, [tweet.content getHeightWithFont:kTweet_ContentFont constrainedToSize:CGSizeMake(kTweetCell_ContentWidth, CGFLOAT_MAX)]);
 }
 
 + (CGFloat)contentMediaHeightWithTweet:(Tweet *)tweet{

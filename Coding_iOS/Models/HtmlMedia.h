@@ -60,5 +60,5 @@ typedef NS_ENUM(NSInteger, MediaShowType) {
 + (instancetype)htmlMediaItemWithTypeATUser:(User *)curUser mediaRange:(NSRange)curRange;
 
 - (NSString *)displayStr;
-
+- (BOOL)isGif;
 @end

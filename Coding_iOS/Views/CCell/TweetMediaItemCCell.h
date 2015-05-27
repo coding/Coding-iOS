@@ -15,6 +15,7 @@
 @interface TweetMediaItemCCell : UICollectionViewCell
 @property (strong, nonatomic) HtmlMediaItem *curMediaItem;
 @property (strong, nonatomic) YLImageView *imgView;
+@property (strong, nonatomic) UIImageView *gifMarkView;
 
 +(CGSize)ccellSizeWithObj:(id)obj;
 @end

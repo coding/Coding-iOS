@@ -15,7 +15,7 @@
 
 
 @implementation TweetMediaItemSingleCCell
-@synthesize curMediaItem = _curMediaItem, imgView = _imgView;
+@synthesize curMediaItem = _curMediaItem, imgView = _imgView, gifMarkView = _gifMarkView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -58,6 +58,27 @@
         }
     }];
     [_imgView setSize:reSize];
+    
+    //        gifMark
+    if ([self.curMediaItem isGif]) {
+        if (!_gifMarkView) {
+            _gifMarkView = ({
+                UIImageView *imgView = [UIImageView new];
+                imgView.image = [UIImage imageNamed:@"gif_mark"];
+                [self.imgView addSubview:imgView];
+                @weakify(self);
+                [imgView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    @strongify(self);
+                    make.size.mas_equalTo(CGSizeMake(24, 13));
+                    make.right.bottom.equalTo(self.imgView).offset(0);
+                }];
+                imgView;
+            });
+        }
+        self.gifMarkView.hidden = NO;
+    }else{
+        self.gifMarkView.hidden = YES;
+    }
 }
 
 +(CGSize)ccellSizeWithObj:(id)obj{
