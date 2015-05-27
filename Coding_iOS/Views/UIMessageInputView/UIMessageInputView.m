@@ -57,8 +57,6 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 @property (strong, nonatomic) MBProgressHUD *HUD;
 @property (strong, nonatomic) NSString *uploadingPhotoName;
 
-@property (nonatomic, assign) CGFloat curKeyboardEndFrameY;
-
 @end
 
 @implementation UIMessageInputView
@@ -139,8 +137,6 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         // Initialization code
         self.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
         [self addLineUp:YES andDown:NO andColor:[UIColor lightGrayColor]];
-        _curKeyboardEndFrameY = -1;
-        
         _viewHeightOld = CGRectGetHeight(frame);
         _inputState = UIMessageInputViewStateSystem;
         _isAlwaysShow = NO;
@@ -869,29 +865,30 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     if (self.inputState == UIMessageInputViewStateSystem && [self.inputTextView isFirstResponder]) {
         NSDictionary* userInfo = [aNotification userInfo];
         CGRect keyboardEndFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        if (_curKeyboardEndFrameY == keyboardEndFrame.origin.y) {
-            return;
-        }else{
-            _curKeyboardEndFrameY = keyboardEndFrame.origin.y;
-        }
+        CGFloat keyboardY =  keyboardEndFrame.origin.y;
 
-        void (^endFrameBlock)() = ^(){
-            CGFloat keyboardY =  keyboardEndFrame.origin.y;
-            if (ABS(keyboardY - kScreen_Height) < 0.1) {
-                if (_isAlwaysShow) {
-                    [self setY:kScreen_Height- CGRectGetHeight(self.frame)];
-                }else{
-                    [self setY:kScreen_Height];
-                }
-            }else{
-                [self setY:keyboardY-CGRectGetHeight(self.frame)];
-            }
-        };
+        CGFloat selfOriginY = keyboardY == kScreen_Height? self.isAlwaysShow? kScreen_Height - CGRectGetHeight(self.frame): kScreen_Height : keyboardY - CGRectGetHeight(self.frame);
+//        if (keyboardY == kScreen_Height) {
+//            if (self.isAlwaysShow) {
+//                selfOriginY = kScreen_Height- CGRectGetHeight(self.frame);
+//            }else{
+//                selfOriginY = kScreen_Height;
+//            }
+//        }else{
+//            selfOriginY = keyboardY-CGRectGetHeight(self.frame);
+//        }
+        if (selfOriginY == self.frame.origin.y) {
+            return;
+        }
         
+        
+        __weak typeof(self) weakSelf = self;
+        void (^endFrameBlock)() = ^(){
+            [weakSelf setY:selfOriginY];
+        };
         if ([aNotification name] == UIKeyboardWillChangeFrameNotification) {
             NSTimeInterval animationDuration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
             UIViewAnimationCurve animationCurve = [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue];
-            
             [UIView animateWithDuration:animationDuration delay:0.0f options:[UIView animationOptionsForCurve:animationCurve] animations:^{
                 endFrameBlock();
             } completion:nil];
