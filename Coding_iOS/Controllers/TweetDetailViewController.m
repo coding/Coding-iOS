@@ -376,8 +376,8 @@
         if (data) {
             if (weakSelf.deleteTweetBlock) {
                 weakSelf.deleteTweetBlock(curTweet);
-                [self.navigationController popViewControllerAnimated:YES];
             }
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }];
 }

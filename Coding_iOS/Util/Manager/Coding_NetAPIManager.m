@@ -1237,6 +1237,7 @@
     [MobClick event:kUmeng_Event_Request label:@"删除冒泡"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[tweet toDeletePath] withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
         if (data) {
+            [self showHudTipStr:@"删除成功"];
             block(data, nil);
         }else{
             block(nil, error);
