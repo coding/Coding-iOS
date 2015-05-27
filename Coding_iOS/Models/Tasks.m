@@ -40,24 +40,6 @@
     tasks.entranceType = TaskEntranceTypeMine;
     return tasks;
 }
-- (NSArray *)processingList{
-    if (!_list) {
-        return [NSArray array];
-    }
-    NSArray *list;
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"status.intValue == %d", 1];
-    list = [self.list filteredArrayUsingPredicate:predicate];
-    return list ? list : [NSArray array];
-}
-- (NSArray *)doneList{
-    if (!_list) {
-        return [NSArray array];
-    }
-    NSArray *list;
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"status.intValue == %d", 2];
-    list = [self.list filteredArrayUsingPredicate:predicate];
-    return list ? list : [NSArray array];
-}
 
 - (NSString *)queryType{
     NSString *queryType;
@@ -135,6 +117,15 @@
     }
     
     self.canLoadMore = self.page.intValue < self.totalPage.intValue;
+    
+    if (_list.count > 0) {
+        NSPredicate *donePredicate = [NSPredicate predicateWithFormat:@"status.intValue == %d", 2];
+        NSPredicate *processingPredicate = [NSPredicate predicateWithFormat:@"status.intValue == %d", 1];
+        _doneList = [self.list filteredArrayUsingPredicate:donePredicate];
+        _processingList = [self.list filteredArrayUsingPredicate:processingPredicate];
+    }else{
+        _doneList = _processingList = nil;
+    }
 }
 
 @end

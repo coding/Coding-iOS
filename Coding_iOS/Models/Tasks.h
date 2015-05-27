@@ -25,6 +25,7 @@ typedef NS_ENUM(NSInteger, TaskEntranceType){
 @property (readwrite, nonatomic, strong) NSNumber *page, *pageSize, *totalPage, *totalRow;
 @property (readwrite, nonatomic, strong) NSString *backend_project_path;//从Project中取来的
 @property (readwrite, nonatomic, strong) NSMutableArray *list;
+@property (strong, nonatomic) NSArray *doneList, *processingList;
 @property (readwrite, nonatomic, strong) User *owner;
 @property (readwrite, nonatomic, strong) Project *project;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
@@ -35,9 +36,6 @@ typedef NS_ENUM(NSInteger, TaskEntranceType){
 
 + (Tasks *)tasksWithPro:(Project *)project owner:(User *)owner queryType:(TaskQueryType)type;
 + (Tasks *)tasksWithPro:(Project *)project queryType:(TaskQueryType)type;
-
-- (NSArray *)doneList;
-- (NSArray *)processingList;
 
 - (NSString *)queryType;
 - (NSDictionary *)toParams;
