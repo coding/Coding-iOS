@@ -98,7 +98,6 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [[UnReadManager shareManager] updateUnRead];
 }
 
 - (void)didReceiveMemoryWarning

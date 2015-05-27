@@ -146,6 +146,15 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     if ([Login isLogin]) {
         [[UnReadManager shareManager] updateUnRead];
+        UIViewController *presentingVC = [BaseViewController presentingVC];
+        SEL selector = NSSelectorFromString(@"refresh");
+        if ([presentingVC isKindOfClass:NSClassFromString(@"Message_RootViewController")]
+            && [presentingVC respondsToSelector:selector]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+            [presentingVC performSelector:selector];
+#pragma clang diagnostic pop
+        }
     }
 }
 
