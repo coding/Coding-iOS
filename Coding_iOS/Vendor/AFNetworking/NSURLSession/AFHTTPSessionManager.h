@@ -89,7 +89,10 @@
 
  @warning `responseSerializer` must not be `nil`.
  */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-property-synthesis"
 @property (nonatomic, strong) AFHTTPResponseSerializer <AFURLResponseSerialization> * responseSerializer;
+#pragma clang diagnostic pop
 
 ///---------------------
 /// @name Initialization
