@@ -37,6 +37,7 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
 @property (nonatomic, strong, readwrite) ALAssetsLibrary *assetsLibrary;
 @property (nonatomic, copy, readwrite) NSArray *assetsGroups;
 @property (nonatomic, strong, readwrite) NSMutableOrderedSet *selectedAssetURLs;
+@property (nonatomic, assign) BOOL firstShow;
 
 @end
 
@@ -96,6 +97,7 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
     
     // View controller settings
     self.title = NSLocalizedStringFromTable(@"title", @"QBImagePickerController", nil);
+    self.firstShow = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -106,8 +108,11 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
     [self loadAssetsGroupsWithTypes:self.groupTypes
                          completion:^(NSArray *assetsGroups) {
                              self.assetsGroups = assetsGroups;
-                             
                              [self.tableView reloadData];
+                             if (self.firstShow) {
+                                 self.firstShow = NO;
+//                                 [self pushToCollectionVCWithIndex:0];
+                             }
                          }];
     
     // Validation
@@ -336,22 +341,28 @@ ALAssetsFilter * ALAssetsFilterFromQBImagePickerControllerFilterType(QBImagePick
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QBAssetsCollectionViewController *assetsCollectionViewController = [[QBAssetsCollectionViewController alloc] initWithCollectionViewLayout:[QBAssetsCollectionViewLayout layout]];
-    assetsCollectionViewController.imagePickerController = self;
-    assetsCollectionViewController.filterType = self.filterType;
-    assetsCollectionViewController.allowsMultipleSelection = self.allowsMultipleSelection;
-    assetsCollectionViewController.minimumNumberOfSelection = self.minimumNumberOfSelection;
-    assetsCollectionViewController.maximumNumberOfSelection = self.maximumNumberOfSelection;
-    
-    ALAssetsGroup *assetsGroup = self.assetsGroups[indexPath.row];
-    assetsCollectionViewController.delegate = self;
-    assetsCollectionViewController.assetsGroup = assetsGroup;
-    
-    for (NSURL *assetURL in self.selectedAssetURLs) {
-        [assetsCollectionViewController selectAssetHavingURL:assetURL];
+    [self pushToCollectionVCWithIndex:indexPath.row];
+}
+
+- (void)pushToCollectionVCWithIndex:(NSInteger)index{
+    if (index >= 0 && index < self.assetsGroups.count) {
+        QBAssetsCollectionViewController *assetsCollectionViewController = [[QBAssetsCollectionViewController alloc] initWithCollectionViewLayout:[QBAssetsCollectionViewLayout layout]];
+        assetsCollectionViewController.imagePickerController = self;
+        assetsCollectionViewController.filterType = self.filterType;
+        assetsCollectionViewController.allowsMultipleSelection = self.allowsMultipleSelection;
+        assetsCollectionViewController.minimumNumberOfSelection = self.minimumNumberOfSelection;
+        assetsCollectionViewController.maximumNumberOfSelection = self.maximumNumberOfSelection;
+        
+        ALAssetsGroup *assetsGroup = self.assetsGroups[index];
+        assetsCollectionViewController.delegate = self;
+        assetsCollectionViewController.assetsGroup = assetsGroup;
+        
+        for (NSURL *assetURL in self.selectedAssetURLs) {
+            [assetsCollectionViewController selectAssetHavingURL:assetURL];
+        }
+        
+        [self.navigationController pushViewController:assetsCollectionViewController animated:YES];
     }
-    
-    [self.navigationController pushViewController:assetsCollectionViewController animated:YES];
 }
 
 
