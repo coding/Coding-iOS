@@ -120,6 +120,7 @@
 		4E6D718E1A762879005AD988 /* icon_user_monkey_i6p@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D718C1A762879005AD988 /* icon_user_monkey_i6p@3x.png */; };
 		4E6FFB311AB3176900F27B3F /* ProjectReadMeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6FFB301AB3176900F27B3F /* ProjectReadMeCell.m */; };
 		4E72F82D1B144778001B6CE6 /* NSMutableString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E72F82C1B144778001B6CE6 /* NSMutableString+Common.m */; };
+		4E72F82F1B159997001B6CE6 /* tipIcon_Other@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E72F82E1B159997001B6CE6 /* tipIcon_Other@2x.png */; };
 		4E743E691A8866E300DADDE5 /* taskDescription_add_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E743E671A8866E300DADDE5 /* taskDescription_add_arrow@2x.png */; };
 		4E743E6A1A8866E300DADDE5 /* taskDescription_check_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E743E681A8866E300DADDE5 /* taskDescription_check_arrow@2x.png */; };
 		4E743E6D1A88A3CC00DADDE5 /* EaseMarkdownTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E743E6C1A88A3CC00DADDE5 /* EaseMarkdownTextView.m */; };
@@ -821,6 +822,7 @@
 		4E6FFB301AB3176900F27B3F /* ProjectReadMeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectReadMeCell.m; sourceTree = "<group>"; };
 		4E72F82B1B144778001B6CE6 /* NSMutableString+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+Common.h"; sourceTree = "<group>"; };
 		4E72F82C1B144778001B6CE6 /* NSMutableString+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+Common.m"; sourceTree = "<group>"; };
+		4E72F82E1B159997001B6CE6 /* tipIcon_Other@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_Other@2x.png"; sourceTree = "<group>"; };
 		4E743E671A8866E300DADDE5 /* taskDescription_add_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskDescription_add_arrow@2x.png"; sourceTree = "<group>"; };
 		4E743E681A8866E300DADDE5 /* taskDescription_check_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskDescription_check_arrow@2x.png"; sourceTree = "<group>"; };
 		4E743E6B1A88A3CC00DADDE5 /* EaseMarkdownTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseMarkdownTextView.h; sourceTree = "<group>"; };
@@ -2786,6 +2788,7 @@
 				8EA6CFBA19E240C40076D59C /* tipIcon_TweetComment@2x.png */,
 				8EA6CFBB19E240C40076D59C /* tipIcon_TweetLike@2x.png */,
 				8EA6CFBC19E240C40076D59C /* tipIcon_UserFollow@2x.png */,
+				4E72F82E1B159997001B6CE6 /* tipIcon_Other@2x.png */,
 			);
 			path = tip_icons;
 			sourceTree = "<group>";
@@ -3449,6 +3452,7 @@
 				4E90F89E1AF709C100B44F03 /* topic-ios.html in Resources */,
 				4E66EE261A28226000DA1B3E /* button_file_createFolder_enable@2x.png in Resources */,
 				8EA6D19C19E240C40076D59C /* tipIcon_QcTask@2x.png in Resources */,
+				4E72F82F1B159997001B6CE6 /* tipIcon_Other@2x.png in Resources */,
 				4E96E7DB1A1B537E0037C098 /* icon_file_code@2x.png in Resources */,
 				8EA6D19B19E240C40076D59C /* tipIcon_PullRequestComment@2x.png in Resources */,
 				8EF6434119FE696B00F7EEB0 /* cell_checkmark@2x.png in Resources */,
@@ -4062,6 +4066,7 @@
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = NS_BLOCK_ASSERTIONS;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

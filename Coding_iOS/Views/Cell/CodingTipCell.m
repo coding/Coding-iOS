@@ -58,7 +58,8 @@
     _contentLabel.textColor = [UIColor colorWithHexString:_curTip.status.boolValue? @"0x999999" :@"0x222222"];
 
     CGFloat curBottomY = 10;
-    _iconView.image = [UIImage imageNamed:[NSString stringWithFormat:@"tipIcon_%@", _curTip.target_type]];
+    UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"tipIcon_%@", _curTip.target_type]];
+    _iconView.image = image? image : [UIImage imageNamed:@"tipIcon_Other"];
     [_contentLabel setLongString:_curTip.content withFitWidth:kCodingTipCell_WidthContent];
     curBottomY += [_curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)]+10;
     NSString *timeStr = [_curTip.created_at stringTimeDisplay];
