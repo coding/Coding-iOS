@@ -134,7 +134,7 @@
 
 - (void)startDownloadImages{
     
-    if ([[AFNetworkReachabilityManager sharedManager] networkReachabilityStatus] != AFNetworkReachabilityStatusReachableViaWiFi) {
+    if (![AFNetworkReachabilityManager sharedManager].reachableViaWiFi) {
         return;
     }
     
