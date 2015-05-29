@@ -20,7 +20,6 @@
         _page = [NSNumber numberWithInteger:1];
         _pageSize = [NSNumber numberWithInteger:20];
         _type = TaskQueryTypeAll;//processing.done
-        _tasksDict = [[NSMutableDictionary alloc] init];
     }
     return self;
 }

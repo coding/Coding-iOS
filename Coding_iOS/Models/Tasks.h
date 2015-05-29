@@ -32,7 +32,6 @@ typedef NS_ENUM(NSInteger, TaskEntranceType){
 @property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading;
 @property (assign, nonatomic) TaskQueryType type;
 @property (assign, nonatomic) TaskEntranceType entranceType;
-@property (readwrite ,strong, nonatomic) NSMutableDictionary *tasksDict;
 
 + (Tasks *)tasksWithPro:(Project *)project owner:(User *)owner queryType:(TaskQueryType)type;
 + (Tasks *)tasksWithPro:(Project *)project queryType:(TaskQueryType)type;
