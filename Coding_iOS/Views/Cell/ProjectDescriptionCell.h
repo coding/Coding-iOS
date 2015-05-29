@@ -13,8 +13,7 @@
 #import "Projects.h"
 
 @interface ProjectDescriptionCell : UITableViewCell
-//@property (nonatomic, strong) Project *curProject;
-//@property (nonatomic, copy) void(^gitButtonClickedBlock)(NSInteger index);
+
 - (void)setDescriptionStr:(NSString *)descriptionStr;
 
 + (CGFloat)cellHeightWithObj:(id)obj;

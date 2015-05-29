@@ -118,7 +118,6 @@
 		4E6D718A1A75F00E005AD988 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D71881A75F00E005AD988 /* YLImageView.m */; };
 		4E6D718D1A762879005AD988 /* icon_user_monkey_i6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D718B1A762879005AD988 /* icon_user_monkey_i6@2x.png */; };
 		4E6D718E1A762879005AD988 /* icon_user_monkey_i6p@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6D718C1A762879005AD988 /* icon_user_monkey_i6p@3x.png */; };
-		4E6FFB311AB3176900F27B3F /* ProjectReadMeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6FFB301AB3176900F27B3F /* ProjectReadMeCell.m */; };
 		4E72F82D1B144778001B6CE6 /* NSMutableString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E72F82C1B144778001B6CE6 /* NSMutableString+Common.m */; };
 		4E72F82F1B159997001B6CE6 /* tipIcon_Other@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E72F82E1B159997001B6CE6 /* tipIcon_Other@2x.png */; };
 		4E72F8331B15B811001B6CE6 /* gif_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E72F8321B15B811001B6CE6 /* gif_mark@2x.png */; };
@@ -283,6 +282,7 @@
 		4ECF703B1B171AD8000280FF /* project_item_readme@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ECF70331B171AD8000280FF /* project_item_readme@2x.png */; };
 		4ECF703C1B171AD8000280FF /* project_item_task@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ECF70341B171AD8000280FF /* project_item_task@2x.png */; };
 		4ECF703D1B171AD8000280FF /* project_item_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ECF70351B171AD8000280FF /* project_item_topic@2x.png */; };
+		4ECF70401B180740000280FF /* EaseGitButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF703F1B180740000280FF /* EaseGitButtonsView.m */; };
 		4ED20A781AFC7C8B00C63498 /* EasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED20A771AFC7C8B00C63498 /* EasePageViewController.m */; };
 		4ED20A7A1AFCC43600C63498 /* button_download_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED20A791AFCC43600C63498 /* button_download_cancel@2x.png */; };
 		4ED6731E1A8DD38C00DF2D1A /* ReportIllegalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */; };
@@ -828,8 +828,6 @@
 		4E6D71881A75F00E005AD988 /* YLImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLImageView.m; sourceTree = "<group>"; };
 		4E6D718B1A762879005AD988 /* icon_user_monkey_i6@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_user_monkey_i6@2x.png"; sourceTree = "<group>"; };
 		4E6D718C1A762879005AD988 /* icon_user_monkey_i6p@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_user_monkey_i6p@3x.png"; sourceTree = "<group>"; };
-		4E6FFB2F1AB3176900F27B3F /* ProjectReadMeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectReadMeCell.h; sourceTree = "<group>"; };
-		4E6FFB301AB3176900F27B3F /* ProjectReadMeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectReadMeCell.m; sourceTree = "<group>"; };
 		4E72F82B1B144778001B6CE6 /* NSMutableString+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+Common.h"; sourceTree = "<group>"; };
 		4E72F82C1B144778001B6CE6 /* NSMutableString+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+Common.m"; sourceTree = "<group>"; };
 		4E72F82E1B159997001B6CE6 /* tipIcon_Other@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_Other@2x.png"; sourceTree = "<group>"; };
@@ -1088,6 +1086,8 @@
 		4ECF70331B171AD8000280FF /* project_item_readme@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_item_readme@2x.png"; sourceTree = "<group>"; };
 		4ECF70341B171AD8000280FF /* project_item_task@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_item_task@2x.png"; sourceTree = "<group>"; };
 		4ECF70351B171AD8000280FF /* project_item_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_item_topic@2x.png"; sourceTree = "<group>"; };
+		4ECF703E1B180740000280FF /* EaseGitButtonsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseGitButtonsView.h; sourceTree = "<group>"; };
+		4ECF703F1B180740000280FF /* EaseGitButtonsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseGitButtonsView.m; sourceTree = "<group>"; };
 		4ED20A761AFC7C8B00C63498 /* EasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasePageViewController.h; sourceTree = "<group>"; };
 		4ED20A771AFC7C8B00C63498 /* EasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasePageViewController.m; sourceTree = "<group>"; };
 		4ED20A791AFCC43600C63498 /* button_download_cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_download_cancel@2x.png"; sourceTree = "<group>"; };
@@ -2968,6 +2968,8 @@
 				4E03ACA51A5D2060002B000B /* UIVerticalAlignmentLabel.m */,
 				4E1A22891AB1844F00CFC14F /* EaseGitButton.h */,
 				4E1A228A1AB1844F00CFC14F /* EaseGitButton.m */,
+				4ECF703E1B180740000280FF /* EaseGitButtonsView.h */,
+				4ECF703F1B180740000280FF /* EaseGitButtonsView.m */,
 				0A03E6D11ABD0F690034BB8E /* LocationHelper.h */,
 				0A03E6D21ABD0F690034BB8E /* LocationHelper.m */,
 			);
@@ -3254,8 +3256,6 @@
 				4E1A22841AB172C400CFC14F /* ProjectItemsCell.m */,
 				4E1A22861AB1731600CFC14F /* ProjectDescriptionCell.h */,
 				4E1A22871AB1731600CFC14F /* ProjectDescriptionCell.m */,
-				4E6FFB2F1AB3176900F27B3F /* ProjectReadMeCell.h */,
-				4E6FFB301AB3176900F27B3F /* ProjectReadMeCell.m */,
 				4E996BD11ABA776500C704F1 /* UserInfoDetailTagCell.h */,
 				4E996BD21ABA776500C704F1 /* UserInfoDetailTagCell.m */,
 				4E996BD31ABA776500C704F1 /* UserInfoIconCell.h */,
@@ -3861,6 +3861,7 @@
 				8EA6D12C19E240C40076D59C /* EditTopicViewController.m in Sources */,
 				4EA7F15B1A6D192B00A046BD /* SDWebImageCompat.m in Sources */,
 				8EA6D13A19E240C40076D59C /* Project_RootViewController.m in Sources */,
+				4ECF70401B180740000280FF /* EaseGitButtonsView.m in Sources */,
 				8EF83F8A19E92AA500E86DE7 /* SettingTagsViewController.m in Sources */,
 				8EA6D23319E240C40076D59C /* ProjectActivityListView.m in Sources */,
 				8EF643D319FF7E2900F7EEB0 /* ValueListCell.m in Sources */,
@@ -3998,7 +3999,6 @@
 				4ECE8AFD1A3946C10021E29C /* AddressManager.m in Sources */,
 				B9A00D821ACA3A17008BA008 /* ProjectSettingViewController.m in Sources */,
 				8E1C3DED19E7D58A00EF3032 /* ActionSheetDistancePicker.m in Sources */,
-				4E6FFB311AB3176900F27B3F /* ProjectReadMeCell.m in Sources */,
 				8E59F0F41A00F3B9009A905F /* ProjectCodeListCell.m in Sources */,
 				0A6E6BAA1AAF4B24004C0107 /* TweetSendLocationViewController.m in Sources */,
 				8E59F0F71A00F3E2009A905F /* ProjectFolderListCell.m in Sources */,

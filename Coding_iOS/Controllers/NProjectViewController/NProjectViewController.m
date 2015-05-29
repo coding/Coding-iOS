@@ -12,7 +12,6 @@
 #import "NProjectItemCell.h"
 
 //#import "ProjectItemsCell.h"
-//#import "ProjectReadMeCell.h"
 //#import "ProjectActivityListCell.h"
 #import "ProjectViewController.h"
 #import "Coding_NetAPIManager.h"
@@ -26,10 +25,13 @@
 //#import "FileViewController.h"
 
 #import "CodeViewController.h"
+#import "EaseGitButtonsView.h"
 
 @interface NProjectViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
+
+@property (strong, nonatomic) EaseGitButtonsView *gitButtonsView;
 
 @end
 
@@ -38,6 +40,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.myTableView reloadData];
+    [self refreshGitButtonsView];
 }
 
 - (void)viewDidLoad{
@@ -47,7 +50,7 @@
     
     //    添加myTableView
     _myTableView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
         tableView.backgroundColor = [UIColor clearColor];
         tableView.dataSource = self;
         tableView.delegate = self;
@@ -61,6 +64,17 @@
         }];
         tableView;
     });
+    
+    __weak typeof(self) weakSelf = self;
+    _gitButtonsView = [EaseGitButtonsView new];
+    _gitButtonsView.gitButtonClickedBlock = ^(NSInteger index){
+        [weakSelf gitButtonClicked:index];
+    };
+    [self.view addSubview:_gitButtonsView];
+    [_gitButtonsView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view);
+        make.height.mas_equalTo(EaseGitButtonsView_Height);
+    }];
 
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
@@ -77,6 +91,7 @@
     [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_myProject andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.myProject = data;
+            [self refreshGitButtonsView];
             [weakSelf.myTableView reloadData];
         }
         [weakSelf.refreshControl endRefreshing];
@@ -91,9 +106,8 @@
 //footer
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     if (section < 2) {
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 20)];
+        UIView *footerView = [UIView new];
         footerView.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
-        [footerView addLineUp:YES andDown:NO andColor:tableView.separatorColor];
         return footerView;
     }else{
         return nil;
@@ -101,8 +115,22 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    CGFloat footerHeight = section < 2? 20: 0;
+    CGFloat footerHeight = section < 2? 20: 0.5;
     return footerHeight;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0.5;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section > 0) {
+        UIView *headerView = [UIView new];
+        headerView.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+        return headerView;
+    }else{
+        return nil;
+    }
 }
 
 //data
@@ -179,89 +207,6 @@
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
     }
-    
-    
-    {
-    
-//    if (_myProject.is_public.boolValue) {
-//        if (indexPath.section == 0) {
-//            if (indexPath.row == 0) {
-//                ProjectInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectInfoCell forIndexPath:indexPath];
-//                cell.curProject = _myProject;
-//                cell.projectBlock = ^(Project *clickedPro){
-//                    [weakSelf gotoPro:clickedPro];
-//                };
-//                return cell;
-//            }else{
-//                ProjectDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectDescriptionCell forIndexPath:indexPath];
-//                cell.curProject = _myProject;
-//                cell.gitButtonClickedBlock = ^(NSInteger index){
-//                    [weakSelf gitButtonClicked:index];
-//                };
-//                return cell;
-//            }
-//        }else if (indexPath.section == 1){
-//            ProjectItemsCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectItemsCell_Public forIndexPath:indexPath];
-//            cell.curProject = _myProject;
-//            cell.itemClickedBlock = ^(NSInteger index){
-//                [weakSelf goToIndex:index];
-//            };
-//            return cell;
-//        }else{
-//            ProjectReadMeCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectReadMeCell forIndexPath:indexPath];
-//            cell.curProject = _myProject;
-//            cell.cellHeightChangedBlock = ^(){
-//                [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-//            };
-//            cell.loadRequestBlock = ^(NSURLRequest *curRequest){
-//                [weakSelf loadRequest:curRequest];
-//            };
-//            return cell;
-//        }
-//    }else{
-//        if (indexPath.section == 0) {
-//            if (indexPath.row == 0) {
-//                ProjectInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectInfoCell forIndexPath:indexPath];
-//                cell.curProject = _myProject;
-//                return cell;
-//            }else{
-//                ProjectItemsCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectItemsCell_Private forIndexPath:indexPath];
-//                cell.curProject = _myProject;
-//                cell.itemClickedBlock = ^(NSInteger index){
-//                    [self goToIndex:index];
-//                };
-//                return cell;
-//            }
-//        }else{
-//            ListGroupItem *item = [_myProActs.listGroups objectAtIndex:indexPath.section - 1];
-//            NSUInteger row = indexPath.row +item.location;
-//            ProjectActivity *curProAct = [_myProActs.list objectAtIndex:row];
-//            ProjectActivityListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectActivityList forIndexPath:indexPath];
-//            BOOL haveRead, isTop, isBottom;
-//            
-//            if (_myProActs.isOfUser || ![_myProActs.type isEqualToString:@"all"]) {
-//                haveRead = YES;
-//                isTop = (row == item.location);
-//                isBottom = (row == item.location +item.length -1);
-//            }else{
-//                haveRead = row >= _un_read_activities_count;
-//                isTop = (row == item.location) || (row == _un_read_activities_count);
-//                isBottom = (row == item.location +item.length -1) || (row == _un_read_activities_count-1);
-//            }
-//            
-//            [cell configWithProAct:curProAct haveRead:haveRead isTop:isTop isBottom:isBottom];
-//            [cell.userIconView addTapBlock:^(id obj) {
-//                [weakSelf goToUserInfo:curProAct.user];
-//            }];
-//            cell.htmlItemClickedBlock = ^(HtmlMediaItem *clickedItem, ProjectActivity *proAct, BOOL isContent){
-//                [weakSelf goToVCWithItem:clickedItem activity:proAct isContent:isContent inProject:weakSelf.myProject];
-//            };
-//            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:
-//             (row == item.location +item.length -1)? 0: 85 hasSectionLine:NO];
-//            return cell;
-//        }
-//    }
-    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -328,7 +273,7 @@
         {
             if (!_myProject.isStaring) {
                 [[Coding_NetAPIManager sharedManager] request_StarProject:_myProject andBlock:^(id data, NSError *error) {
-                    [weakSelf.myTableView reloadData];
+                    [weakSelf refreshGitButtonsView];
                 }];
             }
         }
@@ -337,7 +282,7 @@
         {
             if (!_myProject.isWatching) {
                 [[Coding_NetAPIManager sharedManager] request_WatchProject:_myProject andBlock:^(id data, NSError *error) {
-                    [weakSelf.myTableView reloadData];
+                    [weakSelf refreshGitButtonsView];
                 }];
             }
         }
@@ -347,7 +292,7 @@
             [[UIActionSheet bk_actionSheetCustomWithTitle:@"fork将会将此项目复制到您的个人空间，确定要fork吗?" buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
                 if (index == 0) {
                     [[Coding_NetAPIManager sharedManager] request_ForkProject:_myProject andBlock:^(id data, NSError *error) {
-                        [weakSelf.myTableView reloadData];
+                        [weakSelf refreshGitButtonsView];
                         if (data) {
                             NProjectViewController *vc = [[NProjectViewController alloc] init];
                             vc.myProject = data;
@@ -361,5 +306,15 @@
     }
 }
 
+- (void)refreshGitButtonsView{
+    self.gitButtonsView.curProject = self.myProject;
+    CGFloat gitButtonsViewHeight = 0;
+    if (self.myProject.is_public.boolValue) {
+        gitButtonsViewHeight = CGRectGetHeight(self.gitButtonsView.frame) - 1;
+    }
+    UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, gitButtonsViewHeight, 0);
+    self.myTableView.contentInset = insets;
+    self.myTableView.scrollIndicatorInsets = insets;
+}
 
 @end

@@ -15,12 +15,25 @@ typedef enum {
 
 @interface EaseGitButton : UIButton
 @property (strong, nonatomic) NSString *normalTitle, *checkedTitle, *normalIcon, *checkedIcon;
+@property (strong, nonatomic) UIColor *normalBGColor, *checkedBGColor, *normalBorderColor, *checkedBorderColor;
 @property (nonatomic, assign) NSInteger userNum;
 @property (assign, nonatomic) BOOL checked;
 @property (assign, nonatomic) EaseGitButtonType type;
 
-- (id)initWithFrame:(CGRect)frame normalTitle:(NSString *)normalTitle checkedTitle:(NSString *)checkedTitle normalIcon:(NSString *)normalIcon checkedIcon:(NSString *)checkedIcon userNum:(NSInteger)userNum checked:(BOOL)checked;
+- (instancetype)initWithFrame:(CGRect)frame
+        normalTitle:(NSString *)normalTitle checkedTitle:(NSString *)checkedTitle
+         normalIcon:(NSString *)normalIcon checkedIcon:(NSString *)checkedIcon
+      normalBGColor:(UIColor *)normalBGColor checkedBGColor:(UIColor *)checkedBGColor
+  normalBorderColor:(UIColor *)normalBorderColor checkedBorderColor:(UIColor *)checkedBorderColor
+            userNum:(NSInteger)userNum checked:(BOOL)checked;
+
++ (instancetype)gitButtonWithFrame:(CGRect)frame
+        normalTitle:(NSString *)normalTitle checkedTitle:(NSString *)checkedTitle
+         normalIcon:(NSString *)normalIcon checkedIcon:(NSString *)checkedIcon
+      normalBGColor:(UIColor *)normalBGColor checkedBGColor:(UIColor *)checkedBGColor
+  normalBorderColor:(UIColor *)normalBorderColor checkedBorderColor:(UIColor *)checkedBorderColor
+            userNum:(NSInteger)userNum checked:(BOOL)checked;
+
 + (EaseGitButton *)gitButtonWithFrame:(CGRect)frame type:(EaseGitButtonType)type;
-+ (EaseGitButton *)gitButtonWithFrame:(CGRect)frame normalTitle:(NSString *)normalTitle checkedTitle:(NSString *)checkedTitle normalIcon:(NSString *)normalIcon checkedIcon:(NSString *)checkedIcon userNum:(NSInteger)userNum checked:(BOOL)checked;
 
 @end

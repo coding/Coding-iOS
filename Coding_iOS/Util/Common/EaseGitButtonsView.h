@@ -1,0 +1,19 @@
+//
+//  EaseGitButtonsView.h
+//  Coding_iOS
+//
+//  Created by Ease on 15/5/29.
+//  Copyright (c) 2015年 Coding. All rights reserved.
+//
+
+#define EaseGitButtonsView_Height 49.0
+
+#import <UIKit/UIKit.h>
+#import "Project.h"
+
+@interface EaseGitButtonsView : UIView
+
+@property (strong, nonatomic) Project *curProject;
+@property (nonatomic, copy) void(^gitButtonClickedBlock)(NSInteger index);
+
+@end
