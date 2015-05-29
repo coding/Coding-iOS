@@ -13,9 +13,6 @@
 @property (readwrite, nonatomic, strong) NSNumber *id, *owner_id, *is_public, *un_read_activities_count, *done, *processing, *star_count, *stared, *watch_count, *watched, *fork_count, *forked, *recommended, *pin;
 @property (assign, nonatomic) BOOL isStaring, isWatching, isLoadingMember, isLoadingDetail;
 
-@property (strong, nonatomic) NSString *readMeHtml;
-@property (assign, nonatomic) CGFloat readMeHeight;
-
 + (Project *)project_All;
 + (Project *)project_FeedBack;
 

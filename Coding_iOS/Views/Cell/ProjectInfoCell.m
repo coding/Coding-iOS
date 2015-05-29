@@ -82,42 +82,29 @@
         return;
     }
     [_proImgView sd_setImageWithURL:[_curProject.icon urlImageWithCodePathResize:2*kProjectInfoCell_ProImgViewWidth] placeholderImage:kPlaceholderCodingSquareWidth(55.0)];
-    _proTitleL.text = [NSString stringWithFormat:@"%@/%@", _curProject.owner_user_name, _curProject.name];
     
-    NSString *proInfoStr = [self proInfoStr];
-    _proInfoL.text = proInfoStr;
-    
-    if (_curProject.is_public.boolValue && proInfoStr.length > 0) {
-        NSRange range = [proInfoStr rangeOfString:_curProject.parent_depot_path];
+    if (_curProject.is_public.boolValue && _curProject.parent_depot_path.length > 0) {
+        _proTitleL.text = [NSString stringWithFormat:@"%@/%@", _curProject.owner_user_name, _curProject.name];
+        _proInfoL.text = [NSString stringWithFormat:@"Fork 自 %@", _curProject.parent_depot_path];
+        NSRange range = [_proInfoL.text rangeOfString:_curProject.parent_depot_path];
         if (range.location != NSNotFound) {
             [_proInfoL addLinkToTransitInformation:@{} withRange:range];
         }
+    }else{
+        _proTitleL.text = _curProject.name;
+        _proInfoL.text = _curProject.owner_user_name;
     }
-    _proInfoL.hidden = !(proInfoStr.length > 0);
     _recommendedView.hidden = !(_curProject.recommended.integerValue > 0);
-    
     // 如果是自己所属的项目才显示箭头
     if ([self.curProject.owner_id isEqual:[Login curLoginUser].id]) {
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
 }
 
-- (NSString *)proInfoStr{
-    NSString *proInfoStr = nil;
-    if (_curProject.is_public.boolValue && _curProject.parent_depot_path.length > 0) {
-        proInfoStr = [NSString stringWithFormat:@"Fork 自 %@", _curProject.parent_depot_path];
-    }else if (!_curProject.is_public.boolValue && _curProject.description_mine.length > 0){
-        proInfoStr = _curProject.description_mine;
-    }
-    return proInfoStr;
-}
-
-
 - (void)layoutSubviews{
     [super layoutSubviews];
 
     CGFloat pading = kPaddingLeftWidth;
-    BOOL hasDetail = [[self proInfoStr] length] > 0;
     BOOL is_recommended = _curProject.recommended.integerValue > 0;
     CGFloat titleWidth = [_proTitleL.text getWidthWithFont:[UIFont systemFontOfSize:17] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)];
     
@@ -129,11 +116,7 @@
     [_proTitleL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_proImgView.mas_right).offset(pading);
         make.width.mas_lessThanOrEqualTo(titleWidth);
-        if (hasDetail) {
-            make.centerY.equalTo(_proImgView.mas_centerY).offset(-kProjectInfoCell_ProImgViewWidth/5);
-        }else{
-            make.centerY.equalTo(_proImgView.mas_centerY);
-        }
+        make.centerY.equalTo(_proImgView.mas_centerY).offset(-kProjectInfoCell_ProImgViewWidth/5);
         make.height.mas_equalTo(20);
     }];
     [_recommendedView mas_makeConstraints:^(MASConstraintMaker *make) {

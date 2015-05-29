@@ -66,73 +66,73 @@
     }
     return self;
 }
-
-- (void)setCurProject:(Project *)curProject{
-    _curProject = curProject;
-    if (!_curProject) {
-        return;
-    }
-    [_webContentView setHeight:_curProject.readMeHeight];
-    if (!_webContentView.isLoading) {
-        [_activityIndicator startAnimating];
-        if (_curProject.readMeHtml) {
-            [self.webContentView loadHTMLString:[WebContentManager markdownPatternedWithContent:_curProject.readMeHtml] baseURL:nil];
-        }
-    }
-}
-+ (CGFloat)cellHeightWithObj:(id)obj{
-    CGFloat cellHeight = 0;
-    if ([obj isKindOfClass:[Project class]]) {
-        cellHeight = kProjectReadMeCell_TitleHeight;
-        
-        Project *curProject = (Project *)obj;
-        cellHeight += curProject.readMeHeight;
-    }
-    return cellHeight;
-}
-#pragma mark UIWebViewDelegate
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-    NSString *strLink = request.URL.absoluteString;
-    DebugLog(@"strLink=[%@]",strLink);
-    if ([strLink rangeOfString:@"about:blank"].location != NSNotFound) {
-        return YES;
-    }else{
-        if (_loadRequestBlock) {
-            _loadRequestBlock(request);
-        }
-        return NO;
-    }
-}
-- (void)webViewDidStartLoad:(UIWebView *)webView{
-    [_activityIndicator startAnimating];
-}
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
-    [self refreshWebContentView];
-    [_activityIndicator stopAnimating];
-    CGFloat scrollHeight = webView.scrollView.contentSize.height;
-    if (ABS(scrollHeight - _curProject.readMeHeight) > 5) {
-        webView.scalesPageToFit = YES;
-        _curProject.readMeHeight = scrollHeight;
-        if (_cellHeightChangedBlock) {
-            _cellHeightChangedBlock();
-        }
-    }
-}
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-    [_activityIndicator stopAnimating];
-    if([error code] == NSURLErrorCancelled)
-        return;
-    else
-        DebugLog(@"%@", error.description);
-}
-
-- (void)refreshWebContentView{
-    if (_webContentView) {
-        //修改服务器页面的meta的值
-        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_webContentView.frame)];
-        [_webContentView stringByEvaluatingJavaScriptFromString:meta];
-    }
-}
+//
+//- (void)setCurProject:(Project *)curProject{
+//    _curProject = curProject;
+//    if (!_curProject) {
+//        return;
+//    }
+//    [_webContentView setHeight:_curProject.readMeHeight];
+//    if (!_webContentView.isLoading) {
+//        [_activityIndicator startAnimating];
+//        if (_curProject.readMeHtml) {
+//            [self.webContentView loadHTMLString:[WebContentManager markdownPatternedWithContent:_curProject.readMeHtml] baseURL:nil];
+//        }
+//    }
+//}
+//+ (CGFloat)cellHeightWithObj:(id)obj{
+//    CGFloat cellHeight = 0;
+//    if ([obj isKindOfClass:[Project class]]) {
+//        cellHeight = kProjectReadMeCell_TitleHeight;
+//        
+//        Project *curProject = (Project *)obj;
+//        cellHeight += curProject.readMeHeight;
+//    }
+//    return cellHeight;
+//}
+//#pragma mark UIWebViewDelegate
+//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+//    NSString *strLink = request.URL.absoluteString;
+//    DebugLog(@"strLink=[%@]",strLink);
+//    if ([strLink rangeOfString:@"about:blank"].location != NSNotFound) {
+//        return YES;
+//    }else{
+//        if (_loadRequestBlock) {
+//            _loadRequestBlock(request);
+//        }
+//        return NO;
+//    }
+//}
+//- (void)webViewDidStartLoad:(UIWebView *)webView{
+//    [_activityIndicator startAnimating];
+//}
+//- (void)webViewDidFinishLoad:(UIWebView *)webView{
+//    [self refreshWebContentView];
+//    [_activityIndicator stopAnimating];
+//    CGFloat scrollHeight = webView.scrollView.contentSize.height;
+//    if (ABS(scrollHeight - _curProject.readMeHeight) > 5) {
+//        webView.scalesPageToFit = YES;
+//        _curProject.readMeHeight = scrollHeight;
+//        if (_cellHeightChangedBlock) {
+//            _cellHeightChangedBlock();
+//        }
+//    }
+//}
+//- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+//    [_activityIndicator stopAnimating];
+//    if([error code] == NSURLErrorCancelled)
+//        return;
+//    else
+//        DebugLog(@"%@", error.description);
+//}
+//
+//- (void)refreshWebContentView{
+//    if (_webContentView) {
+//        //修改服务器页面的meta的值
+//        NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_webContentView.frame)];
+//        [_webContentView stringByEvaluatingJavaScriptFromString:meta];
+//    }
+//}
 
 
 @end

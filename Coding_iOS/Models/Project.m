@@ -15,7 +15,6 @@
     self = [super init];
     if (self) {
         _isStaring = _isWatching = _isLoadingMember = _isLoadingDetail = NO;
-        _readMeHeight = 1;
         _recommended = [NSNumber numberWithInteger:0];
     }
     return self;
@@ -108,11 +107,11 @@
 - (NSString *)toBranchOrTagPath:(NSString *)path{
     return [NSString stringWithFormat:@"api/user/%@/project/%@/git/%@", self.owner_user_name, self.name, path];
 }
-- (NSString *)description_mine{
-    if (_description_mine && _description_mine.length > 0) {
-        return _description_mine;
-    }else{
-        return @"未填写";
-    }
-}
+//- (NSString *)description_mine{
+//    if (_description_mine && _description_mine.length > 0) {
+//        return _description_mine;
+//    }else{
+//        return @"未填写";
+//    }
+//}
 @end
