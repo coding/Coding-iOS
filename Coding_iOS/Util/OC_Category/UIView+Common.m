@@ -366,8 +366,6 @@ static char LoadingViewKey, BlankPageViewKey;
         CGAffineTransform loopAngleTransform = CGAffineTransformMakeRotation(_loopAngle * (M_PI / 180.0f));
         _loopView.transform = loopAngleTransform;
         _monkeyView.alpha = _monkeyAlpha;
-        NSLog(@"%@", [self description]);
-
     } completion:^(BOOL finished) {
         if (_isLoading && [self superview] != nil) {
             [self loadingAnimation];
