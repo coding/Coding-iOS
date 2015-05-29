@@ -124,7 +124,7 @@
                 }else if ([_target_type isEqualToString:@"MergeRequestComment"]){
                     [_actionStr appendFormat:@" [%@] 中的 Merge Request [%@]", _depot.name, _merge_request_title];
                 }else if ([_target_type isEqualToString:@"CommitLineNote"]){
-                    [_actionStr appendFormat:@" [%@] 的提交 [%@] ", _project.full_name, (_line_note.commit_id.length >= 10? [_line_note.commit_id substringToIndex:10]: _line_note.commit_id)];
+                    [_actionStr appendFormat:@" [%@] 的 %@ [%@] ", _project.full_name, _line_note.noteable_type, _line_note.noteable_title];
                 }
             }
         }

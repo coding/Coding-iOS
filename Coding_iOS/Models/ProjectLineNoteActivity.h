@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface ProjectLineNoteActivity : NSObject
-@property (readwrite, strong, nonatomic) NSString *commit_id, *commit_path, *content, *path;
+@property (readwrite, strong, nonatomic) NSString *noteable_id, *noteable_title, *noteable_url, *content, *path, *noteable_type;
 @property (readwrite, strong, nonatomic) NSNumber *id;
 @property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;
 @end
