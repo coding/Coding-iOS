@@ -437,6 +437,20 @@
     }];
 
 }
+
+- (void)request_MRPRComments_WithObj:(MRPR *)curMRPR andBlock:(void (^)(NSArray *data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"MRPRS_评论列表"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toCommentsPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"MRPRComment"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 #pragma mark File
 - (void)request_Folders:(ProjectFolders *)folders inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"文件夹列表"];

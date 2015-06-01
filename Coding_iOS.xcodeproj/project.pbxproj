@@ -79,6 +79,8 @@
 		4E38CF621A7B7C99005536C0 /* CodeBranchOrTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */; };
 		4E38CF641A7B8DD4005536C0 /* icon_triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E38CF631A7B8DD4005536C0 /* icon_triangle@2x.png */; };
 		4E4ABBEA1A653027004760D9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4ABBE91A653027004760D9 /* WebViewController.m */; };
+		4E4D6A521B1C555400FD2E49 /* MRPRComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A511B1C555400FD2E49 /* MRPRComment.m */; };
+		4E4D6A551B1C55EB00FD2E49 /* MRPRCommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A541B1C55EB00FD2E49 /* MRPRCommentItem.m */; };
 		4E53EB521AFA03990034FE1C /* RKSwipeBetweenViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */; };
 		4E53EB591AFB090E0034FE1C /* nav_page_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB571AFB090E0034FE1C /* nav_page_selected@2x.png */; };
 		4E53EB5A1AFB090E0034FE1C /* nav_page_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB581AFB090E0034FE1C /* nav_page_unselected@2x.png */; };
@@ -763,6 +765,10 @@
 		4E38CF631A7B8DD4005536C0 /* icon_triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_triangle@2x.png"; sourceTree = "<group>"; };
 		4E4ABBE81A653027004760D9 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		4E4ABBE91A653027004760D9 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		4E4D6A501B1C555400FD2E49 /* MRPRComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRComment.h; sourceTree = "<group>"; };
+		4E4D6A511B1C555400FD2E49 /* MRPRComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRComment.m; sourceTree = "<group>"; };
+		4E4D6A531B1C55EB00FD2E49 /* MRPRCommentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRCommentItem.h; sourceTree = "<group>"; };
+		4E4D6A541B1C55EB00FD2E49 /* MRPRCommentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRCommentItem.m; sourceTree = "<group>"; };
 		4E53EB501AFA03990034FE1C /* RKSwipeBetweenViewControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSwipeBetweenViewControllers.h; sourceTree = "<group>"; };
 		4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSwipeBetweenViewControllers.m; sourceTree = "<group>"; };
 		4E53EB571AFB090E0034FE1C /* nav_page_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_page_selected@2x.png"; sourceTree = "<group>"; };
@@ -2934,6 +2940,10 @@
 				4ECF70451B18557E000280FF /* MRPRS.m */,
 				4ECF70471B185BCC000280FF /* MRPR.h */,
 				4ECF70481B185BCC000280FF /* MRPR.m */,
+				4E4D6A501B1C555400FD2E49 /* MRPRComment.h */,
+				4E4D6A511B1C555400FD2E49 /* MRPRComment.m */,
+				4E4D6A531B1C55EB00FD2E49 /* MRPRCommentItem.h */,
+				4E4D6A541B1C55EB00FD2E49 /* MRPRCommentItem.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3858,6 +3868,7 @@
 				8EE72BE519E3F2E8002C11D9 /* UIImageView+MJWebCache.m in Sources */,
 				8EA6D1B119E240C40076D59C /* Commit.m in Sources */,
 				4EA7F1661A6D192B00A046BD /* UIView+WebCacheOperation.m in Sources */,
+				4E4D6A521B1C555400FD2E49 /* MRPRComment.m in Sources */,
 				8EF643D119FF7E2900F7EEB0 /* TweetSendTextCell.m in Sources */,
 				8EA6D22319E240C40076D59C /* XTSegmentControl.m in Sources */,
 				4E6D71891A75F00E005AD988 /* YLGIFImage.m in Sources */,
@@ -3989,6 +4000,7 @@
 				4EDC33CE1AFB4DCC00698315 /* EaseInputTipsView.m in Sources */,
 				4ECE8ADB1A3943E80021E29C /* NSDate+convenience.m in Sources */,
 				4E5C06EE1AC4405300F427C5 /* PasswordViewController.m in Sources */,
+				4E4D6A551B1C55EB00FD2E49 /* MRPRCommentItem.m in Sources */,
 				4E217F0E1A70EDC700F6DF88 /* SVWebViewController.m in Sources */,
 				4E6BA2DE1A1EE6AF005FD721 /* AFSecurityPolicy.m in Sources */,
 				4EA7F1631A6D192B00A046BD /* UIImage+MultiFormat.m in Sources */,

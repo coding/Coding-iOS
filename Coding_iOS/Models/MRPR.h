@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MRPRComment.h"
 
 @interface MRPR : NSObject
 @property (strong, nonatomic) NSNumber *id, *iid;
@@ -14,5 +15,8 @@
 @property (strong, nonatomic) User *author;
 @property (strong, nonatomic) NSDate *created_at;
 @property (strong, nonatomic) NSAttributedString *attributeTitle, *attributeTail;
+@property (strong, nonatomic) NSMutableArray *comments;
+
+- (NSString *)toCommentsPath;
 
 @end

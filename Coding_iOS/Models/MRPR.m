@@ -35,4 +35,12 @@
     return attriString;
 }
 
+- (NSString *)toCommentsPath{
+    NSArray *pathComponents = [_path componentsSeparatedByString:@"/"];
+    if (pathComponents.count == 7) {
+        return [NSString stringWithFormat:@"api/user/%@/project/%@/git/%@/%@/comments", pathComponents[1], pathComponents[3], pathComponents[5], pathComponents[6]];
+    }else{
+        return nil;
+    }
+}
 @end
