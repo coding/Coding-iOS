@@ -283,6 +283,10 @@
 		4ECF703C1B171AD8000280FF /* project_item_task@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ECF70341B171AD8000280FF /* project_item_task@2x.png */; };
 		4ECF703D1B171AD8000280FF /* project_item_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ECF70351B171AD8000280FF /* project_item_topic@2x.png */; };
 		4ECF70401B180740000280FF /* EaseGitButtonsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF703F1B180740000280FF /* EaseGitButtonsView.m */; };
+		4ECF70431B18514F000280FF /* MRPRListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF70421B18514F000280FF /* MRPRListViewController.m */; };
+		4ECF70461B18557E000280FF /* MRPRS.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF70451B18557E000280FF /* MRPRS.m */; };
+		4ECF70491B185BCC000280FF /* MRPR.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF70481B185BCC000280FF /* MRPR.m */; };
+		4ECF704C1B1876CB000280FF /* MRPRListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF704B1B1876CB000280FF /* MRPRListCell.m */; };
 		4ED20A781AFC7C8B00C63498 /* EasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED20A771AFC7C8B00C63498 /* EasePageViewController.m */; };
 		4ED20A7A1AFCC43600C63498 /* button_download_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED20A791AFCC43600C63498 /* button_download_cancel@2x.png */; };
 		4ED6731E1A8DD38C00DF2D1A /* ReportIllegalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */; };
@@ -1088,6 +1092,14 @@
 		4ECF70351B171AD8000280FF /* project_item_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_item_topic@2x.png"; sourceTree = "<group>"; };
 		4ECF703E1B180740000280FF /* EaseGitButtonsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseGitButtonsView.h; sourceTree = "<group>"; };
 		4ECF703F1B180740000280FF /* EaseGitButtonsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseGitButtonsView.m; sourceTree = "<group>"; };
+		4ECF70411B18514F000280FF /* MRPRListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRListViewController.h; sourceTree = "<group>"; };
+		4ECF70421B18514F000280FF /* MRPRListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRListViewController.m; sourceTree = "<group>"; };
+		4ECF70441B18557E000280FF /* MRPRS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRS.h; sourceTree = "<group>"; };
+		4ECF70451B18557E000280FF /* MRPRS.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRS.m; sourceTree = "<group>"; };
+		4ECF70471B185BCC000280FF /* MRPR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPR.h; sourceTree = "<group>"; };
+		4ECF70481B185BCC000280FF /* MRPR.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPR.m; sourceTree = "<group>"; };
+		4ECF704A1B1876CB000280FF /* MRPRListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRListCell.h; sourceTree = "<group>"; };
+		4ECF704B1B1876CB000280FF /* MRPRListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRListCell.m; sourceTree = "<group>"; };
 		4ED20A761AFC7C8B00C63498 /* EasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasePageViewController.h; sourceTree = "<group>"; };
 		4ED20A771AFC7C8B00C63498 /* EasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasePageViewController.m; sourceTree = "<group>"; };
 		4ED20A791AFCC43600C63498 /* button_download_cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_download_cancel@2x.png"; sourceTree = "<group>"; };
@@ -2594,6 +2606,8 @@
 				4E996BDB1ABA79AB00C704F1 /* UserInfoDetailViewController.m */,
 				4E996BE01ABA957B00C704F1 /* ProjectListViewController.h */,
 				4E996BE11ABA957B00C704F1 /* ProjectListViewController.m */,
+				4ECF70411B18514F000280FF /* MRPRListViewController.h */,
+				4ECF70421B18514F000280FF /* MRPRListViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -2916,6 +2930,10 @@
 				4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */,
 				0A6E6BAB1AB08540004C0107 /* TweetSendLocation.h */,
 				0A6E6BAC1AB08540004C0107 /* TweetSendLocation.m */,
+				4ECF70441B18557E000280FF /* MRPRS.h */,
+				4ECF70451B18557E000280FF /* MRPRS.m */,
+				4ECF70471B185BCC000280FF /* MRPR.h */,
+				4ECF70481B185BCC000280FF /* MRPR.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3270,6 +3288,8 @@
 				4E996BE71ABBCD2D00C704F1 /* TaskDescriptionCell.m */,
 				4ECF702A1B1704C5000280FF /* NProjectItemCell.h */,
 				4ECF702B1B1704C5000280FF /* NProjectItemCell.m */,
+				4ECF704A1B1876CB000280FF /* MRPRListCell.h */,
+				4ECF704B1B1876CB000280FF /* MRPRListCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -3830,6 +3850,7 @@
 				4ECE8B001A3946C10021E29C /* CodingNetAPIClient.m in Sources */,
 				8EF643B119FF7E2900F7EEB0 /* ConversationCell.m in Sources */,
 				8EF643D019FF7E2900F7EEB0 /* TweetSendImagesCell.m in Sources */,
+				4ECF704C1B1876CB000280FF /* MRPRListCell.m in Sources */,
 				3A38784F1AE557700078D5DE /* TopicPreviewCell.m in Sources */,
 				8ED0D87519FBA6EA00FBA818 /* NSString+Emojize.m in Sources */,
 				4E1A228B1AB1844F00CFC14F /* EaseGitButton.m in Sources */,
@@ -3842,6 +3863,7 @@
 				4E6D71891A75F00E005AD988 /* YLGIFImage.m in Sources */,
 				0A27A05D1AB5A13B00067833 /* TweetSendLocationDetailViewController.m in Sources */,
 				0AB591B01AB6D6BE0076C454 /* TweetSendMapAnnotation.m in Sources */,
+				4ECF70491B185BCC000280FF /* MRPR.m in Sources */,
 				4EA7F1651A6D192B00A046BD /* UIImageView+WebCache.m in Sources */,
 				8EF643B819FF7E2900F7EEB0 /* InputOnlyTextPlainCell.m in Sources */,
 				4E6BA2DB1A1EE6AF005FD721 /* AFURLSessionManager.m in Sources */,
@@ -3980,6 +4002,7 @@
 				4E6BA2D71A1EE6AF005FD721 /* AFHTTPRequestOperation.m in Sources */,
 				4EF8181F1B05C9D8005F974B /* ProjectLineNoteActivity.m in Sources */,
 				8EF643A919FF7E2900F7EEB0 /* MessageMediaItemCCell.m in Sources */,
+				4ECF70461B18557E000280FF /* MRPRS.m in Sources */,
 				4ECE8AE41A3943E80021E29C /* UIImage+Common.m in Sources */,
 				8EF643D619FF7E9F00F7EEB0 /* ProjectTopicCell.m in Sources */,
 				4E6BA2DA1A1EE6AF005FD721 /* AFHTTPSessionManager.m in Sources */,
@@ -4021,6 +4044,7 @@
 				4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				8ECA8BB419FB42CC00C598C6 /* UILongPressMenuImageView.m in Sources */,
 				8EA6D1BE19E240C40076D59C /* Register.m in Sources */,
+				4ECF70431B18514F000280FF /* MRPRListViewController.m in Sources */,
 				4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */,
 				8EF643B019FF7E2900F7EEB0 /* CodingTipCell.m in Sources */,
 				8EA6D1BA19E240C40076D59C /* Projects.m in Sources */,

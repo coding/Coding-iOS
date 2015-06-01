@@ -22,7 +22,7 @@
     });
 	return shared_manager;
 }
-//UnRead
+#pragma mark UnRead
 - (void)request_UnReadCountWithBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"项目_私信_系统通知"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/unread-count" withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
@@ -420,7 +420,24 @@
         }
     }];
 }
-//File
+
+#pragma mark MRPR
+- (void)request_MRPRS_WithObj:(MRPRS *)curMRPRS andBlock:(void (^)(MRPRS *data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"MRPRS"];
+    curMRPRS.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPRS toPath] withParams:[curMRPRS toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        curMRPRS.isLoading = NO;
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            MRPRS *resultA = [NSObject objectOfClass:@"MRPRS" fromJSON:resultData];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+
+}
+#pragma mark File
 - (void)request_Folders:(ProjectFolders *)folders inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"文件夹列表"];
     folders.isLoading = YES;
@@ -574,7 +591,7 @@
         }
     }];
 }
-//Code
+#pragma mark Code
 - (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block{
     [MobClick event:kUmeng_Event_Request label:@"代码目录"];
     NSString *treePath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/tree/%@/%@", project.owner_user_name, project.name, codeTree.ref, codeTree.path];
@@ -629,7 +646,7 @@
     }];
 }
 
-//Task
+#pragma mark Task
 - (void)request_AddTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"添加任务"];
     [self showStatusBarQueryStr:@"正在添加任务"];
@@ -757,7 +774,7 @@
     }];
 }
 
-//User
+#pragma mark User
 - (void)request_AddUser:(User *)user ToProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"添加成员"];
 //    一次添加多个成员(逗号分隔)：users=102,4
@@ -1368,6 +1385,7 @@
         }
     }];
 }
+
 #pragma mark Message
 - (void)request_PrivateMessages:(PrivateMessages *)priMsgs andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"私信列表"];
@@ -1528,7 +1546,7 @@
     }];
 }
 
-//Git Related
+#pragma mark Git Related
 - (void)request_StarProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"收藏项目"];
     NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/%@", project.owner_user_name, project.name, project.stared.boolValue? @"unstar": @"star"];
@@ -1619,7 +1637,7 @@
         }
     }];
 }
-//Image
+#pragma mark Image
 - (void)uploadUserIconImage:(UIImage *)image
                successBlock:(void (^)(NSString *imagePath))success
                failureBlock:(void (^)(NSError *error))failure
@@ -1690,7 +1708,7 @@
     }];
     [requestOperation start];
 }
-//Other
+#pragma mark Other
 - (void)request_Users_WithSearchString:(NSString *)searchStr andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"搜索用户"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/search" withParams:@{@"key" : searchStr} withMethodType:Get andBlock:^(id data, NSError *error) {

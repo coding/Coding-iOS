@@ -22,6 +22,8 @@
 #import "ProjectFolders.h"
 #import "ProjectFiles.h"
 #import "CodeBranchOrTag.h"
+#import "MRPRS.h"
+#import "MRPR.h"
 
 @interface Coding_NetAPIManager : NSObject
 + (instancetype)sharedManager;
@@ -54,6 +56,9 @@
 - (void)request_UpdateProject_WithObj:(Project *)project andBlock:(void (^)(Project *data, NSError *error))block;
 - (void)request_UpdateProject_WithObj:(Project *)project icon:(UIImage *)icon andBlock:(void (^)(id data, NSError *error))block progerssBlock:(void (^)(CGFloat progressValue))progress;;
 - (void)request_DeleteProject_WithObj:(Project *)project password:(NSString *)password andBlock:(void (^)(Project *data, NSError *error))block;
+
+//MRPR
+- (void)request_MRPRS_WithObj:(MRPRS *)curMRPRS andBlock:(void (^)(MRPRS *data, NSError *error))block;
 
 //File
 - (void)request_Folders:(ProjectFolders *)folders inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;

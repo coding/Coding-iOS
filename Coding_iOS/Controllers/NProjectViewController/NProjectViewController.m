@@ -25,6 +25,7 @@
 //#import "FileViewController.h"
 
 #import "CodeViewController.h"
+#import "MRPRListViewController.h"
 #import "EaseGitButtonsView.h"
 
 @interface NProjectViewController ()<UITableViewDataSource, UITableViewDelegate>
@@ -262,7 +263,9 @@
 }
 
 - (void)goTo_MR_PR{
-
+    MRPRListViewController *vc = [[MRPRListViewController alloc] init];
+    vc.curProject = self.myProject;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark Git_Btn
