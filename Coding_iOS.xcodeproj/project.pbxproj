@@ -81,6 +81,8 @@
 		4E4ABBEA1A653027004760D9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4ABBE91A653027004760D9 /* WebViewController.m */; };
 		4E4D6A521B1C555400FD2E49 /* MRPRComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A511B1C555400FD2E49 /* MRPRComment.m */; };
 		4E4D6A551B1C55EB00FD2E49 /* MRPRCommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A541B1C55EB00FD2E49 /* MRPRCommentItem.m */; };
+		4E4D6A581B1C5DC000FD2E49 /* MRPRCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A571B1C5DC000FD2E49 /* MRPRCommentCell.m */; };
+		4E4D6A5B1B1C5DDF00FD2E49 /* MRPRCommentCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A5A1B1C5DDF00FD2E49 /* MRPRCommentCCell.m */; };
 		4E53EB521AFA03990034FE1C /* RKSwipeBetweenViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */; };
 		4E53EB591AFB090E0034FE1C /* nav_page_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB571AFB090E0034FE1C /* nav_page_selected@2x.png */; };
 		4E53EB5A1AFB090E0034FE1C /* nav_page_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB581AFB090E0034FE1C /* nav_page_unselected@2x.png */; };
@@ -769,6 +771,10 @@
 		4E4D6A511B1C555400FD2E49 /* MRPRComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRComment.m; sourceTree = "<group>"; };
 		4E4D6A531B1C55EB00FD2E49 /* MRPRCommentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRCommentItem.h; sourceTree = "<group>"; };
 		4E4D6A541B1C55EB00FD2E49 /* MRPRCommentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRCommentItem.m; sourceTree = "<group>"; };
+		4E4D6A561B1C5DC000FD2E49 /* MRPRCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRCommentCell.h; sourceTree = "<group>"; };
+		4E4D6A571B1C5DC000FD2E49 /* MRPRCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRCommentCell.m; sourceTree = "<group>"; };
+		4E4D6A591B1C5DDF00FD2E49 /* MRPRCommentCCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRCommentCCell.h; sourceTree = "<group>"; };
+		4E4D6A5A1B1C5DDF00FD2E49 /* MRPRCommentCCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRCommentCCell.m; sourceTree = "<group>"; };
 		4E53EB501AFA03990034FE1C /* RKSwipeBetweenViewControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSwipeBetweenViewControllers.h; sourceTree = "<group>"; };
 		4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSwipeBetweenViewControllers.m; sourceTree = "<group>"; };
 		4E53EB571AFB090E0034FE1C /* nav_page_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_page_selected@2x.png"; sourceTree = "<group>"; };
@@ -3180,6 +3186,8 @@
 				4E5F39011AC951060010515D /* TaskCommentCCell.m */,
 				4E5F39031ACA958C0010515D /* TopicCommentCCell.h */,
 				4E5F39041ACA958C0010515D /* TopicCommentCCell.m */,
+				4E4D6A591B1C5DDF00FD2E49 /* MRPRCommentCCell.h */,
+				4E4D6A5A1B1C5DDF00FD2E49 /* MRPRCommentCCell.m */,
 			);
 			path = CCell;
 			sourceTree = "<group>";
@@ -3300,6 +3308,8 @@
 				4ECF702B1B1704C5000280FF /* NProjectItemCell.m */,
 				4ECF704A1B1876CB000280FF /* MRPRListCell.h */,
 				4ECF704B1B1876CB000280FF /* MRPRListCell.m */,
+				4E4D6A561B1C5DC000FD2E49 /* MRPRCommentCell.h */,
+				4E4D6A571B1C5DC000FD2E49 /* MRPRCommentCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -3738,6 +3748,7 @@
 				4ECE8B041A3946C10021E29C /* UnReadManager.m in Sources */,
 				4EA679131A1466A6001A0324 /* ProjectFiles.m in Sources */,
 				4EBDA87C1A6640340035ED96 /* UIActionSheet+Common.m in Sources */,
+				4E4D6A581B1C5DC000FD2E49 /* MRPRCommentCell.m in Sources */,
 				B94C1B6E1AC98CCE0000C271 /* NewProjectTypeViewController.m in Sources */,
 				4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */,
 				EBDD2E4E1AEA159D0024B952 /* ProjectTopicLabelView.m in Sources */,
@@ -3912,6 +3923,7 @@
 				3A38784C1AE36EF00078D5DE /* TopicListView.m in Sources */,
 				8E1C3DEA19E7D58A00EF3032 /* AbstractActionSheetPicker.m in Sources */,
 				8EA6D1AF19E240C40076D59C /* CodingTips.m in Sources */,
+				4E4D6A5B1B1C5DDF00FD2E49 /* MRPRCommentCCell.m in Sources */,
 				8EF643C219FF7E2900F7EEB0 /* TaskCommentTopCell.m in Sources */,
 				8E64ED7D19ED0CE3006E99DA /* QBAssetsCollectionOverlayView.m in Sources */,
 				8EA6D14919E240C40076D59C /* UserTweetsViewController.m in Sources */,

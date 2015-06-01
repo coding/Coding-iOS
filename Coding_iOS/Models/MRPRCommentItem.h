@@ -15,5 +15,6 @@
 @property (strong, nonatomic) NSDate *created_at;
 @property (strong, nonatomic) User *author;
 @property (strong, nonatomic) NSString *content, *noteable_type;
+@property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;
 
 @end
