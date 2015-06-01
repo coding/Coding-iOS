@@ -83,6 +83,22 @@
 		4E4D6A551B1C55EB00FD2E49 /* MRPRCommentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A541B1C55EB00FD2E49 /* MRPRCommentItem.m */; };
 		4E4D6A581B1C5DC000FD2E49 /* MRPRCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A571B1C5DC000FD2E49 /* MRPRCommentCell.m */; };
 		4E4D6A5B1B1C5DDF00FD2E49 /* MRPRCommentCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A5A1B1C5DDF00FD2E49 /* MRPRCommentCCell.m */; };
+		4E4D6A5E1B1C64C600FD2E49 /* MRPRDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A5D1B1C64C600FD2E49 /* MRPRDetailViewController.m */; };
+		4E4D6A611B1C65C100FD2E49 /* MRPRCommitsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A601B1C65C100FD2E49 /* MRPRCommitsViewController.m */; };
+		4E4D6A641B1C65F700FD2E49 /* MRPRFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A631B1C65F700FD2E49 /* MRPRFilesViewController.m */; };
+		4E4D6A671B1C686F00FD2E49 /* AddMDCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A661B1C686F00FD2E49 /* AddMDCommentViewController.m */; };
+		4E4D6A6A1B1C688200FD2E49 /* MRPRAcceptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A691B1C688200FD2E49 /* MRPRAcceptViewController.m */; };
+		4E4D6A6D1B1C68D700FD2E49 /* ProjectCommitsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A6C1B1C68D700FD2E49 /* ProjectCommitsViewController.m */; };
+		4E4D6A701B1C68F100FD2E49 /* CommitFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A6F1B1C68F100FD2E49 /* CommitFilesViewController.m */; };
+		4E4D6A731B1C694100FD2E49 /* CommitFileDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A721B1C694100FD2E49 /* CommitFileDetailViewController.m */; };
+		4E4D6A761B1C6C6100FD2E49 /* MRPRTopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A751B1C6C6100FD2E49 /* MRPRTopCell.m */; };
+		4E4D6A791B1C6C7800FD2E49 /* MRPRDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A781B1C6C7800FD2E49 /* MRPRDetailCell.m */; };
+		4E4D6A7C1B1C6CDE00FD2E49 /* CommitListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A7B1B1C6CDE00FD2E49 /* CommitListCell.m */; };
+		4E4D6A7F1B1C6D1E00FD2E49 /* CommitContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A7E1B1C6D1E00FD2E49 /* CommitContentCell.m */; };
+		4E4D6A821B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A811B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.m */; };
+		4E4D6A851B1C6D8200FD2E49 /* FileChangeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A841B1C6D8200FD2E49 /* FileChangeListCell.m */; };
+		4E4D6A881B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A871B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m */; };
+		4E4D6A8B1B1C6E3100FD2E49 /* MRPRAcceptCheckCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A8A1B1C6E3000FD2E49 /* MRPRAcceptCheckCell.m */; };
 		4E53EB521AFA03990034FE1C /* RKSwipeBetweenViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */; };
 		4E53EB591AFB090E0034FE1C /* nav_page_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB571AFB090E0034FE1C /* nav_page_selected@2x.png */; };
 		4E53EB5A1AFB090E0034FE1C /* nav_page_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB581AFB090E0034FE1C /* nav_page_unselected@2x.png */; };
@@ -775,6 +791,38 @@
 		4E4D6A571B1C5DC000FD2E49 /* MRPRCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRCommentCell.m; sourceTree = "<group>"; };
 		4E4D6A591B1C5DDF00FD2E49 /* MRPRCommentCCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRCommentCCell.h; sourceTree = "<group>"; };
 		4E4D6A5A1B1C5DDF00FD2E49 /* MRPRCommentCCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRCommentCCell.m; sourceTree = "<group>"; };
+		4E4D6A5C1B1C64C600FD2E49 /* MRPRDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRDetailViewController.h; sourceTree = "<group>"; };
+		4E4D6A5D1B1C64C600FD2E49 /* MRPRDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRDetailViewController.m; sourceTree = "<group>"; };
+		4E4D6A5F1B1C65C100FD2E49 /* MRPRCommitsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRCommitsViewController.h; sourceTree = "<group>"; };
+		4E4D6A601B1C65C100FD2E49 /* MRPRCommitsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRCommitsViewController.m; sourceTree = "<group>"; };
+		4E4D6A621B1C65F700FD2E49 /* MRPRFilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRFilesViewController.h; sourceTree = "<group>"; };
+		4E4D6A631B1C65F700FD2E49 /* MRPRFilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRFilesViewController.m; sourceTree = "<group>"; };
+		4E4D6A651B1C686F00FD2E49 /* AddMDCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddMDCommentViewController.h; sourceTree = "<group>"; };
+		4E4D6A661B1C686F00FD2E49 /* AddMDCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddMDCommentViewController.m; sourceTree = "<group>"; };
+		4E4D6A681B1C688200FD2E49 /* MRPRAcceptViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRAcceptViewController.h; sourceTree = "<group>"; };
+		4E4D6A691B1C688200FD2E49 /* MRPRAcceptViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRAcceptViewController.m; sourceTree = "<group>"; };
+		4E4D6A6B1B1C68D700FD2E49 /* ProjectCommitsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectCommitsViewController.h; sourceTree = "<group>"; };
+		4E4D6A6C1B1C68D700FD2E49 /* ProjectCommitsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectCommitsViewController.m; sourceTree = "<group>"; };
+		4E4D6A6E1B1C68F100FD2E49 /* CommitFilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitFilesViewController.h; sourceTree = "<group>"; };
+		4E4D6A6F1B1C68F100FD2E49 /* CommitFilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitFilesViewController.m; sourceTree = "<group>"; };
+		4E4D6A711B1C694100FD2E49 /* CommitFileDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitFileDetailViewController.h; sourceTree = "<group>"; };
+		4E4D6A721B1C694100FD2E49 /* CommitFileDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitFileDetailViewController.m; sourceTree = "<group>"; };
+		4E4D6A741B1C6C6100FD2E49 /* MRPRTopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRTopCell.h; sourceTree = "<group>"; };
+		4E4D6A751B1C6C6100FD2E49 /* MRPRTopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRTopCell.m; sourceTree = "<group>"; };
+		4E4D6A771B1C6C7800FD2E49 /* MRPRDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRDetailCell.h; sourceTree = "<group>"; };
+		4E4D6A781B1C6C7800FD2E49 /* MRPRDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRDetailCell.m; sourceTree = "<group>"; };
+		4E4D6A7A1B1C6CDE00FD2E49 /* CommitListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitListCell.h; sourceTree = "<group>"; };
+		4E4D6A7B1B1C6CDE00FD2E49 /* CommitListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitListCell.m; sourceTree = "<group>"; };
+		4E4D6A7D1B1C6D1E00FD2E49 /* CommitContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitContentCell.h; sourceTree = "<group>"; };
+		4E4D6A7E1B1C6D1E00FD2E49 /* CommitContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitContentCell.m; sourceTree = "<group>"; };
+		4E4D6A801B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesChangeIntroduceCell.h; sourceTree = "<group>"; };
+		4E4D6A811B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesChangeIntroduceCell.m; sourceTree = "<group>"; };
+		4E4D6A831B1C6D8200FD2E49 /* FileChangeListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileChangeListCell.h; sourceTree = "<group>"; };
+		4E4D6A841B1C6D8200FD2E49 /* FileChangeListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileChangeListCell.m; sourceTree = "<group>"; };
+		4E4D6A861B1C6E1A00FD2E49 /* MRPRAcceptEditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRAcceptEditCell.h; sourceTree = "<group>"; };
+		4E4D6A871B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRAcceptEditCell.m; sourceTree = "<group>"; };
+		4E4D6A891B1C6E3000FD2E49 /* MRPRAcceptCheckCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRAcceptCheckCell.h; sourceTree = "<group>"; };
+		4E4D6A8A1B1C6E3000FD2E49 /* MRPRAcceptCheckCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRAcceptCheckCell.m; sourceTree = "<group>"; };
 		4E53EB501AFA03990034FE1C /* RKSwipeBetweenViewControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSwipeBetweenViewControllers.h; sourceTree = "<group>"; };
 		4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSwipeBetweenViewControllers.m; sourceTree = "<group>"; };
 		4E53EB571AFB090E0034FE1C /* nav_page_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_page_selected@2x.png"; sourceTree = "<group>"; };
@@ -2620,6 +2668,22 @@
 				4E996BE11ABA957B00C704F1 /* ProjectListViewController.m */,
 				4ECF70411B18514F000280FF /* MRPRListViewController.h */,
 				4ECF70421B18514F000280FF /* MRPRListViewController.m */,
+				4E4D6A5C1B1C64C600FD2E49 /* MRPRDetailViewController.h */,
+				4E4D6A5D1B1C64C600FD2E49 /* MRPRDetailViewController.m */,
+				4E4D6A5F1B1C65C100FD2E49 /* MRPRCommitsViewController.h */,
+				4E4D6A601B1C65C100FD2E49 /* MRPRCommitsViewController.m */,
+				4E4D6A621B1C65F700FD2E49 /* MRPRFilesViewController.h */,
+				4E4D6A631B1C65F700FD2E49 /* MRPRFilesViewController.m */,
+				4E4D6A651B1C686F00FD2E49 /* AddMDCommentViewController.h */,
+				4E4D6A661B1C686F00FD2E49 /* AddMDCommentViewController.m */,
+				4E4D6A681B1C688200FD2E49 /* MRPRAcceptViewController.h */,
+				4E4D6A691B1C688200FD2E49 /* MRPRAcceptViewController.m */,
+				4E4D6A6B1B1C68D700FD2E49 /* ProjectCommitsViewController.h */,
+				4E4D6A6C1B1C68D700FD2E49 /* ProjectCommitsViewController.m */,
+				4E4D6A6E1B1C68F100FD2E49 /* CommitFilesViewController.h */,
+				4E4D6A6F1B1C68F100FD2E49 /* CommitFilesViewController.m */,
+				4E4D6A711B1C694100FD2E49 /* CommitFileDetailViewController.h */,
+				4E4D6A721B1C694100FD2E49 /* CommitFileDetailViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3310,6 +3374,22 @@
 				4ECF704B1B1876CB000280FF /* MRPRListCell.m */,
 				4E4D6A561B1C5DC000FD2E49 /* MRPRCommentCell.h */,
 				4E4D6A571B1C5DC000FD2E49 /* MRPRCommentCell.m */,
+				4E4D6A741B1C6C6100FD2E49 /* MRPRTopCell.h */,
+				4E4D6A751B1C6C6100FD2E49 /* MRPRTopCell.m */,
+				4E4D6A771B1C6C7800FD2E49 /* MRPRDetailCell.h */,
+				4E4D6A781B1C6C7800FD2E49 /* MRPRDetailCell.m */,
+				4E4D6A7A1B1C6CDE00FD2E49 /* CommitListCell.h */,
+				4E4D6A7B1B1C6CDE00FD2E49 /* CommitListCell.m */,
+				4E4D6A7D1B1C6D1E00FD2E49 /* CommitContentCell.h */,
+				4E4D6A7E1B1C6D1E00FD2E49 /* CommitContentCell.m */,
+				4E4D6A801B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.h */,
+				4E4D6A811B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.m */,
+				4E4D6A831B1C6D8200FD2E49 /* FileChangeListCell.h */,
+				4E4D6A841B1C6D8200FD2E49 /* FileChangeListCell.m */,
+				4E4D6A861B1C6E1A00FD2E49 /* MRPRAcceptEditCell.h */,
+				4E4D6A871B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m */,
+				4E4D6A891B1C6E3000FD2E49 /* MRPRAcceptCheckCell.h */,
+				4E4D6A8A1B1C6E3000FD2E49 /* MRPRAcceptCheckCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -3766,6 +3846,7 @@
 				4EA7F1671A6D192B00A046BD /* ODRefreshControl.m in Sources */,
 				8EA6D20C19E240C40076D59C /* RDVTabBarItem.m in Sources */,
 				4EF818191B05C984005F974B /* ProjectTopicActivity.m in Sources */,
+				4E4D6A851B1C6D8200FD2E49 /* FileChangeListCell.m in Sources */,
 				4E996BE21ABA957B00C704F1 /* ProjectListViewController.m in Sources */,
 				4E743E6D1A88A3CC00DADDE5 /* EaseMarkdownTextView.m in Sources */,
 				8EA6D1B519E240C40076D59C /* ListGroupItem.m in Sources */,
@@ -3799,11 +3880,13 @@
 				4EA679161A1496A7001A0324 /* ProjectFolders.m in Sources */,
 				4EA7F1591A6D192B00A046BD /* NSData+ImageContentType.m in Sources */,
 				8EA6D1FA19E240C40076D59C /* MJPhotoProgressView.m in Sources */,
+				4E4D6A641B1C65F700FD2E49 /* MRPRFilesViewController.m in Sources */,
 				4EA6791D1A15A943001A0324 /* FileListFolderCell.m in Sources */,
 				8EA6D1C419E240C40076D59C /* Users.m in Sources */,
 				8EF643D219FF7E2900F7EEB0 /* UserCell.m in Sources */,
 				8EA6D1AE19E240C40076D59C /* CodingTip.m in Sources */,
 				8E59F0F11A00F38A009A905F /* ProjectFolderListView.m in Sources */,
+				4E4D6A5E1B1C64C600FD2E49 /* MRPRDetailViewController.m in Sources */,
 				4E2719B81AB02F31006AE214 /* NProjectViewController.m in Sources */,
 				8EA6D1B719E240C40076D59C /* PrivateMessage.m in Sources */,
 				8EF643BE19FF7E2900F7EEB0 /* ProjectTaskListViewCell.m in Sources */,
@@ -3826,6 +3909,7 @@
 				8E59F0FA1A00F3F3009A905F /* FileListFileCell.m in Sources */,
 				8EA6D14219E240C40076D59C /* TipsViewController.m in Sources */,
 				8EA6D1CA19E240C40076D59C /* UIPlaceHolderTextView.m in Sources */,
+				4E4D6A6D1B1C68D700FD2E49 /* ProjectCommitsViewController.m in Sources */,
 				4E6BA2E61A1EE6AF005FD721 /* UIProgressView+AFNetworking.m in Sources */,
 				4EB0C2001A807ED00042FC4F /* NSURL+Common.m in Sources */,
 				4E6BA2E71A1EE6AF005FD721 /* UIRefreshControl+AFNetworking.m in Sources */,
@@ -3849,11 +3933,14 @@
 				8E97CE481A0A2DF8006F9AD7 /* AGEmojiPageView.m in Sources */,
 				4E9113A31A1C426000AC9431 /* ASProgressPopUpView.m in Sources */,
 				3A3878371AE293D50078D5DE /* EditLabelViewController.m in Sources */,
+				4E4D6A671B1C686F00FD2E49 /* AddMDCommentViewController.m in Sources */,
 				4ECE8AFE1A3946C10021E29C /* Coding_FileManager.m in Sources */,
 				4EABD2541AD3CA7E005E515F /* UIMessageInputView.m in Sources */,
 				4E72F82D1B144778001B6CE6 /* NSMutableString+Common.m in Sources */,
 				4ECE8AE51A3943E80021E29C /* UIImageView+Common.m in Sources */,
+				4E4D6A791B1C6C7800FD2E49 /* MRPRDetailCell.m in Sources */,
 				8EF643CA19FF7E2900F7EEB0 /* TopicContentCell.m in Sources */,
+				4E4D6A6A1B1C688200FD2E49 /* MRPRAcceptViewController.m in Sources */,
 				4ECE8AE81A3943E80021E29C /* UIView+Common.m in Sources */,
 				4EA7F15E1A6D192B00A046BD /* SDWebImageDownloaderOperation.m in Sources */,
 				4E996BD81ABA776500C704F1 /* UserInfoIconCell.m in Sources */,
@@ -3912,6 +3999,7 @@
 				4E217F0C1A70EDC700F6DF88 /* SVModalWebViewController.m in Sources */,
 				4EA7F1601A6D192B00A046BD /* SDWebImagePrefetcher.m in Sources */,
 				4E6BA2E81A1EE6AF005FD721 /* UIWebView+AFNetworking.m in Sources */,
+				4E4D6A7F1B1C6D1E00FD2E49 /* CommitContentCell.m in Sources */,
 				8EA6D13519E240C40076D59C /* ProjectViewController.m in Sources */,
 				8EF643AB19FF7E2900F7EEB0 /* TagCCell.m in Sources */,
 				4E996BDC1ABA79AB00C704F1 /* UserInfoDetailViewController.m in Sources */,
@@ -3925,6 +4013,7 @@
 				8EA6D1AF19E240C40076D59C /* CodingTips.m in Sources */,
 				4E4D6A5B1B1C5DDF00FD2E49 /* MRPRCommentCCell.m in Sources */,
 				8EF643C219FF7E2900F7EEB0 /* TaskCommentTopCell.m in Sources */,
+				4E4D6A611B1C65C100FD2E49 /* MRPRCommitsViewController.m in Sources */,
 				8E64ED7D19ED0CE3006E99DA /* QBAssetsCollectionOverlayView.m in Sources */,
 				8EA6D14919E240C40076D59C /* UserTweetsViewController.m in Sources */,
 				4ECE8AD71A3943E80021E29C /* DownMenuCell.m in Sources */,
@@ -3968,12 +4057,14 @@
 				4ECE8B081A3947300021E29C /* BasicPreviewItem.m in Sources */,
 				4EA7F15A1A6D192B00A046BD /* SDImageCache.m in Sources */,
 				4EBB624C1A6F526C0045DAEF /* NJKWebViewProgress.m in Sources */,
+				4E4D6A761B1C6C6100FD2E49 /* MRPRTopCell.m in Sources */,
 				3A38783A1AE2949E0078D5DE /* ResetLabelViewController.m in Sources */,
 				8EA6D13C19E240C40076D59C /* Tweet_RootViewController.m in Sources */,
 				B93D904B1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m in Sources */,
 				EBDD2E411AE7B88C0024B952 /* WMDelLabel.m in Sources */,
 				4E1A22851AB172C400CFC14F /* ProjectItemsCell.m in Sources */,
 				4ECE8B051A3946C10021E29C /* WebContentManager.m in Sources */,
+				4E4D6A731B1C694100FD2E49 /* CommitFileDetailViewController.m in Sources */,
 				8EA6D1F819E240C40076D59C /* MJPhotoBrowser.m in Sources */,
 				8ED4612019E4DC470059B3BE /* iCarousel.m in Sources */,
 				4E1A22881AB1731600CFC14F /* ProjectDescriptionCell.m in Sources */,
@@ -3999,6 +4090,7 @@
 				8EA6D1C019E240C40076D59C /* Tasks.m in Sources */,
 				8EE72BE819E3F4A8002C11D9 /* MBProgressHUD+Add.m in Sources */,
 				8E59F10D1A02188D009A905F /* CodeViewController.m in Sources */,
+				4E4D6A7C1B1C6CDE00FD2E49 /* CommitListCell.m in Sources */,
 				8EA6D20B19E240C40076D59C /* RDVTabBarController.m in Sources */,
 				4E787DE21B0329B300F06E83 /* ProjectLineNote.m in Sources */,
 				8EA6D12E19E240C40076D59C /* EditTaskViewController.m in Sources */,
@@ -4019,6 +4111,7 @@
 				8EF643AE19FF7E2900F7EEB0 /* TweetMediaItemSingleCCell.m in Sources */,
 				8EF643AC19FF7E2900F7EEB0 /* TweetLikeUserCCell.m in Sources */,
 				8E64ED7B19ED0CE3006E99DA /* QBAssetsCollectionCheckmarkView.m in Sources */,
+				4E4D6A701B1C68F100FD2E49 /* CommitFilesViewController.m in Sources */,
 				8EA6D1AB19E240C40076D59C /* main.m in Sources */,
 				B94C1B691AC945D30000C271 /* NewProjectViewController.m in Sources */,
 				4E996BD91ABA776500C704F1 /* UserInfoTextCell.m in Sources */,
@@ -4029,6 +4122,7 @@
 				4ECF70461B18557E000280FF /* MRPRS.m in Sources */,
 				4ECE8AE41A3943E80021E29C /* UIImage+Common.m in Sources */,
 				8EF643D619FF7E9F00F7EEB0 /* ProjectTopicCell.m in Sources */,
+				4E4D6A8B1B1C6E3100FD2E49 /* MRPRAcceptCheckCell.m in Sources */,
 				4E6BA2DA1A1EE6AF005FD721 /* AFHTTPSessionManager.m in Sources */,
 				4EA6790A1A1461C3001A0324 /* ProjectFile.m in Sources */,
 				4ECE8AE61A3943E80021E29C /* UILabel+Common.m in Sources */,
@@ -4037,6 +4131,7 @@
 				4E6BA2E01A1EE6AF005FD721 /* AFURLResponseSerialization.m in Sources */,
 				8E59F1031A0120F1009A905F /* CodeFile.m in Sources */,
 				4E996BCA1ABA754600C704F1 /* JDStatusBarView.m in Sources */,
+				4E4D6A881B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m in Sources */,
 				8EF643AD19FF7E2900F7EEB0 /* TweetMediaItemCCell.m in Sources */,
 				3A3878461AE296240078D5DE /* EditLabelHeadCell.m in Sources */,
 				8EA6D23519E240C40076D59C /* ProjectListView.m in Sources */,
@@ -4067,6 +4162,7 @@
 				0A6E6BA71AAF4162004C0107 /* TweetSendLocationCell.m in Sources */,
 				4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				8ECA8BB419FB42CC00C598C6 /* UILongPressMenuImageView.m in Sources */,
+				4E4D6A821B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.m in Sources */,
 				8EA6D1BE19E240C40076D59C /* Register.m in Sources */,
 				4ECF70431B18514F000280FF /* MRPRListViewController.m in Sources */,
 				4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */,
