@@ -24,6 +24,11 @@
 #import "CodeBranchOrTag.h"
 #import "MRPRS.h"
 #import "MRPR.h"
+#import "MRPRBaseInfo.h"
+#import "Commit.h"
+#import "FileChanges.h"
+#import "FileLineChange.h"
+#import "CommitInfo.h"
 
 @interface Coding_NetAPIManager : NSObject
 + (instancetype)sharedManager;
@@ -59,7 +64,13 @@
 
 //MRPR
 - (void)request_MRPRS_WithObj:(MRPRS *)curMRPRS andBlock:(void (^)(MRPRS *data, NSError *error))block;
-- (void)request_MRPRComments_WithObj:(MRPR *)curMRPR andBlock:(void (^)(NSArray *data, NSError *error))block;
+- (void)request_MRPRBaseInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(MRPRBaseInfo *data, NSError *error))block;
+- (void)request_MRPRCommits_WithObj:(MRPR *)curMRPR andBlock:(void (^)(NSArray *data, NSError *error))block;
+- (void)request_MRPRFileChanges_WithObj:(MRPR *)curMRPR andBlock:(void (^)(FileChanges *data, NSError *error))block;
+- (void)request_MRPRFileLineChanges_WithObj:(MRPR *)curMRPR filePath:(NSString *)filePath andBlock:(void (^)(NSArray *data, NSError *error))block;
+- (void)request_CommitInfo_WithUserGK:(NSString *)userGK projectName:(NSString *)projectName commitId:(NSString *)commitId andBlock:(void (^)(CommitInfo *data, NSError *error))block;
+
+
 
 //File
 - (void)request_Folders:(ProjectFolders *)folders inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
@@ -77,6 +88,8 @@
 - (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block;
 - (void)request_CodeFile:(CodeFile *)codeFile withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CodeBranchOrTagWithPath:(NSString *)path withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+
+
 
 //Task
 - (void)request_AddTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;

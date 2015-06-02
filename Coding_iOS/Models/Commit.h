@@ -11,6 +11,9 @@
 
 @interface Commit : NSObject
 @property (readwrite, nonatomic, strong) NSString *sha, *short_message;
+@property (strong, nonatomic) NSString *fullMessage, *shortMessage, *allMessage, *commitId;
+@property (strong, nonatomic) NSDate *commitTime;
+@property (strong, nonatomic) NSNumber *notesCount;
 @property (readwrite, nonatomic, strong) Committer *committer;
 - (NSString *)contentStr;
 @end

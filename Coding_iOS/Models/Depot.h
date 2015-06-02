@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface Depot : NSObject
-@property (readwrite, nonatomic, strong) NSString *name, *path;
+@property (strong, nonatomic) NSNumber *id;
+@property (readwrite, nonatomic, strong) NSString *name, *path, *depot_path, *default_branch;
 @end

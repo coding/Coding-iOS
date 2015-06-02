@@ -438,12 +438,65 @@
 
 }
 
-- (void)request_MRPRComments_WithObj:(MRPR *)curMRPR andBlock:(void (^)(NSArray *data, NSError *error))block{
-    [MobClick event:kUmeng_Event_Request label:@"MRPRS_评论列表"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toCommentsPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+- (void)request_MRPRBaseInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(MRPRBaseInfo *data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"MRPRS_详情页面"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toBasePath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
-            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"MRPRComment"];
+            MRPRBaseInfo *resultA = [NSObject objectOfClass:@"MRPRBaseInfo" fromJSON:resultData];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_MRPRCommits_WithObj:(MRPR *)curMRPR andBlock:(void (^)(NSArray *data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"MRPRS_Commits"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toCommitsPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"Commit"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_MRPRFileChanges_WithObj:(MRPR *)curMRPR andBlock:(void (^)(FileChanges *data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"MRPRS_文件改动列表"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toFileChangesPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            FileChanges *resultA = [NSObject objectOfClass:@"FileChanges" fromJSON:resultData];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_MRPRFileLineChanges_WithObj:(MRPR *)curMRPR filePath:(NSString *)filePath andBlock:(void (^)(NSArray *data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"MRPRS_文件改动详情"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toFileLineChangesPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"FileLineChange"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_CommitInfo_WithUserGK:(NSString *)userGK projectName:(NSString *)projectName commitId:(NSString *)commitId andBlock:(void (^)(CommitInfo *data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"提交详情"];
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/commit/%@", userGK, projectName, commitId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            CommitInfo *resultA = [NSObject objectOfClass:@"CommitInfo" fromJSON:resultData];
             block(resultA, nil);
         }else{
             block(nil, error);

@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MRPR.h"
 
 @interface MRPRTopCell : UITableViewCell
+@property (strong, nonatomic) MRPR *curMRPR;
 
 @end

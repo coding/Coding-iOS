@@ -11,7 +11,6 @@
 #import <UIKit/UIKit.h>
 #import "ProjectTopic.h"
 
-typedef void (^CommentTopicBlock) ();
 @interface TopicContentCell : UITableViewCell<UIWebViewDelegate>
 @property (strong, nonatomic) ProjectTopic *curTopic;
 

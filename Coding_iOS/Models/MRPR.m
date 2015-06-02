@@ -35,12 +35,35 @@
     return attriString;
 }
 
-- (NSString *)toCommentsPath{
+- (BOOL)isMR{
+    return [_path rangeOfString:@"/merge/"].location != NSNotFound;
+}
+- (BOOL)isPR{
+    return [_path rangeOfString:@"/pull/"].location != NSNotFound;
+}
+- (NSString *)toBasePath{
+    return [[self p_prePath] stringByAppendingString:@"base"];
+}
+
+- (NSString *)toCommitsPath{
+    return [[self p_prePath] stringByAppendingString:@"commits"];
+}
+
+- (NSString *)toFileLineChangesPath{
+    return [[self p_prePath] stringByAppendingString:@"commitDiffContent"];
+}
+
+- (NSString *)toFileChangesPath{
+    return [[self p_prePath] stringByAppendingString:@"commitDiffStat"];
+}
+
+- (NSString *)p_prePath{
+    NSString *prePath = nil;
     NSArray *pathComponents = [_path componentsSeparatedByString:@"/"];
     if (pathComponents.count == 7) {
-        return [NSString stringWithFormat:@"api/user/%@/project/%@/git/%@/%@/comments", pathComponents[1], pathComponents[3], pathComponents[5], pathComponents[6]];
-    }else{
-        return nil;
+        prePath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/%@/%@/", pathComponents[1], pathComponents[3], pathComponents[5], pathComponents[6]];
     }
+    return prePath;
 }
+
 @end
