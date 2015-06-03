@@ -7,9 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MRPR.h"
+#import "MRPRBaseInfo.h"
+@class MRPRActionView;
 
 @interface MRPRTopCell : UITableViewCell
-@property (strong, nonatomic) MRPR *curMRPR;
+@property (strong, nonatomic) MRPRBaseInfo *curMRPRInfo;
++ (CGFloat)cellHeightWithObj:(id)obj;
+@end
 
+
+@interface MRPRActionView : UIView
+- (void)setStatus:(MRPRStatus)status userName:(NSString *)userName actionDate:(NSDate *)actionDate;
 @end

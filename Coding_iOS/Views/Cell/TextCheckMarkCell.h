@@ -1,5 +1,5 @@
 //
-//  FileChangeListCell.h
+//  TextCheckMarkCell.h
 //  Coding_iOS
 //
 //  Created by Ease on 15/6/1.
@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FileChange.h"
 
-@interface FileChangeListCell : UITableViewCell
-@property (strong, nonatomic) FileChange *curFileChange;
+@interface TextCheckMarkCell : UITableViewCell
+@property (strong, nonatomic) NSString *textStr;
+@property (assign, nonatomic) BOOL checked;
 + (CGFloat)cellHeight;
 
 @end

@@ -10,12 +10,14 @@
 #import "MRPR.h"
 #import "MRPRComment.h"
 
-
 @interface MRPRBaseInfo : NSObject
-@property (strong, nonatomic) MRPR *pull_request, *merge_request;
+@property (strong, nonatomic) MRPR *pull_request, *merge_request, *mrpr;
 @property (strong, nonatomic) NSMutableArray *discussions;
 @property (strong, nonatomic) NSString *pull_request_description, *merge_request_description;
 @property (strong, nonatomic) NSNumber *can_edit_src_branch, *can_edit;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
+@property (assign, nonatomic) CGFloat contentHeight;
+@property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;
+
 
 @end

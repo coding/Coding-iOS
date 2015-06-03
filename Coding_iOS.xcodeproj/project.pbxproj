@@ -98,7 +98,7 @@
 		4E4D6A821B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A811B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.m */; };
 		4E4D6A851B1C6D8200FD2E49 /* FileChangeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A841B1C6D8200FD2E49 /* FileChangeListCell.m */; };
 		4E4D6A881B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A871B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m */; };
-		4E4D6A8B1B1C6E3100FD2E49 /* MRPRAcceptCheckCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A8A1B1C6E3000FD2E49 /* MRPRAcceptCheckCell.m */; };
+		4E4D6A8B1B1C6E3100FD2E49 /* TextCheckMarkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A8A1B1C6E3000FD2E49 /* TextCheckMarkCell.m */; };
 		4E4D6A8E1B1D5B9A00FD2E49 /* MRPRBaseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A8D1B1D5B9A00FD2E49 /* MRPRBaseInfo.m */; };
 		4E4D6A911B1D84B400FD2E49 /* FileChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A901B1D84B400FD2E49 /* FileChange.m */; };
 		4E4D6A941B1D851E00FD2E49 /* FileChanges.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A931B1D851E00FD2E49 /* FileChanges.m */; };
@@ -106,6 +106,8 @@
 		4E4D6A9D1B1D898800FD2E49 /* CommitComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A9C1B1D898800FD2E49 /* CommitComment.m */; };
 		4E4D6AA01B1D89D400FD2E49 /* CommitDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A9F1B1D89D400FD2E49 /* CommitDetail.m */; };
 		4E4D6AA31B1DB63A00FD2E49 /* FileLineChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6AA21B1DB63A00FD2E49 /* FileLineChange.m */; };
+		4E4D6AA61B1DBA3A00FD2E49 /* MRPRDisclosureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6AA51B1DBA3A00FD2E49 /* MRPRDisclosureCell.m */; };
+		4E4D6AAC1B1EED6A00FD2E49 /* AddCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6AAB1B1EED6A00FD2E49 /* AddCommentCell.m */; };
 		4E53EB521AFA03990034FE1C /* RKSwipeBetweenViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */; };
 		4E53EB591AFB090E0034FE1C /* nav_page_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB571AFB090E0034FE1C /* nav_page_selected@2x.png */; };
 		4E53EB5A1AFB090E0034FE1C /* nav_page_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB581AFB090E0034FE1C /* nav_page_unselected@2x.png */; };
@@ -828,8 +830,8 @@
 		4E4D6A841B1C6D8200FD2E49 /* FileChangeListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileChangeListCell.m; sourceTree = "<group>"; };
 		4E4D6A861B1C6E1A00FD2E49 /* MRPRAcceptEditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRAcceptEditCell.h; sourceTree = "<group>"; };
 		4E4D6A871B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRAcceptEditCell.m; sourceTree = "<group>"; };
-		4E4D6A891B1C6E3000FD2E49 /* MRPRAcceptCheckCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRAcceptCheckCell.h; sourceTree = "<group>"; };
-		4E4D6A8A1B1C6E3000FD2E49 /* MRPRAcceptCheckCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRAcceptCheckCell.m; sourceTree = "<group>"; };
+		4E4D6A891B1C6E3000FD2E49 /* TextCheckMarkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextCheckMarkCell.h; sourceTree = "<group>"; };
+		4E4D6A8A1B1C6E3000FD2E49 /* TextCheckMarkCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextCheckMarkCell.m; sourceTree = "<group>"; };
 		4E4D6A8C1B1D5B9A00FD2E49 /* MRPRBaseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRBaseInfo.h; sourceTree = "<group>"; };
 		4E4D6A8D1B1D5B9A00FD2E49 /* MRPRBaseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRBaseInfo.m; sourceTree = "<group>"; };
 		4E4D6A8F1B1D84B400FD2E49 /* FileChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileChange.h; sourceTree = "<group>"; };
@@ -844,6 +846,10 @@
 		4E4D6A9F1B1D89D400FD2E49 /* CommitDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitDetail.m; sourceTree = "<group>"; };
 		4E4D6AA11B1DB63A00FD2E49 /* FileLineChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileLineChange.h; sourceTree = "<group>"; };
 		4E4D6AA21B1DB63A00FD2E49 /* FileLineChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileLineChange.m; sourceTree = "<group>"; };
+		4E4D6AA41B1DBA3A00FD2E49 /* MRPRDisclosureCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRDisclosureCell.h; sourceTree = "<group>"; };
+		4E4D6AA51B1DBA3A00FD2E49 /* MRPRDisclosureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRDisclosureCell.m; sourceTree = "<group>"; };
+		4E4D6AAA1B1EED6A00FD2E49 /* AddCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCommentCell.h; sourceTree = "<group>"; };
+		4E4D6AAB1B1EED6A00FD2E49 /* AddCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCommentCell.m; sourceTree = "<group>"; };
 		4E53EB501AFA03990034FE1C /* RKSwipeBetweenViewControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSwipeBetweenViewControllers.h; sourceTree = "<group>"; };
 		4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSwipeBetweenViewControllers.m; sourceTree = "<group>"; };
 		4E53EB571AFB090E0034FE1C /* nav_page_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_page_selected@2x.png"; sourceTree = "<group>"; };
@@ -3407,12 +3413,14 @@
 				4ECF702B1B1704C5000280FF /* NProjectItemCell.m */,
 				4ECF704A1B1876CB000280FF /* MRPRListCell.h */,
 				4ECF704B1B1876CB000280FF /* MRPRListCell.m */,
-				4E4D6A561B1C5DC000FD2E49 /* MRPRCommentCell.h */,
-				4E4D6A571B1C5DC000FD2E49 /* MRPRCommentCell.m */,
 				4E4D6A741B1C6C6100FD2E49 /* MRPRTopCell.h */,
 				4E4D6A751B1C6C6100FD2E49 /* MRPRTopCell.m */,
 				4E4D6A771B1C6C7800FD2E49 /* MRPRDetailCell.h */,
 				4E4D6A781B1C6C7800FD2E49 /* MRPRDetailCell.m */,
+				4E4D6AA41B1DBA3A00FD2E49 /* MRPRDisclosureCell.h */,
+				4E4D6AA51B1DBA3A00FD2E49 /* MRPRDisclosureCell.m */,
+				4E4D6A561B1C5DC000FD2E49 /* MRPRCommentCell.h */,
+				4E4D6A571B1C5DC000FD2E49 /* MRPRCommentCell.m */,
 				4E4D6A7A1B1C6CDE00FD2E49 /* CommitListCell.h */,
 				4E4D6A7B1B1C6CDE00FD2E49 /* CommitListCell.m */,
 				4E4D6A7D1B1C6D1E00FD2E49 /* CommitContentCell.h */,
@@ -3421,10 +3429,12 @@
 				4E4D6A811B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.m */,
 				4E4D6A831B1C6D8200FD2E49 /* FileChangeListCell.h */,
 				4E4D6A841B1C6D8200FD2E49 /* FileChangeListCell.m */,
+				4E4D6AAA1B1EED6A00FD2E49 /* AddCommentCell.h */,
+				4E4D6AAB1B1EED6A00FD2E49 /* AddCommentCell.m */,
 				4E4D6A861B1C6E1A00FD2E49 /* MRPRAcceptEditCell.h */,
 				4E4D6A871B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m */,
-				4E4D6A891B1C6E3000FD2E49 /* MRPRAcceptCheckCell.h */,
-				4E4D6A8A1B1C6E3000FD2E49 /* MRPRAcceptCheckCell.m */,
+				4E4D6A891B1C6E3000FD2E49 /* TextCheckMarkCell.h */,
+				4E4D6A8A1B1C6E3000FD2E49 /* TextCheckMarkCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -3876,6 +3886,7 @@
 				8EF643BA19FF7E2900F7EEB0 /* MemberCell.m in Sources */,
 				4ECE8B021A3946C10021E29C /* JobManager.m in Sources */,
 				4ECE8B031A3946C10021E29C /* TagsManager.m in Sources */,
+				4E4D6AAC1B1EED6A00FD2E49 /* AddCommentCell.m in Sources */,
 				8EA6D1CC19E240C40076D59C /* UITTTAttributedLabel.m in Sources */,
 				8EF643C619FF7E2900F7EEB0 /* TitleValueCell.m in Sources */,
 				4EA7F1671A6D192B00A046BD /* ODRefreshControl.m in Sources */,
@@ -4154,6 +4165,7 @@
 				8EA6D1AB19E240C40076D59C /* main.m in Sources */,
 				B94C1B691AC945D30000C271 /* NewProjectViewController.m in Sources */,
 				4E996BD91ABA776500C704F1 /* UserInfoTextCell.m in Sources */,
+				4E4D6AA61B1DBA3A00FD2E49 /* MRPRDisclosureCell.m in Sources */,
 				8E1C3E0819E8DFE300EF3032 /* AboutViewController.m in Sources */,
 				4E6BA2D71A1EE6AF005FD721 /* AFHTTPRequestOperation.m in Sources */,
 				4EF8181F1B05C9D8005F974B /* ProjectLineNoteActivity.m in Sources */,
@@ -4161,7 +4173,7 @@
 				4ECF70461B18557E000280FF /* MRPRS.m in Sources */,
 				4ECE8AE41A3943E80021E29C /* UIImage+Common.m in Sources */,
 				8EF643D619FF7E9F00F7EEB0 /* ProjectTopicCell.m in Sources */,
-				4E4D6A8B1B1C6E3100FD2E49 /* MRPRAcceptCheckCell.m in Sources */,
+				4E4D6A8B1B1C6E3100FD2E49 /* TextCheckMarkCell.m in Sources */,
 				4E6BA2DA1A1EE6AF005FD721 /* AFHTTPSessionManager.m in Sources */,
 				4EA6790A1A1461C3001A0324 /* ProjectFile.m in Sources */,
 				4ECE8AE61A3943E80021E29C /* UILabel+Common.m in Sources */,

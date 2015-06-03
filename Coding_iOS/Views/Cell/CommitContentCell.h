@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommitInfo.h"
 
 @interface CommitContentCell : UITableViewCell
+@property (strong, nonatomic) CommitInfo *curCommitInfo;
++ (CGFloat)cellHeightWithObj:(id)obj;
 
 @end
+ 

@@ -28,6 +28,10 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
 };
 
 @interface UIView (Common)
+- (void)doCircleFrame;
+- (void)doNotCircleFrame;
+- (void)doBorderWidth:(CGFloat)width color:(UIColor *)color cornerRadius:(CGFloat)cornerRadius;
+
 - (UIViewController *)findViewController;
 - (void)addBadgeTip:(NSString *)badgeValue withCenterPosition:(CGPoint)center;
 - (void)addBadgeTip:(NSString *)badgeValue;

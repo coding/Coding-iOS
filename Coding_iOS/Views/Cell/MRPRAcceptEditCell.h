@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIPlaceHolderTextView.h"
 
 @interface MRPRAcceptEditCell : UITableViewCell
+@property (strong, nonatomic) UIPlaceHolderTextView *contentTextView;
+@property (copy, nonatomic) void(^contentChangedBlock)(NSString *);
+
++ (CGFloat)cellHeight;
 
 @end

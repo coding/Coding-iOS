@@ -197,15 +197,15 @@
 
 - (NSMutableAttributedString*)getStringWithName:(NSString *)nameStr andTime:(NSString *)timeStr
 {
-    NSMutableAttributedString *attriString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ 发布于 %@", nameStr, timeStr]];
-    [attriString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ 发布于 %@", nameStr, timeStr]];
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
                                  NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
                          range:NSMakeRange(0, nameStr.length)];
     
-    [attriString addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12],
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12],
                                  NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
-                         range:NSMakeRange(nameStr.length, attriString.length - nameStr.length)];
-    return  attriString;
+                         range:NSMakeRange(nameStr.length, attrString.length - nameStr.length)];
+    return  attrString;
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj

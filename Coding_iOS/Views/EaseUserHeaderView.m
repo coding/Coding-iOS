@@ -210,15 +210,15 @@
 }
 
 - (NSMutableAttributedString*)getStringWithTitle:(NSString *)title andValue:(NSString *)value{
-    NSMutableAttributedString *attriString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", value, title]];
-    [attriString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:17],
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", value, title]];
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:17],
                                  NSForegroundColorAttributeName : [UIColor whiteColor]}
                          range:NSMakeRange(0, value.length)];
     
-    [attriString addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14],
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:14],
                                  NSForegroundColorAttributeName : [UIColor whiteColor]}
                          range:NSMakeRange(value.length+1, title.length)];
-    return  attriString;
+    return  attrString;
 }
 
 - (void)updateData{

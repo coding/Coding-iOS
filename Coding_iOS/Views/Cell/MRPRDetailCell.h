@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MRPRBaseInfo.h"
 
 @interface MRPRDetailCell : UITableViewCell
+@property (strong, nonatomic) MRPRBaseInfo *curMRPRInfo;
++ (CGFloat)cellHeightWithObj:(id)obj;
+@property (nonatomic, copy) void (^loadRequestBlock)(NSURLRequest *curRequest);
+@property (nonatomic, copy) void (^cellHeightChangedBlock)();
 
 @end

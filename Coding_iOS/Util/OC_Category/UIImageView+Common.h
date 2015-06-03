@@ -9,7 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UIImageView (Common)
-- (void)doCircleFrame;
-- (void)doNotCircleFrame;
-- (void)doBorderWidth:(CGFloat)width color:(UIColor *)color cornerRadius:(CGFloat)cornerRadius;
+
 @end

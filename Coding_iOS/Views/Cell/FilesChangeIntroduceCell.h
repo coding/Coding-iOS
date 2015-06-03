@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface FilesChangeIntroduceCell : UITableViewCell
-
+- (void)setFilesCount:(NSInteger)filesCount insertions:(NSInteger)insertions deletions:(NSInteger)deletions;
++ (CGFloat)cellHeight;
 @end
