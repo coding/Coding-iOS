@@ -72,11 +72,10 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self becomeFirstResponder];
+    [self inputViewBecomeFirstResponder];
 }
 
-- (BOOL)becomeFirstResponder{
-    [super becomeFirstResponder];
+- (BOOL)inputViewBecomeFirstResponder{
     TweetSendTextCell *cell = (TweetSendTextCell *)[self.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     if ([cell respondsToSelector:@selector(becomeFirstResponder)]) {
         [cell becomeFirstResponder];
