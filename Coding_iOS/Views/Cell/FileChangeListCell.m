@@ -18,37 +18,39 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        if (_iconView) {
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        if (!_iconView) {
             _iconView = [UIImageView new];
             _iconView.layer.masksToBounds = YES;
             _iconView.layer.cornerRadius = 2.0;
             [self.contentView addSubview:_iconView];
+            _iconView.backgroundColor = [UIColor redColor];
             [_iconView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.equalTo(self.contentView);
                 make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
-                make.size.mas_equalTo(CGSizeMake(16, 16));
+                make.size.mas_equalTo(CGSizeMake(20, 20));
             }];
-            if (!_fileNameL) {
-                _fileNameL = [UILabel new];
-                _fileNameL.font = [UIFont systemFontOfSize:15];
-                _fileNameL.textColor = [UIColor colorWithHexString:@"0x222222"];
-                [self.contentView addSubview:_fileNameL];
-                [_fileNameL mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.left.equalTo(_iconView.mas_right).offset(15);
-                    make.centerY.equalTo(self.contentView);
-                    make.height.mas_equalTo(20);
-                }];
-            }
-            if (!_changeStatusL) {
-                _changeStatusL = [UILabel new];
-                [self.contentView addSubview:_changeStatusL];
-                [_changeStatusL mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.left.equalTo(_fileNameL.mas_right).offset(10);
-                    make.height.centerY.equalTo(_fileNameL);
-                    make.width.mas_equalTo(80);
-                }];
-            }
+        }
+        if (!_fileNameL) {
+            _fileNameL = [UILabel new];
+            _fileNameL.font = [UIFont systemFontOfSize:15];
+            _fileNameL.textColor = [UIColor colorWithHexString:@"0x222222"];
+            [self.contentView addSubview:_fileNameL];
+            [_fileNameL mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(_iconView.mas_right).offset(15);
+                make.centerY.equalTo(self.contentView);
+                make.height.mas_equalTo(20);
+            }];
+        }
+        if (!_changeStatusL) {
+            _changeStatusL = [UILabel new];
+            [self.contentView addSubview:_changeStatusL];
+            [_changeStatusL mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(_fileNameL.mas_right);
+                make.right.equalTo(self.contentView);
+                make.height.centerY.equalTo(_fileNameL);
+                make.width.mas_equalTo(80);
+            }];
         }
     }
     return self;
@@ -56,18 +58,18 @@
 
 - (void)setCurFileChange:(FileChange *)curFileChange{
     _curFileChange = curFileChange;
-    if (_curFileChange) {
+    if (!_curFileChange) {
         return;
     }
     _iconView.image = [UIImage imageNamed:[NSString stringWithFormat:@"file_changeType_%@", _curFileChange.changeType]];
-    _fileNameL.text = _curFileChange.name;
+    _fileNameL.text = _curFileChange.displayFileName;
     _changeStatusL.attributedText = [self p_styleStatusStr];
 }
 
 - (NSAttributedString *)p_styleStatusStr{
     NSString *addStr = [NSString stringWithFormat:@"+%@", _curFileChange.insertions.stringValue];
     NSString *deleteStr = [NSString stringWithFormat:@"-%@", _curFileChange.deletions.stringValue];
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@    %@", addStr, deleteStr]];
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@  %@", addStr, deleteStr]];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x98C685"]}
                         range:NSMakeRange(0, addStr.length)];

@@ -21,6 +21,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_iconView) {
             _iconView = [UIImageView new];
+            _iconView.backgroundColor = [UIColor redColor];
             _iconView.image = [UIImage imageNamed:@"icon_add_comment"];
             [self.contentView addSubview:_iconView];
         }

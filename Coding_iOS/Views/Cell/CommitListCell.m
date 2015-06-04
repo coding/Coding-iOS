@@ -67,7 +67,7 @@
 
 - (NSAttributedString *)titleStr{
     NSString *commitIdStr = _curCommit.commitId.length > 10? [_curCommit.commitId substringToIndex:10] : _curCommit.commitId;
-    NSString *contentStr = _curCommit.contentStr? _curCommit.contentStr: @"";
+    NSString *contentStr = _curCommit.shortMessage? _curCommit.shortMessage: @"";
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", commitIdStr, contentStr]];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
                                  NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x4E90BF"]}

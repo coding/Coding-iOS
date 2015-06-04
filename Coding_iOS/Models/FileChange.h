@@ -11,4 +11,5 @@
 @interface FileChange : NSObject
 @property (strong, nonatomic) NSNumber *insertions, *deletions, *size, *mode;
 @property (strong, nonatomic) NSString *changeType, *name, *path, *objectId, *commitId;
+@property (readonly, strong, nonatomic) NSString *displayFilePath, *displayFileName;
 @end

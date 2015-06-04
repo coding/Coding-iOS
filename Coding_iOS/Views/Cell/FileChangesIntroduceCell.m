@@ -1,18 +1,18 @@
 //
-//  FilesChangeIntroduceCell.m
+//  FileChangesIntroduceCell.m
 //  Coding_iOS
 //
 //  Created by Ease on 15/6/1.
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#import "FilesChangeIntroduceCell.h"
+#import "FileChangesIntroduceCell.h"
 
-@interface FilesChangeIntroduceCell ()
+@interface FileChangesIntroduceCell ()
 @property (strong, nonatomic) UILabel *contentL;
 @end
 
-@implementation FilesChangeIntroduceCell
+@implementation FileChangesIntroduceCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];

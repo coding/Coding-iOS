@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_FileChangeListCell @"FileChangeListCell"
+
 #import <UIKit/UIKit.h>
 #import "FileChange.h"
 

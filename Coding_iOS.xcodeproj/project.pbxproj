@@ -90,12 +90,12 @@
 		4E4D6A6A1B1C688200FD2E49 /* MRPRAcceptViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A691B1C688200FD2E49 /* MRPRAcceptViewController.m */; };
 		4E4D6A6D1B1C68D700FD2E49 /* ProjectCommitsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A6C1B1C68D700FD2E49 /* ProjectCommitsViewController.m */; };
 		4E4D6A701B1C68F100FD2E49 /* CommitFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A6F1B1C68F100FD2E49 /* CommitFilesViewController.m */; };
-		4E4D6A731B1C694100FD2E49 /* CommitFileDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A721B1C694100FD2E49 /* CommitFileDetailViewController.m */; };
+		4E4D6A731B1C694100FD2E49 /* FileChangeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A721B1C694100FD2E49 /* FileChangeDetailViewController.m */; };
 		4E4D6A761B1C6C6100FD2E49 /* MRPRTopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A751B1C6C6100FD2E49 /* MRPRTopCell.m */; };
 		4E4D6A791B1C6C7800FD2E49 /* MRPRDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A781B1C6C7800FD2E49 /* MRPRDetailCell.m */; };
 		4E4D6A7C1B1C6CDE00FD2E49 /* CommitListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A7B1B1C6CDE00FD2E49 /* CommitListCell.m */; };
 		4E4D6A7F1B1C6D1E00FD2E49 /* CommitContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A7E1B1C6D1E00FD2E49 /* CommitContentCell.m */; };
-		4E4D6A821B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A811B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.m */; };
+		4E4D6A821B1C6D5F00FD2E49 /* FileChangesIntroduceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A811B1C6D5F00FD2E49 /* FileChangesIntroduceCell.m */; };
 		4E4D6A851B1C6D8200FD2E49 /* FileChangeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A841B1C6D8200FD2E49 /* FileChangeListCell.m */; };
 		4E4D6A881B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A871B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m */; };
 		4E4D6A8B1B1C6E3100FD2E49 /* TextCheckMarkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A8A1B1C6E3000FD2E49 /* TextCheckMarkCell.m */; };
@@ -814,8 +814,8 @@
 		4E4D6A6C1B1C68D700FD2E49 /* ProjectCommitsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectCommitsViewController.m; sourceTree = "<group>"; };
 		4E4D6A6E1B1C68F100FD2E49 /* CommitFilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitFilesViewController.h; sourceTree = "<group>"; };
 		4E4D6A6F1B1C68F100FD2E49 /* CommitFilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitFilesViewController.m; sourceTree = "<group>"; };
-		4E4D6A711B1C694100FD2E49 /* CommitFileDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitFileDetailViewController.h; sourceTree = "<group>"; };
-		4E4D6A721B1C694100FD2E49 /* CommitFileDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitFileDetailViewController.m; sourceTree = "<group>"; };
+		4E4D6A711B1C694100FD2E49 /* FileChangeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileChangeDetailViewController.h; sourceTree = "<group>"; };
+		4E4D6A721B1C694100FD2E49 /* FileChangeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileChangeDetailViewController.m; sourceTree = "<group>"; };
 		4E4D6A741B1C6C6100FD2E49 /* MRPRTopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRTopCell.h; sourceTree = "<group>"; };
 		4E4D6A751B1C6C6100FD2E49 /* MRPRTopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRTopCell.m; sourceTree = "<group>"; };
 		4E4D6A771B1C6C7800FD2E49 /* MRPRDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRDetailCell.h; sourceTree = "<group>"; };
@@ -824,8 +824,8 @@
 		4E4D6A7B1B1C6CDE00FD2E49 /* CommitListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitListCell.m; sourceTree = "<group>"; };
 		4E4D6A7D1B1C6D1E00FD2E49 /* CommitContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitContentCell.h; sourceTree = "<group>"; };
 		4E4D6A7E1B1C6D1E00FD2E49 /* CommitContentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitContentCell.m; sourceTree = "<group>"; };
-		4E4D6A801B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesChangeIntroduceCell.h; sourceTree = "<group>"; };
-		4E4D6A811B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesChangeIntroduceCell.m; sourceTree = "<group>"; };
+		4E4D6A801B1C6D5F00FD2E49 /* FileChangesIntroduceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileChangesIntroduceCell.h; sourceTree = "<group>"; };
+		4E4D6A811B1C6D5F00FD2E49 /* FileChangesIntroduceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileChangesIntroduceCell.m; sourceTree = "<group>"; };
 		4E4D6A831B1C6D8200FD2E49 /* FileChangeListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileChangeListCell.h; sourceTree = "<group>"; };
 		4E4D6A841B1C6D8200FD2E49 /* FileChangeListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileChangeListCell.m; sourceTree = "<group>"; };
 		4E4D6A861B1C6E1A00FD2E49 /* MRPRAcceptEditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRAcceptEditCell.h; sourceTree = "<group>"; };
@@ -2709,8 +2709,8 @@
 				4E4D6A6C1B1C68D700FD2E49 /* ProjectCommitsViewController.m */,
 				4E4D6A6E1B1C68F100FD2E49 /* CommitFilesViewController.h */,
 				4E4D6A6F1B1C68F100FD2E49 /* CommitFilesViewController.m */,
-				4E4D6A711B1C694100FD2E49 /* CommitFileDetailViewController.h */,
-				4E4D6A721B1C694100FD2E49 /* CommitFileDetailViewController.m */,
+				4E4D6A711B1C694100FD2E49 /* FileChangeDetailViewController.h */,
+				4E4D6A721B1C694100FD2E49 /* FileChangeDetailViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3425,8 +3425,8 @@
 				4E4D6A7B1B1C6CDE00FD2E49 /* CommitListCell.m */,
 				4E4D6A7D1B1C6D1E00FD2E49 /* CommitContentCell.h */,
 				4E4D6A7E1B1C6D1E00FD2E49 /* CommitContentCell.m */,
-				4E4D6A801B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.h */,
-				4E4D6A811B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.m */,
+				4E4D6A801B1C6D5F00FD2E49 /* FileChangesIntroduceCell.h */,
+				4E4D6A811B1C6D5F00FD2E49 /* FileChangesIntroduceCell.m */,
 				4E4D6A831B1C6D8200FD2E49 /* FileChangeListCell.h */,
 				4E4D6A841B1C6D8200FD2E49 /* FileChangeListCell.m */,
 				4E4D6AAA1B1EED6A00FD2E49 /* AddCommentCell.h */,
@@ -4112,7 +4112,7 @@
 				EBDD2E411AE7B88C0024B952 /* WMDelLabel.m in Sources */,
 				4E1A22851AB172C400CFC14F /* ProjectItemsCell.m in Sources */,
 				4ECE8B051A3946C10021E29C /* WebContentManager.m in Sources */,
-				4E4D6A731B1C694100FD2E49 /* CommitFileDetailViewController.m in Sources */,
+				4E4D6A731B1C694100FD2E49 /* FileChangeDetailViewController.m in Sources */,
 				8EA6D1F819E240C40076D59C /* MJPhotoBrowser.m in Sources */,
 				8ED4612019E4DC470059B3BE /* iCarousel.m in Sources */,
 				4E1A22881AB1731600CFC14F /* ProjectDescriptionCell.m in Sources */,
@@ -4215,7 +4215,7 @@
 				0A6E6BA71AAF4162004C0107 /* TweetSendLocationCell.m in Sources */,
 				4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				8ECA8BB419FB42CC00C598C6 /* UILongPressMenuImageView.m in Sources */,
-				4E4D6A821B1C6D5F00FD2E49 /* FilesChangeIntroduceCell.m in Sources */,
+				4E4D6A821B1C6D5F00FD2E49 /* FileChangesIntroduceCell.m in Sources */,
 				8EA6D1BE19E240C40076D59C /* Register.m in Sources */,
 				4ECF70431B18514F000280FF /* MRPRListViewController.m in Sources */,
 				4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */,

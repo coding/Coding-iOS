@@ -67,6 +67,7 @@
         if (!_arrowIcon) {
             _arrowIcon = [UIImageView new];
             _arrowIcon.image = [UIImage imageNamed:@"mrpr_icon_arrow"];
+            _arrowIcon.backgroundColor = [UIColor redColor];
             [self.contentView addSubview:_arrowIcon];
         }
         if (!_toL) {
