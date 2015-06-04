@@ -31,6 +31,16 @@
     }
 }
 
+- (NSString *)ref_type{
+    if ([_ref_type isEqualToString:@"tag"]) {
+        return @"标签";
+    }else if ([_ref_type isEqualToString:@"branch"]){
+        return @"分支";
+    }else{
+        return _ref_type;
+    }
+}
+
 - (void)addActionUser:(User *)curUser{
     if (curUser) {
         [_actionStr appendString:@" "];
@@ -102,7 +112,7 @@
                 [_actionStr appendString:[_type isEqualToString:@"dir"]? @"文件夹": @"文件"];
             }else if ([_target_type isEqualToString:@"Depot"]){
                 if ([_action isEqualToString:@"push"]) {
-                    [_actionStr appendFormat:@"项目分支 [%@]", _ref];
+                    [_actionStr appendFormat:@"项目 %@ [%@]", self.ref_type, _ref];
                 }else if ([_action isEqualToString:@"fork"]){
                     [_actionStr appendFormat:@"项目 [%@] 到 [%@]", _source_depot.name, _depot.name];
                 }
