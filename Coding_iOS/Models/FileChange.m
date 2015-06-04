@@ -20,7 +20,7 @@
         _displayFilePath = @"/";
         _displayFileName = _path;
     }else{
-        _displayFilePath = [_path substringToIndex:range.location];
+        _displayFilePath = [_path substringToIndex:range.location +1];
         _displayFileName = [_path substringFromIndex:range.location +1];
     }
 }

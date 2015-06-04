@@ -61,6 +61,7 @@
         if (!_lineView) {
             _lineView = [UIView new];
             _lineView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"dot_line"]];
+            [self.contentView addSubview:_lineView];
             [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
                 make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);

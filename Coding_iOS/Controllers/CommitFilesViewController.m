@@ -80,13 +80,17 @@
             [weakSelf configListGroups];
             [weakSelf.myTableView reloadData];
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.curCommitInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.curCommitInfo.commitDetail != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
     }];
 }
 
 - (void)configListGroups{
+    if (_curCommitInfo && !_curCommitInfo.commitDetail) {
+        kTipAlert(@"此 commit 改动太多，不宜在客户端上展示");
+        return;
+    }
     if (!_listGroupKeys) {
         _listGroupKeys = [NSMutableArray new];
     }
@@ -136,7 +140,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     NSInteger section = 0;
-    if (_curCommitInfo) {
+    if (_curCommitInfo.commitDetail) {
         section = 1+ _listGroupKeys.count+ 1;
         if (_curCommitInfo.commitComments.count > 0) {
             section += 1;
@@ -157,6 +161,7 @@
     }else{
         return 1;
     }
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
