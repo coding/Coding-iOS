@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#define MRPRListViewController_BottomViewHeight 49.0
+#define kMRPRListViewController_BottomViewHeight 49.0
 
 #import "MRPRListViewController.h"
 #import "ODRefreshControl.h"
@@ -14,6 +14,7 @@
 #import "MRPRS.h"
 #import "Coding_NetAPIManager.h"
 #import "MRPRListCell.h"
+#import "MRPRDetailViewController.h"
 
 @interface MRPRListViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary *dataDict;
@@ -41,7 +42,7 @@
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
-        UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, MRPRListViewController_BottomViewHeight, 0);
+        UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, kMRPRListViewController_BottomViewHeight, 0);
         tableView.contentInset = insets;
         tableView.scrollIndicatorInsets = insets;
         tableView;
@@ -133,7 +134,7 @@
         [self.view addSubview:_bottomView];
         [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.bottom.equalTo(self.view);
-            make.height.mas_equalTo(MRPRListViewController_BottomViewHeight);
+            make.height.mas_equalTo(kMRPRListViewController_BottomViewHeight);
         }];
     }
     if (!_mySegmentedControl) {
@@ -152,7 +153,7 @@
             [segmentedControl addTarget:self action:@selector(segmentedControlSelected:) forControlEvents:UIControlEventValueChanged];
             segmentedControl;
         });
-        _mySegmentedControl.frame = CGRectMake(kPaddingLeftWidth, (MRPRListViewController_BottomViewHeight - 30)/2, kScreen_Width - 2*kPaddingLeftWidth, 30);
+        _mySegmentedControl.frame = CGRectMake(kPaddingLeftWidth, (kMRPRListViewController_BottomViewHeight - 30)/2, kScreen_Width - 2*kPaddingLeftWidth, 30);
         [_bottomView addSubview:_mySegmentedControl];
     }
 }
@@ -166,6 +167,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self curMRPRS].list.count;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MRPR *curMRPR = [[self curMRPRS].list objectAtIndex:indexPath.row];
     MRPRListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MRPRListCell forIndexPath:indexPath];
@@ -177,10 +179,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return [MRPRListCell cellHeight];
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     MRPR *curMRPR = [[self curMRPRS].list objectAtIndex:indexPath.row];
-    NSLog(@"%@", curMRPR.title);
+    MRPRDetailViewController *vc = [MRPRDetailViewController new];
+    vc.curMRPR = curMRPR;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

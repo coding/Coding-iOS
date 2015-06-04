@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_MRPRTopCell @"MRPRTopCell"
+
 #import <UIKit/UIKit.h>
 #import "MRPRBaseInfo.h"
 @class MRPRActionView;

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MRPR.h"
-#import "MRPRComment.h"
+#import "MRPRCommentItem.h"
 
 @interface MRPRBaseInfo : NSObject
 @property (strong, nonatomic) MRPR *pull_request, *merge_request, *mrpr;

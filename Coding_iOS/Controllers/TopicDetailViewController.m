@@ -303,7 +303,7 @@
         TopicCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:toComment.htmlMedia.imageItems.count > 0? kCellIdentifier_TopicComment_Media: kCellIdentifier_TopicComment forIndexPath:indexPath];
         cell.toComment = toComment;
         cell.contentLabel.delegate = self;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:45];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
     }
 }
@@ -402,7 +402,6 @@
 - (void)loadRequest:(NSURLRequest *)curRequest
 {
     NSString *linkStr = curRequest.URL.absoluteString;
-    DebugLog(@"\n linkStr : %@", linkStr);
     [self analyseLinkStr:linkStr];
 }
 

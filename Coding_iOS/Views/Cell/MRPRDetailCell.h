@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_MRPRDetailCell @"MRPRDetailCell"
+
 #import <UIKit/UIKit.h>
 #import "MRPRBaseInfo.h"
 

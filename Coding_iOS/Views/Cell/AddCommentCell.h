@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_AddCommentCell @"AddCommentCell"
+
 #import <UIKit/UIKit.h>
 
 @interface AddCommentCell : UITableViewCell

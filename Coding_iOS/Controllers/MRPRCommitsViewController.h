@@ -7,7 +7,10 @@
 //
 
 #import "BaseViewController.h"
+#import "MRPR.h"
+#import "Commit.h"
 
 @interface MRPRCommitsViewController : BaseViewController
+@property (strong, nonatomic) MRPR *curMRPR;
 
 @end

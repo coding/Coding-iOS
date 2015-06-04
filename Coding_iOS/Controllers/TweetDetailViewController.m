@@ -265,7 +265,7 @@
             [self goToUserInfo:curComment.owner];
         }];
         cell.contentLabel.delegate = self;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:45];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
     }
 }
@@ -416,7 +416,6 @@
 #pragma mark loadCellRequest
 - (void)loadRequest:(NSURLRequest *)curRequest{
     NSString *linkStr = curRequest.URL.absoluteString;
-    DebugLog(@"\n linkStr : %@", linkStr);
     [self analyseLinkStr:linkStr];
 }
 

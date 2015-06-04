@@ -7,7 +7,10 @@
 //
 
 #import "BaseViewController.h"
+#import "MRPR.h"
+#import "FileChanges.h"
 
 @interface MRPRFilesViewController : BaseViewController
+@property (strong, nonatomic) MRPR *curMRPR;
 
 @end

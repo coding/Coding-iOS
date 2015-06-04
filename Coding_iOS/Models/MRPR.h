@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger, MRPRStatus) {
 @property (strong, nonatomic) Depot *source_depot;
 @property (strong, nonatomic) NSAttributedString *attributeTitle, *attributeTail;
 @property (assign, nonatomic) MRPRStatus status;
+@property (assign, nonatomic) BOOL isLoading;
 
 - (NSString *)statusDisplay;
 - (NSString *)des_owner_name;

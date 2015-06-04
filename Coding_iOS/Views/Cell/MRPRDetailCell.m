@@ -31,7 +31,7 @@
             _webContentView.opaque = NO;
             [self.contentView addSubview:_webContentView];
             [_webContentView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(0, kPaddingLeftWidth, 0, kPaddingLeftWidth));
+                make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(0, kPaddingLeftWidth, 10, kPaddingLeftWidth));
             }];
         }
         if (!_activityIndicator) {
@@ -66,6 +66,7 @@
     if ([obj isKindOfClass:[MRPRBaseInfo class]]) {
         MRPRBaseInfo *curMRPRInfo = (MRPRBaseInfo *)obj;
         cellHeight += curMRPRInfo.contentHeight;
+        cellHeight += 10;
     }
     return MAX(20, cellHeight);
 }

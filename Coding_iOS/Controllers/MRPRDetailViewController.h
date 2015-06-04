@@ -7,7 +7,8 @@
 //
 
 #import "BaseViewController.h"
+#import "MRPRBaseInfo.h"
 
 @interface MRPRDetailViewController : BaseViewController
-
+@property (strong, nonatomic) MRPR *curMRPR;
 @end

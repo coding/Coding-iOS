@@ -14,7 +14,7 @@
     self = [super init];
     if (self) {
         _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
-                             @"MRPRComment", @"discussions", nil];
+                             @"MRPRCommentItem", @"discussions", nil];
         _contentHeight = 1;
     }
     return self;
@@ -28,11 +28,17 @@
 }
 
 - (void)setPull_request_description:(NSString *)pull_request_description{
+    if (pull_request_description.length <= 0) {
+        pull_request_description = @"没有填写内容";
+    }
     _htmlMedia = [HtmlMedia htmlMediaWithString:pull_request_description showType:MediaShowTypeCode];
     _pull_request_description = _htmlMedia.contentDisplay;
 }
 
 - (void)setMerge_request_description:(NSString *)merge_request_description{
+    if (merge_request_description.length <= 0) {
+        merge_request_description = @"没有填写内容";
+    }
     _htmlMedia = [HtmlMedia htmlMediaWithString:merge_request_description showType:MediaShowTypeCode];
     _merge_request_description = _htmlMedia.contentDisplay;
 }

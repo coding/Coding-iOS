@@ -44,7 +44,7 @@
             typeStr = @"merges/open";
             break;
         case MRPRSTypeMRClose:
-            typeStr = @"merges/close";
+            typeStr = @"merges/closed";
             break;
         case MRPRSTypePRAll:
             typeStr = @"pulls/all";
@@ -53,7 +53,7 @@
             typeStr = @"pulls/open";
             break;
         case MRPRSTypePRClose:
-            typeStr = @"pulls/close";
+            typeStr = @"pulls/closed";
             break;
         default:
             typeStr = @"";
