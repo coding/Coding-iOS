@@ -75,7 +75,7 @@
                         range:NSMakeRange(0, addStr.length)];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0xDF7D7B"]}
-                        range:NSMakeRange(addStr.length + 4, deleteStr.length)];
+                        range:NSMakeRange(attrString.length - deleteStr.length, deleteStr.length)];
     
     [attrString addAttribute:NSParagraphStyleAttributeName value:({
         NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];

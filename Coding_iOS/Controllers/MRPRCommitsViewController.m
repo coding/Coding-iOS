@@ -129,6 +129,9 @@
     DebugLog(@"%@", curCommit.fullMessage);
     
     CommitFilesViewController *vc = [CommitFilesViewController new];
+    vc.ownerGK = _curMRPR.des_owner_name;
+    vc.projectName = _curMRPR.des_project_name;
+    vc.commitId = curCommit.commitId;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

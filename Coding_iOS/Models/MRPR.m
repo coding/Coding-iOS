@@ -35,6 +35,15 @@
     return attrString;
 }
 
+- (void)setPath:(NSString *)path{
+    _path = path;
+    NSArray *pathComponents = [_path componentsSeparatedByString:@"/"];
+    if (pathComponents.count == 8) {
+        _des_owner_name = pathComponents[2];
+        _des_project_name = pathComponents[4];
+    }
+}
+
 - (NSString *)statusDisplay{
     NSString *statusDisplay;
     switch (_status) {
@@ -57,14 +66,6 @@
             break;
     }
     return statusDisplay;
-}
-- (NSString *)des_owner_name{
-    NSArray *pathComponents = [_path componentsSeparatedByString:@"/"];
-    if (pathComponents.count == 7) {
-        return pathComponents[2];
-    }else{
-        return nil;
-    }
 }
 
 - (BOOL)isMR{

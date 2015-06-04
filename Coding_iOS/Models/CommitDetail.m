@@ -8,6 +8,10 @@
 
 #import "CommitDetail.h"
 
-@implementation CommitDetail
+@interface CommitDetail ()
+@property (strong, nonatomic) Committer *committer;//运行时不能取到父类（未重复声明）的属性
+@end
 
+@implementation CommitDetail
+@synthesize committer = _committer;
 @end

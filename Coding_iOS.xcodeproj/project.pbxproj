@@ -108,6 +108,7 @@
 		4E4D6AA31B1DB63A00FD2E49 /* FileLineChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6AA21B1DB63A00FD2E49 /* FileLineChange.m */; };
 		4E4D6AA61B1DBA3A00FD2E49 /* MRPRDisclosureCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6AA51B1DBA3A00FD2E49 /* MRPRDisclosureCell.m */; };
 		4E4D6AAC1B1EED6A00FD2E49 /* AddCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6AAB1B1EED6A00FD2E49 /* AddCommentCell.m */; };
+		4E4D6AAF1B2047DE00FD2E49 /* CommitCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6AAE1B2047DE00FD2E49 /* CommitCommentCell.m */; };
 		4E53EB521AFA03990034FE1C /* RKSwipeBetweenViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */; };
 		4E53EB591AFB090E0034FE1C /* nav_page_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB571AFB090E0034FE1C /* nav_page_selected@2x.png */; };
 		4E53EB5A1AFB090E0034FE1C /* nav_page_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB581AFB090E0034FE1C /* nav_page_unselected@2x.png */; };
@@ -850,6 +851,8 @@
 		4E4D6AA51B1DBA3A00FD2E49 /* MRPRDisclosureCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRPRDisclosureCell.m; sourceTree = "<group>"; };
 		4E4D6AAA1B1EED6A00FD2E49 /* AddCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCommentCell.h; sourceTree = "<group>"; };
 		4E4D6AAB1B1EED6A00FD2E49 /* AddCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCommentCell.m; sourceTree = "<group>"; };
+		4E4D6AAD1B2047DE00FD2E49 /* CommitCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommitCommentCell.h; sourceTree = "<group>"; };
+		4E4D6AAE1B2047DE00FD2E49 /* CommitCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommitCommentCell.m; sourceTree = "<group>"; };
 		4E53EB501AFA03990034FE1C /* RKSwipeBetweenViewControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSwipeBetweenViewControllers.h; sourceTree = "<group>"; };
 		4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSwipeBetweenViewControllers.m; sourceTree = "<group>"; };
 		4E53EB571AFB090E0034FE1C /* nav_page_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_page_selected@2x.png"; sourceTree = "<group>"; };
@@ -3425,6 +3428,8 @@
 				4E4D6A7B1B1C6CDE00FD2E49 /* CommitListCell.m */,
 				4E4D6A7D1B1C6D1E00FD2E49 /* CommitContentCell.h */,
 				4E4D6A7E1B1C6D1E00FD2E49 /* CommitContentCell.m */,
+				4E4D6AAD1B2047DE00FD2E49 /* CommitCommentCell.h */,
+				4E4D6AAE1B2047DE00FD2E49 /* CommitCommentCell.m */,
 				4E4D6A801B1C6D5F00FD2E49 /* FileChangesIntroduceCell.h */,
 				4E4D6A811B1C6D5F00FD2E49 /* FileChangesIntroduceCell.m */,
 				4E4D6A831B1C6D8200FD2E49 /* FileChangeListCell.h */,
@@ -3939,6 +3944,7 @@
 				4ECE8AE31A3943E80021E29C /* UIDevice+Info.m in Sources */,
 				4EABD25D1AD3CBB9005E515F /* UIMessageInputView_Media.m in Sources */,
 				4E6BA2E31A1EE6AF005FD721 /* UIAlertView+AFNetworking.m in Sources */,
+				4E4D6AAF1B2047DE00FD2E49 /* CommitCommentCell.m in Sources */,
 				4EA7F15F1A6D192B00A046BD /* SDWebImageManager.m in Sources */,
 				8E64ED8519ED0CE3006E99DA /* QBImagePickerThumbnailView.m in Sources */,
 				8E1C3E0D19E8DFE300EF3032 /* SettingViewController.m in Sources */,

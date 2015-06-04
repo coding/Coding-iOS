@@ -8,6 +8,232 @@
 
 #import "CommitFilesViewController.h"
 
+#import "FileChangesIntroduceCell.h"
+#import "FileChangeListCell.h"
+#import "CommitContentCell.h"
+#import "CommitCommentCell.h"
+#import "AddCommentCell.h"
+
+#import "CommitInfo.h"
+
+#import "ODRefreshControl.h"
+#import "Coding_NetAPIManager.h"
+
+#import "FileChangeDetailViewController.h"
+#import "AddMDCommentViewController.h"
+
+
+
+@interface CommitFilesViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
+@property (strong, nonatomic) CommitInfo *curCommitInfo;
+@property (strong, nonatomic) NSMutableDictionary *listGroups;
+@property (strong, nonatomic) NSMutableArray *listGroupKeys;
+
+@property (strong, nonatomic) UITableView *myTableView;
+@property (nonatomic, strong) ODRefreshControl *myRefreshControl;
+@property (assign, nonatomic) BOOL isLoading;
+@end
+
 @implementation CommitFilesViewController
+- (void)viewDidLoad{
+    [super viewDidLoad];
+    
+    self.title = _commitId.length> 10? [_commitId substringToIndex:10]: _commitId;
+    
+    _myTableView = ({
+        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        tableView.dataSource = self;
+        tableView.delegate = self;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [tableView registerClass:[FileChangesIntroduceCell class] forCellReuseIdentifier:kCellIdentifier_FileChangesIntroduceCell];
+        [tableView registerClass:[FileChangeListCell class] forCellReuseIdentifier:kCellIdentifier_FileChangeListCell];
+        [tableView registerClass:[CommitContentCell class] forCellReuseIdentifier:kCellIdentifier_CommitContentCell];
+        [tableView registerClass:[CommitCommentCell class] forCellReuseIdentifier:kCellIdentifier_CommitCommentCell];
+        [tableView registerClass:[CommitCommentCell class] forCellReuseIdentifier:kCellIdentifier_CommitCommentCell_Media];
+        [tableView registerClass:[AddCommentCell class] forCellReuseIdentifier:kCellIdentifier_AddCommentCell];
+        [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
+        tableView;
+    });
+    _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
+    [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    [self refresh];
+}
+
+- (void)refresh{
+    if (_isLoading) {
+        return;
+    }
+    if (!_curCommitInfo) {
+        [self.view beginLoading];
+    }
+    _isLoading = YES;
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_CommitInfo_WithUserGK:_ownerGK projectName:_projectName commitId:_commitId andBlock:^(CommitInfo *data, NSError *error) {
+        weakSelf.isLoading = NO;
+        [weakSelf.view endLoading];
+        [weakSelf.myRefreshControl endRefreshing];
+        if (data) {
+            weakSelf.curCommitInfo = data;
+            [weakSelf configListGroups];
+            [weakSelf.myTableView reloadData];
+        }
+        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.curCommitInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+            [weakSelf refresh];
+        }];
+    }];
+}
+
+- (void)configListGroups{
+    if (!_listGroupKeys) {
+        _listGroupKeys = [NSMutableArray new];
+    }
+    if (!_listGroups) {
+        _listGroups = [NSMutableDictionary new];
+    }
+    [_listGroupKeys removeAllObjects];
+    [_listGroups removeAllObjects];
+    
+    for (FileChange *curFileChange in _curCommitInfo.commitDetail.diffStat.paths) {
+        NSString *curKey = curFileChange.displayFilePath;
+        NSMutableArray *curList = [_listGroups objectForKey:curKey];
+        if (curList.count > 0) {
+            [curList addObject:curFileChange];
+        }else{
+            [_listGroupKeys addObject:curKey];
+            curList = [NSMutableArray arrayWithObject:curFileChange];
+            [_listGroups setObject:curList forKey:curKey];
+        }
+    }
+    [_listGroupKeys sortUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+        return [obj1 compare:obj2];
+    }];
+}
+
+#pragma mark TableM Header
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return section == 0? 0: kScaleFrom_iPhone5_Desgin(24);
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section != 0) {
+        if (section > 0 && section < _listGroupKeys.count+ 1){
+            return [tableView getHeaderViewWithStr:[_listGroupKeys objectAtIndex:section - 1] andBlock:^(id obj) {
+                NSLog(@"%@", [_listGroupKeys objectAtIndex:section -1]);
+            }];
+        }else{
+            return [tableView getHeaderViewWithStr:nil andBlock:^(id obj) {
+            }];
+        }
+    }else{
+        return nil;
+    }
+}
+
+#pragma mark Table
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    NSInteger section = 0;
+    if (_curCommitInfo) {
+        section = 1+ _listGroupKeys.count+ 1;
+        if (_curCommitInfo.commitComments.count > 0) {
+            section += 1;
+        }
+    }
+    return section;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (section == 0) {
+        return 2;
+    }else if (section > 0 && section < _listGroupKeys.count+ 1){
+        NSString *curKey = [_listGroupKeys objectAtIndex:section -1];
+        NSArray *curList = [_listGroups objectForKey:curKey];
+        return curList.count;
+    }else if (section == _listGroupKeys.count+ 1 && _curCommitInfo.commitComments.count > 0){
+        return _curCommitInfo.commitComments.count;
+    }else{
+        return 1;
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            CommitContentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_CommitContentCell forIndexPath:indexPath];
+            cell.curCommitInfo = _curCommitInfo;
+            return cell;
+        }else{
+            FileChanges * curFileChanges = _curCommitInfo.commitDetail.diffStat;
+            FileChangesIntroduceCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_FileChangesIntroduceCell forIndexPath:indexPath];
+            [cell setFilesCount:curFileChanges.paths.count insertions:curFileChanges.insertions.integerValue deletions:curFileChanges.deletions.integerValue];
+            return cell;
+        }
+    }else if (indexPath.section > 0 && indexPath.section < _listGroupKeys.count+ 1){
+        NSString *curKey = [_listGroupKeys objectAtIndex:indexPath.section -1];
+        NSArray *curList = [_listGroups objectForKey:curKey];
+        FileChange *curFileChange = [curList objectAtIndex:indexPath.row];
+        FileChangeListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_FileChangeListCell forIndexPath:indexPath];
+        cell.curFileChange = curFileChange;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
+        return cell;
+    }else if (indexPath.section == _listGroupKeys.count+ 1 && _curCommitInfo.commitComments.count > 0){
+        CommitComment *curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];
+        CommitCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:curCommentItem.htmlMedia.imageItems.count> 0? kCellIdentifier_CommitCommentCell_Media: kCellIdentifier_CommitCommentCell forIndexPath:indexPath];
+        cell.curItem = curCommentItem;
+        cell.contentLabel.delegate = self;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
+        return cell;
+    }else{
+        AddCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_AddCommentCell forIndexPath:indexPath];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
+        return cell;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    CGFloat cellHeight = 0;
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            cellHeight = [CommitContentCell cellHeightWithObj:_curCommitInfo];
+        }else{
+            cellHeight = [FileChangesIntroduceCell cellHeight];
+        }
+    }else if (indexPath.section > 0 && indexPath.section < _listGroupKeys.count+ 1){
+        cellHeight = [FileChangeListCell cellHeight];
+    }else if (indexPath.section == _listGroupKeys.count+ 1){
+        CommitComment *curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];
+        cellHeight = [CommitCommentCell cellHeightWithObj:curCommentItem];
+    }else{
+        cellHeight = [AddCommentCell cellHeight];
+    }
+    return cellHeight;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 0) {
+    }else if (indexPath.section > 0 && indexPath.section < _listGroupKeys.count+ 1){
+        NSString *curKey = [_listGroupKeys objectAtIndex:indexPath.section -1];
+        NSArray *curList = [_listGroups objectForKey:curKey];
+        FileChange *curFileChange = [curList objectAtIndex:indexPath.row];
+        
+        FileChangeDetailViewController *vc = [FileChangeDetailViewController new];
+        vc.requestPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/commitDiffContent/%@/%@", _ownerGK, _projectName, _commitId, curFileChange.path];
+        vc.filePath = nil;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (indexPath.section == _listGroupKeys.count+ 1){
+        CommitComment *curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];
+        DebugLog(@"%@", curCommentItem.content);
+    }else{
+        AddMDCommentViewController *vc = [AddMDCommentViewController new];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+
 
 @end

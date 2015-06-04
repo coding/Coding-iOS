@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, MRPRStatus) {
 @interface MRPR : NSObject
 @property (strong, nonatomic) NSNumber *id, *iid, *srcExist;
 @property (strong, nonatomic) NSString *title, *path, *srcBranch, *desBranch, *merge_status, *src_owner_name;
+@property (strong, nonatomic) NSString *des_owner_name, *des_project_name;
 @property (strong, nonatomic) User *author, *action_author;
 @property (strong, nonatomic) NSDate *created_at, *action_at;
 @property (strong, nonatomic) Depot *source_depot;
@@ -29,7 +30,6 @@ typedef NS_ENUM(NSInteger, MRPRStatus) {
 @property (assign, nonatomic) BOOL isLoading;
 
 - (NSString *)statusDisplay;
-- (NSString *)des_owner_name;
 
 - (BOOL)isMR;
 - (BOOL)isPR;

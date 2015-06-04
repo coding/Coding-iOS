@@ -262,11 +262,15 @@ static const __unused short _base64DecodingTable[256] = {
 }
 
 -(NSString *)classOfPropertyNamed:(NSString *)propName {
+    if ([propName isEqualToString:@"committer"]) {
+        NSLog(@"ddd");
+    }
     unsigned count;
     objc_property_t *properties = class_copyPropertyList([self class], &count);
     
     for (int xx = 0; xx < count; xx++) {
-        if ([[NSString stringWithUTF8String:property_getName(properties[xx])] isEqualToString:propName]) {
+        NSString *curProperty = [NSString stringWithUTF8String:property_getName(properties[xx])];
+        if ([curProperty isEqualToString:propName]) {
             NSString *className = [NSString stringWithFormat:@"%s", getPropertyType(properties[xx])];
             free(properties);
             return className;

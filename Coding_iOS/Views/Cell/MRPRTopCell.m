@@ -101,12 +101,12 @@
                 make.height.mas_equalTo(20);
             }];
             [_arrowIcon mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(_fromL.mas_right);
+                make.left.equalTo(_fromL.mas_right).offset(10);
                 make.centerY.equalTo(_fromL);
                 make.size.mas_equalTo(CGSizeMake(20, 20));
             }];
             [_toL mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(_arrowIcon.mas_right);
+                make.left.equalTo(_arrowIcon.mas_right).offset(10);
                 make.height.centerY.equalTo(_fromL);
             }];
         }

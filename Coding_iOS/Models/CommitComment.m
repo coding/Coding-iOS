@@ -8,11 +8,10 @@
 
 #import "CommitComment.h"
 
+@interface CommitComment ()
+@property (strong, nonatomic) User *author;//运行时不能取到父类（未重复声明）的属性
+@end
+
 @implementation CommitComment
-- (void)setContent:(NSString *)content{
-    if (_content != content) {
-        _htmlMedia = [HtmlMedia htmlMediaWithString:content showType:MediaShowTypeAll];
-        _content = _htmlMedia.contentDisplay;
-    }
-}
+@synthesize author = _author;
 @end

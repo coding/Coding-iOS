@@ -13,6 +13,7 @@
 @interface CommitContentCell ()
 @property (strong, nonatomic) UIImageView *userIconView;
 @property (strong, nonatomic) UILabel *titleL, *timeL, *statusL;
+@property (strong, nonatomic) UIView *lineView;
 @end
 
 @implementation CommitContentCell
@@ -54,7 +55,17 @@
                 make.left.equalTo(_timeL.mas_right).offset(10);
                 make.centerY.height.equalTo(_timeL);
                 make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
-                make.width.mas_equalTo(60);
+                make.width.mas_equalTo(80);
+            }];
+        }
+        if (!_lineView) {
+            _lineView = [UIView new];
+            _lineView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"dot_line"]];
+            [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
+                make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+                make.bottom.equalTo(self.contentView).offset(-0.5);
+                make.height.mas_equalTo(0.5);
             }];
         }
     }

@@ -163,17 +163,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    NSString *curKey = [_listGroupKeys objectAtIndex:indexPath.section -1];
-    NSArray *curList = [_listGroups objectForKey:curKey];
-    FileChange *curFileChange = [curList objectAtIndex:indexPath.row];
-    
-    DebugLog(@"%@", curFileChange.path);
-    
-    FileChangeDetailViewController *vc = [FileChangeDetailViewController new];
-    vc.requestPath = [_curMRPR toFileLineChangesPath];
-    vc.filePath = curFileChange.path;
-    [self.navigationController pushViewController:vc animated:YES];
+    if (indexPath.section > 0) {
+        NSString *curKey = [_listGroupKeys objectAtIndex:indexPath.section -1];
+        NSArray *curList = [_listGroups objectForKey:curKey];
+        FileChange *curFileChange = [curList objectAtIndex:indexPath.row];
+        
+        FileChangeDetailViewController *vc = [FileChangeDetailViewController new];
+        vc.requestPath = [_curMRPR toFileLineChangesPath];
+        vc.filePath = curFileChange.path;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 
