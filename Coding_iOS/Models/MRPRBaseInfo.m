@@ -14,7 +14,7 @@
     self = [super init];
     if (self) {
         _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
-                             @"MRPRCommentItem", @"discussions", nil];
+                             @"ProjectLineNote", @"discussions", nil];
         _contentHeight = 1;
     }
     return self;

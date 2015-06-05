@@ -14,7 +14,7 @@
     self = [super init];
     if (self) {
         _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
-                             @"CommitComment", @"commitComments", nil];
+                             @"ProjectLineNote", @"commitComments", nil];
     }
     return self;
 }

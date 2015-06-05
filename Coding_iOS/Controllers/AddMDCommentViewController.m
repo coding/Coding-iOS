@@ -9,12 +9,5 @@
 #import "AddMDCommentViewController.h"
 
 @implementation AddMDCommentViewController
-+ (AddMDCommentViewController *)vcWithRelatedObj:(id)relatedObj CommentToObj:(id)commentToObj andCompleteBlock:(void (^)(id data, NSError *error))completeBlock{
-    AddMDCommentViewController *vc = [AddMDCommentViewController new];
-    vc.relatedObj = relatedObj;
-    vc.commentToObj = commentToObj;
-    vc.completeBlock = completeBlock;
-    return vc;
-}
 
 @end

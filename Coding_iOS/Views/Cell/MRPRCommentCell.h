@@ -10,10 +10,10 @@
 #define kCellIdentifier_MRPRCommentCell_Media @"MRPRCommentCell_Media"
 
 #import <UIKit/UIKit.h>
-#import "MRPRCommentItem.h"
+#import "ProjectLineNote.h"
 
 @interface MRPRCommentCell : UITableViewCell
-@property (strong, nonatomic) MRPRCommentItem *curItem;
+@property (strong, nonatomic) ProjectLineNote *curItem;
 @property (strong, nonatomic) UITTTAttributedLabel *contentLabel;
 
 + (CGFloat)cellHeightWithObj:(id)obj;

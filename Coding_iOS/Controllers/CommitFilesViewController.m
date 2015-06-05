@@ -21,6 +21,7 @@
 
 #import "FileChangeDetailViewController.h"
 #import "AddMDCommentViewController.h"
+#import "WebViewController.h"
 
 
 
@@ -78,7 +79,7 @@
         if (data) {
             weakSelf.curCommitInfo = data;
             [weakSelf configListGroups];
-            [weakSelf.myTableView reloadData];
+            [weakSelf.myTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.5];
         }
         [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.curCommitInfo.commitDetail != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
@@ -185,7 +186,7 @@
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
     }else if (indexPath.section == _listGroupKeys.count+ 1 && _curCommitInfo.commitComments.count > 0){
-        CommitComment *curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];
+        ProjectLineNote*curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];
         CommitCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:curCommentItem.htmlMedia.imageItems.count> 0? kCellIdentifier_CommitCommentCell_Media: kCellIdentifier_CommitCommentCell forIndexPath:indexPath];
         cell.curItem = curCommentItem;
         cell.contentLabel.delegate = self;
@@ -208,8 +209,8 @@
         }
     }else if (indexPath.section > 0 && indexPath.section < _listGroupKeys.count+ 1){
         cellHeight = [FileChangeListCell cellHeight];
-    }else if (indexPath.section == _listGroupKeys.count+ 1){
-        CommitComment *curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];
+    }else if (indexPath.section == _listGroupKeys.count+ 1 && _curCommitInfo.commitComments.count > 0){
+        ProjectLineNote*curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];
         cellHeight = [CommitCommentCell cellHeightWithObj:curCommentItem];
     }else{
         cellHeight = [AddCommentCell cellHeight];
@@ -230,15 +231,55 @@
         vc.requestPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/commitDiffContent/%@/%@", _ownerGK, _projectName, _commitId, curFileChange.path];
         vc.filePath = nil;
         [self.navigationController pushViewController:vc animated:YES];
-    }else if (indexPath.section == _listGroupKeys.count+ 1){
-        CommitComment *curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];
-        DebugLog(@"%@", curCommentItem.content);
+    }else if (indexPath.section == _listGroupKeys.count+ 1 && _curCommitInfo.commitComments.count > 0){
+        ProjectLineNote*curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];
+        [self goToAddCommentVCToUser:curCommentItem.author.name];
     }else{
-        AddMDCommentViewController *vc = [AddMDCommentViewController new];
-        [self.navigationController pushViewController:vc animated:YES];
+        [self goToAddCommentVCToUser:nil];
     }
 }
 
+#pragma mark Comment
+- (void)goToAddCommentVCToUser:(NSString *)userName{
+    DebugLog(@"%@", userName);
+    AddMDCommentViewController *vc = [AddMDCommentViewController new];
+    
+    vc.requestPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/line_notes", _ownerGK, _projectName];
+    vc.requestParams = [@{
+                          @"noteable_type" : @"Commit",
+                          @"commitId" : _commitId,
+                          } mutableCopy];
+    vc.contentStr = userName;
+    @weakify(self);
+    vc.completeBlock = ^(id data, NSError *error){
+        @strongify(self);
+        if (data && [data isKindOfClass:[ProjectLineNote class]]) {
+            [self.curCommitInfo.commitComments addObject:data];
+        }
+    };
+    
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
+#pragma mark TTTAttributedLabelDelegate
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
+    HtmlMediaItem *clickedItem = [components objectForKey:@"value"];
+    [self analyseLinkStr:clickedItem.href];
+}
+
+- (void)analyseLinkStr:(NSString *)linkStr
+{
+    if (linkStr.length <= 0) {
+        return;
+    }
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        // 跳转去网页
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self.navigationController pushViewController:webVc animated:YES];
+    }
+}
 
 @end

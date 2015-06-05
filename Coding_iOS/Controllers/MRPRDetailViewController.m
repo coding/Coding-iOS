@@ -168,7 +168,7 @@
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
     }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 2){//Comment
-        MRPRCommentItem *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
+        ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
         MRPRCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:curCommentItem.htmlMedia.imageItems.count> 0? kCellIdentifier_MRPRCommentCell_Media: kCellIdentifier_MRPRCommentCell forIndexPath:indexPath];
         cell.curItem = curCommentItem;
         cell.contentLabel.delegate = self;
@@ -191,7 +191,7 @@
     }else if (indexPath.section == 1){//Disclosure
         return [MRPRDisclosureCell cellHeight];
     }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 2){//Comment
-        MRPRCommentItem *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
+        ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
         return [MRPRCommentCell cellHeightWithObj:curCommentItem];
     }else{//Add Comment
         return [AddCommentCell cellHeight];
@@ -213,12 +213,33 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
     }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 2){//Comment
-        MRPRCommentItem *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
-        DebugLog(@"%@", curCommentItem.content);
+        ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
+        [self goToAddCommentVCToUser:curCommentItem.author.name];
     }else{//Add Comment
-        AddMDCommentViewController *vc = [AddMDCommentViewController new];
-        [self.navigationController pushViewController:vc animated:YES];
+        [self goToAddCommentVCToUser:nil];
     }
+}
+
+#pragma mark Comment
+- (void)goToAddCommentVCToUser:(NSString *)userName{
+    DebugLog(@"%@", userName);
+    AddMDCommentViewController *vc = [AddMDCommentViewController new];
+    
+    vc.requestPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/line_notes", _curMRPR.des_owner_name, _curMRPR.des_project_name];
+    vc.requestParams = [@{
+                         @"noteable_type" : @"MergeRequestBean",
+                         @"noteable_id" : _curMRPRInfo.mrpr.id,
+                         } mutableCopy];
+    vc.contentStr = userName;
+    @weakify(self);
+    vc.completeBlock = ^(id data, NSError *error){
+        @strongify(self);
+        if (data && [data isKindOfClass:[ProjectLineNote class]]) {
+            [self.curMRPRInfo.discussions addObject:[NSArray arrayWithObject:data]];
+        }
+    };
+    
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark loadCellRequest

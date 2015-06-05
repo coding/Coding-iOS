@@ -35,9 +35,9 @@
 }
 
 - (NSAttributedString *)p_styleStrFromFilesCount:(NSInteger)filesCount insertions:(NSInteger)insertions deletions:(NSInteger)deletions{
-    NSString *filesCountStr = [NSString stringWithFormat:@"%d个文件", filesCount];
-    NSString *insertionsStr = [NSString stringWithFormat:@"%d个新增", insertions];
-    NSString *deletionsStr = [NSString stringWithFormat:@"%d个删除", deletions];
+    NSString *filesCountStr = [NSString stringWithFormat:@"%ld个文件", (long)filesCount];
+    NSString *insertionsStr = [NSString stringWithFormat:@"%ld个新增", (long)insertions];
+    NSString *deletionsStr = [NSString stringWithFormat:@"%ld个删除", (long)deletions];
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ 共%@和%@", filesCountStr, insertionsStr, deletionsStr]];
     NSDictionary *attrLeft = @{NSFontAttributeName : [UIFont boldSystemFontOfSize:15],
                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x4E90BF"]};

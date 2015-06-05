@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CommitComment.h"
+#import "ProjectLineNote.h"
 #import "CommitDetail.h"
 
 @interface CommitInfo : NSObject

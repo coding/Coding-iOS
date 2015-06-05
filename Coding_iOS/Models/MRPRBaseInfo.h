@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MRPR.h"
-#import "MRPRCommentItem.h"
+#import "ProjectLineNote.h"
 
 @interface MRPRBaseInfo : NSObject
 @property (strong, nonatomic) MRPR *pull_request, *merge_request, *mrpr;

@@ -507,6 +507,24 @@
     }];
 }
 
+- (void)request_PostCommentWithPath:(NSString *)path params:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"代码评论"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            NSString *noteable_type = [params objectForKey:@"noteable_type"];
+            if ([noteable_type isEqualToString:@"MergeRequestBean"] || [noteable_type isEqualToString:@"Commit"]) {
+                id resultData = [data valueForKeyPath:@"data"];
+                ProjectLineNote *note = [NSObject objectOfClass:@"ProjectLineNote" fromJSON:resultData];
+                block(note, nil);
+            }else{
+                block(data, nil);
+            }
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 #pragma mark File
 - (void)request_Folders:(ProjectFolders *)folders inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"文件夹列表"];

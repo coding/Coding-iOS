@@ -10,8 +10,7 @@
 
 @interface AddMDCommentViewController : BaseViewController
 @property (strong, nonatomic) void (^completeBlock)(id data, NSError *error);
-@property (strong, nonatomic) id relatedObj, commentToObj;
-+ (AddMDCommentViewController *)vcWithRelatedObj:(id)relatedObj CommentToObj:(id)commentToObj andCompleteBlock:(void (^)(id data, NSError *error))completeBlock;
-
-
+@property (strong, nonatomic) NSString *requestPath;
+@property (strong, nonatomic) NSMutableDictionary *requestParams;
+@property (strong, nonatomic) NSString *contentStr;
 @end

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MRPRComment.h"
 #import "Depot.h"
 
 typedef NS_ENUM(NSInteger, MRPRStatus) {

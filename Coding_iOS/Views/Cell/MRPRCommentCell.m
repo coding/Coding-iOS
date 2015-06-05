@@ -65,7 +65,7 @@
     return self;
 }
 
-- (void)setCurItem:(MRPRCommentItem *)curItem{
+- (void)setCurItem:(ProjectLineNote *)curItem{
     _curItem = curItem;
     
     if (!_curItem) {
@@ -101,8 +101,8 @@
 
 + (CGFloat)cellHeightWithObj:(id)obj{
     CGFloat cellHeight = 0;
-    if ([obj isKindOfClass:[MRPRCommentItem class]]) {
-        MRPRCommentItem *curItem = (MRPRCommentItem *)obj;
+    if ([obj isKindOfClass:[ProjectLineNote class]]) {
+        ProjectLineNote *curItem = (ProjectLineNote *)obj;
         CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
         cellHeight += 10 +[curItem.content getHeightWithFont:kMRPRCommentCell_FontContent constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 5 +20 +10;
         cellHeight += [self imageCollectionViewHeightWithCount:curItem.htmlMedia.imageItems.count];
