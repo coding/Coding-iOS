@@ -9,30 +9,11 @@
 #import "MRPR.h"
 
 @implementation MRPR
-- (NSAttributedString *)attributeTitle{
-    NSString *iidStr = [NSString stringWithFormat:@"#%@", _iid.stringValue? _iid.stringValue: @""];
-    NSString *titleStr = _title? _title: @"";
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", iidStr, titleStr]];
-    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x4E90BF"]}
-                         range:NSMakeRange(0, iidStr.length)];
-    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x333333"]}
-                         range:NSMakeRange(iidStr.length + 1, titleStr.length)];
-    return attrString;
 
-}
-- (NSAttributedString *)attributeTail{
-    NSString *nameStr = _author.name? _author.name: @"";
-    NSString *timeStr = _created_at? [_created_at stringTimesAgo]: @"";
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", nameStr, timeStr]];
-    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x333333"]}
-                         range:NSMakeRange(0, nameStr.length)];
-    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0xA9A9A9"]}
-                         range:NSMakeRange(nameStr.length + 1, timeStr.length)];
-    return attrString;
++ (MRPR *)mrprWithPath:(NSString *)path{
+    MRPR *mrpr = [MRPR new];
+    mrpr.path = path;
+    return mrpr;
 }
 
 - (void)setPath:(NSString *)path{

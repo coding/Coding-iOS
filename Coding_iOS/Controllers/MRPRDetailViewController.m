@@ -108,6 +108,18 @@
             [weakSelf refresh];
         }];
     }];
+    
+    //推送过来的页面，可能 curProject 对象为空
+    if (!_curProject) {
+        _curProject = [Project new];
+        _curProject.owner_user_name = _curMRPR.des_owner_name;
+        _curProject.name = _curMRPR.des_project_name;
+        [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_curProject andBlock:^(id data, NSError *error) {
+            if (data) {
+                weakSelf.curProject = data;
+            }
+        }];
+    }
 }
 
 #pragma mark TableM Footer Header
@@ -206,10 +218,12 @@
         if (indexPath.row == 0) {
             MRPRCommitsViewController *vc = [MRPRCommitsViewController new];
             vc.curMRPR = _curMRPR;
+            vc.curProject = _curProject;
             [self.navigationController pushViewController:vc animated:YES];
         }else{
             MRPRFilesViewController *vc = [MRPRFilesViewController new];
             vc.curMRPR = _curMRPR;
+            vc.curProject = _curProject;
             [self.navigationController pushViewController:vc animated:YES];
         }
     }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 2){//Comment
@@ -225,6 +239,7 @@
     DebugLog(@"%@", userName);
     AddMDCommentViewController *vc = [AddMDCommentViewController new];
     
+    vc.curProject = _curProject;
     vc.requestPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/line_notes", _curMRPR.des_owner_name, _curMRPR.des_project_name];
     vc.requestParams = [@{
                          @"noteable_type" : @"MergeRequestBean",

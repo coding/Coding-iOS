@@ -24,9 +24,10 @@ typedef NS_ENUM(NSInteger, MRPRStatus) {
 @property (strong, nonatomic) User *author, *action_author;
 @property (strong, nonatomic) NSDate *created_at, *action_at;
 @property (strong, nonatomic) Depot *source_depot;
-@property (strong, nonatomic) NSAttributedString *attributeTitle, *attributeTail;
 @property (assign, nonatomic) MRPRStatus status;
 @property (assign, nonatomic) BOOL isLoading;
+
++ (MRPR *)mrprWithPath:(NSString *)path;
 
 - (NSString *)statusDisplay;
 

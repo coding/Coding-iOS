@@ -129,6 +129,7 @@
     DebugLog(@"%@", curCommit.fullMessage);
     
     CommitFilesViewController *vc = [CommitFilesViewController new];
+    vc.curProject = _curProject;
     vc.ownerGK = _curMRPR.des_owner_name;
     vc.projectName = _curMRPR.des_project_name;
     vc.commitId = curCommit.commitId;

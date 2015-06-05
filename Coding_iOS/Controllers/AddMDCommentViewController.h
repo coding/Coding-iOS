@@ -7,10 +7,13 @@
 //
 
 #import "BaseViewController.h"
+#import "Project.h"
 
 @interface AddMDCommentViewController : BaseViewController
 @property (strong, nonatomic) void (^completeBlock)(id data);
 @property (strong, nonatomic) NSString *requestPath;
 @property (strong, nonatomic) NSMutableDictionary *requestParams;
 @property (strong, nonatomic) NSString *contentStr;
+@property (strong, nonatomic) Project *curProject;
+
 @end

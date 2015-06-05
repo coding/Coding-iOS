@@ -12,6 +12,7 @@
 #import "MRPR.h"
 
 @interface MRPRListCell : UITableViewCell
-- (void)configWithMRPR:(MRPR *)curMRPR;
+@property (strong, nonatomic) MRPR *curMRPR;
+
 + (CGFloat)cellHeight;
 @end

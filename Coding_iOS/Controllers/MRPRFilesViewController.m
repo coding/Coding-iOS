@@ -169,6 +169,7 @@
         FileChange *curFileChange = [curList objectAtIndex:indexPath.row];
         
         FileChangeDetailViewController *vc = [FileChangeDetailViewController new];
+        vc.curProject = _curProject;
         vc.requestPath = [_curMRPR toFileLineChangesPath];
         vc.filePath = curFileChange.path;
         [self.navigationController pushViewController:vc animated:YES];

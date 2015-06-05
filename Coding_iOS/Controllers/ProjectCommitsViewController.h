@@ -7,7 +7,9 @@
 //
 
 #import "BaseViewController.h"
+#import "Project.h"
 
 @interface ProjectCommitsViewController : BaseViewController
+@property (strong, nonatomic) Project *curProject;
 
 @end

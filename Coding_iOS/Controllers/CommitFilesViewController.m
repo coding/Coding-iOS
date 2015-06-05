@@ -85,6 +85,17 @@
             [weakSelf refresh];
         }];
     }];
+    //推送过来的页面，可能 curProject 对象为空
+    if (!_curProject) {
+        _curProject = [Project new];
+        _curProject.owner_user_name = _ownerGK;
+        _curProject.name = _projectName;
+        [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_curProject andBlock:^(id data, NSError *error) {
+            if (data) {
+                weakSelf.curProject = data;
+            }
+        }];
+    }
 }
 
 - (void)configListGroups{
@@ -228,6 +239,7 @@
         FileChange *curFileChange = [curList objectAtIndex:indexPath.row];
         
         FileChangeDetailViewController *vc = [FileChangeDetailViewController new];
+        vc.curProject = _curProject;
         vc.requestPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/commitDiffContent/%@/%@", _ownerGK, _projectName, _commitId, curFileChange.path];
         vc.filePath = nil;
         [self.navigationController pushViewController:vc animated:YES];
@@ -244,6 +256,7 @@
     DebugLog(@"%@", userName);
     AddMDCommentViewController *vc = [AddMDCommentViewController new];
     
+    vc.curProject = _curProject;
     vc.requestPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/line_notes", _ownerGK, _projectName];
     vc.requestParams = [@{
                           @"noteable_type" : @"Commit",

@@ -171,7 +171,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MRPR *curMRPR = [[self curMRPRS].list objectAtIndex:indexPath.row];
     MRPRListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MRPRListCell forIndexPath:indexPath];
-    [cell configWithMRPR:curMRPR];
+    cell.curMRPR = curMRPR;
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
     return cell;
 }
@@ -185,6 +185,7 @@
     MRPR *curMRPR = [[self curMRPRS].list objectAtIndex:indexPath.row];
     MRPRDetailViewController *vc = [MRPRDetailViewController new];
     vc.curMRPR = curMRPR;
+    vc.curProject = _curProject;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

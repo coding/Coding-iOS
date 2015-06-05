@@ -8,7 +8,9 @@
 
 #import "BaseViewController.h"
 #import "MRPR.h"
+#import "Project.h"
 
 @interface FileChangeDetailViewController : BaseViewController
 @property (strong, nonatomic) NSString *requestPath, *filePath;
+@property (strong, nonatomic) Project *curProject;
 @end

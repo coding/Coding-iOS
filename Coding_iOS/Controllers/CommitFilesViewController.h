@@ -7,7 +7,9 @@
 //
 
 #import "BaseViewController.h"
+#import "Project.h"
 
 @interface CommitFilesViewController : BaseViewController
 @property (strong, nonatomic) NSString *ownerGK, *projectName, *commitId;
+@property (strong, nonatomic) Project *curProject;
 @end

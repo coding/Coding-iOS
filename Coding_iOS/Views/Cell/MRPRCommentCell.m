@@ -48,7 +48,7 @@
             _timeLabel.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_timeLabel];
         }
-        if ([reuseIdentifier isEqualToString:kCellIdentifier_MRPRCommentCell_Media]) {
+        if ([reuseIdentifier rangeOfString:@"Media"].location != NSNotFound) {
             if (!self.imageCollectionView) {
                 UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
                 self.imageCollectionView = [[UICustomCollectionView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth + 40, 0, curWidth, 43) collectionViewLayout:layout];

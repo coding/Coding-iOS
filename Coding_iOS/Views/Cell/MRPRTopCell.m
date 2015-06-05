@@ -129,7 +129,7 @@
     [_userIconView sd_setImageWithURL:[_curMRPRInfo.mrpr.author.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
     [_userIconView setY:curBottomY];
     
-    _timeL.attributedText = _curMRPRInfo.mrpr.attributeTail;
+    _timeL.attributedText = [self attributeTail];
     _statusL.text =  _curMRPRInfo.mrpr.statusDisplay;
     
     NSString *fromStr, *toStr;
@@ -176,6 +176,19 @@
                                 }
                          range:NSMakeRange(0, attrString.length)];
 
+    return attrString;
+}
+
+- (NSAttributedString *)attributeTail{
+    NSString *nameStr = _curMRPRInfo.mrpr.author.name? _curMRPRInfo.mrpr.author.name: @"";
+    NSString *timeStr = _curMRPRInfo.mrpr.created_at? [_curMRPRInfo.mrpr.created_at stringTimesAgo]: @"";
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", nameStr, timeStr]];
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
+                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x333333"]}
+                        range:NSMakeRange(0, nameStr.length)];
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
+                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0xA9A9A9"]}
+                        range:NSMakeRange(nameStr.length + 1, timeStr.length)];
     return attrString;
 }
 

@@ -59,11 +59,45 @@
     return self;
 }
 
-- (void)configWithMRPR:(MRPR *)curMRPR{
-    [_imgView sd_setImageWithURL:[curMRPR.author.avatar urlImageWithCodePathResize:2*kMRPRListCell_UserWidth] placeholderImage:kPlaceholderMonkeyRoundWidth(2*kMRPRListCell_UserWidth)];
-    _titleLabel.attributedText = curMRPR.attributeTitle;
-    _subTitleLabel.attributedText = curMRPR.attributeTail;
+- (void)setCurMRPR:(MRPR *)curMRPR{
+    _curMRPR = curMRPR;
+    if (!_curMRPR) {
+        return;
+    }
+    [_imgView sd_setImageWithURL:[_curMRPR.author.avatar urlImageWithCodePathResize:2*kMRPRListCell_UserWidth] placeholderImage:kPlaceholderMonkeyRoundWidth(2*kMRPRListCell_UserWidth)];
+    _titleLabel.attributedText = [self attributeTitle];
+    _subTitleLabel.attributedText = [self attributeTail];
+    
 }
+
+- (NSAttributedString *)attributeTitle{
+    NSString *iidStr = [NSString stringWithFormat:@"#%@", _curMRPR.iid.stringValue? _curMRPR.iid.stringValue: @""];
+    NSString *titleStr = _curMRPR.title? _curMRPR.title: @"";
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", iidStr, titleStr]];
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
+                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x4E90BF"]}
+                        range:NSMakeRange(0, iidStr.length)];
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
+                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x333333"]}
+                        range:NSMakeRange(iidStr.length + 1, titleStr.length)];
+    return attrString;
+    
+}
+
+- (NSAttributedString *)attributeTail{
+    NSString *nameStr = _curMRPR.author.name? _curMRPR.author.name: @"";
+    NSString *timeStr = _curMRPR.created_at? [_curMRPR.created_at stringTimesAgo]: @"";
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", nameStr, timeStr]];
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
+                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x333333"]}
+                        range:NSMakeRange(0, nameStr.length)];
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
+                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0xA9A9A9"]}
+                        range:NSMakeRange(nameStr.length + 1, timeStr.length)];
+    return attrString;
+}
+
+
 + (CGFloat)cellHeight{
     return 70.0;
 }
