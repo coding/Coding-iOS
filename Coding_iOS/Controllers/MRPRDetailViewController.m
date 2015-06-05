@@ -230,12 +230,13 @@
                          @"noteable_type" : @"MergeRequestBean",
                          @"noteable_id" : _curMRPRInfo.mrpr.id,
                          } mutableCopy];
-    vc.contentStr = userName;
+    vc.contentStr = userName.length > 0? [NSString stringWithFormat:@"@%@ ", userName]: nil;
     @weakify(self);
-    vc.completeBlock = ^(id data, NSError *error){
+    vc.completeBlock = ^(id data){
         @strongify(self);
         if (data && [data isKindOfClass:[ProjectLineNote class]]) {
             [self.curMRPRInfo.discussions addObject:[NSArray arrayWithObject:data]];
+            [self.myTableView reloadData];
         }
     };
     

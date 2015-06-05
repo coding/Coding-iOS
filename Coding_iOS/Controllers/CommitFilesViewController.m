@@ -249,12 +249,13 @@
                           @"noteable_type" : @"Commit",
                           @"commitId" : _commitId,
                           } mutableCopy];
-    vc.contentStr = userName;
+    vc.contentStr = userName.length > 0? [NSString stringWithFormat:@"@%@ ", userName]: nil;
     @weakify(self);
-    vc.completeBlock = ^(id data, NSError *error){
+    vc.completeBlock = ^(id data){
         @strongify(self);
         if (data && [data isKindOfClass:[ProjectLineNote class]]) {
             [self.curCommitInfo.commitComments addObject:data];
+            [self.myTableView reloadData];
         }
     };
     
