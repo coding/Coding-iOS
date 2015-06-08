@@ -439,7 +439,7 @@
 }
 
 - (void)request_MRPRBaseInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(MRPRBaseInfo *data, NSError *error))block{
-    [MobClick event:kUmeng_Event_Request label:@"MRPRS_详情页面"];
+    [MobClick event:kUmeng_Event_Request label:@"MRPR_详情页面"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toBasePath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
@@ -452,7 +452,7 @@
 }
 
 - (void)request_MRPRCommits_WithObj:(MRPR *)curMRPR andBlock:(void (^)(NSArray *data, NSError *error))block{
-    [MobClick event:kUmeng_Event_Request label:@"MRPRS_Commits"];
+    [MobClick event:kUmeng_Event_Request label:@"MRPR_Commits"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toCommitsPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
@@ -465,12 +465,43 @@
 }
 
 - (void)request_MRPRFileChanges_WithObj:(MRPR *)curMRPR andBlock:(void (^)(FileChanges *data, NSError *error))block{
-    [MobClick event:kUmeng_Event_Request label:@"MRPRS_文件改动列表"];
+    [MobClick event:kUmeng_Event_Request label:@"MRPR_文件改动列表"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toFileChangesPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
             FileChanges *resultA = [NSObject objectOfClass:@"FileChanges" fromJSON:resultData];
             block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_MRPRAccept:(MRPR *)curMRPR WithMessage:(NSString *)messageStr andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"MRPR_Accept"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toAcceptPath] withParams:[curMRPR toAcceptParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_MRPRRefuse:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"MRPR_Refuse"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toRefusePath] withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_MRPRCancel:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"MRPR_Cancel"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toCancelPath] withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
         }else{
             block(nil, error);
         }

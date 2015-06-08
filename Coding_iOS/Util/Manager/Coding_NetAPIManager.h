@@ -68,6 +68,9 @@
 - (void)request_MRPRBaseInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(MRPRBaseInfo *data, NSError *error))block;
 - (void)request_MRPRCommits_WithObj:(MRPR *)curMRPR andBlock:(void (^)(NSArray *data, NSError *error))block;
 - (void)request_MRPRFileChanges_WithObj:(MRPR *)curMRPR andBlock:(void (^)(FileChanges *data, NSError *error))block;
+- (void)request_MRPRAccept:(MRPR *)curMRPR WithMessage:(NSString *)messageStr andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_MRPRRefuse:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_MRPRCancel:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_MRPRFileLineChanges_WithRequestPath:(NSString *)requestPath filePath:(NSString *)filePath andBlock:(void (^)(NSArray *data, NSError *error))block;
 - (void)request_CommitInfo_WithUserGK:(NSString *)userGK projectName:(NSString *)projectName commitId:(NSString *)commitId andBlock:(void (^)(CommitInfo *data, NSError *error))block;
 - (void)request_PostCommentWithPath:(NSString *)path params:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block;

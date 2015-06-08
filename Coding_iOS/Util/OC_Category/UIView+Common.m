@@ -475,67 +475,67 @@ static char LoadingViewKey, BlankPageViewKey;
         }
         NSString *imageName, *tipStr;
         switch (blankPageType) {
-            case EaseBlankPageTypeActivity:
+            case EaseBlankPageTypeActivity://项目动态
             {
                 imageName = @"blankpage_image_Sleep";
                 tipStr = @"这里还什么都没有\n赶快起来弄出一点动静吧";
             }
                 break;
-            case EaseBlankPageTypeTask:
+            case EaseBlankPageTypeTask://任务列表
             {
                 imageName = @"blankpage_image_Sleep";
                 tipStr = @"这里还没有任务\n赶快起来为团队做点贡献吧";
             }
                 break;
-            case EaseBlankPageTypeTopic:
+            case EaseBlankPageTypeTopic://讨论列表
             {
                 imageName = @"blankpage_image_Sleep";
                 tipStr = @"这里怎么空空的\n发个讨论让它热闹点吧";
             }
                 break;
-            case EaseBlankPageTypeTweet:
+            case EaseBlankPageTypeTweet://冒泡列表（自己的）
             {
                 imageName = @"blankpage_image_Hi";
                 tipStr = @"无冒泡\n来，冒个泡吧～";
             }
                 break;
-            case EaseBlankPageTypeTweetOther:
+            case EaseBlankPageTypeTweetOther://冒泡列表（别人的）
             {
                 imageName = @"blankpage_image_Sleep";
                 tipStr = @"这个人很懒\n一个冒泡都木有～";
             }
                 break;
-            case EaseBlankPageTypeProject:
+            case EaseBlankPageTypeProject://项目列表（自己的）
             {
                 imageName = @"blankpage_image_Sleep";
                 tipStr = @"您还木有项目呢，赶快起来创建吧～";
             }
                 break;
-            case EaseBlankPageTypeProjectOther:
+            case EaseBlankPageTypeProjectOther://项目列表（别人的）
             {
                 imageName = @"blankpage_image_Sleep";
                 tipStr = @"这个人很懒，一个项目都木有～";
             }
                 break;
-            case EaseBlankPageTypeFileDleted:
+            case EaseBlankPageTypeFileDleted://去了文件页面，发现文件已经被删除了
             {
                 imageName = @"blankpage_image_loadFail";
                 tipStr = @"晚了一步\n文件刚刚被人删除了～";
             }
                 break;
-            case EaseBlankPageTypeFolderDleted:
+            case EaseBlankPageTypeFolderDleted://文件夹
             {
                 imageName = @"blankpage_image_loadFail";
                 tipStr = @"晚了一步\n文件夹貌似被人删除了～";
             }
                 break;
-            case EaseBlankPageTypePrivateMsg:
+            case EaseBlankPageTypePrivateMsg://私信列表
             {
                 imageName = @"blankpage_image_Hi";
                 tipStr = @"无私信\n打个招呼吧～";
             }
                 break;
-            default:
+            default://其它页面（这里没有提到的页面，都属于其它）
             {
                 imageName = @"blankpage_image_Sleep";
                 tipStr = @"这里还什么都没有\n赶快起来弄出一点动静吧";

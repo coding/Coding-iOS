@@ -24,6 +24,13 @@
 #import "MRPRCommitsViewController.h"
 #import "MRPRFilesViewController.h"
 #import "AddMDCommentViewController.h"
+#import "MRPRAcceptViewController.h"
+
+typedef NS_ENUM(NSInteger, MRPRAction) {
+    MRPRActionAccept = 1000,
+    MRPRActionRefuse,
+    MRPRActionCancel
+};
 
 @interface MRPRDetailViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 @property (strong, nonatomic) MRPRBaseInfo *curMRPRInfo;
@@ -63,32 +70,53 @@
 }
 
 - (void)configBottomView{
-    if (_bottomView) {
+    BOOL canAction = _curMRPRInfo.can_edit.boolValue;
+    BOOL canCancel = [_curMRPRInfo.mrpr.author.global_key isEqualToString:[Login curLoginUser].global_key];
+    BOOL hasBottomView = _curMRPRInfo.mrpr.status <= MRPRStatusCannotMerge && (canAction || canCancel);
+    
+    if (!hasBottomView) {
         [_bottomView removeFromSuperview];
+    }else if (!_bottomView){
+        if (hasBottomView) {
+            _bottomView = [UIView new];
+            _bottomView.backgroundColor = kColorTableBG;
+            [_bottomView addLineUp:YES andDown:NO];
+            [self.view addSubview:_bottomView];
+            [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.bottom.equalTo(self.view);
+                make.height.mas_equalTo(kMRPRDetailViewController_BottomViewHeight);
+            }];
+            
+            NSArray *buttonArray;
+            if (canAction && canCancel) {//三个按钮
+                buttonArray = @[[self buttonWithType:MRPRActionAccept],
+                                [self buttonWithType:MRPRActionRefuse],
+                                [self buttonWithType:MRPRActionCancel]];
+            }else if (canAction && !canCancel){//两个按钮
+                buttonArray = @[[self buttonWithType:MRPRActionAccept],
+                                [self buttonWithType:MRPRActionRefuse]];
+            }else if (!canAction && canCancel){//一个按钮
+                buttonArray = @[[self buttonWithType:MRPRActionCancel]];
+            }else{//无按钮
+                buttonArray = nil;
+            }
+            if (buttonArray.count > 0) {
+                CGFloat buttonHeight = 29;
+                CGFloat padding = 15;
+                CGFloat buttonWidth = ((kScreen_Width - 2*kPaddingLeftWidth) - padding* (buttonArray.count -1))/buttonArray.count;
+                CGFloat buttonY = (kMRPRDetailViewController_BottomViewHeight - buttonHeight)/2;
+                [buttonArray enumerateObjectsUsingBlock:^(UIButton *obj, NSUInteger idx, BOOL *stop) {
+                    obj.frame = CGRectMake(kPaddingLeftWidth + idx* (buttonWidth + padding), buttonY, buttonWidth, buttonHeight);
+                    [_bottomView addSubview:obj];
+                }];
+            }
+        }
     }
-    if (_curMRPR.status <= MRPRStatusCannotMerge) {
-        _bottomView = [UIView new];
-        _bottomView.backgroundColor = [UIColor redColor];
-        [self.view addSubview:_bottomView];
-        
-        
-
-        
-        [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.bottom.equalTo(self.view);
-            make.height.mas_equalTo(kMRPRDetailViewController_BottomViewHeight);
-        }];
-
-    }
-    
-    
-    UIEdgeInsets insets = UIEdgeInsetsMake(0, 0,
-                                           _curMRPR.status <= MRPRStatusCannotMerge? kMRPRDetailViewController_BottomViewHeight: 0,
-                                           0);
+    UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, hasBottomView? kMRPRDetailViewController_BottomViewHeight: 0, 0);
     _myTableView.contentInset = insets;
     _myTableView.scrollIndicatorInsets = insets;
-    
 }
+
 - (void)refresh{
     if (_curMRPR.isLoading) {
         return;
@@ -103,6 +131,7 @@
         if (data) {
             weakSelf.curMRPRInfo = data;
             [weakSelf.myTableView reloadData];
+            [weakSelf configBottomView];
         }
         [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
@@ -120,6 +149,88 @@
             }
         }];
     }
+}
+
+#pragma mark Action_MRPR
+
+- (UIButton *)buttonWithType:(MRPRAction)actionType{
+    UIButton *curButton = [UIButton new];
+    curButton.layer.cornerRadius = 2.0;
+    curButton.tag = actionType;
+    [curButton addTarget:self action:@selector(actionMRPR:) forControlEvents:UIControlEventTouchUpInside];
+    [curButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
+    
+    NSString *title, *colorStr;
+    if (actionType == MRPRActionAccept) {
+        title = @"合并";
+        colorStr = @"0x4E90BF";
+        if (_curMRPRInfo.mrpr.status == MRPRStatusCannotMerge) {
+            curButton.alpha = 0.7;
+        }
+    }else if (actionType == MRPRActionRefuse){
+        title = @"拒绝";
+        colorStr = @"0xE15957";
+    }else if (actionType == MRPRActionCancel){
+        title = @"取消";
+        colorStr = @"0xF8F8F8";
+        [curButton doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xB5B5B5"] cornerRadius:2.0];
+    }
+    [curButton setTitleColor:[UIColor colorWithHexString:(actionType == MRPRActionCancel? @"0x222222": @"0xffffff")] forState:UIControlStateNormal];
+    [curButton setTitle:title forState:UIControlStateNormal];
+    [curButton setBackgroundColor:[UIColor colorWithHexString:colorStr]];
+    return curButton;
+}
+
+- (void)actionMRPR:(UIButton *)sender{
+    NSString *tipStr;
+    if (sender.tag == MRPRActionAccept) {//合并
+        if (_curMRPRInfo.mrpr.status == MRPRStatusCannotMerge) {//不能合并
+            tipStr =
+            @"呃... \nCoding 不能帮你在线自动合并这个合并请求。";
+            kTipAlert(@"%@", tipStr);
+        }else{
+            MRPRAcceptViewController *vc = [MRPRAcceptViewController new];
+            vc.curProject = _curProject;
+            vc.curMRPRInfo = _curMRPRInfo;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }else if (sender.tag == MRPRActionRefuse){//拒绝
+        tipStr = [_curMRPRInfo.mrpr isMR]? @"确定要拒绝这个 Merge Request 么？": @"确定要拒绝这个 Pull Request 么？";
+        [[UIActionSheet bk_actionSheetCustomWithTitle:tipStr buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [self refuseMRPR];
+            }
+        }] showInView:self.view];
+    }else if (sender.tag == MRPRActionCancel){//取消
+        tipStr = [_curMRPRInfo.mrpr isMR]? @"确定要取消这个 Merge Request 么？": @"确定要取消这个 Pull Request 么？";
+        [[UIActionSheet bk_actionSheetCustomWithTitle:tipStr buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [self cancelMRPR];
+            }
+        }] showInView:self.view];
+    }
+}
+
+- (void)refuseMRPR{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_MRPRRefuse:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.curMRPRInfo = nil;
+            [weakSelf.myTableView reloadData];
+            [weakSelf refresh];
+        }
+    }];
+}
+
+- (void)cancelMRPR{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_MRPRCancel:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.curMRPRInfo = nil;
+            [weakSelf.myTableView reloadData];
+            [weakSelf refresh];
+        }
+    }];
 }
 
 #pragma mark TableM Footer Header

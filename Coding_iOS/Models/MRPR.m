@@ -67,6 +67,20 @@
     return [[self p_prePath] stringByAppendingString:@"commitDiffContent"];
 }
 
+- (NSString *)toAcceptPath{
+    return [[self p_prePath] stringByAppendingString:@"merge"];
+}
+- (NSDictionary *)toAcceptParams{
+    return @{@"del_source_branch": _del_source_branch? @"true": @"false",
+             @"message" : _message? _message: @""};
+}
+- (NSString *)toRefusePath{
+    return [[self p_prePath] stringByAppendingString:@"refuse"];
+}
+- (NSString *)toCancelPath{
+    return [[self p_prePath] stringByAppendingString:@"cancel"];
+}
+
 - (NSString *)toFileChangesPath{
     return [[self p_prePath] stringByAppendingString:@"commitDiffStat"];
 }

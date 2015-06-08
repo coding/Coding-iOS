@@ -8,8 +8,9 @@
 
 #import "BaseViewController.h"
 #import "Project.h"
+#import "MRPRBaseInfo.h"
 
 @interface MRPRAcceptViewController : BaseViewController
 @property (strong, nonatomic) Project *curProject;
-
+@property (strong, nonatomic) MRPRBaseInfo *curMRPRInfo;
 @end

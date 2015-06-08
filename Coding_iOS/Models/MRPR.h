@@ -27,6 +27,10 @@ typedef NS_ENUM(NSInteger, MRPRStatus) {
 @property (assign, nonatomic) MRPRStatus status;
 @property (assign, nonatomic) BOOL isLoading;
 
+//Post
+@property (assign, nonatomic) BOOL del_source_branch;
+@property (strong, nonatomic) NSString *message;
+
 + (MRPR *)mrprWithPath:(NSString *)path;
 
 - (NSString *)statusDisplay;
@@ -37,5 +41,9 @@ typedef NS_ENUM(NSInteger, MRPRStatus) {
 - (NSString *)toCommitsPath;
 - (NSString *)toFileChangesPath;
 - (NSString *)toFileLineChangesPath;
+- (NSString *)toAcceptPath;
+- (NSDictionary *)toAcceptParams;
+- (NSString *)toRefusePath;
+- (NSString *)toCancelPath;
 
 @end

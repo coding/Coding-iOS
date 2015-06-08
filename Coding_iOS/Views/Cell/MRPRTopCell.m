@@ -67,7 +67,6 @@
         if (!_arrowIcon) {
             _arrowIcon = [UIImageView new];
             _arrowIcon.image = [UIImage imageNamed:@"mrpr_icon_arrow"];
-            _arrowIcon.backgroundColor = [UIColor redColor];
             [self.contentView addSubview:_arrowIcon];
         }
         if (!_toL) {
@@ -103,7 +102,7 @@
             [_arrowIcon mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(_fromL.mas_right).offset(10);
                 make.centerY.equalTo(_fromL);
-                make.size.mas_equalTo(CGSizeMake(20, 20));
+                make.size.mas_equalTo(CGSizeMake(15, 15));
             }];
             [_toL mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(_arrowIcon.mas_right).offset(10);
@@ -143,7 +142,7 @@
     _fromL.attributedText = [self p_styleStr:fromStr];
     _toL.attributedText = [self p_styleStr:toStr];
     
-    if (_curMRPRInfo.mrpr.status >= MRPRStatusAccepted ) {
+    if (_curMRPRInfo.mrpr.status == MRPRStatusAccepted || _curMRPRInfo.mrpr.status == MRPRStatusRefused) {
         if (!_actionView) {
             _actionView = [MRPRActionView new];
             [self.contentView addSubview:_actionView];
@@ -199,7 +198,7 @@
         CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
         cellHeight += [curMRPRInfo.mrpr.title getHeightWithFont:kMRPRTopCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)];
         cellHeight += 15 + 15 + 15 + 15 + 15 + 20 + 15;
-        if (curMRPRInfo.mrpr.status >= MRPRStatusAccepted ) {
+        if (curMRPRInfo.mrpr.status == MRPRStatusAccepted || curMRPRInfo.mrpr.status == MRPRStatusRefused) {
             cellHeight += kMRPRActionView_Height + 15;
         }
     }
@@ -213,6 +212,7 @@
 @interface MRPRActionView ()
 @property (strong, nonatomic) UIImageView *icon;
 @property (strong, nonatomic) UILabel *contentL;
+@property (strong, nonatomic) UIView *lineView;
 @end
 
 @implementation MRPRActionView
@@ -231,9 +231,13 @@
             _contentL = [UILabel new];
             [self addSubview:_contentL];
         }
+        if (!_lineView) {
+            _lineView = [UIView new];
+            [self addSubview:_lineView];
+        }
         {
             [_icon mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self).offset(30);
+                make.left.equalTo(self).offset(10);
                 make.centerY.equalTo(self);
                 make.size.mas_equalTo(CGSizeMake(20, 20));
             }];
@@ -243,30 +247,37 @@
                 make.centerY.equalTo(self);
                 make.height.mas_equalTo(15);
             }];
+            [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.top.bottom.equalTo(self);
+                make.width.mas_equalTo(3);
+            }];
         }
     }
     return self;
 }
 
 - (void)setStatus:(MRPRStatus)status userName:(NSString *)userName actionDate:(NSDate *)actionDate{
-    NSString *imageStr, *contentStr;
+    NSString *imageStr, *contentStr, *lineColorStr;
     switch (status) {
         case MRPRStatusAccepted:
             imageStr = @"mrpr_icon_accepted";
             contentStr = @"合并";
+            lineColorStr = @"0x3BBD79";
             break;
         case MRPRStatusRefused:
             imageStr = @"mrpr_icon_refaused";
             contentStr = @"拒绝";
+            lineColorStr = @"0xFB3B30";
             break;
-        case MRPRStatusCancel:
-            imageStr = @"mrpr_icon_cancel";
-            contentStr = @"取消";
-            break;
+//        case MRPRStatusCancel:
+//            imageStr = @"mrpr_icon_cancel";
+//            contentStr = @"取消";
+//            break;
         default:
             return;
             break;
     }
+    _lineView.backgroundColor = [UIColor colorWithHexString:lineColorStr];
     [_icon setImage:[UIImage imageNamed:imageStr]];
     contentStr = [NSString stringWithFormat:@"%@ %@ %@了这个请求", userName, [actionDate stringTimesAgo], contentStr];
     NSMutableAttributedString *attrContentStr = [[NSMutableAttributedString alloc] initWithString:contentStr];
