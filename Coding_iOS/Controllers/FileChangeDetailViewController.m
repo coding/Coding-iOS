@@ -47,7 +47,6 @@
     NSString *contentStr = [WebContentManager diffPatternedWithContent:[self requestPathParams]];
     [self.webContentView loadHTMLString:contentStr baseURL:nil];
     
-    
     //    [self sendRequest];
 }
 
@@ -77,29 +76,29 @@
 
 #pragma mark Request
 
-- (void)sendRequest{
-    [self.view beginLoading];
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_FileLineChanges_WithPath:self.requestPath params:self.requestParams andBlock:^(id data, NSError *error) {
-        [weakSelf.view endLoading];
-        [weakSelf refreshViewWithData:data];
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(data != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-            [weakSelf sendRequest];
-        }];
-    }];
-}
-
-- (void)refreshViewWithData:(id)data{
-    
-    if (!data) {
-        return;
-    }
-    NSDictionary *resultData = data;
-//    NSArray *resultA = [NSObject arrayFromJSON:[resultData valueForKeyPath:@"data"] ofObjects:@"FileLineChange"];
-    
-    NSString *contentStr = [WebContentManager markdownPatternedWithContent:resultData.description];
-    [self.webContentView loadHTMLString:contentStr baseURL:nil];
-}
+//- (void)sendRequest{
+//    [self.view beginLoading];
+//    __weak typeof(self) weakSelf = self;
+//    [[Coding_NetAPIManager sharedManager] request_FileLineChanges_WithPath:self.requestPath params:self.requestParams andBlock:^(id data, NSError *error) {
+//        [weakSelf.view endLoading];
+//        [weakSelf refreshViewWithData:data];
+//        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(data != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+//            [weakSelf sendRequest];
+//        }];
+//    }];
+//}
+//
+//- (void)refreshViewWithData:(id)data{
+//    
+//    if (!data) {
+//        return;
+//    }
+//    NSDictionary *resultData = data;
+////    NSArray *resultA = [NSObject arrayFromJSON:[resultData valueForKeyPath:@"data"] ofObjects:@"FileLineChange"];
+//    
+//    NSString *contentStr = [WebContentManager markdownPatternedWithContent:resultData.description];
+//    [self.webContentView loadHTMLString:contentStr baseURL:nil];
+//}
 
 
 #pragma mark UIWebViewDelegate
