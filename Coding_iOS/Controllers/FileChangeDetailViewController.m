@@ -8,6 +8,13 @@
 
 #import "FileChangeDetailViewController.h"
 
+@interface FileChangeDetailViewController ()
+@property (strong, nonatomic) UIWebView *webContentView;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+
+@end
+
+
 @implementation FileChangeDetailViewController
 
 @end

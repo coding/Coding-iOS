@@ -25,6 +25,7 @@
         UILabel *titleL = [UILabel new];
         titleL.font = [UIFont systemFontOfSize:15];
         titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
+        titleL.text = @"Merge Commit Message";
         [self.contentView addSubview:titleL];
         
         UIView *lineView = [UIView new];
@@ -46,12 +47,12 @@
             make.height.mas_equalTo(20);
         }];
         [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(titleL).offset(15);
+            make.top.equalTo(titleL.mas_bottom).offset(15);
             make.left.right.equalTo(titleL);
             make.height.mas_equalTo(0.5);
         }];
         [_contentTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(lineView).offset(15);
+            make.top.equalTo(lineView).offset(7);
             make.left.equalTo(titleL).offset(-8);
             make.right.equalTo(titleL).offset(8);
             make.height.mas_equalTo(kMRPRAcceptEditCell_TextViewHeight);

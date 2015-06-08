@@ -477,7 +477,7 @@
     }];
 }
 
-- (void)request_MRPRAccept:(MRPR *)curMRPR WithMessage:(NSString *)messageStr andBlock:(void (^)(id data, NSError *error))block{
+- (void)request_MRPRAccept:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"MRPR_Accept"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toAcceptPath] withParams:[curMRPR toAcceptParams] withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {

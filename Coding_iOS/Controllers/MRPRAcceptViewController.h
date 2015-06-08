@@ -13,4 +13,5 @@
 @interface MRPRAcceptViewController : BaseViewController
 @property (strong, nonatomic) Project *curProject;
 @property (strong, nonatomic) MRPRBaseInfo *curMRPRInfo;
+@property (nonatomic, copy) void(^completeBlock)(id data);
 @end

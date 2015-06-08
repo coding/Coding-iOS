@@ -6,6 +6,8 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_MRPRAcceptEditCell @"MRPRAcceptEditCell"
+
 #import <UIKit/UIKit.h>
 #import "UIPlaceHolderTextView.h"
 

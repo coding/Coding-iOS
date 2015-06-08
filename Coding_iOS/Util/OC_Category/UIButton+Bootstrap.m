@@ -36,7 +36,6 @@
 
 -(void)successStyle{
     [self bootstrapStyle];
-    self.layer.borderColor = [[UIColor colorWithHexString:@"0x3bbc79"] CGColor];
     self.layer.borderColor = [[UIColor clearColor] CGColor];
     [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithHexString:@"0x3bbc79"]] forState:UIControlStateNormal];
     [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithHexString:@"0x3bbc79" andAlpha:0.5]] forState:UIControlStateDisabled];
@@ -49,9 +48,13 @@
 
 -(void)infoStyle{
     [self bootstrapStyle];
-    self.backgroundColor = [UIColor colorWithRed:91/255.0 green:192/255.0 blue:222/255.0 alpha:1];
-    self.layer.borderColor = [[UIColor colorWithRed:70/255.0 green:184/255.0 blue:218/255.0 alpha:1] CGColor];
-    [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithRed:57/255.0 green:180/255.0 blue:211/255.0 alpha:1]] forState:UIControlStateHighlighted];
+    self.layer.borderColor = [[UIColor clearColor] CGColor];
+    [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithHexString:@"0x4E90BF"]] forState:UIControlStateNormal];
+    [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithHexString:@"0x4E90BF" andAlpha:0.5]] forState:UIControlStateDisabled];
+    [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithHexString:@"0x4E90BF"]] forState:UIControlStateHighlighted];
+    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateDisabled];
+    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
 }
 
 -(void)warningStyle{

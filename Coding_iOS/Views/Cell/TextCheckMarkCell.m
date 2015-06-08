@@ -18,7 +18,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.tintColor = [UIColor colorWithHexString:@"0x3bbd79"];
 
         if (!_contentL) {

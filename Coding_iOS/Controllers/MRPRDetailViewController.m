@@ -122,6 +122,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         return;
     }
     if (!_curMRPRInfo) {
+        [_bottomView removeFromSuperview];
         [self.view beginLoading];
     }
     __weak typeof(self) weakSelf = self;
@@ -182,6 +183,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 }
 
 - (void)actionMRPR:(UIButton *)sender{
+    __weak typeof(self) weakSelf = self;
+
     NSString *tipStr;
     if (sender.tag == MRPRActionAccept) {//合并
         if (_curMRPRInfo.mrpr.status == MRPRStatusCannotMerge) {//不能合并
@@ -192,20 +195,25 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             MRPRAcceptViewController *vc = [MRPRAcceptViewController new];
             vc.curProject = _curProject;
             vc.curMRPRInfo = _curMRPRInfo;
+            vc.completeBlock = ^(id data){
+                weakSelf.curMRPRInfo = nil;
+                [weakSelf.myTableView reloadData];
+                [weakSelf refresh];
+            };
             [self.navigationController pushViewController:vc animated:YES];
         }
     }else if (sender.tag == MRPRActionRefuse){//拒绝
         tipStr = [_curMRPRInfo.mrpr isMR]? @"确定要拒绝这个 Merge Request 么？": @"确定要拒绝这个 Pull Request 么？";
         [[UIActionSheet bk_actionSheetCustomWithTitle:tipStr buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
-                [self refuseMRPR];
+                [weakSelf refuseMRPR];
             }
         }] showInView:self.view];
     }else if (sender.tag == MRPRActionCancel){//取消
         tipStr = [_curMRPRInfo.mrpr isMR]? @"确定要取消这个 Merge Request 么？": @"确定要取消这个 Pull Request 么？";
         [[UIActionSheet bk_actionSheetCustomWithTitle:tipStr buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
-                [self cancelMRPR];
+                [weakSelf cancelMRPR];
             }
         }] showInView:self.view];
     }
