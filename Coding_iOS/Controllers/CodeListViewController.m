@@ -9,6 +9,7 @@
 #import "CodeListViewController.h"
 #import "CodeViewController.h"
 #import "ProjectViewController.h"
+#import "ProjectCommitsViewController.h"
 
 @interface CodeListViewController ()
 
@@ -27,6 +28,9 @@
     listView.codeTreeFileOfRefBlock = ^(CodeTree_File *curCodeTreeFile, NSString *ref){
         [weakSelf goToVCWith:curCodeTreeFile andRef:ref];
     };
+    listView.refChangedBlock = ^(NSString *ref){
+        weakSelf.myCodeTree.ref = ref;
+    };
     [self.view addSubview:listView];
     [listView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -43,9 +47,13 @@
 
 - (void)rightNavBtnClicked{
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"退出代码查看"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"查看提交记录", @"退出代码查看"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         switch (index) {
             case 0:{
+                [weakSelf goToCommitsVC];
+            }
+                break;
+            case 1:{
                 [weakSelf.navigationController.viewControllers enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UIViewController *obj, NSUInteger idx, BOOL *stop) {
                     if (![obj isKindOfClass:[weakSelf class]]) {
                         if ([obj isKindOfClass:[ProjectViewController class]]) {
@@ -98,6 +106,13 @@
     }else{
         [self showHudTipStr:@"有些文件还不支持查看呢_(:з」∠)_"];
     }
+}
+
+- (void)goToCommitsVC{
+    ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
+    vc.curProject = self.myProject;
+    vc.curCommits = [Commits commitsWithRef:self.myCodeTree.ref Path:self.myCodeTree.path];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

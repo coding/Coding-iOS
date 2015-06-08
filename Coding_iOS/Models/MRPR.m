@@ -34,10 +34,10 @@
         case MRPRStatusCannotMerge:
             statusDisplay = @"不可自动合并";
             break;
-        case MRPRStatusAccept:
+        case MRPRStatusAccepted:
             statusDisplay = @"已合并";
             break;
-        case MRPRStatusRefuse:
+        case MRPRStatusRefused:
             statusDisplay = @"已拒绝";
             break;
         case MRPRStatusCancel:
@@ -87,9 +87,9 @@
     }else if ([_merge_status isEqualToString:@"CANNOTMERGE"]){
         _status = MRPRStatusCannotMerge;
     }else if ([_merge_status isEqualToString:@"ACCEPTED"]){
-        _status = MRPRStatusAccept;
+        _status = MRPRStatusAccepted;
     }else if ([_merge_status isEqualToString:@"REFUSED"]){
-        _status = MRPRStatusRefuse;
+        _status = MRPRStatusRefused;
     }else if ([_merge_status isEqualToString:@"CANCEL"]){
         _status = MRPRStatusCancel;
     }

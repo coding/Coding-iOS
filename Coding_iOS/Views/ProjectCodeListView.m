@@ -69,6 +69,8 @@
     _branchTagButton.selectedBranchTagBlock = ^(NSString *branchTag){
         if ([weakSelf.myCodeTree.ref isEqualToString:branchTag]) {
             return ;
+        }else if (weakSelf.refChangedBlock){
+            weakSelf.refChangedBlock(branchTag);
         }
         weakSelf.myCodeTree = [CodeTree codeTreeWithRef:branchTag andPath:weakSelf.myCodeTree.path];
         [weakSelf.myTableView reloadData];

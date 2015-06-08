@@ -21,7 +21,6 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_iconView) {
             _iconView = [UIImageView new];
-            _iconView.backgroundColor = [UIColor redColor];
             _iconView.image = [UIImage imageNamed:@"icon_add_comment"];
             [self.contentView addSubview:_iconView];
         }
@@ -33,7 +32,7 @@
             [self.contentView addSubview:_contentL];
         }
         [_iconView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(16, 16));
+            make.size.mas_equalTo(CGSizeMake(20, 20));
             make.centerY.equalTo(self.contentView);
             make.centerX.equalTo(self.contentView).offset(-50);
         }];

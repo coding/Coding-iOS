@@ -8,8 +8,11 @@
 
 #import "BaseViewController.h"
 #import "Project.h"
+#import "Commits.h"
 
 @interface ProjectCommitsViewController : BaseViewController
 @property (strong, nonatomic) Project *curProject;
+@property (strong, nonatomic) Commits *curCommits;
+@property (strong, nonatomic) NSString *ref, *path;
 
 @end

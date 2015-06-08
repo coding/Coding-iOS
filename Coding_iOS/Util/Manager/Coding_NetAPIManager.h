@@ -29,6 +29,7 @@
 #import "FileChanges.h"
 #import "FileLineChange.h"
 #import "CommitInfo.h"
+#import "Commits.h"
 
 @interface Coding_NetAPIManager : NSObject
 + (instancetype)sharedManager;
@@ -88,7 +89,7 @@
 - (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block;
 - (void)request_CodeFile:(CodeFile *)codeFile withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CodeBranchOrTagWithPath:(NSString *)path withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
-
+- (void)request_Commits:(Commits *)curCommits withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 
 
 //Task

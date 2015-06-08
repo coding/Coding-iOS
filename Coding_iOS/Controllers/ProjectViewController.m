@@ -28,11 +28,13 @@
 #import "SettingTextViewController.h"
 #import "FolderToMoveViewController.h"
 #import "FileViewController.h"
+#import "ProjectCommitsViewController.h"
 
 @interface ProjectViewController ()
 
 @property (nonatomic, strong) NSMutableDictionary *projectContentDict;
-@property (nonatomic, strong) UIBarButtonItem *navAddBtn;
+
+@property (strong, nonatomic) NSString *codeRef;
 
 //项目成员
 @property (strong, nonatomic) ProjectMemberListViewController *proMemberVC;
@@ -118,18 +120,20 @@
 }
 
 - (void)configRightBarButtonItemWithViewType:(ProjectViewType)viewType{
-    if (!_navAddBtn) {
-        _navAddBtn = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(navAddBtnClicked)];
-    }
-    
-    UIBarButtonItem *shouldBeItem = nil;
+    UIBarButtonItem *navRightBtn = nil;
     if ((viewType == ProjectViewTypeMembers && [[Login curLoginUser].global_key isEqualToString:_myProject.owner_user_name])
         || viewType == ProjectViewTypeTasks
         || viewType == ProjectViewTypeTopics
-        || viewType == ProjectViewTypeFiles) {
-        shouldBeItem = self.navAddBtn;
+        || viewType == ProjectViewTypeFiles
+        || viewType == ProjectViewTypeCodes) {
+        navRightBtn = [[UIBarButtonItem alloc]
+                       initWithImage:[UIImage
+                                      imageNamed:(viewType == ProjectViewTypeCodes ? @"timeBtn_Nav" : @"addBtn_Nav")]
+                       style:UIBarButtonItemStylePlain
+                       target:self
+                       action:@selector(navRightBtnClicked)];
     }
-    [self.navigationItem setRightBarButtonItem:shouldBeItem animated:YES];
+    [self.navigationItem setRightBarButtonItem:navRightBtn animated:YES];
 }
 
 - (ProjectViewType)viewTypeFromIndex:(NSInteger)index{
@@ -234,6 +238,9 @@
                     ProjectCodeListView *codeListView = [[ProjectCodeListView alloc] initWithFrame:self.view.bounds project:_myProject andCodeTree:nil];
                     codeListView.codeTreeFileOfRefBlock = ^(CodeTree_File *curCodeTreeFile, NSString *ref){
                         [weakSelf goToVCWith:curCodeTreeFile andRef:ref];
+                    };
+                    codeListView.refChangedBlock = ^(NSString *ref){
+                        weakSelf.codeRef = ref;
                     };
                     [codeListView addBranchTagButton];
                     codeListView;
@@ -403,7 +410,7 @@
 }
 
 #pragma mark Mine M
-- (void)navAddBtnClicked{
+- (void)navRightBtnClicked{
     ProjectViewType curViewType = [self viewTypeFromIndex:_curIndex];
     switch (curViewType) {
         case ProjectViewTypeTasks:
@@ -459,6 +466,12 @@
                 }];
             }];
 
+        }
+        case ProjectViewTypeCodes:{
+            ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
+            vc.curProject = self.myProject;
+            vc.curCommits = [Commits commitsWithRef:self.codeRef? self.codeRef: @"master" Path:@""];
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
         default:

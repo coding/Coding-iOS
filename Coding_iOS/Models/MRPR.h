@@ -12,8 +12,8 @@
 typedef NS_ENUM(NSInteger, MRPRStatus) {
     MRPRStatusCanMerge = 0,
     MRPRStatusCannotMerge,
-    MRPRStatusAccept,
-    MRPRStatusRefuse,
+    MRPRStatusAccepted,
+    MRPRStatusRefused,
     MRPRStatusCancel
 };
 

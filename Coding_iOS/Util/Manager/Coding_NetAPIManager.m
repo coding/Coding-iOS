@@ -734,6 +734,21 @@
     }];
 }
 
+- (void)request_Commits:(Commits *)curCommits withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"项目提交列表"];
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/commits/%@/%@", project.owner_user_name, project.name, curCommits.ref, curCommits.path];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:[curCommits toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKey:@"data"];
+            resultData = [resultData valueForKey:@"commits"];
+            Commits *resultA = [NSObject objectOfClass:@"Commits" fromJSON:resultData];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 #pragma mark Task
 - (void)request_AddTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"添加任务"];

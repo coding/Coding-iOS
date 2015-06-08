@@ -118,11 +118,10 @@
         
         if (self.willLoadMore) {
             [_list addObjectsFromArray:responseA];
-            [self refreshListGroupWithArray:responseA isAdd:YES];
         }else{
             self.list = [NSMutableArray arrayWithArray:responseA];
-            [self refreshListGroupWithArray:responseA isAdd:NO];
         }
+        [self refreshListGroupWithArray:responseA isAdd:self.willLoadMore];
     }else{
         self.canLoadMore = NO;
     }
@@ -143,7 +142,6 @@
                 item = [ListGroupItem itemWithDate:curProAct.created_at andLocation:location];
                 [item addOneItem];
                 [_listGroups addObject:item];
-                [item.date isSameDay:curProAct.created_at];
             }
         }
     }

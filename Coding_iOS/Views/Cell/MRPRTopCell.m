@@ -143,7 +143,7 @@
     _fromL.attributedText = [self p_styleStr:fromStr];
     _toL.attributedText = [self p_styleStr:toStr];
     
-    if (_curMRPRInfo.mrpr.status >= MRPRStatusAccept ) {
+    if (_curMRPRInfo.mrpr.status >= MRPRStatusAccepted ) {
         if (!_actionView) {
             _actionView = [MRPRActionView new];
             [self.contentView addSubview:_actionView];
@@ -199,7 +199,7 @@
         CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
         cellHeight += [curMRPRInfo.mrpr.title getHeightWithFont:kMRPRTopCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)];
         cellHeight += 15 + 15 + 15 + 15 + 15 + 20 + 15;
-        if (curMRPRInfo.mrpr.status >= MRPRStatusAccept ) {
+        if (curMRPRInfo.mrpr.status >= MRPRStatusAccepted ) {
             cellHeight += kMRPRActionView_Height + 15;
         }
     }
@@ -251,12 +251,12 @@
 - (void)setStatus:(MRPRStatus)status userName:(NSString *)userName actionDate:(NSDate *)actionDate{
     NSString *imageStr, *contentStr;
     switch (status) {
-        case MRPRStatusAccept:
-            imageStr = @"mrpr_icon_open";
+        case MRPRStatusAccepted:
+            imageStr = @"mrpr_icon_accepted";
             contentStr = @"合并";
             break;
-        case MRPRStatusRefuse:
-            imageStr = @"mrpr_icon_refause";
+        case MRPRStatusRefused:
+            imageStr = @"mrpr_icon_refaused";
             contentStr = @"拒绝";
             break;
         case MRPRStatusCancel:

@@ -24,7 +24,6 @@
             _iconView.layer.masksToBounds = YES;
             _iconView.layer.cornerRadius = 2.0;
             [self.contentView addSubview:_iconView];
-            _iconView.backgroundColor = [UIColor redColor];
             [_iconView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.equalTo(self.contentView);
                 make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);

@@ -7,7 +7,7 @@
 //
 
 
-#define kCode_IconViewWidth 34.0
+#define kCode_IconViewWidth 25.0
 #define kCode_ContentLeftPading (kPaddingLeftWidth+kCode_IconViewWidth+10)
 
 #import "ProjectCodeListCell.h"
@@ -59,11 +59,21 @@
         self.leftIconView.image = [UIImage imageNamed:@"icon_code_file"];
     }
     self.fileName.text = _file.name;
-    if (_file.info && _file.info.lastCommitter.name) {
-        self.commitTime.text = [NSString stringWithFormat:@"%@    %@",[_file.info.lastCommitDate stringTimesAgo] ,_file.info.lastCommitter.name]; ;
-    }else{
-        self.commitTime.text = @"...    ...";
-    }
+    self.commitTime.attributedText = [self subTitleStr];
+//    self.commitTime.text = [[self subTitleStr] string];
+}
+
+- (NSAttributedString *)subTitleStr{
+    NSString *nameStr = _file.info.lastCommitter.name? _file.info.lastCommitter.name: @"...";
+    NSString *timeStr = _file.info.lastCommitDate? [_file.info.lastCommitDate stringTimesAgo]: @"...";
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", nameStr, timeStr]];
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
+                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+                        range:NSMakeRange(0, nameStr.length)];
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
+                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
+                        range:NSMakeRange(nameStr.length + 1, timeStr.length)];
+    return attrString;
 }
 
 + (CGFloat)cellHeight{
