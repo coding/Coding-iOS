@@ -171,6 +171,7 @@
         FileChangeDetailViewController *vc = [FileChangeDetailViewController new];
         vc.curProject = _curProject;
         vc.requestPath = [_curMRPR toFileLineChangesPath];
+        vc.requestParams = @{@"path" : curFileChange.path? curFileChange.path: @""};
         vc.filePath = curFileChange.path;
         [self.navigationController pushViewController:vc animated:YES];
     }

@@ -27,7 +27,7 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     
-    self.title = [NSString stringWithFormat:@"%@:%@", _curCommits.ref, _curCommits.path];
+    self.title = [NSString stringWithFormat:@"%@ : /%@", _curCommits.ref, _curCommits.path];
     
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];

@@ -508,16 +508,11 @@
     }];
 }
 
-- (void)request_MRPRFileLineChanges_WithRequestPath:(NSString *)requestPath filePath:(NSString *)filePath andBlock:(void (^)(NSArray *data, NSError *error))block{
-    if (!requestPath || !filePath) {
-        return;
-    }
+- (void)request_FileLineChanges_WithPath:(NSString *)path params:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"MRPRS_文件改动详情"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:requestPath withParams:@{@"path" : filePath} withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            id resultData = [data valueForKeyPath:@"data"];
-            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"FileLineChange"];
-            block(resultA, nil);
+            block(data, nil);
         }else{
             block(nil, error);
         }

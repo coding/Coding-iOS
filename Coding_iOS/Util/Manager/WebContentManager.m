@@ -13,6 +13,8 @@
 @property (strong, nonatomic) NSString *topic_pattern_htmlStr;
 @property (strong, nonatomic) NSString *code_pattern_htmlStr;
 @property (strong, nonatomic) NSString *markdown_pattern_htmlStr;
+@property (strong, nonatomic) NSString *diff_pattern_htmlStr;
+
 @end
 
 @implementation WebContentManager
@@ -43,6 +45,11 @@
         shared_manager.markdown_pattern_htmlStr = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
         if (error) {
             DebugLog(@"markdown_pattern_htmlStr fail: %@", error.description);
+        }
+        path = [[NSBundle mainBundle] pathForResource:@"diff" ofType:@"html"];
+        shared_manager.diff_pattern_htmlStr = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+        if (error) {
+            DebugLog(@"diff_pattern_htmlStr fail: %@", error.description);
         }
     });
     return shared_manager;
@@ -85,16 +92,27 @@
     return patternedStr;
 }
 
+- (NSString *)diffPatternedWithContent:(NSString *)content{
+    if (!content) {
+        return @"";
+    }
+    NSString *patternedStr = [self.diff_pattern_htmlStr stringByReplacingOccurrencesOfString:@"${diff-content}" withString:content];
+    return patternedStr;
+}
+
++ (NSString *)codePatternedWithContent:(CodeFile *)codeFile{
+    return [[self sharedManager] codePatternedWithContent:codeFile];
+}
 + (NSString *)bubblePatternedWithContent:(NSString *)content{
     return [[self sharedManager] bubblePatternedWithContent:content];
 }
 + (NSString *)topicPatternedWithContent:(NSString *)content{
     return [[self sharedManager] topicPatternedWithContent:content];
 }
-+ (NSString *)codePatternedWithContent:(CodeFile *)codeFile{
-    return [[self sharedManager] codePatternedWithContent:codeFile];
-}
 + (NSString *)markdownPatternedWithContent:(NSString *)content{
     return [[self sharedManager] markdownPatternedWithContent:content];
+}
++ (NSString *)diffPatternedWithContent:(NSString *)content{
+    return [[self sharedManager] diffPatternedWithContent:content];
 }
 @end
