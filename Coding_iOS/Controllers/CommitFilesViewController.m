@@ -23,7 +23,7 @@
 #import "AddMDCommentViewController.h"
 #import "WebViewController.h"
 
-
+#import "UIView+PressMenu.h"
 
 @interface CommitFilesViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 @property (strong, nonatomic) CommitInfo *curCommitInfo;
@@ -202,6 +202,24 @@
         CommitCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:curCommentItem.htmlMedia.imageItems.count> 0? kCellIdentifier_CommitCommentCell_Media: kCellIdentifier_CommitCommentCell forIndexPath:indexPath];
         cell.curItem = curCommentItem;
         cell.contentLabel.delegate = self;
+        
+        __weak typeof(self) weakSelf = self;
+        NSArray *menuTitles;
+        if ([curCommentItem.author.global_key isEqualToString:[Login curLoginUser].global_key]) {
+            menuTitles = @[@"拷贝文字", @"回复", @"删除"];
+        }else{
+            menuTitles = @[@"拷贝文字", @"回复"];
+        }
+        [cell.contentView addPressMenuTitles:menuTitles menuClickedBlock:^(NSInteger index, NSString *title) {
+            if ([title hasPrefix:@"拷贝"]) {
+                [[UIPasteboard generalPasteboard] setString:curCommentItem.content];
+            }else if ([title isEqualToString:@"删除"]){
+                [weakSelf deleteComment:curCommentItem];
+            }else if ([title isEqualToString:@"回复"]){
+                [weakSelf goToAddCommentVCToUser:curCommentItem.author.name];
+            }
+        }];
+        
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
     }else{
@@ -246,8 +264,8 @@
         vc.filePath = curFileChange.path;
         [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section == _listGroupKeys.count+ 1 && _curCommitInfo.commitComments.count > 0){
-        ProjectLineNote*curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];
-        [self goToAddCommentVCToUser:curCommentItem.author.name];
+//        ProjectLineNote*curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];
+//        [self goToAddCommentVCToUser:curCommentItem.author.name];
     }else{
         [self goToAddCommentVCToUser:nil];
     }
@@ -275,6 +293,16 @@
     };
     
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)deleteComment:(ProjectLineNote *)lineNote{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_DeleteLineNote:lineNote.id inProject:_projectName ofUser:_ownerGK andBlock:^(id data, NSError *error) {
+        if (data) {
+            [weakSelf.curCommitInfo.commitComments removeObject:lineNote];
+            [weakSelf.myTableView reloadData];
+        }
+    }];
 }
 
 #pragma mark TTTAttributedLabelDelegate
