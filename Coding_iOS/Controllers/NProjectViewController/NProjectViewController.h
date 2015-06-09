@@ -11,5 +11,5 @@
 
 @interface NProjectViewController : BaseViewController
 @property (nonatomic, strong) Project *myProject;
-
+@property (nonatomic, assign) BOOL needUpdateVisit;
 @end

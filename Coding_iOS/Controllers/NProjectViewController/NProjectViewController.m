@@ -166,6 +166,9 @@
             switch (indexPath.row) {
                 case 0:
                     [cell setImageStr:@"project_item_activity" andTitle:@"动态"];
+                    if (_myProject.un_read_activities_count.integerValue > 0) {
+                        [cell addTip:_myProject.un_read_activities_count.stringValue];
+                    }
                     break;
                 case 1:
                     if (_myProject.is_public.boolValue) {
@@ -245,6 +248,14 @@
 
 #pragma mark goTo VC
 - (void)goToIndex:(NSInteger)index{
+    if (index == 0) {
+        __weak typeof(self) weakSelf = self;
+        [[Coding_NetAPIManager sharedManager] request_Project_UpdateVisit_WithObj:_myProject andBlock:^(id data, NSError *error) {
+            if (data) {
+                weakSelf.myProject.un_read_activities_count = [NSNumber numberWithInteger:0];
+            }
+        }];
+    }
     ProjectViewController *vc = [[ProjectViewController alloc] init];
     vc.myProject = self.myProject;
     vc.curIndex = index;

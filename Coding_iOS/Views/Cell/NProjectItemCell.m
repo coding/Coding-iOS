@@ -44,6 +44,21 @@
     }
     return self;
 }
+
+- (void)prepareForReuse{
+    [self removeTip];
+}
+
+- (void)addTip:(NSString *)countStr{
+    CGFloat pointX = kScreen_Width - 25;
+    CGFloat pointY = [[self class] cellHeight]/2;
+    [self addBadgeTip:countStr withCenterPosition:CGPointMake(pointX, pointY)];
+}
+
+- (void)removeTip{
+    [self removeBadgeTips];
+}
+
 - (void)setImageStr:(NSString *)imgStr andTitle:(NSString *)title{
     self.imgView.image = [UIImage imageNamed:imgStr];
     self.titleLabel.text = title;

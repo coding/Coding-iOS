@@ -14,4 +14,5 @@
 @property (strong, nonatomic) MRPR *curMRPR;
 @property (strong, nonatomic) Project *curProject;
 + (MRPRDetailViewController *)vcWithPath:(NSString *)path;
+- (void)refresh;
 @end

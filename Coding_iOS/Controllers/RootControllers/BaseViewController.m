@@ -24,6 +24,9 @@
 #import "RootTabViewController.h"
 #import "Message_RootViewController.h"
 
+#import "ProjectCommitsViewController.h"
+#import "MRPRDetailViewController.h"
+
 #import "UnReadManager.h"
 
 typedef NS_ENUM(NSInteger, AnalyseMethodType) {
@@ -152,6 +155,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)$";
     NSString *topicRegexStr = @"/u/([^/]+)/p/([^/]+)/topic/(\\d+)";
     NSString *taskRegexStr = @"/u/([^/]+)/p/([^/]+)/task/(\\d+)";
+    NSString *mergeRegexStr = @"/u/([^/]+)/p/([^/]+)/git/merge/(\\d+)";
     NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
     NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
     NSArray *matchedCaptures = nil;
@@ -173,6 +177,21 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
             vc.curTweet = [Tweet tweetWithGlobalKey:user_global_key andPPID:pp_id];
             analyseVC = vc;
+        }
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:mergeRegexStr]).count > 0){
+        //MR
+        NSString *path = [linkStr stringByReplacingOccurrencesOfString:@"https://coding.net" withString:@""];
+
+        if ([presentingVC isKindOfClass:[MRPRDetailViewController class]]) {
+            MRPRDetailViewController *vc = (MRPRDetailViewController *)presentingVC;
+            if ([vc.curMRPR.path isEqualToString:path]) {
+                [vc refresh];
+                analyseVCIsNew = NO;
+                analyseVC = vc;
+            }
+        }
+        if (!analyseVC) {
+            analyseVC = [MRPRDetailViewController vcWithPath:path];
         }
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:topicRegexStr]).count > 0){
         //讨论

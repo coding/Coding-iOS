@@ -191,16 +191,8 @@
 
 - (void)goToProject:(Project *)project{
     Projects *curPros = [_myProjectsDict objectForKey:[NSNumber numberWithUnsignedInteger:_myCarousel.currentItemIndex]];
-    ProjectListView *listView = (ProjectListView *)self.myCarousel.currentItemView;
-    if (curPros.type < ProjectsTypeTaProject) {
-        [[Coding_NetAPIManager sharedManager] request_Project_UpdateVisit_WithObj:project andBlock:^(id data, NSError *error) {
-            if (data) {
-                project.un_read_activities_count = [NSNumber numberWithInteger:0];
-                [listView refreshUI];
-            }
-        }];
-    }
     NProjectViewController *vc = [[NProjectViewController alloc] init];
+    vc.needUpdateVisit = (curPros.type < ProjectsTypeTaProject);
     vc.myProject = project;
     [self.navigationController pushViewController:vc animated:YES];
 }
