@@ -30,6 +30,10 @@
 #import "FileViewController.h"
 #import "ProjectCommitsViewController.h"
 
+#import "ProjectCommitsViewController.h"
+#import "MRPRDetailViewController.h"
+#import "NProjectViewController.h"
+
 @interface ProjectViewController ()
 
 @property (nonatomic, strong) NSMutableDictionary *projectContentDict;
@@ -400,9 +404,56 @@
                 vc.curUser = [User userWithGlobalKey:user.global_key];
                 [self.navigationController pushViewController:vc animated:YES];
             }
+            
+            
+        }else if ([target_type isEqualToString:@"Depot"]) {
+            if ([proAct.action_msg isEqualToString:@"删除了"]) {
+                [self showHudTipStr:@"删除了，不能看了~"];
+            }else if ([proAct.action isEqualToString:@"fork"]) {
+                NSArray *nameComponents = [proAct.depot.name componentsSeparatedByString:@"/"];
+                if (nameComponents.count == 2) {
+                    NProjectViewController *vc = [NProjectViewController new];
+                    vc.myProject = [Project new];
+                    vc.myProject.owner_user_name = nameComponents[0];
+                    vc.myProject.name = nameComponents[1];
+                    [self.navigationController pushViewController:vc animated:YES];
+                }else{
+                    [self showHudTipStr:@"没找到 Fork 到哪里去了~"];
+                }
+            }else{
+                NSString *ref = proAct.ref? proAct.ref : @"master";
+                ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
+                vc.curProject = project;
+                vc.curCommits = [Commits commitsWithRef:ref Path:@""];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }else if ([target_type isEqualToString:@"PullRequestBean"] ||
+                  [target_type isEqualToString:@"MergeRequestBean"] ||
+                  [target_type isEqualToString:@"CommitLineNote"]){
+            NSString *request_path;
+            if ([target_type isEqualToString:@"PullRequestBean"]){
+                 request_path = proAct.pull_request_path;
+            }else if ([target_type isEqualToString:@"MergeRequestBean"]){
+                request_path = proAct.merge_request_path;
+            }else if ([target_type isEqualToString:@"CommitLineNote"]){
+                request_path = proAct.line_note.noteable_url;
+            }
+            MRPRDetailViewController *vc = [MRPRDetailViewController vcWithPath:request_path];
+            if (vc) {
+                [self.navigationController pushViewController:vc animated:YES];
+            }else{
+                [self showHudTipStr:@"RequestBean 没找到~"];
+            }
         }else{
-            [self showHudTipStr:@"还不能查看详细信息呢~"];
-            DebugLog(@"暂时不解析啊：%@--%@", proAct.user.name, proAct.action_msg);
+            if ([target_type isEqualToString:@"Project"]){//这是什么鬼。。遗留的 type 吧
+                [self showHudTipStr:@"还不能查看详细信息呢~"];
+//            }else if ([target_type isEqualToString:@"MergeRequestComment"]){//过期类型，已用CommitLineNote替代
+//            }else if ([target_type isEqualToString:@"PullRequestComment"]){//过期类型，已用CommitLineNote替代
+//            }else if ([target_type isEqualToString:@"ProjectStar"]){//不用解析
+//            }else if ([target_type isEqualToString:@"ProjectWatcher"]){//不用解析
+            }else if ([target_type isEqualToString:@"QcTask"]){//还不能解析
+                [self showHudTipStr:@"还不能查看详细信息呢~"];
+            }
         }
     }else{//cell上面第一个Label
         [self goToUserInfo:[User userWithGlobalKey:[clickedItem.href substringFromIndex:3]]];

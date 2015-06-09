@@ -42,6 +42,25 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 @end
 
 @implementation MRPRDetailViewController
+
++ (MRPRDetailViewController *)vcWithPath:(NSString *)path{
+    
+    NSArray *pathComponents = [path componentsSeparatedByString:@"/"];
+    if (pathComponents.count != 8) {
+        return nil;
+    }
+    MRPRDetailViewController *vc = [MRPRDetailViewController new];
+    
+    vc.curMRPR = [MRPR new];
+    vc.curMRPR.path = path;
+    vc.curMRPR.iid = [NSNumber numberWithInteger:[(NSString *)pathComponents.lastObject integerValue]];
+    
+    vc.curProject = [Project new];
+    vc.curProject.owner_user_name = vc.curMRPR.des_owner_name;
+    vc.curProject.name = vc.curMRPR.des_project_name;
+    
+    return vc;
+}
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = [NSString stringWithFormat:@"#%@", _curMRPR.iid.stringValue];
@@ -378,7 +397,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     vc.curProject = _curProject;
     vc.requestPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/line_notes", _curMRPR.des_owner_name, _curMRPR.des_project_name];
     vc.requestParams = [@{
-                         @"noteable_type" : @"MergeRequestBean",
+                          @"noteable_type" : [self.curMRPRInfo.mrpr isMR]? @"MergeRequestBean" : @"PullRequestBean",
                          @"noteable_id" : _curMRPRInfo.mrpr.id,
                          } mutableCopy];
     vc.contentStr = userName.length > 0? [NSString stringWithFormat:@"@%@ ", userName]: nil;

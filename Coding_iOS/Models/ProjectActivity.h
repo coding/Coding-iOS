@@ -18,7 +18,7 @@
 
 @interface ProjectActivity : NSObject
 @property (readwrite, nonatomic, strong) NSNumber *id;
-@property (readwrite, nonatomic, strong) NSString *target_type, *action, *action_msg, *type, *ref, *ref_type, *ref_path, *pull_request_title, *merge_request_title, *comment_content;
+@property (readwrite, nonatomic, strong) NSString *target_type, *action, *action_msg, *type, *ref, *ref_type, *ref_path, *pull_request_title, *merge_request_title, *comment_content, *merge_request_path, *pull_request_path;
 @property (readwrite, nonatomic, strong) User *user, *target_user;
 @property (readwrite, nonatomic, strong) NSDate *created_at;
 @property (readwrite, nonatomic, strong) Task *origin_task, *task;
