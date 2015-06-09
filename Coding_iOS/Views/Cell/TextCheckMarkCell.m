@@ -19,6 +19,7 @@
     if (self) {
         // Initialization code
         self.tintColor = [UIColor colorWithHexString:@"0x3bbd79"];
+        self.backgroundColor = kColorTableBG;
 
         if (!_contentL) {
             _contentL = [UILabel new];

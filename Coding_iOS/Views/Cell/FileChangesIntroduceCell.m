@@ -19,6 +19,7 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = kColorTableBG;
         if (!_contentL) {
             _contentL = [UILabel new];
             [self.contentView addSubview:_contentL];

@@ -21,6 +21,7 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = kColorTableBG;
         
         UILabel *titleL = [UILabel new];
         titleL.font = [UIFont systemFontOfSize:15];

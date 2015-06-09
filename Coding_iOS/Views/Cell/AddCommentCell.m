@@ -18,7 +18,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = kColorTableBG;
         if (!_iconView) {
             _iconView = [UIImageView new];
             _iconView.image = [UIImage imageNamed:@"icon_add_comment"];

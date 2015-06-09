@@ -19,6 +19,7 @@
     if (self) {
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        self.backgroundColor = kColorTableBG;
         if (!_iconView) {
             _iconView = [UIImageView new];
             _iconView.layer.masksToBounds = YES;

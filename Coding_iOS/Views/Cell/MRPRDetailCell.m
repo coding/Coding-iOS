@@ -21,6 +21,7 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.backgroundColor = kColorTableBG;
         if (!_webContentView) {
             _webContentView = [UIWebView new];
             _webContentView.delegate = self;

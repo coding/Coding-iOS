@@ -20,7 +20,7 @@
     if (self) {
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        
+        self.backgroundColor = kColorTableBG;
         if (!_imgView) {
             _imgView = [UIImageView new];
             [self.contentView addSubview:_imgView];

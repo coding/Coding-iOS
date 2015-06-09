@@ -22,7 +22,7 @@
     if (self) {
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        
+        self.backgroundColor = kColorTableBG;
         if (!_imgView) {
             _imgView = [UIImageView new];
             [_imgView doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xdddddd"] cornerRadius:kCommitListCell_UserWidth/2];
