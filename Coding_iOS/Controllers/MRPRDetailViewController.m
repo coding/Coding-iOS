@@ -26,6 +26,8 @@
 #import "AddMDCommentViewController.h"
 #import "MRPRAcceptViewController.h"
 
+#import "UIView+PressMenu.h"
+
 typedef NS_ENUM(NSInteger, MRPRAction) {
     MRPRActionAccept = 1000,
     MRPRActionRefuse,
@@ -303,6 +305,22 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         MRPRCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:curCommentItem.htmlMedia.imageItems.count> 0? kCellIdentifier_MRPRCommentCell_Media: kCellIdentifier_MRPRCommentCell forIndexPath:indexPath];
         cell.curItem = curCommentItem;
         cell.contentLabel.delegate = self;
+        
+        NSArray *menuTitles;
+        if ([curCommentItem.author.global_key isEqualToString:[Login curLoginUser].global_key]) {
+            menuTitles = @[@"拷贝文字", @"回复", @"删除"];
+        }else{
+            menuTitles = @[@"拷贝文字", @"回复"];
+        }
+        [cell.contentView addPressMenuTitles:menuTitles menuClickedBlock:^(NSInteger index, NSString *title) {
+            if ([title hasPrefix:@"拷贝"]) {
+                [[UIPasteboard generalPasteboard] setString:curCommentItem.content];
+            }else if ([title isEqualToString:@"删除"]){
+                [weakSelf deleteComment:curCommentItem];
+            }else if ([title isEqualToString:@"回复"]){
+                [weakSelf goToAddCommentVCToUser:curCommentItem.author.name];
+            }
+        }];
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
     }else{//Add Comment
@@ -346,8 +364,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [self.navigationController pushViewController:vc animated:YES];
         }
     }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 2){//Comment
-        ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
-        [self goToAddCommentVCToUser:curCommentItem.author.name];
+//        ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
+//        [self goToAddCommentVCToUser:curCommentItem.author.name];
     }else{//Add Comment
         [self goToAddCommentVCToUser:nil];
     }
@@ -376,6 +394,17 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+- (void)deleteComment:(ProjectLineNote *)lineNote{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_DeleteLineNote:lineNote.id inProject:_curMRPRInfo.mrpr.des_project_name ofUser:_curMRPRInfo.mrpr.des_owner_name andBlock:^(id data, NSError *error) {
+        if (data) {
+            [weakSelf.curMRPRInfo.discussions removeObject:@[lineNote]];
+            [weakSelf.myTableView reloadData];
+        }
+    }];
+}
+
 
 #pragma mark loadCellRequest
 - (void)loadRequest:(NSURLRequest *)curRequest

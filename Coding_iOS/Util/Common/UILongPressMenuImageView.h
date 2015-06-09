@@ -11,6 +11,5 @@
 @interface UILongPressMenuImageView : UIImageView
 @property (copy, nonatomic) void(^longPressMenuBlock)(NSInteger index, NSString *title);
 @property (strong, nonatomic) NSArray *longPressTitles;
-@property (strong, nonatomic) NSMutableDictionary *longPressDict;
 - (void)addLongPressMenu:(NSArray *)titles clickBlock:(void(^)(NSInteger index, NSString *title))block;
 @end
