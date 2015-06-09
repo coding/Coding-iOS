@@ -234,6 +234,7 @@
             }else{
                 weakSelf.rootFolders = preRootFolders;
                 [weakSelf showHudTipStr:@"文件夹不存在"];
+                weakSelf.navigationItem.rightBarButtonItem = nil;
                 [weakSelf.view configBlankPage:EaseBlankPageTypeFolderDleted hasData:([weakSelf totalDataRow] > 0) hasError:NO reloadButtonBlock:nil];
             }
         }else{
