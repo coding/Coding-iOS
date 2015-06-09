@@ -29,6 +29,7 @@
     
     self.curMRPR = self.curMRPRInfo.mrpr;
     self.curMRPR.del_source_branch = YES;
+    self.curMRPR.can_edit_src_branch = ([_curMRPR isMR] && _curMRPRInfo.can_edit_src_branch.boolValue);
     
     NSString *fromStr, *toStr;
     if (_curMRPR.isMR) {
@@ -60,7 +61,11 @@
 
 #pragma mark TableM
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+    if ([_curMRPR isMR] && _curMRPRInfo.can_edit_src_branch.boolValue) {
+        return 2;
+    }else{
+        return 1;
+    }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;

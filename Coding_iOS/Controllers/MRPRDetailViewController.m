@@ -190,8 +190,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     NSString *tipStr;
     if (sender.tag == MRPRActionAccept) {//合并
         if (_curMRPRInfo.mrpr.status == MRPRStatusCannotMerge) {//不能合并
-            tipStr =
-            @"呃... \nCoding 不能帮你在线自动合并这个合并请求。";
+            tipStr = @"Coding 不能帮你在线自动合并这个合并请求。";
             kTipAlert(@"%@", tipStr);
         }else{
             MRPRAcceptViewController *vc = [MRPRAcceptViewController new];

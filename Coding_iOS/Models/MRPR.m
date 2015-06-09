@@ -71,8 +71,12 @@
     return [[self p_prePath] stringByAppendingString:@"merge"];
 }
 - (NSDictionary *)toAcceptParams{
-    return @{@"del_source_branch": _del_source_branch? @"true": @"false",
-             @"message" : _message? _message: @""};
+    if (_can_edit_src_branch) {
+        return @{@"del_source_branch": _del_source_branch? @"true": @"false",
+                 @"message" : _message? _message: @""};
+    }else{
+        return @{@"message" : _message? _message: @""};
+    }
 }
 - (NSString *)toRefusePath{
     return [[self p_prePath] stringByAppendingString:@"refuse"];

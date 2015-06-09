@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, MRPRStatus) {
 @property (assign, nonatomic) BOOL isLoading;
 
 //Post
-@property (assign, nonatomic) BOOL del_source_branch;
+@property (assign, nonatomic) BOOL del_source_branch, can_edit_src_branch;
 @property (strong, nonatomic) NSString *message;
 
 + (MRPR *)mrprWithPath:(NSString *)path;
