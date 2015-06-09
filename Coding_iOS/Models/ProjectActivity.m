@@ -75,15 +75,15 @@
         }else if ([_target_type isEqualToString:@"Task"]){
             [self addActionUser:_user];
             if ([_action isEqualToString:@"update_priority"]) {
-                [_actionStr appendFormat:@"更新了任务 [%@] 的优先级", _task.title];
+                [_actionStr appendFormat:@"更新了任务「%@」的优先级", _task.title];
             }else if ([_action isEqualToString:@"update_deadline"]) {
                 if (_task.deadline && _task.deadline.length > 0) {
-                    [_actionStr appendFormat:@"更新了任务 [%@] 的截止日期", _task.title];
+                    [_actionStr appendFormat:@"更新了任务「%@」的截止日期", _task.title];
                 }else{
-                    [_actionStr appendFormat:@"移除了任务 [%@] 的截止日期", _task.title];
+                    [_actionStr appendFormat:@"移除了任务「%@」的截止日期", _task.title];
                 }
             }else if ([_action isEqualToString:@"update_description"]) {
-                [_actionStr appendFormat:@"更新了任务 [%@] 的描述", _task.title];
+                [_actionStr appendFormat:@"更新了任务「%@」的描述", _task.title];
             }else{
                 [_actionStr saveAppendString:_action_msg];
                 if (_origin_task.owner) {
@@ -99,42 +99,42 @@
             }
         }else if ([_target_type isEqualToString:@"TaskComment"]){
             [self addActionUser:_user];
-            [_actionStr appendFormat:@"%@任务 [%@] 的评论", _action_msg, _task.title];
+            [_actionStr appendFormat:@"%@任务「%@」的评论", _action_msg, _task.title];
         }else{
             [self addActionUser:_user];
             [_actionStr saveAppendString:_action_msg];
             if ([_target_type isEqualToString:@"ProjectTopic"]){
                 [_actionStr appendString:@"讨论"];
                 if ([_action isEqualToString:@"comment"]) {
-                    [_actionStr appendFormat:@" [%@] ", _project_topic.parent.title];
+                    [_actionStr appendFormat:@"「%@」", _project_topic.parent.title];
                 }
             }else if ([_target_type isEqualToString:@"ProjectFile"]){
                 [_actionStr appendString:[_type isEqualToString:@"dir"]? @"文件夹": @"文件"];
             }else if ([_target_type isEqualToString:@"Depot"]){
                 if ([_action isEqualToString:@"push"]) {
-                    [_actionStr appendFormat:@"项目 %@ [%@]", self.ref_type, _ref];
+                    [_actionStr appendFormat:@"项目 %@ 「%@」", self.ref_type, _ref];
                 }else if ([_action isEqualToString:@"fork"]){
-                    [_actionStr appendFormat:@"项目 [%@] 到 [%@]", _source_depot.name, _depot.name];
+                    [_actionStr appendFormat:@"项目「%@」到 「%@」", _source_depot.name, _depot.name];
                 }
             }else{
                 [_actionStr appendString:@"项目"];
                 if ([_target_type isEqualToString:@"Project"]){
                 }else if ([_target_type isEqualToString:@"QcTask"]){
-                    [_actionStr appendFormat:@" [%@] 的质量分析任务", _project.full_name];
+                    [_actionStr appendFormat:@"「%@」的质量分析任务", _project.full_name];
                 }else if ([_target_type isEqualToString:@"ProjectStar"]){
-                    [_actionStr appendFormat:@" [%@] ", _project.full_name];
+                    [_actionStr appendFormat:@"「%@」", _project.full_name];
                 }else if ([_target_type isEqualToString:@"ProjectWatcher"]){
-                    [_actionStr appendFormat:@" [%@] ", _project.full_name];
+                    [_actionStr appendFormat:@"「%@」", _project.full_name];
                 }else if ([_target_type isEqualToString:@"PullRequestBean"]){
-                    [_actionStr appendFormat:@" [%@] 中的 Pull Request", _depot.name];
+                    [_actionStr appendFormat:@"「%@」中的 Pull Request", _depot.name];
                 }else if ([_target_type isEqualToString:@"PullRequestComment"]){
-                    [_actionStr appendFormat:@" [%@] 中的 Pull Request [%@]", _depot.name, _pull_request_title];
+                    [_actionStr appendFormat:@"「%@」中的 Pull Request 「%@」", _depot.name, _pull_request_title];
                 }else if ([_target_type isEqualToString:@"MergeRequestBean"]){
-                    [_actionStr appendFormat:@" [%@] 中的 Merge Request", _depot.name];
+                    [_actionStr appendFormat:@"「%@」中的 Merge Request", _depot.name];
                 }else if ([_target_type isEqualToString:@"MergeRequestComment"]){
-                    [_actionStr appendFormat:@" [%@] 中的 Merge Request [%@]", _depot.name, _merge_request_title];
+                    [_actionStr appendFormat:@"「%@」中的 Merge Request 「%@」", _depot.name, _merge_request_title];
                 }else if ([_target_type isEqualToString:@"CommitLineNote"]){
-                    [_actionStr appendFormat:@" [%@] 的 %@ [%@] ", _project.full_name, _line_note.noteable_type, _line_note.noteable_title];
+                    [_actionStr appendFormat:@"「%@」的 %@「%@」", _project.full_name, _line_note.noteable_type, _line_note.noteable_title];
                 }
             }
         }
@@ -149,10 +149,10 @@
         if ([_target_type isEqualToString:@"Task"]) {
             if ([_action isEqualToString:@"update_priority"]) {
                 if (_task.priority && _task.priority.intValue < kTaskPrioritiesDisplay.count) {
-                    [_contentStr appendFormat:@"[%@]", kTaskPrioritiesDisplay[_task.priority.intValue]];
+                    [_contentStr appendFormat:@"「%@」", kTaskPrioritiesDisplay[_task.priority.intValue]];
                 }
             }else if ([_action isEqualToString:@"update_deadline"] && _task.deadline && _task.deadline.length > 0) {
-                [_contentStr appendFormat:@"[%@]", [NSDate convertStr_yyyy_MM_ddToDisplay:_task.deadline]];
+                [_contentStr appendFormat:@"「%@」", [NSDate convertStr_yyyy_MM_ddToDisplay:_task.deadline]];
             }else if ([_action isEqualToString:@"update_description"]) {
                 [_contentStr saveAppendString:_task.description_mine];
             }else{
