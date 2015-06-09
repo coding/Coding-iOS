@@ -155,7 +155,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)$";
     NSString *topicRegexStr = @"/u/([^/]+)/p/([^/]+)/topic/(\\d+)";
     NSString *taskRegexStr = @"/u/([^/]+)/p/([^/]+)/task/(\\d+)";
-    NSString *mergeRegexStr = @"/u/([^/]+)/p/([^/]+)/git/merge/(\\d+)";
+    NSString *mergeRegexStr = @"/u/([^/]+)/p/([^/]+)/git/(merge|pull)/(\\d+)";
     NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
     NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
     NSArray *matchedCaptures = nil;
