@@ -33,6 +33,8 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 
 @property (nonatomic, strong) SMPageControl *pageControl;
 @property (strong, nonatomic) UIScrollView *buttonContainer;
+
+@property (strong, nonatomic) UIViewController *p_displayingViewController;
 @end
 
 @implementation RKSwipeBetweenViewControllers
@@ -225,15 +227,20 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 //It extracts the xcoordinate from the center point and instructs the selection bar to move accordingly
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat percentX = scrollView.contentOffset.x / CGRectGetWidth(scrollView.frame);
-    percentX += self.currentPageIndex -1;
+    
+    NSInteger currentPageIndex = self.currentPageIndex;
+    if (_p_displayingViewController) {
+        currentPageIndex = [self indexOfController:_p_displayingViewController];
+    }
+    percentX += currentPageIndex -1;
+    
     [self updateNavigationViewWithPercentX:percentX];
 }
 
 - (void)updateNavigationViewWithPercentX:(CGFloat)percentX{
-    if (ABS(percentX - self.currentPageIndex) > 0.9) {
-        NSInteger nearestPage = floorf(percentX + 0.5);
-        _pageControl.currentPage = nearestPage;
-    }
+    NSInteger nearestPage = floorf(percentX + 0.5);
+    _pageControl.currentPage = nearestPage;
+    
     NSArray *buttons = [_buttonContainer subviews];
     if (buttons.count > 0) {
         [buttons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL *stop) {
@@ -258,6 +265,7 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 #pragma mark - Page View Controller Data Source
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
+    _p_displayingViewController = viewController;
     NSInteger index = [self indexOfController:viewController];
     
     if ((index == NSNotFound) || (index == 0)) {
@@ -269,6 +277,7 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 }
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
+    _p_displayingViewController = viewController;
     NSInteger index = [self indexOfController:viewController];
     
     if (index == NSNotFound) {
@@ -283,6 +292,7 @@ CGFloat X_OFFSET = 8.0; //%%% for some reason there's a little bit of a glitchy 
 }
 
 -(void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)completed {
+    _p_displayingViewController = nil;
     if (completed) {
         self.currentPageIndex = [self indexOfController:[pageViewController.viewControllers lastObject]];
     }
