@@ -538,7 +538,9 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             NSString *noteable_type = [params objectForKey:@"noteable_type"];
-            if ([noteable_type isEqualToString:@"MergeRequestBean"] || [noteable_type isEqualToString:@"Commit"]) {
+            if ([noteable_type isEqualToString:@"MergeRequestBean"] ||
+                [noteable_type isEqualToString:@"PullRequestBean"] ||
+                [noteable_type isEqualToString:@"Commit"]) {
                 id resultData = [data valueForKeyPath:@"data"];
                 ProjectLineNote *note = [NSObject objectOfClass:@"ProjectLineNote" fromJSON:resultData];
                 block(note, nil);

@@ -405,7 +405,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     vc.completeBlock = ^(id data){
         @strongify(self);
         if (data && [data isKindOfClass:[ProjectLineNote class]]) {
-            [self.curMRPRInfo.discussions addObject:[NSArray arrayWithObject:data]];
+            [self.curMRPRInfo.discussions addObject:@[data]];
             [self.myTableView reloadData];
         }
     };
