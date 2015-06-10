@@ -54,11 +54,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     vc.curMRPR = [MRPR new];
     vc.curMRPR.path = path;
     vc.curMRPR.iid = [NSNumber numberWithInteger:[(NSString *)pathComponents.lastObject integerValue]];
-    
-    vc.curProject = [Project new];
-    vc.curProject.owner_user_name = vc.curMRPR.des_owner_name;
-    vc.curProject.name = vc.curMRPR.des_project_name;
-    
+
     return vc;
 }
 - (void)viewDidLoad{

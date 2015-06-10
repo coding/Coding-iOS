@@ -12,7 +12,7 @@
 
 @interface MRPRDetailViewController : BaseViewController
 @property (strong, nonatomic) MRPR *curMRPR;
-@property (strong, nonatomic) Project *curProject;
+@property (strong, nonatomic) Project *curProject;//非必需
 + (MRPRDetailViewController *)vcWithPath:(NSString *)path;
 - (void)refresh;
 @end

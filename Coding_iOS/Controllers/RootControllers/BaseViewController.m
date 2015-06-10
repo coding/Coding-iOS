@@ -26,6 +26,7 @@
 
 #import "ProjectCommitsViewController.h"
 #import "MRPRDetailViewController.h"
+#import "CommitFilesViewController.h"
 
 #import "UnReadManager.h"
 
@@ -155,7 +156,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)$";
     NSString *topicRegexStr = @"/u/([^/]+)/p/([^/]+)/topic/(\\d+)";
     NSString *taskRegexStr = @"/u/([^/]+)/p/([^/]+)/task/(\\d+)";
-    NSString *mergeRegexStr = @"/u/([^/]+)/p/([^/]+)/git/(merge|pull)/(\\d+)";
+    NSString *gitMRPRCommitRegexStr = @"/u/([^/]+)/p/([^/]+)/git/(merge|pull|commit)/(\\d+)";
     NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
     NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
     NSArray *matchedCaptures = nil;
@@ -178,20 +179,36 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             vc.curTweet = [Tweet tweetWithGlobalKey:user_global_key andPPID:pp_id];
             analyseVC = vc;
         }
-    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:mergeRegexStr]).count > 0){
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:gitMRPRCommitRegexStr]).count > 0){
         //MR
         NSString *path = [linkStr stringByReplacingOccurrencesOfString:@"https://coding.net" withString:@""];
-
-        if ([presentingVC isKindOfClass:[MRPRDetailViewController class]]) {
-            MRPRDetailViewController *vc = (MRPRDetailViewController *)presentingVC;
-            if ([vc.curMRPR.path isEqualToString:path]) {
-                [vc refresh];
-                analyseVCIsNew = NO;
-                analyseVC = vc;
+        
+        if ([matchedCaptures[3] isEqualToString:@"commit"]) {
+            if ([presentingVC isKindOfClass:[CommitFilesViewController class]]) {
+                CommitFilesViewController *vc = (CommitFilesViewController *)presentingVC;
+                if ([vc.commitId isEqualToString:matchedCaptures[3]] &&
+                    [vc.projectName isEqualToString:matchedCaptures[2]] &&
+                    [vc.ownerGK isEqualToString:matchedCaptures[1]]) {
+                    [vc refresh];
+                    analyseVCIsNew = NO;
+                    analyseVC = vc;
+                }
             }
-        }
-        if (!analyseVC) {
-            analyseVC = [MRPRDetailViewController vcWithPath:path];
+            if (!analyseVC) {
+                analyseVC = [CommitFilesViewController vcWithPath:path];
+            }
+        }else{
+            if ([presentingVC isKindOfClass:[MRPRDetailViewController class]]) {
+                MRPRDetailViewController *vc = (MRPRDetailViewController *)presentingVC;
+                if ([vc.curMRPR.path isEqualToString:path]) {
+                    [vc refresh];
+                    analyseVCIsNew = NO;
+                    analyseVC = vc;
+                }
+            }
+            if (!analyseVC) {
+                analyseVC = [MRPRDetailViewController vcWithPath:path];
+            }
         }
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:topicRegexStr]).count > 0){
         //讨论

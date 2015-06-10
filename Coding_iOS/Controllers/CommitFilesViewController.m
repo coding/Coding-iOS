@@ -36,6 +36,20 @@
 @end
 
 @implementation CommitFilesViewController
+
++ (CommitFilesViewController *)vcWithPath:(NSString *)path{
+    
+    NSArray *pathComponents = [path componentsSeparatedByString:@"/"];
+    if (pathComponents.count != 8) {
+        return nil;
+    }
+    CommitFilesViewController *vc = [CommitFilesViewController new];
+    vc.ownerGK = pathComponents[2];
+    vc.projectName = pathComponents[4];
+    vc.commitId = pathComponents[7];
+    return vc;
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     

@@ -11,5 +11,7 @@
 
 @interface CommitFilesViewController : BaseViewController
 @property (strong, nonatomic) NSString *ownerGK, *projectName, *commitId;
-@property (strong, nonatomic) Project *curProject;
+@property (strong, nonatomic) Project *curProject;//非必需
++ (CommitFilesViewController *)vcWithPath:(NSString *)path;
+- (void)refresh;
 @end
