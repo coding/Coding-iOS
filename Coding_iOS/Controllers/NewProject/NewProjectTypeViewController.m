@@ -113,16 +113,11 @@
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //
-    if (indexPath.row == 0) {
-        return;
-    }
-    
-    // Remove seperator inset
-    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-        [cell setSeparatorInset:UIEdgeInsetsZero];
-    }
-    
+    CGFloat padding = kPaddingLeftWidth;
+    cell.indentationLevel = 1;
+    cell.indentationWidth = indexPath.row == 0? 0 : padding;
+    cell.separatorInset = UIEdgeInsetsMake(0, indexPath.row == 0? padding: 0, 0, 0);
+
     // Prevent the cell from inheriting the Table View's margin settings
     if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
         [cell setPreservesSuperviewLayoutMargins:NO];
