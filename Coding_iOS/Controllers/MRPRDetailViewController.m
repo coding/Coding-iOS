@@ -321,22 +321,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         MRPRCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:curCommentItem.htmlMedia.imageItems.count> 0? kCellIdentifier_MRPRCommentCell_Media: kCellIdentifier_MRPRCommentCell forIndexPath:indexPath];
         cell.curItem = curCommentItem;
         cell.contentLabel.delegate = self;
-        
-        NSArray *menuTitles;
-        if ([curCommentItem.author.global_key isEqualToString:[Login curLoginUser].global_key]) {
-            menuTitles = @[@"拷贝文字", @"回复", @"删除"];
-        }else{
-            menuTitles = @[@"拷贝文字", @"回复"];
-        }
-        [cell.contentView addPressMenuTitles:menuTitles menuClickedBlock:^(NSInteger index, NSString *title) {
-            if ([title hasPrefix:@"拷贝"]) {
-                [[UIPasteboard generalPasteboard] setString:curCommentItem.content];
-            }else if ([title isEqualToString:@"删除"]){
-                [weakSelf deleteComment:curCommentItem];
-            }else if ([title isEqualToString:@"回复"]){
-                [weakSelf goToAddCommentVCToUser:curCommentItem.author.name];
-            }
-        }];
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
     }else{//Add Comment
@@ -380,8 +364,28 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [self.navigationController pushViewController:vc animated:YES];
         }
     }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 2){//Comment
-//        ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
-//        [self goToAddCommentVCToUser:curCommentItem.author.name];
+        ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        if ([cell.contentView isMenuVCVisible]) {
+            [cell.contentView removePressMenu];
+            return;
+        }
+        NSArray *menuTitles;
+        if ([curCommentItem.author.global_key isEqualToString:[Login curLoginUser].global_key]) {
+            menuTitles = @[@"拷贝文字", @"删除"];
+        }else{
+            menuTitles = @[@"拷贝文字", @"回复"];
+        }
+        __weak typeof(self) weakSelf = self;
+        [cell.contentView showMenuTitles:menuTitles menuClickedBlock:^(NSInteger index, NSString *title) {
+            if ([title hasPrefix:@"拷贝"]) {
+                [[UIPasteboard generalPasteboard] setString:curCommentItem.content];
+            }else if ([title isEqualToString:@"删除"]){
+                [weakSelf deleteComment:curCommentItem];
+            }else if ([title isEqualToString:@"回复"]){
+                [weakSelf goToAddCommentVCToUser:curCommentItem.author.name];
+            }
+        }];
     }else{//Add Comment
         [self goToAddCommentVCToUser:nil];
     }

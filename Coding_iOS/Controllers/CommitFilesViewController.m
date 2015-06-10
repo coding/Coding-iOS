@@ -280,8 +280,28 @@
         vc.filePath = curFileChange.path;
         [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section == _listGroupKeys.count+ 1 && _curCommitInfo.commitComments.count > 0){
-//        ProjectLineNote*curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];
-//        [self goToAddCommentVCToUser:curCommentItem.author.name];
+        ProjectLineNote*curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        if ([cell.contentView isMenuVCVisible]) {
+            [cell.contentView removePressMenu];
+            return;
+        }
+        NSArray *menuTitles;
+        if ([curCommentItem.author.global_key isEqualToString:[Login curLoginUser].global_key]) {
+            menuTitles = @[@"拷贝文字", @"删除"];
+        }else{
+            menuTitles = @[@"拷贝文字", @"回复"];
+        }
+        __weak typeof(self) weakSelf = self;
+        [cell.contentView showMenuTitles:menuTitles menuClickedBlock:^(NSInteger index, NSString *title) {
+            if ([title hasPrefix:@"拷贝"]) {
+                [[UIPasteboard generalPasteboard] setString:curCommentItem.content];
+            }else if ([title isEqualToString:@"删除"]){
+                [weakSelf deleteComment:curCommentItem];
+            }else if ([title isEqualToString:@"回复"]){
+                [weakSelf goToAddCommentVCToUser:curCommentItem.author.name];
+            }
+        }];
     }else{
         [self goToAddCommentVCToUser:nil];
     }

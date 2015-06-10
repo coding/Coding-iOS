@@ -13,7 +13,7 @@
 @implementation UIView (PressMenu)
 
 static const NSString *kPressMenuSelectorPrefix = @"easePressMenuClicked_";
-static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey;
+static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey, MenuVCKey;
 
 #pragma mark M
 - (void)addPressMenuTitles:(NSArray *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title))block{
@@ -25,13 +25,34 @@ static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey;
     [self addGestureRecognizer:self.pressGR];
 }
 
+- (void)showMenuTitles:(NSArray *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title))block{
+    self.menuClickedBlock = block;
+    self.menuTitles = menuTitles;
+    [self p_showMenu];
+}
+
+- (BOOL)isMenuVCVisible{
+    if (self.menuVC) {
+        return [self.menuVC isMenuVisible];
+    }
+    return NO;
+}
+
 - (void)removePressMenu{
+    if (self.menuVC) {
+        [self.menuVC setMenuVisible:NO animated:YES];
+        self.menuVC = nil;
+    }
     if ([self.pressGR isKindOfClass:[UILongPressGestureRecognizer class]]) {
         [self removeGestureRecognizer:self.pressGR];
         self.pressGR = nil;
     }
-    self.menuClickedBlock = nil;
-    self.menuTitles = nil;
+    if (self.menuClickedBlock) {
+        self.menuClickedBlock = nil;
+    }
+    if (self.menuTitles) {
+        self.menuTitles = nil;
+    }
 }
 
 #pragma mark SET_GET
@@ -54,6 +75,13 @@ static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey;
 }
 - (UILongPressGestureRecognizer *)pressGR{
     return objc_getAssociatedObject(self, &PressMenuGestureKey);
+}
+
+- (void)setMenuVC:(UIMenuController *)menuVC{
+    objc_setAssociatedObject(self, &MenuVCKey, menuVC, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+- (UIMenuController *)menuVC{
+    return objc_getAssociatedObject(self, &MenuVCKey);
 }
 
 #pragma mark canPerformAction
@@ -79,9 +107,12 @@ static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey;
 }
 
 -(void)handlePress:(UIGestureRecognizer*)recognizer{
-    if (recognizer.state != UIGestureRecognizerStateBegan) {
-        return;
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        [self p_showMenu];
     }
+}
+
+- (void)p_showMenu{
     [self becomeFirstResponder];
     NSMutableArray *menuItems = [[NSMutableArray alloc] initWithCapacity:self.menuTitles.count];
     Class cls = [self class];
@@ -98,7 +129,9 @@ static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey;
     [menu setMenuItems:menuItems];
     [menu setTargetRect:self.frame inView:self.superview];
     [menu setMenuVisible:YES animated:YES];
+    self.menuVC = menu;
 }
+
 - (void)pressMenuClicked:(id)sender {
     NSString *selStr = NSStringFromSelector(_cmd);
     NSString *indexStr = [selStr substringFromIndex:kPressMenuSelectorPrefix.length];
