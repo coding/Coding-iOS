@@ -91,6 +91,8 @@
         _curProject = [Project new];
         _curProject.owner_user_name = _ownerGK;
         _curProject.name = _projectName;
+    }
+    if (![_curProject.id isKindOfClass:[NSNumber class]]) {
         [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_curProject andBlock:^(id data, NSError *error) {
             if (data) {
                 weakSelf.curProject = data;

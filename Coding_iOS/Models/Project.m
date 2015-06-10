@@ -84,7 +84,11 @@
 }
 
 - (NSString *)toMembersPath{
-    return [NSString stringWithFormat:@"api/project/%d/members", self.id.intValue];
+    if ([_id isKindOfClass:[NSNumber class]]) {
+        return [NSString stringWithFormat:@"api/project/%d/members", self.id.intValue];
+    }else{
+        return [NSString stringWithFormat:@"api/user/%@/project/%@/members", _owner_user_name, _name];
+    }
 }
 - (NSDictionary *)toMembersParams{
     return @{@"page" : [NSNumber numberWithInteger:1],

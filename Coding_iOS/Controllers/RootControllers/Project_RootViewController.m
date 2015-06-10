@@ -192,7 +192,6 @@
 - (void)goToProject:(Project *)project{
     Projects *curPros = [_myProjectsDict objectForKey:[NSNumber numberWithUnsignedInteger:_myCarousel.currentItemIndex]];
     NProjectViewController *vc = [[NProjectViewController alloc] init];
-    vc.needUpdateVisit = (curPros.type < ProjectsTypeTaProject);
     vc.myProject = project;
     [self.navigationController pushViewController:vc animated:YES];
 }

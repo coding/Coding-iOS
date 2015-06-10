@@ -165,6 +165,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         _curProject = [Project new];
         _curProject.owner_user_name = _curMRPR.des_owner_name;
         _curProject.name = _curMRPR.des_project_name;
+    }
+    if (![_curProject.id isKindOfClass:[NSNumber class]]) {
         [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_curProject andBlock:^(id data, NSError *error) {
             if (data) {
                 weakSelf.curProject = data;
