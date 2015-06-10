@@ -16,6 +16,8 @@
 #import "ProjectCommitsViewController.h"
 #import "MRPRDetailViewController.h"
 #import "NProjectViewController.h"
+#import "ProjectViewController.h"
+#import "CommitFilesViewController.h"
 
 @interface ProjectMemberActivityListViewController ()
 
@@ -166,10 +168,11 @@
                     [self showHudTipStr:@"没找到 Fork 到哪里去了~"];
                 }
             }else{
-                NSString *ref = proAct.ref? proAct.ref : @"master";
-                ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
-                vc.curProject = project;
-                vc.curCommits = [Commits commitsWithRef:ref Path:@""];
+                ProjectViewController *vc = [ProjectViewController codeVCWithCodeRef:proAct.ref andProject:project];
+                //                NSString *ref = proAct.ref? proAct.ref : @"master";
+                //                ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
+                //                vc.curProject = project;
+                //                vc.curCommits = [Commits commitsWithRef:ref Path:@""];
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }else if ([target_type isEqualToString:@"PullRequestBean"] ||
@@ -183,11 +186,17 @@
             }else if ([target_type isEqualToString:@"CommitLineNote"]){
                 request_path = proAct.line_note.noteable_url;
             }
-            MRPRDetailViewController *vc = [MRPRDetailViewController vcWithPath:request_path];
+            
+            UIViewController *vc;
+            if ([proAct.line_note.noteable_type isEqualToString:@"Commit"]) {
+                vc = [CommitFilesViewController vcWithPath:request_path];
+            }else{
+                vc = [MRPRDetailViewController vcWithPath:request_path];
+            }
             if (vc) {
                 [self.navigationController pushViewController:vc animated:YES];
             }else{
-                [self showHudTipStr:@"RequestBean 没找到~"];
+                [self showHudTipStr:@"不知道这是个什么东西o(╯□╰)o~"];
             }
         }else{
             if ([target_type isEqualToString:@"Project"]){//这是什么鬼。。遗留的 type 吧

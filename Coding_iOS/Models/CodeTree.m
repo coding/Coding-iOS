@@ -25,7 +25,7 @@
 }
 + (CodeTree *)codeTreeWithRef:(NSString *)ref andPath:(NSString *)path{
     CodeTree *codeTree = [[CodeTree alloc] init];
-    codeTree.ref = ref;
+    codeTree.ref = ref.length > 0? ref: @"master";
     codeTree.path = path;
     return codeTree;
 }

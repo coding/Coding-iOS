@@ -26,8 +26,11 @@
 @implementation ProjectCommitsViewController
 - (void)viewDidLoad{
     [super viewDidLoad];
-    
-    self.title = [NSString stringWithFormat:@"%@ : /%@", _curCommits.ref, _curCommits.path];
+    if (_curCommits.path.length > 0) {
+        self.title = [NSString stringWithFormat:@"%@ : /%@", _curCommits.ref, _curCommits.path];
+    }else{
+        self.title = _curCommits.ref;
+    }
     
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];

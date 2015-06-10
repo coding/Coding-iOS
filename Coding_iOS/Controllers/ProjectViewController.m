@@ -39,14 +39,24 @@
 
 @property (nonatomic, strong) NSMutableDictionary *projectContentDict;
 
-@property (strong, nonatomic) NSString *codeRef;
-
 //项目成员
 @property (strong, nonatomic) ProjectMemberListViewController *proMemberVC;
 
 @end
 
 @implementation ProjectViewController
+
++ (ProjectViewController *)codeVCWithCodeRef:(NSString *)codeRef andProject:(Project *)project{
+    ProjectViewController *vc = [self new];
+    vc.codeRef = codeRef;
+    vc.myProject = project;
+    if (vc.myProject.is_public.boolValue) {
+        vc.curIndex = 2;
+    }else{
+        vc.curIndex = 4;
+    }
+    return vc;
+}
 - (instancetype)init
 {
     self = [super init];
@@ -240,7 +250,7 @@
                 break;
             case ProjectViewTypeCodes:{
                 curView = ({
-                    ProjectCodeListView *codeListView = [[ProjectCodeListView alloc] initWithFrame:self.view.bounds project:_myProject andCodeTree:nil];
+                    ProjectCodeListView *codeListView = [[ProjectCodeListView alloc] initWithFrame:self.view.bounds project:_myProject andCodeTree:[CodeTree codeTreeWithRef:_codeRef andPath:@""]];
                     codeListView.codeTreeFileOfRefBlock = ^(CodeTree_File *curCodeTreeFile, NSString *ref){
                         [weakSelf goToVCWith:curCodeTreeFile andRef:ref];
                     };
@@ -422,10 +432,11 @@
                     [self showHudTipStr:@"没找到 Fork 到哪里去了~"];
                 }
             }else{
-                NSString *ref = proAct.ref? proAct.ref : @"master";
-                ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
-                vc.curProject = project;
-                vc.curCommits = [Commits commitsWithRef:ref Path:@""];
+                ProjectViewController *vc = [ProjectViewController codeVCWithCodeRef:proAct.ref andProject:project];
+//                NSString *ref = proAct.ref? proAct.ref : @"master";
+//                ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
+//                vc.curProject = project;
+//                vc.curCommits = [Commits commitsWithRef:ref Path:@""];
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }else if ([target_type isEqualToString:@"PullRequestBean"] ||
