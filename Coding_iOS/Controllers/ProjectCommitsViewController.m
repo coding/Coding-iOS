@@ -82,6 +82,7 @@
         if (data) {
             [weakSelf.curCommits configWithCommits:data];
             [weakSelf.myTableView reloadData];
+            weakSelf.myTableView.showsInfiniteScrolling = [weakSelf curCommits].canLoadMore;
         }
         [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.curCommits.list > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
