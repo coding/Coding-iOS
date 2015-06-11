@@ -79,6 +79,7 @@
     [[Coding_NetAPIManager sharedManager] request_Commits:_curCommits withPro:_curProject andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         [weakSelf.myRefreshControl endRefreshing];
+        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
         if (data) {
             [weakSelf.curCommits configWithCommits:data];
             [weakSelf.myTableView reloadData];
