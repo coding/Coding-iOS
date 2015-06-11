@@ -18,6 +18,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_titleL) {
             _titleL = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 12, 80, 20)];
             _titleL.textAlignment = NSTextAlignmentLeft;
