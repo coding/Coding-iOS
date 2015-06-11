@@ -536,7 +536,9 @@
             }];
 
         }
+            break;
         case ProjectViewTypeCodes:{
+            //代码提交记录
             ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
             vc.curProject = self.myProject;
             vc.curCommits = [Commits commitsWithRef:self.codeRef? self.codeRef: @"master" Path:@""];
