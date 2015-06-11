@@ -503,7 +503,8 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
-        case ProjectViewTypeMembers:{
+        case ProjectViewTypeMembers:
+        {
             __weak typeof(self) weakSelf = self;
             AddUserViewController *vc = [[AddUserViewController alloc] init];
             vc.curProject = self.myProject;
@@ -519,7 +520,8 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
-        case ProjectViewTypeFiles:{
+        case ProjectViewTypeFiles:
+        {
             //新建文件夹
             __weak typeof(self) weakSelf = self;
             [SettingTextViewController showSettingFolderNameVCFromVC:self withTitle:@"新建文件夹" textValue:nil type:SettingTypeNewFolderName doneBlock:^(NSString *textValue) {
@@ -537,7 +539,8 @@
 
         }
             break;
-        case ProjectViewTypeCodes:{
+        case ProjectViewTypeCodes:
+        {
             //代码提交记录
             ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
             vc.curProject = self.myProject;
@@ -548,7 +551,6 @@
         default:
             break;
     }
-
 }
 
 
