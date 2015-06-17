@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     [MobClick beginLogPageView:[NSString stringWithUTF8String:object_getClassName(self)]];
     
     if (self.interfaceOrientation != UIInterfaceOrientationPortrait
-        &&![self isMemberOfClass:NSClassFromString(@"CodeViewController")]) {
+        && !([self supportedInterfaceOrientations] & UIInterfaceOrientationMaskLandscapeLeft)) {
         [self forceChangeToOrientation:UIInterfaceOrientationPortrait];
     }
 }
@@ -72,7 +72,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     [super loadView];
     
     if (self.interfaceOrientation != UIInterfaceOrientationPortrait
-        &&![self isMemberOfClass:NSClassFromString(@"CodeViewController")]) {
+        && !([self supportedInterfaceOrientations] & UIInterfaceOrientationMaskLandscapeLeft)) {
         [self forceChangeToOrientation:UIInterfaceOrientationPortrait];
     }
 }

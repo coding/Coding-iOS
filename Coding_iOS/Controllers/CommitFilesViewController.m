@@ -274,10 +274,12 @@
         FileChange *curFileChange = [curList objectAtIndex:indexPath.row];
         
         FileChangeDetailViewController *vc = [FileChangeDetailViewController new];
+        vc.linkUrlStr = [NSString stringWithFormat:@"api/user/%@/project/%@/git/commitDiffContent/%@/%@", _ownerGK, _projectName, _commitId, curFileChange.path];
+
         vc.curProject = _curProject;
-        vc.requestPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/commitDiffContent/%@/%@", _ownerGK, _projectName, _commitId, curFileChange.path];
-        vc.requestParams = nil;
+        vc.commitId = curFileChange.commitId;
         vc.filePath = curFileChange.path;
+
         [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section == _listGroupKeys.count+ 1 && _curCommitInfo.commitComments.count > 0){
         ProjectLineNote*curCommentItem = [_curCommitInfo.commitComments objectAtIndex:indexPath.row];

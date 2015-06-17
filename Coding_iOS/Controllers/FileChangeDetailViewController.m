@@ -9,6 +9,7 @@
 #import "FileChangeDetailViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "WebContentManager.h"
+#import "CodeViewController.h"
 
 
 @interface FileChangeDetailViewController ()<UIWebViewDelegate>
@@ -44,25 +45,16 @@
         }];
     }
     
-    NSString *contentStr = [WebContentManager diffPatternedWithContent:[self requestPathParams]];
+    NSString *contentStr = [WebContentManager diffPatternedWithContent:self.linkUrlStr];
     [self.webContentView loadHTMLString:contentStr baseURL:nil];
     
-    //    [self sendRequest];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"查看文件" target:self action:@selector(rightBarButtonClicked:)];
 }
 
-- (NSString *)requestPathParams{
-    NSString *requestPathParams = [NSString stringWithFormat:@"%@%@", kNetPath_Code_Base, self.requestPath];
-    
-    if (self.requestParams.count > 0) {
-        NSMutableArray *paramsArray = [NSMutableArray new];
-        [self.requestParams enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
-            [paramsArray addObject:[NSString stringWithFormat:@"%@=%@", key, obj]];
-        }];
-        
-        NSString *paramsStr = [paramsArray componentsJoinedByString:@"&"];
-        requestPathParams = [NSString stringWithFormat:@"%@?%@", requestPathParams, paramsStr];
-    }
-    return requestPathParams;
+- (void)rightBarButtonClicked:(id)item{
+    CodeFile *codeFile = [CodeFile codeFileWithRef:_commitId andPath:_filePath];
+    CodeViewController *vc = [CodeViewController codeVCWithProject:_curProject andCodeFile:codeFile];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - Orientations
@@ -73,33 +65,6 @@
 - (NSUInteger)supportedInterfaceOrientations{
     return UIInterfaceOrientationMaskAllButUpsideDown;
 }
-
-#pragma mark Request
-
-//- (void)sendRequest{
-//    [self.view beginLoading];
-//    __weak typeof(self) weakSelf = self;
-//    [[Coding_NetAPIManager sharedManager] request_FileLineChanges_WithPath:self.requestPath params:self.requestParams andBlock:^(id data, NSError *error) {
-//        [weakSelf.view endLoading];
-//        [weakSelf refreshViewWithData:data];
-//        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(data != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-//            [weakSelf sendRequest];
-//        }];
-//    }];
-//}
-//
-//- (void)refreshViewWithData:(id)data{
-//    
-//    if (!data) {
-//        return;
-//    }
-//    NSDictionary *resultData = data;
-////    NSArray *resultA = [NSObject arrayFromJSON:[resultData valueForKeyPath:@"data"] ofObjects:@"FileLineChange"];
-//    
-//    NSString *contentStr = [WebContentManager markdownPatternedWithContent:resultData.description];
-//    [self.webContentView loadHTMLString:contentStr baseURL:nil];
-//}
-
 
 #pragma mark UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
