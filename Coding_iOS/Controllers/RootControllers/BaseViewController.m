@@ -156,7 +156,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)$";
     NSString *topicRegexStr = @"/u/([^/]+)/p/([^/]+)/topic/(\\d+)";
     NSString *taskRegexStr = @"/u/([^/]+)/p/([^/]+)/task/(\\d+)";
-    NSString *gitMRPRCommitRegexStr = @"/u/([^/]+)/p/([^/]+)/git/(merge|pull|commit)/(\\d+)";
+    NSString *gitMRPRCommitRegexStr = @"/u/([^/]+)/p/([^/]+)/git/(merge|pull|commit)/([^/#]+)";
     NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
     NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
     NSArray *matchedCaptures = nil;
@@ -181,7 +181,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         }
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:gitMRPRCommitRegexStr]).count > 0){
         //MR
-        NSString *path = [linkStr stringByReplacingOccurrencesOfString:@"https://coding.net" withString:@""];
+        NSString *path = [matchedCaptures[0] stringByReplacingOccurrencesOfString:@"https://coding.net" withString:@""];
         
         if ([matchedCaptures[3] isEqualToString:@"commit"]) {
             if ([presentingVC isKindOfClass:[CommitFilesViewController class]]) {
