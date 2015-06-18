@@ -67,6 +67,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row != 1) {
+        return;
+    }
 
     static NSString *title = @"需要验证密码";
     static NSString *message = @"这是一个危险的操作，请提供登录密码确认！";

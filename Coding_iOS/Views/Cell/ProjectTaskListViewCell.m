@@ -8,7 +8,7 @@
 
 #define kProjectTaskListViewCell_LeftPading 93.0
 #define kProjectTaskListViewCell_RightPading 10.0
-#define kProjectTaskListViewCell_CheckBoxWidth 41.0
+#define kProjectTaskListViewCell_CheckBoxWidth 20.0
 #define kProjectTaskListViewCell_UserIconWidth 33.0
 #define kProjectTaskListViewCell_UpDownPading 10.0
 #define kProjectTaskListViewCell_MaxContentHeight 40.0
@@ -36,7 +36,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
         if (!_checkView) {
-            _checkView = [[UITapImageView alloc] initWithFrame:CGRectMake(5, 10, kProjectTaskListViewCell_CheckBoxWidth, kProjectTaskListViewCell_CheckBoxWidth)];
+            _checkView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, kProjectTaskListViewCell_CheckBoxWidth, kProjectTaskListViewCell_CheckBoxWidth)];
             _checkView.contentMode = UIViewContentModeCenter;
             [self.contentView addSubview:_checkView];
         }
@@ -112,13 +112,13 @@
     }
     CGFloat cellHeight = [ProjectTaskListViewCell cellHeightWithObj:_task];
     //    图片
-    [_checkView setImage:[UIImage imageNamed:(_task.status.integerValue == 2? @"checkbox_checked":@"checkbox_priority")]];
+    [_checkView setImage:[UIImage imageNamed:(_task.status.integerValue == 2? @"checkbox_checked":@"checkbox_unchecked")]];
 
     
     __weak typeof(self) weakSelf = self;
     [_checkView addTapBlock:^(id obj) {
         //用户点击后，直接改变任务状态，在block中处理网络请求
-        [weakSelf.checkView setImage:[UIImage imageNamed:(weakSelf.task.status.integerValue != 2? @"checkbox_checked":@"checkbox_priority")]];
+        [weakSelf.checkView setImage:[UIImage imageNamed:(weakSelf.task.status.integerValue != 2? @"checkbox_checked":@"checkbox_unchecked")]];
         weakSelf.checkViewClickedBlock(weakSelf.task);
     }];
     
