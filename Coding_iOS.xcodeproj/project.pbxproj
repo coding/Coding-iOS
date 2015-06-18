@@ -355,7 +355,6 @@
 		4EE548291AE9166B00A92306 /* icon_project_cell_pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EE548271AE9166B00A92306 /* icon_project_cell_pin@2x.png */; };
 		4EF818161B049C89005F974B /* addPictureBgImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF818151B049C89005F974B /* addPictureBgImage@2x.png */; };
 		4EF818191B05C984005F974B /* ProjectTopicActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF818181B05C984005F974B /* ProjectTopicActivity.m */; };
-		4EF8181C1B05C9AE005F974B /* TaskCommentActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF8181B1B05C9AE005F974B /* TaskCommentActivity.m */; };
 		4EF8181F1B05C9D8005F974B /* ProjectLineNoteActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF8181E1B05C9D8005F974B /* ProjectLineNoteActivity.m */; };
 		4EF818221B09D43D005F974B /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF818211B09D43D005F974B /* UIImage+WebP.m */; };
 		4EF818241B09D8D8005F974B /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EF818231B09D8D8005F974B /* WebP.framework */; };
@@ -1245,8 +1244,6 @@
 		4EF818151B049C89005F974B /* addPictureBgImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addPictureBgImage@2x.png"; sourceTree = "<group>"; };
 		4EF818171B05C984005F974B /* ProjectTopicActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTopicActivity.h; sourceTree = "<group>"; };
 		4EF818181B05C984005F974B /* ProjectTopicActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTopicActivity.m; sourceTree = "<group>"; };
-		4EF8181A1B05C9AE005F974B /* TaskCommentActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCommentActivity.h; sourceTree = "<group>"; };
-		4EF8181B1B05C9AE005F974B /* TaskCommentActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCommentActivity.m; sourceTree = "<group>"; };
 		4EF8181D1B05C9D8005F974B /* ProjectLineNoteActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectLineNoteActivity.h; sourceTree = "<group>"; };
 		4EF8181E1B05C9D8005F974B /* ProjectLineNoteActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectLineNoteActivity.m; sourceTree = "<group>"; };
 		4EF818201B09D43D005F974B /* UIImage+WebP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+WebP.h"; sourceTree = "<group>"; };
@@ -3042,8 +3039,6 @@
 				4E787DE41B03342000F06E83 /* ProjectActivity.m */,
 				4EF818171B05C984005F974B /* ProjectTopicActivity.h */,
 				4EF818181B05C984005F974B /* ProjectTopicActivity.m */,
-				4EF8181A1B05C9AE005F974B /* TaskCommentActivity.h */,
-				4EF8181B1B05C9AE005F974B /* TaskCommentActivity.m */,
 				4EF8181D1B05C9D8005F974B /* ProjectLineNoteActivity.h */,
 				4EF8181E1B05C9D8005F974B /* ProjectLineNoteActivity.m */,
 				4E787DE01B0329B300F06E83 /* ProjectLineNote.h */,
@@ -4016,7 +4011,6 @@
 				4E5C06EB1AC4009100F427C5 /* CannotLoginViewController.m in Sources */,
 				8EA6D12819E240C40076D59C /* AppDelegate.m in Sources */,
 				4ECE8AFF1A3946C10021E29C /* Coding_NetAPIManager.m in Sources */,
-				4EF8181C1B05C9AE005F974B /* TaskCommentActivity.m in Sources */,
 				8E59F0FA1A00F3F3009A905F /* FileListFileCell.m in Sources */,
 				8EA6D14219E240C40076D59C /* TipsViewController.m in Sources */,
 				8EA6D1CA19E240C40076D59C /* UIPlaceHolderTextView.m in Sources */,

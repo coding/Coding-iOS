@@ -12,7 +12,7 @@
 - (NSString *)contentStr{
     NSString *contentStr;
     if (_sha && _sha.length > 0) {
-        contentStr = [NSString stringWithFormat:@"%@:[%@]%@", _committer.name, [_sha substringToIndex:7], _short_message];
+        contentStr = [NSString stringWithFormat:@"%@ : [%@] %@", _committer.name, [_sha substringToIndex:7], _short_message];
     }
     return contentStr;
 }

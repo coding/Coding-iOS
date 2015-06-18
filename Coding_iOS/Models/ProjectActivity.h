@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "ProjectTopicActivity.h"
-#import "TaskCommentActivity.h"
 #import "ProjectLineNoteActivity.h"
 
 #import "Projects.h"
@@ -22,7 +21,7 @@
 @property (readwrite, nonatomic, strong) User *user, *target_user;
 @property (readwrite, nonatomic, strong) NSDate *created_at;
 @property (readwrite, nonatomic, strong) Task *origin_task, *task;
-@property (readwrite, nonatomic, strong) TaskCommentActivity *taskComment, *origin_taskComment;
+@property (readwrite, nonatomic, strong) TaskComment *taskComment, *origin_taskComment;
 @property (readwrite, nonatomic, strong) Project *project;
 @property (readwrite, nonatomic, strong) ProjectTopicActivity *project_topic;
 @property (readwrite, nonatomic, strong) File *file;
