@@ -6,10 +6,8 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#define kTaskActivityCell_LeftPading 20.0
-#define kTaskActivityCell_LeftPading 20.0
-#define kTaskActivityCell_LeftContentPading (kTaskActivityCell_LeftPading + 40)
-#define kTaskActivityCell_ContentWidth (kScreen_Width - kTaskActivityCell_LeftContentPading - kTaskActivityCell_LeftPading)
+#define kTaskActivityCell_LeftContentPading (kPaddingLeftWidth + 40)
+#define kTaskActivityCell_ContentWidth (kScreen_Width - kTaskActivityCell_LeftContentPading - kPaddingLeftWidth)
 
 #import "TaskActivityCell.h"
 
@@ -34,7 +32,7 @@
         }
         if (!_tipIconView) {
             CGFloat borderWidth = 2;
-            _tipIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kTaskActivityCell_LeftPading - borderWidth, 10, 25 + 2*borderWidth, 25 + 2*borderWidth)];
+            _tipIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth - borderWidth, 10, 25 + 2*borderWidth, 25 + 2*borderWidth)];
             _tipIconView.contentMode = UIViewContentModeCenter;
             
             _tipIconView.layer.masksToBounds = YES;
@@ -45,7 +43,7 @@
             [self.contentView addSubview:_tipIconView];
         }
         if (!_contentLabel) {
-            _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTaskActivityCell_LeftContentPading, 10, kTaskActivityCell_ContentWidth, 15)];
+            _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTaskActivityCell_LeftContentPading, 13, kTaskActivityCell_ContentWidth, 15)];
             _contentLabel.numberOfLines = 0;
             [self.contentView addSubview:_contentLabel];
         }
@@ -114,10 +112,10 @@
     }
     
     attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];
-    [attrContent addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
+    [attrContent addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:13],
                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
                         range:NSMakeRange(0, userName.length)];
-    [attrContent addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12],
+    [attrContent addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13],
                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
                         range:NSMakeRange(userName.length + 1, contentStr.length)];
     
@@ -136,7 +134,7 @@
     if ([obj isKindOfClass:[ProjectActivity class]]) {
         NSAttributedString *attrContent = [self  attrContentWithObj:obj];
         CGFloat contentHeight = [attrContent boundingRectWithSize:CGSizeMake(kTaskActivityCell_ContentWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size.height;
-        cellHeight = ceilf(contentHeight + 20);
+        cellHeight = ceilf(contentHeight + 26);
         cellHeight = MAX(44, cellHeight);
     }
     return cellHeight;

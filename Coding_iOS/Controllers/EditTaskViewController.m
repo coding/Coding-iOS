@@ -330,7 +330,7 @@
             };
             
             cell.backgroundColor = kColorTableBG;
-            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
+//            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
             return cell;
         }else{
             TaskDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskDescriptionCell forIndexPath:indexPath];
@@ -341,6 +341,13 @@
                 titleStr = _myCopyTask.has_description.boolValue? @"查看描述": @"补充描述";
             }
             [cell setTitleStr:titleStr andSpecail:[titleStr isEqualToString:@"查看描述"]];
+            cell.buttonClickedBlock = ^(){
+                if (weakSelf.myCopyTask.has_description.boolValue && !weakSelf.myCopyTask.task_description) {
+                    //描述内容 还没有加载成功
+                    return ;
+                }
+                [weakSelf goToDescriptionVC];
+            };
             cell.backgroundColor = kColorTableBG;
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
             return cell;
@@ -349,7 +356,7 @@
         LeftImage_LRTextCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_LeftImage_LRText forIndexPath:indexPath];
         [cell setObj:_myCopyTask type:indexPath.row];
         cell.backgroundColor = kColorTableBG;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
         return cell;
     }else{
         ProjectActivity *curActivity = [self.myCopyTask.activityList objectAtIndex:indexPath.row];
@@ -432,13 +439,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ESWeakSelf;
     if (indexPath.section == 0) {
-        if (indexPath.row != 0) {
-            if (self.myCopyTask.has_description.boolValue && !self.myCopyTask.task_description) {
-                //描述内容 还没有加载成功
-                return ;
-            }
-            [self goToDescriptionVC];
-        }
+//        if (indexPath.row != 0) {
+//            if (self.myCopyTask.has_description.boolValue && !self.myCopyTask.task_description) {
+//                //描述内容 还没有加载成功
+//                return ;
+//            }
+//            [self goToDescriptionVC];
+//        }
     }else if (indexPath.section == 1){
         if (indexPath.row == LeftImage_LRTextCellTypeTaskOwner) {
             ProjectMemberListViewController *vc = [[ProjectMemberListViewController alloc] init];

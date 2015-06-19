@@ -25,7 +25,7 @@
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         if (!_iconView) {
-            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 5, 33, 33)];
+            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 5, 33, 33)];
             [self.contentView addSubview:_iconView];
         }
         if (!_leftLabel) {

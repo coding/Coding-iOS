@@ -9,7 +9,7 @@
 #import "TaskDescriptionCell.h"
 
 @interface TaskDescriptionCell ()
-@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic) UIButton *button;
 @end
 
 @implementation TaskDescriptionCell
@@ -18,24 +18,38 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        if (!_titleLabel) {
-            _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 7, (kScreen_Width - 120), 30)];
-            _titleLabel.backgroundColor = [UIColor clearColor];
-            _titleLabel.font = [UIFont systemFontOfSize:16];
-            _titleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
-            [self.contentView addSubview:_titleLabel];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        if (!_button) {
+            _button = [[UIButton alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([[self class] cellHeight] - 30)/2, kScreen_Width - 2*kPaddingLeftWidth, 30)];
+            _button.titleLabel.font = [UIFont systemFontOfSize:16];
+            _button.backgroundColor = [UIColor colorWithHexString:@"0xf0f0f0"];
+            _button.layer.masksToBounds = YES;
+            _button.layer.cornerRadius = 2.0;
+            [_button setImage:[UIImage imageNamed:@"task_icon_arrow"] forState:UIControlStateNormal];
+
+            _button.titleEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 10);
+            _button.imageEdgeInsets = UIEdgeInsetsMake(0, 70, 0, -70);
+            [_button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:_button];
         }
     }
     return self;
 }
 
 - (void)setTitleStr:(NSString *)title andSpecail:(BOOL)isSpecail{
-    _titleLabel.text = title;
-    _titleLabel.textColor = [UIColor colorWithHexString:isSpecail? @"0x3bbd79": @"0x222222"];
+    [_button setTitle:title forState:UIControlStateNormal];
+    [_button setTitleColor:[UIColor colorWithHexString:isSpecail? @"0x3bbd79": @"0x222222"] forState:UIControlStateNormal];
+
+}
+
+- (void)buttonClicked:(id)sender{
+    if (self.buttonClickedBlock) {
+        self.buttonClickedBlock();
+    }
 }
 
 + (CGFloat)cellHeight{
-    return 44.0;
+    return 54.0;
 }
 @end

@@ -5,11 +5,9 @@
 //  Created by 王 原闯 on 14-8-19.
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
-#define kTaskContentCell_PadingLeft 20.0
-#define kTaskContentCell_PadingRight 20.0
 #define kTaskContentCell_ContentHeightMin kScaleFrom_iPhone5_Desgin(120.0)
 #define kTextView_Pading 8.0
-#define kTaskContentCell_ContentWidth (kScreen_Width-kTaskContentCell_PadingLeft-kTaskContentCell_PadingRight + 2*kTextView_Pading)
+#define kTaskContentCell_ContentWidth (kScreen_Width-kPaddingLeftWidth-kPaddingLeftWidth + 2*kTextView_Pading)
 #define kTaskContentCell_ContentFont [UIFont systemFontOfSize:18]
 
 
@@ -19,6 +17,8 @@
 @property (strong, nonatomic) UITextView *taskContentView;
 @property (strong, nonatomic) UIButton *deleteBtn;
 @property (strong, nonatomic) UILabel *creatorLabel;
+@property (strong, nonatomic) UIView *lineView;
+
 @end
 
 @implementation TaskContentCell
@@ -53,11 +53,16 @@
                 button;
             });
         }
+        if (!_lineView) {
+            _lineView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, kScreen_Width - 2*kPaddingLeftWidth, 0.5)];
+            _lineView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"dot_line"]];
+            [self.contentView addSubview:_lineView];
+        }
         [_taskContentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(5, kTaskContentCell_PadingLeft-kTextView_Pading, 35, kTaskContentCell_PadingLeft-kTextView_Pading));
+            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(5, kPaddingLeftWidth-kTextView_Pading, 35, kPaddingLeftWidth-kTextView_Pading));
         }];
         [_creatorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.contentView.mas_left).offset(kTaskContentCell_PadingLeft);
+            make.left.equalTo(self.contentView.mas_left).offset(kPaddingLeftWidth);
             make.right.equalTo(_deleteBtn.mas_left).offset(10);
             make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
             make.height.mas_equalTo(20);
@@ -66,7 +71,13 @@
         [_deleteBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(44, 20));
             make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
-            make.right.equalTo(self.contentView.mas_right).offset(-kTaskContentCell_PadingRight);
+            make.right.equalTo(self.contentView.mas_right).offset(-kPaddingLeftWidth);
+        }];
+        [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
+            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+            make.height.mas_equalTo(0.5);
+            make.bottom.equalTo(self.contentView);
         }];
     }
     return self;

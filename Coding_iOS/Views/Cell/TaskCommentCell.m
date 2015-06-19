@@ -7,7 +7,7 @@
 //
 
 #define kTaskCommentCell_FontContent [UIFont systemFontOfSize:15]
-#define kTaskCommentCell_LeftPading 35.0
+#define kTaskCommentCell_LeftPading 30.0
 #define kTaskCommentCell_LeftContentPading (kTaskCommentCell_LeftPading + 40)
 #define kTaskCommentCell_ContentWidth (kScreen_Width - kTaskCommentCell_LeftContentPading - kTaskCommentCell_LeftPading)
 
@@ -46,7 +46,7 @@
         }
         if (!_ownerIconView) {
             CGFloat borderWidth = 0;
-            _ownerIconView = [[UIImageView alloc] initWithFrame:CGRectMake(20 - borderWidth, curBottomY, 25+ 2*borderWidth, 25 + 2*borderWidth)];
+            _ownerIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth - borderWidth, curBottomY, 25+ 2*borderWidth, 25 + 2*borderWidth)];
             
             _ownerIconView.layer.masksToBounds = YES;
             _ownerIconView.layer.cornerRadius = _ownerIconView.frame.size.width/2;
