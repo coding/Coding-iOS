@@ -167,7 +167,7 @@
                 case 0:
                     [cell setImageStr:@"project_item_activity" andTitle:@"动态"];
                     if (_myProject.un_read_activities_count.integerValue > 0) {
-                        [cell addTip:_myProject.un_read_activities_count.stringValue];
+                        [cell addTipIcon];
                     }
                     break;
                 case 1:

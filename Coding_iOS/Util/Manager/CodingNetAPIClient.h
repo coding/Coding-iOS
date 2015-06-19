@@ -27,8 +27,6 @@ typedef NS_ENUM(NSInteger, IllegalContentType) {
 @interface CodingNetAPIClient : AFHTTPRequestOperationManager
 
 + (id)sharedJsonClient;
-+ (void)saveCookieData;
-+ (void)removeCookieData;
 
 - (void)requestJsonDataWithPath:(NSString *)aPath
                      withParams:(NSDictionary*)params

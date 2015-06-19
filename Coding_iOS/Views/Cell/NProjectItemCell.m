@@ -50,11 +50,10 @@
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
-- (void)addTip:(NSString *)countStr{
-    self.accessoryType = UITableViewCellAccessoryNone;
-    CGFloat pointX = kScreen_Width - 25;
+- (void)addTipIcon{
+    CGFloat pointX = kScreen_Width - 40;
     CGFloat pointY = [[self class] cellHeight]/2;
-    [self addBadgeTip:countStr withCenterPosition:CGPointMake(pointX, pointY)];
+    [self addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(pointX, pointY)];
 }
 
 - (void)removeTip{

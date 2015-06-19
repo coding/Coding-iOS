@@ -81,9 +81,6 @@
                 if (error) {
                     block(nil, error);
                 }else{
-                    if ([aPath isEqualToString:kNetPath_Code_Login]) {
-                        [CodingNetAPIClient saveCookieData];
-                    }
                     block(responseObject, nil);
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -208,34 +205,6 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
     }];
-}
-
-
-+ (void)saveCookieData{
-    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-    for (NSHTTPCookie *cookie in cookies) {
-        // Here I see the correct rails session cookie
-        DebugLog(@"\nSave cookie: \n====================\n%@", cookie);
-    }
-    
-    NSData *cookiesData = [NSKeyedArchiver archivedDataWithRootObject: [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject: cookiesData forKey: Code_CookieData];
-    [defaults synchronize];
-}
-+ (void)removeCookieData{
-    NSURL *url = [NSURL URLWithString:kNetPath_Code_Base];
-    if (url) {
-        NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookiesForURL:url];
-        for (int i = 0; i < [cookies count]; i++) {
-            NSHTTPCookie *cookie = (NSHTTPCookie *)[cookies objectAtIndex:i];
-            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
-            DebugLog(@"\nDelete cookie: \n====================\n%@", cookie);
-        }
-    }
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:Code_CookieData];
-    [defaults synchronize];
 }
 
 - (void)uploadImage:(UIImage *)image path:(NSString *)path name:(NSString *)name
