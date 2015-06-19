@@ -31,6 +31,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         CGFloat curBottomY = 15;
         if (!_contentBGView) {
             _contentBGView = [UIImageView new];
