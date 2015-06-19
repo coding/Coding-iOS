@@ -77,8 +77,6 @@
     
     __weak typeof(self) weakSelf = self;
     
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(changeEditState)];
-    
     [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:kNotificationUploadCompled object:nil] takeUntil:self.rac_willDeallocSignal] subscribeNext:^(NSNotification *aNotification) {
         //{NSURLResponse: response, NSError: error, ProjectFile: data}
         NSDictionary* userInfo = [aNotification userInfo];
@@ -100,7 +98,6 @@
         rightBarButtonItems = @[item1];
     }
     [self.navigationItem setRightBarButtonItems:rightBarButtonItems animated:YES];
-//    [self.navigationItem.rightBarButtonItem setTitle:_myTableView.isEditing? @"完成": @"编辑"];
     [self configToolBar];
     [self.myTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.3];
 }
@@ -264,6 +261,9 @@
         [weakSelf.view endLoading];
         if (data) {
             weakSelf.myFiles = data;
+            
+            self.navigationItem.rightBarButtonItem = weakSelf.myFiles.list.count > 0? [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(changeEditState)]: nil;
+
             [weakSelf.myTableView reloadData];
         }
         [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:([weakSelf totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
