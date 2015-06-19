@@ -15,9 +15,8 @@
 #import "ValueListViewController.h"
 #import "JDStatusBarNotification.h"
 #import "TaskCommentCell.h"
-#import "TaskCommentTopCell.h"
-#import "TaskCommentBlankCell.h"
 #import "TaskDescriptionCell.h"
+#import "TaskActivityCell.h"
 #import "ActionSheetDatePicker.h"
 #import "TaskDescriptionViewController.h"
 #import "WebViewController.h"
@@ -59,14 +58,9 @@
             _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTask];
             _myMsgInputView.isAlwaysShow = YES;
             _myMsgInputView.delegate = self;
+
+            [self queryToRefreshTaskDetail];
             
-            if (_myCopyTask.needRefreshDetail || _myCopyTask.has_description.boolValue) {
-                [self queryToRefreshTaskDetail];
-            }else{
-                _myMsgInputView.curProject = _myCopyTask.project;
-                _myMsgInputView.commentOfId = _myCopyTask.id;
-                [self queryToRefreshCommentList];
-            }
         }
             break;
         default:
@@ -83,8 +77,7 @@
         [tableView registerClass:[LeftImage_LRTextCell class] forCellReuseIdentifier:kCellIdentifier_LeftImage_LRText];
         [tableView registerClass:[TaskCommentCell class] forCellReuseIdentifier:kCellIdentifier_TaskComment];
         [tableView registerClass:[TaskCommentCell class] forCellReuseIdentifier:kCellIdentifier_TaskComment_Media];
-        [tableView registerClass:[TaskCommentBlankCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentBlank];
-        [tableView registerClass:[TaskCommentTopCell class] forCellReuseIdentifier:kCellIdentifier_TaskCommentTop];
+        [tableView registerClass:[TaskActivityCell class] forCellReuseIdentifier:kCellIdentifier_TaskActivityCell];
         [tableView registerClass:[TaskDescriptionCell class] forCellReuseIdentifier:kCellIdentifier_TaskDescriptionCell];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:tableView];
@@ -173,15 +166,17 @@
 }
 
 #pragma mark refresh
-- (void)queryToRefreshCommentList{
+
+- (void)queryToRefreshActivityList{
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_CommentListOfTask:_myCopyTask andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_ActivityListOfTask:_myCopyTask andBlock:^(id data, NSError *error) {
         if (data) {
-            weakSelf.myCopyTask.commentList = data;
+            weakSelf.myCopyTask.activityList = data;
             [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationAutomatic];
         };
     }];
 }
+
 
 - (void)queryToRefreshTaskDetail{
     __weak typeof(self) weakSelf = self;
@@ -195,16 +190,12 @@
             [weakSelf configTitle];
             
             [weakSelf.myTableView reloadData];
-            [weakSelf queryToRefreshCommentList];
+            [weakSelf queryToRefreshActivityList];
         }
     }];
 }
 
 #pragma mark Mine M
-- (BOOL)hasComment{
-    return (self.myCopyTask.commentList && self.myCopyTask.commentList.count > 0);
-}
-
 - (void)doneBtnClicked{
     if (_myCopyTask.isRequesting) {
         return;
@@ -281,7 +272,7 @@
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_DoCommentToTask:commentObj andBlock:^(id data, NSError *error) {
         if (data) {
-            [commentObj addNewComment:data];
+            [weakSelf queryToRefreshActivityList];
             [weakSelf.myTableView reloadData];
         }
     }];
@@ -290,7 +281,7 @@
 - (void)deleteComment:(TaskComment *)comment{
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_DeleteComment:comment ofTask:weakSelf.myCopyTask andBlock:^(id data, NSError *error) {
-        [weakSelf.myCopyTask deleteComment:comment];
+        [weakSelf queryToRefreshActivityList];
         [weakSelf.myTableView reloadData];
     }];
 }
@@ -305,11 +296,7 @@
     }else if (section == 1){
         row = (self.myCopyTask.handleType == TaskHandleTypeAdd)? 3: 4;
     }else{
-        if ([self hasComment]) {
-            row = self.myCopyTask.commentList.count +1;
-        }else{
-            row = 2;
-        }
+        row = self.myCopyTask.activityList.count;
     }
     return row;
 }
@@ -365,33 +352,28 @@
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
         return cell;
     }else{
-        if (indexPath.row == 0) {
-            TaskCommentTopCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskCommentTop forIndexPath:indexPath];
-            cell.commentNumStrLabel.text = [NSString stringWithFormat:@"%d 条评论", _myCopyTask.comments.intValue];
+        ProjectActivity *curActivity = [self.myCopyTask.activityList objectAtIndex:indexPath.row];
+        if ([curActivity.target_type isEqualToString:@"TaskComment"]) {
+            TaskComment *curComment = curActivity.taskComment;
+            curComment.created_at = curActivity.created_at;
+            TaskCommentCell *cell;
+            if (curComment.htmlMedia.imageItems.count > 0) {
+                cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskComment_Media forIndexPath:indexPath];
+            }else{
+                cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskComment forIndexPath:indexPath];
+            }
+            cell.curComment = curComment;
+            cell.contentLabel.delegate = self;
+            [cell configTop:(indexPath.row == 0) andBottom:(indexPath.row == _myCopyTask.activityList.count - 1)];
             cell.backgroundColor = kColorTableBG;
-            [cell addLineUp:YES andDown:NO andColor:tableView.separatorColor];
+//            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
             return cell;
         }else{
-            if ([self hasComment]) {
-                TaskComment *curComment = [_myCopyTask.commentList objectAtIndex:indexPath.row-1];
-                TaskCommentCell *cell;
-                if (curComment.htmlMedia.imageItems.count > 0) {
-                    cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskComment_Media forIndexPath:indexPath];
-                }else{
-                    cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskComment forIndexPath:indexPath];
-                }
-                cell.curComment = curComment;
-                cell.contentLabel.delegate = self;
-                cell.backgroundColor = kColorTableBG;
-                [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
-                return cell;
-            }else{
-                TaskCommentBlankCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskCommentBlank forIndexPath:indexPath];
-                cell.blankStrLabel.text = (_myCopyTask.comments.intValue <= 0)? @"尚无评论，速速抢个先手吧": @"正在加载评论...";
-                cell.backgroundColor = kColorTableBG;
-                [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
-                return cell;
-            }
+            TaskActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskActivityCell forIndexPath:indexPath];
+            cell.curActivity = curActivity;
+            [cell configTop:(indexPath.row == 0) andBottom:(indexPath.row == _myCopyTask.activityList.count - 1)];
+            cell.backgroundColor = kColorTableBG;
+            return cell;
         }
     }
 }
@@ -406,15 +388,13 @@
         }
     }else if (indexPath.section == 1){
         cellHeight = [LeftImage_LRTextCell cellHeight];
-    }else{
-        if (indexPath.row == 0) {
-            cellHeight = [TaskCommentTopCell cellHeight];
+    }else if (self.myCopyTask.activityList.count > indexPath.row){
+        ProjectActivity *curActivity = [self.myCopyTask.activityList objectAtIndex:indexPath.row];
+        if ([curActivity.target_type isEqualToString:@"TaskComment"]) {
+            TaskComment *curComment = curActivity.taskComment;
+            cellHeight = [TaskCommentCell cellHeightWithObj:curComment];
         }else{
-            if ([self hasComment]) {
-                cellHeight = [TaskCommentCell cellHeightWithObj:[_myCopyTask.commentList objectAtIndex:indexPath.row-1]];
-            }else{
-                cellHeight = [TaskCommentBlankCell cellHeight];
-            }
+            cellHeight = [TaskActivityCell cellHeightWithObj:curActivity];
         }
     }
     return cellHeight;
@@ -504,8 +484,9 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
     }else {
-        if (indexPath.row > 0 && [self hasComment]) {
-            TaskComment *curComment = [_myCopyTask.commentList objectAtIndex:indexPath.row-1];
+        ProjectActivity *curActivity = [self.myCopyTask.activityList objectAtIndex:indexPath.row];
+        if ([curActivity.target_type isEqualToString:@"TaskComment"]) {
+            TaskComment *curComment = curActivity.taskComment;
             [self doCommentToComment:curComment sender:[tableView cellForRowAtIndexPath:indexPath]];
         }
     }

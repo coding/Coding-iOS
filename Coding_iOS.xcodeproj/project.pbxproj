@@ -158,6 +158,16 @@
 		4E6383E91B32791600D98648 /* checkbox_checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6383E71B32791600D98648 /* checkbox_checked@2x.png */; };
 		4E6383EA1B32791600D98648 /* checkbox_unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6383E81B32791600D98648 /* checkbox_unchecked@2x.png */; };
 		4E6383EC1B32A2C300D98648 /* project_item_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6383EB1B32A2C300D98648 /* project_item_file@2x.png */; };
+		4E6383F21B32CC7600D98648 /* TaskActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6383F11B32CC7600D98648 /* TaskActivityCell.m */; };
+		4E6383FB1B33C18700D98648 /* task_activity_icon_finish@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6383F41B33C18700D98648 /* task_activity_icon_finish@2x.png */; };
+		4E6383FC1B33C18700D98648 /* task_activity_icon_reassign@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6383F51B33C18700D98648 /* task_activity_icon_reassign@2x.png */; };
+		4E6383FD1B33C18700D98648 /* task_activity_icon_restore@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6383F61B33C18700D98648 /* task_activity_icon_restore@2x.png */; };
+		4E6383FE1B33C18700D98648 /* task_activity_icon_update@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6383F71B33C18700D98648 /* task_activity_icon_update@2x.png */; };
+		4E6383FF1B33C18700D98648 /* task_activity_icon_update_deadline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6383F81B33C18700D98648 /* task_activity_icon_update_deadline@2x.png */; };
+		4E6384001B33C18700D98648 /* task_activity_icon_update_description@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6383F91B33C18700D98648 /* task_activity_icon_update_description@2x.png */; };
+		4E6384011B33C18700D98648 /* task_activity_icon_update_priority@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6383FA1B33C18700D98648 /* task_activity_icon_update_priority@2x.png */; };
+		4E6384031B33C8E900D98648 /* task_activity_icon_create@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6384021B33C8E900D98648 /* task_activity_icon_create@2x.png */; };
+		4E63840B1B33F9B400D98648 /* comment_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E63840A1B33F9B400D98648 /* comment_bg@2x.png */; };
 		4E66EE261A28226000DA1B3E /* button_file_createFolder_enable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE211A28226000DA1B3E /* button_file_createFolder_enable@2x.png */; };
 		4E66EE271A28226000DA1B3E /* button_file_denete_enable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE221A28226000DA1B3E /* button_file_denete_enable@2x.png */; };
 		4E66EE281A28226000DA1B3E /* button_file_denete_unable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E66EE231A28226000DA1B3E /* button_file_denete_unable@2x.png */; };
@@ -915,6 +925,17 @@
 		4E6383E71B32791600D98648 /* checkbox_checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_checked@2x.png"; sourceTree = "<group>"; };
 		4E6383E81B32791600D98648 /* checkbox_unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox_unchecked@2x.png"; sourceTree = "<group>"; };
 		4E6383EB1B32A2C300D98648 /* project_item_file@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_item_file@2x.png"; sourceTree = "<group>"; };
+		4E6383F01B32CC7600D98648 /* TaskActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskActivityCell.h; sourceTree = "<group>"; };
+		4E6383F11B32CC7600D98648 /* TaskActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskActivityCell.m; sourceTree = "<group>"; };
+		4E6383F41B33C18700D98648 /* task_activity_icon_finish@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_finish@2x.png"; sourceTree = "<group>"; };
+		4E6383F51B33C18700D98648 /* task_activity_icon_reassign@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_reassign@2x.png"; sourceTree = "<group>"; };
+		4E6383F61B33C18700D98648 /* task_activity_icon_restore@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_restore@2x.png"; sourceTree = "<group>"; };
+		4E6383F71B33C18700D98648 /* task_activity_icon_update@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_update@2x.png"; sourceTree = "<group>"; };
+		4E6383F81B33C18700D98648 /* task_activity_icon_update_deadline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_update_deadline@2x.png"; sourceTree = "<group>"; };
+		4E6383F91B33C18700D98648 /* task_activity_icon_update_description@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_update_description@2x.png"; sourceTree = "<group>"; };
+		4E6383FA1B33C18700D98648 /* task_activity_icon_update_priority@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_update_priority@2x.png"; sourceTree = "<group>"; };
+		4E6384021B33C8E900D98648 /* task_activity_icon_create@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_create@2x.png"; sourceTree = "<group>"; };
+		4E63840A1B33F9B400D98648 /* comment_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment_bg@2x.png"; sourceTree = "<group>"; };
 		4E66EE211A28226000DA1B3E /* button_file_createFolder_enable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_createFolder_enable@2x.png"; sourceTree = "<group>"; };
 		4E66EE221A28226000DA1B3E /* button_file_denete_enable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_denete_enable@2x.png"; sourceTree = "<group>"; };
 		4E66EE231A28226000DA1B3E /* button_file_denete_unable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_denete_unable@2x.png"; sourceTree = "<group>"; };
@@ -1930,6 +1951,21 @@
 			path = nproject_item;
 			sourceTree = "<group>";
 		};
+		4E6383F31B33C18700D98648 /* task_activity_icon */ = {
+			isa = PBXGroup;
+			children = (
+				4E6384021B33C8E900D98648 /* task_activity_icon_create@2x.png */,
+				4E6383F41B33C18700D98648 /* task_activity_icon_finish@2x.png */,
+				4E6383F51B33C18700D98648 /* task_activity_icon_reassign@2x.png */,
+				4E6383F61B33C18700D98648 /* task_activity_icon_restore@2x.png */,
+				4E6383F71B33C18700D98648 /* task_activity_icon_update@2x.png */,
+				4E6383F81B33C18700D98648 /* task_activity_icon_update_deadline@2x.png */,
+				4E6383F91B33C18700D98648 /* task_activity_icon_update_description@2x.png */,
+				4E6383FA1B33C18700D98648 /* task_activity_icon_update_priority@2x.png */,
+			);
+			path = task_activity_icon;
+			sourceTree = "<group>";
+		};
 		4E66EE201A28226000DA1B3E /* button_file_manage */ = {
 			isa = PBXGroup;
 			children = (
@@ -2822,6 +2858,7 @@
 		8EA6CF5D19E240C40076D59C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4E6383F31B33C18700D98648 /* task_activity_icon */,
 				4E6383C81B32665700D98648 /* nproject_item */,
 				4E6383BD1B3265DC00D98648 /* mrpr */,
 				4E6383B01B32640900D98648 /* message */,
@@ -2903,6 +2940,7 @@
 				4E4D6AB41B252B8E00FD2E49 /* file_changeType_DELETE@2x.png */,
 				4E4D6AB51B252B8E00FD2E49 /* file_changeType_MODIFY@2x.png */,
 				4E4D6AC71B252F4800FD2E49 /* icon_add_comment@2x.png */,
+				4E63840A1B33F9B400D98648 /* comment_bg@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -3484,6 +3522,8 @@
 				4E4D6A871B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m */,
 				4E4D6A891B1C6E3000FD2E49 /* TextCheckMarkCell.h */,
 				4E4D6A8A1B1C6E3000FD2E49 /* TextCheckMarkCell.m */,
+				4E6383F01B32CC7600D98648 /* TaskActivityCell.h */,
+				4E6383F11B32CC7600D98648 /* TaskActivityCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -3588,6 +3628,7 @@
 			files = (
 				8EA6D19019E240C40076D59C /* time_clock_icon@2x.png in Resources */,
 				8E97CE6C1A0B243B006F9AD7 /* keyboard_add@2x.png in Resources */,
+				4E6383FD1B33C18700D98648 /* task_activity_icon_restore@2x.png in Resources */,
 				4EA6791A1A14BFA0001A0324 /* icon_file_folder_normal@2x.png in Resources */,
 				8EA6D19919E240C40076D59C /* tipIcon_ProjectTopic@2x.png in Resources */,
 				4ED673261A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png in Resources */,
@@ -3621,6 +3662,7 @@
 				4E4D6AC21B252CD400FD2E49 /* icon_code_tree@2x.png in Resources */,
 				8E97CEB01A0C7E26006F9AD7 /* coding_emoji_25@2x.png in Resources */,
 				8EF643B719FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib in Resources */,
+				4E6384031B33C8E900D98648 /* task_activity_icon_create@2x.png in Resources */,
 				4EACB4401A2C448F0097ABB3 /* button_file_download_unable@2x.png in Resources */,
 				8E8F7B2F19EF6306006BA8BD /* btn_privateMsg_black@2x.png in Resources */,
 				4E96E7E01A1B537E0037C098 /* icon_file_pdf@2x.png in Resources */,
@@ -3663,11 +3705,14 @@
 				8EA6D18719E240C40076D59C /* project_normal@2x.png in Resources */,
 				4EE083DC1ADB736800CA342E /* service_terms.html in Resources */,
 				8E97CE541A0A3410006F9AD7 /* settingBtn_Nav@2x.png in Resources */,
+				4E6384011B33C18700D98648 /* task_activity_icon_update_priority@2x.png in Resources */,
 				4E90F89B1AF709C100B44F03 /* bubble.html in Resources */,
 				8E8F7B2D19EF6306006BA8BD /* btn_followed_not@2x.png in Resources */,
 				4E6383DC1B3266C200D98648 /* mrpr_icon_fileChange@2x.png in Resources */,
+				4E6383FB1B33C18700D98648 /* task_activity_icon_finish@2x.png in Resources */,
 				4E6383E21B32676600D98648 /* taskProgress@2x.png in Resources */,
 				8EA6D17B19E240C40076D59C /* placeholder_monkey_round_54@2x.png in Resources */,
+				4E6383FF1B33C18700D98648 /* task_activity_icon_update_deadline@2x.png in Resources */,
 				0A0519E31ABA918100551B61 /* TweetSendDetailLoctionCell.xib in Resources */,
 				4EF91F631B00B62B0021C951 /* icon_locationed@2x.png in Resources */,
 				4EE548281AE9166B00A92306 /* icon_project_cell_nopin@2x.png in Resources */,
@@ -3701,6 +3746,7 @@
 				0A06C2531AB9E57900AB3B03 /* map_annotation@2x.png in Resources */,
 				4E90F89C1AF709C100B44F03 /* code.html in Resources */,
 				4E07D30A1A4A9ACB009EDDF2 /* moreBtn_Nav@2x.png in Resources */,
+				4E6383FE1B33C18700D98648 /* task_activity_icon_update@2x.png in Resources */,
 				4E0849831A918A7F00BD27F6 /* coding_emoji_41@2x.png in Resources */,
 				4E6383AD1B3262D300D98648 /* taskPriority3_small@2x.png in Resources */,
 				8E97CEA91A0C7E26006F9AD7 /* coding_emoji_18@2x.png in Resources */,
@@ -3714,6 +3760,7 @@
 				4E66EE261A28226000DA1B3E /* button_file_createFolder_enable@2x.png in Resources */,
 				8EA6D19C19E240C40076D59C /* tipIcon_QcTask@2x.png in Resources */,
 				4E72F82F1B159997001B6CE6 /* tipIcon_Other@2x.png in Resources */,
+				4E6383FC1B33C18700D98648 /* task_activity_icon_reassign@2x.png in Resources */,
 				4E6383B71B32640900D98648 /* messageAT@2x.png in Resources */,
 				4E96E7DB1A1B537E0037C098 /* icon_file_code@2x.png in Resources */,
 				8EA6D19B19E240C40076D59C /* tipIcon_PullRequestComment@2x.png in Resources */,
@@ -3732,6 +3779,7 @@
 				8EA6D16819E240C40076D59C /* nav_project_member@2x.png in Resources */,
 				4E9113A91A1CB19900AC9431 /* icon_file_state_download@2x.png in Resources */,
 				4E9113AB1A1CB19900AC9431 /* icon_file_state_look@2x.png in Resources */,
+				4E63840B1B33F9B400D98648 /* comment_bg@2x.png in Resources */,
 				8E97CEA31A0C7E26006F9AD7 /* coding_emoji_12@2x.png in Resources */,
 				4EE548291AE9166B00A92306 /* icon_project_cell_pin@2x.png in Resources */,
 				4EBD0C661A1F2011004B4284 /* nav_project_file@2x.png in Resources */,
@@ -3853,6 +3901,7 @@
 				8E97CEAE1A0C7E26006F9AD7 /* coding_emoji_23@2x.png in Resources */,
 				4E6383E11B32676600D98648 /* taskPriority@2x.png in Resources */,
 				8EA6D19D19E240C40076D59C /* tipIcon_Task@2x.png in Resources */,
+				4E6384001B33C18700D98648 /* task_activity_icon_update_description@2x.png in Resources */,
 				8E97CEAA1A0C7E26006F9AD7 /* coding_emoji_19@2x.png in Resources */,
 				4EB845331AB83C3B0030DC69 /* git_icon_fork@2x.png in Resources */,
 				4E90F89D1AF709C100B44F03 /* markdown.html in Resources */,
@@ -3959,6 +4008,7 @@
 				8E1C3E0A19E8DFE300EF3032 /* SettingAccountViewController.m in Sources */,
 				4E8765681A22E5B40090CFB9 /* SWTableViewCell.m in Sources */,
 				4EBB624D1A6F526C0045DAEF /* NJKWebViewProgressView.m in Sources */,
+				4E6383F21B32CC7600D98648 /* TaskActivityCell.m in Sources */,
 				4ECE8ADA1A3943E80021E29C /* NSDate+Common.m in Sources */,
 				8EA6D20A19E240C40076D59C /* RDVTabBar.m in Sources */,
 				8E1C3DF019E7D58A00EF3032 /* DistancePickerView.m in Sources */,

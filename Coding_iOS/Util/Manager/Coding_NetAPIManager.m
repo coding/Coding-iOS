@@ -896,6 +896,19 @@
     }];
 }
 
+- (void)request_ActivityListOfTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"任务动态列表"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toActivityListPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectActivity"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_DoCommentToTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"任务添加评论"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toDoCommentPath] withParams:[task toDoCommentParams] withMethodType:Post andBlock:^(id data, NSError *error) {

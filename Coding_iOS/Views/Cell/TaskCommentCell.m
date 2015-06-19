@@ -7,7 +7,7 @@
 //
 
 #define kTaskCommentCell_FontContent [UIFont systemFontOfSize:15]
-#define kTaskCommentCell_LeftPading 20.0
+#define kTaskCommentCell_LeftPading 35.0
 #define kTaskCommentCell_LeftContentPading (kTaskCommentCell_LeftPading + 40)
 #define kTaskCommentCell_ContentWidth (kScreen_Width - kTaskCommentCell_LeftContentPading - kTaskCommentCell_LeftPading)
 
@@ -18,7 +18,7 @@
 #import "MJPhotoBrowser.h"
 
 @interface TaskCommentCell ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
-@property (strong, nonatomic) UIImageView *ownerIconView;
+@property (strong, nonatomic) UIImageView *ownerIconView, *timeLineView, *contentBGView;
 @property (strong, nonatomic) UILabel *timeLabel;
 @property (strong, nonatomic) UICustomCollectionView *imageCollectionView;
 
@@ -31,15 +31,33 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        CGFloat curBottomY = 10;
+        CGFloat curBottomY = 15;
+        if (!_contentBGView) {
+            _contentBGView = [UIImageView new];
+            _contentBGView.image = [[UIImage imageNamed:@"comment_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(35, 15, 5, 5)];
+            ;
+//            _contentBGView.backgroundColor = [UIColor lightGrayColor];
+            [self.contentView addSubview:_contentBGView];
+        }
+        if (!_timeLineView) {
+            _timeLineView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 2, 1)];
+            [_timeLineView setImage:[UIImage imageNamed:@"timeline_line_read"]];
+            [self.contentView addSubview:_timeLineView];
+        }
         if (!_ownerIconView) {
-            _ownerIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kTaskCommentCell_LeftPading, curBottomY, 33, 33)];
-            [_ownerIconView doCircleFrame];
+            CGFloat borderWidth = 0;
+            _ownerIconView = [[UIImageView alloc] initWithFrame:CGRectMake(20 - borderWidth, curBottomY, 25+ 2*borderWidth, 25 + 2*borderWidth)];
+            
+            _ownerIconView.layer.masksToBounds = YES;
+            _ownerIconView.layer.cornerRadius = _ownerIconView.frame.size.width/2;
+//            _ownerIconView.layer.borderWidth = borderWidth;
+//            _ownerIconView.layer.borderColor = kColorTableBG.CGColor;
+            
             [self.contentView addSubview:_ownerIconView];
         }
         if (!_contentLabel) {
             _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTaskCommentCell_LeftContentPading, curBottomY, kTaskCommentCell_ContentWidth, 30)];
-            _contentLabel.textColor = [UIColor colorWithHexString:@"0x555555"];
+            _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             _contentLabel.font = kTaskCommentCell_FontContent;
             _contentLabel.linkAttributes = kLinkAttributes;
             _contentLabel.activeLinkAttributes = kLinkAttributesActive;
@@ -64,6 +82,9 @@
                 [self.contentView addSubview:self.imageCollectionView];
             }
         }
+        [_contentBGView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(5, 60- 7, 5, 20));
+        }];
     }
     return self;
 }
@@ -73,8 +94,9 @@
     if (!_curComment) {
         return;
     }
-    CGFloat curBottomY = 10;
-    [_ownerIconView sd_setImageWithURL:[_curComment.owner.avatar urlImageWithCodePathResizeToView:_ownerIconView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerIconView)];
+    CGFloat curBottomY = 15;
+    [_ownerIconView sd_setImageWithURL:[_curComment.owner.avatar urlImageWithCodePathResizeToView:_ownerIconView] placeholderImage:kPlaceholderMonkeyRoundWidth(33.0)];
+    
     NSString *contentStr = _curComment.content;
     [_contentLabel setLongString:contentStr withFitWidth:kTaskCommentCell_ContentWidth];
     
@@ -101,6 +123,20 @@
     _timeLabel.text = [NSString stringWithFormat:@"%@ 发布于 %@", _curComment.owner.name, [_curComment.created_at stringTimesAgo]];
 }
 
+- (void)configTop:(BOOL)isTop andBottom:(BOOL)isBottom{
+    if (isTop && isBottom) {
+        _timeLineView.hidden = YES;
+    }else{
+        _timeLineView.hidden = NO;
+        [_timeLineView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_equalTo(2.0);
+            make.centerX.equalTo(_ownerIconView);
+            make.top.equalTo(isTop? _ownerIconView.mas_centerY: self.contentView);
+            make.bottom.equalTo(isBottom? _ownerIconView.mas_centerY: self.contentView);
+        }];
+    }
+}
+
 + (CGFloat)cellHeightWithObj:(id)obj{
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[TaskComment class]]) {
@@ -108,6 +144,7 @@
         NSString *contentStr = curComment.content;
         cellHeight += 10 +[contentStr getHeightWithFont:kTaskCommentCell_FontContent constrainedToSize:CGSizeMake(kTaskCommentCell_ContentWidth, CGFLOAT_MAX)] + 5 +20 +10;
         cellHeight += [self imageCollectionViewHeightWithCount:curComment.htmlMedia.imageItems.count];
+        cellHeight += 10;
     }
     return cellHeight;
 }

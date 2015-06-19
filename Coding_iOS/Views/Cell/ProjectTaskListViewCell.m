@@ -52,7 +52,7 @@
         }
         if (!_contentLabel) {
             _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kProjectTaskListViewCell_LeftPading, kProjectTaskListViewCell_UpDownPading, kProjectTaskListViewCell_ContentWidth, 20)];
-            _contentLabel.textColor = [UIColor colorWithHexString:@"0x333333"];
+            _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             _contentLabel.font = kProjectTaskListViewCell_ContentFont;
             _contentLabel.backgroundColor = [UIColor clearColor];
             [self.contentView addSubview:_contentLabel];
@@ -135,7 +135,7 @@
     CGFloat curBottomY = kProjectTaskListViewCell_UpDownPading;
     
     if (_task.status.integerValue == 1) {//未完成
-        _contentLabel.textColor = [UIColor colorWithHexString:@"0x333333"];
+        _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
         if (_task.deadline_date) {
             NSInteger leftDayCount = [_task.deadline_date leftDayCount];
             UIColor *deadlineBGColor;

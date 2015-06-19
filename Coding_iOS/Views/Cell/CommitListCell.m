@@ -73,7 +73,7 @@
                                  NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x4E90BF"]}
                          range:NSMakeRange(0, commitIdStr.length)];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x333333"]}
+                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
                          range:NSMakeRange(commitIdStr.length + 1, contentStr.length)];
     return attrString;
 }
@@ -83,10 +83,10 @@
     NSString *timeStr = _curCommit.commitTime? [_curCommit.commitTime stringTimesAgo]: @"";
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", nameStr, timeStr]];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x333333"]}
+                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
                          range:NSMakeRange(0, nameStr.length)];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0xA9A9A9"]}
+                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
                          range:NSMakeRange(nameStr.length + 1, timeStr.length)];
     return attrString;
 }

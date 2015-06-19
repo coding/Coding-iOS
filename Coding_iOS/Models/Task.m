@@ -7,6 +7,7 @@
 //
 
 #import "Task.h"
+#import "ProjectActivity.h"
 
 @implementation Task
 - (instancetype)init
@@ -181,6 +182,11 @@
              @"pageSize" : [NSNumber numberWithInt:500]};
 }
 
+//任务动态列表
+- (NSString *)toActivityListPath{
+    return [NSString stringWithFormat:@"api/activity/task/%ld", (long)self.id.integerValue];
+}
+
 //任务详情
 - (NSString *)toTaskDetailPath{
     return [NSString stringWithFormat:@"api%@/task/%ld", self.backend_project_path, (long)self.id.integerValue];
@@ -211,26 +217,6 @@
     }
 }
 
-- (void)addNewComment:(TaskComment *)comment{
-    if (!comment) {
-        return;
-    }
-    if (_commentList) {
-        [_commentList insertObject:comment atIndex:0];
-    }else{
-        _commentList = [NSMutableArray arrayWithObject:comment];
-    }
-    _comments = [NSNumber numberWithInteger:_comments.integerValue +1];
-}
-- (void)deleteComment:(TaskComment *)comment{
-    if (_commentList) {
-        NSUInteger index = [_commentList indexOfObject:comment];
-        if (index != NSNotFound) {
-            [_commentList removeObjectAtIndex:index];
-            _comments = [NSNumber numberWithInteger:_comments.integerValue -1];
-        }
-    }
-}
 @end
 
 @implementation Task_Description

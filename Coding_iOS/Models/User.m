@@ -105,8 +105,8 @@
 }
 - (NSDictionary *)toUpdateInfoParams{
     return @{@"id" : _id,
-             @"email" : _email,
-             @"global_key" : _global_key,
+             @"email" : _email? _email: @"",
+             @"global_key" : _global_key? _global_key: @"",
 //             暂时没用到
 //             @"introduction" : _introduction,
 //             @"phone" : _phone,

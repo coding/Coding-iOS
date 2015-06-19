@@ -38,7 +38,7 @@
         CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
         if (!_contentLabel) {
             _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth + 40, curBottomY, curWidth, 30)];
-            _contentLabel.textColor = [UIColor colorWithHexString:@"0x555555"];
+            _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             _contentLabel.font = kTopicCommentCell_FontContent;
             _contentLabel.linkAttributes = kLinkAttributes;
             _contentLabel.activeLinkAttributes = kLinkAttributesActive;

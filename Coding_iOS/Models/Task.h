@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 @property (readonly, nonatomic, strong) NSDate *deadline_date;
 @property (readwrite, nonatomic, strong) Project *project;
 @property (readwrite, nonatomic, strong) NSNumber *id, *status, *owner_id, *priority, *comments, *has_description;
-@property (readwrite, nonatomic, strong) NSMutableArray *commentList;
+@property (readwrite, nonatomic, strong) NSMutableArray *activityList;
 @property (nonatomic, assign) TaskHandleType handleType;
 @property (nonatomic, assign) BOOL isRequesting, isRequestingDetail, isRequestingCommentList, needRefreshDetail;
 @property (readwrite, nonatomic, strong) NSString *nextCommentStr;
@@ -55,6 +55,8 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 //任务评论列表
 - (NSString *)toCommentListPath;
 - (NSDictionary *)toCommentListParams;
+//任务动态列表
+- (NSString *)toActivityListPath;
 //任务详情
 - (NSString *)toTaskDetailPath;
 //任务描述
@@ -63,8 +65,8 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 - (NSString *)toDoCommentPath;
 - (NSDictionary *)toDoCommentParams;
 
-- (void)addNewComment:(TaskComment *)comment;
-- (void)deleteComment:(TaskComment *)comment;
+//- (void)addNewComment:(TaskComment *)comment;
+//- (void)deleteComment:(TaskComment *)comment;
 @end
 
 @interface Task_Description : NSObject

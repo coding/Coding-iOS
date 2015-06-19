@@ -33,7 +33,7 @@
         if (!_contentLabel) {
             _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth + 40, curBottomY, curWidth, 30)];
             _contentLabel.numberOfLines = 0;
-            _contentLabel.textColor = [UIColor colorWithHexString:@"0x555555"];
+            _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             _contentLabel.font = kTweetDetailCommentCell_FontContent;
             _contentLabel.linkAttributes = kLinkAttributes;
             _contentLabel.activeLinkAttributes = kLinkAttributesActive;
