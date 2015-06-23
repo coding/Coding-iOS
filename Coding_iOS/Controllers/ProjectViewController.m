@@ -550,7 +550,10 @@
             break;
         case ProjectViewTypeCodes:
         {
-            [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_CommitList];
+            if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_CommitList]) {
+                [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_CommitList];
+                [self configRightBarButtonItemWithViewType:ProjectViewTypeCodes];
+            }
             //代码提交记录
             ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
             vc.curProject = self.myProject;
