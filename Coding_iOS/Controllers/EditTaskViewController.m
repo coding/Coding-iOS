@@ -191,6 +191,8 @@
             
             [weakSelf.myTableView reloadData];
             [weakSelf queryToRefreshActivityList];
+        }else if ([[[error.userInfo objectForKey:@"msg"] allKeys] containsObject:@"task_not_exist"]){
+            [self.navigationItem setRightBarButtonItem:nil animated:YES];
         }
     }];
 }
