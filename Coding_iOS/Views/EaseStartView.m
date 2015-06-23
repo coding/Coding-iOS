@@ -39,7 +39,6 @@
 
         _logoIconView = [[UIImageView alloc] init];
         _logoIconView.contentMode = UIViewContentModeScaleAspectFit;
-        _logoIconView.alpha = 1.0;
         [self addSubview:_logoIconView];
         _descriptionStrLabel = [[UILabel alloc] init];
         _descriptionStrLabel.font = [UIFont systemFontOfSize:10];
@@ -90,26 +89,18 @@
 - (void)startAnimationWithCompletionBlock:(void(^)(EaseStartView *easeStartView))completionHandler{
     [kKeyWindow addSubview:self];
     [kKeyWindow bringSubviewToFront:self];
-    _bgImageView.alpha = 0.0;
-    _logoIconView.alpha = 1.0;
-    _descriptionStrLabel.alpha = 0.0;
-    self.alpha = 1.0;
+    _bgImageView.alpha = 0.2;
+    _descriptionStrLabel.alpha = 0.2;
 
     @weakify(self);
-
-    [UIView animateWithDuration:2.0 animations:^{
+    [UIView animateWithDuration:1.0 animations:^{
         @strongify(self);
         self.bgImageView.alpha = 1.0;
-        [self.bgImageView setFrame:CGRectMake(-kScreen_Width/20, -kScreen_Height/20, 1.1*kScreen_Width, 1.1*kScreen_Height)];
         self.descriptionStrLabel.alpha = 1.0;
     } completion:^(BOOL finished) {
-        self.backgroundColor = [UIColor clearColor];
-        [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:0.6 delay:0.3 options:UIViewAnimationOptionCurveEaseIn animations:^{
             @strongify(self);
-            self.bgImageView.alpha = 0.0;
-            self.logoIconView.alpha = 0.0;
-            self.descriptionStrLabel.alpha = 0.0;
-            self.alpha = 0.0;
+            [self setX:-kScreen_Width];
         } completion:^(BOOL finished) {
             @strongify(self);
             [self removeFromSuperview];
