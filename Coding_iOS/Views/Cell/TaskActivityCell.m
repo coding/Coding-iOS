@@ -83,6 +83,7 @@
     if (![curActivity.target_type isEqualToString:@"Task"]) {
         return nil;
     }
+
     NSString *userName, *contentStr;
     userName = curActivity.user.name? curActivity.user.name: @"";
     NSMutableAttributedString *attrContent;
