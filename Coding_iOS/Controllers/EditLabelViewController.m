@@ -45,7 +45,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"标签管理";
-    self.navigationController.title = @"标签管理";
     
     //if (!_isSaveChange) {
         self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(okBtnClick)];
@@ -446,7 +445,7 @@
 
 - (void)textFieldDidChange:(UITextField *)textField
 {
-    _tempLabel = textField.text;
+    _tempLabel = [textField.text trimWhitespace];
     BOOL enabled = _tempLabel.length > 0 ? TRUE : FALSE;
     if (enabled) {
         for (ProjectTopicLabel *lbl in _labels) {
