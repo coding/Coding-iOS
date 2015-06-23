@@ -108,6 +108,8 @@
         contentStr = [NSString stringWithFormat:@"完成了任务 - %@", [curActivity.created_at stringTimesAgo]];
     }else if ([curActivity.action isEqualToString:@"restore"]) {
         contentStr = [NSString stringWithFormat:@"重新开启了任务 - %@", [curActivity.created_at stringTimesAgo]];
+    }else if ([curActivity.action isEqualToString:@"commit_refer"]) {
+        contentStr = [NSString stringWithFormat:@"在分支 %@ 中提交的代码提到了任务 - %@\n%@", curActivity.commit.ref, [curActivity.created_at stringTimesAgo], curActivity.commit.contentStr];
     }else{
         contentStr = @"...";
     }

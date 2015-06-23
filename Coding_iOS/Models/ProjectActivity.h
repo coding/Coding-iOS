@@ -30,6 +30,7 @@
 @property (readwrite, nonatomic, strong) NSMutableArray *commits;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 @property (readwrite, nonatomic, strong) ProjectLineNoteActivity *line_note;
+@property (strong, nonatomic) Commit *commit;
 
 @property (readonly, nonatomic, strong) NSMutableArray *actionMediaItems, *contentMediaItems;
 @property (readonly, nonatomic, strong) NSMutableString *actionStr, *contentStr;

@@ -10,7 +10,7 @@
 @class Committer;
 
 @interface Commit : NSObject
-@property (readwrite, nonatomic, strong) NSString *sha, *short_message;
+@property (readwrite, nonatomic, strong) NSString *sha, *short_message, *ref, *ref_path;
 @property (strong, nonatomic) NSString *fullMessage, *shortMessage, *allMessage, *commitId;
 @property (strong, nonatomic) NSDate *commitTime;
 @property (strong, nonatomic) NSNumber *notesCount;
