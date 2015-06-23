@@ -5,7 +5,7 @@
 //  Created by 王 原闯 on 14-8-19.
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
-#define kTaskContentCell_ContentHeightMin kScaleFrom_iPhone5_Desgin(120.0)
+#define kTaskContentCell_ContentHeightMin kScaleFrom_iPhone5_Desgin(90.0)
 #define kTextView_Pading 8.0
 #define kTaskContentCell_ContentWidth (kScreen_Width-kPaddingLeftWidth-kPaddingLeftWidth + 2*kTextView_Pading)
 #define kTaskContentCell_ContentFont [UIFont systemFontOfSize:18]
