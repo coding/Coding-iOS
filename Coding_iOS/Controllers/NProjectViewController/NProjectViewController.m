@@ -28,6 +28,8 @@
 #import "MRPRListViewController.h"
 #import "EaseGitButtonsView.h"
 
+#import "FunctionTipsManager.h"
+
 @interface NProjectViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
@@ -167,7 +169,7 @@
                 case 0:
                     [cell setImageStr:@"project_item_activity" andTitle:@"动态"];
                     if (_myProject.un_read_activities_count.integerValue > 0) {
-                        [cell addTipIcon];
+                        [cell addTip:_myProject.un_read_activities_count.stringValue];
                     }
                     break;
                 case 1:
@@ -202,11 +204,33 @@
             switch (indexPath.row) {
                 case 0:
                     [cell setImageStr:@"project_item_readme" andTitle:@"README"];
+                    if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_ReadMe]) {
+                        [cell addTipIcon];
+                    }
                     break;
                 default:
                     [cell setImageStr:@"project_item_mr_pr" andTitle:_myProject.is_public.boolValue? @"Pull Request": @"Merge Request"];
+                    if ((_myProject.is_public.boolValue &&
+                         [[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_PR]) ||
+                        (!_myProject.is_public.boolValue &&
+                         [[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_MR])) {
+                        [cell addTipIcon];
+                    }else
                     break;
             }
+        }
+        FunctionTipsManager *ftm = [FunctionTipsManager shareManager];
+        NSString *tipStr;
+        if (indexPath.section == 1) {
+            if ((_myProject.is_public.boolValue && indexPath.row == 2) ||
+                (!_myProject.is_public.boolValue && indexPath.row == 4)) {
+                tipStr = kFunctionTipStr_CommitList;
+            }
+        }else if (indexPath.section == 2){
+            tipStr = indexPath.row == 0? kFunctionTipStr_ReadMe: _myProject.is_public.boolValue? kFunctionTipStr_PR: kFunctionTipStr_MR;
+        }
+        if (tipStr && [ftm needToTip:tipStr]) {
+            [cell addTipIcon];
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
@@ -243,6 +267,15 @@
         }else if (indexPath.row == 1){
             [self goTo_MR_PR];
         }
+    }
+    
+    FunctionTipsManager *ftm = [FunctionTipsManager shareManager];
+    NSString *tipStr;
+    if (indexPath.section == 2) {
+        tipStr = indexPath.row == 0? kFunctionTipStr_ReadMe: _myProject.is_public.boolValue? kFunctionTipStr_PR: kFunctionTipStr_MR;
+    }
+    if (tipStr && [ftm needToTip:tipStr]) {
+        [ftm markTiped:tipStr];
     }
 }
 

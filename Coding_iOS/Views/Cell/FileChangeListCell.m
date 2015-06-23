@@ -61,6 +61,10 @@
     if (!_curFileChange) {
         return;
     }
+    UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"file_changeType_%@", _curFileChange.changeType]];
+    if (!image) {
+        NSLog(@"%@ : %@", _curFileChange.changeType, _curFileChange.path);
+    }
     _iconView.image = [UIImage imageNamed:[NSString stringWithFormat:@"file_changeType_%@", _curFileChange.changeType]];
     _fileNameL.text = _curFileChange.displayFileName;
     _changeStatusL.attributedText = [self p_styleStatusStr];

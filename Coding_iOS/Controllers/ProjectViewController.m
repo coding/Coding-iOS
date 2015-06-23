@@ -35,6 +35,8 @@
 #import "NProjectViewController.h"
 #import "CommitFilesViewController.h"
 
+#import "FunctionTipsManager.h"
+
 @interface ProjectViewController ()
 
 @property (nonatomic, strong) NSMutableDictionary *projectContentDict;
@@ -139,14 +141,21 @@
     if ((viewType == ProjectViewTypeMembers && [[Login curLoginUser].global_key isEqualToString:_myProject.owner_user_name])
         || viewType == ProjectViewTypeTasks
         || viewType == ProjectViewTypeTopics
-        || viewType == ProjectViewTypeFiles
-        || viewType == ProjectViewTypeCodes) {
+        || viewType == ProjectViewTypeFiles) {
         navRightBtn = [[UIBarButtonItem alloc]
                        initWithImage:[UIImage
                                       imageNamed:(viewType == ProjectViewTypeCodes ? @"timeBtn_Nav" : @"addBtn_Nav")]
                        style:UIBarButtonItemStylePlain
                        target:self
                        action:@selector(navRightBtnClicked)];
+    }else if (viewType == ProjectViewTypeCodes){
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        [button setImage:[UIImage imageNamed:@"timeBtn_Nav"] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(navRightBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+        if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_CommitList]) {
+            [button addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(20, 0)];
+        }
+        navRightBtn = [[UIBarButtonItem alloc] initWithCustomView:button];
     }
     [self.navigationItem setRightBarButtonItem:navRightBtn animated:YES];
 }
@@ -541,6 +550,7 @@
             break;
         case ProjectViewTypeCodes:
         {
+            [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_CommitList];
             //代码提交记录
             ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
             vc.curProject = self.myProject;
