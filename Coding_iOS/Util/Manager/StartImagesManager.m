@@ -115,7 +115,7 @@
 
 - (void)refreshImagesPlist{
     NSString *aPath = @"api/wallpaper/wallpapers";
-    NSDictionary *params = @{@"type" : @"5"};
+    NSDictionary *params = @{@"type" : @"3"};
     [[CodingNetAPIClient sharedJsonClient] GET:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
         id error = [self handleResponse:responseObject];

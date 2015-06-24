@@ -375,6 +375,8 @@
 		4EF91F641B00B62B0021C951 /* icon_not_locationed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF91F621B00B62A0021C951 /* icon_not_locationed@2x.png */; };
 		4EFE8DAC1B394A0D004B7559 /* file_changeType_COPY@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EFE8DAA1B394A0D004B7559 /* file_changeType_COPY@2x.png */; };
 		4EFE8DAD1B394A0D004B7559 /* file_changeType_RENAME@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EFE8DAB1B394A0D004B7559 /* file_changeType_RENAME@2x.png */; };
+		4EFE8DAF1B3960E6004B7559 /* logo_coding_top@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EFE8DAE1B3960E6004B7559 /* logo_coding_top@2x.png */; };
+		4EFE8DB91B3A5727004B7559 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */; };
 		68D9A2AD062641F5BCA573C5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B024F2227BD4152BC7C9A7A /* libPods.a */; };
 		8E03D4A219F695FE0092F8C8 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */; };
 		8E03D4A419F696970092F8C8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D4A319F696970092F8C8 /* libz.dylib */; };
@@ -1283,6 +1285,8 @@
 		4EF91F621B00B62A0021C951 /* icon_not_locationed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_not_locationed@2x.png"; sourceTree = "<group>"; };
 		4EFE8DAA1B394A0D004B7559 /* file_changeType_COPY@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_changeType_COPY@2x.png"; sourceTree = "<group>"; };
 		4EFE8DAB1B394A0D004B7559 /* file_changeType_RENAME@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_changeType_RENAME@2x.png"; sourceTree = "<group>"; };
+		4EFE8DAE1B3960E6004B7559 /* logo_coding_top@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_coding_top@2x.png"; sourceTree = "<group>"; };
+		4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		8B18B0211092D3903D031B13 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		8E03D4A019F695FE0092F8C8 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
@@ -2732,6 +2736,7 @@
 				8EA6CF1419E240C40076D59C /* APIUrl.h */,
 				8EA6CF1519E240C40076D59C /* AppDelegate.h */,
 				8EA6CF1619E240C40076D59C /* AppDelegate.m */,
+				4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */,
 				8EA6CF1719E240C40076D59C /* Coding_iOS-Info.plist */,
 				8EA6CF1819E240C40076D59C /* Coding_iOS-Prefix.pch */,
 				4E8C51AE1AC0177600B4C51F /* Coding_iOS-Prefix.pch.example */,
@@ -2944,6 +2949,7 @@
 				4E6D718B1A762879005AD988 /* icon_user_monkey_i6@2x.png */,
 				4E6D718C1A762879005AD988 /* icon_user_monkey_i6p@3x.png */,
 				4E07D3131A4D3CA6009EDDF2 /* logo_coding@2x.png */,
+				4EFE8DAE1B3960E6004B7559 /* logo_coding_top@2x.png */,
 				4E76D4DB1A5A77DD0094A35E /* register_arrow@2x.png */,
 				4E76D4DD1A5A7B4A0094A35E /* text_clear_btn@2x.png */,
 				4E03AC991A5BDDF9002B000B /* STARTIMAGE.jpg */,
@@ -3784,6 +3790,7 @@
 				8EA6D16A19E240C40076D59C /* nav_project_topic@2x.png in Resources */,
 				4E96E7E51A1B537E0037C098 /* icon_file_zip@2x.png in Resources */,
 				4E90F89E1AF709C100B44F03 /* topic-ios.html in Resources */,
+				4EFE8DAF1B3960E6004B7559 /* logo_coding_top@2x.png in Resources */,
 				4E66EE261A28226000DA1B3E /* button_file_createFolder_enable@2x.png in Resources */,
 				8EA6D19C19E240C40076D59C /* tipIcon_QcTask@2x.png in Resources */,
 				4E72F82F1B159997001B6CE6 /* tipIcon_Other@2x.png in Resources */,
@@ -3931,6 +3938,7 @@
 				4E6383E11B32676600D98648 /* taskPriority@2x.png in Resources */,
 				8EA6D19D19E240C40076D59C /* tipIcon_Task@2x.png in Resources */,
 				4E6384001B33C18700D98648 /* task_activity_icon_update_description@2x.png in Resources */,
+				4EFE8DB91B3A5727004B7559 /* Launch Screen.xib in Resources */,
 				8E97CEAA1A0C7E26006F9AD7 /* coding_emoji_19@2x.png in Resources */,
 				4EB845331AB83C3B0030DC69 /* git_icon_fork@2x.png in Resources */,
 				4E90F89D1AF709C100B44F03 /* markdown.html in Resources */,

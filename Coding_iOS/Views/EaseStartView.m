@@ -18,7 +18,7 @@
 @implementation EaseStartView
 
 + (instancetype)startView{
-    UIImage *logoIcon = [UIImage imageNamed:@"logo_coding"];
+    UIImage *logoIcon = [UIImage imageNamed:@"logo_coding_top"];
     StartImage *st = [[StartImagesManager shareManager] randomImage];
     return [[self alloc] initWithBgImage:st.image logoIcon:logoIcon descriptionStr:st.descriptionStr];
 }
@@ -27,15 +27,15 @@
     self = [super initWithFrame:kScreen_Bounds];
     if (self) {
         //add custom code
-        self.backgroundColor = [UIColor colorWithHexString:@"0x131313"];
         UIColor *blackColor = [UIColor blackColor];
-
+        self.backgroundColor = blackColor;
+        
         _bgImageView = [[UIImageView alloc] initWithFrame:kScreen_Bounds];
-        _bgImageView.contentMode = UIViewContentModeScaleAspectFill;
+        _bgImageView.contentMode = UIViewContentModeScaleAspectFit;
         _bgImageView.alpha = 0.0;
         [self addSubview:_bgImageView];
         
-        [self addGradientLayerWithColors:@[(id)[blackColor colorWithAlphaComponent:0.0].CGColor, (id)[blackColor colorWithAlphaComponent:0.9].CGColor] locations:nil startPoint:CGPointMake(0.5, 0.6) endPoint:CGPointMake(0.5, 1.0)];
+        [self addGradientLayerWithColors:@[(id)[blackColor colorWithAlphaComponent:0.4].CGColor, (id)[blackColor colorWithAlphaComponent:0.0].CGColor] locations:nil startPoint:CGPointMake(0.5, 0.0) endPoint:CGPointMake(0.5, 0.4)];
 
         _logoIconView = [[UIImageView alloc] init];
         _logoIconView.contentMode = UIViewContentModeScaleAspectFit;
@@ -56,31 +56,20 @@
         }];
         
         [_logoIconView mas_makeConstraints:^(MASConstraintMaker *make) {
-            if (kDevice_Is_iPhone6Plus) {
-                CGFloat scalePhysical = 414.0/1242;
-                make.bottom.equalTo(self.mas_bottom).offset(-230*scalePhysical);
-                make.left.equalTo(self.mas_left).offset(235*scalePhysical);
-                make.right.equalTo(self.mas_right).offset(-235*scalePhysical);
-            }else if (kDevice_Is_iPhone6){
-                make.bottom.equalTo(self.mas_bottom).offset(-65);
-                make.left.equalTo(self.mas_left).offset(69);
-                make.right.equalTo(self.mas_right).offset(-69);
-            }else{
-                make.bottom.equalTo(self.mas_bottom).offset(-56);
-                make.left.equalTo(self.mas_left).offset(60);
-                make.right.equalTo(self.mas_right).offset(-60);
-            }
-            make.size.mas_lessThanOrEqualTo(CGSizeMake(255, 60));
-            make.height.equalTo(_logoIconView.mas_width).multipliedBy(60.0/255.0);
+            make.centerX.equalTo(self);
+            make.top.mas_equalTo(kScreen_Height/5);
+            make.width.mas_equalTo(kScreen_Width *5/8);
+            make.height.mas_equalTo(kScreen_Width *5/8 /4);
         }];
+        
         [self configWithBgImage:bgImage logoIcon:logoIcon descriptionStr:descriptionStr];
     }
     return self;
 }
 
 - (void)configWithBgImage:(UIImage *)bgImage logoIcon:(UIImage *)logoIcon descriptionStr:(NSString *)descriptionStr{
-    UIImage *bgImage_resize = [bgImage scaleToSize:[_bgImageView doubleSizeOfFrame] usingMode:NYXResizeModeAspectFill];
-    self.bgImageView.image = bgImage_resize? bgImage_resize: bgImage;
+    bgImage = [bgImage scaleToSize:[_bgImageView doubleSizeOfFrame] usingMode:NYXResizeModeAspectFill];
+    self.bgImageView.image = bgImage;
     self.logoIconView.image = logoIcon;
     self.descriptionStrLabel.text = descriptionStr;
     [self updateConstraintsIfNeeded];
@@ -89,11 +78,11 @@
 - (void)startAnimationWithCompletionBlock:(void(^)(EaseStartView *easeStartView))completionHandler{
     [kKeyWindow addSubview:self];
     [kKeyWindow bringSubviewToFront:self];
-    _bgImageView.alpha = 0.2;
-    _descriptionStrLabel.alpha = 0.2;
+    _bgImageView.alpha = 0.0;
+    _descriptionStrLabel.alpha = 0.0;
 
     @weakify(self);
-    [UIView animateWithDuration:1.0 animations:^{
+    [UIView animateWithDuration:2.0 animations:^{
         @strongify(self);
         self.bgImageView.alpha = 1.0;
         self.descriptionStrLabel.alpha = 1.0;
