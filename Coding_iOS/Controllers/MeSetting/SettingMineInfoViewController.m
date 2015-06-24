@@ -20,6 +20,7 @@
 #import "SettingTextViewController.h"
 #import "Helper.h"
 #import "UserInfoDetailTagCell.h"
+#import "JDStatusBarNotification.h"
 
 @interface SettingMineInfoViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
@@ -192,8 +193,10 @@
         case 0:{
             switch (indexPath.row) {
                 case 0:{//头像
-                    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更换头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从相册选择", nil];
-                    [actionSheet showInView:self.view];
+                    if (![JDStatusBarNotification isVisible]) {
+                        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更换头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从相册选择", nil];
+                        [actionSheet showInView:self.view];
+                    }
                 }
                     break;
                 case 1:{//昵称
