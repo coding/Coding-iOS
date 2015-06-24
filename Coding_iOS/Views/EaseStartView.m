@@ -31,7 +31,7 @@
         self.backgroundColor = blackColor;
         
         _bgImageView = [[UIImageView alloc] initWithFrame:kScreen_Bounds];
-        _bgImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _bgImageView.contentMode = UIViewContentModeScaleAspectFill;
         _bgImageView.alpha = 0.0;
         [self addSubview:_bgImageView];
         
@@ -57,9 +57,9 @@
 
         [_logoIconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
-            make.top.mas_equalTo(kScreen_Height/5);
-            make.width.mas_equalTo(kScreen_Width *5/8);
-            make.height.mas_equalTo(kScreen_Width *5/8 /4);
+            make.top.mas_equalTo(kScreen_Height/6);
+            make.width.mas_equalTo(kScreen_Width *2/3);
+            make.height.mas_equalTo(kScreen_Width/4 *2/3);
         }];
         
         [self configWithBgImage:bgImage logoIcon:logoIcon descriptionStr:descriptionStr];
