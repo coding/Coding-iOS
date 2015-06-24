@@ -54,7 +54,7 @@
             make.left.equalTo(self.mas_left).offset(20);
             make.right.equalTo(self.mas_right).offset(-20);
         }];
-        
+
         [_logoIconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
             make.top.mas_equalTo(kScreen_Height/5);

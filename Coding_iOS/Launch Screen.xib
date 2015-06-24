@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hsM-50-FIo">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="852"/>
+                    <subviews>
+                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="logo_coding_top.png" translatesAutoresizingMaskIntoConstraints="NO" id="YxK-r8-9T5">
+                            <rect key="frame" x="90" y="171" width="300" height="75"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="centerX" secondItem="YxK-r8-9T5" secondAttribute="centerX" id="ARb-jy-Fqb"/>
+                        <constraint firstItem="YxK-r8-9T5" firstAttribute="top" secondItem="hsM-50-FIo" secondAttribute="bottom" multiplier="1:5" id="PxA-nu-h0z"/>
+                        <constraint firstItem="YxK-r8-9T5" firstAttribute="height" secondItem="hsM-50-FIo" secondAttribute="width" multiplier="5:32" id="Xxl-kL-4QF"/>
+                        <constraint firstItem="YxK-r8-9T5" firstAttribute="width" secondItem="hsM-50-FIo" secondAttribute="width" multiplier="5:8" id="kvb-6i-hMX"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="hsM-50-FIo" secondAttribute="trailing" id="9ye-kN-2e6"/>
+                <constraint firstAttribute="bottom" secondItem="hsM-50-FIo" secondAttribute="bottom" id="PNc-FZ-A14"/>
+                <constraint firstItem="hsM-50-FIo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TUM-IV-Tdn"/>
+                <constraint firstItem="hsM-50-FIo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="gaY-ZE-7c3"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="177" y="527"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="logo_coding_top.png" width="390" height="85"/>
+    </resources>
+</document>
