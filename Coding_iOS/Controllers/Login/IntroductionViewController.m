@@ -26,17 +26,15 @@
 - (instancetype)init
 {
     if ((self = [super init])) {
-        self.numberOfPages = 2;
-        self.iconsDict = [@{
-                            @"0_image": @"intro_icon_0",
-                            @"1_image": @"intro_icon_1",
-//                            @"2_image": @"",
-                            } mutableCopy];
-        self.tipsDict = [@{
-                           @"0_image": @"intro_tip_0",
-                           @"1_image": @"intro_tip_1",
-                          } mutableCopy];
-
+        self.numberOfPages = 7;
+        
+        _iconsDict = [NSMutableDictionary new];
+        _tipsDict = [NSMutableDictionary new];
+        for (int i = 0; i < self.numberOfPages; i++) {
+            NSString *imageKey = [self imageKeyForIndex:i];
+            [_iconsDict setObject:[NSString stringWithFormat:@"intro_icon_%d", i] forKey:imageKey];
+            [_tipsDict setObject:[NSString stringWithFormat:@"intro_tip_%d", i] forKey:imageKey];
+        }
     }
     
     return self;
@@ -210,24 +208,31 @@
         UIView *iconView = [self.iconsDict objectForKey:viewKey];
         UIView *tipView = [self.tipsDict objectForKey:viewKey];
         if (iconView) {
-            [self keepView:iconView onPage:index];
+            if (index == self.numberOfPages -1) {
+                [self keepView:iconView onPages:@[@(index +1), @(index)] atTimes:@[@(index - 1), @(index)]];
+                
+                [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.mas_equalTo(-kScreen_Height/4);
+                }];
+                
+                IFTTTAlphaAnimation *iconAlphaAnimation = [IFTTTAlphaAnimation animationWithView:iconView];
+                [iconAlphaAnimation addKeyframeForTime:index -0.5 alpha:0.f];
+                [iconAlphaAnimation addKeyframeForTime:index alpha:1.f];
+                [iconAlphaAnimation addKeyframeForTime:index +0.5 alpha:0.f];
+                [self.animator addAnimation:iconAlphaAnimation];
 
-            [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.mas_equalTo(-kScreen_Height/6);
-            }];
-            if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {//8.0 及以上版本才能对这个动画有较好地支持
-                IFTTTRotationAnimation *iconRotationAnimation = [IFTTTRotationAnimation animationWithView:iconView];
-                [iconRotationAnimation addKeyframeForTime:index -1 rotation:-90.f];
-                [iconRotationAnimation addKeyframeForTime:index rotation:0.f];
-                [iconRotationAnimation addKeyframeForTime:index +1 rotation:90.f];
-                [self.animator addAnimation:iconRotationAnimation];
+            }else{
+                [self keepView:iconView onPage:index];
+                
+                [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.mas_equalTo(-kScreen_Height/6);
+                }];
+                IFTTTAlphaAnimation *iconAlphaAnimation = [IFTTTAlphaAnimation animationWithView:iconView];
+                [iconAlphaAnimation addKeyframeForTime:index -0.5 alpha:0.f];
+                [iconAlphaAnimation addKeyframeForTime:index alpha:1.f];
+                [iconAlphaAnimation addKeyframeForTime:index +0.5 alpha:0.f];
+                [self.animator addAnimation:iconAlphaAnimation];
             }
-            
-            IFTTTAlphaAnimation *iconAlphaAnimation = [IFTTTAlphaAnimation animationWithView:iconView];
-            [iconAlphaAnimation addKeyframeForTime:index -0.5 alpha:0.f];
-            [iconAlphaAnimation addKeyframeForTime:index alpha:1.f];
-            [iconAlphaAnimation addKeyframeForTime:index +0.5 alpha:0.f];
-            [self.animator addAnimation:iconAlphaAnimation];
         }
         if (tipView) {
             [self keepView:tipView onPages:@[@(index +1), @(index), @(index-1)] atTimes:@[@(index - 1), @(index), @(index +1)]];
