@@ -145,9 +145,9 @@
 
 - (void)showdismissButton:(BOOL)willShow{
     self.dismissButton.hidden = !willShow;
-    if (!self.dismissButton) {
+    if (!self.dismissButton && willShow) {
         self.dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 50, 50)];
-        [self.dismissButton setImage:[UIImage imageNamed:@"tweetBtn_Nav"] forState:UIControlStateNormal];
+        [self.dismissButton setImage:[UIImage imageNamed:@"text_clear_btn"] forState:UIControlStateNormal];
         [self.dismissButton addTarget:self action:@selector(dismissButtonClicked) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.dismissButton];
     }

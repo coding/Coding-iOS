@@ -41,16 +41,14 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
 @end
 
 @implementation BaseViewController
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
-}
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:[NSString stringWithUTF8String:object_getClassName(self)]];
     
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+
     if (self.interfaceOrientation != UIInterfaceOrientationPortrait
         && !([self supportedInterfaceOrientations] & UIInterfaceOrientationMaskLandscapeLeft)) {
         [self forceChangeToOrientation:UIInterfaceOrientationPortrait];

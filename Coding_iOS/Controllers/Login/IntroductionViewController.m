@@ -63,6 +63,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -167,7 +168,6 @@
     }];
     
 //    PageControl
-    
     UIImage *pageIndicatorImage = [UIImage imageNamed:@"intro_dot_unselected"];
     UIImage *currentPageIndicatorImage = [UIImage imageNamed:@"intro_dot_selected"];
 
@@ -194,7 +194,7 @@
     [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreen_Width, kScaleFrom_iPhone5_Desgin(20)));
         make.centerX.equalTo(self.view);
-        make.bottom.equalTo(self.view).offset(-kScaleFrom_iPhone5_Desgin(90));
+        make.bottom.equalTo(self.registerBtn.mas_top).offset(-kScaleFrom_iPhone5_Desgin(20));
     }];
 }
 
@@ -215,12 +215,13 @@
             [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.mas_equalTo(-kScreen_Height/6);
             }];
-            
-            IFTTTRotationAnimation *iconRotationAnimation = [IFTTTRotationAnimation animationWithView:iconView];
-            [iconRotationAnimation addKeyframeForTime:index -1 rotation:-90.f];
-            [iconRotationAnimation addKeyframeForTime:index rotation:0.f];
-            [iconRotationAnimation addKeyframeForTime:index +1 rotation:90.f];
-            [self.animator addAnimation:iconRotationAnimation];
+            if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {//8.0 及以上版本才能对这个动画有较好地支持
+                IFTTTRotationAnimation *iconRotationAnimation = [IFTTTRotationAnimation animationWithView:iconView];
+                [iconRotationAnimation addKeyframeForTime:index -1 rotation:-90.f];
+                [iconRotationAnimation addKeyframeForTime:index rotation:0.f];
+                [iconRotationAnimation addKeyframeForTime:index +1 rotation:90.f];
+                [self.animator addAnimation:iconRotationAnimation];
+            }
             
             IFTTTAlphaAnimation *iconAlphaAnimation = [IFTTTAlphaAnimation animationWithView:iconView];
             [iconAlphaAnimation addKeyframeForTime:index -0.5 alpha:0.f];
@@ -231,13 +232,18 @@
         if (tipView) {
             [self keepView:tipView onPages:@[@(index +1), @(index), @(index-1)] atTimes:@[@(index - 1), @(index), @(index +1)]];
 
+            IFTTTAlphaAnimation *tipAlphaAnimation = [IFTTTAlphaAnimation animationWithView:tipView];
+            [tipAlphaAnimation addKeyframeForTime:index -0.5 alpha:0.f];
+            [tipAlphaAnimation addKeyframeForTime:index alpha:1.f];
+            [tipAlphaAnimation addKeyframeForTime:index +0.5 alpha:0.f];
+            [self.animator addAnimation:tipAlphaAnimation];
+            
             [tipView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(iconView.mas_bottom).offset(kScaleFrom_iPhone5_Desgin(45));
             }];
         }
     }
 }
-
 
 
 #pragma mark Action
