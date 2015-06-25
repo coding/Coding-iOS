@@ -259,7 +259,7 @@
         
         if (resultCode.intValue == 1000) {//用户未登录
             [Login doLogout];
-            [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
+            [((AppDelegate *)[UIApplication sharedApplication].delegate) setupIntroductionViewController];
         }
     }
     return error;
