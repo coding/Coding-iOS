@@ -20,7 +20,6 @@
 #define kTweet_CommentFont [UIFont systemFontOfSize:14]
 #define kTweet_TimtFont [UIFont systemFontOfSize:12]
 #define kTweet_LikeUsersLineCount 7.0
-#define kTweet_CommentListBackColor [UIColor colorWithHexString:@"0xedebec"]
 
 #import "TweetCell.h"
 #import "TweetLikeUserCCell.h"
@@ -162,7 +161,7 @@
             self.likeUsersView = [[UICollectionView alloc] initWithFrame:CGRectMake(kTweetCell_PadingLeft, 0, kTweetCell_ContentWidth, 35) collectionViewLayout:layout];
             self.likeUsersView.scrollEnabled = NO;
             [self.likeUsersView setBackgroundView:nil];
-            [self.likeUsersView setBackgroundColor:kTweet_CommentListBackColor];
+            [self.likeUsersView setBackgroundColor:kColorTableSectionBg];
             [self.likeUsersView registerClass:[TweetLikeUserCCell class] forCellWithReuseIdentifier:kCCellIdentifier_TweetLikeUser];
             self.likeUsersView.dataSource = self;
             self.likeUsersView.delegate = self;
@@ -188,7 +187,7 @@
             self.commentListView.separatorStyle = UITableViewCellSeparatorStyleNone;
             self.commentListView.scrollEnabled = NO;
             [self.commentListView setBackgroundView:nil];
-            [self.commentListView setBackgroundColor:kTweet_CommentListBackColor];
+            [self.commentListView setBackgroundColor:kColorTableSectionBg];
             [self.commentListView registerClass:[TweetCommentCell class] forCellReuseIdentifier:kCellIdentifier_TweetComment];
             [self.commentListView registerClass:[TweetCommentMoreCell class] forCellReuseIdentifier:kCellIdentifier_TweetCommentMore];
             self.commentListView.dataSource = self;
