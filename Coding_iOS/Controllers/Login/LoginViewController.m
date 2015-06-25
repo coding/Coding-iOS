@@ -318,6 +318,8 @@
         kTipAlert(@"%@", tipMsg);
         return;
     }
+    [self.view endEditing:YES];
+    
     if (!_activityIndicator) {
         _activityIndicator = [[UIActivityIndicatorView alloc]
                               initWithActivityIndicatorStyle:
