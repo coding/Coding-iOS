@@ -50,14 +50,17 @@ static NSString *kFunctionTipStr_Version = @"version";
 }
 
 - (BOOL)needToTip:(NSString *)functionStr{
-    return [_tipsDict valueForKey:functionStr];
+    NSNumber *needToTip = [_tipsDict valueForKey:functionStr];
+    return needToTip.boolValue;
 }
 
 - (BOOL)markTiped:(NSString *)functionStr{
-    if (![_tipsDict valueForKey:functionStr]) {
+    NSNumber *needToTip = [_tipsDict valueForKey:functionStr];
+    if (!needToTip.boolValue) {
         return NO;
     }
-    [_tipsDict removeObjectForKey:functionStr];
+    [_tipsDict setValue:@(NO) forKey:functionStr];
     return [_tipsDict writeToFile:[self p_cacheFilePath] atomically:YES];
 }
+
 @end
