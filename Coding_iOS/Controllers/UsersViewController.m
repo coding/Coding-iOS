@@ -238,7 +238,7 @@
     }
     
     UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, height)];
-    headerV.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+    headerV.backgroundColor = kColorTableSectionBg;
     
     UILabel *titleL = [[UILabel alloc] init];
     titleL.font = [UIFont systemFontOfSize:12];

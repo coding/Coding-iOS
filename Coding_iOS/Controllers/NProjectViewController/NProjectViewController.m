@@ -110,7 +110,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     if (section < 2) {
         UIView *footerView = [UIView new];
-        footerView.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+        footerView.backgroundColor = kColorTableSectionBg;
         return footerView;
     }else{
         return nil;
@@ -129,7 +129,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (section > 0) {
         UIView *headerView = [UIView new];
-        headerView.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+        headerView.backgroundColor = kColorTableSectionBg;
         return headerView;
     }else{
         return nil;

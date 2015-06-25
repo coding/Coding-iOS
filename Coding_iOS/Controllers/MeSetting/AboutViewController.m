@@ -26,7 +26,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+    self.view.backgroundColor = kColorTableSectionBg;
     self.title = @"关于Coding";
     
     CGFloat logoViewTop, logoLabelTop, versionLabelTop, infoLabelBottom;

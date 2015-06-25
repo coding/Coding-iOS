@@ -28,7 +28,7 @@
         self.datasorceArray = @[[@{@"title":@"位置名称",@"value":@""}mutableCopy]
                                 ,[@{@"title":@"地区名称",@"value":@""}mutableCopy]
                                 ,[@{@"title":@"详细地址",@"value":@""}mutableCopy]];
-        self.view.backgroundColor = [UIColor colorWithRGBHex:0xe5e5e5];
+        self.view.backgroundColor = kColorTableSectionBg;
     }
     return self;
 }

@@ -26,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"详情";
-    self.view.backgroundColor = [UIColor colorWithRGBHex:0xe5e5e5];
+    self.view.backgroundColor = kColorTableSectionBg;
     
     self.tableView.tableHeaderView = self.headerView;
     self.tableView.tableFooterView = self.footerView;

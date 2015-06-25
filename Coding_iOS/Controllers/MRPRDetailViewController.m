@@ -269,7 +269,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     UIView *view = [UIView new];
-    view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+    view.backgroundColor = kColorTableSectionBg;
     return view;
 }
 

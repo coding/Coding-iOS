@@ -115,7 +115,10 @@
     }
     
     CGColorRef lineColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
-    CGColorRef sectionLineColor = self.separatorColor.CGColor;
+    CGColorRef sectionLineColor = lineColor;
+
+//    CGColorRef lineColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
+//    CGColorRef sectionLineColor = self.separatorColor.CGColor;
     
     if (indexPath.row == 0 && indexPath.row == [self numberOfRowsInSection:indexPath.section]-1) {
         //只有一个cell。加上长线&下长线
@@ -168,7 +171,7 @@
 }
 
 - (UITapImageView *)getHeaderViewWithStr:(NSString *)headerStr andBlock:(void(^)(id obj))tapAction{
-    return [self getHeaderViewWithStr:headerStr color:[UIColor colorWithHexString:@"0xe5e5e5"] andBlock:tapAction];
+    return [self getHeaderViewWithStr:headerStr color:[UIColor colorWithHexString:@"0xeeeeee"] andBlock:tapAction];
 }
 
 - (UITapImageView *)getHeaderViewWithStr:(NSString *)headerStr color:(UIColor *)color andBlock:(void(^)(id obj))tapAction{

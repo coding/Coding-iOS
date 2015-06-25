@@ -44,7 +44,7 @@
         self.backgroundColor = [UIColor colorWithHexString:@"0x3bbd79"];
         _contentLabel.textColor = [UIColor whiteColor];
     }else{
-        self.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+        self.backgroundColor = kColorTableSectionBg;
         _contentLabel.textColor = [UIColor blackColor];
     }
 }

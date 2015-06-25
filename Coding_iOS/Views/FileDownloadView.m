@@ -76,7 +76,7 @@
         }
         if (!_toolBarView) {
             _toolBarView = [UIView new];
-            _toolBarView.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+            _toolBarView.backgroundColor = kColorTableSectionBg;
             [self addSubview:_toolBarView];
             [_toolBarView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.bottom.equalTo(self);
