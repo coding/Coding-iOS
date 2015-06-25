@@ -53,6 +53,13 @@
     self.myTableView.tableHeaderView = [self customHeaderView];
     self.myTableView.tableFooterView=[self customFooterView];
     [self configBottomView];
+    if (self.navigationController.childViewControllers.count <= 1) {
+        self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"取消" target:self action:@selector(dismissSelf)];
+    }
+}
+
+- (void)dismissSelf{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)refreshCaptchaNeeded{

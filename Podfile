@@ -18,3 +18,4 @@ pod 'APParallaxHeader'
 pod 'SDCAlertView', '~> 2.4.1'
 pod 'MarqueeLabel'
 pod 'iVersion', '~> 1.11.4'
+pod "JazzHands"

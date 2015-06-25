@@ -21,6 +21,8 @@
 
 - (void)setupTabViewController;
 - (void)setupLoginViewController;
+- (void)setupIntroductionViewController;
+
 /**
  *  注册推送
  */

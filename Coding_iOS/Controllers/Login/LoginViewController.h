@@ -11,9 +11,5 @@
 #import "TPKeyboardAvoidingTableView.h"
 
 @interface LoginViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
-@property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
-@property (strong, nonatomic) UIView *bottomView;
-
-@property (nonatomic, strong) Login *myLogin;
-- (void)goRegisterVC:(id)sender;
+@property (assign, nonatomic) BOOL showDismissButton;
 @end

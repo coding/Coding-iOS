@@ -18,6 +18,7 @@ PODS:
   - FontAwesome+iOS (0.1.4)
   - hpple (0.2.0)
   - iVersion (1.11.4)
+  - JazzHands (2.0.0)
   - MarqueeLabel (2.2.1)
   - Masonry (0.5.3)
   - MBProgressHUD (0.9)
@@ -70,6 +71,7 @@ DEPENDENCIES:
   - BlocksKit (= 2.2.5)
   - hpple (= 0.2.0)
   - iVersion (~> 1.11.4)
+  - JazzHands
   - MarqueeLabel
   - Masonry (= 0.5.3)
   - MBProgressHUD (= 0.9)
@@ -90,6 +92,7 @@ SPEC CHECKSUMS:
   FontAwesome+iOS: 9070b682a9255ca0fdc34bcfb129ad0ba2b73b87
   hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81
+  JazzHands: 00002e9b1284e7fc1ac6555012e81b8942477242
   MarqueeLabel: c024bab67a1558e8e127132be3b6d66a702405fe
   Masonry: 9f515466afe48632562342a40a1c224071a1a022
   MBProgressHUD: d8e7ea388dc1549a42e0d219067cf5f2c898fb66

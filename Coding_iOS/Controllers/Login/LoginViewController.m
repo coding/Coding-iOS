@@ -19,11 +19,18 @@
 #import "EaseInputTipsView.h"
 
 @interface LoginViewController ()
+@property (nonatomic, strong) Login *myLogin;
+
+@property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
+@property (strong, nonatomic) UIView *bottomView;
+
+
 @property (assign, nonatomic) BOOL captchaNeeded;
 @property (strong, nonatomic) UIButton *loginBtn;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) UIImageView *iconUserView, *bgBlurredView;
 @property (strong, nonatomic) EaseInputTipsView *inputTipsView;
+@property (strong, nonatomic) UIButton *dismissButton;
 @end
 
 @implementation LoginViewController
@@ -65,6 +72,7 @@
     self.myTableView.tableHeaderView = [self customHeaderView];
     self.myTableView.tableFooterView=[self customFooterView];
     [self configBottomView];
+    [self showdismissButton:self.showDismissButton];
 }
 
 - (UIImageView *)bgBlurredView{
@@ -111,6 +119,7 @@
     [self refreshCaptchaNeeded];
     [self refreshIconUserImage];
 }
+
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     if (!_inputTipsView) {
@@ -134,22 +143,15 @@
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)showdismissButton:(BOOL)willShow{
+    self.dismissButton.hidden = !willShow;
+    if (!self.dismissButton) {
+        self.dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 50, 50)];
+        [self.dismissButton setImage:[UIImage imageNamed:@"tweetBtn_Nav"] forState:UIControlStateNormal];
+        [self.dismissButton addTarget:self action:@selector(dismissButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:self.dismissButton];
+    }
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 #pragma mark - Table view data source
 
@@ -244,18 +246,6 @@
     }];
     [_iconUserView setImage:[UIImage imageNamed:@"icon_user_monkey"]];
     return headerV;
-}
-
-- (NSString *)icon_user_monkey{
-    NSString *icon_user_monkey;
-    if (kDevice_Is_iPhone6Plus) {
-        icon_user_monkey = @"icon_user_monkey_i6p";
-    }else if (kDevice_Is_iPhone6){
-        icon_user_monkey = @"icon_user_monkey_i6";
-    }else{
-        icon_user_monkey = @"icon_user_monkey";
-    }
-    return icon_user_monkey;
 }
 
 - (UIView *)customFooterView{
@@ -372,6 +362,10 @@
 - (IBAction)goRegisterVC:(id)sender {
     RegisterViewController *vc = [[RegisterViewController alloc] init];    
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)dismissButtonClicked{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)dealloc

@@ -24,6 +24,7 @@
 #import "EaseStartView.h"
 #import "BaseNavigationController.h"
 #import "PasswordViewController.h"
+#import "IntroductionViewController.h"
 
 #import "Tweet.h"
 
@@ -71,7 +72,7 @@
         [self setupTabViewController];
     }else{
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-        [self setupLoginViewController];
+        [self setupIntroductionViewController];
     }
     [self.window makeKeyAndVisible];
 
@@ -184,6 +185,12 @@
 - (void)setupLoginViewController{
     LoginViewController *loginVC = [[LoginViewController alloc] init];
     [self.window setRootViewController:[[BaseNavigationController alloc] initWithRootViewController:loginVC]];
+}
+
+- (void)setupIntroductionViewController{
+    IntroductionViewController *introductionVC = [[IntroductionViewController alloc] init];
+//    [self.window setRootViewController:[[BaseNavigationController alloc] initWithRootViewController:introductionVC]];
+    [self.window setRootViewController:introductionVC];
 }
 
 - (void)setupTabViewController{
