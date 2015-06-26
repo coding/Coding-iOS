@@ -57,7 +57,7 @@
 
         [_logoIconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self);
-            make.top.mas_equalTo(kScreen_Height/6);
+            make.top.mas_equalTo(kScreen_Height/7);
             make.width.mas_equalTo(kScreen_Width *2/3);
             make.height.mas_equalTo(kScreen_Width/4 *2/3);
         }];
