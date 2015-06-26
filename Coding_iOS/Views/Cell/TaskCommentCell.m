@@ -37,7 +37,6 @@
             _contentBGView = [UIImageView new];
             _contentBGView.image = [[UIImage imageNamed:@"comment_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(35, 15, 5, 5)];
             ;
-//            _contentBGView.backgroundColor = [UIColor lightGrayColor];
             [self.contentView addSubview:_contentBGView];
         }
         if (!_timeLineView) {
@@ -46,15 +45,22 @@
             [self.contentView addSubview:_timeLineView];
         }
         if (!_ownerIconView) {
-            CGFloat borderWidth = 0;
-            _ownerIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth - borderWidth, curBottomY, 25+ 2*borderWidth, 25 + 2*borderWidth)];
+            CGFloat borderWidth = 2;
+
+            UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth - borderWidth, curBottomY, 25+ 2*borderWidth, 25 + 2*borderWidth)];
+            bgView.backgroundColor = kColorTableBG;
             
+            _ownerIconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
             _ownerIconView.layer.masksToBounds = YES;
             _ownerIconView.layer.cornerRadius = _ownerIconView.frame.size.width/2;
-//            _ownerIconView.layer.borderWidth = borderWidth;
-//            _ownerIconView.layer.borderColor = kColorTableBG.CGColor;
             
-            [self.contentView addSubview:_ownerIconView];
+            [bgView addSubview:_ownerIconView];
+            [_ownerIconView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.width.height.mas_equalTo(25.0);
+                make.center.equalTo(bgView);
+            }];
+            
+            [self.contentView addSubview:bgView];
         }
         if (!_contentLabel) {
             _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTaskCommentCell_LeftContentPading, curBottomY, kTaskCommentCell_ContentWidth, 30)];
