@@ -54,17 +54,17 @@
     self.accessoryType = UITableViewCellAccessoryNone;
     CGFloat pointX = kScreen_Width - 25;
     CGFloat pointY = [[self class] cellHeight]/2;
-    [self addBadgeTip:countStr withCenterPosition:CGPointMake(pointX, pointY)];
+    [self.contentView addBadgeTip:countStr withCenterPosition:CGPointMake(pointX, pointY)];
 }
 
 - (void)addTipIcon{
     CGFloat pointX = kScreen_Width - 40;
     CGFloat pointY = [[self class] cellHeight]/2;
-    [self addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(pointX, pointY)];
+    [self.contentView addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(pointX, pointY)];
 }
 
 - (void)removeTip{
-    [self removeBadgeTips];
+    [self.contentView removeBadgeTips];
 }
 
 - (void)setImageStr:(NSString *)imgStr andTitle:(NSString *)title{

@@ -21,14 +21,14 @@
       "idiom" : "iphone",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
-      "filename" : "640x960(2).png",
+      "filename" : "vvc.png",
       "scale" : "2x"
     },
     {
       "extent" : "full-screen",
       "idiom" : "iphone",
       "subtype" : "retina4",
-      "filename" : "640x1136(2).png",
+      "filename" : "传奇(3).png",
       "minimum-system-version" : "7.0",
       "orientation" : "portrait",
       "scale" : "2x"
