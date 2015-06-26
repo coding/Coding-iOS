@@ -248,7 +248,7 @@
                 [self keepView:iconView onPages:@[@(index +1), @(index)] atTimes:@[@(index - 1), @(index)]];
                 
                 [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.centerY.mas_equalTo(-kScreen_Height/4);
+                    make.top.mas_equalTo(kScreen_Height/7);
                 }];
             }else{
                 [self keepView:iconView onPage:index];
