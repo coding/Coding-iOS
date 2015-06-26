@@ -60,6 +60,11 @@
     self.selectedIndex = 0;
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self refresh];
+}
+
 - (void)setSelectedIndex:(NSInteger)selectedIndex{
     _selectedIndex = selectedIndex;
     if (self.mySegmentedControl.selectedSegmentIndex != _selectedIndex) {
