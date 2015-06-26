@@ -162,14 +162,17 @@
         //        这是好友发的
         bgImgViewFrame = CGRectMake(kPaddingLeftWidth +kMessageCell_UserIconWith, curBottomY +kMessageCell_PadingHeight, bgImgViewSize.width, bgImgViewSize.height);
         [_userIconView setCenter:CGPointMake(kPaddingLeftWidth +kMessageCell_UserIconWith/2, CGRectGetMaxY(bgImgViewFrame)- kMessageCell_UserIconWith/2)];
-        bgImg = [[UIImage imageNamed:@"messageLeft_bg_img"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 25, 15, 25)];
+        bgImg = [UIImage imageNamed:@"messageLeft_bg_img"];
+        
+        bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImg.size.height - 19, bgImg.size.width - 31)];
         _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
     }else{
         //        这是自己发的
         bgImgViewFrame = CGRectMake((kScreen_Width - kPaddingLeftWidth - kMessageCell_UserIconWith) -bgImgViewSize.width, curBottomY +kMessageCell_PadingHeight, bgImgViewSize.width, bgImgViewSize.height);
         [_userIconView setCenter:CGPointMake(kScreen_Width - kPaddingLeftWidth -kMessageCell_UserIconWith/2, CGRectGetMaxY(bgImgViewFrame)- kMessageCell_UserIconWith/2)];
-        bgImg = [[UIImage imageNamed:@"messageRight_bg_img"] resizableImageWithCapInsets:UIEdgeInsetsMake(15, 25, 15, 25)];
+        bgImg = [UIImage imageNamed:@"messageRight_bg_img"];
+        bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImg.size.height - 19, bgImg.size.width - 31)];
         _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
     }
