@@ -28,13 +28,32 @@
     if ((self = [super init])) {
         self.numberOfPages = 7;
         
-        _iconsDict = [NSMutableDictionary new];
-        _tipsDict = [NSMutableDictionary new];
-        for (int i = 0; i < self.numberOfPages; i++) {
-            NSString *imageKey = [self imageKeyForIndex:i];
-            [_iconsDict setObject:[NSString stringWithFormat:@"intro_icon_%d", i] forKey:imageKey];
-            [_tipsDict setObject:[NSString stringWithFormat:@"intro_tip_%d", i] forKey:imageKey];
-        }
+        
+        _iconsDict = [@{
+                        @"0_image" : @"intro_icon_6",
+                        @"1_image" : @"intro_icon_0",
+                        @"2_image" : @"intro_icon_1",
+                        @"3_image" : @"intro_icon_2",
+                        @"4_image" : @"intro_icon_3",
+                        @"5_image" : @"intro_icon_4",
+                        @"6_image" : @"intro_icon_5",
+                        } mutableCopy];
+        _tipsDict = [@{
+                       @"1_image" : @"intro_tip_0",
+                       @"2_image" : @"intro_tip_1",
+                       @"3_image" : @"intro_tip_2",
+                       @"4_image" : @"intro_tip_3",
+                       @"5_image" : @"intro_tip_4",
+                       @"6_image" : @"intro_tip_5",
+                       } mutableCopy];
+        
+//        _iconsDict = [NSMutableDictionary new];
+//        _tipsDict = [NSMutableDictionary new];
+//        for (int i = 0; i < self.numberOfPages; i++) {
+//            NSString *imageKey = [self imageKeyForIndex:i];
+//            [_iconsDict setObject:[NSString stringWithFormat:@"intro_icon_%d", i] forKey:imageKey];
+//            [_tipsDict setObject:[NSString stringWithFormat:@"intro_tip_%d", i] forKey:imageKey];
+//        }
     }
     
     return self;
@@ -66,6 +85,23 @@
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+}
+
+#pragma mark - Orientations
+- (BOOL)shouldAutorotate{
+    return UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationPortrait;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+- (void)forceChangeToOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:interfaceOrientation] forKey:@"orientation"];
 }
 
 #pragma mark Super
@@ -208,31 +244,24 @@
         UIView *iconView = [self.iconsDict objectForKey:viewKey];
         UIView *tipView = [self.tipsDict objectForKey:viewKey];
         if (iconView) {
-            if (index == self.numberOfPages -1) {
+            if (index == 0) {
                 [self keepView:iconView onPages:@[@(index +1), @(index)] atTimes:@[@(index - 1), @(index)]];
                 
                 [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerY.mas_equalTo(-kScreen_Height/4);
                 }];
-                
-                IFTTTAlphaAnimation *iconAlphaAnimation = [IFTTTAlphaAnimation animationWithView:iconView];
-                [iconAlphaAnimation addKeyframeForTime:index -0.5 alpha:0.f];
-                [iconAlphaAnimation addKeyframeForTime:index alpha:1.f];
-                [iconAlphaAnimation addKeyframeForTime:index +0.5 alpha:0.f];
-                [self.animator addAnimation:iconAlphaAnimation];
-
             }else{
                 [self keepView:iconView onPage:index];
                 
                 [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerY.mas_equalTo(-kScreen_Height/6);
                 }];
-                IFTTTAlphaAnimation *iconAlphaAnimation = [IFTTTAlphaAnimation animationWithView:iconView];
-                [iconAlphaAnimation addKeyframeForTime:index -0.5 alpha:0.f];
-                [iconAlphaAnimation addKeyframeForTime:index alpha:1.f];
-                [iconAlphaAnimation addKeyframeForTime:index +0.5 alpha:0.f];
-                [self.animator addAnimation:iconAlphaAnimation];
             }
+            IFTTTAlphaAnimation *iconAlphaAnimation = [IFTTTAlphaAnimation animationWithView:iconView];
+            [iconAlphaAnimation addKeyframeForTime:index -0.5 alpha:0.f];
+            [iconAlphaAnimation addKeyframeForTime:index alpha:1.f];
+            [iconAlphaAnimation addKeyframeForTime:index +0.5 alpha:0.f];
+            [self.animator addAnimation:iconAlphaAnimation];
         }
         if (tipView) {
             [self keepView:tipView onPages:@[@(index +1), @(index), @(index-1)] atTimes:@[@(index - 1), @(index), @(index +1)]];
