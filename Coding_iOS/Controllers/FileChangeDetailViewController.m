@@ -15,7 +15,8 @@
 @interface FileChangeDetailViewController ()<UIWebViewDelegate>
 @property (strong, nonatomic) UIWebView *webContentView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
-
+@property (strong, nonatomic) NSDictionary *rawData;
+@property (strong, nonatomic) NSString *linkRef;
 @end
 
 
@@ -44,15 +45,37 @@
             make.edges.equalTo(self.view);
         }];
     }
+}
+
+- (void)refresh{
+    [self.view beginLoading];
     
-    NSString *contentStr = [WebContentManager diffPatternedWithContent:self.linkUrlStr];
-    [self.webContentView loadHTMLString:contentStr baseURL:nil];
-    
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"查看文件" target:self action:@selector(rightBarButtonClicked:)];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.linkUrlStr withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        [self.view endLoading];
+        [self.view configBlankPage:EaseBlankPageTypeView hasData:(self.rawData != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+            [self refresh];
+        }];
+        data = [data valueForKey:@"data"];
+        if (data) {
+            self.rawData = data;
+            self.linkRef = [self.rawData valueForKey:@"linkRef"];
+            [self refreshUI];
+        }
+    }];
+}
+
+- (void)refreshUI{
+    if (self.rawData) {
+        NSData *JSONData = [NSJSONSerialization dataWithJSONObject:self.rawData options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *contentStr = [[NSString alloc] initWithData:JSONData encoding:NSUTF8StringEncoding];
+        contentStr = [WebContentManager diffPatternedWithContent:self.linkUrlStr];
+        [self.webContentView loadHTMLString:contentStr baseURL:nil];
+    }
+    self.navigationItem.rightBarButtonItem = self.linkRef.length > 0? [UIBarButtonItem itemWithBtnTitle:@"查看文件" target:self action:@selector(rightBarButtonClicked:)]: nil;
 }
 
 - (void)rightBarButtonClicked:(id)item{
-    CodeFile *codeFile = [CodeFile codeFileWithRef:_commitId andPath:_filePath];
+    CodeFile *codeFile = [CodeFile codeFileWithRef:self.linkRef andPath:_filePath];
     CodeViewController *vc = [CodeViewController codeVCWithProject:_curProject andCodeFile:codeFile];
     [self.navigationController pushViewController:vc animated:YES];
 }
