@@ -67,7 +67,8 @@
     
     //设置导航条样式
     [self customizeInterface];
-    
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+
     if ([Login isLogin]) {
         [self setupTabViewController];
     }else{

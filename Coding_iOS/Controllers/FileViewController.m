@@ -37,18 +37,6 @@
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
-    [self.navigationController setNavigationBarHidden:NO];
-    [UIApplication sharedApplication].statusBarHidden = NO;
-}
-
 - (void)requestFileData{
     [self.view beginLoading];
     __weak typeof(self) weakSelf = self;
