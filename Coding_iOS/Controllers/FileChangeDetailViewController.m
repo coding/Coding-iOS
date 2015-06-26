@@ -45,6 +45,7 @@
             make.edges.equalTo(self.view);
         }];
     }
+    [self refresh];
 }
 
 - (void)refresh{
@@ -52,15 +53,16 @@
     
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.linkUrlStr withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         [self.view endLoading];
-        [self.view configBlankPage:EaseBlankPageTypeView hasData:(self.rawData != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-            [self refresh];
-        }];
+
         data = [data valueForKey:@"data"];
         if (data) {
             self.rawData = data;
             self.linkRef = [self.rawData valueForKey:@"linkRef"];
             [self refreshUI];
         }
+        [self.view configBlankPage:EaseBlankPageTypeView hasData:(self.rawData != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+            [self refresh];
+        }];
     }];
 }
 
@@ -68,7 +70,7 @@
     if (self.rawData) {
         NSData *JSONData = [NSJSONSerialization dataWithJSONObject:self.rawData options:NSJSONWritingPrettyPrinted error:nil];
         NSString *contentStr = [[NSString alloc] initWithData:JSONData encoding:NSUTF8StringEncoding];
-        contentStr = [WebContentManager diffPatternedWithContent:self.linkUrlStr];
+        contentStr = [WebContentManager diffPatternedWithContent:contentStr];
         [self.webContentView loadHTMLString:contentStr baseURL:nil];
     }
     self.navigationItem.rightBarButtonItem = self.linkRef.length > 0? [UIBarButtonItem itemWithBtnTitle:@"查看文件" target:self action:@selector(rightBarButtonClicked:)]: nil;
