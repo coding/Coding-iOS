@@ -355,13 +355,24 @@
 - (void)downloadFilesBtnClicked{
     NSArray *selectedFiles = [self selectedFiles];
     if (selectedFiles.count > 0) {
+        NSInteger downloadedCount = 0, downloadingCount = 0, addDownloadCount = 0;
+        
         Coding_FileManager *manager = [Coding_FileManager sharedManager];
         for (ProjectFile *file in selectedFiles) {
-            if ([file hasBeenDownload] || [file cDownloadTask]) {//已下载，或正在下载
+            if ([file hasBeenDownload]) {//已下载
+                downloadedCount++;
+                DebugLog(@"%@: 已在队列", file.name);
+            }else if ([file cDownloadTask]) {//正在下载
+                downloadingCount++;
                 DebugLog(@"%@: 已在队列", file.name);
             }else{
+                addDownloadCount++;
                 [manager addDownloadTaskForFile:file completionHandler:nil];
             }
+        }
+        if (addDownloadCount == 0) {
+            NSString *tipStr = downloadingCount == 0? @"所选的文件都已经下载到本地了" : @"所选的文件都已经在下载队列中了";
+            [self showHudTipStr:tipStr];
         }
         [self changeEditState];
     }
@@ -463,6 +474,9 @@
     [self.view configBlankPage:EaseBlankPageTypeView hasData:([self totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
         [self refresh];
     }];
+    if (self.navigationItem.rightBarButtonItem == nil) {
+        self.navigationItem.rightBarButtonItem = self.myFiles.list.count > 0? [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(changeEditState)]: nil;
+    }
 }
 
 
