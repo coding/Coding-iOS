@@ -64,7 +64,7 @@
         }
     }else if ([element.tagName isEqualToString:@"code"]) {
         item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_Code];
-        item.code = element.text;
+        item.code = [element.text trimWhitespace];
     }else if ([element.tagName isEqualToString:@"a"]) {
         NSDictionary *attributes = element.attributes;
         NSString *element_Class = [attributes objectForKey:@"class"];
