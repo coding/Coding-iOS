@@ -56,8 +56,10 @@
 
         data = [data valueForKey:@"data"];
         if (data) {
-            self.rawData = data;
-            self.linkRef = [self.rawData valueForKey:@"linkRef"];
+            self.rawData = @{@"data" : data};
+            if ([data isKindOfClass:[NSDictionary class]]) {
+                self.linkRef = [data objectForKey:@"linkRef"];
+            }
             [self refreshUI];
         }
         [self.view configBlankPage:EaseBlankPageTypeView hasData:(self.rawData != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
