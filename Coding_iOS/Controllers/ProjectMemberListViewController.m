@@ -266,7 +266,7 @@
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
     BOOL canEdit = NO;
-    if (self.type == ProMemTypeProject && [Login isOwnerOfProjectWithOwnerId:self.myProject.owner_id]) {
+    if (self.type == ProMemTypeProject && [Login isLoginUserGlobalKey:self.myProject.owner_user_name]) {
         ProjectMember *curMember;
         if (tableView == _mySearchDisplayController.searchResultsTableView) {
             curMember = [_searchResults objectAtIndex:indexPath.row];

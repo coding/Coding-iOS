@@ -182,12 +182,11 @@ static User *curLoginUser;
     }
     return curLoginUser;
 }
-+ (BOOL)isOwnerOfProjectWithOwnerId:(NSNumber *)owner_id{
-    User *curLoginUser = [Login curLoginUser];
-    if (curLoginUser) {
-        return (curLoginUser.id.integerValue == owner_id.integerValue);
-    }else{
+
++(BOOL)isLoginUserGlobalKey:(NSString *)global_key{
+    if (global_key.length <= 0) {
         return NO;
     }
+    return [[self curLoginUser].global_key isEqualToString:global_key];
 }
 @end

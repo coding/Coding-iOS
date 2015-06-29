@@ -163,8 +163,8 @@
 
 - (BOOL)canEdit
 {
-    return (self.owner_id.integerValue == [Login curLoginUser].id.integerValue // 讨论创建者
-            || [Login isOwnerOfProjectWithOwnerId:self.project.owner_id]); // 项目创建者
+    return ([Login isLoginUserGlobalKey:self.owner.global_key] || // 讨论创建者
+            [Login isLoginUserGlobalKey:self.project.owner_user_name]);// 项目创建者
 }
 
 @end

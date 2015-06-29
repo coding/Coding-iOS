@@ -325,7 +325,7 @@
     _myMsgInputView.toUser = toComment.owner;
     
     if (_toComment) {
-        if (_toComment.owner_id.intValue == [Login curLoginUser].id.intValue) {
+        if ([Login isLoginUserGlobalKey:_toComment.owner.global_key]) {
             ESWeakSelf;
             UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
                 ESStrongSelf

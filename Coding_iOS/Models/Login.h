@@ -24,7 +24,7 @@
 + (User *)curLoginUser;
 + (void)addUmengAliasWithCurUser:(BOOL)add;
 + (void)setXGAccountWithCurUser;
-+ (BOOL)isOwnerOfProjectWithOwnerId:(NSNumber *)owner_id;
 + (User *)userWithGlobaykeyOrEmail:(NSString *)textStr;
 + (NSMutableDictionary *)readLoginDataList;
++(BOOL)isLoginUserGlobalKey:(NSString *)global_key;
 @end

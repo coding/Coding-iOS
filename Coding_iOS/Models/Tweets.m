@@ -58,10 +58,10 @@
         case TweetTypeUserFriends:
             break;
         case TweetTypeUserSingle:
-            if (_curUser && _curUser.id) {
-                [params setObject:_curUser.id forKey:@"user_id"];
+            if (_curUser && _curUser.global_key) {
+                [params setObject:_curUser.global_key forKey:@"global_key"];
             }else if ([Login curLoginUser].id) {
-                [params setObject:[Login curLoginUser].id forKey:@"user_id"];
+                [params setObject:[Login curLoginUser].global_key forKey:@"global_key"];
             }
             break;
         default:

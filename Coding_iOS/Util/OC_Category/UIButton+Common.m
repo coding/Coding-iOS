@@ -67,8 +67,7 @@
 }
 - (void)configFollowBtnWithUser:(User *)curUser fromCell:(BOOL)fromCell{
 //    对于自己，要隐藏
-    if ((curUser.id && curUser.id.integerValue == [Login curLoginUser].id.integerValue)
-        || (curUser.global_key && [curUser.global_key isEqualToString:[Login curLoginUser].global_key])) {
+    if ([Login isLoginUserGlobalKey:curUser.global_key]) {
         self.hidden = YES;
         return;
     }else{
@@ -98,8 +97,7 @@
 
 - (void)configPriMsgBtnWithUser:(User *)curUser fromCell:(BOOL)fromCell{
 //    对于自己，要隐藏
-    if ((curUser.id && curUser.id.integerValue == [Login curLoginUser].id.integerValue)
-        || (curUser.global_key && [curUser.global_key isEqualToString:[Login curLoginUser].global_key])) {
+    if ([Login isLoginUserGlobalKey:curUser.global_key]) {
         self.hidden = YES;
         return;
     }else{
