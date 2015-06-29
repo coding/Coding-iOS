@@ -22,7 +22,6 @@
 + (void)setPreUserEmail:(NSString *)emailStr;
 + (NSString *)preUserEmail;
 + (User *)curLoginUser;
-+ (void)addUmengAliasWithCurUser:(BOOL)add;
 + (void)setXGAccountWithCurUser;
 + (User *)userWithGlobaykeyOrEmail:(NSString *)textStr;
 + (NSMutableDictionary *)readLoginDataList;

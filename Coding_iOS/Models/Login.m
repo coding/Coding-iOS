@@ -7,7 +7,6 @@
 //
 
 #import "Login.h"
-#import "UMessage.h"
 #import "XGPush.h"
 #import "AppDelegate.h"
 
@@ -76,7 +75,6 @@ static User *curLoginUser;
         [defaults setObject:loginData forKey:kLoginUserDict];
         curLoginUser = [NSObject objectOfClass:@"User" fromJSON:loginData];
         [defaults synchronize];
-        [Login addUmengAliasWithCurUser:YES];
         [Login setXGAccountWithCurUser];
         
         [self saveLoginData:loginData];
@@ -127,16 +125,6 @@ static User *curLoginUser;
     return nil;
 }
 
-+ (void)addUmengAliasWithCurUser:(BOOL)add{
-    User *user = [Login curLoginUser];
-    if (user && user.global_key.length > 0) {
-        NSString *global_key = user.global_key;
-        //移除友盟推送的Alias
-        [UMessage removeAlias:global_key type:kUmeng_MessageAliasTypeCoding response:^(id responseObject, NSError *error) {
-            DebugLog(@"removeAlias--------responseObject:%@-------error:%@", responseObject, error.description);
-        }];
-    }
-}
 + (void)setXGAccountWithCurUser{
     if ([self isLogin]) {
         User *user = [Login curLoginUser];
@@ -155,7 +143,6 @@ static User *curLoginUser;
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    [Login addUmengAliasWithCurUser:NO];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:kLoginStatus];
     [defaults synchronize];
     [Login setXGAccountWithCurUser];

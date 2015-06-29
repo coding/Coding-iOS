@@ -258,7 +258,6 @@
 		4E996C071ABBF56A00C704F1 /* user_info_detail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E996BFF1ABBF56A00C704F1 /* user_info_detail@2x.png */; };
 		4E996C081ABBF56A00C704F1 /* user_info_project@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E996C001ABBF56A00C704F1 /* user_info_project@2x.png */; };
 		4E996C091ABBF56A00C704F1 /* user_info_tweet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E996C011ABBF56A00C704F1 /* user_info_tweet@2x.png */; };
-		4EA679031A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA679011A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a */; };
 		4EA6790A1A1461C3001A0324 /* ProjectFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA679091A1461C3001A0324 /* ProjectFile.m */; };
 		4EA6790D1A1461DC001A0324 /* ProjectFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA6790C1A1461DC001A0324 /* ProjectFolder.m */; };
 		4EA679131A1466A6001A0324 /* ProjectFiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA679121A1466A6001A0324 /* ProjectFiles.m */; };
@@ -1117,8 +1116,6 @@
 		4E996BFF1ABBF56A00C704F1 /* user_info_detail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_detail@2x.png"; sourceTree = "<group>"; };
 		4E996C001ABBF56A00C704F1 /* user_info_project@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_project@2x.png"; sourceTree = "<group>"; };
 		4E996C011ABBF56A00C704F1 /* user_info_tweet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_tweet@2x.png"; sourceTree = "<group>"; };
-		4EA679011A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.1.0.a; sourceTree = "<group>"; };
-		4EA679021A11F18A001A0324 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		4EA679081A1461C3001A0324 /* ProjectFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectFile.h; sourceTree = "<group>"; };
 		4EA679091A1461C3001A0324 /* ProjectFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectFile.m; sourceTree = "<group>"; };
 		4EA6790B1A1461DC001A0324 /* ProjectFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectFolder.h; sourceTree = "<group>"; };
@@ -1873,7 +1870,6 @@
 				8E47701A198770E700997D05 /* CoreData.framework in Frameworks */,
 				8E477018198770E700997D05 /* UIKit.framework in Frameworks */,
 				8E477014198770E700997D05 /* Foundation.framework in Frameworks */,
-				4EA679031A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a in Frameworks */,
 				68D9A2AD062641F5BCA573C5 /* libPods.a in Frameworks */,
 				4EF818241B09D8D8005F974B /* WebP.framework in Frameworks */,
 				8E03D4A219F695FE0092F8C8 /* libMobClickLibrary.a in Frameworks */,
@@ -2259,15 +2255,6 @@
 				4E996C011ABBF56A00C704F1 /* user_info_tweet@2x.png */,
 			);
 			path = userInfo;
-			sourceTree = "<group>";
-		};
-		4EA679001A11F18A001A0324 /* UMessage_Sdk_1.1.0 */ = {
-			isa = PBXGroup;
-			children = (
-				4EA679011A11F18A001A0324 /* libUMessage_Sdk_1.1.0.a */,
-				4EA679021A11F18A001A0324 /* UMessage.h */,
-			);
-			path = UMessage_Sdk_1.1.0;
 			sourceTree = "<group>";
 		};
 		4EA7F1381A6D192B00A046BD /* SDWebImage */ = {
@@ -3353,7 +3340,6 @@
 				4E8765581A22E5B40090CFB9 /* SWTableViewCell */,
 				4E6BA2A91A1EE6AF005FD721 /* AFNetworking */,
 				4E91139D1A1C426000AC9431 /* ASProgressPopUpView */,
-				4EA679001A11F18A001A0324 /* UMessage_Sdk_1.1.0 */,
 				8E97CEBC1A0CB7E3006F9AD7 /* SMPageControl */,
 				8E97CE421A0A2DF8006F9AD7 /* AGEmojiKeyboard */,
 				8E59F0DC1A0098BA009A905F /* SVPullToRefresh */,
@@ -4625,7 +4611,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMENG",
-					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMessage_Sdk_1.1.0",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/XGPush",
 				);
 				PRODUCT_NAME = Coding_iOS;
@@ -4659,7 +4644,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMENG",
-					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMessage_Sdk_1.1.0",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/XGPush",
 				);
 				PRODUCT_NAME = Coding_iOS;

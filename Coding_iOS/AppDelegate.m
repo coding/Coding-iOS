@@ -19,7 +19,6 @@
 #import "AFNetworkActivityIndicatorManager.h"
 #import "Login.h"
 #import "UnReadManager.h"
-#import "UMessage.h"
 #import "XGPush.h"
 #import "EaseStartView.h"
 #import "BaseNavigationController.h"
@@ -98,12 +97,6 @@
     //    UMENG 统计
     [MobClick startWithAppkey:kUmeng_AppKey reportPolicy:BATCH channelId:nil];
     
-    //    UMENG 推送
-    //set AppKey and LaunchOptions
-    [UMessage startWithAppkey:kUmeng_AppKey_Push launchOptions:launchOptions];
-    [UMessage setBadgeClear:NO];
-    [UMessage setLogEnabled:NO];
-    
     //    信鸽推送
     [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
     [Login setXGAccountWithCurUser];
@@ -168,9 +161,6 @@
 #pragma mark - Umeng Message
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    [UMessage registerDeviceToken:deviceToken];
-    [Login addUmengAliasWithCurUser:[Login isLogin]];
-
     NSString * deviceTokenStr = [XGPush registerDevice:deviceToken];
     DebugLog(@"deviceTokenStr : %@", deviceTokenStr);
 }
