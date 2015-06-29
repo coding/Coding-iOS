@@ -59,7 +59,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.title = [NSString stringWithFormat:@"#%@", _curMRPR.iid.stringValue];
+    self.title = [NSString stringWithFormat:@"%@ #%@", _curMRPR.des_project_name, _curMRPR.iid.stringValue];
     
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
