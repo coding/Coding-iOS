@@ -144,6 +144,10 @@
 }
 - (void)configWithComment:(ProjectTopic *)comment
 {
+    if (self.canLoadMore) {
+        return;
+    }
+    
     if (self.comments && self.comments.list) {
         [self.comments.list addObject:comment];
     }else{
