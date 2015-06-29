@@ -262,7 +262,7 @@
     
     curBottomY += 10;
     
-    BOOL isMineTweet = _tweet.owner.id.longValue == [Login curLoginUser].id.longValue;
+    BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key];
 
     //以下两段ifelse 已经判断了4种情况，经过精简得出
     //经需求修改，位置信息只会存在于设备信息上方

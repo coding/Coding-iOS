@@ -46,20 +46,15 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     
+    BOOL isMe = [_curUsers.owner.global_key isEqualToString:[Login curLoginUser].global_key];
+
+    
     switch (_curUsers.type) {
         case UsersTypeFollowers:
-            if (_curUsers.owner.id.integerValue == [Login curLoginUser].id.integerValue) {
-                self.title = @"关注我的人";
-            }else{
-                self.title = [NSString stringWithFormat:@"%@的粉丝", _curUsers.owner.name];
-            }
+            self.title = isMe? @"关注我的人": [NSString stringWithFormat:@"%@的粉丝", _curUsers.owner.name];
             break;
         case UsersTypeFriends_Attentive:
-            if (_curUsers.owner.id.integerValue == [Login curLoginUser].id.integerValue) {
-                self.title = @"我关注的人";
-            }else{
-                self.title = [NSString stringWithFormat:@"%@关注的人", _curUsers.owner.name];
-            }
+            self.title = isMe? @"我关注的人": [NSString stringWithFormat:@"%@关注的人", _curUsers.owner.name];
             break;
         case UsersTypeFriends_Message:
             self.title = @"我的好友";

@@ -226,7 +226,9 @@
     [self.likeBtn setImage:[UIImage imageNamed:(_tweet.liked.boolValue? @"tweet_liked_btn":@"tweet_like_btn")] forState:UIControlStateNormal];
     [self.likeBtn setY:curBottomY];
     [self.commentBtn setY:curBottomY];
-    if (_tweet.owner.id.longValue == [Login curLoginUser].id.longValue) {
+    
+    BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key];
+    if (isMineTweet) {
         [self.deleteBtn setY:curBottomY];
         self.deleteBtn.hidden = NO;
     }else{
