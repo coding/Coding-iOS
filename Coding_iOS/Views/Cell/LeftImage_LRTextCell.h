@@ -10,7 +10,8 @@
 
 #import <UIKit/UIKit.h>
 typedef NS_ENUM(NSInteger, LeftImage_LRTextCellType) {
-    LeftImage_LRTextCellTypeTaskOwner = 0,
+    LeftImage_LRTextCellTypeTaskProject = 0,
+    LeftImage_LRTextCellTypeTaskOwner,
     LeftImage_LRTextCellTypeTaskPriority,
     LeftImage_LRTextCellTypeTaskDeadline,
     LeftImage_LRTextCellTypeTaskStatus

@@ -14,7 +14,7 @@
 {
     self = [super init];
     if (self) {
-        self.handleType = TaskHandleTypeEdit;
+        _handleType = TaskHandleTypeEdit;
         _isRequesting = _isRequestingDetail = _isRequestingCommentList = NO;
         _needRefreshDetail = NO;
     }
@@ -47,9 +47,9 @@
     Task *curTask = [[Task alloc] init];
     curTask.project = project;
     curTask.creator = [Login curLoginUser];
-    curTask.owner = user? user: [Login curLoginUser];
+    curTask.owner = user;
     curTask.status = [NSNumber numberWithInt:1];
-    curTask.handleType = TaskHandleTypeAdd;
+    curTask.handleType = project != nil? TaskHandleTypeAddWithProject: TaskHandleTypeAddWithoutProject;
     curTask.priority = [NSNumber numberWithInt:1];
     curTask.content = @"";
     curTask.has_description = [NSNumber numberWithBool:NO];
@@ -91,7 +91,7 @@
     self.title = task.title;
     self.created_at = task.created_at;
     self.updated_at = task.updated_at;
-    self.handleType = TaskHandleTypeEdit;
+    self.handleType = task.handleType;
     self.isRequesting = task.isRequesting;
     self.isRequestingDetail = task.isRequestingDetail;
     self.isRequestingCommentList = task.isRequestingCommentList;

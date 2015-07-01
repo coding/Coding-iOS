@@ -72,7 +72,7 @@
     return self;
 }
 
-- (void)setProject:(Project *)project withSWButtons:(BOOL)hasSWButtons{
+- (void)setProject:(Project *)project hasSWButtons:(BOOL)hasSWButtons hasBadgeTip:(BOOL)hasBadgeTip hasIndicator:(BOOL)hasIndicator{
     _project = project;
     if (!_project) {
         return;
@@ -88,17 +88,27 @@
     _projectTitleLabel.text = _project.name;
     _ownerTitleLabel.text = _project.owner_user_name;
     
-    NSString *badgeTip = @"";
-    if (_project.un_read_activities_count && _project.un_read_activities_count.integerValue > 0) {
-        if (_project.un_read_activities_count.integerValue > 99) {
-            badgeTip = @"99+";
-        }else{
-            badgeTip = _project.un_read_activities_count.stringValue;
-        }
-    }
-    [self.contentView addBadgeTip:badgeTip withCenterPosition:CGPointMake(10+kProjectListCell_IconHeight, 15)];
+    //hasSWButtons
     [self setRightUtilityButtons:hasSWButtons? [self rightButtons]: nil
                  WithButtonWidth:[[self class] cellHeight]];
+    
+    //hasBadgeTip
+    if (hasBadgeTip) {
+        NSString *badgeTip = @"";
+        if (_project.un_read_activities_count && _project.un_read_activities_count.integerValue > 0) {
+            if (_project.un_read_activities_count.integerValue > 99) {
+                badgeTip = @"99+";
+            }else{
+                badgeTip = _project.un_read_activities_count.stringValue;
+            }
+        }
+        [self.contentView addBadgeTip:badgeTip withCenterPosition:CGPointMake(10+kProjectListCell_IconHeight, 15)];
+    }else{
+        [self.contentView removeBadgeTips];
+    }
+    
+    //hasIndicator
+    self.accessoryType = hasIndicator? UITableViewCellAccessoryDisclosureIndicator: UITableViewCellAccessoryNone;
 }
 
 - (NSArray *)rightButtons{

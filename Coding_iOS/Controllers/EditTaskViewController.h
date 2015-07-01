@@ -10,14 +10,8 @@
 #import "Task.h"
 #import "UIMessageInputView.h"
 
-
-typedef NS_ENUM(NSInteger, TaskEditType) {
-    TaskEditTypeAdd = 0,
-    TaskEditTypeModify,
-};
-
 @interface EditTaskViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIMessageInputViewDelegate>
 @property (strong, nonatomic) Task *myTask, *myCopyTask;
-@property (copy, nonatomic) void(^taskChangedBlock)(Task *curTask, TaskEditType type);
+@property (copy, nonatomic) void(^taskChangedBlock)();
 - (void)queryToRefreshTaskDetail;
 @end

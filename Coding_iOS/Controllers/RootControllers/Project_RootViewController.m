@@ -20,6 +20,7 @@
 #import "KxMenu.h"
 
 #import "TweetSendViewController.h"
+#import "EditTaskViewController.h"
 
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
@@ -194,7 +195,7 @@
                                [KxMenuItem menuItem:@"创建项目" image:[UIImage imageNamed:@""] target:self action:@selector(goToNewProjectVC)],
                                [KxMenuItem menuItem:@"创建任务" image:[UIImage imageNamed:@""] target:self action:@selector(goToNewTaskVC)],
                                [KxMenuItem menuItem:@"发布冒泡" image:[UIImage imageNamed:@""] target:self action:@selector(goToNewTweetVC)],
-                               [KxMenuItem menuItem:@"2 FA" image:[UIImage imageNamed:@""] target:self action:@selector(goTo2FA)],
+//                               [KxMenuItem menuItem:@"2 FA" image:[UIImage imageNamed:@""] target:self action:@selector(goTo2FA)],
                                ];
         CGRect senderFrame = CGRectMake(kScreen_Width -30, 0, 0, 0);
         [KxMenu showMenuInView:self.view
@@ -210,7 +211,9 @@
 }
 
 - (void)goToNewTaskVC{
-    
+    EditTaskViewController *vc = [[EditTaskViewController alloc] init];
+    vc.myTask = [Task taskWithProject:nil andUser:nil];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)goToNewTweetVC{
@@ -288,7 +291,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectList forIndexPath:indexPath];
-    [cell setProject:[self.searchResults objectAtIndex:indexPath.row] withSWButtons:NO];
+    [cell setProject:[self.searchResults objectAtIndex:indexPath.row] hasSWButtons:NO hasBadgeTip:YES hasIndicator:YES];
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     return cell;
 }

@@ -153,7 +153,7 @@
         listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks block:^(ProjectTaskListView *taskListView, Task *task) {
             EditTaskViewController *vc = [[EditTaskViewController alloc] init];
             vc.myTask = task;
-            vc.taskChangedBlock = ^(Task *curTask, TaskEditType type){
+            vc.taskChangedBlock = ^(){
                 [taskListView refreshToQueryData];
             };
             [weakSelf.navigationController pushViewController:vc animated:YES];

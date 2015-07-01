@@ -90,7 +90,7 @@
     }
     _taskContentView.text = _task.content;
     
-    if (_task.handleType == TaskHandleTypeAdd) {
+    if (_task.handleType > TaskHandleTypeEdit) {
         _creatorLabel.text = [NSString stringWithFormat:@"%@ 现在", _task.creator.name];
         _deleteBtn.hidden = YES;
     }else{

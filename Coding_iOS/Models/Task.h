@@ -16,8 +16,9 @@
 @class Task_Description;
 
 typedef NS_ENUM(NSInteger, TaskHandleType) {
-    TaskHandleTypeAdd = 0,
-    TaskHandleTypeEdit
+    TaskHandleTypeEdit = 0,
+    TaskHandleTypeAddWithProject,
+    TaskHandleTypeAddWithoutProject
 };
 
 @interface Task : NSObject

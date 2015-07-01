@@ -243,7 +243,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             EditTaskViewController *vc = [[EditTaskViewController alloc] init];
             vc.myTask = [Task taskWithBackend_project_path:[NSString stringWithFormat:@"/user/%@/project/%@", user_global_key, project_name] andId:taskId];
             @weakify(vc);
-            vc.taskChangedBlock = ^(Task *curTask, TaskEditType type){
+            vc.taskChangedBlock = ^(){
                 @strongify(vc);
                 [vc dismissViewControllerAnimated:YES completion:nil];
             };

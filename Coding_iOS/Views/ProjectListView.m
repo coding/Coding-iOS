@@ -64,7 +64,7 @@ static NSString *const kValueKey = @"kValueKey";
             }
             tableView;
         });
-        if (projects.type < ProjectsTypeTaProject) {
+        if (projects.type < ProjectsTypeToChoose) {
             _mySearchBar = nil;
             _myTableView.tableHeaderView = nil;
         }else{
@@ -101,7 +101,7 @@ static NSString *const kValueKey = @"kValueKey";
         _dataList = [[NSMutableArray alloc] initWithCapacity:2];
     }
     [_dataList removeAllObjects];
-    if (_myProjects.type < ProjectsTypeTaProject) {
+    if (_myProjects.type < ProjectsTypeToChoose) {
         NSArray *pinList = _myProjects.pinList, *noPinList = _myProjects.noPinList;
         if (pinList.count > 0) {
             [_dataList addObject:@{kTitleKey : @"常用项目",
@@ -199,15 +199,21 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    Project *curPro = [[self valueForSection:indexPath.section] objectAtIndex:indexPath.row];
+
     if (_myProjects.type < ProjectsTypeTaProject) {
         ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectList forIndexPath:indexPath];
-        [cell setProject:[[self valueForSection:indexPath.section] objectAtIndex:indexPath.row] withSWButtons:YES];
+        if (self.myProjects.type == ProjectsTypeToChoose) {
+            [cell setProject:curPro hasSWButtons:NO hasBadgeTip:NO hasIndicator:NO];
+        }else{
+            [cell setProject:curPro hasSWButtons:YES hasBadgeTip:YES hasIndicator:YES];
+        }
         cell.delegate = self;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else{
         ProjectListTaCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectListTaCell forIndexPath:indexPath];
-        cell.project = [[self valueForSection:indexPath.section] objectAtIndex:indexPath.row];
+        cell.project = curPro;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }

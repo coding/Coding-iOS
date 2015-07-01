@@ -13,7 +13,7 @@
 #import "SWTableViewCell.h"
 
 @interface ProjectListCell : SWTableViewCell
-- (void)setProject:(Project *)project withSWButtons:(BOOL)hasSWButtons;
+- (void)setProject:(Project *)project hasSWButtons:(BOOL)hasSWButtons hasBadgeTip:(BOOL)hasBadgeTip hasIndicator:(BOOL)hasIndicator;
 
 + (CGFloat)cellHeight;
 

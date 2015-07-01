@@ -25,18 +25,18 @@
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         if (!_iconView) {
-            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 5, 33, 33)];
+            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 8, 28, 28)];
             [self.contentView addSubview:_iconView];
         }
         if (!_leftLabel) {
-            _leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 7, 100, 30)];
-            _leftLabel.font = [UIFont systemFontOfSize:18];
+            _leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 7, 80, 30)];
+            _leftLabel.font = [UIFont systemFontOfSize:16];
             _leftLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             _leftLabel.textAlignment = NSTextAlignmentLeft;
             [self.contentView addSubview:_leftLabel];
         }
         if (!_rightLabel) {
-            _rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width-170, 7, 135, 30)];
+            _rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_leftLabel.frame), 7, kScreen_Width - CGRectGetMaxX(_leftLabel.frame) - 35, 30)];
             _rightLabel.font = [UIFont systemFontOfSize:18];
             _rightLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
             _rightLabel.textAlignment = NSTextAlignmentRight;
@@ -53,20 +53,34 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
+    self.userInteractionEnabled = YES;
+
     if ([_aObj isKindOfClass:[Task class]]) {
         Task *task = (Task *)_aObj;
         switch (_type) {
+            case LeftImage_LRTextCellTypeTaskProject:
+            {
+                [_iconView doCircleFrame];
+                [_iconView sd_setImageWithURL:[task.project.icon urlImageWithCodePathResizeToView:_iconView] placeholderImage:nil];
+                _leftLabel.text = @"所属项目";
+                if (task.project) {
+                    _rightLabel.text = [NSString stringWithFormat:@"%@/%@", task.project.owner_user_name, task.project.name];
+                }else{
+                    _rightLabel.text = @"未指定";
+                }
+                self.userInteractionEnabled = (task.handleType == TaskHandleTypeAddWithoutProject);
+            }
+                break;
             case LeftImage_LRTextCellTypeTaskOwner:
             {
                 [_iconView doCircleFrame];
-                [_iconView sd_setImageWithURL:[task.owner.avatar urlImageWithCodePathResizeToView:_iconView] placeholderImage:kPlaceholderMonkeyRoundView(_iconView)];
+                [_iconView sd_setImageWithURL:[task.owner.avatar urlImageWithCodePathResizeToView:_iconView] placeholderImage:nil];
                 _leftLabel.text = @"执行者";
                 if (task.owner) {
                     _rightLabel.text = task.owner.name;
                 }else{
                     _rightLabel.text = @"未指定";
                 }
-                self.userInteractionEnabled = YES;
             }
                 break;
             case LeftImage_LRTextCellTypeTaskPriority:
@@ -79,7 +93,6 @@
                 }else{
                     _rightLabel.text = @"未指定";
                 }
-                self.userInteractionEnabled = YES;
             }
                 break;
             case LeftImage_LRTextCellTypeTaskDeadline:
@@ -92,7 +105,6 @@
                 }else{
                     _rightLabel.text = @"未指定";
                 }
-                self.userInteractionEnabled = YES;
             }
                 break;
             case LeftImage_LRTextCellTypeTaskStatus:

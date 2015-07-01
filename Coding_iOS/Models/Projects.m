@@ -38,6 +38,7 @@
     NSString *typeStr;
     switch (_type) {
         case  ProjectsTypeAll:
+        case  ProjectsTypeToChoose:
             typeStr = @"all";
             break;
         case  ProjectsTypeJoined:

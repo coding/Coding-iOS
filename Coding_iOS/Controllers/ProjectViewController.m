@@ -230,7 +230,7 @@
                     [[ProjectTasksView alloc] initWithFrame:self.view.bounds project:_myProject block:^(ProjectTaskListView *taskListView, Task *task) {
                         EditTaskViewController *vc = [[EditTaskViewController alloc] init];
                         vc.myTask = task;
-                        vc.taskChangedBlock = ^(Task *curTask, TaskEditType type){
+                        vc.taskChangedBlock = ^(){
                             [taskListView refreshToQueryData];
                         };
                         [weakSelf.navigationController pushViewController:vc animated:YES];
@@ -499,7 +499,8 @@
             }
             ProjectTasksView *tasksView = (ProjectTasksView *)curView;
             EditTaskViewController *vc = [[EditTaskViewController alloc] init];
-            vc.myTask = [Task taskWithProject:self.myProject andUser:tasksView.selectedMember.user];
+            User *user = tasksView.selectedMember.user? tasksView.selectedMember.user : [Login curLoginUser];
+            vc.myTask = [Task taskWithProject:self.myProject andUser:user];
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;

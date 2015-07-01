@@ -68,6 +68,7 @@
 		4E217F161A70EDC700F6DF88 /* SVWebViewControllerActivitySafari@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E217F091A70EDC700F6DF88 /* SVWebViewControllerActivitySafari@2x.png */; };
 		4E217F171A70EDC700F6DF88 /* SVWebViewControllerActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E217F0B1A70EDC700F6DF88 /* SVWebViewControllerActivity.m */; };
 		4E217F1A1A71007800F6DF88 /* SVWebViewController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4E217F1C1A71007800F6DF88 /* SVWebViewController.strings */; };
+		4E24B2681B43D33F004D7989 /* ProjectToChooseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E24B2671B43D33F004D7989 /* ProjectToChooseListViewController.m */; };
 		4E2719B81AB02F31006AE214 /* NProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2719B71AB02F31006AE214 /* NProjectViewController.m */; };
 		4E2719C71AB07ED6006AE214 /* dot_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2719C61AB07ED6006AE214 /* dot_line@2x.png */; };
 		4E2906A21A403B7D008A5B97 /* FileDownloadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2906A11A403B7D008A5B97 /* FileDownloadView.m */; };
@@ -831,6 +832,8 @@
 		4E217F0B1A70EDC700F6DF88 /* SVWebViewControllerActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVWebViewControllerActivity.m; sourceTree = "<group>"; };
 		4E217F1B1A71007800F6DF88 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SVWebViewController.strings; sourceTree = "<group>"; };
 		4E217F1D1A71007C00F6DF88 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SVWebViewController.strings"; sourceTree = "<group>"; };
+		4E24B2661B43D33F004D7989 /* ProjectToChooseListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectToChooseListViewController.h; sourceTree = "<group>"; };
+		4E24B2671B43D33F004D7989 /* ProjectToChooseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectToChooseListViewController.m; sourceTree = "<group>"; };
 		4E2719B61AB02F31006AE214 /* NProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NProjectViewController.h; sourceTree = "<group>"; };
 		4E2719B71AB02F31006AE214 /* NProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NProjectViewController.m; sourceTree = "<group>"; };
 		4E2719C61AB07ED6006AE214 /* dot_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dot_line@2x.png"; sourceTree = "<group>"; };
@@ -2940,6 +2943,8 @@
 				4E4D6A6F1B1C68F100FD2E49 /* CommitFilesViewController.m */,
 				4E4D6A711B1C694100FD2E49 /* FileChangeDetailViewController.h */,
 				4E4D6A721B1C694100FD2E49 /* FileChangeDetailViewController.m */,
+				4E24B2661B43D33F004D7989 /* ProjectToChooseListViewController.h */,
+				4E24B2671B43D33F004D7989 /* ProjectToChooseListViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -4309,6 +4314,7 @@
 				8E97CE471A0A2DF8006F9AD7 /* AGEmojiKeyBoardView.m in Sources */,
 				4E53EB521AFA03990034FE1C /* RKSwipeBetweenViewControllers.m in Sources */,
 				8EA6D12C19E240C40076D59C /* EditTopicViewController.m in Sources */,
+				4E24B2681B43D33F004D7989 /* ProjectToChooseListViewController.m in Sources */,
 				4EA7F15B1A6D192B00A046BD /* SDWebImageCompat.m in Sources */,
 				8EA6D13A19E240C40076D59C /* Project_RootViewController.m in Sources */,
 				4ECF70401B180740000280FF /* EaseGitButtonsView.m in Sources */,
