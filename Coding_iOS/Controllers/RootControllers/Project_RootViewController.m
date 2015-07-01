@@ -17,6 +17,9 @@
 #import "RDVTabBarItem.h"
 #import "NProjectViewController.h"
 #import "ProjectListCell.h"
+#import "KxMenu.h"
+
+#import "TweetSendViewController.h"
 
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
@@ -99,11 +102,8 @@
 }
 
 - (void)setupNavBtn{
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(searchItemClicked:)];
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(gotoNewProject)];
-    
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(searchItemClicked:)] animated:NO];
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoNewProject)] animated:NO];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)] animated:NO];
 
 }
 
@@ -186,10 +186,50 @@
 }
 
 #pragma mark VC
--(void)gotoNewProject{
+-(void)addItemClicked:(id)sender{
+    if ([KxMenu isShowingInView:self.view]) {
+        [KxMenu dismissMenu:YES];
+    }else{
+        NSArray *menuItems = @[
+                               [KxMenuItem menuItem:@"创建项目" image:[UIImage imageNamed:@""] target:self action:@selector(goToNewProjectVC)],
+                               [KxMenuItem menuItem:@"创建任务" image:[UIImage imageNamed:@""] target:self action:@selector(goToNewTaskVC)],
+                               [KxMenuItem menuItem:@"发布冒泡" image:[UIImage imageNamed:@""] target:self action:@selector(goToNewTweetVC)],
+                               [KxMenuItem menuItem:@"2 FA" image:[UIImage imageNamed:@""] target:self action:@selector(goTo2FA)],
+                               ];
+        CGRect senderFrame = CGRectMake(kScreen_Width -30, 0, 0, 0);
+        [KxMenu showMenuInView:self.view
+                      fromRect:senderFrame
+                     menuItems:menuItems];
+    }
+}
+
+- (void)goToNewProjectVC{
     UIStoryboard *newProjectStoryboard = [UIStoryboard storyboardWithName:@"NewProject" bundle:nil];
     UIViewController *newProjectVC = [newProjectStoryboard instantiateViewControllerWithIdentifier:@"NewProjectVC"];
     [self.navigationController pushViewController:newProjectVC animated:YES];
+}
+
+- (void)goToNewTaskVC{
+    
+}
+
+- (void)goToNewTweetVC{
+    TweetSendViewController *vc = [[TweetSendViewController alloc] init];
+    vc.sendNextTweet = ^(Tweet *nextTweet){
+        [nextTweet saveSendData];//发送前保存草稿
+        [[Coding_NetAPIManager sharedManager] request_Tweet_DoTweet_WithObj:nextTweet andBlock:^(id data, NSError *error) {
+            if (data) {
+                [Tweet deleteSendData];//发送成功后删除草稿
+            }
+        }];
+        
+    };
+    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
+    [self.parentViewController presentViewController:nav animated:YES completion:nil];
+}
+
+- (void)goTo2FA{
+    
 }
 
 - (void)goToProject:(Project *)project{
@@ -200,6 +240,8 @@
 
 #pragma mark Search
 - (void)searchItemClicked:(id)sender{
+    [KxMenu dismissMenu:YES];
+    
     if (!_mySearchBar) {
         _mySearchBar = ({
             UISearchBar *searchBar = [[UISearchBar alloc] init];
