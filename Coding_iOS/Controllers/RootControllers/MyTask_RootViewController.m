@@ -68,6 +68,13 @@
         }];
         icarousel;
     });
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)] animated:NO];
+}
+
+- (void)addItemClicked:(id)sender{
+    EditTaskViewController *vc = [[EditTaskViewController alloc] init];
+    vc.myTask = [Task taskWithProject:nil andUser:nil];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

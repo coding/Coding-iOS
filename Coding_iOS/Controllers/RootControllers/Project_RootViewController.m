@@ -197,7 +197,14 @@
                                [KxMenuItem menuItem:@"发布冒泡" image:[UIImage imageNamed:@""] target:self action:@selector(goToNewTweetVC)],
 //                               [KxMenuItem menuItem:@"2 FA" image:[UIImage imageNamed:@""] target:self action:@selector(goTo2FA)],
                                ];
-        CGRect senderFrame = CGRectMake(kScreen_Width -30, 0, 0, 0);
+        CGRect senderFrame;
+        if (kDevice_Is_iPhone6) {
+            senderFrame = CGRectMake(kScreen_Width -26, 0, 0, 0);
+        }else if (kDevice_Is_iPhone6Plus){
+            senderFrame = CGRectMake(kScreen_Width -30, 0, 0, 0);
+        }else{
+            senderFrame = CGRectMake(kScreen_Width -26, 0, 0, 0);
+        }
         [KxMenu showMenuInView:self.view
                       fromRect:senderFrame
                      menuItems:menuItems];
