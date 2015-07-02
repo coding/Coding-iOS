@@ -158,7 +158,7 @@
     [_activityIndicator startAnimating];
     
     @weakify(self);
-    [[Coding_NetAPIManager sharedManager] request_MDHtmlStr_WithMDStr:mdStr andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_MDHtmlStr_WithMDStr:mdStr inProject:self.curProject andBlock:^(id data, NSError *error) {
         @strongify(self);
         NSString *htmlStr = data? data : error.description;
         NSString *contentStr = [WebContentManager markdownPatternedWithContent:htmlStr];

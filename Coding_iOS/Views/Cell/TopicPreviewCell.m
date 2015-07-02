@@ -117,7 +117,7 @@
         if (!_webContentView.isLoading) {
             [_activityIndicator startAnimating];
             @weakify(self);
-            [[Coding_NetAPIManager sharedManager] request_MDHtmlStr_WithMDStr:_curTopic.mdContent andBlock:^(id data, NSError *error) {
+            [[Coding_NetAPIManager sharedManager] request_MDHtmlStr_WithMDStr:_curTopic.mdContent inProject:_curTopic.project andBlock:^(id data, NSError *error) {
                 @strongify(self);
                 NSString *htmlStr = data ? data : error.description;
                 //NSString *contentStr = [WebContentManager markdownPatternedWithContent:htmlStr];
@@ -162,7 +162,7 @@
     if (!_webContentView.isLoading) {
         [_activityIndicator startAnimating];
         @weakify(self);
-        [[Coding_NetAPIManager sharedManager] request_MDHtmlStr_WithMDStr:_curTopic.mdContent andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_MDHtmlStr_WithMDStr:_curTopic.mdContent inProject:_curTopic.project andBlock:^(id data, NSError *error) {
             @strongify(self);
             NSString *htmlStr = data ? data : error.description;
             //NSString *contentStr = [WebContentManager markdownPatternedWithContent:htmlStr];

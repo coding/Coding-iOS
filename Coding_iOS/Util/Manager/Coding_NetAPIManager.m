@@ -1879,9 +1879,13 @@
         }
     }];
 }
-- (void)request_MDHtmlStr_WithMDStr:(NSString *)mdStr andBlock:(void (^)(id data, NSError *error))block{
+- (void)request_MDHtmlStr_WithMDStr:(NSString *)mdStr inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"md-html转化"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/markdown/previewNoAt" withParams:@{@"content" : mdStr} withMethodType:Post andBlock:^(id data, NSError *error) {
+    NSString *path = @"api/markdown/previewNoAt";
+    if (project.name && project.owner_user_name) {
+        path = [NSString stringWithFormat:@"api/user/%@/project/%@/markdownNoAt", project.owner_user_name, project.name];
+    }
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"content" : mdStr} withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
             block(resultData, nil);
