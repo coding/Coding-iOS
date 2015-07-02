@@ -85,13 +85,21 @@
     self.page = responsePros.page;
     self.totalRow = responsePros.totalRow;
     self.totalPage = responsePros.totalPage;
+    self.canLoadMore = (self.page.integerValue < self.totalPage.integerValue);
+
+    NSArray *projectList = responsePros.list;
+    if (self.type == ProjectsTypeToChoose) {
+        projectList = [projectList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"is_public == %d", NO]];
+    }
+    if (projectList.count <= 0) {
+        return;
+    }
     
     if (_willLoadMore) {
-        [self.list addObjectsFromArray:responsePros.list];
+        [self.list addObjectsFromArray:projectList];
     }else{
-        self.list = [NSMutableArray arrayWithArray:responsePros.list];
+        self.list = [NSMutableArray arrayWithArray:projectList];
     }
-    self.canLoadMore = (self.page.integerValue < self.totalPage.integerValue);
 }
 - (NSArray *)pinList{
     NSArray *list = nil;
