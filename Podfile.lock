@@ -62,16 +62,20 @@ PODS:
     - RBBAnimation (~> 0.3)
     - SDCAutoLayout (~> 2.0)
   - SDCAutoLayout (2.0.3)
+  - SSKeychain (1.2.3)
   - TPKeyboardAvoiding (1.2.4)
   - TTTAttributedLabel (1.10.1)
   - UIImage+BlurredFrame (0.0.4)
+  - ZXingObjC (3.1.0):
+    - ZXingObjC/All (= 3.1.0)
+  - ZXingObjC/All (3.1.0)
 
 DEPENDENCIES:
   - APParallaxHeader
   - BlocksKit (= 2.2.5)
   - hpple (= 0.2.0)
   - iVersion (~> 1.11.4)
-  - JazzHands
+  - JazzHands (~> 2.0.0)
   - MarqueeLabel
   - Masonry (= 0.5.3)
   - MBProgressHUD (= 0.9)
@@ -82,9 +86,11 @@ DEPENDENCIES:
   - ReactiveCocoa (= 2.3.1)
   - RegexKitLite (= 4.0)
   - SDCAlertView (~> 2.4.1)
+  - SSKeychain (~> 1.2.3)
   - TPKeyboardAvoiding (= 1.2.4)
   - TTTAttributedLabel (= 1.10.1)
   - UIImage+BlurredFrame (= 0.0.4)
+  - ZXingObjC (~> 3.1.0)
 
 SPEC CHECKSUMS:
   APParallaxHeader: 854bc48a2487ca12c702f8a236fec0d89cdac5c3
@@ -106,8 +112,10 @@ SPEC CHECKSUMS:
   RegexKitLite: c0e4c12e6e7de0769f3a3ed679f0f61604170661
   SDCAlertView: ff4c6c76ccdfcd0fa20e0ee5e044630f93fb3d12
   SDCAutoLayout: e6885bb39ab8e2ec2ff84d158f38035f025f7420
+  SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
   TPKeyboardAvoiding: 0a40dfbb0af7c8bdae1dd457496dccfd217d85f6
   TTTAttributedLabel: c8f3801a6463b9c9b82b0c84c465fdda9751892a
   UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
+  ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
 COCOAPODS: 0.36.4

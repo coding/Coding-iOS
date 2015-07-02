@@ -1065,6 +1065,7 @@
 		4E8D5D2D1B44E03600B70936 /* convenient_Project@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "convenient_Project@2x.png"; sourceTree = "<group>"; };
 		4E8D5D2E1B44E03600B70936 /* convenient_Task@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "convenient_Task@2x.png"; sourceTree = "<group>"; };
 		4E8D5D2F1B44E03600B70936 /* convenient_Tweet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "convenient_Tweet@2x.png"; sourceTree = "<group>"; };
+		4E8D5D3E1B451E9100B70936 /* Ease_2FA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ease_2FA.h; sourceTree = "<group>"; };
 		4E90F8971AF709C100B44F03 /* bubble.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bubble.html; path = webview/app/build/bubble.html; sourceTree = "<group>"; };
 		4E90F8981AF709C100B44F03 /* code.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = code.html; path = webview/app/build/code.html; sourceTree = "<group>"; };
 		4E90F8991AF709C100B44F03 /* markdown.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = markdown.html; path = webview/app/build/markdown.html; sourceTree = "<group>"; };
@@ -2220,6 +2221,14 @@
 			path = convenient_btn;
 			sourceTree = "<group>";
 		};
+		4E8D5D3D1B451E9100B70936 /* Ease_2FA */ = {
+			isa = PBXGroup;
+			children = (
+				4E8D5D3E1B451E9100B70936 /* Ease_2FA.h */,
+			);
+			path = Ease_2FA;
+			sourceTree = "<group>";
+		};
 		4E91139D1A1C426000AC9431 /* ASProgressPopUpView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2867,6 +2876,7 @@
 				8EA6CF5D19E240C40076D59C /* Images */,
 				8EA6CFFA19E240C40076D59C /* Resources */,
 				8EA6D03E19E240C40076D59C /* Vendor */,
+				4E8D5D3D1B451E9100B70936 /* Ease_2FA */,
 			);
 			path = Coding_iOS;
 			sourceTree = "<group>";

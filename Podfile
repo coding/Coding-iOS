@@ -1,5 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
+platform :ios, '7.0'
 
 pod 'TTTAttributedLabel', '1.10.1'
 pod 'RegexKitLite', '4.0'
@@ -18,4 +18,6 @@ pod 'APParallaxHeader'
 pod 'SDCAlertView', '~> 2.4.1'
 pod 'MarqueeLabel'
 pod 'iVersion', '~> 1.11.4'
-pod "JazzHands"
+pod 'JazzHands', '~> 2.0.0'
+pod 'SSKeychain', '~> 1.2.3'
+pod 'ZXingObjC', '~> 3.1.0'
