@@ -25,7 +25,8 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+        self.backgroundColor = kColorTableBG;
+
         if (!_proImgView) {
             _proImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kProjectInfoCell_ProImgViewWidth, kProjectInfoCell_ProImgViewWidth)];
             _proImgView.layer.cornerRadius = 2.0;

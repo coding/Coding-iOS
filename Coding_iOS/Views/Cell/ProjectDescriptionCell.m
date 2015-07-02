@@ -23,7 +23,8 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+        self.backgroundColor = kColorTableBG;
+
         if (!_proDesL) {
             _proDesL = [[UILabel alloc] init];
             _proDesL.numberOfLines = 0;
