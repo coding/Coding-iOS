@@ -212,6 +212,10 @@
 		4E87656A1A22E5B40090CFB9 /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8765641A22E5B40090CFB9 /* SWUtilityButtonView.m */; };
 		4E8AF7861A53D69F00CDC3AE /* StartImagesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8AF7851A53D69F00CDC3AE /* StartImagesManager.m */; };
 		4E8C51B01AC1081500B4C51F /* icon_recommended@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8C51AF1AC1081500B4C51F /* icon_recommended@2x.png */; };
+		4E8D5D301B44E03600B70936 /* convenient_2FA@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8D5D2C1B44E03600B70936 /* convenient_2FA@2x.png */; };
+		4E8D5D311B44E03600B70936 /* convenient_Project@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8D5D2D1B44E03600B70936 /* convenient_Project@2x.png */; };
+		4E8D5D321B44E03600B70936 /* convenient_Task@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8D5D2E1B44E03600B70936 /* convenient_Task@2x.png */; };
+		4E8D5D331B44E03600B70936 /* convenient_Tweet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8D5D2F1B44E03600B70936 /* convenient_Tweet@2x.png */; };
 		4E90F89B1AF709C100B44F03 /* bubble.html in Resources */ = {isa = PBXBuildFile; fileRef = 4E90F8971AF709C100B44F03 /* bubble.html */; };
 		4E90F89C1AF709C100B44F03 /* code.html in Resources */ = {isa = PBXBuildFile; fileRef = 4E90F8981AF709C100B44F03 /* code.html */; };
 		4E90F89D1AF709C100B44F03 /* markdown.html in Resources */ = {isa = PBXBuildFile; fileRef = 4E90F8991AF709C100B44F03 /* markdown.html */; };
@@ -1057,6 +1061,10 @@
 		4E8AF7891A5406AE00CDC3AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4E8C51AE1AC0177600B4C51F /* Coding_iOS-Prefix.pch.example */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Coding_iOS-Prefix.pch.example"; sourceTree = "<group>"; };
 		4E8C51AF1AC1081500B4C51F /* icon_recommended@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_recommended@2x.png"; sourceTree = "<group>"; };
+		4E8D5D2C1B44E03600B70936 /* convenient_2FA@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "convenient_2FA@2x.png"; sourceTree = "<group>"; };
+		4E8D5D2D1B44E03600B70936 /* convenient_Project@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "convenient_Project@2x.png"; sourceTree = "<group>"; };
+		4E8D5D2E1B44E03600B70936 /* convenient_Task@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "convenient_Task@2x.png"; sourceTree = "<group>"; };
+		4E8D5D2F1B44E03600B70936 /* convenient_Tweet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "convenient_Tweet@2x.png"; sourceTree = "<group>"; };
 		4E90F8971AF709C100B44F03 /* bubble.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bubble.html; path = webview/app/build/bubble.html; sourceTree = "<group>"; };
 		4E90F8981AF709C100B44F03 /* code.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = code.html; path = webview/app/build/code.html; sourceTree = "<group>"; };
 		4E90F8991AF709C100B44F03 /* markdown.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = markdown.html; path = webview/app/build/markdown.html; sourceTree = "<group>"; };
@@ -2201,6 +2209,17 @@
 			path = SWTableViewCell;
 			sourceTree = "<group>";
 		};
+		4E8D5D2B1B44E03600B70936 /* convenient_btn */ = {
+			isa = PBXGroup;
+			children = (
+				4E8D5D2C1B44E03600B70936 /* convenient_2FA@2x.png */,
+				4E8D5D2D1B44E03600B70936 /* convenient_Project@2x.png */,
+				4E8D5D2E1B44E03600B70936 /* convenient_Task@2x.png */,
+				4E8D5D2F1B44E03600B70936 /* convenient_Tweet@2x.png */,
+			);
+			path = convenient_btn;
+			sourceTree = "<group>";
+		};
 		4E91139D1A1C426000AC9431 /* ASProgressPopUpView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2992,6 +3011,7 @@
 		8EA6CF5D19E240C40076D59C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4E8D5D2B1B44E03600B70936 /* convenient_btn */,
 				4EF17E761B3BF320003CDD2D /* introduction */,
 				4EC461AE1B39360F00D08970 /* file_changeType */,
 				4E6383F31B33C18700D98648 /* task_activity_icon */,
@@ -3923,7 +3943,9 @@
 				4E217F101A70EDC700F6DF88 /* SVWebViewControllerActivityChrome-iPad@2x.png in Resources */,
 				4E6383EC1B32A2C300D98648 /* project_item_file@2x.png in Resources */,
 				8EA6D16819E240C40076D59C /* nav_project_member@2x.png in Resources */,
+				4E8D5D321B44E03600B70936 /* convenient_Task@2x.png in Resources */,
 				4E9113A91A1CB19900AC9431 /* icon_file_state_download@2x.png in Resources */,
+				4E8D5D311B44E03600B70936 /* convenient_Project@2x.png in Resources */,
 				4E9113AB1A1CB19900AC9431 /* icon_file_state_look@2x.png in Resources */,
 				4E63840B1B33F9B400D98648 /* comment_bg@2x.png in Resources */,
 				8E97CEA31A0C7E26006F9AD7 /* coding_emoji_12@2x.png in Resources */,
@@ -3947,6 +3969,7 @@
 				8EA6D1A119E240C40076D59C /* tipIcon_UserFollow@2x.png in Resources */,
 				8EA6D18319E240C40076D59C /* me_normal@2x.png in Resources */,
 				4EF17EDC1B3C3112003CDD2D /* intro_tip_0@2x.png in Resources */,
+				4E8D5D301B44E03600B70936 /* convenient_2FA@2x.png in Resources */,
 				8EA6D19719E240C40076D59C /* tipIcon_Project@2x.png in Resources */,
 				4EF17ED31B3C3112003CDD2D /* intro_icon_2@2x.png in Resources */,
 				4E4D6AC11B252CD400FD2E49 /* icon_code_file@2x.png in Resources */,
@@ -4057,6 +4080,7 @@
 				4E217F141A70EDC700F6DF88 /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
 				4E5A66991B26EB210007A0AD /* diff.html in Resources */,
 				4EF91F641B00B62B0021C951 /* icon_not_locationed@2x.png in Resources */,
+				4E8D5D331B44E03600B70936 /* convenient_Tweet@2x.png in Resources */,
 				4E6383EA1B32791600D98648 /* checkbox_unchecked@2x.png in Resources */,
 				8EA6D19119E240C40076D59C /* timeline_icon_read@2x.png in Resources */,
 				8E97CEB21A0C7E26006F9AD7 /* coding_emoji_27@2x.png in Resources */,

@@ -396,17 +396,18 @@ typedef enum {
     if (!_menuItems.count)
         return nil;
  
-    const CGFloat kMinMenuItemHeight = 32.f;
-    const CGFloat kMinMenuItemWidth = 32.f;
-    const CGFloat kMarginX = 10.f;
-    const CGFloat kMarginY = 5.f;
+    const CGFloat kMinMenuItemHeight = 40.f;
+    const CGFloat kMinMenuItemWidth = 40.f;
+    const CGFloat kMarginX = 5.f;
+    const CGFloat kMarginY = 0.f;
     
     UIFont *titleFont = [KxMenu titleFont];
-    if (!titleFont) titleFont = [UIFont boldSystemFontOfSize:14];
+    if (!titleFont) titleFont = [UIFont systemFontOfSize:14];
     
     CGFloat maxImageWidth = 0;    
     CGFloat maxItemHeight = 0;
     CGFloat maxItemWidth = 0;
+    CGFloat titleImagePadding = 10.f;
     
     for (KxMenuItem *menuItem in _menuItems) {
         
@@ -425,7 +426,7 @@ typedef enum {
         const CGSize imageSize = menuItem.image.size;
 
         const CGFloat itemHeight = MAX(titleSize.height, imageSize.height) + kMarginY * 2;
-        const CGFloat itemWidth = ((!menuItem.enabled && !menuItem.image) ? titleSize.width : maxImageWidth + titleSize.width) + kMarginX * 4;
+        const CGFloat itemWidth = ((!menuItem.enabled && !menuItem.image) ? titleSize.width : maxImageWidth + titleSize.width +titleImagePadding) + kMarginX * 4;
         
         if (itemHeight > maxItemHeight)
             maxItemHeight = itemHeight;
@@ -437,7 +438,7 @@ typedef enum {
     maxItemWidth  = MAX(maxItemWidth, kMinMenuItemWidth);
     maxItemHeight = MAX(maxItemHeight, kMinMenuItemHeight);
 
-    const CGFloat titleX = kMarginX * 2 + maxImageWidth;
+    const CGFloat titleX = kMarginX * 2 + maxImageWidth + titleImagePadding;
     const CGFloat titleWidth = maxItemWidth - titleX - kMarginX * 2;
     
     UIImage *selectedImage = [KxMenuView selectedImage:(CGSize){maxItemWidth, maxItemHeight + 2}];
@@ -727,7 +728,7 @@ typedef enum {
     const CGRect bodyFrame = {X0, Y0, X1 - X0, Y1 - Y0};
     
     UIBezierPath *borderPath = [UIBezierPath bezierPathWithRoundedRect:bodyFrame
-                                                          cornerRadius:8];
+                                                          cornerRadius:2];
         
     const CGFloat locations[] = {0, 1};
     const CGFloat components[] = {

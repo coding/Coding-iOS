@@ -192,9 +192,9 @@
         [KxMenu dismissMenu:YES];
     }else{
         NSArray *menuItems = @[
-                               [KxMenuItem menuItem:@"创建项目" image:[UIImage imageNamed:@""] target:self action:@selector(goToNewProjectVC)],
-                               [KxMenuItem menuItem:@"创建任务" image:[UIImage imageNamed:@""] target:self action:@selector(goToNewTaskVC)],
-                               [KxMenuItem menuItem:@"发布冒泡" image:[UIImage imageNamed:@""] target:self action:@selector(goToNewTweetVC)],
+                               [KxMenuItem menuItem:@"创建项目" image:[UIImage imageNamed:@"convenient_Project"] target:self action:@selector(goToNewProjectVC)],
+                               [KxMenuItem menuItem:@"创建任务" image:[UIImage imageNamed:@"convenient_Task"] target:self action:@selector(goToNewTaskVC)],
+                               [KxMenuItem menuItem:@"发布冒泡" image:[UIImage imageNamed:@"convenient_Tweet"] target:self action:@selector(goToNewTweetVC)],
 //                               [KxMenuItem menuItem:@"2 FA" image:[UIImage imageNamed:@""] target:self action:@selector(goTo2FA)],
                                ];
         CGRect senderFrame;
