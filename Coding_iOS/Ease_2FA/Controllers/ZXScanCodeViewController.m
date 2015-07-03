@@ -12,6 +12,7 @@
 @interface ZXScanCodeViewController ()<ZXCaptureDelegate>
 @property (nonatomic, strong) ZXCapture *capture;
 @property (strong, nonatomic) UIView *scanRectView;
+@property (assign, nonatomic) BOOL scanSucessed;
 @end
 
 @implementation ZXScanCodeViewController
@@ -115,9 +116,8 @@
 - (void)captureResult:(ZXCapture *)capture result:(ZXResult *)result{
     NSLog(@"result : %@", result.text);
 
-    static BOOL isHandling = NO;
-    if (!result || isHandling) return;
-    isHandling = YES;
+    if (!result || _scanSucessed) return;
+    _scanSucessed = YES;
     [capture stop];
 
     // Vibrate
@@ -135,10 +135,10 @@
         NSString *tipStr = [NSString stringWithFormat:@"条码「%@ : %@」不是有效的身份验证令牌条码", formatString, resultString];
         UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"无效条码" message:tipStr];
         [alertV bk_addButtonWithTitle:@"重试" handler:^{
+            self.scanSucessed = NO;
             [capture start];
         }];
         [alertV show];
-        isHandling = NO;
     }
 }
 @end

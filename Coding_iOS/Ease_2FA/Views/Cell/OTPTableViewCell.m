@@ -88,7 +88,6 @@
     _nameLabel.text = _authURL.name;
 }
 - (void)otpAuthURLDidGenerateNewOTP:(NSNotification *)notification{
-    NSLog(@"otpAuthURLDidGenerateNewOTP : %@", notification);
     [self updateUI];
 }
 @end
@@ -121,16 +120,20 @@
     self.back_passwordLabel.text = self.passwordLabel.text;
     self.back_passwordLabel.alpha = 0.0;
     self.passwordLabel.alpha = 1.0;
-    [self waringAnimation];
 }
 
 - (void)otpAuthURLWillGenerateNewOTP:(NSNotification *)notification{
-    NSLog(@"otpAuthURLWillGenerateNewOTP : %@", notification);
     [self waringAnimation];
 }
 
 - (void)prepareForReuse{
     [self.contentView.layer removeAllAnimations];
+    for (UIView *view in [self subviews]) {
+        if ([view isKindOfClass:NSClassFromString(@"UITableViewCellDeleteConfirmationView")]) {
+            [view removeFromSuperview];
+        }
+    }
+//    [self setEditing:NO];
 }
 
 - (void)waringAnimation{
