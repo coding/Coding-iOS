@@ -83,7 +83,7 @@
             make.height.mas_equalTo(20);
         }];
     }
-//    _issuerLabel.text = _authURL.url;
+    _issuerLabel.text = _authURL.issuer;
     _passwordLabel.text = _authURL.otpCode;
     _nameLabel.text = _authURL.name;
 }

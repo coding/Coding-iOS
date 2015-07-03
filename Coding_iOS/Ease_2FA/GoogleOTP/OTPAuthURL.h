@@ -29,7 +29,7 @@
 @interface OTPAuthURL : NSObject
 
 // |name| is an arbitrary UTF8 text string extracted from the url path.
-@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *name, *issuer;
 @property (nonatomic, copy, readonly) NSString *otpCode;
 @property (nonatomic, copy, readonly) NSString *checkCode;
 @property (nonatomic, strong, readonly) NSData *keychainItemRef;
@@ -67,7 +67,7 @@
 
 @property(readwrite, assign, nonatomic) NSTimeInterval generationAdvanceWarning;
 
-- (id)initWithSecret:(NSData *)secret name:(NSString *)name;
+- (id)initWithSecret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer;
 
 @end
 
@@ -75,7 +75,7 @@
  @private
   NSString *otpCode_;
 }
-- (id)initWithSecret:(NSData *)secret name:(NSString *)name;
+- (id)initWithSecret:(NSData *)secret name:(NSString *)name issuer:(NSString *)issuer;
 - (void)generateNextOTPCode;
 @end
 
