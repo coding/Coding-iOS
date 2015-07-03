@@ -6,3 +6,10 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
+#ifndef Coding_iOS_Ease_2FA_h
+#define Coding_iOS_Ease_2FA_h
+
+#import "OTPListViewController.h"
+
+
+#endif

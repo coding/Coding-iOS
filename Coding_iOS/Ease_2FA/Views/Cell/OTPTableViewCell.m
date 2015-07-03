@@ -1,0 +1,172 @@
+//
+//  OTPTableViewCell.m
+//  Coding_iOS
+//
+//  Created by Ease on 15/7/3.
+//  Copyright (c) 2015年 Coding. All rights reserved.
+//
+
+#import "OTPTableViewCell.h"
+#import "OTPAuthClock.h"
+#import "TOTPGenerator.h"
+
+@interface OTPTableViewCell ()
+@property (strong, nonatomic) UILabel *issuerLabel, *passwordLabel, *nameLabel;
+- (void)updateUI;
+- (void)otpAuthURLDidGenerateNewOTP:(NSNotification *)notification;
+
+@end
+
+@interface TOTPTableViewCell ()
+@property (strong, nonatomic) OTPAuthClock *clockView;
+@property (strong, nonatomic) UILabel *back_passwordLabel;
+@property (assign, nonatomic) BOOL isDuringWarning;
+
+
+- (void)otpAuthURLWillGenerateNewOTP:(NSNotification *)notification;
+@end
+
+@interface HOTPTableViewCell ()
+@property (strong, nonatomic) UIButton *refreshButton;
+
+@end
+
+
+
+@implementation OTPTableViewCell
++ (CGFloat)cellHeight{
+    return 100;
+}
+- (void)setAuthURL:(OTPAuthURL *)authURL{
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self name:OTPAuthURLDidGenerateNewOTPNotification object:_authURL];
+    _authURL = authURL;
+    [nc addObserver:self selector:@selector(otpAuthURLDidGenerateNewOTP:) name:OTPAuthURLDidGenerateNewOTPNotification object:_authURL];
+
+    [self updateUI];
+}
+
+- (void)updateUI{
+    if (!_issuerLabel) {
+        _issuerLabel = [UILabel new];
+        _issuerLabel.font = [UIFont systemFontOfSize:16];
+        _issuerLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+        [self.contentView addSubview:_issuerLabel];
+        [_issuerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.contentView).offset(10);
+            make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
+            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+            make.height.mas_equalTo(20);
+        }];
+    }
+    if (!_passwordLabel) {
+        _passwordLabel = [UILabel new];
+        _passwordLabel.font = [UIFont boldSystemFontOfSize:40];
+        _passwordLabel.textColor = [UIColor orangeColor];
+        [self.contentView addSubview:_passwordLabel];
+        [_passwordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.contentView);
+            make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
+            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+            make.height.mas_equalTo([[self class] cellHeight] - 50);
+        }];
+    }
+    if (!_nameLabel) {
+        _nameLabel = [UILabel new];
+        _nameLabel.font = [UIFont systemFontOfSize:14];
+        _nameLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+        [self.contentView addSubview:_nameLabel];
+        [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.contentView).offset(-10);
+            make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
+            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+            make.height.mas_equalTo(20);
+        }];
+    }
+//    _issuerLabel.text = _authURL.url;
+    _passwordLabel.text = _authURL.otpCode;
+    _nameLabel.text = _authURL.name;
+}
+- (void)otpAuthURLDidGenerateNewOTP:(NSNotification *)notification{
+    NSLog(@"otpAuthURLDidGenerateNewOTP : %@", notification);
+    [self updateUI];
+}
+@end
+
+@implementation TOTPTableViewCell
+
+- (void)setAuthURL:(OTPAuthURL *)authURL{
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self name:OTPAuthURLWillGenerateNewOTPWarningNotification object:self.authURL];
+    super.authURL = authURL;
+    [nc addObserver:self selector:@selector(otpAuthURLWillGenerateNewOTP:) name:OTPAuthURLWillGenerateNewOTPWarningNotification object:self.authURL];
+    [self updateUI];
+}
+- (void)updateUI{
+    [super updateUI];
+    if (!_back_passwordLabel) {
+        _back_passwordLabel = [UILabel new];
+        _back_passwordLabel.font = [UIFont boldSystemFontOfSize:40];
+        _back_passwordLabel.textColor = [UIColor blueColor];
+        [self.contentView addSubview:_back_passwordLabel];
+        [_back_passwordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.passwordLabel);
+        }];
+    }
+    if (!_clockView) {
+        _clockView = [[OTPAuthClock alloc] initWithFrame:CGRectMake(0, 0, 30, 30) period:[TOTPGenerator defaultPeriod]];
+        [_clockView setCenter:CGPointMake(CGRectGetWidth(self.contentView.frame) - 30, CGRectGetHeight(self.contentView.frame) - 30)];
+        [self.contentView addSubview:_clockView];
+    }
+    self.back_passwordLabel.text = self.passwordLabel.text;
+    self.back_passwordLabel.alpha = 0.0;
+    self.passwordLabel.alpha = 1.0;
+    [self waringAnimation];
+}
+
+- (void)otpAuthURLWillGenerateNewOTP:(NSNotification *)notification{
+    NSLog(@"otpAuthURLWillGenerateNewOTP : %@", notification);
+    [self waringAnimation];
+}
+
+- (void)prepareForReuse{
+    [self.contentView.layer removeAllAnimations];
+}
+
+- (void)waringAnimation{
+    NSTimeInterval period = [TOTPGenerator defaultPeriod];
+    NSTimeInterval seconds = [[NSDate date] timeIntervalSince1970];
+    CGFloat mod =  fmod(seconds, period);
+    CGFloat percent = mod / period;
+
+    if (percent < 0.85) {//(26/30)
+        return;
+    }
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        self.passwordLabel.alpha = 0.0;
+        self.back_passwordLabel.alpha = 1.0;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.passwordLabel.alpha = 1.0;
+            self.back_passwordLabel.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [self waringAnimation];
+        }];
+    }];
+}
+
+- (void)dealloc {
+    [self.clockView invalidate];
+}
+
+@end
+
+@implementation HOTPTableViewCell
+- (void)updateUI{
+    [super updateUI];
+
+}
+@end
+
+

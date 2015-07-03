@@ -21,6 +21,7 @@
 
 #import "TweetSendViewController.h"
 #import "EditTaskViewController.h"
+#import "Ease_2FA.h"
 
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
@@ -195,7 +196,7 @@
                                [KxMenuItem menuItem:@"创建项目" image:[UIImage imageNamed:@"convenient_Project"] target:self action:@selector(goToNewProjectVC)],
                                [KxMenuItem menuItem:@"创建任务" image:[UIImage imageNamed:@"convenient_Task"] target:self action:@selector(goToNewTaskVC)],
                                [KxMenuItem menuItem:@"发布冒泡" image:[UIImage imageNamed:@"convenient_Tweet"] target:self action:@selector(goToNewTweetVC)],
-//                               [KxMenuItem menuItem:@"2 FA" image:[UIImage imageNamed:@"convenient_2FA"] target:self action:@selector(goTo2FA)],
+                               [KxMenuItem menuItem:@"2 FA" image:[UIImage imageNamed:@"convenient_2FA"] target:self action:@selector(goTo2FA)],
                                ];
         CGRect senderFrame;
         if (kDevice_Is_iPhone6) {
@@ -239,7 +240,8 @@
 }
 
 - (void)goTo2FA{
-    
+    OTPListViewController *vc = [OTPListViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)goToProject:(Project *)project{

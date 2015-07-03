@@ -216,6 +216,19 @@
 		4E8D5D311B44E03600B70936 /* convenient_Project@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8D5D2D1B44E03600B70936 /* convenient_Project@2x.png */; };
 		4E8D5D321B44E03600B70936 /* convenient_Task@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8D5D2E1B44E03600B70936 /* convenient_Task@2x.png */; };
 		4E8D5D331B44E03600B70936 /* convenient_Tweet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8D5D2F1B44E03600B70936 /* convenient_Tweet@2x.png */; };
+		4E8D5D5A1B45295D00B70936 /* HOTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D431B45295D00B70936 /* HOTPGenerator.m */; };
+		4E8D5D5B1B45295D00B70936 /* NSData+OTPBase32Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D451B45295D00B70936 /* NSData+OTPBase32Encoding.m */; };
+		4E8D5D5C1B45295D00B70936 /* NSString+OTPURLArguments.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D471B45295D00B70936 /* NSString+OTPURLArguments.m */; };
+		4E8D5D5D1B45295D00B70936 /* NSURL+OTPURLArguments.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D491B45295D00B70936 /* NSURL+OTPURLArguments.m */; };
+		4E8D5D5F1B45295D00B70936 /* OTPAuthURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D4D1B45295D00B70936 /* OTPAuthURL.m */; };
+		4E8D5D611B45295D00B70936 /* OTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D521B45295D00B70936 /* OTPGenerator.m */; };
+		4E8D5D621B45295D00B70936 /* TOTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D541B45295D00B70936 /* TOTPGenerator.m */; };
+		4E8D5D631B45295D00B70936 /* UIColor+MobileColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D571B45295D00B70936 /* UIColor+MobileColors.m */; };
+		4E8D5D661B45306900B70936 /* OTPListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D651B45306900B70936 /* OTPListViewController.m */; };
+		4E8D5D6B1B453A1500B70936 /* tip_2FA@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8D5D6A1B453A1500B70936 /* tip_2FA@2x.png */; };
+		4E8D5D6E1B45400100B70936 /* ZXScanCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D6D1B45400100B70936 /* ZXScanCodeViewController.m */; };
+		4E8D5D731B454D5000B70936 /* OTPAuthClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D721B454D5000B70936 /* OTPAuthClock.m */; };
+		4E8D5D7D1B462ADB00B70936 /* OTPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D7C1B462ADB00B70936 /* OTPTableViewCell.m */; };
 		4E90F89B1AF709C100B44F03 /* bubble.html in Resources */ = {isa = PBXBuildFile; fileRef = 4E90F8971AF709C100B44F03 /* bubble.html */; };
 		4E90F89C1AF709C100B44F03 /* code.html in Resources */ = {isa = PBXBuildFile; fileRef = 4E90F8981AF709C100B44F03 /* code.html */; };
 		4E90F89D1AF709C100B44F03 /* markdown.html in Resources */ = {isa = PBXBuildFile; fileRef = 4E90F8991AF709C100B44F03 /* markdown.html */; };
@@ -1065,7 +1078,33 @@
 		4E8D5D2D1B44E03600B70936 /* convenient_Project@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "convenient_Project@2x.png"; sourceTree = "<group>"; };
 		4E8D5D2E1B44E03600B70936 /* convenient_Task@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "convenient_Task@2x.png"; sourceTree = "<group>"; };
 		4E8D5D2F1B44E03600B70936 /* convenient_Tweet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "convenient_Tweet@2x.png"; sourceTree = "<group>"; };
-		4E8D5D3E1B451E9100B70936 /* Ease_2FA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Ease_2FA.h; sourceTree = "<group>"; };
+		4E8D5D421B45295D00B70936 /* HOTPGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HOTPGenerator.h; sourceTree = "<group>"; };
+		4E8D5D431B45295D00B70936 /* HOTPGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOTPGenerator.m; sourceTree = "<group>"; };
+		4E8D5D441B45295D00B70936 /* NSData+OTPBase32Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+OTPBase32Encoding.h"; sourceTree = "<group>"; };
+		4E8D5D451B45295D00B70936 /* NSData+OTPBase32Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+OTPBase32Encoding.m"; sourceTree = "<group>"; };
+		4E8D5D461B45295D00B70936 /* NSString+OTPURLArguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+OTPURLArguments.h"; sourceTree = "<group>"; };
+		4E8D5D471B45295D00B70936 /* NSString+OTPURLArguments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OTPURLArguments.m"; sourceTree = "<group>"; };
+		4E8D5D481B45295D00B70936 /* NSURL+OTPURLArguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+OTPURLArguments.h"; sourceTree = "<group>"; };
+		4E8D5D491B45295D00B70936 /* NSURL+OTPURLArguments.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+OTPURLArguments.m"; sourceTree = "<group>"; };
+		4E8D5D4C1B45295D00B70936 /* OTPAuthURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAuthURL.h; sourceTree = "<group>"; };
+		4E8D5D4D1B45295D00B70936 /* OTPAuthURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthURL.m; sourceTree = "<group>"; };
+		4E8D5D4E1B45295D00B70936 /* OTPDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPDefines.h; sourceTree = "<group>"; };
+		4E8D5D511B45295D00B70936 /* OTPGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPGenerator.h; sourceTree = "<group>"; };
+		4E8D5D521B45295D00B70936 /* OTPGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPGenerator.m; sourceTree = "<group>"; };
+		4E8D5D531B45295D00B70936 /* TOTPGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TOTPGenerator.h; sourceTree = "<group>"; };
+		4E8D5D541B45295D00B70936 /* TOTPGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TOTPGenerator.m; sourceTree = "<group>"; };
+		4E8D5D561B45295D00B70936 /* UIColor+MobileColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MobileColors.h"; sourceTree = "<group>"; };
+		4E8D5D571B45295D00B70936 /* UIColor+MobileColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MobileColors.m"; sourceTree = "<group>"; };
+		4E8D5D641B45306900B70936 /* OTPListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPListViewController.h; sourceTree = "<group>"; };
+		4E8D5D651B45306900B70936 /* OTPListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPListViewController.m; sourceTree = "<group>"; };
+		4E8D5D681B45322400B70936 /* Ease_2FA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ease_2FA.h; sourceTree = "<group>"; };
+		4E8D5D6A1B453A1500B70936 /* tip_2FA@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tip_2FA@2x.png"; sourceTree = "<group>"; };
+		4E8D5D6C1B45400100B70936 /* ZXScanCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXScanCodeViewController.h; sourceTree = "<group>"; };
+		4E8D5D6D1B45400100B70936 /* ZXScanCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXScanCodeViewController.m; sourceTree = "<group>"; };
+		4E8D5D711B454D5000B70936 /* OTPAuthClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAuthClock.h; sourceTree = "<group>"; };
+		4E8D5D721B454D5000B70936 /* OTPAuthClock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPAuthClock.m; sourceTree = "<group>"; };
+		4E8D5D7B1B462ADB00B70936 /* OTPTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPTableViewCell.h; sourceTree = "<group>"; };
+		4E8D5D7C1B462ADB00B70936 /* OTPTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPTableViewCell.m; sourceTree = "<group>"; };
 		4E90F8971AF709C100B44F03 /* bubble.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = bubble.html; path = webview/app/build/bubble.html; sourceTree = "<group>"; };
 		4E90F8981AF709C100B44F03 /* code.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = code.html; path = webview/app/build/code.html; sourceTree = "<group>"; };
 		4E90F8991AF709C100B44F03 /* markdown.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = markdown.html; path = webview/app/build/markdown.html; sourceTree = "<group>"; };
@@ -2224,9 +2263,83 @@
 		4E8D5D3D1B451E9100B70936 /* Ease_2FA */ = {
 			isa = PBXGroup;
 			children = (
-				4E8D5D3E1B451E9100B70936 /* Ease_2FA.h */,
+				4E8D5D681B45322400B70936 /* Ease_2FA.h */,
+				4E8D5D401B45295D00B70936 /* Controllers */,
+				4E8D5D411B45295D00B70936 /* GoogleOTP */,
+				4E8D5D551B45295D00B70936 /* OC_Category */,
+				4E8D5D581B45295D00B70936 /* Views */,
+				4E8D5D691B4539E300B70936 /* Images */,
 			);
 			path = Ease_2FA;
+			sourceTree = "<group>";
+		};
+		4E8D5D401B45295D00B70936 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4E8D5D641B45306900B70936 /* OTPListViewController.h */,
+				4E8D5D651B45306900B70936 /* OTPListViewController.m */,
+				4E8D5D6C1B45400100B70936 /* ZXScanCodeViewController.h */,
+				4E8D5D6D1B45400100B70936 /* ZXScanCodeViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		4E8D5D411B45295D00B70936 /* GoogleOTP */ = {
+			isa = PBXGroup;
+			children = (
+				4E8D5D4E1B45295D00B70936 /* OTPDefines.h */,
+				4E8D5D4C1B45295D00B70936 /* OTPAuthURL.h */,
+				4E8D5D4D1B45295D00B70936 /* OTPAuthURL.m */,
+				4E8D5D511B45295D00B70936 /* OTPGenerator.h */,
+				4E8D5D521B45295D00B70936 /* OTPGenerator.m */,
+				4E8D5D531B45295D00B70936 /* TOTPGenerator.h */,
+				4E8D5D541B45295D00B70936 /* TOTPGenerator.m */,
+				4E8D5D421B45295D00B70936 /* HOTPGenerator.h */,
+				4E8D5D431B45295D00B70936 /* HOTPGenerator.m */,
+				4E8D5D441B45295D00B70936 /* NSData+OTPBase32Encoding.h */,
+				4E8D5D451B45295D00B70936 /* NSData+OTPBase32Encoding.m */,
+				4E8D5D461B45295D00B70936 /* NSString+OTPURLArguments.h */,
+				4E8D5D471B45295D00B70936 /* NSString+OTPURLArguments.m */,
+				4E8D5D481B45295D00B70936 /* NSURL+OTPURLArguments.h */,
+				4E8D5D491B45295D00B70936 /* NSURL+OTPURLArguments.m */,
+			);
+			path = GoogleOTP;
+			sourceTree = "<group>";
+		};
+		4E8D5D551B45295D00B70936 /* OC_Category */ = {
+			isa = PBXGroup;
+			children = (
+				4E8D5D561B45295D00B70936 /* UIColor+MobileColors.h */,
+				4E8D5D571B45295D00B70936 /* UIColor+MobileColors.m */,
+			);
+			path = OC_Category;
+			sourceTree = "<group>";
+		};
+		4E8D5D581B45295D00B70936 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4E8D5D711B454D5000B70936 /* OTPAuthClock.h */,
+				4E8D5D721B454D5000B70936 /* OTPAuthClock.m */,
+				4E8D5D7A1B462AC500B70936 /* Cell */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4E8D5D691B4539E300B70936 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				4E8D5D6A1B453A1500B70936 /* tip_2FA@2x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		4E8D5D7A1B462AC500B70936 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				4E8D5D7B1B462ADB00B70936 /* OTPTableViewCell.h */,
+				4E8D5D7C1B462ADB00B70936 /* OTPTableViewCell.m */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		4E91139D1A1C426000AC9431 /* ASProgressPopUpView */ = {
@@ -3829,6 +3942,7 @@
 				8EF643B719FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib in Resources */,
 				4EF17ED71B3C3112003CDD2D /* intro_icon_4@2x.png in Resources */,
 				4E6384031B33C8E900D98648 /* task_activity_icon_create@2x.png in Resources */,
+				4E8D5D6B1B453A1500B70936 /* tip_2FA@2x.png in Resources */,
 				4EACB4401A2C448F0097ABB3 /* button_file_download_unable@2x.png in Resources */,
 				8E8F7B2F19EF6306006BA8BD /* btn_privateMsg_black@2x.png in Resources */,
 				4E96E7E01A1B537E0037C098 /* icon_file_pdf@2x.png in Resources */,
@@ -4189,6 +4303,7 @@
 				4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */,
 				4E6BA2E41A1EE6AF005FD721 /* UIButton+AFNetworking.m in Sources */,
 				8EF643C919FF7E2900F7EEB0 /* TopicCommentCell.m in Sources */,
+				4E8D5D6E1B45400100B70936 /* ZXScanCodeViewController.m in Sources */,
 				4ECD72EF1AAD7EC300D69AE1 /* Tweet.m in Sources */,
 				8EF643CD19FF7E2900F7EEB0 /* TweetCommentMoreCell.m in Sources */,
 				8E59F1001A01133C009A905F /* CodeTree.m in Sources */,
@@ -4224,6 +4339,7 @@
 				8EF643BB19FF7E2900F7EEB0 /* MessageCell.m in Sources */,
 				8E1C3E0B19E8DFE300EF3032 /* SettingMineInfoViewController.m in Sources */,
 				8EF643AF19FF7E2900F7EEB0 /* TweetSendImageCCell.m in Sources */,
+				4E8D5D611B45295D00B70936 /* OTPGenerator.m in Sources */,
 				8EABB20119EE7A85009EB53A /* AddUserViewController.m in Sources */,
 				4ECE8AE01A3943E80021E29C /* UIButton+Bootstrap.m in Sources */,
 				8E64ED8A19EE484A006E99DA /* NSDate+Helper.m in Sources */,
@@ -4235,11 +4351,14 @@
 				4E07D3081A4A96EA009EDDF2 /* FileListUploadCell.m in Sources */,
 				4EA679161A1496A7001A0324 /* ProjectFolders.m in Sources */,
 				4EA7F1591A6D192B00A046BD /* NSData+ImageContentType.m in Sources */,
+				4E8D5D631B45295D00B70936 /* UIColor+MobileColors.m in Sources */,
 				8EA6D1FA19E240C40076D59C /* MJPhotoProgressView.m in Sources */,
 				4E4D6A641B1C65F700FD2E49 /* MRPRFilesViewController.m in Sources */,
 				4EA6791D1A15A943001A0324 /* FileListFolderCell.m in Sources */,
 				8EA6D1C419E240C40076D59C /* Users.m in Sources */,
 				8EF643D219FF7E2900F7EEB0 /* UserCell.m in Sources */,
+				4E8D5D731B454D5000B70936 /* OTPAuthClock.m in Sources */,
+				4E8D5D621B45295D00B70936 /* TOTPGenerator.m in Sources */,
 				8EA6D1AE19E240C40076D59C /* CodingTip.m in Sources */,
 				8E59F0F11A00F38A009A905F /* ProjectFolderListView.m in Sources */,
 				4E4D6A5E1B1C64C600FD2E49 /* MRPRDetailViewController.m in Sources */,
@@ -4331,6 +4450,7 @@
 				0A27A05D1AB5A13B00067833 /* TweetSendLocationDetailViewController.m in Sources */,
 				0AB591B01AB6D6BE0076C454 /* TweetSendMapAnnotation.m in Sources */,
 				4ECF70491B185BCC000280FF /* MRPR.m in Sources */,
+				4E8D5D661B45306900B70936 /* OTPListViewController.m in Sources */,
 				4EA7F1651A6D192B00A046BD /* UIImageView+WebCache.m in Sources */,
 				8EF643B819FF7E2900F7EEB0 /* InputOnlyTextPlainCell.m in Sources */,
 				4E6BA2DB1A1EE6AF005FD721 /* AFURLSessionManager.m in Sources */,
@@ -4383,6 +4503,7 @@
 				3A3878491AE36ED70078D5DE /* TopicListButton.m in Sources */,
 				4ECE8B011A3946C10021E29C /* ImageSizeManager.m in Sources */,
 				8EA6D1B319E240C40076D59C /* File.m in Sources */,
+				4E8D5D7D1B462ADB00B70936 /* OTPTableViewCell.m in Sources */,
 				4EABD25A1AD3CB4A005E515F /* UIMessageInputView_CCell.m in Sources */,
 				8EF643C019FF7E2900F7EEB0 /* TaskCommentBlankCell.m in Sources */,
 				4E6BA2E11A1EE6AF005FD721 /* AFNetworkActivityIndicatorManager.m in Sources */,
@@ -4391,6 +4512,7 @@
 				4E2906A21A403B7D008A5B97 /* FileDownloadView.m in Sources */,
 				4E6BA2DC1A1EE6AF005FD721 /* AFNetworkReachabilityManager.m in Sources */,
 				8E59F0E31A0098BA009A905F /* UIScrollView+SVPullToRefresh.m in Sources */,
+				4E8D5D5B1B45295D00B70936 /* NSData+OTPBase32Encoding.m in Sources */,
 				4E8AF7861A53D69F00CDC3AE /* StartImagesManager.m in Sources */,
 				8EA6D13419E240C40076D59C /* ProjectMemberListViewController.m in Sources */,
 				8EF643CC19FF7E2900F7EEB0 /* TweetCommentCell.m in Sources */,
@@ -4402,9 +4524,11 @@
 				8EA6D13219E240C40076D59C /* RegisterViewController.m in Sources */,
 				8EF643C519FF7E2900F7EEB0 /* TitleRImageMoreCell.m in Sources */,
 				4E217F151A70EDC700F6DF88 /* SVWebViewControllerActivitySafari.m in Sources */,
+				4E8D5D5A1B45295D00B70936 /* HOTPGenerator.m in Sources */,
 				8EA6D14519E240C40076D59C /* TweetDetailViewController.m in Sources */,
 				8EA6D13119E240C40076D59C /* LoginViewController.m in Sources */,
 				8E64ED7C19ED0CE3006E99DA /* QBAssetsCollectionFooterView.m in Sources */,
+				4E8D5D5C1B45295D00B70936 /* NSString+OTPURLArguments.m in Sources */,
 				8E6F1C951A03BD6000BF79C8 /* ProjectMemberActivityListViewController.m in Sources */,
 				8EA6D13619E240C40076D59C /* BaseViewController.m in Sources */,
 				4E5F39051ACA958C0010515D /* TopicCommentCCell.m in Sources */,
@@ -4445,6 +4569,7 @@
 				8E64ED7F19ED0CE3006E99DA /* QBAssetsCollectionViewCell.m in Sources */,
 				4E6D718A1A75F00E005AD988 /* YLImageView.m in Sources */,
 				8EA6D1C119E240C40076D59C /* Tweets.m in Sources */,
+				4E8D5D5F1B45295D00B70936 /* OTPAuthURL.m in Sources */,
 				8EA6D1F619E240C40076D59C /* MJPhoto.m in Sources */,
 				8EF643CB19FF7E2900F7EEB0 /* TweetCell.m in Sources */,
 				4ECE8ADF1A3943E80021E29C /* UIBarButtonItem+Common.m in Sources */,
@@ -4538,6 +4663,7 @@
 				4E996BDF1ABA7CE100C704F1 /* UserInfoDetailUserCell.m in Sources */,
 				4EACB4461A2C60110097ABB3 /* ProjectActivities.m in Sources */,
 				8EA6D1CB19E240C40076D59C /* UITapImageView.m in Sources */,
+				4E8D5D5D1B45295D00B70936 /* NSURL+OTPURLArguments.m in Sources */,
 				4E217F171A70EDC700F6DF88 /* SVWebViewControllerActivity.m in Sources */,
 				4E996BE81ABBCD2D00C704F1 /* TaskDescriptionCell.m in Sources */,
 			);
