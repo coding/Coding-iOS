@@ -205,7 +205,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
   NSMutableDictionary *attributes =
    [NSMutableDictionary dictionaryWithObject:urlData
                                       forKey:(__bridge id)kSecAttrGeneric];
-  OSStatus status;
+  OSStatus status = noErr;
 
   if ([self isInKeychain]) {
     NSDictionary *query = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
