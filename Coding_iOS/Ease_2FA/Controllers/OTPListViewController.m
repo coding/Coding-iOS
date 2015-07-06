@@ -137,6 +137,12 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     [self configUI];
 }
 
+- (void)deleteOneAuthURL:(OTPAuthURL *)authURL{
+    [authURL removeFromKeychain];
+    [self.authURLs removeObject:authURL];
+    [self configUI];
+}
+
 #pragma mark table_M
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [self.authURLs count];
@@ -187,9 +193,15 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         OTPAuthURL *authURL = self.authURLs[indexPath.section];
-        [self.authURLs removeObject:authURL];
-        [authURL removeFromKeychain];
-        [self configUI];
+        __weak typeof(self) weakSelf = self;
+        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"删除此账户不会停用两步验证" message:@"您可能会因此无法登录自己的账户\n在删除该账户前，请先停用两步验证，或者确保您可以通过其它方法生成验证码。"];
+        [alertV bk_setCancelButtonWithTitle:@"取消" handler:^{
+            [weakSelf configUI];
+        }];
+        [alertV bk_addButtonWithTitle:@"确认删除" handler:^{
+            [weakSelf deleteOneAuthURL:authURL];
+        }];
+        [alertV show];
     }
 }
 
