@@ -31,12 +31,11 @@
 
 @end
 
-
-
 @implementation OTPTableViewCell
 + (CGFloat)cellHeight{
     return 100;
 }
+
 - (void)setAuthURL:(OTPAuthURL *)authURL{
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self name:OTPAuthURLDidGenerateNewOTPNotification object:_authURL];
@@ -93,6 +92,32 @@
 @end
 
 @implementation TOTPTableViewCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style
+    reuseIdentifier:(NSString *)reuseIdentifier {
+    if ((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])) {
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self
+               selector:@selector(applicationWillEnterForeground:)
+                   name:UIApplicationWillEnterForegroundNotification
+                 object:nil];
+    }
+    return self;
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    NSString *curCode = self.authURL.otpCode;
+    NSString *displayingCode = self.passwordLabel.text;
+    if (![curCode isEqualToString:displayingCode]) {
+        [self otpAuthURLDidGenerateNewOTP:nil];
+    }
+}
+
+- (void)dealloc {
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self];
+    [self.clockView invalidate];
+}
 
 - (void)setAuthURL:(OTPAuthURL *)authURL{
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -157,10 +182,6 @@
             [self waringAnimation];
         }];
     }];
-}
-
-- (void)dealloc {
-    [self.clockView invalidate];
 }
 
 @end
