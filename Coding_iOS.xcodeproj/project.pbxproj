@@ -239,6 +239,7 @@
 		4E9113AA1A1CB19900AC9431 /* icon_file_state_goon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9113A61A1CB19900AC9431 /* icon_file_state_goon@2x.png */; };
 		4E9113AB1A1CB19900AC9431 /* icon_file_state_look@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9113A71A1CB19900AC9431 /* icon_file_state_look@2x.png */; };
 		4E9113AC1A1CB19900AC9431 /* icon_file_state_pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9113A81A1CB19900AC9431 /* icon_file_state_pause@2x.png */; };
+		4E94C4E71B4A6AC700EB668A /* ScanBGView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E94C4E61B4A6AC700EB668A /* ScanBGView.m */; };
 		4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */; };
 		4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E96E7BA1A1B25D40037C098 /* DirectoryWatcher.m */; };
 		4E96E7C81A1B46740037C098 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96E7C71A1B46740037C098 /* QuickLook.framework */; };
@@ -1117,6 +1118,8 @@
 		4E9113A61A1CB19900AC9431 /* icon_file_state_goon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_state_goon@2x.png"; sourceTree = "<group>"; };
 		4E9113A71A1CB19900AC9431 /* icon_file_state_look@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_state_look@2x.png"; sourceTree = "<group>"; };
 		4E9113A81A1CB19900AC9431 /* icon_file_state_pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_state_pause@2x.png"; sourceTree = "<group>"; };
+		4E94C4E51B4A6AC700EB668A /* ScanBGView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanBGView.h; sourceTree = "<group>"; };
+		4E94C4E61B4A6AC700EB668A /* ScanBGView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanBGView.m; sourceTree = "<group>"; };
 		4E969CCE1AF0EB87005C0CCE /* NSTimer+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+Common.h"; sourceTree = "<group>"; };
 		4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+Common.m"; sourceTree = "<group>"; };
 		4E96E7B91A1B25D40037C098 /* DirectoryWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryWatcher.h; sourceTree = "<group>"; };
@@ -2320,6 +2323,8 @@
 			children = (
 				4E8D5D711B454D5000B70936 /* OTPAuthClock.h */,
 				4E8D5D721B454D5000B70936 /* OTPAuthClock.m */,
+				4E94C4E51B4A6AC700EB668A /* ScanBGView.h */,
+				4E94C4E61B4A6AC700EB668A /* ScanBGView.m */,
 				4E8D5D7A1B462AC500B70936 /* Cell */,
 			);
 			path = Views;
@@ -4323,6 +4328,7 @@
 				8EA6D13919E240C40076D59C /* MyTask_RootViewController.m in Sources */,
 				8E1C3E0A19E8DFE300EF3032 /* SettingAccountViewController.m in Sources */,
 				4E8765681A22E5B40090CFB9 /* SWTableViewCell.m in Sources */,
+				4E94C4E71B4A6AC700EB668A /* ScanBGView.m in Sources */,
 				4EBB624D1A6F526C0045DAEF /* NJKWebViewProgressView.m in Sources */,
 				4E6383F21B32CC7600D98648 /* TaskActivityCell.m in Sources */,
 				4ECE8ADA1A3943E80021E29C /* NSDate+Common.m in Sources */,

@@ -7,11 +7,14 @@
 //
 
 #import "ZXScanCodeViewController.h"
+#import "ScanBGView.h"
 #import <ZXingObjC/ZXingObjC.h>
 
 @interface ZXScanCodeViewController ()<ZXCaptureDelegate>
 @property (nonatomic, strong) ZXCapture *capture;
+@property (strong, nonatomic) ScanBGView *myScanBGView;
 @property (strong, nonatomic) UIView *scanRectView;
+@property (strong, nonatomic) UILabel *tipLabel;
 @property (assign, nonatomic) BOOL scanSucessed;
 @end
 
@@ -40,14 +43,33 @@
     self.capture.delegate = self;
     self.capture.layer.frame = self.view.bounds;
     
-    CGFloat padding = kPaddingLeftWidth;
-    CGFloat width = kScreen_Width - 2*padding;
-    CGRect scanRect = CGRectMake(padding, (CGRectGetHeight(self.view.frame) - width)/2, width, width);
+    CGFloat width = kScreen_Width *2/3;
+    CGFloat padding = (kScreen_Width - width)/2;
+
+    CGRect scanRect = CGRectMake(padding, kScreen_Height/10, width, width);
+    if (!_myScanBGView) {
+        _myScanBGView = [[ScanBGView alloc] initWithFrame:self.view.bounds];
+        _myScanBGView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.2];
+        _myScanBGView.scanRect = scanRect;
+        [self.view addSubview:_myScanBGView];
+    }
     
     if (!_scanRectView) {
         _scanRectView = [[UIView alloc] initWithFrame:scanRect];
-        _scanRectView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.2];
         [self.view addSubview:_scanRectView];
+    }
+    if (!_tipLabel) {
+        _tipLabel = [UILabel new];
+        _tipLabel.textAlignment = NSTextAlignmentCenter;
+        _tipLabel.font = [UIFont boldSystemFontOfSize:16];
+        _tipLabel.textColor = [UIColor whiteColor];
+        _tipLabel.text = @"将二维码放入框内，即可自动扫描";
+        [self.view addSubview:_tipLabel];
+        [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(self.view);
+            make.top.equalTo(_scanRectView.mas_bottom).offset(20);
+            make.height.mas_equalTo(30);
+        }];
     }
     self.capture.scanRect = scanRect;
 }
