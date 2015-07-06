@@ -225,7 +225,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
                                       forKey:(__bridge id)kSecAttrGeneric];
   OSStatus status = noErr;
 
-  if ([self isInKeychain]) {
+  if ([self isInKeychain] || self.ease_SecAttrAccount.length > 0) {
     NSDictionary *query = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
                            (__bridge id)kSecValuePersistentRef: self.keychainItemRef};
 
