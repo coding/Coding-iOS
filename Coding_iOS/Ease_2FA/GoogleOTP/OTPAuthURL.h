@@ -17,6 +17,7 @@
 //
 
 #import <Foundation/Foundation.h>
+static NSString *const kOTPService = @"com.google.otp.authentication";
 
 @class OTPGenerator;
 
@@ -29,7 +30,7 @@
 @interface OTPAuthURL : NSObject
 
 // |name| is an arbitrary UTF8 text string extracted from the url path.
-@property (nonatomic, copy) NSString *name, *issuer;
+@property (nonatomic, copy) NSString *name, *issuer, *ease_SecAttrAccount;
 @property (nonatomic, copy, readonly) NSString *otpCode;
 @property (nonatomic, copy, readonly) NSString *checkCode;
 @property (nonatomic, strong, readonly) NSData *keychainItemRef;
@@ -37,6 +38,8 @@
 + (OTPAuthURL *)authURLWithURL:(NSURL *)url
                         secret:(NSData *)secret;
 + (OTPAuthURL *)authURLWithKeychainItemRef:(NSData *)keychainItemRef;
+
++ (OTPAuthURL *)ease_authURLWithKeychainDictionary:(NSDictionary *)dict;//
 
 // Returns a reconstructed NSURL object representing the current state of the
 // |generator|.

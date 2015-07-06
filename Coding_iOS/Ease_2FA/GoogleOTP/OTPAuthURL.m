@@ -28,9 +28,10 @@
 #import "HOTPGenerator.h"
 #import "TOTPGenerator.h"
 
+#import <SSKeychain/SSKeychain.h>
+
 static NSString *const kOTPAuthScheme = @"otpauth";
 static NSString *const kTOTPAuthScheme = @"totp";
-static NSString *const kOTPService = @"com.google.otp.authentication";
 // These are keys in the otpauth:// query string.
 static NSString *const kQueryAlgorithmKey = @"algorithm";
 static NSString *const kQuerySecretKey = @"secret";
@@ -165,6 +166,17 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
   return authURL;
 }
 
++ (OTPAuthURL *)ease_authURLWithKeychainDictionary:(NSDictionary *)dict{
+    OTPAuthURL *authURL = [self authURLWithKeychainDictionary:dict];
+    if (authURL) {
+        NSString *secAttrAccount = dict[(__bridge id)kSecAttrAccount];
+        if (secAttrAccount.length > 0) {
+            authURL.ease_SecAttrAccount = secAttrAccount;
+        }
+    }
+    return authURL;
+}
+
 + (OTPAuthURL *)authURLWithKeychainDictionary:(NSDictionary *)dict {
   NSData *urlData = dict[(__bridge id)kSecAttrGeneric];
   NSData *secretData = dict[(__bridge id)kSecValueData];
@@ -258,6 +270,10 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 }
 
 - (BOOL)removeFromKeychain {
+    if (self.ease_SecAttrAccount.length > 0) {
+        return [SSKeychain deletePasswordForService:kOTPService account:self.ease_SecAttrAccount];
+    }
+    
   if (![self isInKeychain]) {
     return NO;
   }

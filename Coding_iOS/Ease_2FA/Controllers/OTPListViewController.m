@@ -11,6 +11,7 @@
 #import "OTPTableViewCell.h"
 
 #import "OTPAuthURL.h"
+#import <SSKeychain/SSKeychain.h>
 
 static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
@@ -38,22 +39,14 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 - (void)loadKeychainArray{
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSArray *savedKeychainReferences = [ud arrayForKey:kOTPKeychainEntriesArray];
-    self.authURLs = [NSMutableArray arrayWithCapacity:[savedKeychainReferences count]];
-    for (NSData *keychainRef in savedKeychainReferences) {
-        OTPAuthURL *authURL = [OTPAuthURL authURLWithKeychainItemRef:keychainRef];
+    NSArray *otpAccountDictList = [SSKeychain accountsForService:kOTPService];
+    self.authURLs = [NSMutableArray arrayWithCapacity:[otpAccountDictList count]];
+    for (NSDictionary *otpAccountDict in otpAccountDictList) {
+        OTPAuthURL *authURL = [OTPAuthURL ease_authURLWithKeychainDictionary:otpAccountDict];
         if (authURL) {
             [self.authURLs addObject:authURL];
         }
     }
-}
-
-- (void)saveKeychainArray {
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSArray *keychainReferences = [self valueForKeyPath:@"authURLs.keychainItemRef"];
-    [ud setObject:keychainReferences forKey:kOTPKeychainEntriesArray];
-    [ud synchronize];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -141,7 +134,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 - (void)addOneAuthURL:(OTPAuthURL *)authURL{
     [authURL saveToKeychain];
     [self.authURLs addObject:authURL];
-    [self saveKeychainArray];
     [self configUI];
 }
 
@@ -197,7 +189,6 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         OTPAuthURL *authURL = self.authURLs[indexPath.section];
         [self.authURLs removeObject:authURL];
         [authURL removeFromKeychain];
-        [self saveKeychainArray];
         [self configUI];
     }
 }
