@@ -92,32 +92,46 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         [self.myTableView removeFromSuperview];
         self.myTableView = nil;
         
+        UIImage *tipImage = [UIImage imageNamed:@"tip_2FA"];
         if (!_tipImageView) {
-            _tipImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tip_2FA"]];
+            _tipImageView = [[UIImageView alloc] initWithImage:tipImage];
             [self.view addSubview:_tipImageView];
         }
         if (!_tipLabel) {
             _tipLabel = [UILabel new];
             _tipLabel.numberOfLines = 0;
             _tipLabel.textAlignment = NSTextAlignmentCenter;
-            _tipLabel.font = [UIFont systemFontOfSize:16];
             _tipLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
-            _tipLabel.text = @"Coding 两步验证指的是用户登录账户的时候，除了要输入用户名和密码，还要求用户输入一个手机生成的动态密码，为帐户额外添加了一层保护，即使入侵者窃取了用户的密码，也会因不能使用用户的手机而无法登录帐户。";
+            _tipLabel.text = @"启用两步验证后，登录 Coding 账户或进行敏感操作时都将需要输入密码和本客户端生成的验证码。";
             [self.view addSubview:_tipLabel];
         }
         if (!_beginButton) {
             _beginButton = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"开始验证" andFrame:CGRectMake(kPaddingLeftWidth, CGRectGetHeight(self.view.frame)- 20 - 45, kScreen_Width-kPaddingLeftWidth*2, 45) target:self action:@selector(beginButtonClicked:)];
             [self.view addSubview:_beginButton];
         }
+        CGSize tipImageSize = tipImage.size;
+        CGFloat scale = 1.0;
+        if (kDevice_Is_iPhone6Plus) {
+            scale = 1.0;
+            _tipLabel.font = [UIFont systemFontOfSize:16];
+        }else if (kDevice_Is_iPhone6){
+            scale = 0.85;
+            _tipLabel.font = [UIFont systemFontOfSize:15];
+        }else{
+            _tipLabel.font = [UIFont systemFontOfSize:15];
+            scale = 0.75;
+        }
+        tipImageSize = CGSizeMake(ceil(tipImageSize.width *scale), ceil(tipImageSize.height *scale));
+        
         [_tipImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.view);
-            make.top.mas_equalTo(kScreen_Height/6);
+            make.top.mas_equalTo(ceil(kScreen_Height/7));
+            make.size.mas_equalTo(tipImageSize);
         }];
         [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.view);
-            make.top.equalTo(_tipImageView.mas_bottom).offset(40);
-            make.left.equalTo(self.view).offset(kPaddingLeftWidth);
-            make.right.equalTo(self.view).offset(-kPaddingLeftWidth);
+            make.top.equalTo(_tipImageView.mas_bottom).offset(20);
+            make.width.mas_equalTo(kScreen_Width * 0.7);
         }];
     }
 }

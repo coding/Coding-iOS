@@ -225,7 +225,6 @@
 		4E8D5D621B45295D00B70936 /* TOTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D541B45295D00B70936 /* TOTPGenerator.m */; };
 		4E8D5D631B45295D00B70936 /* UIColor+MobileColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D571B45295D00B70936 /* UIColor+MobileColors.m */; };
 		4E8D5D661B45306900B70936 /* OTPListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D651B45306900B70936 /* OTPListViewController.m */; };
-		4E8D5D6B1B453A1500B70936 /* tip_2FA@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8D5D6A1B453A1500B70936 /* tip_2FA@2x.png */; };
 		4E8D5D6E1B45400100B70936 /* ZXScanCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D6D1B45400100B70936 /* ZXScanCodeViewController.m */; };
 		4E8D5D731B454D5000B70936 /* OTPAuthClock.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D721B454D5000B70936 /* OTPAuthClock.m */; };
 		4E8D5D7D1B462ADB00B70936 /* OTPTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D7C1B462ADB00B70936 /* OTPTableViewCell.m */; };
@@ -240,8 +239,9 @@
 		4E9113AB1A1CB19900AC9431 /* icon_file_state_look@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9113A71A1CB19900AC9431 /* icon_file_state_look@2x.png */; };
 		4E9113AC1A1CB19900AC9431 /* icon_file_state_pause@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9113A81A1CB19900AC9431 /* icon_file_state_pause@2x.png */; };
 		4E94C4E71B4A6AC700EB668A /* ScanBGView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E94C4E61B4A6AC700EB668A /* ScanBGView.m */; };
-		4E94C4E91B4A82B600EB668A /* scan_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C4E81B4A82B600EB668A /* scan_line@2x.png */; };
 		4E94C4ED1B4A867A00EB668A /* scan_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C4EC1B4A867A00EB668A /* scan_bg@2x.png */; };
+		4E94C4EF1B4B73BB00EB668A /* scan_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C4EE1B4B73BB00EB668A /* scan_line@2x.png */; };
+		4E94C4F11B4B75DB00EB668A /* tip_2FA@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C4F01B4B75DB00EB668A /* tip_2FA@2x.png */; };
 		4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */; };
 		4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E96E7BA1A1B25D40037C098 /* DirectoryWatcher.m */; };
 		4E96E7C81A1B46740037C098 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96E7C71A1B46740037C098 /* QuickLook.framework */; };
@@ -1101,7 +1101,6 @@
 		4E8D5D641B45306900B70936 /* OTPListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPListViewController.h; sourceTree = "<group>"; };
 		4E8D5D651B45306900B70936 /* OTPListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OTPListViewController.m; sourceTree = "<group>"; };
 		4E8D5D681B45322400B70936 /* Ease_2FA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ease_2FA.h; sourceTree = "<group>"; };
-		4E8D5D6A1B453A1500B70936 /* tip_2FA@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tip_2FA@2x.png"; sourceTree = "<group>"; };
 		4E8D5D6C1B45400100B70936 /* ZXScanCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXScanCodeViewController.h; sourceTree = "<group>"; };
 		4E8D5D6D1B45400100B70936 /* ZXScanCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXScanCodeViewController.m; sourceTree = "<group>"; };
 		4E8D5D711B454D5000B70936 /* OTPAuthClock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OTPAuthClock.h; sourceTree = "<group>"; };
@@ -1122,8 +1121,9 @@
 		4E9113A81A1CB19900AC9431 /* icon_file_state_pause@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_state_pause@2x.png"; sourceTree = "<group>"; };
 		4E94C4E51B4A6AC700EB668A /* ScanBGView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanBGView.h; sourceTree = "<group>"; };
 		4E94C4E61B4A6AC700EB668A /* ScanBGView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanBGView.m; sourceTree = "<group>"; };
-		4E94C4E81B4A82B600EB668A /* scan_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scan_line@2x.png"; sourceTree = "<group>"; };
 		4E94C4EC1B4A867A00EB668A /* scan_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scan_bg@2x.png"; sourceTree = "<group>"; };
+		4E94C4EE1B4B73BB00EB668A /* scan_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scan_line@2x.png"; sourceTree = "<group>"; };
+		4E94C4F01B4B75DB00EB668A /* tip_2FA@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tip_2FA@2x.png"; sourceTree = "<group>"; };
 		4E969CCE1AF0EB87005C0CCE /* NSTimer+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+Common.h"; sourceTree = "<group>"; };
 		4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+Common.m"; sourceTree = "<group>"; };
 		4E96E7B91A1B25D40037C098 /* DirectoryWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryWatcher.h; sourceTree = "<group>"; };
@@ -2337,9 +2337,9 @@
 		4E8D5D691B4539E300B70936 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4E94C4EE1B4B73BB00EB668A /* scan_line@2x.png */,
 				4E94C4EC1B4A867A00EB668A /* scan_bg@2x.png */,
-				4E94C4E81B4A82B600EB668A /* scan_line@2x.png */,
-				4E8D5D6A1B453A1500B70936 /* tip_2FA@2x.png */,
+				4E94C4F01B4B75DB00EB668A /* tip_2FA@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -3953,7 +3953,6 @@
 				8EF643B719FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib in Resources */,
 				4EF17ED71B3C3112003CDD2D /* intro_icon_4@2x.png in Resources */,
 				4E6384031B33C8E900D98648 /* task_activity_icon_create@2x.png in Resources */,
-				4E8D5D6B1B453A1500B70936 /* tip_2FA@2x.png in Resources */,
 				4EACB4401A2C448F0097ABB3 /* button_file_download_unable@2x.png in Resources */,
 				8E8F7B2F19EF6306006BA8BD /* btn_privateMsg_black@2x.png in Resources */,
 				4E96E7E01A1B537E0037C098 /* icon_file_pdf@2x.png in Resources */,
@@ -4072,6 +4071,7 @@
 				4E66EE291A28226000DA1B3E /* button_file_move_enable@2x.png in Resources */,
 				8EA6D19319E240C40076D59C /* timeline_line_read@2x.png in Resources */,
 				4EF17EE31B3C3112003CDD2D /* intro_tip_3@3x.png in Resources */,
+				4E94C4EF1B4B73BB00EB668A /* scan_line@2x.png in Resources */,
 				4E96E7DF1A1B537E0037C098 /* icon_file_unknown@2x.png in Resources */,
 				8EA6D18619E240C40076D59C /* privatemessage_selected@2x.png in Resources */,
 				8E525C8D19F7E3F800496B34 /* blankpage_image_Sleep@2x.png in Resources */,
@@ -4114,7 +4114,6 @@
 				4E5F39071ACBFDCD0010515D /* keyboard_photo@2x.png in Resources */,
 				4E76D4DE1A5A7B4A0094A35E /* text_clear_btn@2x.png in Resources */,
 				4E96E7E41A1B537E0037C098 /* icon_file_xls@2x.png in Resources */,
-				4E94C4E91B4A82B600EB668A /* scan_line@2x.png in Resources */,
 				4EC461B41B39360F00D08970 /* file_changeType_MODIFY@2x.png in Resources */,
 				4EA679191A14BFA0001A0324 /* icon_file_folder_default@2x.png in Resources */,
 				4E6383D61B32665700D98648 /* project_item_readme@2x.png in Resources */,
@@ -4237,6 +4236,7 @@
 				4E96E7E31A1B537E0037C098 /* icon_file_txt@2x.png in Resources */,
 				8EA6D18919E240C40076D59C /* task_normal@2x.png in Resources */,
 				8EA6D19419E240C40076D59C /* timeline_line_unread@2x.png in Resources */,
+				4E94C4F11B4B75DB00EB668A /* tip_2FA@2x.png in Resources */,
 				4E996C081ABBF56A00C704F1 /* user_info_project@2x.png in Resources */,
 				8E97CE9C1A0C7E26006F9AD7 /* coding_emoji_05@2x.png in Resources */,
 				4E6383A61B3262D300D98648 /* taskPriority0@2x.png in Resources */,

@@ -73,7 +73,7 @@
         _tipLabel = [UILabel new];
         _tipLabel.textAlignment = NSTextAlignmentCenter;
         _tipLabel.font = [UIFont boldSystemFontOfSize:16];
-        _tipLabel.textColor = [UIColor whiteColor];
+        _tipLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
         _tipLabel.text = @"将二维码放入框内，即可自动扫描";
     }
     if (!_lineView) {
