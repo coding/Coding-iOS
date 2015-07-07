@@ -432,7 +432,7 @@ static char LoadingViewKey, BlankPageViewKey;
         _tipLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _tipLabel.backgroundColor = [UIColor clearColor];
         _tipLabel.numberOfLines = 0;
-        _tipLabel.font = [UIFont systemFontOfSize:17];
+        _tipLabel.font = [UIFont systemFontOfSize:15];
         _tipLabel.textColor = [UIColor lightGrayColor];
         _tipLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_tipLabel];
