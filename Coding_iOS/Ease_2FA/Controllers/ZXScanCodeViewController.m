@@ -105,7 +105,8 @@
     CABasicAnimation *scanAnimation = [CABasicAnimation animationWithKeyPath:@"position.y"];
     scanAnimation.fromValue = @(-CGRectGetHeight(_lineView.frame));
     scanAnimation.toValue = @(CGRectGetHeight(_lineView.frame) + CGRectGetHeight(_scanRectView.frame));
-
+    
+    scanAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     scanAnimation.repeatCount = CGFLOAT_MAX;
     scanAnimation.duration = 2.0;
     [self.lineView.layer addAnimation:scanAnimation forKey:@"basic"];
