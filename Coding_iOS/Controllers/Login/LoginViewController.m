@@ -75,6 +75,13 @@
     [self showdismissButton:self.showDismissButton];
 }
 
+- (void)setCaptchaNeeded:(BOOL)captchaNeeded{
+    _captchaNeeded = captchaNeeded;
+    if (!captchaNeeded) {
+        self.myLogin.j_captcha= nil;
+    }
+}
+
 - (UIImageView *)bgBlurredView{
     if (!_bgBlurredView) {
         //背景图片
