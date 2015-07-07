@@ -396,13 +396,13 @@ typedef enum {
     if (!_menuItems.count)
         return nil;
  
-    const CGFloat kMinMenuItemHeight = 40.f;
-    const CGFloat kMinMenuItemWidth = 40.f;
-    const CGFloat kMarginX = 5.f;
+    const CGFloat kMinMenuItemHeight = 44.f;
+    const CGFloat kMinMenuItemWidth = 44.f;
+    const CGFloat kMarginX = 6.f;
     const CGFloat kMarginY = 0.f;
     
     UIFont *titleFont = [KxMenu titleFont];
-    if (!titleFont) titleFont = [UIFont systemFontOfSize:14];
+    if (!titleFont) titleFont = [UIFont systemFontOfSize:16];
     
     CGFloat maxImageWidth = 0;    
     CGFloat maxItemHeight = 0;
