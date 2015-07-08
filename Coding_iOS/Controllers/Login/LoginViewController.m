@@ -63,6 +63,8 @@
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         [tableView registerClass:[Login2FATipCell class] forCellReuseIdentifier:kCellIdentifier_Login2FATipCell];
+        [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_Input_OnlyText_Cell bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell];
+
         tableView.backgroundView = self.bgBlurredView;
         tableView.dataSource = self;
         tableView.delegate = self;
@@ -187,28 +189,20 @@
         return cell;
     }
     
-    
-    static NSString *CellIdentifier = @"Input_OnlyText_Cell";
-    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"Input_OnlyText_Cell" owner:self options:nil] firstObject];
-    }
+    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Input_OnlyText_Cell forIndexPath:indexPath];
     cell.isForLoginVC = YES;
+
     __weak typeof(self) weakSelf = self;
-    
     if (self.is2FAUI) {
-        cell.isCaptcha = NO;
+        cell.textField.keyboardType = UIKeyboardTypeNumberPad;
         [cell configWithPlaceholder:@" 动态验证码" andValue:self.otpCode];
-        cell.textField.secureTextEntry = NO;
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.otpCode = valueStr;
         };
-        cell.editDidEndBlock = nil;
     }else{
         if (indexPath.row == 0) {
-            cell.isCaptcha = NO;
+            cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
             [cell configWithPlaceholder:@" 电子邮箱/个性后缀" andValue:self.myLogin.email];
-            cell.textField.secureTextEntry = NO;
             cell.textValueChangedBlock = ^(NSString *valueStr){
                 weakSelf.inputTipsView.valueStr = valueStr;
                 weakSelf.inputTipsView.active = YES;
@@ -220,21 +214,17 @@
                 [weakSelf refreshIconUserImage];
             };
         }else if (indexPath.row == 1){
-            cell.isCaptcha = NO;
             [cell configWithPlaceholder:@" 密码" andValue:self.myLogin.password];
             cell.textField.secureTextEntry = YES;
             cell.textValueChangedBlock = ^(NSString *valueStr){
                 weakSelf.myLogin.password = valueStr;
             };
-            cell.editDidEndBlock = nil;
         }else{
             cell.isCaptcha = YES;
             [cell configWithPlaceholder:@" 验证码" andValue:self.myLogin.j_captcha];
-            cell.textField.secureTextEntry = NO;
             cell.textValueChangedBlock = ^(NSString *valueStr){
                 weakSelf.myLogin.j_captcha = valueStr;
             };
-            cell.editDidEndBlock = nil;
         }
     }
     return cell;

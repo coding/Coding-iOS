@@ -34,6 +34,7 @@
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_Input_OnlyText_Cell bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell];
         tableView.backgroundColor = kColorTableSectionBg;
         tableView.dataSource = self;
         tableView.delegate = self;
@@ -104,39 +105,28 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Input_OnlyText_Cell_Enabled";
-    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"Input_OnlyText_Cell" owner:self options:nil] firstObject];
-    }
-    cell.isForLoginVC = NO;
-    cell.isCaptcha = NO;
+    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Input_OnlyText_Cell forIndexPath:indexPath];
 
     __weak typeof(self) weakSelf = self;
     if (indexPath.row == 0) {
+        cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
         [cell configWithPlaceholder:@" 电子邮箱" andValue:self.email];
-        cell.textField.secureTextEntry = NO;
         cell.textField.userInteractionEnabled = NO;
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.email = valueStr;
         };
-        cell.editDidEndBlock = nil;
     }else if (indexPath.row == 1) {
         [cell configWithPlaceholder:@" 密码" andValue:self.password];
         cell.textField.secureTextEntry = YES;
-        cell.textField.userInteractionEnabled = YES;
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.password = valueStr;
         };
-        cell.editDidEndBlock = nil;
     }else{
         [cell configWithPlaceholder:@" 确认密码" andValue:self.confirm_password];
         cell.textField.secureTextEntry = YES;
-        cell.textField.userInteractionEnabled = YES;
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.confirm_password = valueStr;
         };
-        cell.editDidEndBlock = nil;
     }
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kLoginPaddingLeftWidth];
     return cell;

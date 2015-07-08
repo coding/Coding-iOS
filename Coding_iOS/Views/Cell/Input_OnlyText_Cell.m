@@ -126,4 +126,13 @@
         [_activityIndicator startAnimating];
     }
 }
+
+- (void)prepareForReuse{
+    self.isForLoginVC = NO;
+    self.isCaptcha = NO;
+    self.textField.secureTextEntry = NO;
+    self.textField.userInteractionEnabled = YES;
+    self.textField.keyboardType = UIKeyboardTypeDefault;
+    self.editDidEndBlock = nil;
+}
 @end

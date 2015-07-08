@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_Input_OnlyText_Cell @"Input_OnlyText_Cell"
+
 #import <UIKit/UIKit.h>
 #import "UITapImageView.h"
 

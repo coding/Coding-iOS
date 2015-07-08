@@ -27,6 +27,7 @@
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_Input_OnlyText_Cell bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell];
         tableView.backgroundColor = kColorTableSectionBg;
         tableView.dataSource = self;
         tableView.delegate = self;
@@ -98,30 +99,21 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Input_OnlyText_Cell";
-    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"Input_OnlyText_Cell" owner:self options:nil] firstObject];
-    }
-    cell.isForLoginVC = NO;
+    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Input_OnlyText_Cell forIndexPath:indexPath];
     
     __weak typeof(self) weakSelf = self;
     if (indexPath.row == 0) {
-        cell.isCaptcha = NO;
+        cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
         [cell configWithPlaceholder:@" 电子邮箱" andValue:self.email];
-        cell.textField.secureTextEntry = NO;
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.email = valueStr;
         };
-        cell.editDidEndBlock = nil;
     }else{
         cell.isCaptcha = YES;
         [cell configWithPlaceholder:@" 验证码" andValue:self.j_captcha];
-        cell.textField.secureTextEntry = NO;
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.j_captcha = valueStr;
         };
-        cell.editDidEndBlock = nil;
     }
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kLoginPaddingLeftWidth];
     return cell;
