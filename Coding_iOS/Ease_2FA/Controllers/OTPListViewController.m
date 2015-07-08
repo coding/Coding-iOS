@@ -85,6 +85,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     [self configUI];
 }
 
@@ -142,6 +143,11 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         if (!_beginButton) {
             _beginButton = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"开始验证" andFrame:CGRectMake(kPaddingLeftWidth, CGRectGetHeight(self.view.frame)- 20 - 45, kScreen_Width-kPaddingLeftWidth*2, 45) target:self action:@selector(beginButtonClicked:)];
             [self.view addSubview:_beginButton];
+            [_beginButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(kScreen_Width-kPaddingLeftWidth*2, 45));
+                make.centerX.equalTo(self.view);
+                make.bottom.equalTo(self.view).offset(-20);
+            }];
         }
         CGSize tipImageSize = tipImage.size;
         CGFloat scale = 1.0;

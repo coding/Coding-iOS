@@ -21,7 +21,7 @@
             _tipLabel.layer.masksToBounds = YES;
             _tipLabel.layer.cornerRadius = 2.0;
             
-            _tipLabel.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+            _tipLabel.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
             _tipLabel.font = [UIFont systemFontOfSize:16];
             _tipLabel.minimumScaleFactor = 0.5;
             _tipLabel.adjustsFontSizeToFitWidth = YES;

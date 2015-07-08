@@ -29,7 +29,7 @@
 
 
 @property (assign, nonatomic) BOOL captchaNeeded;
-@property (strong, nonatomic) UIButton *loginBtn;
+@property (strong, nonatomic) UIButton *loginBtn, *buttonFor2FA;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) UIImageView *iconUserView, *bgBlurredView;
 @property (strong, nonatomic) EaseInputTipsView *inputTipsView;
@@ -76,12 +76,30 @@
         tableView;
     });
     
-    
     self.myTableView.contentInset = UIEdgeInsetsMake(-kHigher_iOS_6_1_DIS(20), 0, 0, 0);
     self.myTableView.tableHeaderView = [self customHeaderView];
     self.myTableView.tableFooterView=[self customFooterView];
     [self configBottomView];
     [self showdismissButton:self.showDismissButton];
+    [self buttonFor2FA];
+}
+
+- (UIButton *)buttonFor2FA{
+    if (!_buttonFor2FA) {
+        _buttonFor2FA = ({
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 80, 20, 60, 50)];
+            [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
+            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateHighlighted];
+            
+            [button setTitle:@"  2FA" forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"convenient_2FA"] forState:UIControlStateNormal];
+            button;
+        });
+        [_buttonFor2FA addTarget:self action:@selector(goTo2FAVC) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_buttonFor2FA];
+    }
+    return _buttonFor2FA;
 }
 
 - (void)setCaptchaNeeded:(BOOL)captchaNeeded{
@@ -271,9 +289,12 @@
 }
 
 - (UIView *)customFooterView{
-    UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 100)];
+    UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 150)];
     _loginBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"登录" andFrame:CGRectMake(kLoginPaddingLeftWidth, 20, kScreen_Width-kLoginPaddingLeftWidth*2, 45) target:self action:@selector(sendLogin)];
     [footerV addSubview:_loginBtn];
+    
+    
+    
     
     
     RAC(self, loginBtn.enabled) = [RACSignal combineLatest:@[
@@ -301,6 +322,24 @@
                                                             }
                                                         }
                                                     }];
+    
+    UIButton *cannotLoginBtn = ({
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+        [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
+        [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor colorWithWhite:0.5 alpha:0.5] forState:UIControlStateHighlighted];
+        
+        [button setTitle:@"无法登录？" forState:UIControlStateNormal];
+        [footerV addSubview:button];
+        [button mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(100, 30));
+            make.centerX.equalTo(footerV);
+            make.top.equalTo(_loginBtn.mas_bottom).offset(20);
+        }];
+        button;
+    });
+    [cannotLoginBtn addTarget:self action:@selector(cannotLoginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
     return footerV;
 }
 
@@ -315,44 +354,22 @@
             [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
             [button setTitleColor:[UIColor colorWithWhite:0.5 alpha:0.5] forState:UIControlStateHighlighted];
             
-            button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-            [button setTitle:@"新用户" forState:UIControlStateNormal];
+            [button setTitle:@"去注册" forState:UIControlStateNormal];
             [_bottomView addSubview:button];
             [button mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(100, 300));
-                make.centerY.equalTo(_bottomView);
-                make.right.equalTo(_bottomView).offset(-kLoginPaddingLeftWidth);
+                make.center.equalTo(_bottomView);
             }];
             button;
         });
-
-        UIButton *cannotLoginBtn = ({
-            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-            [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
-            [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
-            [button setTitleColor:[UIColor colorWithWhite:0.5 alpha:0.5] forState:UIControlStateHighlighted];
-            
-            button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            [button setTitle:@"无法登录？" forState:UIControlStateNormal];
-            [_bottomView addSubview:button];
-            [button mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake(100, 300));
-                make.centerY.equalTo(_bottomView);
-                make.left.equalTo(_bottomView).offset(kLoginPaddingLeftWidth);
-            }];
-            button;
-        });
-        
         [registerBtn addTarget:self action:@selector(goRegisterVC:) forControlEvents:UIControlEventTouchUpInside];
-        [cannotLoginBtn addTarget:self action:@selector(cannotLoginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        
         [self.view addSubview:_bottomView];
     }
 }
 
 #pragma mark Btn Clicked
 - (void)sendLogin{
-    NSString *tipMsg = self.is2FAUI? [self goToLoginTipWith2FA]: [_myLogin goToLoginTipWithCaptcha:_captchaNeeded];
+    NSString *tipMsg = self.is2FAUI? [self loginTipFor2FA]: [_myLogin goToLoginTipWithCaptcha:_captchaNeeded];
     if (tipMsg) {
         kTipAlert(@"%@", tipMsg);
         return;
@@ -452,7 +469,7 @@
     [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:_is2FAUI? UITableViewRowAnimationLeft: UITableViewRowAnimationRight];
 }
 
-- (NSString *)goToLoginTipWith2FA{
+- (NSString *)loginTipFor2FA{
     NSString *tipStr = nil;
     if (self.otpCode.length <= 0) {
         tipStr = @"动态验证码不能为空";
@@ -460,5 +477,10 @@
         tipStr = @"动态验证码必须是一个6位数字";
     }
     return tipStr;
+}
+
+- (void)goTo2FAVC{
+    OTPListViewController *vc = [OTPListViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end
