@@ -61,7 +61,7 @@
     if (!_passwordLabel) {
         _passwordLabel = [UILabel new];
         _passwordLabel.font = [UIFont boldSystemFontOfSize:40];
-        _passwordLabel.textColor = [UIColor orangeColor];
+        _passwordLabel.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
         [self.contentView addSubview:_passwordLabel];
         [_passwordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.contentView);
@@ -131,7 +131,7 @@
     if (!_back_passwordLabel) {
         _back_passwordLabel = [UILabel new];
         _back_passwordLabel.font = [UIFont boldSystemFontOfSize:40];
-        _back_passwordLabel.textColor = [UIColor blueColor];
+        _back_passwordLabel.textColor = [UIColor colorWithHexString:@"0xE15957"];
         [self.contentView addSubview:_back_passwordLabel];
         [_back_passwordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.passwordLabel);
