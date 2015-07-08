@@ -43,22 +43,22 @@
 
 + (instancetype)itemWithTitle:(NSString *)title
                      iconName:(NSString *)iconName {
-    return [self initWithTitle:title iconName:iconName glowColor:nil index:-1];
+    return [self itemWithTitle:title iconName:iconName glowColor:nil index:-1];
 }
 
 + (instancetype)itemWithTitle:(NSString *)title
                      iconName:(NSString *)iconName
                     glowColor:(UIColor *)glowColor {
-    return [self initWithTitle:title iconName:iconName glowColor:glowColor index:-1];
+    return [self itemWithTitle:title iconName:iconName glowColor:glowColor index:-1];
 }
 
-+ (instancetype)initWithTitle:(NSString *)title
++ (instancetype)itemWithTitle:(NSString *)title
                      iconName:(NSString *)iconName
                         index:(NSInteger)index {
-    return [self initWithTitle:title iconName:iconName glowColor:nil index:index];
+    return [self itemWithTitle:title iconName:iconName glowColor:nil index:index];
 }
 
-+ (instancetype)initWithTitle:(NSString *)title
++ (instancetype)itemWithTitle:(NSString *)title
                      iconName:(NSString *)iconName
                     glowColor:(UIColor *)glowColor
                         index:(NSInteger)index {

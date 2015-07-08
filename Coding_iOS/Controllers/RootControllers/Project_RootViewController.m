@@ -22,6 +22,7 @@
 #import "TweetSendViewController.h"
 #import "EditTaskViewController.h"
 #import "Ease_2FA.h"
+#import "PopMenu.h"
 
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
@@ -35,6 +36,8 @@
 
 @property (strong, nonatomic) NSMutableArray *searchResults;
 @property (strong, nonatomic) NSString *searchString;
+
+@property (nonatomic, strong) PopMenu *myPopMenu;
 
 @end
 
@@ -189,27 +192,69 @@
 
 #pragma mark VC
 -(void)addItemClicked:(id)sender{
-    if ([KxMenu isShowingInView:self.view]) {
-        [KxMenu dismissMenu:YES];
-    }else{
-        NSArray *menuItems = @[
-                               [KxMenuItem menuItem:@"创建项目" image:[UIImage imageNamed:@"convenient_Project"] target:self action:@selector(goToNewProjectVC)],
-                               [KxMenuItem menuItem:@"创建任务" image:[UIImage imageNamed:@"convenient_Task"] target:self action:@selector(goToNewTaskVC)],
-                               [KxMenuItem menuItem:@"发布冒泡" image:[UIImage imageNamed:@"convenient_Tweet"] target:self action:@selector(goToNewTweetVC)],
-                               [KxMenuItem menuItem:@"2 FA" image:[UIImage imageNamed:@"convenient_2FA"] target:self action:@selector(goTo2FA)],
-                               ];
-        CGRect senderFrame;
-        if (kDevice_Is_iPhone6) {
-            senderFrame = CGRectMake(kScreen_Width -26, 0, 0, 0);
-        }else if (kDevice_Is_iPhone6Plus){
-            senderFrame = CGRectMake(kScreen_Width -30, 0, 0, 0);
-        }else{
-            senderFrame = CGRectMake(kScreen_Width -26, 0, 0, 0);
-        }
-        [KxMenu showMenuInView:self.view
-                      fromRect:senderFrame
-                     menuItems:menuItems];
+    NSArray *menuItems = @[
+                           [MenuItem itemWithTitle:@"项目" iconName:@"pop_Project" index:0],
+                           [MenuItem itemWithTitle:@"任务" iconName:@"pop_Task" index:1],
+                           [MenuItem itemWithTitle:@"冒泡" iconName:@"pop_Tweet" index:2],
+                           [MenuItem itemWithTitle:@"添加好友" iconName:@"pop_User" index:3],
+                           [MenuItem itemWithTitle:@"私信" iconName:@"pop_Message" index:4],
+                           [MenuItem itemWithTitle:@"2 FA" iconName:@"pop_2FA" index:5],
+                           ];
+    if (!_myPopMenu) {
+        _myPopMenu = [[PopMenu alloc] initWithFrame:kScreen_Bounds items:menuItems];
+        _myPopMenu.perRowItemCount = 3;
+        _myPopMenu.menuAnimationType = kPopMenuAnimationTypeSina;
     }
+    @weakify(self);
+    _myPopMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem){
+        @strongify(self);
+        switch (selectedItem.index) {
+            case 0:
+                [self goToNewProjectVC];
+                break;
+            case 1:
+                [self goToNewTaskVC];
+                break;
+            case 2:
+                [self goToNewTweetVC];
+                break;
+            case 3:
+                NSLog(@"%@",selectedItem.title);
+                break;
+            case 4:
+                NSLog(@"%@",selectedItem.title);
+                break;
+            case 5:
+                [self goTo2FA];
+                break;
+            default:
+                NSLog(@"%@",selectedItem.title);
+                break;
+        }
+    };
+    [_myPopMenu showMenuAtView:kKeyWindow startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
+    
+//    if ([KxMenu isShowingInView:self.view]) {
+//        [KxMenu dismissMenu:YES];
+//    }else{
+//        NSArray *menuItems = @[
+//                               [KxMenuItem menuItem:@"创建项目" image:[UIImage imageNamed:@"convenient_Project"] target:self action:@selector(goToNewProjectVC)],
+//                               [KxMenuItem menuItem:@"创建任务" image:[UIImage imageNamed:@"convenient_Task"] target:self action:@selector(goToNewTaskVC)],
+//                               [KxMenuItem menuItem:@"发布冒泡" image:[UIImage imageNamed:@"convenient_Tweet"] target:self action:@selector(goToNewTweetVC)],
+//                               [KxMenuItem menuItem:@"2 FA" image:[UIImage imageNamed:@"convenient_2FA"] target:self action:@selector(goTo2FA)],
+//                               ];
+//        CGRect senderFrame;
+//        if (kDevice_Is_iPhone6) {
+//            senderFrame = CGRectMake(kScreen_Width -26, 0, 0, 0);
+//        }else if (kDevice_Is_iPhone6Plus){
+//            senderFrame = CGRectMake(kScreen_Width -30, 0, 0, 0);
+//        }else{
+//            senderFrame = CGRectMake(kScreen_Width -26, 0, 0, 0);
+//        }
+//        [KxMenu showMenuInView:self.view
+//                      fromRect:senderFrame
+//                     menuItems:menuItems];
+//    }
 }
 
 - (void)goToNewProjectVC{
@@ -252,7 +297,7 @@
 
 #pragma mark Search
 - (void)searchItemClicked:(id)sender{
-    [KxMenu dismissMenu:YES];
+//    [KxMenu dismissMenu:YES];
     
     if (!_mySearchBar) {
         _mySearchBar = ({

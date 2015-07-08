@@ -60,11 +60,11 @@
                      iconName:(NSString *)iconName
                     glowColor:(UIColor *)glowColor NS_AVAILABLE_IOS(2_0);
 
-+ (instancetype)initWithTitle:(NSString *)title
++ (instancetype)itemWithTitle:(NSString *)title
                      iconName:(NSString *)iconName
                         index:(NSInteger)index NS_AVAILABLE_IOS(2_0);
 
-+ (instancetype)initWithTitle:(NSString *)title
++ (instancetype)itemWithTitle:(NSString *)title
                      iconName:(NSString *)iconName
                     glowColor:(UIColor *)glowColor
                         index:(NSInteger)index NS_AVAILABLE_IOS(2_0);

@@ -247,6 +247,12 @@
 		4E94C4FF1B4D2B9300EB668A /* MenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E94C4F91B4D2B9300EB668A /* MenuButton.m */; };
 		4E94C5001B4D2B9300EB668A /* MenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E94C4FB1B4D2B9300EB668A /* MenuItem.m */; };
 		4E94C5011B4D2B9300EB668A /* PopMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E94C4FD1B4D2B9300EB668A /* PopMenu.m */; };
+		4E94C5091B4D334B00EB668A /* pop_2FA@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C5031B4D334B00EB668A /* pop_2FA@2x.png */; };
+		4E94C50A1B4D334B00EB668A /* pop_Message@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C5041B4D334B00EB668A /* pop_Message@2x.png */; };
+		4E94C50B1B4D334B00EB668A /* pop_Project@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C5051B4D334B00EB668A /* pop_Project@2x.png */; };
+		4E94C50C1B4D334B00EB668A /* pop_Task@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C5061B4D334B00EB668A /* pop_Task@2x.png */; };
+		4E94C50D1B4D334B00EB668A /* pop_Tweet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C5071B4D334B00EB668A /* pop_Tweet@2x.png */; };
+		4E94C50E1B4D334B00EB668A /* pop_User@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C5081B4D334B00EB668A /* pop_User@2x.png */; };
 		4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */; };
 		4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E96E7BA1A1B25D40037C098 /* DirectoryWatcher.m */; };
 		4E96E7C81A1B46740037C098 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96E7C71A1B46740037C098 /* QuickLook.framework */; };
@@ -1139,6 +1145,12 @@
 		4E94C4FB1B4D2B9300EB668A /* MenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItem.m; sourceTree = "<group>"; };
 		4E94C4FC1B4D2B9300EB668A /* PopMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopMenu.h; sourceTree = "<group>"; };
 		4E94C4FD1B4D2B9300EB668A /* PopMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopMenu.m; sourceTree = "<group>"; };
+		4E94C5031B4D334B00EB668A /* pop_2FA@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pop_2FA@2x.png"; sourceTree = "<group>"; };
+		4E94C5041B4D334B00EB668A /* pop_Message@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pop_Message@2x.png"; sourceTree = "<group>"; };
+		4E94C5051B4D334B00EB668A /* pop_Project@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pop_Project@2x.png"; sourceTree = "<group>"; };
+		4E94C5061B4D334B00EB668A /* pop_Task@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pop_Task@2x.png"; sourceTree = "<group>"; };
+		4E94C5071B4D334B00EB668A /* pop_Tweet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pop_Tweet@2x.png"; sourceTree = "<group>"; };
+		4E94C5081B4D334B00EB668A /* pop_User@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pop_User@2x.png"; sourceTree = "<group>"; };
 		4E969CCE1AF0EB87005C0CCE /* NSTimer+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+Common.h"; sourceTree = "<group>"; };
 		4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+Common.m"; sourceTree = "<group>"; };
 		4E96E7B91A1B25D40037C098 /* DirectoryWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryWatcher.h; sourceTree = "<group>"; };
@@ -2405,6 +2417,19 @@
 			path = PopMenu;
 			sourceTree = "<group>";
 		};
+		4E94C5021B4D334B00EB668A /* pop_icon */ = {
+			isa = PBXGroup;
+			children = (
+				4E94C5031B4D334B00EB668A /* pop_2FA@2x.png */,
+				4E94C5041B4D334B00EB668A /* pop_Message@2x.png */,
+				4E94C5051B4D334B00EB668A /* pop_Project@2x.png */,
+				4E94C5061B4D334B00EB668A /* pop_Task@2x.png */,
+				4E94C5071B4D334B00EB668A /* pop_Tweet@2x.png */,
+				4E94C5081B4D334B00EB668A /* pop_User@2x.png */,
+			);
+			path = pop_icon;
+			sourceTree = "<group>";
+		};
 		4E96E7C91A1B537E0037C098 /* icon_file */ = {
 			isa = PBXGroup;
 			children = (
@@ -3175,6 +3200,7 @@
 		8EA6CF5D19E240C40076D59C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4E94C5021B4D334B00EB668A /* pop_icon */,
 				4E8D5D2B1B44E03600B70936 /* convenient_btn */,
 				4EF17E761B3BF320003CDD2D /* introduction */,
 				4EC461AE1B39360F00D08970 /* file_changeType */,
@@ -4086,6 +4112,7 @@
 				4E96E7E51A1B537E0037C098 /* icon_file_zip@2x.png in Resources */,
 				4E90F89E1AF709C100B44F03 /* topic-ios.html in Resources */,
 				4EF17EDF1B3C3112003CDD2D /* intro_tip_1@3x.png in Resources */,
+				4E94C50E1B4D334B00EB668A /* pop_User@2x.png in Resources */,
 				4EFE8DAF1B3960E6004B7559 /* logo_coding_top@2x.png in Resources */,
 				4E66EE261A28226000DA1B3E /* button_file_createFolder_enable@2x.png in Resources */,
 				8EA6D19C19E240C40076D59C /* tipIcon_QcTask@2x.png in Resources */,
@@ -4167,6 +4194,8 @@
 				8E8F7B3119EF6306006BA8BD /* btn_privateMsg_stranger@2x.png in Resources */,
 				4E03AC9A1A5BDDF9002B000B /* STARTIMAGE.jpg in Resources */,
 				8E97CE991A0C7E26006F9AD7 /* coding_emoji_02@2x.png in Resources */,
+				4E94C50A1B4D334B00EB668A /* pop_Message@2x.png in Resources */,
+				4E94C50D1B4D334B00EB668A /* pop_Tweet@2x.png in Resources */,
 				4E6383E91B32791600D98648 /* checkbox_checked@2x.png in Resources */,
 				4E217F1A1A71007800F6DF88 /* SVWebViewController.strings in Resources */,
 				4EF17ED01B3C3112003CDD2D /* intro_icon_0@3x.png in Resources */,
@@ -4261,6 +4290,7 @@
 				8EA6D19D19E240C40076D59C /* tipIcon_Task@2x.png in Resources */,
 				4E6384001B33C18700D98648 /* task_activity_icon_update_description@2x.png in Resources */,
 				4EFE8DB91B3A5727004B7559 /* Launch Screen.xib in Resources */,
+				4E94C50B1B4D334B00EB668A /* pop_Project@2x.png in Resources */,
 				4EF17ECC1B3C3112003CDD2D /* intro_dot_selected@3x.png in Resources */,
 				8E97CEAA1A0C7E26006F9AD7 /* coding_emoji_19@2x.png in Resources */,
 				4EB845331AB83C3B0030DC69 /* git_icon_fork@2x.png in Resources */,
@@ -4276,10 +4306,12 @@
 				8E97CE621A0A3424006F9AD7 /* keyboard_add_camera@2x.png in Resources */,
 				4E217F131A70EDC700F6DF88 /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
 				8EF6435019FF4E1600F7EEB0 /* comment_count_top_line@2x.png in Resources */,
+				4E94C5091B4D334B00EB668A /* pop_2FA@2x.png in Resources */,
 				8EA6D18519E240C40076D59C /* privatemessage_normal@2x.png in Resources */,
 				8EA6D18219E240C40076D59C /* splitlineImg@2x.png in Resources */,
 				8EA6D18119E240C40076D59C /* sex_woman_icon@2x.png in Resources */,
 				8E7612F41A08B1EA005BE797 /* tipIcon_TaskComment@2x.png in Resources */,
+				4E94C50C1B4D334B00EB668A /* pop_Task@2x.png in Resources */,
 				4E6383E01B32676600D98648 /* taskDeadline@2x.png in Resources */,
 				4E76D4DC1A5A77DD0094A35E /* register_arrow@2x.png in Resources */,
 				8E97CE521A0A3410006F9AD7 /* addUserBtn_Nav@2x.png in Resources */,
