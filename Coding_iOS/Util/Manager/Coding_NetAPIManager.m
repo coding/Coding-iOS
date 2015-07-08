@@ -64,9 +64,27 @@
     }];
 }
 #pragma mark Login
+- (void)request_Login_With2FA:(NSString *)otpCode andBlock:(void (^)(id data, NSError *error))block{
+    if (otpCode.length <= 0) {
+        return;
+    }
+    [MobClick event:kUmeng_Event_Request label:@"2FA_Login"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/check_two_factor_auth_code" withParams:@{@"code" : otpCode} withMethodType:Post andBlock:^(id data, NSError *error) {
+        id resultData = [data valueForKeyPath:@"data"];
+        if (resultData) {
+            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];
+            if (curLoginUser) {
+                [Login doLogin:resultData];
+            }
+            block(curLoginUser, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 - (void)request_Login_WithParams:(id)params andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"登录"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:kNetPath_Code_Login withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:kNetPath_Code_Login withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         id resultData = [data valueForKeyPath:@"data"];
         if (resultData) {
             User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];

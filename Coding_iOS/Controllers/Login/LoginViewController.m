@@ -18,6 +18,8 @@
 #import "UIImageView+WebCache.h"
 #import "EaseInputTipsView.h"
 
+#import "Ease_2FA.h"
+
 @interface LoginViewController ()
 @property (nonatomic, strong) Login *myLogin;
 
@@ -31,6 +33,9 @@
 @property (strong, nonatomic) UIImageView *iconUserView, *bgBlurredView;
 @property (strong, nonatomic) EaseInputTipsView *inputTipsView;
 @property (strong, nonatomic) UIButton *dismissButton;
+
+@property (assign, nonatomic) BOOL is2FAUI;
+@property (strong, nonatomic) NSString *otpCode;
 @end
 
 @implementation LoginViewController
@@ -169,7 +174,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _captchaNeeded? 3 : 2;
+    return _is2FAUI? 1: _captchaNeeded? 3: 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -181,36 +186,47 @@
     }
     cell.isForLoginVC = YES;
     __weak typeof(self) weakSelf = self;
-    if (indexPath.row == 0) {
+    
+    if (self.is2FAUI) {
         cell.isCaptcha = NO;
-        [cell configWithPlaceholder:@" 电子邮箱/个性后缀" andValue:self.myLogin.email];
+        [cell configWithPlaceholder:@" 动态验证码" andValue:self.otpCode];
         cell.textField.secureTextEntry = NO;
         cell.textValueChangedBlock = ^(NSString *valueStr){
-            weakSelf.inputTipsView.valueStr = valueStr;
-            weakSelf.inputTipsView.active = YES;
-            weakSelf.myLogin.email = valueStr;
-            [weakSelf.iconUserView setImage:[UIImage imageNamed:@"icon_user_monkey"]];
-        };
-        cell.editDidEndBlock = ^(NSString *textStr){
-            weakSelf.inputTipsView.active = NO;
-            [weakSelf refreshIconUserImage];
-        };
-    }else if (indexPath.row == 1){
-        cell.isCaptcha = NO;
-        [cell configWithPlaceholder:@" 密码" andValue:self.myLogin.password];
-        cell.textField.secureTextEntry = YES;
-        cell.textValueChangedBlock = ^(NSString *valueStr){
-            weakSelf.myLogin.password = valueStr;
+            weakSelf.otpCode = valueStr;
         };
         cell.editDidEndBlock = nil;
     }else{
-        cell.isCaptcha = YES;
-        [cell configWithPlaceholder:@" 验证码" andValue:self.myLogin.j_captcha];
-        cell.textField.secureTextEntry = NO;
-        cell.textValueChangedBlock = ^(NSString *valueStr){
-            weakSelf.myLogin.j_captcha = valueStr;
-        };
-        cell.editDidEndBlock = nil;
+        if (indexPath.row == 0) {
+            cell.isCaptcha = NO;
+            [cell configWithPlaceholder:@" 电子邮箱/个性后缀" andValue:self.myLogin.email];
+            cell.textField.secureTextEntry = NO;
+            cell.textValueChangedBlock = ^(NSString *valueStr){
+                weakSelf.inputTipsView.valueStr = valueStr;
+                weakSelf.inputTipsView.active = YES;
+                weakSelf.myLogin.email = valueStr;
+                [weakSelf.iconUserView setImage:[UIImage imageNamed:@"icon_user_monkey"]];
+            };
+            cell.editDidEndBlock = ^(NSString *textStr){
+                weakSelf.inputTipsView.active = NO;
+                [weakSelf refreshIconUserImage];
+            };
+        }else if (indexPath.row == 1){
+            cell.isCaptcha = NO;
+            [cell configWithPlaceholder:@" 密码" andValue:self.myLogin.password];
+            cell.textField.secureTextEntry = YES;
+            cell.textValueChangedBlock = ^(NSString *valueStr){
+                weakSelf.myLogin.password = valueStr;
+            };
+            cell.editDidEndBlock = nil;
+        }else{
+            cell.isCaptcha = YES;
+            [cell configWithPlaceholder:@" 验证码" andValue:self.myLogin.j_captcha];
+            cell.textField.secureTextEntry = NO;
+            cell.textValueChangedBlock = ^(NSString *valueStr){
+                weakSelf.myLogin.j_captcha = valueStr;
+            };
+            cell.editDidEndBlock = nil;
+        }
     }
     return cell;
 }
@@ -261,14 +277,31 @@
     [footerV addSubview:_loginBtn];
     
     
-    RAC(self, loginBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, myLogin.email), RACObserve(self, myLogin.password), RACObserve(self, myLogin.j_captcha), RACObserve(self, captchaNeeded)] reduce:^id(NSString *email, NSString *password, NSString *j_captcha, NSNumber *captchaNeeded){
-        if ((captchaNeeded && captchaNeeded.boolValue) && (!j_captcha || j_captcha.length <= 0)) {
-            return @(NO);
-        }else{
-            return @((email && email.length > 0) && (password && password.length > 0));
-        }
-    }];
-    
+    RAC(self, loginBtn.enabled) = [RACSignal combineLatest:@[
+                                                             RACObserve(self, myLogin.email),
+                                                             RACObserve(self, myLogin.password),
+                                                             RACObserve(self, myLogin.j_captcha),
+                                                             RACObserve(self, captchaNeeded),
+                                                             RACObserve(self, is2FAUI),
+                                                             RACObserve(self, otpCode)
+                                                             ]
+                                                    reduce:^id(
+                                                               NSString *email,
+                                                               NSString *password,
+                                                               NSString *j_captcha,
+                                                               NSNumber *captchaNeeded,
+                                                               NSNumber *is2FAUI,
+                                                               NSString *otpCode){
+                                                        if (is2FAUI && is2FAUI.boolValue) {
+                                                            return @(otpCode.length > 0);
+                                                        }else{
+                                                            if ((captchaNeeded && captchaNeeded.boolValue) && (!j_captcha || j_captcha.length <= 0)) {
+                                                                return @(NO);
+                                                            }else{
+                                                                return @((email && email.length > 0) && (password && password.length > 0));
+                                                            }
+                                                        }
+                                                    }];
     return footerV;
 }
 
@@ -320,13 +353,13 @@
 
 #pragma mark Btn Clicked
 - (void)sendLogin{
-    NSString *tipMsg = [_myLogin goToLoginTipWithCaptcha:_captchaNeeded];
+    NSString *tipMsg = self.is2FAUI? [self goToLoginTipWith2FA]: [_myLogin goToLoginTipWithCaptcha:_captchaNeeded];
     if (tipMsg) {
         kTipAlert(@"%@", tipMsg);
         return;
     }
-    [self.view endEditing:YES];
     
+    [self.view endEditing:YES];
     if (!_activityIndicator) {
         _activityIndicator = [[UIActivityIndicatorView alloc]
                               initWithActivityIndicatorStyle:
@@ -339,18 +372,40 @@
     [_activityIndicator startAnimating];
     
     __weak typeof(self) weakSelf = self;
-
     _loginBtn.enabled = NO;
-    [[Coding_NetAPIManager sharedManager] request_Login_WithParams:[self.myLogin toParams] andBlock:^(id data, NSError *error) {
-        weakSelf.loginBtn.enabled = YES;
-        [weakSelf.activityIndicator stopAnimating];
-        if (data) {
-            [Login setPreUserEmail:self.myLogin.email];//记住登录账号
-            [((AppDelegate *)[UIApplication sharedApplication].delegate) setupTabViewController];
-        }else{
-            [weakSelf refreshCaptchaNeeded];
-        }
-    }];
+    
+    if (self.is2FAUI) {
+        [[Coding_NetAPIManager sharedManager] request_Login_With2FA:self.otpCode andBlock:^(id data, NSError *error) {
+            weakSelf.loginBtn.enabled = YES;
+            [weakSelf.activityIndicator stopAnimating];
+            if (data) {
+                [Login setPreUserEmail:self.myLogin.email];//记住登录账号
+                [((AppDelegate *)[UIApplication sharedApplication].delegate) setupTabViewController];
+            }else{
+                NSString *status_expired = error.userInfo[@"msg"][@"user_login_status_expired"];
+                if (status_expired.length > 0) {
+                    [weakSelf changeUITo2FAWithGK:nil];
+                }
+            }
+        }];
+    }else{
+        [[Coding_NetAPIManager sharedManager] request_Login_WithParams:[self.myLogin toParams] andBlock:^(id data, NSError *error) {
+            weakSelf.loginBtn.enabled = YES;
+            [weakSelf.activityIndicator stopAnimating];
+            if (data) {
+                [Login setPreUserEmail:self.myLogin.email];//记住登录账号
+                [((AppDelegate *)[UIApplication sharedApplication].delegate) setupTabViewController];
+            }else{
+                NSString *global_key = error.userInfo[@"msg"][@"two_factor_auth_code_not_empty"];
+                if (global_key.length > 0) {
+                    [weakSelf changeUITo2FAWithGK:global_key];
+                }else{
+                    [self showError:error];
+                    [weakSelf refreshCaptchaNeeded];
+                }
+            }
+        }];
+    }
 }
 
 - (IBAction)cannotLoginBtnClicked:(id)sender {
@@ -374,12 +429,37 @@
 }
 
 - (void)dismissButtonClicked{
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (self.is2FAUI) {
+        self.is2FAUI = NO;
+    }else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
-- (void)dealloc
-{
-    _myTableView.delegate = nil;
-    _myTableView.dataSource = nil;
+#pragma mark 2FA
+- (void)changeUITo2FAWithGK:(NSString *)global_key{
+    self.otpCode = [OTPListViewController otpCodeWithGK:global_key];
+    self.is2FAUI = global_key.length > 0;
+    if (self.otpCode) {
+        [self sendLogin];
+    }
+}
+
+- (void)setIs2FAUI:(BOOL)is2FAUI{
+    _is2FAUI = is2FAUI;
+    if (!_is2FAUI) {
+        self.otpCode = nil;
+    }
+    [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:_is2FAUI? UITableViewRowAnimationLeft: UITableViewRowAnimationRight];
+}
+
+- (NSString *)goToLoginTipWith2FA{
+    NSString *tipStr = nil;
+    if (self.otpCode.length <= 0) {
+        tipStr = @"动态验证码不能为空";
+    }else if (![self.otpCode isPureInt] || self.otpCode.length != 6){
+        tipStr = @"动态验证码必须是一个6位数字";
+    }
+    return tipStr;
 }
 @end

@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface OTPListViewController : BaseViewController
-
++(NSString *)otpCodeWithGK:(NSString *)global_key;
 @end

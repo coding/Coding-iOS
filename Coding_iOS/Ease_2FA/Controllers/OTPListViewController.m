@@ -32,6 +32,23 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 @implementation OTPListViewController
 
++(NSString *)otpCodeWithGK:(NSString *)global_key{
+    NSString *otpCode = nil;
+    if (global_key.length > 0) {
+        NSArray *otpAccountDictList = [SSKeychain accountsForService:kOTPService];
+        for (NSDictionary *obj in otpAccountDictList) {
+            NSString *name = obj[(__bridge id)kSecAttrAccount];
+            name = [[name componentsSeparatedByString:@"@"] firstObject];
+            if ([name isEqualToString:global_key]) {
+                OTPAuthURL *authURL = [OTPAuthURL ease_authURLWithKeychainDictionary:obj];
+                otpCode = authURL.otpCode;
+                break;
+            }
+        }
+    }
+    return otpCode;
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = @"身份验证器";
