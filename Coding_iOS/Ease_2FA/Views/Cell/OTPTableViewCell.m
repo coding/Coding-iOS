@@ -83,7 +83,7 @@
         }];
     }
     _issuerLabel.text = _authURL.issuer;
-    _passwordLabel.text = _authURL.otpCode;
+    _passwordLabel.text = _authURL.otpCode.length < 6? _authURL.otpCode: [_authURL.otpCode stringByReplacingCharactersInRange:NSMakeRange(3, 0) withString:@" "];
     _nameLabel.text = _authURL.name;
 }
 - (void)otpAuthURLDidGenerateNewOTP:(NSNotification *)notification{

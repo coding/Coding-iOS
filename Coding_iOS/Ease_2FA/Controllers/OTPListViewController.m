@@ -32,15 +32,43 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 
 @implementation OTPListViewController
 
++ (NSData *)passwordDataForService:(NSString *)serviceName account:(NSString *)account{
+    if (serviceName.length <= 0 || account.length <= 0) {
+        return nil;
+    }
+    SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
+    query.service = serviceName;
+    query.account = account;
+    [query fetch:nil];
+    return query.passwordData;
+}
+
++ (NSMutableArray *)loadKeychainAuthURLs{
+    NSArray *otpAccountList = [SSKeychain accountsForService:kOTPService];
+    NSMutableArray *authURLs = [NSMutableArray arrayWithCapacity:otpAccountList.count];
+    for (NSDictionary *otpAccount in otpAccountList) {
+        NSData *passwordData = [self passwordDataForService:kOTPService account:otpAccount[(__bridge id)kSecAttrAccount]];
+        if (passwordData) {
+            NSMutableDictionary *tempDict = [otpAccount mutableCopy];
+            tempDict[(__bridge id)kSecValueData] = passwordData;
+            OTPAuthURL *authURL = [OTPAuthURL ease_authURLWithKeychainDictionary:tempDict];
+            if (authURL) {
+                [authURLs addObject:authURL];
+            }
+        }
+    }
+    return authURLs;
+}
+
 +(NSString *)otpCodeWithGK:(NSString *)global_key{
     NSString *otpCode = nil;
     if (global_key.length > 0) {
-        NSArray *otpAccountDictList = [SSKeychain accountsForService:kOTPService];
-        for (NSDictionary *obj in otpAccountDictList) {
-            NSString *name = obj[(__bridge id)kSecAttrAccount];
-            name = [[name componentsSeparatedByString:@"@"] firstObject];
-            if ([name isEqualToString:global_key]) {
-                OTPAuthURL *authURL = [OTPAuthURL ease_authURLWithKeychainDictionary:obj];
+        NSMutableArray *authURLs = [self loadKeychainAuthURLs];
+        for (OTPAuthURL *authURL in authURLs) {
+            NSString *cur_issure = authURL.issuer;
+            NSString *cur_global_key = [[authURL.name componentsSeparatedByString:@"@"] firstObject];
+            if ([cur_issure isEqualToString:@"Coding"] &&
+                [cur_global_key isEqualToString:global_key]) {
                 otpCode = authURL.otpCode;
                 break;
             }
@@ -52,18 +80,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = @"身份验证器";
-    [self loadKeychainArray];
-}
-
-- (void)loadKeychainArray{
-    NSArray *otpAccountDictList = [SSKeychain accountsForService:kOTPService];
-    self.authURLs = [NSMutableArray arrayWithCapacity:[otpAccountDictList count]];
-    for (NSDictionary *otpAccountDict in otpAccountDictList) {
-        OTPAuthURL *authURL = [OTPAuthURL ease_authURLWithKeychainDictionary:otpAccountDict];
-        if (authURL) {
-            [self.authURLs addObject:authURL];
-        }
-    }
+    self.authURLs = [[self class] loadKeychainAuthURLs];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
