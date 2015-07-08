@@ -242,6 +242,7 @@
 		4E94C4ED1B4A867A00EB668A /* scan_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C4EC1B4A867A00EB668A /* scan_bg@2x.png */; };
 		4E94C4EF1B4B73BB00EB668A /* scan_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C4EE1B4B73BB00EB668A /* scan_line@2x.png */; };
 		4E94C4F11B4B75DB00EB668A /* tip_2FA@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C4F01B4B75DB00EB668A /* tip_2FA@2x.png */; };
+		4E94C4F41B4D007600EB668A /* Login2FATipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E94C4F31B4D007600EB668A /* Login2FATipCell.m */; };
 		4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */; };
 		4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E96E7BA1A1B25D40037C098 /* DirectoryWatcher.m */; };
 		4E96E7C81A1B46740037C098 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96E7C71A1B46740037C098 /* QuickLook.framework */; };
@@ -1124,6 +1125,8 @@
 		4E94C4EC1B4A867A00EB668A /* scan_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scan_bg@2x.png"; sourceTree = "<group>"; };
 		4E94C4EE1B4B73BB00EB668A /* scan_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scan_line@2x.png"; sourceTree = "<group>"; };
 		4E94C4F01B4B75DB00EB668A /* tip_2FA@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tip_2FA@2x.png"; sourceTree = "<group>"; };
+		4E94C4F21B4D007600EB668A /* Login2FATipCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login2FATipCell.h; sourceTree = "<group>"; };
+		4E94C4F31B4D007600EB668A /* Login2FATipCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login2FATipCell.m; sourceTree = "<group>"; };
 		4E969CCE1AF0EB87005C0CCE /* NSTimer+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+Common.h"; sourceTree = "<group>"; };
 		4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+Common.m"; sourceTree = "<group>"; };
 		4E96E7B91A1B25D40037C098 /* DirectoryWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryWatcher.h; sourceTree = "<group>"; };
@@ -3810,6 +3813,8 @@
 				4E4D6A8A1B1C6E3000FD2E49 /* TextCheckMarkCell.m */,
 				4E6383F01B32CC7600D98648 /* TaskActivityCell.h */,
 				4E6383F11B32CC7600D98648 /* TaskActivityCell.m */,
+				4E94C4F21B4D007600EB668A /* Login2FATipCell.h */,
+				4E94C4F31B4D007600EB668A /* Login2FATipCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -4564,6 +4569,7 @@
 				EBDD2E411AE7B88C0024B952 /* WMDelLabel.m in Sources */,
 				4E1A22851AB172C400CFC14F /* ProjectItemsCell.m in Sources */,
 				4ECE8B051A3946C10021E29C /* WebContentManager.m in Sources */,
+				4E94C4F41B4D007600EB668A /* Login2FATipCell.m in Sources */,
 				4E4D6A731B1C694100FD2E49 /* FileChangeDetailViewController.m in Sources */,
 				8EA6D1F819E240C40076D59C /* MJPhotoBrowser.m in Sources */,
 				8ED4612019E4DC470059B3BE /* iCarousel.m in Sources */,

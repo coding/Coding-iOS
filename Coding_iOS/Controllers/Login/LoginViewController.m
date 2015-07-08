@@ -19,6 +19,7 @@
 #import "EaseInputTipsView.h"
 
 #import "Ease_2FA.h"
+#import "Login2FATipCell.h"
 
 @interface LoginViewController ()
 @property (nonatomic, strong) Login *myLogin;
@@ -61,6 +62,7 @@
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        [tableView registerClass:[Login2FATipCell class] forCellReuseIdentifier:kCellIdentifier_Login2FATipCell];
         tableView.backgroundView = self.bgBlurredView;
         tableView.dataSource = self;
         tableView.delegate = self;
@@ -174,11 +176,18 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _is2FAUI? 1: _captchaNeeded? 3: 2;
+    return _is2FAUI? 2: _captchaNeeded? 3: 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.is2FAUI && indexPath.row == 0) {
+        Login2FATipCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Login2FATipCell forIndexPath:indexPath];
+        cell.tipLabel.text = @"  您的账户开启了两步验证，请输入动态验证码登录  ";
+        return cell;
+    }
+    
+    
     static NSString *CellIdentifier = @"Input_OnlyText_Cell";
     Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
