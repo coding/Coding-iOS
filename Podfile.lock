@@ -66,6 +66,7 @@ PODS:
   - TPKeyboardAvoiding (1.2.4)
   - TTTAttributedLabel (1.10.1)
   - UIImage+BlurredFrame (0.0.4)
+  - XHRealTimeBlur (1.7)
   - ZXingObjC (3.1.0):
     - ZXingObjC/All (= 3.1.0)
   - ZXingObjC/All (3.1.0)
@@ -90,6 +91,7 @@ DEPENDENCIES:
   - TPKeyboardAvoiding (= 1.2.4)
   - TTTAttributedLabel (= 1.10.1)
   - UIImage+BlurredFrame (= 0.0.4)
+  - XHRealTimeBlur (~> 1.7)
   - ZXingObjC (~> 3.1.0)
 
 SPEC CHECKSUMS:
@@ -116,6 +118,7 @@ SPEC CHECKSUMS:
   TPKeyboardAvoiding: 0a40dfbb0af7c8bdae1dd457496dccfd217d85f6
   TTTAttributedLabel: c8f3801a6463b9c9b82b0c84c465fdda9751892a
   UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
+  XHRealTimeBlur: 661fadd5691ba2d349758e8fd5fbdb499ac55f8c
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
 COCOAPODS: 0.36.4

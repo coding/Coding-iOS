@@ -243,6 +243,10 @@
 		4E94C4EF1B4B73BB00EB668A /* scan_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C4EE1B4B73BB00EB668A /* scan_line@2x.png */; };
 		4E94C4F11B4B75DB00EB668A /* tip_2FA@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E94C4F01B4B75DB00EB668A /* tip_2FA@2x.png */; };
 		4E94C4F41B4D007600EB668A /* Login2FATipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E94C4F31B4D007600EB668A /* Login2FATipCell.m */; };
+		4E94C4FE1B4D2B9300EB668A /* GlowImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E94C4F71B4D2B9300EB668A /* GlowImageView.m */; };
+		4E94C4FF1B4D2B9300EB668A /* MenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E94C4F91B4D2B9300EB668A /* MenuButton.m */; };
+		4E94C5001B4D2B9300EB668A /* MenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E94C4FB1B4D2B9300EB668A /* MenuItem.m */; };
+		4E94C5011B4D2B9300EB668A /* PopMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E94C4FD1B4D2B9300EB668A /* PopMenu.m */; };
 		4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */; };
 		4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E96E7BA1A1B25D40037C098 /* DirectoryWatcher.m */; };
 		4E96E7C81A1B46740037C098 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E96E7C71A1B46740037C098 /* QuickLook.framework */; };
@@ -1127,6 +1131,14 @@
 		4E94C4F01B4B75DB00EB668A /* tip_2FA@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tip_2FA@2x.png"; sourceTree = "<group>"; };
 		4E94C4F21B4D007600EB668A /* Login2FATipCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Login2FATipCell.h; sourceTree = "<group>"; };
 		4E94C4F31B4D007600EB668A /* Login2FATipCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Login2FATipCell.m; sourceTree = "<group>"; };
+		4E94C4F61B4D2B9300EB668A /* GlowImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlowImageView.h; sourceTree = "<group>"; };
+		4E94C4F71B4D2B9300EB668A /* GlowImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlowImageView.m; sourceTree = "<group>"; };
+		4E94C4F81B4D2B9300EB668A /* MenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuButton.h; sourceTree = "<group>"; };
+		4E94C4F91B4D2B9300EB668A /* MenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuButton.m; sourceTree = "<group>"; };
+		4E94C4FA1B4D2B9300EB668A /* MenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuItem.h; sourceTree = "<group>"; };
+		4E94C4FB1B4D2B9300EB668A /* MenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuItem.m; sourceTree = "<group>"; };
+		4E94C4FC1B4D2B9300EB668A /* PopMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopMenu.h; sourceTree = "<group>"; };
+		4E94C4FD1B4D2B9300EB668A /* PopMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopMenu.m; sourceTree = "<group>"; };
 		4E969CCE1AF0EB87005C0CCE /* NSTimer+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+Common.h"; sourceTree = "<group>"; };
 		4E969CCF1AF0EB87005C0CCE /* NSTimer+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+Common.m"; sourceTree = "<group>"; };
 		4E96E7B91A1B25D40037C098 /* DirectoryWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectoryWatcher.h; sourceTree = "<group>"; };
@@ -2378,6 +2390,21 @@
 			path = icon_file_state;
 			sourceTree = "<group>";
 		};
+		4E94C4F51B4D2B9300EB668A /* PopMenu */ = {
+			isa = PBXGroup;
+			children = (
+				4E94C4F61B4D2B9300EB668A /* GlowImageView.h */,
+				4E94C4F71B4D2B9300EB668A /* GlowImageView.m */,
+				4E94C4F81B4D2B9300EB668A /* MenuButton.h */,
+				4E94C4F91B4D2B9300EB668A /* MenuButton.m */,
+				4E94C4FA1B4D2B9300EB668A /* MenuItem.h */,
+				4E94C4FB1B4D2B9300EB668A /* MenuItem.m */,
+				4E94C4FC1B4D2B9300EB668A /* PopMenu.h */,
+				4E94C4FD1B4D2B9300EB668A /* PopMenu.m */,
+			);
+			path = PopMenu;
+			sourceTree = "<group>";
+		};
 		4E96E7C91A1B537E0037C098 /* icon_file */ = {
 			isa = PBXGroup;
 			children = (
@@ -3501,6 +3528,7 @@
 		8EA6D03E19E240C40076D59C /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4E94C4F51B4D2B9300EB668A /* PopMenu */,
 				4E09EE061B438AA10053A67F /* KxMenu */,
 				4E53EB4C1AF9CC520034FE1C /* RKSwipeBetweenViewControllers */,
 				EBDD2E3E1AE7B84D0024B952 /* WMDelLabel */,
@@ -4422,6 +4450,7 @@
 				4E5F39021AC951060010515D /* TaskCommentCCell.m in Sources */,
 				4ECE8AD91A3943E80021E29C /* UIViewController+DownMenu.m in Sources */,
 				8EA6D23819E240C40076D59C /* ProjectTasksView.m in Sources */,
+				4E94C5011B4D2B9300EB668A /* PopMenu.m in Sources */,
 				8EA6D13019E240C40076D59C /* LikersViewController.m in Sources */,
 				8EF643C719FF7E2900F7EEB0 /* TitleValueMoreCell.m in Sources */,
 				8EF643C119FF7E2900F7EEB0 /* TaskCommentCell.m in Sources */,
@@ -4487,6 +4516,7 @@
 				8E97CE471A0A2DF8006F9AD7 /* AGEmojiKeyBoardView.m in Sources */,
 				4E53EB521AFA03990034FE1C /* RKSwipeBetweenViewControllers.m in Sources */,
 				8EA6D12C19E240C40076D59C /* EditTopicViewController.m in Sources */,
+				4E94C4FE1B4D2B9300EB668A /* GlowImageView.m in Sources */,
 				4E24B2681B43D33F004D7989 /* ProjectToChooseListViewController.m in Sources */,
 				4EA7F15B1A6D192B00A046BD /* SDWebImageCompat.m in Sources */,
 				8EA6D13A19E240C40076D59C /* Project_RootViewController.m in Sources */,
@@ -4577,6 +4607,7 @@
 				4ECE8AE11A3943E80021E29C /* UIButton+Common.m in Sources */,
 				4ECE8AD81A3943E80021E29C /* UIDownMenuButton.m in Sources */,
 				8EA6D14819E240C40076D59C /* UsersViewController.m in Sources */,
+				4E94C4FF1B4D2B9300EB668A /* MenuButton.m in Sources */,
 				3A3878401AE295970078D5DE /* ResetLabelCell.m in Sources */,
 				4EA679201A15AB9F001A0324 /* FileListViewController.m in Sources */,
 				8EA6D14119E240C40076D59C /* ValueListViewController.m in Sources */,
@@ -4642,6 +4673,7 @@
 				8E59F1031A0120F1009A905F /* CodeFile.m in Sources */,
 				4E996BCA1ABA754600C704F1 /* JDStatusBarView.m in Sources */,
 				4E4D6A881B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m in Sources */,
+				4E94C5001B4D2B9300EB668A /* MenuItem.m in Sources */,
 				8EF643AD19FF7E2900F7EEB0 /* TweetMediaItemCCell.m in Sources */,
 				3A3878461AE296240078D5DE /* EditLabelHeadCell.m in Sources */,
 				8EA6D23519E240C40076D59C /* ProjectListView.m in Sources */,
