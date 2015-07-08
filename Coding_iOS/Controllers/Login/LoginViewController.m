@@ -89,7 +89,7 @@
         bgView.contentMode = UIViewContentModeScaleAspectFill;
         UIImage *bgImage = [[StartImagesManager shareManager] curImage].image;
         
-        CGSize bgImageSize = bgImage.size, bgViewSize = [bgView doubleSizeOfFrame];
+        CGSize bgImageSize = bgImage.size, bgViewSize = bgView.frame.size;
         if (bgImageSize.width > bgViewSize.width && bgImageSize.height > bgViewSize.height) {
             bgImage = [bgImage scaleToSize:[bgView doubleSizeOfFrame] usingMode:NYXResizeModeAspectFill];
         }
