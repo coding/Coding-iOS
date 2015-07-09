@@ -48,7 +48,6 @@
 		4E0849831A918A7F00BD27F6 /* coding_emoji_41@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08497D1A918A7F00BD27F6 /* coding_emoji_41@2x.png */; };
 		4E0849841A918A7F00BD27F6 /* coding_emoji_42@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08497E1A918A7F00BD27F6 /* coding_emoji_42@2x.png */; };
 		4E0849851A918A7F00BD27F6 /* coding_emoji_43@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E08497F1A918A7F00BD27F6 /* coding_emoji_43@2x.png */; };
-		4E09EE091B438AA10053A67F /* KxMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E09EE081B438AA10053A67F /* KxMenu.m */; };
 		4E15C7D01A26D2F000FB8DAD /* FolderToMoveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E15C7CF1A26D2F000FB8DAD /* FolderToMoveViewController.m */; };
 		4E15C7D61A271A6300FB8DAD /* EaseToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E15C7D51A271A6300FB8DAD /* EaseToolBar.m */; };
 		4E1A22821AB1729700CFC14F /* ProjectInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E1A22811AB1729700CFC14F /* ProjectInfoCell.m */; };
@@ -831,8 +830,6 @@
 		4E08497D1A918A7F00BD27F6 /* coding_emoji_41@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coding_emoji_41@2x.png"; sourceTree = "<group>"; };
 		4E08497E1A918A7F00BD27F6 /* coding_emoji_42@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coding_emoji_42@2x.png"; sourceTree = "<group>"; };
 		4E08497F1A918A7F00BD27F6 /* coding_emoji_43@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coding_emoji_43@2x.png"; sourceTree = "<group>"; };
-		4E09EE071B438AA10053A67F /* KxMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KxMenu.h; sourceTree = "<group>"; };
-		4E09EE081B438AA10053A67F /* KxMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KxMenu.m; sourceTree = "<group>"; };
 		4E15C7CE1A26D2F000FB8DAD /* FolderToMoveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderToMoveViewController.h; sourceTree = "<group>"; };
 		4E15C7CF1A26D2F000FB8DAD /* FolderToMoveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderToMoveViewController.m; sourceTree = "<group>"; };
 		4E15C7D41A271A6300FB8DAD /* EaseToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseToolBar.h; sourceTree = "<group>"; };
@@ -1970,15 +1967,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4E09EE061B438AA10053A67F /* KxMenu */ = {
-			isa = PBXGroup;
-			children = (
-				4E09EE071B438AA10053A67F /* KxMenu.h */,
-				4E09EE081B438AA10053A67F /* KxMenu.m */,
-			);
-			path = KxMenu;
-			sourceTree = "<group>";
-		};
 		4E1A228C1AB19D1F00CFC14F /* git_btn_icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -3568,7 +3556,6 @@
 			children = (
 				4E94C50F1B4E0C0300EB668A /* XHRealTimeBlur */,
 				4E94C4F51B4D2B9300EB668A /* PopMenu */,
-				4E09EE061B438AA10053A67F /* KxMenu */,
 				4E53EB4C1AF9CC520034FE1C /* RKSwipeBetweenViewControllers */,
 				EBDD2E3E1AE7B84D0024B952 /* WMDelLabel */,
 				4E996BC11ABA754600C704F1 /* JDStatusBarNotification */,
@@ -4466,7 +4453,6 @@
 				8E1C3E0D19E8DFE300EF3032 /* SettingViewController.m in Sources */,
 				8E1C3DEF19E7D58A00EF3032 /* ActionSheetStringPicker.m in Sources */,
 				8EF643B919FF7E2900F7EEB0 /* LeftImage_LRTextCell.m in Sources */,
-				4E09EE091B438AA10053A67F /* KxMenu.m in Sources */,
 				8E1C3DF119E7D58A00EF3032 /* SWActionSheet.m in Sources */,
 				4E1A22821AB1729700CFC14F /* ProjectInfoCell.m in Sources */,
 				8EA6D1BF19E240C40076D59C /* Task.m in Sources */,

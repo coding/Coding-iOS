@@ -17,7 +17,6 @@
 #import "RDVTabBarItem.h"
 #import "NProjectViewController.h"
 #import "ProjectListCell.h"
-#import "KxMenu.h"
 
 #import "TweetSendViewController.h"
 #import "EditTaskViewController.h"
@@ -235,28 +234,6 @@
         }
     };
     [_myPopMenu showMenuAtView:kKeyWindow startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
-    
-//    if ([KxMenu isShowingInView:self.view]) {
-//        [KxMenu dismissMenu:YES];
-//    }else{
-//        NSArray *menuItems = @[
-//                               [KxMenuItem menuItem:@"创建项目" image:[UIImage imageNamed:@"convenient_Project"] target:self action:@selector(goToNewProjectVC)],
-//                               [KxMenuItem menuItem:@"创建任务" image:[UIImage imageNamed:@"convenient_Task"] target:self action:@selector(goToNewTaskVC)],
-//                               [KxMenuItem menuItem:@"发布冒泡" image:[UIImage imageNamed:@"convenient_Tweet"] target:self action:@selector(goToNewTweetVC)],
-//                               [KxMenuItem menuItem:@"2 FA" image:[UIImage imageNamed:@"convenient_2FA"] target:self action:@selector(goTo2FA)],
-//                               ];
-//        CGRect senderFrame;
-//        if (kDevice_Is_iPhone6) {
-//            senderFrame = CGRectMake(kScreen_Width -26, 0, 0, 0);
-//        }else if (kDevice_Is_iPhone6Plus){
-//            senderFrame = CGRectMake(kScreen_Width -30, 0, 0, 0);
-//        }else{
-//            senderFrame = CGRectMake(kScreen_Width -26, 0, 0, 0);
-//        }
-//        [KxMenu showMenuInView:self.view
-//                      fromRect:senderFrame
-//                     menuItems:menuItems];
-//    }
 }
 
 - (void)goToNewProjectVC{
@@ -311,8 +288,6 @@
 
 #pragma mark Search
 - (void)searchItemClicked:(id)sender{
-//    [KxMenu dismissMenu:YES];
-    
     if (!_mySearchBar) {
         _mySearchBar = ({
             UISearchBar *searchBar = [[UISearchBar alloc] init];
