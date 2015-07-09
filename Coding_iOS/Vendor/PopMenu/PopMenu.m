@@ -256,7 +256,7 @@
     springAnimation.removedOnCompletion = YES;
     springAnimation.beginTime = beginTime + CACurrentMediaTime();
 //    CGFloat springBounciness = 6 - beginTime * 2;
-    CGFloat springBounciness = 6;
+    CGFloat springBounciness = 10;
     springAnimation.springBounciness = springBounciness;    // value between 0-20
     
 //    CGFloat springSpeed = 6 - beginTime * 2;
