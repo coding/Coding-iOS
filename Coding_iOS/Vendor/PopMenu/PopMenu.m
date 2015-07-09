@@ -14,7 +14,7 @@
 #define MenuButtonHeight 110
 #define MenuButtonVerticalPadding 10
 #define MenuButtonHorizontalMargin 10
-#define MenuButtonAnimationTime 0.2
+#define MenuButtonAnimationTime 0.5
 #define MenuButtonAnimationInterval (MenuButtonAnimationTime / 5)
 
 #define kMenuButtonBaseTag 100
@@ -59,13 +59,15 @@
     _realTimeBlur = [[XHRealTimeBlur alloc] initWithFrame:self.bounds];
     _realTimeBlur.blurStyle = XHBlurStyleTranslucentWhite;
     _realTimeBlur.showDuration = 0.3;
-    _realTimeBlur.disMissDuration = 0.5;
+    _realTimeBlur.disMissDuration = 1.0;
     _realTimeBlur.willShowBlurViewcomplted = ^(void) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
         weakSelf.isShowed = YES;
         [weakSelf showButtons];
     };
     
     _realTimeBlur.willDismissBlurViewCompleted = ^(void) {
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
         [weakSelf hidenButtons];
     };
     _realTimeBlur.didDismissBlurViewCompleted = ^(BOOL finished) {
@@ -199,7 +201,8 @@
             default:
                 break;
         }
-        double delayInSeconds = (items.count - index) * MenuButtonAnimationInterval;
+//        double delayInSeconds = (items.count - index) * MenuButtonAnimationInterval;
+        double delayInSeconds = (items.count - index) * 0.05;
         
         [self initailzerAnimationWithToPostion:toRect formPostion:fromRect atView:menuButton beginTime:delayInSeconds];
     }
@@ -233,8 +236,9 @@
                         atIndex:(NSInteger)index
                          onPage:(NSInteger)page {
     
-    NSUInteger rowCount = itemCount / perRowItemCount + (itemCount % perColumItemCount > 0 ? 1 : 0);
-    CGFloat insetY = (CGRectGetHeight(self.bounds) - (itemHeight + paddingY) * rowCount) / 2.0;
+    CGFloat insetY = kScreen_Height * 0.1 + 64;
+//    NSUInteger rowCount = itemCount / perRowItemCount + (itemCount % perColumItemCount > 0 ? 1 : 0);
+//    CGFloat insetY = (CGRectGetHeight(self.bounds) - (itemHeight + paddingY) * rowCount) / 2.0;
     
     CGFloat originX = (index % perRowItemCount) * (itemWidth + paddingX) + paddingX + (page * CGRectGetWidth(self.bounds));
     CGFloat originY = ((index / perRowItemCount) - perColumItemCount * page) * (itemHeight + paddingY) + paddingY;
@@ -250,10 +254,10 @@
     springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
     springAnimation.removedOnCompletion = YES;
     springAnimation.beginTime = beginTime + CACurrentMediaTime();
-    CGFloat springBounciness = 10 - beginTime * 2;
+    CGFloat springBounciness = 15 - beginTime * 2;
     springAnimation.springBounciness = springBounciness;    // value between 0-20
     
-    CGFloat springSpeed = 12 - beginTime * 2;
+    CGFloat springSpeed = 6 - beginTime * 2;
     springAnimation.springSpeed = springSpeed;     // value between 0-20
     springAnimation.toValue = [NSValue valueWithCGRect:toRect];
     springAnimation.fromValue = [NSValue valueWithCGRect:fromRect];
