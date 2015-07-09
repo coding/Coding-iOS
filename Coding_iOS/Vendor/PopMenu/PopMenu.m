@@ -57,6 +57,7 @@
     
     typeof(self) __weak weakSelf = self;
     _realTimeBlur = [[XHRealTimeBlur alloc] initWithFrame:self.bounds];
+    _realTimeBlur.blurStyle = XHBlurStyleTranslucentWhite;
     _realTimeBlur.showDuration = 0.3;
     _realTimeBlur.disMissDuration = 0.5;
     _realTimeBlur.willShowBlurViewcomplted = ^(void) {

@@ -36,7 +36,7 @@
 @interface XHRealTimeBlur ()
 
 @property (nonatomic, strong) XHGradientView *gradientBackgroundView;
-@property (nonatomic, strong) UIToolbar *blurBackgroundView;
+@property (nonatomic, strong) UIToolbar *blurBackgroundView, *blurWhiteBackgroundView;
 @property (nonatomic, strong) UIView *blackTranslucentBackgroundView;
 @property (nonatomic, strong) UIView *whiteBackgroundView;
 
@@ -132,6 +132,14 @@
     return _blurBackgroundView;
 }
 
+- (UIToolbar *)blurWhiteBackgroundView {
+    if (!_blurWhiteBackgroundView) {
+        _blurWhiteBackgroundView = [[UIToolbar alloc] initWithFrame:self.bounds];
+        [_blurWhiteBackgroundView setBarStyle:UIBarStyleDefault];
+    }
+    return _blurWhiteBackgroundView;
+}
+
 - (UIView *)blackTranslucentBackgroundView {
     if (!_blackTranslucentBackgroundView) {
         _blackTranslucentBackgroundView = [[UIView alloc] initWithFrame:self.bounds];
@@ -156,6 +164,8 @@
             break;
         case XHBlurStyleTranslucent:
             return self.blurBackgroundView;
+        case XHBlurStyleTranslucentWhite:
+            return self.blurWhiteBackgroundView;
         case XHBlurStyleBlackTranslucent:
             return self.blackTranslucentBackgroundView;
             break;

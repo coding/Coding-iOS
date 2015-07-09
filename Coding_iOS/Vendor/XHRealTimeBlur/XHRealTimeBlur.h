@@ -27,8 +27,10 @@ static NSString * const XHRealTimeDidDismissBlurViewBlcokKey = @"XHRealTimeDidDi
 typedef NS_ENUM(NSInteger, XHBlurStyle) {
     // 垂直梯度背景从黑色到半透明的。
     XHBlurStyleBlackGradient = 0,
-    // 类似UIToolbar的半透明背景
+    // 类似UIToolbar的半透明背景（黑）
     XHBlurStyleTranslucent,
+    // 类似UIToolbar的半透明背景（白）
+    XHBlurStyleTranslucentWhite,
     // 黑色半透明背景
     XHBlurStyleBlackTranslucent,
     // 纯白色

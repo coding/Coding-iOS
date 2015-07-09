@@ -40,7 +40,7 @@
         [self addSubview:self.iconImageView];
         
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.iconImageView.frame), CGRectGetWidth(self.bounds), 35)];
-        self.titleLabel.textColor = [UIColor whiteColor];
+        self.titleLabel.textColor = [UIColor blackColor];
         self.titleLabel.backgroundColor = [UIColor clearColor];
         self.titleLabel.font = [UIFont systemFontOfSize:14];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -54,6 +54,10 @@
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self popBegan];
+}
+
+- (void)popBegan{
     // 播放缩放动画
     POPSpringAnimation *scaleAnimation = [POPSpringAnimation animation];
     scaleAnimation.springBounciness = 20;    // value between 0-20
@@ -81,13 +85,29 @@
     [self pop_addAnimation:scaleAnimation forKey:@"scaleAnimationKey"];
 }
 
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    UITouch *curTouch = [touches anyObject];
+    if (CGRectContainsPoint(self.bounds, [curTouch locationInView:self]) &&
+        !CGRectContainsPoint(self.bounds, [curTouch previousLocationInView:self])) {
+        [self popBegan];
+    }else if (!CGRectContainsPoint(self.bounds, [curTouch locationInView:self]) &&
+              CGRectContainsPoint(self.bounds, [curTouch previousLocationInView:self])){
+        [self disMissCompleted:NULL];
+    }
+}
+
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    // 回调
-    [self disMissCompleted:^(BOOL finished) {
-        if (self.didSelctedItemCompleted) {
-            self.didSelctedItemCompleted(self.menuItem);
-        }
-    }];
+    UITouch *curTouch = [touches anyObject];
+    if (CGRectContainsPoint(self.bounds, [curTouch locationInView:self])) {
+        // 回调
+        [self disMissCompleted:^(BOOL finished) {
+            if (self.didSelctedItemCompleted) {
+                self.didSelctedItemCompleted(self.menuItem);
+            }
+        }];
+    }else{
+        [self disMissCompleted:NULL];
+    }
 }
 
 @end
