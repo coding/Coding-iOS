@@ -21,6 +21,8 @@
 
 #import "TweetSendViewController.h"
 #import "EditTaskViewController.h"
+#import "AddUserViewController.h"
+#import "UsersViewController.h"
 #import "Ease_2FA.h"
 #import "PopMenu.h"
 
@@ -219,10 +221,10 @@
                 [self goToNewTweetVC];
                 break;
             case 3:
-                NSLog(@"%@",selectedItem.title);
+                [self goToAddUserVC];
                 break;
             case 4:
-                NSLog(@"%@",selectedItem.title);
+                [self goToMessageVC];
                 break;
             case 5:
                 [self goTo2FA];
@@ -232,7 +234,7 @@
                 break;
         }
     };
-    [_myPopMenu showMenuAtView:kKeyWindow startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
+    [_myPopMenu showMenuAtView:kKeyWindow startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, kScreen_Height +100)];
     
 //    if ([KxMenu isShowingInView:self.view]) {
 //        [KxMenu dismissMenu:YES];
@@ -292,6 +294,18 @@
 - (void)goToProject:(Project *)project{
     NProjectViewController *vc = [[NProjectViewController alloc] init];
     vc.myProject = project;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToAddUserVC{
+    AddUserViewController *vc = [[AddUserViewController alloc] init];
+    vc.type = AddUserTypeFollow;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToMessageVC{
+    UsersViewController *vc = [[UsersViewController alloc] init];
+    vc.curUsers = [Users usersWithOwner:[Login curLoginUser] Type:UsersTypeFriends_Message];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
