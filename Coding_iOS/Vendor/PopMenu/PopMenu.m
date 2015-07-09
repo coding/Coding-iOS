@@ -68,16 +68,22 @@
     
     _realTimeBlur.willDismissBlurViewCompleted = ^(void) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-        [weakSelf hidenButtons];
-    };
-    _realTimeBlur.didDismissBlurViewCompleted = ^(BOOL finished) {
-        weakSelf.isShowed = NO;
-        if (finished && weakSelf.selectedItem) {
+        if (weakSelf.selectedItem) {
             if (weakSelf.didSelectedItemCompletion) {
                 weakSelf.didSelectedItemCompletion(weakSelf.selectedItem);
                 weakSelf.selectedItem = nil;
             }
         }
+        [weakSelf hidenButtons];
+    };
+    _realTimeBlur.didDismissBlurViewCompleted = ^(BOOL finished) {
+        weakSelf.isShowed = NO;
+//        if (finished && weakSelf.selectedItem) {
+//            if (weakSelf.didSelectedItemCompletion) {
+//                weakSelf.didSelectedItemCompletion(weakSelf.selectedItem);
+//                weakSelf.selectedItem = nil;
+//            }
+//        }
         [weakSelf removeFromSuperview];
     };
     _realTimeBlur.hasTapGestureEnable = YES;
