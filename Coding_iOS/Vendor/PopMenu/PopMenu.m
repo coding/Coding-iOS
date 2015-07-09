@@ -8,7 +8,7 @@
 
 #import "PopMenu.h"
 #import "MenuButton.h"
-#import <XHRealTimeBlur.h>
+#import "XHRealTimeBlur.h"
 #import <POP.h>
 
 #define MenuButtonHeight 110
