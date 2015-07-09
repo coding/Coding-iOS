@@ -90,7 +90,7 @@
         self.willDismissBlurViewCompleted();
     }
     
-    [UIView animateWithDuration:self.disMissDuration delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:self.disMissDuration delay:0.3 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.alpha = 0.0;
     } completion:^(BOOL finished) {
         if (completion) {

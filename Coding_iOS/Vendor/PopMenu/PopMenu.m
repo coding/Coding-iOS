@@ -14,7 +14,7 @@
 #define MenuButtonHeight 110
 #define MenuButtonVerticalPadding 10
 #define MenuButtonHorizontalMargin 10
-#define MenuButtonAnimationTime 0.5
+#define MenuButtonAnimationTime 0.1
 #define MenuButtonAnimationInterval (MenuButtonAnimationTime / 5)
 
 #define kMenuButtonBaseTag 100
@@ -59,7 +59,7 @@
     _realTimeBlur = [[XHRealTimeBlur alloc] initWithFrame:self.bounds];
     _realTimeBlur.blurStyle = XHBlurStyleTranslucentWhite;
     _realTimeBlur.showDuration = 0.3;
-    _realTimeBlur.disMissDuration = 1.0;
+    _realTimeBlur.disMissDuration = 0.5;
     _realTimeBlur.willShowBlurViewcomplted = ^(void) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
         weakSelf.isShowed = YES;
@@ -172,8 +172,8 @@
             menuButton.frame = fromRect;
         }
         
-        double delayInSeconds = index * MenuButtonAnimationInterval;
-        
+        double delayInSeconds = (items.count - index) * MenuButtonAnimationInterval;
+//        NSLog(@"showButtons delayInSeconds:%d - %.3f", index, delayInSeconds);
         [self initailzerAnimationWithToPostion:toRect formPostion:fromRect atView:menuButton beginTime:delayInSeconds];
     }
 }
@@ -192,7 +192,7 @@
         
         switch (self.menuAnimationType) {
             case kPopMenuAnimationTypeSina:
-                toRect.origin.y = self.endPoint.y;
+                toRect.origin.y = self.endPoint.y ;
                 break;
             case kPopMenuAnimationTypeNetEase:
                 toRect.origin.x = self.endPoint.x - CGRectGetMidX(menuButton.bounds);
@@ -201,9 +201,10 @@
             default:
                 break;
         }
-//        double delayInSeconds = (items.count - index) * MenuButtonAnimationInterval;
-        double delayInSeconds = (items.count - index) * 0.05;
+        double delayInSeconds = index * MenuButtonAnimationInterval;
         
+//        NSLog(@"hidenButtons delayInSeconds:%d - %.3f", index, delayInSeconds);
+
         [self initailzerAnimationWithToPostion:toRect formPostion:fromRect atView:menuButton beginTime:delayInSeconds];
     }
 }
@@ -254,10 +255,12 @@
     springAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewFrame];
     springAnimation.removedOnCompletion = YES;
     springAnimation.beginTime = beginTime + CACurrentMediaTime();
-    CGFloat springBounciness = 15 - beginTime * 2;
+//    CGFloat springBounciness = 6 - beginTime * 2;
+    CGFloat springBounciness = 6;
     springAnimation.springBounciness = springBounciness;    // value between 0-20
     
-    CGFloat springSpeed = 6 - beginTime * 2;
+//    CGFloat springSpeed = 6 - beginTime * 2;
+    CGFloat springSpeed = 2;
     springAnimation.springSpeed = springSpeed;     // value between 0-20
     springAnimation.toValue = [NSValue valueWithCGRect:toRect];
     springAnimation.fromValue = [NSValue valueWithCGRect:fromRect];

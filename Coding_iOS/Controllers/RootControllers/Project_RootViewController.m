@@ -234,7 +234,7 @@
                 break;
         }
     };
-    [_myPopMenu showMenuAtView:kKeyWindow startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, kScreen_Height +100)];
+    [_myPopMenu showMenuAtView:kKeyWindow startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
     
 //    if ([KxMenu isShowingInView:self.view]) {
 //        [KxMenu dismissMenu:YES];
