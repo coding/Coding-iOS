@@ -30,14 +30,12 @@ static NSString *const kOTPService = @"com.google.otp.authentication";
 @interface OTPAuthURL : NSObject
 
 // |name| is an arbitrary UTF8 text string extracted from the url path.
-@property (nonatomic, copy) NSString *name, *issuer, *ease_SecAttrAccount;
+@property (nonatomic, copy) NSString *name, *issuer;
 @property (nonatomic, copy, readonly) NSString *otpCode;
 @property (nonatomic, copy, readonly) NSString *checkCode;
-@property (nonatomic, strong, readonly) NSData *keychainItemRef;
 
 + (OTPAuthURL *)authURLWithURL:(NSURL *)url
                         secret:(NSData *)secret;
-+ (OTPAuthURL *)authURLWithKeychainItemRef:(NSData *)keychainItemRef;
 
 + (OTPAuthURL *)ease_authURLWithKeychainDictionary:(NSDictionary *)dict;//
 
@@ -50,12 +48,6 @@ static NSString *const kOTPService = @"com.google.otp.authentication";
 
 // Removes the current object state from the keychain.
 - (BOOL)removeFromKeychain;
-
-// Returns true if the object was loaded from or subsequently added to the
-// iPhone keychain.
-// It does not assert that the keychain is up to date with the latest
-// |generator| state.
-- (BOOL)isInKeychain;
 
 - (NSString*)checkCode;
 

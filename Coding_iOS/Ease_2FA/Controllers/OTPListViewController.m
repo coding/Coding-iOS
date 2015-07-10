@@ -186,9 +186,31 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 - (void)addOneAuthURL:(OTPAuthURL *)authURL{
-    [authURL saveToKeychain];
-    [self.authURLs addObject:authURL];
-    [self configUI];
+    for (OTPAuthURL *item in self.authURLs) {
+        if ([authURL.name isEqualToString:item.name]) {
+            if ([authURL.otpCode isEqualToString:item.otpCode]) {
+                kTipAlert(@"该二维码已被保存为账户名：%@", authURL.name);
+            }else{
+                UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"账户名：%@ 已存在\n选择 '更新' 覆盖原账户。", authURL.name]];
+                [alertV bk_setCancelButtonWithTitle:@"取消" handler:nil];
+                [alertV bk_addButtonWithTitle:@"更新" handler:nil];
+                @weakify(self);
+                alertV.bk_didDismissBlock = ^(UIAlertView *alertView, NSInteger buttonIndex){
+                    if (buttonIndex == 1) {
+                        @strongify(self);
+                        [authURL saveToKeychain];
+                        if ([self.authURLs indexOfObject:item] != NSNotFound) {
+                            [self.authURLs replaceObjectAtIndex:[self.authURLs indexOfObject:item] withObject:authURL];
+                            [self configUI];
+                            [self showHudTipStr:@"更新成功"];
+                        }
+                    }
+                };
+                [alertV show];
+            }
+            break;
+        }
+    }
 }
 
 - (void)deleteOneAuthURL:(OTPAuthURL *)authURL{

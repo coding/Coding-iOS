@@ -55,7 +55,6 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 
 @interface OTPAuthURL ()
 
-@property (strong, nonatomic, readwrite) NSData *keychainItemRef;
 @property (strong, nonatomic) OTPGenerator *generator;
 
 // Initialize an OTPAuthURL with a dictionary of attributes from a keychain.
@@ -149,29 +148,12 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
   return authURL;
 }
 
-+ (OTPAuthURL *)authURLWithKeychainItemRef:(NSData *)data {
-	OTPAuthURL *authURL = nil;
-	NSDictionary *query = @{
-					 (__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
-		(__bridge id)kSecValuePersistentRef: data,
-		  (__bridge id)kSecReturnAttributes: @YES,
-				(__bridge id)kSecReturnData: @YES
-	};
-	CFDictionaryRef result = NULL;
-	OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&result);
-  if (status == noErr) {
-    authURL = [self authURLWithKeychainDictionary:(__bridge_transfer NSDictionary *)result];
-    [authURL setKeychainItemRef:data];
-  }
-  return authURL;
-}
-
 + (OTPAuthURL *)ease_authURLWithKeychainDictionary:(NSDictionary *)dict{
     OTPAuthURL *authURL = [self authURLWithKeychainDictionary:dict];
     if (authURL) {
         NSString *secAttrAccount = dict[(__bridge id)kSecAttrAccount];
-        if (secAttrAccount.length > 0) {
-            authURL.ease_SecAttrAccount = secAttrAccount;
+        if (![secAttrAccount isEqualToString:authURL.name]) {
+            authURL.name = secAttrAccount;
         }
     }
     return authURL;
@@ -216,81 +198,63 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
   return nil;
 }
 
+- (NSDictionary *)keychainQuery{
+    return @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
+             (__bridge id)kSecAttrAccount: self.name};
+}
+
 - (BOOL)saveToKeychain {
-  NSString *urlString = [[self url] absoluteString];
-  NSData *urlData = [urlString dataUsingEncoding:NSUTF8StringEncoding];
-
-  NSMutableDictionary *attributes =
-   [NSMutableDictionary dictionaryWithObject:urlData
-                                      forKey:(__bridge id)kSecAttrGeneric];
-  OSStatus status = noErr;
-
-  if ([self isInKeychain] || self.ease_SecAttrAccount.length > 0) {
-    NSDictionary *query = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
-                           (__bridge id)kSecValuePersistentRef: self.keychainItemRef};
-
-    status = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)attributes);
-
-    OTPDevLog(@"SecItemUpdate(%@, %@) = %d", query, attributes, (int)status);
-  } else {
+    NSString *urlString = [[self url] absoluteString];
+    NSData *urlData = [urlString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     attributes[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
     attributes[(__bridge id)kSecReturnPersistentRef] = (id)kCFBooleanTrue;
-    attributes[(__bridge id)kSecValueData] = self.generator.secret;
     attributes[(__bridge id)kSecAttrService] = kOTPService;
-      if (self.issuer.length > 0) {
-          attributes[(__bridge id)kSecAttrType] = self.issuer;
-      }
 
-	  CFDataRef ref = NULL;
-
-    // The name here has to be unique or else we will get a errSecDuplicateItem
-    // so if we have two items with the same name, we will just append a
-    // random number on the end until we get success. We will try at max of
-    // 1000 times so as to not hang in shut down.
-    // We do not display this name to the user, so anything will do.
-    NSString *name = self.name;
-    for (int i = 0; i < 1000; i++) {
-      attributes[(__bridge id)kSecAttrAccount] = name;
-      status = SecItemAdd((__bridge CFDictionaryRef)attributes, (CFTypeRef *)&ref);
-      if (status == errSecDuplicateItem) {
-        name = [NSString stringWithFormat:@"%@.%ld", self.name, random()];
-      } else {
-        break;
-      }
+    
+    attributes[(__bridge id)kSecAttrGeneric] = urlData;
+    attributes[(__bridge id)kSecValueData] = self.generator.secret;
+    if (self.issuer.length > 0) {
+        attributes[(__bridge id)kSecAttrType] = self.issuer;
     }
-
-    OTPDevLog(@"SecItemAdd(%@, %@) = %d", attributes, ref, (int)status);
-
-    if (status == noErr) {
-      self.keychainItemRef = (__bridge_transfer NSData *)ref;
+    
+    OSStatus status = noErr;
+    CFDataRef ref = NULL;
+    status = SecItemAdd((__bridge CFDictionaryRef)attributes, (CFTypeRef *)&ref);
+    if (status == errSecDuplicateItem) {//如果有同名的话，就直接覆盖
+        [attributes removeObjectsForKeys:@[(__bridge id)kSecClass, (__bridge id)kSecReturnPersistentRef, (__bridge id)kSecAttrService]];
+        NSDictionary *query = [self keychainQuery];
+        status = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)attributes);
     }
-  }
+    return status == noErr;
+}
 
-  return status == noErr;
+- (BOOL)hotpUpdateToKeychain{
+    NSString *urlString = [[self url] absoluteString];
+    NSData *urlData = [urlString dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithObject:urlData forKey:(__bridge id)kSecAttrGeneric];
+    NSDictionary *query = [self keychainQuery];
+    OSStatus status = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)attributes);
+    
+    OTPDevLog(@"SecItemUpdate(%@, %@) = %d", query, attributes, (int)status);
+    
+    return status == noErr;
 }
 
 - (BOOL)removeFromKeychain {
-    if (self.ease_SecAttrAccount.length > 0) {
-        return [SSKeychain deletePasswordForService:kOTPService account:self.ease_SecAttrAccount];
+    if (self.name.length > 0) {
+        NSDictionary *query = [self keychainQuery];
+        OSStatus status = SecItemDelete((__bridge CFDictionaryRef)query);
+        OTPDevLog(@"SecItemDelete(%@) = %d", query, (int)status);
+        if (status == noErr) {
+            self.name = nil;
+        }
+        return status == noErr;
+    }else{
+        return NO;
     }
-    
-  if (![self isInKeychain]) {
-    return NO;
-  }
-  NSDictionary *query = @{(__bridge id)kSecClass: (__bridge id)kSecClassGenericPassword,
-                         (__bridge id)kSecValuePersistentRef: [self keychainItemRef]};
-  OSStatus status = SecItemDelete((__bridge CFDictionaryRef)query);
-
-  OTPDevLog(@"SecItemDelete(%@) = %d", query, (int)status);
-
-  if (status == noErr) {
-    [self setKeychainItemRef:nil];
-  }
-  return status == noErr;
-}
-
-- (BOOL)isInKeychain {
-  return self.keychainItemRef != nil;
 }
 
 - (void)generateNextOTPCode {
@@ -302,8 +266,8 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@ %p> Name: %@ ref: %p checkCode: %@",
-          [self class], self, self.name, self.keychainItemRef, self.checkCode];
+  return [NSString stringWithFormat:@"<%@ %p> Name: %@ checkCode: %@",
+          [self class], self, self.name, self.checkCode];
 }
 
 #pragma mark -
@@ -515,7 +479,7 @@ static NSString *const TOTPAuthURLTimerNotification
 
 - (void)generateNextOTPCode {
   self.otpCode = [[self generator] generateOTP];
-  [self saveToKeychain];
+  [self hotpUpdateToKeychain];
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   [nc postNotificationName:OTPAuthURLDidGenerateNewOTPNotification object:self];
 }
