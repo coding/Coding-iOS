@@ -28,7 +28,7 @@ static NSString *kFunctionTipStr_Version = @"version";
 {
     self = [super init];
     if (self) {
-        _tipsDict = [NSMutableDictionary dictionaryWithContentsOfFile:[self p_cacheFilePath]];
+//        _tipsDict = [NSMutableDictionary dictionaryWithContentsOfFile:[self p_cacheFilePath]];
 //        if (![[_tipsDict valueForKey:@"version"] isEqualToString:kVersion_Coding]) {
 //            _tipsDict = [@{kFunctionTipStr_Version: kVersion_Coding,
 //                           kFunctionTipStr_MR: @(YES),
