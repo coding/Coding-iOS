@@ -43,6 +43,12 @@
     [self configUI];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.capture stop];
+    [self scanLineStopAction];
+}
+
 - (void)configUI{
     CGFloat width = kScreen_Width *2/3;
     CGFloat padding = (kScreen_Width - width)/2;
@@ -94,8 +100,8 @@
         make.top.equalTo(_scanRectView.mas_bottom).offset(20);
         make.height.mas_equalTo(30);
     }];
+    [_capture start];
     [_scanRectView addSubview:_lineView];
-    
     [self scanLineStartAction];
 }
 
