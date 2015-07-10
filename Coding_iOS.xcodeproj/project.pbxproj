@@ -379,6 +379,7 @@
 		4ECF704C1B1876CB000280FF /* MRPRListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ECF704B1B1876CB000280FF /* MRPRListCell.m */; };
 		4ED20A781AFC7C8B00C63498 /* EasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED20A771AFC7C8B00C63498 /* EasePageViewController.m */; };
 		4ED20A7A1AFCC43600C63498 /* button_download_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED20A791AFCC43600C63498 /* button_download_cancel@2x.png */; };
+		4ED558321B4FA68400FC10CB /* dismissBtn_Nav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED558311B4FA68400FC10CB /* dismissBtn_Nav@2x.png */; };
 		4ED6731E1A8DD38C00DF2D1A /* ReportIllegalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */; };
 		4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED673211A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m */; };
 		4ED673261A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED673251A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png */; };
@@ -1361,6 +1362,7 @@
 		4ED20A761AFC7C8B00C63498 /* EasePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasePageViewController.h; sourceTree = "<group>"; };
 		4ED20A771AFC7C8B00C63498 /* EasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasePageViewController.m; sourceTree = "<group>"; };
 		4ED20A791AFCC43600C63498 /* button_download_cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_download_cancel@2x.png"; sourceTree = "<group>"; };
+		4ED558311B4FA68400FC10CB /* dismissBtn_Nav@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dismissBtn_Nav@2x.png"; sourceTree = "<group>"; };
 		4ED6731C1A8DD38C00DF2D1A /* ReportIllegalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportIllegalViewController.h; sourceTree = "<group>"; };
 		4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportIllegalViewController.m; sourceTree = "<group>"; };
 		4ED673201A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVWebViewControllerActivityReport.h; sourceTree = "<group>"; };
@@ -2945,6 +2947,7 @@
 		8E97CE4B1A0A3410006F9AD7 /* nav_button */ = {
 			isa = PBXGroup;
 			children = (
+				4ED558311B4FA68400FC10CB /* dismissBtn_Nav@2x.png */,
 				4E6383E31B3272CF00D98648 /* info_Nav@2x.png */,
 				4E6383E41B3272CF00D98648 /* search_Nav@2x.png */,
 				4E07D3091A4A9ACB009EDDF2 /* moreBtn_Nav@2x.png */,
@@ -4022,6 +4025,7 @@
 				8E62ADDA19E28DA800963870 /* tipIcon_User@2x.png in Resources */,
 				4E6383A71B3262D300D98648 /* taskPriority0_small@2x.png in Resources */,
 				8E8F7B3519EF6306006BA8BD /* btn_project_quit@2x.png in Resources */,
+				4ED558321B4FA68400FC10CB /* dismissBtn_Nav@2x.png in Resources */,
 				4E0849801A918A7F00BD27F6 /* coding_emoji_38@2x.png in Resources */,
 				8E97CE661A0A3424006F9AD7 /* keyboard_emotion_emoji@2x.png in Resources */,
 				4EC461B71B3939DC00D08970 /* task_activity_icon_commit_refer@2x.png in Resources */,

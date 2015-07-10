@@ -105,7 +105,7 @@
 - (void)setCaptchaNeeded:(BOOL)captchaNeeded{
     _captchaNeeded = captchaNeeded;
     if (!captchaNeeded) {
-        self.myLogin.j_captcha= nil;
+        self.myLogin.j_captcha = nil;
     }
 }
 
@@ -181,7 +181,7 @@
     self.dismissButton.hidden = !willShow;
     if (!self.dismissButton && willShow) {
         self.dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 50, 50)];
-        [self.dismissButton setImage:[UIImage imageNamed:@"text_clear_btn"] forState:UIControlStateNormal];
+        [self.dismissButton setImage:[UIImage imageNamed:@"dismissBtn_Nav"] forState:UIControlStateNormal];
         [self.dismissButton addTarget:self action:@selector(dismissButtonClicked) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.dismissButton];
     }
@@ -465,6 +465,9 @@
     _is2FAUI = is2FAUI;
     if (!_is2FAUI) {
         self.otpCode = nil;
+        [self.dismissButton setImage:[UIImage imageNamed:@"dismissBtn_Nav"] forState:UIControlStateNormal];
+    }else{
+        [self.dismissButton setImage:[UIImage imageNamed:@"backBtn_Nav"] forState:UIControlStateNormal];
     }
     [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:_is2FAUI? UITableViewRowAnimationLeft: UITableViewRowAnimationRight];
 }
