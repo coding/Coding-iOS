@@ -186,8 +186,10 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 - (void)addOneAuthURL:(OTPAuthURL *)authURL{
+    BOOL alreadyHave = NO;
     for (OTPAuthURL *item in self.authURLs) {
         if ([authURL.name isEqualToString:item.name]) {
+            alreadyHave = YES;
             if ([authURL.otpCode isEqualToString:item.otpCode]) {
                 kTipAlert(@"该二维码已被保存为账户名：%@", authURL.name);
             }else{
@@ -210,6 +212,12 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
             }
             break;
         }
+    }
+    if (!alreadyHave) {
+        [authURL saveToKeychain];
+        [self.authURLs addObject:authURL];
+        [self configUI];
+        kTipAlert(@"添加账户成功：%@", authURL.name);
     }
 }
 
