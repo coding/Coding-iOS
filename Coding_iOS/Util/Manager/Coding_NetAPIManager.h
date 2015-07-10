@@ -31,6 +31,12 @@
 #import "CommitInfo.h"
 #import "Commits.h"
 
+typedef NS_ENUM(NSUInteger, VerifyType){
+    VerifyTypeUnknow = 0,
+    VerifyTypePassword,
+    VerifyTypeTotp,
+};
+
 @interface Coding_NetAPIManager : NSObject
 + (instancetype)sharedManager;
 
@@ -62,7 +68,7 @@
 - (void)request_NewProject_WithObj:(Project *)project image:(UIImage *)image andBlock:(void (^)(NSString *data, NSError *error))block;
 - (void)request_UpdateProject_WithObj:(Project *)project andBlock:(void (^)(Project *data, NSError *error))block;
 - (void)request_UpdateProject_WithObj:(Project *)project icon:(UIImage *)icon andBlock:(void (^)(id data, NSError *error))block progerssBlock:(void (^)(CGFloat progressValue))progress;;
-- (void)request_DeleteProject_WithObj:(Project *)project password:(NSString *)password andBlock:(void (^)(Project *data, NSError *error))block;
+- (void)request_DeleteProject_WithObj:(Project *)project passCode:(NSString *)passCode type:(VerifyType)type andBlock:(void (^)(Project *data, NSError *error))block;
 
 //MRPR
 - (void)request_MRPRS_WithObj:(MRPRS *)curMRPRS andBlock:(void (^)(MRPRS *data, NSError *error))block;
@@ -203,5 +209,5 @@
 //Other
 - (void)request_Users_WithSearchString:(NSString *)searchStr andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_MDHtmlStr_WithMDStr:(NSString *)mdStr inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
-
+- (void)request_VerifyTypeWithBlock:(void (^)(VerifyType type, NSError *error))block;
 @end

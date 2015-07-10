@@ -73,14 +73,7 @@
 }
 
 -(NSString *)toDeletePath{
-    return [NSString stringWithFormat:@"api/project/%@",self.id];
-}
-
--(NSDictionary *)toDeleteParamsWithPassword:(NSString *)password{
-    return @{@"user_name":[Login curLoginUser].name,
-             @"name":self.name,
-             @"porject_id":[self.id stringValue],
-             @"password":[password sha1Str]};
+    return [NSString stringWithFormat:@"api/user/%@/project/%@",self.owner_user_name, self.name];
 }
 
 - (NSString *)toMembersPath{

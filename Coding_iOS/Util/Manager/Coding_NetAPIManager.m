@@ -333,10 +333,27 @@
     } progerssBlock:progress];
 }
 
--(void)request_DeleteProject_WithObj:(Project *)project password:(NSString *)password andBlock:(void (^)(Project *, NSError *))block{
+- (void)request_DeleteProject_WithObj:(Project *)project passCode:(NSString *)passCode type:(VerifyType)type andBlock:(void (^)(Project *data, NSError *error))block{
+    if (!project.name || !passCode) {
+        return;
+    }
+    NSDictionary *params;
+    if (type == VerifyTypePassword) {
+        params = @{
+                   @"name": project.name,
+                   @"two_factor_code": [passCode sha1Str]
+                   };
+    }else if (type == VerifyTypeTotp){
+        params = @{
+                   @"name": project.name,
+                   @"two_factor_code": passCode
+                   };
+    }else{
+        return;
+    }
     [MobClick event:kUmeng_Event_Request label:@"删除项目"];
     [self showStatusBarQueryStr:@"正在删除项目"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toDeletePath] withParams:[project toDeleteParamsWithPassword:password] withMethodType:Delete andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toDeletePath] withParams:params withMethodType:Delete andBlock:^(id data, NSError *error) {
         if (data) {
             [self showStatusBarSuccessStr:@"删除项目成功"];
             block(data, nil);
@@ -1909,6 +1926,23 @@
             block(resultData, nil);
         }else{
             block(nil, error);
+        }
+    }];
+}
+- (void)request_VerifyTypeWithBlock:(void (^)(VerifyType type, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"高危操作_获取校验类型"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/2fa/method" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            VerifyType type = VerifyTypeUnknow;
+            NSString *typeStr = [data valueForKey:@"data"];
+            if ([typeStr isEqualToString:@"password"]) {
+                type = VerifyTypePassword;
+            }else if ([typeStr isEqualToString:@"totp"]){
+                type = VerifyTypeTotp;
+            }
+            block(type, nil);
+        }else{
+            block(VerifyTypeUnknow, error);
         }
     }];
 }

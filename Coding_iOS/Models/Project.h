@@ -25,7 +25,6 @@
 - (NSString *)toUpdateIconPath;
 
 - (NSString *)toDeletePath;
-- (NSDictionary *)toDeleteParamsWithPassword:(NSString *)password;
 
 - (NSString *)toMembersPath;
 - (NSDictionary *)toMembersParams;
