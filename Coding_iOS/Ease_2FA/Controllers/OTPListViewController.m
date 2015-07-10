@@ -191,7 +191,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         if ([authURL.name isEqualToString:item.name]) {
             alreadyHave = YES;
             if ([authURL.otpCode isEqualToString:item.otpCode]) {
-                kTipAlert(@"该二维码已被保存为账户名：%@", authURL.name);
+                kTipAlert(@"该二维码已被保存为账户名：\n%@", authURL.name);
             }else{
                 UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"账户名：%@ 已存在\n选择 '更新' 覆盖原账户。", authURL.name]];
                 [alertV bk_setCancelButtonWithTitle:@"取消" handler:nil];
@@ -217,7 +217,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         [authURL saveToKeychain];
         [self.authURLs addObject:authURL];
         [self configUI];
-        kTipAlert(@"添加账户成功：%@", authURL.name);
+        kTipAlert(@"添加账户成功：\n%@", authURL.name);
     }
 }
 

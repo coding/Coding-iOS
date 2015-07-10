@@ -152,7 +152,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
     OTPAuthURL *authURL = [self authURLWithKeychainDictionary:dict];
     if (authURL) {
         NSString *secAttrAccount = dict[(__bridge id)kSecAttrAccount];
-        if (![secAttrAccount isEqualToString:authURL.name]) {
+        if (secAttrAccount && ![secAttrAccount isEqualToString:authURL.name]) {
             authURL.name = secAttrAccount;
         }
     }
@@ -165,7 +165,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
   NSString *urlString = [[NSString alloc] initWithData:urlData
                                                encoding:NSUTF8StringEncoding];
     NSString *issuer = dict[(__bridge id)kSecAttrType];
-    if (issuer.length > 0) {
+    if (issuer) {
         urlString = [urlString stringByAppendingFormat:@"%@=%@", kQueryIssuerKey, issuer];
     }
   NSURL *url = [NSURL URLWithString:urlString];
@@ -211,11 +211,11 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
     attributes[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
     attributes[(__bridge id)kSecReturnPersistentRef] = (id)kCFBooleanTrue;
     attributes[(__bridge id)kSecAttrService] = kOTPService;
-
+    attributes[(__bridge id)kSecAttrAccount] = self.name;
     
     attributes[(__bridge id)kSecAttrGeneric] = urlData;
     attributes[(__bridge id)kSecValueData] = self.generator.secret;
-    if (self.issuer.length > 0) {
+    if (self.issuer) {
         attributes[(__bridge id)kSecAttrType] = self.issuer;
     }
     
@@ -244,7 +244,7 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
 }
 
 - (BOOL)removeFromKeychain {
-    if (self.name.length > 0) {
+    if (self.name) {
         NSDictionary *query = [self keychainQuery];
         OSStatus status = SecItemDelete((__bridge CFDictionaryRef)query);
         OTPDevLog(@"SecItemDelete(%@) = %d", query, (int)status);
