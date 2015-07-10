@@ -118,7 +118,7 @@
         
         CGSize bgImageSize = bgImage.size, bgViewSize = bgView.frame.size;
         if (bgImageSize.width > bgViewSize.width && bgImageSize.height > bgViewSize.height) {
-            bgImage = [bgImage scaleToSize:[bgView doubleSizeOfFrame] usingMode:NYXResizeModeAspectFill];
+            bgImage = [bgImage scaleToSize:bgViewSize usingMode:NYXResizeModeAspectFill];
         }
         bgImage = [bgImage applyLightEffectAtFrame:CGRectMake(0, 0, bgImage.size.width, bgImage.size.height)];
         bgView.image = bgImage;

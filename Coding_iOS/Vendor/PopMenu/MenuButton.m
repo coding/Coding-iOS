@@ -58,6 +58,7 @@
 }
 
 - (void)popBegan{
+    [self pop_removeAllAnimations];
     // 播放缩放动画
     POPSpringAnimation *scaleAnimation = [POPSpringAnimation animation];
     scaleAnimation.springBounciness = 20;    // value between 0-20
