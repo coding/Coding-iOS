@@ -15,4 +15,16 @@
     return buttonItem;
 }
 
++ (UIBarButtonItem *)itemWithIcon:(NSString*)iconName showBadge:(BOOL)showbadge target:(id)obj action:(SEL)selector {
+    UIButton* button = [[UIButton alloc] init];
+    button.imageEdgeInsets = UIEdgeInsetsMake(10, 0, 10, 0);
+    [button setImage:[UIImage imageNamed:iconName] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:iconName] forState:UIControlStateHighlighted];
+    CGSize imgSize = button.imageView.image.size;
+    button.size = CGSizeMake(imgSize.width, imgSize.height + 20);
+    CGFloat pointX = button.frame.size.width - 25;
+    [button addBadgeTip:@"" withCenterPosition:CGPointMake(pointX, 25)];
+    return [[UIBarButtonItem alloc] initWithCustomView:button];;
+}
+
 @end

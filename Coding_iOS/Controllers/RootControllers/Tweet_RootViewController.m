@@ -94,8 +94,8 @@
 //                              [self refreshFirst];
 //                          }];
     
-    CSBarButtonItem *leftBarItem =[[CSBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(searchItemClicked:)];
-    leftBarItem.showBadge = YES;
+    BOOL isBadgeValid = ![CSSearchModel hasSearchBadgeShown];
+    UIBarButtonItem *leftBarItem =[UIBarButtonItem itemWithIcon:@"search_Nav" showBadge:isBadgeValid target:self action:@selector(searchItemClicked:)];
     [self.navigationItem setLeftBarButtonItem:leftBarItem animated:NO];
     
     _tweetsDict = [[NSMutableDictionary alloc] initWithCapacity:4];
@@ -251,6 +251,14 @@
 - (void)searchItemClicked:(id)sender{
     CSSearchVC *searchVC = [[CSSearchVC alloc] init];
     [self.navigationController pushViewController:searchVC animated:YES];
+    
+    BOOL isBadgeValid = ![CSSearchModel hasSearchBadgeShown];
+    if (isBadgeValid) {
+        //存一下
+        [CSSearchModel invalidSearchBadge];
+        UIBarButtonItem *leftBarItem =[UIBarButtonItem itemWithIcon:@"search_Nav" showBadge:NO target:self action:@selector(searchItemClicked:)];
+        [self.navigationItem setLeftBarButtonItem:leftBarItem animated:NO];
+    }
 }
 
 #pragma mark Refresh M
