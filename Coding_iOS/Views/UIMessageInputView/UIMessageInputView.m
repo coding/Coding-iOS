@@ -830,6 +830,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }else{
         appendingStr = @"@";
     }
+    [textView setSelectedRange:range];
     [textView insertText:appendingStr];
 }
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView{
