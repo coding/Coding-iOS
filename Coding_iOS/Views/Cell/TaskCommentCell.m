@@ -47,16 +47,16 @@
         if (!_ownerIconView) {
             CGFloat borderWidth = 2;
 
-            UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth - borderWidth, curBottomY, 25+ 2*borderWidth, 25 + 2*borderWidth)];
+            UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth - borderWidth, curBottomY, 28+ 2*borderWidth, 28 + 2*borderWidth)];
             bgView.backgroundColor = kColorTableBG;
             
-            _ownerIconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 25, 25)];
+            _ownerIconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
             _ownerIconView.layer.masksToBounds = YES;
             _ownerIconView.layer.cornerRadius = _ownerIconView.frame.size.width/2;
             
             [bgView addSubview:_ownerIconView];
             [_ownerIconView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.width.height.mas_equalTo(25.0);
+                make.width.height.mas_equalTo(28.0);
                 make.center.equalTo(bgView);
             }];
             
