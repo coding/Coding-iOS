@@ -764,6 +764,9 @@
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
 		EBDD2E411AE7B88C0024B952 /* WMDelLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = EBDD2E401AE7B88C0024B952 /* WMDelLabel.m */; };
 		EBDD2E4E1AEA159D0024B952 /* ProjectTopicLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = EBDD2E4D1AEA159D0024B952 /* ProjectTopicLabelView.m */; };
+		FEC419251B53A39B00C498F5 /* CSSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC419241B53A39B00C498F5 /* CSSearchVC.m */; };
+		FEC419281B53A92600C498F5 /* CSSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC419271B53A92600C498F5 /* CSSearchModel.m */; };
+		FEC4192B1B53A9E300C498F5 /* TMCacheExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC4192A1B53A9E300C498F5 /* TMCacheExtend.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1085,7 +1088,6 @@
 		4E8AF7851A53D69F00CDC3AE /* StartImagesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartImagesManager.m; sourceTree = "<group>"; };
 		4E8AF7871A54068700CDC3AE /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		4E8AF7891A5406AE00CDC3AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		4E8C51AE1AC0177600B4C51F /* Coding_iOS-Prefix.pch.example */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Coding_iOS-Prefix.pch.example"; sourceTree = "<group>"; };
 		4E8C51AF1AC1081500B4C51F /* icon_recommended@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_recommended@2x.png"; sourceTree = "<group>"; };
 		4E8D5D2C1B44E03600B70936 /* convenient_2FA@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "convenient_2FA@2x.png"; sourceTree = "<group>"; };
 		4E8D5D2D1B44E03600B70936 /* convenient_Project@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "convenient_Project@2x.png"; sourceTree = "<group>"; };
@@ -1935,6 +1937,12 @@
 		EBDD2E401AE7B88C0024B952 /* WMDelLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMDelLabel.m; sourceTree = "<group>"; };
 		EBDD2E4C1AEA159D0024B952 /* ProjectTopicLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTopicLabelView.h; sourceTree = "<group>"; };
 		EBDD2E4D1AEA159D0024B952 /* ProjectTopicLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTopicLabelView.m; sourceTree = "<group>"; };
+		FEC419231B53A39B00C498F5 /* CSSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSearchVC.h; sourceTree = "<group>"; };
+		FEC419241B53A39B00C498F5 /* CSSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSearchVC.m; sourceTree = "<group>"; };
+		FEC419261B53A92600C498F5 /* CSSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSearchModel.h; sourceTree = "<group>"; };
+		FEC419271B53A92600C498F5 /* CSSearchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSearchModel.m; sourceTree = "<group>"; };
+		FEC419291B53A9E300C498F5 /* TMCacheExtend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMCacheExtend.h; sourceTree = "<group>"; };
+		FEC4192A1B53A9E300C498F5 /* TMCacheExtend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMCacheExtend.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3047,7 +3055,6 @@
 				4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */,
 				8EA6CF1719E240C40076D59C /* Coding_iOS-Info.plist */,
 				8EA6CF1819E240C40076D59C /* Coding_iOS-Prefix.pch */,
-				4E8C51AE1AC0177600B4C51F /* Coding_iOS-Prefix.pch.example */,
 				8EA6CF1919E240C40076D59C /* Coding_iOS.xcdatamodeld */,
 				8EA6CFC519E240C40076D59C /* Images.xcassets */,
 				8EA6CF5B19E240C40076D59C /* InfoPlist.strings */,
@@ -3066,6 +3073,7 @@
 		8EA6CF1B19E240C40076D59C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				FEC419221B53A35100C498F5 /* Search */,
 				B9A00D7D1ACA39F1008BA008 /* ProjectSetting */,
 				B94C1B661AC945C60000C271 /* NewProject */,
 				8EA6CF2819E240C40076D59C /* Login */,
@@ -3911,6 +3919,19 @@
 			path = WMDelLabel;
 			sourceTree = "<group>";
 		};
+		FEC419221B53A35100C498F5 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				FEC419231B53A39B00C498F5 /* CSSearchVC.h */,
+				FEC419241B53A39B00C498F5 /* CSSearchVC.m */,
+				FEC419261B53A92600C498F5 /* CSSearchModel.h */,
+				FEC419271B53A92600C498F5 /* CSSearchModel.m */,
+				FEC419291B53A9E300C498F5 /* TMCacheExtend.h */,
+				FEC4192A1B53A9E300C498F5 /* TMCacheExtend.m */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3943,7 +3964,7 @@
 				ORGANIZATIONNAME = Coding;
 				TargetAttributes = {
 					8E47700F198770E700997D05 = {
-						DevelopmentTeam = QN5Z87S3LH;
+						DevelopmentTeam = 479HDDXQ3G;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -4686,12 +4707,14 @@
 				8EF643AC19FF7E2900F7EEB0 /* TweetLikeUserCCell.m in Sources */,
 				8E64ED7B19ED0CE3006E99DA /* QBAssetsCollectionCheckmarkView.m in Sources */,
 				4E4D6A701B1C68F100FD2E49 /* CommitFilesViewController.m in Sources */,
+				FEC419251B53A39B00C498F5 /* CSSearchVC.m in Sources */,
 				4E4D6A911B1D84B400FD2E49 /* FileChange.m in Sources */,
 				8EA6D1AB19E240C40076D59C /* main.m in Sources */,
 				B94C1B691AC945D30000C271 /* NewProjectViewController.m in Sources */,
 				4E996BD91ABA776500C704F1 /* UserInfoTextCell.m in Sources */,
 				4E4D6AA61B1DBA3A00FD2E49 /* MRPRDisclosureCell.m in Sources */,
 				8E1C3E0819E8DFE300EF3032 /* AboutViewController.m in Sources */,
+				FEC419281B53A92600C498F5 /* CSSearchModel.m in Sources */,
 				4E6BA2D71A1EE6AF005FD721 /* AFHTTPRequestOperation.m in Sources */,
 				4EF8181F1B05C9D8005F974B /* ProjectLineNoteActivity.m in Sources */,
 				8EF643A919FF7E2900F7EEB0 /* MessageMediaItemCCell.m in Sources */,
@@ -4739,6 +4762,7 @@
 				4E996BC91ABA754600C704F1 /* JDStatusBarStyle.m in Sources */,
 				8EF83F9419EB78CC00E86DE7 /* SettingTextViewController.m in Sources */,
 				8EA6D1B019E240C40076D59C /* Comment.m in Sources */,
+				FEC4192B1B53A9E300C498F5 /* TMCacheExtend.m in Sources */,
 				0A6E6BA71AAF4162004C0107 /* TweetSendLocationCell.m in Sources */,
 				4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				8ECA8BB419FB42CC00C598C6 /* UILongPressMenuImageView.m in Sources */,

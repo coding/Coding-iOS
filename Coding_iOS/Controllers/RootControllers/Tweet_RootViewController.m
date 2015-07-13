@@ -24,6 +24,8 @@
 #import "WebViewController.h"
 #import "TweetSendLocationDetailViewController.h"
 
+#import "CSSearchVC.h"
+
 @interface Tweet_RootViewController ()
 {
     CGFloat _oldPanOffsetY;
@@ -91,6 +93,10 @@
 //                              _curIndex = index;
 //                              [self refreshFirst];
 //                          }];
+    
+    CSBarButtonItem *leftBarItem =[[CSBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(searchItemClicked:)];
+    leftBarItem.showBadge = YES;
+    [self.navigationItem setLeftBarButtonItem:leftBarItem animated:NO];
     
     _tweetsDict = [[NSMutableDictionary alloc] initWithCapacity:4];
 
@@ -238,6 +244,13 @@
             [weakSelf.myTableView reloadData];
         }
     }];
+}
+
+#pragma mark - search 
+
+- (void)searchItemClicked:(id)sender{
+    CSSearchVC *searchVC = [[CSSearchVC alloc] init];
+    [self.navigationController pushViewController:searchVC animated:YES];
 }
 
 #pragma mark Refresh M
