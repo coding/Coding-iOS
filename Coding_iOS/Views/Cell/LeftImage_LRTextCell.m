@@ -61,7 +61,7 @@
             case LeftImage_LRTextCellTypeTaskProject:
             {
                 [_iconView doCircleFrame];
-                [_iconView sd_setImageWithURL:[task.project.icon urlImageWithCodePathResizeToView:_iconView] placeholderImage:nil];
+                [_iconView sd_setImageWithURL:[task.project.icon urlImageWithCodePathResizeToView:_iconView] placeholderImage:[UIImage imageNamed:@"taskProject"]];
                 _leftLabel.text = @"所属项目";
                 if (task.project) {
                     _rightLabel.text = [NSString stringWithFormat:@"%@/%@", task.project.owner_user_name, task.project.name];
@@ -74,7 +74,7 @@
             case LeftImage_LRTextCellTypeTaskOwner:
             {
                 [_iconView doCircleFrame];
-                [_iconView sd_setImageWithURL:[task.owner.avatar urlImageWithCodePathResizeToView:_iconView] placeholderImage:nil];
+                [_iconView sd_setImageWithURL:[task.owner.avatar urlImageWithCodePathResizeToView:_iconView] placeholderImage:[UIImage imageNamed:@"taskOwner"]];
                 _leftLabel.text = @"执行者";
                 if (task.owner) {
                     _rightLabel.text = task.owner.name;

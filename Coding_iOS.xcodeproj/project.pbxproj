@@ -397,6 +397,8 @@
 		4EE548211AE8DB5600A92306 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE548201AE8DB5600A92306 /* Project.m */; };
 		4EE548281AE9166B00A92306 /* icon_project_cell_nopin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EE548261AE9166B00A92306 /* icon_project_cell_nopin@2x.png */; };
 		4EE548291AE9166B00A92306 /* icon_project_cell_pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EE548271AE9166B00A92306 /* icon_project_cell_pin@2x.png */; };
+		4EED9DCC1B539366000E5827 /* taskOwner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EED9DCA1B539366000E5827 /* taskOwner@2x.png */; };
+		4EED9DCD1B539366000E5827 /* taskProject@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EED9DCB1B539366000E5827 /* taskProject@2x.png */; };
 		4EF17E5F1B3AB10F003CDD2D /* IntroductionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF17E5E1B3AB10F003CDD2D /* IntroductionViewController.m */; };
 		4EF17ECB1B3C3112003CDD2D /* intro_dot_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF17EAD1B3C3112003CDD2D /* intro_dot_selected@2x.png */; };
 		4EF17ECC1B3C3112003CDD2D /* intro_dot_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF17EAE1B3C3112003CDD2D /* intro_dot_selected@3x.png */; };
@@ -1387,6 +1389,8 @@
 		4EE548201AE8DB5600A92306 /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Project.m; sourceTree = "<group>"; };
 		4EE548261AE9166B00A92306 /* icon_project_cell_nopin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_project_cell_nopin@2x.png"; sourceTree = "<group>"; };
 		4EE548271AE9166B00A92306 /* icon_project_cell_pin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_project_cell_pin@2x.png"; sourceTree = "<group>"; };
+		4EED9DCA1B539366000E5827 /* taskOwner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskOwner@2x.png"; sourceTree = "<group>"; };
+		4EED9DCB1B539366000E5827 /* taskProject@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskProject@2x.png"; sourceTree = "<group>"; };
 		4EF17E5D1B3AB10F003CDD2D /* IntroductionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroductionViewController.h; sourceTree = "<group>"; };
 		4EF17E5E1B3AB10F003CDD2D /* IntroductionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroductionViewController.m; sourceTree = "<group>"; };
 		4EF17EAD1B3C3112003CDD2D /* intro_dot_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro_dot_selected@2x.png"; sourceTree = "<group>"; };
@@ -2068,6 +2072,8 @@
 				4E6383A11B3262D300D98648 /* taskPriority3@2x.png */,
 				4E6383A21B3262D300D98648 /* taskPriority3_small@2x.png */,
 				4E63840E1B34124000D98648 /* task_icon_arrow@2x.png */,
+				4EED9DCA1B539366000E5827 /* taskOwner@2x.png */,
+				4EED9DCB1B539366000E5827 /* taskProject@2x.png */,
 			);
 			path = task;
 			sourceTree = "<group>";
@@ -3986,6 +3992,7 @@
 				8E8F7B3419EF6306006BA8BD /* btn_project_added@2x.png in Resources */,
 				8EA6D16B19E240C40076D59C /* nav_tweet_all@2x.png in Resources */,
 				4EACB43F1A2C448F0097ABB3 /* button_file_createFolder_unable@2x.png in Resources */,
+				4EED9DCD1B539366000E5827 /* taskProject@2x.png in Resources */,
 				4EF17ED91B3C3112003CDD2D /* intro_icon_5@2x.png in Resources */,
 				4E6383B81B32640900D98648 /* messageComment@2x.png in Resources */,
 				8EA6D1A319E240C40076D59C /* tweet_comment_btn@2x.png in Resources */,
@@ -4028,6 +4035,7 @@
 				4ED558321B4FA68400FC10CB /* dismissBtn_Nav@2x.png in Resources */,
 				4E0849801A918A7F00BD27F6 /* coding_emoji_38@2x.png in Resources */,
 				8E97CE661A0A3424006F9AD7 /* keyboard_emotion_emoji@2x.png in Resources */,
+				4EED9DCC1B539366000E5827 /* taskOwner@2x.png in Resources */,
 				4EC461B71B3939DC00D08970 /* task_activity_icon_commit_refer@2x.png in Resources */,
 				8E8F7B2E19EF6306006BA8BD /* btn_followed_yes@2x.png in Resources */,
 				8E8F7B3319EF6306006BA8BD /* btn_project_add@2x.png in Resources */,
