@@ -200,12 +200,16 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
                 alertV.bk_didDismissBlock = ^(UIAlertView *alertView, NSInteger buttonIndex){
                     if (buttonIndex == 1) {
                         @strongify(self);
-                        [authURL saveToKeychain];
-                        if ([self.authURLs indexOfObject:item] != NSNotFound) {
-                            [self.authURLs replaceObjectAtIndex:[self.authURLs indexOfObject:item] withObject:authURL];
-                            [self configUI];
-                            [self showHudTipStr:@"更新成功"];
+                        if ([authURL saveToKeychain]) {
+                            if ([self.authURLs indexOfObject:item] != NSNotFound) {
+                                [self.authURLs replaceObjectAtIndex:[self.authURLs indexOfObject:item] withObject:authURL];
+                                [self configUI];
+                                [self showHudTipStr:@"更新成功"];
+                            }
+                        }else{
+                            kTipAlert(@"保存过程中发生了异常，请重新扫描");
                         }
+
                     }
                 };
                 [alertV show];
@@ -214,10 +218,13 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         }
     }
     if (!alreadyHave) {
-        [authURL saveToKeychain];
-        [self.authURLs addObject:authURL];
-        [self configUI];
-        kTipAlert(@"添加账户成功：\n%@", authURL.name);
+        if ([authURL saveToKeychain]) {
+            [self.authURLs addObject:authURL];
+            [self configUI];
+            kTipAlert(@"添加账户成功：\n%@", authURL.name);
+        }else{
+            kTipAlert(@"保存过程中发生了异常，请重新扫描");
+        }
     }
 }
 
