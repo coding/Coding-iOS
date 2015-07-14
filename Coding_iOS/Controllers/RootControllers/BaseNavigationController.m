@@ -18,7 +18,7 @@
     return [self.visibleViewController preferredInterfaceOrientationForPresentation];
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return [self.visibleViewController supportedInterfaceOrientations];
 }
 
