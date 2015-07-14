@@ -32,9 +32,14 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3.0.1.201507101600</string>
+	<string>3.0.1.201507141630</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>我们需要通过您的地理位置信息获取您周边的相关数据</string>
 	<key>UIAppFonts</key>
@@ -61,10 +66,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
 </dict>
 </plist>
