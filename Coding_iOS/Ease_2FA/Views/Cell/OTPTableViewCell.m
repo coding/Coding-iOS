@@ -33,7 +33,7 @@
 
 @implementation OTPTableViewCell
 + (CGFloat)cellHeight{
-    return 100;
+    return 120;
 }
 
 - (void)setAuthURL:(OTPAuthURL *)authURL{
@@ -49,7 +49,7 @@
     if (!_issuerLabel) {
         _issuerLabel = [UILabel new];
         _issuerLabel.font = [UIFont systemFontOfSize:16];
-        _issuerLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+        _issuerLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
         [self.contentView addSubview:_issuerLabel];
         [_issuerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentView).offset(10);
@@ -60,14 +60,14 @@
     }
     if (!_passwordLabel) {
         _passwordLabel = [UILabel new];
-        _passwordLabel.font = [UIFont boldSystemFontOfSize:40];
+        _passwordLabel.font = [UIFont systemFontOfSize:50];
         _passwordLabel.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
         [self.contentView addSubview:_passwordLabel];
         [_passwordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.contentView);
             make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
             make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
-            make.height.mas_equalTo([[self class] cellHeight] - 50);
+            make.height.mas_equalTo(50);
         }];
     }
     if (!_nameLabel) {
@@ -130,7 +130,7 @@
     [super updateUI];
     if (!_back_passwordLabel) {
         _back_passwordLabel = [UILabel new];
-        _back_passwordLabel.font = [UIFont boldSystemFontOfSize:40];
+        _back_passwordLabel.font = [UIFont systemFontOfSize:50];
         _back_passwordLabel.textColor = [UIColor colorWithHexString:@"0xE15957"];
         [self.contentView addSubview:_back_passwordLabel];
         [_back_passwordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
