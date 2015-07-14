@@ -137,7 +137,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
             _tipLabel.numberOfLines = 0;
             _tipLabel.textAlignment = NSTextAlignmentCenter;
             _tipLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
-            _tipLabel.text = @"启用两步验证后，登录 Coding 账户或进行敏感操作时都将需要输入密码和本客户端生成的验证码。";
+            _tipLabel.text = @"启用 2FA 后，登录 Coding 账户或进行敏感操作时都将需要输入密码和本客户端生成的验证码。";
             [self.view addSubview:_tipLabel];
         }
         if (!_beginButton) {
@@ -150,18 +150,21 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
             }];
         }
         CGSize tipImageSize = tipImage.size;
-        CGFloat scale = 1.0;
+        CGFloat imageScale = 1.0, labelScale = 1.0;
         if (kDevice_Is_iPhone6Plus) {
-            scale = 1.0;
-            _tipLabel.font = [UIFont systemFontOfSize:16];
+            imageScale = 0.85;
+            labelScale = 0.75;
+            _tipLabel.font = [UIFont systemFontOfSize:17];
         }else if (kDevice_Is_iPhone6){
-            scale = 0.85;
-            _tipLabel.font = [UIFont systemFontOfSize:15];
+            imageScale = 0.75;
+            labelScale = 0.75;
+            _tipLabel.font = [UIFont systemFontOfSize:16];
         }else{
             _tipLabel.font = [UIFont systemFontOfSize:15];
-            scale = 0.75;
+            imageScale = 0.65;
+            labelScale = 0.75;
         }
-        tipImageSize = CGSizeMake(ceil(tipImageSize.width *scale), ceil(tipImageSize.height *scale));
+        tipImageSize = CGSizeMake(ceil(tipImageSize.width *imageScale), ceil(tipImageSize.height *imageScale));
         
         [_tipImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.view);
@@ -170,8 +173,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         }];
         [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.view);
-            make.top.equalTo(_tipImageView.mas_bottom).offset(20);
-            make.width.mas_equalTo(kScreen_Width * 0.7);
+            make.top.equalTo(_tipImageView.mas_bottom).offset(40);
+            make.width.mas_equalTo(kScreen_Width * labelScale);
         }];
     }
 }
@@ -285,7 +288,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         OTPAuthURL *authURL = self.authURLs[indexPath.section];
         __weak typeof(self) weakSelf = self;
-        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"删除此账户不会停用两步验证" message:@"您可能会因此无法登录自己的账户\n在删除该账户前，请先停用两步验证，或者确保您可以通过其它方法生成验证码。"];
+        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"删除此账户不会停用两步验证" message:@"\n您可能会因此无法登录自己的账户\n在删除该账户前，请先停用两步验证，或者确保您可以通过其它方法生成验证码。"];
         [alertV bk_setCancelButtonWithTitle:@"取消" handler:^{
             [weakSelf configUI];
         }];
