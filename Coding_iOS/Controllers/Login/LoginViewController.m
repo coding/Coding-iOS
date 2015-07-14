@@ -93,7 +93,7 @@
             [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateHighlighted];
             
             [button setTitle:@"  2FA" forState:UIControlStateNormal];
-            [button setImage:[UIImage imageNamed:@"convenient_2FA"] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"twoFABtn_Nav"] forState:UIControlStateNormal];
             button;
         });
         [_buttonFor2FA addTarget:self action:@selector(goTo2FAVC) forControlEvents:UIControlEventTouchUpInside];
