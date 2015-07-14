@@ -136,7 +136,7 @@
 - (NSString *)string_a_HH_mm{
     NSString *text = nil;
     NSString *aStr, *timeStr;
-    timeStr = [self stringWithFormat:@"hh:mm"];
+    timeStr = [self stringWithFormat:@"h:mm"];
     NSUInteger hour = [self hour];
     if (hour < 3) {
         aStr = @"凌晨";
