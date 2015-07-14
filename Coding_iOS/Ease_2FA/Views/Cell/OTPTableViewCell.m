@@ -138,8 +138,9 @@
         }];
     }
     if (!_clockView) {
-        _clockView = [[OTPAuthClock alloc] initWithFrame:CGRectMake(0, 0, 30, 30) period:[TOTPGenerator defaultPeriod]];
-        [_clockView setCenter:CGPointMake(CGRectGetWidth(self.contentView.frame) - 30, CGRectGetHeight(self.contentView.frame) - 30)];
+        CGFloat clockWidth = 25.f;
+        _clockView = [[OTPAuthClock alloc] initWithFrame:CGRectMake(0, 0, clockWidth, clockWidth) period:[TOTPGenerator defaultPeriod]];
+        [_clockView setCenter:CGPointMake(CGRectGetWidth(self.contentView.frame) - clockWidth, CGRectGetHeight(self.contentView.frame) - clockWidth)];
         [self.contentView addSubview:_clockView];
     }
     self.back_passwordLabel.text = self.passwordLabel.text;
