@@ -24,6 +24,7 @@
     button.size = CGSizeMake(imgSize.width, imgSize.height + 20);
     CGFloat pointX = button.frame.size.width - 25;
     [button addBadgeTip:@"" withCenterPosition:CGPointMake(pointX, 25)];
+    [button addTarget:obj action:selector forControlEvents:UIControlEventTouchUpInside];
     return [[UIBarButtonItem alloc] initWithCustomView:button];;
 }
 
