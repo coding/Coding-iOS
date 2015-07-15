@@ -78,6 +78,11 @@
                     }
                 }
                 
+                if(i == hotkeys.count - 1) {
+                    
+                    currentHeight += currentSize.height + 15.0f;
+                }
+                
                 [self addSubview:lblHotKey];
                 currentSize = CGSizeZero;
                 lblHotKey = nil;

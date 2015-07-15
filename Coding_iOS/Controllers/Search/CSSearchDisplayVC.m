@@ -10,6 +10,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "TopicHotkeyView.h"
+#import "Coding_NetAPIManager.h"
 
 @interface CSSearchDisplayVC ()
 
@@ -100,9 +101,20 @@
 //    itemView.frame = CGRectMake(12.0f, 50.0f, 100.0, 100.0f);
 //    [_contentView addSubview:itemView];
     
-    TopicHotkeyView *test = [[TopicHotkeyView alloc] initWithHotkeys:@[@"我最爱的编程语言", @"coding", @"PHP", @"gopher china", @"悬赏80,000", @"Coding客户端里私信做个轮询好不好"]
-                                                           withFrame:CGRectMake(0.0f, 40.0f, 160.0f, 25.0f)];
-    [_contentView addSubview:test];
+    __weak typeof(_contentView) __contentView = _contentView;
+    
+    [[Coding_NetAPIManager sharedManager] request_TopicHotkeyWithBlock:^(id data, NSError *error) {
+        if(data) {
+            NSArray *array = data;
+            NSMutableArray *hotkeyArray = [[NSMutableArray alloc] initWithCapacity:6];
+            for (int i = 0; i < (array.count >= 6 ? 6 : array.count); i++) {
+                [hotkeyArray addObject:[(NSDictionary *)array[i] objectForKey:@"name"]];
+            }
+            
+            TopicHotkeyView *test = [[TopicHotkeyView alloc] initWithHotkeys:hotkeyArray withFrame:CGRectMake(0.0f, 40.0f, 160.0f, 25.0f)];
+            [__contentView addSubview:test];
+        }
+    }];
 }
 
 - (void)didClickedMoreHotkey:(id)sender {

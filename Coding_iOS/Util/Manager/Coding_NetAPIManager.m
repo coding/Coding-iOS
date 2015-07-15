@@ -1946,4 +1946,24 @@
         }
     }];
 }
+
+#pragma mark -
+#pragma mark Topic HotKey
+
+- (void)request_TopicHotkeyWithBlock:(void (^)(id data, NSError *error))block {
+
+    NSString *path = @"/api/tweet_topic/hot?page=1&pageSize=20";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        
+        if(data) {
+        
+            id resultData = [data valueForKey:@"data"];
+            block(resultData, nil);
+        }else {
+        
+            block(nil, error);
+        }
+    }];
+}
+
 @end
