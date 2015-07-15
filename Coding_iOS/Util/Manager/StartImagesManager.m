@@ -97,6 +97,7 @@
         }
     }
     
+//    上一次显示的图片，这次就应该把它换掉
     NSString *preDisplayImageName = [self getDisplayImageName];
     if (preDisplayImageName && preDisplayImageName.length > 0) {
         NSUInteger index = [imageLoadedArray indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
@@ -106,7 +107,7 @@
             }
             return NO;
         }];
-        if (index != NSNotFound) {
+        if (index != NSNotFound && imageLoadedArray.count > 1) {//imageLoadedArray.count > 1 是因为，如果一共就一张图片，那么即便上次显示了这张图片，也应该再次显示它
             [imageLoadedArray removeObjectAtIndex:index];
         }
     }
