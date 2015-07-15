@@ -199,7 +199,7 @@
                            [MenuItem itemWithTitle:@"冒泡" iconName:@"pop_Tweet" index:2],
                            [MenuItem itemWithTitle:@"添加好友" iconName:@"pop_User" index:3],
                            [MenuItem itemWithTitle:@"私信" iconName:@"pop_Message" index:4],
-                           [MenuItem itemWithTitle:@"2 FA" iconName:@"pop_2FA" index:5],
+                           [MenuItem itemWithTitle:@"两步验证" iconName:@"pop_2FA" index:5],
                            ];
     if (!_myPopMenu) {
         _myPopMenu = [[PopMenu alloc] initWithFrame:kScreen_Bounds items:menuItems];
