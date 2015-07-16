@@ -43,13 +43,13 @@
     self.layer.backgroundColor = kColorLabelBgColor.CGColor;
     self.layer.borderColor = kColorLabelText.CGColor;
     
-//    _longPressTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressTapRecognized:)];
-//    [self addGestureRecognizer:_longPressTap];
+    _longPressTap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressTapRecognized:)];
+    [self addGestureRecognizer:_longPressTap];
     
-    _singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized:)];
-    [_singleTap setNumberOfTouchesRequired:1];
-    [_singleTap setNumberOfTapsRequired:1];
-    [self addGestureRecognizer:_singleTap];
+//    _singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapRecognized:)];
+//    [_singleTap setNumberOfTouchesRequired:1];
+//    [_singleTap setNumberOfTapsRequired:1];
+//    [self addGestureRecognizer:_singleTap];
     self.userInteractionEnabled = YES;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideMenu) name:@"UIMenuControllerWillHideMenuNotification"  object:nil];
