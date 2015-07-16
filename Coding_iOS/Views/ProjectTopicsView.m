@@ -9,7 +9,7 @@
 #import "ProjectTopicsView.h"
 #import "TopicListView.h"
 #import "Coding_NetAPIManager.h"
-#import "ProjectTopicLabel.h"
+#import "ProjectTag.h"
 
 @interface ProjectTopicsView ()
 {
@@ -85,11 +85,6 @@
     [_mylistView refreshToQueryData];
 }
 
-- (NSString *)toLabelPath
-{
-    return [NSString stringWithFormat:@"api/project/%d/topic/label?withCount=true", _myProject.id.intValue];
-}
-
 - (NSString *)toCountPath
 {
     return [NSString stringWithFormat:@"api/project/%d/topic/count", _myProject.id.intValue];
@@ -108,7 +103,7 @@
 - (void)sendLabelRequest
 {
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_WithPath:[self toLabelPath] andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_TagListInProject:_myProject type:ProjectTagTypeTopic andBlock:^(id data, NSError *error) {
         if (data) {
             [weakSelf parseLabelInfo:data];
         }
@@ -139,14 +134,14 @@
 {
     if ([_totalIndex[0] integerValue] == 0) {
         NSInteger tempIndex = 0;
-        ProjectTopicLabel *tempLbl = [_totalIndex[1] integerValue] > 0 ? _labelsAll[[_totalIndex[1] integerValue] - 1] : nil;
+        ProjectTag *tempLbl = [_totalIndex[1] integerValue] > 0 ? _labelsAll[[_totalIndex[1] integerValue] - 1] : nil;
         
         [_labelsAll removeAllObjects];
         [_two removeAllObjects];
         [_two addObject:@"全部标签"];
         [_twoNumber removeAllObjects];
         [_twoNumber addObject:_oneNumber[0]];
-        for (ProjectTopicLabel *lbl in labelInfo) {
+        for (ProjectTag *lbl in labelInfo) {
             if ([lbl.count integerValue] > 0) {
                 [_labelsAll addObject:lbl];
                 [_two addObject:lbl.name];
@@ -166,7 +161,7 @@
         [_labelsAll removeAllObjects];
         [_twoNumber removeAllObjects];
         [_twoNumber addObject:_oneNumber[0]];
-        for (ProjectTopicLabel *lbl in labelInfo) {
+        for (ProjectTag *lbl in labelInfo) {
             if ([lbl.count integerValue] > 0) {
                 [_labelsAll addObject:lbl];
                 [_twoNumber addObject:lbl.count];
@@ -181,7 +176,7 @@
 //    [_labelsAll addObjectsFromArray:labelInfo];
 //    [_two removeAllObjects];
 //    [_two addObject:@"全部标签"];
-//    for (ProjectTopicLabel *lbl in _labelsAll) {
+//    for (ProjectTag *lbl in _labelsAll) {
 //        [_two addObject:lbl.name];
 //    }
 //}
@@ -190,13 +185,13 @@
 {
     if ([_totalIndex[0] integerValue] == 1) {
         NSInteger tempIndex = 0;
-        ProjectTopicLabel *tempLbl = [_totalIndex[1] integerValue] > 0 ? _labelsMy[[_totalIndex[1] integerValue] - 1] : nil;
+        ProjectTag *tempLbl = [_totalIndex[1] integerValue] > 0 ? _labelsMy[[_totalIndex[1] integerValue] - 1] : nil;
         
         [_labelsMy removeAllObjects];
         [_labelsMy addObjectsFromArray:labelInfo];
         [_two removeAllObjects];
         [_two addObject:@"全部标签"];
-        for (ProjectTopicLabel *lbl in labelInfo) {
+        for (ProjectTag *lbl in labelInfo) {
             [_two addObject:lbl.name];
             
             if (tempLbl && [tempLbl.id isEqualToNumber:lbl.id]) {
@@ -227,11 +222,11 @@
     if (segmentIndex == 0) {
         NSInteger tempIndex = 0;
         if (index == 0) {
-            ProjectTopicLabel *tempLbl = [_totalIndex[1] integerValue] > 0 ? _labelsMy[[_totalIndex[1] integerValue] - 1] : nil;
+            ProjectTag *tempLbl = [_totalIndex[1] integerValue] > 0 ? _labelsMy[[_totalIndex[1] integerValue] - 1] : nil;
             [_two removeAllObjects];
             [_two addObject:@"全部标签"];
             for (int i=0; i<_labelsAll.count; i++) {
-                ProjectTopicLabel *lbl = _labelsAll[i];
+                ProjectTag *lbl = _labelsAll[i];
                 [_two addObject:lbl.name];
                 
                 if (tempLbl && [tempLbl.id isEqualToNumber:lbl.id]) {
@@ -239,11 +234,11 @@
                 }
             }
         } else {
-            ProjectTopicLabel *tempLbl = [_totalIndex[1] integerValue] > 0 ? _labelsAll[[_totalIndex[1] integerValue] - 1] : nil;
+            ProjectTag *tempLbl = [_totalIndex[1] integerValue] > 0 ? _labelsAll[[_totalIndex[1] integerValue] - 1] : nil;
             [_two removeAllObjects];
             [_two addObject:@"全部标签"];
             for (int i=0; i<_labelsMy.count; i++) {
-                ProjectTopicLabel *lbl = _labelsMy[i];
+                ProjectTag *lbl = _labelsMy[i];
                 [_two addObject:lbl.name];
                 
                 if (tempLbl && [tempLbl.id isEqualToNumber:lbl.id]) {
@@ -265,10 +260,10 @@
 {
     if ([_totalIndex[1] integerValue] > 0) {
         if ([_totalIndex[0] integerValue] > 0) {
-            ProjectTopicLabel *lbl = _labelsMy[[_totalIndex[1] integerValue] - 1];
+            ProjectTag *lbl = _labelsMy[[_totalIndex[1] integerValue] - 1];
             [_mylistView setOrder:[_totalIndex[2] integerValue] withLabelID:lbl.id andType:[_totalIndex[0] integerValue]];
         } else {
-            ProjectTopicLabel *lbl = _labelsAll[[_totalIndex[1] integerValue] - 1];
+            ProjectTag *lbl = _labelsAll[[_totalIndex[1] integerValue] - 1];
             [_mylistView setOrder:[_totalIndex[2] integerValue] withLabelID:lbl.id andType:[_totalIndex[0] integerValue]];
         }
     } else {

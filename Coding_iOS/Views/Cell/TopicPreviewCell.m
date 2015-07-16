@@ -12,7 +12,7 @@
 #import "TopicPreviewCell.h"
 #import "WebContentManager.h"
 #import "Coding_NetAPIManager.h"
-#import "ProjectTopicLabel.h"
+#import "ProjectTag.h"
 #import "ProjectTopicLabelView.h"
 
 @interface TopicPreviewCell () <UIWebViewDelegate>
@@ -224,7 +224,7 @@
             tLbl.font = [UIFont systemFontOfSize:12];
             tLbl.textAlignment = NSTextAlignmentCenter;
             
-            for (ProjectTopicLabel *label in topic.mdLabels) {
+            for (ProjectTag *label in topic.mdLabels) {
                 tLbl.text = label.name;
                 [tLbl sizeToFit];
                 

@@ -12,7 +12,7 @@
 #import "ResetLabelViewController.h"
 #import "TPKeyboardAvoidingTableView.h"
 #import "Coding_NetAPIManager.h"
-#import "ProjectTopicLabel.h"
+#import "ProjectTag.h"
 #import "MBProgressHUD+Add.h"
 
 #define kCellIdentifier_EditLabelHeadCell @"EditLabelHeadCell"
@@ -100,18 +100,19 @@
     [self.view beginLoading];
     
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_WithPath:[self toLabelPath] andBlock:^(id data, NSError *error) {
+
+    [[Coding_NetAPIManager sharedManager] request_TagListInProject:_curProTopic.project type:ProjectTagTypeTopic andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
             [_labels addObjectsFromArray:data];
-            for (ProjectTopicLabel *lbl in _labels) {
-                for (ProjectTopicLabel *tLbl in _curProTopic.mdLabels) {
+            for (ProjectTag *lbl in _labels) {
+                for (ProjectTag *tLbl in _curProTopic.mdLabels) {
                     if ([lbl.id integerValue] == [tLbl.id integerValue]) {
                         tLbl.name = lbl.name;
                         break;
                     }
                 }
-                for (ProjectTopicLabel *tLbl in _tempArray) {
+                for (ProjectTag *tLbl in _tempArray) {
                     if ([lbl.id integerValue] == [tLbl.id integerValue]) {
                         tLbl.name = lbl.name;
                         break;
@@ -120,17 +121,13 @@
             }
             [weakSelf.myTableView reloadData];
         }
-    }];
-}
 
-- (NSString *)toLabelPath
-{
-    return [NSString stringWithFormat:@"api/project/%d/topic/label?withCount=true", _curProTopic.project_id.intValue];
+    }];
 }
 
 - (NSString *)toDelPath:(NSInteger)index
 {
-    ProjectTopicLabel *ptLabel = [_labels objectAtIndex:index];
+    ProjectTag *ptLabel = [_labels objectAtIndex:index];
     return [NSString stringWithFormat:@"api/project/%d/topic/label/%lld", _curProTopic.project_id.intValue, ptLabel.id.longLongValue];
 }
 
@@ -174,20 +171,17 @@
     [_mCurrentTextField resignFirstResponder];
     if (_tempLabel.length > 0) {
         __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Add_WithPath:[self toLabelPath] withParams:@{@"name" : [_tempLabel aliasedString], @"color" : @"#d8f3e4"} andBlock:^(id data, NSError *error) {
-            if (!error) {
-                ProjectTopicLabel *ptLabel = [[ProjectTopicLabel alloc] init];
-                ptLabel.name = _tempLabel;
-                ptLabel.id = data;
-                ptLabel.owner_id = _curProTopic.project_id;
-                ptLabel.color = @"#d8f3e4";
-                [weakSelf.labels addObject:ptLabel];
+        ProjectTag *curTag = [ProjectTag tagWithName:_tempLabel];
+        [[Coding_NetAPIManager sharedManager] request_AddTag:curTag toProject:_curProTopic.project andBlock:^(id data, NSError *error) {
+            if (data) {
+                curTag.id = data;
+                [weakSelf.labels addObject:curTag];
                 [weakSelf.myTableView reloadData];
                 _tempLabel = @"";
                 weakSelf.mCurrentTextField.text = @"";
                 [weakSelf showHudTipStr:@"添加标签成功^^"];
                 sender.enabled = FALSE;
-           }
+            }
         }];
     }
 }
@@ -231,13 +225,13 @@
         return cell;
     }
     
-    ProjectTopicLabel *ptLabel = _labels[indexPath.row];
+    ProjectTag *ptLabel = _labels[indexPath.row];
     
     EditLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_EditLabelCell forIndexPath:indexPath];
     cell.nameLbl.text = ptLabel.name;
     
     BOOL selected = FALSE;
-    for (ProjectTopicLabel *lbl in _curProTopic.mdLabels) {
+    for (ProjectTag *lbl in _curProTopic.mdLabels) {
         if ([lbl.id integerValue] == [ptLabel.id integerValue]) {
             selected = TRUE;
             break;
@@ -279,11 +273,11 @@
         EditLabelCell *cell = (EditLabelCell *)[tableView cellForRowAtIndexPath:indexPath];
         cell.selectBtn.selected = !cell.selectBtn.selected;
         
-        ProjectTopicLabel *lbl = _labels[indexPath.row];
+        ProjectTag *lbl = _labels[indexPath.row];
   
         if (cell.selectBtn.selected) {
             BOOL add = TRUE;
-            for (ProjectTopicLabel *tempLbl in _tempArray) {
+            for (ProjectTag *tempLbl in _tempArray) {
                 if ([tempLbl.id integerValue] == [lbl.id integerValue]) {
                     add = FALSE;
                     break;
@@ -308,7 +302,7 @@
                 //}
             }
         } else {
-            for (ProjectTopicLabel *tempLbl in _tempArray) {
+            for (ProjectTag *tempLbl in _tempArray) {
                 if ([tempLbl.id integerValue] == [lbl.id integerValue]) {
 //                    if (_isSaveChange) {
 //                        __weak typeof(self) weakSelf = self;
@@ -384,7 +378,7 @@
         [self renameBtnClick:indexPath.row];
     } else {
         __weak typeof(self) weakSelf = self;
-        ProjectTopicLabel *ptLabel = [_labels objectAtIndex:indexPath.row];
+        ProjectTag *ptLabel = [_labels objectAtIndex:indexPath.row];
         NSString *tip = [NSString stringWithFormat:@"确定要删除标签:%@？", ptLabel.name];
         UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:tip buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
@@ -406,8 +400,8 @@
 - (void)deleteBtnClick:(NSInteger)index
 {
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Del_WithPath:[self toDelPath:index] andBlock:^(id data, NSError *error) {
-        if (!error) {
+    [[Coding_NetAPIManager sharedManager] request_DeleteTag:_labels[index] inProject:_curProTopic.project andBlock:^(id data, NSError *error) {
+        if (data) {
             [weakSelf deleteLabel:index];
         }
     }];
@@ -415,8 +409,8 @@
 
 - (void)deleteLabel:(NSInteger)index
 {
-    ProjectTopicLabel *lbl = _labels[index];
-    for (ProjectTopicLabel *tempLbl in _tempArray) {
+    ProjectTag *lbl = _labels[index];
+    for (ProjectTag *tempLbl in _tempArray) {
         if ([tempLbl.id integerValue] == [lbl.id integerValue]) {
             [_tempArray removeObject:tempLbl];
             self.navigationItem.rightBarButtonItem.enabled = YES;
@@ -448,7 +442,7 @@
     _tempLabel = [textField.text trimWhitespace];
     BOOL enabled = _tempLabel.length > 0 ? TRUE : FALSE;
     if (enabled) {
-        for (ProjectTopicLabel *lbl in _labels) {
+        for (ProjectTag *lbl in _labels) {
             if ([lbl.name isEqualToString:_tempLabel]) {
                 enabled = FALSE;
                 break;

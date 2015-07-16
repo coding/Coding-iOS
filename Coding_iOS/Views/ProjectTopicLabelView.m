@@ -8,7 +8,7 @@
 
 #import "ProjectTopicLabelView.h"
 #import "ProjectTopic.h"
-#import "ProjectTopicLabel.h"
+#import "ProjectTag.h"
 #import "WMDelLabel.h"
 
 @interface ProjectTopicLabelView () <WMDelLabelDelegate>
@@ -29,7 +29,7 @@
             CGFloat limitW = kScreen_Width - kPaddingLeftWidth - 44;
             
             for (int i=0; i<labelAry.count; i++) {
-                ProjectTopicLabel *label = labelAry[i];
+                ProjectTag *label = labelAry[i];
                 WMDelLabel *tLbl = [[WMDelLabel alloc] initWithFrame:CGRectMake(x, y, 0, 0)];
                 tLbl.delLabelDelegate = self;
                 tLbl.tag = i;

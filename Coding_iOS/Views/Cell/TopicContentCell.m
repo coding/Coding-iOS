@@ -11,7 +11,7 @@
 
 #import "TopicContentCell.h"
 #import "WebContentManager.h"
-#import "ProjectTopicLabel.h"
+#import "ProjectTag.h"
 #import "Coding_NetAPIManager.h"
 #import "ProjectTopicLabelView.h"
 
@@ -226,7 +226,7 @@
             tLbl.font = [UIFont systemFontOfSize:12];
             tLbl.textAlignment = NSTextAlignmentCenter;
             
-            for (ProjectTopicLabel *label in topic.labels) {
+            for (ProjectTag *label in topic.labels) {
                 tLbl.text = label.name;
                 [tLbl sizeToFit];
                 

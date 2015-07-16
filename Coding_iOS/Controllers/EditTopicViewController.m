@@ -13,7 +13,7 @@
 #import "WebContentManager.h"
 #import "EditLabelViewController.h"
 #import "TopicPreviewCell.h"
-#import "ProjectTopicLabel.h"
+#import "ProjectTag.h"
 #import "ProjectTopicLabelView.h"
 
 @interface EditTopicViewController ()<UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate>

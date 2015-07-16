@@ -9,10 +9,10 @@
 #import "BaseViewController.h"
 
 @class ProjectTopic;
-@class ProjectTopicLabel;
+@class ProjectTag;
 @interface ResetLabelViewController : BaseViewController
 
-@property (weak, nonatomic) ProjectTopicLabel *ptLabel;
+@property (weak, nonatomic) ProjectTag *ptLabel;
 @property (weak, nonatomic) ProjectTopic *curProTopic;
 
 @end

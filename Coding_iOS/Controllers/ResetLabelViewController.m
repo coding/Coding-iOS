@@ -10,7 +10,7 @@
 #import "ResetLabelCell.h"
 #import "TPKeyboardAvoidingTableView.h"
 #import "Coding_NetAPIManager.h"
-#import "ProjectTopicLabel.h"
+#import "ProjectTag.h"
 
 #define kCellIdentifier_ResetLabelCell @"ResetLabelCell"
 
@@ -79,8 +79,9 @@
 {
     if (_tempStr.length > 0) {
         __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_ProjectTopicLabel_Modify_WithPath:[self toModifyPath] withParams:@{@"name" : _tempStr, @"color" : @"#d8f3e4", @"label_id" : _ptLabel.id} andBlock:^(id data, NSError *error) {
-            if (!error) {
+        _ptLabel.name = _tempStr;
+        [[Coding_NetAPIManager sharedManager] request_ModifyTag:_ptLabel inProject:_curProTopic.project andBlock:^(id data, NSError *error) {
+            if (data) {
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             }
         }];

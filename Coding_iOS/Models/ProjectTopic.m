@@ -8,7 +8,7 @@
 
 #import "ProjectTopic.h"
 #import "Login.h"
-#import "ProjectTopicLabel.h"
+#import "ProjectTag.h"
 
 @implementation ProjectTopic
 
@@ -17,7 +17,7 @@
     self = [super init];
     if (self) {
         _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
-                             @"ProjectTopicLabel", @"labels", nil];
+                             @"ProjectTag", @"labels", nil];
         
         _page = [NSNumber numberWithInteger:1];
         _pageSize = [NSNumber numberWithInteger:20];
@@ -73,7 +73,7 @@
 - (NSDictionary *)toEditParams
 {
     NSMutableArray *tempAry = [NSMutableArray arrayWithCapacity:_mdLabels.count];
-    for (ProjectTopicLabel *lbl in _mdLabels) {
+    for (ProjectTag *lbl in _mdLabels) {
         [tempAry addObject:lbl.id];
     }
     return @{@"title" : [_mdTitle aliasedString],
@@ -89,7 +89,7 @@
 - (NSDictionary *)toLabelParams
 {
     NSMutableArray *tempAry = [NSMutableArray arrayWithCapacity:_mdLabels.count];
-    for (ProjectTopicLabel *lbl in _mdLabels) {
+    for (ProjectTag *lbl in _mdLabels) {
         [tempAry addObject:lbl.id];
     }
     return @{@"label_id" : tempAry};
@@ -103,7 +103,7 @@
 - (NSDictionary *)toAddTopicParams
 {
     NSMutableArray *tempAry = [NSMutableArray arrayWithCapacity:_mdLabels.count];
-    for (ProjectTopicLabel *lbl in _mdLabels) {
+    for (ProjectTag *lbl in _mdLabels) {
         [tempAry addObject:lbl.id];
     }
     return @{@"title" : [_mdTitle aliasedString],
