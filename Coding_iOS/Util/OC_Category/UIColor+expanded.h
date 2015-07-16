@@ -46,6 +46,8 @@
 - (NSString *)stringFromColor;
 - (NSString *)hexStringFromColor;
 
+- (BOOL)isDark;
+
 + (UIColor *)randomColor;
 + (UIColor *)colorWithString:(NSString *)stringToConvert;
 + (UIColor *)colorWithRGBHex:(UInt32)hex;

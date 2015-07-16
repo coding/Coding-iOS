@@ -309,6 +309,11 @@ static NSMutableDictionary *colorNameCache = nil;
 	return [NSString stringWithFormat:@"%0.6X", (int)self.rgbHex];
 }
 
+- (BOOL)isDark{
+    CGFloat gray = self.red * 0.299 + self.green * 0.587 + self.blue * 0.114;//纯白为1，纯黑为0
+    return gray < 186.f/255;
+}
+
 + (UIColor *)colorWithString:(NSString *)stringToConvert {
 	NSScanner *scanner = [NSScanner scannerWithString:stringToConvert];
 	if (![scanner scanString:@"{" intoString:NULL]) return nil;
