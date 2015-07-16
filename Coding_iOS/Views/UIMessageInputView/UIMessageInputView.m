@@ -813,7 +813,9 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if ([text isEqualToString:@"\n"]) {
-        [self sendTextStr];
+        if (![self.inputTextView.text hasListenChar]) {
+            [self sendTextStr];
+        }
         return NO;
     }else if ([text isEqualToString:@"@"]){
         __weak typeof(self) weakSelf = self;

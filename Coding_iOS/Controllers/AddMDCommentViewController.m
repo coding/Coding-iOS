@@ -117,7 +117,7 @@
         [_editView.rac_textSignal subscribeNext:^(NSString *mdStr) {
             @strongify(self);
             self.contentStr = mdStr;
-            self.navigationItem.rightBarButtonItem.enabled = (self.contentStr.length > 0 && ![self.contentStr isEmpty]);
+            self.navigationItem.rightBarButtonItem.enabled = (self.contentStr.length > 0 && ![self.contentStr isEmptyOrListening]);
         }];
     }
     _editView.hidden = NO;

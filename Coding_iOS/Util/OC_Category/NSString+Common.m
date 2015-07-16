@@ -309,6 +309,10 @@
     return [[self trimWhitespace] isEqualToString:@""];
 }
 
+- (BOOL)isEmptyOrListening{
+    return [self isEmpty] || [self hasListenChar];
+}
+
 //判断是否为整形
 - (BOOL)isPureInt{
     NSScanner* scan = [NSScanner scannerWithString:self];
@@ -366,4 +370,20 @@
     tempString = (NSMutableString *)[tempString stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
     return [tempString uppercaseString];
 }
+
+//是否包含语音解析的图标
+- (BOOL)hasListenChar{
+    BOOL hasListenChar = NO;
+    NSUInteger length = [self length];
+    unichar charBuffer[length];
+    [self getCharacters:charBuffer];
+    for (length = [self length]; length > 0; length--) {
+        if (charBuffer[length -1] == 65532) {//'\U0000fffc'
+            hasListenChar = YES;
+            break;
+        }
+    }
+    return hasListenChar;
+}
+
 @end
