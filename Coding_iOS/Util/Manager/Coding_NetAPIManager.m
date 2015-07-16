@@ -1966,4 +1966,20 @@
     }];
 }
 
+- (void)request_Tweet_WithSearchString:(NSString *)strSearch andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {
+
+    NSString *path = [NSString stringWithFormat:@"/api/search/quick?q=%@&page=%d", strSearch, (int)page];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+       
+        if(data) {
+        
+            id resultData = [(NSDictionary *)[data valueForKey:@"data"] objectForKey:@"tweets"];
+            block(resultData, nil);
+        }else {
+        
+            block(nil, error);
+        }
+    }];
+}
+
 @end

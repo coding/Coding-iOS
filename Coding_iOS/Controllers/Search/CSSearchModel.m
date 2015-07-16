@@ -10,6 +10,7 @@
 #import "TMCacheExtend.h"
 
 #define kHasSearchBadgeShown @"com.cs.search.badge.hasShown"
+#define kSearchHistory @"com.cs.search.history"
 
 @implementation CSSearchModel
 
@@ -20,6 +21,35 @@
 
 + (void)invalidSearchBadge{
     [[TMCache TemporaryCache] setObject:@(YES) forKey:kHasSearchBadgeShown];
+}
+
++ (NSArray *)getSearchHistory {
+
+    if(![[TMCache TemporaryCache] objectForKey:kSearchHistory]) {
+    
+        NSMutableArray *history = [[NSMutableArray alloc] initWithCapacity:3];
+        [[TMCache TemporaryCache] setObject:history forKey:kSearchHistory];
+    }
+    
+    return [[TMCache TemporaryCache] objectForKey:kSearchHistory];
+}
+
++ (void)addSearchHistory:(NSString *)searchString {
+    
+    NSMutableArray *history = [NSMutableArray arrayWithArray:[CSSearchModel getSearchHistory]];
+    if(![history containsObject:searchString]) {
+        if(history.count >= 3)
+            [history removeLastObject];
+        [history insertObject:searchString atIndex:0];
+        [[TMCache TemporaryCache] setObject:history forKey:kSearchHistory];
+    }
+}
+
++ (void)cleanAllSearchHistory {
+
+    NSMutableArray *history = [NSMutableArray arrayWithArray:[CSSearchModel getSearchHistory]];
+    [history removeAllObjects];
+    [[TMCache TemporaryCache] setObject:history forKey:kSearchHistory];
 }
 
 

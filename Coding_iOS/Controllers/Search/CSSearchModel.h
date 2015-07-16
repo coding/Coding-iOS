@@ -14,4 +14,8 @@
 + (BOOL)hasSearchBadgeShown;
 + (void)invalidSearchBadge;
 
++ (NSArray *)getSearchHistory;
++ (void)addSearchHistory:(NSString *)searchString;
++ (void)cleanAllSearchHistory;
+
 @end

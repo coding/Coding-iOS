@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol TopicHotkeyViewDelegate <NSObject>
+
+- (void)didClickHotkeyWithIndex:(NSInteger)index;
+
+@end
+
 @interface TopicHotkeyView : UIView
 
-- (id)initWithHotkeys:(NSArray *)hotkeys withFrame:(CGRect)frame;
+@property (nonatomic, assign) id<TopicHotkeyViewDelegate> delegate;
+
+- (void)setHotkeys:(NSArray *)hotkeys;
 
 @end

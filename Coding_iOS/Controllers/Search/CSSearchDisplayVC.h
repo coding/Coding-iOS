@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CSSearchDisplayVC : UISearchDisplayController
+@interface CSSearchDisplayVC : UISearchDisplayController {
 
+}
 @end
