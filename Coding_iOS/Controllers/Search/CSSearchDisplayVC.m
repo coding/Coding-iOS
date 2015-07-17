@@ -15,6 +15,10 @@
 
 #import "CSSearchModel.h"
 
+#import "RKSwipeBetweenViewControllers.h"
+#import "CSHotTopicVC.h"
+#import "CSMyTopicVC.h"
+
 #define kCellIdentifier_Search  @"com.coding.search.tweet.result"
 
 @interface CSSearchDisplayVC () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
@@ -227,7 +231,22 @@
 
 - (void)didClickedMoreHotkey:(id)sender {
 
+    RKSwipeBetweenViewControllers *nav_topic = [RKSwipeBetweenViewControllers newSwipeBetweenViewControllers];
+    [nav_topic.viewControllerArray addObjectsFromArray:@[[CSHotTopicVC new],[CSMyTopicVC new]]];
+    nav_topic.buttonText = @[@"热门话题", @"我的话题"];
     
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.3;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionPush;
+    transition.subtype = kCATransitionFromRight;
+    
+    
+    [self.searchContentsController.view.window.layer addAnimation:transition forKey:nil];
+    
+    [self.searchContentsController presentViewController:nav_topic animated:NO completion:^{
+        
+    }];
 }
 
 - (void)didCLickedCleanSearchHistory:(id)sender {

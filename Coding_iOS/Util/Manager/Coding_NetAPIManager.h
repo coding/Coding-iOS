@@ -213,5 +213,9 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 
 //Topic HotKey
 - (void)request_TopicHotkeyWithBlock:(void (^)(id data, NSError *error))block;
+//Topic
+- (void)request_TopicAdlistWithBlock:(void (^)(id data, NSError *error))block;
+- (void)request_HotTopiclistWithBlock:(void (^)(id data, NSError *error))block;
+
 - (void)request_Tweet_WithSearchString:(NSString *)strSearch andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
 @end

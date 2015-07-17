@@ -12,6 +12,7 @@
 
 #import "TweetSendTextCell.h"
 #import "UsersViewController.h"
+#import "CSTopicCreateVC.h"
 
 @interface TweetSendTextCell () <AGEmojiKeyboardViewDelegate, AGEmojiKeyboardViewDataSource>
 @property (strong, nonatomic) AGEmojiKeyboardView *emojiKeyboardView;
@@ -119,7 +120,10 @@
             UIButton *emotionButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:1 imageStr:@"keyboard_emotion" andSelecter:@selector(emotionButtonClicked:)];
             [keyboardToolBar addSubview:emotionButton];
             
-            UIButton *atButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:2 imageStr:@"keyboard_at" andSelecter:@selector(atButtonClicked:)];
+            UIButton *topicButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:2 imageStr:@"keyboard_at" andSelecter:@selector(topicButtonClicked:)];
+            [keyboardToolBar addSubview:topicButton];
+            
+            UIButton *atButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:3 imageStr:@"keyboard_at" andSelecter:@selector(atButtonClicked:)];
             [keyboardToolBar addSubview:atButton];
         }
         
@@ -182,6 +186,17 @@
         @strongify(self);
         if (curUser) {
             NSString *atStr = [NSString stringWithFormat:@"@%@ ", curUser.name];
+            [self.tweetContentView insertText:atStr];
+        }
+    }];
+}
+
+- (void)topicButtonClicked:(id)sender{
+    @weakify(self);
+    [CSTopicCreateVC showATSomeoneWithBlock:^(NSString *topicName) {
+        @strongify(self);
+        if (topicName) {
+            NSString *atStr = [NSString stringWithFormat:@"#%@# ", topicName];
             [self.tweetContentView insertText:atStr];
         }
     }];
