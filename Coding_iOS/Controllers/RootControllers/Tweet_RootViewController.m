@@ -277,6 +277,7 @@
         _searchDisplayVC = ({
             
             CSSearchDisplayVC *searchVC = [[CSSearchDisplayVC alloc] initWithSearchBar:_searchBar contentsController:self.parentViewController];
+            searchVC.parentVC = self;
 //            searchVC.delegate = self;
 //            if (kHigher_iOS_6_1) {
 //                

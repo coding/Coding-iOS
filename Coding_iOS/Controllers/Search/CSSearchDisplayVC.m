@@ -241,12 +241,13 @@
     transition.type = kCATransitionPush;
     transition.subtype = kCATransitionFromRight;
     
-    
-    [self.searchContentsController.view.window.layer addAnimation:transition forKey:nil];
-    
-    [self.searchContentsController presentViewController:nav_topic animated:NO completion:^{
-        
-    }];
+    if (self.parentVC) {
+        [self.parentVC.view.window.layer addAnimation:transition forKey:nil];
+        [self.parentVC presentViewController:nav_topic animated:NO completion:^{
+            
+        }];
+    }
+
 }
 
 - (void)didCLickedCleanSearchHistory:(id)sender {

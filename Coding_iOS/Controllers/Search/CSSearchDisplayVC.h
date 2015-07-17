@@ -11,4 +11,6 @@
 @interface CSSearchDisplayVC : UISearchDisplayController {
 
 }
+@property (nonatomic,weak)UIViewController *parentVC;
+
 @end

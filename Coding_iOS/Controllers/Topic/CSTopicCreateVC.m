@@ -35,6 +35,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+     self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     _listView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         tableView.backgroundColor = [UIColor clearColor];
@@ -51,6 +54,9 @@
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
+        
+        [tableView setContentInset:UIEdgeInsetsZero];
+        [tableView setScrollIndicatorInsets:UIEdgeInsetsZero];
         tableView;
     });
     _searchBar = ({
@@ -62,22 +68,10 @@
         [searchBar setTintColor:[UIColor whiteColor]];
         [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
         
-        searchBar.translucent = YES;
+        searchBar.translucent = NO;
         
         searchBar;
     });
-    
-//    
-//    UISearchBar *searchBar = [UISearchBar new];
-//    searchBar.showsCancelButton = YES;
-//    [searchBar sizeToFit];
-//    UIView *barWrapper = [[UIView alloc]initWithFrame:searchBar.bounds];
-//    [barWrapper addSubview:searchBar];
-//    self.navigationItem.titleView = barWrapper;
-    
-//    [self.navigationController.view addSubview:_searchBar];
-//    [_searchBar setY:20];
-    
     
     _mySearchDisplayController = ({
         UISearchDisplayController *searchVC = [[CSMySearchDisplayController alloc] initWithSearchBar:_searchBar contentsController:self];
@@ -89,6 +83,12 @@
 //            searchVC.displaysSearchBarInNavigationBar = NO;
 //        }
         searchVC.displaysSearchBarInNavigationBar = YES;
+        [searchVC.searchResultsTableView  setContentInset:UIEdgeInsetsZero];
+        [searchVC.searchResultsTableView setScrollIndicatorInsets:UIEdgeInsetsZero];
+        searchVC.searchResultsTableView.sectionFooterHeight = 0;
+        searchVC.searchResultsTableView.sectionHeaderHeight = 0;
+        searchVC.searchResultsTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
+        searchVC.searchResultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
         searchVC;
     });
     
@@ -97,9 +97,6 @@
     _historyTopiclist = [CSTopicModel latestUseTopiclist];
     _hotTopiclist = @[];
     
-//    self.edgesForExtendedLayout = UIRectEdgeNone;
-//    self.mySearchDisplayController.searchResultsTableView.estimatedSectionHeaderHeight = 0;
-//    [self.mySearchDisplayController.searchResultsTableView setContentOffset:CGPointZero animated:NO];
     [self.listView reloadData];
     [self refreshHotTopiclist];
 }
@@ -173,7 +170,10 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (tableView == _mySearchDisplayController.searchResultsTableView) {
-        return 1;
+        if (_createdTopicName && _createdTopicName.length > 0) {
+            return 1;
+        }
+        return 0;
     }
     return 2;
 }
@@ -199,11 +199,7 @@
     if (tableView == _mySearchDisplayController.searchResultsTableView) {
 //        selectedTopicName = _createdTopiclist[indexPath.row];
         selectedTopicName = _createdTopicName;
-        [cell showCreateBtn:YES];
-        
-        NSLog(@"----name %@",_createdTopicName);
-        
-        NSLog(@"show cell");
+        [cell showCreateBtn:(_createdTopicName && _createdTopicName.length > 0)];
     }else{
         [cell showCreateBtn:NO];
         if (indexPath.section == 0) {
@@ -211,6 +207,9 @@
         }else if(indexPath.section == 1){
             selectedTopicName = _hotTopiclist[indexPath.row];
         }
+    }
+    if (!selectedTopicName) {
+        selectedTopicName = @"";
     }
     cell.textLabel.text = [NSString stringWithFormat:@"#%@#",selectedTopicName];
     
@@ -232,13 +231,14 @@
         }
     }
     
-    if (selectedTopicName) {
-        [self didSelectByTopicName:selectedTopicName];
-    }
-    
+    [self didSelectByTopicName:selectedTopicName];
 }
 
 - (void)didSelectByTopicName:(NSString*)topicName {
+    if (!topicName || topicName.length == 0) {
+        return;
+    }
+    
     [CSTopicModel addAnotherUseTopic:topicName];
     
     //为了解决键盘状态混淆的问题
@@ -258,6 +258,15 @@
 #pragma mark -
 
 #pragma mark UISearchBarDelegate
+//- (void)searchDisplayController:(UISearchDisplayController *)controller willHideSearchResultsTableView:(UITableView *)tableView{
+//    [self.mySearchDisplayController.searchResultsTableView reloadData];
+//    NSLog(@"--willHideSearchResultsTableView--");
+//}
+//
+//- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView {
+//    [self.mySearchDisplayController.searchResultsTableView reloadData];
+//    NSLog(@"--didShowSearchResultsTableView--");
+//}
 
 - (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView {
     //解决UISearchDisplayController 顶部的空白区域的问题
@@ -265,18 +274,39 @@
     [tableView setScrollIndicatorInsets:UIEdgeInsetsZero];
 }
 
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    [_mySearchDisplayController.searchResultsTableView reloadData];
+    
+}
+
+
 //解决不显示cancel按钮的问题
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
     [_mySearchDisplayController setActive:YES animated:YES];
     [_mySearchDisplayController.searchBar setShowsCancelButton:YES animated:YES];
+    
+//    self.mySearchDisplayController.searchResultsTableView.hidden = NO;
+//    _mySearchDisplayController.
+//    [_mySearchDisplayController.searchResultsTableView reloadData];
+    
+//    self.navigationController.navigationBar.translucent = YES;
 }
+
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
     [_mySearchDisplayController setActive:NO animated:YES];
     [_mySearchDisplayController.searchBar setShowsCancelButton:YES animated:YES];
+    
+//    self.mySearchDisplayController.searchResultsTableView.hidden = YES;
+//    self.navigationController.navigationBar.translucent = NO;
 }
 
+
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    [self createTopicWithStr:searchText];
+    NSString *strippedStr = [searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    //    [self.createdTopiclist addObject:strippedStr];
+    _createdTopicName = strippedStr;
+    [self.mySearchDisplayController.searchResultsTableView reloadData];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
@@ -294,13 +324,6 @@
     _createdTopicName = strippedStr;
     [self didSelectByTopicName:_createdTopicName];
     
-}
-
-- (void)createTopicWithStr:(NSString *)searchString{
-    NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-//    [self.createdTopiclist addObject:strippedStr];
-    _createdTopicName = strippedStr;
-    [self.mySearchDisplayController.searchResultsTableView reloadData];
 }
 
 @end
@@ -347,13 +370,26 @@
 
 @implementation CSMySearchDisplayController
 
-//- (void)setActive:(BOOL)visible animated:(BOOL)animated
-//{
-//    [super setActive: visible animated: animated];
+- (void)setActive:(BOOL)visible animated:(BOOL)animated
+{
+    [super setActive:visible animated:animated];
+    
+//    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    [self.searchContentsController.navigationController setNavigationBarHidden: NO animated: NO];
+//
+//    CGRect frame = self.searchResultsTableView.frame;
+//    frame.origin.y = CGRectGetHeight(self.searchContentsController.navigationController.navigationBar.frame);
 //    
-//    [self.searchContentsController.navigationController setNavigationBarHidden:visible animated: NO];
-//}
-
+//    frame.size.height = CGRectGetHeight(frame) - CGRectGetMinY(frame);
+//    
+//    self.searchResultsTableView.frame = frame;
+//    
+//    frame = self.searchBar.frame;
+//    self.searchBar.frame = frame;
+    
+    //[self.searchContentsController.view insertSubview:self.searchBar aboveSubview:self.searchResultsTableView];
+    
+}
 
 
 @end
