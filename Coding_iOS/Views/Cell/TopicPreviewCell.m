@@ -13,7 +13,7 @@
 #import "WebContentManager.h"
 #import "Coding_NetAPIManager.h"
 #import "ProjectTag.h"
-#import "ProjectTopicLabelView.h"
+#import "ProjectTagsView.h"
 
 @interface TopicPreviewCell () <UIWebViewDelegate>
 
@@ -22,8 +22,7 @@
 @property (strong, nonatomic) UIWebView *webContentView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 
-@property (strong, nonatomic) ProjectTopicLabelView *labelView;
-@property (strong, nonatomic) UIButton *labelAddBtn;
+@property (strong, nonatomic) ProjectTagsView *tagsView;
 //@property (strong, nonatomic) UIView *lineView;
 
 @end
@@ -55,12 +54,18 @@
             _timeLabel.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_timeLabel];
         }
-        if (!_labelAddBtn) {
-            _labelAddBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width-44, 0, 44, 44)];
-            [_labelAddBtn setImage:[UIImage imageNamed:@"tag_add"] forState:UIControlStateNormal];
-            [_labelAddBtn setImageEdgeInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
-            [_labelAddBtn addTarget:self action:@selector(addtitleBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-            [self.contentView addSubview:_labelAddBtn];
+        if (!_tagsView) {
+            _tagsView = [ProjectTagsView viewWithTags:nil];
+            @weakify(self);
+            _tagsView.addTagBlock = ^(){
+                @strongify(self);
+                [self addtitleBtnClick];
+            };
+            _tagsView.deleteTagBlock = ^(ProjectTag *curTag){
+                @strongify(self);
+                [self deleteTag:curTag];
+            };
+            [self.contentView addSubview:_tagsView];
         }
 //        if (!_lineView) {
 //            _lineView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, 1)];
@@ -106,8 +111,7 @@
     if (!_isLabel) {
         _userIconView.hidden = TRUE;
         _timeLabel.hidden = TRUE;
-        _labelAddBtn.hidden = TRUE;
-        _labelView.hidden = TRUE;
+        _tagsView.hidden = YES;
         
         // 讨论的内容
         [self.webContentView setY:curBottomY];
@@ -126,35 +130,21 @@
             }];
         }
         return;
+    }else{
+        [_userIconView sd_setImageWithURL:[_curTopic.owner.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
+        [_userIconView setY:curBottomY];
+        [_timeLabel setY:curBottomY];
+        _timeLabel.attributedText = [self getStringWithName:_curTopic.owner.name andTime:[_curTopic.created_at stringTimesAgo]];
+        curBottomY += 16 + 20;
+        _tagsView.tags = _curTopic.mdLabels;
+        [_tagsView setY:curBottomY];
+
     }
-    
-    [_userIconView sd_setImageWithURL:[_curTopic.owner.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
-    [_userIconView setY:curBottomY];
-    [_timeLabel setY:curBottomY];
-    _timeLabel.attributedText = [self getStringWithName:_curTopic.owner.name andTime:[_curTopic.created_at stringTimesAgo]];
-    
-    curBottomY += 16 + 20;
-    
-    if (_labelView) {
-        [_labelView removeFromSuperview];
-    }
-    _labelView = [[ProjectTopicLabelView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, 24) projectTopic:_curTopic md:YES];
-    [self.contentView insertSubview:_labelView belowSubview:_labelAddBtn];
-    __weak typeof(self) weakSelf = self;
-    _labelView.delLabelBlock = ^(NSInteger index) {
-        [weakSelf delBtnClick:index];
-    };
-    
-    [_labelAddBtn setY:curBottomY - 10];
-    [_labelView setY:curBottomY];
-    [_labelView setHeight:_labelView.labelH];
-    
-    //curBottomY += _labelView.labelH + 12;
+
     //[_lineView setY:curBottomY];
  
     // 讨论的内容
-    //curBottomY += 12;
-    curBottomY += _labelView.labelH + 3;
+    curBottomY += CGRectGetHeight(_tagsView.frame);
     [self.webContentView setY:curBottomY];
     [self.activityIndicator setCenter:CGPointMake(self.webContentView.center.x, curBottomY + 10)];
     [self.webContentView setHeight:_curTopic.contentHeight];
@@ -172,9 +162,9 @@
     }
 }
 
-- (void)delBtnClick:(NSInteger)index;
+- (void)deleteTag:(ProjectTag *)curTag
 {
-    [_curTopic.mdLabels removeObjectAtIndex:index];
+    [_curTopic.mdLabels removeObject:curTag];
     [self setCurTopic:_curTopic];
     if (_delLabelBlock) {
         _delLabelBlock();
@@ -213,32 +203,8 @@
         ProjectTopic *topic = (ProjectTopic *)obj;
         CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
         cellHeight += 8 + [topic.title getHeightWithFont:kTopicContentCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 16 + 20;
-        
-        CGFloat labelH = 22;
-        if (topic.mdLabels.count > 0) {
-            CGFloat x = 0.0f;
-            CGFloat y = 0.0f;
-            CGFloat limitW = kScreen_Width - kPaddingLeftWidth - 44;
-            
-            UILabel *tLbl = [[UILabel alloc] initWithFrame:CGRectMake(x, y, 0, 0)];
-            tLbl.font = [UIFont systemFontOfSize:12];
-            tLbl.textAlignment = NSTextAlignmentCenter;
-            
-            for (ProjectTag *label in topic.mdLabels) {
-                tLbl.text = label.name;
-                [tLbl sizeToFit];
-                
-                CGFloat width = tLbl.frame.size.width + 30;
-                if (x + width > limitW) {
-                    y += 30.0f;
-                    x = 0.0f;
-                }
-                x += width;
-            }
-            labelH = y + 22;
-        }
-        //cellHeight += labelH + 24;
-        cellHeight += labelH + 3;
+
+        cellHeight += [ProjectTagsView heghtForTags:topic.mdLabels];
         cellHeight += topic.contentHeight + 5;
     }
     return cellHeight;
@@ -293,7 +259,7 @@
 }
 
 #pragma mark - click
-- (void)addtitleBtnClick:(UIButton *)sender
+- (void)addtitleBtnClick
 {
     if (_addLabelBlock) {
         _addLabelBlock();

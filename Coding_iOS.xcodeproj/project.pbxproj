@@ -194,6 +194,7 @@
 		4E6D71891A75F00E005AD988 /* YLGIFImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D71861A75F00E005AD988 /* YLGIFImage.m */; };
 		4E6D718A1A75F00E005AD988 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D71881A75F00E005AD988 /* YLImageView.m */; };
 		4E6FB0551B5799B100B0A17B /* ProjectTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6FB0541B5799B100B0A17B /* ProjectTag.m */; };
+		4E6FB0581B58DB0A00B0A17B /* ProjectTagsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6FB0571B58DB0A00B0A17B /* ProjectTagsView.m */; };
 		4E72F82D1B144778001B6CE6 /* NSMutableString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E72F82C1B144778001B6CE6 /* NSMutableString+Common.m */; };
 		4E72F82F1B159997001B6CE6 /* tipIcon_Other@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E72F82E1B159997001B6CE6 /* tipIcon_Other@2x.png */; };
 		4E72F8331B15B811001B6CE6 /* gif_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E72F8321B15B811001B6CE6 /* gif_mark@2x.png */; };
@@ -761,8 +762,6 @@
 		B9A00D821ACA3A17008BA008 /* ProjectSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */; };
 		B9A00D851ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
-		EBDD2E411AE7B88C0024B952 /* WMDelLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = EBDD2E401AE7B88C0024B952 /* WMDelLabel.m */; };
-		EBDD2E4E1AEA159D0024B952 /* ProjectTopicLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = EBDD2E4D1AEA159D0024B952 /* ProjectTopicLabelView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1055,6 +1054,8 @@
 		4E6D71881A75F00E005AD988 /* YLImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLImageView.m; sourceTree = "<group>"; };
 		4E6FB0531B5799B100B0A17B /* ProjectTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTag.h; sourceTree = "<group>"; };
 		4E6FB0541B5799B100B0A17B /* ProjectTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTag.m; sourceTree = "<group>"; };
+		4E6FB0561B58DB0A00B0A17B /* ProjectTagsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTagsView.h; sourceTree = "<group>"; };
+		4E6FB0571B58DB0A00B0A17B /* ProjectTagsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTagsView.m; sourceTree = "<group>"; };
 		4E72F82B1B144778001B6CE6 /* NSMutableString+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+Common.h"; sourceTree = "<group>"; };
 		4E72F82C1B144778001B6CE6 /* NSMutableString+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+Common.m"; sourceTree = "<group>"; };
 		4E72F82E1B159997001B6CE6 /* tipIcon_Other@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_Other@2x.png"; sourceTree = "<group>"; };
@@ -1929,10 +1930,6 @@
 		C613B8719C3D38FED828A1E2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E7A0469E1A47279E00528C12 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		E7A0469F1A47279E00528C12 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
-		EBDD2E3F1AE7B88C0024B952 /* WMDelLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMDelLabel.h; sourceTree = "<group>"; };
-		EBDD2E401AE7B88C0024B952 /* WMDelLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMDelLabel.m; sourceTree = "<group>"; };
-		EBDD2E4C1AEA159D0024B952 /* ProjectTopicLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTopicLabelView.h; sourceTree = "<group>"; };
-		EBDD2E4D1AEA159D0024B952 /* ProjectTopicLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTopicLabelView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3549,7 +3546,6 @@
 				4E94C50F1B4E0C0300EB668A /* XHRealTimeBlur */,
 				4E94C4F51B4D2B9300EB668A /* PopMenu */,
 				4E53EB4C1AF9CC520034FE1C /* RKSwipeBetweenViewControllers */,
-				EBDD2E3E1AE7B84D0024B952 /* WMDelLabel */,
 				4E996BC11ABA754600C704F1 /* JDStatusBarNotification */,
 				4E6C411A1A846AC30098DC17 /* RFKeyboardToolbar */,
 				4E6D71841A75F00E005AD988 /* YLGIFImage */,
@@ -3649,8 +3645,8 @@
 				8EA6D0FA19E240C40076D59C /* ProjectTopicsView.m */,
 				8EA6D0F719E240C40076D59C /* ProjectTopicListView.h */,
 				8EA6D0F819E240C40076D59C /* ProjectTopicListView.m */,
-				EBDD2E4C1AEA159D0024B952 /* ProjectTopicLabelView.h */,
-				EBDD2E4D1AEA159D0024B952 /* ProjectTopicLabelView.m */,
+				4E6FB0561B58DB0A00B0A17B /* ProjectTagsView.h */,
+				4E6FB0571B58DB0A00B0A17B /* ProjectTagsView.m */,
 				8E59F0EC1A00F34E009A905F /* ProjectCodeListView.h */,
 				8E59F0ED1A00F34E009A905F /* ProjectCodeListView.m */,
 				8E59F0EF1A00F38A009A905F /* ProjectFolderListView.h */,
@@ -3889,15 +3885,6 @@
 				B93D904A1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m */,
 			);
 			path = ProjectSetting;
-			sourceTree = "<group>";
-		};
-		EBDD2E3E1AE7B84D0024B952 /* WMDelLabel */ = {
-			isa = PBXGroup;
-			children = (
-				EBDD2E3F1AE7B88C0024B952 /* WMDelLabel.h */,
-				EBDD2E401AE7B88C0024B952 /* WMDelLabel.m */,
-			);
-			path = WMDelLabel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -4370,7 +4357,6 @@
 				4E4D6A581B1C5DC000FD2E49 /* MRPRCommentCell.m in Sources */,
 				B94C1B6E1AC98CCE0000C271 /* NewProjectTypeViewController.m in Sources */,
 				4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */,
-				EBDD2E4E1AEA159D0024B952 /* ProjectTopicLabelView.m in Sources */,
 				4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */,
 				4E6BA2E41A1EE6AF005FD721 /* UIButton+AFNetworking.m in Sources */,
 				8EF643C919FF7E2900F7EEB0 /* TopicCommentCell.m in Sources */,
@@ -4620,7 +4606,6 @@
 				3A38783A1AE2949E0078D5DE /* ResetLabelViewController.m in Sources */,
 				8EA6D13C19E240C40076D59C /* Tweet_RootViewController.m in Sources */,
 				B93D904B1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m in Sources */,
-				EBDD2E411AE7B88C0024B952 /* WMDelLabel.m in Sources */,
 				4E1A22851AB172C400CFC14F /* ProjectItemsCell.m in Sources */,
 				4ECE8B051A3946C10021E29C /* WebContentManager.m in Sources */,
 				4E94C4F41B4D007600EB668A /* Login2FATipCell.m in Sources */,
@@ -4735,6 +4720,7 @@
 				4ECF70431B18514F000280FF /* MRPRListViewController.m in Sources */,
 				4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */,
 				8EF643B019FF7E2900F7EEB0 /* CodingTipCell.m in Sources */,
+				4E6FB0581B58DB0A00B0A17B /* ProjectTagsView.m in Sources */,
 				8EA6D1BA19E240C40076D59C /* Projects.m in Sources */,
 				4E996BDF1ABA7CE100C704F1 /* UserInfoDetailUserCell.m in Sources */,
 				4EACB4461A2C60110097ABB3 /* ProjectActivities.m in Sources */,
