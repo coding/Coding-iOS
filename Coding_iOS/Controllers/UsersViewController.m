@@ -353,7 +353,7 @@
         vc.curUser = user;
         vc.followChanged = ^(User *curUser){
             user.followed = curUser.followed;
-            [weakSelf.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            [weakSelf.myTableView reloadData];
         };
         [self.navigationController pushViewController:vc animated:YES];
     }
