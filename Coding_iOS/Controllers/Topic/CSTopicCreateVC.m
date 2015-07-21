@@ -68,7 +68,20 @@
         [searchBar setTintColor:[UIColor whiteColor]];
         [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
         
-        searchBar.translucent = NO;
+        searchBar.searchBarStyle = UISearchBarStyleDefault;
+//        searchBar.searchBarStyle = UISearchBarStyleMinimal;
+        
+        searchBar.translucent = YES;
+        
+        searchBar.backgroundColor = [UIColor clearColor];
+        
+        for (UIView *subview in self.searchBar.subviews)
+        {
+            NSLog(@"-%@",[subview description]);
+            for (UIView *ssb in subview.subviews) {
+                NSLog(@"--%@",[ssb description]);
+            }
+        }
         
         searchBar;
     });
@@ -83,12 +96,6 @@
 //            searchVC.displaysSearchBarInNavigationBar = NO;
 //        }
         searchVC.displaysSearchBarInNavigationBar = YES;
-        [searchVC.searchResultsTableView  setContentInset:UIEdgeInsetsZero];
-        [searchVC.searchResultsTableView setScrollIndicatorInsets:UIEdgeInsetsZero];
-        searchVC.searchResultsTableView.sectionFooterHeight = 0;
-        searchVC.searchResultsTableView.sectionHeaderHeight = 0;
-        searchVC.searchResultsTableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectZero];
-        searchVC.searchResultsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
         searchVC;
     });
     
@@ -212,7 +219,7 @@
         selectedTopicName = @"";
     }
     cell.textLabel.text = [NSString stringWithFormat:@"#%@#",selectedTopicName];
-    
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:12];
     return cell;
 }
 
@@ -276,7 +283,6 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     [_mySearchDisplayController.searchResultsTableView reloadData];
-    
 }
 
 
@@ -285,26 +291,24 @@
     [_mySearchDisplayController setActive:YES animated:YES];
     [_mySearchDisplayController.searchBar setShowsCancelButton:YES animated:YES];
     
-//    self.mySearchDisplayController.searchResultsTableView.hidden = NO;
-//    _mySearchDisplayController.
-//    [_mySearchDisplayController.searchResultsTableView reloadData];
-    
-//    self.navigationController.navigationBar.translucent = YES;
+    controller.searchResultsTableView.superview.bounds = CGRectMake(0,22,320,400);
+    for(UIView * v in controller.searchResultsTableView.superview.subviews){
+        if([v isKindOfClass:NSClassFromString(@"_UISearchDisplayControllerDimmingView")])
+        {
+            v.frame = CGRectMake(0,20,320,400);
+            //
+        }
+    }
 }
+
 
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
     [_mySearchDisplayController setActive:NO animated:YES];
     [_mySearchDisplayController.searchBar setShowsCancelButton:YES animated:YES];
-    
-//    self.mySearchDisplayController.searchResultsTableView.hidden = YES;
-//    self.navigationController.navigationBar.translucent = NO;
 }
-
-
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     NSString *strippedStr = [searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    //    [self.createdTopiclist addObject:strippedStr];
     _createdTopicName = strippedStr;
     [self.mySearchDisplayController.searchResultsTableView reloadData];
 }
@@ -323,7 +327,6 @@
     NSString *strippedStr = [searchBar.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     _createdTopicName = strippedStr;
     [self didSelectByTopicName:_createdTopicName];
-    
 }
 
 @end

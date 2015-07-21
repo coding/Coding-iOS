@@ -21,9 +21,15 @@
     [button setImage:[UIImage imageNamed:iconName] forState:UIControlStateNormal];
     [button setImage:[UIImage imageNamed:iconName] forState:UIControlStateHighlighted];
     CGSize imgSize = button.imageView.image.size;
-    button.size = CGSizeMake(imgSize.width, imgSize.height + 20);
-    CGFloat pointX = button.frame.size.width - 25;
-    [button addBadgeTip:@"" withCenterPosition:CGPointMake(pointX, 25)];
+    button.size = CGSizeMake(imgSize.width + 20, imgSize.height + 20);
+    
+    
+    if (showbadge) {
+        [button addRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(2, 2)];
+//        CGFloat pointX = button.frame.size.width - 15;
+//        [button addBadgeTip:@"1" withCenterPosition:CGPointMake(pointX, 5)];
+    }
+
     [button addTarget:obj action:selector forControlEvents:UIControlEventTouchUpInside];
     return [[UIBarButtonItem alloc] initWithCustomView:button];;
 }

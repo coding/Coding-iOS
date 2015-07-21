@@ -100,6 +100,7 @@
 //                          }];
     
     BOOL isBadgeValid = ![CSSearchModel hasSearchBadgeShown];
+    isBadgeValid = YES;
     UIBarButtonItem *leftBarItem =[UIBarButtonItem itemWithIcon:@"search_Nav" showBadge:isBadgeValid target:self action:@selector(searchItemClicked:)];
     [self.parentViewController.navigationItem setLeftBarButtonItem:leftBarItem animated:NO];
     
@@ -273,7 +274,6 @@
     }
     
     if (!_searchDisplayVC) {
-        
         _searchDisplayVC = ({
             
             CSSearchDisplayVC *searchVC = [[CSSearchDisplayVC alloc] initWithSearchBar:_searchBar contentsController:self.parentViewController];
@@ -290,9 +290,6 @@
     [self hideToolBar:YES];
     [_searchBar becomeFirstResponder];
     
-//    CSSearchVC *searchVC = [[CSSearchVC alloc] init];
-//    [self.navigationController pushViewController:searchVC animated:YES];
-//    
 //    BOOL isBadgeValid = ![CSSearchModel hasSearchBadgeShown];
 //    if (isBadgeValid) {
 //        //存一下
