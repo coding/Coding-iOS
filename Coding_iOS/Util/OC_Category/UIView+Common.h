@@ -27,6 +27,12 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
     EaseBlankPageTypePrivateMsg
 };
 
+typedef NS_ENUM(NSInteger, BadgePositionType) {
+
+    BadgePositionTypeDefault = 0,
+    BadgePositionTypeMiddle
+};
+
 @interface UIView (Common)
 - (void)doCircleFrame;
 - (void)doNotCircleFrame;
@@ -35,6 +41,9 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
 - (UIViewController *)findViewController;
 - (void)addBadgeTip:(NSString *)badgeValue withCenterPosition:(CGPoint)center;
 - (void)addBadgeTip:(NSString *)badgeValue;
+- (void)addBadgePoint:(NSInteger)pointRadius withPosition:(BadgePositionType)type;
+- (void)addBadgePoint:(NSInteger)pointRadius withPointPosition:(CGPoint)point;
+- (void)removeBadgePoint;
 - (void)removeBadgeTips;
 - (void)setY:(CGFloat)y;
 - (void)setX:(CGFloat)x;

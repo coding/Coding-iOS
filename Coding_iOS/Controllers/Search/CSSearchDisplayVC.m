@@ -12,6 +12,7 @@
 #import "Coding_NetAPIManager.h"
 #import "ODRefreshControl.h"
 #import "SVPullToRefresh.h"
+#import "XHRealTimeBlur.h"
 
 #import "CSSearchModel.h"
 
@@ -24,6 +25,7 @@
 @interface CSSearchDisplayVC () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) XHRealTimeBlur *backgroundView;
 @property (nonatomic, strong) UIButton *btnMore;
 @property (nonatomic, strong) TopicHotkeyView *topicHotkeyView;
 
@@ -41,6 +43,7 @@
 - (void)initSearchHistoryView;
 - (void)didClickedMoreHotkey:(id)sender;
 - (void)didCLickedCleanSearchHistory:(id)sender;
+- (void)didClickedContentView:(UIGestureRecognizer *)sender;
 @end
 
 @implementation CSSearchDisplayVC
@@ -51,6 +54,7 @@
     
         if(_contentView) {
         
+            [_backgroundView removeFromSuperview];
             [_contentView removeFromSuperview];
             [_searchTableView removeFromSuperview];
             [super setActive:visible animated:animated];
@@ -75,14 +79,31 @@
         }
         
         if(!_contentView) {
+
+            _contentView = ({
             
-            _contentView = [[UIView alloc] init];
-            _contentView.frame = CGRectMake(0.0f, 60.0f, kScreen_Width, kScreen_Height - 60.0f);
-            _contentView.backgroundColor = [UIColor whiteColor];
+                UIView *view = [[UIView alloc] init];
+                view.frame = CGRectMake(0.0f, 60.0f, kScreen_Width, kScreen_Height - 60.0f);
+                view.backgroundColor = [UIColor clearColor];
+                view.userInteractionEnabled = YES;
+                
+                UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickedContentView:)];
+                [view addGestureRecognizer:tapGestureRecognizer];
+                
+                view;
+            });
+            
+            _backgroundView = ({
+            
+                XHRealTimeBlur *blur = [[XHRealTimeBlur alloc] initWithFrame:_contentView.frame];
+                blur.blurStyle = XHBlurStyleTranslucentWhite;
+                blur;
+            });
             
             [self initSubViewsInContentView];
         }
         
+        [self.searchBar.superview addSubview:_backgroundView];
         [self.searchBar.superview addSubview:_contentView];
         [self.searchBar.superview bringSubviewToFront:_contentView];
         __weak typeof(self) weakSelf = self;
@@ -107,6 +128,8 @@
     [_btnMore setImage:imgMore forState:UIControlStateNormal];
     [_btnMore addTarget:self action:@selector(didClickedMoreHotkey:) forControlEvents:UIControlEventTouchUpInside];
     [_contentView addSubview:_btnMore];
+    
+//    [_btnMore addBadgePoint:2 withPosition:BadgePositionTypeMiddle];
     
     _topicHotkeyView = [[TopicHotkeyView alloc] init];
     [_contentView addSubview:_topicHotkeyView];
@@ -137,8 +160,6 @@
                 make.width.mas_equalTo(kScreen_Width);
                 make.height.mas_equalTo(weakSelf.topicHotkeyView.frame.size.height);
             }];
-//            [weakSelf.searchHistoryView setFrame:CGRectMake(weakSelf.searchHistoryView.frame.origin.x, weakSelf.topicHotkeyView.frame.origin.y + weakSelf.topicHotkeyView.frame.size.height,
-//                                                            weakSelf.searchHistoryView.frame.size.width, weakSelf.searchHistoryView.frame.size.height)];
         }
     }];
 }
@@ -254,6 +275,11 @@
 
     [CSSearchModel cleanAllSearchHistory];
     [self initSearchHistoryView];
+}
+
+- (void)didClickedContentView:(UIGestureRecognizer *)sender {
+
+    [self.searchBar resignFirstResponder];
 }
 
 #pragma mark -

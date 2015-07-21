@@ -13,6 +13,7 @@
 #import "TweetSendTextCell.h"
 #import "UsersViewController.h"
 #import "CSTopicCreateVC.h"
+#import "CSSearchModel.h"
 
 @interface TweetSendTextCell () <AGEmojiKeyboardViewDelegate, AGEmojiKeyboardViewDataSource>
 @property (strong, nonatomic) AGEmojiKeyboardView *emojiKeyboardView;
@@ -125,6 +126,11 @@
             
             UIButton *atButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:3 imageStr:@"keyboard_at" andSelecter:@selector(atButtonClicked:)];
             [keyboardToolBar addSubview:atButton];
+            
+            if(![CSSearchModel hasClickedNewFeatureWithType:CSSNewFeatureTypeTopic]) {
+                
+                [topicButton addBadgePoint:3 withPointPosition:CGPointMake(27, 7)];
+            }
         }
         
         [_footerToolBar addSubview:keyboardToolBar];
@@ -192,6 +198,11 @@
 }
 
 - (void)topicButtonClicked:(id)sender{
+    
+    UIButton *btnTopic = (UIButton *)sender;
+    [btnTopic removeBadgePoint];
+    [CSSearchModel clickNewFeatureWithType:CSSNewFeatureTypeTopic];
+    
     @weakify(self);
     [CSTopicCreateVC showATSomeoneWithBlock:^(NSString *topicName) {
         @strongify(self);

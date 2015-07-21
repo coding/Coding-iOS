@@ -23,7 +23,6 @@
     CGSize imgSize = button.imageView.image.size;
     button.size = CGSizeMake(imgSize.width + 20, imgSize.height + 20);
     
-    
     if (showbadge) {
         [button addRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(2, 2)];
 //        CGFloat pointX = button.frame.size.width - 15;

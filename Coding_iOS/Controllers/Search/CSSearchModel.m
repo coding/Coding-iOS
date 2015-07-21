@@ -11,8 +11,29 @@
 
 #define kHasSearchBadgeShown @"com.cs.search.badge.hasShown"
 #define kSearchHistory @"com.cs.search.history"
+#define kNewFeature @"com.cs.NewFeature"
 
 @implementation CSSearchModel
+
++ (BOOL)hasClickedNewFeatureWithType:(CSSNewFeatureType)type {
+
+    NSString *key = [kNewFeature stringByAppendingString:[NSString stringWithFormat:@"_%ld", (long)type]];
+    id hasClicked = [[TMCache TemporaryCache] objectForKey:key];
+    if(!hasClicked) {
+    
+        [[TMCache TemporaryCache] setObject:@(NO) forKey:key];
+    }else {
+    
+        return [hasClicked boolValue];
+    }
+    return NO;
+}
+
++ (void)clickNewFeatureWithType:(CSSNewFeatureType)type {
+
+     NSString *key = [kNewFeature stringByAppendingString:[NSString stringWithFormat:@"_%ld", (long)type]];
+    [[TMCache TemporaryCache] setObject:@(YES) forKey:key];
+}
 
 + (BOOL)hasSearchBadgeShown {
     BOOL hasShown = [[[TMCache TemporaryCache] objectForKey:kHasSearchBadgeShown] boolValue];

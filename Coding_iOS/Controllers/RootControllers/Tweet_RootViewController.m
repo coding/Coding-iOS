@@ -142,6 +142,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    
     if (_myMsgInputView) {
         [_myMsgInputView prepareToDismiss];
     }
@@ -149,6 +150,14 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    
+    UIButton *leftItemView = (UIButton *)self.parentViewController.navigationItem.leftBarButtonItem.customView;
+    if(![CSSearchModel hasClickedNewFeatureWithType:CSSNewFeatureTypeSearch]) {
+    
+        [leftItemView addBadgePoint:3 withPointPosition:CGPointMake(35, 10)];
+    }
+    
+//    [leftItemView addBadgePoint:3 withPosition:BadgePositionTypeDefault];
     
     [self refreshFirst];
 
@@ -255,6 +264,10 @@
 #pragma mark - search 
 
 - (void)searchItemClicked:(id)sender{
+    
+    UIButton *leftItemView = (UIButton *)self.parentViewController.navigationItem.leftBarButtonItem.customView;
+    [CSSearchModel clickNewFeatureWithType:CSSNewFeatureTypeSearch];
+    [leftItemView removeBadgePoint];
     
     if(!_searchBar) {
         

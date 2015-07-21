@@ -8,6 +8,7 @@
 
 #import "UIView+Common.h"
 #define kTagBadgeView  1000
+#define kTagBadgePointView  1001
 #define kTagLineView 1007
 #import <objc/runtime.h>
 @implementation UIView (Common)
@@ -44,6 +45,57 @@ static char LoadingViewKey, BlankPageViewKey;
         }
     }
     return nil;
+}
+
+- (void)addBadgePoint:(NSInteger)pointRadius withPosition:(BadgePositionType)type {
+
+    if(pointRadius < 1)
+        return;
+    
+    [self removeBadgePoint];
+    
+    UIView *badgeView = [[UIView alloc]init];
+    badgeView.tag = kTagBadgePointView;
+    badgeView.layer.cornerRadius = pointRadius;
+    badgeView.backgroundColor = [UIColor redColor];
+    
+    switch (type) {
+            
+        case BadgePositionTypeMiddle:
+            badgeView.frame = CGRectMake(0, self.frame.size.height / 2 - pointRadius, 2 * pointRadius, 2 * pointRadius);
+            break;
+            
+        default:
+            badgeView.frame = CGRectMake(self.frame.size.width - 2 * pointRadius, 0, 2 * pointRadius, 2 * pointRadius);
+            break;
+    }
+    
+    [self addSubview:badgeView];
+}
+
+- (void)addBadgePoint:(NSInteger)pointRadius withPointPosition:(CGPoint)point {
+
+    if(pointRadius < 1)
+        return;
+    
+    [self removeBadgePoint];
+    
+    UIView *badgeView = [[UIView alloc]init];
+    badgeView.tag = kTagBadgePointView;
+    badgeView.layer.cornerRadius = pointRadius;
+    badgeView.backgroundColor = [UIColor redColor];
+    badgeView.frame = CGRectMake(0, 0, 2 * pointRadius, 2 * pointRadius);
+    badgeView.center = point;
+    [self addSubview:badgeView];
+}
+
+- (void)removeBadgePoint {
+
+    for (UIView *subView in self.subviews) {
+        
+        if(subView.tag == kTagBadgePointView)
+           [subView removeFromSuperview];
+    }
 }
 
 - (void)addBadgeTip:(NSString *)badgeValue withCenterPosition:(CGPoint)center{

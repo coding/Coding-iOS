@@ -8,8 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, CSSNewFeatureType) {
+    
+    CSSNewFeatureTypeTopic = 0,
+    CSSNewFeatureTypeSearch,
+    CSSNewFeatureTypeHotTopic
+};
+
 @interface CSSearchModel : NSObject
 
++ (BOOL)hasClickedNewFeatureWithType:(CSSNewFeatureType)type;
++ (void)clickNewFeatureWithType:(CSSNewFeatureType)type;
 
 + (BOOL)hasSearchBadgeShown;
 + (void)invalidSearchBadge;
