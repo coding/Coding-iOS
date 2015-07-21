@@ -365,9 +365,10 @@
     if (self.length <= 0) {
         return self;
     }
-    NSMutableString *tempString = [NSMutableString stringWithString:self];
+    NSString *tempString = [self mutableCopy];
     CFStringTransform((CFMutableStringRef)tempString, NULL, kCFStringTransformToLatin, false);
     tempString = (NSMutableString *)[tempString stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
+    tempString = [tempString stringByReplacingOccurrencesOfString:@" " withString:@""];
     return [tempString uppercaseString];
 }
 
