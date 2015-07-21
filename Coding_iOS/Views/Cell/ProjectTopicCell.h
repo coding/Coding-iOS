@@ -16,3 +16,12 @@
 
 +(CGFloat)cellHeightWithObj:(id)aObj;
 @end
+
+
+@interface ProjectTopicCellTagsView : UIView
+@property (strong, nonatomic) NSArray *tags;
+
+- (instancetype)initWithTags:(NSArray *)tags;
++ (instancetype)viewWithTags:(NSArray *)tags;
++ (CGFloat)getHeightForTags:(NSArray *)tags;
+@end

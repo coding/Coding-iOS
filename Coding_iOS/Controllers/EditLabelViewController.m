@@ -228,7 +228,8 @@
     ProjectTag *ptLabel = _labels[indexPath.row];
     
     EditLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_EditLabelCell forIndexPath:indexPath];
-    cell.nameLbl.text = ptLabel.name;
+    [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:[EditLabelCell cellHeight]];
+    cell.delegate = self;
     
     BOOL selected = FALSE;
     for (ProjectTag *lbl in _curProTopic.mdLabels) {
@@ -237,16 +238,9 @@
             break;
         }
     }
-    cell.selectBtn.selected = selected;
-    
-    //if (indexPath.row > 2) {
-        [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:[EditLabelCell cellHeight]];
-        cell.delegate = self;
-    //}
-    
+    [cell setTag:ptLabel andSelected:selected];
+
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-    cell.backgroundColor = kColorTableBG;
-    [cell resetLbl];
     return cell;
 }
 
@@ -339,32 +333,8 @@
     return YES;
 }
 
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
-{
-    switch (state) {
-        case 0:
-        {
-            EditLabelCell *eCell = (EditLabelCell *)cell;
-            [eCell showRightBtn:FALSE];
-        }   break;
-        case 1:
-            break;
-        case 2:
-        {
-            EditLabelCell *eCell = (EditLabelCell *)cell;
-            [eCell showRightBtn:TRUE];
-        }   break;
-        default:
-            break;
-    }
-}
-
 - (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state
 {
-//    NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
-//    if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2) {
-//        return NO;
-//    }
     return YES;
 }
 

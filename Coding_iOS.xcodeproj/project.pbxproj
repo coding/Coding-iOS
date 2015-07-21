@@ -399,6 +399,7 @@
 		4EE1A2311B5D02CA004284F1 /* ProjectTasksView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE1A2261B5D02CA004284F1 /* ProjectTasksView.m */; };
 		4EE1A2321B5D02CA004284F1 /* ProjectTopicListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE1A2281B5D02CA004284F1 /* ProjectTopicListView.m */; };
 		4EE1A2331B5D02CA004284F1 /* ProjectTopicsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE1A22A1B5D02CA004284F1 /* ProjectTopicsView.m */; };
+		4EE1A2361B5DF568004284F1 /* ProjectTagLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE1A2351B5DF568004284F1 /* ProjectTagLabel.m */; };
 		4EE5481E1AE7B7CA00A92306 /* UISearchBar+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5481D1AE7B7CA00A92306 /* UISearchBar+Common.m */; };
 		4EE548211AE8DB5600A92306 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE548201AE8DB5600A92306 /* Project.m */; };
 		4EE548281AE9166B00A92306 /* icon_project_cell_nopin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EE548261AE9166B00A92306 /* icon_project_cell_nopin@2x.png */; };
@@ -1395,6 +1396,8 @@
 		4EE1A2281B5D02CA004284F1 /* ProjectTopicListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTopicListView.m; sourceTree = "<group>"; };
 		4EE1A2291B5D02CA004284F1 /* ProjectTopicsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTopicsView.h; sourceTree = "<group>"; };
 		4EE1A22A1B5D02CA004284F1 /* ProjectTopicsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTopicsView.m; sourceTree = "<group>"; };
+		4EE1A2341B5DF568004284F1 /* ProjectTagLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTagLabel.h; sourceTree = "<group>"; };
+		4EE1A2351B5DF568004284F1 /* ProjectTagLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTagLabel.m; sourceTree = "<group>"; };
 		4EE5481C1AE7B7CA00A92306 /* UISearchBar+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISearchBar+Common.h"; sourceTree = "<group>"; };
 		4EE5481D1AE7B7CA00A92306 /* UISearchBar+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+Common.m"; sourceTree = "<group>"; };
 		4EE5481F1AE8DB5600A92306 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project.h; sourceTree = "<group>"; };
@@ -3673,6 +3676,8 @@
 				4E996BCF1ABA774800C704F1 /* EaseUserHeaderView.m */,
 				4EDC33CC1AFB4DCC00698315 /* EaseInputTipsView.h */,
 				4EDC33CD1AFB4DCC00698315 /* EaseInputTipsView.m */,
+				4EE1A2341B5DF568004284F1 /* ProjectTagLabel.h */,
+				4EE1A2351B5DF568004284F1 /* ProjectTagLabel.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4416,6 +4421,7 @@
 				4E07D3081A4A96EA009EDDF2 /* FileListUploadCell.m in Sources */,
 				4EE1A22F1B5D02CA004284F1 /* ProjectListView.m in Sources */,
 				4EA679161A1496A7001A0324 /* ProjectFolders.m in Sources */,
+				4EE1A2361B5DF568004284F1 /* ProjectTagLabel.m in Sources */,
 				4EA7F1591A6D192B00A046BD /* NSData+ImageContentType.m in Sources */,
 				4E8D5D631B45295D00B70936 /* UIColor+MobileColors.m in Sources */,
 				8EA6D1FA19E240C40076D59C /* MJPhotoProgressView.m in Sources */,

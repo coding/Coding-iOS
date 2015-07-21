@@ -17,7 +17,7 @@
 
 - (instancetype)initWithTags:(NSArray *)tags;
 + (instancetype)viewWithTags:(NSArray *)tags;
-+ (CGFloat)heghtForTags:(NSArray *)tags;
++ (CGFloat)getHeightForTags:(NSArray *)tags;
 @end
 
 @interface ProjectTagsViewLabel : UILabel

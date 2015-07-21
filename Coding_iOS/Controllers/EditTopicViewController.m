@@ -207,7 +207,7 @@
     
     if (self.type != TopicEditTypeFeedBack) {
         // 标签
-        CGFloat tagsViewHeight = [ProjectTagsView heghtForTags:_curProTopic.mdLabels];
+        CGFloat tagsViewHeight = [ProjectTagsView getHeightForTags:_curProTopic.mdLabels];
         [_tagsView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_inputTitleView.mas_bottom).offset(16.0);
             make.height.mas_equalTo(tagsViewHeight);

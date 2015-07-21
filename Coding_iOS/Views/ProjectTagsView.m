@@ -39,7 +39,7 @@
     return tagsView;
 }
 
-+ (CGFloat)heghtForTags:(NSArray *)tags{
++ (CGFloat)getHeightForTags:(NSArray *)tags{
     CGFloat height = 0;
     if (tags.count > 0) {
         CGFloat tagsWidth = kScreen_Width - 2*kPaddingLeftWidth - kProjectTagsView_Padding_Icon;
@@ -50,6 +50,8 @@
             if (curX > tagsWidth) {
                 curY += kProjectTagsView_Height_PerLine;
                 curX = curTagWidth + kProjectTagsViewLabel_Padding_Space;
+            }else{
+                curX += kProjectTagsViewLabel_Padding_Space;
             }
         }
 
@@ -65,10 +67,11 @@
 }
 
 - (void)setTags:(NSArray *)tags{
-    [self p_refreshAddButtonHasTags:tags.count > 0];
+    _tags = tags;
+    [self p_refreshAddButtonHasTags:_tags.count > 0];
     
     CGPoint curPoint = CGPointZero;
-    if (tags.count > 0) {
+    if (_tags.count > 0) {
 //        图标
         if (!_tagIconView) {
             _tagIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tag_icon"]];
@@ -81,14 +84,14 @@
         CGFloat tagsWidth = kScreen_Width - kPaddingLeftWidth - leftX;
         curPoint.x = leftX;
         int index;
-        for (index = 0; index < tags.count; index++) {
+        for (index = 0; index < _tags.count; index++) {
             ProjectTagsViewLabel *curLabel;
             if (_tagLabelList.count > index) {
                 curLabel = _tagLabelList[index];
-                curLabel.curTag = tags[index];
+                curLabel.curTag = _tags[index];
             }else{
                 @weakify(self);
-                curLabel = [ProjectTagsViewLabel labelWithTag:tags[index] andDeleteBlock:^(ProjectTag *tag) {
+                curLabel = [ProjectTagsViewLabel labelWithTag:_tags[index] andDeleteBlock:^(ProjectTag *tag) {
                     @strongify(self);
                     if (self.deleteTagBlock) {
                         self.deleteTagBlock(tag);
@@ -125,11 +128,12 @@
         }
         [self.addTagButton setOrigin:curPoint];
     }else{
-        [[self subviews] enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        [self.subviews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
             if (![obj isKindOfClass:[UIButton class]]) {
                 [obj removeFromSuperview];
             }
         }];
+        [_tagLabelList removeAllObjects];
         curPoint.x = kPaddingLeftWidth;
         [self.addTagButton setOrigin:curPoint];
     }
@@ -188,7 +192,7 @@
         self.font = kProjectTagsViewLabel_Font;
         self.textAlignment = NSTextAlignmentCenter;
         self.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
-        self.layer.cornerRadius = 2;
+        self.layer.cornerRadius = 4;
         @weakify(self);
         [self addPressMenuTitles:@[@"删除"] menuClickedBlock:^(NSInteger index, NSString *title) {
             @strongify(self);

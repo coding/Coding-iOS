@@ -206,7 +206,7 @@
         CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
         cellHeight += 8 + [topic.title getHeightWithFont:kTopicContentCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 16 + 20;
         
-        cellHeight += [ProjectTagsView heghtForTags:topic.labels];
+        cellHeight += [ProjectTagsView getHeightForTags:topic.labels];
         cellHeight += topic.contentHeight;
         cellHeight += 25 + 25 + 5;
     }
