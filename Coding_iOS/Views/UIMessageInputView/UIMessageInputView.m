@@ -502,7 +502,17 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         }
     }
     if (_mediaView) {
-        CGFloat mediaHeight = ceilf(_mediaList.count/3.0)* ([self collectionView:_mediaView layout:nil sizeForItemAtIndexPath:nil].height+ kMessageInputView_MediaPadding) - kMessageInputView_MediaPadding;
+        CGFloat collectionItemHeight;
+        if (_mediaList.count <= 0) {
+            collectionItemHeight = 0;
+        }else if (_mediaList.count == 1) {
+            collectionItemHeight = 0.6* CGRectGetWidth(_inputTextView.frame);
+        }else if (_mediaList.count == 2){
+            collectionItemHeight = (CGRectGetWidth(_inputTextView.frame) - kMessageInputView_MediaPadding)/3;
+        }else{
+            collectionItemHeight = (CGRectGetWidth(_inputTextView.frame) - 2* kMessageInputView_MediaPadding)/3;
+        }
+        CGFloat mediaHeight = ceilf(_mediaList.count/3.0)* (collectionItemHeight+ kMessageInputView_MediaPadding) - kMessageInputView_MediaPadding;
         mediaSize = CGSizeMake(CGRectGetWidth(_mediaView.frame), mediaHeight);
         
         CGRect mediaFrame = CGRectMake(0, CGRectGetMaxY(_inputTextView.frame), mediaSize.width, mediaSize.height);
@@ -803,7 +813,9 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if ([text isEqualToString:@"\n"]) {
-        [self sendTextStr];
+        if (![self.inputTextView.text hasListenChar]) {
+            [self sendTextStr];
+        }
         return NO;
     }else if ([text isEqualToString:@"@"]){
         __weak typeof(self) weakSelf = self;
@@ -830,6 +842,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }else{
         appendingStr = @"@";
     }
+    [textView setSelectedRange:range];
     [textView insertText:appendingStr];
 }
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView{

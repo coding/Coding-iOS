@@ -38,6 +38,7 @@
 
 - (NSString *)trimWhitespace;
 - (BOOL)isEmpty;
+- (BOOL)isEmptyOrListening;
 //判断是否为整形
 - (BOOL)isPureInt;
 //判断是否为浮点形
@@ -51,4 +52,8 @@
 
 //转换拼音
 - (NSString *)transformToPinyin;
+
+//是否包含语音解析的图标
+- (BOOL)hasListenChar;
+
 @end

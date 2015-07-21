@@ -255,7 +255,7 @@
 
 - (BOOL)isEmptyTweet{
     BOOL isEmptyTweet = YES;
-    if ((_curTweet.tweetContent && ![_curTweet.tweetContent isEmpty])//内容不为空
+    if ((_curTweet.tweetContent && ![_curTweet.tweetContent isEmptyOrListening])//内容不为空
         || _curTweet.tweetImages.count > 0)//有照片
     {
         isEmptyTweet = NO;

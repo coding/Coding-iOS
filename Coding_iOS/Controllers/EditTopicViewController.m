@@ -13,8 +13,8 @@
 #import "WebContentManager.h"
 #import "EditLabelViewController.h"
 #import "TopicPreviewCell.h"
-#import "ProjectTopicLabel.h"
-#import "ProjectTopicLabelView.h"
+#import "ProjectTag.h"
+#import "ProjectTagsView.h"
 
 @interface EditTopicViewController ()<UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -29,8 +29,7 @@
 
 @property (strong, nonatomic) UIView *lineView;
 
-@property (strong, nonatomic) ProjectTopicLabelView *labelView;
-@property (strong, nonatomic) UIButton *labelAddBtn;
+@property (strong, nonatomic) ProjectTagsView *tagsView;
 
 @end
 
@@ -127,17 +126,21 @@
 
 - (void)loadLabelView
 {
-    if (_labelView) {
-        [_labelView removeFromSuperview];
+    if (!_tagsView) {
+        _tagsView = [ProjectTagsView viewWithTags:_curProTopic.mdLabels];
+        [self.editView addSubview:_tagsView];
+    }else{
+        _tagsView.tags = _curProTopic.mdLabels;
     }
-    _labelView = [[ProjectTopicLabelView alloc] initWithFrame:CGRectZero projectTopic:_curProTopic md:YES];
     __weak typeof(self) weakSelf = self;
-    _labelView.delLabelBlock = ^(NSInteger index){
-        [weakSelf.curProTopic.mdLabels removeObjectAtIndex:index];
+    _tagsView.deleteTagBlock = ^(ProjectTag *curTag){
+        [weakSelf.curProTopic.mdLabels removeObject:curTag];
         [weakSelf loadEditView];
         weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
     };
-    [_editView insertSubview:_labelView belowSubview:_labelAddBtn];
+    _tagsView.addTagBlock = ^(){
+        [weakSelf addtitleBtnClick];
+    };
 }
 
 - (void)loadEditView
@@ -151,14 +154,6 @@
         _inputTitleView.font = [UIFont systemFontOfSize:18];
         _inputTitleView.attributedPlaceholder = [[NSAttributedString alloc] initWithString:(self.type == TopicEditTypeFeedBack ? @"反馈标题" : @"讨论标题") attributes:@{NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
         [_editView addSubview:_inputTitleView];
-        
-        if (self.type != TopicEditTypeFeedBack) {
-            _labelAddBtn = [[UIButton alloc] initWithFrame:CGRectZero];
-            [_labelAddBtn setImage:[UIImage imageNamed:@"tag_add"] forState:UIControlStateNormal];
-            [_labelAddBtn setImageEdgeInsets:UIEdgeInsetsMake(12, 12, 12, 12)];
-            [_labelAddBtn addTarget:self action:@selector(addtitleBtnClick) forControlEvents:UIControlEventTouchUpInside];
-            [_editView addSubview:_labelAddBtn];
-        }
         
         _lineView = [[UIView alloc] initWithFrame:CGRectZero];
         _lineView.backgroundColor = kColorTableSectionBg;
@@ -212,24 +207,16 @@
     
     if (self.type != TopicEditTypeFeedBack) {
         // 标签
-        [_labelView mas_makeConstraints:^(MASConstraintMaker *make) {
+        CGFloat tagsViewHeight = [ProjectTagsView heghtForTags:_curProTopic.mdLabels];
+        [_tagsView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_inputTitleView.mas_bottom).offset(16.0);
-            make.height.mas_equalTo(_labelView.labelH);
+            make.height.mas_equalTo(tagsViewHeight);
             
-            make.left.equalTo(_editView).offset(kPaddingLeftWidth);
-            make.right.equalTo(_editView).offset(-kPaddingLeftWidth);
-        }];
-        
-        [_labelAddBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_labelView.mas_top).offset(-10);
-            make.right.equalTo(_editView);
-            
-            make.width.mas_equalTo(44);
-            make.height.mas_equalTo(44);
+            make.left.right.equalTo(_editView);
         }];
         
         [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_labelView.mas_bottom).offset(12.0);
+            make.top.equalTo(_tagsView.mas_bottom).offset(9.0);
             make.left.equalTo(_editView).offset(kPaddingLeftWidth);
             make.height.mas_equalTo(1.0);
             make.right.equalTo(_editView);

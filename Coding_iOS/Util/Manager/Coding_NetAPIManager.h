@@ -30,6 +30,7 @@
 #import "FileLineChange.h"
 #import "CommitInfo.h"
 #import "Commits.h"
+#import "ProjectTag.h"
 
 typedef NS_ENUM(NSUInteger, VerifyType){
     VerifyTypeUnknow = 0,
@@ -139,17 +140,11 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_ProjectTopic_DelLabel_WithPath:(NSString *)path
                                       andBlock:(void (^)(id data, NSError *error))block;
 
-// Topic Label
-- (void)request_ProjectTopicLabel_WithPath:(NSString *)path
-                                  andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_ProjectTopicLabel_Del_WithPath:(NSString *)path
-                                      andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_ProjectTopicLabel_Add_WithPath:(NSString *)path
-                                    withParams:params
-                                      andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_ProjectTopicLabel_Modify_WithPath:(NSString *)path
-                                       withParams:params
-                                         andBlock:(void (^)(id data, NSError *error))block;
+// Project Tag
+- (void)request_TagListInProject:(Project *)project type:(ProjectTagType)type andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_AddTag:(ProjectTag *)tag toProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_DeleteTag:(ProjectTag *)tag inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ModifyTag:(ProjectTag *)tag inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 
 //Tweet
 - (void)request_Tweets_WithObj:(Tweets *)tweets andBlock:(void (^)(id data, NSError *error))block;

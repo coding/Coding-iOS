@@ -462,20 +462,21 @@ static const char * getPropertyType(objc_property_t property) {
 
 #pragma mark - Copy NSObject (initWithObject)
 -(id)initWithObject:(NSObject *)oldObject error:(NSError **)error {
-    NSString *oldClassName = [oldObject nameOfClass];
-    NSString *newClassName = [self nameOfClass];
-    if ([newClassName isEqualToString:oldClassName]) {
-        for (NSString *propertyKey in [[oldObject propertyDictionary] allKeys]) {
-            [self setValue:[oldObject valueForKey:propertyKey] forKey:propertyKey];
+    self = [self init];
+    if (self) {
+        NSString *oldClassName = [oldObject nameOfClass];
+        NSString *newClassName = [self nameOfClass];
+        if ([newClassName isEqualToString:oldClassName]) {
+            for (NSString *propertyKey in [[oldObject propertyDictionary] allKeys]) {
+                [self setValue:[oldObject valueForKey:propertyKey] forKey:propertyKey];
+            }
+        }
+        else {
+            *error = [NSError errorWithDomain:@"MismatchedObjects" code:404 userInfo:@{@"Error":@"Mismatched Object Classes"}];
         }
     }
-    else {
-//        *error = [NSError errorWithDomain:@"MismatchedObjects" code:404 userInfo:@{@"Error":@"Mismatched Object Classes"}];
-    }
-    
     return self;
 }
-
 
 #pragma mark - Object to Data/String/etc.
 

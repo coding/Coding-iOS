@@ -257,7 +257,7 @@
             [self showError:error];
         }
         
-        if (resultCode.intValue == 1000) {//用户未登录
+        if (resultCode.intValue == 1000 || resultCode.intValue == 3207) {//用户未登录
             [Login doLogout];
             [((AppDelegate *)[UIApplication sharedApplication].delegate) setupIntroductionViewController];
         }

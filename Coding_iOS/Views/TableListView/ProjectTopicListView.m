@@ -11,7 +11,7 @@
 #import "Coding_NetAPIManager.h"
 #import "ProjectTopicCell.h"
 #import "SVPullToRefresh.h"
-#import "ProjectTopicLabel.h"
+#import "ProjectTag.h"
 
 @interface ProjectTopicListView ()
 {

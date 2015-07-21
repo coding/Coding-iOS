@@ -224,7 +224,8 @@
 #pragma mark URL Schemes
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     DebugLog(@"path: %@, params: %@", [url path], [url queryParams]);
-    return [self showPasswordWithURL:url];
+    [self showPasswordWithURL:url];
+    return YES;
 }
 
 - (BOOL)showPasswordWithURL:(NSURL *)url{

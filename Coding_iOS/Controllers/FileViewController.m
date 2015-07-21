@@ -145,7 +145,7 @@
     }else if ([self.curFile.fileType isEqualToString:@"plist"]
               || [self.curFile.fileType isEqualToString:@"txt"]){
         NSData *fileData = [NSData dataWithContentsOfURL:fileUrl];
-        [self.contentWebView loadData:fileData MIMEType:@"text/text" textEncodingName:@"UTF-8" baseURL:nil];
+        [self.contentWebView loadData:fileData MIMEType:@"text/text" textEncodingName:@"UTF-8" baseURL:fileUrl];
     }else{
         [self.contentWebView loadRequest:[NSURLRequest requestWithURL:fileUrl]];
     }

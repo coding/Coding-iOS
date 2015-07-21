@@ -32,7 +32,11 @@
         // Initialization code
         self.menuItem = menuItem;
         
-        self.iconImageView = [[GlowImageView alloc] initWithFrame:CGRectMake(0, 0, menuItem.iconImage.size.width, menuItem.iconImage.size.height)];
+        CGSize imageSize = menuItem.iconImage.size;
+        if (!kDevice_Is_iPhone6Plus && !kDevice_Is_iPhone6) {
+            imageSize = CGSizeMake(imageSize.width *0.9, imageSize.height *0.9);
+        }
+        self.iconImageView = [[GlowImageView alloc] initWithFrame:CGRectMake(0, 0, imageSize.width, imageSize.height)];
         self.iconImageView.userInteractionEnabled = NO;
         [self.iconImageView setImage:menuItem.iconImage forState:UIControlStateNormal];
         self.iconImageView.glowColor = menuItem.glowColor;
@@ -58,14 +62,16 @@
 }
 
 - (void)popBegan{
-    [self pop_removeAllAnimations];
-    // 播放缩放动画
-    POPSpringAnimation *scaleAnimation = [POPSpringAnimation animation];
-    scaleAnimation.springBounciness = 20;    // value between 0-20
-    scaleAnimation.springSpeed = 20;     // value between 0-20
-    scaleAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewScaleXY];
-    scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.3, 1.3)];
-    [self pop_addAnimation:scaleAnimation forKey:@"scaleAnimationKey"];
+    self.alpha = 0.7;
+    
+//    [self pop_removeAllAnimations];
+//    // 播放缩放动画
+//    POPSpringAnimation *scaleAnimation = [POPSpringAnimation animation];
+//    scaleAnimation.springBounciness = 20;    // value between 0-20
+//    scaleAnimation.springSpeed = 20;     // value between 0-20
+//    scaleAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewScaleXY];
+//    scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.3, 1.3)];
+//    [self pop_addAnimation:scaleAnimation forKey:@"scaleAnimationKey"];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -73,17 +79,22 @@
 }
 
 - (void)disMissCompleted:(void(^)(BOOL finished))completed {
-    POPSpringAnimation *scaleAnimation = [POPSpringAnimation animation];
-    scaleAnimation.springBounciness = 16;    // value between 0-20
-    scaleAnimation.springSpeed = 14;     // value between 0-20
-    scaleAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewScaleXY];
-    scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.0, 1.0)];
-    scaleAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
-        if (completed) {
-            completed(finished);
-        }
-    };
-    [self pop_addAnimation:scaleAnimation forKey:@"scaleAnimationKey"];
+    self.alpha = 1.0;
+
+    if (completed) {
+        completed(YES);
+    }
+//    POPSpringAnimation *scaleAnimation = [POPSpringAnimation animation];
+//    scaleAnimation.springBounciness = 16;    // value between 0-20
+//    scaleAnimation.springSpeed = 14;     // value between 0-20
+//    scaleAnimation.property = [POPAnimatableProperty propertyWithName:kPOPViewScaleXY];
+//    scaleAnimation.toValue = [NSValue valueWithCGSize:CGSizeMake(1.0, 1.0)];
+//    scaleAnimation.completionBlock = ^(POPAnimation *anim, BOOL finished) {
+//        if (completed) {
+//            completed(finished);
+//        }
+//    };
+//    [self pop_addAnimation:scaleAnimation forKey:@"scaleAnimationKey"];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{

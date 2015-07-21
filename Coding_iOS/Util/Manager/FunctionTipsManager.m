@@ -28,16 +28,17 @@ static NSString *kFunctionTipStr_Version = @"version";
 {
     self = [super init];
     if (self) {
-//        _tipsDict = [NSMutableDictionary dictionaryWithContentsOfFile:[self p_cacheFilePath]];
-//        if (![[_tipsDict valueForKey:@"version"] isEqualToString:kVersion_Coding]) {
-//            _tipsDict = [@{kFunctionTipStr_Version: kVersion_Coding,
+        _tipsDict = [NSMutableDictionary dictionaryWithContentsOfFile:[self p_cacheFilePath]];
+        if (![[_tipsDict valueForKey:@"version"] isEqualToString:kVersion_Coding]) {
+            _tipsDict = [@{kFunctionTipStr_Version: kVersion_Coding,
+                           //Function Need To Tip
 //                           kFunctionTipStr_MR: @(YES),
 //                           kFunctionTipStr_PR: @(YES),
 //                           kFunctionTipStr_ReadMe: @(YES),
 //                           kFunctionTipStr_CommitList: @(YES),
-//                           } mutableCopy];
-//            [_tipsDict writeToFile:[self p_cacheFilePath] atomically:YES];
-//        }
+                           } mutableCopy];
+            [_tipsDict writeToFile:[self p_cacheFilePath] atomically:YES];
+        }
     }
     return self;
 }

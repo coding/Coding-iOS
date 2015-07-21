@@ -87,13 +87,13 @@
 - (UIButton *)buttonFor2FA{
     if (!_buttonFor2FA) {
         _buttonFor2FA = ({
-            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 80, 20, 60, 50)];
-            [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 100, 20, 80, 50)];
+            [button.titleLabel setFont:[UIFont systemFontOfSize:13]];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateHighlighted];
             
-            [button setTitle:@"  2FA" forState:UIControlStateNormal];
-            [button setImage:[UIImage imageNamed:@"convenient_2FA"] forState:UIControlStateNormal];
+            [button setTitle:@"  两步验证" forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"twoFABtn_Nav"] forState:UIControlStateNormal];
             button;
         });
         [_buttonFor2FA addTarget:self action:@selector(goTo2FAVC) forControlEvents:UIControlEventTouchUpInside];

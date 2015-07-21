@@ -46,6 +46,7 @@
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self.capture stop];
+    [self.capture.layer removeFromSuperlayer];
     [self scanLineStopAction];
 }
 

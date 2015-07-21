@@ -32,7 +32,7 @@
         }
         if (!_tipIconView) {
             CGFloat borderWidth = 2;
-            _tipIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth - borderWidth, 10, 25 + 2*borderWidth, 25 + 2*borderWidth)];
+            _tipIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth - borderWidth, 10, 28 + 2*borderWidth, 28 + 2*borderWidth)];
             _tipIconView.contentMode = UIViewContentModeCenter;
             
             _tipIconView.layer.masksToBounds = YES;

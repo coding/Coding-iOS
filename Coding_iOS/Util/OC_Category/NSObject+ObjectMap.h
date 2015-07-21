@@ -41,7 +41,7 @@
 
 // Copying an NSObject to new memory ref
 // (basically initWithObject)
--(id)initWithObject:(NSObject *)oldObject error:(NSError **)error;
+//-(id)initWithObject:(NSObject *)oldObject error:(NSError **)error;
 
 // Base64 Encode/Decode
 +(NSString *)encodeBase64WithData:(NSData *)objData;

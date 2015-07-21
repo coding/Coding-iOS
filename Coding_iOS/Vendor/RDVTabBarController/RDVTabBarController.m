@@ -76,7 +76,7 @@
     return UIInterfaceOrientationPortrait;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     if (self.viewControllers.count > _selectedIndex) {
         UIViewController *viewController = self.viewControllers[_selectedIndex];
         if ([viewController respondsToSelector:@selector(supportedInterfaceOrientations)]) {

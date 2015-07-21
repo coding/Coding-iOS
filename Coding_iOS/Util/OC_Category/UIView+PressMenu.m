@@ -17,6 +17,7 @@ static char PressMenuTitlesKey, PressMenuBlockKey, PressMenuGestureKey, MenuVCKe
 
 #pragma mark M
 - (void)addPressMenuTitles:(NSArray *)menuTitles menuClickedBlock:(void(^)(NSInteger index, NSString *title))block{
+    self.userInteractionEnabled = YES;
     self.menuClickedBlock = block;
     self.menuTitles = menuTitles;
     if (self.pressGR == nil) {
