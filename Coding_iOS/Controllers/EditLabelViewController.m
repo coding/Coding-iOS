@@ -336,7 +336,7 @@
 {
     ResetLabelViewController *vc = [[ResetLabelViewController alloc] init];
     vc.ptLabel = [_labels objectAtIndex:index];
-    vc.curProTopic = _curProTopic;
+    vc.curProject = _curProTopic.project;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
