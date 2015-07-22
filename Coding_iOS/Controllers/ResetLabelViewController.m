@@ -64,11 +64,6 @@
     _myTableView.dataSource = nil;
 }
 
-- (NSString *)toModifyPath
-{
-    return [NSString stringWithFormat:@"api/project/%d/topic/label/%lld", _curProTopic.project_id.intValue, _ptLabel.id.longLongValue];
-}
-
 #pragma mark - click
 - (void)cancelBtnClick
 {

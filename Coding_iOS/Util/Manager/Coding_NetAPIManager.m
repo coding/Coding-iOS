@@ -1126,24 +1126,6 @@
                                                               }
                                                           }];
 }
-- (void)request_ProjectTopic_LabelAll_WithPath:(NSString *)path
-                                      andBlock:(void (^)(id data, NSError *error))block
-{
-    [MobClick event:kUmeng_Event_Request label:@"项目讨论所有被使用标签"];
-    
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
-                                                        withParams:nil
-                                                    withMethodType:Get
-                                                          andBlock:^(id data, NSError *error) {
-                                                              if (data) {
-                                                                  id resultData = [data valueForKeyPath:@"data"];
-                                                                  NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectTag"];
-                                                                  block(resultA, nil);
-                                                              } else {
-                                                                  block(nil, error);
-                                                              }
-                                                          }];
-}
 - (void)request_ProjectTopic_LabelMy_WithPath:(NSString *)path
                                      andBlock:(void (^)(id data, NSError *error))block
 {
@@ -1157,40 +1139,6 @@
                                                                   id resultData = [data valueForKeyPath:@"data"];
                                                                   NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectTag"];
                                                                   block(resultA, nil);
-                                                              } else {
-                                                                  block(nil, error);
-                                                              }
-                                                          }];
-}
-
-- (void)request_ProjectTopic_AddLabel_WithPath:(NSString *)path
-                                   andBlock:(void (^)(id data, NSError *error))block
-{
-    [MobClick event:kUmeng_Event_Request label:@"项目讨论增加标签"];
-    
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
-                                                        withParams:nil
-                                                    withMethodType:Post
-                                                          andBlock:^(id data, NSError *error) {
-                                                              if (data) {
-                                                                  block(nil, nil);
-                                                              } else {
-                                                                  block(nil, error);
-                                                              }
-                                                          }];
-}
-
-- (void)request_ProjectTopic_DelLabel_WithPath:(NSString *)path
-                                   andBlock:(void (^)(id data, NSError *error))block
-{
-    [MobClick event:kUmeng_Event_Request label:@"项目讨论删除标签"];
-    
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
-                                                        withParams:nil
-                                                    withMethodType:Delete
-                                                          andBlock:^(id data, NSError *error) {
-                                                              if (data) {
-                                                                  block(nil, nil);
                                                               } else {
                                                                   block(nil, error);
                                                               }

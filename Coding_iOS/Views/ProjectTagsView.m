@@ -74,7 +74,7 @@
     if (_tags.count > 0) {
 //        图标
         if (!_tagIconView) {
-            _tagIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tag_icon"]];
+            _tagIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"project_tag_icon"]];
         }
         [_tagIconView setCenter:CGPointMake(kPaddingLeftWidth + kProjectTagsView_Padding_Icon/2, kProjectTagsViewLabel_Height_Content/2)];
         [self addSubview:_tagIconView];
@@ -176,7 +176,7 @@
         
         [_addTagButton setSize:CGSizeMake(kScreen_Width - 2*kPaddingLeftWidth, kProjectTagsView_Height_PerLine)];
         [_addTagButton setTitle:buttonTitle forState:UIControlStateNormal];
-        [_addTagButton setImage:[UIImage imageNamed:@"tag_icon"] forState:UIControlStateNormal];
+        [_addTagButton setImage:[UIImage imageNamed:@"project_tag_btn"] forState:UIControlStateNormal];
     }
 }
 
@@ -192,7 +192,7 @@
         self.font = kProjectTagsViewLabel_Font;
         self.textAlignment = NSTextAlignmentCenter;
         self.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
-        self.layer.cornerRadius = 4;
+        self.layer.cornerRadius = 2;
         @weakify(self);
         [self addPressMenuTitles:@[@"删除"] menuClickedBlock:^(NSInteger index, NSString *title) {
             @strongify(self);

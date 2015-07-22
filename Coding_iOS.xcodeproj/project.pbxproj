@@ -400,6 +400,8 @@
 		4EE1A2321B5D02CA004284F1 /* ProjectTopicListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE1A2281B5D02CA004284F1 /* ProjectTopicListView.m */; };
 		4EE1A2331B5D02CA004284F1 /* ProjectTopicsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE1A22A1B5D02CA004284F1 /* ProjectTopicsView.m */; };
 		4EE1A2361B5DF568004284F1 /* ProjectTagLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE1A2351B5DF568004284F1 /* ProjectTagLabel.m */; };
+		4EE1A23D1B5F3834004284F1 /* project_tag_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EE1A23B1B5F3834004284F1 /* project_tag_btn@2x.png */; };
+		4EE1A23E1B5F3834004284F1 /* project_tag_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EE1A23C1B5F3834004284F1 /* project_tag_icon@2x.png */; };
 		4EE5481E1AE7B7CA00A92306 /* UISearchBar+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5481D1AE7B7CA00A92306 /* UISearchBar+Common.m */; };
 		4EE548211AE8DB5600A92306 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EE548201AE8DB5600A92306 /* Project.m */; };
 		4EE548281AE9166B00A92306 /* icon_project_cell_nopin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EE548261AE9166B00A92306 /* icon_project_cell_nopin@2x.png */; };
@@ -1398,6 +1400,8 @@
 		4EE1A22A1B5D02CA004284F1 /* ProjectTopicsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTopicsView.m; sourceTree = "<group>"; };
 		4EE1A2341B5DF568004284F1 /* ProjectTagLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTagLabel.h; sourceTree = "<group>"; };
 		4EE1A2351B5DF568004284F1 /* ProjectTagLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTagLabel.m; sourceTree = "<group>"; };
+		4EE1A23B1B5F3834004284F1 /* project_tag_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_tag_btn@2x.png"; sourceTree = "<group>"; };
+		4EE1A23C1B5F3834004284F1 /* project_tag_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_tag_icon@2x.png"; sourceTree = "<group>"; };
 		4EE5481C1AE7B7CA00A92306 /* UISearchBar+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISearchBar+Common.h"; sourceTree = "<group>"; };
 		4EE5481D1AE7B7CA00A92306 /* UISearchBar+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+Common.m"; sourceTree = "<group>"; };
 		4EE5481F1AE8DB5600A92306 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project.h; sourceTree = "<group>"; };
@@ -3300,6 +3304,8 @@
 				4E72F8321B15B811001B6CE6 /* gif_mark@2x.png */,
 				4E4D6AC71B252F4800FD2E49 /* icon_add_comment@2x.png */,
 				4E63840A1B33F9B400D98648 /* comment_bg@2x.png */,
+				4EE1A23B1B5F3834004284F1 /* project_tag_btn@2x.png */,
+				4EE1A23C1B5F3834004284F1 /* project_tag_icon@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -4084,6 +4090,7 @@
 				B94C1B6B1AC945FB0000C271 /* NewProject.storyboard in Resources */,
 				8EA6D1A519E240C40076D59C /* tweet_liked_btn@2x.png in Resources */,
 				8ED2AAFA19F60D5200607A1D /* loading_loop@2x.png in Resources */,
+				4EE1A23D1B5F3834004284F1 /* project_tag_btn@2x.png in Resources */,
 				4E5C06E81AC2B34800F427C5 /* tipIcon_BranchMember@2x.png in Resources */,
 				8EA6D19A19E240C40076D59C /* tipIcon_PullRequestBean@2x.png in Resources */,
 				8E8F7B3019EF6306006BA8BD /* btn_privateMsg_friend@2x.png in Resources */,
@@ -4124,6 +4131,7 @@
 				8EA6D17619E240C40076D59C /* placeholder_monkey_round_25@2x.png in Resources */,
 				8E97CEAD1A0C7E26006F9AD7 /* coding_emoji_22@2x.png in Resources */,
 				4E66EE291A28226000DA1B3E /* button_file_move_enable@2x.png in Resources */,
+				4EE1A23E1B5F3834004284F1 /* project_tag_icon@2x.png in Resources */,
 				8EA6D19319E240C40076D59C /* timeline_line_read@2x.png in Resources */,
 				4EF17EE31B3C3112003CDD2D /* intro_tip_3@3x.png in Resources */,
 				4E94C4EF1B4B73BB00EB668A /* scan_line@2x.png in Resources */,

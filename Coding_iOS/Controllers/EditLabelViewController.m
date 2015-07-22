@@ -140,8 +140,6 @@
 - (void)okBtnClick
 {
     _curProTopic.mdLabels = _tempArray;
-    //_curProTopic.mdTitle = _tempArray;
-    //_curProTopic.mdContent = _tempArray;
     
     self.navigationItem.rightBarButtonItem.enabled = NO;
     if (_isSaveChange) {
@@ -278,40 +276,15 @@
                 }
             }
             if (add) {
-//                if (_isSaveChange) {
-//                    __weak typeof(self) weakSelf = self;
-//                    [[Coding_NetAPIManager sharedManager] request_ProjectTopic_AddLabel_WithPath:[self toMedifyPath:lbl.id] andBlock:^(id data, NSError *error) {
-//                        if (!error) {
-//                            [_tempArray addObject:lbl];
-//                            weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
-//                        } else {
-//                            cell.selectBtn.selected = FALSE;
-//                        }
-//                    }];
-//                    [_tempArray addObject:lbl];
-//                    self.navigationItem.rightBarButtonItem.enabled = YES;
-//                } else {
-                    [_tempArray addObject:lbl];
-                    self.navigationItem.rightBarButtonItem.enabled = YES;
-                //}
+                [_tempArray addObject:lbl];
+                self.navigationItem.rightBarButtonItem.enabled = YES;
             }
         } else {
             for (ProjectTag *tempLbl in _tempArray) {
                 if ([tempLbl.id integerValue] == [lbl.id integerValue]) {
-//                    if (_isSaveChange) {
-//                        __weak typeof(self) weakSelf = self;
-//                        [[Coding_NetAPIManager sharedManager] request_ProjectTopic_DelLabel_WithPath:[self toMedifyPath:lbl.id] andBlock:^(id data, NSError *error) {
-//                            if (!error) {
-//                                [_tempArray removeObject:tempLbl];
-//                                weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
-//                            } else {
-//                                cell.selectBtn.selected = TRUE;
-//                            }
-//                        }];
-//                    } else {
-                        [_tempArray removeObject:tempLbl];
-                        self.navigationItem.rightBarButtonItem.enabled = YES;
-                    //}
+                    
+                    [_tempArray removeObject:tempLbl];
+                    self.navigationItem.rightBarButtonItem.enabled = YES;
                     break;
                 }
             }

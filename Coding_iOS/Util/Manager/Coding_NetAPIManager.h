@@ -131,14 +131,8 @@ typedef NS_ENUM(NSUInteger, VerifyType){
                                andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectTopic_Count_WithPath:(NSString *)path
                                    andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_ProjectTopic_LabelAll_WithPath:(NSString *)path
-                                      andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectTopic_LabelMy_WithPath:(NSString *)path
                                      andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_ProjectTopic_AddLabel_WithPath:(NSString *)path
-                                      andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_ProjectTopic_DelLabel_WithPath:(NSString *)path
-                                      andBlock:(void (^)(id data, NSError *error))block;
 
 // Project Tag
 - (void)request_TagListInProject:(Project *)project type:(ProjectTagType)type andBlock:(void (^)(id data, NSError *error))block;

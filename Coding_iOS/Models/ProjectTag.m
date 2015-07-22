@@ -19,11 +19,16 @@
         _count = @(0);
         _owner_id = [Login curLoginUser].id;
         _name = @"";
-        _color = [NSString stringWithFormat:@"#%@", [[UIColor randomColor] hexStringFromColor]];
     }
     return self;
 }
 
+- (NSString *)color{
+    if (_color.length <= 0) {
+        _color = [NSString stringWithFormat:@"#%@", [[UIColor randomColor] hexStringFromColor]];
+    }
+    return _color;
+}
 + (instancetype)tagWithName:(NSString *)name{
     ProjectTag *tag = [[self alloc] init];
     tag.name = name;

@@ -118,11 +118,6 @@
             [weakSelf parseCountInfo:data];
         }
     }];
-//    [[Coding_NetAPIManager sharedManager] request_ProjectTopic_LabelAll_WithPath:[self toLabelAllPath] andBlock:^(id data, NSError *error) {
-//        if (data) {
-//            [weakSelf parseCountAllInfo:data];
-//        }
-//    }];
     [[Coding_NetAPIManager sharedManager] request_ProjectTopic_LabelMy_WithPath:[self toLabelMyPath] andBlock:^(id data, NSError *error) {
         if (data) {
             [weakSelf parseCountMyInfo:data];
@@ -169,17 +164,6 @@
         }
     }
 }
-
-//- (void)parseCountAllInfo:(NSArray *)labelInfo
-//{
-//    [_labelsAll removeAllObjects];
-//    [_labelsAll addObjectsFromArray:labelInfo];
-//    [_two removeAllObjects];
-//    [_two addObject:@"全部标签"];
-//    for (ProjectTag *lbl in _labelsAll) {
-//        [_two addObject:lbl.name];
-//    }
-//}
 
 - (void)parseCountMyInfo:(NSArray *)labelInfo
 {

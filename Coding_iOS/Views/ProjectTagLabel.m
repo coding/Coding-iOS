@@ -20,7 +20,7 @@
     if (self) {
         self.textAlignment = NSTextAlignmentCenter;
         self.baselineAdjustment = UIBaselineAdjustmentAlignCenters;
-        self.layer.cornerRadius = 4;
+        self.layer.cornerRadius = 2;
         _height = 20;
         _width_padding = 10;
     }
