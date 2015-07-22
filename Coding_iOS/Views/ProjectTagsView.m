@@ -166,6 +166,7 @@
         CGFloat textWidth = [buttonTitle getWidthWithFont:kProjectTagsViewLabel_Font constrainedToSize:CGSizeMake(CGFLOAT_MAX, kProjectTagsViewLabel_Height_Content)];
         [_addTagButton setTitle:buttonTitle forState:UIControlStateNormal];
         [_addTagButton setImage:nil forState:UIControlStateNormal];
+        [_addTagButton setTitleEdgeInsets:UIEdgeInsetsZero];
         [_addTagButton setSize:CGSizeMake(textWidth + kProjectTagsViewLabel_Padding_Content, kProjectTagsViewLabel_Height_Content)];
     }else{
         _addTagButton.layer.borderWidth = 0.f;
@@ -177,6 +178,7 @@
         [_addTagButton setSize:CGSizeMake(kScreen_Width - 2*kPaddingLeftWidth, kProjectTagsView_Height_PerLine)];
         [_addTagButton setTitle:buttonTitle forState:UIControlStateNormal];
         [_addTagButton setImage:[UIImage imageNamed:@"project_tag_btn"] forState:UIControlStateNormal];
+        [_addTagButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, -5)];
     }
 }
 

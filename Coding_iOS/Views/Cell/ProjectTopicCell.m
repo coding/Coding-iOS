@@ -36,12 +36,12 @@
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.backgroundColor = [UIColor clearColor];
         if (!_userIconView) {
-            _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 33, 33)];
+            _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12, 33, 33)];
             [_userIconView doCircleFrame];
             [self.contentView addSubview:_userIconView];
         }
         if (!_titleLabel) {
-            _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTopicCell_PadingLeft, 10, kProjectTopicCell_ContentWidth, 20)];
+            _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTopicCell_PadingLeft, 12, kProjectTopicCell_ContentWidth, 20)];
             _titleLabel.font = kProjectTopicCell_ContentFont;
             _titleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             [self.contentView addSubview:_titleLabel];
@@ -95,7 +95,7 @@
     [_userIconView sd_setImageWithURL:[_curTopic.owner.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
     [_titleLabel setLongString:_curTopic.title withFitWidth:kProjectTopicCell_ContentWidth maxHeight:kProjectTopicCell_ContentHeightMax];
     
-    CGFloat curBottomY = 10 + [_curTopic.title getHeightWithFont:kProjectTopicCell_ContentFont constrainedToSize:CGSizeMake(kProjectTopicCell_ContentWidth, kProjectTopicCell_ContentHeightMax)] + 10;
+    CGFloat curBottomY = 12 + [_curTopic.title getHeightWithFont:kProjectTopicCell_ContentFont constrainedToSize:CGSizeMake(kProjectTopicCell_ContentWidth, kProjectTopicCell_ContentHeightMax)] + 12;
     CGFloat curRightX = kProjectTopicCell_PadingLeft;
     
     _tagsView.tags = _curTopic.labels;
@@ -124,9 +124,9 @@
     CGFloat cellHeight = 0;
     if ([aObj isKindOfClass:[ProjectTopic class]]) {
         ProjectTopic *curTopic = (ProjectTopic *)aObj;
-        cellHeight += 10 + [curTopic.title getHeightWithFont:kProjectTopicCell_ContentFont constrainedToSize:CGSizeMake(kProjectTopicCell_ContentWidth, kProjectTopicCell_ContentHeightMax)] + 10;
+        cellHeight += 12 + [curTopic.title getHeightWithFont:kProjectTopicCell_ContentFont constrainedToSize:CGSizeMake(kProjectTopicCell_ContentWidth, kProjectTopicCell_ContentHeightMax)] + 12;
         cellHeight += [ProjectTopicCellTagsView getHeightForTags:curTopic.labels];
-        cellHeight += 15+5;
+        cellHeight += 15 + 12;
     }
     return cellHeight;
 }
@@ -175,7 +175,7 @@ static CGFloat kProjectTopicCellTagsView_Padding_Content = 10.0;
             }
         }
         height = curY + kProjectTopicCellTagsView_Height_PerLine;
-        height += 10.0;//与下面内容的间隔
+        height += 7.0;//与下面内容的间隔
     }else{
         height = 0.0;
     }
