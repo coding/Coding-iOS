@@ -18,7 +18,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.accessoryType = UITableViewCellAccessoryNone;
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = kColorTableBG;
         // Initialization code
         if (!_labelField) {
             _labelField = [[UITextField alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, (kScreen_Width - kPaddingLeftWidth * 2 - 50), 44)];

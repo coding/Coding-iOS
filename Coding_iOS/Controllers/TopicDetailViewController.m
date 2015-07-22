@@ -35,8 +35,6 @@
 // 链接
 @property (strong, nonatomic) NSString *clickedAutoLinkStr;
 
-@property (nonatomic, assign) BOOL appearToRefresh;
-
 @end
 
 @implementation TopicDetailViewController
@@ -90,7 +88,7 @@
         _myMsgInputView.commentOfId = _curTopic.id;
     }
     
-    _appearToRefresh = YES;
+    [self refreshTopic];
 }
 
 - (void)setCurTopic:(ProjectTopic *)curTopic
@@ -122,10 +120,6 @@
         }
         [_myMsgInputView prepareToShow];
     }
-    if (_appearToRefresh) {
-        [self refreshTopic];
-        _appearToRefresh = NO;
-    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -138,18 +132,36 @@
 - (void)addtitleBtnClick
 {
     EditLabelViewController *vc = [[EditLabelViewController alloc] init];
-    vc.curProTopic = self.curTopic;
-    vc.isSaveChange = TRUE;
-//    __weak typeof(self) weakSelf = self;
-//    vc.topicChangedBlock = ^(){
-//        [weakSelf refreshTopic];
-//    };
-    vc.topicChangedBlock = nil;
-    _appearToRefresh = YES;
+    vc.curProject = self.curTopic.project;
+    vc.orignalTags = self.curTopic.mdLabels;
+    @weakify(self);
+    vc.tagsChangedBlock = ^(EditLabelViewController *vc, NSMutableArray *selectedTags){
+        @strongify(self);
+        [self tagsHasChanged:selectedTags fromVC:vc];
+    };
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-#pragma mark nav 
+- (void)tagsHasChanged:(NSMutableArray *)selectedTags fromVC:(EditLabelViewController *)vc{
+    self.curTopic.mdLabels = selectedTags;
+    if ([ProjectTag tags:self.curTopic.mdLabels isEqualTo:self.curTopic.labels]) {
+        [vc.navigationController popViewControllerAnimated:YES];
+    }else{
+        vc.navigationItem.rightBarButtonItem.enabled = NO;
+        @weakify(self);
+        [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoicLabel:self.curTopic andBlock:^(id data, NSError *error) {
+            @strongify(self);
+            vc.navigationItem.rightBarButtonItem.enabled = NO;
+            if (data) {
+                self.curTopic.labels = [self.curTopic.mdLabels mutableCopy];
+                [self.myTableView reloadData];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+    }
+}
+
+#pragma mark nav
 - (void)configNavBtn
 {
     [self.navigationItem setRightBarButtonItem:[self.curTopic canEdit] ? [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(editBtnClicked)]:nil animated:YES];

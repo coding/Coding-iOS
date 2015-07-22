@@ -19,5 +19,7 @@ typedef NS_ENUM(NSUInteger, ProjectTagType){
 @property (readwrite, nonatomic, strong) NSString *name, *color;
 
 + (instancetype)tagWithName:(NSString *)name;
++ (BOOL)tags:(NSArray *)aTags isEqualTo:(NSArray *)bTags;
++ (instancetype)tags:(NSArray *)aTags hasTag:(ProjectTag *)curTag;
 
 @end
