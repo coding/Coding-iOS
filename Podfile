@@ -2,7 +2,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
 
 pod 'TTTAttributedLabel', '1.10.1'
-pod 'RegexKitLite', '4.0'
+pod 'RegexKitLite-NoWarning', '~> 1.1.0'
 pod 'hpple', '0.2.0'
 pod 'MBProgressHUD', '0.9'
 pod 'TPKeyboardAvoiding', '1.2.4'

@@ -9,7 +9,7 @@
 #import "EaseMarkdownTextView.h"
 #import "RFKeyboardToolbar.h"
 #import "RFToolbarButton.h"
-#import <RegexKitLite/RegexKitLite.h>
+#import <RegexKitLite-NoWarning/RegexKitLite.h>
 
 //at某人
 #import "UsersViewController.h"

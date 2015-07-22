@@ -11,7 +11,7 @@
 #import "Coding_NetAPIManager.h"
 #import "UIImageView+WebCache.h"
 #import "NProjectViewController.h"
-#import <RegexKitLite/RegexKitLite.h>
+#import <RegexKitLite-NoWarning/RegexKitLite.h>
 #import "RDVTabBarController.h"
 
 @interface NewProjectViewController ()<NewProjectTypeDelegate,UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>

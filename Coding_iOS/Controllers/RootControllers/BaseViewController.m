@@ -10,7 +10,7 @@
 #import "ConversationViewController.h"
 
 #import "Login.h"
-#import <RegexKitLite/RegexKitLite.h>
+#import <RegexKitLite-NoWarning/RegexKitLite.h>
 #import "UserInfoViewController.h"
 #import "TweetDetailViewController.h"
 #import "TopicDetailViewController.h"
