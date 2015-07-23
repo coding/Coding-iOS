@@ -175,7 +175,7 @@
         [_addTagButton setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
         [_addTagButton setTitleColor:[UIColor colorWithHexString:@"0x3bbd79" andAlpha:0.5] forState:UIControlStateHighlighted];
         
-        [_addTagButton setSize:CGSizeMake(kScreen_Width - 2*kPaddingLeftWidth, kProjectTagsView_Height_PerLine)];
+        [_addTagButton setSize:CGSizeMake(kScreen_Width - 2*kPaddingLeftWidth, kProjectTagsViewLabel_Height_Content)];
         [_addTagButton setTitle:buttonTitle forState:UIControlStateNormal];
         [_addTagButton setImage:[UIImage imageNamed:@"project_tag_btn"] forState:UIControlStateNormal];
         [_addTagButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, -5)];
