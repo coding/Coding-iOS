@@ -13,12 +13,13 @@
 #import "ODRefreshControl.h"
 #import "SVPullToRefresh.h"
 #import "XHRealTimeBlur.h"
-
 #import "CSSearchModel.h"
-
 #import "RKSwipeBetweenViewControllers.h"
 #import "CSHotTopicVC.h"
 #import "CSMyTopicVC.h"
+#import "CSSearchCell.h"
+#import "UserInfoViewController.h"
+#import "WebViewController.h"
 
 #define kCellIdentifier_Search  @"com.coding.search.tweet.result"
 
@@ -51,14 +52,17 @@
 - (void)setActive:(BOOL)visible animated:(BOOL)animated {
     
     if(!visible) {
-    
-        if(_contentView) {
         
-            [_backgroundView removeFromSuperview];
-            [_contentView removeFromSuperview];
-            [_searchTableView removeFromSuperview];
-            [super setActive:visible animated:animated];
-        }
+        [_searchTableView removeFromSuperview];
+        [_backgroundView removeFromSuperview];
+        [_contentView removeFromSuperview];
+        
+        _searchTableView = nil;
+        _contentView = nil;
+        _backgroundView = nil;
+        _searchHistoryView = nil;
+        
+        [super setActive:visible animated:animated];
     }else {
     
         [super setActive:visible animated:animated];
@@ -104,9 +108,12 @@
             [self initSubViewsInContentView];
         }
         
-        [self.searchBar.superview addSubview:_backgroundView];
-        [self.searchBar.superview addSubview:_contentView];
-        [self.searchBar.superview bringSubviewToFront:_contentView];
+//        [self.searchBar.superview addSubview:_backgroundView];
+//        [self.searchBar.superview addSubview:_contentView];
+//        [self.searchBar.superview bringSubviewToFront:_contentView];
+        [self.parentVC.parentViewController.view addSubview:_backgroundView];
+        [self.parentVC.parentViewController.view addSubview:_contentView];
+        [self.parentVC.parentViewController.view bringSubviewToFront:_contentView];
         __weak typeof(self) weakSelf = self;
         self.searchBar.delegate = weakSelf;
     }
@@ -129,8 +136,6 @@
     [_btnMore setImage:imgMore forState:UIControlStateNormal];
     [_btnMore addTarget:self action:@selector(didClickedMoreHotkey:) forControlEvents:UIControlEventTouchUpInside];
     [_contentView addSubview:_btnMore];
-    
-//    [_btnMore addBadgePoint:2 withPosition:BadgePositionTypeMiddle];
     
     _topicHotkeyView = [[TopicHotkeyView alloc] init];
     [_contentView addSubview:_topicHotkeyView];
@@ -166,38 +171,42 @@
 }
 
 - (void)initSearchResultsTableView {
-
+    
     _tweetsArr = [[NSMutableArray alloc] init];
     _currentPage = 1;
     
-    _searchTableView = ({
+    if(!_searchTableView) {
+        _searchTableView = ({
+            
+            UITableView *tableView = [[UITableView alloc] initWithFrame:_contentView.frame style:UITableViewStylePlain];
+            tableView.backgroundColor = [UIColor whiteColor];
+            tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+            [tableView registerClass:[CSSearchCell class] forCellReuseIdentifier:kCellIdentifier_Search];
+            tableView.dataSource = self;
+            tableView.delegate = self;
+            {
+                __weak typeof(self) weakSelf = self;
+                [tableView addInfiniteScrollingWithActionHandler:^{
+                    [weakSelf loadMore];
+                }];
+            }
+            
+//            [self.searchBar.superview addSubview:tableView];
+            [self.parentVC.parentViewController.view addSubview:tableView];
+            tableView;
+        });
+    }
+//    [self.searchBar.superview bringSubviewToFront:_searchTableView];
     
-        UITableView *tableView = [[UITableView alloc] initWithFrame:_contentView.frame style:UITableViewStylePlain];
-        tableView.backgroundColor = [UIColor whiteColor];
-        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kCellIdentifier_Search];
-        tableView.dataSource = self;
-        tableView.delegate = self;
-        {
-            __weak typeof(self) weakSelf = self;
-            [tableView addInfiniteScrollingWithActionHandler:^{
-                [weakSelf loadMore];
-            }];
-        }
-        
-        [self.searchBar.superview addSubview:tableView];
-        [self.searchBar.superview bringSubviewToFront:tableView];
-        tableView;
-    });
-    
-//    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.searchTableView];
-//    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-    
+    //    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.searchTableView];
+    //    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+
+    [_searchTableView reloadData];
     [self refresh];
 }
 
 - (void)initSearchHistoryView {
-
+    
     if(!_searchHistoryView) {
     
         _searchHistoryView = [[UIScrollView alloc] init];
@@ -269,7 +278,6 @@
             
         }];
     }
-
 }
 
 - (void)didCLickedCleanSearchHistory:(id)sender {
@@ -331,6 +339,20 @@
     }];
 }
 
+- (void)analyseLinkStr:(NSString *)linkStr{
+    if (linkStr.length <= 0) {
+        return;
+    }
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
+    if (vc) {
+        [self.parentVC.parentViewController.navigationController pushViewController:vc animated:YES];
+    }else{
+        //网页
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self.parentVC.parentViewController.navigationController pushViewController:webVc animated:YES];
+    }
+}
+
 #pragma mark -
 #pragma mark UISearchBarDelegate Support
 
@@ -338,17 +360,10 @@
 
     [CSSearchModel addSearchHistory:searchBar.text];
     [self initSearchHistoryView];
+    [self.searchBar resignFirstResponder];
     
-//    if(!_searchTableView) {
-//        
-//        [self initSearchResultsTableView];
-//    }
-//    else {
-//        
-//        [self.searchBar.superview bringSubviewToFront:_searchTableView];
-//    }
-//    
-//    [searchBar resignFirstResponder];
+    [self initSearchResultsTableView];
+    
 }
 
 #pragma mark -
@@ -361,16 +376,31 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Search forIndexPath:indexPath];
+    CSSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Search forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     Tweet *tweet = _tweetsArr[indexPath.row];
-    cell.textLabel.text = tweet.content;
+    cell.tweet = tweet;
+    
+    __weak typeof(self) weakSelf = self;
+    
+    cell.userBtnClickedBlock = ^(User *curUser){
+        UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+        vc.curUser = curUser;
+//        [[[UIApplication sharedApplication].windows[0] rootViewController].navigationController pushViewController:vc animated:YES];
+        [self.parentVC.parentViewController.navigationController pushViewController:vc animated:YES];
+    };
+    cell.mediaItemClickedBlock = ^(HtmlMediaItem *curItem){
+        [weakSelf analyseLinkStr:curItem.href];
+    };
+    
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    return 80.0f;
+    Tweet *tweet = _tweetsArr[indexPath.row];
+    return[CSSearchCell cellHeightWithObj:tweet];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
