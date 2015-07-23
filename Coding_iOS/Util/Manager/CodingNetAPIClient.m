@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kNetworkMethodName @[@"Get", @"Post", @"Put", @"Delete"]
+
 #import "CodingNetAPIClient.h"
 #import "Login.h"
 
@@ -40,25 +42,25 @@
 
 - (void)requestJsonDataWithPath:(NSString *)aPath
                      withParams:(NSDictionary*)params
-                 withMethodType:(int)NetworkMethod
+                 withMethodType:(NetworkMethod)method
                        andBlock:(void (^)(id data, NSError *error))block{
-    [self requestJsonDataWithPath:aPath withParams:params withMethodType:NetworkMethod autoShowError:YES andBlock:block];
+    [self requestJsonDataWithPath:aPath withParams:params withMethodType:method autoShowError:YES andBlock:block];
 }
 
 - (void)requestJsonDataWithPath:(NSString *)aPath
                      withParams:(NSDictionary*)params
-                 withMethodType:(int)NetworkMethod
+                 withMethodType:(NetworkMethod)method
                   autoShowError:(BOOL)autoShowError
                        andBlock:(void (^)(id data, NSError *error))block{
     if (!aPath || aPath.length <= 0) {
         return;
     }
     //log请求数据
-    DebugLog(@"\n===========request===========\n%@:\n%@", aPath, params);
+    DebugLog(@"\n===========request===========:%@\n%@:\n%@", kNetworkMethodName[method], aPath, params);
     aPath = [aPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     //发起请求
-    switch (NetworkMethod) {
+    switch (method) {
         case Get:{
             [self GET:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
@@ -124,7 +126,7 @@
     
 }
 
--(void)requestJsonDataWithPath:(NSString *)aPath file:(NSDictionary *)file withParams:(NSDictionary *)params withMethodType:(int)NetworkMethod andBlock:(void (^)(id, NSError *))block{
+-(void)requestJsonDataWithPath:(NSString *)aPath file:(NSDictionary *)file withParams:(NSDictionary *)params withMethodType:(NetworkMethod)method andBlock:(void (^)(id, NSError *))block{
     //log请求数据
     DebugLog(@"\n===========request===========\n%@:\n%@", aPath, params);
     aPath = [aPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -149,7 +151,7 @@
         fileName = file[@"fileName"];
     }
     
-    switch (NetworkMethod) {
+    switch (method) {
         case Post:{
             
             AFHTTPRequestOperation *operation = [self POST:aPath parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
