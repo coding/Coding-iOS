@@ -174,15 +174,18 @@
 
 - (void)deleteTag:(ProjectTag *)curTag
 {
-    [_curTopic.mdLabels removeObject:curTag];
-    @weakify(self);
-    [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoicLabel:self.curTopic andBlock:^(id data, NSError *error) {
-        @strongify(self);
-        if (data) {
-            _curTopic.labels = [NSMutableArray arrayWithArray:_curTopic.mdLabels];
-            [self setCurTopic:_curTopic];
-        }
-    }];
+    curTag = [ProjectTag tags:self.curTopic.mdLabels hasTag:curTag];
+    if (curTag) {
+        [_curTopic.mdLabels removeObject:curTag];
+        @weakify(self);
+        [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoicLabel:self.curTopic andBlock:^(id data, NSError *error) {
+            @strongify(self);
+            if (data) {
+                _curTopic.labels = [_curTopic.mdLabels mutableCopy];
+                [self setCurTopic:_curTopic];
+            }
+        }];
+    }
 }
 
 - (NSMutableAttributedString*)getStringWithName:(NSString *)nameStr andTime:(NSString *)timeStr

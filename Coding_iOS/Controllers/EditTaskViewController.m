@@ -21,6 +21,7 @@
 #import "TaskDescriptionViewController.h"
 #import "WebViewController.h"
 #import "ProjectToChooseListViewController.h"
+#import "EditLabelViewController.h"
 
 @interface EditTaskViewController ()<TTTAttributedLabelDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
@@ -322,6 +323,13 @@
                 }
                 [weakSelf goToDescriptionVC];
             };
+            cell.addTagBlock = ^(){
+                [weakSelf goToTagsVC];
+            };
+            cell.tagsChangedBlock = ^(){
+                weakSelf.myTask.labels = [weakSelf.myCopyTask.labels mutableCopy];
+                [weakSelf.myTableView reloadData];
+            };
             
             cell.backgroundColor = kColorTableBG;
 //            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:20];
@@ -404,7 +412,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section == 0) {
-        return 30.0;
+        return 0.5;
     }else if (section == 3){
         return 0.5;
     }else{
@@ -449,6 +457,7 @@
                 ESStrongSelf;
                 _self.myCopyTask.project = project;
                 _self.myCopyTask.owner = nil;//更换新的执行人
+                [_self.myCopyTask.labels removeAllObjects];
                 [_self.myTableView reloadData];
             };
             [self.navigationController pushViewController:vc animated:YES];
@@ -525,6 +534,48 @@
         [_self.myTableView reloadData];
     };
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToTagsVC{
+    if (!_myCopyTask.project) {
+        [self showHudTipStr:@"需要选定所属项目先~"];
+        return;
+    }
+    EditLabelViewController *vc = [[EditLabelViewController alloc] init];
+    vc.curProject = self.myCopyTask.project;
+    vc.orignalTags = self.myCopyTask.labels;
+    @weakify(self);
+    vc.tagsChangedBlock = ^(EditLabelViewController *vc, NSMutableArray *selectedTags){
+        @strongify(self);
+        [self tagsHasChanged:selectedTags fromVC:vc];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)tagsHasChanged:(NSMutableArray *)selectedTags fromVC:(EditLabelViewController *)vc{
+    if ([ProjectTag tags:self.myCopyTask.labels isEqualTo:selectedTags]) {
+        [vc.navigationController popViewControllerAnimated:YES];
+    }else{
+        if (self.myCopyTask.handleType > TaskHandleTypeEdit) {
+            self.myCopyTask.labels = selectedTags;
+            self.myTask.labels = [self.myCopyTask.labels mutableCopy];
+            [self.myTableView reloadData];
+            [vc.navigationController popViewControllerAnimated:YES];
+        }else{
+            vc.navigationItem.rightBarButtonItem.enabled = NO;
+            @weakify(self);
+            [[Coding_NetAPIManager sharedManager] request_EditTask:_myCopyTask withTags:selectedTags andBlock:^(id data, NSError *error) {
+                @strongify(self);
+                vc.navigationItem.rightBarButtonItem.enabled = YES;
+                if (data) {
+                    self.myCopyTask.labels = selectedTags;
+                    self.myTask.labels = [self.myCopyTask.labels mutableCopy];
+                    [self.myTableView reloadData];
+                    [vc.navigationController popViewControllerAnimated:YES];
+                }
+            }];
+        }
+    }
 }
 
 - (void)doCommentToComment:(TaskComment *)toComment sender:(id)sender{

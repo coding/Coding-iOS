@@ -151,11 +151,11 @@
         @weakify(self);
         [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoicLabel:self.curTopic andBlock:^(id data, NSError *error) {
             @strongify(self);
-            vc.navigationItem.rightBarButtonItem.enabled = NO;
+            vc.navigationItem.rightBarButtonItem.enabled = YES;
             if (data) {
                 self.curTopic.labels = [self.curTopic.mdLabels mutableCopy];
                 [self.myTableView reloadData];
-                [self.navigationController popViewControllerAnimated:YES];
+                [vc.navigationController popViewControllerAnimated:YES];
             }
         }];
     }

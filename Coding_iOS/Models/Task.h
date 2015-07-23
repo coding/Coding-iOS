@@ -11,6 +11,7 @@
 #import "Projects.h"
 #import "Login.h"
 #import "TaskComment.h"
+#import "ProjectTag.h"
 
 @class Project;
 @class Task_Description;
@@ -28,7 +29,8 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 @property (readonly, nonatomic, strong) NSDate *deadline_date;
 @property (readwrite, nonatomic, strong) Project *project;
 @property (readwrite, nonatomic, strong) NSNumber *id, *status, *owner_id, *priority, *comments, *has_description;
-@property (readwrite, nonatomic, strong) NSMutableArray *activityList;
+@property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
+@property (readwrite, nonatomic, strong) NSMutableArray *activityList, *labels;
 @property (nonatomic, assign) TaskHandleType handleType;
 @property (nonatomic, assign) BOOL isRequesting, isRequestingDetail, isRequestingCommentList, needRefreshDetail;
 @property (readwrite, nonatomic, strong) NSString *nextCommentStr;

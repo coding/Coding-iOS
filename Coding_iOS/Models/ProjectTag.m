@@ -29,11 +29,20 @@
     }
     return _color;
 }
+
+- (NSString *)name{
+    if (_name.length <= 0) {
+        _name = @"...";
+    }
+    return _name;
+}
+
 + (instancetype)tagWithName:(NSString *)name{
     ProjectTag *tag = [[self alloc] init];
     tag.name = name;
     return tag;
 }
+
 + (BOOL)tags:(NSArray *)aTags isEqualTo:(NSArray *)bTags{
     BOOL isSame = YES;
     if (aTags.count != bTags.count ||

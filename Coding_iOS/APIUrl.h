@@ -18,5 +18,8 @@
 //生产
 #define kNetPath_Code_Base        @"https://coding.net/"
 
+//村民机
+//#define kNetPath_Code_Base        @"http://192.168.0.188:8080/"
+
 #pragma mark ConfigUrl
 #define kNetPath_Code_Login         @"api/login"

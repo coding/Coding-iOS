@@ -164,10 +164,13 @@
 
 - (void)deleteTag:(ProjectTag *)curTag
 {
-    [_curTopic.mdLabels removeObject:curTag];
-    [self setCurTopic:_curTopic];
-    if (_delLabelBlock) {
-        _delLabelBlock();
+    curTag = [ProjectTag tags:_curTopic.mdLabels hasTag:curTag];
+    if (curTag) {
+        [_curTopic.mdLabels removeObject:curTag];
+        [self setCurTopic:_curTopic];
+        if (_delLabelBlock) {
+            _delLabelBlock();
+        }
     }
 }
 

@@ -45,7 +45,7 @@
 
 - (void)setup{
     if (!self.curTag || self.curTag.name.length <= 0) {
-        self.text = @"...";
+        [self setSize:CGSizeZero];
         return;
     }
     UIColor *tagColor = self.curTag.color.length > 1? [UIColor colorWithHexString:[self.curTag.color stringByReplacingOccurrencesOfString:@"#" withString:@"0x"]]: [UIColor colorWithHexString:@"0x3bbd79"];

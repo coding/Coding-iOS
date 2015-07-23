@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#define kProjectTagsView_Padding_Icon 30.0
+#define kProjectTagsView_Padding_Icon 22.0
 #define kProjectTagsView_Height_PerLine 30.0
 
 #define kProjectTagsViewLabel_Font [UIFont systemFontOfSize:12]
@@ -76,7 +76,7 @@
         if (!_tagIconView) {
             _tagIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"project_tag_icon"]];
         }
-        [_tagIconView setCenter:CGPointMake(kPaddingLeftWidth + kProjectTagsView_Padding_Icon/2, kProjectTagsViewLabel_Height_Content/2)];
+        [_tagIconView setCenter:CGPointMake(kPaddingLeftWidth + CGRectGetWidth(_tagIconView.frame)/2, kProjectTagsViewLabel_Height_Content/2)];
         [self addSubview:_tagIconView];
         
 //        标签
@@ -221,7 +221,7 @@
 
 - (void)setup{
     if (!self.curTag || self.curTag.name.length <= 0) {
-        self.text = @"...";
+        [self setSize:CGSizeZero];
         return;
     }
     UIColor *tagColor = self.curTag.color.length > 1? [UIColor colorWithHexString:[self.curTag.color stringByReplacingOccurrencesOfString:@"#" withString:@"0x"]]: [UIColor colorWithHexString:@"0x3bbd79"];

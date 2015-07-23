@@ -134,7 +134,10 @@
     }
     __weak typeof(self) weakSelf = self;
     _tagsView.deleteTagBlock = ^(ProjectTag *curTag){
-        [weakSelf.curProTopic.mdLabels removeObject:curTag];
+        curTag = [ProjectTag tags:weakSelf.curProTopic.mdLabels hasTag:curTag];
+        if (curTag) {
+            [weakSelf.curProTopic.mdLabels removeObject:curTag];
+        }
         [weakSelf loadEditView];
         weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
     };

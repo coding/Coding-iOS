@@ -879,6 +879,11 @@
     
 }
 
+- (void)request_EditTask:(Task *)task withTags:(NSMutableArray *)selectedTags andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"更新任务标签"];
+    block(selectedTags, nil);
+}
+
 - (void)request_ChangeTaskStatus:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"编辑任务状态"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toEditTaskStatusPath] withParams:[task toChangeStatusParams] withMethodType:Put andBlock:^(id data, NSError *error) {
@@ -1004,16 +1009,14 @@
             //markdown详情
             id resultData = [data valueForKeyPath:@"data"];
             ProjectTopic *resultT = [NSObject objectOfClass:@"ProjectTopic" fromJSON:resultData];
-            
+            resultT.mdLabels = [resultT.labels mutableCopy];
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:@{@"type": [NSNumber numberWithInteger:1]} withMethodType:Get andBlock:^(id dataMD, NSError *errorMD) {
+                proTopic.isTopicLoading = NO;
                 if (dataMD) {
                     resultT.mdTitle = [[dataMD valueForKey:@"data"] valueForKey:@"title"];
                     resultT.mdContent = [[dataMD valueForKey:@"data"] valueForKey:@"content"];
-                    id labels = [[dataMD valueForKey:@"data"] valueForKey:@"labels"];
-                    resultT.mdLabels = [NSObject arrayFromJSON:labels  ofObjects:@"ProjectTag"];
                     block(resultT, nil);
                 }else{
-                    proTopic.isTopicLoading = NO;
                     block(nil, errorMD);
                 }
             }];

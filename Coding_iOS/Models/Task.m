@@ -14,6 +14,9 @@
 {
     self = [super init];
     if (self) {
+        _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"ProjectTag", @"labels", nil];
+        
         _handleType = TaskHandleTypeEdit;
         _isRequesting = _isRequestingDetail = _isRequestingCommentList = NO;
         _needRefreshDetail = NO;
@@ -77,6 +80,7 @@
             && self.priority.intValue == task.priority.intValue
             && self.status.intValue == task.status.intValue
             && ((!self.deadline && !task.deadline) || [self.deadline isEqualToString:task.deadline])
+            && [ProjectTag tags:self.labels isEqualTo:task.labels]
             );
 }
 - (void)copyDataFrom:(Task *)task{
@@ -102,6 +106,7 @@
     
     self.has_description = task.has_description;
     self.task_description = task.task_description;
+    self.labels = [task.labels mutableCopy];
 }
 
 //任务状态
@@ -157,14 +162,22 @@
     return [NSString stringWithFormat:@"api%@/task", self.backend_project_path];
 }
 - (NSDictionary *)toAddTaskParams{
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithDictionary:@{@"content" : [self.content aliasedString],
-                                                                                    @"owner_id" : self.owner.id,
-                                                                                    @"priority" : self.priority}];
+    NSMutableDictionary *params = [@{@"content" : [self.content aliasedString],
+                                    @"owner_id" : self.owner.id,
+                                    @"priority" : self.priority} mutableCopy];
+    
     if (self.deadline.length >= 10) {
-        [params setObject:self.deadline forKey:@"deadline"];
+        params[@"deadline"] = self.deadline;
     }
     if (self.task_description.markdown.length > 0) {
-        [params setObject:[self.task_description.markdown aliasedString] forKey:@"description"];
+        params[@"description"] = [self.task_description.markdown aliasedString];
+    }
+    if (self.labels.count > 0) {
+        NSMutableArray *labels = [NSMutableArray new];
+        for (ProjectTag *curL in self.labels) {
+            [labels addObject:curL.id.stringValue];
+        }
+        params[@"labels"] = labels;
     }
     return params;
 }
