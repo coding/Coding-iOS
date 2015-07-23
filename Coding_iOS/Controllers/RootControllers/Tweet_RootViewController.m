@@ -26,6 +26,7 @@
 
 #import "CSSearchVC.h"
 #import "CSSearchDisplayVC.h"
+#import "FunctionTipsManager.h"
 
 @interface Tweet_RootViewController () <UISearchBarDelegate, UISearchDisplayDelegate>
 {
@@ -99,9 +100,7 @@
 //                              [self refreshFirst];
 //                          }];
     
-    BOOL isBadgeValid = ![CSSearchModel hasSearchBadgeShown];
-    isBadgeValid = YES;
-    UIBarButtonItem *leftBarItem =[UIBarButtonItem itemWithIcon:@"search_Nav" showBadge:isBadgeValid target:self action:@selector(searchItemClicked:)];
+    UIBarButtonItem *leftBarItem =[UIBarButtonItem itemWithIcon:@"search_Nav" showBadge:NO target:self action:@selector(searchItemClicked:)];
     [self.parentViewController.navigationItem setLeftBarButtonItem:leftBarItem animated:NO];
     
     _tweetsDict = [[NSMutableDictionary alloc] initWithCapacity:4];
@@ -152,12 +151,9 @@
     [super viewDidAppear:animated];
     
     UIButton *leftItemView = (UIButton *)self.parentViewController.navigationItem.leftBarButtonItem.customView;
-    if(![CSSearchModel hasClickedNewFeatureWithType:CSSNewFeatureTypeSearch]) {
-    
+    if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Search]) {
         [leftItemView addBadgePoint:3 withPointPosition:CGPointMake(35, 10)];
     }
-    
-//    [leftItemView addBadgePoint:3 withPosition:BadgePositionTypeDefault];
     
     [self refreshFirst];
 
@@ -264,10 +260,11 @@
 #pragma mark - search 
 
 - (void)searchItemClicked:(id)sender{
-    
-    UIButton *leftItemView = (UIButton *)self.parentViewController.navigationItem.leftBarButtonItem.customView;
-    [CSSearchModel clickNewFeatureWithType:CSSNewFeatureTypeSearch];
-    [leftItemView removeBadgePoint];
+    if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Search]) {
+        [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_Search];
+        UIButton *leftItemView = (UIButton *)self.parentViewController.navigationItem.leftBarButtonItem.customView;
+        [leftItemView removeBadgePoint];
+    }
     
     if(!_searchBar) {
         
@@ -303,13 +300,6 @@
     [self hideToolBar:YES];
     [_searchBar becomeFirstResponder];
     
-//    BOOL isBadgeValid = ![CSSearchModel hasSearchBadgeShown];
-//    if (isBadgeValid) {
-//        //存一下
-//        [CSSearchModel invalidSearchBadge];
-//        UIBarButtonItem *leftBarItem =[UIBarButtonItem itemWithIcon:@"search_Nav" showBadge:NO target:self action:@selector(searchItemClicked:)];
-//        [self.navigationItem setLeftBarButtonItem:leftBarItem animated:NO];
-//    }
 }
 
 #pragma mark Refresh M
