@@ -632,6 +632,12 @@
                             sub_folder.count = [countDict objectForKey:sub_folder.file_id];
                         }
                     }
+                    for (ProjectFolder *folder in folders.list) {//原来文件夹的文件数也更新一下
+                        folder.count = [countDict objectForKey:folder.file_id];
+                        for (ProjectFolder *sub_folder in folder.sub_folders) {
+                            sub_folder.count = [countDict objectForKey:sub_folder.file_id];
+                        }
+                    }
                     folders.isLoading = NO;
                     block(proFolders, nil);
                 }else{
