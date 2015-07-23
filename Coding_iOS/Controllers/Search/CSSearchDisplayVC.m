@@ -98,6 +98,7 @@
                 XHRealTimeBlur *blur = [[XHRealTimeBlur alloc] initWithFrame:_contentView.frame];
                 blur.blurStyle = XHBlurStyleTranslucentWhite;
                 blur;
+                
             });
             
             [self initSubViewsInContentView];

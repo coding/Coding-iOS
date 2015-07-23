@@ -1962,42 +1962,42 @@
 
 #pragma mark - topic
 - (void)request_TopicAdlistWithBlock:(void (^)(id data, NSError *error))block {
-//    NSString *path = @"/api/tweet_topic/marketing_ad";
-//    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-//        if(data) {
-//            id resultData = [data valueForKey:@"data"];
-//            block(resultData, nil);
-//        }else {
-//            block(nil, error);
-//        }
-//    }];
+    NSString *path = @"/api/tweet_topic/marketing_ad";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if(data) {
+            id resultData = [data valueForKey:@"data"];
+            block(resultData, nil);
+        }else {
+            block(nil, error);
+        }
+    }];
     
-    
-    NSString *filePath =[[NSBundle mainBundle] pathForResource:@"mock_topicAdlist" ofType:@"geojson"];
-    NSData *dd = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:dd options:0 error:nil];
-    id resultData = dict[@"data"];
-    block(resultData, nil);
+//    
+//    NSString *filePath =[[NSBundle mainBundle] pathForResource:@"mock_topicAdlist" ofType:@"geojson"];
+//    NSData *dd = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
+//    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:dd options:0 error:nil];
+//    id resultData = dict[@"data"];
+//    block(resultData, nil);
     
 }
 
 - (void)request_HotTopiclistWithBlock:(void (^)(id data, NSError *error))block {
-    //    NSString *path = @"/api/tweet_topic/hot";
-    //    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-    //        if(data) {
-    //            id resultData = [data valueForKey:@"data"];
-    //            block(resultData, nil);
-    //        }else {
-    //            block(nil, error);
-    //        }
-    //    }];
+        NSString *path = @"/api/tweet_topic/hot";
+        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+            if(data) {
+                id resultData = [data valueForKey:@"data"];
+                block(resultData, nil);
+            }else {
+                block(nil, error);
+            }
+        }];
     
     
-    NSString *filePath =[[NSBundle mainBundle] pathForResource:@"mock_hotTopiclist" ofType:@"geojson"];
-    NSData *dd = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:dd options:0 error:nil];
-    id resultData = dict[@"data"];
-    block(resultData, nil);
+//    NSString *filePath =[[NSBundle mainBundle] pathForResource:@"mock_hotTopiclist" ofType:@"geojson"];
+//    NSData *dd = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
+//    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:dd options:0 error:nil];
+//    id resultData = dict[@"data"];
+//    block(resultData, nil);
 }
 
 - (void)request_Tweet_WithSearchString:(NSString *)strSearch andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {

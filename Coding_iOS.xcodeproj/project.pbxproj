@@ -764,8 +764,6 @@
 		B9A00D821ACA3A17008BA008 /* ProjectSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */; };
 		B9A00D851ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
-		EBDD2E411AE7B88C0024B952 /* WMDelLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = EBDD2E401AE7B88C0024B952 /* WMDelLabel.m */; };
-		EBDD2E4E1AEA159D0024B952 /* ProjectTopicLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = EBDD2E4D1AEA159D0024B952 /* ProjectTopicLabelView.m */; };
 		FEC419251B53A39B00C498F5 /* CSSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC419241B53A39B00C498F5 /* CSSearchVC.m */; };
 		FEC419281B53A92600C498F5 /* CSSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC419271B53A92600C498F5 /* CSSearchModel.m */; };
 		FEC4192B1B53A9E300C498F5 /* TMCacheExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC4192A1B53A9E300C498F5 /* TMCacheExtend.m */; };
@@ -1948,10 +1946,6 @@
 		C613B8719C3D38FED828A1E2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E7A0469E1A47279E00528C12 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		E7A0469F1A47279E00528C12 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
-		EBDD2E3F1AE7B88C0024B952 /* WMDelLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMDelLabel.h; sourceTree = "<group>"; };
-		EBDD2E401AE7B88C0024B952 /* WMDelLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMDelLabel.m; sourceTree = "<group>"; };
-		EBDD2E4C1AEA159D0024B952 /* ProjectTopicLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTopicLabelView.h; sourceTree = "<group>"; };
-		EBDD2E4D1AEA159D0024B952 /* ProjectTopicLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTopicLabelView.m; sourceTree = "<group>"; };
 		FEC419231B53A39B00C498F5 /* CSSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSearchVC.h; sourceTree = "<group>"; };
 		FEC419241B53A39B00C498F5 /* CSSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSearchVC.m; sourceTree = "<group>"; };
 		FEC419261B53A92600C498F5 /* CSSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSearchModel.h; sourceTree = "<group>"; };
@@ -3950,15 +3944,6 @@
 			path = ProjectSetting;
 			sourceTree = "<group>";
 		};
-		EBDD2E3E1AE7B84D0024B952 /* WMDelLabel */ = {
-			isa = PBXGroup;
-			children = (
-				EBDD2E3F1AE7B88C0024B952 /* WMDelLabel.h */,
-				EBDD2E401AE7B88C0024B952 /* WMDelLabel.m */,
-			);
-			path = WMDelLabel;
-			sourceTree = "<group>";
-		};
 		FEC419221B53A35100C498F5 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -4975,7 +4960,7 @@
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMENG",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/XGPush",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingForiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dv;
 				PRODUCT_NAME = Coding_iOS;
 				PROVISIONING_PROFILE = "21f7faa3-9329-4375-aea1-90b277640a40";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -5009,7 +4994,7 @@
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMENG",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/XGPush",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingForiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dv;
 				PRODUCT_NAME = Coding_iOS;
 				PROVISIONING_PROFILE = "21f7faa3-9329-4375-aea1-90b277640a40";
 				TARGETED_DEVICE_FAMILY = 1;
