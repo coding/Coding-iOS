@@ -25,6 +25,7 @@
 		0AB591B01AB6D6BE0076C454 /* TweetSendMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */; };
 		1C222A251B54DF6E0026F8B4 /* CSSearchDisplayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C222A241B54DF6E0026F8B4 /* CSSearchDisplayVC.m */; };
 		1C222A2C1B556D0A0026F8B4 /* TopicHotkeyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C222A2B1B556D0A0026F8B4 /* TopicHotkeyView.m */; };
+		1CF935B91B5FF6EE004229FD /* CSSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF935B81B5FF6EE004229FD /* CSSearchCell.m */; };
 		3A3878371AE293D50078D5DE /* EditLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3878361AE293D50078D5DE /* EditLabelViewController.m */; };
 		3A38783A1AE2949E0078D5DE /* ResetLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3878391AE2949E0078D5DE /* ResetLabelViewController.m */; };
 		3A3878401AE295970078D5DE /* ResetLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A38783F1AE295970078D5DE /* ResetLabelCell.m */; };
@@ -764,8 +765,6 @@
 		B9A00D821ACA3A17008BA008 /* ProjectSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */; };
 		B9A00D851ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
-		EBDD2E411AE7B88C0024B952 /* WMDelLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = EBDD2E401AE7B88C0024B952 /* WMDelLabel.m */; };
-		EBDD2E4E1AEA159D0024B952 /* ProjectTopicLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = EBDD2E4D1AEA159D0024B952 /* ProjectTopicLabelView.m */; };
 		FEC419251B53A39B00C498F5 /* CSSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC419241B53A39B00C498F5 /* CSSearchVC.m */; };
 		FEC419281B53A92600C498F5 /* CSSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC419271B53A92600C498F5 /* CSSearchModel.m */; };
 		FEC4192B1B53A9E300C498F5 /* TMCacheExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC4192A1B53A9E300C498F5 /* TMCacheExtend.m */; };
@@ -810,6 +809,8 @@
 		1C222A241B54DF6E0026F8B4 /* CSSearchDisplayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSearchDisplayVC.m; sourceTree = "<group>"; };
 		1C222A2A1B556D0A0026F8B4 /* TopicHotkeyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicHotkeyView.h; sourceTree = "<group>"; };
 		1C222A2B1B556D0A0026F8B4 /* TopicHotkeyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicHotkeyView.m; sourceTree = "<group>"; };
+		1CF935B71B5FF6EE004229FD /* CSSearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSearchCell.h; sourceTree = "<group>"; };
+		1CF935B81B5FF6EE004229FD /* CSSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSearchCell.m; sourceTree = "<group>"; };
 		3A3878351AE293D50078D5DE /* EditLabelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditLabelViewController.h; sourceTree = "<group>"; };
 		3A3878361AE293D50078D5DE /* EditLabelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditLabelViewController.m; sourceTree = "<group>"; };
 		3A3878381AE2949E0078D5DE /* ResetLabelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetLabelViewController.h; sourceTree = "<group>"; };
@@ -1948,10 +1949,6 @@
 		C613B8719C3D38FED828A1E2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E7A0469E1A47279E00528C12 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		E7A0469F1A47279E00528C12 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
-		EBDD2E3F1AE7B88C0024B952 /* WMDelLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMDelLabel.h; sourceTree = "<group>"; };
-		EBDD2E401AE7B88C0024B952 /* WMDelLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WMDelLabel.m; sourceTree = "<group>"; };
-		EBDD2E4C1AEA159D0024B952 /* ProjectTopicLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTopicLabelView.h; sourceTree = "<group>"; };
-		EBDD2E4D1AEA159D0024B952 /* ProjectTopicLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTopicLabelView.m; sourceTree = "<group>"; };
 		FEC419231B53A39B00C498F5 /* CSSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSearchVC.h; sourceTree = "<group>"; };
 		FEC419241B53A39B00C498F5 /* CSSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSearchVC.m; sourceTree = "<group>"; };
 		FEC419261B53A92600C498F5 /* CSSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSearchModel.h; sourceTree = "<group>"; };
@@ -3950,15 +3947,6 @@
 			path = ProjectSetting;
 			sourceTree = "<group>";
 		};
-		EBDD2E3E1AE7B84D0024B952 /* WMDelLabel */ = {
-			isa = PBXGroup;
-			children = (
-				EBDD2E3F1AE7B88C0024B952 /* WMDelLabel.h */,
-				EBDD2E401AE7B88C0024B952 /* WMDelLabel.m */,
-			);
-			path = WMDelLabel;
-			sourceTree = "<group>";
-		};
 		FEC419221B53A35100C498F5 /* Search */ = {
 			isa = PBXGroup;
 			children = (
@@ -3972,6 +3960,8 @@
 				1C222A241B54DF6E0026F8B4 /* CSSearchDisplayVC.m */,
 				FEF35EDD1B580BC00000280F /* mock_topicAdlist.geojson */,
 				FEF35EDF1B580BD90000280F /* mock_hotTopiclist.geojson */,
+				1CF935B71B5FF6EE004229FD /* CSSearchCell.h */,
+				1CF935B81B5FF6EE004229FD /* CSSearchCell.m */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -4782,6 +4772,7 @@
 				8E1C3E0819E8DFE300EF3032 /* AboutViewController.m in Sources */,
 				FEC419281B53A92600C498F5 /* CSSearchModel.m in Sources */,
 				4E6BA2D71A1EE6AF005FD721 /* AFHTTPRequestOperation.m in Sources */,
+				1CF935B91B5FF6EE004229FD /* CSSearchCell.m in Sources */,
 				4EF8181F1B05C9D8005F974B /* ProjectLineNoteActivity.m in Sources */,
 				8EF643A919FF7E2900F7EEB0 /* MessageMediaItemCCell.m in Sources */,
 				4ECF70461B18557E000280FF /* MRPRS.m in Sources */,
