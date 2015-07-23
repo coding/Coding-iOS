@@ -29,7 +29,9 @@
         return self;
     }else{
         for (ProjectFolder *sub_folder in self.sub_folders) {
-            return [sub_folder hasFolderWithId:file_id];
+            if (sub_folder.file_id.integerValue == file_id.integerValue) {
+                return sub_folder;
+            }
         }
     }
     return nil;
