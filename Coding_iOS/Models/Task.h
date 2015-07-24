@@ -68,6 +68,8 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 - (NSString *)toDoCommentPath;
 - (NSDictionary *)toDoCommentParams;
 
+- (NSString *)toEditLabelsPath;
+
 //- (void)addNewComment:(TaskComment *)comment;
 //- (void)deleteComment:(TaskComment *)comment;
 @end

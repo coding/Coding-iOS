@@ -887,7 +887,14 @@
 
 - (void)request_EditTask:(Task *)task withTags:(NSMutableArray *)selectedTags andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"更新任务标签"];
-    block(selectedTags, nil);
+    NSDictionary *params = @{@"label_id" : [selectedTags valueForKey:@"id"]};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toEditLabelsPath] withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil,error);
+        }
+    }];
 }
 
 - (void)request_ChangeTaskStatus:(Task *)task andBlock:(void (^)(id data, NSError *error))block{

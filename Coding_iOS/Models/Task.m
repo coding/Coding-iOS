@@ -230,6 +230,10 @@
     }
 }
 
+- (NSString *)toEditLabelsPath{
+    return [NSString stringWithFormat:@"api%@/task/%@/labels", self.backend_project_path, _id.stringValue];
+}
+
 @end
 
 @implementation Task_Description

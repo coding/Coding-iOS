@@ -18,8 +18,12 @@
 //生产
 #define kNetPath_Code_Base        @"https://coding.net/"
 
-//村民机
+//村民
 //#define kNetPath_Code_Base        @"http://192.168.0.188:8080/"
+
+//彭博
+//#define kNetPath_Code_Base        @"http://192.168.0.156:9990/"
+
 
 #pragma mark ConfigUrl
 #define kNetPath_Code_Login         @"api/login"
