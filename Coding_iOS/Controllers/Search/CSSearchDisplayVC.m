@@ -35,16 +35,20 @@
 @property (nonatomic, strong) NSMutableArray *tweetsArr;
 @property (nonatomic, assign) NSInteger totalPage;
 @property (nonatomic, assign) NSInteger currentPage;
+@property (nonatomic, assign) NSInteger totalCount;
 @property (nonatomic, assign) BOOL      isLoading;
+@property (nonatomic, strong) UILabel   *headerLabel;
 
 @property (nonatomic, strong) UIScrollView  *searchHistoryView;
 
 - (void)initSubViewsInContentView;
 - (void)initSearchResultsTableView;
 - (void)initSearchHistoryView;
-- (void)didClickedMoreHotkey:(id)sender;
+- (void)didClickedMoreHotkey:(UIGestureRecognizer *)sender;
 - (void)didCLickedCleanSearchHistory:(id)sender;
 - (void)didClickedContentView:(UIGestureRecognizer *)sender;
+- (void)didClickedHistory:(UIGestureRecognizer *)sender;
+
 @end
 
 @implementation CSSearchDisplayVC
@@ -106,7 +110,7 @@
             
             [self initSubViewsInContentView];
         }
-        
+    
 //        [self.searchBar.superview addSubview:_backgroundView];
 //        [self.searchBar.superview addSubview:_contentView];
 //        [self.searchBar.superview bringSubviewToFront:_contentView];
@@ -123,18 +127,19 @@
 
 - (void)initSubViewsInContentView {
 
-    UILabel *lblHotKey = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 5.0f, 100, 30.0f)];
+    UILabel *lblHotKey = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 5.0f, kScreen_Width, 30.0f)];
+    [lblHotKey setUserInteractionEnabled:YES];
     [lblHotKey setText:@"热门话题"];
     [lblHotKey setFont:[UIFont systemFontOfSize:14.0f]];
     [lblHotKey setTextColor:[UIColor colorWithHexString:@"0x999999"]];
     [_contentView addSubview:lblHotKey];
     
-    UIImage *imgMore = [UIImage imageNamed:@"me_info_arrow_left"];
-    _btnMore = [UIButton buttonWithType:UIButtonTypeCustom];
-    _btnMore = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 31.0f, 10.0f, 20.0f, 20.0f)];
-    [_btnMore setImage:imgMore forState:UIControlStateNormal];
-    [_btnMore addTarget:self action:@selector(didClickedMoreHotkey:) forControlEvents:UIControlEventTouchUpInside];
-    [_contentView addSubview:_btnMore];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickedMoreHotkey:)];
+    [lblHotKey addGestureRecognizer:tapGestureRecognizer];
+    
+    UIImageView *moreIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - 31.0f, 10.0f, 20.0f, 20.0f)];
+    moreIconView.image = [UIImage imageNamed:@"me_info_arrow_left"];
+    [_contentView addSubview:moreIconView];
     
     _topicHotkeyView = [[TopicHotkeyView alloc] init];
     [_contentView addSubview:_topicHotkeyView];
@@ -173,6 +178,8 @@
     
     _tweetsArr = [[NSMutableArray alloc] init];
     _currentPage = 1;
+    _totalCount = 0;
+    _totalPage = 0;
     
     if(!_searchTableView) {
         _searchTableView = ({
@@ -190,11 +197,25 @@
                 }];
             }
             
-//            [self.searchBar.superview addSubview:tableView];
             [self.parentVC.parentViewController.view addSubview:tableView];
+            
+            self.headerLabel = ({
+            
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 35)];
+                label.backgroundColor = [UIColor whiteColor];
+                label.textColor = [UIColor colorWithHexString:@"0x999999"];
+                label.textAlignment = NSTextAlignmentCenter;
+                label.font = [UIFont systemFontOfSize:12];
+                
+                label;
+            });
+            
+            tableView.tableHeaderView = self.headerLabel;
+            
             tableView;
         });
     }
+    [_searchTableView.superview bringSubviewToFront:_searchTableView];
 //    [self.searchBar.superview bringSubviewToFront:_searchTableView];
     
     //    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.searchTableView];
@@ -225,25 +246,35 @@
     
     NSArray *array = [CSSearchModel getSearchHistory];
     CGFloat imageLeft = 12.0f;
-    CGFloat textLeft = 32.0f;
+    CGFloat textLeft = 34.0f;
     CGFloat height = 35.0f;
     UILabel *lblHistory = nil;
     UIImageView *imageView = nil;
+    UIImageView *rightImageView = nil;
     UIImage *image = [UIImage imageNamed:@"time_clock_icon"];
     
     for (int i = 0; i < array.count; i++) {
         
-        lblHistory = [[UILabel alloc] initWithFrame:CGRectMake(textLeft, i * height, kScreen_Width - 2 * textLeft, height)];
+        lblHistory = [[UILabel alloc] initWithFrame:CGRectMake(textLeft, i * height, kScreen_Width - textLeft, height)];
+        lblHistory.userInteractionEnabled = YES;
         lblHistory.textColor = [UIColor colorWithHexString:@"0x999999"];
         lblHistory.text = array[i];
         
         imageView = [[UIImageView alloc] initWithImage:image];
         imageView.frame = CGRectMake(imageLeft, i * height + (35 - image.size.height) / 2 + 2, image.size.width, image.size.height);
         
+        rightImageView = [[UIImageView alloc] initWithImage:image];
+        rightImageView.frame = CGRectMake(kScreen_Width - textLeft, i * height + (35 - image.size.height) / 2 + 2, image.size.width, image.size.height);
+        
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickedHistory:)];
+        [lblHistory addGestureRecognizer:tapGestureRecognizer];
+        
         [_searchHistoryView addSubview:lblHistory];
         [_searchHistoryView addSubview:imageView];
+        [_searchHistoryView addSubview:rightImageView];
         lblHistory = nil;
         imageView = nil;
+        rightImageView = nil;
     }
     
     if(array.count) {
@@ -259,7 +290,7 @@
     
 }
 
-- (void)didClickedMoreHotkey:(id)sender {
+- (void)didClickedMoreHotkey:(UIGestureRecognizer *)sender {
 
     RKSwipeBetweenViewControllers *nav_topic = [RKSwipeBetweenViewControllers newSwipeBetweenViewControllers];
     [nav_topic.viewControllerArray addObjectsFromArray:@[[CSHotTopicVC new],[CSMyTopicVC new]]];
@@ -276,6 +307,8 @@
         [self.parentVC presentViewController:nav_topic animated:NO completion:^{
             
         }];
+        
+//        [self.parentVC.parentViewController.navigationController pushViewController:nav_topic animated:YES];
     }
 }
 
@@ -288,6 +321,17 @@
 - (void)didClickedContentView:(UIGestureRecognizer *)sender {
 
     [self.searchBar resignFirstResponder];
+}
+
+- (void)didClickedHistory:(UIGestureRecognizer *)sender {
+
+    UILabel *label = (UILabel *)sender.view;
+    self.searchBar.text = label.text;
+    [CSSearchModel addSearchHistory:self.searchBar.text];
+    [self initSearchHistoryView];
+    [self.searchBar resignFirstResponder];
+    
+    [self initSearchResultsTableView];
 }
 
 #pragma mark -
@@ -317,6 +361,9 @@
     if(page < 1)
         page = 1;
     
+    if(page == 1)
+        self.headerLabel.text = @"";
+    
     _isLoading = YES;
     
     __weak typeof(self) weakSelf = self;
@@ -327,6 +374,7 @@
             NSDictionary *dataDic = (NSDictionary *)data;
             weakSelf.currentPage = [[dataDic valueForKey:@"page"] intValue];
             weakSelf.totalPage = [[dataDic valueForKey:@"totalPage"] intValue];
+            weakSelf.totalCount = [[dataDic valueForKey:@"totalRow"] intValue];
             NSArray *resultA = [NSObject arrayFromJSON:[dataDic objectForKey:@"list"] ofObjects:@"Tweet"];
             [weakSelf.tweetsArr addObjectsFromArray:resultA];
             [weakSelf.searchTableView reloadData];
@@ -335,6 +383,7 @@
         }
         
         weakSelf.isLoading = NO;
+        weakSelf.headerLabel.text = [NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的冒泡", weakSelf.totalCount, weakSelf.searchBar.text, nil];
     }];
 }
 
