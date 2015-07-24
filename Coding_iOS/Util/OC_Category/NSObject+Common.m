@@ -260,6 +260,7 @@
         if (resultCode.intValue == 1000 || resultCode.intValue == 3207) {//用户未登录
             [Login doLogout];
             [((AppDelegate *)[UIApplication sharedApplication].delegate) setupIntroductionViewController];
+            kTipAlert(@"%@", [self tipFromError:error]);
         }
     }
     return error;
