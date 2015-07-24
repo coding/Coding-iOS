@@ -31,6 +31,8 @@
 #import "EaseUserHeaderView.h"
 #import <APParallaxHeader/UIScrollView+APParallaxHeader.h>
 
+#import "CSMyTopicVC.h"
+
 @interface UserInfoViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
 @property (strong, nonatomic) EaseUserHeaderView *headerView;
@@ -146,7 +148,7 @@
     }else if (section == 1){
         row = 1;
     }else if (section == 2){
-        row = 2;
+        row = 3;
     }
     return row;
 }
@@ -175,8 +177,10 @@
         }else{
             if (indexPath.row == 0) {
                 [cell setTitle:[self isMe]? @"我的项目": @"Ta的项目" icon:@"user_info_project"];
-            }else{
+            }else if(indexPath.row == 1){
                 [cell setTitle:[self isMe]? @"我的冒泡": @"Ta的冒泡" icon:@"user_info_tweet"];
+            }else{
+                [cell setTitle:[self isMe]? @"我的话题": @"Ta的话题" icon:@"user_info_topic"];
             }
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
@@ -217,8 +221,10 @@
     }else if (indexPath.section == 2){
         if (indexPath.row == 0) {
             [self goToProjects];
-        }else{
+        }else if(indexPath.row == 1){
             [self goToTweets];
+        }else{
+            [self goToTopic];
         }
     }
 }
@@ -273,6 +279,12 @@
 - (void)goToTweets{
     UserTweetsViewController *vc = [[UserTweetsViewController alloc] init];
     vc.curTweets = [Tweets tweetsWithUser:_curUser];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToTopic {
+    CSMyTopicVC *vc = [[CSMyTopicVC alloc] init];
+    vc.curUser = _curUser;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -15,10 +15,6 @@ static NSString *kFunctionTipStr_Search = @"hasSearch";
 static NSString *kFunctionTipStr_HotTopic = @"HotTopic";
 static NSString *kFunctionTipStr_TweetTopic = @"TweetTopic";
 
-//CSSNewFeatureTypeTopic = 0,
-//CSSNewFeatureTypeSearch,
-//CSSNewFeatureTypeHotTopic
-
 #import <Foundation/Foundation.h>
 
 @interface FunctionTipsManager : NSObject

@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface CSMyTopicVC : UIViewController
-
+#import "BaseViewController.h"
+#import "XTSegmentControl.h"
+#import "iCarousel.h"
+#import "User.h"
+@interface CSMyTopicVC : BaseViewController<iCarouselDataSource, iCarouselDelegate>
+@property (strong, nonatomic) NSArray *segmentItems;
+@property (strong, nonatomic) User *curUser;
 @end

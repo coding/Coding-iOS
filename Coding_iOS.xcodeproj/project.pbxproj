@@ -765,6 +765,11 @@
 		B9A00D821ACA3A17008BA008 /* ProjectSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */; };
 		B9A00D851ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
+		FE4CB4381B61881C0041E9EF /* keyboard_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE4CB4371B61881C0041E9EF /* keyboard_topic@2x.png */; };
+		FE4CB43B1B618A6A0041E9EF /* CSTopicDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB43A1B618A6A0041E9EF /* CSTopicDetailVC.m */; };
+		FE4CB43D1B618EDC0041E9EF /* user_info_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE4CB43C1B618EDC0041E9EF /* user_info_topic@2x.png */; };
+		FE4CB4401B6194D10041E9EF /* CSTopiclistView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB43F1B6194D10041E9EF /* CSTopiclistView.m */; };
+		FE4CB4431B619D280041E9EF /* Topic.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB4421B619D280041E9EF /* Topic.m */; };
 		FEC419251B53A39B00C498F5 /* CSSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC419241B53A39B00C498F5 /* CSSearchVC.m */; };
 		FEC419281B53A92600C498F5 /* CSSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC419271B53A92600C498F5 /* CSSearchModel.m */; };
 		FEC4192B1B53A9E300C498F5 /* TMCacheExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC4192A1B53A9E300C498F5 /* TMCacheExtend.m */; };
@@ -1949,6 +1954,14 @@
 		C613B8719C3D38FED828A1E2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E7A0469E1A47279E00528C12 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		E7A0469F1A47279E00528C12 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
+		FE4CB4371B61881C0041E9EF /* keyboard_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_topic@2x.png"; sourceTree = "<group>"; };
+		FE4CB4391B618A6A0041E9EF /* CSTopicDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSTopicDetailVC.h; sourceTree = "<group>"; };
+		FE4CB43A1B618A6A0041E9EF /* CSTopicDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSTopicDetailVC.m; sourceTree = "<group>"; };
+		FE4CB43C1B618EDC0041E9EF /* user_info_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_topic@2x.png"; sourceTree = "<group>"; };
+		FE4CB43E1B6194D10041E9EF /* CSTopiclistView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSTopiclistView.h; sourceTree = "<group>"; };
+		FE4CB43F1B6194D10041E9EF /* CSTopiclistView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSTopiclistView.m; sourceTree = "<group>"; };
+		FE4CB4411B619D280041E9EF /* Topic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Topic.h; sourceTree = "<group>"; };
+		FE4CB4421B619D280041E9EF /* Topic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Topic.m; sourceTree = "<group>"; };
 		FEC419231B53A39B00C498F5 /* CSSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSearchVC.h; sourceTree = "<group>"; };
 		FEC419241B53A39B00C498F5 /* CSSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSearchVC.m; sourceTree = "<group>"; };
 		FEC419261B53A92600C498F5 /* CSSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSearchModel.h; sourceTree = "<group>"; };
@@ -2511,6 +2524,7 @@
 				4E996BFF1ABBF56A00C704F1 /* user_info_detail@2x.png */,
 				4E996C001ABBF56A00C704F1 /* user_info_project@2x.png */,
 				4E996C011ABBF56A00C704F1 /* user_info_tweet@2x.png */,
+				FE4CB43C1B618EDC0041E9EF /* user_info_topic@2x.png */,
 			);
 			path = userInfo;
 			sourceTree = "<group>";
@@ -3026,6 +3040,7 @@
 			isa = PBXGroup;
 			children = (
 				4E5F39061ACBFDCD0010515D /* keyboard_photo@2x.png */,
+				FE4CB4371B61881C0041E9EF /* keyboard_topic@2x.png */,
 				8E97CE6B1A0B243B006F9AD7 /* keyboard_add@2x.png */,
 				8E97CE571A0A3424006F9AD7 /* keyboard_add_photo@2x.png */,
 				8E97CE581A0A3424006F9AD7 /* keyboard_add_camera@2x.png */,
@@ -3508,6 +3523,8 @@
 				8EA6CFF319E240C40076D59C /* Tweets.m */,
 				4ECD72ED1AAD7EC300D69AE1 /* Tweet.h */,
 				4ECD72EE1AAD7EC300D69AE1 /* Tweet.m */,
+				FE4CB4411B619D280041E9EF /* Topic.h */,
+				FE4CB4421B619D280041E9EF /* Topic.m */,
 				8EA6CFF619E240C40076D59C /* User.h */,
 				8EA6CFF719E240C40076D59C /* User.m */,
 				8EA6CFF819E240C40076D59C /* Users.h */,
@@ -3979,6 +3996,10 @@
 				FEF35ECF1B56C2870000280F /* CSScrollview.m */,
 				FEF35EE11B5839090000280F /* CSTopicCreateVC.h */,
 				FEF35EE21B5839090000280F /* CSTopicCreateVC.m */,
+				FE4CB4391B618A6A0041E9EF /* CSTopicDetailVC.h */,
+				FE4CB43A1B618A6A0041E9EF /* CSTopicDetailVC.m */,
+				FE4CB43E1B6194D10041E9EF /* CSTopiclistView.h */,
+				FE4CB43F1B6194D10041E9EF /* CSTopiclistView.m */,
 			);
 			path = Topic;
 			sourceTree = "<group>";
@@ -4100,6 +4121,7 @@
 				8E8F7B3519EF6306006BA8BD /* btn_project_quit@2x.png in Resources */,
 				4ED558321B4FA68400FC10CB /* dismissBtn_Nav@2x.png in Resources */,
 				4E0849801A918A7F00BD27F6 /* coding_emoji_38@2x.png in Resources */,
+				FE4CB4381B61881C0041E9EF /* keyboard_topic@2x.png in Resources */,
 				8E97CE661A0A3424006F9AD7 /* keyboard_emotion_emoji@2x.png in Resources */,
 				4EED9DCC1B539366000E5827 /* taskOwner@2x.png in Resources */,
 				4EC461B71B3939DC00D08970 /* task_activity_icon_commit_refer@2x.png in Resources */,
@@ -4151,6 +4173,7 @@
 				8E97CE9F1A0C7E26006F9AD7 /* coding_emoji_08@2x.png in Resources */,
 				4E6383E51B3272CF00D98648 /* info_Nav@2x.png in Resources */,
 				0A782FDE1AB5B78B00E96661 /* TweetSendCreateLocationCell.xib in Resources */,
+				FE4CB43D1B618EDC0041E9EF /* user_info_topic@2x.png in Resources */,
 				8E8F7B3219EF6306006BA8BD /* btn_privateMsg_white@2x.png in Resources */,
 				8E97CEBB1A0C7E26006F9AD7 /* coding_emoji_36@2x.png in Resources */,
 				8EA6D19F19E240C40076D59C /* tipIcon_TweetComment@2x.png in Resources */,
@@ -4609,6 +4632,7 @@
 				0AB591B01AB6D6BE0076C454 /* TweetSendMapAnnotation.m in Sources */,
 				FEF35ECD1B56A8B70000280F /* CSTopicModel.m in Sources */,
 				4ECF70491B185BCC000280FF /* MRPR.m in Sources */,
+				FE4CB4401B6194D10041E9EF /* CSTopiclistView.m in Sources */,
 				4E8D5D661B45306900B70936 /* OTPListViewController.m in Sources */,
 				4EA7F1651A6D192B00A046BD /* UIImageView+WebCache.m in Sources */,
 				8EF643B819FF7E2900F7EEB0 /* InputOnlyTextPlainCell.m in Sources */,
@@ -4644,6 +4668,7 @@
 				4E996BDC1ABA79AB00C704F1 /* UserInfoDetailViewController.m in Sources */,
 				B9A00D851ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m in Sources */,
 				4E8765671A22E5B40090CFB9 /* SWLongPressGestureRecognizer.m in Sources */,
+				FE4CB43B1B618A6A0041E9EF /* CSTopicDetailVC.m in Sources */,
 				0AB591AC1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m in Sources */,
 				4EA7F1611A6D192B00A046BD /* UIButton+WebCache.m in Sources */,
 				8EE72BE419E3F2E8002C11D9 /* SDWebImageManager+MJ.m in Sources */,
@@ -4680,6 +4705,7 @@
 				4E6BA2D91A1EE6AF005FD721 /* AFURLConnectionOperation.m in Sources */,
 				8EA6D1BB19E240C40076D59C /* ProjectTopic.m in Sources */,
 				8EA6D13219E240C40076D59C /* RegisterViewController.m in Sources */,
+				FE4CB4431B619D280041E9EF /* Topic.m in Sources */,
 				8EF643C519FF7E2900F7EEB0 /* TitleRImageMoreCell.m in Sources */,
 				4E217F151A70EDC700F6DF88 /* SVWebViewControllerActivitySafari.m in Sources */,
 				4E8D5D5A1B45295D00B70936 /* HOTPGenerator.m in Sources */,

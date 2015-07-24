@@ -2017,4 +2017,44 @@
 
 }
 
+- (void)request_TopicDetailsWithTopicID:(NSString*)topicID block:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"/api/tweet_topic/%@",topicID];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if(data) {
+            id resultData = data[@"data"];
+            block(resultData, nil);
+        }else {
+            
+            block(nil, error);
+        }
+    }];
+}
+
+
+- (void)request_JoinedTopicsWithUserGK:(NSString *)userGK block:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/tweet_topic/joine",userGK];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if(data) {
+            id resultData = data[@"data"];
+            block(resultData, nil);
+        }else {
+            
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_WatchedTopicsWithUserGK:(NSString *)userGK block:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"/api/user/%@/tweet_topic/watched",userGK];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if(data) {
+            id resultData = data[@"data"];
+            block(resultData, nil);
+        }else {
+            
+            block(nil, error);
+        }
+    }];
+}
+
 @end

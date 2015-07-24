@@ -121,7 +121,7 @@
             UIButton *emotionButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:1 imageStr:@"keyboard_emotion" andSelecter:@selector(emotionButtonClicked:)];
             [keyboardToolBar addSubview:emotionButton];
             
-            UIButton *topicButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:2 imageStr:@"keyboard_at" andSelecter:@selector(topicButtonClicked:)];
+            UIButton *topicButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:2 imageStr:@"keyboard_topic" andSelecter:@selector(topicButtonClicked:)];
             [keyboardToolBar addSubview:topicButton];
             
             UIButton *atButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:3 imageStr:@"keyboard_at" andSelecter:@selector(atButtonClicked:)];

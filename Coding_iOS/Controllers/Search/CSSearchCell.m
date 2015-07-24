@@ -96,6 +96,7 @@
         
         if(!self.tweetLikeIconView) {
             self.tweetLikeIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kTweetCell_PadingLeft, 0, 12, 12)];
+            //TODO psy 需要like icon
             self.tweetLikeIconView.image = [UIImage imageNamed:@"time_clock_icon"];
             [self.contentView addSubview:self.tweetLikeIconView];
         }
