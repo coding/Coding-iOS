@@ -150,6 +150,9 @@
 //    }];
     
     [self addChangeBaseURLGesture];
+    if ([NSObject baseURLStrIsTest]) {
+        kTipAlert(@"在该页面连续点击屏幕 5 下切换到生产环境！");
+    }
 }
 
 - (void)addChangeBaseURLGesture{
