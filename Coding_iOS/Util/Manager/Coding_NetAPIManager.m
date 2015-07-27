@@ -83,7 +83,8 @@
 }
 - (void)request_Login_WithParams:(id)params andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"登录"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:kNetPath_Code_Login withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+    NSString *path = @"api/login";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         id resultData = [data valueForKeyPath:@"data"];
         if (resultData) {
             User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];

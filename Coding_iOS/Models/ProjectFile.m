@@ -110,7 +110,7 @@
 }
 
 - (NSString *)downloadPath{
-    NSString *path = [NSString stringWithFormat:@"%@api/project/%@/files/%@/download", kNetPath_Code_Base, _project_id.stringValue, _file_id.stringValue];
+    NSString *path = [NSString stringWithFormat:@"%@api/project/%@/files/%@/download", [NSObject baseURLStr], _project_id.stringValue, _file_id.stringValue];
     return path;
 }
 

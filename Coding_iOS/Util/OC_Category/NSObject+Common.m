@@ -8,11 +8,14 @@
 #define kPath_ImageCache @"ImageCache"
 #define kPath_ResponseCache @"ResponseCache"
 
+#define kTestKey @"BaseURLIsTest"
+
 #import "NSObject+Common.h"
 #import "JDStatusBarNotification.h"
 #import "Login.h"
 #import "AppDelegate.h"
 #import "MBProgressHUD+Add.h"
+#import "CodingNetAPIClient.h"
 
 @implementation NSObject (Common)
 
@@ -94,6 +97,43 @@
 }
 - (void)hideStatusBarProgress{
     [JDStatusBarNotification showProgress:0.0];
+}
+
+#pragma mark BaseURL
++ (NSString *)baseURLStr{
+    NSString *baseURLStr;
+    if ([self baseURLStrIsTest]) {
+        //staging
+        baseURLStr = @"https://staging.coding.net/";
+    }else{
+        //生产
+        baseURLStr = @"https://coding.net/";
+    }
+    
+//    {//其他
+//        //村民
+//        baseURLStr = @"http://192.168.0.188:8080/";
+//        
+//        //彭博
+//        baseURLStr = @"http://192.168.0.156:9990/";
+//    }
+    
+    return baseURLStr;
+}
+
++ (BOOL)baseURLStrIsTest{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [[defaults valueForKey:kTestKey] boolValue];
+}
++ (void)changeBaseURLStrToTest:(BOOL)isTest{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:@(isTest) forKey:kTestKey];
+    [defaults synchronize];
+    
+    [CodingNetAPIClient changeJsonClient];
+    
+    [[UINavigationBar appearance] setBackgroundImage: [UIImage imageWithColor:[UIColor colorWithHexString:isTest?@"0x3bbd79": @"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+    [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
 }
 
 #pragma mark File M
@@ -252,7 +292,7 @@
     NSNumber *resultCode = [responseJSON valueForKeyPath:@"code"];
     
     if (resultCode.intValue != 0) {
-        error = [NSError errorWithDomain:kNetPath_Code_Base code:resultCode.intValue userInfo:responseJSON];
+        error = [NSError errorWithDomain:[NSObject baseURLStr] code:resultCode.intValue userInfo:responseJSON];
         if (autoShowError) {
             [self showError:error];
         }

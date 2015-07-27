@@ -13,14 +13,18 @@
 
 @implementation CodingNetAPIClient
 
+static CodingNetAPIClient *_sharedClient = nil;
+static dispatch_once_t onceToken;
 
 + (CodingNetAPIClient *)sharedJsonClient {
-    static CodingNetAPIClient *_sharedClient = nil;
-    static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kNetPath_Code_Base]];
+        _sharedClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:[NSObject baseURLStr]]];
     });
-    
+    return _sharedClient;
+}
+
++ (id)changeJsonClient{
+    _sharedClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:[NSObject baseURLStr]]];
     return _sharedClient;
 }
 
@@ -29,11 +33,12 @@
     if (!self) {
         return nil;
     }
-    
     self.responseSerializer = [AFJSONResponseSerializer serializer];
     
     self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", @"text/html", nil];
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    
+    self.securityPolicy.allowInvalidCertificates = YES;
     
     return self;
 }

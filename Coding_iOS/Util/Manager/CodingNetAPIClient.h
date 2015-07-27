@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "AFNetworking.h"
-#import "APIUrl.h"
 
 typedef enum {
 	Get = 0,
@@ -27,6 +26,7 @@ typedef NS_ENUM(NSInteger, IllegalContentType) {
 @interface CodingNetAPIClient : AFHTTPRequestOperationManager
 
 + (id)sharedJsonClient;
++ (id)changeJsonClient;
 
 - (void)requestJsonDataWithPath:(NSString *)aPath
                      withParams:(NSDictionary*)params

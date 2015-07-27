@@ -138,7 +138,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     
     if (!linkStr || linkStr.length <= 0) {
         return nil;
-    }else if (![linkStr hasPrefix:@"/"] && ![linkStr hasPrefix:kNetPath_Code_Base]){
+    }else if (![linkStr hasPrefix:@"/"] && ![linkStr hasPrefix:[NSObject baseURLStr]]){
         return nil;
     }
     

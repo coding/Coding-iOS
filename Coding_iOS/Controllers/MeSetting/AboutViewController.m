@@ -148,6 +148,18 @@
 //        make.left.right.equalTo(self.view);
 //        make.height.mas_equalTo(20);
 //    }];
+    
+    [self addChangeBaseURLGesture];
+}
+
+- (void)addChangeBaseURLGesture{
+    UITapGestureRecognizer *tapGR = [UITapGestureRecognizer bk_recognizerWithHandler:^(UIGestureRecognizer *sender, UIGestureRecognizerState state, CGPoint location) {
+        if (state == UIGestureRecognizerStateRecognized) {
+            [NSObject changeBaseURLStrToTest:![NSObject baseURLStrIsTest]];
+        }
+    }];
+    tapGR.numberOfTapsRequired = 5.0;
+    [self.view addGestureRecognizer:tapGR];
 }
 
 - (void)didReceiveMemoryWarning

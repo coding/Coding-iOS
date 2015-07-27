@@ -29,7 +29,7 @@
     if (![curUrlStr hasPrefix:@"/"] || [curUrlStr rangeOfString:proName].location != NSNotFound) {
         curUrl = [NSURL URLWithString:curUrlStr];
     }else{
-        curUrl = [NSURL URLWithString:curUrlStr relativeToURL:[NSURL URLWithString:kNetPath_Code_Base]];
+        curUrl = [NSURL URLWithString:curUrlStr relativeToURL:[NSURL URLWithString:[NSObject baseURLStr]]];
     }
     
     if (!curUrl) {

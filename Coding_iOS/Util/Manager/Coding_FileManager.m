@@ -244,9 +244,9 @@
     
     NSURL *uploadUrl;
     if (is_public) {
-        uploadUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/project/%@/upload_public_image", kNetPath_Code_Base, project_id]];
+        uploadUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/project/%@/upload_public_image", [NSObject baseURLStr], project_id]];
     }else{
-        uploadUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/project/%@/file/upload", kNetPath_Code_Base, project_id]];
+        uploadUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/project/%@/file/upload", [NSObject baseURLStr], project_id]];
     }
     
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:uploadUrl.absoluteString parameters:@{@"dir": folder_id} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {

@@ -59,7 +59,6 @@
 {
     NSString *path;
     path = [NSString stringWithFormat:@"api/user/%@/project/%@/topics/mobile", _project.owner_user_name, _project.name];
-    // https://coding.net/api/user/wzw/project/coding/topics/mobile
     return path;
 }
 

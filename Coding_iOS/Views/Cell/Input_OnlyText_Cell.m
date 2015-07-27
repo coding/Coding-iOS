@@ -88,7 +88,7 @@
     }
     self.captchaImage = nil;
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] loadImageWithPath:[NSString stringWithFormat:@"%@api/getCaptcha", kNetPath_Code_Base] completeBlock:^(UIImage *image, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] loadImageWithPath:[NSString stringWithFormat:@"%@api/getCaptcha", [NSObject baseURLStr]] completeBlock:^(UIImage *image, NSError *error) {
         if (image) {
             weakSelf.captchaImage = image;
         }else{
