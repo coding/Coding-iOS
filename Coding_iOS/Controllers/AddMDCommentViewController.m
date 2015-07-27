@@ -11,6 +11,7 @@
 #import "Coding_NetAPIManager.h"
 #import "WebContentManager.h"
 #import "EaseMarkdownTextView.h"
+#import "WebViewController.h"
 
 @interface AddMDCommentViewController ()
 <UIWebViewDelegate>
@@ -186,7 +187,14 @@
 #pragma mark UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     DebugLog(@"strLink=[%@]",request.URL.absoluteString);
-    return YES;
+    
+    NSString *strLink = request.URL.absoluteString;
+    if ([strLink rangeOfString:@"about:blank"].location != NSNotFound) {
+        return YES;
+    } else {
+        [self analyseLinkStr:strLink];
+        return NO;
+    }
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     [_activityIndicator startAnimating];
@@ -204,5 +212,20 @@
     }
 }
 
+#pragma mark analyseLinkStr
+- (void)analyseLinkStr:(NSString *)linkStr
+{
+    if (linkStr.length <= 0) {
+        return;
+    }
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        // 跳转去网页
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self.navigationController pushViewController:webVc animated:YES];
+    }
+}
 
 @end
