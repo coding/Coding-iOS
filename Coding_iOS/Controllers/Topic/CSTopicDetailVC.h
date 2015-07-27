@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Topic.h"
+
 
 @interface CSTopicDetailVC : UIViewController
-
-@property (nonatomic,strong)Topic *topic;
-
+@property (nonatomic,strong)NSDictionary *topic;
 @end

@@ -8,15 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "CSScrollview.h"
+#import "SWTableViewCell.h"
+@class CSTopic;
 
+#define kCellIdentifier_TopicCell @"kCellIdentifier_TopicCell"
 @interface CSHotTopicVC : UIViewController
 
 @end
 
 //普通cell
-@interface CSHotTopicCell : UITableViewCell
+@interface CSTopicCell : SWTableViewCell
 
-- (void)updateDisplayByTopic:(id)data;
+- (void)updateDisplayByTopic:(NSDictionary*)data;
 
 @end
 

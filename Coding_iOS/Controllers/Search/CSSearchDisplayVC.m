@@ -20,10 +20,11 @@
 #import "CSSearchCell.h"
 #import "UserInfoViewController.h"
 #import "WebViewController.h"
+#import "TweetDetailViewController.h"
 
 #define kCellIdentifier_Search  @"com.coding.search.tweet.result"
 
-@interface CSSearchDisplayVC () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface CSSearchDisplayVC () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource,TopicHotkeyViewDelegate>
 
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) XHRealTimeBlur *backgroundView;
@@ -143,6 +144,7 @@
     [_contentView addSubview:moreIconView];
     
     _topicHotkeyView = [[TopicHotkeyView alloc] init];
+    _topicHotkeyView.delegate = self;
     [_contentView addSubview:_topicHotkeyView];
     [_topicHotkeyView mas_makeConstraints:^(MASConstraintMaker *make) {
        
@@ -238,7 +240,7 @@
             
             make.top.mas_equalTo(_topicHotkeyView.mas_bottom);
             make.left.mas_equalTo(@0);
-            make.width.mas_equalTo(@320);
+            make.width.mas_equalTo(kScreen_Width);
             make.height.mas_equalTo(@280);
         }];
     }
@@ -249,33 +251,31 @@
     CGFloat imageLeft = 12.0f;
     CGFloat textLeft = 34.0f;
     CGFloat height = 35.0f;
-    UILabel *lblHistory = nil;
-    UIImageView *imageView = nil;
-    UIImageView *rightImageView = nil;
-    UIImage *image = [UIImage imageNamed:@"time_clock_icon"];
     
     for (int i = 0; i < array.count; i++) {
         
-        lblHistory = [[UILabel alloc] initWithFrame:CGRectMake(textLeft, i * height, kScreen_Width - textLeft, height)];
+        UILabel *lblHistory = [[UILabel alloc] initWithFrame:CGRectMake(textLeft, i * height, kScreen_Width - textLeft, height)];
         lblHistory.userInteractionEnabled = YES;
         lblHistory.textColor = [UIColor colorWithHexString:@"0x999999"];
         lblHistory.text = array[i];
         
-        imageView = [[UIImageView alloc] initWithImage:image];
-        imageView.frame = CGRectMake(imageLeft, i * height + (35 - image.size.height) / 2 + 2, image.size.width, image.size.height);
+        UIImageView *leftView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 12, 12)];
+        leftView.left = 12;
+        leftView.centerY = lblHistory.centerY;
+        leftView.image = [UIImage imageNamed:@"time_clock_icon"];
         
-        rightImageView = [[UIImageView alloc] initWithImage:image];
-        rightImageView.frame = CGRectMake(kScreen_Width - textLeft, i * height + (35 - image.size.height) / 2 + 2, image.size.width, image.size.height);
+        UIImageView *rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 14, 14)];
+        rightImageView.right = kScreen_Width - 12;
+        rightImageView.centerY = lblHistory.centerY;
+        rightImageView.image = [UIImage imageNamed:@"icon_arrow_searchHistory"];
+        
         
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickedHistory:)];
         [lblHistory addGestureRecognizer:tapGestureRecognizer];
         
         [_searchHistoryView addSubview:lblHistory];
-        [_searchHistoryView addSubview:imageView];
+        [_searchHistoryView addSubview:leftView];
         [_searchHistoryView addSubview:rightImageView];
-        lblHistory = nil;
-        imageView = nil;
-        rightImageView = nil;
     }
     
     if(array.count) {
@@ -335,6 +335,15 @@
     [self initSearchResultsTableView];
 }
 
+- (void)didClickHotkey:(NSString *)key {
+    self.searchBar.text = key;
+    [CSSearchModel addSearchHistory:self.searchBar.text];
+    [self initSearchHistoryView];
+    [self.searchBar resignFirstResponder];
+    
+    [self initSearchResultsTableView];
+}
+
 #pragma mark -
 #pragma mark Search Data Request
 
@@ -384,7 +393,7 @@
         }
         
         weakSelf.isLoading = NO;
-        weakSelf.headerLabel.text = [NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的冒泡", weakSelf.totalCount, weakSelf.searchBar.text, nil];
+        weakSelf.headerLabel.text = [NSString stringWithFormat:@"共搜索到 %d 个与\"%@\"相关的冒泡", weakSelf.totalCount, weakSelf.searchBar.text, nil];
     }];
 }
 
@@ -453,7 +462,22 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    Tweet *tweet = _tweetsArr[indexPath.row];
+    
+    TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
+    vc.curTweet = tweet;
+    __weak typeof(self) weakSelf = self;
+    vc.deleteTweetBlock = ^(Tweet *toDeleteTweet){
+//        Tweets *curTweets = [weakSelf.tweetsDict objectForKey:[NSNumber numberWithInteger:weakSelf.curIndex]];
+//        [curTweets.list removeObject:toDeleteTweet];
+//        [weakSelf.myTableView reloadData];
+//        [weakSelf.view configBlankPage:EaseBlankPageTypeTweet hasData:(curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+//            [weakSelf sendRequest];
+//        }];
+    };
+    [self.parentVC.parentViewController.navigationController pushViewController:vc animated:YES];
+    
 }
 
 @end

@@ -10,7 +10,7 @@
 
 @protocol TopicHotkeyViewDelegate <NSObject>
 
-- (void)didClickHotkeyWithIndex:(NSInteger)index;
+- (void)didClickHotkey:(NSString*)key;
 
 @end
 

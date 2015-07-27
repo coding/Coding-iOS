@@ -11,6 +11,11 @@
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"
 
+#import "Login.h"
+
+#import "CSHotTopicVC.h"
+
+
 #define kCellIdentifier_TopicList @"TopicListCell"
 
 @interface CSTopiclistView()<SWTableViewCellDelegate>
@@ -20,22 +25,26 @@
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 @property (strong, nonatomic) NSMutableArray *dataList;
 
+//根据不同的type，走不同而数据更新逻辑,外界不传值进来
+@property (nonatomic,assign)CSMyTopicsType type;
+
+@property (nonatomic,assign)BOOL isLodding;
+
 @end
 
 @implementation CSTopiclistView
 
-- (id)initWithFrame:(CGRect)frame topics:(id )topic block:(TopicListViewBlock)block tabBarHeight:(CGFloat)tabBarHeight {
+- (id)initWithFrame:(CGRect)frame type:(CSMyTopicsType )type block:(TopicListViewBlock)block {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        _myTableView = topic;
         _block = block;
         _myTableView = ({
             UITableView *tableView = [[UITableView alloc] init];
             tableView.backgroundColor = [UIColor clearColor];
             tableView.delegate = self;
             tableView.dataSource = self;
-            [tableView registerClass:[CSTopiclistCell class] forCellReuseIdentifier:kCellIdentifier_TopicList];
+            [tableView registerClass:[CSTopicCell class] forCellReuseIdentifier:kCellIdentifier_TopicCell];
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             [self addSubview:tableView];
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -92,35 +101,45 @@
 }
 
 - (void)refresh{
-//    if (_myProjects.isLoading) {
-//        return;
-//    }
-//    [self sendRequest];
+    if (self.isLodding) {
+        return;
+    }
+    [self sendRequest];
 }
 
 - (void)sendRequest{
-//    if (_myTopic.list.count <= 0) {
-//        [self beginLoading];
-//    }
+    if (_dataList.count <= 0) {
+        [self beginLoading];
+    }
     __weak typeof(self) weakSelf = self;
-//    [[Coding_NetAPIManager sharedManager] request_Projects_WithObj:_myProjects andBlock:^(Projects *data, NSError *error) {
-//        [weakSelf.myRefreshControl endRefreshing];
-//        [self endLoading];
-//        if (data) {
-//            [weakSelf.myProjects configWithProjects:data];
-//            [weakSelf setupDataList];
-//            [weakSelf.myTableView reloadData];
-//        }
-//        EaseBlankPageType blankPageType;
-//        if (weakSelf.myProjects.type < ProjectsTypeTaProject
-//            || [weakSelf.myProjects.curUser.global_key isEqualToString:[Login curLoginUser].global_key]) {
-//            blankPageType = EaseBlankPageTypeProject;
-//        }else{
-//            blankPageType = EaseBlankPageTypeProjectOther;
-//        }
-//        [weakSelf configBlankPage:blankPageType hasData:(weakSelf.myProjects.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-//            [weakSelf refresh];
-//        }];
+    
+    if (_type == CSMyTopicsTypeJoined) {
+        [[Coding_NetAPIManager sharedManager] request_WatchedTopicsWithUserGK:[Login curLoginUser].global_key block:^(id data, NSError *error) {
+            [weakSelf doAfterGotResultWithData:data error:error];
+        }];
+    }else{
+        [[Coding_NetAPIManager sharedManager] request_JoinedTopicsWithUserGK:[Login curLoginUser].global_key block:^(id data, NSError *error) {
+             [weakSelf doAfterGotResultWithData:data error:error];
+        }];
+    }
+}
+
+- (void)doAfterGotResultWithData:(id) data error:(NSError*)error{
+    [self.myRefreshControl endRefreshing];
+    [self endLoading];
+    if (data) {
+        _dataList = data[@"list"];
+        [self.myTableView reloadData];
+    }
+//    EaseBlankPageType blankPageType;
+//    if (weakSelf.myProjects.type < ProjectsTypeTaProject
+//        || [weakSelf.myProjects.curUser.global_key isEqualToString:[Login curLoginUser].global_key]) {
+//        blankPageType = EaseBlankPageTypeProject;
+//    }else{
+//        blankPageType = EaseBlankPageTypeProjectOther;
+//    }
+//    [weakSelf configBlankPage:blankPageType hasData:(weakSelf.myProjects.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+//        [weakSelf refresh];
 //    }];
 }
 
@@ -130,63 +149,33 @@
 
 #pragma mark Table M
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return _dataList.count > 1? kScaleFrom_iPhone5_Desgin(24): 0;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    NSString *headerStr = [self titleForSection:section];
-    return [tableView getHeaderViewWithStr:headerStr andBlock:nil];
-}
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return [_dataList count];
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [[self valueForSection:section] count];
+    return _dataList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    Project *curPro = [[self valueForSection:indexPath.section] objectAtIndex:indexPath.row];
-    
-    if (_myProjects.type < ProjectsTypeTaProject) {
-        ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectList forIndexPath:indexPath];
-        if (self.myProjects.type == ProjectsTypeToChoose) {
-            [cell setProject:curPro hasSWButtons:NO hasBadgeTip:NO hasIndicator:NO];
-        }else{
-            [cell setProject:curPro hasSWButtons:YES hasBadgeTip:YES hasIndicator:YES];
-        }
-        cell.delegate = self;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-        return cell;
-    }else{
-        ProjectListTaCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectListTaCell forIndexPath:indexPath];
-        cell.project = curPro;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-        return cell;
-    }
+    NSDictionary *topic = _dataList[indexPath.row];
+    CSTopicCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TopicCell forIndexPath:indexPath];
+    [cell updateDisplayByTopic:topic];
+
+    cell.delegate = self;
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (_myProjects.type < ProjectsTypeTaProject) {
-        return [ProjectListCell cellHeight];
-    }else{
-        return [ProjectListTaCell cellHeight];
-    }
+    return 94;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDictionary *topic = _dataList[indexPath.row];
     if (_block) {
-        _block([[self valueForSection:indexPath.section] objectAtIndex:indexPath.row]);
+        _block(topic);
     }
 }
 
 
 @end
 
-@implementation CSTopiclistCell
 
-
-
-@end

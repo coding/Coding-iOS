@@ -8,17 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "SWTableViewCell.h"
-typedef void(^TopicListViewBlock)(id topic);
+#import "CSTopic.h"
+
+typedef void(^TopicListViewBlock)(NSDictionary* topic);
+typedef enum {
+    CSMyTopicsTypeWatched,
+    CSMyTopicsTypeJoined,
+}CSMyTopicsType;
 
 @interface CSTopiclistView : UIView<UITableViewDataSource, UITableViewDelegate>
 
-- (id)initWithFrame:(CGRect)frame topics:(id )topic block:(TopicListViewBlock)block tabBarHeight:(CGFloat)tabBarHeight;
+- (id)initWithFrame:(CGRect)frame type:(CSMyTopicsType )type block:(TopicListViewBlock)block;
 - (void)setTopics:(id )topics;
 - (void)refreshUI;
+- (void)refreshToQueryData;
 
 @end
 
-
-@interface CSTopiclistCell : SWTableViewCell
-
-@end

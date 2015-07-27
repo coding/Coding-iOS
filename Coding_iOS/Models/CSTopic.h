@@ -12,7 +12,7 @@
 #import "HtmlMedia.h"
 #import "Tweet.h"
 
-@interface Topic : NSObject
+@interface CSTopic : NSObject
 
 @property (readwrite, nonatomic, strong) NSNumber *id, *user_count;
 
@@ -20,7 +20,10 @@
 
 @property (readwrite, nonatomic, strong) NSDate *created_at;
 @property (readwrite, nonatomic, strong) User *owner;
-@property (readwrite, nonatomic, strong) NSArray *hot_tweet, *user_list;
+@property (readwrite, nonatomic, strong) NSArray *user_list;
+@property (readwrite, nonatomic, strong) Tweet *hot_tweet;
+
+@property (readwrite, nonatomic, assign) BOOL watched;
 
 //@property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading;
 //@property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;
@@ -29,5 +32,9 @@
 
 //@property (strong, nonatomic) NSString *user_global_key, *pp_id;
 
+@property (assign,nonatomic) CGFloat listCellHeight;
+
+
+- (NSString *)toDoWatchPath;
 
 @end

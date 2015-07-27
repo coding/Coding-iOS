@@ -769,7 +769,10 @@
 		FE4CB43B1B618A6A0041E9EF /* CSTopicDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB43A1B618A6A0041E9EF /* CSTopicDetailVC.m */; };
 		FE4CB43D1B618EDC0041E9EF /* user_info_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE4CB43C1B618EDC0041E9EF /* user_info_topic@2x.png */; };
 		FE4CB4401B6194D10041E9EF /* CSTopiclistView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB43F1B6194D10041E9EF /* CSTopiclistView.m */; };
-		FE4CB4431B619D280041E9EF /* Topic.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB4421B619D280041E9EF /* Topic.m */; };
+		FE4CB4431B619D280041E9EF /* CSTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB4421B619D280041E9EF /* CSTopic.m */; };
+		FE4CB4461B6566260041E9EF /* CSTopicHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB4451B6566260041E9EF /* CSTopicHeaderView.m */; };
+		FE4CB4491B65892F0041E9EF /* CSLikesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB4481B65892F0041E9EF /* CSLikesVC.m */; };
+		FE4CB44B1B65ABA00041E9EF /* icon_arrow_searchHistory@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE4CB44A1B65ABA00041E9EF /* icon_arrow_searchHistory@2x.png */; };
 		FEC419251B53A39B00C498F5 /* CSSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC419241B53A39B00C498F5 /* CSSearchVC.m */; };
 		FEC419281B53A92600C498F5 /* CSSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC419271B53A92600C498F5 /* CSSearchModel.m */; };
 		FEC4192B1B53A9E300C498F5 /* TMCacheExtend.m in Sources */ = {isa = PBXBuildFile; fileRef = FEC4192A1B53A9E300C498F5 /* TMCacheExtend.m */; };
@@ -1960,8 +1963,13 @@
 		FE4CB43C1B618EDC0041E9EF /* user_info_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_topic@2x.png"; sourceTree = "<group>"; };
 		FE4CB43E1B6194D10041E9EF /* CSTopiclistView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSTopiclistView.h; sourceTree = "<group>"; };
 		FE4CB43F1B6194D10041E9EF /* CSTopiclistView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSTopiclistView.m; sourceTree = "<group>"; };
-		FE4CB4411B619D280041E9EF /* Topic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Topic.h; sourceTree = "<group>"; };
-		FE4CB4421B619D280041E9EF /* Topic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Topic.m; sourceTree = "<group>"; };
+		FE4CB4411B619D280041E9EF /* CSTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSTopic.h; sourceTree = "<group>"; };
+		FE4CB4421B619D280041E9EF /* CSTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSTopic.m; sourceTree = "<group>"; };
+		FE4CB4441B6566260041E9EF /* CSTopicHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSTopicHeaderView.h; sourceTree = "<group>"; };
+		FE4CB4451B6566260041E9EF /* CSTopicHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSTopicHeaderView.m; sourceTree = "<group>"; };
+		FE4CB4471B65892F0041E9EF /* CSLikesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSLikesVC.h; sourceTree = "<group>"; };
+		FE4CB4481B65892F0041E9EF /* CSLikesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSLikesVC.m; sourceTree = "<group>"; };
+		FE4CB44A1B65ABA00041E9EF /* icon_arrow_searchHistory@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_arrow_searchHistory@2x.png"; sourceTree = "<group>"; };
 		FEC419231B53A39B00C498F5 /* CSSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSearchVC.h; sourceTree = "<group>"; };
 		FEC419241B53A39B00C498F5 /* CSSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSSearchVC.m; sourceTree = "<group>"; };
 		FEC419261B53A92600C498F5 /* CSSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSSearchModel.h; sourceTree = "<group>"; };
@@ -3320,6 +3328,7 @@
 				8EA6CFA619E240C40076D59C /* tabbar_background@2x.png */,
 				8EA6CFA819E240C40076D59C /* tasks_all@2x.png */,
 				8EA6CFA919E240C40076D59C /* time_clock_icon@2x.png */,
+				FE4CB44A1B65ABA00041E9EF /* icon_arrow_searchHistory@2x.png */,
 				8EA6CFBE19E240C40076D59C /* tweet_comment_btn@2x.png */,
 				8E872CFD19EFEF0C002C8F34 /* tweet_like_btn@2x.png */,
 				8EA6CFC019E240C40076D59C /* tweet_liked_btn@2x.png */,
@@ -3523,8 +3532,8 @@
 				8EA6CFF319E240C40076D59C /* Tweets.m */,
 				4ECD72ED1AAD7EC300D69AE1 /* Tweet.h */,
 				4ECD72EE1AAD7EC300D69AE1 /* Tweet.m */,
-				FE4CB4411B619D280041E9EF /* Topic.h */,
-				FE4CB4421B619D280041E9EF /* Topic.m */,
+				FE4CB4411B619D280041E9EF /* CSTopic.h */,
+				FE4CB4421B619D280041E9EF /* CSTopic.m */,
 				8EA6CFF619E240C40076D59C /* User.h */,
 				8EA6CFF719E240C40076D59C /* User.m */,
 				8EA6CFF819E240C40076D59C /* Users.h */,
@@ -4000,6 +4009,10 @@
 				FE4CB43A1B618A6A0041E9EF /* CSTopicDetailVC.m */,
 				FE4CB43E1B6194D10041E9EF /* CSTopiclistView.h */,
 				FE4CB43F1B6194D10041E9EF /* CSTopiclistView.m */,
+				FE4CB4441B6566260041E9EF /* CSTopicHeaderView.h */,
+				FE4CB4451B6566260041E9EF /* CSTopicHeaderView.m */,
+				FE4CB4471B65892F0041E9EF /* CSLikesVC.h */,
+				FE4CB4481B65892F0041E9EF /* CSLikesVC.m */,
 			);
 			path = Topic;
 			sourceTree = "<group>";
@@ -4346,6 +4359,7 @@
 				4E6383AA1B3262D300D98648 /* taskPriority2@2x.png in Resources */,
 				4E66EE281A28226000DA1B3E /* button_file_denete_unable@2x.png in Resources */,
 				8E97CE4A1A0A2E11006F9AD7 /* EmojisList.plist in Resources */,
+				FE4CB44B1B65ABA00041E9EF /* icon_arrow_searchHistory@2x.png in Resources */,
 				4EBFBD181AA85B8500E4B10E /* add_user_icon@2x.png in Resources */,
 				8E97CEA21A0C7E26006F9AD7 /* coding_emoji_11@2x.png in Resources */,
 				4E996C061ABBF56A00C704F1 /* n_sex_woman_icon@2x.png in Resources */,
@@ -4564,6 +4578,7 @@
 				8E59F0FA1A00F3F3009A905F /* FileListFileCell.m in Sources */,
 				8EA6D14219E240C40076D59C /* TipsViewController.m in Sources */,
 				8EA6D1CA19E240C40076D59C /* UIPlaceHolderTextView.m in Sources */,
+				FE4CB4461B6566260041E9EF /* CSTopicHeaderView.m in Sources */,
 				4E4D6A6D1B1C68D700FD2E49 /* ProjectCommitsViewController.m in Sources */,
 				4E6BA2E61A1EE6AF005FD721 /* UIProgressView+AFNetworking.m in Sources */,
 				4EB0C2001A807ED00042FC4F /* NSURL+Common.m in Sources */,
@@ -4705,7 +4720,7 @@
 				4E6BA2D91A1EE6AF005FD721 /* AFURLConnectionOperation.m in Sources */,
 				8EA6D1BB19E240C40076D59C /* ProjectTopic.m in Sources */,
 				8EA6D13219E240C40076D59C /* RegisterViewController.m in Sources */,
-				FE4CB4431B619D280041E9EF /* Topic.m in Sources */,
+				FE4CB4431B619D280041E9EF /* CSTopic.m in Sources */,
 				8EF643C519FF7E2900F7EEB0 /* TitleRImageMoreCell.m in Sources */,
 				4E217F151A70EDC700F6DF88 /* SVWebViewControllerActivitySafari.m in Sources */,
 				4E8D5D5A1B45295D00B70936 /* HOTPGenerator.m in Sources */,
@@ -4858,6 +4873,7 @@
 				4E6FB0581B58DB0A00B0A17B /* ProjectTagsView.m in Sources */,
 				8EA6D1BA19E240C40076D59C /* Projects.m in Sources */,
 				FEF35ED01B56C2870000280F /* CSScrollview.m in Sources */,
+				FE4CB4491B65892F0041E9EF /* CSLikesVC.m in Sources */,
 				4E996BDF1ABA7CE100C704F1 /* UserInfoDetailUserCell.m in Sources */,
 				4EACB4461A2C60110097ABB3 /* ProjectActivities.m in Sources */,
 				8EA6D1CB19E240C40076D59C /* UITapImageView.m in Sources */,

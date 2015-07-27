@@ -15,7 +15,10 @@
 #import "UILabel+Common.h"
 #import "Tweet.h"
 
-#define kCellIdentifier_HotTopicCell @"kCellIdentifier_HotTopicCell"
+#import "CSTopic.h"
+#import "CSTopicDetailVC.h"
+
+
 #define kCellIdentifier_HotTopicTitleCell @"kCellIdentifier_HotTopicTitleCell"
 
 @interface CSHotTopicVC ()<UITableViewDataSource,UITableViewDelegate>
@@ -43,7 +46,7 @@
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [tableView registerClass:[CSHotTopicCell class] forCellReuseIdentifier:kCellIdentifier_HotTopicCell];
+        [tableView registerClass:[CSTopicCell class] forCellReuseIdentifier:kCellIdentifier_TopicCell];
         [tableView registerClass:[CSHotTopicTitleCell class] forCellReuseIdentifier:kCellIdentifier_HotTopicTitleCell];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -73,9 +76,9 @@
 
 - (void)refreshHotTopiclist{
     __weak typeof(self) wself = self;
-    [[Coding_NetAPIManager sharedManager] request_HotTopiclistWithBlock:^(id data, NSError *error) {
-        if (data && [data isKindOfClass:[NSArray class]]) {
-            wself.topiclist = [data copy];
+    [[Coding_NetAPIManager sharedManager] request_HotTopiclistWithBlock:^(NSArray *topiclist, NSError *error) {
+        if (topiclist) {
+            wself.topiclist = [topiclist copy];
         }else {
             wself.topiclist = [NSArray array];
         }
@@ -110,9 +113,8 @@
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:12];
         return cell;
     }
-    
-    id data = _topiclist[indexPath.row - 1];
-    CSHotTopicCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_HotTopicCell forIndexPath:indexPath];
+    NSDictionary *data = _topiclist[indexPath.row - 1];
+    CSTopicCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TopicCell forIndexPath:indexPath];
     [cell updateDisplayByTopic:data];
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:75];
     return cell;
@@ -132,21 +134,9 @@
         return;
     }
     
-    id data = _topiclist[indexPath.row - 1];
-    //TODO psy to topic detail page
-    
-//    if (indexPath.row < 3) {
-//        TipsViewController *vc = [[TipsViewController alloc] init];
-//        vc.myCodingTips = [CodingTips codingTipsWithType:indexPath.row];
-//        [self.navigationController pushViewController:vc animated:YES];
-//    }else{
-//        PrivateMessage *curMsg = [_myPriMsgs.list objectAtIndex:indexPath.row-3];
-//        ConversationViewController *vc = [[ConversationViewController alloc] init];
-//        User *curFriend = curMsg.friend;
-//        
-//        vc.myPriMsgs = [PrivateMessages priMsgsWithUser:curFriend];
-//        [self.navigationController pushViewController:vc animated:YES];
-//    }
+    CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
+    vc.topic = _topiclist[indexPath.row - 1];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -207,14 +197,14 @@
 #pragma mark - 
 
 
-@interface CSHotTopicCell()<TTTAttributedLabelDelegate>
+@interface CSTopicCell()<TTTAttributedLabelDelegate>
 @property (nonatomic,strong)UILabel *nameLabel;
 @property (nonatomic,strong)UITTTAttributedLabel *contentLabel;
 @property (nonatomic,strong)UILabel *userCountLabel;
 
 @end
 
-@implementation CSHotTopicCell
+@implementation CSTopicCell
 
 static CGFloat const kHotTopicCellPaddingRight = 15;
 
@@ -244,7 +234,6 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
         [self.contentLabel addLongPressForCopy];
         [self.contentView addSubview:self.contentLabel];
         
-        
         _userCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 75, kScreen_Width - kPaddingLeftWidth - kHotTopicCellPaddingRight, 12)];
         _userCountLabel.font = [UIFont systemFontOfSize:12];
         _userCountLabel.backgroundColor = [UIColor clearColor];
@@ -255,19 +244,21 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
     return self;
 }
 
-- (void)updateDisplayByTopic:(id)data {
+- (void)updateDisplayByTopic:(NSDictionary*)data {
+    
     _nameLabel.text = [NSString stringWithFormat:@"#%@#",data[@"name"]];
     _userCountLabel.text = [NSString stringWithFormat:@"%@人参与",data[@"user_count"]];
     
-    Tweet *tweet = [NSObject objectOfClass:@"Tweet" fromJSON:data[@"hot_tweet"]];
-    [self.contentLabel setLongString:tweet.content withFitWidth:self.contentLabel.width maxHeight:40];
-    self.contentLabel.centerY = self.height / 2;
-    for (HtmlMediaItem *item in tweet.htmlMedia.mediaItems) {
-        if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
-            [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
+    if (data[@"hot_tweet"]) {
+        Tweet *tweet = [NSObject objectOfClass:@"Tweet" fromJSON:data[@"hot_tweet"]];
+        [self.contentLabel setLongString:tweet.content withFitWidth:self.contentLabel.width maxHeight:40];
+        self.contentLabel.centerY = self.height / 2;
+        for (HtmlMediaItem *item in tweet.htmlMedia.mediaItems) {
+            if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
+                [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
+            }
         }
     }
-
 }
 
 #pragma mark TTTAttributedLabelDelegate

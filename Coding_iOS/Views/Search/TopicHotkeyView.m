@@ -13,30 +13,44 @@
 #define kOther_HotKey_Border_Color  @"0xb5b5b5"
 
 @interface TopicHotkeyView ()
-
-- (CGSize)computeSizeFromString:(NSString *)string;
-- (void)didClickButton:(id)sender;
+@property (nonatomic,strong) NSMutableArray *keyDatalist;
+@property (nonatomic,strong) NSMutableArray *keyViewlist;
 
 @end
 
 @implementation TopicHotkeyView
 
 - (void)setHotkeys:(NSArray *)hotkeys {
+    if (!_keyDatalist) {
+        _keyDatalist = [@[] mutableCopy];
+        _keyViewlist = [@[] mutableCopy];
+    }
+    
+    for (UIView *subView in _keyViewlist) {
+        [subView removeFromSuperview];
+    }
+    [_keyViewlist removeAllObjects];
+    [_keyDatalist removeAllObjects];
+    
+    if ([hotkeys count] <= 0) {
+        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, kScreen_Width, 0);
+        return;
+    }
+    
+    [_keyDatalist addObjectsFromArray:hotkeys];
+    
     
     if(hotkeys.count) {
         
-        UIButton *btnHotkey = nil;
         CGFloat currentWidth = 10.0f;
         CGFloat currentHeight = 0.0f;
         CGSize currentSize = CGSizeZero;
         CGFloat maxWidth = kScreen_Width - 20.0f;
         UIFont *hotkeyFont = [UIFont systemFontOfSize:12.0f];
-        NSString *displayHotkey = nil;
         
-        for (int i = 0; i < hotkeys.count; i++) {
-            
-            displayHotkey = [NSString stringWithFormat:@"   #%@#   ", hotkeys[i]];
-            btnHotkey = [UIButton buttonWithType:UIButtonTypeCustom];
+        for (int i = 0; i < _keyDatalist.count; i++) {
+            NSString *displayHotkey = [NSString stringWithFormat:@"   #%@#   ", hotkeys[i]];
+            UIButton *btnHotkey = [UIButton buttonWithType:UIButtonTypeCustom];
             [btnHotkey setTag:i];
             [btnHotkey setTitle:displayHotkey forState:UIControlStateNormal];
             [btnHotkey.titleLabel setFont:hotkeyFont];
@@ -45,7 +59,6 @@
             [btnHotkey addTarget:self action:@selector(didClickButton:) forControlEvents:UIControlEventTouchUpInside];
             
             if(i == 0) {
-                
                 [btnHotkey setTitleColor:[UIColor colorWithHexString:kFirst_Hotkey_Color] forState:UIControlStateNormal];
                 [btnHotkey setTitleColor:[UIColor colorWithHexString:kFirst_Hotkey_Color andAlpha:0.3] forState:UIControlStateHighlighted];
                 btnHotkey.layer.borderColor = [[UIColor colorWithHexString:kFirst_Hotkey_Color] CGColor];
@@ -90,10 +103,9 @@
             }
             
             [self addSubview:btnHotkey];
-            currentSize = CGSizeZero;
-            btnHotkey = nil;
+            
+            [_keyViewlist addObject:btnHotkey];
         }
-        
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, kScreen_Width, currentHeight);
     }
 }
@@ -108,9 +120,10 @@
 - (void)didClickButton:(id)sender {
     
     NSInteger index = [(UIButton *)sender tag];
-    if(self.delegate != nil && [self.delegate respondsToSelector:@selector(didClickHotkeyWithIndex:)]) {
+    NSString *key = _keyDatalist[index];
+    if(self.delegate != nil && [self.delegate respondsToSelector:@selector(didClickHotkey:)]) {
         
-        [self.delegate didClickHotkeyWithIndex:index];
+        [self.delegate didClickHotkey:key];
     }
 }
 

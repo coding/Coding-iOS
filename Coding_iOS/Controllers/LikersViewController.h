@@ -12,3 +12,4 @@
 @interface LikersViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate,UISearchDisplayDelegate>
 @property (strong, nonatomic) Tweet *curTweet;
 @end
+

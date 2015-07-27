@@ -12,6 +12,8 @@
 #import <NYXImagesKit/NYXImagesKit.h>
 #import "MBProgressHUD+Add.h"
 
+#import "CSTopic.h"
+
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
     static Coding_NetAPIManager *shared_manager = nil;
@@ -1472,6 +1474,28 @@
         }
     }];
 }
+
+- (void)request_PublicTweetsWithTopic:(int)topicID andBlock:(void (^)(id data, NSError *error))block {
+    //TODO psy lastid，是否要做分页
+    NSString *path = [NSString stringWithFormat:@"api/public_tweets/topic/%d",topicID];
+    NSDictionary *params = @{
+                             @"type" : @"topic",
+                             @"sort" : @"new"
+                             };
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+//            id resultA = [data valueForKeyPath:@"data"];
+//            
+//            [NSObject saveResponseData:data toPath:[tweets localResponsePath]];
+            id resultData = [data valueForKeyPath:@"data"];
+            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"Tweet"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 #pragma mark User
 - (void)request_UserInfo_WithObj:(User *)curUser andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"用户信息"];
@@ -1971,14 +1995,6 @@
             block(nil, error);
         }
     }];
-    
-//    
-//    NSString *filePath =[[NSBundle mainBundle] pathForResource:@"mock_topicAdlist" ofType:@"geojson"];
-//    NSData *dd = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
-//    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:dd options:0 error:nil];
-//    id resultData = dict[@"data"];
-//    block(resultData, nil);
-    
 }
 
 - (void)request_HotTopiclistWithBlock:(void (^)(id data, NSError *error))block {
@@ -1987,6 +2003,7 @@
             if(data) {
                 id resultData = [data valueForKey:@"data"];
                 block(resultData, nil);
+                
             }else {
                 block(nil, error);
             }
@@ -2032,13 +2049,15 @@
 
 
 - (void)request_JoinedTopicsWithUserGK:(NSString *)userGK block:(void (^)(id data, NSError *error))block {
-    NSString *path = [NSString stringWithFormat:@"api/user/%@/tweet_topic/joine",userGK];
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/tweet_topic/joined",userGK];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if(data) {
             id resultData = data[@"data"];
             block(resultData, nil);
+//            NSArray *list = data[@"data"][@"list"];
+//            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectActivity"];
+//            block(resultA, nil);
         }else {
-            
             block(nil, error);
         }
     }];
@@ -2051,7 +2070,16 @@
             id resultData = data[@"data"];
             block(resultData, nil);
         }else {
-            
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_Topic_DoWatch_WithUrl:(NSString *)url andBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:url withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
             block(nil, error);
         }
     }];

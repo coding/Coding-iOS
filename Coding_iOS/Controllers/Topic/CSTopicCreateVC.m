@@ -10,6 +10,8 @@
 #import "CSTopicModel.h"
 #import "Coding_NetAPIManager.h"
 
+#import "CSTopic.h"
+
 #define kCellIdentifier_TopicNameCell @"kCellIdentifier_TopicNameCell"
 
 
@@ -110,12 +112,11 @@
 
 - (void)refreshHotTopiclist{
     __weak typeof(self) wself = self;
-    [[Coding_NetAPIManager sharedManager] request_HotTopiclistWithBlock:^(id data, NSError *error) {
-        if (data && [data isKindOfClass:[NSArray class]]) {
-            NSArray *arrData = data;
+    [[Coding_NetAPIManager sharedManager] request_HotTopiclistWithBlock:^(NSArray *topiclist, NSError *error) {
+        if (topiclist) {
             NSMutableArray *namelist = [NSMutableArray array];
-            for (int i=0; i<arrData.count && i < 10; i++) {
-                NSDictionary *topicDict = arrData[i];
+            for (int i=0; i<topiclist.count && i < 10; i++) {
+                NSDictionary *topicDict = topiclist[i];
                 [namelist addObject:topicDict[@"name"]];
             }
             wself.hotTopiclist = [namelist copy];

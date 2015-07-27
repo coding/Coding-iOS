@@ -32,6 +32,8 @@
 #import "Commits.h"
 #import "ProjectTag.h"
 
+@class CSTopic;
+
 typedef NS_ENUM(NSUInteger, VerifyType){
     VerifyTypeUnknow = 0,
     VerifyTypePassword,
@@ -156,7 +158,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_Tweet_Delete_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_TweetComment_Delete_WithTweet:(Tweet *)tweet andComment:(Comment *)comment andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Tweet_Detail_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
-
+- (void)request_PublicTweetsWithTopic:(int)topicID andBlock:(void (^)(id data, NSError *error))block;
 
 
 //User
@@ -218,5 +220,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 
 - (void)request_JoinedTopicsWithUserGK:(NSString *)userGK block:(void (^)(id data, NSError *error))block;
 - (void)request_WatchedTopicsWithUserGK:(NSString *)userGK block:(void (^)(id data, NSError *error))block;
+
+- (void)request_Topic_DoWatch_WithUrl:(NSString *)url andBlock:(void (^)(id data, NSError *error))block;
 
 @end

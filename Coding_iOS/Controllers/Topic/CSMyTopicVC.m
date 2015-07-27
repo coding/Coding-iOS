@@ -7,7 +7,7 @@
 //
 
 #import "CSMyTopicVC.h"
-#import "Topic.h"
+#import "CSTopic.h"
 
 #import "Login.h"
 
@@ -21,7 +21,6 @@
 @property (strong, nonatomic) iCarousel *myCarousel;
 @property (assign, nonatomic) NSInteger oldSelectedIndex;
 
-@property (strong, nonatomic) NSMutableDictionary *myTopicsDict;
 @end
 
 @implementation CSMyTopicVC
@@ -33,7 +32,6 @@
     
     self.segmentItems = @[@"我关注的", @"我参与的"];
     self.title = @"我的话题";
-    _myTopicsDict = [[NSMutableDictionary alloc] initWithCapacity:_segmentItems.count];
     _oldSelectedIndex = 0;
     
     //添加myCarousel
@@ -67,36 +65,21 @@
 
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    if (_myCarousel) {
-//        ProjectListView *listView = (ProjectListView *)_myCarousel.currentItemView;
-//        if (listView) {
-//            [listView refreshToQueryData];
-//        }
-    }
-}
-
 #pragma mark iCarousel M
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel{
     return _segmentItems.count;
 }
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view{
-    Projects *curPros = [_myTopicsDict objectForKey:[NSNumber numberWithUnsignedInteger:index]];
-    if (!curPros) {
-        curPros = [self projectsWithIndex:index];
-        [_myTopicsDict setObject:curPros forKey:[NSNumber numberWithUnsignedInteger:index]];
-    }
     CSTopiclistView *listView = (CSTopiclistView *)view;
     if (listView) {
-        [listView setTopics:curPros];
+        
     }else{
-        __weak typeof(self) *weakSelf = self;
-        listView = [[CSTopiclistView alloc] initWithFrame:carousel.bounds topics:curPros block:^(Project *project) {
-            [weakSelf goToProject:project];
-            DebugLog(@"\n=====%@", project.name);
-        } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
+        __weak CSMyTopicVC *weakSelf = self;
+        CSMyTopicsType type = (index == 0 ? CSMyTopicsTypeWatched : CSMyTopicsTypeJoined);
+        listView = [[CSTopiclistView alloc] initWithFrame:carousel.bounds type:type block:^(NSDictionary *topic) {
+            [weakSelf goToTopic:topic];
+        }];
     }
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
@@ -134,7 +117,7 @@
 
 #pragma mark - 
 
-- (void)goToTopic:(Topic*)topic{
+- (void)goToTopic:(NSDictionary*)topic{
     CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
     vc.topic = topic;
     [self.navigationController pushViewController:vc animated:YES];
