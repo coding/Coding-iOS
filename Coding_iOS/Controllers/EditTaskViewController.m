@@ -48,7 +48,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _myCopyTask = [Task taskWithTask:_myTask];
-    if (_myTask.handleType == TaskHandleTypeEdit) {
+    if (_myCopyTask.handleType == TaskHandleTypeEdit) {
         //评论
         _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTask];
         _myMsgInputView.isAlwaysShow = YES;
@@ -82,7 +82,7 @@
         self.myTableView.scrollIndicatorInsets = contentInsets;
     }
     
-    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(doneBtnClicked)] animated:YES];
+    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:(_myCopyTask.handleType == TaskHandleTypeEdit? @"保存": @"完成") target:self action:@selector(doneBtnClicked)] animated:YES];
     @weakify(self);
     RAC(self.navigationItem.rightBarButtonItem, enabled) =
     [RACSignal combineLatest:@[RACObserve(self, myCopyTask.content),
@@ -103,7 +103,7 @@
 }
 
 - (void)configTitle{
-    if (_myTask.handleType > TaskHandleTypeEdit) {
+    if (_myCopyTask.handleType > TaskHandleTypeEdit) {
         self.title = @"创建任务";
     }else{
         self.title = _myTask.project.name;
