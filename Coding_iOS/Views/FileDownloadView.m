@@ -246,7 +246,10 @@
                     break;
             }
         }else{//新建下载
-            
+            if (!self.file.project_id) {
+                [self showHudTipStr:@"下载失败~"];
+                return;
+            }
             __weak typeof(self) weakSelf = self;
             Coding_DownloadTask *cDownloadTask = [manager addDownloadTaskForFile:self.file completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
                 if (error) {

@@ -27,6 +27,7 @@
 #import "ProjectCommitsViewController.h"
 #import "MRPRDetailViewController.h"
 #import "CommitFilesViewController.h"
+#import "FileViewController.h"
 
 #import "UnReadManager.h"
 
@@ -154,6 +155,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)$";
     NSString *topicRegexStr = @"/u/([^/]+)/p/([^/]+)/topic/(\\d+)";
     NSString *taskRegexStr = @"/u/([^/]+)/p/([^/]+)/task/(\\d+)";
+    NSString *fileRegexStr = @"/u/([^/]+)/p/([^/]+)/attachment/([^/]+)/preview/(\\d+)";
     NSString *gitMRPRCommitRegexStr = @"/u/([^/]+)/p/([^/]+)/git/(merge|pull|commit)/([^/#]+)";
     NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
     NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
@@ -249,7 +251,24 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             };
             analyseVC = vc;
         }
-
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:fileRegexStr]).count > 0){
+        NSString *user_global_key = matchedCaptures[1];
+        NSString *project_name = matchedCaptures[2];
+        NSString *fileId = matchedCaptures[4];
+        if ([presentingVC isKindOfClass:[FileViewController class]]) {
+            FileViewController *vc = (FileViewController *)presentingVC;
+            if (vc.curFile.file_id.integerValue == fileId.integerValue) {
+                [vc requestFileData];
+                analyseVCIsNew = NO;
+                analyseVC = vc;
+            }
+        }
+        if (!analyseVC) {
+            FileViewController *vc = [FileViewController new];
+            ProjectFile *curFile = [[ProjectFile alloc] initWithFileId:@(fileId.integerValue) inProject:project_name ofUser:user_global_key];
+            vc.curFile = curFile;
+            analyseVC = vc;
+        }
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:conversionRegexStr]).count > 0) {
         //私信
         NSString *user_global_key = matchedCaptures[1];

@@ -755,7 +755,9 @@
             id resultData = [data valueForKeyPath:@"data"];
             resultData = [resultData valueForKeyPath:@"file"];
             ProjectFile *detailFile = [NSObject objectOfClass:@"ProjectFile" fromJSON:resultData];
-            detailFile.project_id = file.project_id;
+            if (file.project_id) {
+                detailFile.project_id = file.project_id;
+            }
             block(detailFile, nil);
         }else{
             block(nil, error);

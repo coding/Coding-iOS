@@ -9,6 +9,10 @@
 #import "ProjectFile.h"
 #import "Coding_FileManager.h"
 
+@interface ProjectFile ()
+@property (strong, nonatomic) NSString *project_name, *project_owner_name;
+@end
+
 @implementation ProjectFile
 
 +(ProjectFile *)fileWithFileId:(NSNumber *)fileId andProjectId:(NSNumber *)project_id{
@@ -17,6 +21,27 @@
     file.project_id = project_id;
     return file;
 }
+
+- (instancetype)initWithFileId:(NSNumber *)fileId inProject:(NSString *)project_name ofUser:(NSString *)project_owner_name{
+    self = [super init];
+    if (self) {
+        _file_id = fileId;
+        _project_id = nil;
+        _project_name = project_name;
+        _project_owner_name = project_owner_name;
+    }
+    return self;
+}
+
+- (void)setOwner_preview:(NSString *)owner_preview{
+    _owner_preview = owner_preview;
+    if (!_project_id && owner_preview.length > 0) {
+        NSString *project_id;
+        project_id = [[[[owner_preview componentsSeparatedByString:@"project/"] lastObject] componentsSeparatedByString:@"/"] firstObject];
+        _project_id = @(project_id.integerValue);
+    }
+}
+
 - (BOOL)isEmpty{
     return !(self.storage_key && self.storage_key.length > 0);
 }
@@ -142,7 +167,15 @@
 }
 
 - (NSString *)toDetailPath{
-    return [NSString stringWithFormat:@"api/project/%@/files/%@/view", _project_id.stringValue, _file_id.stringValue];
+    NSString *path;
+    if (!_project_id) {
+        path = [NSString stringWithFormat:@"api/user/%@/project/%@/files/%@/view", _project_owner_name, _project_name, _file_id.stringValue];
+    }else{
+        path = [NSString stringWithFormat:@"api/project/%@/files/%@/view", _project_id.stringValue, _file_id.stringValue];
+    }
+    return path;
 }
+
+
 @end
 
