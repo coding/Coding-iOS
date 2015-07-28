@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCodingTipCell_WidthContent (kScreen_Width - 2*kPaddingLeftWidth - 35)
+#define kCodingTipCell_WidthContent (kScreen_Width - 2*kPaddingLeftWidth - 50)
 #define kCodingTipCell_FontContent [UIFont systemFontOfSize:15]
 
 #import "CodingTipCell.h"
@@ -25,11 +25,11 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
         if (!_iconView) {
-            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, 25, 25)];
+            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(2* kPaddingLeftWidth, 12, 25, 25)];
             [self.contentView addSubview:_iconView];
         }
         if (!_contentLabel) {
-            _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth +35, 10, kCodingTipCell_WidthContent, 20)];
+            _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth +50, 12, kCodingTipCell_WidthContent, 20)];
             _contentLabel.font = kCodingTipCell_FontContent;
             _contentLabel.backgroundColor = [UIColor clearColor];
             _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
@@ -39,7 +39,7 @@
             [self.contentView addSubview:_contentLabel];
         }
         if (!_timeLabel) {
-            _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 80, 20)];
+            _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 80, 0, 80, 15)];
             _timeLabel.font = [UIFont systemFontOfSize:12];
             _timeLabel.backgroundColor = [UIColor clearColor];
             _timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
@@ -61,22 +61,28 @@
     UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"tipIcon_%@", _curTip.target_type]];
     _iconView.image = image? image : [UIImage imageNamed:@"tipIcon_Other"];
     [_contentLabel setLongString:_curTip.content withFitWidth:kCodingTipCell_WidthContent];
-    curBottomY += [_curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)]+10;
-    NSString *timeStr = [_curTip.created_at stringTimeDisplay];
-    [_timeLabel setLongString:timeStr withVariableWidth:200];
-    [_timeLabel setCenter:CGPointMake(kScreen_Width -(CGRectGetWidth(_timeLabel.frame)/2 +kPaddingLeftWidth), curBottomY+ CGRectGetHeight(_timeLabel.frame)/2)];
     for (HtmlMediaItem *item in _curTip.htmlMedia.mediaItems) {
         if (item.displayStr.length > 0) {
             [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }
+    
+    curBottomY += [_curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] + 12;
+    _timeLabel.text = [_curTip.created_at stringTimeDisplay];
+    [_timeLabel setY:curBottomY];
+    
+//    NSString *timeStr = [_curTip.created_at stringTimeDisplay];
+//    [_timeLabel setLongString:timeStr withVariableWidth:200];
+//    [_timeLabel setCenter:CGPointMake(kScreen_Width -(CGRectGetWidth(_timeLabel.frame)/2 +kPaddingLeftWidth), curBottomY+ CGRectGetHeight(_timeLabel.frame)/2)];
+
+    [self addBadgeTip:_curTip.status.boolValue? @"": kBadgeTipStr withCenterPosition:CGPointMake(kPaddingLeftWidth, _iconView.center.y)];
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[CodingTip class]]) {
         CodingTip *curTip = (CodingTip *)obj;
-        cellHeight += 10 + [curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] +10+20;
+        cellHeight += [curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] + 15 + 12 * 3;
     }
     return cellHeight;
 }

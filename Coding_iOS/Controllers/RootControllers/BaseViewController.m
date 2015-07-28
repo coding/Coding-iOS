@@ -104,12 +104,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         //标记为已读
         NSString *notification_id = [userInfo objectForKey:@"notification_id"];
         if (notification_id) {
-            [[Coding_NetAPIManager sharedManager] request_markReadWithCodingTip:notification_id andBlock:^(id data, NSError *error) {
-                if (error) {
-                    DebugLog(@"request_markReadWithCodingTip: %@", error.description);
-                }else{
-                    DebugLog(@"request_markReadWithCodingTip: %@", data);
-                }
+            [[Coding_NetAPIManager sharedManager] request_markReadWithCodingTipIdStr:notification_id andBlock:^(id data, NSError *error) {
             }];
         }
         //弹出临时会话

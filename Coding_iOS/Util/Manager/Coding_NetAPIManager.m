@@ -1656,29 +1656,38 @@
             id resultData = [data valueForKeyPath:@"data"];
             CodingTips *resultA = [NSObject objectOfClass:@"CodingTips" fromJSON:resultData];
             block(resultA, nil);
-            //            标记为已读
-            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/mark-read" withParams:[curTips toMarkReadParams] withMethodType:Post andBlock:^(id data1, NSError *error1) {
-                if (data1) {
-                    [[UnReadManager shareManager] updateUnRead];
-                }
-            }];
         }else{
             block(nil, error);
         }
     }];
 }
-- (void)request_markReadWithCodingTip:(NSString *)tipIdStr andBlock:(void (^)(id data, NSError *error))block{
-    if (!tipIdStr) {
+- (void)request_markReadWithCodingTips:(CodingTips *)curTips andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"标记某类型的消息为已读"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/mark-read" withParams:[curTips toMarkReadParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+            [[UnReadManager shareManager] updateUnRead];
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_markReadWithCodingTipIdStr:(NSString *)tipIdStr andBlock:(void (^)(id data, NSError *error))block{
+    if (tipIdStr.length <= 0) {
         return;
     }
     [MobClick event:kUmeng_Event_Request label:@"标记某条消息为已读"];
     NSDictionary *params = @{@"id" : tipIdStr};
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/mark-read" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/mark-read" withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         if (data) {
+            block(data, nil);
             [[UnReadManager shareManager] updateUnRead];
+        }else{
+            block(nil, error);
         }
     }];
 }
+
 - (void)request_DeletePrivateMessage:(PrivateMessage *)curMsg andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"删除私信"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMsg toDeletePath] withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {

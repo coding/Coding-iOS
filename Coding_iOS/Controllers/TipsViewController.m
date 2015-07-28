@@ -54,6 +54,7 @@
             break;
     }
     self.title = titleStr;
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)] animated:NO];
     
 //    添加myTableView
     _myTableView = ({
@@ -138,7 +139,7 @@
     cell.linkClickedBlock = ^(HtmlMediaItem *item, CodingTip *tip){
         [weakSelf analyseHtmlMediaItem:item andTip:tip];
     };
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:2* kPaddingLeftWidth];
     return cell;
 }
 
@@ -148,10 +149,56 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    CodingTip *tip = [_myCodingTips.list objectAtIndex:indexPath.row];
+    [self p_markReadTip:tip];
+}
+
+- (void)p_markReadTip:(CodingTip *)tip{
+    if (tip.status.boolValue) {//已读
+        return;
+    }
+    @weakify(self);
+    [[Coding_NetAPIManager sharedManager] request_markReadWithCodingTipIdStr:tip.id andBlock:^(id data, NSError *error) {
+        @strongify(self);
+        DebugLog(@"%@: %@", data, error);
+        if (data) {
+            tip.status = @(YES);
+            [self.myTableView reloadData];
+        }
+    }];
+}
+
+- (void)rightNavBtnClicked{
+    @weakify(self);
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"将本页的未读通知全部标记为已读？" buttonTitles:@[@"全部标为已读"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            @strongify(self);
+            [self p_markReadAll];
+        }
+    }] showInView:self.view];
+}
+
+- (void)p_markReadAll{
+    @weakify(self);
+    [[Coding_NetAPIManager sharedManager] request_markReadWithCodingTips:_myCodingTips andBlock:^(id data, NSError *error) {
+        @strongify(self);
+        DebugLog(@"%@: %@", data, error);
+        if (data) {
+//            [self refresh];
+            [self showHudTipStr:@"标记成功~"];
+            for (CodingTip *tempTip in self.myCodingTips.list) {
+                tempTip.status = @(YES);
+            }
+            [self.myTableView reloadData];
+        }
+    }];
 }
 
 #pragma mark analyseHtmlMediaItem
 - (void)analyseHtmlMediaItem:(HtmlMediaItem *)item andTip:(CodingTip *)tip{
+    
+    [self p_markReadTip:tip];
+    
     NSString *linkStr = item.href;
     UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
     if (vc) {
