@@ -299,7 +299,6 @@
 
     [self hideToolBar:YES];
     [_searchBar becomeFirstResponder];
-    
 }
 
 #pragma mark Refresh M

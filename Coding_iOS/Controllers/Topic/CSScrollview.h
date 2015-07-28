@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define CSScrollTime 3.0
+#define CSScrollTime 5.0
 @class CSScrollItem;
 typedef void (^CSScrollTapBlock)(CSScrollItem* item);
 
