@@ -34,16 +34,15 @@ static dispatch_once_t onceToken;
         return nil;
     }
     self.responseSerializer = [AFJSONResponseSerializer serializer];
-    
     self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", @"text/html", nil];
+    
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [self.requestSerializer setValue:url.absoluteString forHTTPHeaderField:@"Referer"];
     
     self.securityPolicy.allowInvalidCertificates = YES;
     
     return self;
 }
-
-
 
 - (void)requestJsonDataWithPath:(NSString *)aPath
                      withParams:(NSDictionary*)params
