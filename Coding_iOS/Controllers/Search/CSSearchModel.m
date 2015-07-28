@@ -31,7 +31,7 @@
     
     NSMutableArray *history = [NSMutableArray arrayWithArray:[CSSearchModel getSearchHistory]];
     if(![history containsObject:searchString]) {
-        if(history.count >= 3)
+        if(history.count >= 8)
             [history removeLastObject];
         [history insertObject:searchString atIndex:0];
         [[TMCache TemporaryCache] setObject:history forKey:kSearchHistory];

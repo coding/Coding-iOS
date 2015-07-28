@@ -241,7 +241,7 @@
             make.top.mas_equalTo(_topicHotkeyView.mas_bottom);
             make.left.mas_equalTo(@0);
             make.width.mas_equalTo(kScreen_Width);
-            make.height.mas_equalTo(@280);
+            make.height.mas_equalTo(@350);
         }];
     }
     

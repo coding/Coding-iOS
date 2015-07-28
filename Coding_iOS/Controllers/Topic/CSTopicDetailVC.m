@@ -28,7 +28,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    
     [self setupData];
     [self setupUI];
     
@@ -100,7 +99,7 @@
     
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        tableView.backgroundColor = [UIColor clearColor];
+        tableView.backgroundColor = [UIColor whiteColor];
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
