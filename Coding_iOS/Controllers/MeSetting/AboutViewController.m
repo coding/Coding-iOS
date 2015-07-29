@@ -149,20 +149,6 @@
 //        make.height.mas_equalTo(20);
 //    }];
     
-    [self addChangeBaseURLGesture];
-    if ([NSObject baseURLStrIsTest]) {
-        kTipAlert(@"在该页面连续点击屏幕 5 下切换到生产环境！");
-    }
-}
-
-- (void)addChangeBaseURLGesture{
-    UITapGestureRecognizer *tapGR = [UITapGestureRecognizer bk_recognizerWithHandler:^(UIGestureRecognizer *sender, UIGestureRecognizerState state, CGPoint location) {
-        if (state == UIGestureRecognizerStateRecognized) {
-            [NSObject changeBaseURLStrToTest:![NSObject baseURLStrIsTest]];
-        }
-    }];
-    tapGR.numberOfTapsRequired = 5.0;
-    [self.view addGestureRecognizer:tapGR];
 }
 
 - (void)didReceiveMemoryWarning

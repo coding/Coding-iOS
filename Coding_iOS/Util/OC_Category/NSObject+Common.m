@@ -133,7 +133,6 @@
     [CodingNetAPIClient changeJsonClient];
     
     [[UINavigationBar appearance] setBackgroundImage: [UIImage imageWithColor:[UIColor colorWithHexString:isTest?@"0x3bbd79": @"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
-    [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
 }
 
 #pragma mark File M
