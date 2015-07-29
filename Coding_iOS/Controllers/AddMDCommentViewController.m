@@ -106,7 +106,7 @@
         _editView.textColor = [UIColor colorWithHexString:@"0x666666"];
         _editView.font = [UIFont systemFontOfSize:16];
         _editView.textContainerInset = UIEdgeInsetsMake(15, kPaddingLeftWidth - 5, 8, kPaddingLeftWidth - 5);
-        _editView.placeholder = @"任务描述";
+        _editView.placeholder = @"添加评论";
         
         _editView.text = _contentStr;
         [self.view addSubview:_editView];
