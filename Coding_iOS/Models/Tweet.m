@@ -89,11 +89,11 @@ static Tweet *_tweetForSend = nil;
 }
 
 - (NSInteger)maxLikerNum{
-    NSInteger maxNum = 8;
+    NSInteger maxNum = 9;
     if (kDevice_Is_iPhone6) {
-        maxNum = 10;
-    }else if (kDevice_Is_iPhone6Plus){
         maxNum = 11;
+    }else if (kDevice_Is_iPhone6Plus){
+        maxNum = 12;
     }
     return maxNum;
 }

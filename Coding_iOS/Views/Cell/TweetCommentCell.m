@@ -10,7 +10,7 @@
 
 
 #define kTweetCommentCell_LeftOrRightPading 10.0
-#define kTweetCommentCell_ContentWidth (kScreen_Width -50 - kPaddingLeftWidth - 2*kTweetCommentCell_LeftOrRightPading)
+#define kTweetCommentCell_ContentWidth (kScreen_Width -kPaddingLeftWidth - kPaddingLeftWidth - 2*kTweetCommentCell_LeftOrRightPading)
 #define kTweetCommentCell_ContentMaxHeight 105.0
 
 #import "TweetCommentCell.h"

@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kTweetMediaItemCCellSingle_Width (0.4 *kScreen_Width)
+#define kTweetMediaItemCCellSingle_Width (0.6 *kScreen_Width)
 #define kTweetMediaItemCCellSingle_WidthMonkey ((kScreen_Width - 80.0)/3.0)
-#define kTweetMediaItemCCellSingle_MaxHeight (0.4 *kScreen_Height)
+#define kTweetMediaItemCCellSingle_MaxHeight (0.5 *kScreen_Height)
 
 #import "TweetMediaItemSingleCCell.h"
 #import "UIImageView+WebCache.h"

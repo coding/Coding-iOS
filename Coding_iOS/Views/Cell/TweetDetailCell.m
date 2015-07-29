@@ -17,7 +17,7 @@
 #define kTweetDetailCell_PadingBottom 10.0
 #define kTweetDetailCell_LikeUserCCell_Height 25.0
 #define kTweetDetailCell_LikeUserCCell_Pading 10.0
-#define kTweetDetailCell_LikeNumMax ((kDevice_Is_iPhone6 || kDevice_Is_iPhone6Plus)? 11: 9)
+#define kTweetDetailCell_LikeNumMax (kDevice_Is_iPhone6Plus? 12: kDevice_Is_iPhone6? 11: 9)
 
 
 
@@ -429,7 +429,9 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row >= kTweetDetailCell_LikeNumMax-1) {
+    NSInteger numberOfItems = MIN(_tweet.like_users.count +1, _tweet.like_users.count);
+    numberOfItems = MIN(numberOfItems, kTweetDetailCell_LikeNumMax);
+    if (indexPath.row >= numberOfItems-1) {
         if (_moreLikersBtnClickedBlock) {
             _moreLikersBtnClickedBlock(_tweet);
         }
