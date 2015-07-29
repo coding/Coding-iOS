@@ -185,7 +185,6 @@
         DebugLog(@"%@: %@", data, error);
         if (data) {
 //            [self refresh];
-            [self showHudTipStr:@"标记成功~"];
             for (CodingTip *tempTip in self.myCodingTips.list) {
                 tempTip.status = @(YES);
             }
