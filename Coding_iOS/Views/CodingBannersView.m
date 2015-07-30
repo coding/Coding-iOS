@@ -90,6 +90,7 @@
             AutoSlideScrollView *slideView = [[AutoSlideScrollView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, _padding_top, _image_width, _image_width * _ratio) animationDuration:5.0];
             slideView.layer.cornerRadius = 2.0;
             slideView.layer.masksToBounds = YES;
+            slideView.scrollView.scrollsToTop = NO;
             
             slideView.totalPagesCount = ^NSInteger(){
                 return weakSelf.curBannerList.count;
@@ -97,9 +98,8 @@
             slideView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
                 if (weakSelf.curBannerList.count > pageIndex) {
                     UIImageView *imageView = [weakSelf p_reuseViewForIndex:pageIndex];
-                    imageView.backgroundColor = [UIColor randomColor];
                     CodingBanner *curBanner = weakSelf.curBannerList[pageIndex];
-                    [imageView sd_setImageWithURL:[curBanner.image urlWithCodePath] placeholderImage:[UIImage imageNamed:@"placeholder_coding_square_150"]];
+                    [imageView sd_setImageWithURL:[curBanner.image urlWithCodePath]];
                     return imageView;
                 }else{
                     return [UIView new];
@@ -133,6 +133,7 @@
         _imageViewList = [[NSMutableArray alloc] initWithCapacity:3];
         for (int i = 0; i < 3; i++) {
             UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, _padding_top, _image_width, _image_width * _ratio)];
+            view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
             view.clipsToBounds = YES;
             view.contentMode = UIViewContentModeScaleAspectFill;
             [_imageViewList addObject:view];
