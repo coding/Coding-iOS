@@ -23,6 +23,7 @@
 #import "SVPullToRefresh.h"
 #import "WebViewController.h"
 #import "TweetSendLocationDetailViewController.h"
+#import "CodingBannersView.h"
 
 @interface Tweet_RootViewController ()
 {
@@ -43,6 +44,9 @@
 //删冒泡
 @property (strong, nonatomic) Tweet *deleteTweet;
 @property (nonatomic, assign) NSInteger deleteTweetsIndex;
+
+//Banner
+@property (strong, nonatomic) CodingBannersView *myBannersView;
 @end
 
 @implementation Tweet_RootViewController
@@ -125,7 +129,6 @@
     //评论
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTweet];
     _myMsgInputView.delegate = self;
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -152,6 +155,43 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark Banner
+
+- (void)refreshBanner{
+    if (self.curIndex != Tweet_RootViewControllerTypeAll) {
+        return;
+    }
+    __weak typeof(self) weakSelf = self;
+    if (!_myBannersView) {
+        _myBannersView = [CodingBannersView new];
+        _myBannersView.tapActionBlock = ^(CodingBanner *tapedBanner){
+            [weakSelf goToBanner:tapedBanner];
+            NSLog(@"%@", tapedBanner);
+        };
+        _myTableView.tableHeaderView = _myBannersView;
+    }
+//    {
+//        CodingBanner *tempB = [CodingBanner new];
+//        tempB.id = @(3);
+//        tempB.title = @"码市--技术变现，让赚钱更简单！";
+//        tempB.image = @"https://dn-coding-net-production-static.qbox.me/985223b8-39fb-4553-a949-ec0fd1cb01f2.png";
+//        tempB.link = @"https://mart.coding.net/";
+//        tempB.name = @"码市";
+//        _myBannersView.curBannerList = @[tempB, tempB];
+//    }
+    [[Coding_NetAPIManager sharedManager] request_BannersWithBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.myBannersView.curBannerList = data;
+        }
+    }];
+}
+
+- (void)goToBanner:(CodingBanner *)tapedBanner{
+    WebViewController *vc = [WebViewController webVCWithUrlStr:tapedBanner.link];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark UIMessageInputViewDelegate
 - (void)messageInputView:(UIMessageInputView *)inputView sendText:(NSString *)text{
     [self sendCommentMessage:text];
@@ -272,6 +312,7 @@
     }
     curTweets.willLoadMore = NO;
     [self sendRequest];
+    [self refreshBanner];
 }
 
 - (void)refreshMore{

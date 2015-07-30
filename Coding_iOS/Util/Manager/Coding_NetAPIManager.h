@@ -31,6 +31,7 @@
 #import "CommitInfo.h"
 #import "Commits.h"
 #import "ProjectTag.h"
+#import "CodingBanner.h"
 
 typedef NS_ENUM(NSUInteger, VerifyType){
     VerifyTypeUnknow = 0,
@@ -201,4 +202,6 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_Users_WithSearchString:(NSString *)searchStr andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_MDHtmlStr_WithMDStr:(NSString *)mdStr inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_VerifyTypeWithBlock:(void (^)(VerifyType type, NSError *error))block;
+- (void)request_BannersWithBlock:(void (^)(id data, NSError *error))block;
+
 @end
