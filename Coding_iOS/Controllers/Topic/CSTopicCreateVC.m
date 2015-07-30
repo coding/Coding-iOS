@@ -368,22 +368,8 @@
 - (void)setActive:(BOOL)visible animated:(BOOL)animated
 {
     [super setActive:visible animated:animated];
-    
-//    [self.navigationController setNavigationBarHidden:NO animated:NO];
     [self.searchContentsController.navigationController setNavigationBarHidden: NO animated: NO];
-//
-//    CGRect frame = self.searchResultsTableView.frame;
-//    frame.origin.y = CGRectGetHeight(self.searchContentsController.navigationController.navigationBar.frame);
-//    
-//    frame.size.height = CGRectGetHeight(frame) - CGRectGetMinY(frame);
-//    
-//    self.searchResultsTableView.frame = frame;
-//    
-//    frame = self.searchBar.frame;
-//    self.searchBar.frame = frame;
-    
-    //[self.searchContentsController.view insertSubview:self.searchBar aboveSubview:self.searchResultsTableView];
-    
+
 }
 
 

@@ -65,7 +65,6 @@
         if (data) {
             [self.tableHeader updateWithTopic:data];
         }
-        
     }];
 }
 
