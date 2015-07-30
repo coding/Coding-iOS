@@ -121,12 +121,13 @@
     _refTopic = data;
     _nameLabel.text = [NSString stringWithFormat:@"#%@#",data[@"name"]];
     
-    NSArray *userlist = data[@"user_list"];
-    _userCountLabel.text = [NSString stringWithFormat:@"%@人参与/%d人关注",data[@"user_count"],[userlist count]];
+    
+    _userCountLabel.text = [NSString stringWithFormat:@"%@人参与/%@人关注",data[@"speackers"],data[@"watchers"]];
     
     NSString *imageName = _watched? @"btn_project_added":@"btn_project_add";
     [_rightBtn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
     
+    NSArray *userlist = data[@"user_list"];
     if (!_avatalist) {
         _avatalist = [NSMutableArray array];
         
@@ -140,7 +141,9 @@
             }
             
             [self addSubview:iconView];
-            [iconView sd_setImageWithURL:[NSURL URLWithString:user[@"avatar"]]];
+//            [iconView sd_setImageWithURL:[user[@"avatar"] urlWithCodePath]];
+            [iconView sd_setImageWithURL:[user[@"avatar"] urlImageWithCodePathResizeToView:iconView] placeholderImage:[UIImage imageNamed:@"icon_user_monkey"]];
+            
             [_avatalist addObject:iconView];
         }
     }

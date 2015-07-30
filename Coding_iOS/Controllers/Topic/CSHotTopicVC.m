@@ -257,7 +257,7 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
 - (void)updateDisplayByTopic:(NSDictionary*)data {
     
     _nameLabel.text = [NSString stringWithFormat:@"#%@#",data[@"name"]];
-    _userCountLabel.text = [NSString stringWithFormat:@"%@人参与",data[@"user_count"]];
+    _userCountLabel.text = [NSString stringWithFormat:@"%@人参与",data[@"speackers"]];
     
     if (data[@"hot_tweet"]) {
         Tweet *tweet = [NSObject objectOfClass:@"Tweet" fromJSON:data[@"hot_tweet"]];
