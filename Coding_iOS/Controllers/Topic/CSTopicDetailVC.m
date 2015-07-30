@@ -10,7 +10,6 @@
 #import "TweetSendViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "CSTopicHeaderView.h"
-#import "CSTopic.h"
 
 #import "TweetCell.h"
 #import "Tweet.h"
@@ -21,6 +20,7 @@
 
 @property (nonatomic,strong)Tweets *curTweets;
 
+@property (nonatomic,strong)CSTopicHeaderView *tableHeader;
 @end
 
 @implementation CSTopicDetailVC
@@ -42,7 +42,7 @@
 //    }
     __weak typeof(self) weakSelf = self;
     
-    [[Coding_NetAPIManager sharedManager] request_PublicTweetsWithTopic:[self.topic[@"id"] intValue] andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_PublicTweetsWithTopic:_topicID andBlock:^(id data, NSError *error) {
         [weakSelf.curTweets configWithTweets:data];
         [weakSelf.myTableView reloadData];
 //        [weakSelf.view endLoading];
@@ -56,6 +56,15 @@
 //        [weakSelf.view configBlankPage:EaseBlankPageTypeTweet hasData:(curTweets.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
 //            [weakSelf sendRequest];
 //        }];
+    }];
+}
+
+- (void)refreshheader {
+    [[Coding_NetAPIManager sharedManager]request_TopicDetailsWithTopicID:_topicID block:^(id data, NSError *error) {
+        if (data) {
+            [self.tableHeader updateWithTopic:data];
+        }
+        
     }];
 }
 
@@ -93,8 +102,6 @@
 - (void) setupUI {
     self.navigationItem.title = @"话题";
     
-    //    [self.parentViewController.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(sendTweet)] animated:NO];
-    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(sendTweet)];
     
     _myTableView = ({
@@ -108,11 +115,12 @@
         
         CSTopicHeaderView *header = [[CSTopicHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 191)];
         header.parentVC = self;
-        [header updateWithTopic:self.topic];
+//        [header updateWithTopic:self.topic];
         tableView.tableHeaderView = header;
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
+        _tableHeader = header;
         tableView;
     });
 }

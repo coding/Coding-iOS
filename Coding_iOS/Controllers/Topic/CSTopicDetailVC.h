@@ -10,5 +10,6 @@
 
 
 @interface CSTopicDetailVC : UIViewController
-@property (nonatomic,strong)NSDictionary *topic;
+//@property (nonatomic,strong)NSDictionary *topic;
+@property (nonatomic,assign)int topicID;
 @end

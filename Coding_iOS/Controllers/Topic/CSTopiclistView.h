@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "SWTableViewCell.h"
-#import "CSTopic.h"
 
 typedef void(^TopicListViewBlock)(NSDictionary* topic);
 typedef enum {

@@ -10,7 +10,6 @@
 #import "CSTopicModel.h"
 #import "Coding_NetAPIManager.h"
 
-#import "CSTopic.h"
 
 #define kCellIdentifier_TopicNameCell @"kCellIdentifier_TopicNameCell"
 
@@ -152,6 +151,10 @@
     if (tableView == _mySearchDisplayController.searchResultsTableView) {
         return 0;
     }
+    
+    if (section == 0 && _historyTopiclist.count == 0) {
+        return 0;
+    }
     return 20;
 }
 
@@ -161,6 +164,11 @@
     if (height <= 0) {
         return nil;
     }
+    
+    if (section == 0 && _historyTopiclist.count == 0) {
+        return nil;
+    }
+        
     
     UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, height)];
     headerV.backgroundColor = kColorTableSectionBg;

@@ -177,11 +177,10 @@
 {
     if (!_imgView) {
         _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
+        _imgView.backgroundColor = kColorTableBG;
         [self.contentView addSubview:_imgView];
     }
-    
-    [_imgView sd_setImageWithURL:[NSURL URLWithString:refIteml.imgUrl] placeholderImage:[UIImage imageNamed:@"gif_mark"]];
-    //TODO psy 可有placeholder？
+    [_imgView sd_setImageWithURL:[NSURL URLWithString:refIteml.imgUrl]];
 }
 
 @end

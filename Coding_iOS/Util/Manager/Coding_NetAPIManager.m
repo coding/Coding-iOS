@@ -12,8 +12,6 @@
 #import <NYXImagesKit/NYXImagesKit.h>
 #import "MBProgressHUD+Add.h"
 
-#import "CSTopic.h"
-
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
     static Coding_NetAPIManager *shared_manager = nil;
@@ -2034,8 +2032,8 @@
 
 }
 
-- (void)request_TopicDetailsWithTopicID:(NSString*)topicID block:(void (^)(id data, NSError *error))block {
-    NSString *path = [NSString stringWithFormat:@"/api/tweet_topic/%@",topicID];
+- (void)request_TopicDetailsWithTopicID:(int)topicID block:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"/api/tweet_topic/%d",topicID];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if(data) {
             id resultData = data[@"data"];

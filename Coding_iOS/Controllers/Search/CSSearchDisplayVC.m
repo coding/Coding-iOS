@@ -22,9 +22,11 @@
 #import "WebViewController.h"
 #import "TweetDetailViewController.h"
 
+#import "CSTopicDetailVC.h"
+
 #define kCellIdentifier_Search  @"com.coding.search.tweet.result"
 
-@interface CSSearchDisplayVC () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource,TopicHotkeyViewDelegate>
+@interface CSSearchDisplayVC () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) XHRealTimeBlur *backgroundView;
@@ -109,6 +111,7 @@
                 blur;
                 
             });
+            _backgroundView.userInteractionEnabled = NO;
             
             [self initSubViewsInContentView];
         }
@@ -129,10 +132,10 @@
 
 - (void)initSubViewsInContentView {
 
-    UILabel *lblHotKey = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 5.0f, kScreen_Width, 30.0f)];
+    UILabel *lblHotKey = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 5.0f, kScreen_Width, 33.0f)];
     [lblHotKey setUserInteractionEnabled:YES];
     [lblHotKey setText:@"热门话题"];
-    [lblHotKey setFont:[UIFont systemFontOfSize:14.0f]];
+    [lblHotKey setFont:[UIFont systemFontOfSize:12.0f]];
     [lblHotKey setTextColor:[UIColor colorWithHexString:@"0x999999"]];
     [_contentView addSubview:lblHotKey];
     
@@ -141,13 +144,29 @@
     
     UIImageView *moreIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - 31.0f, 10.0f, 20.0f, 20.0f)];
     moreIconView.image = [UIImage imageNamed:@"me_info_arrow_left"];
+    moreIconView.centerY = lblHotKey.centerY;
     [_contentView addSubview:moreIconView];
     
-    _topicHotkeyView = [[TopicHotkeyView alloc] init];
-    _topicHotkeyView.delegate = self;
+    __weak typeof(self) weakSelf = self;
+    
+    _topicHotkeyView = [[TopicHotkeyView alloc] initWithFrame:CGRectMake(0, 40, kScreen_Width, 0)];
+    _topicHotkeyView.block = ^(NSDictionary *dict){
+        [weakSelf.searchBar resignFirstResponder];
+        
+        CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
+        vc.topicID = [dict[@"id"] intValue];
+        [weakSelf.parentVC.navigationController pushViewController:vc animated:YES];
+        
+        //TODO psy
+//        self.searchBar.text = key;
+//        [CSSearchModel addSearchHistory:self.searchBar.text];
+//        [self initSearchHistoryView];
+//        [self.searchBar resignFirstResponder];
+//        
+//        [self initSearchResultsTableView];
+    };
     [_contentView addSubview:_topicHotkeyView];
     [_topicHotkeyView mas_makeConstraints:^(MASConstraintMaker *make) {
-       
         make.left.mas_equalTo(@0);
         make.top.mas_equalTo(@40);
         make.width.mas_equalTo(kScreen_Width);
@@ -156,18 +175,19 @@
     
     [self initSearchHistoryView];
     
-    __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_TopicHotkeyWithBlock:^(id data, NSError *error) {
         if(data) {
             NSArray *array = data;
             NSMutableArray *hotkeyArray = [[NSMutableArray alloc] initWithCapacity:6];
-            for (int i = 0; i < (array.count >= 6 ? 6 : array.count); i++) {
-                [hotkeyArray addObject:[(NSDictionary *)array[i] objectForKey:@"name"]];
+            for (int i = 0; i < array.count; i++) {
+                if (i == 6) {
+                    break;
+                }
+                [hotkeyArray addObject:array[i]];
             }
             
             [weakSelf.topicHotkeyView setHotkeys:hotkeyArray];
-            [weakSelf.topicHotkeyView mas_remakeConstraints:^(MASConstraintMaker *make) {
-                
+            [weakSelf.topicHotkeyView mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(@0);
                 make.top.mas_equalTo(@40);
                 make.width.mas_equalTo(kScreen_Width);
@@ -292,14 +312,15 @@
 }
 
 - (void)didClickedMoreHotkey:(UIGestureRecognizer *)sender {
-
+    [self.searchBar resignFirstResponder];
+    
     RKSwipeBetweenViewControllers *nav_topic = [RKSwipeBetweenViewControllers newSwipeBetweenViewControllers];
     [nav_topic.viewControllerArray addObjectsFromArray:@[[CSHotTopicVC new],[CSMyTopicVC new]]];
     nav_topic.buttonText = @[@"热门话题", @"我的话题"];
     
     CATransition *transition = [CATransition animation];
-    transition.duration = 0.3;
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.duration = 0.5;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     transition.type = kCATransitionPush;
     transition.subtype = kCATransitionFromRight;
     
@@ -328,15 +349,6 @@
 
     UILabel *label = (UILabel *)sender.view;
     self.searchBar.text = label.text;
-    [CSSearchModel addSearchHistory:self.searchBar.text];
-    [self initSearchHistoryView];
-    [self.searchBar resignFirstResponder];
-    
-    [self initSearchResultsTableView];
-}
-
-- (void)didClickHotkey:(NSString *)key {
-    self.searchBar.text = key;
     [CSSearchModel addSearchHistory:self.searchBar.text];
     [self initSearchHistoryView];
     [self.searchBar resignFirstResponder];

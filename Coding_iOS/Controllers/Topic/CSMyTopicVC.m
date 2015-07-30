@@ -7,7 +7,6 @@
 //
 
 #import "CSMyTopicVC.h"
-#import "CSTopic.h"
 
 #import "Login.h"
 
@@ -119,7 +118,7 @@
 
 - (void)goToTopic:(NSDictionary*)topic{
     CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
-    vc.topic = topic;
+    vc.topicID = [topic[@"id"] intValue];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

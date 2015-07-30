@@ -49,7 +49,7 @@
         UIFont *hotkeyFont = [UIFont systemFontOfSize:12.0f];
         
         for (int i = 0; i < _keyDatalist.count; i++) {
-            NSString *displayHotkey = [NSString stringWithFormat:@"   #%@#   ", hotkeys[i]];
+            NSString *displayHotkey = [NSString stringWithFormat:@"   #%@#   ", hotkeys[i][@"name"]];
             UIButton *btnHotkey = [UIButton buttonWithType:UIButtonTypeCustom];
             [btnHotkey setTag:i];
             [btnHotkey setTitle:displayHotkey forState:UIControlStateNormal];
@@ -118,12 +118,9 @@
 }
 
 - (void)didClickButton:(id)sender {
-    
     NSInteger index = [(UIButton *)sender tag];
-    NSString *key = _keyDatalist[index];
-    if(self.delegate != nil && [self.delegate respondsToSelector:@selector(didClickHotkey:)]) {
-        
-        [self.delegate didClickHotkey:key];
+    if (_block) {
+        _block(_keyDatalist[index]);
     }
 }
 

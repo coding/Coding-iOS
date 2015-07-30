@@ -769,7 +769,6 @@
 		FE4CB43B1B618A6A0041E9EF /* CSTopicDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB43A1B618A6A0041E9EF /* CSTopicDetailVC.m */; };
 		FE4CB43D1B618EDC0041E9EF /* user_info_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE4CB43C1B618EDC0041E9EF /* user_info_topic@2x.png */; };
 		FE4CB4401B6194D10041E9EF /* CSTopiclistView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB43F1B6194D10041E9EF /* CSTopiclistView.m */; };
-		FE4CB4431B619D280041E9EF /* CSTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB4421B619D280041E9EF /* CSTopic.m */; };
 		FE4CB4461B6566260041E9EF /* CSTopicHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB4451B6566260041E9EF /* CSTopicHeaderView.m */; };
 		FE4CB4491B65892F0041E9EF /* CSLikesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4CB4481B65892F0041E9EF /* CSLikesVC.m */; };
 		FE4CB44B1B65ABA00041E9EF /* icon_arrow_searchHistory@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FE4CB44A1B65ABA00041E9EF /* icon_arrow_searchHistory@2x.png */; };
@@ -1963,8 +1962,6 @@
 		FE4CB43C1B618EDC0041E9EF /* user_info_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_topic@2x.png"; sourceTree = "<group>"; };
 		FE4CB43E1B6194D10041E9EF /* CSTopiclistView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSTopiclistView.h; sourceTree = "<group>"; };
 		FE4CB43F1B6194D10041E9EF /* CSTopiclistView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSTopiclistView.m; sourceTree = "<group>"; };
-		FE4CB4411B619D280041E9EF /* CSTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSTopic.h; sourceTree = "<group>"; };
-		FE4CB4421B619D280041E9EF /* CSTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSTopic.m; sourceTree = "<group>"; };
 		FE4CB4441B6566260041E9EF /* CSTopicHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSTopicHeaderView.h; sourceTree = "<group>"; };
 		FE4CB4451B6566260041E9EF /* CSTopicHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSTopicHeaderView.m; sourceTree = "<group>"; };
 		FE4CB4471B65892F0041E9EF /* CSLikesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSLikesVC.h; sourceTree = "<group>"; };
@@ -3532,8 +3529,6 @@
 				8EA6CFF319E240C40076D59C /* Tweets.m */,
 				4ECD72ED1AAD7EC300D69AE1 /* Tweet.h */,
 				4ECD72EE1AAD7EC300D69AE1 /* Tweet.m */,
-				FE4CB4411B619D280041E9EF /* CSTopic.h */,
-				FE4CB4421B619D280041E9EF /* CSTopic.m */,
 				8EA6CFF619E240C40076D59C /* User.h */,
 				8EA6CFF719E240C40076D59C /* User.m */,
 				8EA6CFF819E240C40076D59C /* Users.h */,
@@ -4720,7 +4715,6 @@
 				4E6BA2D91A1EE6AF005FD721 /* AFURLConnectionOperation.m in Sources */,
 				8EA6D1BB19E240C40076D59C /* ProjectTopic.m in Sources */,
 				8EA6D13219E240C40076D59C /* RegisterViewController.m in Sources */,
-				FE4CB4431B619D280041E9EF /* CSTopic.m in Sources */,
 				8EF643C519FF7E2900F7EEB0 /* TitleRImageMoreCell.m in Sources */,
 				4E217F151A70EDC700F6DF88 /* SVWebViewControllerActivitySafari.m in Sources */,
 				4E8D5D5A1B45295D00B70936 /* HOTPGenerator.m in Sources */,

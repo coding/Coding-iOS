@@ -8,16 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol TopicHotkeyViewDelegate <NSObject>
-
-- (void)didClickHotkey:(NSString*)key;
-
-@end
+typedef void (^TopicHotkeyBlock)(NSDictionary *topic);
 
 @interface TopicHotkeyView : UIView
-
-@property (nonatomic, assign) id<TopicHotkeyViewDelegate> delegate;
-
+@property (nonatomic, copy) TopicHotkeyBlock block;
 - (void)setHotkeys:(NSArray *)hotkeys;
-
 @end

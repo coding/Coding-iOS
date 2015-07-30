@@ -15,7 +15,6 @@
 #import "UILabel+Common.h"
 #import "Tweet.h"
 
-#import "CSTopic.h"
 #import "CSTopicDetailVC.h"
 
 
@@ -28,11 +27,15 @@
 @property (nonatomic,strong)CSScrollview *adView;
 @end
 
-@implementation CSHotTopicVC
+@implementation CSHotTopicVC{
+    CGFloat _adHeight;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    _adHeight = kScreen_Width * 214 / 640;
     
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                  style:UIBarButtonItemStylePlain
@@ -135,7 +138,8 @@
     }
     
     CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
-    vc.topic = _topiclist[indexPath.row - 1];
+    NSDictionary *topic = _topiclist[indexPath.row - 1];
+    vc.topicID = [topic[@"id"] intValue];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -143,7 +147,7 @@
     if (_adlist.count == 0) {
         return 0;
     }
-    return 80;
+    return _adHeight;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -152,15 +156,21 @@
     }
     
     if (!_adView) {
+        
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.minimumLineSpacing = 0;
-        layout.itemSize = CGSizeMake(kScreen_Width, 80);
+        layout.itemSize = CGSizeMake(kScreen_Width, _adHeight);
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        _adView = [[CSScrollview alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 80) layout:layout];
+        
+        _adView = [[CSScrollview alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, _adHeight) layout:layout];
         _adView.autoScrollEnable = YES;
         _adView.showPageControl = NO;
+        
+        __weak CSHotTopicVC *wself = self;
         _adView.tapBlk = ^(CSScrollItem* item) {
-            NSLog(@"tap --\n%@",item.data);
+            CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
+            vc.topicID = [item.data[@"id"] intValue];
+            [wself.navigationController pushViewController:vc animated:YES];
         };
     }
     
