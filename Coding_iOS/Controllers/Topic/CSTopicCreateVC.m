@@ -10,15 +10,12 @@
 #import "CSTopicModel.h"
 #import "Coding_NetAPIManager.h"
 
-
 #define kCellIdentifier_TopicNameCell @"kCellIdentifier_TopicNameCell"
-
 
 @interface CSTopicCreateVC () <UITableViewDataSource,UITableViewDelegate, UISearchBarDelegate,UISearchDisplayDelegate>
 @property (nonatomic,strong)UITableView *listView;
 @property (nonatomic,strong)UISearchBar *searchBar;
 @property (nonatomic,strong)UISearchDisplayController *mySearchDisplayController;
-//@property (nonatomic,strong)NSMutableArray *createdTopiclist;
 @property (nonatomic,copy)NSString *createdTopicName;
 @property (nonatomic,strong)NSArray *historyTopiclist;
 @property (nonatomic,strong)NSArray *hotTopiclist;
@@ -36,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-     self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     _listView = ({
@@ -70,21 +67,10 @@
         [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
         
         searchBar.searchBarStyle = UISearchBarStyleDefault;
-//        searchBar.searchBarStyle = UISearchBarStyleMinimal;
-        
         searchBar.translucent = YES;
-        
         searchBar.backgroundColor = [UIColor clearColor];
-        
-        for (UIView *subview in self.searchBar.subviews)
-        {
-            NSLog(@"-%@",[subview description]);
-            for (UIView *ssb in subview.subviews) {
-                NSLog(@"--%@",[ssb description]);
-            }
-        }
-        
         searchBar;
+        
     });
     
     _mySearchDisplayController = ({
@@ -100,7 +86,6 @@
         searchVC;
     });
     
-//    _createdTopiclist = [@[] mutableCopy];
     _createdTopicName = nil;
     _historyTopiclist = [CSTopicModel latestUseTopiclist];
     _hotTopiclist = @[];
@@ -213,7 +198,6 @@
     
     NSString *selectedTopicName = nil;
     if (tableView == _mySearchDisplayController.searchResultsTableView) {
-//        selectedTopicName = _createdTopiclist[indexPath.row];
         selectedTopicName = _createdTopicName;
         [cell showCreateBtn:(_createdTopicName && _createdTopicName.length > 0)];
     }else{
@@ -237,7 +221,6 @@
     
     NSString *selectedTopicName = nil;
     if (tableView == _mySearchDisplayController.searchResultsTableView) {
-//        selectedTopicName = _createdTopiclist[indexPath.row];
         selectedTopicName = _createdTopicName;
     }else{
         if (indexPath.section == 0) {

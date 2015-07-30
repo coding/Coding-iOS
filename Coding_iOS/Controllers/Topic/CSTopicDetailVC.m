@@ -32,6 +32,7 @@
     [self setupUI];
     
     [self.myTableView reloadData];
+    [self refreshheader];
     [self sendRequest];
 }
 
