@@ -218,8 +218,8 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 
 - (void)request_TopicDetailsWithTopicID:(int)topicID block:(void (^)(id data, NSError *error))block;
 
-- (void)request_JoinedTopicsWithUserGK:(NSString *)userGK block:(void (^)(id data, NSError *error))block;
-- (void)request_WatchedTopicsWithUserGK:(NSString *)userGK block:(void (^)(id data, NSError *error))block;
+- (void)request_JoinedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block;
+- (void)request_WatchedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block;
 
 - (void)request_Topic_DoWatch_WithUrl:(NSString *)url andBlock:(void (^)(id data, NSError *error))block;
 

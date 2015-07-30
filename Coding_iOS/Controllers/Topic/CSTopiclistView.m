@@ -10,6 +10,7 @@
 #import "ProjectListTaCell.h"
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"
+#import "SVPullToRefresh.h"
 
 #import "Login.h"
 
@@ -29,6 +30,8 @@
 @property (nonatomic,assign)CSMyTopicsType type;
 
 @property (nonatomic,assign)BOOL isLodding;
+@property (nonatomic, assign) BOOL hasMore;
+@property (nonatomic, assign) NSInteger curPage;
 
 @end
 
@@ -38,6 +41,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        _dataList = [[NSMutableArray alloc] init];
+        _type = type;
         _block = block;
         _myTableView = ({
             UITableView *tableView = [[UITableView alloc] init];
@@ -46,6 +51,12 @@
             tableView.dataSource = self;
             [tableView registerClass:[CSTopicCell class] forCellReuseIdentifier:kCellIdentifier_TopicCell];
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+            {
+                __weak typeof(self) weakSelf = self;
+                [tableView addInfiniteScrollingWithActionHandler:^{
+                    [weakSelf loadMore];
+                }];
+            }
             [self addSubview:tableView];
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self);
@@ -58,8 +69,11 @@
             tableView;
         });
         
-        _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
-        [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+//        _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
+//        [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+        
+        self.hasMore = YES;
+        self.curPage = 1;
         
         if (_myTopic.count > 0) {
             [_myTableView reloadData];
@@ -107,28 +121,44 @@
     [self sendRequest];
 }
 
+- (void)loadMore {
+
+    if(self.isLodding) {
+        return;
+    }
+    
+    ++self.curPage;
+    [self sendRequest];
+}
+
 - (void)sendRequest{
     if (_dataList.count <= 0) {
         [self beginLoading];
     }
     __weak typeof(self) weakSelf = self;
     
-    if (_type == CSMyTopicsTypeJoined) {
-        [[Coding_NetAPIManager sharedManager] request_WatchedTopicsWithUserGK:[Login curLoginUser].global_key block:^(id data, NSError *error) {
+    if (_type == CSMyTopicsTypeWatched) {
+        [[Coding_NetAPIManager sharedManager] request_WatchedTopicsWithUserGK:[Login curLoginUser].global_key page:self.curPage block:^(id data, BOOL hasMoreData, NSError *error) {
+            weakSelf.hasMore = hasMoreData;
             [weakSelf doAfterGotResultWithData:data error:error];
         }];
     }else{
-        [[Coding_NetAPIManager sharedManager] request_JoinedTopicsWithUserGK:[Login curLoginUser].global_key block:^(id data, NSError *error) {
-             [weakSelf doAfterGotResultWithData:data error:error];
+        [[Coding_NetAPIManager sharedManager] request_JoinedTopicsWithUserGK:[Login curLoginUser].global_key page:self.curPage block:^(id data, BOOL hasMoreData, NSError *error) {
+            weakSelf.hasMore = hasMoreData;
+            [weakSelf doAfterGotResultWithData:data error:error];
         }];
     }
 }
 
-- (void)doAfterGotResultWithData:(id) data error:(NSError*)error{
+- (void)doAfterGotResultWithData:(id) data error:(NSError*)error {
+    
+    [self.myTableView.infiniteScrollingView stopAnimating];
     [self.myRefreshControl endRefreshing];
     [self endLoading];
     if (data) {
-        _dataList = data[@"list"];
+        
+        [_dataList addObjectsFromArray:[data[@"list"] copy]];
+        self.myTableView.showsInfiniteScrolling = self.hasMore;
         [self.myTableView reloadData];
     }
 //    EaseBlankPageType blankPageType;

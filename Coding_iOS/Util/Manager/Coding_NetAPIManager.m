@@ -2046,29 +2046,31 @@
 }
 
 
-- (void)request_JoinedTopicsWithUserGK:(NSString *)userGK block:(void (^)(id data, NSError *error))block {
-    NSString *path = [NSString stringWithFormat:@"api/user/%@/tweet_topic/joined",userGK];
+- (void)request_JoinedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block {
+    NSString *path = [[NSString stringWithFormat:@"api/user/%@/tweet_topic/joined",userGK] stringByAppendingString:[NSString stringWithFormat:@"?page=%d", (int)page]];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if(data) {
             id resultData = data[@"data"];
-            block(resultData, nil);
+            BOOL hasMoreData = [resultData[@"totalPage"] intValue] - [resultData[@"page"] intValue];
+            block(resultData, hasMoreData, nil);
 //            NSArray *list = data[@"data"][@"list"];
 //            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectActivity"];
 //            block(resultA, nil);
         }else {
-            block(nil, error);
+            block(nil, NO, error);
         }
     }];
 }
 
-- (void)request_WatchedTopicsWithUserGK:(NSString *)userGK block:(void (^)(id data, NSError *error))block {
-    NSString *path = [NSString stringWithFormat:@"/api/user/%@/tweet_topic/watched",userGK];
+- (void)request_WatchedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block {
+    NSString *path = [[NSString stringWithFormat:@"/api/user/%@/tweet_topic/watched",userGK] stringByAppendingString:[NSString stringWithFormat:@"?page=%d", (int)page]];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if(data) {
             id resultData = data[@"data"];
-            block(resultData, nil);
+            BOOL hasMoreData = [resultData[@"totalPage"] intValue] - [resultData[@"page"] intValue];
+            block(resultData, hasMoreData, nil);
         }else {
-            block(nil, error);
+            block(nil, NO, error);
         }
     }];
 }
