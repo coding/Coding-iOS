@@ -75,7 +75,7 @@
 //    [_timeLabel setLongString:timeStr withVariableWidth:200];
 //    [_timeLabel setCenter:CGPointMake(kScreen_Width -(CGRectGetWidth(_timeLabel.frame)/2 +kPaddingLeftWidth), curBottomY+ CGRectGetHeight(_timeLabel.frame)/2)];
 
-    [self addBadgeTip:_curTip.status.boolValue? @"": kBadgeTipStr withCenterPosition:CGPointMake(kPaddingLeftWidth, _iconView.center.y)];
+    [self.contentView addBadgeTip:_curTip.status.boolValue? @"": kBadgeTipStr withCenterPosition:CGPointMake(kPaddingLeftWidth, _iconView.center.y)];
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{

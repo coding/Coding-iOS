@@ -49,7 +49,7 @@
     // Do any additional setup after loading the view.
     self.title = @"标签管理";
     
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(okBtnClick)];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"保存" target:self action:@selector(okBtnClick)];
     self.navigationItem.rightBarButtonItem.enabled = FALSE;
     
     self.view.backgroundColor = kColorTableSectionBg;

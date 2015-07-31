@@ -531,6 +531,9 @@
         ESStrongSelf;
         _self.myTask.has_description = _self.myCopyTask.has_description = [NSNumber numberWithBool:taskD.markdown.length > 0];
         _self.myTask.task_description = _self.myCopyTask.task_description = taskD;
+        if (_self.taskChangedBlock) {
+            _self.taskChangedBlock();
+        }
         [_self.myTableView reloadData];
     };
     [self.navigationController pushViewController:vc animated:YES];
@@ -571,6 +574,9 @@
                     self.myCopyTask.labels = selectedTags;
                     self.myTask.labels = [self.myCopyTask.labels mutableCopy];
                     [self.myTableView reloadData];
+                    if (self.taskChangedBlock) {
+                        self.taskChangedBlock();
+                    }
                     [vc.navigationController popViewControllerAnimated:YES];
                 }
             }];

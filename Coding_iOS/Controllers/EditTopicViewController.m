@@ -70,7 +70,10 @@
         self.navigationItem.titleView = _segmentedControl;
     }
     
-    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:self.type == TopicEditTypeFeedBack ? @"发送" : @"完成" target:self action:@selector(saveBtnClicked)] animated:YES];
+    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:
+                                                self.type == TopicEditTypeFeedBack ? @"发送" :
+                                                self.type == TopicEditTypeModify? @"保存": @"完成"
+                                                                          target:self action:@selector(saveBtnClicked)] animated:YES];
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
     [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillChangeFrameNotification object:nil] takeUntil:self.rac_willDeallocSignal] subscribeNext:^(NSNotification *aNotification) {

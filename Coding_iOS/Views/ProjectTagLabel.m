@@ -32,7 +32,7 @@
     [self setup];
 }
 
-+ (instancetype)labelWithRag:(ProjectTag *)curTag font:(UIFont *)font height:(CGFloat)height widthPadding:(CGFloat)width_padding{
++ (instancetype)labelWithTag:(ProjectTag *)curTag font:(UIFont *)font height:(CGFloat)height widthPadding:(CGFloat)width_padding{
     ProjectTagLabel *label = [self new];
     
     label.font = font;

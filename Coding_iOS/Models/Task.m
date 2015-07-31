@@ -30,6 +30,14 @@
     }
 }
 
+- (void)setLabels:(NSMutableArray *)labels{
+    NSLog(@"%@", labels.description);
+    [labels filterUsingPredicate:[NSPredicate predicateWithFormat:@"name.length > 0"]];
+    NSLog(@"%@", labels.description);
+
+    _labels = labels;
+}
+
 - (void)setDescription_mine:(NSString *)description_mine{
     if (_description_mine != description_mine) {
         HtmlMedia *htmlMedia = [HtmlMedia htmlMediaWithString:description_mine showType:MediaShowTypeImageAndMonkey];

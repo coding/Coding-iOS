@@ -13,5 +13,5 @@
 @property (strong, nonatomic) ProjectTag *curTag;
 - (void)setup;//调整UI。设置 curTag 的时候会自动调整，其他属性默认不调整。
 
-+ (instancetype)labelWithRag:(ProjectTag *)curTag font:(UIFont *)font height:(CGFloat)height widthPadding:(CGFloat)width_padding;
++ (instancetype)labelWithTag:(ProjectTag *)curTag font:(UIFont *)font height:(CGFloat)height widthPadding:(CGFloat)width_padding;
 @end

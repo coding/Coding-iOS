@@ -16,3 +16,16 @@
 @property (copy, nonatomic) void(^checkViewClickedBlock)(Task *task);
 + (CGFloat)cellHeightWithObj:(id)obj;
 @end
+
+@interface ProjectTaskListViewCellTagsView : UIView
+@property (strong, nonatomic) NSArray *tags;
+@property (strong, nonatomic) NSDate *deadline_date;
+@property (assign, nonatomic) BOOL done;
++ (instancetype)viewWithTags:(NSArray *)tags andDate:(NSDate *)deadline_date;
+- (void)reloadData;
+@end
+
+@interface ProjectTaskListViewCellDateView : UIView
++ (instancetype)viewWithDate:(NSDate *)deadline_date andDone:(BOOL)done;
+- (void)setDate:(NSDate *)deadline_date andDone:(BOOL)done;
+@end

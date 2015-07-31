@@ -38,7 +38,7 @@
     if (_nameLbl) {
         _nameLbl.curTag = curTag;
     }else{
-        _nameLbl = [ProjectTagLabel labelWithRag:curTag font:[UIFont systemFontOfSize:12] height:20 widthPadding:10];
+        _nameLbl = [ProjectTagLabel labelWithTag:curTag font:[UIFont systemFontOfSize:12] height:20 widthPadding:10];
         [_nameLbl setOrigin:CGPointMake(kPaddingLeftWidth, ([EditLabelCell cellHeight] - 22)/2)];
         [self.contentView addSubview:_nameLbl];
     }

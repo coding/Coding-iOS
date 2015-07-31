@@ -30,13 +30,6 @@
     return _color;
 }
 
-- (NSString *)name{
-    if (_name.length <= 0) {
-        _name = @"...";
-    }
-    return _name;
-}
-
 + (instancetype)tagWithName:(NSString *)name{
     ProjectTag *tag = [[self alloc] init];
     tag.name = name;
@@ -44,6 +37,9 @@
 }
 
 + (BOOL)tags:(NSArray *)aTags isEqualTo:(NSArray *)bTags{
+    if (aTags.count == 0 && aTags.count == 0) {
+        return YES;
+    }
     BOOL isSame = YES;
     if (aTags.count != bTags.count ||
         (aTags.count == 0 && bTags.count == 0)) {

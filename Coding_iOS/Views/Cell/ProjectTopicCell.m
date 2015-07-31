@@ -188,6 +188,9 @@ static CGFloat kProjectTopicCellTagsView_Padding_Content = 10.0;
 - (void)setTags:(NSArray *)tags{
     _tags = tags;
     if (_tags.count > 0) {
+        if (!_tagLabelList) {
+            _tagLabelList = [NSMutableArray new];
+        }
         CGPoint curPoint = CGPointZero;
         CGFloat viewWidth = kProjectTopicCell_ContentWidth;
         
@@ -198,7 +201,7 @@ static CGFloat kProjectTopicCellTagsView_Padding_Content = 10.0;
                 curLabel = _tagLabelList[index];
                 curLabel.curTag = _tags[index];
             }else{
-                curLabel = [ProjectTagLabel labelWithRag:_tags[index] font:kProjectTopicCellTagsView_Font height:20 widthPadding:kProjectTopicCellTagsView_Padding_Content];
+                curLabel = [ProjectTagLabel labelWithTag:_tags[index] font:kProjectTopicCellTagsView_Font height:20 widthPadding:kProjectTopicCellTagsView_Padding_Content];
                 [_tagLabelList addObject:curLabel];
             }
             CGFloat curPointRightX = curPoint.x + MIN(CGRectGetWidth(curLabel.frame), viewWidth);
