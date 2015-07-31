@@ -53,6 +53,7 @@
         cell = [[UserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier_UserCell];
     }
     User *curUser = [_userlist objectAtIndex:indexPath.row];
+    cell.bounds = CGRectMake(0, 0, kScreen_Width, [UserCell cellHeight]);
     cell.curUser = curUser;
     cell.usersType = UsersTypeTweetLikers;
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];

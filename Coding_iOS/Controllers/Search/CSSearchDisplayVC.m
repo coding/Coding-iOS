@@ -267,6 +267,11 @@
     
     [[_searchHistoryView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
+    {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 1)];
+        view.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+        [_searchHistoryView addSubview:view];
+    }
     NSArray *array = [CSSearchModel getSearchHistory];
     CGFloat imageLeft = 12.0f;
     CGFloat textLeft = 34.0f;
@@ -289,6 +294,8 @@
         rightImageView.centerY = lblHistory.centerY;
         rightImageView.image = [UIImage imageNamed:@"icon_arrow_searchHistory"];
         
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(imageLeft, (i + 1) * height, kScreen_Width - imageLeft, 1)];
+        view.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
         
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickedHistory:)];
         [lblHistory addGestureRecognizer:tapGestureRecognizer];
@@ -296,6 +303,7 @@
         [_searchHistoryView addSubview:lblHistory];
         [_searchHistoryView addSubview:leftView];
         [_searchHistoryView addSubview:rightImageView];
+        [_searchHistoryView addSubview:view];
     }
     
     if(array.count) {
@@ -307,6 +315,11 @@
         [btnClean setFrame:CGRectMake(0, array.count * height, kScreen_Width, height)];
         [_searchHistoryView addSubview:btnClean];
         [btnClean addTarget:self action:@selector(didCLickedCleanSearchHistory:) forControlEvents:UIControlEventTouchUpInside];
+        {
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(imageLeft, (array.count + 1) * height, kScreen_Width - imageLeft, 1)];
+            view.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+            [_searchHistoryView addSubview:view];
+        }
     }
     
 }
