@@ -37,7 +37,7 @@
 }
 
 - (void)setCurBannerList:(NSArray *)curBannerList{
-    if ([[_curBannerList valueForKey:@"id"] isEqualToArray:[curBannerList valueForKey:@"id"]]) {
+    if ([[_curBannerList valueForKey:@"title"] isEqualToArray:[curBannerList valueForKey:@"title"]]) {
         return;
     }
     _curBannerList = curBannerList;
@@ -52,6 +52,7 @@
             label.text = @"活动";
             label;
         });
+        _typeLabel.text = [(CodingBanner *)_curBannerList.firstObject name];
         [self addSubview:_typeLabel];
     }
     
@@ -64,8 +65,8 @@
             label.adjustsFontSizeToFitWidth = YES;
             label;
         });
-        [self addSubview:_titleLabel];
         _titleLabel.text = [(CodingBanner *)_curBannerList.firstObject title];
+        [self addSubview:_titleLabel];
     }
     
     if (!_myPageControl) {
@@ -87,7 +88,7 @@
     if (!_mySlideView) {
         _mySlideView = ({
             __weak typeof(self) weakSelf = self;
-            AutoSlideScrollView *slideView = [[AutoSlideScrollView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, _padding_top, _image_width, _image_width * _ratio) animationDuration:5.0];
+            AutoSlideScrollView *slideView = [[AutoSlideScrollView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, _padding_top, _image_width, _image_width * _ratio) animationDuration:10.0];
             slideView.layer.cornerRadius = 2.0;
             slideView.layer.masksToBounds = YES;
             slideView.scrollView.scrollsToTop = NO;
@@ -108,9 +109,10 @@
             slideView.currentPageIndexChangeBlock = ^(NSInteger currentPageIndex){
                 if (weakSelf.curBannerList.count > currentPageIndex) {
                     CodingBanner *curBanner = weakSelf.curBannerList[currentPageIndex];
+                    weakSelf.typeLabel.text = curBanner.name;
                     weakSelf.titleLabel.text = curBanner.title;
                 }else{
-                    weakSelf.titleLabel.text = @"...";
+                    weakSelf.typeLabel.text = weakSelf.titleLabel.text = @"...";
                 }
                 weakSelf.myPageControl.currentPage = currentPageIndex;
             };
@@ -161,6 +163,7 @@
     NSInteger currentPageIndex = MIN(self.mySlideView.currentPageIndex, _curBannerList.count - 1) ;
     CodingBanner *curBanner = _curBannerList[currentPageIndex];
     _titleLabel.text = curBanner.title;
+    _typeLabel.text = curBanner.name;
     
     _myPageControl.numberOfPages = _curBannerList.count;
     _myPageControl.currentPage = currentPageIndex;
