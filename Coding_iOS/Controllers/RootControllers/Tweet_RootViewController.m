@@ -171,15 +171,6 @@
         };
         _myTableView.tableHeaderView = _myBannersView;
     }
-//    {
-//        CodingBanner *tempB = [CodingBanner new];
-//        tempB.id = @(3);
-//        tempB.title = @"码市--技术变现，让赚钱更简单！";
-//        tempB.image = @"https://dn-coding-net-production-static.qbox.me/985223b8-39fb-4553-a949-ec0fd1cb01f2.png";
-//        tempB.link = @"https://mart.coding.net/";
-//        tempB.name = @"码市";
-//        _myBannersView.curBannerList = @[tempB, tempB];
-//    }
     [[Coding_NetAPIManager sharedManager] request_BannersWithBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.myBannersView.curBannerList = data;
@@ -188,8 +179,7 @@
 }
 
 - (void)goToBanner:(CodingBanner *)tapedBanner{
-    WebViewController *vc = [WebViewController webVCWithUrlStr:tapedBanner.link];
-    [self.navigationController pushViewController:vc animated:YES];
+    [self analyseLinkStr:tapedBanner.link];
 }
 
 #pragma mark UIMessageInputViewDelegate
@@ -213,7 +203,6 @@
         }
     } completion:nil];
 }
-
 
 #pragma mark M
 - (Tweets *)getCurTweets{
