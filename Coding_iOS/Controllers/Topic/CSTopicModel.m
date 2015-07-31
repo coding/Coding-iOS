@@ -24,11 +24,13 @@
 
 + (void)addAnotherUseTopic:(NSString*)topicName {
     NSMutableArray *list = [[self latestUseTopiclist] mutableCopy];
-    [list insertObject:topicName atIndex:0];
-    if(list.count > kMaxUseTopiclistCount) {
-        [list removeLastObject];
+    if(![list containsObject:topicName]) {
+        [list insertObject:topicName atIndex:0];
+        if(list.count > kMaxUseTopiclistCount) {
+            [list removeLastObject];
+        }
+        [[TMCache TemporaryCache] setObject:list forKey:kLatestUseTopiclist];
     }
-    [[TMCache TemporaryCache] setObject:list forKey:kLatestUseTopiclist];
 }
 
 @end
