@@ -28,6 +28,7 @@
 
 //根据不同的type，走不同而数据更新逻辑,外界不传值进来
 @property (nonatomic,assign)CSMyTopicsType type;
+@property (nonatomic, strong) NSString *globalKey;
 
 @property (nonatomic,assign)BOOL isLodding;
 @property (nonatomic, assign) BOOL hasMore;
@@ -37,11 +38,12 @@
 
 @implementation CSTopiclistView
 
-- (id)initWithFrame:(CGRect)frame type:(CSMyTopicsType )type block:(TopicListViewBlock)block {
+- (id)initWithFrame:(CGRect)frame globalKey:(NSString *)key type:(CSMyTopicsType )type block:(TopicListViewBlock)block {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
         _dataList = [[NSMutableArray alloc] init];
+        _globalKey = [key copy];
         _type = type;
         _block = block;
         _myTableView = ({
@@ -138,12 +140,12 @@
     __weak typeof(self) weakSelf = self;
     
     if (_type == CSMyTopicsTypeWatched) {
-        [[Coding_NetAPIManager sharedManager] request_WatchedTopicsWithUserGK:[Login curLoginUser].global_key page:self.curPage block:^(id data, BOOL hasMoreData, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_WatchedTopicsWithUserGK:weakSelf.globalKey page:weakSelf.curPage block:^(id data, BOOL hasMoreData, NSError *error) {
             weakSelf.hasMore = hasMoreData;
             [weakSelf doAfterGotResultWithData:data error:error];
         }];
     }else{
-        [[Coding_NetAPIManager sharedManager] request_JoinedTopicsWithUserGK:[Login curLoginUser].global_key page:self.curPage block:^(id data, BOOL hasMoreData, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_JoinedTopicsWithUserGK:weakSelf.globalKey page:weakSelf.curPage block:^(id data, BOOL hasMoreData, NSError *error) {
             weakSelf.hasMore = hasMoreData;
             [weakSelf doAfterGotResultWithData:data error:error];
         }];

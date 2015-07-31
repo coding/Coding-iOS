@@ -17,7 +17,7 @@ typedef enum {
 
 @interface CSTopiclistView : UIView<UITableViewDataSource, UITableViewDelegate>
 
-- (id)initWithFrame:(CGRect)frame type:(CSMyTopicsType )type block:(TopicListViewBlock)block;
+- (id)initWithFrame:(CGRect)frame globalKey:(NSString *)key type:(CSMyTopicsType )type block:(TopicListViewBlock)block;
 - (void)setTopics:(id )topics;
 - (void)refreshUI;
 - (void)refreshToQueryData;

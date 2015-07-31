@@ -29,8 +29,16 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.segmentItems = @[@"我关注的", @"我参与的"];
-    self.title = @"我的话题";
+    if([self isMe]) {
+    
+        self.segmentItems = @[@"我关注的", @"我参与的"];
+        self.title = @"我的话题";
+    }else {
+    
+        self.segmentItems = @[@"Ta关注的", @"Ta参与的"];
+        self.title = @"Ta的话题";
+    }
+
     _oldSelectedIndex = 0;
     
     //添加myCarousel
@@ -64,6 +72,10 @@
 
 }
 
+- (BOOL)isMe{
+    return [_curUser.global_key isEqualToString:[Login curLoginUser].global_key];
+}
+
 #pragma mark iCarousel M
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel{
     return _segmentItems.count;
@@ -76,7 +88,7 @@
     }else{
         __weak CSMyTopicVC *weakSelf = self;
         CSMyTopicsType type = (index == 0 ? CSMyTopicsTypeWatched : CSMyTopicsTypeJoined);
-        listView = [[CSTopiclistView alloc] initWithFrame:carousel.bounds type:type block:^(NSDictionary *topic) {
+        listView = [[CSTopiclistView alloc] initWithFrame:carousel.bounds globalKey:_curUser.global_key type:type block:^(NSDictionary *topic) {
             [weakSelf goToTopic:topic];
         }];
     }
