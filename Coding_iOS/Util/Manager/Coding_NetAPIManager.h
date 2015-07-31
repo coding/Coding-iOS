@@ -217,6 +217,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_Tweet_WithSearchString:(NSString *)strSearch andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
 
 - (void)request_TopicDetailsWithTopicID:(int)topicID block:(void (^)(id data, NSError *error))block;
+- (void)request_TopTweetWithTopicID:(int)topicID block:(void (^)(id data, NSError *error))block;
 
 - (void)request_JoinedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block;
 - (void)request_WatchedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block;

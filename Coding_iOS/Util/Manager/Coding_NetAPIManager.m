@@ -2045,6 +2045,20 @@
     }];
 }
 
+- (void)request_TopTweetWithTopicID:(int)topicID block:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"api/public_tweets/topic/%d/top",topicID];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if(data) {
+            id resultData = data[@"data"];
+            Tweet *tweet =[NSObject objectOfClass:@"Tweet" fromJSON:resultData];
+            block(tweet, nil);
+        }else {
+            
+            block(nil, error);
+        }
+    }];
+}
+
 
 - (void)request_JoinedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block {
     NSString *path = [[NSString stringWithFormat:@"api/user/%@/tweet_topic/joined",userGK] stringByAppendingString:[NSString stringWithFormat:@"?page=%d", (int)page]];

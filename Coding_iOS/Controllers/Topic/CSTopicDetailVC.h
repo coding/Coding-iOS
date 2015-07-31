@@ -13,3 +13,7 @@
 //@property (nonatomic,strong)NSDictionary *topic;
 @property (nonatomic,assign)int topicID;
 @end
+
+@interface CSTopTweetDescCell : UITableViewCell
+- (void)updateUI;
+@end
