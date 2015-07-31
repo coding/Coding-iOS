@@ -2090,7 +2090,11 @@
 }
 
 - (void)request_Topic_DoWatch_WithUrl:(NSString *)url andBlock:(void (^)(id data, NSError *error))block{
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:url withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+    
+    BOOL isUnwatched = [url hasPrefix:@"unwatched"];
+    NetworkMethod method = isUnwatched ? Delete : Post;
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:url withParams:nil withMethodType:method andBlock:^(id data, NSError *error) {
         if (data) {
             block(data, nil);
         }else{

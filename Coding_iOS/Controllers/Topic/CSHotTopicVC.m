@@ -119,7 +119,7 @@
     NSDictionary *data = _topiclist[indexPath.row - 1];
     CSTopicCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TopicCell forIndexPath:indexPath];
     [cell updateDisplayByTopic:data];
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:75];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:12];
     return cell;
 }
 
@@ -256,8 +256,16 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
 
 - (void)updateDisplayByTopic:(NSDictionary*)data {
     
+    NSString *peopleCount = data[@"speackers"];
+    if (!peopleCount) {
+        peopleCount = data[@"speakers"];
+    }
+    if (!peopleCount) {
+        peopleCount = @"0";
+    }
+    
     _nameLabel.text = [NSString stringWithFormat:@"#%@#",data[@"name"]];
-    _userCountLabel.text = [NSString stringWithFormat:@"%@人参与",(data[@"speackers"]?data[@"speackers"]:@(0))];
+    _userCountLabel.text = [NSString stringWithFormat:@"%@人参与",peopleCount];
     
     if (data[@"hot_tweet"]) {
         Tweet *tweet = [NSObject objectOfClass:@"Tweet" fromJSON:data[@"hot_tweet"]];
