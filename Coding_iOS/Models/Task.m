@@ -31,10 +31,8 @@
 }
 
 - (void)setLabels:(NSMutableArray *)labels{
-    NSLog(@"%@", labels.description);
+    //过滤掉服务器传过来的脏数据
     [labels filterUsingPredicate:[NSPredicate predicateWithFormat:@"name.length > 0"]];
-    NSLog(@"%@", labels.description);
-
     _labels = labels;
 }
 
