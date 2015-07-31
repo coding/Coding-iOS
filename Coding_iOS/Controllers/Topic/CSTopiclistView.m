@@ -43,7 +43,7 @@
     if (self) {
         // Initialization code
         _dataList = [[NSMutableArray alloc] init];
-        _globalKey = [key copy];
+        _globalKey = key == nil ? [[Login curLoginUser].global_key copy] : [key copy];
         _type = type;
         _block = block;
         _myTableView = ({

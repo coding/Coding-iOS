@@ -73,6 +73,12 @@
 }
 
 - (BOOL)isMe{
+    
+    if(!_curUser) {
+    
+        _curUser = [Login curLoginUser];
+    }
+    
     return [_curUser.global_key isEqualToString:[Login curLoginUser].global_key];
 }
 
