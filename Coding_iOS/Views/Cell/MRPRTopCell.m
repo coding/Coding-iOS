@@ -8,6 +8,7 @@
 
 #define kMRPRActionView_Height 25.0
 #define kMRPRTopCell_FontTitle [UIFont boldSystemFontOfSize:18]
+#define kMRPRTopCell_FontFromTo [UIFont boldSystemFontOfSize:12]
 
 #import "MRPRTopCell.h"
 
@@ -63,6 +64,8 @@
         if (!_fromL) {
             _fromL = [UILabel new];
             [_fromL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x4E90BF"] cornerRadius:2.0];
+            _fromL.font = kMRPRTopCell_FontFromTo;
+            _fromL.textColor = [UIColor colorWithHexString:@"0x4E90BF"];
             [self.contentView addSubview:_fromL];
         }
         if (!_arrowIcon) {
@@ -73,6 +76,8 @@
         if (!_toL) {
             _toL = [UILabel new];
             [_toL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x4E90BF"] cornerRadius:2.0];
+            _toL.font = kMRPRTopCell_FontFromTo;
+            _toL.textColor = [UIColor colorWithHexString:@"0x4E90BF"];
             [self.contentView addSubview:_toL];
         }
         
@@ -104,10 +109,7 @@
                 make.left.equalTo(_fromL.mas_right).offset(10);
                 make.centerY.equalTo(_fromL);
                 make.size.mas_equalTo(CGSizeMake(15, 15));
-            }];
-            [_toL mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(_arrowIcon.mas_right).offset(10);
-                make.height.centerY.equalTo(_fromL);
+                make.right.lessThanOrEqualTo(self.contentView).offset(-kPaddingLeftWidth);
             }];
         }
         
@@ -140,8 +142,24 @@
         fromStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPRInfo.mrpr.src_owner_name, _curMRPRInfo.mrpr.srcBranch];
         toStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPRInfo.mrpr.des_owner_name, _curMRPRInfo.mrpr.desBranch];
     }
-    _fromL.attributedText = [self p_styleStr:fromStr];
-    _toL.attributedText = [self p_styleStr:toStr];
+    NSString *totalStr = [NSString stringWithFormat:@"%@%@", fromStr, toStr];
+    if ([totalStr getWidthWithFont:kMRPRTopCell_FontFromTo constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)] + 40 > kScreen_Width - 2*kPaddingLeftWidth) {
+        [_toL mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_userIconView);
+            make.top.equalTo(_fromL.mas_bottom).offset(15);
+            make.height.equalTo(_fromL);
+            make.right.lessThanOrEqualTo(self.contentView).offset(-kPaddingLeftWidth);
+        }];
+    }else{
+        [_toL mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_arrowIcon.mas_right).offset(10);
+            make.top.equalTo(_fromL);
+            make.height.top.equalTo(_fromL);
+            make.right.lessThanOrEqualTo(self.contentView).offset(-kPaddingLeftWidth);
+        }];
+    }
+    _fromL.text = fromStr;
+    _toL.text = toStr;
     
     if (_curMRPRInfo.mrpr.status == MRPRStatusAccepted || _curMRPRInfo.mrpr.status == MRPRStatusRefused) {
         if (!_actionView) {
@@ -159,24 +177,6 @@
     }else{
         _actionView.hidden = YES;
     }
-}
-
-- (NSAttributedString *)p_styleStr:(NSString *)str{
-    if (str.length <= 0) {
-        return nil;
-    }
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:str];
-//    NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
-//    style.headIndent = 10;
-//    style.tailIndent = 10;
-//    style.alignment = NSTextAlignmentCenter;
-    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x4E90BF"],
-//                                NSParagraphStyleAttributeName : style
-                                }
-                         range:NSMakeRange(0, attrString.length)];
-
-    return attrString;
 }
 
 - (NSAttributedString *)attributeTail{
@@ -202,6 +202,21 @@
         if (curMRPRInfo.mrpr.status == MRPRStatusAccepted || curMRPRInfo.mrpr.status == MRPRStatusRefused) {
             cellHeight += kMRPRActionView_Height + 15;
         }
+        
+        
+        NSString *fromStr, *toStr;
+        if (curMRPRInfo.mrpr.isMR) {
+            fromStr = [NSString stringWithFormat:@"  %@  ", curMRPRInfo.mrpr.srcBranch];
+            toStr = [NSString stringWithFormat:@"  %@  ", curMRPRInfo.mrpr.desBranch];
+        }else{
+            fromStr = [NSString stringWithFormat:@"  %@ : %@  ", curMRPRInfo.mrpr.src_owner_name, curMRPRInfo.mrpr.srcBranch];
+            toStr = [NSString stringWithFormat:@"  %@ : %@  ", curMRPRInfo.mrpr.des_owner_name, curMRPRInfo.mrpr.desBranch];
+        }
+        NSString *totalStr = [NSString stringWithFormat:@"%@%@", fromStr, toStr];
+        if ([totalStr getWidthWithFont:kMRPRTopCell_FontFromTo constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)] + 40 > kScreen_Width - 2*kPaddingLeftWidth) {
+            cellHeight += 20 + 15;
+        }
+        
     }
     return cellHeight;
 }
