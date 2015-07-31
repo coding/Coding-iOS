@@ -72,7 +72,7 @@
         self.backgroundColor = [UIColor clearColor];
 //        self.backgroundColor = [UIColor colorWithHexString:@"0xf3f3f3"];
         if (!self.ownerImgView) {
-            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(10, 10, 33, 33)];
+            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, 33, 33)];
             [self.ownerImgView doCircleFrame];
             [self.contentView addSubview:self.ownerImgView];
         }
