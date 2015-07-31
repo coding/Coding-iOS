@@ -263,7 +263,7 @@
         curRightX += CGRectGetWidth(label.frame);
         if (curRightX > viewWidth
             || (viewWidth - curRightX < 25 && index < _tags.count - 1)) {
-            label.curTag = [self p_tagForTipMore];
+            [self p_makeMoreStyleWithTagLabel:label];
             break;
         }
         curRightX += 5;
@@ -288,10 +288,11 @@
     return label;
 }
 
-- (ProjectTag *)p_tagForTipMore{
-    ProjectTag *tag = [ProjectTag new];
-    tag.name = @"...";
-    return tag;
+- (void)p_makeMoreStyleWithTagLabel:(ProjectTagLabel *)tagLabel{
+    tagLabel.layer.backgroundColor = [UIColor clearColor].CGColor;
+    tagLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+    tagLabel.text = @"···";
+    [tagLabel setWidth:15];
 }
 @end
 
