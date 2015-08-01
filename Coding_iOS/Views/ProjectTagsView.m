@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#define kProjectTagsView_Padding_Icon 30.0
+#define kProjectTagsView_Padding_Icon 22.0
 #define kProjectTagsView_Height_PerLine 30.0
 
 #define kProjectTagsViewLabel_Font [UIFont systemFontOfSize:12]
@@ -39,7 +39,7 @@
     return tagsView;
 }
 
-+ (CGFloat)heghtForTags:(NSArray *)tags{
++ (CGFloat)getHeightForTags:(NSArray *)tags{
     CGFloat height = 0;
     if (tags.count > 0) {
         CGFloat tagsWidth = kScreen_Width - 2*kPaddingLeftWidth - kProjectTagsView_Padding_Icon;
@@ -50,6 +50,8 @@
             if (curX > tagsWidth) {
                 curY += kProjectTagsView_Height_PerLine;
                 curX = curTagWidth + kProjectTagsViewLabel_Padding_Space;
+            }else{
+                curX += kProjectTagsViewLabel_Padding_Space;
             }
         }
 
@@ -65,15 +67,16 @@
 }
 
 - (void)setTags:(NSArray *)tags{
-    [self p_refreshAddButtonHasTags:tags.count > 0];
+    _tags = tags;
+    [self p_refreshAddButtonHasTags:_tags.count > 0];
     
     CGPoint curPoint = CGPointZero;
-    if (tags.count > 0) {
+    if (_tags.count > 0) {
 //        图标
         if (!_tagIconView) {
-            _tagIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tag_icon"]];
+            _tagIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"project_tag_icon"]];
         }
-        [_tagIconView setCenter:CGPointMake(kPaddingLeftWidth + kProjectTagsView_Padding_Icon/2, kProjectTagsViewLabel_Height_Content/2)];
+        [_tagIconView setCenter:CGPointMake(kPaddingLeftWidth + CGRectGetWidth(_tagIconView.frame)/2, kProjectTagsViewLabel_Height_Content/2)];
         [self addSubview:_tagIconView];
         
 //        标签
@@ -81,14 +84,14 @@
         CGFloat tagsWidth = kScreen_Width - kPaddingLeftWidth - leftX;
         curPoint.x = leftX;
         int index;
-        for (index = 0; index < tags.count; index++) {
+        for (index = 0; index < _tags.count; index++) {
             ProjectTagsViewLabel *curLabel;
             if (_tagLabelList.count > index) {
                 curLabel = _tagLabelList[index];
-                curLabel.curTag = tags[index];
+                curLabel.curTag = _tags[index];
             }else{
                 @weakify(self);
-                curLabel = [ProjectTagsViewLabel labelWithTag:tags[index] andDeleteBlock:^(ProjectTag *tag) {
+                curLabel = [ProjectTagsViewLabel labelWithTag:_tags[index] andDeleteBlock:^(ProjectTag *tag) {
                     @strongify(self);
                     if (self.deleteTagBlock) {
                         self.deleteTagBlock(tag);
@@ -125,11 +128,12 @@
         }
         [self.addTagButton setOrigin:curPoint];
     }else{
-        [[self subviews] enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        [self.subviews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
             if (![obj isKindOfClass:[UIButton class]]) {
                 [obj removeFromSuperview];
             }
         }];
+        [_tagLabelList removeAllObjects];
         curPoint.x = kPaddingLeftWidth;
         [self.addTagButton setOrigin:curPoint];
     }
@@ -162,6 +166,7 @@
         CGFloat textWidth = [buttonTitle getWidthWithFont:kProjectTagsViewLabel_Font constrainedToSize:CGSizeMake(CGFLOAT_MAX, kProjectTagsViewLabel_Height_Content)];
         [_addTagButton setTitle:buttonTitle forState:UIControlStateNormal];
         [_addTagButton setImage:nil forState:UIControlStateNormal];
+        [_addTagButton setTitleEdgeInsets:UIEdgeInsetsZero];
         [_addTagButton setSize:CGSizeMake(textWidth + kProjectTagsViewLabel_Padding_Content, kProjectTagsViewLabel_Height_Content)];
     }else{
         _addTagButton.layer.borderWidth = 0.f;
@@ -170,9 +175,10 @@
         [_addTagButton setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
         [_addTagButton setTitleColor:[UIColor colorWithHexString:@"0x3bbd79" andAlpha:0.5] forState:UIControlStateHighlighted];
         
-        [_addTagButton setSize:CGSizeMake(kScreen_Width - 2*kPaddingLeftWidth, kProjectTagsView_Height_PerLine)];
+        [_addTagButton setSize:CGSizeMake(kScreen_Width - 2*kPaddingLeftWidth, kProjectTagsViewLabel_Height_Content)];
         [_addTagButton setTitle:buttonTitle forState:UIControlStateNormal];
-        [_addTagButton setImage:[UIImage imageNamed:@"tag_icon"] forState:UIControlStateNormal];
+        [_addTagButton setImage:[UIImage imageNamed:@"project_tag_btn"] forState:UIControlStateNormal];
+        [_addTagButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, -5)];
     }
 }
 
@@ -215,7 +221,7 @@
 
 - (void)setup{
     if (!self.curTag || self.curTag.name.length <= 0) {
-        self.text = @"...";
+        [self setSize:CGSizeZero];
         return;
     }
     UIColor *tagColor = self.curTag.color.length > 1? [UIColor colorWithHexString:[self.curTag.color stringByReplacingOccurrencesOfString:@"#" withString:@"0x"]]: [UIColor colorWithHexString:@"0x3bbd79"];

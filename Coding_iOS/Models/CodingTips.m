@@ -64,20 +64,17 @@
 }
 
 - (NSDictionary *)toMarkReadParams{
-    if (!self.list || self.list.count <= 0) {
-        return nil;
+    NSDictionary *params;
+    if (_type == 0) {
+        params = @{@"type" : @(0),
+                   @"all" : @(1)};
+    }else if (_type == 1){
+        params = @{@"type" : @[@(1), @(2)],
+                   @"all" : @(1)};
+    }else if (_type == 2){
+        params = @{@"type" : @(4),
+                   @"all" : @(1)};
     }
-    
-    NSMutableArray *unReadArray = [[NSMutableArray alloc] init];
-    for (CodingTip *curTip in self.list) {
-        if (!curTip.status.boolValue) {//未读
-            [unReadArray addObject:curTip.id];
-        }
-    }
-    
-    if (unReadArray.count > 0) {
-        return @{@"id" : unReadArray};
-    }
-    return nil;
+    return params;
 }
 @end

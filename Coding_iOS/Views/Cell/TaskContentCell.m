@@ -12,13 +12,16 @@
 
 
 #import "TaskContentCell.h"
+#import "ProjectTagsView.h"
+#import "Coding_NetAPIManager.h"
 
 @interface TaskContentCell ()
+@property (strong, nonatomic) ProjectTagsView *tagsView;
+
 @property (strong, nonatomic) UITextView *taskContentView;
 @property (strong, nonatomic) UIButton *deleteBtn;
 @property (strong, nonatomic) UILabel *creatorLabel;
-@property (strong, nonatomic) UIView *lineView;
-
+@property (strong, nonatomic) UIView *downLineView, *upLineView;
 @end
 
 @implementation TaskContentCell
@@ -29,6 +32,27 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        if (!_tagsView) {
+            _tagsView = [ProjectTagsView viewWithTags:nil];
+            @weakify(self);
+            _tagsView.addTagBlock = ^(){
+                @strongify(self);
+                if (self.addTagBlock) {
+                    self.addTagBlock();
+                }
+            };
+            _tagsView.deleteTagBlock = ^(ProjectTag *curTag){
+                @strongify(self);
+                [self deleteTag:curTag];
+            };
+            [self.contentView addSubview:_tagsView];
+        }
+        if (!_upLineView) {
+            _upLineView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, kScreen_Width - 2*kPaddingLeftWidth, 0.5)];
+            _upLineView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"dot_line"]];
+            [self.contentView addSubview:_upLineView];
+        }
         if (!_taskContentView) {
             _taskContentView = [[UITextView alloc] initWithFrame:CGRectZero];
             _taskContentView.backgroundColor = [UIColor clearColor];
@@ -53,13 +77,22 @@
                 button;
             });
         }
-        if (!_lineView) {
-            _lineView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, kScreen_Width - 2*kPaddingLeftWidth, 0.5)];
-            _lineView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"dot_line"]];
-            [self.contentView addSubview:_lineView];
+        if (!_downLineView) {
+            _downLineView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, kScreen_Width - 2*kPaddingLeftWidth, 0.5)];
+            _downLineView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"dot_line"]];
+            [self.contentView addSubview:_downLineView];
         }
+        [_upLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
+            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+            make.height.mas_equalTo(0.5);
+            make.bottom.equalTo(_tagsView).offset(5);
+        }];
         [_taskContentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(5, kPaddingLeftWidth-kTextView_Pading, 35, kPaddingLeftWidth-kTextView_Pading));
+            make.top.equalTo(_upLineView.mas_bottom).offset(5.0);
+            make.left.equalTo(self.contentView).offset(kPaddingLeftWidth-kTextView_Pading);
+            make.right.equalTo(self.contentView).offset(-(kPaddingLeftWidth-kTextView_Pading));
+            make.height.mas_equalTo(kTaskContentCell_ContentHeightMin);
         }];
         [_creatorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.contentView.mas_left).offset(kPaddingLeftWidth);
@@ -73,7 +106,7 @@
             make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
             make.right.equalTo(self.contentView.mas_right).offset(-kPaddingLeftWidth);
         }];
-        [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_downLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
             make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
             make.height.mas_equalTo(0.5);
@@ -88,6 +121,13 @@
     if (!_task) {
         return;
     }
+    _tagsView.tags = _task.labels;
+    [_tagsView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView).offset(10);
+        make.left.right.equalTo(self.contentView);
+        make.height.mas_equalTo([ProjectTagsView getHeightForTags:self.task.labels]);
+    }];
+    
     _taskContentView.text = _task.content;
     
     if (_task.handleType > TaskHandleTypeEdit) {
@@ -110,15 +150,34 @@
     }
 }
 
+- (void)deleteTag:(ProjectTag *)curTag{
+    curTag = [ProjectTag tags:_task.labels hasTag:curTag];
+    if (curTag) {
+        NSMutableArray *selectedTags = [_task.labels mutableCopy];
+        [selectedTags removeObject:curTag];
+        @weakify(self);
+        [[Coding_NetAPIManager sharedManager] request_EditTask:_task withTags:selectedTags andBlock:^(id data, NSError *error) {
+            @strongify(self);
+            if (data) {
+                self.task.labels = selectedTags;
+                if (self.tagsChangedBlock) {
+                    self.tagsChangedBlock();
+                }
+            }
+        }];
+    }
+}
+
 + (CGFloat)cellHeightWithObj:(id)obj{
     CGFloat cellHeight = 0;
-    cellHeight += kTaskContentCell_ContentHeightMin + 40;
-//    if ([obj isKindOfClass:[Task class]]) {
-//        Task *task = (Task *)obj;
+    if ([obj isKindOfClass:[Task class]]) {
+        Task *task = (Task *)obj;
 //        CGFloat taskViewHeight = [task.content getHeightWithFont:kTaskContentCell_ContentFont constrainedToSize:CGSizeMake(kTaskContentCell_ContentWidth, CGFLOAT_MAX)];
 //        taskViewHeight = MAX(taskViewHeight+kTextView_Pading*2, kTaskContentCell_ContentHeightMin);
-//        cellHeight += taskViewHeight +40;
-//    }
+        cellHeight += kTaskContentCell_ContentHeightMin + 40;
+        cellHeight += [ProjectTagsView getHeightForTags:task.labels];
+        cellHeight += 10 + 5 + 5 + 35;
+    }
     return cellHeight;
 }
 

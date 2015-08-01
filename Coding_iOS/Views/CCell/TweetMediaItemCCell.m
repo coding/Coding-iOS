@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kTweetMediaItemCCell_Width ((kScreen_Width - 80.0)/3.0)
+#define kTweetMediaItemCCell_Width ((kScreen_Width - 45.0)/3.0)
 
 #import "TweetMediaItemCCell.h"
 

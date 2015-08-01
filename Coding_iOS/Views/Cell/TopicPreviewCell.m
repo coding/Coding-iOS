@@ -164,10 +164,13 @@
 
 - (void)deleteTag:(ProjectTag *)curTag
 {
-    [_curTopic.mdLabels removeObject:curTag];
-    [self setCurTopic:_curTopic];
-    if (_delLabelBlock) {
-        _delLabelBlock();
+    curTag = [ProjectTag tags:_curTopic.mdLabels hasTag:curTag];
+    if (curTag) {
+        [_curTopic.mdLabels removeObject:curTag];
+        [self setCurTopic:_curTopic];
+        if (_delLabelBlock) {
+            _delLabelBlock();
+        }
     }
 }
 
@@ -204,7 +207,7 @@
         CGFloat curWidth = kScreen_Width -2*kPaddingLeftWidth;
         cellHeight += 8 + [topic.title getHeightWithFont:kTopicContentCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 16 + 20;
 
-        cellHeight += [ProjectTagsView heghtForTags:topic.mdLabels];
+        cellHeight += [ProjectTagsView getHeightForTags:topic.mdLabels];
         cellHeight += topic.contentHeight + 5;
     }
     return cellHeight;

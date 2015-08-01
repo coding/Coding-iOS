@@ -70,7 +70,10 @@
         self.navigationItem.titleView = _segmentedControl;
     }
     
-    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:self.type == TopicEditTypeFeedBack ? @"发送" : @"完成" target:self action:@selector(saveBtnClicked)] animated:YES];
+    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:
+                                                self.type == TopicEditTypeFeedBack ? @"发送" :
+                                                self.type == TopicEditTypeModify? @"保存": @"完成"
+                                                                          target:self action:@selector(saveBtnClicked)] animated:YES];
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
     [[[[NSNotificationCenter defaultCenter] rac_addObserverForName:UIKeyboardWillChangeFrameNotification object:nil] takeUntil:self.rac_willDeallocSignal] subscribeNext:^(NSNotification *aNotification) {
@@ -134,7 +137,10 @@
     }
     __weak typeof(self) weakSelf = self;
     _tagsView.deleteTagBlock = ^(ProjectTag *curTag){
-        [weakSelf.curProTopic.mdLabels removeObject:curTag];
+        curTag = [ProjectTag tags:weakSelf.curProTopic.mdLabels hasTag:curTag];
+        if (curTag) {
+            [weakSelf.curProTopic.mdLabels removeObject:curTag];
+        }
         [weakSelf loadEditView];
         weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
     };
@@ -172,14 +178,16 @@
         
         // 内容
         @weakify(self);
-        RAC(self.navigationItem.rightBarButtonItem, enabled) = [RACSignal combineLatest:@[self.inputTitleView.rac_textSignal, self.inputContentView.rac_textSignal] reduce:^id (NSString *title, NSString *content) {
+        RAC(self.navigationItem.rightBarButtonItem, enabled) = [RACSignal combineLatest:@[self.inputTitleView.rac_textSignal, self.inputContentView.rac_textSignal, RACObserve(self.curProTopic, mdLabels)] reduce:^id (NSString *title, NSString *content, NSArray *mdLabels) {
             // 刚开始编辑content的时候，title传过来的总是nil
             @strongify(self);
             title = self.inputTitleView.text;
             content = self.inputContentView.text;
             BOOL enabled = ([title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
                             && [content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0
-                            && (![title isEqualToString:self.curProTopic.mdTitle] || ![content isEqualToString:self.curProTopic.mdContent]));
+                            && (![title isEqualToString:self.curProTopic.mdTitle]
+                                || ![content isEqualToString:self.curProTopic.mdContent]
+                                || ![ProjectTag tags:mdLabels isEqualTo:self.curProTopic.labels]));
             return @(enabled);
         }];
         _inputTitleView.text = _curProTopic.mdTitle;
@@ -207,8 +215,8 @@
     
     if (self.type != TopicEditTypeFeedBack) {
         // 标签
-        CGFloat tagsViewHeight = [ProjectTagsView heghtForTags:_curProTopic.mdLabels];
-        [_tagsView mas_makeConstraints:^(MASConstraintMaker *make) {
+        CGFloat tagsViewHeight = [ProjectTagsView getHeightForTags:_curProTopic.mdLabels];
+        [_tagsView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_inputTitleView.mas_bottom).offset(16.0);
             make.height.mas_equalTo(tagsViewHeight);
             
@@ -270,13 +278,14 @@
 - (void)addtitleBtnClick
 {
     EditLabelViewController *vc = [[EditLabelViewController alloc] init];
-    vc.curProTopic = _curProTopic;
-    if (self.type == TopicEditTypeModify) {
-        __weak typeof(self) weakSelf = self;
-        vc.topicChangedBlock = ^(){
-            weakSelf.navigationItem.rightBarButtonItem.enabled = TRUE;
-        };
-    }
+    vc.curProject = _curProTopic.project;
+    vc.orignalTags = _curProTopic.mdLabels;
+    @weakify(self);
+    vc.tagsChangedBlock = ^(EditLabelViewController *vc, NSMutableArray *selectedTags){
+        @strongify(self);
+        self.curProTopic.mdLabels = selectedTags;
+        [vc.navigationController popViewControllerAnimated:YES];
+    };
     [self.navigationController pushViewController:vc animated:YES];
 }
 

@@ -79,7 +79,7 @@
 #pragma mark Collection M
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     NSInteger num = _curTweet.tweetImages.count;
-    return num < 6? num+ 1: num;
+    return num < 9? num+ 1: num;
 }
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:

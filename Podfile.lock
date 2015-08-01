@@ -57,7 +57,7 @@ PODS:
   - ReactiveCocoa/no-arc (2.3.1)
   - ReactiveCocoa/UI (2.3.1):
     - ReactiveCocoa/Core
-  - RegexKitLite (4.0)
+  - RegexKitLite-NoWarning (1.1.0)
   - SDCAlertView (2.4.2):
     - RBBAnimation (~> 0.3)
     - SDCAutoLayout (~> 2.0)
@@ -85,7 +85,7 @@ DEPENDENCIES:
   - POP+MCAnimate (= 2.0.1)
   - PPiAwesomeButton
   - ReactiveCocoa (= 2.3.1)
-  - RegexKitLite (= 4.0)
+  - RegexKitLite-NoWarning (~> 1.1.0)
   - SDCAlertView (~> 2.4.1)
   - SSKeychain (~> 1.2.3)
   - TMCache (~> 2.1.0)
@@ -111,7 +111,7 @@ SPEC CHECKSUMS:
   PPiAwesomeButton: 16f7279582fd36f65186b24b83ef876217363eb5
   RBBAnimation: 4b2d66f6d993febce63cd564da934985313b9c59
   ReactiveCocoa: 334468a83b2c5f669f7cfb9a084415ee23219b4f
-  RegexKitLite: c0e4c12e6e7de0769f3a3ed679f0f61604170661
+  RegexKitLite-NoWarning: 365d208f8187997e33d9de8baeddfc00728596d8
   SDCAlertView: 486468bfba6a8cf1190b0f98552a19ae71b4c059
   SDCAutoLayout: e6885bb39ab8e2ec2ff84d158f38035f025f7420
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d

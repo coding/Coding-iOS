@@ -23,6 +23,7 @@
 #import "SVPullToRefresh.h"
 #import "WebViewController.h"
 #import "TweetSendLocationDetailViewController.h"
+#import "CodingBannersView.h"
 
 #import "CSSearchVC.h"
 #import "CSSearchDisplayVC.h"
@@ -51,6 +52,8 @@
 //搜索
 @property (nonatomic, strong) UISearchBar       *searchBar;
 @property (strong, nonatomic) CSSearchDisplayVC *searchDisplayVC;
+//Banner
+@property (strong, nonatomic) CodingBannersView *myBannersView;
 @end
 
 @implementation Tweet_RootViewController
@@ -136,7 +139,6 @@
     //评论
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTweet];
     _myMsgInputView.delegate = self;
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -169,6 +171,33 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark Banner
+
+- (void)refreshBanner{
+    if (self.curIndex != Tweet_RootViewControllerTypeAll) {
+        return;
+    }
+    __weak typeof(self) weakSelf = self;
+    if (!_myBannersView) {
+        _myBannersView = [CodingBannersView new];
+        _myBannersView.tapActionBlock = ^(CodingBanner *tapedBanner){
+            [weakSelf goToBanner:tapedBanner];
+            NSLog(@"%@", tapedBanner);
+        };
+        _myTableView.tableHeaderView = _myBannersView;
+    }
+    [[Coding_NetAPIManager sharedManager] request_BannersWithBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.myBannersView.curBannerList = data;
+        }
+    }];
+}
+
+- (void)goToBanner:(CodingBanner *)tapedBanner{
+    [self analyseLinkStr:tapedBanner.link];
+}
+
 #pragma mark UIMessageInputViewDelegate
 - (void)messageInputView:(UIMessageInputView *)inputView sendText:(NSString *)text{
     [self sendCommentMessage:text];
@@ -190,7 +219,6 @@
         }
     } completion:nil];
 }
-
 
 #pragma mark M
 - (Tweets *)getCurTweets{
@@ -333,6 +361,7 @@
     }
     curTweets.willLoadMore = NO;
     [self sendRequest];
+    [self refreshBanner];
 }
 
 - (void)refreshMore{

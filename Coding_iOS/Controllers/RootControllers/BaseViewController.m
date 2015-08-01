@@ -10,7 +10,7 @@
 #import "ConversationViewController.h"
 
 #import "Login.h"
-#import <RegexKitLite/RegexKitLite.h>
+#import <RegexKitLite-NoWarning/RegexKitLite.h>
 #import "UserInfoViewController.h"
 #import "TweetDetailViewController.h"
 #import "TopicDetailViewController.h"
@@ -27,6 +27,7 @@
 #import "ProjectCommitsViewController.h"
 #import "MRPRDetailViewController.h"
 #import "CommitFilesViewController.h"
+#import "FileViewController.h"
 
 #import "UnReadManager.h"
 
@@ -103,12 +104,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         //标记为已读
         NSString *notification_id = [userInfo objectForKey:@"notification_id"];
         if (notification_id) {
-            [[Coding_NetAPIManager sharedManager] request_markReadWithCodingTip:notification_id andBlock:^(id data, NSError *error) {
-                if (error) {
-                    DebugLog(@"request_markReadWithCodingTip: %@", error.description);
-                }else{
-                    DebugLog(@"request_markReadWithCodingTip: %@", data);
-                }
+            [[Coding_NetAPIManager sharedManager] request_markReadWithCodingTipIdStr:notification_id andBlock:^(id data, NSError *error) {
             }];
         }
         //弹出临时会话
@@ -138,7 +134,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     
     if (!linkStr || linkStr.length <= 0) {
         return nil;
-    }else if (![linkStr hasPrefix:@"/"] && ![linkStr hasPrefix:kNetPath_Code_Base]){
+    }else if (![linkStr hasPrefix:@"/"] && ![linkStr hasPrefix:[NSObject baseURLStr]]){
         return nil;
     }
     
@@ -154,6 +150,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)$";
     NSString *topicRegexStr = @"/u/([^/]+)/p/([^/]+)/topic/(\\d+)";
     NSString *taskRegexStr = @"/u/([^/]+)/p/([^/]+)/task/(\\d+)";
+    NSString *fileRegexStr = @"/u/([^/]+)/p/([^/]+)/attachment/([^/]+)/preview/(\\d+)";
     NSString *gitMRPRCommitRegexStr = @"/u/([^/]+)/p/([^/]+)/git/(merge|pull|commit)/([^/#]+)";
     NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
     NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
@@ -249,7 +246,24 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             };
             analyseVC = vc;
         }
-
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:fileRegexStr]).count > 0){
+        NSString *user_global_key = matchedCaptures[1];
+        NSString *project_name = matchedCaptures[2];
+        NSString *fileId = matchedCaptures[4];
+        if ([presentingVC isKindOfClass:[FileViewController class]]) {
+            FileViewController *vc = (FileViewController *)presentingVC;
+            if (vc.curFile.file_id.integerValue == fileId.integerValue) {
+                [vc requestFileData];
+                analyseVCIsNew = NO;
+                analyseVC = vc;
+            }
+        }
+        if (!analyseVC) {
+            FileViewController *vc = [FileViewController new];
+            ProjectFile *curFile = [[ProjectFile alloc] initWithFileId:@(fileId.integerValue) inProject:project_name ofUser:user_global_key];
+            vc.curFile = curFile;
+            analyseVC = vc;
+        }
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:conversionRegexStr]).count > 0) {
         //私信
         NSString *user_global_key = matchedCaptures[1];
@@ -348,7 +362,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
 #pragma mark Login
 - (void)loginOutToLoginVC{
     [Login doLogout];
-    [((AppDelegate *)[UIApplication sharedApplication].delegate) setupIntroductionViewController];
+    [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
 }
 
 @end

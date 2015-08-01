@@ -7,14 +7,12 @@
 //
 
 #import "SWTableViewCell.h"
+#import "ProjectTag.h"
 
 @interface EditLabelCell : SWTableViewCell
-
 @property (strong, nonatomic) UIButton *selectBtn;
-@property (strong, nonatomic) UILabel *nameLbl;
 
-- (void)showRightBtn:(BOOL)show;
-- (void)resetLbl;
+- (void)setTag:(ProjectTag *)curTag andSelected:(BOOL)selected;
 
 + (CGFloat)cellHeight;
 

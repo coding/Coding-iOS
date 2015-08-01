@@ -20,6 +20,11 @@
 - (void)showStatusBarProgress:(CGFloat)progress;
 - (void)hideStatusBarProgress;
 
+#pragma mark BaseURL
++ (NSString *)baseURLStr;
++ (BOOL)baseURLStrIsTest;
++ (void)changeBaseURLStrToTest:(BOOL)isTest;
+
 #pragma mark File M
 //获取fileName的完整地址
 + (NSString* )pathInCacheDirectory:(NSString *)fileName;

@@ -7,8 +7,10 @@
 //
 
 #import "EditLabelCell.h"
+#import "ProjectTagLabel.h"
 
 @interface EditLabelCell ()
+@property (strong, nonatomic) ProjectTagLabel *nameLbl;
 @end
 
 @implementation EditLabelCell
@@ -17,15 +19,10 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.accessoryType = UITableViewCellAccessoryNone;
-        self.backgroundColor = [UIColor clearColor];
         // Initialization code
-        if (!_nameLbl) {
-            _nameLbl = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, (kScreen_Width - kPaddingLeftWidth * 2 - 30), 44)];
-            _nameLbl.textColor = [UIColor colorWithHexString:@"0x222222"];
-            _nameLbl.font = [UIFont systemFontOfSize:16];
-            [self.contentView addSubview:_nameLbl];
-        }
+        self.accessoryType = UITableViewCellAccessoryNone;
+        self.backgroundColor = kColorTableBG;
+
         if (!_selectBtn) {
             _selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 24, 10, 24, 24)];
             [_selectBtn setImage:[UIImage imageNamed:@"tag_select_no"] forState:UIControlStateNormal];
@@ -37,31 +34,15 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-}
-
-- (void)resetLbl
-{
-//    _nameLbl.frame = CGRectMake(kPaddingLeftWidth, 0, (kScreen_Width - kPaddingLeftWidth * 2 - 30), 44);
-//    _selectBtn.hidden = FALSE;
-}
-
-- (void)showRightBtn:(BOOL)show
-{
-//    if (show) {
-//        _selectBtn.hidden = show;
-//        [UIView animateWithDuration:0.1 animations:^{
-//            _nameLbl.frame = CGRectMake(kPaddingLeftWidth + 88, 0, (kScreen_Width - kPaddingLeftWidth * 2 - 30 - 88), 44);
-//        }];
-//    } else {
-//        [UIView animateWithDuration:0.1 animations:^{
-//            _nameLbl.frame = CGRectMake(kPaddingLeftWidth, 0, (kScreen_Width - kPaddingLeftWidth * 2 - 30), 44);
-//        } completion:^(BOOL finished) {
-//            _selectBtn.hidden = show;
-//        }];
-//    }
+- (void)setTag:(ProjectTag *)curTag andSelected:(BOOL)selected{
+    if (_nameLbl) {
+        _nameLbl.curTag = curTag;
+    }else{
+        _nameLbl = [ProjectTagLabel labelWithTag:curTag font:[UIFont systemFontOfSize:12] height:20 widthPadding:10];
+        [_nameLbl setOrigin:CGPointMake(kPaddingLeftWidth, ([EditLabelCell cellHeight] - 22)/2)];
+        [self.contentView addSubview:_nameLbl];
+    }
+    _selectBtn.selected = selected;
 }
 
 + (CGFloat)cellHeight

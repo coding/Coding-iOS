@@ -8,12 +8,12 @@
 
 #import "BaseViewController.h"
 
-@class ProjectTopic;
+@class Project;
+
 @interface EditLabelViewController : BaseViewController
+@property (strong, nonatomic) NSArray *orignalTags;
+@property (strong, nonatomic) Project *curProject;
 
-@property (weak, nonatomic) ProjectTopic *curProTopic;
-@property (assign, nonatomic) BOOL isSaveChange;
-
-@property (copy, nonatomic) void(^topicChangedBlock)();
+@property (copy, nonatomic) void(^tagsChangedBlock)(EditLabelViewController *vc, NSMutableArray *selectedTags);
 
 @end

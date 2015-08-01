@@ -19,15 +19,9 @@
 #define kCellIdentifier_EditLabelCell @"EditLabelCell"
 
 @interface EditLabelViewController () <UITableViewDataSource, UITableViewDelegate, SWTableViewCellDelegate, UITextFieldDelegate>
-{
-    NSString *_tempLabel;
-    NSMutableArray *_tempArray;
-}
-@property (strong, nonatomic) NSMutableArray *labels;
-
+@property (strong, nonatomic) NSString *tagNameToAdd;
+@property (strong, nonatomic) NSMutableArray *tagList, *selectedTags;
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
-
-@property (nonatomic, weak) UITextField *mCurrentTextField;
 @end
 
 @implementation EditLabelViewController
@@ -41,20 +35,24 @@
     return self;
 }
 
+- (void)setOrignalTags:(NSArray *)orignalTags{
+    _orignalTags = orignalTags;
+    if (_orignalTags.count > 0) {
+        _selectedTags = [_orignalTags mutableCopy];
+    }else{
+        _selectedTags = [NSMutableArray new];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"标签管理";
     
-    //if (!_isSaveChange) {
-        self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(okBtnClick)];
-        self.navigationItem.rightBarButtonItem.enabled = FALSE;
-    //}
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"保存" target:self action:@selector(okBtnClick)];
+    self.navigationItem.rightBarButtonItem.enabled = FALSE;
     
     self.view.backgroundColor = kColorTableSectionBg;
-    
-    _labels = [[NSMutableArray alloc] initWithCapacity:4];
-    
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
         tableView.backgroundColor = kColorTableSectionBg;
@@ -74,113 +72,45 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [_labels removeAllObjects];
     [self sendRequest];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)dealloc
-{
-    _myTableView.delegate = nil;
-    _myTableView.dataSource = nil;
-}
-
-- (void)setCurProTopic:(ProjectTopic *)curProTopic
-{
-    _curProTopic = curProTopic;
-    _tempArray = [NSMutableArray arrayWithArray:_curProTopic.mdLabels];
 }
 
 - (void)sendRequest
 {
     [self.view beginLoading];
-    
     __weak typeof(self) weakSelf = self;
-
-    [[Coding_NetAPIManager sharedManager] request_TagListInProject:_curProTopic.project type:ProjectTagTypeTopic andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_TagListInProject:_curProject type:ProjectTagTypeTopic andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
-            [_labels addObjectsFromArray:data];
-            for (ProjectTag *lbl in _labels) {
-                for (ProjectTag *tLbl in _curProTopic.mdLabels) {
-                    if ([lbl.id integerValue] == [tLbl.id integerValue]) {
-                        tLbl.name = lbl.name;
-                        break;
-                    }
-                }
-                for (ProjectTag *tLbl in _tempArray) {
-                    if ([lbl.id integerValue] == [tLbl.id integerValue]) {
-                        tLbl.name = lbl.name;
-                        break;
-                    }
-                }
-            }
+            weakSelf.tagList = data;
             [weakSelf.myTableView reloadData];
         }
-
     }];
-}
-
-- (NSString *)toDelPath:(NSInteger)index
-{
-    ProjectTag *ptLabel = [_labels objectAtIndex:index];
-    return [NSString stringWithFormat:@"api/project/%d/topic/label/%lld", _curProTopic.project_id.intValue, ptLabel.id.longLongValue];
-}
-
-- (NSString *)toMedifyPath:(NSNumber *)labelID
-{
-    return [NSString stringWithFormat:@"api/topic/%d/label/%lld", _curProTopic.id.intValue, labelID.longLongValue];
 }
 
 #pragma mark - click
 - (void)okBtnClick
 {
-    _curProTopic.mdLabels = _tempArray;
-    //_curProTopic.mdTitle = _tempArray;
-    //_curProTopic.mdContent = _tempArray;
-    
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    if (_isSaveChange) {
-        
-        @weakify(self);
-        [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoicLabel:self.curProTopic andBlock:^(id data, NSError *error) {
-            @strongify(self);
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-            if (data) {
-                _curProTopic.labels = [NSMutableArray arrayWithArray:_curProTopic.mdLabels];
-                if (self.topicChangedBlock) {
-                    self.topicChangedBlock();
-                }
-                [self.navigationController popViewControllerAnimated:YES];
-            } 
-        }];
-    } else {
-        if (self.topicChangedBlock) {
-            self.topicChangedBlock();
-        }
-        [self.navigationController popViewControllerAnimated:YES];
+    if (self.tagsChangedBlock) {
+        self.tagsChangedBlock(self, _selectedTags);
     }
 }
 
 - (void)addBtnClick:(UIButton *)sender
 {
-    [_mCurrentTextField resignFirstResponder];
-    if (_tempLabel.length > 0) {
+    [self.view endEditing:YES];
+    if (_tagNameToAdd.length > 0) {
         __weak typeof(self) weakSelf = self;
-        ProjectTag *curTag = [ProjectTag tagWithName:_tempLabel];
-        [[Coding_NetAPIManager sharedManager] request_AddTag:curTag toProject:_curProTopic.project andBlock:^(id data, NSError *error) {
+        ProjectTag *curTag = [ProjectTag tagWithName:_tagNameToAdd];
+        [[Coding_NetAPIManager sharedManager] request_AddTag:curTag toProject:_curProject andBlock:^(id data, NSError *error) {
             if (data) {
                 curTag.id = data;
-                [weakSelf.labels addObject:curTag];
+                [weakSelf.tagList addObject:curTag];
+                weakSelf.tagNameToAdd = @"";
                 [weakSelf.myTableView reloadData];
-                _tempLabel = @"";
-                weakSelf.mCurrentTextField.text = @"";
-                [weakSelf showHudTipStr:@"添加标签成功^^"];
                 sender.enabled = FALSE;
+
+                [weakSelf showHudTipStr:@"添加标签成功^^"];
             }
         }];
     }
@@ -201,14 +131,14 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return _labels.count > 0 ? 2 : 1;
+    return _tagList.count > 0 ? 2 : 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSInteger row = 1;
     if (section == 1) {
-        row = _labels.count;
+        row = _tagList.count;
     }
     return row;
 }
@@ -217,37 +147,31 @@
 {
     if (indexPath.section == 0) {
         EditLabelHeadCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_EditLabelHeadCell forIndexPath:indexPath];
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         [cell.addBtn addTarget:self action:@selector(addBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        cell.labelField.text = self.tagNameToAdd;
         cell.labelField.delegate = self;
         [cell.labelField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-        cell.backgroundColor = kColorTableBG;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
-    }
-    
-    ProjectTag *ptLabel = _labels[indexPath.row];
-    
-    EditLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_EditLabelCell forIndexPath:indexPath];
-    cell.nameLbl.text = ptLabel.name;
-    
-    BOOL selected = FALSE;
-    for (ProjectTag *lbl in _curProTopic.mdLabels) {
-        if ([lbl.id integerValue] == [ptLabel.id integerValue]) {
-            selected = TRUE;
-            break;
-        }
-    }
-    cell.selectBtn.selected = selected;
-    
-    //if (indexPath.row > 2) {
+    }else{
+        ProjectTag *ptLabel = _tagList[indexPath.row];
+        
+        EditLabelCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_EditLabelCell forIndexPath:indexPath];
         [cell setRightUtilityButtons:[self rightButtons] WithButtonWidth:[EditLabelCell cellHeight]];
         cell.delegate = self;
-    //}
-    
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-    cell.backgroundColor = kColorTableBG;
-    [cell resetLbl];
-    return cell;
+        
+        BOOL selected = FALSE;
+        for (ProjectTag *lbl in _selectedTags) {
+            if ([lbl.id integerValue] == [ptLabel.id integerValue]) {
+                selected = TRUE;
+                break;
+            }
+        }
+        [cell setTag:ptLabel andSelected:selected];
+        
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
+    }
 }
 
 #pragma mark - UITableViewDelegate
@@ -266,62 +190,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.view endEditing:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [_mCurrentTextField resignFirstResponder];
 
     if (indexPath.section > 0) {
         EditLabelCell *cell = (EditLabelCell *)[tableView cellForRowAtIndexPath:indexPath];
         cell.selectBtn.selected = !cell.selectBtn.selected;
         
-        ProjectTag *lbl = _labels[indexPath.row];
-  
-        if (cell.selectBtn.selected) {
-            BOOL add = TRUE;
-            for (ProjectTag *tempLbl in _tempArray) {
-                if ([tempLbl.id integerValue] == [lbl.id integerValue]) {
-                    add = FALSE;
-                    break;
-                }
-            }
-            if (add) {
-//                if (_isSaveChange) {
-//                    __weak typeof(self) weakSelf = self;
-//                    [[Coding_NetAPIManager sharedManager] request_ProjectTopic_AddLabel_WithPath:[self toMedifyPath:lbl.id] andBlock:^(id data, NSError *error) {
-//                        if (!error) {
-//                            [_tempArray addObject:lbl];
-//                            weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
-//                        } else {
-//                            cell.selectBtn.selected = FALSE;
-//                        }
-//                    }];
-//                    [_tempArray addObject:lbl];
-//                    self.navigationItem.rightBarButtonItem.enabled = YES;
-//                } else {
-                    [_tempArray addObject:lbl];
-                    self.navigationItem.rightBarButtonItem.enabled = YES;
-                //}
-            }
-        } else {
-            for (ProjectTag *tempLbl in _tempArray) {
-                if ([tempLbl.id integerValue] == [lbl.id integerValue]) {
-//                    if (_isSaveChange) {
-//                        __weak typeof(self) weakSelf = self;
-//                        [[Coding_NetAPIManager sharedManager] request_ProjectTopic_DelLabel_WithPath:[self toMedifyPath:lbl.id] andBlock:^(id data, NSError *error) {
-//                            if (!error) {
-//                                [_tempArray removeObject:tempLbl];
-//                                weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
-//                            } else {
-//                                cell.selectBtn.selected = TRUE;
-//                            }
-//                        }];
-//                    } else {
-                        [_tempArray removeObject:tempLbl];
-                        self.navigationItem.rightBarButtonItem.enabled = YES;
-                    //}
-                    break;
-                }
-            }
+        ProjectTag *tagInSelected = [ProjectTag tags:_selectedTags hasTag:_tagList[indexPath.row]];
+        if (cell.selectBtn.selected && !tagInSelected) {
+            [_selectedTags addObject:_tagList[indexPath.row]];
+        }else if (!cell.selectBtn.selected && tagInSelected){
+            [_selectedTags removeObject:tagInSelected];
         }
+        self.navigationItem.rightBarButtonItem.enabled = ![ProjectTag tags:_selectedTags isEqualTo:_orignalTags];
     }
 }
 
@@ -339,32 +221,8 @@
     return YES;
 }
 
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell scrollingToState:(SWCellState)state
-{
-    switch (state) {
-        case 0:
-        {
-            EditLabelCell *eCell = (EditLabelCell *)cell;
-            [eCell showRightBtn:FALSE];
-        }   break;
-        case 1:
-            break;
-        case 2:
-        {
-            EditLabelCell *eCell = (EditLabelCell *)cell;
-            [eCell showRightBtn:TRUE];
-        }   break;
-        default:
-            break;
-    }
-}
-
 - (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state
 {
-//    NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
-//    if (indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 2) {
-//        return NO;
-//    }
     return YES;
 }
 
@@ -378,7 +236,7 @@
         [self renameBtnClick:indexPath.row];
     } else {
         __weak typeof(self) weakSelf = self;
-        ProjectTag *ptLabel = [_labels objectAtIndex:indexPath.row];
+        ProjectTag *ptLabel = [_tagList objectAtIndex:indexPath.row];
         NSString *tip = [NSString stringWithFormat:@"确定要删除标签:%@？", ptLabel.name];
         UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:tip buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
@@ -392,15 +250,15 @@
 - (void)renameBtnClick:(NSInteger)index
 {
     ResetLabelViewController *vc = [[ResetLabelViewController alloc] init];
-    vc.ptLabel = [_labels objectAtIndex:index];
-    vc.curProTopic = _curProTopic;
+    vc.ptLabel = [_tagList objectAtIndex:index];
+    vc.curProject = _curProject;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)deleteBtnClick:(NSInteger)index
 {
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_DeleteTag:_labels[index] inProject:_curProTopic.project andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_DeleteTag:_tagList[index] inProject:_curProject andBlock:^(id data, NSError *error) {
         if (data) {
             [weakSelf deleteLabel:index];
         }
@@ -409,41 +267,27 @@
 
 - (void)deleteLabel:(NSInteger)index
 {
-    ProjectTag *lbl = _labels[index];
-    for (ProjectTag *tempLbl in _tempArray) {
+    ProjectTag *lbl = _tagList[index];
+    for (ProjectTag *tempLbl in _selectedTags) {
         if ([tempLbl.id integerValue] == [lbl.id integerValue]) {
-            [_tempArray removeObject:tempLbl];
+            [_selectedTags removeObject:tempLbl];
             self.navigationItem.rightBarButtonItem.enabled = YES;
             break;
         }
     }
-    [self.labels removeObjectAtIndex:index];
+    [self.tagList removeObjectAtIndex:index];
     [self.myTableView reloadData];
 }
 
 #pragma mark - UITextFieldDelegate
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-{
-    self.mCurrentTextField = textField;
-    return YES;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    return YES;
-}
 
 - (void)textFieldDidChange:(UITextField *)textField
 {
-    _tempLabel = [textField.text trimWhitespace];
-    BOOL enabled = _tempLabel.length > 0 ? TRUE : FALSE;
+    _tagNameToAdd = [textField.text trimWhitespace];
+    BOOL enabled = _tagNameToAdd.length > 0 ? TRUE : FALSE;
     if (enabled) {
-        for (ProjectTag *lbl in _labels) {
-            if ([lbl.name isEqualToString:_tempLabel]) {
+        for (ProjectTag *lbl in _tagList) {
+            if ([lbl.name isEqualToString:_tagNameToAdd]) {
                 enabled = FALSE;
                 break;
             }
@@ -464,7 +308,7 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesBegan:touches withEvent:event];
-    [_mCurrentTextField resignFirstResponder];
+    [self.view endEditing:YES];
 }
 
 @end

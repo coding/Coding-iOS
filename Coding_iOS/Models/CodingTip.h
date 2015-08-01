@@ -12,7 +12,8 @@
 
 @interface CodingTip : NSObject
 
-@property (readwrite, nonatomic, strong) NSNumber *id, *owner_id, *status, *target_id, *type;
+@property (readwrite, nonatomic, strong) NSNumber *status;
+@property (strong, nonatomic) NSString *id, *owner_id, *target_id, *type;
 @property (readwrite, nonatomic, strong) NSDate *created_at;
 @property (readwrite, nonatomic, strong) NSString *content, *target_type;
 @property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;

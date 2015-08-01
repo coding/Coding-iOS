@@ -68,7 +68,7 @@
     });
     
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
-    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    [_refreshControl addTarget:self action:@selector(refreshRootFolders) forControlEvents:UIControlEventValueChanged];
     
     if (!self.rootFolders) {
         self.rootFolders = [ProjectFolders emptyFolders];
@@ -216,8 +216,6 @@
     }
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Folders:_rootFolders inProject:_curProject andBlock:^(id data, NSError *error) {
-        [weakSelf.refreshControl endRefreshing];
-        [weakSelf.view endLoading];
         if (data) {
             ProjectFolders *preRootFolders = weakSelf.rootFolders;
             weakSelf.rootFolders = data;
@@ -229,14 +227,18 @@
                 [weakSelf configToolBar];
                 [weakSelf refreshFileList];
             }else{
+                [weakSelf.refreshControl endRefreshing];
+                [weakSelf.view endLoading];
                 weakSelf.rootFolders = preRootFolders;
                 [weakSelf showHudTipStr:@"文件夹不存在"];
                 weakSelf.navigationItem.rightBarButtonItem = nil;
                 [weakSelf.view configBlankPage:EaseBlankPageTypeFolderDleted hasData:([weakSelf totalDataRow] > 0) hasError:NO reloadButtonBlock:nil];
             }
         }else{
+            [weakSelf.refreshControl endRefreshing];
+            [weakSelf.view endLoading];
             [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:([weakSelf totalDataRow] > 0) hasError:YES reloadButtonBlock:^(id sender) {
-                [weakSelf refresh];
+                [weakSelf refreshRootFolders];
             }];
         }
     }];
@@ -267,7 +269,7 @@
             [weakSelf.myTableView reloadData];
         }
         [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:([weakSelf totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-            [weakSelf refresh];
+            [weakSelf refreshRootFolders];
         }];
     }];
 }
@@ -317,7 +319,7 @@
                 }
                 [weakSelf.myTableView reloadData];
                 [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:([weakSelf totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-                    [weakSelf refresh];
+                    [weakSelf refreshRootFolders];
                 }];
                 [weakSelf showHudTipStr:@"创建文件夹成功"];
             }
@@ -428,7 +430,7 @@
         [self uploadFileWithFileName:fileName];
     }
     [self.view configBlankPage:EaseBlankPageTypeView hasData:([self totalDataRow] > 0) hasError:NO reloadButtonBlock:^(id sender) {
-        [self refresh];
+        [self refreshRootFolders];
     }];
     
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -472,7 +474,7 @@
     self.curFolder.count = @(self.curFolder.count.integerValue +1);
     [self configuploadFiles];
     [self.view configBlankPage:EaseBlankPageTypeView hasData:([self totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-        [self refresh];
+        [self refreshRootFolders];
     }];
     if (self.navigationItem.rightBarButtonItem == nil) {
         self.navigationItem.rightBarButtonItem = self.myFiles.list.count > 0? [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(changeEditState)]: nil;
@@ -633,7 +635,7 @@
             weakSelf.curFolder.count = [NSNumber numberWithInt:weakSelf.curFolder.count.intValue-1];
             [weakSelf.myTableView reloadData];
             [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:([weakSelf totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-                [weakSelf refresh];
+                [weakSelf refreshRootFolders];
             }];
         }
     }];

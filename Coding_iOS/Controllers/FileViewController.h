@@ -13,4 +13,5 @@
 
 @interface FileViewController : BaseViewController
 @property (strong, nonatomic) ProjectFile *curFile;
+- (void)requestFileData;
 @end

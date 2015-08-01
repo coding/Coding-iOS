@@ -83,7 +83,8 @@
 }
 - (void)request_Login_WithParams:(id)params andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"登录"];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:kNetPath_Code_Login withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+    NSString *path = @"api/login";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         id resultData = [data valueForKeyPath:@"data"];
         if (resultData) {
             User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];
@@ -632,6 +633,12 @@
                             sub_folder.count = [countDict objectForKey:sub_folder.file_id];
                         }
                     }
+                    for (ProjectFolder *folder in folders.list) {//原来文件夹的文件数也更新一下
+                        folder.count = [countDict objectForKey:folder.file_id];
+                        for (ProjectFolder *sub_folder in folder.sub_folders) {
+                            sub_folder.count = [countDict objectForKey:sub_folder.file_id];
+                        }
+                    }
                     folders.isLoading = NO;
                     block(proFolders, nil);
                 }else{
@@ -748,7 +755,9 @@
             id resultData = [data valueForKeyPath:@"data"];
             resultData = [resultData valueForKeyPath:@"file"];
             ProjectFile *detailFile = [NSObject objectOfClass:@"ProjectFile" fromJSON:resultData];
-            detailFile.project_id = file.project_id;
+            if (file.project_id) {
+                detailFile.project_id = file.project_id;
+            }
             block(detailFile, nil);
         }else{
             block(nil, error);
@@ -879,6 +888,18 @@
     
 }
 
+- (void)request_EditTask:(Task *)task withTags:(NSMutableArray *)selectedTags andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"更新任务标签"];
+    NSDictionary *params = @{@"label_id" : [selectedTags valueForKey:@"id"]};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toEditLabelsPath] withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil,error);
+        }
+    }];
+}
+
 - (void)request_ChangeTaskStatus:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"编辑任务状态"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toEditTaskStatusPath] withParams:[task toChangeStatusParams] withMethodType:Put andBlock:^(id data, NSError *error) {
@@ -1004,16 +1025,14 @@
             //markdown详情
             id resultData = [data valueForKeyPath:@"data"];
             ProjectTopic *resultT = [NSObject objectOfClass:@"ProjectTopic" fromJSON:resultData];
-            
+            resultT.mdLabels = [resultT.labels mutableCopy];
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:@{@"type": [NSNumber numberWithInteger:1]} withMethodType:Get andBlock:^(id dataMD, NSError *errorMD) {
+                proTopic.isTopicLoading = NO;
                 if (dataMD) {
                     resultT.mdTitle = [[dataMD valueForKey:@"data"] valueForKey:@"title"];
                     resultT.mdContent = [[dataMD valueForKey:@"data"] valueForKey:@"content"];
-                    id labels = [[dataMD valueForKey:@"data"] valueForKey:@"labels"];
-                    resultT.mdLabels = [NSObject arrayFromJSON:labels  ofObjects:@"ProjectTag"];
                     block(resultT, nil);
                 }else{
-                    proTopic.isTopicLoading = NO;
                     block(nil, errorMD);
                 }
             }];
@@ -1126,24 +1145,6 @@
                                                               }
                                                           }];
 }
-- (void)request_ProjectTopic_LabelAll_WithPath:(NSString *)path
-                                      andBlock:(void (^)(id data, NSError *error))block
-{
-    [MobClick event:kUmeng_Event_Request label:@"项目讨论所有被使用标签"];
-    
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
-                                                        withParams:nil
-                                                    withMethodType:Get
-                                                          andBlock:^(id data, NSError *error) {
-                                                              if (data) {
-                                                                  id resultData = [data valueForKeyPath:@"data"];
-                                                                  NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectTag"];
-                                                                  block(resultA, nil);
-                                                              } else {
-                                                                  block(nil, error);
-                                                              }
-                                                          }];
-}
 - (void)request_ProjectTopic_LabelMy_WithPath:(NSString *)path
                                      andBlock:(void (^)(id data, NSError *error))block
 {
@@ -1157,40 +1158,6 @@
                                                                   id resultData = [data valueForKeyPath:@"data"];
                                                                   NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectTag"];
                                                                   block(resultA, nil);
-                                                              } else {
-                                                                  block(nil, error);
-                                                              }
-                                                          }];
-}
-
-- (void)request_ProjectTopic_AddLabel_WithPath:(NSString *)path
-                                   andBlock:(void (^)(id data, NSError *error))block
-{
-    [MobClick event:kUmeng_Event_Request label:@"项目讨论增加标签"];
-    
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
-                                                        withParams:nil
-                                                    withMethodType:Post
-                                                          andBlock:^(id data, NSError *error) {
-                                                              if (data) {
-                                                                  block(nil, nil);
-                                                              } else {
-                                                                  block(nil, error);
-                                                              }
-                                                          }];
-}
-
-- (void)request_ProjectTopic_DelLabel_WithPath:(NSString *)path
-                                   andBlock:(void (^)(id data, NSError *error))block
-{
-    [MobClick event:kUmeng_Event_Request label:@"项目讨论删除标签"];
-    
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path
-                                                        withParams:nil
-                                                    withMethodType:Delete
-                                                          andBlock:^(id data, NSError *error) {
-                                                              if (data) {
-                                                                  block(nil, nil);
                                                               } else {
                                                                   block(nil, error);
                                                               }
@@ -1711,29 +1678,38 @@
             id resultData = [data valueForKeyPath:@"data"];
             CodingTips *resultA = [NSObject objectOfClass:@"CodingTips" fromJSON:resultData];
             block(resultA, nil);
-            //            标记为已读
-            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/mark-read" withParams:[curTips toMarkReadParams] withMethodType:Post andBlock:^(id data1, NSError *error1) {
-                if (data1) {
-                    [[UnReadManager shareManager] updateUnRead];
-                }
-            }];
         }else{
             block(nil, error);
         }
     }];
 }
-- (void)request_markReadWithCodingTip:(NSString *)tipIdStr andBlock:(void (^)(id data, NSError *error))block{
-    if (!tipIdStr) {
+- (void)request_markReadWithCodingTips:(CodingTips *)curTips andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"标记某类型的消息为已读"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/mark-read" withParams:[curTips toMarkReadParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+            [[UnReadManager shareManager] updateUnRead];
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_markReadWithCodingTipIdStr:(NSString *)tipIdStr andBlock:(void (^)(id data, NSError *error))block{
+    if (tipIdStr.length <= 0) {
         return;
     }
     [MobClick event:kUmeng_Event_Request label:@"标记某条消息为已读"];
     NSDictionary *params = @{@"id" : tipIdStr};
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/mark-read" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/mark-read" withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         if (data) {
+            block(data, nil);
             [[UnReadManager shareManager] updateUnRead];
+        }else{
+            block(nil, error);
         }
     }];
 }
+
 - (void)request_DeletePrivateMessage:(PrivateMessage *)curMsg andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"删除私信"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMsg toDeletePath] withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
@@ -2103,4 +2079,16 @@
     }];
 }
 
+- (void)request_BannersWithBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"Banner"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/banner/type/app" withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [data valueForKey:@"data"];
+            NSArray *resultA = [NSArray arrayFromJSON:data ofObjects:@"CodingBanner"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 @end

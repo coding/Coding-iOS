@@ -40,11 +40,46 @@
     });
     self.myTableView.tableFooterView=[self customFooterView];
     self.myTableView.tableHeaderView = [self customHeaderView];
+    
+    [self addChangeBaseURLGesture];
+    if ([NSObject baseURLStrIsTest]) {
+        kTipAlert(@"在此页面连续点击屏幕 10 下切换到生产环境！");
+    }
 }
+
+- (void)addChangeBaseURLGesture{
+    @weakify(self);
+    UITapGestureRecognizer *tapGR = [UITapGestureRecognizer bk_recognizerWithHandler:^(UIGestureRecognizer *sender, UIGestureRecognizerState state, CGPoint location) {
+        @strongify(self);
+        if (state == UIGestureRecognizerStateRecognized) {
+            [self changeToTest:![NSObject baseURLStrIsTest]];
+        }
+    }];
+    tapGR.numberOfTapsRequired = 10.0;
+    [self.view addGestureRecognizer:tapGR];
+}
+
+- (void)changeToTest:(BOOL)isTest{
+    [NSObject changeBaseURLStrToTest:isTest];
+    NSString *tipstr;
+    if (isTest) {
+        tipstr = @"你现在切换到了测试环境。\n若要重新切换回生产环境则需要按照如下步骤操作：\n\
+                                                                                1. 进到 '登录' 页\n\
+                                                                                2. 点击 '无法登陆' 按钮\n\
+                                                                                3. 进入 '找回密码/重发激活邮件' 页\n\
+                                                                                4. 单击屏幕 10 次";
+    }else{
+        tipstr = @"你已成功切换到了生产环境！";
+    }
+    kTipAlert(@"%@", tipstr);
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
+
 - (NSString *)titleStr{
     NSString *curStr = @"";
     if (_type == CannotLoginTypeResetPassword) {

@@ -11,7 +11,7 @@
 #import "Coding_NetAPIManager.h"
 #import "UIImageView+WebCache.h"
 #import "NProjectViewController.h"
-#import <RegexKitLite/RegexKitLite.h>
+#import <RegexKitLite-NoWarning/RegexKitLite.h>
 #import "RDVTabBarController.h"
 
 @interface NewProjectViewController ()<NewProjectTypeDelegate,UITextFieldDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
@@ -58,9 +58,8 @@
     // 默认类型
     self.projectType = NewProjectTypePrivate;
 
-    static NSString *projectIconURLString = @"https://coding.net/static/project_icon/scenery-%d.png";
     int x = arc4random() % 24 + 1;
-    NSString *randomIconURLString = [NSString stringWithFormat:projectIconURLString,x];
+    NSString *randomIconURLString = [NSString stringWithFormat:@"%@static/project_icon/scenery-%d.png", [NSObject baseURLStr], x];
     [self.projectImageView sd_setImageWithURL:[NSURL URLWithString:randomIconURLString] placeholderImage:kPlaceholderCodingSquareWidth(55.0) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (image) {
             self.projectIconImage = image;

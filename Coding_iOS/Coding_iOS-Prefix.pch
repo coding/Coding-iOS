@@ -15,8 +15,6 @@
     #import <Foundation/Foundation.h>
     #import <CoreData/CoreData.h>
 
-    #import "APIUrl.h"
-
     #import "NSString+Common.h"
     #import "NSObject+Common.h"
     #import "UIImage+Common.h"
@@ -26,7 +24,6 @@
     #import "UITableView+Common.h"
     #import "UIView+Common.h"
     #import "UIView+Frame.h"
-    #import "UIImageView+Common.h"
     #import "UILabel+Common.h"
     #import "NSDate+Common.h"
     #import "UIBarButtonItem+Common.h"

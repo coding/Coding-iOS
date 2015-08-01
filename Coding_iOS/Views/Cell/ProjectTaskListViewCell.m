@@ -11,19 +11,24 @@
 #define kProjectTaskListViewCell_CheckBoxWidth 20.0
 #define kProjectTaskListViewCell_UserIconWidth 33.0
 #define kProjectTaskListViewCell_UpDownPading 10.0
-#define kProjectTaskListViewCell_MaxContentHeight 40.0
+#define kProjectTaskListViewCell_MaxContentHeight 20.0
 #define kProjectTaskListViewCell_ContentWidth (kScreen_Width - kProjectTaskListViewCell_LeftPading - kProjectTaskListViewCell_RightPading)
 #define kProjectTaskListViewCell_ContentFont [UIFont systemFontOfSize:15]
 #define kProjectTaskListViewCell_TextPading 10.0
 
 
+#define kProjectTaskListViewCellTagsView_Font [UIFont systemFontOfSize:12]
+
+
 #import "ProjectTaskListViewCell.h"
 #import "Coding_NetAPIManager.h"
+#import "ProjectTagLabel.h"
 
 @interface ProjectTaskListViewCell ()
-@property (strong, nonatomic) UIImageView *userIconView, *commentIconView, *timeClockIconView, *taskPriorityView;
+@property (strong, nonatomic) UIImageView *userIconView, *commentIconView, *timeClockIconView, *mdIconView, *taskPriorityView;
 @property (strong, nonatomic) UITapImageView *checkView;
-@property (strong, nonatomic) UILabel *contentLabel, *deadlineLabel, *userNameLabel, *timeLabel, *commentCountLabel;
+@property (strong, nonatomic) UILabel *contentLabel, *userNameLabel, *timeLabel, *commentCountLabel, *mdLabel;
+@property (strong, nonatomic) ProjectTaskListViewCellTagsView *tagsView;
 @end
 
 @implementation ProjectTaskListViewCell
@@ -36,70 +41,144 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
         if (!_checkView) {
-            _checkView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, kProjectTaskListViewCell_CheckBoxWidth, kProjectTaskListViewCell_CheckBoxWidth)];
+            _checkView = [UITapImageView new];
             _checkView.contentMode = UIViewContentModeCenter;
+            
+            __weak typeof(self) weakSelf = self;
+            [_checkView addTapBlock:^(id obj) {
+                //用户点击后，直接改变任务状态，在block中处理网络请求
+                [weakSelf.checkView setImage:[UIImage imageNamed:(weakSelf.task.status.integerValue != 2? @"checkbox_checked":@"checkbox_unchecked")]];
+                if (weakSelf.checkViewClickedBlock) {
+                    weakSelf.checkViewClickedBlock(weakSelf.task);
+                }
+            }];
             [self.contentView addSubview:_checkView];
         }
         if (!_userIconView) {
-            _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(48, 0, kProjectTaskListViewCell_UserIconWidth, kProjectTaskListViewCell_UserIconWidth)];
+            _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kProjectTaskListViewCell_UserIconWidth, kProjectTaskListViewCell_UserIconWidth)];
             [_userIconView doCircleFrame];
             [self.contentView addSubview:_userIconView];
         }
         if (!_taskPriorityView) {
-            _taskPriorityView = [[UIImageView alloc] initWithFrame:CGRectMake(kProjectTaskListViewCell_LeftPading, kProjectTaskListViewCell_UpDownPading, 17, 17)];
+            _taskPriorityView = [UIImageView new];
             _taskPriorityView.contentMode = UIViewContentModeScaleAspectFit;
             [self.contentView addSubview:_taskPriorityView];
         }
         if (!_contentLabel) {
-            _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kProjectTaskListViewCell_LeftPading, kProjectTaskListViewCell_UpDownPading, kProjectTaskListViewCell_ContentWidth, 20)];
+            _contentLabel = [UITTTAttributedLabel new];
             _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             _contentLabel.font = kProjectTaskListViewCell_ContentFont;
-            _contentLabel.backgroundColor = [UIColor clearColor];
             [self.contentView addSubview:_contentLabel];
         }
-        if (!_deadlineLabel) {
-            _deadlineLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTaskListViewCell_LeftPading, 0, 60, 15)];
-            _deadlineLabel.layer.masksToBounds = YES;
-            _deadlineLabel.layer.cornerRadius = 2.0;
-            
-            _deadlineLabel.backgroundColor = [UIColor clearColor];
-            _deadlineLabel.font = [UIFont boldSystemFontOfSize:10];
-            _deadlineLabel.textColor = [UIColor whiteColor];
-            [self.contentView addSubview:_deadlineLabel];
+        if (!_tagsView) {
+            _tagsView = [ProjectTaskListViewCellTagsView new];
+            [self.contentView addSubview:_tagsView];
         }
         if (!_userNameLabel) {
-            _userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTaskListViewCell_LeftPading, 0, 150, 15)];
-            _userNameLabel.backgroundColor = [UIColor clearColor];
+            _userNameLabel = [UILabel new];
             _userNameLabel.font = [UIFont systemFontOfSize:10];
             _userNameLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
             [self.contentView addSubview:_userNameLabel];
         }
+        if (!_timeClockIconView) {
+            _timeClockIconView = [UIImageView new];
+            _timeClockIconView.image = [UIImage imageNamed:@"time_clock_icon"];
+            [self.contentView addSubview:_timeClockIconView];
+        }
         if (!_timeLabel) {
-            _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTaskListViewCell_LeftPading, 0, 80, 15)];
-            _timeLabel.backgroundColor = [UIColor clearColor];
+            _timeLabel = [UILabel new];
             _timeLabel.font = [UIFont systemFontOfSize:10];
             _timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
             [self.contentView addSubview:_timeLabel];
         }
-        if (!_timeClockIconView) {
-            _timeClockIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kProjectTaskListViewCell_LeftPading, 0, 12, 12)];
-            _timeClockIconView.image = [UIImage imageNamed:@"time_clock_icon"];
-            [self.contentView addSubview:_timeClockIconView];
-        }
-        
         if (!_commentIconView) {
-            _commentIconView = [[UIImageView alloc] initWithFrame:CGRectMake((kScreen_Width - kProjectTaskListViewCell_RightPading- 15 -20), 0, 12, 12)];
+            _commentIconView = [UIImageView new];
             [_commentIconView setImage:[UIImage imageNamed:@"topic_comment_icon"]];
             [self.contentView addSubview:_commentIconView];
         }
         if (!_commentCountLabel) {
-            _commentCountLabel = [[UILabel alloc] initWithFrame:CGRectMake((kScreen_Width - kProjectTaskListViewCell_RightPading- 15), 0, 20, 12)];
+            _commentCountLabel = [UILabel new];
             _commentCountLabel.font = [UIFont systemFontOfSize:10];
-            _commentCountLabel.minimumScaleFactor = 0.5;
-            _commentCountLabel.adjustsFontSizeToFitWidth = YES;
             _commentCountLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
             [self.contentView addSubview:_commentCountLabel];
         }
+        if (!_mdIconView) {
+            _mdIconView = [UIImageView new];
+            [_mdIconView setImage:[UIImage imageNamed:@"task_description_icon"]];
+            [self.contentView addSubview:_mdIconView];
+        }
+        if (!_mdLabel) {
+            _mdLabel = [UILabel new];
+            _mdLabel.font = [UIFont systemFontOfSize:10];
+            _mdLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _mdLabel.text = @"描述";
+            [self.contentView addSubview:_mdLabel];
+        }
+        
+        [_checkView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
+            make.centerY.equalTo(self.contentView);
+            make.size.mas_equalTo(CGSizeMake(kProjectTaskListViewCell_CheckBoxWidth,
+                                             kProjectTaskListViewCell_CheckBoxWidth));
+        }];
+        [_userIconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.checkView.mas_right).offset(10);
+            make.centerY.equalTo(self.contentView);
+            make.size.mas_equalTo(CGSizeMake(kProjectTaskListViewCell_UserIconWidth,
+                                             kProjectTaskListViewCell_UserIconWidth));
+        }];
+        [_taskPriorityView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.contentView).offset(10);
+            make.left.equalTo(self.userIconView.mas_right).offset(10);
+            make.size.mas_equalTo(CGSizeMake(17, 17));
+        }];
+        [_contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.taskPriorityView);
+            make.left.equalTo(self.taskPriorityView.mas_right).offset(10);
+            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+            make.height.mas_equalTo(20);
+        }];
+        [_tagsView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.contentLabel.mas_bottom).offset(10);
+            make.left.equalTo(self.userIconView.mas_right).offset(10);
+            make.height.mas_equalTo(25);
+            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+        }];
+        [_userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.contentView).offset(-10);
+            make.left.equalTo(self.userIconView.mas_right).offset(10);
+            make.height.mas_equalTo(15);
+        }];
+        [_timeClockIconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.userNameLabel.mas_right).offset(10);
+            make.centerY.equalTo(self.userNameLabel);
+            make.size.mas_equalTo(CGSizeMake(12, 12));
+        }];
+        [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.timeClockIconView.mas_right).offset(5);
+            make.centerY.equalTo(self.userNameLabel);
+            make.height.mas_equalTo(15);
+        }];
+        [_commentIconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.timeLabel.mas_right).offset(10);
+            make.centerY.equalTo(self.userNameLabel);
+            make.size.mas_equalTo(CGSizeMake(12, 12));
+        }];
+        [_commentCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.commentIconView.mas_right).offset(5);
+            make.centerY.equalTo(self.userNameLabel);
+            make.height.mas_equalTo(15);
+        }];
+        [_mdIconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.commentCountLabel.mas_right).offset(10);
+            make.centerY.equalTo(self.userNameLabel);
+            make.size.mas_equalTo(CGSizeMake(12, 12));
+        }];
+        [_mdLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mdIconView.mas_right).offset(5);
+            make.centerY.equalTo(self.userNameLabel);
+            make.height.mas_equalTo(15);
+        }];
     }
     return self;
 }
@@ -110,99 +189,188 @@
     if (!_task) {
         return;
     }
-    CGFloat cellHeight = [ProjectTaskListViewCell cellHeightWithObj:_task];
-    //    图片
-    [_checkView setImage:[UIImage imageNamed:(_task.status.integerValue == 2? @"checkbox_checked":@"checkbox_unchecked")]];
-
-    
-    __weak typeof(self) weakSelf = self;
-    [_checkView addTapBlock:^(id obj) {
-        //用户点击后，直接改变任务状态，在block中处理网络请求
-        [weakSelf.checkView setImage:[UIImage imageNamed:(weakSelf.task.status.integerValue != 2? @"checkbox_checked":@"checkbox_unchecked")]];
-        weakSelf.checkViewClickedBlock(weakSelf.task);
-    }];
-    
-    [_checkView setY:(cellHeight- kProjectTaskListViewCell_CheckBoxWidth)/2];
-    //    头像
-    
-    [_userIconView sd_setImageWithURL:[_task.owner.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
-    [_userIconView setY:(cellHeight- kProjectTaskListViewCell_UserIconWidth)/2];
-    
-    //优先级
+    //Top
+    [_checkView setImage:[UIImage imageNamed:_task.status.integerValue == 1? @"checkbox_unchecked" : @"checkbox_checked"]];
+    [_userIconView sd_setImageWithURL:[_task.owner.avatar urlImageWithCodePathResize:2*kProjectTaskListViewCell_UserIconWidth] placeholderImage:kPlaceholderMonkeyRoundWidth(kProjectTaskListViewCell_UserIconWidth)];
     [_taskPriorityView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"taskPriority%@_small", _task.priority.stringValue]]];
-    
-    //    文字
-    CGFloat curBottomY = kProjectTaskListViewCell_UpDownPading;
-    
-    if (_task.status.integerValue == 1) {//未完成
-        _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
-        if (_task.deadline_date) {
-            NSInteger leftDayCount = [_task.deadline_date leftDayCount];
-            UIColor *deadlineBGColor;
-            NSString *deadlineStr;
-            switch (leftDayCount) {
-                case 0:
-                    deadlineBGColor = [UIColor colorWithHexString:@"0xefa230"];
-                    deadlineStr = @" 今天 ";
-                    break;
-                case 1:
-                    deadlineBGColor = [UIColor colorWithHexString:@"0x95b763"];
-                    deadlineStr = @" 明天 ";
-                    break;
-                default:
-                    deadlineBGColor = leftDayCount > 0? [UIColor colorWithHexString:@"0xb2c6d0"]: [UIColor colorWithHexString:@"0xf24b4b"];
-                    deadlineStr = [_task.deadline_date stringWithFormat:@" MM/dd "];
-                    break;
-            }
-            _deadlineLabel.backgroundColor = deadlineBGColor;
-            _deadlineLabel.text = deadlineStr;
-        }
+    _contentLabel.textColor = [UIColor colorWithHexString:_task.status.integerValue == 1? @"0x222222" : @"0x999999"];
+    _contentLabel.text = [_task.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    //Tags
+    if (_task.deadline_date || _task.labels.count > 0) {
+        _tagsView.tags = _task.labels;
+        _tagsView.deadline_date = _task.deadline_date;
+        _tagsView.done = (_task.status.integerValue != 1);
+        [_tagsView reloadData];
+        _tagsView.hidden = NO;
     }else{
-        _contentLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
-        _deadlineLabel.backgroundColor = [UIColor colorWithHexString:@"0xc8c8c8"];
+        _tagsView.hidden = YES;
     }
-    NSString *contentStr = [NSString stringWithFormat:@"     %@", [_task.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-    [_contentLabel setLongString:contentStr withFitWidth:kProjectTaskListViewCell_ContentWidth maxHeight:kProjectTaskListViewCell_MaxContentHeight];
-    
-    curBottomY += [contentStr getHeightWithFont:kProjectTaskListViewCell_ContentFont constrainedToSize:CGSizeMake(kProjectTaskListViewCell_ContentWidth, kProjectTaskListViewCell_MaxContentHeight)];
-    curBottomY += kProjectTaskListViewCell_TextPading;
-    
-    
-    CGFloat curRightX = kProjectTaskListViewCell_LeftPading;
-    if (_task.deadline_date) {
-        _deadlineLabel.hidden = NO;
-        [_deadlineLabel setOrigin:CGPointMake(curRightX, curBottomY)];
-        [_deadlineLabel sizeToFit];
-        curRightX = _deadlineLabel.maxXOfFrame +10;
+    //Bottom
+    _userNameLabel.text = _task.creator.name;
+    _timeLabel.text = [_task.created_at stringTimesAgo];
+    _commentCountLabel.text = _task.comments.stringValue;
+    _mdIconView.hidden = _mdLabel.hidden = !_task.has_description.boolValue;
+}
+
++ (CGFloat)cellHeightWithObj:(id)obj{
+    CGFloat cellHeight = 0;
+    if ([obj isKindOfClass:[Task class]]) {
+        Task *task = (Task *)obj;
+        if (task.deadline_date || task.labels.count > 0) {
+            cellHeight = 95;
+        }else{
+            cellHeight = 60;
+        }
+    }
+    return cellHeight;
+}
+@end
+
+
+@interface ProjectTaskListViewCellTagsView ()
+@property (strong, nonatomic) NSMutableArray *tagLabelList;
+@property (strong, nonatomic) ProjectTaskListViewCellDateView *dateView;
+@end
+
+@implementation ProjectTaskListViewCellTagsView
++ (instancetype)viewWithTags:(NSArray *)tags andDate:(NSDate *)deadline_date{
+    ProjectTaskListViewCellTagsView *view = [self new];
+    view.tags = tags;
+    view.deadline_date = deadline_date;
+    [view reloadData];
+    return view;
+}
+
+- (void)reloadData{
+    if (_deadline_date) {
+        if (!_dateView) {
+            _dateView = [ProjectTaskListViewCellDateView viewWithDate:_deadline_date andDone:_done];
+            [self addSubview:_dateView];
+        }else{
+            [_dateView setDate:_deadline_date andDone:_done];
+        }
+        _dateView.hidden = NO;
     }else{
-        _deadlineLabel.hidden = YES;
+        _dateView.hidden = YES;
+    }
+    [_tagLabelList makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    CGFloat viewWidth = kScreen_Width - 2*kPaddingLeftWidth - 2*10 - kProjectTaskListViewCell_CheckBoxWidth - kProjectTaskListViewCell_UserIconWidth;
+    CGFloat curRightX = (!_dateView || _dateView.hidden)? 0: CGRectGetMaxX(_dateView.frame) + 5;
+    for (int index = 0; index < _tags.count; index++) {
+        ProjectTagLabel *label = [self p_getLabelWithIndex:index];
+        [label setX:curRightX];
+        [self addSubview:label];
+        curRightX += CGRectGetWidth(label.frame);
+        if (curRightX > viewWidth
+            || (viewWidth - curRightX < 25 && index < _tags.count - 1)) {
+            [self p_makeMoreStyleWithTagLabel:label];
+            break;
+        }
+        curRightX += 5;
+    }
+}
+
+- (ProjectTagLabel *)p_getLabelWithIndex:(NSInteger)index{
+    if (index >= _tags.count) {
+        return nil;
+    }
+    ProjectTagLabel *label;
+    if (!_tagLabelList) {
+        _tagLabelList = [NSMutableArray new];
+    }
+    if (index < _tagLabelList.count) {
+        label = _tagLabelList[index];
+        label.curTag = _tags[index];
+    }else{
+        label = [ProjectTagLabel labelWithTag:_tags[index] font:kProjectTaskListViewCellTagsView_Font height:20 widthPadding:10];
+        [_tagLabelList addObject:label];
+    }
+    return label;
+}
+
+- (void)p_makeMoreStyleWithTagLabel:(ProjectTagLabel *)tagLabel{
+    tagLabel.layer.backgroundColor = [UIColor clearColor].CGColor;
+    tagLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+    tagLabel.text = @"···";
+    [tagLabel setWidth:15];
+}
+@end
+
+
+@interface ProjectTaskListViewCellDateView ()
+@property (strong, nonatomic) UIImageView *dateIcon;
+@property (strong, nonatomic) UILabel *dateStrL;
+@end
+
+@implementation ProjectTaskListViewCellDateView
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self doBorderWidth:0.5 color:[UIColor clearColor] cornerRadius:2.0];
+        {
+            _dateIcon = [UIImageView new];
+            [self addSubview:_dateIcon];
+        }
+        {
+            _dateStrL = [UILabel new];
+            _dateStrL.font = kProjectTaskListViewCellTagsView_Font;
+            [self addSubview:_dateStrL];
+        }
+        {
+            [_dateIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(self);
+                make.left.equalTo(self).offset(5);
+                make.size.mas_equalTo(CGSizeMake(12, 12));
+            }];
+            [_dateStrL mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(self);
+                make.left.equalTo(self.dateIcon.mas_right).offset(5);
+            }];
+        }
+    }
+    return self;
+}
++ (instancetype)viewWithDate:(NSDate *)deadline_date andDone:(BOOL)done{
+    ProjectTaskListViewCellDateView *view = [self new];
+    [view setDate:deadline_date andDone:done];
+    return view;
+}
+- (void)setDate:(NSDate *)deadline_date andDone:(BOOL)done{
+    if (!deadline_date) {
+        [self setSize:CGSizeZero];
+        return;
+    }
+    NSString *textColorStr, *deadlineStr;
+    NSInteger leftDayCount = [deadline_date leftDayCount];
+    switch (leftDayCount) {
+        case 0:
+            textColorStr = @"0xF5A523";
+            deadlineStr = @"今天";
+            break;
+        case 1:
+            textColorStr = @"0x95B763";
+            deadlineStr = @"明天";
+            break;
+        default:
+            textColorStr = leftDayCount > 0? @"0x9AAFC2": @"0xF24B4B";
+            deadlineStr = [deadline_date stringWithFormat:@"MM/dd"];
+            break;
+    }
+    if (done) {
+        textColorStr = @"0xB5B5B5";
     }
 
-    [_userNameLabel setOrigin:CGPointMake(curRightX, curBottomY)];
-    _userNameLabel.text = _task.creator.name;
-    [_userNameLabel sizeToFit];
+    UIColor *textColor = [UIColor colorWithHexString:textColorStr];
+    self.layer.borderColor = textColor.CGColor;
+    _dateIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"calendar_%@", textColorStr]];
+    _dateStrL.textColor = textColor;
+    _dateStrL.text = deadlineStr;
     
-    curRightX = _userNameLabel.maxXOfFrame +10;
-    [_timeClockIconView setOrigin:CGPointMake(curRightX, curBottomY)];
-    [_timeLabel setOrigin:CGPointMake(curRightX +15, curBottomY)];
-    _timeLabel.text = [_task.created_at stringTimesAgo];
-    [_timeLabel sizeToFit];
-    
-    curRightX = _timeLabel.maxXOfFrame +10;
-    [_commentIconView setOrigin:CGPointMake(curRightX, curBottomY)];
-    [_commentCountLabel setOrigin:CGPointMake(curRightX +15, curBottomY)];
-    _commentCountLabel.text = _task.comments.stringValue;
-    [_commentCountLabel sizeToFit];
-}
-+ (CGFloat)cellHeightWithObj:(id)obj{
-    Task *task = (Task *)obj;
-    CGFloat cellHeight = 0;
-    cellHeight += kProjectTaskListViewCell_UpDownPading *2;
-    NSString *contentStr = [NSString stringWithFormat:@"     %@", [task.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
-    cellHeight += [contentStr getHeightWithFont:kProjectTaskListViewCell_ContentFont constrainedToSize:CGSizeMake(kProjectTaskListViewCell_ContentWidth, kProjectTaskListViewCell_MaxContentHeight)];
-    cellHeight += kProjectTaskListViewCell_TextPading;
-    cellHeight += 10;//timeLabel的高度
-    return cellHeight;
+    CGFloat textWidth = [deadlineStr getWidthWithFont:kProjectTaskListViewCellTagsView_Font constrainedToSize:CGSizeMake(CGFLOAT_MAX, 15)];
+    CGSize viewSize = CGSizeMake(textWidth + 12 + 5 * 3, 20);
+    [self setSize:viewSize];
 }
 
 @end
+

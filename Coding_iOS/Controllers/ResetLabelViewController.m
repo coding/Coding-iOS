@@ -64,11 +64,6 @@
     _myTableView.dataSource = nil;
 }
 
-- (NSString *)toModifyPath
-{
-    return [NSString stringWithFormat:@"api/project/%d/topic/label/%lld", _curProTopic.project_id.intValue, _ptLabel.id.longLongValue];
-}
-
 #pragma mark - click
 - (void)cancelBtnClick
 {
@@ -80,7 +75,7 @@
     if (_tempStr.length > 0) {
         __weak typeof(self) weakSelf = self;
         _ptLabel.name = _tempStr;
-        [[Coding_NetAPIManager sharedManager] request_ModifyTag:_ptLabel inProject:_curProTopic.project andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_ModifyTag:_ptLabel inProject:_curProject andBlock:^(id data, NSError *error) {
             if (data) {
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             }

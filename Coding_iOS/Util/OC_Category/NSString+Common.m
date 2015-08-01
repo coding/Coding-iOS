@@ -79,7 +79,7 @@
         return nil;
     }else{
         if (![self hasPrefix:@"http"]) {
-            urlStr = [NSString stringWithFormat:@"%@%@", kNetPath_Code_Base, self];
+            urlStr = [NSString stringWithFormat:@"%@%@", [NSObject baseURLStr], self];
         }else{
             urlStr = self;
         }
@@ -101,7 +101,7 @@
                 urlStr = [NSString stringWithFormat:@"http://coding-net-avatar.qiniudn.com/%@?imageMogr2/auto-orient/thumbnail/!%.0fx%.0fr", imageName, width, width];
                 canCrop = YES;
             }else{
-                urlStr = [NSString stringWithFormat:@"%@%@", kNetPath_Code_Base, self];
+                urlStr = [NSString stringWithFormat:@"%@%@", [NSObject baseURLStr], self];
             }
         }else{
             urlStr = self;
@@ -365,9 +365,10 @@
     if (self.length <= 0) {
         return self;
     }
-    NSMutableString *tempString = [NSMutableString stringWithString:self];
+    NSString *tempString = [self mutableCopy];
     CFStringTransform((CFMutableStringRef)tempString, NULL, kCFStringTransformToLatin, false);
     tempString = (NSMutableString *)[tempString stringByFoldingWithOptions:NSDiacriticInsensitiveSearch locale:[NSLocale currentLocale]];
+    tempString = [tempString stringByReplacingOccurrencesOfString:@" " withString:@""];
     return [tempString uppercaseString];
 }
 

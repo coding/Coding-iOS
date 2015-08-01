@@ -6,8 +6,12 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kTweetCell_PadingLeft 50.0
-#define kTweetCell_PadingTop 45.0
+//#define kTweetCell_PadingLeft 50.0
+//#define kTweetCell_PadingTop 45.0
+
+#define kTweetCell_PadingLeft kPaddingLeftWidth
+#define kTweetCell_PadingTop 55.0
+
 #define kTweetCell_PadingBottom 10.0
 #define kTweetCell_ContentWidth (kScreen_Width -kTweetCell_PadingLeft - kPaddingLeftWidth)
 #define kTweetCell_LikeComment_Height 25.0
@@ -68,13 +72,13 @@
         self.backgroundColor = [UIColor clearColor];
 //        self.backgroundColor = [UIColor colorWithHexString:@"0xf3f3f3"];
         if (!self.ownerImgView) {
-            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(10, 10, 33, 33)];
+            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, 33, 33)];
             [self.ownerImgView doCircleFrame];
             [self.contentView addSubview:self.ownerImgView];
         }
         if (!self.ownerNameBtn) {
             self.ownerNameBtn = [UIButton buttonWithUserStyle];
-            self.ownerNameBtn.frame = CGRectMake(kTweetCell_PadingLeft, 18, 50, 20);
+            self.ownerNameBtn.frame = CGRectMake(CGRectGetMaxX(self.ownerImgView.frame) + 10, 18, 50, 20);
             [self.ownerNameBtn addTarget:self action:@selector(userBtnClicked) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:self.ownerNameBtn];
         }

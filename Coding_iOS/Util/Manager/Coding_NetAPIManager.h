@@ -31,6 +31,7 @@
 #import "CommitInfo.h"
 #import "Commits.h"
 #import "ProjectTag.h"
+#import "CodingBanner.h"
 
 @class CSTopic;
 
@@ -110,6 +111,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_DeleteTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_EditTask:(Task *)task oldTask:(Task *)oldTask andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_EditTask:(Task *)task withDescriptionStr:(NSString *)descriptionStr andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_EditTask:(Task *)task withTags:(NSMutableArray *)selectedTags andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ChangeTaskStatus:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_TaskDetail:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CommentListOfTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
@@ -133,14 +135,8 @@ typedef NS_ENUM(NSUInteger, VerifyType){
                                andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectTopic_Count_WithPath:(NSString *)path
                                    andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_ProjectTopic_LabelAll_WithPath:(NSString *)path
-                                      andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectTopic_LabelMy_WithPath:(NSString *)path
                                      andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_ProjectTopic_AddLabel_WithPath:(NSString *)path
-                                      andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_ProjectTopic_DelLabel_WithPath:(NSString *)path
-                                      andBlock:(void (^)(id data, NSError *error))block;
 
 // Project Tag
 - (void)request_TagListInProject:(Project *)project type:(ProjectTagType)type andBlock:(void (^)(id data, NSError *error))block;
@@ -177,7 +173,8 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_SendPrivateMessage:(PrivateMessage *)nextMsg andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_SendPrivateMessage:(PrivateMessage *)nextMsg andBlock:(void (^)(id data, NSError *error))block progerssBlock:(void (^)(CGFloat progressValue))progress;
 - (void)request_CodingTips:(CodingTips *)curTips andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_markReadWithCodingTip:(NSString *)tipIdStr andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_markReadWithCodingTips:(CodingTips *)curTips andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_markReadWithCodingTipIdStr:(NSString *)tipIdStr andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeletePrivateMessage:(PrivateMessage *)curMsg andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeletePrivateMessagesWithObj:(PrivateMessage *)curObj andBlock:(void (^)(id data, NSError *error))block;
 
@@ -223,5 +220,6 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_WatchedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block;
 
 - (void)request_Topic_DoWatch_WithUrl:(NSString *)url andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_BannersWithBlock:(void (^)(id data, NSError *error))block;
 
 @end
