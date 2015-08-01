@@ -86,6 +86,12 @@
             [self.tableHeader updateWithTopic:data];
         }
     }];
+    
+    [[Coding_NetAPIManager sharedManager] request_Users_WithTopicID:_topicID andBlock:^(NSArray *userlist, NSError *error) {
+        if (userlist) {
+            [self.tableHeader updateWithJoinedUsers:userlist];
+        }
+    }];
 }
 
 #pragma mark - table view

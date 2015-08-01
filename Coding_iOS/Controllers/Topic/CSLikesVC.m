@@ -10,12 +10,15 @@
 #import "User.h"
 #import "UserCell.h"
 #import "UserInfoViewController.h"
+#import "Coding_NetAPIManager.h"
+#import "ODRefreshControl.h"
 
 @interface CSLikesVC ()
 
 @property (strong, nonatomic) UITableView *myTableView;
 @property (strong, nonatomic) NSMutableArray *searchResults;
-
+@property (strong, nonatomic) ODRefreshControl *myRefreshControl;
+@property (nonatomic,strong)NSArray *userlist;
 @end
 
 @implementation CSLikesVC
@@ -39,7 +42,28 @@
         tableView;
     });
     
-    [self.myTableView reloadData];
+//    _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
+//    [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    
+    _userlist = @[];
+    [self refresh];
+    
+}
+
+- (void)refresh {
+    
+    [[Coding_NetAPIManager sharedManager] request_JoinedUsers_WithTopicID:_topicID page:1 andBlock:^(NSArray *datalist, NSError *error) {
+        if (datalist) {
+            self.userlist = datalist;
+            [self.myTableView reloadData];
+        }
+    }];
+}
+
+- (void)dealloc
+{
+    _myTableView.delegate = nil;
+    _myTableView.dataSource = nil;
 }
 
 #pragma mark Table M

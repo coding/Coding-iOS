@@ -9,7 +9,5 @@
 #import "LikersViewController.h"
 
 @interface CSLikesVC : BaseViewController<UITableViewDataSource, UITableViewDelegate>
-
-@property (nonatomic,strong)NSArray *userlist;
-
+@property (nonatomic,assign)int topicID;
 @end

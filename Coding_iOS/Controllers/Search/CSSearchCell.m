@@ -224,7 +224,6 @@
     cellHeight += 20;
     cellHeight += kTweetCell_PadingTop;
     cellHeight += [CSSearchCell contentLabelHeightWithTweet:tweet];
-//    cellHeight += [CSSearchCell contentMediaHeightWithTweet:tweet];
     cellHeight += kTweetCell_PadingBottom;
     return cellHeight;
 }

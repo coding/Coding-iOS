@@ -205,6 +205,10 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_MDHtmlStr_WithMDStr:(NSString *)mdStr inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_VerifyTypeWithBlock:(void (^)(VerifyType type, NSError *error))block;
 
+- (void)request_Users_WithTopicID:(int )topicID andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_JoinedUsers_WithTopicID:(int )topicID page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
+
+
 //Topic HotKey
 - (void)request_TopicHotkeyWithBlock:(void (^)(id data, NSError *error))block;
 //Topic

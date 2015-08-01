@@ -70,7 +70,7 @@
             }
             
             currentSize = [self computeSizeFromString:displayHotkey];
-            currentSize = CGSizeMake(currentSize.width, currentSize.height + 10.0f);
+//            currentSize = CGSizeMake(currentSize.width, currentSize.height + 10.0f);
             if (currentSize.width >= maxWidth) {
                 
                 CGFloat height = ((int)currentSize.width % (int)maxWidth ? currentSize.width / maxWidth : currentSize.width / maxWidth + 1) * currentSize.height;
@@ -112,9 +112,17 @@
 
 - (CGSize)computeSizeFromString:(NSString *)string {
     
-    CGSize size = [string sizeWithAttributes:@{ NSFontAttributeName:[UIFont systemFontOfSize:12.0f] }];
-    CGSize adjustedSize = CGSizeMake(ceilf(size.width), ceilf(size.height));
-    return adjustedSize;
+//    CGSize size = [string sizeWithAttributes:@{ NSFontAttributeName:[UIFont systemFontOfSize:12.0f] }];
+//    CGSize adjustedSize = CGSizeMake(ceilf(size.width), ceilf(size.height));
+//    return adjustedSize;
+    
+    CGSize maxSize = CGSizeMake(kScreen_Width, 30);
+    CGSize curSize = [string boundingRectWithSize:maxSize
+                                          options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                       attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12.0f] }
+                                          context:nil].size;
+    return CGSizeMake(ceilf(curSize.width), 30);
+    
 }
 
 - (void)didClickButton:(id)sender {

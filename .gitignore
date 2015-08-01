@@ -17,6 +17,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 
+Coding_iOS/Coding_iOS-Prefix.pch
 Coding_iOS/Views/.DS_Store
 # CocoaPods
 #

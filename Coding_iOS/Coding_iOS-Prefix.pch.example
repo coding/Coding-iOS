@@ -26,6 +26,7 @@
     #import "UITableView+Common.h"
     #import "UIView+Common.h"
     #import "UIImageView+Common.h"
+    #import "UIView+Frame.h"
     #import "UILabel+Common.h"
     #import "NSDate+Common.h"
     #import "UIBarButtonItem+Common.h"
@@ -36,6 +37,7 @@
     #import "NSObject+ObjectMap.h"
     #import "ImageSizeManager.h"
     #import "MobClick.h"
+
     #import <BlocksKit/BlocksKit+UIKit.h>
     #import <ReactiveCocoa/ReactiveCocoa.h>
     #import <ReactiveCocoa/RACEXTScope.h>

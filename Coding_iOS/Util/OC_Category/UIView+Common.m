@@ -587,6 +587,13 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"无私信\n打个招呼吧～";
             }
                 break;
+            case EaseBlankPageTypeMyJoinedTopic://我参与的话题
+            case EaseBlankPageTypeMyWatchedTopic://我关注的话题
+            {
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"您还没有话题呢～";
+            }
+                break;
             default://其它页面（这里没有提到的页面，都属于其它）
             {
                 imageName = @"blankpage_image_Sleep";

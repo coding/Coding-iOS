@@ -13,6 +13,7 @@
 @interface CSTopicHeaderView : UIView
 @property (nonatomic,weak)UIViewController *parentVC;
 - (void)updateWithTopic:(NSDictionary*)data;
+- (void)updateWithJoinedUsers:(NSArray*)userlist;
 
 @end
 

@@ -1906,6 +1906,37 @@
         }
     }];
 }
+
+- (void)request_Users_WithTopicID:(int )topicID andBlock:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"api/tweet_topic/%d/hot_joined",topicID];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"User"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_JoinedUsers_WithTopicID:(int )topicID page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"api/tweet_topic/%d/joined",topicID];
+    NSDictionary *params = @{
+                             @"page":@(page),
+                             @"pageSize":@(50)
+                             };
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = data[@"data"][@"list"];
+            NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"User"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_MDHtmlStr_WithMDStr:(NSString *)mdStr inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"md-html转化"];
     NSString *path = @"api/markdown/previewNoAt";
@@ -2067,7 +2098,7 @@
 
 - (void)request_Topic_DoWatch_WithUrl:(NSString *)url andBlock:(void (^)(id data, NSError *error))block{
     
-    BOOL isUnwatched = [url hasPrefix:@"unwatched"];
+    BOOL isUnwatched = [url hasSuffix:@"unwatch"];
     NetworkMethod method = isUnwatched ? Delete : Post;
     
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:url withParams:nil withMethodType:method andBlock:^(id data, NSError *error) {

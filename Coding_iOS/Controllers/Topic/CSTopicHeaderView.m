@@ -92,10 +92,8 @@
 }
 
 - (void)goAllUsers {
-    
-    NSArray *userlist = [NSObject arrayFromJSON:_refTopic[@"user_list"] ofObjects:@"User"];
     CSLikesVC *vc = [[CSLikesVC alloc] init];
-    vc.userlist = userlist;
+    vc.topicID = [self.refTopic[@"id"]intValue];
     [self.parentVC.navigationController pushViewController:vc animated:YES];
 }
 
@@ -127,12 +125,15 @@
     NSString *imageName = _watched? @"btn_project_added":@"btn_project_add";
     [_rightBtn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
     
-    NSArray *userlist = data[@"user_list"];
+    
+}
+
+- (void)updateWithJoinedUsers:(NSArray*)userlist {
     if (!_avatalist) {
         _avatalist = [NSMutableArray array];
         
         for (int i=0; i<userlist.count; i++) {
-            NSDictionary *user = userlist[i];
+            User *user = userlist[i];
             UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 114, 42, 42)];
             [iconView doCircleFrame];
             iconView.left = 16 + i *(9 + 42);
@@ -141,13 +142,12 @@
             }
             
             [self addSubview:iconView];
-//            [iconView sd_setImageWithURL:[user[@"avatar"] urlWithCodePath]];
-            [iconView sd_setImageWithURL:[user[@"avatar"] urlImageWithCodePathResizeToView:iconView] placeholderImage:[UIImage imageNamed:@"icon_user_monkey"]];
+            
+            [iconView sd_setImageWithURL:[user.avatar urlImageWithCodePathResizeToView:iconView] placeholderImage:[UIImage imageNamed:@"icon_user_monkey"]];
             
             [_avatalist addObject:iconView];
         }
     }
-    
 }
 
 @end

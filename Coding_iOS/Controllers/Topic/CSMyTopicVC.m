@@ -68,7 +68,7 @@
         [weakCarousel scrollToItemAtIndex:index animated:NO];
     }];
     [self.view addSubview:_mySegmentControl];
-    _myCarousel.scrollEnabled = NO;
+    _myCarousel.scrollEnabled = YES;
 
 }
 

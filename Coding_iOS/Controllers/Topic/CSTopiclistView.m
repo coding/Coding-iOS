@@ -158,21 +158,20 @@
     [self.myRefreshControl endRefreshing];
     [self endLoading];
     if (data) {
-        
         [_dataList addObjectsFromArray:[data[@"list"] copy]];
         self.myTableView.showsInfiniteScrolling = self.hasMore;
         [self.myTableView reloadData];
     }
-//    EaseBlankPageType blankPageType;
-//    if (weakSelf.myProjects.type < ProjectsTypeTaProject
-//        || [weakSelf.myProjects.curUser.global_key isEqualToString:[Login curLoginUser].global_key]) {
-//        blankPageType = EaseBlankPageTypeProject;
-//    }else{
-//        blankPageType = EaseBlankPageTypeProjectOther;
-//    }
-//    [weakSelf configBlankPage:blankPageType hasData:(weakSelf.myProjects.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-//        [weakSelf refresh];
-//    }];
+    EaseBlankPageType blankPageType;
+    
+    if (_type == CSMyTopicsTypeWatched) {
+        blankPageType = EaseBlankPageTypeMyWatchedTopic;
+    }else{
+        blankPageType = EaseBlankPageTypeMyJoinedTopic;
+    }
+    [self configBlankPage:blankPageType hasData:(self.dataList.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [self refresh];
+    }];
 }
 
 - (void)refreshToQueryData {

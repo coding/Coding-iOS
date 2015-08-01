@@ -157,13 +157,6 @@
         vc.topicID = [dict[@"id"] intValue];
         [weakSelf.parentVC.navigationController pushViewController:vc animated:YES];
         
-        //TODO psy
-//        self.searchBar.text = key;
-//        [CSSearchModel addSearchHistory:self.searchBar.text];
-//        [self initSearchHistoryView];
-//        [self.searchBar resignFirstResponder];
-//        
-//        [self initSearchResultsTableView];
     };
     [_contentView addSubview:_topicHotkeyView];
     [_topicHotkeyView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -224,7 +217,7 @@
             
             self.headerLabel = ({
             
-                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 35)];
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 44)];
                 label.backgroundColor = [UIColor whiteColor];
                 label.textColor = [UIColor colorWithHexString:@"0x999999"];
                 label.textAlignment = NSTextAlignmentCenter;
@@ -275,13 +268,14 @@
     NSArray *array = [CSSearchModel getSearchHistory];
     CGFloat imageLeft = 12.0f;
     CGFloat textLeft = 34.0f;
-    CGFloat height = 35.0f;
+    CGFloat height = 44.0f;
     
     for (int i = 0; i < array.count; i++) {
         
         UILabel *lblHistory = [[UILabel alloc] initWithFrame:CGRectMake(textLeft, i * height, kScreen_Width - textLeft, height)];
         lblHistory.userInteractionEnabled = YES;
-        lblHistory.textColor = [UIColor colorWithHexString:@"0x999999"];
+        lblHistory.font = [UIFont systemFontOfSize:14];
+        lblHistory.textColor = [UIColor colorWithHexString:@"0x222222"];
         lblHistory.text = array[i];
         
         UIImageView *leftView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 12, 12)];
@@ -309,9 +303,10 @@
     if(array.count) {
     
         UIButton *btnClean = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnClean.titleLabel.font = [UIFont systemFontOfSize:14];
         [btnClean setTitle:@"清除搜索历史" forState:UIControlStateNormal];
-        [btnClean setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
-        [btnClean setTitleColor:[UIColor colorWithHexString:@"0x3bbd79" andAlpha:.3] forState:UIControlStateHighlighted];
+        [btnClean setTitleColor:[UIColor colorWithHexString:@"0x1bbf75"] forState:UIControlStateNormal];
+//        [btnClean setTitleColor:[UIColor colorWithHexString:@"0x3bbd79" andAlpha:.3] forState:UIControlStateHighlighted];
         [btnClean setFrame:CGRectMake(0, array.count * height, kScreen_Width, height)];
         [_searchHistoryView addSubview:btnClean];
         [btnClean addTarget:self action:@selector(didCLickedCleanSearchHistory:) forControlEvents:UIControlEventTouchUpInside];
@@ -469,7 +464,6 @@
     cell.userBtnClickedBlock = ^(User *curUser){
         UserInfoViewController *vc = [[UserInfoViewController alloc] init];
         vc.curUser = curUser;
-//        [[[UIApplication sharedApplication].windows[0] rootViewController].navigationController pushViewController:vc animated:YES];
         [self.parentVC.parentViewController.navigationController pushViewController:vc animated:YES];
     };
     cell.mediaItemClickedBlock = ^(HtmlMediaItem *curItem){
