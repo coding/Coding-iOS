@@ -383,7 +383,7 @@
         HtmlMediaItem *curMediaItem = tweet.htmlMedia.imageItems.firstObject;
         contentMediaHeight = (mediaCount == 1)?
         [TweetMediaItemSingleCCell ccellSizeWithObj:curMediaItem].height:
-        ceilf((float)mediaCount/3)*([TweetMediaItemCCell ccellSizeWithObj:curMediaItem].height+kTweetCell_LikeUserCCell_Pading) - kTweetCell_LikeUserCCell_Pading;
+        ceilf((float)mediaCount/3)*([TweetMediaItemCCell ccellSizeWithObj:curMediaItem].height+3.0) - 3.0;
     }
     return contentMediaHeight;
 }
@@ -510,10 +510,18 @@
     return insetForSection;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    return kTweetCell_LikeUserCCell_Pading;
+    if (collectionView == _mediaView) {
+        return 3.0;
+    }else{
+        return kTweetCell_LikeUserCCell_Pading;
+    }
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return kTweetCell_LikeUserCCell_Pading/2;
+    if (collectionView == _mediaView) {
+        return 3.0;
+    }else{
+        return kTweetCell_LikeUserCCell_Pading/2;
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{

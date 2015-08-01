@@ -34,8 +34,8 @@
         _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kTweetSendImageCCell_Width, kTweetSendImageCCell_Width)];
         _imgView.contentMode = UIViewContentModeScaleAspectFill;
         _imgView.clipsToBounds = YES;
-        _imgView.layer.masksToBounds = YES;
-        _imgView.layer.cornerRadius = 2.0;
+//        _imgView.layer.masksToBounds = YES;
+//        _imgView.layer.cornerRadius = 2.0;
         [self.contentView addSubview:_imgView];
     }
     _curTweetImg = curTweetImg;
