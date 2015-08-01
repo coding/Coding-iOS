@@ -21,7 +21,8 @@ typedef NS_ENUM(NSInteger, UIMessageInputViewContentType) {
 typedef NS_ENUM(NSInteger, UIMessageInputViewState) {
     UIMessageInputViewStateSystem,
     UIMessageInputViewStateEmotion,
-    UIMessageInputViewStateAdd
+    UIMessageInputViewStateAdd,
+    UIMessageInputViewStateVoice
 };
 @protocol UIMessageInputViewDelegate;
 
@@ -48,6 +49,7 @@ typedef NS_ENUM(NSInteger, UIMessageInputViewState) {
 @optional
 - (void)messageInputView:(UIMessageInputView *)inputView sendText:(NSString *)text;
 - (void)messageInputView:(UIMessageInputView *)inputView sendBigEmotion:(NSString *)emotionName;
+- (void)messageInputView:(UIMessageInputView *)inputView sendVoice:(NSString *)file duration:(NSTimeInterval)duration;
 - (void)messageInputView:(UIMessageInputView *)inputView addIndexClicked:(NSInteger)index;
 - (void)messageInputView:(UIMessageInputView *)inputView heightToBottomChenged:(CGFloat)heightToBottom;
 @end
