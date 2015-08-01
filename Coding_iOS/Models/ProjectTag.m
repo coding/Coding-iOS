@@ -37,7 +37,7 @@
 }
 
 + (BOOL)tags:(NSArray *)aTags isEqualTo:(NSArray *)bTags{
-    if (aTags.count == 0 && aTags.count == 0) {
+    if (aTags.count == 0 && bTags.count == 0) {
         return YES;
     }
     BOOL isSame = YES;
