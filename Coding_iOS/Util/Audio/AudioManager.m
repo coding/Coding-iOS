@@ -145,6 +145,9 @@
         if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecordStoped:file:duration:successfully:)]) {
             [_delegate didAudioRecordStoped:self file:recordFile duration:duration successfully:successfully];
         }
+        //remove tmp file
+        [[NSFileManager defaultManager] removeItemAtPath:_tmpFile error:nil];
+        _tmpFile = nil;
     }
 }
 

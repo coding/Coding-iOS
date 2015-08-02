@@ -146,6 +146,10 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
             _recordSuccessfully(file, duration);
         }
     }
+    else if (self.state == UIMessageInputView_VoiceStateCancel) {
+        //remove record file
+        [[NSFileManager defaultManager] removeItemAtPath:file error:nil];
+    }
     self.state = UIMessageInputView_VoiceStateReady;
     _duration = 0;
 }
