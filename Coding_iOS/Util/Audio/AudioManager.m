@@ -104,16 +104,27 @@
     
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
     [[AVAudioSession sharedInstance] setActive:YES error: nil];
-    _audioRecorder.delegate = self;
-    _audioRecorder.meteringEnabled = YES;
-    [_audioRecorder record];
-    _validator = validator;
-    _isRecording = YES;
-    [self startUpdateMeter];
     
-    if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecordStarted:)]) {
-        [_delegate didAudioRecordStarted:self];
-    }
+    [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+        if (granted) {
+            _audioRecorder.delegate = self;
+            _audioRecorder.meteringEnabled = YES;
+            [_audioRecorder record];
+            _validator = validator;
+            _isRecording = YES;
+            [self startUpdateMeter];
+            
+            if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecordStarted:)]) {
+                [_delegate didAudioRecordStarted:self];
+            }
+        }
+        else {
+            NSError *err = [NSError errorWithDomain:@"没有权限" code:200 userInfo:nil];
+            if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecord:err:)]) {
+                [_delegate didAudioRecord:self err:err];
+            }
+        }
+    }];
 }
 
 - (void)stopRecord {
