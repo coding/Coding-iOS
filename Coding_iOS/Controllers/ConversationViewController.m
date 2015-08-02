@@ -53,6 +53,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[MessageCell class] forCellReuseIdentifier:kCellIdentifier_Message];
         [tableView registerClass:[MessageCell class] forCellReuseIdentifier:kCellIdentifier_MessageMedia];
+        [tableView registerClass:[MessageCell class] forCellReuseIdentifier:kCellIdentifier_MessageVoice];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -131,6 +132,13 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
 
 - (void)messageInputView:(UIMessageInputView *)inputView sendBigEmotion:(NSString *)emotionName{
     [self sendPrivateMessage:emotionName];
+}
+
+- (void)messageInputView:(UIMessageInputView *)inputView sendVoice:(NSString *)file duration:(NSTimeInterval)duration {
+    VoiceMedia *vm = [[VoiceMedia alloc] init];
+    vm.file = file;
+    vm.duration = duration;
+    [self sendPrivateMessage:vm];
 }
 
 - (void)messageInputView:(UIMessageInputView *)inputView addIndexClicked:(NSInteger)index{
@@ -229,6 +237,8 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
     PrivateMessage *curMsg = [_myPriMsgs.dataList objectAtIndex:curIndex];
     if (curMsg.hasMedia) {
         cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MessageMedia forIndexPath:indexPath];
+    }else if (curMsg.voiceMedia) {
+        cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MessageVoice forIndexPath:indexPath];
     }else{
         cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Message forIndexPath:indexPath];
     }

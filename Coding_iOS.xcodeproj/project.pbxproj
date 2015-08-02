@@ -476,6 +476,7 @@
 		7EB02FF21B6D111300D2166C /* BubblePlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FEE1B6D111300D2166C /* BubblePlayView.m */; };
 		7EB02FF31B6D111300D2166C /* AudioRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FF01B6D111300D2166C /* AudioRecordView.m */; };
 		7EB02FF61B6DAF3800D2166C /* AudioVolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FF51B6DAF3800D2166C /* AudioVolumeView.m */; };
+		7EB02FFC1B6E001300D2166C /* VoiceMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FFB1B6E001300D2166C /* VoiceMedia.m */; };
 		8E03D4A219F695FE0092F8C8 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */; };
 		8E03D4A419F696970092F8C8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D4A319F696970092F8C8 /* libz.dylib */; };
 		8E1C3DEA19E7D58A00EF3032 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3DDA19E7D58A00EF3032 /* AbstractActionSheetPicker.m */; };
@@ -1519,6 +1520,8 @@
 		7EB02FF01B6D111300D2166C /* AudioRecordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecordView.m; sourceTree = "<group>"; };
 		7EB02FF41B6DAF3800D2166C /* AudioVolumeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVolumeView.h; sourceTree = "<group>"; };
 		7EB02FF51B6DAF3800D2166C /* AudioVolumeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioVolumeView.m; sourceTree = "<group>"; };
+		7EB02FFA1B6E001300D2166C /* VoiceMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceMedia.h; sourceTree = "<group>"; };
+		7EB02FFB1B6E001300D2166C /* VoiceMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceMedia.m; sourceTree = "<group>"; };
 		8B18B0211092D3903D031B13 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		8E03D4A019F695FE0092F8C8 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
@@ -3678,6 +3681,8 @@
 				4E4D6AB11B21A96100FD2E49 /* Commits.m */,
 				4E095A571B690494008DC439 /* CodingBanner.h */,
 				4E095A581B690494008DC439 /* CodingBanner.m */,
+				7EB02FFA1B6E001300D2166C /* VoiceMedia.h */,
+				7EB02FFB1B6E001300D2166C /* VoiceMedia.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4740,6 +4745,7 @@
 				8E64ED8019ED0CE3006E99DA /* QBAssetsCollectionViewController.m in Sources */,
 				4E996BD71ABA776500C704F1 /* UserInfoDetailTagCell.m in Sources */,
 				4E87656A1A22E5B40090CFB9 /* SWUtilityButtonView.m in Sources */,
+				7EB02FFC1B6E001300D2166C /* VoiceMedia.m in Sources */,
 				8EABE3C819F10D2400A17784 /* TaskComment.m in Sources */,
 				8E97CE471A0A2DF8006F9AD7 /* AGEmojiKeyBoardView.m in Sources */,
 				4E53EB521AFA03990034FE1C /* RKSwipeBetweenViewControllers.m in Sources */,

@@ -20,13 +20,14 @@
 #import "MJPhotoBrowser.h"
 #import "UICustomCollectionView.h"
 #import "Login.h"
-
+#import "BubblePlayView.h"
 
 @interface MessageCell ()
 @property (strong, nonatomic) PrivateMessage *curPriMsg, *prePriMsg;
 
 @property (strong, nonatomic) UITapImageView *userIconView;
 @property (strong, nonatomic) UICustomCollectionView *mediaView;
+@property (strong, nonatomic) BubblePlayView *voiceView;
 @property (strong, nonatomic) NSMutableDictionary *imageViewsDict;
 
 @property (strong, nonatomic) UIActivityIndicatorView *sendingStatus;
@@ -83,6 +84,13 @@
             }
             if (!_imageViewsDict) {
                 _imageViewsDict = [[NSMutableDictionary alloc] init];
+            }
+        }
+        else if ([reuseIdentifier isEqualToString:kCellIdentifier_MessageVoice]) {
+            if (!_voiceView) {
+                _voiceView = [[BubblePlayView alloc] initWithFrame:CGRectMake(0, 0, kMessageCell_ContentWidth, 40)];
+                _voiceView.showBgImg = NO;
+                [_bgImgView addSubview:_voiceView];
             }
         }
     }
@@ -151,7 +159,9 @@
         
         bgImgViewSize = CGSizeMake(kMessageCell_ContentWidth +2*kMessageCell_PadingWidth,
                                    mediaViewHeight +textSize.height + kMessageCell_PadingHeight*(_curPriMsg.content.length > 0? 3:2));
-    }else{
+    } else if (curPriMsg.voiceMedia) {
+        bgImgViewSize = CGSizeMake(kMessageCell_ContentWidth, 40);
+    } else{
         [_contentLabel setY:kMessageCell_PadingHeight];
         
         bgImgViewSize = CGSizeMake(textSize.width +2*kMessageCell_PadingWidth, textSize.height +2*kMessageCell_PadingHeight);
@@ -167,6 +177,9 @@
         bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImg.size.height - 19, bgImg.size.width - 31)];
         _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
+        if (_voiceView) {
+            _voiceView.type = BubbleTypeLeft;
+        }
     }else{
         //        这是自己发的
         bgImgViewFrame = CGRectMake((kScreen_Width - kPaddingLeftWidth - kMessageCell_UserIconWith) -bgImgViewSize.width, curBottomY +kMessageCell_PadingHeight, bgImgViewSize.width, bgImgViewSize.height);
@@ -175,6 +188,9 @@
         bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImg.size.height - 19, bgImg.size.width - 31)];
         _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
+        if (_voiceView) {
+            _voiceView.type = BubbleTypeRight;
+        }
     }
     
     __weak typeof(self) weakSelf = self;
@@ -188,6 +204,10 @@
     if (_mediaView) {
         [_mediaView setHeight:mediaViewHeight];
         [_mediaView reloadData];
+    }
+    if (_voiceView) {
+        _voiceView.url = [NSURL fileURLWithPath:curPriMsg.voiceMedia.file];
+        _voiceView.duration = curPriMsg.voiceMedia.duration;
     }
     [self configSendStatus];
     

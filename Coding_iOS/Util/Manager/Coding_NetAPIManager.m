@@ -1640,7 +1640,20 @@
             }
         } progerssBlock:^(CGFloat progressValue) {
         }];
-    }else{
+    } else if (nextMsg.voiceMedia) {
+        [MobClick event:kUmeng_Event_Request label:@"发送私信_有语音"];
+        [self uploadTweetVoice:nextMsg.voiceMedia doneBlock:^(NSString *voicePath, NSError *error) {
+            if (voicePath) {
+                //                上传成功后，发送私信
+                nextMsg.extra = voicePath;
+                [self request_SendPrivateMessage:nextMsg andBlock:block];
+            }else{
+                nextMsg.sendStatus = PrivateMessageStatusSendFail;
+                block(nil, error);
+            }
+        } progerssBlock:^(CGFloat progressValue) {
+        }];
+    } else {
 //        发送私信
         [MobClick event:kUmeng_Event_Request label:@"发送私信_无图"];
         [self request_SendPrivateMessage:nextMsg andBlock:block];
@@ -1831,6 +1844,16 @@
     } progerssBlock:^(CGFloat progressValue) {
         progress(progressValue);
     }];
+}
+- (void)uploadTweetVoice:(VoiceMedia *)voiceMedia
+               doneBlock:(void (^)(NSString *voicePath, NSError *error))done
+           progerssBlock:(void (^)(CGFloat progressValue))progress {
+    if (voiceMedia == 0) {
+        done(nil, [NSError errorWithDomain:@"DATA EMPTY" code:0 userInfo:@{NSLocalizedDescriptionKey : @"语音没有读取成功"}]);
+        return;
+    }
+    NSError *error = [NSError errorWithDomain:@"语音上传失败" code:200 userInfo:nil];
+    done(nil, error);
 }
 - (void)request_UpdateUserIconImage:(UIImage *)image
                        successBlock:(void (^)(id responseObj))success

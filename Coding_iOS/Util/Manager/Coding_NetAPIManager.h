@@ -192,6 +192,11 @@ typedef NS_ENUM(NSUInteger, VerifyType){
                doneBlock:(void (^)(NSString *imagePath, NSError *error))done
               progerssBlock:(void (^)(CGFloat progressValue))progress;
 
+- (void)uploadTweetVoice:(NSString *)voiceFile
+                duration:(NSTimeInterval)duration
+               doneBlock:(void (^)(NSString *voicePath, NSError *error))done
+           progerssBlock:(void (^)(CGFloat progressValue))progress;
+
 - (void)request_UpdateUserIconImage:(UIImage *)image
                        successBlock:(void (^)(id responseObj))success
                        failureBlock:(void (^)(NSError *error))failure
