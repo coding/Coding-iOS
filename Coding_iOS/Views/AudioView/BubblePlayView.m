@@ -8,10 +8,6 @@
 
 #import "BubblePlayView.h"
 
-#define kBubblePlayViewBubbleMaxWidth 120.0f
-#define kBubblePlayViewBubbleMinWidth 60.0f
-#define kBubblePlayViewMaxDuration 60
-
 @interface BubblePlayView ()
 
 @property (nonatomic, strong) UIImageView *bgImageView;
@@ -25,7 +21,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _bgImageView = [[UIImageView alloc] init];
+        _bgImageView = [[UIImageView alloc] initWithFrame:self.bounds];
         [self addSubview:_bgImageView];
         
         _playImageView = [[UIImageView alloc] init];
@@ -33,10 +29,11 @@
         
         _durationLbl = [[UILabel alloc] init];
         _durationLbl.backgroundColor = [UIColor clearColor];
-        _durationLbl.font = [UIFont systemFontOfSize:11];
-        _durationLbl.textColor = [UIColor lightGrayColor];
+        _durationLbl.font = [UIFont systemFontOfSize:16];
+        _durationLbl.textColor = [UIColor blackColor];
         [self addSubview:_durationLbl];
         
+        self.showBgImg = YES;
         self.type = BubbleTypeLeft;
         self.duration = 0;
     }
@@ -45,45 +42,31 @@
 
 - (void)sizeToFit {
     [super sizeToFit];
-    
-    CGFloat bubbleWidth = [self bubbleWidthWithDuration:_duration];
-    self.width = _durationLbl.frame.size.width + 10 + bubbleWidth;
-    _bgImageView.size = CGSizeMake(bubbleWidth, self.frame.size.height);
-    
     if (_type == BubbleTypeRight) {
-//        _durationLbl.leftCenter = CGPointMake(0, self.height/2);
-//        _bgImageView.rightCenter = CGPointMake(self.width, self.height/2);
-//        _playImageView.rightCenter = CGPointMake(self.width-10, self.height/2);
+        [_playImageView setOrigin:CGPointMake(16, (self.frame.size.height-_playImageView.frame.size.height)/2-1)];
+        [_durationLbl setOrigin:CGPointMake(16+8+_playImageView.frame.size.height, (self.frame.size.height-_durationLbl.frame.size.height)/2-1)];
     }
     else {
-//        _durationLbl.rightCenter = CGPointMake(self.width, self.height/2);
-//        _bgImageView.leftCenter = CGPointMake(0, self.height/2);
-//        _playImageView.leftCenter = CGPointMake(10, self.height/2);
+        [_playImageView setOrigin:CGPointMake(self.frame.size.width-_playImageView.frame.size.width-16, (self.frame.size.height-_playImageView.frame.size.height)/2-1)];
+        [_durationLbl setOrigin:CGPointMake(self.frame.size.width-_playImageView.frame.size.width-16-8-_durationLbl.frame.size.width, (self.frame.size.height-_durationLbl.frame.size.height)/2-1)];
     }
-}
-
-- (void)setHighlighted:(BOOL)highlighted {
-    [super setHighlighted:highlighted];
-    _bgImageView.highlighted = highlighted;
 }
 
 - (void)setType:(BubbleType)type {
     _type = type;
     UIImage *bgImage = nil;
-    UIImage *bgHighlightedImage = nil;
     UIImage *playImage = nil;
     if (type == BubbleTypeRight) {
-//        bgImage = [UIImage stretchImage:@"bubble_right_bg"];
-//        bgHighlightedImage = [UIImage stretchImage:@"bubble_right_bg_highlight"];
-//        playImage = [UIImage imageNamed:@"bubble_right_playing"];
+        bgImage = [UIImage imageNamed:@"messageRight_bg_img"];
+        bgImage = [bgImage resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImage.size.height - 19, bgImage.size.width - 31)];
+        playImage = [UIImage imageNamed:@"add_user_icon"];
     }
     else {
-//        bgImage = [UIImage stretchImage:@"bubble_left_bg"];
-//        bgHighlightedImage = [UIImage stretchImage:@"bubble_left_bg_highlight"];
-//        playImage = [UIImage imageNamed:@"bubble_left_playing"];
+        bgImage = [UIImage imageNamed:@"messageLeft_bg_img"];
+        bgImage = [bgImage resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImage.size.height - 19, bgImage.size.width - 31)];
+        playImage = [UIImage imageNamed:@"add_user_icon"];
     }
     _bgImageView.image = bgImage;
-    _bgImageView.highlightedImage = bgHighlightedImage;
     _playImageView.size = playImage.size;
     _playImageView.image = playImage;
     
@@ -95,9 +78,6 @@
     if (duration < 0) {
         _duration = 0;
     }
-    else if (duration >= kBubblePlayViewMaxDuration) {
-        _duration = kBubblePlayViewMaxDuration;
-    }
     
     _durationLbl.text = [NSString stringWithFormat:@"%d''", (int)_duration];
     [_durationLbl sizeToFit];
@@ -105,8 +85,9 @@
     [self sizeToFit];
 }
 
-- (CGFloat)bubbleWidthWithDuration:(NSInteger)duration {
-    return kBubblePlayViewBubbleMinWidth + (kBubblePlayViewBubbleMaxWidth - kBubblePlayViewBubbleMinWidth) * (duration / kBubblePlayViewMaxDuration);
+- (void)setShowBgImg:(BOOL)showBgImg {
+    _showBgImg = showBgImg;
+    _bgImageView.hidden = !showBgImg;
 }
 
 #pragma mark - Download
@@ -127,23 +108,23 @@
 
 - (void)didAudioPlayStarted:(AudioManager *)am {
     [super didAudioPlayStarted:am];
-    if (_type == BubbleTypeRight) {
-        _playImageView.image = [UIImage animatedImageNamed:@"bubble_right_playing_" duration:1];
-    }
-    else {
-        _playImageView.image = [UIImage animatedImageNamed:@"bubble_left_playing_" duration:1];
-    }
-    [_playImageView startAnimating];
+//    if (_type == BubbleTypeRight) {
+//        _playImageView.image = [UIImage animatedImageNamed:@"bubble_right_playing_" duration:1];
+//    }
+//    else {
+//        _playImageView.image = [UIImage animatedImageNamed:@"bubble_left_playing_" duration:1];
+//    }
+//    [_playImageView startAnimating];
 }
 
 - (void)didAudioPlayStoped:(AudioManager *)am successfully:(BOOL)successfully {
     [super didAudioPlayStoped:am successfully:successfully];
     [_playImageView stopAnimating];
     if (_type == BubbleTypeRight) {
-        _playImageView.image = [UIImage imageNamed:@"bubble_right_playing"];
+        _playImageView.image = [UIImage imageNamed:@"add_user_icon"];
     }
     else {
-        _playImageView.image = [UIImage imageNamed:@"bubble_left_playing"];
+        _playImageView.image = [UIImage imageNamed:@"add_user_icon"];
     }
 }
 
@@ -151,10 +132,10 @@
     [super didAudioPlay:am err:err];
     [_playImageView stopAnimating];
     if (_type == BubbleTypeRight) {
-        _playImageView.image = [UIImage imageNamed:@"bubble_right_playing"];
+        _playImageView.image = [UIImage imageNamed:@"add_user_icon"];
     }
     else {
-        _playImageView.image = [UIImage imageNamed:@"bubble_left_playing"];
+        _playImageView.image = [UIImage imageNamed:@"add_user_icon"];
     }
 }
 

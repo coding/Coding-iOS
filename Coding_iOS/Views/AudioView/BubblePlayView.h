@@ -17,5 +17,6 @@ typedef enum _BubbleType {
 
 @property (nonatomic, assign) BubbleType type;
 @property (nonatomic, assign) NSTimeInterval duration;
+@property (nonatomic, assign) BOOL showBgImg;
 
 @end

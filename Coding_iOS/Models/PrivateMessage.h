@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
+#import "VoiceMedia.h"
+
 typedef NS_ENUM(NSInteger, PrivateMessageSendStatus) {
     PrivateMessageStatusSendSucess = 0,
     PrivateMessageStatusSending,
@@ -22,6 +24,7 @@ typedef NS_ENUM(NSInteger, PrivateMessageSendStatus) {
 @property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;
 @property (assign, nonatomic) PrivateMessageSendStatus sendStatus;
 @property (strong, nonatomic) UIImage *nextImg;
+@property (strong, nonatomic) VoiceMedia *voiceMedia;
 
 - (BOOL)hasMedia;
 

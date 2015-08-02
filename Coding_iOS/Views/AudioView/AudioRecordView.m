@@ -28,23 +28,20 @@
     if (self) {
         _isRecording = NO;
         
-        _recordBgView = [[UIView alloc] initWithFrame:CGRectMake(-15, -15, self.frame.size.width+30, self.frame.size.height+30)];
-        _recordBgView.backgroundColor = [UIColor colorWithRed:0.8f green:0.8f blue:0.8f alpha:0.1f];
+        _recordBgView = [[UIView alloc] initWithFrame:CGRectMake(-10, -10, self.frame.size.width+20, self.frame.size.height+20)];
+        _recordBgView.backgroundColor = [UIColor colorWithRGBHex:0x7ACFFB];
         _recordBgView.layer.cornerRadius = _recordBgView.frame.size.width/2;
-        _recordBgView.layer.borderColor = [[UIColor colorWithRGBHex:0xdddddd] CGColor];
-        _recordBgView.layer.borderWidth = 1;
         _recordBgView.hidden = YES;
         [self addSubview:_recordBgView];
         
         _spreadView = [[UIView alloc] initWithFrame:_recordBgView.frame];
+        _spreadView.backgroundColor = [UIColor colorWithRGBHex:0xC6ECFD];
         _spreadView.layer.cornerRadius = _recordBgView.frame.size.width/2;
-        _spreadView.layer.borderColor = [[UIColor colorWithRGBHex:0xdddddd] CGColor];
-        _spreadView.layer.borderWidth = 1;
         _spreadView.alpha = 0;
         [self addSubview:_spreadView];
         
         _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-        _imageView.backgroundColor = [UIColor colorWithRGBHex:0x2faeea];
+        _imageView.backgroundColor = [UIColor colorWithRGBHex:0x359DE5];
         _imageView.layer.cornerRadius = self.frame.size.width/2;
         _imageView.contentMode = UIViewContentModeCenter;
         [self addSubview:_imageView];
