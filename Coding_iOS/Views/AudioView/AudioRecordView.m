@@ -69,15 +69,8 @@
 - (void)record {
     [self stop];
     
-    _isRecording = YES;
     [AudioManager shared].delegate = self;
     [[AudioManager shared] recordWithValidator:_validator];
-    
-    [self startAnimation];
-    
-    if (_delegate && [_delegate respondsToSelector:@selector(recordViewRecordStarted:)]) {
-        [_delegate recordViewRecordStarted:self];
-    }
 }
 
 - (void)stop {
@@ -158,7 +151,12 @@
 #pragma mark - AudioManagerDelegate
 
 - (void)didAudioRecordStarted:(AudioManager *)am {
+    _isRecording = YES;
+    [self startAnimation];
     
+    if (_delegate && [_delegate respondsToSelector:@selector(recordViewRecordStarted:)]) {
+        [_delegate recordViewRecordStarted:self];
+    }
 }
 
 - (void)didAudioRecording:(AudioManager *)am volume:(double)volume {
@@ -176,6 +174,9 @@
 
 - (void)didAudioRecord:(AudioManager *)am err:(NSError *)err {
     _isRecording = NO;
+    [self stop];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:err.localizedDescription delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    [alert show];
 }
 
 @end
