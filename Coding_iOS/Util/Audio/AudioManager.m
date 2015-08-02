@@ -12,6 +12,7 @@
 @interface AudioManager () <AVAudioPlayerDelegate, AVAudioRecorderDelegate>
 
 @property (nonatomic, strong) NSString *tmpFile;
+@property (nonatomic, strong) NSTimer *meterTimer;
 
 @end
 
@@ -49,7 +50,7 @@
     
     _audioPlayer.delegate = self;
     _audioPlayer.volume = 1.0f;
-    _audioPlayer.meteringEnabled = YES;
+//    _audioPlayer.meteringEnabled = YES;
     [_audioPlayer play];
     _validator = validator;
     _isPlaying = YES;
@@ -108,6 +109,7 @@
     [_audioRecorder record];
     _validator = validator;
     _isRecording = YES;
+    [self startUpdateMeter];
     
     if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecordStarted:)]) {
         [_delegate didAudioRecordStarted:self];
@@ -119,6 +121,7 @@
 }
 
 - (void)stopRecord:(BOOL)successfully {
+    [self stopUpdateMeter];
     NSTimeInterval duration = 0;
     if (_audioRecorder) {
         duration = _audioRecorder.currentTime;
@@ -131,6 +134,43 @@
         if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecordStoped:file:duration:successfully:)]) {
             [_delegate didAudioRecordStoped:self file:recordFile duration:duration successfully:successfully];
         }
+    }
+}
+
+- (void)startUpdateMeter {
+    self.meterTimer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(updateMeter) userInfo:nil repeats:YES];
+}
+
+- (void)stopUpdateMeter {
+    if (_meterTimer) {
+        [_meterTimer invalidate];
+        self.meterTimer = nil;
+    }
+}
+
+- (void)updateMeter {
+    [_audioRecorder updateMeters];
+    
+    double volume; // The linear 0.0 .. 1.0 value we need.
+    float minDecibels = -80.0f; // Or use -60dB, which I measured in a silent room.
+    float decibels = [_audioRecorder averagePowerForChannel:0];
+    
+    if (decibels < minDecibels) {
+        volume = 0.0f;
+    } else if (decibels >= 0.0f) {
+        volume = 1.0f;
+    } else {
+        float root = 2.0f;
+        float minAmp = powf(10.0f, 0.05f * minDecibels);
+        float inverseAmpRange = 1.0f / (1.0f - minAmp);
+        float amp = powf(10.0f, 0.05f * decibels);
+        float adjAmp = (amp - minAmp) * inverseAmpRange;
+        
+        volume = pow(adjAmp, 1.0f / root);
+    }
+    NSLog(@"recording volume:%f", volume);
+    if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecording:volume:)]) {
+        [_delegate didAudioRecording:self volume:volume];
     }
 }
 

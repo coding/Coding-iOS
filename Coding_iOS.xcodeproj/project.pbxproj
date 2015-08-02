@@ -475,6 +475,7 @@
 		7EB02FF11B6D111300D2166C /* AudioPlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FEC1B6D111300D2166C /* AudioPlayView.m */; };
 		7EB02FF21B6D111300D2166C /* BubblePlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FEE1B6D111300D2166C /* BubblePlayView.m */; };
 		7EB02FF31B6D111300D2166C /* AudioRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FF01B6D111300D2166C /* AudioRecordView.m */; };
+		7EB02FF61B6DAF3800D2166C /* AudioVolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FF51B6DAF3800D2166C /* AudioVolumeView.m */; };
 		8E03D4A219F695FE0092F8C8 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */; };
 		8E03D4A419F696970092F8C8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D4A319F696970092F8C8 /* libz.dylib */; };
 		8E1C3DEA19E7D58A00EF3032 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3DDA19E7D58A00EF3032 /* AbstractActionSheetPicker.m */; };
@@ -1516,6 +1517,8 @@
 		7EB02FEE1B6D111300D2166C /* BubblePlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BubblePlayView.m; sourceTree = "<group>"; };
 		7EB02FEF1B6D111300D2166C /* AudioRecordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioRecordView.h; sourceTree = "<group>"; };
 		7EB02FF01B6D111300D2166C /* AudioRecordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioRecordView.m; sourceTree = "<group>"; };
+		7EB02FF41B6DAF3800D2166C /* AudioVolumeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioVolumeView.h; sourceTree = "<group>"; };
+		7EB02FF51B6DAF3800D2166C /* AudioVolumeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioVolumeView.m; sourceTree = "<group>"; };
 		8B18B0211092D3903D031B13 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		8E03D4A019F695FE0092F8C8 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
@@ -2926,6 +2929,8 @@
 				7EB02FEE1B6D111300D2166C /* BubblePlayView.m */,
 				7EB02FEF1B6D111300D2166C /* AudioRecordView.h */,
 				7EB02FF01B6D111300D2166C /* AudioRecordView.m */,
+				7EB02FF41B6DAF3800D2166C /* AudioVolumeView.h */,
+				7EB02FF51B6DAF3800D2166C /* AudioVolumeView.m */,
 			);
 			path = AudioView;
 			sourceTree = "<group>";
@@ -4565,6 +4570,7 @@
 				4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */,
 				4E6BA2E41A1EE6AF005FD721 /* UIButton+AFNetworking.m in Sources */,
 				8EF643C919FF7E2900F7EEB0 /* TopicCommentCell.m in Sources */,
+				7EB02FF61B6DAF3800D2166C /* AudioVolumeView.m in Sources */,
 				4E8D5D6E1B45400100B70936 /* ZXScanCodeViewController.m in Sources */,
 				4ECD72EF1AAD7EC300D69AE1 /* Tweet.m in Sources */,
 				8EF643CD19FF7E2900F7EEB0 /* TweetCommentMoreCell.m in Sources */,
