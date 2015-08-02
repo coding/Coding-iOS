@@ -102,6 +102,10 @@
 
     if (_curPriMsg == curPriMsg && _prePriMsg == prePriMsg && _preMediaViewHeight == mediaViewHeight) {
         [self configSendStatus];
+        //refresh voice view play state
+        if (_voiceView) {
+            [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
+        }
         return;
     }else{
         _curPriMsg = curPriMsg;
@@ -206,7 +210,7 @@
         [_mediaView reloadData];
     }
     if (_voiceView) {
-        _voiceView.url = [NSURL fileURLWithPath:curPriMsg.voiceMedia.file];
+        [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
         _voiceView.duration = curPriMsg.voiceMedia.duration;
     }
     [self configSendStatus];
@@ -263,6 +267,9 @@
         cellHeight += textSize.height + kMessageCell_PadingHeight*4;
         
         if (mediaViewHeight > 0 && curPriMsg.content && curPriMsg.content.length > 0) {
+            cellHeight += kMessageCell_PadingHeight;
+        }
+        if (curPriMsg.voiceMedia) {
             cellHeight += kMessageCell_PadingHeight;
         }
         

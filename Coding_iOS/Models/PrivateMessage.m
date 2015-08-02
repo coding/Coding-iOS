@@ -49,7 +49,7 @@
         nextMsg.extra = @"";
     }else if ([obj isKindOfClass:[VoiceMedia class]]){
         nextMsg.voiceMedia = obj;
-        nextMsg.content = @"";
+//        nextMsg.content = @"";
         nextMsg.extra = @"";
     }else if ([obj isKindOfClass:[PrivateMessage class]]){
         PrivateMessage *originalMsg = (PrivateMessage *)obj;

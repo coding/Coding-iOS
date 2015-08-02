@@ -8,10 +8,10 @@
 
 #import "AudioPlayView.h"
 
-typedef enum _BubbleType {
-    BubbleTypeLeft = 0,
-    BubbleTypeRight = 1
-}BubbleType;
+typedef NS_ENUM(NSInteger, BubbleType) {
+    BubbleTypeLeft,
+    BubbleTypeRight
+};
 
 @interface BubblePlayView : AudioPlayView
 

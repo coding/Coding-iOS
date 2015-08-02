@@ -17,7 +17,6 @@ typedef NS_ENUM(NSInteger, AudioRecordViewTouchState) {
 
 @interface AudioRecordView : UIControl
 
-@property (nonatomic, strong) id validator;
 @property (nonatomic, assign, readonly) BOOL isRecording;
 @property (nonatomic, weak) id<AudioRecordViewDelegate> delegate;
 
