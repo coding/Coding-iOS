@@ -26,7 +26,7 @@
             [_volumes addObject:@0];
             
             UIView *volumeView = [[UIView alloc] initWithFrame:CGRectMake((kAudioVolumeViewVolumeWidth+kAudioVolumeViewVolumePadding)*i, (self.frame.size.height-kAudioVolumeViewVolumeMinHeight)/2, kAudioVolumeViewVolumeWidth, kAudioVolumeViewVolumeMinHeight)];
-            volumeView.backgroundColor = [UIColor colorWithRGBHex:0x2faeea];
+            volumeView.backgroundColor = [UIColor colorWithRGBHex:0xfb8638];
             volumeView.layer.cornerRadius = volumeView.frame.size.width/2;
             [self addSubview:volumeView];
             [_volumeViews addObject:volumeView];

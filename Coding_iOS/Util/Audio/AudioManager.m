@@ -168,7 +168,7 @@
         
         volume = pow(adjAmp, 1.0f / root);
     }
-    NSLog(@"recording volume:%f", volume);
+
     if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecording:volume:)]) {
         [_delegate didAudioRecording:self volume:volume];
     }
