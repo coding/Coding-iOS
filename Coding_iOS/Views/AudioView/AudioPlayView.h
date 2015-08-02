@@ -19,6 +19,8 @@
 - (void)play;
 - (void)stop;
 
++ (BOOL)cleanCache;
+
 - (void)didDownloadStarted;
 - (void)didDownloadFinished;
 - (void)didDownloadError:(NSError *)error;
