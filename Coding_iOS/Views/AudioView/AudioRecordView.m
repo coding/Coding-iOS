@@ -87,6 +87,12 @@
     
 }
 
+- (void)didAudioRecording:(AudioManager *)am volume:(double)volume {
+    if (_delegate && [_delegate respondsToSelector:@selector(recordView:volume:)]) {
+        [_delegate recordView:self volume:volume];
+    }
+}
+
 - (void)didAudioRecordStoped:(AudioManager *)am file:(NSString *)file duration:(NSTimeInterval)duration successfully:(BOOL)successfully {
     _isRecording = NO;
     if (_delegate && [_delegate respondsToSelector:@selector(recordViewRecordFinished:file:duration:)]) {
