@@ -43,11 +43,8 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:waveFile]) {
         [[NSFileManager defaultManager] removeItemAtPath:waveFile error:nil];
     }
-    NSTimeInterval date1 = [[NSDate date] timeIntervalSince1970];
     NSData *waveData = DecodeAMRToWAVE([NSData dataWithContentsOfFile:amrFile]);
     [waveData writeToFile:waveFile atomically:YES];
-    NSTimeInterval date2 = [[NSDate date] timeIntervalSince1970];
-    NSLog(@"decodeAmrToWave cost:%fs", date2-date1);
     return waveFile;
 }
 
