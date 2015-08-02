@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UIImageView *bgImageView;
 @property (nonatomic, strong) UIImageView *playImageView;
 @property (nonatomic, strong) UILabel *durationLbl;
+@property (nonatomic, strong) UIActivityIndicatorView *activityView;
 
 @end
 
@@ -32,6 +33,12 @@
         _durationLbl.font = [UIFont systemFontOfSize:16];
         _durationLbl.textColor = [UIColor blackColor];
         [self addSubview:_durationLbl];
+        
+        _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        _activityView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+        _activityView.hidesWhenStopped = YES;
+        [_activityView stopAnimating];
+        [self addSubview:_activityView];
         
         self.showBgImg = YES;
         self.type = BubbleTypeLeft;
@@ -90,53 +97,57 @@
     _bgImageView.hidden = !showBgImg;
 }
 
+#pragma mark - Animation
+
+- (void)startPlayingAnimation {
+    if (_type == BubbleTypeRight) {
+        _playImageView.image = [UIImage animatedImageWithImages:@[[UIImage imageNamed:@"btn_file_cancel"], [UIImage imageNamed:@"btn_file_reDo"], [UIImage imageNamed:@"button_download_cancel"]] duration:0.8];
+    }
+    else {
+        _playImageView.image = [UIImage animatedImageWithImages:@[[UIImage imageNamed:@"btn_file_cancel"], [UIImage imageNamed:@"btn_file_reDo"], [UIImage imageNamed:@"button_download_cancel"]] duration:0.8];
+    }
+    [_playImageView startAnimating];
+}
+
+- (void)stopPlayingAnimation {
+    [_playImageView stopAnimating];
+    if (_type == BubbleTypeRight) {
+        _playImageView.image = [UIImage imageNamed:@"add_user_icon"];
+    }
+    else {
+        _playImageView.image = [UIImage imageNamed:@"add_user_icon"];
+    }
+}
+
 #pragma mark - Download
 
 - (void)didDownloadStarted {
-    
+    [_activityView startAnimating];
 }
 
 - (void)didDownloadFinished {
-    
+    [_activityView stopAnimating];
 }
 
 - (void)didDownloadError:(NSError *)error {
-    
+    [_activityView stopAnimating];
 }
 
 #pragma mark - AudioManagerDelegate
 
 - (void)didAudioPlayStarted:(AudioManager *)am {
     [super didAudioPlayStarted:am];
-//    if (_type == BubbleTypeRight) {
-//        _playImageView.image = [UIImage animatedImageNamed:@"bubble_right_playing_" duration:1];
-//    }
-//    else {
-//        _playImageView.image = [UIImage animatedImageNamed:@"bubble_left_playing_" duration:1];
-//    }
-//    [_playImageView startAnimating];
+    [self startPlayingAnimation];
 }
 
 - (void)didAudioPlayStoped:(AudioManager *)am successfully:(BOOL)successfully {
     [super didAudioPlayStoped:am successfully:successfully];
-    [_playImageView stopAnimating];
-    if (_type == BubbleTypeRight) {
-        _playImageView.image = [UIImage imageNamed:@"add_user_icon"];
-    }
-    else {
-        _playImageView.image = [UIImage imageNamed:@"add_user_icon"];
-    }
+    [self stopPlayingAnimation];
 }
 
 - (void)didAudioPlay:(AudioManager *)am err:(NSError *)err {
     [super didAudioPlay:am err:err];
-    [_playImageView stopAnimating];
-    if (_type == BubbleTypeRight) {
-        _playImageView.image = [UIImage imageNamed:@"add_user_icon"];
-    }
-    else {
-        _playImageView.image = [UIImage imageNamed:@"add_user_icon"];
-    }
+    [self stopPlayingAnimation];
 }
 
 @end

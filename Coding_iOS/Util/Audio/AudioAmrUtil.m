@@ -26,11 +26,8 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:amrFile]) {
         [[NSFileManager defaultManager] removeItemAtPath:amrFile error:nil];
     }
-    NSTimeInterval date1 = [[NSDate date] timeIntervalSince1970];
     NSData *armData = EncodeWAVEToAMR([NSData dataWithContentsOfFile:waveFile], nChannels, nBitsPerSample);
     [armData writeToFile:amrFile atomically:YES];
-    NSTimeInterval date2 = [[NSDate date] timeIntervalSince1970];
-    NSLog(@"encodeWaveToAmr cost:%fs", date2-date1);
     return amrFile;
 }
 
@@ -71,7 +68,7 @@
     return dir;
 }
 
-+ (BOOL)cleanup {
++ (BOOL)cleanCache {
     return [[NSFileManager defaultManager] removeItemAtPath:[self convertDir] error:nil];
 }
 

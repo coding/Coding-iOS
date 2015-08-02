@@ -19,6 +19,6 @@
 
 + (NSString *)convertedAmrFromWave:(NSString *)waveFile;
 + (NSString *)convertedWaveFromAmr:(NSString *)amrFile;
-+ (BOOL)cleanup;
++ (BOOL)cleanCache;
 
 @end

@@ -9,6 +9,7 @@
 #import "AudioPlayView.h"
 #import "AudioManager.h"
 #import "AudioAmrUtil.h"
+#import "Coding_FileManager.h"
 
 @interface AudioPlayView ()
 
@@ -41,29 +42,56 @@
     [self addTarget:self action:@selector(onClicked:) forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (id)validator {
+    if (_validator) {
+        return _validator;
+    }
+    else {
+        return _url;
+    }
+}
+
 - (void)play {
     [self stop];
     
     if (_url == nil) {
         return;
     }
-    NSString *file = nil;
     if ([_url isFileURL]) {
-        NSString *audioFile = _url.path;
-        if ([@"amr" isEqualToString:audioFile.pathExtension]) {
-            file = [AudioAmrUtil convertedWaveFromAmr:audioFile];
-            if (file == nil) {
-                file = [AudioAmrUtil decodeAmrToWave:audioFile];
-            }
+        [self play:_url.path];
+    }
+    else {
+        NSString *file = [[self class] downloadFile:_url.absoluteString];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:file]) {
+            [self play:file];
         }
         else {
-            file = audioFile;
+            [AudioManager shared].validator = self.validator;
+            [self startDownload:_url];
         }
+    }
+}
+
+- (void)play:(NSString *)file {
+    [self stop];
+    if (file.length == 0) {
+        return;
+    }
+    
+    NSString *f = nil;
+    if ([@"amr" isEqualToString:file.pathExtension]) {
+        f = [AudioAmrUtil convertedWaveFromAmr:file];
+        if (f == nil) {
+            f = [AudioAmrUtil decodeAmrToWave:file];
+        }
+    }
+    else {
+        f = file;
     }
     
     _isPlaying = YES;
     [AudioManager shared].delegate = self;
-    [[AudioManager shared] play:file validator:_validator];
+    [[AudioManager shared] play:f validator:self.validator];
 }
 
 - (void)stop {
@@ -77,6 +105,29 @@
 
 #pragma mark - Download
 
+- (void)startDownload:(NSURL *)url {
+    if (url == nil) {
+        return;
+    }
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSProgress *progress;
+    NSURLSessionDownloadTask *downloadTask = [[Coding_FileManager af_manager] downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        return [NSURL fileURLWithPath:[[self class] downloadFile:response.URL.absoluteString]];
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        if (error) {
+            [self didDownloadError:error];
+        }
+        else {
+            if ([self.validator isEqual:[AudioManager shared].validator]) {
+                [self play:filePath.path];
+            }
+            [self didDownloadFinished];
+        }
+    }];
+    [downloadTask resume];
+    [self didDownloadStarted];
+}
+
 - (void)didDownloadStarted {
     
 }
@@ -87,6 +138,24 @@
 
 - (void)didDownloadError:(NSError *)error {
     
+}
+
+#pragma mark - FileManager
+
++ (NSString *)downloadDir {
+    NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *dir = [docDir stringByAppendingPathComponent:@"AudioDownload"];
+    [[NSFileManager defaultManager] createDirectoryAtPath:dir withIntermediateDirectories:NO attributes:nil error:nil];
+    return dir;
+}
+
++ (NSString *)downloadFile:(NSString *)url {
+    NSString *file = [[url md5Str] stringByAppendingPathExtension:[url pathExtension]];
+    return [[self downloadDir] stringByAppendingPathComponent:file];
+}
+
++ (BOOL)cleanCache {
+    return [[NSFileManager defaultManager] removeItemAtPath:[self downloadDir] error:nil];
 }
 
 #pragma mark - AudioManagerDelegate
