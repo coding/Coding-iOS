@@ -10,7 +10,7 @@
 
 #define kAudioVolumeViewVolumeWidth 2.0f
 #define kAudioVolumeViewVolumeMinHeight 3.0f
-#define kAudioVolumeViewVolumeMaxHeight 12.0f
+#define kAudioVolumeViewVolumeMaxHeight 16.0f
 #define kAudioVolumeViewVolumePadding 2.0f
 #define kAudioVolumeViewVolumeNumber 10
 

@@ -8,49 +8,62 @@
 
 #import "AudioRecordView.h"
 #import "AudioManager.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface AudioRecordView () <AudioManagerDelegate>
 
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, assign) AudioRecordViewTouchState touchState;
 
+@property (nonatomic, strong) UIView *recordBgView;
+@property (nonatomic, strong) UIView *spreadView;
+@property (nonatomic, strong) UIView *flashView;
+
 @end
 
 @implementation AudioRecordView
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        [self initAudioRecordView];
-    }
-    return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder:coder];
-    if (self) {
-        [self initAudioRecordView];
-    }
-    return self;
-}
-
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self initAudioRecordView];
+        _isRecording = NO;
+        
+        _recordBgView = [[UIView alloc] initWithFrame:CGRectMake(-15, -15, self.frame.size.width+30, self.frame.size.height+30)];
+        _recordBgView.backgroundColor = [UIColor colorWithRed:0.8f green:0.8f blue:0.8f alpha:0.1f];
+        _recordBgView.layer.cornerRadius = _recordBgView.frame.size.width/2;
+        _recordBgView.layer.borderColor = [[UIColor colorWithRGBHex:0xdddddd] CGColor];
+        _recordBgView.layer.borderWidth = 1;
+        _recordBgView.hidden = YES;
+        [self addSubview:_recordBgView];
+        
+        _spreadView = [[UIView alloc] initWithFrame:_recordBgView.frame];
+        _spreadView.layer.cornerRadius = _recordBgView.frame.size.width/2;
+        _spreadView.layer.borderColor = [[UIColor colorWithRGBHex:0xdddddd] CGColor];
+        _spreadView.layer.borderWidth = 1;
+        _spreadView.alpha = 0;
+        [self addSubview:_spreadView];
+        
+        _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        _imageView.backgroundColor = [UIColor colorWithRGBHex:0x2faeea];
+        _imageView.layer.cornerRadius = self.frame.size.width/2;
+        _imageView.contentMode = UIViewContentModeCenter;
+        [self addSubview:_imageView];
+        
+        _flashView = [[UIView alloc] initWithFrame:self.bounds];
+        _flashView.backgroundColor = [UIColor whiteColor];
+        _flashView.layer.cornerRadius = _flashView.frame.size.width/2;
+        _flashView.alpha = 0;
+        [self addSubview:_flashView];
+        
+        [self addTarget:self action:@selector(onTouchDown:) forControlEvents:UIControlEventTouchDown];
+        [self addTarget:self action:@selector(onTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
+        [self addTarget:self action:@selector(onTouchUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
     }
     return self;
 }
 
-- (void)initAudioRecordView {
-    self.backgroundColor = [UIColor colorWithRGBHex:0x2faeea];
-    self.layer.cornerRadius = self.frame.size.width/2;
-    
-    _isRecording = NO;
-    
-    [self addTarget:self action:@selector(onTouchDown:) forControlEvents:UIControlEventTouchDown];
-    [self addTarget:self action:@selector(onTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
-    [self addTarget:self action:@selector(onTouchUpOutside:) forControlEvents:UIControlEventTouchUpOutside];
+- (void)dealloc {
+    [self stop];
 }
 
 - (void)record {
@@ -60,6 +73,8 @@
     [AudioManager shared].delegate = self;
     [[AudioManager shared] recordWithValidator:_validator];
     
+    [self startAnimation];
+    
     if (_delegate && [_delegate respondsToSelector:@selector(recordViewRecordStarted:)]) {
         [_delegate recordViewRecordStarted:self];
     }
@@ -67,7 +82,8 @@
 
 - (void)stop {
     _isRecording = NO;
-    [[AudioManager shared] stopPlay];
+    [self stopAnimation];
+    [[AudioManager shared] stopRecord];
 }
 
 - (void)onTouchDown:(id)sender {
@@ -75,11 +91,11 @@
 }
 
 - (void)onTouchUpInside:(id)sender {
-    [[AudioManager shared] stopRecord];
+    [self stop];
 }
 
 - (void)onTouchUpOutside:(id)sender {
-    [[AudioManager shared] stopRecord];
+    [self stop];
 }
 
 #pragma mark - touch
@@ -109,6 +125,36 @@
     }
 }
 
+#pragma mark - Animation
+
+- (void)startAnimation {
+    _recordBgView.hidden = NO;
+    _spreadView.alpha = 1.0f;
+    _spreadView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
+    _flashView.alpha = 0.6f;
+    
+    [UIView beginAnimations:@"RecordAnimation" context:nil];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDuration:2.0f];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+    [UIView setAnimationRepeatCount:FLT_MAX];
+    
+    _flashView.alpha = 0;
+    _spreadView.transform = CGAffineTransformMakeScale(1.5f, 1.5f);
+    _spreadView.alpha = 0;
+    
+    [UIView commitAnimations];
+}
+
+- (void)stopAnimation {
+    [_flashView.layer removeAllAnimations];
+    [_spreadView.layer removeAllAnimations];
+    
+    _recordBgView.hidden = YES;
+    _spreadView.alpha = 0;
+    _flashView.alpha = 0;
+}
+
 #pragma mark - AudioManagerDelegate
 
 - (void)didAudioRecordStarted:(AudioManager *)am {
@@ -122,7 +168,7 @@
 }
 
 - (void)didAudioRecordStoped:(AudioManager *)am file:(NSString *)file duration:(NSTimeInterval)duration successfully:(BOOL)successfully {
-    _isRecording = NO;
+    NSLog(@"didAudioRecordStoped");
     if (_delegate && [_delegate respondsToSelector:@selector(recordViewRecordFinished:file:duration:)]) {
         [_delegate recordViewRecordFinished:self file:file duration:duration];
     }

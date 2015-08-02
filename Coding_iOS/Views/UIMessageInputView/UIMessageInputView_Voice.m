@@ -8,7 +8,6 @@
 
 #import "UIMessageInputView_Voice.h"
 #import "AudioRecordView.h"
-#import "AudioPlayView.h"
 #import "AudioVolumeView.h"
 
 typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
@@ -26,7 +25,6 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
 @property (assign, nonatomic) UIMessageInputView_VoiceState state;
 @property (assign, nonatomic) int duration;
 @property (strong, nonatomic) NSTimer *timer;
-@property (strong, nonatomic) AudioPlayView *playView;
 
 @end
 
@@ -54,10 +52,6 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
         _recordView = [[AudioRecordView alloc] initWithFrame:CGRectMake((self.frame.size.width - 88) / 2, 62, 88, 88)];
         _recordView.delegate = self;
         [self addSubview:_recordView];
-        
-        _playView = [[AudioPlayView alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
-        _playView.backgroundColor = [UIColor greenColor];
-        [self addSubview:_playView];
         
         UILabel *tipLabel = [[UILabel alloc] init];
         tipLabel.font = [UIFont systemFontOfSize:12];
@@ -103,9 +97,9 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
     _recordTipsLabel.center = CGPointMake(self.frame.size.width/2, 20);
     
     if (state == UIMessageInputView_VoiceStateRecording) {
-        _volumeLeftView.center = CGPointMake(_recordTipsLabel.frame.origin.x - _volumeLeftView.frame.size.width/2 - 10, _recordTipsLabel.center.y);
+        _volumeLeftView.center = CGPointMake(_recordTipsLabel.frame.origin.x - _volumeLeftView.frame.size.width/2 - 12, _recordTipsLabel.center.y);
         _volumeLeftView.hidden = NO;
-        _volumeRightView.center = CGPointMake(_recordTipsLabel.frame.origin.x + _recordTipsLabel.frame.size.width + _recordTipsLabel.frame.size.width/2 + 10, _recordTipsLabel.center.y);
+        _volumeRightView.center = CGPointMake(_recordTipsLabel.frame.origin.x + _recordTipsLabel.frame.size.width + _recordTipsLabel.frame.size.width/2 + 12, _recordTipsLabel.center.y);
         _volumeRightView.hidden = NO;
     }
 }
@@ -154,8 +148,6 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
     }
     self.state = UIMessageInputView_VoiceStateReady;
     _duration = 0;
-    
-    _playView.url = [NSURL fileURLWithPath:file];
 }
 
 - (void)recordView:(AudioRecordView *)recordView touchStateChanged:(AudioRecordViewTouchState)touchState {
