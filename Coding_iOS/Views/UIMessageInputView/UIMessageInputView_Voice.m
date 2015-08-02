@@ -9,6 +9,7 @@
 #import "UIMessageInputView_Voice.h"
 #import "AudioRecordView.h"
 #import "AudioPlayView.h"
+#import "AudioVolumeView.h"
 
 typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
     UIMessageInputView_VoiceStateReady,
@@ -20,6 +21,8 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
 
 @property (strong, nonatomic) UILabel *recordTipsLabel;
 @property (strong, nonatomic) AudioRecordView *recordView;
+@property (strong, nonatomic) AudioVolumeView *volumeLeftView;
+@property (strong, nonatomic) AudioVolumeView *volumeRightView;
 @property (assign, nonatomic) UIMessageInputView_VoiceState state;
 @property (assign, nonatomic) int duration;
 @property (strong, nonatomic) NSTimer *timer;
@@ -37,6 +40,16 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
         _recordTipsLabel = [[UILabel alloc] init];
         _recordTipsLabel.font = [UIFont systemFontOfSize:18];
         [self addSubview:_recordTipsLabel];
+        
+        _volumeLeftView = [[AudioVolumeView alloc] initWithFrame:CGRectMake(0, 0, kAudioVolumeViewWidth, kAudioVolumeViewHeight)];
+        _volumeLeftView.type = AudioVolumeViewTypeLeft;
+        _volumeLeftView.hidden = YES;
+        [self addSubview:_volumeLeftView];
+        
+        _volumeRightView = [[AudioVolumeView alloc] initWithFrame:CGRectMake(0, 0, kAudioVolumeViewWidth, kAudioVolumeViewHeight)];
+        _volumeRightView.type = AudioVolumeViewTypeRight;
+        _volumeRightView.hidden = YES;
+        [self addSubview:_volumeRightView];
         
         _recordView = [[AudioRecordView alloc] initWithFrame:CGRectMake((self.frame.size.width - 88) / 2, 62, 88, 88)];
         _recordView.delegate = self;
@@ -70,6 +83,8 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
         case UIMessageInputView_VoiceStateReady:
             _recordTipsLabel.textColor = [UIColor colorWithRGBHex:0x999999];
             _recordTipsLabel.text = @"按住说话";
+            _volumeLeftView.hidden = YES;
+            _volumeRightView.hidden = YES;
             break;
         case UIMessageInputView_VoiceStateRecording:
             _recordTipsLabel.textColor = [UIColor colorWithRGBHex:0x2faeea];
@@ -78,12 +93,21 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
         case UIMessageInputView_VoiceStateCancel:
             _recordTipsLabel.textColor = [UIColor colorWithRGBHex:0x999999];
             _recordTipsLabel.text = @"松开取消";
+            _volumeLeftView.hidden = YES;
+            _volumeRightView.hidden = YES;
             break;
         default:
             break;
     }
     [_recordTipsLabel sizeToFit];
     _recordTipsLabel.center = CGPointMake(self.frame.size.width/2, 20);
+    
+    if (state == UIMessageInputView_VoiceStateRecording) {
+        _volumeLeftView.center = CGPointMake(_recordTipsLabel.frame.origin.x - _volumeLeftView.frame.size.width/2 - 10, _recordTipsLabel.center.y);
+        _volumeLeftView.hidden = NO;
+        _volumeRightView.center = CGPointMake(_recordTipsLabel.frame.origin.x + _recordTipsLabel.frame.size.width + _recordTipsLabel.frame.size.width/2 + 10, _recordTipsLabel.center.y);
+        _volumeRightView.hidden = NO;
+    }
 }
 
 #pragma mark - RecordTimer
@@ -117,6 +141,8 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
 #pragma mark - AudioRecordViewDelegate
 
 - (void)recordViewRecordStarted:(AudioRecordView *)recordView {
+    [_volumeLeftView clearVolume];
+    [_volumeRightView clearVolume];
     self.state = UIMessageInputView_VoiceStateRecording;
     [self startTimer];
 }
@@ -138,7 +164,8 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
 }
 
 - (void)recordView:(AudioRecordView *)recordView volume:(double)volume {
-    
+    [_volumeLeftView addVolume:volume];
+    [_volumeRightView addVolume:volume];
 }
 
 @end
