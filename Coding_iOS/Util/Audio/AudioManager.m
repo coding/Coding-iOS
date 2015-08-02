@@ -77,7 +77,7 @@
     }
 }
 
-- (void)recordWithValidator:(id)validator {
+- (void)record {
     [self stopPlay];
     [self stopRecord];
     
@@ -110,7 +110,7 @@
             _audioRecorder.delegate = self;
             _audioRecorder.meteringEnabled = YES;
             [_audioRecorder record];
-            _validator = validator;
+            _validator = nil;
             _isRecording = YES;
             [self startUpdateMeter];
             

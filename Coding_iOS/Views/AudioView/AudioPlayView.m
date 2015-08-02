@@ -13,6 +13,9 @@
 
 @interface AudioPlayView ()
 
+@property (nonatomic, strong) NSURL *url;
+@property (nonatomic, strong) id validator;
+
 @end
 
 @implementation AudioPlayView
@@ -38,16 +41,22 @@
 }
 
 - (void)initAudioPlayView {
-    _isPlaying = NO;
+    self.playState = AudioPlayViewStateNormal;
     [self addTarget:self action:@selector(onClicked:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (id)validator {
-    if (_validator) {
-        return _validator;
+- (void)setUrl:(NSURL *)url {
+    [self setUrl:url validator:url];
+}
+
+- (void)setUrl:(NSURL *)url validator:(id)validator {
+    _url = url;
+    _validator = validator;
+    if ([AudioManager shared].isPlaying && [[AudioManager shared].validator isEqual:validator]) {
+        self.playState = AudioPlayViewStatePlaying;
     }
     else {
-        return _url;
+        self.playState = AudioPlayViewStateNormal;
     }
 }
 
@@ -89,18 +98,23 @@
         f = file;
     }
     
-    _isPlaying = YES;
+    self.playState = AudioPlayViewStatePlaying;
     [AudioManager shared].delegate = self;
     [[AudioManager shared] play:f validator:self.validator];
 }
 
 - (void)stop {
-    _isPlaying = NO;
+    self.playState = AudioPlayViewStateNormal;
     [[AudioManager shared] stopPlay];
 }
 
 - (void)onClicked:(id)sender {
-    _isPlaying ? [self stop] : [self play];
+    if (_playState == AudioPlayViewStatePlaying) {
+        [self stop];
+    }
+    else if (_playState == AudioPlayViewStateNormal) {
+        [self play];
+    }
 }
 
 #pragma mark - Download
@@ -116,24 +130,19 @@
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         if (error) {
             [self didDownloadError:error];
+            self.playState = AudioPlayViewStateNormal;
         }
         else {
             if ([self.validator isEqual:[AudioManager shared].validator]) {
                 [self play:filePath.path];
             }
-            [self didDownloadFinished];
+            else {
+                self.playState = AudioPlayViewStateNormal;
+            }
         }
     }];
     [downloadTask resume];
-    [self didDownloadStarted];
-}
-
-- (void)didDownloadStarted {
-    
-}
-
-- (void)didDownloadFinished {
-    
+    self.playState = AudioPlayViewStateDownloading;
 }
 
 - (void)didDownloadError:(NSError *)error {
@@ -165,11 +174,11 @@
 }
 
 - (void)didAudioPlayStoped:(AudioManager *)am successfully:(BOOL)successfully {
-    _isPlaying = NO;
+    self.playState = AudioPlayViewStateNormal;
 }
 
 - (void)didAudioPlay:(AudioManager *)am err:(NSError *)err {
-    _isPlaying = NO;
+    self.playState = AudioPlayViewStateNormal;
 }
 
 @end

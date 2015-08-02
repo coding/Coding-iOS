@@ -76,6 +76,8 @@
     _bgImageView.image = bgImage;
     _playImageView.size = playImage.size;
     _playImageView.image = playImage;
+    //refresh play state
+    self.playState = self.playState;
     
     [self sizeToFit];
 }
@@ -97,9 +99,26 @@
     _bgImageView.hidden = !showBgImg;
 }
 
+- (void)setPlayState:(AudioPlayViewState)playState {
+    [super setPlayState:playState];
+    if (playState == AudioPlayViewStatePlaying) {
+        [_activityView stopAnimating];
+        [self startPlayingAnimation];
+    }
+    else if (playState == AudioPlayViewStateDownloading) {
+        [_activityView startAnimating];
+        [self stopPlayingAnimation];
+    }
+    else {
+        [_activityView stopAnimating];
+        [self stopPlayingAnimation];
+    }
+}
+
 #pragma mark - Animation
 
 - (void)startPlayingAnimation {
+    _playImageView.image = nil;
     if (_type == BubbleTypeRight) {
         _playImageView.image = [UIImage animatedImageWithImages:@[[UIImage imageNamed:@"btn_file_cancel"], [UIImage imageNamed:@"btn_file_reDo"], [UIImage imageNamed:@"button_download_cancel"]] duration:0.8];
     }
@@ -117,37 +136,6 @@
     else {
         _playImageView.image = [UIImage imageNamed:@"add_user_icon"];
     }
-}
-
-#pragma mark - Download
-
-- (void)didDownloadStarted {
-    [_activityView startAnimating];
-}
-
-- (void)didDownloadFinished {
-    [_activityView stopAnimating];
-}
-
-- (void)didDownloadError:(NSError *)error {
-    [_activityView stopAnimating];
-}
-
-#pragma mark - AudioManagerDelegate
-
-- (void)didAudioPlayStarted:(AudioManager *)am {
-    [super didAudioPlayStarted:am];
-    [self startPlayingAnimation];
-}
-
-- (void)didAudioPlayStoped:(AudioManager *)am successfully:(BOOL)successfully {
-    [super didAudioPlayStoped:am successfully:successfully];
-    [self stopPlayingAnimation];
-}
-
-- (void)didAudioPlay:(AudioManager *)am err:(NSError *)err {
-    [super didAudioPlay:am err:err];
-    [self stopPlayingAnimation];
 }
 
 @end

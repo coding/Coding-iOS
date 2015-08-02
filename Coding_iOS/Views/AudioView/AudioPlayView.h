@@ -9,20 +9,24 @@
 #import <UIKit/UIKit.h>
 #import "AudioManager.h"
 
+typedef NS_ENUM(NSInteger, AudioPlayViewState) {
+    AudioPlayViewStateNormal,
+    AudioPlayViewStateDownloading,
+    AudioPlayViewStatePlaying
+};
+
 @interface AudioPlayView : UIControl <AudioManagerDelegate>
 
-@property (nonatomic, strong) NSURL *url;
-@property (nonatomic, strong) id validator;
-@property (readonly, assign) BOOL isDownloading;
-@property (readonly, assign) BOOL isPlaying;
+@property (nonatomic, assign) AudioPlayViewState playState;
+
+- (void)setUrl:(NSURL *)url;
+- (void)setUrl:(NSURL *)url validator:(id)validator;
 
 - (void)play;
 - (void)stop;
 
-+ (BOOL)cleanCache;
-
-- (void)didDownloadStarted;
-- (void)didDownloadFinished;
 - (void)didDownloadError:(NSError *)error;
+
++ (BOOL)cleanCache;
 
 @end

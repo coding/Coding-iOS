@@ -25,7 +25,7 @@
 
 - (void)play:(NSString *)file validator:(id)validator;
 - (void)stopPlay;
-- (void)recordWithValidator:(id)validator;
+- (void)record;
 - (void)stopRecord;
 
 @end

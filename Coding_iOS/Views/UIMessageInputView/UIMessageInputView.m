@@ -522,7 +522,6 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     if (hasVoiceBtn && !_voiceKeyboardView) {
         _voiceKeyboardView = [[UIMessageInputView_Voice alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, kKeyboardView_Height)];
         _voiceKeyboardView.recordSuccessfully = ^(NSString *file, NSTimeInterval duration){
-            NSLog(@"record successfully file:%@ duration:%f", file, duration);
             if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(messageInputView:sendVoice:duration:)]) {
                 [weakSelf.delegate messageInputView:weakSelf sendVoice:file duration:duration];
             }

@@ -66,8 +66,9 @@
 - (void)record {
     [self stop];
     
+    [[AudioManager shared] stopPlay];
     [AudioManager shared].delegate = self;
-    [[AudioManager shared] recordWithValidator:_validator];
+    [[AudioManager shared] record];
 }
 
 - (void)stop {
