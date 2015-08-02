@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger, AudioRecordViewTouchState) {
-    AudioRecordViewTouchStateIn,
-    AudioRecordViewTouchStateOut
+    AudioRecordViewTouchStateInside,
+    AudioRecordViewTouchStateOutside
 };
 
 @protocol AudioRecordViewDelegate;
