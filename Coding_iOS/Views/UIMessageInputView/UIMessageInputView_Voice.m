@@ -122,8 +122,6 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
         [_timer invalidate];
         self.timer = nil;
     }
-    self.state = UIMessageInputView_VoiceStateReady;
-    _duration = 0;
 }
 
 - (void)increaseRecordTime {
@@ -155,12 +153,18 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
         }
     }
     self.state = UIMessageInputView_VoiceStateReady;
+    _duration = 0;
     
     _playView.url = [NSURL fileURLWithPath:file];
 }
 
 - (void)recordView:(AudioRecordView *)recordView touchStateChanged:(AudioRecordViewTouchState)touchState {
-    self.state = UIMessageInputView_VoiceStateCancel;
+    if (touchState == AudioRecordViewTouchStateInside) {
+        self.state = UIMessageInputView_VoiceStateRecording;
+    }
+    else {
+        self.state = UIMessageInputView_VoiceStateCancel;
+    }
 }
 
 - (void)recordView:(AudioRecordView *)recordView volume:(double)volume {

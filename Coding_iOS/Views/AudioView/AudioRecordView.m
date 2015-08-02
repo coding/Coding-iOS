@@ -12,6 +12,7 @@
 @interface AudioRecordView () <AudioManagerDelegate>
 
 @property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, assign) AudioRecordViewTouchState touchState;
 
 @end
 
@@ -79,6 +80,33 @@
 
 - (void)onTouchUpOutside:(id)sender {
     [[AudioManager shared] stopRecord];
+}
+
+#pragma mark - touch
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    _touchState = AudioRecordViewTouchStateInside;
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesMoved:touches withEvent:event];
+    UITouch *touch = [touches anyObject];
+    BOOL touchInside = [self pointInside:[touch locationInView:self] withEvent:nil];
+    BOOL touchStateChanged = NO;
+    if (_touchState == AudioRecordViewTouchStateInside && !touchInside) {
+        _touchState = AudioRecordViewTouchStateOutside;
+        touchStateChanged = YES;
+    }
+    else if (_touchState == AudioRecordViewTouchStateOutside && touchInside) {
+        _touchState = AudioRecordViewTouchStateInside;
+        touchStateChanged = YES;
+    }
+    if (touchStateChanged) {
+        if (_delegate && [_delegate respondsToSelector:@selector(recordView:touchStateChanged:)]) {
+            [_delegate recordView:self touchStateChanged:_touchState];
+        }
+    }
 }
 
 #pragma mark - AudioManagerDelegate
