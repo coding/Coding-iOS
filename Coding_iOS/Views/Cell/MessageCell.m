@@ -264,12 +264,13 @@
         CGSize textSize = [curPriMsg.content getSizeWithFont:kMessageCell_FontContent constrainedToSize:CGSizeMake(kMessageCell_ContentWidth, CGFLOAT_MAX)];
         CGFloat mediaViewHeight = [MessageCell mediaViewHeightWithObj:curPriMsg];
         cellHeight += mediaViewHeight;
-        cellHeight += textSize.height + kMessageCell_PadingHeight*4;
+        if (curPriMsg.voiceMedia) {
+            cellHeight += kMessageCell_PadingHeight*2+40;
+        } else {
+            cellHeight += textSize.height + kMessageCell_PadingHeight*4;
+        }
         
         if (mediaViewHeight > 0 && curPriMsg.content && curPriMsg.content.length > 0) {
-            cellHeight += kMessageCell_PadingHeight;
-        }
-        if (curPriMsg.voiceMedia) {
             cellHeight += kMessageCell_PadingHeight;
         }
         
