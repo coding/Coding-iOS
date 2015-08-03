@@ -163,6 +163,8 @@
 }
 
 - (void)didAudioRecordStoped:(AudioManager *)am file:(NSString *)file duration:(NSTimeInterval)duration successfully:(BOOL)successfully {
+    _isRecording = NO;
+    [self stop];
     if (_delegate && [_delegate respondsToSelector:@selector(recordViewRecordFinished:file:duration:)]) {
         [_delegate recordViewRecordFinished:self file:file duration:duration];
     }
@@ -171,8 +173,10 @@
 - (void)didAudioRecord:(AudioManager *)am err:(NSError *)err {
     _isRecording = NO;
     [self stop];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:err.localizedDescription delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
-    [alert show];
+    [self showHudTipStr:err.domain];
+    if (_delegate && [_delegate respondsToSelector:@selector(recordViewRecord:err:)]) {
+        [_delegate recordViewRecord:self err:err];
+    }
 }
 
 @end

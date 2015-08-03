@@ -30,5 +30,6 @@ typedef NS_ENUM(NSInteger, AudioRecordViewTouchState) {
 - (void)recordViewRecordFinished:(AudioRecordView *)recordView file:(NSString *)file duration:(NSTimeInterval)duration;
 - (void)recordView:(AudioRecordView *)recordView touchStateChanged:(AudioRecordViewTouchState)touchState;
 - (void)recordView:(AudioRecordView *)recordView volume:(double)volume;
+- (void)recordViewRecord:(AudioRecordView *)recordView err:(NSError *)err;
 
 @end

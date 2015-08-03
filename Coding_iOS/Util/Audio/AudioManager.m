@@ -26,6 +26,16 @@
     return obj;
 }
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _isPlaying = NO;
+        _isRecording = NO;
+        _minRecordDuration = 1.0f;
+    }
+    return self;
+}
+
 - (void)play:(NSString *)file validator:(id)validator {
     [self stopPlay];
     [self stopRecord];
@@ -141,9 +151,16 @@
     }
     if (_isRecording) {
         _isRecording = NO;
-        NSString *recordFile = [AudioAmrUtil encodeWaveToAmr:_tmpFile];
-        if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecordStoped:file:duration:successfully:)]) {
-            [_delegate didAudioRecordStoped:self file:recordFile duration:duration successfully:successfully];
+        if (duration < _minRecordDuration) {
+            if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecord:err:)]) {
+                [_delegate didAudioRecord:self err:[NSError errorWithDomain:@"录音时间过短" code:200 userInfo:nil]];
+            }
+        }
+        else {
+            NSString *recordFile = [AudioAmrUtil encodeWaveToAmr:_tmpFile];
+            if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecordStoped:file:duration:successfully:)]) {
+                [_delegate didAudioRecordStoped:self file:recordFile duration:duration successfully:successfully];
+            }
         }
         //remove tmp file
         [[NSFileManager defaultManager] removeItemAtPath:_tmpFile error:nil];

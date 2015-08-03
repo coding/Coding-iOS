@@ -18,6 +18,7 @@
 @property (nonatomic, strong, readonly) AVAudioRecorder *audioRecorder;
 @property (nonatomic, assign, readonly) BOOL isPlaying;
 @property (nonatomic, assign, readonly) BOOL isRecording;
+@property (nonatomic, assign) NSTimeInterval minRecordDuration;
 @property (nonatomic, weak) id<AudioManagerDelegate> delegate;
 @property (nonatomic, strong) id validator;
 

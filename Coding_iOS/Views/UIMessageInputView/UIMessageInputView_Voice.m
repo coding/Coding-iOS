@@ -168,4 +168,10 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
     [_volumeRightView addVolume:volume];
 }
 
+- (void)recordViewRecord:(AudioRecordView *)recordView err:(NSError *)err {
+    [self stopTimer];
+    self.state = UIMessageInputView_VoiceStateReady;
+    _duration = 0;
+}
+
 @end
