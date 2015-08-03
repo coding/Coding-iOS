@@ -89,7 +89,7 @@
         _mySlideView = ({
             __weak typeof(self) weakSelf = self;
             AutoSlideScrollView *slideView = [[AutoSlideScrollView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, _padding_top, _image_width, _image_width * _ratio) animationDuration:10.0];
-            slideView.layer.cornerRadius = 2.0;
+//            slideView.layer.cornerRadius = 2.0;
             slideView.layer.masksToBounds = YES;
             slideView.scrollView.scrollsToTop = NO;
             
