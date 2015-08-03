@@ -117,7 +117,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
                 break;
         }
         _contentView.hidden = _inputState == UIMessageInputViewStateVoice;
-        _arrowKeyboardView.hidden = !_contentView;
+        _arrowKeyboardView.hidden = !_contentView.hidden;
         _arrowKeyboardView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
     }
 }
