@@ -211,7 +211,9 @@
 #pragma mark URL Schemes
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     DebugLog(@"path: %@, params: %@", [url path], [url queryParams]);
-    [self showPasswordWithURL:url];
+    if (![self showPasswordWithURL:url]) {//如果不是登录注册的链接，就是用正常的解析模式解析
+        [BaseViewController presentLinkStr:url.absoluteString];
+    }
     return YES;
 }
 
