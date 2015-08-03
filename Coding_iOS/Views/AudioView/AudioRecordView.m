@@ -163,7 +163,6 @@
 }
 
 - (void)didAudioRecordStoped:(AudioManager *)am file:(NSString *)file duration:(NSTimeInterval)duration successfully:(BOOL)successfully {
-    NSLog(@"didAudioRecordStoped");
     if (_delegate && [_delegate respondsToSelector:@selector(recordViewRecordFinished:file:duration:)]) {
         [_delegate recordViewRecordFinished:self file:file duration:duration];
     }

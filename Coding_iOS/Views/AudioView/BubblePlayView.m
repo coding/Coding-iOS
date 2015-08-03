@@ -66,12 +66,12 @@
     if (type == BubbleTypeRight) {
         bgImage = [UIImage imageNamed:@"messageRight_bg_img"];
         bgImage = [bgImage resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImage.size.height - 19, bgImage.size.width - 31)];
-        playImage = [UIImage imageNamed:@"add_user_icon"];
+        playImage = [UIImage imageNamed:@"bubble_right_play_2"];
     }
     else {
         bgImage = [UIImage imageNamed:@"messageLeft_bg_img"];
         bgImage = [bgImage resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImage.size.height - 19, bgImage.size.width - 31)];
-        playImage = [UIImage imageNamed:@"add_user_icon"];
+        playImage = [UIImage imageNamed:@"bubble_left_play_2"];
     }
     _bgImageView.image = bgImage;
     _playImageView.size = playImage.size;
@@ -120,10 +120,10 @@
 - (void)startPlayingAnimation {
     _playImageView.image = nil;
     if (_type == BubbleTypeRight) {
-        _playImageView.image = [UIImage animatedImageWithImages:@[[UIImage imageNamed:@"btn_file_cancel"], [UIImage imageNamed:@"btn_file_reDo"], [UIImage imageNamed:@"button_download_cancel"]] duration:0.8];
+        _playImageView.image = [UIImage animatedImageNamed:@"bubble_right_play_" duration:0.8];
     }
     else {
-        _playImageView.image = [UIImage animatedImageWithImages:@[[UIImage imageNamed:@"btn_file_cancel"], [UIImage imageNamed:@"btn_file_reDo"], [UIImage imageNamed:@"button_download_cancel"]] duration:0.8];
+        _playImageView.image = [UIImage animatedImageNamed:@"bubble_left_play_" duration:0.8];
     }
     [_playImageView startAnimating];
 }
@@ -131,10 +131,10 @@
 - (void)stopPlayingAnimation {
     [_playImageView stopAnimating];
     if (_type == BubbleTypeRight) {
-        _playImageView.image = [UIImage imageNamed:@"add_user_icon"];
+        _playImageView.image = [UIImage imageNamed:@"bubble_right_play_2"];
     }
     else {
-        _playImageView.image = [UIImage imageNamed:@"add_user_icon"];
+        _playImageView.image = [UIImage imageNamed:@"bubble_left_play_2"];
     }
 }
 
