@@ -247,7 +247,6 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
     if (curIndex +1 < _myPriMsgs.dataList.count) {
         preMsg = [_myPriMsgs.dataList objectAtIndex:curIndex+1];
     }
-    [cell setCurPriMsg:curMsg andPrePriMsg:preMsg];
     cell.tapUserIconBlock = ^(User *sender){
         UserInfoViewController *vc = [[UserInfoViewController alloc] init];
         vc.curUser = sender;
@@ -266,6 +265,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
         }];
         [actionSheet showInView:self.view];
     };
+    [cell setCurPriMsg:curMsg andPrePriMsg:preMsg];
     cell.refreshMessageMediaCCellBlock = ^(CGFloat diff){
         if (ABS(diff) > 1) {
             ESStrongSelf;
@@ -280,7 +280,9 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
             [menuItemArray addObject:@"拷贝文字"];
         }
     }else{
-        [menuItemArray addObject:@"拷贝"];
+        if (!curMsg.voiceMedia) {
+            [menuItemArray addObject:@"拷贝"];
+        }
     }
     if (canDelete) {
         [menuItemArray addObject:@"删除"];
