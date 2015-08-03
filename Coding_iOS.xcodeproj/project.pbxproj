@@ -466,6 +466,9 @@
 		4EFE8DAF1B3960E6004B7559 /* logo_coding_top@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EFE8DAE1B3960E6004B7559 /* logo_coding_top@2x.png */; };
 		4EFE8DB91B3A5727004B7559 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */; };
 		68D9A2AD062641F5BCA573C5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B024F2227BD4152BC7C9A7A /* libPods.a */; };
+		7E335D9D1B6F5E94003D0F3D /* keyboard_arrow_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E335D9A1B6F5E94003D0F3D /* keyboard_arrow_down@2x.png */; };
+		7E335D9E1B6F5E94003D0F3D /* keyboard_voice_record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E335D9B1B6F5E94003D0F3D /* keyboard_voice_record@2x.png */; };
+		7E335D9F1B6F5E94003D0F3D /* keyboard_voice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E335D9C1B6F5E94003D0F3D /* keyboard_voice@2x.png */; };
 		7EB02FCE1B6CF5D500D2166C /* UIMessageInputView_Voice.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FCD1B6CF5D500D2166C /* UIMessageInputView_Voice.m */; };
 		7EB02FE41B6D0F3E00D2166C /* amrFileCodec.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FD21B6D0F3E00D2166C /* amrFileCodec.m */; };
 		7EB02FE51B6D0F3E00D2166C /* AudioAmrUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FD41B6D0F3E00D2166C /* AudioAmrUtil.m */; };
@@ -1498,6 +1501,9 @@
 		4EFE8DAB1B394A0D004B7559 /* file_changeType_RENAME@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_changeType_RENAME@2x.png"; sourceTree = "<group>"; };
 		4EFE8DAE1B3960E6004B7559 /* logo_coding_top@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_coding_top@2x.png"; sourceTree = "<group>"; };
 		4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
+		7E335D9A1B6F5E94003D0F3D /* keyboard_arrow_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_arrow_down@2x.png"; sourceTree = "<group>"; };
+		7E335D9B1B6F5E94003D0F3D /* keyboard_voice_record@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_voice_record@2x.png"; sourceTree = "<group>"; };
+		7E335D9C1B6F5E94003D0F3D /* keyboard_voice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_voice@2x.png"; sourceTree = "<group>"; };
 		7EB02FCC1B6CF5D500D2166C /* UIMessageInputView_Voice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIMessageInputView_Voice.h; sourceTree = "<group>"; };
 		7EB02FCD1B6CF5D500D2166C /* UIMessageInputView_Voice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIMessageInputView_Voice.m; sourceTree = "<group>"; };
 		7EB02FD11B6D0F3E00D2166C /* amrFileCodec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amrFileCodec.h; sourceTree = "<group>"; };
@@ -3165,6 +3171,9 @@
 				8E97CE5E1A0A3424006F9AD7 /* keyboard_keyboard@2x.png */,
 				8E97CE5F1A0A3424006F9AD7 /* keyboard_page_selected@2x.png */,
 				8E97CE601A0A3424006F9AD7 /* keyboard_page_unselected@2x.png */,
+				7E335D9A1B6F5E94003D0F3D /* keyboard_arrow_down@2x.png */,
+				7E335D9B1B6F5E94003D0F3D /* keyboard_voice_record@2x.png */,
+				7E335D9C1B6F5E94003D0F3D /* keyboard_voice@2x.png */,
 			);
 			path = keyboard;
 			sourceTree = "<group>";
@@ -4195,6 +4204,7 @@
 				4E4D6AC21B252CD400FD2E49 /* icon_code_tree@2x.png in Resources */,
 				8E97CEB01A0C7E26006F9AD7 /* coding_emoji_25@2x.png in Resources */,
 				8EF643B719FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib in Resources */,
+				7E335D9D1B6F5E94003D0F3D /* keyboard_arrow_down@2x.png in Resources */,
 				4EF17ED71B3C3112003CDD2D /* intro_icon_4@2x.png in Resources */,
 				4E6384031B33C8E900D98648 /* task_activity_icon_create@2x.png in Resources */,
 				4EACB4401A2C448F0097ABB3 /* button_file_download_unable@2x.png in Resources */,
@@ -4243,6 +4253,7 @@
 				4EE083DC1ADB736800CA342E /* service_terms.html in Resources */,
 				8E97CE541A0A3410006F9AD7 /* settingBtn_Nav@2x.png in Resources */,
 				4E6384011B33C18700D98648 /* task_activity_icon_update_priority@2x.png in Resources */,
+				7E335D9F1B6F5E94003D0F3D /* keyboard_voice@2x.png in Resources */,
 				4E90F89B1AF709C100B44F03 /* bubble.html in Resources */,
 				8E8F7B2D19EF6306006BA8BD /* btn_followed_not@2x.png in Resources */,
 				4EF17EE11B3C3112003CDD2D /* intro_tip_2@3x.png in Resources */,
@@ -4499,6 +4510,7 @@
 				4E217F131A70EDC700F6DF88 /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
 				8EF6435019FF4E1600F7EEB0 /* comment_count_top_line@2x.png in Resources */,
 				4E94C5091B4D334B00EB668A /* pop_2FA@2x.png in Resources */,
+				7E335D9E1B6F5E94003D0F3D /* keyboard_voice_record@2x.png in Resources */,
 				8EA6D18519E240C40076D59C /* privatemessage_normal@2x.png in Resources */,
 				8EA6D18219E240C40076D59C /* splitlineImg@2x.png in Resources */,
 				8EA6D18119E240C40076D59C /* sex_woman_icon@2x.png in Resources */,

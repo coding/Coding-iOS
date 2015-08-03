@@ -28,22 +28,21 @@
     if (self) {
         _isRecording = NO;
         
-        _recordBgView = [[UIView alloc] initWithFrame:CGRectMake(-10, -10, self.frame.size.width+20, self.frame.size.height+20)];
+        _spreadView = [[UIView alloc] initWithFrame:CGRectMake(-8, -8, self.frame.size.width+16, self.frame.size.height+16)];
+        _spreadView.backgroundColor = [UIColor colorWithRGBHex:0xC6ECFD];
+        _spreadView.layer.cornerRadius = _spreadView.frame.size.width/2;
+        _spreadView.alpha = 0;
+        [self addSubview:_spreadView];
+        
+        _recordBgView = [[UIView alloc] initWithFrame:CGRectMake(-8, -8, self.frame.size.width+16, self.frame.size.height+16)];
         _recordBgView.backgroundColor = [UIColor colorWithRGBHex:0x7ACFFB];
         _recordBgView.layer.cornerRadius = _recordBgView.frame.size.width/2;
         _recordBgView.hidden = YES;
         [self addSubview:_recordBgView];
         
-        _spreadView = [[UIView alloc] initWithFrame:_recordBgView.frame];
-        _spreadView.backgroundColor = [UIColor colorWithRGBHex:0xC6ECFD];
-        _spreadView.layer.cornerRadius = _recordBgView.frame.size.width/2;
-        _spreadView.alpha = 0;
-        [self addSubview:_spreadView];
-        
         _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-        _imageView.backgroundColor = [UIColor colorWithRGBHex:0x359DE5];
-        _imageView.layer.cornerRadius = self.frame.size.width/2;
-        _imageView.contentMode = UIViewContentModeCenter;
+        _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        _imageView.image = [UIImage imageNamed:@"keyboard_voice_record"];
         [self addSubview:_imageView];
         
         _flashView = [[UIView alloc] initWithFrame:self.bounds];
@@ -122,11 +121,11 @@
     _recordBgView.hidden = NO;
     _spreadView.alpha = 1.0f;
     _spreadView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
-    _flashView.alpha = 0.6f;
+    _flashView.alpha = 0.4f;
     
     [UIView beginAnimations:@"RecordAnimation" context:nil];
     [UIView setAnimationDelegate:self];
-    [UIView setAnimationDuration:2.0f];
+    [UIView setAnimationDuration:1.5f];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
     [UIView setAnimationRepeatCount:FLT_MAX];
     

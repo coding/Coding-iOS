@@ -46,6 +46,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 
 @property (strong, nonatomic) UIScrollView *contentView;
 @property (strong, nonatomic) UIPlaceHolderTextView *inputTextView;
+@property (strong, nonatomic) UIImageView *arrowKeyboardView;
 
 @property (strong, nonatomic) UICustomCollectionView *mediaView;
 @property (strong, nonatomic) NSMutableArray *mediaList, *uploadMediaList;
@@ -88,21 +89,21 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
             {
                 [self.addButton setImage:[UIImage imageNamed:@"keyboard_add"] forState:UIControlStateNormal];
                 [self.emotionButton setImage:[UIImage imageNamed:@"keyboard_emotion"] forState:UIControlStateNormal];
-                [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_add"] forState:UIControlStateNormal];
+                [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_voice"] forState:UIControlStateNormal];
             }
                 break;
             case UIMessageInputViewStateEmotion:
             {
                 [self.addButton setImage:[UIImage imageNamed:@"keyboard_add"] forState:UIControlStateNormal];
                 [self.emotionButton setImage:[UIImage imageNamed:@"keyboard_keyboard"] forState:UIControlStateNormal];
-                [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_add"] forState:UIControlStateNormal];
+                [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_voice"] forState:UIControlStateNormal];
             }
                 break;
             case UIMessageInputViewStateAdd:
             {
                 [self.addButton setImage:[UIImage imageNamed:@"keyboard_keyboard"] forState:UIControlStateNormal];
                 [self.emotionButton setImage:[UIImage imageNamed:@"keyboard_emotion"] forState:UIControlStateNormal];
-                [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_add"] forState:UIControlStateNormal];
+                [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_voice"] forState:UIControlStateNormal];
             }
                 break;
             case UIMessageInputViewStateVoice:
@@ -116,6 +117,8 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
                 break;
         }
         _contentView.hidden = _inputState == UIMessageInputViewStateVoice;
+        _arrowKeyboardView.hidden = !_contentView;
+        _arrowKeyboardView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
     }
 }
 - (void)setPlaceHolder:(NSString *)placeHolder{
@@ -421,7 +424,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         _contentView.alwaysBounceVertical = YES;
         [self addSubview:_contentView];
         [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            CGFloat left = hasVoiceBtn ? (13+kMessageInputView_Width_Tool+13) : kPaddingLeftWidth;
+            CGFloat left = hasVoiceBtn ? (7+kMessageInputView_Width_Tool+7) : kPaddingLeftWidth;
             make.edges.equalTo(self).insets(UIEdgeInsetsMake(kMessageInputView_PadingHeight, left, kMessageInputView_PadingHeight, kPaddingLeftWidth + toolBtnNum *kMessageInputView_Width_Tool));
         }];
     }
@@ -511,13 +514,19 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }
     
     if (hasVoiceBtn && !_voiceButton) {
-        _voiceButton = [[UIButton alloc] initWithFrame:CGRectMake(13, (kMessageInputView_Height - kMessageInputView_Width_Tool)/2, kMessageInputView_Width_Tool, kMessageInputView_Width_Tool)];
+        _voiceButton = [[UIButton alloc] initWithFrame:CGRectMake(7, (kMessageInputView_Height - kMessageInputView_Width_Tool)/2, kMessageInputView_Width_Tool, kMessageInputView_Width_Tool)];
         
         [_voiceButton setImage:[UIImage imageNamed:@"keyboard_add"] forState:UIControlStateNormal];
         [_voiceButton addTarget:self action:@selector(voiceButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_voiceButton];
     }
     _voiceButton.hidden = !hasVoiceBtn;
+    
+    if (hasVoiceBtn && !_arrowKeyboardView) {
+        _arrowKeyboardView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"keyboard_arrow_down"]];
+        [self addSubview:_arrowKeyboardView];
+    }
+    _arrowKeyboardView.hidden = YES;
     
     if (hasVoiceBtn && !_voiceKeyboardView) {
         _voiceKeyboardView = [[UIMessageInputView_Voice alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, kKeyboardView_Height)];

@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
         _volumeRightView.hidden = YES;
         [self addSubview:_volumeRightView];
         
-        _recordView = [[AudioRecordView alloc] initWithFrame:CGRectMake((self.frame.size.width - 88) / 2, 62, 88, 88)];
+        _recordView = [[AudioRecordView alloc] initWithFrame:CGRectMake((self.frame.size.width - 86) / 2, 62, 86, 86)];
         _recordView.delegate = self;
         [self addSubview:_recordView];
         
