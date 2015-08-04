@@ -37,11 +37,11 @@
             [self.contentView addSubview:_contentLabel];
         }
         if (!_splitLineView) {
-            _splitLineView = [[UIImageView alloc] initWithFrame:CGRectMake(5, 0, 255, 1)];
+            _splitLineView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, 250, 1)];
             _splitLineView.image = [UIImage imageNamed:@"splitlineImg"];
             [self.contentView addSubview:_splitLineView];
             [_splitLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self.contentView).offset(5);
+                make.left.equalTo(self.contentView).offset(10);
                 make.top.right.equalTo(self.contentView);
                 make.height.mas_equalTo(1.0);
             }];
