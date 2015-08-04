@@ -64,12 +64,12 @@
     if (_type == BubbleTypeRight) {
         [_playImageView setOrigin:CGPointMake(16, (self.frame.size.height-_playImageView.frame.size.height)/2-1)];
         [_durationLbl setOrigin:CGPointMake(16+8+_playImageView.frame.size.height, (self.frame.size.height-_durationLbl.frame.size.height)/2-1)];
-        _unreadView.center = CGPointMake(-13, self.frame.size.height/2);
+        _unreadView.center = CGPointMake(-13, self.frame.size.height/2-1);
     }
     else {
         [_playImageView setOrigin:CGPointMake(self.frame.size.width-_playImageView.frame.size.width-16, (self.frame.size.height-_playImageView.frame.size.height)/2-1)];
         [_durationLbl setOrigin:CGPointMake(self.frame.size.width-_playImageView.frame.size.width-16-8-_durationLbl.frame.size.width, (self.frame.size.height-_durationLbl.frame.size.height)/2-1)];
-        _unreadView.center = CGPointMake(self.frame.size.width+13, self.frame.size.height/2);
+        _unreadView.center = CGPointMake(self.frame.size.width+13, self.frame.size.height/2-1);
     }
 }
 
