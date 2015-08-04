@@ -52,6 +52,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 @property (strong, nonatomic) NSMutableArray *mediaList, *uploadMediaList;
 
 @property (strong, nonatomic) UIButton *addButton, *emotionButton, *photoButton, *voiceButton;
+@property (strong, nonatomic) UIView *voiceRedpointView;
 
 @property (assign, nonatomic) CGFloat viewHeightOld;
 
@@ -519,6 +520,14 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         [_voiceButton setImage:[UIImage imageNamed:@"keyboard_voice"] forState:UIControlStateNormal];
         [_voiceButton addTarget:self action:@selector(voiceButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_voiceButton];
+        
+        if ([self needDisplayVoiceButtonRedpoint]) {
+            _voiceRedpointView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 7, 7)];
+            _voiceRedpointView.center = CGPointMake(31, 5);
+            _voiceRedpointView.backgroundColor = [UIColor colorWithRGBHex:0xFF3C30];
+            _voiceRedpointView.layer.cornerRadius = _voiceRedpointView.frame.size.width/2;
+            [_voiceButton addSubview:_voiceRedpointView];
+        }
     }
     _voiceButton.hidden = !hasVoiceBtn;
     
@@ -745,6 +754,13 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         }
     } completion:^(BOOL finished) {
     }];
+    
+    if (_voiceRedpointView) {
+        [_voiceRedpointView removeFromSuperview];
+        self.voiceRedpointView = nil;
+        
+        [self noDisplayVoiceButtonRedpoint];
+    }
 }
 
 #pragma mark QBImagePickerControllerDelegate
@@ -1026,6 +1042,19 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 - (UIImage *)backSpaceButtonImageForEmojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView {
     UIImage *img = [UIImage imageNamed:@"keyboard_emotion_delete"];
     return img;
+}
+
+#pragma mark - Redpoint
+
+#define kInputViewVoiceButtonRedpoint @"InputViewVoiceButtonRedpoint"
+
+- (BOOL)needDisplayVoiceButtonRedpoint {
+    return ![[NSUserDefaults standardUserDefaults] boolForKey:kInputViewVoiceButtonRedpoint];
+}
+
+- (void)noDisplayVoiceButtonRedpoint {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kInputViewVoiceButtonRedpoint];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end
