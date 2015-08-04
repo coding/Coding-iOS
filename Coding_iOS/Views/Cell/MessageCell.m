@@ -171,6 +171,12 @@
         bgImgViewSize = CGSizeMake(textSize.width +2*kMessageCell_PadingWidth, textSize.height +2*kMessageCell_PadingHeight);
     }
     
+    if (_voiceView) {
+        [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
+        _voiceView.duration = curPriMsg.voiceMedia.duration;
+        bgImgViewSize = CGSizeMake(_voiceView.frame.size.width, 40);
+    }
+    
     CGRect bgImgViewFrame;
     if (![_curPriMsg.sender.global_key isEqualToString:[Login curLoginUser].global_key]) {
         //        这是好友发的
@@ -209,10 +215,7 @@
         [_mediaView setHeight:mediaViewHeight];
         [_mediaView reloadData];
     }
-    if (_voiceView) {
-        [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
-        _voiceView.duration = curPriMsg.voiceMedia.duration;
-    }
+    
     [self configSendStatus];
     
     _preMediaViewHeight = mediaViewHeight;

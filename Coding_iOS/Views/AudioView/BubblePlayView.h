@@ -19,4 +19,6 @@ typedef NS_ENUM(NSInteger, BubbleType) {
 @property (nonatomic, assign) NSTimeInterval duration;
 @property (nonatomic, assign) BOOL showBgImg;
 
++ (CGFloat)widthForDuration:(NSTimeInterval)duration;
+
 @end

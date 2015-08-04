@@ -8,6 +8,10 @@
 
 #import "BubblePlayView.h"
 
+#define kBubblePlayViewMinWidth (kScreen_Width*0.2)
+#define kBubblePlayViewMidWidth (kScreen_Width*0.35)
+#define kBubblePlayViewMaxWidth (kScreen_Width*0.6)
+
 @interface BubblePlayView ()
 
 @property (nonatomic, strong) UIImageView *bgImageView;
@@ -91,6 +95,8 @@
     _durationLbl.text = [NSString stringWithFormat:@"%d''", (int)_duration];
     [_durationLbl sizeToFit];
     
+    [self setWidth:[[self class] widthForDuration:_duration]];
+    
     [self sizeToFit];
 }
 
@@ -135,6 +141,24 @@
     }
     else {
         _playImageView.image = [UIImage imageNamed:@"bubble_left_play_2"];
+    }
+}
+
+#pragma mark - Width
+
++ (CGFloat)widthForDuration:(NSTimeInterval)duration {
+    if (duration < 0) {
+        duration = 0;
+    }
+    else if (duration > 60.0f) {
+        duration = 60.0f;
+    }
+    
+    if (duration <= 10.0f) {
+        return kBubblePlayViewMinWidth + (kBubblePlayViewMidWidth - kBubblePlayViewMinWidth) * (duration / 10);
+    }
+    else {
+        return kBubblePlayViewMidWidth + (kBubblePlayViewMaxWidth - kBubblePlayViewMidWidth) * ((duration - 10) / 50);
     }
 }
 
