@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UIImageView *playImageView;
 @property (nonatomic, strong) UILabel *durationLbl;
 @property (nonatomic, strong) UIActivityIndicatorView *activityView;
+@property (nonatomic, strong) UIView *unreadView;
 
 @end
 
@@ -44,7 +45,14 @@
         [_activityView stopAnimating];
         [self addSubview:_activityView];
         
+        _unreadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 7, 7)];
+        _unreadView.backgroundColor = [UIColor colorWithRGBHex:0xFF3C30];
+        _unreadView.layer.cornerRadius = _unreadView.frame.size.width/2;
+        _unreadView.hidden = YES;
+        [self addSubview:_unreadView];
+        
         self.showBgImg = YES;
+        self.isUnread = NO;
         self.type = BubbleTypeLeft;
         self.duration = 0;
     }
@@ -56,10 +64,12 @@
     if (_type == BubbleTypeRight) {
         [_playImageView setOrigin:CGPointMake(16, (self.frame.size.height-_playImageView.frame.size.height)/2-1)];
         [_durationLbl setOrigin:CGPointMake(16+8+_playImageView.frame.size.height, (self.frame.size.height-_durationLbl.frame.size.height)/2-1)];
+        _unreadView.center = CGPointMake(-13, self.frame.size.height/2);
     }
     else {
         [_playImageView setOrigin:CGPointMake(self.frame.size.width-_playImageView.frame.size.width-16, (self.frame.size.height-_playImageView.frame.size.height)/2-1)];
         [_durationLbl setOrigin:CGPointMake(self.frame.size.width-_playImageView.frame.size.width-16-8-_durationLbl.frame.size.width, (self.frame.size.height-_durationLbl.frame.size.height)/2-1)];
+        _unreadView.center = CGPointMake(self.frame.size.width+13, self.frame.size.height/2);
     }
 }
 
@@ -103,6 +113,11 @@
 - (void)setShowBgImg:(BOOL)showBgImg {
     _showBgImg = showBgImg;
     _bgImageView.hidden = !showBgImg;
+}
+
+- (void)setIsUnread:(BOOL)isUnread {
+    _isUnread = isUnread;
+    _unreadView.hidden = !isUnread;
 }
 
 - (void)setPlayState:(AudioPlayViewState)playState {

@@ -101,6 +101,10 @@
     self.playState = AudioPlayViewStatePlaying;
     [AudioManager shared].delegate = self;
     [[AudioManager shared] play:f validator:self.validator];
+    
+    if (_playStartedBlock) {
+        _playStartedBlock(self);
+    }
 }
 
 - (void)stop {

@@ -18,6 +18,7 @@ typedef NS_ENUM(NSInteger, AudioPlayViewState) {
 @interface AudioPlayView : UIControl <AudioManagerDelegate>
 
 @property (nonatomic, assign) AudioPlayViewState playState;
+@property (nonatomic, copy) void(^playStartedBlock)(AudioPlayView *);
 
 - (void)setUrl:(NSURL *)url;
 - (void)setUrl:(NSURL *)url validator:(id)validator;

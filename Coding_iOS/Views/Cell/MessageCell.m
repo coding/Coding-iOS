@@ -174,6 +174,12 @@
     if (_voiceView) {
         [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
         _voiceView.duration = curPriMsg.voiceMedia.duration;
+        _voiceView.playStartedBlock = ^(AudioPlayView *view) {
+            BubblePlayView *bubbleView = (BubblePlayView *)view;
+            if (bubbleView.isUnread) {
+                bubbleView.isUnread = NO;
+            }
+        };
         bgImgViewSize = CGSizeMake(_voiceView.frame.size.width, 40);
     }
     
