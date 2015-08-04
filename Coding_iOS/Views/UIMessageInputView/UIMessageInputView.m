@@ -516,7 +516,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     if (hasVoiceBtn && !_voiceButton) {
         _voiceButton = [[UIButton alloc] initWithFrame:CGRectMake(7, (kMessageInputView_Height - kMessageInputView_Width_Tool)/2, kMessageInputView_Width_Tool, kMessageInputView_Width_Tool)];
         
-        [_voiceButton setImage:[UIImage imageNamed:@"keyboard_add"] forState:UIControlStateNormal];
+        [_voiceButton setImage:[UIImage imageNamed:@"keyboard_voice"] forState:UIControlStateNormal];
         [_voiceButton addTarget:self action:@selector(voiceButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_voiceButton];
     }
