@@ -18,7 +18,7 @@ PODS:
   - FontAwesome+iOS (0.1.4)
   - hpple (0.2.0)
   - iVersion (1.11.4)
-  - JazzHands (2.0.2)
+  - JazzHands (2.0.0)
   - MarqueeLabel (2.2.5)
   - Masonry (0.5.3)
   - MBProgressHUD (0.9)
@@ -58,7 +58,7 @@ PODS:
   - ReactiveCocoa/UI (2.3.1):
     - ReactiveCocoa/Core
   - RegexKitLite-NoWarning (1.1.0)
-  - SDCAlertView (2.4.2):
+  - SDCAlertView (2.5.2):
     - RBBAnimation (~> 0.3)
     - SDCAutoLayout (~> 2.0)
   - SDCAutoLayout (2.0.3)
@@ -66,16 +66,13 @@ PODS:
   - TPKeyboardAvoiding (1.2.4)
   - TTTAttributedLabel (1.10.1)
   - UIImage+BlurredFrame (0.0.4)
-  - ZXingObjC (3.1.0):
-    - ZXingObjC/All (= 3.1.0)
-  - ZXingObjC/All (3.1.0)
 
 DEPENDENCIES:
   - APParallaxHeader
   - BlocksKit (= 2.2.5)
   - hpple (= 0.2.0)
-  - iVersion (~> 1.11.4)
-  - JazzHands (~> 2.0.0)
+  - iVersion (= 1.11.4)
+  - JazzHands (= 2.0.0)
   - MarqueeLabel
   - Masonry (= 0.5.3)
   - MBProgressHUD (= 0.9)
@@ -84,13 +81,12 @@ DEPENDENCIES:
   - POP+MCAnimate (= 2.0.1)
   - PPiAwesomeButton
   - ReactiveCocoa (= 2.3.1)
-  - RegexKitLite-NoWarning (~> 1.1.0)
-  - SDCAlertView (~> 2.4.1)
-  - SSKeychain (~> 1.2.3)
+  - RegexKitLite-NoWarning (= 1.1.0)
+  - SDCAlertView (= 2.5.2)
+  - SSKeychain (= 1.2.3)
   - TPKeyboardAvoiding (= 1.2.4)
   - TTTAttributedLabel (= 1.10.1)
   - UIImage+BlurredFrame (= 0.0.4)
-  - ZXingObjC (~> 3.1.0)
 
 SPEC CHECKSUMS:
   APParallaxHeader: 854bc48a2487ca12c702f8a236fec0d89cdac5c3
@@ -98,7 +94,7 @@ SPEC CHECKSUMS:
   FontAwesome+iOS: 9070b682a9255ca0fdc34bcfb129ad0ba2b73b87
   hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81
-  JazzHands: 088a3949e539480b07ba6ae4877da935efcc061b
+  JazzHands: 00002e9b1284e7fc1ac6555012e81b8942477242
   MarqueeLabel: 65ca60ee9ba554be34f35339004c6c9fe6366a31
   Masonry: 9f515466afe48632562342a40a1c224071a1a022
   MBProgressHUD: d8e7ea388dc1549a42e0d219067cf5f2c898fb66
@@ -110,12 +106,11 @@ SPEC CHECKSUMS:
   RBBAnimation: 4b2d66f6d993febce63cd564da934985313b9c59
   ReactiveCocoa: 334468a83b2c5f669f7cfb9a084415ee23219b4f
   RegexKitLite-NoWarning: 365d208f8187997e33d9de8baeddfc00728596d8
-  SDCAlertView: 486468bfba6a8cf1190b0f98552a19ae71b4c059
+  SDCAlertView: f9706c18f456ea87909f8f199704cd28e582ff27
   SDCAutoLayout: e6885bb39ab8e2ec2ff84d158f38035f025f7420
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
   TPKeyboardAvoiding: 0a40dfbb0af7c8bdae1dd457496dccfd217d85f6
   TTTAttributedLabel: c8f3801a6463b9c9b82b0c84c465fdda9751892a
   UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
-  ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
 
-COCOAPODS: 0.37.2
+COCOAPODS: 0.38.2
