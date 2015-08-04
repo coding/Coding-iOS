@@ -7,15 +7,15 @@
 //
 
 #import "ZXScanCodeViewController.h"
+#import <AVFoundation/AVFoundation.h>
 #import "ScanBGView.h"
-#import <ZXingObjC/ZXingObjC.h>
 
-@interface ZXScanCodeViewController ()<ZXCaptureDelegate>
-@property (nonatomic, strong) ZXCapture *capture;
+@interface ZXScanCodeViewController ()<AVCaptureMetadataOutputObjectsDelegate>
 @property (strong, nonatomic) ScanBGView *myScanBGView;
 @property (strong, nonatomic) UIImageView *scanRectView, *lineView;
 @property (strong, nonatomic) UILabel *tipLabel;
-@property (assign, nonatomic) BOOL scanSucessed;
+
+@property (strong, nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @end
 
 @implementation ZXScanCodeViewController
@@ -45,8 +45,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    [self.capture stop];
-    [self.capture.layer removeFromSuperlayer];
+    [self.videoPreviewLayer.session stopRunning];
+    [self.videoPreviewLayer removeFromSuperlayer];
     [self scanLineStopAction];
 }
 
@@ -55,14 +55,38 @@
     CGFloat padding = (kScreen_Width - width)/2;
     CGRect scanRect = CGRectMake(padding, kScreen_Height/10, width, width);
     
-    if (!_capture) {
-        _capture = [[ZXCapture alloc] init];
-        _capture.camera = _capture.back;
-        _capture.focusMode = AVCaptureFocusModeContinuousAutoFocus;
-        _capture.rotation = 90.f;
-        _capture.layer.frame = self.view.bounds;
-        _capture.scanRect = scanRect;
-        _capture.delegate = self;
+    if (!_videoPreviewLayer) {
+        NSError *error;
+        AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];
+        if (!input) {
+            kTipAlert(@"%@", error.localizedDescription);
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            //设置会话的输入设备
+            AVCaptureSession *captureSession = [AVCaptureSession new];
+            [captureSession addInput:input];
+            //对应输出
+            AVCaptureMetadataOutput *captureMetadataOutput = [[AVCaptureMetadataOutput alloc] init];
+            [captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatch_queue_create("ease_capture_queue",NULL)];
+            [captureSession addOutput:captureMetadataOutput];
+
+            //设置条码类型:包含 AVMetadataObjectTypeQRCode 就好
+            if (![captureMetadataOutput.availableMetadataObjectTypes containsObject:AVMetadataObjectTypeQRCode]) {
+                kTipAlert(@"摄像头不支持扫描二维码！");
+                [self.navigationController popViewControllerAnimated:YES];
+            }else{
+                [captureMetadataOutput setMetadataObjectTypes:captureMetadataOutput.availableMetadataObjectTypes];
+            }
+            captureMetadataOutput.rectOfInterest = CGRectMake(CGRectGetMinY(scanRect)/CGRectGetHeight(self.view.frame),
+                                                               1 - CGRectGetMaxX(scanRect)/CGRectGetWidth(self.view.frame),
+                                                               CGRectGetHeight(scanRect)/CGRectGetHeight(self.view.frame),
+                                                               CGRectGetWidth(scanRect)/CGRectGetWidth(self.view.frame));//设置扫描区域。。默认是手机头向左的横屏坐标系（逆时针旋转90度）
+            //将捕获的数据流展现出来
+            _videoPreviewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
+            [_videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+            [_videoPreviewLayer setFrame:self.view.bounds];
+        }
     }
     
     if (!_myScanBGView) {
@@ -92,7 +116,7 @@
         _lineView.image = lineImage;
     }
     
-    [self.view.layer addSublayer:_capture.layer];
+    [self.view.layer addSublayer:_videoPreviewLayer];
     [self.view addSubview:_myScanBGView];
     [self.view addSubview:_scanRectView];
     [self.view addSubview:_tipLabel];
@@ -101,8 +125,8 @@
         make.top.equalTo(_scanRectView.mas_bottom).offset(20);
         make.height.mas_equalTo(30);
     }];
-    [_capture start];
     [_scanRectView addSubview:_lineView];
+    [_videoPreviewLayer.session startRunning];
     [self scanLineStartAction];
 }
 
@@ -123,80 +147,48 @@
 }
 
 - (void)dealloc {
-    [self.capture.layer removeFromSuperlayer];
-    self.capture = nil;
+    [self.videoPreviewLayer removeFromSuperlayer];
+    self.videoPreviewLayer = nil;
     [self scanLineStopAction];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma p_Method
-- (NSString *)barcodeFormatToString:(ZXBarcodeFormat)format {
-    switch (format) {
-        case kBarcodeFormatAztec:
-            return @"Aztec";
-            
-        case kBarcodeFormatCodabar:
-            return @"CODABAR";
-            
-        case kBarcodeFormatCode39:
-            return @"Code 39";
-            
-        case kBarcodeFormatCode93:
-            return @"Code 93";
-            
-        case kBarcodeFormatCode128:
-            return @"Code 128";
-            
-        case kBarcodeFormatDataMatrix:
-            return @"Data Matrix";
-            
-        case kBarcodeFormatEan8:
-            return @"EAN-8";
-            
-        case kBarcodeFormatEan13:
-            return @"EAN-13";
-            
-        case kBarcodeFormatITF:
-            return @"ITF";
-            
-        case kBarcodeFormatPDF417:
-            return @"PDF417";
-            
-        case kBarcodeFormatQRCode:
-            return @"QR Code";
-            
-        case kBarcodeFormatRSS14:
-            return @"RSS 14";
-            
-        case kBarcodeFormatRSSExpanded:
-            return @"RSS Expanded";
-            
-        case kBarcodeFormatUPCA:
-            return @"UPCA";
-            
-        case kBarcodeFormatUPCE:
-            return @"UPCE";
-            
-        case kBarcodeFormatUPCEANExtension:
-            return @"UPC/EAN extension";
-            
-        default:
-            return @"Unknown";
+#pragma mark AVCaptureMetadataOutputObjectsDelegate
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection{
+    //判断是否有数据，是否是二维码数据
+    if (metadataObjects.count > 0) {
+        __block AVMetadataMachineReadableCodeObject *result = nil;
+        [metadataObjects enumerateObjectsUsingBlock:^(AVMetadataMachineReadableCodeObject *obj, NSUInteger idx, BOOL *stop) {
+            if ([obj.type isEqualToString:AVMetadataObjectTypeQRCode]) {
+                result = obj;
+                *stop = YES;
+            }
+        }];
+        if (!result) {
+            result = [metadataObjects firstObject];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self analyseResult:result];
+        });
     }
 }
 
-#pragma mark ZXCaptureDelegate
-- (void)captureResult:(ZXCapture *)capture result:(ZXResult *)result{
-    NSLog(@"result : %@", result.text);
+- (void)analyseResult:(AVMetadataMachineReadableCodeObject *)result{
+    DebugLog(@"result : %@", result.stringValue);
+    if (result.stringValue.length <= 0) {
+        return;
+    }
 
-    if (!result || _scanSucessed) return;
-    _scanSucessed = YES;
-    [capture stop];
-
-    // Vibrate
+    //停止扫描
+    [self.videoPreviewLayer.session stopRunning];
+    [self scanLineStopAction];
+    
+    //震动反馈
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     
-    OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:[NSURL URLWithString:result.text] secret:nil];
+    //解析结果
+    OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:[NSURL URLWithString:result.stringValue] secret:nil];
     if ([authURL isKindOfClass:[TOTPAuthURL class]]) {
         if (self.sucessScanBlock) {
             self.sucessScanBlock(authURL);
@@ -207,15 +199,12 @@
         if (authURL) {
             tipStr = @"目前仅支持 TOTP 类型的身份验证令牌";
         }else{
-            NSString *formatString = [self barcodeFormatToString:result.barcodeFormat];
-            NSString *resultString = result.text;
-            tipStr = [NSString stringWithFormat:@"条码「%@ : %@」不是有效的身份验证令牌条码", formatString, resultString];
+            tipStr = [NSString stringWithFormat:@"条码「%@ : %@」不是有效的身份验证令牌条码", result.type, result.stringValue];
         }
-
         UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"无效条码" message:tipStr];
         [alertV bk_addButtonWithTitle:@"重试" handler:^{
-            self.scanSucessed = NO;
-            [capture start];
+            [self.videoPreviewLayer.session startRunning];
+            [self scanLineStartAction];
         }];
         [alertV show];
     }
@@ -223,12 +212,12 @@
 
 #pragma mark Notification
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    [self.capture start];
+    [self.videoPreviewLayer.session startRunning];
     [self scanLineStartAction];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    [self.capture stop];
+    [self.videoPreviewLayer.session stopRunning];
     [self scanLineStopAction];
 }
 @end
