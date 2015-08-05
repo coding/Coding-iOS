@@ -32,6 +32,7 @@
 #import "Commits.h"
 #import "ProjectTag.h"
 #import "CodingBanner.h"
+#import "PointRecords.h"
 
 typedef NS_ENUM(NSUInteger, VerifyType){
     VerifyTypeUnknow = 0,
@@ -163,7 +164,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_UserJobArrayWithBlock:(void (^)(id data, NSError *error))block;
 - (void)request_UserTagArrayWithBlock:(void (^)(id data, NSError *error))block;
 - (void)request_UpdateUserInfo_WithObj:(User *)curUser andBlock:(void (^)(id data, NSError *error))block;
-
+- (void)request_PointRecords:(PointRecords *)records andBlock:(void (^)(id data, NSError *error))block;
 
 //Message
 - (void)request_PrivateMessages:(PrivateMessages *)priMsgs andBlock:(void (^)(id data, NSError *error))block;
