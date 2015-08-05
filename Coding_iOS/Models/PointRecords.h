@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PointRecord.h"
 
 @interface PointRecords : NSObject
 @property (readwrite, nonatomic, strong) NSNumber *page, *pageSize, *totalPage, *totalRow, *unreadCount;

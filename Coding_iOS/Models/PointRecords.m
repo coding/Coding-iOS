@@ -7,7 +7,6 @@
 //
 
 #import "PointRecords.h"
-#import "PointRecord.h"
 
 @implementation PointRecords
 - (instancetype)init
