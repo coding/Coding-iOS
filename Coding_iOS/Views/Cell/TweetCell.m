@@ -338,7 +338,7 @@
     //    可有可无
     if (_tweet.numOfComments > 0) {
         CGFloat commentListViewHeight = [TweetCell commentListViewHeightWithTweet:_tweet];
-        [self.commentListView setFrame:CGRectMake(kTweetCell_PadingLeft, ceilf(curBottomY), kTweetCell_ContentWidth, commentListViewHeight)];
+        [self.commentListView setFrame:CGRectMake(kTweetCell_PadingLeft, floor(2*curBottomY)/2.0, kTweetCell_ContentWidth, commentListViewHeight)];
         [self.commentListView reloadData];
         self.commentListView.hidden = NO;
     }else{

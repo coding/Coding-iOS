@@ -39,7 +39,7 @@
             [self.contentView addSubview:_contentLabel];
         }
         if (!_timeLabel) {
-            _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 80, 0, 80, 15)];
+            _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 100, 0, 100, 15)];
             _timeLabel.font = [UIFont systemFontOfSize:12];
             _timeLabel.backgroundColor = [UIColor clearColor];
             _timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];

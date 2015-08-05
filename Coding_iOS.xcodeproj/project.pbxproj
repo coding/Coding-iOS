@@ -395,6 +395,7 @@
 		4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED673211A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m */; };
 		4ED673261A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED673251A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png */; };
 		4ED673281A8E12F900DF2D1A /* SVWebViewControllerActivityReport-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED673271A8E12F900DF2D1A /* SVWebViewControllerActivityReport-iPad@2x.png */; };
+		4EDBECEB1B709EB3003E87C3 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EDBECEA1B709EB3003E87C3 /* AVFoundation.framework */; };
 		4EDC33CE1AFB4DCC00698315 /* EaseInputTipsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EDC33CD1AFB4DCC00698315 /* EaseInputTipsView.m */; };
 		4EDD8F511A36F42200E9E232 /* libXG-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EDD8F4D1A36F42200E9E232 /* libXG-SDK.a */; };
 		4EDD8F521A36F42300E9E232 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4EDD8F4E1A36F42200E9E232 /* ReleaseNotes.txt */; };
@@ -1418,6 +1419,7 @@
 		4ED673211A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVWebViewControllerActivityReport.m; sourceTree = "<group>"; };
 		4ED673251A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SVWebViewControllerActivityReport@2x.png"; sourceTree = "<group>"; };
 		4ED673271A8E12F900DF2D1A /* SVWebViewControllerActivityReport-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SVWebViewControllerActivityReport-iPad@2x.png"; sourceTree = "<group>"; };
+		4EDBECEA1B709EB3003E87C3 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		4EDC33CC1AFB4DCC00698315 /* EaseInputTipsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseInputTipsView.h; sourceTree = "<group>"; };
 		4EDC33CD1AFB4DCC00698315 /* EaseInputTipsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseInputTipsView.m; sourceTree = "<group>"; };
 		4EDD8F4D1A36F42200E9E232 /* libXG-SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libXG-SDK.a"; sourceTree = "<group>"; };
@@ -2025,6 +2027,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EDBECEB1B709EB3003E87C3 /* AVFoundation.framework in Frameworks */,
 				0AB591AD1AB6D51C0076C454 /* MapKit.framework in Frameworks */,
 				0A6E6BBF1AB180CB004C0107 /* CoreLocation.framework in Frameworks */,
 				4EDD8F5C1A36F52700E9E232 /* libsqlite3.0.dylib in Frameworks */,
@@ -3047,6 +3050,7 @@
 		8E477012198770E700997D05 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4EDBECEA1B709EB3003E87C3 /* AVFoundation.framework */,
 				4EF818231B09D8D8005F974B /* WebP.framework */,
 				0A6E6BBE1AB180CB004C0107 /* CoreLocation.framework */,
 				0A6E6BBC1AB180AE004C0107 /* MapKit.framework */,

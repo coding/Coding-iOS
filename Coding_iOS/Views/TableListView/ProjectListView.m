@@ -112,8 +112,11 @@ static NSString *const kValueKey = @"kValueKey";
                                    kValueKey : noPinList}];
         }
     }else{
-        NSArray *list = [self updateFilteredContentForSearchString:self.mySearchBar.text];
+        NSMutableArray *list = [self updateFilteredContentForSearchString:self.mySearchBar.text];
         if (list.count > 0) {
+            [list sortUsingComparator:^NSComparisonResult(Project *obj1, Project *obj2) {
+                return (obj1.pin.integerValue < obj2.pin.integerValue);
+            }];
             [_dataList addObject:@{kTitleKey : @"一般项目",
                                    kValueKey : list}];
         }
@@ -278,7 +281,7 @@ static NSString *const kValueKey = @"kValueKey";
     [self.myTableView reloadData];
 }
 
-- (NSArray *)updateFilteredContentForSearchString:(NSString *)searchString{
+- (NSMutableArray *)updateFilteredContentForSearchString:(NSString *)searchString{
     // start out with the entire list
     NSMutableArray *searchResults = [self.myProjects.list mutableCopy];
     
@@ -329,7 +332,7 @@ static NSString *const kValueKey = @"kValueKey";
     
     NSCompoundPredicate *finalCompoundPredicate = (NSCompoundPredicate *)[NSCompoundPredicate andPredicateWithSubpredicates:andMatchPredicates];
     
-    searchResults = [[searchResults filteredArrayUsingPredicate:finalCompoundPredicate] copy];
+    [searchResults filterUsingPredicate:finalCompoundPredicate];
     return searchResults;
 }
 
