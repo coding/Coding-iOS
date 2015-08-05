@@ -26,6 +26,7 @@
 #import "IntroductionViewController.h"
 
 #import "Tweet.h"
+#import "sys/utsname.h"
 
 @implementation AppDelegate
 
@@ -49,6 +50,16 @@
     }
 }
 
+#pragma mark UserAgent
+- (void)registerUserAgent{
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString *deviceString = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+    NSString *userAgent = [NSString stringWithFormat:@"%@/%@ (%@; iOS %@; Scale/%0.2f)", [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleExecutableKey] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleIdentifierKey], (__bridge id)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey) ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleVersionKey], deviceString, [[UIDevice currentDevice] systemVersion], ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] ? [[UIScreen mainScreen] scale] : 1.0f)];
+    NSDictionary *dictionary = @{@"UserAgent" : userAgent};//User-Agent
+    [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+}
+
 
 #pragma lifeCycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -67,6 +78,9 @@
     //设置导航条样式
     [self customizeInterface];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    
+    //UIWebView 的 User-Agent
+    [self registerUserAgent];
 
     if ([Login isLogin]) {
         [self setupTabViewController];
@@ -158,7 +172,7 @@
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
 }
-#pragma mark - Umeng Message
+#pragma mark - XGPush Message
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     NSString * deviceTokenStr = [XGPush registerDevice:deviceToken];
