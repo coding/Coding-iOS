@@ -70,10 +70,11 @@
 }
 
 + (UIButton *)p_skipButton{
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width/2, 44)];
-    button.titleLabel.font = [UIFont systemFontOfSize:18];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width*0.7, 60)];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     [button setTitle:@"立即体验" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor colorWithHexString:@"0x1b9d59"] forState:UIControlStateHighlighted];
     return button;
 }
 
