@@ -7,7 +7,7 @@
 //
 
 #define kIntroPageKey @"intro_page_version"
-#define kIntroPageNum 2
+#define kIntroPageNum 1
 
 #import "FunctionIntroManager.h"
 #import "EAIntroView.h"
