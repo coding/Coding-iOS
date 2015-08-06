@@ -24,6 +24,7 @@
 #import "BaseNavigationController.h"
 #import "PasswordViewController.h"
 #import "IntroductionViewController.h"
+#import "FunctionIntroManager.h"
 
 #import "Tweet.h"
 #import "sys/utsname.h"
@@ -89,6 +90,7 @@
         [self setupIntroductionViewController];
     }
     [self.window makeKeyAndVisible];
+    [FunctionIntroManager showIntroPage];
 
     EaseStartView *startView = [EaseStartView startView];
     @weakify(self);

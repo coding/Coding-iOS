@@ -37,6 +37,14 @@
 		4E00228C1B721955005308DE /* PointTopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E00228B1B721955005308DE /* PointTopCell.m */; };
 		4E00228F1B721964005308DE /* PointShopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E00228E1B721964005308DE /* PointShopCell.m */; };
 		4E0022921B721973005308DE /* PointRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0022911B721973005308DE /* PointRecordCell.m */; };
+		4E0022961B73506A005308DE /* EARestrictedScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0022951B73506A005308DE /* EARestrictedScrollView.m */; };
+		4E00229C1B735075005308DE /* EAIntroPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0022991B735075005308DE /* EAIntroPage.m */; };
+		4E00229D1B735075005308DE /* EAIntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E00229B1B735075005308DE /* EAIntroView.m */; };
+		4E0022A01B7360B1005308DE /* FunctionIntroManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E00229F1B7360B1005308DE /* FunctionIntroManager.m */; };
+		4E0022A61B7362EF005308DE /* intro_page0_ip4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E0022A21B7362EF005308DE /* intro_page0_ip4@2x.png */; };
+		4E0022A71B7362EF005308DE /* intro_page0_ip5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E0022A31B7362EF005308DE /* intro_page0_ip5@2x.png */; };
+		4E0022A81B7362EF005308DE /* intro_page0_ip6+@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E0022A41B7362EF005308DE /* intro_page0_ip6+@3x.png */; };
+		4E0022A91B7362EF005308DE /* intro_page0_ip6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E0022A51B7362EF005308DE /* intro_page0_ip6@2x.png */; };
 		4E03AC9A1A5BDDF9002B000B /* STARTIMAGE.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4E03AC991A5BDDF9002B000B /* STARTIMAGE.jpg */; };
 		4E03ACA61A5D2060002B000B /* UIVerticalAlignmentLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E03ACA51A5D2060002B000B /* UIVerticalAlignmentLabel.m */; };
 		4E07D3081A4A96EA009EDDF2 /* FileListUploadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E07D3071A4A96EA009EDDF2 /* FileListUploadCell.m */; };
@@ -841,6 +849,18 @@
 		4E00228E1B721964005308DE /* PointShopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointShopCell.m; sourceTree = "<group>"; };
 		4E0022901B721973005308DE /* PointRecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointRecordCell.h; sourceTree = "<group>"; };
 		4E0022911B721973005308DE /* PointRecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointRecordCell.m; sourceTree = "<group>"; };
+		4E0022941B73506A005308DE /* EARestrictedScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EARestrictedScrollView.h; sourceTree = "<group>"; };
+		4E0022951B73506A005308DE /* EARestrictedScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EARestrictedScrollView.m; sourceTree = "<group>"; };
+		4E0022981B735075005308DE /* EAIntroPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAIntroPage.h; sourceTree = "<group>"; };
+		4E0022991B735075005308DE /* EAIntroPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAIntroPage.m; sourceTree = "<group>"; };
+		4E00229A1B735075005308DE /* EAIntroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAIntroView.h; sourceTree = "<group>"; };
+		4E00229B1B735075005308DE /* EAIntroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAIntroView.m; sourceTree = "<group>"; };
+		4E00229E1B7360B1005308DE /* FunctionIntroManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionIntroManager.h; sourceTree = "<group>"; };
+		4E00229F1B7360B1005308DE /* FunctionIntroManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionIntroManager.m; sourceTree = "<group>"; };
+		4E0022A21B7362EF005308DE /* intro_page0_ip4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro_page0_ip4@2x.png"; sourceTree = "<group>"; };
+		4E0022A31B7362EF005308DE /* intro_page0_ip5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro_page0_ip5@2x.png"; sourceTree = "<group>"; };
+		4E0022A41B7362EF005308DE /* intro_page0_ip6+@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro_page0_ip6+@3x.png"; sourceTree = "<group>"; };
+		4E0022A51B7362EF005308DE /* intro_page0_ip6@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro_page0_ip6@2x.png"; sourceTree = "<group>"; };
 		4E03AC991A5BDDF9002B000B /* STARTIMAGE.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = STARTIMAGE.jpg; sourceTree = "<group>"; };
 		4E03ACA41A5D2060002B000B /* UIVerticalAlignmentLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIVerticalAlignmentLabel.h; sourceTree = "<group>"; };
 		4E03ACA51A5D2060002B000B /* UIVerticalAlignmentLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIVerticalAlignmentLabel.m; sourceTree = "<group>"; };
@@ -2016,6 +2036,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E0022931B73506A005308DE /* EARestrictedScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				4E0022941B73506A005308DE /* EARestrictedScrollView.h */,
+				4E0022951B73506A005308DE /* EARestrictedScrollView.m */,
+			);
+			path = EARestrictedScrollView;
+			sourceTree = "<group>";
+		};
+		4E0022971B735075005308DE /* EAIntroView */ = {
+			isa = PBXGroup;
+			children = (
+				4E0022981B735075005308DE /* EAIntroPage.h */,
+				4E0022991B735075005308DE /* EAIntroPage.m */,
+				4E00229A1B735075005308DE /* EAIntroView.h */,
+				4E00229B1B735075005308DE /* EAIntroView.m */,
+			);
+			path = EAIntroView;
+			sourceTree = "<group>";
+		};
+		4E0022A11B7362EF005308DE /* intro_pages */ = {
+			isa = PBXGroup;
+			children = (
+				4E0022A21B7362EF005308DE /* intro_page0_ip4@2x.png */,
+				4E0022A31B7362EF005308DE /* intro_page0_ip5@2x.png */,
+				4E0022A41B7362EF005308DE /* intro_page0_ip6+@3x.png */,
+				4E0022A51B7362EF005308DE /* intro_page0_ip6@2x.png */,
+			);
+			path = intro_pages;
+			sourceTree = "<group>";
+		};
 		4E095A5D1B6909F9008DC439 /* AutoSlideScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2734,6 +2785,8 @@
 				4E8AF7851A53D69F00CDC3AE /* StartImagesManager.m */,
 				4EC461AB1B39084100D08970 /* FunctionTipsManager.h */,
 				4EC461AC1B39084100D08970 /* FunctionTipsManager.m */,
+				4E00229E1B7360B1005308DE /* FunctionIntroManager.h */,
+				4E00229F1B7360B1005308DE /* FunctionIntroManager.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -3299,6 +3352,7 @@
 		8EA6CF5D19E240C40076D59C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4E0022A11B7362EF005308DE /* intro_pages */,
 				4E095A751B6B1E40008DC439 /* deadline_calendar */,
 				4E095A6A1B69F920008DC439 /* banner */,
 				4E94C5021B4D334B00EB668A /* pop_icon */,
@@ -3663,6 +3717,8 @@
 		8EA6D03E19E240C40076D59C /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4E0022971B735075005308DE /* EAIntroView */,
+				4E0022931B73506A005308DE /* EARestrictedScrollView */,
 				4E095A5D1B6909F9008DC439 /* AutoSlideScrollView */,
 				4E94C50F1B4E0C0300EB668A /* XHRealTimeBlur */,
 				4E94C4F51B4D2B9300EB668A /* PopMenu */,
@@ -4270,6 +4326,7 @@
 				8E97CEB91A0C7E26006F9AD7 /* coding_emoji_34@2x.png in Resources */,
 				4EF17ED81B3C3112003CDD2D /* intro_icon_4@3x.png in Resources */,
 				4E5F39071ACBFDCD0010515D /* keyboard_photo@2x.png in Resources */,
+				4E0022A91B7362EF005308DE /* intro_page0_ip6@2x.png in Resources */,
 				4E76D4DE1A5A7B4A0094A35E /* text_clear_btn@2x.png in Resources */,
 				4E96E7E41A1B537E0037C098 /* icon_file_xls@2x.png in Resources */,
 				4EC461B41B39360F00D08970 /* file_changeType_MODIFY@2x.png in Resources */,
@@ -4301,6 +4358,7 @@
 				8E97CEB51A0C7E26006F9AD7 /* coding_emoji_30@2x.png in Resources */,
 				4E6383D21B32665700D98648 /* project_item_code@2x.png in Resources */,
 				4EF17ED21B3C3112003CDD2D /* intro_icon_1@3x.png in Resources */,
+				4E0022A61B7362EF005308DE /* intro_page0_ip4@2x.png in Resources */,
 				4E53EB591AFB090E0034FE1C /* nav_page_selected@2x.png in Resources */,
 				8E97CEB31A0C7E26006F9AD7 /* coding_emoji_28@2x.png in Resources */,
 				4EF17EE61B3C3112003CDD2D /* intro_tip_5@2x.png in Resources */,
@@ -4309,6 +4367,7 @@
 				8EA6D15919E240C40076D59C /* AppIcon120x120.png in Resources */,
 				8E97CEB71A0C7E26006F9AD7 /* coding_emoji_32@2x.png in Resources */,
 				8E97CEA71A0C7E26006F9AD7 /* coding_emoji_16@2x.png in Resources */,
+				4E0022A81B7362EF005308DE /* intro_page0_ip6+@3x.png in Resources */,
 				8E8F7B2C19EF6306006BA8BD /* btn_followed_both@2x.png in Resources */,
 				4E0849841A918A7F00BD27F6 /* coding_emoji_42@2x.png in Resources */,
 				8E97CEB61A0C7E26006F9AD7 /* coding_emoji_31@2x.png in Resources */,
@@ -4361,6 +4420,7 @@
 				4E38CF641A7B8DD4005536C0 /* icon_triangle@2x.png in Resources */,
 				8E97CE551A0A3410006F9AD7 /* tweetBtn_Nav@2x.png in Resources */,
 				4E4D6AC81B252F4800FD2E49 /* icon_add_comment@2x.png in Resources */,
+				4E0022A71B7362EF005308DE /* intro_page0_ip5@2x.png in Resources */,
 				8E872D0019EFEFF7002C8F34 /* tweet_more_comment_icon@2x.png in Resources */,
 				8EA6D1A019E240C40076D59C /* tipIcon_TweetLike@2x.png in Resources */,
 				4E72F8331B15B811001B6CE6 /* gif_mark@2x.png in Resources */,
@@ -4479,6 +4539,7 @@
 				4EBDA87C1A6640340035ED96 /* UIActionSheet+Common.m in Sources */,
 				4E4D6A581B1C5DC000FD2E49 /* MRPRCommentCell.m in Sources */,
 				B94C1B6E1AC98CCE0000C271 /* NewProjectTypeViewController.m in Sources */,
+				4E00229C1B735075005308DE /* EAIntroPage.m in Sources */,
 				4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */,
 				4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */,
 				4E6BA2E41A1EE6AF005FD721 /* UIButton+AFNetworking.m in Sources */,
@@ -4533,6 +4594,7 @@
 				8EF643B619FF7E2900F7EEB0 /* Input_OnlyText_Cell.m in Sources */,
 				4E07D3081A4A96EA009EDDF2 /* FileListUploadCell.m in Sources */,
 				4EE1A22F1B5D02CA004284F1 /* ProjectListView.m in Sources */,
+				4E00229D1B735075005308DE /* EAIntroView.m in Sources */,
 				4EA679161A1496A7001A0324 /* ProjectFolders.m in Sources */,
 				4EE1A2361B5DF568004284F1 /* ProjectTagLabel.m in Sources */,
 				4EA7F1591A6D192B00A046BD /* NSData+ImageContentType.m in Sources */,
@@ -4731,6 +4793,7 @@
 				4ECE8ADE1A3943E80021E29C /* NSString+Common.m in Sources */,
 				4ECE8B081A3947300021E29C /* BasicPreviewItem.m in Sources */,
 				4EA7F15A1A6D192B00A046BD /* SDImageCache.m in Sources */,
+				4E0022A01B7360B1005308DE /* FunctionIntroManager.m in Sources */,
 				4EBB624C1A6F526C0045DAEF /* NJKWebViewProgress.m in Sources */,
 				4E4D6A761B1C6C6100FD2E49 /* MRPRTopCell.m in Sources */,
 				4EE1A2301B5D02CA004284F1 /* ProjectTaskListView.m in Sources */,
@@ -4771,6 +4834,7 @@
 				8EE72BE819E3F4A8002C11D9 /* MBProgressHUD+Add.m in Sources */,
 				8E59F10D1A02188D009A905F /* CodeViewController.m in Sources */,
 				4E4D6A7C1B1C6CDE00FD2E49 /* CommitListCell.m in Sources */,
+				4E0022961B73506A005308DE /* EARestrictedScrollView.m in Sources */,
 				8EA6D20B19E240C40076D59C /* RDVTabBarController.m in Sources */,
 				4E787DE21B0329B300F06E83 /* ProjectLineNote.m in Sources */,
 				8EA6D12E19E240C40076D59C /* EditTaskViewController.m in Sources */,

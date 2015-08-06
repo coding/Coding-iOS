@@ -120,6 +120,7 @@
     }
 }
 
+#pragma mark RDVTabBarControllerDelegate
 - (BOOL)tabBarController:(RDVTabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController{
     if (tabBarController.selectedViewController != viewController) {
         return YES;
