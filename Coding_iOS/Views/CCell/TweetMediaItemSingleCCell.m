@@ -7,7 +7,7 @@
 //
 
 #define kTweetMediaItemCCellSingle_Width (0.6 *kScreen_Width)
-#define kTweetMediaItemCCellSingle_WidthMonkey ((kScreen_Width - 80.0)/3.0)
+#define kTweetMediaItemCCellSingle_WidthMonkey ((kScreen_Width - 36.0)/3.0)
 #define kTweetMediaItemCCellSingle_MaxHeight (0.5 *kScreen_Height)
 
 #import "TweetMediaItemSingleCCell.h"
@@ -32,8 +32,8 @@
         _imgView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, kTweetMediaItemCCellSingle_Width, kTweetMediaItemCCellSingle_Width)];
         _imgView.contentMode = UIViewContentModeScaleAspectFill;
         _imgView.clipsToBounds = YES;
-        _imgView.layer.masksToBounds = YES;
-        _imgView.layer.cornerRadius = 2.0;
+//        _imgView.layer.masksToBounds = YES;
+//        _imgView.layer.cornerRadius = 2.0;
         [self.contentView addSubview:_imgView];
     }
     

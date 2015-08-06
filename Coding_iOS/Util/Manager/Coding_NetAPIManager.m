@@ -1924,7 +1924,7 @@
     NSString *path = [NSString stringWithFormat:@"api/tweet_topic/%d/joined",topicID];
     NSDictionary *params = @{
                              @"page":@(page),
-                             @"pageSize":@(50)
+                             @"pageSize":@(100)
                              };
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {

@@ -11,6 +11,10 @@
 #define kTagBadgePointView  1001
 #define kTagLineView 1007
 #import <objc/runtime.h>
+
+#import "Login.h"
+#import "User.h"
+
 @implementation UIView (Common)
 static char LoadingViewKey, BlankPageViewKey;
 
@@ -592,6 +596,13 @@ static char LoadingViewKey, BlankPageViewKey;
             {
                 imageName = @"blankpage_image_Sleep";
                 tipStr = @"您还没有话题呢～";
+            }
+                break;
+            case EaseBlankPageTypeOthersJoinedTopic://ta参与的话题
+            case EaseBlankPageTypeOthersWatchedTopic://ta关注的话题
+            {
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"这个人很懒，一个话题都木有～";
             }
                 break;
             default://其它页面（这里没有提到的页面，都属于其它）

@@ -14,7 +14,7 @@
 
 typedef void (^UserBtnClickedBlock) (User *curUser);
 
-@interface CSSearchCell : UITableViewCell <TTTAttributedLabelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface CSSearchCell : UITableViewCell <TTTAttributedLabelDelegate>
 
 @property (nonatomic, strong) Tweet *tweet;
 

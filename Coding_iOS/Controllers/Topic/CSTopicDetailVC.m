@@ -20,18 +20,32 @@
 #import "TweetSendLocationDetailViewController.h"
 #import "UIMessageInputView.h"
 #import "TweetDetailViewController.h"
+#import "CSTopicDetailVC.h"
+#import "WebViewController.h"
 
-@interface CSTopicDetailVC ()<UITableViewDataSource,UITableViewDelegate,UIMessageInputViewDelegate>
+#define kCommentIndexNotFound -1
+
+@interface CSTopicDetailVC ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UIMessageInputViewDelegate>
 @property (nonatomic,strong)UITableView *myTableView;
 
 @property (nonatomic,strong)Tweets *curTweets;
 @property (nonatomic,strong)Tweet *curTopWteet;
 @property (nonatomic,strong)CSTopicHeaderView *tableHeader;
 
+//评论
 @property (nonatomic, strong) UIMessageInputView *myMsgInputView;
+@property (nonatomic, strong) Tweet *commentTweet;
+@property (nonatomic, assign) NSInteger commentIndex;
+@property (nonatomic, strong) UIView *commentSender;
+@property (nonatomic, strong) User *commentToUser;
+
+@property (nonatomic, assign) NSInteger curIndex;
+
 @end
 
-@implementation CSTopicDetailVC
+@implementation CSTopicDetailVC{
+    CGFloat _oldPanOffsetY;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,34 +53,49 @@
     [self setupData];
     [self setupUI];
     
+    _curIndex = 0;
+    
     [self.myTableView reloadData];
     [self refreshheader];
     [self refreshTopTweet];
-    [self sendRequest];
+    
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^{
+        [self sendRequest];
+    });
+    
 }
 
 - (void)sendRequest{
-//    Tweets *curTweets = [self getCurTweets];
-//    if (curTweets.list.count <= 0) {
-//        [self.view beginLoading];
-//    }
     __weak typeof(self) weakSelf = self;
     
-    [[Coding_NetAPIManager sharedManager] request_PublicTweetsWithTopic:_topicID andBlock:^(id data, NSError *error) {
-        [weakSelf.curTweets configWithTweets:data];
+    [[Coding_NetAPIManager sharedManager] request_PublicTweetsWithTopic:_topicID andBlock:^(NSArray *datalist, NSError *error) {
+        NSMutableArray *list = [NSMutableArray array];
+        [datalist enumerateObjectsUsingBlock:^(Tweet* obj, NSUInteger idx, BOOL *stop) {
+            if (self.curTopWteet && [self.curTopWteet.id isEqualToNumber:obj.id]) {
+                
+            }else{
+                [list addObject:obj];
+            }
+        }];
+        [weakSelf.curTweets configWithTweets:list];
         [weakSelf.myTableView reloadData];
-//        [weakSelf.view endLoading];
-//        [weakSelf.refreshControl endRefreshing];
-//        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
-//        if (data) {
-//            [curTweets configWithTweets:data];
-//            [weakSelf.myTableView reloadData];
-//            weakSelf.myTableView.showsInfiniteScrolling = curTweets.canLoadMore;
-//        }
-//        [weakSelf.view configBlankPage:EaseBlankPageTypeTweet hasData:(curTweets.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-//            [weakSelf sendRequest];
-//        }];
     }];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (_myMsgInputView) {
+        [_myMsgInputView prepareToDismiss];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    //    键盘
+    if (_myMsgInputView) {
+        [_myMsgInputView prepareToShow];
+    }
 }
 
 - (void)refreshTopTweet {
@@ -133,37 +162,39 @@
         cell.tweet = [_curTweets.list objectAtIndex:indexPath.row];
     }
     
+    cell.outTweetsIndex = _curIndex;
+    
     __weak typeof(self) weakSelf = self;
     cell.commentClickedBlock = ^(Tweet *tweet, NSInteger index, id sender){
-//        if ([self.myMsgInputView isAndResignFirstResponder]) {
-//            return ;
-//        }
-//        weakSelf.commentTweet = tweet;
-//        weakSelf.commentIndex = index;
-//        weakSelf.commentSender = sender;
-//        
-//        weakSelf.myMsgInputView.commentOfId = tweet.id;
-//        
-//        if (weakSelf.commentIndex >= 0) {
-//            weakSelf.commentToUser = ((Comment*)[weakSelf.commentTweet.comment_list objectAtIndex:weakSelf.commentIndex]).owner;
-//            weakSelf.myMsgInputView.toUser = ((Comment*)[weakSelf.commentTweet.comment_list objectAtIndex:weakSelf.commentIndex]).owner;
-//            
-//            if ([Login isLoginUserGlobalKey:weakSelf.commentToUser.global_key]) {
-//                ESWeakSelf
-//                UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-//                    ESStrongSelf
-//                    if (index == 0 && _self.commentIndex >= 0) {
-//                        Comment *comment  = [_self.commentTweet.comment_list objectAtIndex:_self.commentIndex];
-//                        [_self deleteComment:comment ofTweet:_self.commentTweet];
-//                    }
-//                }];
-//                [actionSheet showInView:self.view];
-//                return;
-//            }
-//        }else{
-//            weakSelf.myMsgInputView.toUser = nil;
-//        }
-//        [_myMsgInputView notAndBecomeFirstResponder];
+        if ([self.myMsgInputView isAndResignFirstResponder]) {
+            return ;
+        }
+        weakSelf.commentTweet = tweet;
+        weakSelf.commentIndex = index;
+        weakSelf.commentSender = sender;
+        
+        weakSelf.myMsgInputView.commentOfId = tweet.id;
+        
+        if (weakSelf.commentIndex >= 0) {
+            weakSelf.commentToUser = ((Comment*)[weakSelf.commentTweet.comment_list objectAtIndex:weakSelf.commentIndex]).owner;
+            weakSelf.myMsgInputView.toUser = ((Comment*)[weakSelf.commentTweet.comment_list objectAtIndex:weakSelf.commentIndex]).owner;
+            
+            if ([Login isLoginUserGlobalKey:weakSelf.commentToUser.global_key]) {
+                ESWeakSelf
+                UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                    ESStrongSelf
+                    if (index == 0 && _self.commentIndex >= 0) {
+                        Comment *comment  = [_self.commentTweet.comment_list objectAtIndex:_self.commentIndex];
+                        [_self deleteComment:comment ofTweet:_self.commentTweet];
+                    }
+                }];
+                [actionSheet showInView:weakSelf.view];
+                return;
+            }
+        }else{
+            weakSelf.myMsgInputView.toUser = nil;
+        }
+        [_myMsgInputView notAndBecomeFirstResponder];
     };
     cell.likeBtnClickedBlock = ^(Tweet *tweet){
         [weakSelf.myTableView reloadData];
@@ -171,21 +202,33 @@
     cell.userBtnClickedBlock = ^(User *curUser){
         UserInfoViewController *vc = [[UserInfoViewController alloc] init];
         vc.curUser = curUser;
-        [self.navigationController pushViewController:vc animated:YES];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
     };
     cell.moreLikersBtnClickedBlock = ^(Tweet *curTweet){
         LikersViewController *vc = [[LikersViewController alloc] init];
         vc.curTweet = curTweet;
-        [self.navigationController pushViewController:vc animated:YES];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
     };
      cell.goToDetailTweetBlock = ^(Tweet *curTweet){
-        [self goToDetailWithTweet:curTweet];
+        [weakSelf goToDetailWithTweet:curTweet];
+    };
+    cell.mediaItemClickedBlock = ^(HtmlMediaItem *curItem){
+        [weakSelf analyseLinkStr:curItem.href];
     };
 
-    
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     
     return cell;
+}
+
+- (void)deleteComment:(Comment *)comment ofTweet:(Tweet *)tweet{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_TweetComment_Delete_WithTweet:tweet andComment:comment andBlock:^(id data, NSError *error) {
+        if (data) {
+            [tweet deleteComment:comment];
+            [weakSelf.myTableView reloadData];
+        }
+    }];
 }
 
 - (void)goToDetailWithTweet:(Tweet *)curTweet{
@@ -202,6 +245,21 @@
     };
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+- (void)analyseLinkStr:(NSString *)linkStr{
+    if (linkStr.length <= 0) {
+        return;
+    }
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        //网页
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self.navigationController pushViewController:webVc animated:YES];
+    }
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
@@ -226,6 +284,9 @@
 //    }
 }
 
+
+
+
 #pragma mark UIMessageInputViewDelegate
 - (void)messageInputView:(UIMessageInputView *)inputView sendText:(NSString *)text{
     [self sendCommentMessage:text];
@@ -237,30 +298,31 @@
         CGFloat msgInputY = kScreen_Height - heightToBottom - 64;
         
         self.myTableView.contentInset = contentInsets;
+        self.myTableView.scrollIndicatorInsets = contentInsets;
         
-//        if ([_commentSender isKindOfClass:[UIView class]] && !self.myTableView.isDragging && heightToBottom > 60) {
-//            UIView *senderView = _commentSender;
-//            CGFloat senderViewBottom = [_myTableView convertPoint:CGPointZero fromView:senderView].y+ CGRectGetMaxY(senderView.bounds);
-//            CGFloat contentOffsetY = MAX(0, senderViewBottom- msgInputY);
-//            [self.myTableView setContentOffset:CGPointMake(0, contentOffsetY) animated:YES];
-//        }
+        if ([_commentSender isKindOfClass:[UIView class]] && !self.myTableView.isDragging && heightToBottom > 60) {
+            UIView *senderView = _commentSender;
+            CGFloat senderViewBottom = [_myTableView convertPoint:CGPointZero fromView:senderView].y+ CGRectGetMaxY(senderView.bounds);
+            CGFloat contentOffsetY = MAX(0, senderViewBottom- msgInputY);
+            [self.myTableView setContentOffset:CGPointMake(0, contentOffsetY) animated:YES];
+        }
     } completion:nil];
 }
 
 
 - (void)sendCommentMessage:(id)obj{
-//    if (_commentIndex >= 0) {
-//        _commentTweet.nextCommentStr = [NSString stringWithFormat:@"@%@ %@", _commentToUser.name, obj];
-//    }else{
-//        _commentTweet.nextCommentStr = obj;
-//    }
-//    [self sendCurComment:_commentTweet];
-//    {
-//        _commentTweet = nil;
-//        _commentIndex = kCommentIndexNotFound;
-//        _commentSender = nil;
-//        _commentToUser = nil;
-//    }
+    if (_commentIndex >= 0) {
+        _commentTweet.nextCommentStr = [NSString stringWithFormat:@"@%@ %@", _commentToUser.name, obj];
+    }else{
+        _commentTweet.nextCommentStr = obj;
+    }
+    [self sendCurComment:_commentTweet];
+    {
+        _commentTweet = nil;
+        _commentIndex = kCommentIndexNotFound;
+        _commentSender = nil;
+        _commentToUser = nil;
+    }
     self.myMsgInputView.toUser = nil;
     [self.myMsgInputView isAndResignFirstResponder];
 }
@@ -283,6 +345,15 @@
     _myTableView.dataSource = nil;
 }
 
+#pragma mark - myscrollview
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    if (scrollView == _myTableView) {
+        [self.myMsgInputView isAndResignFirstResponder];
+    }
+}
+
+
 #pragma mark - 
 
 - (void) setupUI {
@@ -303,7 +374,6 @@
         
         CSTopicHeaderView *header = [[CSTopicHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 191)];
         header.parentVC = self;
-//        [header updateWithTopic:self.topic];
         tableView.tableHeaderView = header;
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -314,11 +384,11 @@
     
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTweet];
     _myMsgInputView.delegate = self;
+    
 }
 
 - (void)setupData {
     _curTweets = [Tweets tweetsWithType:TweetTypePublicTime];
-//    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Tweet forIndexPath:indexPath];
 }
 
 - (void)sendTweet{

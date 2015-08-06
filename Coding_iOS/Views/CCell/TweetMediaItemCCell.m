@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kTweetMediaItemCCell_Width ((kScreen_Width - 45.0)/3.0)
+#define kTweetMediaItemCCell_Width ((kScreen_Width - 36.0)/3.0)
 
 #import "TweetMediaItemCCell.h"
 
@@ -30,8 +30,8 @@
         _imgView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, kTweetMediaItemCCell_Width, kTweetMediaItemCCell_Width)];
         _imgView.contentMode = UIViewContentModeScaleAspectFill;
         _imgView.clipsToBounds = YES;
-        _imgView.layer.masksToBounds = YES;
-        _imgView.layer.cornerRadius = 2.0;
+//        _imgView.layer.masksToBounds = YES;
+//        _imgView.layer.cornerRadius = 2.0;
         [self.contentView addSubview:_imgView];
     }
 

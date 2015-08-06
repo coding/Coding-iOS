@@ -62,9 +62,14 @@
             [self.contentView addSubview:_timeClockIconView];
         }
         if (!_splitLineView) {
-            _splitLineView = [[UIImageView alloc] initWithFrame:CGRectMake(kTweetCommentCell_LeftOrRightPading, 0, kTweetCommentCell_ContentWidth+kTweetCommentCell_LeftOrRightPading, 1)];
+            _splitLineView = [[UIImageView alloc] initWithFrame:CGRectMake(kTweetCommentCell_LeftOrRightPading, 0, 255, 1)];
             _splitLineView.image = [UIImage imageNamed:@"splitlineImg"];
             [self.contentView addSubview:_splitLineView];
+            [_splitLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.contentView).offset(kTweetCommentCell_LeftOrRightPading);
+                make.top.right.equalTo(self.contentView);
+                make.height.mas_equalTo(1.0);
+            }];
         }
     }
     return self;
@@ -109,6 +114,6 @@
         Comment *curComment = (Comment *)obj;
         cellHeight = MIN(kTweetCommentCell_ContentMaxHeight, [curComment.content getHeightWithFont:kTweet_CommentFont constrainedToSize:CGSizeMake(kTweetCommentCell_ContentWidth, CGFLOAT_MAX)]) +15 + kScaleFrom_iPhone5_Desgin(15);
     }
-    return cellHeight;
+    return ceilf(cellHeight);
 }
 @end

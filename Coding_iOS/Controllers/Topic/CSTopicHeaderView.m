@@ -55,7 +55,7 @@
         subView.backgroundColor = [UIColor whiteColor];
         [self addSubview:subView];
         
-        UIView *sepLine = [[UIView alloc] initWithFrame:CGRectMake(12, 41, kScreen_Width - 12, 1)];
+        UIView *sepLine = [[UIView alloc] initWithFrame:CGRectMake(12, 41, kScreen_Width - 12, 0.5)];
         sepLine.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
         [subView addSubview:sepLine];
         
@@ -107,7 +107,7 @@
     [[Coding_NetAPIManager sharedManager]request_Topic_DoWatch_WithUrl:path andBlock:^(id data, NSError *error) {
         if (data) {
             self.watched = !self.watched;
-            NSString *imageName = self.watched? @"btn_project_added":@"btn_project_add";
+            NSString *imageName = self.watched? @"btn_followed_yes":@"btn_followed_not";
             [self.rightBtn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
         }
     }];
@@ -119,12 +119,10 @@
     _refTopic = data;
     _nameLabel.text = [NSString stringWithFormat:@"#%@#",data[@"name"]];
     
-    
     _userCountLabel.text = [NSString stringWithFormat:@"%@人参与/%@人关注",data[@"speackers"],data[@"watchers"]];
     
-    NSString *imageName = _watched? @"btn_project_added":@"btn_project_add";
+    NSString *imageName = self.watched? @"btn_followed_yes":@"btn_followed_not";
     [_rightBtn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
-    
     
 }
 
@@ -143,7 +141,7 @@
             
             [self addSubview:iconView];
             
-            [iconView sd_setImageWithURL:[user.avatar urlImageWithCodePathResizeToView:iconView] placeholderImage:[UIImage imageNamed:@"icon_user_monkey"]];
+            [iconView sd_setImageWithURL:[user.avatar urlImageWithCodePathResizeToView:iconView] placeholderImage:[UIImage imageNamed:@"placeholder_monkey_round_48"]];
             
             [_avatalist addObject:iconView];
         }

@@ -14,7 +14,7 @@
 
 #import "Login.h"
 
-#import "CSHotTopicVC.h"
+#import "CSHotTopicView.h"
 
 
 #define kCellIdentifier_TopicList @"TopicListCell"
@@ -165,10 +165,24 @@
     EaseBlankPageType blankPageType;
     
     if (_type == CSMyTopicsTypeWatched) {
-        blankPageType = EaseBlankPageTypeMyWatchedTopic;
+        if (_isMe) {
+            blankPageType = EaseBlankPageTypeMyWatchedTopic;
+        }else{
+            blankPageType = EaseBlankPageTypeOthersWatchedTopic;
+        }
+        
+        
     }else{
-        blankPageType = EaseBlankPageTypeMyJoinedTopic;
+        if(_isMe){
+            blankPageType = EaseBlankPageTypeMyJoinedTopic;
+        }else{
+            blankPageType = EaseBlankPageTypeOthersJoinedTopic;
+        }
+        
     }
+    
+    
+    
     [self configBlankPage:blankPageType hasData:(self.dataList.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
         [self refresh];
     }];
@@ -195,7 +209,8 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 94;
+    NSDictionary *topic = _dataList[indexPath.row];
+    return [CSTopicCell cellHeightWithData:topic];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

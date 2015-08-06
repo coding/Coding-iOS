@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import<QuartzCore/QuartzCore.h>
 #import "UIBadgeView.h"
+#import "UIView+Frame.h"
 
 @class EaseLoadingView, EaseBlankPageView;
 
@@ -27,6 +28,8 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
     EaseBlankPageTypePrivateMsg,
     EaseBlankPageTypeMyWatchedTopic,
     EaseBlankPageTypeMyJoinedTopic,
+    EaseBlankPageTypeOthersWatchedTopic,
+    EaseBlankPageTypeOthersJoinedTopic,
 };
 
 typedef NS_ENUM(NSInteger, BadgePositionType) {

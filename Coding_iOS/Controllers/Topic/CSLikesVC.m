@@ -47,13 +47,20 @@
     
     _userlist = @[];
     [self refresh];
-    
 }
 
 - (void)refresh {
     
     [[Coding_NetAPIManager sharedManager] request_JoinedUsers_WithTopicID:_topicID page:1 andBlock:^(NSArray *datalist, NSError *error) {
         if (datalist) {
+//            NSMutableArray *fiteredList = [NSMutableArray array];
+//            [datalist enumerateObjectsUsingBlock:^(User *obj, NSUInteger idx, BOOL *stop) {
+//                if ([Login curLoginUser] && [obj.global_key isEqualToString:[Login curLoginUser].global_key]) {
+//                    
+//                }else{
+//                    [fiteredList addObject:obj];
+//                }
+//            }];
             self.userlist = datalist;
             [self.myTableView reloadData];
         }

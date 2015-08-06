@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#import "CSHotTopicVC.h"
+#import "CSHotTopicView.h"
 #import "Coding_NetAPIManager.h"
 
 #import "RDVTabBarController.h"
@@ -16,58 +16,58 @@
 #import "Tweet.h"
 
 #import "CSTopicDetailVC.h"
+#import "CodingBannersView.h"
+#import "CodingBanner.h"
 
 
 #define kCellIdentifier_HotTopicTitleCell @"kCellIdentifier_HotTopicTitleCell"
 
-@interface CSHotTopicVC ()<UITableViewDataSource,UITableViewDelegate>
+@interface CSHotTopicView ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)UITableView *listView;
 @property (nonatomic,strong)NSArray *topiclist;
-@property (nonatomic,strong)NSArray *adlist;
-@property (nonatomic,strong)CSScrollview *adView;
+@property (nonatomic,strong)NSMutableArray *adlist;
+@property (nonatomic,strong)CodingBannersView *adView;
 @end
 
-@implementation CSHotTopicVC{
+@implementation CSHotTopicView{
     CGFloat _adHeight;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     
-    _adHeight = kScreen_Width * 214 / 640;
+    self.backgroundColor = [UIColor whiteColor];
     
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回"
-                                                                 style:UIBarButtonItemStylePlain
-                                                                target:self
-                                                                action:@selector(onGoBack)];
-    self.parentViewController.navigationItem.leftBarButtonItem = backItem;
+    _adHeight = 55 + (kScreen_Width - 2 * kPaddingLeftWidth) * 0.3;
     
     _listView = ({
-        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
         tableView.backgroundColor = [UIColor clearColor];
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[CSTopicCell class] forCellReuseIdentifier:kCellIdentifier_TopicCell];
         [tableView registerClass:[CSHotTopicTitleCell class] forCellReuseIdentifier:kCellIdentifier_HotTopicTitleCell];
-        [self.view addSubview:tableView];
+        [self addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
+            make.edges.equalTo(self);
         }];
-        {
-            UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
-            tableView.contentInset = insets;
-            tableView.scrollIndicatorInsets = insets;
-        }
+//        {
+//            UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
+//            tableView.contentInset = insets;
+//            tableView.scrollIndicatorInsets = insets;
+//        }
         tableView;
     });
     
     _topiclist = @[];
-    _adlist = @[];
+    _adlist = [NSMutableArray new];
     
     [self refreshAdlist];
     [self refreshHotTopiclist];
+    
+    return self;
 }
 
 - (void)dealloc {
@@ -91,12 +91,36 @@
 
 - (void)refreshAdlist {
     __weak typeof(self) wself = self;
+    _adView = [CodingBannersView new];
+    _adView.backgroundColor = [UIColor whiteColor];
+    _adView.tapActionBlock = ^(CodingBanner *tapedBanner) {
+        
+        CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
+        vc.topicID = [tapedBanner.id intValue];
+        [wself.parentVC.navigationController pushViewController:vc animated:YES];
+    };
+    
     [[Coding_NetAPIManager sharedManager] request_TopicAdlistWithBlock:^(id data, NSError *error) {
         if (data && [data isKindOfClass:[NSArray class]]) {
-            wself.adlist = [data copy];
+            for (NSDictionary *dict in data) {
+                [wself.adlist addObject:({
+                    CodingBanner *banner = [CodingBanner new];
+                    banner.id = [dict objectForKey:@"id"];
+                    banner.status = @1;
+                    banner.name = [dict objectForKey:@"name"];
+                    banner.title = [dict objectForKey:@"description"];
+                    banner.image = [dict objectForKey:@"image_url"];
+                    banner;
+                })];
+            }
         }else {
-            wself.adlist = [NSArray array];
+            
+            wself.adlist = [NSMutableArray array];
         }
+        
+        wself.adView.frame = CGRectMake(0, 0, kScreen_Width, wself.adlist.count == 0 ? 0 : _adHeight);
+        wself.adView.curBannerList = wself.adlist;
+        wself.listView.tableHeaderView = wself.adView;
         [wself.listView reloadData];
     }];
 }
@@ -127,7 +151,8 @@
     if (indexPath.row == 0) {
         return 35;
     }
-    return 94;
+    NSDictionary *data = _topiclist[indexPath.row - 1];
+    return [CSTopicCell cellHeightWithData:data];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -140,66 +165,43 @@
     CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
     NSDictionary *topic = _topiclist[indexPath.row - 1];
     vc.topicID = [topic[@"id"] intValue];
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    [self.parentVC.navigationController pushViewController:vc animated:YES];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (_adlist.count == 0) {
-        return 0;
-    }
-    return _adHeight;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    if (_adlist.count == 0) {
+//        return 0;
+//    }
+//    return _adHeight;
+//}
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (_adlist.count == 0) {
-        return nil;
-    }
-    
-    if (!_adView) {
-        
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.minimumLineSpacing = 0;
-        layout.itemSize = CGSizeMake(kScreen_Width, _adHeight);
-        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        
-        _adView = [[CSScrollview alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, _adHeight) layout:layout];
-        _adView.autoScrollEnable = YES;
-        _adView.showPageControl = NO;
-        
-        __weak CSHotTopicVC *wself = self;
-        _adView.tapBlk = ^(CSScrollItem* item) {
-            CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
-            vc.topicID = [item.data[@"id"] intValue];
-            [wself.navigationController pushViewController:vc animated:YES];
-        };
-    }
-    
-    NSArray *scrollItemlist = [_adlist bk_map:^id(NSDictionary *obj) {
-        CSScrollItem *item = [CSScrollItem itemWithData:obj imgUrl:obj[@"image_url"]];
-        return item;
-    }];
-    [_adView update:scrollItemlist];
-    
-    return _adView;
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+//    if (_adlist.count == 0) {
+//        return nil;
+//    }
+//    
+//    if (!_adView) {
+//        
+//        __weak CSHotTopicView *wself = self;
+//        _adView = [CodingBannersView new];
+//        _adView.tapActionBlock = ^(CodingBanner *tapedBanner) {
+//            
+//            CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
+//            vc.topicID = [tapedBanner.id intValue];
+//            
+//            [wself.parentVC.navigationController pushViewController:vc animated:YES];
+//        };
+//        _adView.backgroundColor = [UIColor whiteColor];
+//
+//    }
+//    
+//    _adView.curBannerList = self.adlist;
+//    
+//    return _adView;
+//}
+//
 
-
-#pragma mark - init
-
-#pragma mark -
-
-- (void)onGoBack {
-    CATransition *transition = [CATransition animation];
-    transition.duration = 0.3;
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    transition.type = kCATransitionPush;
-    transition.subtype = kCATransitionFromLeft;
-    [self.view.window.layer addAnimation:transition forKey:nil];
-    
-    [self dismissViewControllerAnimated:NO completion:^{
-        
-    }];
-}
 
 @end
 
@@ -211,6 +213,10 @@
 @property (nonatomic,strong)UILabel *nameLabel;
 @property (nonatomic,strong)UITTTAttributedLabel *contentLabel;
 @property (nonatomic,strong)UILabel *userCountLabel;
+
+@property (strong, nonatomic) UIImageView *detailIconView;
+
+@property (nonatomic,strong)NSDictionary *refData;
 
 @end
 
@@ -225,15 +231,16 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
         
-        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 12, kScreen_Width - kPaddingLeftWidth - kHotTopicCellPaddingRight, 12)];
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15, kScreen_Width - kPaddingLeftWidth - kHotTopicCellPaddingRight, 12)];
         _nameLabel.font = [UIFont boldSystemFontOfSize:15];
         _nameLabel.backgroundColor = [UIColor clearColor];
         _nameLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
         _nameLabel.textAlignment = NSTextAlignmentLeft;
         [self.contentView addSubview:_nameLabel];
         
-        
-        self.contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 30, kScreen_Width - kPaddingLeftWidth - kHotTopicCellPaddingRight, 30)];
+        self.contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, _nameLabel.bottom + 15, kScreen_Width - kPaddingLeftWidth - 30, 30)];
         self.contentLabel.font = [UIFont systemFontOfSize:14];
         self.contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
         self.contentLabel.numberOfLines = 0;
@@ -250,11 +257,18 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
         _userCountLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
         _userCountLabel.textAlignment = NSTextAlignmentLeft;
         [self.contentView addSubview:_userCountLabel];
+        
+        if(!self.detailIconView) {
+//            self.detailIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 8, 0, 20, 20)];
+//            self.detailIconView.image = [UIImage imageNamed:@"me_info_arrow_left"];
+//            [self.contentView addSubview:self.detailIconView];
+        }
     }
     return self;
 }
 
 - (void)updateDisplayByTopic:(NSDictionary*)data {
+    _refData = data;
     
     NSString *peopleCount = data[@"speackers"];
     if (!peopleCount) {
@@ -265,18 +279,39 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
     }
     
     _nameLabel.text = [NSString stringWithFormat:@"#%@#",data[@"name"]];
-    _userCountLabel.text = [NSString stringWithFormat:@"%@人参与",peopleCount];
     
-    if (data[@"hot_tweet"]) {
-        Tweet *tweet = [NSObject objectOfClass:@"Tweet" fromJSON:data[@"hot_tweet"]];
-        [self.contentLabel setLongString:tweet.content withFitWidth:self.contentLabel.width maxHeight:40];
-        self.contentLabel.centerY = self.height / 2;
-        for (HtmlMediaItem *item in tweet.htmlMedia.mediaItems) {
-            if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
-                [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
-            }
+    Tweet *tweet = [NSObject objectOfClass:@"Tweet" fromJSON:data[@"hot_tweet"]];
+    NSString *contentStr = (tweet.content.length > 0) ? tweet.content : @"[图片]";
+    [self.contentLabel setLongString:contentStr withFitWidth:self.contentLabel.width maxHeight:34];
+    self.contentLabel.centerY = self.height / 2;
+    for (HtmlMediaItem *item in tweet.htmlMedia.mediaItems) {
+        if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
+            [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }
+    
+    _userCountLabel.top = self.contentLabel.bottom + 10;
+    _userCountLabel.text = [NSString stringWithFormat:@"%@人参与",peopleCount];
+    
+    [self.detailIconView setY:([CSTopicCell cellHeightWithData:data] - 12) / 2];
+    
+}
++ (CGFloat)contentLabelHeightWithTweet:(NSDictionary *)data {
+    Tweet *tweet = [NSObject objectOfClass:@"Tweet" fromJSON:data[@"hot_tweet"]];
+    NSString *content = (tweet.content.length > 0) ? tweet.content : @"[图片]";
+    CGFloat width = kScreen_Width - kPaddingLeftWidth - kHotTopicCellPaddingRight;
+    CGFloat realheight = [content getHeightWithFont:[UIFont systemFontOfSize:14] constrainedToSize:CGSizeMake(width, 1000)];
+    return MIN(realheight, 34);
+}
+
++ (CGFloat)cellHeightWithData:(NSDictionary*)data {
+    
+    CGFloat height = 15 * 3 + 8;
+    height += 12;//namelabel
+    height += [CSTopicCell contentLabelHeightWithTweet:data];
+    height += 12;
+
+    return height;
 }
 
 #pragma mark TTTAttributedLabelDelegate

@@ -15,6 +15,7 @@
 
 + (void)handleNotificationInfo:(NSDictionary *)userInfo applicationState:(UIApplicationState)applicationState;
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr;
++ (void)presentLinkStr:(NSString *)linkStr;
 + (UIViewController *)presentingVC;
 + (void)presentVC:(UIViewController *)viewController;
 @end

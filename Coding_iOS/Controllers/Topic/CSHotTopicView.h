@@ -12,14 +12,16 @@
 @class CSTopic;
 
 #define kCellIdentifier_TopicCell @"kCellIdentifier_TopicCell"
-@interface CSHotTopicVC : UIViewController
-
+@interface CSHotTopicView : UIView
+@property (nonatomic,weak)UIViewController *parentVC;
 @end
 
 //普通cell
 @interface CSTopicCell : SWTableViewCell
 
 - (void)updateDisplayByTopic:(NSDictionary*)data;
+
++ (CGFloat)cellHeightWithData:(NSDictionary*)data;
 
 @end
 

@@ -11,47 +11,44 @@
 #endif
 
 #ifdef __OBJC__
-    #import <UIKit/UIKit.h>
-    #import <Foundation/Foundation.h>
-    #import <CoreData/CoreData.h>
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-    #import "NSString+Common.h"
-    #import "NSObject+Common.h"
-    #import "UIImage+Common.h"
-    #import "UIButton+Bootstrap.h"
-    #import "UIColor+expanded.h"
-    #import "UIButton+Common.h"
-    #import "UITableView+Common.h"
-    #import "UIView+Common.h"
-    #import "UIView+Frame.h"
-    #import "UILabel+Common.h"
-    #import "NSDate+Common.h"
-    #import "UIBarButtonItem+Common.h"
-    #import "UIActionSheet+Common.h"
-    #import "NSURL+Common.h"
-    #import "UISearchBar+Common.h"
-    #import "UITTTAttributedLabel.h"
-    #import "NSObject+ObjectMap.h"
-    #import "ImageSizeManager.h"
-    #import "MobClick.h"
-    #import <BlocksKit/BlocksKit+UIKit.h>
-    #import <ReactiveCocoa/ReactiveCocoa.h>
-    #import <ReactiveCocoa/RACEXTScope.h>
-    #import "UIImageView+WebCache.h"
-    #import <Masonry/Masonry.h>
+#import "NSString+Common.h"
+#import "NSObject+Common.h"
+#import "UIImage+Common.h"
+#import "UIButton+Bootstrap.h"
+#import "UIColor+expanded.h"
+#import "UIButton+Common.h"
+#import "UITableView+Common.h"
+#import "UIView+Common.h"
+#import "UILabel+Common.h"
+#import "NSDate+Common.h"
+#import "UIBarButtonItem+Common.h"
+#import "UIActionSheet+Common.h"
+#import "NSURL+Common.h"
+#import "UISearchBar+Common.h"
+#import "UITTTAttributedLabel.h"
+#import "NSObject+ObjectMap.h"
+#import "ImageSizeManager.h"
+#import "MobClick.h"
+#import <BlocksKit/BlocksKit+UIKit.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
+#import <ReactiveCocoa/RACEXTScope.h>
+#import "UIImageView+WebCache.h"
+#import <Masonry/Masonry.h>
 
-    #import "BaseNavigationController.h"
-    #import "BaseViewController.h"
+#import "BaseNavigationController.h"
+#import "BaseViewController.h"
 
 #endif
+
+#define SD_WEBP
+
 //友盟统计
 #define kUmeng_AppKey @""
-#define kUmeng_Event_Request @"Request"
-
-//友盟推送
-#define kUmeng_AppKey_Push @""
-#define kUmeng_DeviceTokenKey @"Umeng_DeviceTokenKey"
-#define kUmeng_MessageAliasTypeCoding @"GLOBAL_KEY"
+#define kUmeng_Event_Request @""
 
 //信鸽推送
 #define kXGPush_Id 123456
@@ -93,14 +90,14 @@
 #define kMySegmentControlIcon_Height 70.0
 
 #define  kBackButtonFontSize 16
-#define  kNavTitleFontSize 19
+#define  kNavTitleFontSize 18
 #define  kBadgeTipStr @"badgeTip"
 
 #define kDefaultLastId [NSNumber numberWithInteger:99999999]
 
 #define kColor999 [UIColor colorWithHexString:@"0x999999"]
 #define kColorTableBG [UIColor colorWithHexString:@"0xfafafa"]
-#define kColorTableSectionBg [UIColor colorWithHexString:@"0xe5e5e5"]
+#define kColorTableSectionBg [UIColor colorWithHexString:@"0xeeeeee"]
 
 #define kImage999 [UIImage imageWithColor:kColor999]
 
@@ -144,7 +141,7 @@
  * ESWeak_(imageView);
  * [self testBlock:^(UIImage *image) {
  *         ESStrong_(imageView);
- * 	_imageView.image = image;
+ *   _imageView.image = image;
  * }];
  *
  * // weak `self` and strong `self`

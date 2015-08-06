@@ -11,7 +11,7 @@
 
 @interface CSTopicDetailVC : UIViewController
 //@property (nonatomic,strong)NSDictionary *topic;
-@property (nonatomic,assign)int topicID;
+@property (nonatomic,assign)NSInteger topicID;
 @end
 
 @interface CSTopTweetDescCell : UITableViewCell

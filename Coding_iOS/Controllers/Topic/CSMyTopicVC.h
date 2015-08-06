@@ -15,3 +15,7 @@
 @property (strong, nonatomic) NSArray *segmentItems;
 @property (strong, nonatomic) User *curUser;
 @end
+
+@interface CSMyTopicView : UIView
+@property (nonatomic,weak)UIViewController *parentVC;
+@end

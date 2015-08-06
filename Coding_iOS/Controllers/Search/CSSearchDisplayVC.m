@@ -15,12 +15,14 @@
 #import "XHRealTimeBlur.h"
 #import "CSSearchModel.h"
 #import "RKSwipeBetweenViewControllers.h"
-#import "CSHotTopicVC.h"
+#import "CSHotTopicView.h"
 #import "CSMyTopicVC.h"
 #import "CSSearchCell.h"
 #import "UserInfoViewController.h"
 #import "WebViewController.h"
 #import "TweetDetailViewController.h"
+
+#import "CSHotTopicPagesVC.h"
 
 #import "CSTopicDetailVC.h"
 
@@ -132,7 +134,7 @@
 
 - (void)initSubViewsInContentView {
 
-    UILabel *lblHotKey = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 5.0f, kScreen_Width, 33.0f)];
+    UILabel *lblHotKey = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 4.0f, kScreen_Width, 39.0f)];
     [lblHotKey setUserInteractionEnabled:YES];
     [lblHotKey setText:@"热门话题"];
     [lblHotKey setFont:[UIFont systemFontOfSize:12.0f]];
@@ -142,14 +144,15 @@
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickedMoreHotkey:)];
     [lblHotKey addGestureRecognizer:tapGestureRecognizer];
     
-    UIImageView *moreIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - 31.0f, 10.0f, 20.0f, 20.0f)];
+    UIImageView *moreIconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10.0f, 20.0f, 20.0f)];
     moreIconView.image = [UIImage imageNamed:@"me_info_arrow_left"];
+    moreIconView.right = kScreen_Width - 12;
     moreIconView.centerY = lblHotKey.centerY;
     [_contentView addSubview:moreIconView];
     
     __weak typeof(self) weakSelf = self;
     
-    _topicHotkeyView = [[TopicHotkeyView alloc] initWithFrame:CGRectMake(0, 40, kScreen_Width, 0)];
+    _topicHotkeyView = [[TopicHotkeyView alloc] initWithFrame:CGRectMake(0, 44, kScreen_Width, 0)];
     _topicHotkeyView.block = ^(NSDictionary *dict){
         [weakSelf.searchBar resignFirstResponder];
         
@@ -161,7 +164,7 @@
     [_contentView addSubview:_topicHotkeyView];
     [_topicHotkeyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(@0);
-        make.top.mas_equalTo(@40);
+        make.top.mas_equalTo(@44);
         make.width.mas_equalTo(kScreen_Width);
         make.height.mas_equalTo(@0);
     }];
@@ -182,7 +185,7 @@
             [weakSelf.topicHotkeyView setHotkeys:hotkeyArray];
             [weakSelf.topicHotkeyView mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(@0);
-                make.top.mas_equalTo(@40);
+                make.top.mas_equalTo(@44);
                 make.width.mas_equalTo(kScreen_Width);
                 make.height.mas_equalTo(weakSelf.topicHotkeyView.frame.size.height);
             }];
@@ -216,9 +219,8 @@
             [self.parentVC.parentViewController.view addSubview:tableView];
             
             self.headerLabel = ({
-            
-                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 44)];
-                label.backgroundColor = [UIColor whiteColor];
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, kScreen_Width, 44)];
+                label.backgroundColor = [UIColor clearColor];
                 label.textColor = [UIColor colorWithHexString:@"0x999999"];
                 label.textAlignment = NSTextAlignmentCenter;
                 label.font = [UIFont systemFontOfSize:12];
@@ -226,7 +228,13 @@
                 label;
             });
             
-            tableView.tableHeaderView = self.headerLabel;
+            UIView *headview = ({
+                UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 44)];
+                v.backgroundColor = [UIColor whiteColor];
+                [v addSubview:self.headerLabel];
+                v;
+            });
+            tableView.tableHeaderView = headview;
             
             tableView;
         });
@@ -261,14 +269,14 @@
     [[_searchHistoryView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 1)];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 0.5)];
         view.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
         [_searchHistoryView addSubview:view];
     }
     NSArray *array = [CSSearchModel getSearchHistory];
     CGFloat imageLeft = 12.0f;
     CGFloat textLeft = 34.0f;
-    CGFloat height = 44.0f;
+    CGFloat height = 40.0f;
     
     for (int i = 0; i < array.count; i++) {
         
@@ -278,17 +286,17 @@
         lblHistory.textColor = [UIColor colorWithHexString:@"0x222222"];
         lblHistory.text = array[i];
         
-        UIImageView *leftView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 12, 12)];
+        UIImageView *leftView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, 15)];
         leftView.left = 12;
         leftView.centerY = lblHistory.centerY;
-        leftView.image = [UIImage imageNamed:@"time_clock_icon"];
+        leftView.image = [UIImage imageNamed:@"icon_search_clock"];
         
         UIImageView *rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 14, 14)];
         rightImageView.right = kScreen_Width - 12;
         rightImageView.centerY = lblHistory.centerY;
         rightImageView.image = [UIImage imageNamed:@"icon_arrow_searchHistory"];
         
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(imageLeft, (i + 1) * height, kScreen_Width - imageLeft, 1)];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(imageLeft, (i + 1) * height, kScreen_Width - imageLeft, 0.5)];
         view.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
         
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickedHistory:)];
@@ -306,12 +314,11 @@
         btnClean.titleLabel.font = [UIFont systemFontOfSize:14];
         [btnClean setTitle:@"清除搜索历史" forState:UIControlStateNormal];
         [btnClean setTitleColor:[UIColor colorWithHexString:@"0x1bbf75"] forState:UIControlStateNormal];
-//        [btnClean setTitleColor:[UIColor colorWithHexString:@"0x3bbd79" andAlpha:.3] forState:UIControlStateHighlighted];
         [btnClean setFrame:CGRectMake(0, array.count * height, kScreen_Width, height)];
         [_searchHistoryView addSubview:btnClean];
         [btnClean addTarget:self action:@selector(didCLickedCleanSearchHistory:) forControlEvents:UIControlEventTouchUpInside];
         {
-            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(imageLeft, (array.count + 1) * height, kScreen_Width - imageLeft, 1)];
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(imageLeft, (array.count + 1) * height, kScreen_Width - imageLeft, 0.5)];
             view.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
             [_searchHistoryView addSubview:view];
         }
@@ -322,24 +329,9 @@
 - (void)didClickedMoreHotkey:(UIGestureRecognizer *)sender {
     [self.searchBar resignFirstResponder];
     
-    RKSwipeBetweenViewControllers *nav_topic = [RKSwipeBetweenViewControllers newSwipeBetweenViewControllers];
-    [nav_topic.viewControllerArray addObjectsFromArray:@[[CSHotTopicVC new],[CSMyTopicVC new]]];
-    nav_topic.buttonText = @[@"热门话题", @"我的话题"];
+    CSHotTopicPagesVC *vc = [CSHotTopicPagesVC new];
+    [self.parentVC.navigationController pushViewController:vc animated:YES];
     
-    CATransition *transition = [CATransition animation];
-    transition.duration = 0.5;
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-    transition.type = kCATransitionPush;
-    transition.subtype = kCATransitionFromRight;
-    
-    if (self.parentVC) {
-        [self.parentVC.view.window.layer addAnimation:transition forKey:nil];
-        [self.parentVC presentViewController:nav_topic animated:NO completion:^{
-            
-        }];
-        
-//        [self.parentVC.parentViewController.navigationController pushViewController:nav_topic animated:YES];
-    }
 }
 
 - (void)didCLickedCleanSearchHistory:(id)sender {
@@ -400,7 +392,6 @@
     [[Coding_NetAPIManager sharedManager] request_Tweet_WithSearchString:self.searchBar.text andPage:page andBlock:^(id data, NSError *error) {
        
         if(data) {
-            
             NSDictionary *dataDic = (NSDictionary *)data;
             weakSelf.currentPage = [[dataDic valueForKey:@"page"] intValue];
             weakSelf.totalPage = [[dataDic valueForKey:@"totalPage"] intValue];
@@ -429,6 +420,13 @@
         WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
         [self.parentVC.parentViewController.navigationController pushViewController:webVc animated:YES];
     }
+}
+
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    NSLog(@"scrollViewWillBeginDragging");
+    
+    [self.searchBar resignFirstResponder];
 }
 
 #pragma mark -
@@ -475,7 +473,6 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-
     Tweet *tweet = _tweetsArr[indexPath.row];
     return[CSSearchCell cellHeightWithObj:tweet];
 }

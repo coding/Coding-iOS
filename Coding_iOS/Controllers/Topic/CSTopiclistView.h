@@ -17,6 +17,7 @@ typedef enum {
 
 @interface CSTopiclistView : UIView<UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic,assign)BOOL isMe;
 - (id)initWithFrame:(CGRect)frame globalKey:(NSString *)key type:(CSMyTopicsType )type block:(TopicListViewBlock)block;
 - (void)setTopics:(id )topics;
 - (void)refreshUI;

@@ -55,7 +55,7 @@
             [btnHotkey setTitle:displayHotkey forState:UIControlStateNormal];
             [btnHotkey.titleLabel setFont:hotkeyFont];
             btnHotkey.layer.borderWidth = 1.0f;
-            btnHotkey.layer.cornerRadius = 12.0f;
+            btnHotkey.layer.cornerRadius = 15.0f;
             [btnHotkey addTarget:self action:@selector(didClickButton:) forControlEvents:UIControlEventTouchUpInside];
             
             if(i == 0) {
@@ -99,7 +99,7 @@
             
             if(i == hotkeys.count - 1) {
                 
-                currentHeight += currentSize.height + 15.0f;
+                currentHeight += currentSize.height + 14.0f;
             }
             
             [self addSubview:btnHotkey];
@@ -111,10 +111,6 @@
 }
 
 - (CGSize)computeSizeFromString:(NSString *)string {
-    
-//    CGSize size = [string sizeWithAttributes:@{ NSFontAttributeName:[UIFont systemFontOfSize:12.0f] }];
-//    CGSize adjustedSize = CGSizeMake(ceilf(size.width), ceilf(size.height));
-//    return adjustedSize;
     
     CGSize maxSize = CGSizeMake(kScreen_Width, 30);
     CGSize curSize = [string boundingRectWithSize:maxSize
