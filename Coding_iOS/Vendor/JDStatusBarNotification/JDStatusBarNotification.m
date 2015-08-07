@@ -526,12 +526,13 @@
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return [[self keyWindowRootViewController] supportedInterfaceOrientations];
+    return UIInterfaceOrientationMaskPortrait;
+//    return [[self keyWindowRootViewController] supportedInterfaceOrientations];
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
-    return [[self keyWindowRootViewController]
-            preferredInterfaceOrientationForPresentation];
+    return UIInterfaceOrientationPortrait;
+//    return [[self keyWindowRootViewController] preferredInterfaceOrientationForPresentation];
 }
 
 // statusbar
