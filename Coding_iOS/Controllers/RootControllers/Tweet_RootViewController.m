@@ -154,7 +154,7 @@
     
     UIButton *leftItemView = (UIButton *)self.parentViewController.navigationItem.leftBarButtonItem.customView;
     if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Search]) {
-        [leftItemView addBadgePoint:3 withPointPosition:CGPointMake(25, 0)];
+        [leftItemView addBadgePoint:4 withPointPosition:CGPointMake(25, 0)];
     }
     
     [self refreshFirst];

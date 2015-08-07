@@ -28,7 +28,7 @@
 
 #define kCellIdentifier_Search  @"com.coding.search.tweet.result"
 
-@interface CSSearchDisplayVC () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface CSSearchDisplayVC () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource,UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, strong) XHRealTimeBlur *backgroundView;
@@ -57,6 +57,10 @@
 @end
 
 @implementation CSSearchDisplayVC
+
+- (void)dealloc {
+    _searchHistoryView.delegate = nil;
+}
 
 - (void)setActive:(BOOL)visible animated:(BOOL)animated {
     
@@ -264,6 +268,7 @@
             make.width.mas_equalTo(kScreen_Width);
             make.height.mas_equalTo(@350);
         }];
+        _searchHistoryView.contentSize = CGSizeMake(kScreen_Width, 0);
     }
     
     [[_searchHistoryView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -423,11 +428,6 @@
 }
 
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    NSLog(@"scrollViewWillBeginDragging");
-    
-    [self.searchBar resignFirstResponder];
-}
 
 #pragma mark -
 #pragma mark UISearchBarDelegate Support

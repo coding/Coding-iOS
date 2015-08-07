@@ -129,7 +129,7 @@
             
             
             if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_TweetTopic]) {
-                [topicButton addBadgePoint:3 withPointPosition:CGPointMake(27, 7)];
+                [topicButton addBadgePoint:4 withPointPosition:CGPointMake(27, 7)];
             }
         }
         

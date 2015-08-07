@@ -491,6 +491,7 @@
 		8B3516531B6CE9460049BC45 /* search_tweet_like@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B35164E1B6CE9460049BC45 /* search_tweet_like@2x.png */; };
 		8B3516551B6CF69E0049BC45 /* icon_search_clock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B3516541B6CF69E0049BC45 /* icon_search_clock@2x.png */; };
 		8B888E421B72618200806CEE /* CSHotTopicPagesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B888E411B72618200806CEE /* CSHotTopicPagesVC.m */; };
+		8BDF9AA61B7456060093BF2C /* HotTopicBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BDF9AA51B7456060093BF2C /* HotTopicBannerView.m */; };
 		8E03D4A219F695FE0092F8C8 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */; };
 		8E03D4A419F696970092F8C8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D4A319F696970092F8C8 /* libz.dylib */; };
 		8E1C3DEA19E7D58A00EF3032 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3DDA19E7D58A00EF3032 /* AbstractActionSheetPicker.m */; };
@@ -1556,6 +1557,8 @@
 		8B3516541B6CF69E0049BC45 /* icon_search_clock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_search_clock@2x.png"; sourceTree = "<group>"; };
 		8B888E401B72618200806CEE /* CSHotTopicPagesVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSHotTopicPagesVC.h; sourceTree = "<group>"; };
 		8B888E411B72618200806CEE /* CSHotTopicPagesVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSHotTopicPagesVC.m; sourceTree = "<group>"; };
+		8BDF9AA41B7456060093BF2C /* HotTopicBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotTopicBannerView.h; sourceTree = "<group>"; };
+		8BDF9AA51B7456060093BF2C /* HotTopicBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotTopicBannerView.m; sourceTree = "<group>"; };
 		8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		8E03D4A019F695FE0092F8C8 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		8E03D4A119F695FE0092F8C8 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
@@ -3882,6 +3885,8 @@
 				4EDC33CD1AFB4DCC00698315 /* EaseInputTipsView.m */,
 				4EE1A2341B5DF568004284F1 /* ProjectTagLabel.h */,
 				4EE1A2351B5DF568004284F1 /* ProjectTagLabel.m */,
+				8BDF9AA41B7456060093BF2C /* HotTopicBannerView.h */,
+				8BDF9AA51B7456060093BF2C /* HotTopicBannerView.m */,
 				4E095A5A1B6907AA008DC439 /* CodingBannersView.h */,
 				4E095A5B1B6907AA008DC439 /* CodingBannersView.m */,
 			);
@@ -4894,6 +4899,7 @@
 				4E4D6A7C1B1C6CDE00FD2E49 /* CommitListCell.m in Sources */,
 				8EA6D20B19E240C40076D59C /* RDVTabBarController.m in Sources */,
 				4E787DE21B0329B300F06E83 /* ProjectLineNote.m in Sources */,
+				8BDF9AA61B7456060093BF2C /* HotTopicBannerView.m in Sources */,
 				8EA6D12E19E240C40076D59C /* EditTaskViewController.m in Sources */,
 				8EA6D1BC19E240C40076D59C /* ProjectTopics.m in Sources */,
 				4EE1A2311B5D02CA004284F1 /* ProjectTasksView.m in Sources */,
