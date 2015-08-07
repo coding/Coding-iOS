@@ -141,7 +141,7 @@
 * ESWeak_(imageView);
 * [self testBlock:^(UIImage *image) {
 *         ESStrong_(imageView);
-*   _imageView.image = image;
+* 	_imageView.image = image;
 * }];
 *
 * // weak `self` and strong `self`

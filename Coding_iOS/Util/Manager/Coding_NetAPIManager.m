@@ -1562,6 +1562,19 @@
     }];
 }
 
+- (void)request_PointRecords:(PointRecords *)records andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"码币记录"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[records toPath] withParams:[records toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [data valueForKey:@"data"];
+            PointRecords *resultA = [NSObject objectOfClass:@"" fromJSON:data];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 #pragma mark Message
 - (void)request_PrivateMessages:(PrivateMessages *)priMsgs andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"私信列表"];
