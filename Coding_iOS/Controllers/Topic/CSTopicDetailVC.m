@@ -155,11 +155,10 @@
     }
     
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Tweet forIndexPath:indexPath];
-    
     if (indexPath.section == 0) {
-        cell.tweet = _curTopWteet;
+        [cell setTweet:_curTopWteet needTopView:NO];
     }else{
-        cell.tweet = [_curTweets.list objectAtIndex:indexPath.row];
+        [cell setTweet:[_curTweets.list objectAtIndex:indexPath.row] needTopView:YES];
     }
     
     cell.outTweetsIndex = _curIndex;
@@ -259,14 +258,13 @@
         if (_curTopWteet && indexPath.row ==0) {
             return 36;
         }else if(_curTopWteet && indexPath.row == 1){
-            return [TweetCell cellHeightWithObj:_curTopWteet];
+            return [TweetCell cellHeightWithObj:_curTopWteet needTopView:NO];
         }
         else {
             return 0;
         }
     }
-    
-    return [TweetCell cellHeightWithObj:[_curTweets.list objectAtIndex:indexPath.row]];
+    return [TweetCell cellHeightWithObj:[_curTweets.list objectAtIndex:indexPath.row] needTopView:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

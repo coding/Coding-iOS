@@ -6,11 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-//#define kTweetCell_PadingLeft 50.0
-//#define kTweetCell_PadingTop 45.0
-
 #define kTweetCell_PadingLeft kPaddingLeftWidth
-#define kTweetCell_PadingTop (55 + 20)
+#define kTweetCell_PadingTop (60 + 15)
 
 #define kTweetCell_PadingBottom 10.0
 #define kTweetCell_ContentWidth (kScreen_Width -kTweetCell_PadingLeft - kPaddingLeftWidth)
@@ -35,7 +32,10 @@
 #import "UICustomCollectionView.h"
 
 @interface TweetCell ()
+@property (strong, nonatomic) Tweet *tweet;
+@property (assign, nonatomic) BOOL needTopView;
 
+@property (strong, nonatomic) UIView *topView;
 @property (strong, nonatomic) UITapImageView *ownerImgView;
 @property (strong, nonatomic) UIButton *ownerNameBtn;
 @property (strong, nonatomic) UITTTAttributedLabel *contentLabel;
@@ -46,20 +46,13 @@
 @property (strong, nonatomic) UICollectionView *likeUsersView;
 @property (strong, nonatomic) UITableView *commentListView;
 @property (strong, nonatomic) UIImageView *timeClockIconView, *commentOrLikeBeginImgView, *commentOrLikeSplitlineView;
-@property (strong, nonatomic) NSMutableDictionary *imageViewsDict;
 @end
 
 @implementation TweetCell
 
-- (void)setTweet:(Tweet *)tweet{
-    if (_tweet != tweet) {
-        _tweet = tweet;
-    }
-    if (_imageViewsDict) {
-        [_imageViewsDict removeAllObjects];
-    }else{
-        _imageViewsDict = [[NSMutableDictionary alloc] init];
-    }
+- (void)setTweet:(Tweet *)tweet needTopView:(BOOL)needTopView{
+    _tweet = tweet;
+    _needTopView = needTopView;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -70,28 +63,30 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
 //        self.backgroundColor = [UIColor colorWithHexString:@"0xf3f3f3"];
-        UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 15)];
-        topView.backgroundColor = [UIColor colorWithHexString:@"0xeeeeee"];
-        [self.contentView addSubview:topView];
+        if (!_topView) {
+            _topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 15)];
+            _topView.backgroundColor = [UIColor colorWithHexString:@"0xeeeeee"];
+            [self.contentView addSubview:_topView];
+        }
         
         if (!self.ownerImgView) {
-            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15 + CGRectGetMaxY(topView.frame), 33, 33)];
+            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15 + CGRectGetMaxY(_topView.frame), 33, 33)];
             [self.ownerImgView doCircleFrame];
             [self.contentView addSubview:self.ownerImgView];
         }
         if (!self.ownerNameBtn) {
             self.ownerNameBtn = [UIButton buttonWithUserStyle];
-            self.ownerNameBtn.frame = CGRectMake(CGRectGetMaxX(self.ownerImgView.frame) + 10, 23 + CGRectGetMaxY(topView.frame), 50, 20);
+            self.ownerNameBtn.frame = CGRectMake(CGRectGetMaxX(self.ownerImgView.frame) + 10, 23 + CGRectGetMaxY(_topView.frame), 50, 20);
             [self.ownerNameBtn addTarget:self action:@selector(userBtnClicked) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:self.ownerNameBtn];
         }
         if (!self.timeClockIconView) {
-            self.timeClockIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 70, 25 + CGRectGetMaxY(topView.frame), 12, 12)];
+            self.timeClockIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 70, 25 + CGRectGetMaxY(_topView.frame), 12, 12)];
             self.timeClockIconView.image = [UIImage imageNamed:@"time_clock_icon"];
             [self.contentView addSubview:self.timeClockIconView];
         }
         if (!self.timeLabel) {
-            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 55, 23 + CGRectGetMaxY(topView.frame), 55, 12)];
+            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 55, 23 + CGRectGetMaxY(_topView.frame), 55, 12)];
             self.timeLabel.font = kTweet_TimtFont;
             self.timeLabel.textAlignment = NSTextAlignmentRight;
             self.timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
@@ -228,6 +223,7 @@
     if (!_tweet) {
         return;
     }
+    self.topView.hidden = !_needTopView;
     //owner头像
     __weak __typeof(self)weakSelf = self;
     [self.ownerImgView setImageWithUrl:[_tweet.owner.avatar urlImageWithCodePathResizeToView:_ownerImgView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerImgView) tapBlock:^(id obj) {
@@ -242,18 +238,30 @@
     [self.timeClockIconView setX:timeLabelX-15];
     
     
+    CGFloat centerY = 15 + 15 + 33.0/2;
+    CGFloat curBottomY = _needTopView? 0: -15;
+    centerY += curBottomY;
+    
+    [self.topView setY:curBottomY];
+    [self.ownerImgView setCenterY:centerY];
+    [self.ownerNameBtn setCenterY:centerY];
+    [self.timeClockIconView setCenterY:centerY];
+    [self.timeLabel setCenterY:centerY];
+    
+    curBottomY += kTweetCell_PadingTop;
     
     //owner冒泡text内容
 //    [self.contentLabel setWidth:kTweetCell_ContentWidth];
 //    self.contentLabel.text = _tweet.content;
 //    [self.contentLabel sizeToFit];
+    [self.contentLabel setY:curBottomY];
     [self.contentLabel setLongString:_tweet.content withFitWidth:kTweetCell_ContentWidth maxHeight:kTweet_ContentMaxHeight];
     for (HtmlMediaItem *item in _tweet.htmlMedia.mediaItems) {
         if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
             [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }
-    CGFloat curBottomY = kTweetCell_PadingTop +[TweetCell contentLabelHeightWithTweet:_tweet];
+    curBottomY += [TweetCell contentLabelHeightWithTweet:_tweet];
     //图片缩略图展示
     if (_tweet.htmlMedia.imageItems.count > 0) {
         
@@ -348,10 +356,11 @@
     }
 }
 
-+ (CGFloat)cellHeightWithObj:(id)obj{
++ (CGFloat)cellHeightWithObj:(id)obj needTopView:(BOOL)needTopView{
     Tweet *tweet = (Tweet *)obj;
     CGFloat cellHeight = 0;
-    cellHeight += kTweetCell_PadingTop;
+    cellHeight += needTopView? 0: -15;
+    cellHeight +=  kTweetCell_PadingTop;
     cellHeight += [self contentLabelHeightWithTweet:tweet];
     cellHeight += [self contentMediaHeightWithTweet:tweet];
     cellHeight += [self locationHeightWithTweet:tweet];
@@ -458,12 +467,10 @@
                     _refreshSingleCCellBlock();
                 }
             };
-            [_imageViewsDict setObject:ccell.imgView forKey:indexPath];
             return ccell;
         }else{
             TweetMediaItemCCell *ccell = [collectionView dequeueReusableCellWithReuseIdentifier:kCCellIdentifier_TweetMediaItem forIndexPath:indexPath];
             ccell.curMediaItem = curMediaItem;
-            [_imageViewsDict setObject:ccell.imgView forKey:indexPath];
             return ccell;
         }
     }else{
@@ -530,7 +537,6 @@
             HtmlMediaItem *imageItem = [_tweet.htmlMedia.imageItems objectAtIndex:i];
             MJPhoto *photo = [[MJPhoto alloc] init];
             photo.url = [NSURL URLWithString:imageItem.src]; // 图片路径
-            photo.srcImageView = [_imageViewsDict objectForKey:[NSIndexPath indexPathForItem:i inSection:0]]; // 来源于哪个UIImageView
             [photos addObject:photo];
         }
         

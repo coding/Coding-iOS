@@ -20,8 +20,9 @@ typedef void (^MoreLikersBtnClickedBlock) (Tweet *curTweet);
 typedef void (^LocationClickedBlock) (Tweet *curTweet);
 
 @interface TweetCell : UITableViewCell <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
-@property (strong, nonatomic) Tweet *tweet;
 @property (nonatomic, assign) NSInteger outTweetsIndex;
+
+- (void)setTweet:(Tweet *)tweet needTopView:(BOOL)needTopView;
 
 @property (nonatomic, copy) CommentClickedBlock commentClickedBlock;
 @property (nonatomic, copy) LikeBtnClickedBlock likeBtnClickedBlock;
@@ -36,5 +37,5 @@ typedef void (^LocationClickedBlock) (Tweet *curTweet);
 
 typedef void (^MoreLikersBtnClickedBlock) (Tweet *curTweet);
 
-+ (CGFloat)cellHeightWithObj:(id)obj;;
++ (CGFloat)cellHeightWithObj:(id)obj needTopView:(BOOL)needTopView;
 @end

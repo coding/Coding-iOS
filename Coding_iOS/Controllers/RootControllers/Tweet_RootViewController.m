@@ -407,7 +407,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Tweet forIndexPath:indexPath];
     Tweets *curTweets = [self getCurTweets];
-    cell.tweet = [curTweets.list objectAtIndex:indexPath.row];
+    [cell setTweet:[curTweets.list objectAtIndex:indexPath.row] needTopView:(_curIndex == Tweet_RootViewControllerTypeAll || indexPath.row != 0)];
     cell.outTweetsIndex = _curIndex;
     
     __weak typeof(self) weakSelf = self;
@@ -496,7 +496,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     Tweets *curTweets = [self getCurTweets];
-    return [TweetCell cellHeightWithObj:[curTweets.list objectAtIndex:indexPath.row]];
+    return [TweetCell cellHeightWithObj:[curTweets.list objectAtIndex:indexPath.row] needTopView:(_curIndex == Tweet_RootViewControllerTypeAll || indexPath.row != 0)];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
