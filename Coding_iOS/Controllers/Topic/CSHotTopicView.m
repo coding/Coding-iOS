@@ -16,8 +16,7 @@
 #import "Tweet.h"
 
 #import "CSTopicDetailVC.h"
-#import "CodingBannersView.h"
-#import "CodingBanner.h"
+#import "HotTopicBannerView.h"
 
 
 #define kCellIdentifier_HotTopicTitleCell @"kCellIdentifier_HotTopicTitleCell"
@@ -26,7 +25,7 @@
 @property (nonatomic,strong)UITableView *listView;
 @property (nonatomic,strong)NSArray *topiclist;
 @property (nonatomic,strong)NSMutableArray *adlist;
-@property (nonatomic,strong)CodingBannersView *adView;
+@property (nonatomic,strong)HotTopicBannerView *adView;
 @end
 
 @implementation CSHotTopicView{
@@ -39,7 +38,7 @@
     
     self.backgroundColor = [UIColor whiteColor];
     
-    _adHeight = 55 + (kScreen_Width - 2 * kPaddingLeftWidth) * 0.3;
+    _adHeight =  kScreen_Width * 214/640;
     
     _listView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
@@ -91,32 +90,33 @@
 
 - (void)refreshAdlist {
     __weak typeof(self) wself = self;
-    _adView = [CodingBannersView new];
+    _adView = [HotTopicBannerView new];
     _adView.backgroundColor = [UIColor whiteColor];
-    _adView.tapActionBlock = ^(CodingBanner *tapedBanner) {
+    _adView.tapActionBlock = ^(NSDictionary *tapedBanner) {
         
         CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
-        vc.topicID = [tapedBanner.id intValue];
+        vc.topicID = [tapedBanner[@"id"] intValue];
         [wself.parentVC.navigationController pushViewController:vc animated:YES];
     };
     
     [[Coding_NetAPIManager sharedManager] request_TopicAdlistWithBlock:^(id data, NSError *error) {
-        if (data && [data isKindOfClass:[NSArray class]]) {
-            for (NSDictionary *dict in data) {
-                [wself.adlist addObject:({
-                    CodingBanner *banner = [CodingBanner new];
-                    banner.id = [dict objectForKey:@"id"];
-                    banner.status = @1;
-                    banner.name = [dict objectForKey:@"name"];
-                    banner.title = [dict objectForKey:@"description"];
-                    banner.image = [dict objectForKey:@"image_url"];
-                    banner;
-                })];
-            }
-        }else {
-            
-            wself.adlist = [NSMutableArray array];
-        }
+//        if (data && [data isKindOfClass:[NSArray class]]) {
+//            for (NSDictionary *dict in data) {
+//                [wself.adlist addObject:({
+//                    CodingBanner *banner = [CodingBanner new];
+//                    banner.id = [dict objectForKey:@"id"];
+//                    banner.status = @1;
+//                    banner.name = [dict objectForKey:@"name"];
+//                    banner.title = [dict objectForKey:@"description"];
+//                    banner.image = [dict objectForKey:@"image_url"];
+//                    banner;
+//                })];
+//            }
+//        }else {
+//            
+//            wself.adlist = [NSMutableArray array];
+//        }
+        wself.adlist = data;
         
         wself.adView.frame = CGRectMake(0, 0, kScreen_Width, wself.adlist.count == 0 ? 0 : _adHeight);
         wself.adView.curBannerList = wself.adlist;

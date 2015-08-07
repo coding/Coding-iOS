@@ -10,6 +10,6 @@
 
 @interface HotTopicBannerView : UIView
 @property (strong, nonatomic) NSArray *curBannerList;
-//@property (nonatomic , copy) void (^tapActionBlock)(CodingBanner *tapedBanner);
+@property (nonatomic , copy) void (^tapActionBlock)(NSDictionary *bannerData);
 - (void)reloadData;
 @end
