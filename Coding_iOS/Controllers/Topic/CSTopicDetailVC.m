@@ -278,10 +278,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    if (indexPath.row != 0) {
-//        Comment *toComment = [_curTweet.comment_list objectAtIndex:indexPath.row-1];
-//        [self doCommentToComment:toComment sender:[tableView cellForRowAtIndexPath:indexPath]];
-//    }
+    
+    
+    if (indexPath.section == 0 && indexPath.row ==0) {
+        return;
+    }
+    Tweet *toTweet = nil;
+    if (indexPath.section == 0) {
+        toTweet = _curTopWteet;
+    }else{
+        toTweet = [_curTweets.list objectAtIndex:indexPath.row];
+    }
+    if (toTweet) {
+        [self goToDetailWithTweet:toTweet];
+    }
 }
 
 
