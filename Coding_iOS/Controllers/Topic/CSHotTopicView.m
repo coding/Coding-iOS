@@ -342,6 +342,11 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
     return self;
 }
 
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    self.textLabel.frame = CGRectMake(kPaddingLeftWidth, 12, kScreen_Width - 100, 12);
+}
+
 @end
 
 
