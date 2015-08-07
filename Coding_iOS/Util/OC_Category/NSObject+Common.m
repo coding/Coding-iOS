@@ -104,7 +104,7 @@
     NSString *baseURLStr;
     if ([self baseURLStrIsTest]) {
         //staging
-        baseURLStr = @"https://staging.coding.net/";
+        baseURLStr = kBaseUrlStr_Test;
     }else{
         //生产
         baseURLStr = @"https://coding.net/";
