@@ -36,6 +36,9 @@ static NSString *kFunctionTipStr_Version = @"version";
 //                           kFunctionTipStr_PR: @(YES),
 //                           kFunctionTipStr_ReadMe: @(YES),
 //                           kFunctionTipStr_CommitList: @(YES),
+                           kFunctionTipStr_Search: @(YES),
+                           kFunctionTipStr_HotTopic: @(YES),
+                           kFunctionTipStr_TweetTopic: @(YES),
                            } mutableCopy];
             [_tipsDict writeToFile:[self p_cacheFilePath] atomically:YES];
         }

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import<QuartzCore/QuartzCore.h>
 #import "UIBadgeView.h"
+#import "UIView+Frame.h"
 
 @class EaseLoadingView, EaseBlankPageView;
 
@@ -24,7 +25,17 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
     EaseBlankPageTypeProjectOther,
     EaseBlankPageTypeFileDleted,
     EaseBlankPageTypeFolderDleted,
-    EaseBlankPageTypePrivateMsg
+    EaseBlankPageTypePrivateMsg,
+    EaseBlankPageTypeMyWatchedTopic,
+    EaseBlankPageTypeMyJoinedTopic,
+    EaseBlankPageTypeOthersWatchedTopic,
+    EaseBlankPageTypeOthersJoinedTopic,
+};
+
+typedef NS_ENUM(NSInteger, BadgePositionType) {
+
+    BadgePositionTypeDefault = 0,
+    BadgePositionTypeMiddle
 };
 
 @interface UIView (Common)
@@ -35,6 +46,9 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
 - (UIViewController *)findViewController;
 - (void)addBadgeTip:(NSString *)badgeValue withCenterPosition:(CGPoint)center;
 - (void)addBadgeTip:(NSString *)badgeValue;
+- (void)addBadgePoint:(NSInteger)pointRadius withPosition:(BadgePositionType)type;
+- (void)addBadgePoint:(NSInteger)pointRadius withPointPosition:(CGPoint)point;
+- (void)removeBadgePoint;
 - (void)removeBadgeTips;
 - (void)setY:(CGFloat)y;
 - (void)setX:(CGFloat)x;

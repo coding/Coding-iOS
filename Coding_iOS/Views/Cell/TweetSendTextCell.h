@@ -21,5 +21,6 @@
 @property (nonatomic,copy) void(^textValueChangedBlock)(NSString*);
 @property (nonatomic,copy) void(^photoBtnBlock)();
 @property (nonatomic,copy) void(^locationBtnBlock)();
+@property (nonatomic,copy) void(^topicBtnBlock)();
 + (CGFloat)cellHeight;
 @end
