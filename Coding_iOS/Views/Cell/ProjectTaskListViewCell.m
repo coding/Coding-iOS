@@ -65,7 +65,7 @@
             [self.contentView addSubview:_taskPriorityView];
         }
         if (!_contentLabel) {
-            _contentLabel = [UITTTAttributedLabel new];
+            _contentLabel = [UILabel new];
             _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             _contentLabel.font = kProjectTaskListViewCell_ContentFont;
             [self.contentView addSubview:_contentLabel];
