@@ -507,9 +507,7 @@
 		8B888E421B72618200806CEE /* CSHotTopicPagesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B888E411B72618200806CEE /* CSHotTopicPagesVC.m */; };
 		8BDF9AA61B7456060093BF2C /* HotTopicBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BDF9AA51B7456060093BF2C /* HotTopicBannerView.m */; };
 		8BDF9AB51B7474990093BF2C /* keyboard_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDF9AB01B7474990093BF2C /* keyboard_topic@2x.png */; };
-		8BDF9AB61B7474990093BF2C /* keyboard_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDF9AB11B7474990093BF2C /* keyboard_topic@2x.png */; };
 		8BDF9AB71B7474990093BF2C /* liziyundong.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8BDF9AB21B7474990093BF2C /* liziyundong.jpg */; };
-		8BDF9AB81B7474990093BF2C /* user_info_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDF9AB31B7474990093BF2C /* user_info_topic@2x.png */; };
 		8BDF9AB91B7474990093BF2C /* user_info_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDF9AB41B7474990093BF2C /* user_info_topic@2x.png */; };
 		8E03D4A219F695FE0092F8C8 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */; };
 		8E03D4A419F696970092F8C8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D4A319F696970092F8C8 /* libz.dylib */; };
@@ -1601,9 +1599,7 @@
 		8BDF9AA41B7456060093BF2C /* HotTopicBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotTopicBannerView.h; sourceTree = "<group>"; };
 		8BDF9AA51B7456060093BF2C /* HotTopicBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotTopicBannerView.m; sourceTree = "<group>"; };
 		8BDF9AB01B7474990093BF2C /* keyboard_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "keyboard_topic@2x.png"; path = "keyboard/keyboard_topic@2x.png"; sourceTree = "<group>"; };
-		8BDF9AB11B7474990093BF2C /* keyboard_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_topic@2x.png"; sourceTree = "<group>"; };
 		8BDF9AB21B7474990093BF2C /* liziyundong.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = liziyundong.jpg; sourceTree = "<group>"; };
-		8BDF9AB31B7474990093BF2C /* user_info_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_topic@2x.png"; sourceTree = "<group>"; };
 		8BDF9AB41B7474990093BF2C /* user_info_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "user_info_topic@2x.png"; path = "userInfo/user_info_topic@2x.png"; sourceTree = "<group>"; };
 		8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		8E03D4A019F695FE0092F8C8 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
@@ -3490,9 +3486,7 @@
 			isa = PBXGroup;
 			children = (
 				8BDF9AB01B7474990093BF2C /* keyboard_topic@2x.png */,
-				8BDF9AB11B7474990093BF2C /* keyboard_topic@2x.png */,
 				8BDF9AB21B7474990093BF2C /* liziyundong.jpg */,
-				8BDF9AB31B7474990093BF2C /* user_info_topic@2x.png */,
 				8BDF9AB41B7474990093BF2C /* user_info_topic@2x.png */,
 				4E0022A11B7362EF005308DE /* intro_pages */,
 				4E095A751B6B1E40008DC439 /* deadline_calendar */,
@@ -4493,7 +4487,6 @@
 				4E6383D41B32665700D98648 /* project_item_member@2x.png in Resources */,
 				8EA6D19E19E240C40076D59C /* tipIcon_Tweet@2x.png in Resources */,
 				8E97CE9B1A0C7E26006F9AD7 /* coding_emoji_04@2x.png in Resources */,
-				8BDF9AB61B7474990093BF2C /* keyboard_topic@2x.png in Resources */,
 				8EA6D16D19E240C40076D59C /* nav_tweet_hot@2x.png in Resources */,
 				4E6383D81B32665700D98648 /* project_item_topic@2x.png in Resources */,
 				4E96E7DC1A1B537E0037C098 /* icon_file_md@2x.png in Resources */,
@@ -4568,7 +4561,6 @@
 				4E66EE281A28226000DA1B3E /* button_file_denete_unable@2x.png in Resources */,
 				8E97CE4A1A0A2E11006F9AD7 /* EmojisList.plist in Resources */,
 				8BDF9AB51B7474990093BF2C /* keyboard_topic@2x.png in Resources */,
-				8BDF9AB81B7474990093BF2C /* user_info_topic@2x.png in Resources */,
 				4EBFBD181AA85B8500E4B10E /* add_user_icon@2x.png in Resources */,
 				8E97CEA21A0C7E26006F9AD7 /* coding_emoji_11@2x.png in Resources */,
 				4E996C061ABBF56A00C704F1 /* n_sex_woman_icon@2x.png in Resources */,

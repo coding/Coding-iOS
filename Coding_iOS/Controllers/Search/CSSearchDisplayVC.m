@@ -409,7 +409,7 @@
         }
         
         weakSelf.isLoading = NO;
-        weakSelf.headerLabel.text = [NSString stringWithFormat:@"共搜索到 %d 个与\"%@\"相关的冒泡", weakSelf.totalCount, weakSelf.searchBar.text, nil];
+        weakSelf.headerLabel.text = [NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的冒泡", (long)weakSelf.totalCount, weakSelf.searchBar.text, nil];
     }];
 }
 
@@ -483,14 +483,7 @@
     
     TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
     vc.curTweet = tweet;
-    __weak typeof(self) weakSelf = self;
     vc.deleteTweetBlock = ^(Tweet *toDeleteTweet){
-//        Tweets *curTweets = [weakSelf.tweetsDict objectForKey:[NSNumber numberWithInteger:weakSelf.curIndex]];
-//        [curTweets.list removeObject:toDeleteTweet];
-//        [weakSelf.myTableView reloadData];
-//        [weakSelf.view configBlankPage:EaseBlankPageTypeTweet hasData:(curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
-//            [weakSelf sendRequest];
-//        }];
     };
     [self.parentVC.parentViewController.navigationController pushViewController:vc animated:YES];
     

@@ -234,14 +234,7 @@
 - (void)goToDetailWithTweet:(Tweet *)curTweet{
     TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
     vc.curTweet = curTweet;
-    __weak typeof(self) weakSelf = self;
     vc.deleteTweetBlock = ^(Tweet *toDeleteTweet){
-//        Tweets *curTweets = [weakSelf.tweetsDict objectForKey:[NSNumber numberWithInteger:weakSelf.curIndex]];
-//        [curTweets.list removeObject:toDeleteTweet];
-//        [weakSelf.myTableView reloadData];
-//        [weakSelf.view configBlankPage:EaseBlankPageTypeTweet hasData:(curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
-//            [weakSelf sendRequest];
-//        }];
     };
     [self.navigationController pushViewController:vc animated:YES];
 }

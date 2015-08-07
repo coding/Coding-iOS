@@ -89,7 +89,6 @@
     
     self.myTopic = topics;
     [self setupDataList];
-    [self refreshUI];
 }
 
 - (void)setupDataList{

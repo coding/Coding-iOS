@@ -1440,9 +1440,9 @@
     }];
 }
 
-- (void)request_PublicTweetsWithTopic:(int)topicID andBlock:(void (^)(id data, NSError *error))block {
+- (void)request_PublicTweetsWithTopic:(NSInteger)topicID andBlock:(void (^)(id data, NSError *error))block {
     //TODO psy lastid，是否要做分页
-    NSString *path = [NSString stringWithFormat:@"api/public_tweets/topic/%d",topicID];
+    NSString *path = [NSString stringWithFormat:@"api/public_tweets/topic/%ld",(long)topicID];
     NSDictionary *params = @{
                              @"type" : @"topic",
                              @"sort" : @"new"
@@ -1920,8 +1920,8 @@
     }];
 }
 
-- (void)request_Users_WithTopicID:(int )topicID andBlock:(void (^)(id data, NSError *error))block {
-    NSString *path = [NSString stringWithFormat:@"api/tweet_topic/%d/hot_joined",topicID];
+- (void)request_Users_WithTopicID:(NSInteger)topicID andBlock:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"api/tweet_topic/%ld/hot_joined",(long)topicID];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
@@ -1933,8 +1933,8 @@
     }];
 }
 
-- (void)request_JoinedUsers_WithTopicID:(int )topicID page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {
-    NSString *path = [NSString stringWithFormat:@"api/tweet_topic/%d/joined",topicID];
+- (void)request_JoinedUsers_WithTopicID:(NSInteger)topicID page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"api/tweet_topic/%ld/joined",(long)topicID];
     NSDictionary *params = @{
                              @"page":@(page),
                              @"pageSize":@(100)
@@ -2052,8 +2052,8 @@
 
 }
 
-- (void)request_TopicDetailsWithTopicID:(int)topicID block:(void (^)(id data, NSError *error))block {
-    NSString *path = [NSString stringWithFormat:@"/api/tweet_topic/%d",topicID];
+- (void)request_TopicDetailsWithTopicID:(NSInteger)topicID block:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"/api/tweet_topic/%ld",(long)topicID];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if(data) {
             id resultData = data[@"data"];
@@ -2065,8 +2065,8 @@
     }];
 }
 
-- (void)request_TopTweetWithTopicID:(int)topicID block:(void (^)(id data, NSError *error))block {
-    NSString *path = [NSString stringWithFormat:@"api/public_tweets/topic/%d/top",topicID];
+- (void)request_TopTweetWithTopicID:(NSInteger)topicID block:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"api/public_tweets/topic/%ld/top",(long)topicID];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if(data) {
             id resultData = data[@"data"];

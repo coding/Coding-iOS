@@ -155,7 +155,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_Tweet_Delete_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_TweetComment_Delete_WithTweet:(Tweet *)tweet andComment:(Comment *)comment andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Tweet_Detail_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_PublicTweetsWithTopic:(int)topicID andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_PublicTweetsWithTopic:(NSInteger)topicID andBlock:(void (^)(id data, NSError *error))block;
 
 
 //User
@@ -206,8 +206,8 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_MDHtmlStr_WithMDStr:(NSString *)mdStr inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_VerifyTypeWithBlock:(void (^)(VerifyType type, NSError *error))block;
 
-- (void)request_Users_WithTopicID:(int )topicID andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_JoinedUsers_WithTopicID:(int )topicID page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_Users_WithTopicID:(NSInteger)topicID andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_JoinedUsers_WithTopicID:(NSInteger)topicID page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
 
 
 //Topic HotKey
@@ -218,8 +218,8 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 
 - (void)request_Tweet_WithSearchString:(NSString *)strSearch andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
 
-- (void)request_TopicDetailsWithTopicID:(int)topicID block:(void (^)(id data, NSError *error))block;
-- (void)request_TopTweetWithTopicID:(int)topicID block:(void (^)(id data, NSError *error))block;
+- (void)request_TopicDetailsWithTopicID:(NSInteger)topicID block:(void (^)(id data, NSError *error))block;
+- (void)request_TopTweetWithTopicID:(NSInteger)topicID block:(void (^)(id data, NSError *error))block;
 
 - (void)request_JoinedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block;
 - (void)request_WatchedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block;
