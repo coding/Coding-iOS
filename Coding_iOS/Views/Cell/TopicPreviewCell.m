@@ -208,7 +208,7 @@
         cellHeight += 8 + [topic.title getHeightWithFont:kTopicContentCell_FontTitle constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 16 + 20;
 
         cellHeight += [ProjectTagsView getHeightForTags:topic.mdLabels];
-        cellHeight += topic.contentHeight + 5;
+        cellHeight += topic.contentHeight + 50;
     }
     return cellHeight;
 }
