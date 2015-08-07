@@ -28,6 +28,7 @@
 #import "MRPRDetailViewController.h"
 #import "CommitFilesViewController.h"
 #import "FileViewController.h"
+#import "CSTopicDetailVC.h"
 
 #import "UnReadManager.h"
 
@@ -153,6 +154,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *fileRegexStr = @"/u/([^/]+)/p/([^/]+)/attachment/([^/]+)/preview/(\\d+)";
     NSString *gitMRPRCommitRegexStr = @"/u/([^/]+)/p/([^/]+)/git/(merge|pull|commit)/([^/#]+)";
     NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
+    NSString *pp_topicRegexStr = @"/pp/topic/([0-9]+)$";
     NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
     NSArray *matchedCaptures = nil;
     
@@ -292,6 +294,12 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             UserTweetsViewController *vc = [[UserTweetsViewController alloc] init];
             NSString *user_global_key = matchedCaptures[1];
             vc.curTweets = [Tweets tweetsWithUser:[User userWithGlobalKey:user_global_key]];
+            analyseVC = vc;
+        }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:pp_topicRegexStr]).count > 0){
+            //话题
+            NSString *pp_topic_id = matchedCaptures[1];
+            CSTopicDetailVC *vc = [CSTopicDetailVC new];
+            vc.topicID = pp_topic_id.integerValue;
             analyseVC = vc;
         }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:projectRegexStr]).count > 0){
             //项目

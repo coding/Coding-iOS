@@ -1439,6 +1439,28 @@
         }
     }];
 }
+
+- (void)request_PublicTweetsWithTopic:(NSInteger)topicID andBlock:(void (^)(id data, NSError *error))block {
+    //TODO psy lastid，是否要做分页
+    NSString *path = [NSString stringWithFormat:@"api/public_tweets/topic/%ld",(long)topicID];
+    NSDictionary *params = @{
+                             @"type" : @"topic",
+                             @"sort" : @"new"
+                             };
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+//            id resultA = [data valueForKeyPath:@"data"];
+//            
+//            [NSObject saveResponseData:data toPath:[tweets localResponsePath]];
+            id resultData = [data valueForKeyPath:@"data"];
+            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"Tweet"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 #pragma mark User
 - (void)request_UserInfo_WithObj:(User *)curUser andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"用户信息"];
@@ -1535,6 +1557,19 @@
             block(user, nil);
         }else{
             [self showStatusBarError:error];
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_PointRecords:(PointRecords *)records andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"码币记录"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[records toPath] withParams:[records toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [data valueForKey:@"data"];
+            PointRecords *resultA = [NSObject objectOfClass:@"" fromJSON:data];
+            block(resultA, nil);
+        }else{
             block(nil, error);
         }
     }];
@@ -1907,6 +1942,37 @@
         }
     }];
 }
+
+- (void)request_Users_WithTopicID:(NSInteger)topicID andBlock:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"api/tweet_topic/%ld/hot_joined",(long)topicID];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"User"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_JoinedUsers_WithTopicID:(NSInteger)topicID page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"api/tweet_topic/%ld/joined",(long)topicID];
+    NSDictionary *params = @{
+                             @"page":@(page),
+                             @"pageSize":@(100)
+                             };
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = data[@"data"][@"list"];
+            NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"User"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_MDHtmlStr_WithMDStr:(NSString *)mdStr inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"md-html转化"];
     NSString *path = @"api/markdown/previewNoAt";
@@ -1939,6 +2005,147 @@
         }
     }];
 }
+
+#pragma mark -
+#pragma mark Topic HotKey
+
+- (void)request_TopicHotkeyWithBlock:(void (^)(id data, NSError *error))block {
+
+    NSString *path = @"/api/tweet_topic/hot?page=1&pageSize=20";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        
+        if(data) {
+        
+            id resultData = [data valueForKey:@"data"];
+            block(resultData, nil);
+        }else {
+        
+            block(nil, error);
+        }
+    }];
+}
+
+#pragma mark - topic
+- (void)request_TopicAdlistWithBlock:(void (^)(id data, NSError *error))block {
+    NSString *path = @"/api/tweet_topic/marketing_ad";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if(data) {
+            id resultData = [data valueForKey:@"data"];
+            block(resultData, nil);
+        }else {
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_HotTopiclistWithBlock:(void (^)(id data, NSError *error))block {
+        NSString *path = @"/api/tweet_topic/hot";
+        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+            if(data) {
+                id resultData = [data valueForKey:@"data"];
+                block(resultData, nil);
+                
+            }else {
+                block(nil, error);
+            }
+        }];
+    
+    
+//    NSString *filePath =[[NSBundle mainBundle] pathForResource:@"mock_hotTopiclist" ofType:@"geojson"];
+//    NSData *dd = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:nil];
+//    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:dd options:0 error:nil];
+//    id resultData = dict[@"data"];
+//    block(resultData, nil);
+}
+
+- (void)request_Tweet_WithSearchString:(NSString *)strSearch andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {
+
+    NSString *path = [NSString stringWithFormat:@"/api/search/quick?q=%@&page=%d", strSearch, (int)page];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+       
+        if(data) {
+        
+            id resultData = [(NSDictionary *)[data valueForKey:@"data"] objectForKey:@"tweets"];
+            block(resultData, nil);
+        }else {
+        
+            block(nil, error);
+        }
+    }];
+
+}
+
+- (void)request_TopicDetailsWithTopicID:(NSInteger)topicID block:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"/api/tweet_topic/%ld",(long)topicID];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if(data) {
+            id resultData = data[@"data"];
+            block(resultData, nil);
+        }else {
+            
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_TopTweetWithTopicID:(NSInteger)topicID block:(void (^)(id data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"api/public_tweets/topic/%ld/top",(long)topicID];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if(data) {
+            id resultData = data[@"data"];
+            Tweet *tweet =[NSObject objectOfClass:@"Tweet" fromJSON:resultData];
+            block(tweet, nil);
+        }else {
+            
+            block(nil, error);
+        }
+    }];
+}
+
+
+- (void)request_JoinedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block {
+    NSString *path = [[NSString stringWithFormat:@"api/user/%@/tweet_topic/joined",userGK] stringByAppendingString:[NSString stringWithFormat:@"?page=%d&extraInfo=1", (int)page]];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if(data) {
+            id resultData = data[@"data"];
+            BOOL hasMoreData = [resultData[@"totalPage"] intValue] - [resultData[@"page"] intValue];
+            block(resultData, hasMoreData, nil);
+//            NSArray *list = data[@"data"][@"list"];
+//            NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectActivity"];
+//            block(resultA, nil);
+        }else {
+            block(nil, NO, error);
+        }
+    }];
+}
+
+- (void)request_WatchedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block {
+    NSString *path = [[NSString stringWithFormat:@"/api/user/%@/tweet_topic/watched",userGK] stringByAppendingString:[NSString stringWithFormat:@"?page=%d&extraInfo=1", (int)page]];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if(data) {
+            id resultData = data[@"data"];
+            BOOL hasMoreData = [resultData[@"totalPage"] intValue] - [resultData[@"page"] intValue];
+            block(resultData, hasMoreData, nil);
+        }else {
+            block(nil, NO, error);
+        }
+    }];
+}
+
+- (void)request_Topic_DoWatch_WithUrl:(NSString *)url andBlock:(void (^)(id data, NSError *error))block{
+    
+    BOOL isUnwatched = [url hasSuffix:@"unwatch"];
+    NetworkMethod method = isUnwatched ? Delete : Post;
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:url withParams:nil withMethodType:method andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_BannersWithBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"Banner"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/banner/type/app" withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {

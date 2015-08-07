@@ -25,7 +25,11 @@
 #import "TweetSendLocationDetailViewController.h"
 #import "CodingBannersView.h"
 
-@interface Tweet_RootViewController ()
+#import "CSSearchVC.h"
+#import "CSSearchDisplayVC.h"
+#import "FunctionTipsManager.h"
+
+@interface Tweet_RootViewController () <UISearchBarDelegate, UISearchDisplayDelegate>
 {
     CGFloat _oldPanOffsetY;
 }
@@ -45,6 +49,9 @@
 @property (strong, nonatomic) Tweet *deleteTweet;
 @property (nonatomic, assign) NSInteger deleteTweetsIndex;
 
+//搜索
+@property (nonatomic, strong) UISearchBar       *searchBar;
+@property (strong, nonatomic) CSSearchDisplayVC *searchDisplayVC;
 //Banner
 @property (strong, nonatomic) CodingBannersView *myBannersView;
 @end
@@ -96,6 +103,9 @@
 //                              [self refreshFirst];
 //                          }];
     
+    UIBarButtonItem *leftBarItem =[UIBarButtonItem itemWithIcon:@"search_Nav" showBadge:NO target:self action:@selector(searchItemClicked:)];
+    [self.parentViewController.navigationItem setLeftBarButtonItem:leftBarItem animated:NO];
+    
     _tweetsDict = [[NSMutableDictionary alloc] initWithCapacity:4];
 
     //    添加myTableView
@@ -133,6 +143,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    
     if (_myMsgInputView) {
         [_myMsgInputView prepareToDismiss];
     }
@@ -140,6 +151,11 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    
+    UIButton *leftItemView = (UIButton *)self.parentViewController.navigationItem.leftBarButtonItem.customView;
+    if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Search]) {
+        [leftItemView addBadgePoint:4 withPointPosition:CGPointMake(25, 0)];
+    }
     
     [self refreshFirst];
 
@@ -267,6 +283,50 @@
             [weakSelf.myTableView reloadData];
         }
     }];
+}
+
+#pragma mark - search 
+
+- (void)searchItemClicked:(id)sender{
+    if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Search]) {
+        [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_Search];
+        UIButton *leftItemView = (UIButton *)self.parentViewController.navigationItem.leftBarButtonItem.customView;
+        [leftItemView removeBadgePoint];
+    }
+    
+    if(!_searchBar) {
+        
+        _searchBar = ({
+            
+            UISearchBar *searchBar = [[UISearchBar alloc] init];
+            searchBar.delegate = self;
+            [searchBar sizeToFit];
+            [searchBar setPlaceholder:@"搜索冒泡、用户名、话题"];
+            [searchBar setTintColor:[UIColor whiteColor]];
+            [searchBar setTranslucent:NO];
+            [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
+            searchBar;
+        });
+        [self.parentViewController.navigationController.view addSubview:_searchBar];
+        [_searchBar setY:20];
+    }
+    
+    if (!_searchDisplayVC) {
+        _searchDisplayVC = ({
+            
+            CSSearchDisplayVC *searchVC = [[CSSearchDisplayVC alloc] initWithSearchBar:_searchBar contentsController:self.parentViewController];
+            searchVC.parentVC = self;
+//            searchVC.delegate = self;
+//            if (kHigher_iOS_6_1) {
+//                
+//                searchVC.displaysSearchBarInNavigationBar = NO;
+//            }
+            searchVC;
+        });
+    }
+
+    [self hideToolBar:YES];
+    [_searchBar becomeFirstResponder];
 }
 
 #pragma mark Refresh M
@@ -547,4 +607,37 @@
     _myTableView.delegate = nil;
     _myTableView.dataSource = nil;
 }
+
+#pragma mark -
+#pragma mark UISearchBarDelegate Support
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+
+    return YES;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+
+    [self hideToolBar:NO];
+}
+
+#pragma mark -
+#pragma mark UISearchDisplayDelegate Support
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didHideSearchResultsTableView:(UITableView *)tableView {
+    
+}
+
+- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
+    
+}
+
 @end

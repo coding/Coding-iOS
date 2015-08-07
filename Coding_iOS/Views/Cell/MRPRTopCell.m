@@ -169,7 +169,7 @@
             [_actionView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.equalTo(_lineView);
                 make.height.mas_equalTo(kMRPRActionView_Height);
-                make.top.equalTo(_fromL.mas_bottom).offset(15);
+                make.top.equalTo(_toL.mas_bottom).offset(15);
             }];
         }
         [_actionView setStatus:_curMRPRInfo.mrpr.status userName:_curMRPRInfo.mrpr.action_author.name actionDate:_curMRPRInfo.mrpr.action_at];

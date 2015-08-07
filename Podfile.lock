@@ -63,6 +63,7 @@ PODS:
     - SDCAutoLayout (~> 2.0)
   - SDCAutoLayout (2.0.3)
   - SSKeychain (1.2.3)
+  - TMCache (2.1.0)
   - TPKeyboardAvoiding (1.2.4)
   - TTTAttributedLabel (1.10.1)
   - UIImage+BlurredFrame (0.0.4)
@@ -84,6 +85,7 @@ DEPENDENCIES:
   - RegexKitLite-NoWarning (= 1.1.0)
   - SDCAlertView (= 2.5.2)
   - SSKeychain (= 1.2.3)
+  - TMCache (= 2.1.0)
   - TPKeyboardAvoiding (= 1.2.4)
   - TTTAttributedLabel (= 1.10.1)
   - UIImage+BlurredFrame (= 0.0.4)
@@ -109,6 +111,7 @@ SPEC CHECKSUMS:
   SDCAlertView: f9706c18f456ea87909f8f199704cd28e582ff27
   SDCAutoLayout: e6885bb39ab8e2ec2ff84d158f38035f025f7420
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
+  TMCache: 95ebcc9b3c7e90fb5fd8fc3036cba3aa781c9bed
   TPKeyboardAvoiding: 0a40dfbb0af7c8bdae1dd457496dccfd217d85f6
   TTTAttributedLabel: c8f3801a6463b9c9b82b0c84c465fdda9751892a
   UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a

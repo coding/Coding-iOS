@@ -142,15 +142,17 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
     
     _contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
-    //add pan gesture recogniser
-    UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];
-    panGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
-    [_contentView addGestureRecognizer:panGesture];
-    
-    //add tap gesture recogniser
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
-    tapGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
-    [_contentView addGestureRecognizer:tapGesture];
+    if (!_disableGesture) {
+        //add pan gesture recogniser
+        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];
+        panGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
+        [_contentView addGestureRecognizer:panGesture];
+        
+        //add tap gesture recogniser
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
+        tapGesture.delegate = (id <UIGestureRecognizerDelegate>)self;
+        [_contentView addGestureRecognizer:tapGesture];
+    }
     
 #else
     

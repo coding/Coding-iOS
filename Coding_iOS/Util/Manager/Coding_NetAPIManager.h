@@ -32,6 +32,9 @@
 #import "Commits.h"
 #import "ProjectTag.h"
 #import "CodingBanner.h"
+#import "PointRecords.h"
+
+@class CSTopic;
 
 typedef NS_ENUM(NSUInteger, VerifyType){
     VerifyTypeUnknow = 0,
@@ -152,7 +155,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_Tweet_Delete_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_TweetComment_Delete_WithTweet:(Tweet *)tweet andComment:(Comment *)comment andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Tweet_Detail_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
-
+- (void)request_PublicTweetsWithTopic:(NSInteger)topicID andBlock:(void (^)(id data, NSError *error))block;
 
 
 //User
@@ -163,7 +166,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_UserJobArrayWithBlock:(void (^)(id data, NSError *error))block;
 - (void)request_UserTagArrayWithBlock:(void (^)(id data, NSError *error))block;
 - (void)request_UpdateUserInfo_WithObj:(User *)curUser andBlock:(void (^)(id data, NSError *error))block;
-
+- (void)request_PointRecords:(PointRecords *)records andBlock:(void (^)(id data, NSError *error))block;
 
 //Message
 - (void)request_PrivateMessages:(PrivateMessages *)priMsgs andBlock:(void (^)(id data, NSError *error))block;
@@ -207,6 +210,26 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_Users_WithSearchString:(NSString *)searchStr andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_MDHtmlStr_WithMDStr:(NSString *)mdStr inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_VerifyTypeWithBlock:(void (^)(VerifyType type, NSError *error))block;
+
+- (void)request_Users_WithTopicID:(NSInteger)topicID andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_JoinedUsers_WithTopicID:(NSInteger)topicID page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
+
+
+//Topic HotKey
+- (void)request_TopicHotkeyWithBlock:(void (^)(id data, NSError *error))block;
+//Topic
+- (void)request_TopicAdlistWithBlock:(void (^)(id data, NSError *error))block;
+- (void)request_HotTopiclistWithBlock:(void (^)(id data, NSError *error))block;
+
+- (void)request_Tweet_WithSearchString:(NSString *)strSearch andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
+
+- (void)request_TopicDetailsWithTopicID:(NSInteger)topicID block:(void (^)(id data, NSError *error))block;
+- (void)request_TopTweetWithTopicID:(NSInteger)topicID block:(void (^)(id data, NSError *error))block;
+
+- (void)request_JoinedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block;
+- (void)request_WatchedTopicsWithUserGK:(NSString *)userGK page:(NSInteger)page block:(void (^)(id data, BOOL hasMoreData, NSError *error))block;
+
+- (void)request_Topic_DoWatch_WithUrl:(NSString *)url andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_BannersWithBlock:(void (^)(id data, NSError *error))block;
 
 @end

@@ -8,8 +8,13 @@
 
 #import "UIView+Common.h"
 #define kTagBadgeView  1000
+#define kTagBadgePointView  1001
 #define kTagLineView 1007
 #import <objc/runtime.h>
+
+#import "Login.h"
+#import "User.h"
+
 @implementation UIView (Common)
 static char LoadingViewKey, BlankPageViewKey;
 
@@ -44,6 +49,57 @@ static char LoadingViewKey, BlankPageViewKey;
         }
     }
     return nil;
+}
+
+- (void)addBadgePoint:(NSInteger)pointRadius withPosition:(BadgePositionType)type {
+
+    if(pointRadius < 1)
+        return;
+    
+    [self removeBadgePoint];
+    
+    UIView *badgeView = [[UIView alloc]init];
+    badgeView.tag = kTagBadgePointView;
+    badgeView.layer.cornerRadius = pointRadius;
+    badgeView.backgroundColor = [UIColor redColor];
+    
+    switch (type) {
+            
+        case BadgePositionTypeMiddle:
+            badgeView.frame = CGRectMake(0, self.frame.size.height / 2 - pointRadius, 2 * pointRadius, 2 * pointRadius);
+            break;
+            
+        default:
+            badgeView.frame = CGRectMake(self.frame.size.width - 2 * pointRadius, 0, 2 * pointRadius, 2 * pointRadius);
+            break;
+    }
+    
+    [self addSubview:badgeView];
+}
+
+- (void)addBadgePoint:(NSInteger)pointRadius withPointPosition:(CGPoint)point {
+
+    if(pointRadius < 1)
+        return;
+    
+    [self removeBadgePoint];
+    
+    UIView *badgeView = [[UIView alloc]init];
+    badgeView.tag = kTagBadgePointView;
+    badgeView.layer.cornerRadius = pointRadius;
+    badgeView.backgroundColor = [UIColor colorWithHexString:@"0xf75388"];
+    badgeView.frame = CGRectMake(0, 0, 2 * pointRadius, 2 * pointRadius);
+    badgeView.center = point;
+    [self addSubview:badgeView];
+}
+
+- (void)removeBadgePoint {
+
+    for (UIView *subView in self.subviews) {
+        
+        if(subView.tag == kTagBadgePointView)
+           [subView removeFromSuperview];
+    }
 }
 
 - (void)addBadgeTip:(NSString *)badgeValue withCenterPosition:(CGPoint)center{
@@ -533,6 +589,20 @@ static char LoadingViewKey, BlankPageViewKey;
             {
                 imageName = @"blankpage_image_Hi";
                 tipStr = @"无私信\n打个招呼吧～";
+            }
+                break;
+            case EaseBlankPageTypeMyJoinedTopic://我参与的话题
+            case EaseBlankPageTypeMyWatchedTopic://我关注的话题
+            {
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"您还没有话题呢～";
+            }
+                break;
+            case EaseBlankPageTypeOthersJoinedTopic://ta参与的话题
+            case EaseBlankPageTypeOthersWatchedTopic://ta关注的话题
+            {
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"这个人很懒，一个话题都木有～";
             }
                 break;
             default://其它页面（这里没有提到的页面，都属于其它）
