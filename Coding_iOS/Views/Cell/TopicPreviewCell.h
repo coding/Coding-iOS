@@ -19,6 +19,7 @@
 @property (nonatomic, copy) void (^cellHeightChangedBlock)();
 @property (nonatomic, copy) void (^addLabelBlock)();
 @property (nonatomic, copy) void (^delLabelBlock)();
+@property (nonatomic, copy) void (^clickedLinkStrBlock)(NSString *linkStr);
 
 + (CGFloat)cellHeightWithObjWithLabel:(id)obj;
 + (CGFloat)cellHeightWithObj:(id)obj;

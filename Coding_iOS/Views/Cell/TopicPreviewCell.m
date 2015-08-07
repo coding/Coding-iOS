@@ -221,6 +221,9 @@
     if ([strLink rangeOfString:@"about:blank"].location != NSNotFound) {
         return YES;
     } else {
+        if (_clickedLinkStrBlock) {
+            _clickedLinkStrBlock(strLink);
+        }
         return NO;
     }
 }

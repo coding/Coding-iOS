@@ -15,6 +15,7 @@
 #import "TopicPreviewCell.h"
 #import "ProjectTag.h"
 #import "ProjectTagsView.h"
+#import "WebViewController.h"
 
 @interface EditTopicViewController ()<UIWebViewDelegate, UITableViewDataSource, UITableViewDelegate>
 
@@ -350,6 +351,9 @@
     cell.delLabelBlock = ^(){
          weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
     };
+    cell.clickedLinkStrBlock = ^(NSString *linkStr){
+        [weakSelf analyseLinkStr:linkStr];
+    };
     //[tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     return cell;
 }
@@ -362,6 +366,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark analyseLinkStr
+- (void)analyseLinkStr:(NSString *)linkStr
+{
+    if (linkStr.length <= 0) {
+        return;
+    }
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        // 跳转去网页
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self.navigationController pushViewController:webVc animated:YES];
+    }
 }
 
 @end
