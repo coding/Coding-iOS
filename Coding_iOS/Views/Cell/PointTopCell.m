@@ -22,7 +22,7 @@
         if (!_valueL) {
             _valueL = [UILabel new];
             _valueL.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
-            _valueL.font = [UIFont systemFontOfSize:40];
+            _valueL.font = [UIFont systemFontOfSize:50];
             _valueL.textAlignment = NSTextAlignmentCenter;
             [self.contentView addSubview:_valueL];
         }
@@ -36,13 +36,14 @@
         }
         [_valueL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(self.contentView);
-            make.top.equalTo(self.contentView).offset(20);
-            make.height.mas_equalTo(40);
+//            make.top.equalTo(self.contentView).offset(20);
+            make.centerY.equalTo(self.contentView).offset(-10);
+            make.height.mas_equalTo(50);
         }];
         [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_valueL.mas_bottom).offset(10);
+            make.top.equalTo(_valueL.mas_bottom).offset(5);
             make.centerX.equalTo(_valueL);
-            make.height.mas_equalTo(20);
+            make.height.mas_equalTo(15);
         }];
     }
     return self;
@@ -54,7 +55,7 @@
 }
 
 + (CGFloat)cellHeight{
-    return 120.0;
+    return 150.0;
 }
 
 @end
