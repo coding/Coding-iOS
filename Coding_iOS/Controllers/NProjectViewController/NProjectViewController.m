@@ -301,7 +301,7 @@
 }
 
 - (void)goToReadme{
-    CodeFile *nextCodeFile = [CodeFile codeFileWithRef:@"master" andPath:@"README.md"];
+    CodeFile *nextCodeFile = [CodeFile codeFileWithRef:@"" andPath:@"README"];
     CodeViewController *vc = [CodeViewController codeVCWithProject:_myProject andCodeFile:nextCodeFile];
     [self.navigationController pushViewController:vc animated:YES];
 }

@@ -70,15 +70,25 @@
 - (void)sendRequest{
     [self.view beginLoading];
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_CodeFile:_myCodeFile withPro:_myProject andBlock:^(id data, NSError *error) {
-        [weakSelf.view endLoading];
-        if (data) {
-            weakSelf.myCodeFile = data;
-            [weakSelf refreshCodeViewData];
-        }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(data != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-            [weakSelf sendRequest];
+    if (_myCodeFile.ref.length <= 0 && [_myCodeFile.path isEqualToString:@"README"]) {
+        [[Coding_NetAPIManager sharedManager] request_ReadMeOFProject:_myProject andBlock:^(id data, NSError *error) {
+            [weakSelf doSomethingWithResponse:data andError:error];
         }];
+    }else{
+        [[Coding_NetAPIManager sharedManager] request_CodeFile:_myCodeFile withPro:_myProject andBlock:^(id data, NSError *error) {
+            [weakSelf doSomethingWithResponse:data andError:error];
+        }];
+    }
+}
+
+- (void)doSomethingWithResponse:(id)data andError:(NSError *)error{
+    [self.view endLoading];
+    if (data) {
+        self.myCodeFile = data;
+        [self refreshCodeViewData];
+    }
+    [self.view configBlankPage:EaseBlankPageTypeView hasData:(data != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [self sendRequest];
     }];
 }
 

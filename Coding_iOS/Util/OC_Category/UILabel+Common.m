@@ -36,4 +36,11 @@
     [self setFrame:frame];
 }
 
++ (instancetype)labelWithFont:(UIFont *)font textColor:(UIColor *)textColor{
+    UILabel *label = [self new];
+    label.font = font;
+    label.textColor = textColor;
+    return label;
+}
+
 @end

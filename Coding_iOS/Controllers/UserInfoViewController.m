@@ -32,6 +32,7 @@
 #import <APParallaxHeader/UIScrollView+APParallaxHeader.h>
 
 #import "CSMyTopicVC.h"
+#import "PointRecordsViewController.h"
 
 @interface UserInfoViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
@@ -139,7 +140,7 @@
 
 #pragma mark Table M
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return [self.curUser.global_key isEqualToString:[Login curLoginUser].global_key]? 4: 3;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = 0;
@@ -149,6 +150,8 @@
         row = 1;
     }else if (section == 2){
         row = 3;
+    }else if (section == 3){
+        row = 1;
     }
     return row;
 }
@@ -174,7 +177,7 @@
         UserInfoIconCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserInfoIconCell forIndexPath:indexPath];
         if (indexPath.section == 1) {
             [cell setTitle:@"详细信息" icon:@"user_info_detail"];
-        }else{
+        }else if (indexPath.section == 2){
             if (indexPath.row == 0) {
                 [cell setTitle:[self isMe]? @"我的项目": @"Ta的项目" icon:@"user_info_project"];
             }else if(indexPath.row == 1){
@@ -182,6 +185,8 @@
             }else{
                 [cell setTitle:[self isMe]? @"我的话题": @"Ta的话题" icon:@"user_info_topic"];
             }
+        }else{
+            [cell setTitle:@"我的码币" icon:@"user_info_point"];
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
@@ -226,6 +231,8 @@
         }else{
             [self goToTopic];
         }
+    }else if (indexPath.section == 3){
+        [self goToPoint];
     }
 }
 
@@ -285,6 +292,11 @@
 - (void)goToTopic {
     CSMyTopicVC *vc = [[CSMyTopicVC alloc] init];
     vc.curUser = _curUser;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToPoint{
+    PointRecordsViewController *vc = [PointRecordsViewController new];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

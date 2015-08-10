@@ -106,7 +106,7 @@
         if (indexPath.row == 0) {
             PointRecord *record = [_curRecords.list firstObject];
             PointTopCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PointTopCell forIndexPath:indexPath];
-            cell.pointLeftStr = record.points_left.stringValue;
+            cell.pointLeftStr = [NSString stringWithFormat:@"%.2f", record.points_left.floatValue];
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0 hasSectionLine:NO];
             return cell;
         }else{
