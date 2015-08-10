@@ -99,7 +99,7 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
     if (state == UIMessageInputView_VoiceStateRecording) {
         _volumeLeftView.center = CGPointMake(_recordTipsLabel.frame.origin.x - _volumeLeftView.frame.size.width/2 - 12, _recordTipsLabel.center.y);
         _volumeLeftView.hidden = NO;
-        _volumeRightView.center = CGPointMake(_recordTipsLabel.frame.origin.x + _recordTipsLabel.frame.size.width + _recordTipsLabel.frame.size.width/2 + 12, _recordTipsLabel.center.y);
+        _volumeRightView.center = CGPointMake(_recordTipsLabel.frame.origin.x + _recordTipsLabel.frame.size.width + _volumeRightView.frame.size.width/2 + 12, _recordTipsLabel.center.y);
         _volumeRightView.hidden = NO;
     }
 }

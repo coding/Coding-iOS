@@ -46,7 +46,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 
 @property (strong, nonatomic) UIScrollView *contentView;
 @property (strong, nonatomic) UIPlaceHolderTextView *inputTextView;
-@property (strong, nonatomic) UIImageView *arrowKeyboardView;
+@property (strong, nonatomic) UIButton *arrowKeyboardButton;
 
 @property (strong, nonatomic) UICustomCollectionView *mediaView;
 @property (strong, nonatomic) NSMutableArray *mediaList, *uploadMediaList;
@@ -118,8 +118,8 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
                 break;
         }
         _contentView.hidden = _inputState == UIMessageInputViewStateVoice;
-        _arrowKeyboardView.hidden = !_contentView.hidden;
-        _arrowKeyboardView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+        _arrowKeyboardButton.hidden = !_contentView.hidden;
+        _arrowKeyboardButton.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
     }
 }
 - (void)setPlaceHolder:(NSString *)placeHolder{
@@ -531,11 +531,14 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }
     _voiceButton.hidden = !hasVoiceBtn;
     
-    if (hasVoiceBtn && !_arrowKeyboardView) {
-        _arrowKeyboardView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"keyboard_arrow_down"]];
-        [self addSubview:_arrowKeyboardView];
+    if (hasVoiceBtn && !_arrowKeyboardButton) {
+        _arrowKeyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _arrowKeyboardButton.frame = CGRectMake(0, 0, kMessageInputView_Width_Tool, kMessageInputView_Width_Tool);
+        [_arrowKeyboardButton setImage:[UIImage imageNamed:@"keyboard_arrow_down"] forState:UIControlStateNormal];
+        [_arrowKeyboardButton addTarget:self action:@selector(arrowButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_arrowKeyboardButton];
     }
-    _arrowKeyboardView.hidden = YES;
+    _arrowKeyboardButton.hidden = YES;
     
     if (hasVoiceBtn && !_voiceKeyboardView) {
         _voiceKeyboardView = [[UIMessageInputView_Voice alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, kKeyboardView_Height)];
@@ -761,6 +764,10 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         
         [self noDisplayVoiceButtonRedpoint];
     }
+}
+
+- (void)arrowButtonClicked:(id)sender {
+    [self isAndResignFirstResponder];
 }
 
 #pragma mark QBImagePickerControllerDelegate
