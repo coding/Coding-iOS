@@ -155,11 +155,10 @@
     }
     
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Tweet forIndexPath:indexPath];
-    
     if (indexPath.section == 0) {
-        cell.tweet = _curTopWteet;
+        [cell setTweet:_curTopWteet needTopView:NO];
     }else{
-        cell.tweet = [_curTweets.list objectAtIndex:indexPath.row];
+        [cell setTweet:[_curTweets.list objectAtIndex:indexPath.row] needTopView:YES];
     }
     
     cell.outTweetsIndex = _curIndex;
@@ -215,6 +214,18 @@
     cell.mediaItemClickedBlock = ^(HtmlMediaItem *curItem){
         [weakSelf analyseLinkStr:curItem.href];
     };
+    
+    cell.deleteClickedBlock = ^(Tweet *curTweet, NSInteger outTweetsIndex){
+        if ([self.myMsgInputView isAndResignFirstResponder]) {
+            return ;
+        }
+        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此冒泡" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [weakSelf deleteTweet:curTweet];
+            }
+        }];
+        [actionSheet showInView:self.view];
+    };
 
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
     
@@ -259,14 +270,13 @@
         if (_curTopWteet && indexPath.row ==0) {
             return 36;
         }else if(_curTopWteet && indexPath.row == 1){
-            return [TweetCell cellHeightWithObj:_curTopWteet];
+            return [TweetCell cellHeightWithObj:_curTopWteet needTopView:NO];
         }
         else {
             return 0;
         }
     }
-    
-    return [TweetCell cellHeightWithObj:[_curTweets.list objectAtIndex:indexPath.row]];
+    return [TweetCell cellHeightWithObj:[_curTweets.list objectAtIndex:indexPath.row] needTopView:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -425,6 +435,21 @@
     [self.parentViewController presentViewController:nav animated:YES completion:nil];
 }
 
+#pragma mark Delete Tweet
+- (void)deleteTweet:(Tweet *)curTweet{
+    ESWeakSelf;
+    [[Coding_NetAPIManager sharedManager] request_Tweet_Delete_WithObj:curTweet andBlock:^(id data, NSError *error) {
+        ESStrongSelf;
+        if (data) {
+            [_self.curTweets.list removeObject:curTweet];
+            [_self.myTableView reloadData];
+            [_self.view configBlankPage:([[Login curLoginUser] isSameToUser:_self.curTweets.curUser]? EaseBlankPageTypeTweet: EaseBlankPageTypeTweetOther)  hasData:(_self.curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+                ESStrongSelf;
+                [_self sendRequest];
+            }];
+        }
+    }];
+}
 @end
 
 

@@ -224,7 +224,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Tweet forIndexPath:indexPath];
-    cell.tweet = [_curTweets.list objectAtIndex:indexPath.row];
+    [cell setTweet:[_curTweets.list objectAtIndex:indexPath.row] needTopView:(indexPath.row != 0)];
     
     __weak typeof(self) weakSelf = self;
     cell.commentClickedBlock = ^(Tweet *tweet, NSInteger index, id sender){
@@ -299,7 +299,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [TweetCell cellHeightWithObj:[_curTweets.list objectAtIndex:indexPath.row]];
+    return [TweetCell cellHeightWithObj:[_curTweets.list objectAtIndex:indexPath.row] needTopView:(indexPath.row != 0)];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

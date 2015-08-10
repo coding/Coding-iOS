@@ -66,18 +66,28 @@ static dispatch_once_t onceToken;
     //发起请求
     switch (method) {
         case Get:{
+            //所有 Get 请求，增加缓存机制
+            NSMutableString *localPath = [aPath mutableCopy];
+            if (params) {
+                [localPath appendString:params.description];
+            }
             [self GET:aPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, responseObject);
                 id error = [self handleResponse:responseObject autoShowError:autoShowError];
                 if (error) {
-                    block(nil, error);
+                    responseObject = [NSObject loadResponseWithPath:localPath];
+                    block(responseObject, error);
                 }else{
+                    if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                        [NSObject saveResponseData:responseObject toPath:localPath];
+                    }
                     block(responseObject, nil);
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
                 !autoShowError || [self showError:error];
-                block(nil, error);
+                id responseObject = [NSObject loadResponseWithPath:localPath];
+                block(responseObject, error);
             }];
             break;}
         case Post:{

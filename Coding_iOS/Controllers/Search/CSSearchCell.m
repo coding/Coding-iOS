@@ -98,7 +98,7 @@
         
         if(!self.tweetCommentIconView) {
             self.tweetCommentIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kTweetCell_PadingLeft, 0, 12, 12)];
-            self.tweetCommentIconView.image = [UIImage imageNamed:@"search_tweet_comment"];
+            self.tweetCommentIconView.image = [UIImage imageNamed:@"topic_comment_icon"];
             [self.contentView addSubview:self.tweetCommentIconView];
         }
         

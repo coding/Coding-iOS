@@ -9,7 +9,6 @@
 #define kMaxBadgeWith 100.0
 #define kBadgeTextOffset 2.0
 #define kBadgePading 2.0
-#define kBadgeTextFont  [UIFont systemFontOfSize:12]
 
 #import "UIBadgeView.h"
 @interface UIBadgeView ()
@@ -47,7 +46,11 @@
         return CGSizeZero;
     }
     if (!font) {
-        font = kBadgeTextFont;
+        if (kDevice_Is_iPhone6 || kDevice_Is_iPhone6Plus) {
+            font = [UIFont systemFontOfSize:12];
+        }else{
+            font = [UIFont systemFontOfSize:11];
+        }
     }
     CGSize badgeSize = [badgeValue getSizeWithFont:font constrainedToSize:CGSizeMake(kMaxBadgeWith, 20)];
     
@@ -84,7 +87,11 @@
     [self setBackgroundColor:[UIColor clearColor]];
     _badgeBackgroundColor = [UIColor colorWithHexString:@"0xf75388"];
     _badgeTextColor = [UIColor whiteColor];
-    _badgeTextFont = [UIFont systemFontOfSize:12];
+    if (kDevice_Is_iPhone6 || kDevice_Is_iPhone6Plus) {
+        _badgeTextFont = [UIFont systemFontOfSize:12];
+    }else{
+        _badgeTextFont = [UIFont systemFontOfSize:11];
+    }
 }
 
 

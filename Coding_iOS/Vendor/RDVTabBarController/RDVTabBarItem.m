@@ -90,7 +90,11 @@
     }
     _badgeBackgroundColor = [UIColor colorWithHexString:@"0xf75388"];
     _badgeTextColor = [UIColor whiteColor];
-    _badgeTextFont = [UIFont systemFontOfSize:12];
+    if (kDevice_Is_iPhone6 || kDevice_Is_iPhone6Plus) {
+        _badgeTextFont = [UIFont systemFontOfSize:12];
+    }else{
+        _badgeTextFont = [UIFont systemFontOfSize:11];
+    }
     _badgePositionAdjustment = UIOffsetMake(-4, 2);
 //    _badgePositionAdjustment = UIOffsetMake(右移量, 下移量);
 }
