@@ -8,7 +8,7 @@
 
 #import "BubblePlayView.h"
 
-#define kBubblePlayViewMinWidth (kScreen_Width*0.2)
+#define kBubblePlayViewMinWidth (kScreen_Width*0.23)
 #define kBubblePlayViewMidWidth (kScreen_Width*0.35)
 #define kBubblePlayViewMaxWidth (kScreen_Width*0.6)
 
@@ -102,7 +102,7 @@
         _duration = 0;
     }
     
-    _durationLbl.text = [NSString stringWithFormat:@"%d''", (int)_duration];
+    _durationLbl.text = [NSString stringWithFormat:@"%d\"", (int)_duration];
     [_durationLbl sizeToFit];
     
     [self setWidth:[[self class] widthForDuration:_duration]];
