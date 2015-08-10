@@ -1821,8 +1821,11 @@
                 NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/tree/%@",project.owner_user_name, project.name, defultBranch];
                 [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
                     if (data) {
-                        NSString *readMeHtml = [[[data valueForKey:@"data"] valueForKey:@"readme"] valueForKey:@"preview"];
-                        block(readMeHtml? readMeHtml: @"我们推荐每个项目都新建一个README文件", nil);
+                        id resultData = [[data valueForKey:@"data"] valueForKey:@"readme"];
+                        CodeFile_RealFile *realFile = [NSObject objectOfClass:@"CodeFile_RealFile" fromJSON:resultData];
+                        CodeFile *rCodeFile = [CodeFile codeFileWithRef:defultBranch andPath:realFile.path];
+                        rCodeFile.file = realFile;
+                        block(rCodeFile, nil);
                     }else{
                         block(nil, error);
                     }
