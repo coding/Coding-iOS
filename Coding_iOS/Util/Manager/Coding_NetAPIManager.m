@@ -1567,7 +1567,7 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[records toPath] withParams:[records toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             data = [data valueForKey:@"data"];
-            PointRecords *resultA = [NSObject objectOfClass:@"" fromJSON:data];
+            PointRecords *resultA = [NSObject objectOfClass:@"PointRecords" fromJSON:data];
             block(resultA, nil);
         }else{
             block(nil, error);

@@ -8,11 +8,53 @@
 
 #import "PointRecordCell.h"
 
+@interface PointRecordCell ()
+@property (strong, nonatomic) UILabel *usageL, *timeL, *pointsLeftL, *pointsChangeL;
+@end
+
 @implementation PointRecordCell
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        self.backgroundColor = [UIColor clearColor];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (!_usageL) {
+            _usageL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:[UIColor colorWithHexString:@"0x222222"]];
+            [self.contentView addSubview:_usageL];
+        }
+        if (!_timeL) {
+            _timeL = [UILabel labelWithFont:[UIFont systemFontOfSize:12] textColor:[UIColor colorWithHexString:@"0x999999"]];
+            [self.contentView addSubview:_timeL];
+        }
+        if (!_pointsLeftL) {
+            _pointsLeftL = [UILabel labelWithFont:[UIFont systemFontOfSize:12] textColor:[UIColor colorWithHexString:@"0x999999"]];
+            [self.contentView addSubview:_pointsLeftL];
+        }
+        if (!_pointsChangeL) {
+            _pointsChangeL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:[UIColor colorWithHexString:@"0x3bbd79"]];
+            [self.contentView addSubview:_pointsChangeL];
+        }
+        [_usageL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
+            make.top.equalTo(self.contentView).offset(10);
+            make.height.mas_equalTo(25);
+        }];
+        [_timeL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+            make.centerY.equalTo(_usageL);
+            make.height.mas_equalTo(20);
+        }];
+        [_pointsLeftL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
+            make.centerY.equalTo(_pointsChangeL);
+            make.height.mas_equalTo(20);
+        }];
+        [_pointsChangeL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+            make.bottom.equalTo(self.contentView).offset(-10);
+            make.height.mas_equalTo(25);
+        }];
     }
     return self;
 }
@@ -21,9 +63,12 @@
     if (!_curRecord) {
         return;
     }
-    
+    _usageL.text = _curRecord.usage;
+    _timeL.text = [_curRecord.created_at stringWithFormat:@"yyyy-MM-dd hh:mm:ss"];
+    _pointsLeftL.text = [NSString stringWithFormat:@"余额:%.2f", _curRecord.points_left.floatValue];
+    _pointsChangeL.text = @"+0.02";
 }
 + (CGFloat)cellHeight{
-    return 44.0;
+    return 75.0;
 }
 @end

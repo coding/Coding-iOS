@@ -8,15 +8,53 @@
 
 #import "PointTopCell.h"
 
+@interface PointTopCell ()
+@property (strong, nonatomic) UILabel *valueL, *titleL;
+@end
+
 @implementation PointTopCell
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        self.backgroundColor = [UIColor clearColor];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (!_valueL) {
+            _valueL = [UILabel new];
+            _valueL.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+            _valueL.font = [UIFont systemFontOfSize:40];
+            _valueL.textAlignment = NSTextAlignmentCenter;
+            [self.contentView addSubview:_valueL];
+        }
+        if (!_titleL) {
+            _titleL = [UILabel new];
+            _titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _titleL.font = [UIFont systemFontOfSize:12];
+            _titleL.textAlignment = NSTextAlignmentCenter;
+            [self.contentView addSubview:_titleL];
+            _titleL.text = @"码币余额";
+        }
+        [_valueL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.contentView);
+            make.top.equalTo(self.contentView).offset(20);
+            make.height.mas_equalTo(40);
+        }];
+        [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_valueL.mas_bottom).offset(10);
+            make.centerX.equalTo(_valueL);
+            make.height.mas_equalTo(20);
+        }];
     }
     return self;
 }
-+ (CGFloat)cellHeight{
-    return 44.0;
+
+- (void)setPointLeftStr:(NSString *)pointLeftStr{
+    _pointLeftStr = pointLeftStr;
+    _valueL.text = _pointLeftStr;
 }
+
++ (CGFloat)cellHeight{
+    return 120.0;
+}
+
 @end
