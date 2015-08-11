@@ -130,7 +130,7 @@
     }
     _nameLabel.text = _file.name;
     _sizeLabel.text = [NSString sizeDisplayWithByte:_file.size.floatValue];
-    _infoLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _file.owner.name, [_file.created_at stringTimesAgo]];
+    _infoLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _file.owner.name, [_file.created_at stringDisplay_HHmm]];
     if (_file.preview && _file.preview.length > 0) {
         [_iconView sd_setImageWithURL:[NSURL URLWithString:_file.preview]];
     }else{

@@ -232,7 +232,7 @@
     //owner姓名
     [self.ownerNameBtn setUserTitle:_tweet.owner.name font:[UIFont systemFontOfSize:17] maxWidth:(kTweetCell_ContentWidth-85)];
     //发出冒泡的时间
-    [self.timeLabel setLongString:[_tweet.created_at stringTimesAgo] withVariableWidth:kScreen_Width/2];
+    [self.timeLabel setLongString:[_tweet.created_at stringDisplay_HHmm] withVariableWidth:kScreen_Width/2];
     CGFloat timeLabelX = kScreen_Width - kPaddingLeftWidth - CGRectGetWidth(self.timeLabel.frame);
     [self.timeLabel setX:timeLabelX];
     [self.timeClockIconView setX:timeLabelX-15];

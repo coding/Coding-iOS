@@ -85,7 +85,7 @@
 
 - (NSAttributedString *)attributeTail{
     NSString *nameStr = _curMRPR.author.name? _curMRPR.author.name: @"";
-    NSString *timeStr = _curMRPR.created_at? [_curMRPR.created_at stringTimesAgo]: @"";
+    NSString *timeStr = _curMRPR.created_at? [_curMRPR.created_at stringDisplay_HHmm]: @"";
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", nameStr, timeStr]];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}

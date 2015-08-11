@@ -68,12 +68,8 @@
     }
     
     curBottomY += [_curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] + 12;
-    _timeLabel.text = [_curTip.created_at stringTimeDisplay];
+    _timeLabel.text = [_curTip.created_at stringDisplay_HHmm];
     [_timeLabel setY:curBottomY];
-    
-//    NSString *timeStr = [_curTip.created_at stringTimeDisplay];
-//    [_timeLabel setLongString:timeStr withVariableWidth:200];
-//    [_timeLabel setCenter:CGPointMake(kScreen_Width -(CGRectGetWidth(_timeLabel.frame)/2 +kPaddingLeftWidth), curBottomY+ CGRectGetHeight(_timeLabel.frame)/2)];
 
     [self.contentView addBadgeTip:_curTip.status.boolValue? @"": kBadgeTipStr withCenterPosition:CGPointMake(kPaddingLeftWidth, _iconView.center.y)];
 }

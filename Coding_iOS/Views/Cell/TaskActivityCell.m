@@ -89,27 +89,27 @@
     NSMutableAttributedString *attrContent;
     
     if ([curActivity.action isEqualToString:@"create"]) {
-        contentStr = [NSString stringWithFormat:@"创建了任务 - %@", [curActivity.created_at stringTimesAgo]];
+        contentStr = [NSString stringWithFormat:@"创建了任务 - %@", [curActivity.created_at stringDisplay_HHmm]];
     }else if ([curActivity.action isEqualToString:@"update"]) {
-        contentStr = [NSString stringWithFormat:@"更新了任务 - %@", [curActivity.created_at stringTimesAgo]];
+        contentStr = [NSString stringWithFormat:@"更新了任务 - %@", [curActivity.created_at stringDisplay_HHmm]];
     }else if ([curActivity.action isEqualToString:@"update_priority"]) {
-        contentStr = [NSString stringWithFormat:@"更新了任务优先级为 「%@」 - %@", kTaskPrioritiesDisplay[curActivity.task.priority.intValue], [curActivity.created_at stringTimesAgo]];
+        contentStr = [NSString stringWithFormat:@"更新了任务优先级为 「%@」 - %@", kTaskPrioritiesDisplay[curActivity.task.priority.intValue], [curActivity.created_at stringDisplay_HHmm]];
     }else if ([curActivity.action isEqualToString:@"update_deadline"]) {
         if (curActivity.task.deadline_date) {
-            contentStr = [NSString stringWithFormat:@"更新了任务截止日期为 「%@」 - %@", [NSDate convertStr_yyyy_MM_ddToDisplay:curActivity.task.deadline], [curActivity.created_at stringTimesAgo]];
+            contentStr = [NSString stringWithFormat:@"更新了任务截止日期为 「%@」 - %@", [NSDate convertStr_yyyy_MM_ddToDisplay:curActivity.task.deadline], [curActivity.created_at stringDisplay_HHmm]];
         }else{
-            contentStr = [NSString stringWithFormat:@"移除了任务的截止日期 - %@", [curActivity.created_at stringTimesAgo]];
+            contentStr = [NSString stringWithFormat:@"移除了任务的截止日期 - %@", [curActivity.created_at stringDisplay_HHmm]];
         }
     }else if ([curActivity.action isEqualToString:@"update_description"]) {
-        contentStr = [NSString stringWithFormat:@"更新了任务描述 - %@", [curActivity.created_at stringTimesAgo]];
+        contentStr = [NSString stringWithFormat:@"更新了任务描述 - %@", [curActivity.created_at stringDisplay_HHmm]];
     }else if ([curActivity.action isEqualToString:@"reassign"]) {
-        contentStr = [NSString stringWithFormat:@"重新指派了任务给了 「%@」 - %@", curActivity.task.owner.name, [curActivity.created_at stringTimesAgo]];
+        contentStr = [NSString stringWithFormat:@"重新指派了任务给了 「%@」 - %@", curActivity.task.owner.name, [curActivity.created_at stringDisplay_HHmm]];
     }else if ([curActivity.action isEqualToString:@"finish"]) {
-        contentStr = [NSString stringWithFormat:@"完成了任务 - %@", [curActivity.created_at stringTimesAgo]];
+        contentStr = [NSString stringWithFormat:@"完成了任务 - %@", [curActivity.created_at stringDisplay_HHmm]];
     }else if ([curActivity.action isEqualToString:@"restore"]) {
-        contentStr = [NSString stringWithFormat:@"重新开启了任务 - %@", [curActivity.created_at stringTimesAgo]];
+        contentStr = [NSString stringWithFormat:@"重新开启了任务 - %@", [curActivity.created_at stringDisplay_HHmm]];
     }else if ([curActivity.action isEqualToString:@"commit_refer"]) {
-        contentStr = [NSString stringWithFormat:@"在分支 %@ 中提交的代码提到了任务 - %@\n%@", curActivity.commit.ref, [curActivity.created_at stringTimesAgo], curActivity.commit.contentStr];
+        contentStr = [NSString stringWithFormat:@"在分支 %@ 中提交的代码提到了任务 - %@\n%@", curActivity.commit.ref, [curActivity.created_at stringDisplay_HHmm], curActivity.commit.contentStr];
     }else{
         contentStr = @"...";
     }

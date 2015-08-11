@@ -99,7 +99,7 @@
     curBottomY += [TopicCommentCell imageCollectionViewHeightWithCount:imagesCount];
     
     [_timeLabel setY:curBottomY];
-    _timeLabel.text = [NSString stringWithFormat:@"%@ 发布于 %@", _toComment.owner.name, [_toComment.created_at stringTimesAgo]];
+    _timeLabel.text = [NSString stringWithFormat:@"%@ 发布于 %@", _toComment.owner.name, [_toComment.created_at stringDisplay_HHmm]];
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{

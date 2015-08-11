@@ -93,7 +93,7 @@
     CGFloat curBottomY = CGRectGetMaxY(_commentLabel.frame) +kScaleFrom_iPhone5_Desgin(5);
     
     _userNameLabel.text = curUser.name;
-    _timeLabel.text = [_curComment.created_at stringTimesAgo];
+    _timeLabel.text = [_curComment.created_at stringDisplay_HHmm];
     [_userNameLabel setY:curBottomY];
     [_userNameLabel sizeToFit];
     

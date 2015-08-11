@@ -127,7 +127,7 @@
     curBottomY += [TaskCommentCell imageCollectionViewHeightWithCount:imagesCount];
     
     [_timeLabel setY:curBottomY];
-    _timeLabel.text = [NSString stringWithFormat:@"%@ 发布于 %@", _curComment.owner.name, [_curComment.created_at stringTimesAgo]];
+    _timeLabel.text = [NSString stringWithFormat:@"%@ 发布于 %@", _curComment.owner.name, [_curComment.created_at stringDisplay_HHmm]];
 }
 
 - (void)configTop:(BOOL)isTop andBottom:(BOOL)isBottom{

@@ -97,7 +97,7 @@
     curBottomY += [MRPRCommentCell imageCollectionViewHeightWithCount:imagesCount];
     
     [_timeLabel setY:curBottomY];
-    _timeLabel.text = [NSString stringWithFormat:@"%@ %@", _curItem.author.name, [_curItem.created_at stringTimesAgo]];
+    _timeLabel.text = [NSString stringWithFormat:@"%@ %@", _curItem.author.name, [_curItem.created_at stringDisplay_HHmm]];
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{

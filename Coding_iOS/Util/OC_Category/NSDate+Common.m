@@ -58,6 +58,16 @@
     return [components year];
 }
 
+- (NSInteger)leftDayCount{
+    NSCalendar *calendar = [[self class] sharedCalendar];
+    NSDate *today = [NSDate dateFromString:[[NSDate date] stringWithFormat:@"yyyy-MM-dd"] withFormat:@"yyyy-MM-dd"];
+    NSDateComponents *components = [calendar components:(NSDayCalendarUnit)
+                                               fromDate:today
+                                                 toDate:self
+                                                options:0];
+    return [components day];
+}
+
 - (NSString *)stringTimesAgo{
     if ([self compare:[NSDate date]] == NSOrderedDescending) {
         return @"刚刚";
@@ -110,98 +120,81 @@
     return text;
 }
 
-- (NSString *)stringTimeDisplay{
-    NSString *text = nil;
-    NSInteger daysAgo = [self daysAgoAgainstMidnight];
-    NSString *dateStr;
-    switch (daysAgo) {
-        case 0:
-            dateStr = @"今天";
-            break;
-        case 1:
-            dateStr = @"昨天";
-            break;
-        default:
-            dateStr = [self stringWithFormat:@"MM-dd"];
-            break;
-    }
-    text = [NSString stringWithFormat:@"%@ %@", dateStr, [self string_a_HH_mm]];
-    return text;
-}
-
 - (NSString *)string_yyyy_MM_dd{
     return [self stringWithFormat:@"yyyy-MM-dd"];
 }
 
-- (NSString *)string_a_HH_mm{
-    NSString *text = nil;
-    NSString *aStr, *timeStr;
-    timeStr = [self stringWithFormat:@"h:mm"];
-    NSUInteger hour = [self hour];
-    if (hour < 3) {
-        aStr = @"凌晨";
-    }else if (hour >= 3 && hour < 12){
-        aStr = @"上午";
-    }else if (hour >= 12 && hour < 13){
-        aStr = @"中午";
-    }else if (hour >= 13 && hour < 18){
-        aStr = @"下午";
-    }else{
-        aStr = @"晚上";
-    }
-    text = [NSString stringWithFormat:@"%@ %@", aStr, timeStr];
-    return text;
-}
 + (NSString *)convertStr_yyyy_MM_ddToDisplay:(NSString *)str_yyyy_MM_dd{
+    if (str_yyyy_MM_dd.length <= 0) {
+        return nil;
+    }
+    NSDate *date = [NSDate dateFromString:str_yyyy_MM_dd withFormat:@"yyyy-MM-dd"];
+    if (!date) {
+        return nil;
+    }
     NSString *displayStr = @"";
-    if (str_yyyy_MM_dd && str_yyyy_MM_dd.length > 0) {
-        NSDate *date = [NSDate dateFromString:str_yyyy_MM_dd withFormat:@"yyyy-MM-dd"];
-        if (date) {
-            NSDate *today = [NSDate dateFromString:[[NSDate date] stringWithFormat:@"yyyy-MM-dd"] withFormat:@"yyyy-MM-dd"];
-            if ([date year] != [today year]) {
-                displayStr = [date stringWithFormat:@"yyyy年MM月dd日"];
-            }else{
-                NSCalendar *calendar = [[self class] sharedCalendar];
-                NSDateComponents *components = [calendar components:(NSDayCalendarUnit)
-                                                           fromDate:today
-                                                             toDate:date
-                                                            options:0];
-                NSInteger leftDayCount = [components day];
-                switch (leftDayCount) {
-                    case 2:
-                        displayStr = @"后天";
-                        break;
-                    case 1:
-                        displayStr = @"明天";
-                        break;
-                    case 0:
-                        displayStr = @"今天";
-                        break;
-                    case -1:
-                        displayStr = @"昨天";
-                        break;
-                    case -2:
-                        displayStr = @"前天";
-                        break;
-                    default:
-                        displayStr = [date stringWithFormat:@"MM月dd日"];
-                        break;
-                }
-            }
+    if ([date year] != [[NSDate date] year]) {
+        displayStr = [date stringWithFormat:@"yyyy年MM月dd日"];
+    }else{
+        switch ([date leftDayCount]) {
+            case 2:
+                displayStr = @"后天";
+                break;
+            case 1:
+                displayStr = @"明天";
+                break;
+            case 0:
+                displayStr = @"今天";
+                break;
+            case -1:
+                displayStr = @"昨天";
+                break;
+            case -2:
+                displayStr = @"前天";
+                break;
+            default:
+                displayStr = [date stringWithFormat:@"MM月dd日"];
+                break;
         }
-        
     }
     return displayStr;
 }
 
-- (NSInteger)leftDayCount{
-    NSCalendar *calendar = [[self class] sharedCalendar];
-    NSDate *today = [NSDate dateFromString:[[NSDate date] stringWithFormat:@"yyyy-MM-dd"] withFormat:@"yyyy-MM-dd"];
-    NSDateComponents *components = [calendar components:(NSDayCalendarUnit)
-                                               fromDate:today
-                                                 toDate:self
-                                                options:0];
-    return [components day];
+- (NSString *)stringDisplay_HHmm{
+    NSString *displayStr = @"";
+    if ([self year] != [[NSDate date] year]) {
+        displayStr = [self stringWithFormat:@"yy/MM/dd HH:mm"];
+    }else if ([self leftDayCount] != 0){
+        displayStr = [self stringWithFormat:@"MM/dd HH:mm"];
+    }else if ([self hoursAgo] > 0){
+        displayStr = [self stringWithFormat:@"今天 HH:mm"];
+    }else if ([self minutesAgo] > 0){
+        displayStr = [NSString stringWithFormat:@"%ld 分钟前", (long)[self minutesAgo]];
+    }else if ([self secondsAgo] > 10){
+        displayStr = [NSString stringWithFormat:@"%ld 秒前", (long)[self secondsAgo]];
+    }else{
+        displayStr = @"刚刚";
+    }
+    return displayStr;
 }
+
+- (NSString *)stringDisplay_MMdd{
+    NSString *displayStr = @"";
+    if ([self year] != [[NSDate date] year]) {
+        displayStr = [self stringWithFormat:@"yy/MM/dd"];
+    }else if ([self leftDayCount] != 0){
+        displayStr = [self stringWithFormat:@"MM/dd"];
+    }else if ([self hoursAgo] > 0){
+        displayStr = [self stringWithFormat:@"今天"];
+    }else if ([self minutesAgo] > 0){
+        displayStr = [NSString stringWithFormat:@"%ld 分钟前", (long)[self minutesAgo]];
+    }else if ([self secondsAgo] > 10){
+        displayStr = [NSString stringWithFormat:@"%ld 秒前", (long)[self secondsAgo]];
+    }else{
+        displayStr = @"刚刚";
+    }
+    return displayStr;
+}
+
 
 @end

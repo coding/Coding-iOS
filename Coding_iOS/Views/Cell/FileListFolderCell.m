@@ -58,7 +58,7 @@
         _iconView.image = [UIImage imageNamed:@"icon_file_folder_normal"];
     }
     _nameLabel.text = [NSString stringWithFormat:@"%@（%ld）", _folder.name, (long)(_folder.count.integerValue)];
-    _infoLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _folder.owner_name, [_folder.updated_at stringTimesAgo]];
+    _infoLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _folder.owner_name, [_folder.updated_at stringDisplay_HHmm]];
 }
 
 + (CGFloat)cellHeight{

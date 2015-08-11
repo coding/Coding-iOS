@@ -181,7 +181,7 @@
 
 - (NSAttributedString *)attributeTail{
     NSString *nameStr = _curMRPRInfo.mrpr.author.name? _curMRPRInfo.mrpr.author.name: @"";
-    NSString *timeStr = _curMRPRInfo.mrpr.created_at? [_curMRPRInfo.mrpr.created_at stringTimesAgo]: @"";
+    NSString *timeStr = _curMRPRInfo.mrpr.created_at? [_curMRPRInfo.mrpr.created_at stringDisplay_HHmm]: @"";
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", nameStr, timeStr]];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
@@ -295,7 +295,7 @@
     }
     _lineView.backgroundColor = [UIColor colorWithHexString:lineColorStr];
     [_icon setImage:[UIImage imageNamed:imageStr]];
-    contentStr = [NSString stringWithFormat:@"%@ %@ %@了这个请求", userName, [actionDate stringTimesAgo], contentStr];
+    contentStr = [NSString stringWithFormat:@"%@ %@ %@了这个请求", userName, [actionDate stringDisplay_HHmm], contentStr];
     NSMutableAttributedString *attrContentStr = [[NSMutableAttributedString alloc] initWithString:contentStr];
     [attrContentStr addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
                                     NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}

@@ -134,7 +134,7 @@
         _creatorLabel.text = [NSString stringWithFormat:@"%@ 现在", _task.creator.name];
         _deleteBtn.hidden = YES;
     }else{
-        _creatorLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _task.creator.name, [_task.created_at stringTimesAgo]];
+        _creatorLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _task.creator.name, [_task.created_at stringDisplay_HHmm]];
         _deleteBtn.hidden = !([_task.creator.global_key isEqualToString:[Login curLoginUser].global_key] || _task.project.owner_id.integerValue == [Login curLoginUser].id.integerValue);
     }
 }
