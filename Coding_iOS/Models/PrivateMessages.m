@@ -23,7 +23,7 @@
         _canLoadMore = YES;
         _isLoading = _willLoadMore = _isPolling = NO;
         _page = [NSNumber numberWithInteger:1];
-        _pageSize = [NSNumber numberWithInteger:10];
+        _pageSize = [NSNumber numberWithInteger:20];
         _curFriend = nil;
     }
     return self;

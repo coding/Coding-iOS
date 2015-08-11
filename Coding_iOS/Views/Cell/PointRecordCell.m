@@ -66,9 +66,9 @@
     _usageL.text = _curRecord.usage;
     _timeL.text = [_curRecord.created_at stringWithFormat:@"yyyy-MM-dd hh:mm:ss"];
     _pointsLeftL.text = [NSString stringWithFormat:@"余额:%.2f", _curRecord.points_left.floatValue];
-    _pointsChangeL.text = @"+0.02";
+    _pointsChangeL.text = [NSString stringWithFormat:@"%@%.2f", _curRecord.action.intValue == 1? @"+": @"-", _curRecord.points_change.floatValue];
 }
 + (CGFloat)cellHeight{
-    return 75.0;
+    return 70.0;
 }
 @end
