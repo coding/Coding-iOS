@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger, DownloadState){
 @interface ProjectFile : NSObject
 @property (readwrite, nonatomic, strong) NSDate *created_at, *updated_at;
 @property (readwrite, nonatomic, strong) NSNumber *file_id, *owner_id, *parent_id, *type, *current_user_role_id, *size, *project_id;
-@property (readwrite, nonatomic, strong) NSString *name, *fileType, *owner_preview, *preview, *storage_key, *storage_type;
+@property (readwrite, nonatomic, strong) NSString *name, *fileType, *owner_preview, *preview, *storage_key, *storage_type, *title;
 @property (readwrite, nonatomic, strong) User *owner;
 @property (readwrite, nonatomic, strong) NSString *diskFileName;
 

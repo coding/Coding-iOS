@@ -11,6 +11,8 @@
 #import "ProjectLineNoteActivity.h"
 
 #import "Projects.h"
+#import "FileComment.h"
+#import "ProjectFile.h"
 
 @class Task;
 @class ProjectTopic;
@@ -31,6 +33,8 @@
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 @property (readwrite, nonatomic, strong) ProjectLineNoteActivity *line_note;
 @property (strong, nonatomic) Commit *commit;
+@property (strong, nonatomic) FileComment *projectFileComment;
+@property (strong, nonatomic) ProjectFile *projectFile;
 
 @property (readonly, nonatomic, strong) NSMutableArray *actionMediaItems, *contentMediaItems;
 @property (readonly, nonatomic, strong) NSMutableString *actionStr, *contentStr;
