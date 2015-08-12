@@ -12,8 +12,9 @@
 #import "Coding_NetAPIManager.h"
 #import "WebContentManager.h"
 #import <MMMarkdown/MMMarkdown.h>
+#import "EaseToolBar.h"
 
-@interface FileViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate, UIDocumentInteractionControllerDelegate, UIWebViewDelegate>
+@interface FileViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate, UIDocumentInteractionControllerDelegate, UIWebViewDelegate, EaseToolBarDelegate>
 @property (strong, nonatomic) NSURL *fileUrl;
 @property (strong, nonatomic) QLPreviewController *previewController;
 @property (strong, nonatomic) FileDownloadView *downloadView;
@@ -21,6 +22,7 @@
 
 @property (strong, nonatomic) UIWebView *contentWebView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) EaseToolBar *myToolBar;
 
 @end
 
@@ -35,6 +37,22 @@
     }else{
         [self configContent];
     }
+}
+
+- (EaseToolBar *)myToolBar{
+    return nil;
+    if (!_myToolBar) {
+        EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 文件动态" image:@"button_file_activity" disableImage:nil];
+        EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 历史版本" image:@"button_file_history" disableImage:nil];
+        _myToolBar = [EaseToolBar easeToolBarWithItems:@[item1, item2]];
+        _myToolBar.delegate = self;
+        [self.view addSubview:_myToolBar];
+        [_myToolBar mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_bottom);
+            make.size.mas_equalTo(_myToolBar.frame.size);
+        }];
+    }
+    return _myToolBar;
 }
 
 - (void)requestFileData{
@@ -64,6 +82,7 @@
     
     if (!fileUrl ) {
         [self showDownloadView];
+        _myToolBar.hidden = YES;
         return;
     }
     
@@ -80,6 +99,7 @@
     }else {
         [self showDownloadView];
     }
+    self.myToolBar.hidden = NO;
 }
 
 
@@ -94,7 +114,9 @@
     
     [self.view addSubview:preview.view];
     [preview.view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.top.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-49);
+//        make.edges.equalTo(self.view);
     }];
     self.previewController = preview;
 }
@@ -120,7 +142,9 @@
         [_contentWebView addSubview:_activityIndicator];
         [self.view addSubview:_contentWebView];
         [_contentWebView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
+            make.top.left.right.equalTo(self.view);
+            make.bottom.equalTo(self.view).offset(-49);
+//            make.edges.equalTo(self.view);
         }];
     }
     if ([self.curFile.fileType isEqualToString:@"md"]){
@@ -266,6 +290,11 @@
         DebugLog(@"%@", error.description);
         [self showError:error];
     }
+}
+
+#pragma mark EaseToolBarDelegate
+- (void)easeToolBar:(EaseToolBar *)toolBar didClickedIndex:(NSInteger)index{
+    [self showHudTipStr:@"还在做"];
 }
 @end
 
