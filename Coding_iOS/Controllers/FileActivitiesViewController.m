@@ -22,7 +22,6 @@
 
 @interface FileActivitiesViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate, EaseToolBarDelegate>
 @property (strong, nonatomic) ProjectFile *curFile;
-@property (strong, nonatomic) Project *curProject;
 @property (strong, nonatomic) NSMutableArray *activityList;
 
 @property (strong, nonatomic) UITableView *myTableView;
@@ -37,17 +36,6 @@
     FileActivitiesViewController *vc = [self new];
     vc.curFile = file;
     return vc;
-}
-
-- (void)setCurFile:(ProjectFile *)curFile{
-    _curFile = curFile;
-    if (!_curProject) {
-        NSString *project_id_str = [[[[_curFile.owner_preview componentsSeparatedByString:@"project/"] lastObject] componentsSeparatedByString:@"/"] firstObject];
-        if (project_id_str.length > 0 && [project_id_str isPureInt]) {
-            _curProject = [Project new];
-            _curProject.id = [NSNumber numberWithInteger:project_id_str.integerValue];
-        }
-    }
 }
 
 - (void)viewDidLoad
@@ -194,52 +182,59 @@
         }else if ([title isEqualToString:@"删除"]){
             [weakSelf deleteCommentOfActivity:curActivity];
         }else if ([title isEqualToString:@"回复"]){
-            [weakSelf goToAddCommentVCToUser:curActivity.projectFileComment.owner.name];
+            [weakSelf goToAddCommentVCToActivity:curActivity];
         }
     }];
 }
 
 
 #pragma mark Comment
-- (void)goToAddCommentVCToUser:(NSString *)userName{
-    DebugLog(@"%@", userName);
+- (void)goToAddCommentVCToActivity:(ProjectActivity *)curActivity{
+    Project *curProject;
+    if (curActivity.project) {
+        curProject = curActivity.project;
+    }
+    if (!curProject && _activityList.count > 0) {
+        curProject = [(ProjectActivity *)[_activityList firstObject] project];
+    }
+    if (!curProject) {
+        curProject = [Project new];
+    }
+    curProject.id = _curFile.project_id;
+    
     AddMDCommentViewController *vc = [AddMDCommentViewController new];
+
+    vc.curProject = curProject;
     
-//    vc.curProject = _curProject;
-//    vc.requestPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/line_notes", _curMRPR.des_owner_name, _curMRPR.des_project_name];
-//    vc.requestParams = [@{
-//                          @"noteable_type" : [self.curMRPRInfo.mrpr isMR]? @"MergeRequestBean" : @"PullRequestBean",
-//                          @"noteable_id" : _curMRPRInfo.mrpr.id,
-//                          } mutableCopy];
-//    vc.contentStr = userName.length > 0? [NSString stringWithFormat:@"@%@ ", userName]: nil;
-//    @weakify(self);
-//    vc.completeBlock = ^(id data){
-//        @strongify(self);
-//        if (data && [data isKindOfClass:[ProjectLineNote class]]) {
-//            [self.curMRPRInfo.discussions addObject:@[data]];
-//            [self.myTableView reloadData];
-//        }
-//    };
+    vc.requestPath = [NSString stringWithFormat:@"api/project/%@/files/%@/comment", _curFile.project_id.stringValue, _curFile.file_id.stringValue];
+    vc.requestParams = [@{} mutableCopy];
+    vc.contentStr = curActivity? [NSString stringWithFormat:@"@%@ ", curActivity.user.name]: nil;
     
+    @weakify(self);
+    vc.completeBlock = ^(id data){
+        @strongify(self);
+        if (data) {
+            [self refresh];
+        }
+    };
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 
-- (void)deleteCommentOfActivity:(ProjectActivity *)lineNote{
-//    __weak typeof(self) weakSelf = self;
-//    [[Coding_NetAPIManager sharedManager] request_DeleteLineNote:lineNote.id inProject:_curMRPRInfo.mrpr.des_project_name ofUser:_curMRPRInfo.mrpr.des_owner_name andBlock:^(id data, NSError *error) {
-//        if (data) {
-//            [weakSelf.curMRPRInfo.discussions removeObject:@[lineNote]];
-//            [weakSelf.myTableView reloadData];
-//        }
-//    }];
+- (void)deleteCommentOfActivity:(ProjectActivity *)curActivity{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_DeleteComment:curActivity.projectFileComment.id inFile:_curFile andBlock:^(id data, NSError *error) {
+        if (data) {
+            [weakSelf.activityList removeObject:curActivity];
+            [weakSelf.myTableView reloadData];
+        }
+    }];
 }
-
 
 #pragma mark EaseToolBarDelegate
 - (void)easeToolBar:(EaseToolBar *)toolBar didClickedIndex:(NSInteger)index{
     //去添加评论
-    
+    [self goToAddCommentVCToActivity:nil];
 }
 
 @end

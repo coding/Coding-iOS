@@ -789,6 +789,19 @@
         }
     }];
 }
+
+- (void)request_DeleteComment:(NSNumber *)comment_id inFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"文件删除评论"];
+    NSString *path = [NSString stringWithFormat:@"api/project/%@/files/%@/comment/%@", file.project_id.stringValue, file.file_id.stringValue, comment_id.stringValue];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 #pragma mark Code
 - (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block{
     [MobClick event:kUmeng_Event_Request label:@"代码目录"];
