@@ -136,6 +136,8 @@
     [self.selectedIndex replaceObjectAtIndex:component withObject:[NSNumber numberWithInteger:row]];
     if (component == 0 && self.data.count > 1) {
         [pickerView reloadComponent:1];
+        [self.selectedIndex replaceObjectAtIndex:1
+                                      withObject:@([pickerView selectedRowInComponent:1])];
     }
 }
 
