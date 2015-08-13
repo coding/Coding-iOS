@@ -83,8 +83,11 @@
 
 - (void)doSomethingWithResponse:(id)data andError:(NSError *)error{
     [self.view endLoading];
-    if (data) {
+    if ([data isKindOfClass:[CodeFile class]]) {
         self.myCodeFile = data;
+        [self refreshCodeViewData];
+    }else{
+        self.myCodeFile = [CodeFile codeFileWithMDStr:data];
         [self refreshCodeViewData];
     }
     [self.view configBlankPage:EaseBlankPageTypeView hasData:(data != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
