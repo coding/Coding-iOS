@@ -16,6 +16,7 @@
 #import "TaskCommentCCell.h"
 
 #import "MJPhotoBrowser.h"
+#import "FileComment.h"
 
 @interface TaskCommentCell ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UIImageView *ownerIconView, *timeLineView, *contentBGView;
@@ -76,7 +77,7 @@
             _timeLabel.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_timeLabel];
         }
-        if ([reuseIdentifier isEqualToString:kCellIdentifier_TaskComment_Media]) {
+        if ([reuseIdentifier rangeOfString:@"_Media"].location != NSNotFound) {
             if (!self.imageCollectionView) {
                 UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
                 self.imageCollectionView = [[UICustomCollectionView alloc] initWithFrame:CGRectMake(kTaskCommentCell_LeftContentPading, 0, kTaskCommentCell_ContentWidth, 43) collectionViewLayout:layout];
@@ -146,7 +147,8 @@
 
 + (CGFloat)cellHeightWithObj:(id)obj{
     CGFloat cellHeight = 0;
-    if ([obj isKindOfClass:[TaskComment class]]) {
+    if ([obj isKindOfClass:[TaskComment class]]
+        || [obj isKindOfClass:[FileComment class]]) {
         TaskComment *curComment = (TaskComment *)obj;
         NSString *contentStr = curComment.content;
         cellHeight += 10 +[contentStr getHeightWithFont:kTaskCommentCell_FontContent constrainedToSize:CGSizeMake(kTaskCommentCell_ContentWidth, CGFLOAT_MAX)] + 5 +20 +10;

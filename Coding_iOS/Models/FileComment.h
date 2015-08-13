@@ -13,4 +13,6 @@
 @property (readwrite, nonatomic, strong) NSString *content;
 @property (readwrite, nonatomic, strong) User *owner;
 @property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;
+
+@property (strong, nonatomic) NSDate *created_at;
 @end

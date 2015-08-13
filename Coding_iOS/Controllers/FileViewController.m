@@ -14,6 +14,10 @@
 #import <MMMarkdown/MMMarkdown.h>
 #import "EaseToolBar.h"
 
+#import "FileActivitiesViewController.h"
+#import "FileVersionsViewController.h"
+#import "FileInfoViewController.h"
+
 @interface FileViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate, UIDocumentInteractionControllerDelegate, UIWebViewDelegate, EaseToolBarDelegate>
 @property (strong, nonatomic) NSURL *fileUrl;
 @property (strong, nonatomic) QLPreviewController *previewController;
@@ -40,7 +44,6 @@
 }
 
 - (EaseToolBar *)myToolBar{
-    return nil;
     if (!_myToolBar) {
         EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 文件动态" image:@"button_file_activity" disableImage:nil];
         EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 历史版本" image:@"button_file_history" disableImage:nil];
@@ -294,7 +297,13 @@
 
 #pragma mark EaseToolBarDelegate
 - (void)easeToolBar:(EaseToolBar *)toolBar didClickedIndex:(NSInteger)index{
-    [self showHudTipStr:@"还在做"];
+    if (index == 0) {
+        FileActivitiesViewController *vc = [FileActivitiesViewController vcWithFile:_curFile];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (index == 1){
+        FileVersionsViewController *vc = [FileVersionsViewController vcWithFile:_curFile];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 @end
 

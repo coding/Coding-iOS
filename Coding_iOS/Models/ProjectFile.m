@@ -176,6 +176,13 @@
     return path;
 }
 
+- (NSString *)toActivityListPath{
+    return [NSString stringWithFormat:@"api/project/%@/file/%@/activities", _project_id.stringValue, _file_id.stringValue];
+}
+
+- (NSString *)toHistoryListPath{
+    return [NSString stringWithFormat:@"api/project/%@/files/%@/histories", _project_id.stringValue, _file_id.stringValue];
+}
 
 @end
 

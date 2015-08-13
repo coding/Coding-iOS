@@ -44,4 +44,8 @@ typedef NS_ENUM(NSInteger, DownloadState){
 - (NSDictionary *)toMoveToParams;
 
 - (NSString *)toDetailPath;
+
+- (NSString *)toActivityListPath;
+
+- (NSString *)toHistoryListPath;
 @end

@@ -33,6 +33,7 @@
 #import "ProjectTag.h"
 #import "CodingBanner.h"
 #import "PointRecords.h"
+#import "FileVersion.h"
 
 @class CSTopic;
 
@@ -98,8 +99,8 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_MoveFiles:(NSArray *)fileIdList toFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CreatFolder:(NSString *)fileName inFolder:(ProjectFolder *)parentFolder inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_FileDetail:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
-
-
+- (void)request_ActivityListOfFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_VersionListOfFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
 //Code
 - (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block;
 - (void)request_CodeFile:(CodeFile *)codeFile withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;

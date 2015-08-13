@@ -57,7 +57,12 @@
     if (!_curActivity) {
         return;
     }
-    NSString *tipIconImageName = [NSString stringWithFormat:@"task_activity_icon_%@", _curActivity.action];
+    NSString *tipIconImageName;
+    if ([curActivity.target_type isEqualToString:@"Task"]) {
+        tipIconImageName = [NSString stringWithFormat:@"task_activity_icon_%@", _curActivity.action];
+    }else if ([curActivity.target_type isEqualToString:@"ProjectFile"]){
+        tipIconImageName = [NSString stringWithFormat:@"file_activity_icon_%@", _curActivity.action];
+    }
     _tipIconView.image = [UIImage imageNamed:tipIconImageName];
     NSAttributedString *attrContent = [[self class] attrContentWithObj:_curActivity];
     CGFloat contentHeight = [attrContent boundingRectWithSize:CGSizeMake(kTaskActivityCell_ContentWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size.height;

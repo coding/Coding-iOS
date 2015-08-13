@@ -84,6 +84,13 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (!_myTableView.isEditing) {
+        [_myTableView reloadData];
+    }
+}
+
 - (void)changeEditState{
     [self changeEditStateToEditing:!_myTableView.isEditing];
 }

@@ -764,6 +764,31 @@
         }
     }];
 }
+
+- (void)request_ActivityListOfFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"文件动态列表"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[file toActivityListPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectActivity"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_VersionListOfFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"文件版本列表"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[file toHistoryListPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"FileVersion"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 #pragma mark Code
 - (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block{
     [MobClick event:kUmeng_Event_Request label:@"代码目录"];

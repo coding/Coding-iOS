@@ -374,6 +374,17 @@
 		4EAE06A41B7AE4EF00179F4B /* FileComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAE06A31B7AE4EF00179F4B /* FileComment.m */; };
 		4EAE06A71B7B1AE100179F4B /* button_file_activity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE06A51B7B1AE100179F4B /* button_file_activity@2x.png */; };
 		4EAE06A81B7B1AE100179F4B /* button_file_history@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE06A61B7B1AE100179F4B /* button_file_history@2x.png */; };
+		4EAE06AB1B7B23EA00179F4B /* FileActivitiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAE06AA1B7B23EA00179F4B /* FileActivitiesViewController.m */; };
+		4EAE06AE1B7B241A00179F4B /* FileVersionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAE06AD1B7B241A00179F4B /* FileVersionsViewController.m */; };
+		4EAE06B11B7B248F00179F4B /* FileInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAE06B01B7B248F00179F4B /* FileInfoViewController.m */; };
+		4EAE06B41B7B325600179F4B /* FileCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAE06B31B7B325600179F4B /* FileCommentCell.m */; };
+		4EAE06B71B7B330900179F4B /* FileActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAE06B61B7B330900179F4B /* FileActivityCell.m */; };
+		4EAE06BA1B7B47A700179F4B /* FileVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAE06B91B7B47A700179F4B /* FileVersion.m */; };
+		4EAE06C01B7B51AF00179F4B /* file_activity_icon_create@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE06BC1B7B51AF00179F4B /* file_activity_icon_create@2x.png */; };
+		4EAE06C11B7B51AF00179F4B /* file_activity_icon_move_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE06BD1B7B51AF00179F4B /* file_activity_icon_move_file@2x.png */; };
+		4EAE06C21B7B51AF00179F4B /* file_activity_icon_update_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE06BE1B7B51AF00179F4B /* file_activity_icon_update_file@2x.png */; };
+		4EAE06C31B7B51AF00179F4B /* file_activity_icon_upload_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE06BF1B7B51AF00179F4B /* file_activity_icon_upload_file@2x.png */; };
+		4EAE06C51B7B587200179F4B /* button_file_comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE06C41B7B587200179F4B /* button_file_comment@2x.png */; };
 		4EB0C2001A807ED00042FC4F /* NSURL+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB0C1FF1A807ED00042FC4F /* NSURL+Common.m */; };
 		4EB845331AB83C3B0030DC69 /* git_icon_fork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB845301AB83C3B0030DC69 /* git_icon_fork@2x.png */; };
 		4EB845341AB83C3B0030DC69 /* git_icon_star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB845311AB83C3B0030DC69 /* git_icon_star@2x.png */; };
@@ -1408,6 +1419,23 @@
 		4EAE06A31B7AE4EF00179F4B /* FileComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileComment.m; sourceTree = "<group>"; };
 		4EAE06A51B7B1AE100179F4B /* button_file_activity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_activity@2x.png"; sourceTree = "<group>"; };
 		4EAE06A61B7B1AE100179F4B /* button_file_history@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_history@2x.png"; sourceTree = "<group>"; };
+		4EAE06A91B7B23EA00179F4B /* FileActivitiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileActivitiesViewController.h; sourceTree = "<group>"; };
+		4EAE06AA1B7B23EA00179F4B /* FileActivitiesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileActivitiesViewController.m; sourceTree = "<group>"; };
+		4EAE06AC1B7B241A00179F4B /* FileVersionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileVersionsViewController.h; sourceTree = "<group>"; };
+		4EAE06AD1B7B241A00179F4B /* FileVersionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileVersionsViewController.m; sourceTree = "<group>"; };
+		4EAE06AF1B7B248F00179F4B /* FileInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileInfoViewController.h; sourceTree = "<group>"; };
+		4EAE06B01B7B248F00179F4B /* FileInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileInfoViewController.m; sourceTree = "<group>"; };
+		4EAE06B21B7B325600179F4B /* FileCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileCommentCell.h; sourceTree = "<group>"; };
+		4EAE06B31B7B325600179F4B /* FileCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileCommentCell.m; sourceTree = "<group>"; };
+		4EAE06B51B7B330900179F4B /* FileActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileActivityCell.h; sourceTree = "<group>"; };
+		4EAE06B61B7B330900179F4B /* FileActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileActivityCell.m; sourceTree = "<group>"; };
+		4EAE06B81B7B47A700179F4B /* FileVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileVersion.h; sourceTree = "<group>"; };
+		4EAE06B91B7B47A700179F4B /* FileVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileVersion.m; sourceTree = "<group>"; };
+		4EAE06BC1B7B51AF00179F4B /* file_activity_icon_create@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_create@2x.png"; sourceTree = "<group>"; };
+		4EAE06BD1B7B51AF00179F4B /* file_activity_icon_move_file@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_move_file@2x.png"; sourceTree = "<group>"; };
+		4EAE06BE1B7B51AF00179F4B /* file_activity_icon_update_file@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_update_file@2x.png"; sourceTree = "<group>"; };
+		4EAE06BF1B7B51AF00179F4B /* file_activity_icon_upload_file@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_upload_file@2x.png"; sourceTree = "<group>"; };
+		4EAE06C41B7B587200179F4B /* button_file_comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_comment@2x.png"; sourceTree = "<group>"; };
 		4EB0C1FE1A807ED00042FC4F /* NSURL+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+Common.h"; sourceTree = "<group>"; };
 		4EB0C1FF1A807ED00042FC4F /* NSURL+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Common.m"; sourceTree = "<group>"; };
 		4EB845301AB83C3B0030DC69 /* git_icon_fork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "git_icon_fork@2x.png"; sourceTree = "<group>"; };
@@ -2403,6 +2431,7 @@
 		4E66EE201A28226000DA1B3E /* button_file_manage */ = {
 			isa = PBXGroup;
 			children = (
+				4EAE06C41B7B587200179F4B /* button_file_comment@2x.png */,
 				4E66EE211A28226000DA1B3E /* button_file_createFolder_enable@2x.png */,
 				4E66EE221A28226000DA1B3E /* button_file_denete_enable@2x.png */,
 				4E66EE231A28226000DA1B3E /* button_file_denete_unable@2x.png */,
@@ -2806,6 +2835,17 @@
 				4EABD25C1AD3CBB9005E515F /* UIMessageInputView_Media.m */,
 			);
 			path = UIMessageInputView;
+			sourceTree = "<group>";
+		};
+		4EAE06BB1B7B51AF00179F4B /* file_activity_icon */ = {
+			isa = PBXGroup;
+			children = (
+				4EAE06BC1B7B51AF00179F4B /* file_activity_icon_create@2x.png */,
+				4EAE06BD1B7B51AF00179F4B /* file_activity_icon_move_file@2x.png */,
+				4EAE06BE1B7B51AF00179F4B /* file_activity_icon_update_file@2x.png */,
+				4EAE06BF1B7B51AF00179F4B /* file_activity_icon_upload_file@2x.png */,
+			);
+			path = file_activity_icon;
 			sourceTree = "<group>";
 		};
 		4EBB62471A6F526C0045DAEF /* NJKWebViewProgress */ = {
@@ -3454,6 +3494,12 @@
 				4E24B2671B43D33F004D7989 /* ProjectToChooseListViewController.m */,
 				4E0022871B721516005308DE /* PointRecordsViewController.h */,
 				4E0022881B721516005308DE /* PointRecordsViewController.m */,
+				4EAE06A91B7B23EA00179F4B /* FileActivitiesViewController.h */,
+				4EAE06AA1B7B23EA00179F4B /* FileActivitiesViewController.m */,
+				4EAE06AC1B7B241A00179F4B /* FileVersionsViewController.h */,
+				4EAE06AD1B7B241A00179F4B /* FileVersionsViewController.m */,
+				4EAE06AF1B7B248F00179F4B /* FileInfoViewController.h */,
+				4EAE06B01B7B248F00179F4B /* FileInfoViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -3501,6 +3547,7 @@
 		8EA6CF5D19E240C40076D59C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4EAE06BB1B7B51AF00179F4B /* file_activity_icon */,
 				4E0022A11B7362EF005308DE /* intro_pages */,
 				4E095A751B6B1E40008DC439 /* deadline_calendar */,
 				4E095A6A1B69F920008DC439 /* banner */,
@@ -3802,6 +3849,8 @@
 				4E0022821B72095E005308DE /* PointRecord.m */,
 				4E0022841B720966005308DE /* PointRecords.h */,
 				4E0022851B720966005308DE /* PointRecords.m */,
+				4EAE06B81B7B47A700179F4B /* FileVersion.h */,
+				4EAE06B91B7B47A700179F4B /* FileVersion.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4188,6 +4237,10 @@
 				4E00228E1B721964005308DE /* PointShopCell.m */,
 				4E0022901B721973005308DE /* PointRecordCell.h */,
 				4E0022911B721973005308DE /* PointRecordCell.m */,
+				4EAE06B21B7B325600179F4B /* FileCommentCell.h */,
+				4EAE06B31B7B325600179F4B /* FileCommentCell.m */,
+				4EAE06B51B7B330900179F4B /* FileActivityCell.h */,
+				4EAE06B61B7B330900179F4B /* FileActivityCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -4426,6 +4479,7 @@
 				0A6E6BBB1AB168B0004C0107 /* location_checkmark@2x.png in Resources */,
 				8EA6D16919E240C40076D59C /* nav_project_task@2x.png in Resources */,
 				4EF17EE41B3C3112003CDD2D /* intro_tip_4@2x.png in Resources */,
+				4EAE06C01B7B51AF00179F4B /* file_activity_icon_create@2x.png in Resources */,
 				8EA6D18F19E240C40076D59C /* tasks_all@2x.png in Resources */,
 				8EA6D16A19E240C40076D59C /* nav_project_topic@2x.png in Resources */,
 				4E96E7E51A1B537E0037C098 /* icon_file_zip@2x.png in Resources */,
@@ -4477,6 +4531,7 @@
 				4E96E7DD1A1B537E0037C098 /* icon_file_movie@2x.png in Resources */,
 				4EF17EE51B3C3112003CDD2D /* intro_tip_4@3x.png in Resources */,
 				8E97CEB41A0C7E26006F9AD7 /* coding_emoji_29@2x.png in Resources */,
+				4EAE06C11B7B51AF00179F4B /* file_activity_icon_move_file@2x.png in Resources */,
 				8EA6D18A19E240C40076D59C /* task_selected@2x.png in Resources */,
 				4EB845341AB83C3B0030DC69 /* git_icon_star@2x.png in Resources */,
 				8E97CE641A0A3424006F9AD7 /* keyboard_emotion@2x.png in Resources */,
@@ -4576,6 +4631,7 @@
 				4E9113AC1A1CB19900AC9431 /* icon_file_state_pause@2x.png in Resources */,
 				8B3516551B6CF69E0049BC45 /* icon_search_clock@2x.png in Resources */,
 				4E6383AA1B3262D300D98648 /* taskPriority2@2x.png in Resources */,
+				4EAE06C31B7B51AF00179F4B /* file_activity_icon_upload_file@2x.png in Resources */,
 				4E66EE281A28226000DA1B3E /* button_file_denete_unable@2x.png in Resources */,
 				8E97CE4A1A0A2E11006F9AD7 /* EmojisList.plist in Resources */,
 				8BDF9AB51B7474990093BF2C /* keyboard_topic@2x.png in Resources */,
@@ -4639,6 +4695,7 @@
 				8E97CE9C1A0C7E26006F9AD7 /* coding_emoji_05@2x.png in Resources */,
 				4E6383A61B3262D300D98648 /* taskPriority0@2x.png in Resources */,
 				8E97CE621A0A3424006F9AD7 /* keyboard_add_camera@2x.png in Resources */,
+				4EAE06C51B7B587200179F4B /* button_file_comment@2x.png in Resources */,
 				4E217F131A70EDC700F6DF88 /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
 				8EF6435019FF4E1600F7EEB0 /* comment_count_top_line@2x.png in Resources */,
 				4E94C5091B4D334B00EB668A /* pop_2FA@2x.png in Resources */,
@@ -4651,6 +4708,7 @@
 				4E8F92DE1B67BE3C00033D8F /* icon_user_monkey_i6@2x.png in Resources */,
 				8E97CE521A0A3410006F9AD7 /* addUserBtn_Nav@2x.png in Resources */,
 				4EAE06A71B7B1AE100179F4B /* button_file_activity@2x.png in Resources */,
+				4EAE06C21B7B51AF00179F4B /* file_activity_icon_update_file@2x.png in Resources */,
 				8EC911291A027A54009EAE99 /* nav_project_code@2x.png in Resources */,
 				4E6383C41B3265DC00D98648 /* mrpr_icon_arrow@2x.png in Resources */,
 				4EED9DD11B53BBCF000E5827 /* twoFABtn_Nav@2x.png in Resources */,
@@ -4749,6 +4807,8 @@
 				8EA6D20A19E240C40076D59C /* RDVTabBar.m in Sources */,
 				4E0BD8861B6C7F0A0061CAA6 /* TMCacheExtend.m in Sources */,
 				8E1C3DF019E7D58A00EF3032 /* DistancePickerView.m in Sources */,
+				4EAE06AE1B7B241A00179F4B /* FileVersionsViewController.m in Sources */,
+				4EAE06BA1B7B47A700179F4B /* FileVersion.m in Sources */,
 				8EA6D1B219E240C40076D59C /* Depot.m in Sources */,
 				4ED6731E1A8DD38C00DF2D1A /* ReportIllegalViewController.m in Sources */,
 				8EF643CE19FF7E2900F7EEB0 /* TweetDetailCell.m in Sources */,
@@ -4793,6 +4853,7 @@
 				8EF643BE19FF7E2900F7EEB0 /* ProjectTaskListViewCell.m in Sources */,
 				4ECE8AE31A3943E80021E29C /* UIDevice+Info.m in Sources */,
 				4EABD25D1AD3CBB9005E515F /* UIMessageInputView_Media.m in Sources */,
+				4EAE06B71B7B330900179F4B /* FileActivityCell.m in Sources */,
 				4E6BA2E31A1EE6AF005FD721 /* UIAlertView+AFNetworking.m in Sources */,
 				4E4D6AAF1B2047DE00FD2E49 /* CommitCommentCell.m in Sources */,
 				4EA7F15F1A6D192B00A046BD /* SDWebImageManager.m in Sources */,
@@ -4850,6 +4911,7 @@
 				4EA7F15E1A6D192B00A046BD /* SDWebImageDownloaderOperation.m in Sources */,
 				4E996BD81ABA776500C704F1 /* UserInfoIconCell.m in Sources */,
 				8E1C3E0C19E8DFE300EF3032 /* SettingPasswordViewController.m in Sources */,
+				4EAE06B41B7B325600179F4B /* FileCommentCell.m in Sources */,
 				4E9113A21A1C426000AC9431 /* ASPopUpView.m in Sources */,
 				4E6BA2E21A1EE6AF005FD721 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				0A782FDD1AB5B78B00E96661 /* TweetSendCreateLocationCell.m in Sources */,
@@ -4985,6 +5047,7 @@
 				3A38783A1AE2949E0078D5DE /* ResetLabelViewController.m in Sources */,
 				4EAE06A41B7AE4EF00179F4B /* FileComment.m in Sources */,
 				8EA6D13C19E240C40076D59C /* Tweet_RootViewController.m in Sources */,
+				4EAE06B11B7B248F00179F4B /* FileInfoViewController.m in Sources */,
 				B93D904B1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m in Sources */,
 				4E1A22851AB172C400CFC14F /* ProjectItemsCell.m in Sources */,
 				4ECE8B051A3946C10021E29C /* WebContentManager.m in Sources */,
@@ -5118,6 +5181,7 @@
 				4EACB4461A2C60110097ABB3 /* ProjectActivities.m in Sources */,
 				8EA6D1CB19E240C40076D59C /* UITapImageView.m in Sources */,
 				4E8D5D5D1B45295D00B70936 /* NSURL+OTPURLArguments.m in Sources */,
+				4EAE06AB1B7B23EA00179F4B /* FileActivitiesViewController.m in Sources */,
 				4E217F171A70EDC700F6DF88 /* SVWebViewControllerActivity.m in Sources */,
 				4E996BE81ABBCD2D00C704F1 /* TaskDescriptionCell.m in Sources */,
 			);

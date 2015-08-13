@@ -1,0 +1,41 @@
+//
+//  FileActivityCell.m
+//  Coding_iOS
+//
+//  Created by Ease on 15/8/12.
+//  Copyright (c) 2015年 Coding. All rights reserved.
+//
+
+#import "FileActivityCell.h"
+
+@implementation FileActivityCell
+
++ (NSAttributedString *)attrContentWithObj:(ProjectActivity *)curActivity{
+    if (![curActivity.target_type isEqualToString:@"ProjectFile"]) {
+        return nil;
+    }
+    
+    NSString *userName, *contentStr;
+    userName = curActivity.user.name? curActivity.user.name: @"";
+    NSMutableAttributedString *attrContent;
+    
+    contentStr = [NSString stringWithFormat:@"%@ 文件 - %@", curActivity.action_msg, [curActivity.created_at stringDisplay_HHmm]];
+    
+    attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];
+    [attrContent addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:13],
+                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+                         range:NSMakeRange(0, userName.length)];
+    [attrContent addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13],
+                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
+                         range:NSMakeRange(userName.length + 1, contentStr.length)];
+    
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.minimumLineHeight = 18;
+    
+    [attrContent addAttribute:NSParagraphStyleAttributeName
+                        value:paragraphStyle
+                        range:NSMakeRange(0, [attrContent length])];
+    return attrContent;
+}
+
+@end
