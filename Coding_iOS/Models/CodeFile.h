@@ -16,6 +16,7 @@
 @property (readwrite, nonatomic, strong) NSString *ref, *path;
 @property (readwrite, nonatomic, strong) CodeFile_RealFile *file;
 + (CodeFile *)codeFileWithRef:(NSString *)ref andPath:(NSString *)path;
++ (CodeFile *)codeFileWithMDStr:(NSString *)md_html;
 @end
 
 
