@@ -93,26 +93,28 @@
 - (void)configContent{
     self.title = [self titleStr];
     NSURL *fileUrl = [self hasBeenDownload];
-    if (!fileUrl || self.curVersion) {
+    if (!fileUrl) {
         [self showDownloadView];
         _myToolBar.hidden = YES;
-        return;
+    }else{
+        self.fileUrl = fileUrl;
+        [self setupDocumentControllerWithURL:fileUrl];
+        if ([self.curFile.fileType isEqualToString:@"md"]
+            || [self.curFile.fileType isEqualToString:@"html"]
+            || [self.curFile.fileType isEqualToString:@"txt"]
+            || [self.curFile.fileType isEqualToString:@"plist"]){
+            [self loadWebView:fileUrl];
+        }else if ([QLPreviewController canPreviewItem:fileUrl]) {
+            [self showDiskFile:fileUrl];
+        }else {
+            [self showDownloadView];
+        }
+        if (_curVersion) {
+            _myToolBar.hidden = YES;
+        }else{
+            self.myToolBar.hidden = NO;
+        }
     }
-    
-    self.fileUrl = fileUrl;
-    [self setupDocumentControllerWithURL:fileUrl];
-    
-    if ([self.curFile.fileType isEqualToString:@"md"]
-        || [self.curFile.fileType isEqualToString:@"html"]
-        || [self.curFile.fileType isEqualToString:@"txt"]
-        || [self.curFile.fileType isEqualToString:@"plist"]){
-        [self loadWebView:fileUrl];
-    }else if ([QLPreviewController canPreviewItem:fileUrl]) {
-        [self showDiskFile:fileUrl];
-    }else {
-        [self showDownloadView];
-    }
-    self.myToolBar.hidden = NO;
 }
 
 

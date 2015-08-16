@@ -70,7 +70,11 @@
     return [self.curData valueForKey:@"storage_key"];
 }
 - (NSString *)name{
-    return [self.curData valueForKey:@"name"];
+    if (_version) {
+        return _version.remark;
+    }else{
+        return _file.name;
+    }
 }
 - (NSNumber *)project_id{
     return [self.curData valueForKey:@"project_id"];

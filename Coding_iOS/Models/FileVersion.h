@@ -11,7 +11,7 @@
 
 @interface FileVersion : NSObject
 @property (strong, nonatomic) NSNumber *file_id, *history_id, *owner_id, *parent_id, *size, *type, *version, *action, *project_id;
-@property (strong, nonatomic) NSString *action_msg, *name, *remark, *storage_key, *storage_type, *fileType, *preview;
+@property (strong, nonatomic) NSString *action_msg, *name, *remark, *storage_key, *storage_type, *fileType, *preview, *owner_preview;
 @property (strong, nonatomic) NSDate *created_at;
 @property (readwrite, nonatomic, strong) User *owner;
 
