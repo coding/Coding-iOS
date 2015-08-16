@@ -123,9 +123,7 @@
     if (!_fileName || _fileName.length <= 0) {
         return;
     }
-    Coding_FileManager *manager = [Coding_FileManager sharedManager];
-
-    NSURL *fileUrl = [manager diskUploadUrlForFile:_fileName];
+    NSURL *fileUrl = [Coding_FileManager diskUploadUrlForFile:_fileName];
     UIImage *iconImage = [UIImage imageWithContentsOfFile:fileUrl.path];
     iconImage = [iconImage scaleToSize:(CGSize){64, 64} usingMode:NYXResizeModeAspectFill];
     _iconView.image = iconImage;
@@ -133,12 +131,12 @@
     NSArray *fileInfos = [_fileName componentsSeparatedByString:@"|||"];
     _nameLabel.text = [fileInfos lastObject];
     
-    Coding_UploadTask *cUploadTask = [manager cUploadTaskForFile:_fileName];
+    Coding_UploadTask *cUploadTask = [Coding_FileManager cUploadTaskForFile:_fileName];
     if (cUploadTask) {//有上传任务
         if (cUploadTask.task && cUploadTask.task.state == NSURLSessionTaskStateRunning) {
             _reDoButton.hidden = YES;
         }else{
-            [manager removeCUploadTaskForFile:_fileName hasError:YES];
+            [Coding_FileManager cancelCUploadTaskForFile:_fileName hasError:YES];
             _reDoButton.hidden = NO;
         }
         self.progress = cUploadTask.progress;

@@ -20,4 +20,5 @@
 + (UIImage *)fullResolutionImageFromALAsset:(ALAsset *)asset;
 + (UIImage *)fullScreenImageALAsset:(ALAsset *)asset;
 
++ (UIImage *)imageWithFileType:(NSString *)fileType;
 @end

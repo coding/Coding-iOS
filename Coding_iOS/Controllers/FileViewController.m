@@ -19,6 +19,10 @@
 #import "FileInfoViewController.h"
 
 @interface FileViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate, UIDocumentInteractionControllerDelegate, UIWebViewDelegate, EaseToolBarDelegate>
+@property (strong, nonatomic, readwrite) ProjectFile *curFile;
+@property (strong, nonatomic, readwrite) FileVersion *curVersion;
+
+
 @property (strong, nonatomic) NSURL *fileUrl;
 @property (strong, nonatomic) QLPreviewController *previewController;
 @property (strong, nonatomic) FileDownloadView *downloadView;
@@ -32,10 +36,17 @@
 
 @implementation FileViewController
 
++ (instancetype)vcWithFile:(ProjectFile *)file andVersion:(FileVersion *)version{
+    FileViewController *vc = [self new];
+    vc.curFile = file;
+    vc.curVersion = version;
+    return vc;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = self.curFile.name;
+    self.title = [self titleStr];
     if ([self.curFile isEmpty]) {
         [self requestFileData];
     }else{
@@ -80,10 +91,9 @@
 }
 
 - (void)configContent{
-    self.title = self.curFile.name;
-    NSURL *fileUrl = [self.curFile hasBeenDownload];
-    
-    if (!fileUrl ) {
+    self.title = [self titleStr];
+    NSURL *fileUrl = [self hasBeenDownload];
+    if (!fileUrl || self.curVersion) {
         [self showDownloadView];
         _myToolBar.hidden = YES;
         return;
@@ -118,7 +128,7 @@
     [self.view addSubview:preview.view];
     [preview.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.view).offset(-49);
+        make.bottom.equalTo(self.view).offset(-[self toolBarHeight]);
 //        make.edges.equalTo(self.view);
     }];
     self.previewController = preview;
@@ -146,7 +156,7 @@
         [self.view addSubview:_contentWebView];
         [_contentWebView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.equalTo(self.view);
-            make.bottom.equalTo(self.view).offset(-49);
+            make.bottom.equalTo(self.view).offset(-[self toolBarHeight]);
 //            make.edges.equalTo(self.view);
         }];
     }
@@ -182,6 +192,8 @@
     if (!self.downloadView) {
         self.downloadView = [[FileDownloadView alloc] initWithFrame:self.view.bounds];
         self.downloadView.file = self.curFile;
+        self.downloadView.version = self.curVersion;
+        [self.downloadView reloadData];
         [self.view addSubview:self.downloadView];
         [self.downloadView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -192,7 +204,7 @@
     self.downloadView.completionBlock = ^(){
         [weakSelf configContent];
     };
-    self.downloadView.goToFileBlock = ^(ProjectFile *file){
+    self.downloadView.otherMethodOpenBlock = ^(){
         [weakSelf.docInteractionController presentOpenInMenuFromBarButtonItem:weakSelf.navigationItem.rightBarButtonItem animated:YES];
     };
 }
@@ -303,6 +315,30 @@
     }else if (index == 1){
         FileVersionsViewController *vc = [FileVersionsViewController vcWithFile:_curFile];
         [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+#pragma mark Data Value
+- (NSURL *)hasBeenDownload{
+    NSURL *fileUrl;
+    if (self.curVersion) {
+        fileUrl = [self.curVersion hasBeenDownload];
+    }else{
+        fileUrl = [self.curFile hasBeenDownload];
+    }
+    return fileUrl;
+}
+- (NSString *)titleStr{
+    if (_curVersion) {
+        return _curVersion.remark;
+    }else{
+        return _curFile.name;
+    }
+}
+- (CGFloat)toolBarHeight{
+    if (_curVersion) {
+        return 0;
+    }else{
+        return 49.0;
     }
 }
 @end

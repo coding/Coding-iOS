@@ -385,6 +385,7 @@
 		4EAE06C21B7B51AF00179F4B /* file_activity_icon_update_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE06BE1B7B51AF00179F4B /* file_activity_icon_update_file@2x.png */; };
 		4EAE06C31B7B51AF00179F4B /* file_activity_icon_upload_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE06BF1B7B51AF00179F4B /* file_activity_icon_upload_file@2x.png */; };
 		4EAE06C51B7B587200179F4B /* button_file_comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAE06C41B7B587200179F4B /* button_file_comment@2x.png */; };
+		4EAE06C81B7C9EFF00179F4B /* FileVersionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAE06C71B7C9EFF00179F4B /* FileVersionCell.m */; };
 		4EB0C2001A807ED00042FC4F /* NSURL+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB0C1FF1A807ED00042FC4F /* NSURL+Common.m */; };
 		4EB845331AB83C3B0030DC69 /* git_icon_fork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB845301AB83C3B0030DC69 /* git_icon_fork@2x.png */; };
 		4EB845341AB83C3B0030DC69 /* git_icon_star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB845311AB83C3B0030DC69 /* git_icon_star@2x.png */; };
@@ -1436,6 +1437,8 @@
 		4EAE06BE1B7B51AF00179F4B /* file_activity_icon_update_file@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_update_file@2x.png"; sourceTree = "<group>"; };
 		4EAE06BF1B7B51AF00179F4B /* file_activity_icon_upload_file@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_upload_file@2x.png"; sourceTree = "<group>"; };
 		4EAE06C41B7B587200179F4B /* button_file_comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_file_comment@2x.png"; sourceTree = "<group>"; };
+		4EAE06C61B7C9EFF00179F4B /* FileVersionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileVersionCell.h; sourceTree = "<group>"; };
+		4EAE06C71B7C9EFF00179F4B /* FileVersionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileVersionCell.m; sourceTree = "<group>"; };
 		4EB0C1FE1A807ED00042FC4F /* NSURL+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+Common.h"; sourceTree = "<group>"; };
 		4EB0C1FF1A807ED00042FC4F /* NSURL+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Common.m"; sourceTree = "<group>"; };
 		4EB845301AB83C3B0030DC69 /* git_icon_fork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "git_icon_fork@2x.png"; sourceTree = "<group>"; };
@@ -4241,6 +4244,8 @@
 				4EAE06B31B7B325600179F4B /* FileCommentCell.m */,
 				4EAE06B51B7B330900179F4B /* FileActivityCell.h */,
 				4EAE06B61B7B330900179F4B /* FileActivityCell.m */,
+				4EAE06C61B7C9EFF00179F4B /* FileVersionCell.h */,
+				4EAE06C71B7C9EFF00179F4B /* FileVersionCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -4936,6 +4941,7 @@
 				4E996BE51ABAB1D700C704F1 /* ProjectListTaCell.m in Sources */,
 				8EE72BE519E3F2E8002C11D9 /* UIImageView+MJWebCache.m in Sources */,
 				8EA6D1B119E240C40076D59C /* Commit.m in Sources */,
+				4EAE06C81B7C9EFF00179F4B /* FileVersionCell.m in Sources */,
 				4EA7F1661A6D192B00A046BD /* UIView+WebCacheOperation.m in Sources */,
 				8EF643D119FF7E2900F7EEB0 /* TweetSendTextCell.m in Sources */,
 				8EA6D22319E240C40076D59C /* XTSegmentControl.m in Sources */,

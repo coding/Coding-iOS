@@ -136,7 +136,7 @@
 }
 
 - (void)configuploadFiles{
-    self.uploadFiles = [[Coding_FileManager sharedManager] uploadFilesInProject:self.curProject.id.stringValue andFolder:self.curFolder.file_id.stringValue];
+    self.uploadFiles = [Coding_FileManager uploadFilesInProject:self.curProject.id.stringValue andFolder:self.curFolder.file_id.stringValue];
     if (!self.uploadFiles) {
         self.uploadFiles = [NSArray array];
     }
@@ -369,7 +369,7 @@
                 DebugLog(@"%@: 已在队列", file.name);
             }else{
                 addDownloadCount++;
-                [manager addDownloadTaskForFile:file completionHandler:nil];
+                [manager addDownloadTaskForObj:file completionHandler:nil];
             }
         }
         if (addDownloadCount == 0) {
@@ -447,8 +447,7 @@
 }
 
 - (void)removeUploadTaskWithFileName:(NSString *)fileName{
-    Coding_FileManager *manager = [Coding_FileManager sharedManager];
-    [manager removeCUploadTaskForFile:fileName hasError:NO];
+    [Coding_FileManager cancelCUploadTaskForFile:fileName hasError:NO];
     [self configuploadFiles];
 }
 
@@ -706,7 +705,7 @@
     //    取消当前的下载任务
     Coding_DownloadTask *cDownloadTask = [file cDownloadTask];
     if (cDownloadTask) {
-        [[Coding_FileManager sharedManager] removeCDownloadTaskForKey:file.storage_key];
+        [Coding_FileManager cancelCDownloadTaskForKey:file.storage_key];
     }
     //    删除本地文件
     NSURL *fileUrl = [file hasBeenDownload];
@@ -762,8 +761,7 @@
 }
 
 - (void)goToFileVC:(ProjectFile *)file{
-    FileViewController *vc = [[FileViewController alloc] init];
-    vc.curFile = file;
+    FileViewController *vc = [FileViewController vcWithFile:file andVersion:nil];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

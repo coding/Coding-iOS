@@ -12,7 +12,9 @@ typedef NS_ENUM(NSInteger, SettingType)
 {
     SettingTypeOnlyText = 0,
     SettingTypeFolderName,
-    SettingTypeNewFolderName
+    SettingTypeNewFolderName,
+    SettingTypeFileVersionRemark,
+    SettingTypeFileName
 };
 
 @interface SettingTextViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
