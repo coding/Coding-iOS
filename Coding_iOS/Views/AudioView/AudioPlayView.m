@@ -52,8 +52,13 @@
 - (void)setUrl:(NSURL *)url validator:(id)validator {
     _url = url;
     _validator = validator;
-    if ([AudioManager shared].isPlaying && [[AudioManager shared].validator isEqual:validator]) {
+    if ([[AudioManager shared].validator isEqual:validator] && [AudioManager shared].isPlaying) {
+        [AudioManager shared].delegate = self;
         self.playState = AudioPlayViewStatePlaying;
+    }
+    else if ([[AudioManager shared].validator isEqual:validator] && [self isDownloading:url]) {
+        [AudioManager shared].delegate = self;
+        self.playState = AudioPlayViewStateDownloading;
     }
     else {
         self.playState = AudioPlayViewStateNormal;
@@ -66,6 +71,16 @@
     if (_url == nil) {
         return;
     }
+    
+    if ([[AudioManager shared].delegate isKindOfClass:[AudioPlayView class]]
+        && [AudioManager shared].delegate != self) {
+        AudioPlayView *view = (AudioPlayView *)[AudioManager shared].delegate;
+        if (view.playState == AudioPlayViewStateDownloading) {
+            view.playState = AudioPlayViewStateNormal;
+        }
+    }
+    [AudioManager shared].delegate = self;
+    
     if ([_url isFileURL]) {
         [self play:_url.path];
     }
@@ -99,7 +114,6 @@
     }
     
     self.playState = AudioPlayViewStatePlaying;
-    [AudioManager shared].delegate = self;
     [[AudioManager shared] play:f validator:self.validator];
     
     if (_playStartedBlock) {
@@ -127,30 +141,41 @@
     if (url == nil) {
         return;
     }
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    NSProgress *progress;
-    NSURLSessionDownloadTask *downloadTask = [[Coding_FileManager af_manager] downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        return [NSURL fileURLWithPath:[[self class] downloadFile:response.URL.absoluteString]];
-    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        if (error) {
-            [self didDownloadError:error];
-            self.playState = AudioPlayViewStateNormal;
-        }
-        else {
-            if ([self.validator isEqual:[AudioManager shared].validator]) {
-                [self play:filePath.path];
-            }
-            else {
+    if (![self isDownloading:url]) {
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        NSProgress *progress;
+        NSURLSessionDownloadTask *downloadTask = [[Coding_FileManager af_manager] downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+            return [NSURL fileURLWithPath:[[self class] downloadFile:response.URL.absoluteString]];
+        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            if (error) {
+                [self didDownloadError:error];
                 self.playState = AudioPlayViewStateNormal;
             }
-        }
-    }];
-    [downloadTask resume];
+            else {
+                if ([self.validator isEqual:[AudioManager shared].validator]) {
+                    [self play:filePath.path];
+                }
+                else {
+                    self.playState = AudioPlayViewStateNormal;
+                }
+            }
+        }];
+        [downloadTask resume];
+    }
     self.playState = AudioPlayViewStateDownloading;
 }
 
 - (void)didDownloadError:(NSError *)error {
     
+}
+
+- (BOOL)isDownloading:(NSURL *)url {
+    for (NSURLSessionDownloadTask *downloadTask in [Coding_FileManager af_manager].downloadTasks) {
+        if ([downloadTask.originalRequest.URL isEqual:url]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 #pragma mark - FileManager
