@@ -170,7 +170,7 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
 
 - (void)recordViewRecord:(AudioRecordView *)recordView err:(NSError *)err {
     [self stopTimer];
-    if (self.state == UIMessageInputView_VoiceStateRecording) {
+    if (self.state != UIMessageInputView_VoiceStateCancel) {
         [self showHudTipStr:err.domain];
     }
     self.state = UIMessageInputView_VoiceStateReady;
