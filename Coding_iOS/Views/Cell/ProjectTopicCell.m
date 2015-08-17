@@ -20,7 +20,7 @@
 #import "ProjectTagLabel.h"
 
 @interface ProjectTopicCell ()
-@property (strong, nonatomic) UILabel *titleLabel, *userNameLabel, *timeLabel, *commentCountLabel;
+@property (strong, nonatomic) UILabel *titleLabel, *userNameLabel, *timeLabel, *commentCountLabel, *numLabel;
 @property (strong, nonatomic) UIImageView *userIconView, *timeClockIconView, *commentIconView;
 @property (strong, nonatomic) ProjectTopicCellTagsView *tagsView;
 
@@ -52,6 +52,13 @@
             [self.contentView addSubview:_tagsView];
         }
         
+        if (!_numLabel) {
+            _numLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTopicCell_PadingLeft, 0, 150, 15)];
+            _numLabel.backgroundColor = [UIColor clearColor];
+            _numLabel.font = [UIFont systemFontOfSize:10];
+            _numLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            [self.contentView addSubview:_numLabel];
+        }
         if (!_userNameLabel) {
             _userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTopicCell_PadingLeft, 0, 150, 15)];
             _userNameLabel.backgroundColor = [UIColor clearColor];
@@ -103,6 +110,11 @@
 
     curBottomY += [ProjectTopicCellTagsView getHeightForTags:_curTopic.labels];
     
+    [_numLabel setOrigin:CGPointMake(curRightX, curBottomY)];
+    _numLabel.text = [NSString stringWithFormat:@"#%@", _curTopic.number.stringValue];
+    [_numLabel sizeToFit];
+    
+    curRightX = _numLabel.maxXOfFrame + 10;
     [_userNameLabel setOrigin:CGPointMake(curRightX, curBottomY)];
     _userNameLabel.text = _curTopic.owner.name;
     [_userNameLabel sizeToFit];
@@ -110,7 +122,7 @@
     curRightX = _userNameLabel.maxXOfFrame+ 10;
     [_timeClockIconView setOrigin:CGPointMake(curRightX, curBottomY)];
     [_timeLabel setOrigin:CGPointMake(curRightX + 15, curBottomY)];
-    _timeLabel.text = [_curTopic.created_at stringDisplay_HHmm];
+    _timeLabel.text = [_curTopic.created_at stringDisplay_MMdd];
     [_timeLabel sizeToFit];
     
     curRightX = _timeLabel.maxXOfFrame + 10;

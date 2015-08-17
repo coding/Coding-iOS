@@ -138,7 +138,7 @@
     [_userIconView sd_setImageWithURL:[_curTopic.owner.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
     [_userIconView setY:curBottomY];
     [_timeLabel setY:curBottomY];
-    _timeLabel.attributedText = [self getStringWithName:_curTopic.owner.name andTime:[_curTopic.created_at stringDisplay_HHmm]];
+    _timeLabel.attributedText = [self getAttributedTimeText];
 
     curBottomY += 16 + 20;
     
@@ -188,16 +188,23 @@
     }
 }
 
-- (NSMutableAttributedString*)getStringWithName:(NSString *)nameStr andTime:(NSString *)timeStr
-{
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ 发布于 %@", nameStr, timeStr]];
+- (NSMutableAttributedString *)getAttributedTimeText{
+    NSString *nameStr = _curTopic.owner.name;
+    NSString *timeStr = [NSString stringWithFormat:@" 发布于 %@  ", [_curTopic.created_at stringDisplay_HHmm]];
+    NSString *numStr = [NSString stringWithFormat:@"#%@", _curTopic.number.stringValue];
+    NSString *displayStr = [NSString stringWithFormat:@"%@%@%@", nameStr, timeStr, numStr];
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:displayStr];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
-                         range:NSMakeRange(0, nameStr.length)];
+                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+                        range:[displayStr rangeOfString:nameStr]];
+    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
+                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+                        range:[displayStr rangeOfString:numStr]];
     
     [attrString addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
-                         range:NSMakeRange(nameStr.length, attrString.length - nameStr.length)];
+                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
+                        range:[displayStr rangeOfString:timeStr]];
     return  attrString;
 }
 

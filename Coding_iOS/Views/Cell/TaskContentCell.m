@@ -20,7 +20,7 @@
 
 @property (strong, nonatomic) UITextView *taskContentView;
 @property (strong, nonatomic) UIButton *deleteBtn;
-@property (strong, nonatomic) UILabel *creatorLabel;
+@property (strong, nonatomic) UILabel *creatorLabel, *numLabel;
 @property (strong, nonatomic) UIView *downLineView, *upLineView;
 @end
 
@@ -60,6 +60,14 @@
             _taskContentView.delegate = self;
             [self.contentView addSubview:_taskContentView];
         }
+        if (!_numLabel) {
+            if (!_numLabel) {
+                _numLabel = [[UILabel alloc] init];
+                _numLabel.font = [UIFont systemFontOfSize:12];
+                _numLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+                [self.contentView addSubview:_numLabel];
+            }
+        }
         if (!_creatorLabel) {
             _creatorLabel = [[UILabel alloc] init];
             _creatorLabel.font = [UIFont systemFontOfSize:12];
@@ -94,9 +102,14 @@
             make.right.equalTo(self.contentView).offset(-(kPaddingLeftWidth-kTextView_Pading));
             make.height.mas_equalTo(kTaskContentCell_ContentHeightMin);
         }];
-        [_creatorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.contentView.mas_left).offset(kPaddingLeftWidth);
-            make.right.equalTo(_deleteBtn.mas_left).offset(10);
+            make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
+            make.height.mas_equalTo(20);
+        }];
+        [_creatorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.numLabel.mas_right);
+            make.right.lessThanOrEqualTo(_deleteBtn.mas_left).offset(10);
             make.bottom.equalTo(self.contentView.mas_bottom).offset(-10);
             make.height.mas_equalTo(20);
         }];
@@ -133,7 +146,9 @@
     if (_task.handleType > TaskHandleTypeEdit) {
         _creatorLabel.text = [NSString stringWithFormat:@"%@ 现在", _task.creator.name];
         _deleteBtn.hidden = YES;
+        _numLabel.hidden = YES;
     }else{
+        _numLabel.text = [NSString stringWithFormat:@"#%@  ", _task.number.stringValue];
         _creatorLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _task.creator.name, [_task.created_at stringDisplay_HHmm]];
         _deleteBtn.hidden = !([_task.creator.global_key isEqualToString:[Login curLoginUser].global_key] || _task.project.owner_id.integerValue == [Login curLoginUser].id.integerValue);
     }
