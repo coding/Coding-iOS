@@ -264,4 +264,37 @@ static dispatch_once_t onceToken;
     }];
     [operation start];
 }
+
+- (void)uploadVoice:(NSString *)file
+           withPath:(NSString *)path
+         withParams:(NSDictionary*)params
+           andBlock:(void (^)(id data, NSError *error))block {
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:file]) {
+        return;
+    }
+    
+    NSData *data = [NSData dataWithContentsOfFile:file];
+    NSString *fileName = [file lastPathComponent];
+
+    DebugLog(@"\nuploadVoiceSize\n%@ : %.0f", fileName, (float)data.length/1024);
+    
+    AFHTTPRequestOperation *operation = [self POST:path parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:data name:@"file" fileName:fileName mimeType:@"audio/amr"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        DebugLog(@"\n===========response===========\n%@:\n%@", path, responseObject);
+        id error = [self handleResponse:responseObject autoShowError:YES];
+        if (error) {
+            block(nil, error);
+        }else{
+            block(responseObject, nil);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        DebugLog(@"\n===========response===========\n%@:\n%@", path, error);
+        [self showError:error];
+        block(nil, error);
+    }];
+    
+    [operation start];
+}
 @end

@@ -28,6 +28,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _bgImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        _bgImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         [self addSubview:_bgImageView];
         
         _playImageView = [[UIImageView alloc] init];
@@ -41,6 +42,7 @@
         
         _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         _activityView.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
+        _activityView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
         _activityView.hidesWhenStopped = YES;
         [_activityView stopAnimating];
         [self addSubview:_activityView];

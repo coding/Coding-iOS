@@ -237,7 +237,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
     PrivateMessage *curMsg = [_myPriMsgs.dataList objectAtIndex:curIndex];
     if (curMsg.hasMedia) {
         cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MessageMedia forIndexPath:indexPath];
-    }else if (curMsg.voiceMedia) {
+    }else if (curMsg.file || curMsg.voiceMedia) {
         cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MessageVoice forIndexPath:indexPath];
     }else{
         cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Message forIndexPath:indexPath];
@@ -280,7 +280,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
             [menuItemArray addObject:@"拷贝文字"];
         }
     }else{
-        if (!curMsg.voiceMedia) {
+        if (!(curMsg.voiceMedia || curMsg.file)) {
             [menuItemArray addObject:@"拷贝"];
         }
     }

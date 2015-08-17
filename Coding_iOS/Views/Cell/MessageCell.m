@@ -104,7 +104,12 @@
         [self configSendStatus];
         //refresh voice view play state
         if (_voiceView) {
-            [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
+            if (curPriMsg.file) {
+                [_voiceView setUrl:[NSURL URLWithString:curPriMsg.file]];
+            }
+            else {
+                [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
+            }
         }
         return;
     }else{
@@ -163,7 +168,7 @@
         
         bgImgViewSize = CGSizeMake(kMessageCell_ContentWidth +2*kMessageCell_PadingWidth,
                                    mediaViewHeight +textSize.height + kMessageCell_PadingHeight*(_curPriMsg.content.length > 0? 3:2));
-    } else if (curPriMsg.voiceMedia) {
+    } else if (curPriMsg.file || curPriMsg.voiceMedia) {
         bgImgViewSize = CGSizeMake(kMessageCell_ContentWidth, 40);
     } else{
         [_contentLabel setY:kMessageCell_PadingHeight];
@@ -172,8 +177,14 @@
     }
     
     if (_voiceView) {
-        [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
-        _voiceView.duration = curPriMsg.voiceMedia.duration;
+        if (curPriMsg.file) {
+            [_voiceView setUrl:[NSURL URLWithString:curPriMsg.file]];
+            _voiceView.duration = curPriMsg.duration.doubleValue/1000;
+        }
+        else {
+            [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
+            _voiceView.duration = curPriMsg.voiceMedia.duration;
+        }
         _voiceView.playStartedBlock = ^(AudioPlayView *view) {
             BubblePlayView *bubbleView = (BubblePlayView *)view;
             if (bubbleView.isUnread) {
@@ -273,7 +284,7 @@
         CGSize textSize = [curPriMsg.content getSizeWithFont:kMessageCell_FontContent constrainedToSize:CGSizeMake(kMessageCell_ContentWidth, CGFLOAT_MAX)];
         CGFloat mediaViewHeight = [MessageCell mediaViewHeightWithObj:curPriMsg];
         cellHeight += mediaViewHeight;
-        if (curPriMsg.voiceMedia) {
+        if (curPriMsg.voiceMedia || curPriMsg.file) {
             cellHeight += kMessageCell_PadingHeight*2+40;
         } else {
             cellHeight += textSize.height + kMessageCell_PadingHeight*4;
