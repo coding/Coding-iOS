@@ -80,7 +80,8 @@
     self.myTableView.contentInset = contentInsets;
     self.myTableView.scrollIndicatorInsets = contentInsets;
     
-    if (!_curTweet.content) {
+    if (!_curTweet.content
+        || (_curTweet.likes.integerValue > 0 && _curTweet.like_users.count == 0)) {
         [self refreshTweet];
     }else{
         _myMsgInputView.commentOfId = _curTweet.id;
