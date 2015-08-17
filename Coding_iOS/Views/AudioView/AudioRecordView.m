@@ -173,7 +173,6 @@
 - (void)didAudioRecord:(AudioManager *)am err:(NSError *)err {
     _isRecording = NO;
     [self stop];
-    [self showHudTipStr:err.domain];
     if (_delegate && [_delegate respondsToSelector:@selector(recordViewRecord:err:)]) {
         [_delegate recordViewRecord:self err:err];
     }

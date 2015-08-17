@@ -115,23 +115,27 @@
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
     [[AVAudioSession sharedInstance] setActive:YES error: nil];
     
+    _isRecording = YES;
+    __weak typeof(self) weakSelf = self;
     [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
         if (granted) {
-            _audioRecorder.delegate = self;
-            _audioRecorder.meteringEnabled = YES;
-            [_audioRecorder record];
-            _validator = nil;
-            _isRecording = YES;
-            [self startUpdateMeter];
-            
-            if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecordStarted:)]) {
-                [_delegate didAudioRecordStarted:self];
+            if (weakSelf.isRecording) {
+                weakSelf.audioRecorder.delegate = weakSelf;
+                weakSelf.audioRecorder.meteringEnabled = YES;
+                [weakSelf.audioRecorder record];
+                weakSelf.validator = nil;
+                [weakSelf startUpdateMeter];
+                
+                if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(didAudioRecordStarted:)]) {
+                    [weakSelf.delegate didAudioRecordStarted:weakSelf];
+                }
             }
         }
         else {
+            _isRecording = NO;
             NSError *err = [NSError errorWithDomain:@"没有权限" code:200 userInfo:nil];
-            if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecord:err:)]) {
-                [_delegate didAudioRecord:self err:err];
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(didAudioRecord:err:)]) {
+                [weakSelf.delegate didAudioRecord:weakSelf err:err];
             }
         }
     }];
