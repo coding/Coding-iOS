@@ -133,10 +133,7 @@
         }
         else {
             _isRecording = NO;
-            NSError *err = [NSError errorWithDomain:@"没有权限" code:200 userInfo:nil];
-            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(didAudioRecord:err:)]) {
-                [weakSelf.delegate didAudioRecord:weakSelf err:err];
-            }
+            kTipAlert(@"没有权限");
         }
     }];
 }
