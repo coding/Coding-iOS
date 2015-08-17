@@ -28,6 +28,7 @@
 - (void)stopPlay;
 - (void)record;
 - (void)stopRecord;
+- (void)stopAll;
 
 @end
 

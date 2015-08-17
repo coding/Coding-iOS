@@ -168,6 +168,15 @@
     }
 }
 
+- (void)stopAll {
+    if (_isPlaying) {
+        [self stopPlay];
+    }
+    if (_isRecording) {
+        [self stopRecord];
+    }
+}
+
 - (void)startUpdateMeter {
     self.meterTimer = [NSTimer scheduledTimerWithTimeInterval:0.1f target:self selector:@selector(updateMeter) userInfo:nil repeats:YES];
 }

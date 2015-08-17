@@ -16,6 +16,7 @@
 #import "Helper.h"
 #import "WebViewController.h"
 #import "NSTimer+Common.h"
+#import "AudioManager.h"
 
 @interface ConversationViewController ()<TTTAttributedLabelDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
@@ -85,6 +86,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
         [_myMsgInputView prepareToDismiss];
     }
     [self stopPolling];
+    [[AudioManager shared] stopAll];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
