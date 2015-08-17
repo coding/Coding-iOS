@@ -292,14 +292,17 @@
     
     if (resultCode.intValue != 0) {
         error = [NSError errorWithDomain:[NSObject baseURLStr] code:resultCode.intValue userInfo:responseJSON];
-        if (autoShowError) {
-            [self showError:error];
-        }
-        
+
         if (resultCode.intValue == 1000 || resultCode.intValue == 3207) {//用户未登录
-            [Login doLogout];
-            [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
-            kTipAlert(@"%@", [self tipFromError:error]);
+            if ([Login isLogin]) {//已登录的状态要抹掉
+                [Login doLogout];
+                [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
+                kTipAlert(@"%@", [self tipFromError:error]);
+            }
+        }else{
+            if (autoShowError) {
+                [self showError:error];
+            }
         }
     }
     return error;
