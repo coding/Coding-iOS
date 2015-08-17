@@ -157,7 +157,7 @@
     [self.timeClockIconView setY:curBottomY + 2];
     
     curX += self.timeClockIconView.frame.size.width + 3;
-    [self.timeLabel setLongString:[_tweet.created_at stringDisplay_HHmm] withVariableWidth:kScreen_Width / 6];
+    [self.timeLabel setLongString:[_tweet.created_at stringDisplay_HHmm] withVariableWidth:kScreen_Width / 2];
     [self.timeLabel setX:curX];
     [self.timeLabel setY:curBottomY];
     
