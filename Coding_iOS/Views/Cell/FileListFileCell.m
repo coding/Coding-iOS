@@ -23,7 +23,6 @@
 @property (strong, nonatomic) UIButton *stateButton;
 
 @property (strong, nonatomic) ASProgressPopUpView *progressView;
-@property (strong, nonatomic) NSProgress *progress;
 @end
 
 @implementation FileListFileCell
@@ -78,26 +77,7 @@
     }
     return self;
 }
-- (void)setProgress:(NSProgress *)progress{
-    if (_progress) {
-        [_progress removeObserver:self forKeyPath:@"fractionCompleted"];
-    }
-    _progress = progress;
-    if (_progress) {
-        [_progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:nil];
-        @weakify(self);
-        [[RACSignal combineLatest:@[self.rac_prepareForReuseSignal, self.rac_willDeallocSignal]] subscribeNext:^(id x) {
-            @strongify(self);
-            [self.progress removeObserver:self forKeyPath:@"fractionCompleted"];
-        }];
-    }
-}
-- (void)dealloc{
-    if (_progress) {
-        [_progress removeObserver:self forKeyPath:@"fractionCompleted"];
-    }
-    _progress = nil;
-}
+
 - (void)changeToState:(DownloadState)state{
     NSString *stateImageName;
     switch (state) {
@@ -130,11 +110,11 @@
     }
     _nameLabel.text = _file.name;
     _sizeLabel.text = [NSString sizeDisplayWithByte:_file.size.floatValue];
-    _infoLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _file.owner.name, [_file.created_at stringTimesAgo]];
+    _infoLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _file.owner.name, [_file.created_at stringDisplay_HHmm]];
     if (_file.preview && _file.preview.length > 0) {
         [_iconView sd_setImageWithURL:[NSURL URLWithString:_file.preview]];
     }else{
-        _iconView.image = [UIImage imageNamed:[_file fileIconName]];
+        _iconView.image = [UIImage imageWithFileType:_file.fileType];
     }
 }
 + (CGFloat)cellHeight{
@@ -146,30 +126,14 @@
     if (!_file) {
         return;
     }
-    //下载的东西
-    if ([_file hasBeenDownload]) {
-        //已下载
-        if (self.progressView) {
-            self.progressView.hidden = YES;
-        }
-    }else{
-        Coding_DownloadTask *cDownloadTask = [_file cDownloadTask];
-        if (cDownloadTask) {
-            self.progress = cDownloadTask.progress;
-        }
-        if (_file.size.floatValue/1024/1024 > 5.0) {//大于5M的文件，下载时显示百分比
-            [_progressView showPopUpViewAnimated:NO];
-        }else{
-            [_progressView hidePopUpViewAnimated:NO];
-        }
-        [self showProgress:cDownloadTask.progress belongSelf:YES];
-    }
+    Coding_DownloadTask *cDownloadTask = [_file cDownloadTask];
+    [self updateProgress:cDownloadTask.progress];
     [self changeToState:_file.downloadState];
 }
 
 - (void)clickedByUser{
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
-    NSURL *fileUrl = [manager diskDownloadUrlForFile:_file.diskFileName];
+    NSURL *fileUrl = [Coding_FileManager diskDownloadUrlForKey:_file.storage_key];
     if (fileUrl) {//已经下载到本地了
         if (_showDiskFileBlock) {
             _showDiskFileBlock(fileUrl, _file);
@@ -194,7 +158,7 @@
         }else{//新建下载
             
             __weak typeof(self) weakSelf = self;
-            Coding_DownloadTask *cDownloadTask = [manager addDownloadTaskForFile:self.file completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            Coding_DownloadTask *cDownloadTask = [manager addDownloadTaskForObj:self.file completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
                 if (error) {
                     [weakSelf changeToState:DownloadStateDefault];
                     [weakSelf showError:error];
@@ -205,43 +169,46 @@
                 }
             }];
             
-            self.progress = cDownloadTask.progress;
-            _progressView.progress = 0.0;
-            _progressView.hidden = NO;
+            [self updateProgress:cDownloadTask.progress];
             [self changeToState:DownloadStateDownloading];
         }
     }
 }
 #pragma mark Progress
-- (void)showProgress:(NSProgress *)progress belongSelf:(BOOL)belongSelf{
-    if (!belongSelf) {
-        //移除观察者
-//        if (progress) {
-//            [progress removeObserver:self forKeyPath:@"fractionCompleted" context:NULL];
-//        }
-    }else{
-        if (!progress) {
-            //隐藏进度
-            if (self.progressView) {
-                self.progressView.hidden = YES;
-            }
+- (void)updateProgress:(NSProgress *)progress{
+    if (progress) {
+        if (_file.size.floatValue/1024/1024 > 5.0) {//大于5M的文件，下载时显示百分比
+            [_progressView showPopUpViewAnimated:NO];
         }else{
-            //更新进度
-            DebugLog(@"Progress… %f", progress.fractionCompleted);
-            self.progressView.progress = progress.fractionCompleted;
-            if (ABS(progress.fractionCompleted - 1.0) < 0.0001) {
-                //已完成
-                [self.progressView hidePopUpViewAnimated:YES];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self changeToState:DownloadStateDownloaded];
-                    self.progressView.hidden = YES;
-                });
-            }else{
-                self.progressView.hidden = NO;
-            }
+            [_progressView hidePopUpViewAnimated:NO];
         }
+        @weakify(self);
+        [[RACObserve(progress, fractionCompleted)
+          takeUntil:[RACSignal combineLatest:@[self.rac_prepareForReuseSignal, self.rac_willDeallocSignal]]]
+         subscribeNext:^(NSNumber *fractionCompleted) {
+             @strongify(self);
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [self updateCompleted:fractionCompleted.floatValue];
+             });
+         }];
+    }else{
+        _progressView.hidden = YES;
     }
-    
+}
+
+- (void)updateCompleted:(CGFloat)fractionCompleted{
+    //更新进度
+    self.progressView.progress = fractionCompleted;
+    if (ABS(fractionCompleted - 1.0) < 0.0001) {
+        //已完成
+        [self.progressView hidePopUpViewAnimated:YES];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self changeToState:DownloadStateDownloaded];
+            self.progressView.hidden = YES;
+        });
+    }else{
+        self.progressView.hidden = NO;
+    }
 }
 
 #pragma mark ASProgressPopUpViewDelegate
@@ -253,25 +220,5 @@
 - (void)progressViewDidHidePopUpView:(ASProgressPopUpView *)progressView{
     progressView.hidden = YES;
 }
-
-#pragma mark KVO
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
-    if ([keyPath isEqualToString:@"fractionCompleted"]) {
-        NSProgress *progress = (NSProgress *)object;
-        NSProgress *cellProgress = _file.cDownloadTask.progress;
-        BOOL belongSelf = NO;
-        if (cellProgress && cellProgress == progress) {
-            belongSelf = YES;
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (self && [self isKindOfClass:[FileListFileCell class]] && [self window] != nil) {
-                [self showProgress:progress belongSelf:belongSelf];
-            }
-        });
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
-
 
 @end

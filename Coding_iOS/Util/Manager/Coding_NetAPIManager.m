@@ -764,6 +764,73 @@
         }
     }];
 }
+
+- (void)request_ActivityListOfFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"文件动态列表"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[file toActivityListPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectActivity"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_VersionListOfFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"文件版本列表"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[file toHistoryListPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"FileVersion"];
+            [resultA setValue:file.project_id forKey:@"project_id"];
+            [resultA setValue:file.fileType forKey:@"fileType"];
+            if (file.preview) {
+                [resultA setValue:file.preview forKey:@"preview"];
+            }
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_DeleteComment:(NSNumber *)comment_id inFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"文件删除评论"];
+    NSString *path = [NSString stringWithFormat:@"api/project/%@/files/%@/comment/%@", file.project_id.stringValue, file.file_id.stringValue, comment_id.stringValue];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_RemarkFileVersion:(FileVersion *)curVersion withStr:(NSString *)remarkStr andBlock:(void (^)(id data, NSError *error))block{
+    if (!remarkStr) {
+        return;
+    }
+    [MobClick event:kUmeng_Event_Request label:@"历史文件修改备注"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curVersion toRemarkPath] withParams:@{@"remark" : remarkStr} withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_DeleteFileVersion:(FileVersion *)curVersion andBlock:(void (^)(id data, NSError *error))block{
+    [MobClick event:kUmeng_Event_Request label:@"文件删除某个版本"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curVersion toDeletePath] withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 #pragma mark Code
 - (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block{
     [MobClick event:kUmeng_Event_Request label:@"代码目录"];

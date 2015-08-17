@@ -150,7 +150,7 @@
 //    时间
     curBottomY +=5;
     if (_proAct.created_at) {
-        _timeLabel.text = [_proAct.created_at string_a_HH_mm];
+        _timeLabel.text = [_proAct.created_at stringWithFormat:@"HH:mm"];
     }else{
         _timeLabel.text = @"";
     }

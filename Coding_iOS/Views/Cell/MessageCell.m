@@ -295,7 +295,7 @@
 + (NSString *)displayTimeStrWithCurMsg:(PrivateMessage *)cur preMsg:(PrivateMessage *)pre{
     NSString *displayStr = nil;
     if (!pre || [cur.created_at timeIntervalSinceDate:pre.created_at] > 1*60) {
-        displayStr = [cur.created_at stringTimeDisplay];
+        displayStr = [cur.created_at stringDisplay_HHmm];
     }
     return displayStr;
 }

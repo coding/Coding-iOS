@@ -16,6 +16,5 @@
 @interface FileListFileCell : SWTableViewCell
 @property (strong, nonatomic) ProjectFile *file;
 @property (nonatomic,copy) void(^showDiskFileBlock)(NSURL *fileUrl, ProjectFile *file);
-- (void)clickedByUser;
 + (CGFloat)cellHeight;
 @end

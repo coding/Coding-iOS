@@ -19,6 +19,20 @@
     }
     return self;
 }
+
+- (void)setFull_name:(NSString *)full_name{
+    _full_name = full_name;
+    NSArray *components = [_full_name componentsSeparatedByString:@"/"];
+    if (components.count == 2) {
+        if (!_owner_user_name) {
+            _owner_user_name = components[0];
+        }
+        if (_name) {
+            _name = components[1];
+        }
+    }
+}
+
 +(Project *)project_All{
     Project *pro = [[Project alloc] init];
     pro.id = [NSNumber numberWithInteger:-1];

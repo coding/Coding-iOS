@@ -66,7 +66,7 @@
         if (_myProject.is_public.boolValue) {
             _titlesArray = @[@"全部", @"讨论", @"代码", @"其他"];
         }else{
-            _titlesArray = @[@"全部", @"任务", @"讨论", @"文档", @"代码", @"其他"];
+            _titlesArray = @[@"全部", @"任务", @"讨论", @"文件", @"代码", @"其他"];
         }
     }
     return _titlesArray;

@@ -10,8 +10,11 @@
 #import "ProjectFolder.h"
 #import "ProjectFolders.h"
 #import "ProjectFile.h"
+#import "FileVersion.h"
 
 @interface FileViewController : BaseViewController
-@property (strong, nonatomic) ProjectFile *curFile;
+@property (strong, nonatomic, readonly) ProjectFile *curFile;
+@property (strong, nonatomic, readonly) FileVersion *curVersion;
++ (instancetype)vcWithFile:(ProjectFile *)file andVersion:(FileVersion *)version;
 - (void)requestFileData;
 @end

@@ -261,9 +261,8 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             }
         }
         if (!analyseVC) {
-            FileViewController *vc = [FileViewController new];
             ProjectFile *curFile = [[ProjectFile alloc] initWithFileId:@(fileId.integerValue) inProject:project_name ofUser:user_global_key];
-            vc.curFile = curFile;
+            FileViewController *vc = [FileViewController vcWithFile:curFile andVersion:nil];
             analyseVC = vc;
         }
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:conversionRegexStr]).count > 0) {

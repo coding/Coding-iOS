@@ -13,6 +13,7 @@
 #import "AFNetworking.h"
 #import "DirectoryWatcher.h"
 #import "ProjectFile.h"
+#import "FileVersion.h"
 
 @class Coding_DownloadTask;
 @class Coding_UploadTask;
@@ -25,26 +26,27 @@
 + (Coding_FileManager *)sharedManager;
 + (AFURLSessionManager *)af_manager;
 - (AFURLSessionManager *)af_manager;
-
 - (NSURL *)urlForDownloadFolder;
-- (NSURL *)diskDownloadUrlForFile:(NSString *)fileName;
-- (void)removeCDownloadTaskForKey:(NSString *)storage_key;
-- (void)removeCDownloadTaskForResponse:(NSURLResponse *)response;
-- (Coding_DownloadTask *)cDownloadTaskForKey:(NSString *)storage_key;
-- (Coding_DownloadTask *)cDownloadTaskForResponse:(NSURLResponse *)response;
-- (Coding_DownloadTask *)addDownloadTaskForFile:(ProjectFile *)file completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
 
++(NSURL *)diskDownloadUrlForKey:(NSString *)storage_key;
++ (Coding_DownloadTask *)cDownloadTaskForKey:(NSString *)storage_key;
++ (void)cancelCDownloadTaskForKey:(NSString *)storage_key;
++ (Coding_DownloadTask *)cDownloadTaskForResponse:(NSURLResponse *)response;
++ (void)cancelCDownloadTaskForResponse:(NSURLResponse *)response;
+
+- (Coding_DownloadTask *)addDownloadTaskForObj:(id)obj completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
 
 //upload
 + (BOOL)writeUploadDataWithName:(NSString *)fileName andAsset:(ALAsset *)asset;
 + (BOOL)writeUploadDataWithName:(NSString *)fileName andImage:(UIImage *)image;
 + (BOOL)deleteUploadDataWithName:(NSString *)fileName;
 
-- (NSURL *)diskUploadUrlForFile:(NSString *)fileName;
-- (void)removeCUploadTaskForFile:(NSString *)fileName hasError:(BOOL)hasError;
-- (Coding_UploadTask *)cUploadTaskForFile:(NSString *)fileName;
++ (NSURL *)diskUploadUrlForFile:(NSString *)diskFileName;
++ (Coding_UploadTask *)cUploadTaskForFile:(NSString *)diskFileName;
++ (void)cancelCUploadTaskForFile:(NSString *)diskFileName hasError:(BOOL)hasError;
++ (NSArray *)uploadFilesInProject:(NSString *)project_id andFolder:(NSString *)folder_id;
+
 - (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName projectIsPublic:(BOOL)is_public;
-- (NSArray *)uploadFilesInProject:(NSString *)project_id andFolder:(NSString *)folder_id;
 @end
 
 @interface Coding_DownloadTask : NSObject

@@ -110,6 +110,8 @@
                 }
             }else if ([_target_type isEqualToString:@"ProjectFile"]){
                 [_actionStr appendString:[_type isEqualToString:@"dir"]? @"文件夹": @"文件"];
+            }else if ([_target_type isEqualToString:@"ProjectFileComment"]){
+                [_actionStr appendFormat:@"文件「%@」的评论", _projectFile.title];
             }else if ([_target_type isEqualToString:@"Depot"]){
                 if ([_action isEqualToString:@"push"]) {
                     [_actionStr appendFormat:@"项目 %@ 「%@」", self.ref_type, _ref];
@@ -170,6 +172,8 @@
             }
         }else if ([_target_type isEqualToString:@"ProjectFile"]){
             [_contentStr saveAppendString:_file.name];
+        }else if ([_target_type isEqualToString:@"ProjectFileComment"]){
+            [_contentStr saveAppendString:_projectFileComment.content];
         }else if ([_target_type isEqualToString:@"Depot"]){
             if (_commits && [_commits count] > 0) {
                 Commit *curCommit = _commits.firstObject;

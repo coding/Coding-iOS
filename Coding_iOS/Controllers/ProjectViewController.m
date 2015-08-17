@@ -390,8 +390,7 @@
                 NSString *fileIdStr = pathArray[8];
                 ProjectFile *curFile = [ProjectFile fileWithFileId:@(fileIdStr.integerValue) andProjectId:@(project.id.integerValue)];
                 curFile.name = file.name;
-                FileViewController *vc = [[FileViewController alloc] init];
-                vc.curFile = curFile;
+                FileViewController *vc = [FileViewController vcWithFile:curFile andVersion:nil];
                 [self.navigationController pushViewController:vc animated:YES];
             }else if (!isFile && pathArray.count >= 7){
                 //文件夹

@@ -12,8 +12,17 @@
 #import "Coding_NetAPIManager.h"
 #import "WebContentManager.h"
 #import <MMMarkdown/MMMarkdown.h>
+#import "EaseToolBar.h"
 
-@interface FileViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate, UIDocumentInteractionControllerDelegate, UIWebViewDelegate>
+#import "FileActivitiesViewController.h"
+#import "FileVersionsViewController.h"
+#import "FileInfoViewController.h"
+
+@interface FileViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate, UIDocumentInteractionControllerDelegate, UIWebViewDelegate, EaseToolBarDelegate>
+@property (strong, nonatomic, readwrite) ProjectFile *curFile;
+@property (strong, nonatomic, readwrite) FileVersion *curVersion;
+
+
 @property (strong, nonatomic) NSURL *fileUrl;
 @property (strong, nonatomic) QLPreviewController *previewController;
 @property (strong, nonatomic) FileDownloadView *downloadView;
@@ -21,20 +30,43 @@
 
 @property (strong, nonatomic) UIWebView *contentWebView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, strong) EaseToolBar *myToolBar;
 
 @end
 
 @implementation FileViewController
 
++ (instancetype)vcWithFile:(ProjectFile *)file andVersion:(FileVersion *)version{
+    FileViewController *vc = [self new];
+    vc.curFile = file;
+    vc.curVersion = version;
+    return vc;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = self.curFile.name;
+    self.title = [self titleStr];
     if ([self.curFile isEmpty]) {
         [self requestFileData];
     }else{
         [self configContent];
     }
+}
+
+- (EaseToolBar *)myToolBar{
+    if (!_myToolBar) {
+        EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 文件动态" image:@"button_file_activity" disableImage:nil];
+        EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 历史版本" image:@"button_file_history" disableImage:nil];
+        _myToolBar = [EaseToolBar easeToolBarWithItems:@[item1, item2]];
+        _myToolBar.delegate = self;
+        [self.view addSubview:_myToolBar];
+        [_myToolBar mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view.mas_bottom);
+            make.size.mas_equalTo(_myToolBar.frame.size);
+        }];
+    }
+    return _myToolBar;
 }
 
 - (void)requestFileData{
@@ -59,26 +91,29 @@
 }
 
 - (void)configContent{
-    self.title = self.curFile.name;
-    NSURL *fileUrl = [self.curFile hasBeenDownload];
-    
-    if (!fileUrl ) {
+    self.title = [self titleStr];
+    NSURL *fileUrl = [self hasBeenDownload];
+    if (!fileUrl) {
         [self showDownloadView];
-        return;
-    }
-    
-    self.fileUrl = fileUrl;
-    [self setupDocumentControllerWithURL:fileUrl];
-    
-    if ([self.curFile.fileType isEqualToString:@"md"]
-        || [self.curFile.fileType isEqualToString:@"html"]
-        || [self.curFile.fileType isEqualToString:@"txt"]
-        || [self.curFile.fileType isEqualToString:@"plist"]){
-        [self loadWebView:fileUrl];
-    }else if ([QLPreviewController canPreviewItem:fileUrl]) {
-        [self showDiskFile:fileUrl];
-    }else {
-        [self showDownloadView];
+        _myToolBar.hidden = YES;
+    }else{
+        self.fileUrl = fileUrl;
+        [self setupDocumentControllerWithURL:fileUrl];
+        if ([self.curFile.fileType isEqualToString:@"md"]
+            || [self.curFile.fileType isEqualToString:@"html"]
+            || [self.curFile.fileType isEqualToString:@"txt"]
+            || [self.curFile.fileType isEqualToString:@"plist"]){
+            [self loadWebView:fileUrl];
+        }else if ([QLPreviewController canPreviewItem:fileUrl]) {
+            [self showDiskFile:fileUrl];
+        }else {
+            [self showDownloadView];
+        }
+        if (_curVersion) {
+            _myToolBar.hidden = YES;
+        }else{
+            self.myToolBar.hidden = NO;
+        }
     }
 }
 
@@ -94,7 +129,9 @@
     
     [self.view addSubview:preview.view];
     [preview.view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.top.left.right.equalTo(self.view);
+        make.bottom.equalTo(self.view).offset(-[self toolBarHeight]);
+//        make.edges.equalTo(self.view);
     }];
     self.previewController = preview;
 }
@@ -120,7 +157,9 @@
         [_contentWebView addSubview:_activityIndicator];
         [self.view addSubview:_contentWebView];
         [_contentWebView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
+            make.top.left.right.equalTo(self.view);
+            make.bottom.equalTo(self.view).offset(-[self toolBarHeight]);
+//            make.edges.equalTo(self.view);
         }];
     }
     if ([self.curFile.fileType isEqualToString:@"md"]){
@@ -155,6 +194,8 @@
     if (!self.downloadView) {
         self.downloadView = [[FileDownloadView alloc] initWithFrame:self.view.bounds];
         self.downloadView.file = self.curFile;
+        self.downloadView.version = self.curVersion;
+        [self.downloadView reloadData];
         [self.view addSubview:self.downloadView];
         [self.downloadView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -165,7 +206,7 @@
     self.downloadView.completionBlock = ^(){
         [weakSelf configContent];
     };
-    self.downloadView.goToFileBlock = ^(ProjectFile *file){
+    self.downloadView.otherMethodOpenBlock = ^(){
         [weakSelf.docInteractionController presentOpenInMenuFromBarButtonItem:weakSelf.navigationItem.rightBarButtonItem animated:YES];
     };
 }
@@ -265,6 +306,41 @@
     else{
         DebugLog(@"%@", error.description);
         [self showError:error];
+    }
+}
+
+#pragma mark EaseToolBarDelegate
+- (void)easeToolBar:(EaseToolBar *)toolBar didClickedIndex:(NSInteger)index{
+    if (index == 0) {
+        FileActivitiesViewController *vc = [FileActivitiesViewController vcWithFile:_curFile];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (index == 1){
+        FileVersionsViewController *vc = [FileVersionsViewController vcWithFile:_curFile];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+#pragma mark Data Value
+- (NSURL *)hasBeenDownload{
+    NSURL *fileUrl;
+    if (self.curVersion) {
+        fileUrl = [self.curVersion hasBeenDownload];
+    }else{
+        fileUrl = [self.curFile hasBeenDownload];
+    }
+    return fileUrl;
+}
+- (NSString *)titleStr{
+    if (_curVersion) {
+        return _curVersion.remark;
+    }else{
+        return _curFile.name;
+    }
+}
+- (CGFloat)toolBarHeight{
+    if (_curVersion) {
+        return 0;
+    }else{
+        return 49.0;
     }
 }
 @end

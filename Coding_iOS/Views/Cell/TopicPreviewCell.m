@@ -134,7 +134,7 @@
         [_userIconView sd_setImageWithURL:[_curTopic.owner.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
         [_userIconView setY:curBottomY];
         [_timeLabel setY:curBottomY];
-        _timeLabel.attributedText = [self getStringWithName:_curTopic.owner.name andTime:[_curTopic.created_at stringTimesAgo]];
+        _timeLabel.attributedText = [self getStringWithName:_curTopic.owner.name andTime:[_curTopic.created_at stringDisplay_HHmm]];
         curBottomY += 16 + 20;
         _tagsView.tags = _curTopic.mdLabels;
         [_tagsView setY:curBottomY];

@@ -38,9 +38,61 @@
         return;
     }
     [self loadLayoutWithCurFile];
-    
-    if (_file.preview && _file.preview.length > 0) {
-        [_iconView sd_setImageWithURL:[NSURL URLWithString:_file.owner_preview] placeholderImage:nil options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+    [self reloadData];
+}
+- (void)setVersion:(FileVersion *)version{
+    _version = version;
+    if (!_version) {
+        return;
+    }
+    [self loadLayoutWithCurFile];
+    [self reloadData];
+}
+
+#pragma mark Data Value
+- (id)curData{
+    if (_version) {
+        return _version;
+    }else{
+        return _file;
+    }
+}
+- (NSString *)preview{
+    return [self.curData valueForKey:@"preview"];
+}
+- (NSString *)owner_preview{
+    return [self.curData valueForKey:@"owner_preview"];
+}
+- (NSString *)fileType{
+    return [self.curData valueForKey:@"fileType"];
+}
+- (NSString *)storage_key{
+    return [self.curData valueForKey:@"storage_key"];
+}
+- (NSString *)name{
+    if (_version) {
+        return _version.remark;
+    }else{
+        return _file.name;
+    }
+}
+- (NSNumber *)project_id{
+    return [self.curData valueForKey:@"project_id"];
+}
+- (NSNumber *)sizeOfFile{
+    return [self.curData valueForKey:@"size"];
+}
+- (DownloadState)downloadState{
+    return [self.curData downloadState];
+}
+- (Coding_DownloadTask *)cDownloadTask{
+    return [self.curData cDownloadTask];
+}
+
+- (void)reloadData{
+    [self loadLayoutWithCurFile];
+    if (self.preview.length > 0) {
+        [_iconView sd_setImageWithURL:[NSURL URLWithString:self.owner_preview] placeholderImage:nil options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (error) {
@@ -49,22 +101,21 @@
         }];
         [_progressView hidePopUpViewAnimated:NO];
     }else{
-        _iconView.image = [UIImage imageNamed:[_file fileIconName]];
+        _iconView.image = [UIImage imageWithFileType:self.fileType];
         [_progressView showPopUpViewAnimated:NO];
     }
-    Coding_DownloadTask *cDownloadTask = [_file cDownloadTask];
+    Coding_DownloadTask *cDownloadTask = [self cDownloadTask];
     if (cDownloadTask) {
         self.progress = cDownloadTask.progress;
     }
-    [self changeToState:_file.downloadState];
+    [self changeToState:self.downloadState];
 }
 
+
+#pragma mark UI
 - (void)loadLayoutWithCurFile{
-    if (!_file) {
-        return;
-    }
     CGFloat buttonHeight;
-    if (_file.preview && _file.preview.length > 0) {
+    if (self.preview && self.preview.length > 0) {
         if (!_iconView) {
             _iconView = [[YLImageView alloc] initWithFrame:self.bounds];
             _iconView.backgroundColor = [UIColor blackColor];
@@ -196,7 +247,7 @@
     _progress = progress;
     __weak typeof(self) weakSelf = self;
     if (_progress) {
-        [RACObserve(self, progress.fractionCompleted) subscribeNext:^(NSNumber *fractionCompleted) {
+        [[RACObserve(self, progress.fractionCompleted) takeUntil:self.rac_willDeallocSignal] subscribeNext:^(NSNumber *fractionCompleted) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf updatePregress:fractionCompleted.doubleValue];
             });
@@ -223,15 +274,15 @@
 
 - (void)clickedByUser{
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
-    NSURL *fileUrl = [manager diskDownloadUrlForFile:_file.diskFileName];
+    NSURL *fileUrl = [Coding_FileManager diskDownloadUrlForKey:self.storage_key];
     if (fileUrl) {//已经下载到本地了
-        if (_goToFileBlock) {
-            _goToFileBlock(self.file);
+        if (_otherMethodOpenBlock) {
+            _otherMethodOpenBlock();
         }
     }else{//要下载
         NSURLSessionDownloadTask *downloadTask;
-        if (_file.cDownloadTask) {//暂停或者重新开始
-            downloadTask = _file.cDownloadTask.task;
+        if (self.cDownloadTask) {//暂停或者重新开始
+            downloadTask = self.cDownloadTask.task;
             switch (downloadTask.state) {
                 case NSURLSessionTaskStateRunning:
                     [downloadTask suspend];
@@ -246,12 +297,12 @@
                     break;
             }
         }else{//新建下载
-            if (!self.file.project_id) {
+            if (!self.project_id) {
                 [self showHudTipStr:@"下载失败~"];
                 return;
             }
             __weak typeof(self) weakSelf = self;
-            Coding_DownloadTask *cDownloadTask = [manager addDownloadTaskForFile:self.file completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            Coding_DownloadTask *cDownloadTask = [manager addDownloadTaskForObj:self.curData completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
                 if (error) {
                     [weakSelf changeToState:DownloadStateDefault];
                     [weakSelf showError:error];
@@ -290,7 +341,7 @@
     }
     
     
-    if (_file.preview && _file.preview.length > 0) {
+    if (self.preview && self.preview.length > 0) {
         if (state == DownloadStateDownloading) {
             _sizeLabel.hidden = NO;
             _progressView.hidden = NO;
@@ -311,8 +362,8 @@
             }];
         }
     }else{
-        _nameLabel.text = _file.name;
-        _sizeLabel.text = [NSString sizeDisplayWithByte:_file.size.floatValue];
+        _nameLabel.text = self.name;
+        _sizeLabel.text = [NSString sizeDisplayWithByte:self.sizeOfFile.floatValue];
 
         [self.progressView setHidden:!(state == DownloadStateDownloading || state == DownloadStatePausing)];
         [_stateButton setTitle:stateTitle forState:UIControlStateNormal];

@@ -62,7 +62,7 @@
 
     
     _name.text = _curPriMsg.friend.name;
-    _time.text = [_curPriMsg.created_at stringTimesAgo];
+    _time.text = [_curPriMsg.created_at stringDisplay_MMdd];
     NSMutableString *textMsg = [[NSMutableString alloc] initWithString:_curPriMsg.content];
     if (_curPriMsg.hasMedia) {
         [textMsg appendString:@"[图片]"];

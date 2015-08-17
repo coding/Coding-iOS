@@ -34,7 +34,7 @@
 
             itemsIconList = @[@"icon-bolt", @"icon-tasks", @"icon-comments", @"icon-folder-open", @"icon-code", @"icon-user"];
             itemsColorList = @[@"0x3bbd79", @"0x25c2d5", @"0x3899d0", @"0xf8b327", @"0xee8c35", @"0xe7683d"];
-            itemsTitleList = @[@"动态", @"任务", @"讨论", @"文档", @"代码", @"成员"];
+            itemsTitleList = @[@"动态", @"任务", @"讨论", @"文件", @"代码", @"成员"];
 
         }else if ([reuseIdentifier isEqualToString:kCellIdentifier_ProjectItemsCell_Public]){
             itemsNum = 4;

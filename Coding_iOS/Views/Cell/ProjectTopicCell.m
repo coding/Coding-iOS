@@ -110,7 +110,7 @@
     curRightX = _userNameLabel.maxXOfFrame+ 10;
     [_timeClockIconView setOrigin:CGPointMake(curRightX, curBottomY)];
     [_timeLabel setOrigin:CGPointMake(curRightX + 15, curBottomY)];
-    _timeLabel.text = [_curTopic.created_at stringTimesAgo];
+    _timeLabel.text = [_curTopic.created_at stringDisplay_HHmm];
     [_timeLabel sizeToFit];
     
     curRightX = _timeLabel.maxXOfFrame + 10;

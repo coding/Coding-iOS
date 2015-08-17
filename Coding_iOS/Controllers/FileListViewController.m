@@ -84,10 +84,21 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (!_myTableView.isEditing) {
+        [_myTableView reloadData];
+    }
+}
+
 - (void)changeEditState{
-    [_myTableView setEditing:!_myTableView.isEditing animated:YES];
+    [self changeEditStateToEditing:!_myTableView.isEditing];
+}
+
+- (void)changeEditStateToEditing:(BOOL)isEditing{
+    [_myTableView setEditing:isEditing animated:YES];
     NSArray *rightBarButtonItems;
-    if (_myTableView.isEditing) {
+    if (isEditing) {
         UIBarButtonItem *item1 = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(changeEditState)];
         UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
         spaceItem.width = 20;
@@ -124,19 +135,8 @@
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self.myTableView reloadData];
-}
-
 - (void)configuploadFiles{
-    self.uploadFiles = [[Coding_FileManager sharedManager] uploadFilesInProject:self.curProject.id.stringValue andFolder:self.curFolder.file_id.stringValue];
+    self.uploadFiles = [Coding_FileManager uploadFilesInProject:self.curProject.id.stringValue andFolder:self.curFolder.file_id.stringValue];
     if (!self.uploadFiles) {
         self.uploadFiles = [NSArray array];
     }
@@ -369,14 +369,14 @@
                 DebugLog(@"%@: 已在队列", file.name);
             }else{
                 addDownloadCount++;
-                [manager addDownloadTaskForFile:file completionHandler:nil];
+                [manager addDownloadTaskForObj:file completionHandler:nil];
             }
         }
         if (addDownloadCount == 0) {
             NSString *tipStr = downloadingCount == 0? @"所选的文件都已经下载到本地了" : @"所选的文件都已经在下载队列中了";
             [self showHudTipStr:tipStr];
         }
-        [self changeEditState];
+        [self changeEditStateToEditing:NO];
     }
 }
 
@@ -390,10 +390,10 @@
     __weak typeof(self) weakSelf = self;
     NSArray *selectedFiles = [self selectedFiles];
     if (selectedFiles.count > 0) {
-        [[UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确认删除选定的 %lu 个文档？\n删除后将无法恢复!", (unsigned long)selectedFiles.count] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        [[UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确认删除选定的 %lu 个文件？\n删除后将无法恢复!", (unsigned long)selectedFiles.count] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
                 [weakSelf deleteFiles:selectedFiles];
-                [weakSelf changeEditState];
+                [weakSelf changeEditStateToEditing:NO];
             }
         }] showInView:self.view];
     }
@@ -447,8 +447,7 @@
 }
 
 - (void)removeUploadTaskWithFileName:(NSString *)fileName{
-    Coding_FileManager *manager = [Coding_FileManager sharedManager];
-    [manager removeCUploadTaskForFile:fileName hasError:NO];
+    [Coding_FileManager cancelCUploadTaskForFile:fileName hasError:NO];
     [self configuploadFiles];
 }
 
@@ -706,7 +705,7 @@
     //    取消当前的下载任务
     Coding_DownloadTask *cDownloadTask = [file cDownloadTask];
     if (cDownloadTask) {
-        [[Coding_FileManager sharedManager] removeCDownloadTaskForKey:file.storage_key];
+        [Coding_FileManager cancelCDownloadTaskForKey:file.storage_key];
     }
     //    删除本地文件
     NSURL *fileUrl = [file hasBeenDownload];
@@ -742,7 +741,7 @@
     vc.rootFolders = self.rootFolders;
     vc.curFolder = nil;
     vc.moveToFolderBlock = ^(ProjectFolder *curFolder, NSArray *toMovedFileIdList){
-        [weakSelf changeEditState];
+        [weakSelf changeEditStateToEditing:NO];
         [[Coding_NetAPIManager sharedManager] request_MoveFiles:toMovedFileIdList toFolder:curFolder andBlock:^(id data, NSError *error) {
             if (data) {
                 [weakSelf refreshRootFolders];
@@ -762,8 +761,7 @@
 }
 
 - (void)goToFileVC:(ProjectFile *)file{
-    FileViewController *vc = [[FileViewController alloc] init];
-    vc.curFile = file;
+    FileViewController *vc = [FileViewController vcWithFile:file andVersion:nil];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

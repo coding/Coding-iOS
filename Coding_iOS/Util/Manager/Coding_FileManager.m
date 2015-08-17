@@ -42,40 +42,6 @@
     return [Coding_FileManager af_manager];
 }
 
-#pragma mark download
-- (void)removeCDownloadTaskForKey:(NSString *)storage_key{
-    Coding_DownloadTask *cDownloadTack = [self.downloadDict objectForKey:storage_key];
-    if (cDownloadTack) {
-        [cDownloadTack cancel];
-    }
-    if (storage_key) {
-        [self.downloadDict removeObjectForKey:storage_key];
-    }
-}
-- (Coding_DownloadTask *)cDownloadTaskForKey:(NSString *)storage_key{
-    return [self.downloadDict objectForKey:storage_key];
-}
-- (void)removeCDownloadTaskForResponse:(NSURLResponse *)response{
-    NSString *keyStr = [self keyStrFromResponse:response];
-    if (keyStr) {
-        [self removeCDownloadTaskForKey:keyStr];
-    }
-}
-- (Coding_DownloadTask *)cDownloadTaskForResponse:(NSURLResponse *)response{
-    NSString *keyStr = [self keyStrFromResponse:response];
-    if (!keyStr) {
-        return nil;
-    }
-    return [self cDownloadTaskForKey:keyStr];
-}
-- (NSString *)keyStrFromResponse:(NSURLResponse *)response{
-    NSString *keyStr = response.URL.absoluteString;
-    if (keyStr) {
-        keyStr = [[[[keyStr componentsSeparatedByString:@"?download"] firstObject] componentsSeparatedByString:@"/"] lastObject];
-    }
-    return keyStr;
-}
-
 - (instancetype)init
 {
     self = [super init];
@@ -124,6 +90,8 @@
     return isCreated;
 }
 
+#pragma mark download
+
 - (NSURL *)urlForDownloadFolder{
     if (!_downloadDirectoryURL) {
         if ([[self class] createFolder:[[self class] downloadPath]]) {
@@ -134,48 +102,85 @@
     }
     return _downloadDirectoryURL;
 }
-- (NSURL *)diskDownloadUrlForFile:(NSString *)fileName{
-    return [self.diskDownloadDict objectForKey:fileName];
+
++(NSURL *)diskDownloadUrlForKey:(NSString *)storage_key{
+    return [self.sharedManager.diskDownloadDict objectForKey:storage_key];
+}
++ (Coding_DownloadTask *)cDownloadTaskForKey:(NSString *)storage_key{
+    if (!storage_key) {
+        return nil;
+    }
+    return [self.sharedManager.downloadDict objectForKey:storage_key];
+}
++ (void)cancelCDownloadTaskForKey:(NSString *)storage_key{
+    if (!storage_key) {
+        return;
+    }
+    Coding_DownloadTask *cDownloadTack = [self.sharedManager.downloadDict objectForKey:storage_key];
+    if (cDownloadTack) {
+        [cDownloadTack cancel];
+    }
+    [self.sharedManager.downloadDict removeObjectForKey:storage_key];
+}
++ (NSString *)keyStrFromResponse:(NSURLResponse *)response{
+    if (!response) {
+        return nil;
+    }
+    NSString *keyStr = response.URL.absoluteString;
+    keyStr = [[[[keyStr componentsSeparatedByString:@"?download"] firstObject] componentsSeparatedByString:@"/"] lastObject];
+    return keyStr;
+}
++ (Coding_DownloadTask *)cDownloadTaskForResponse:(NSURLResponse *)response{
+    return [self cDownloadTaskForKey:[self keyStrFromResponse:response]];
+}
++ (void)cancelCDownloadTaskForResponse:(NSURLResponse *)response{
+    [self cancelCDownloadTaskForKey:[self keyStrFromResponse:response]];
+}
+- (Coding_DownloadTask *)addDownloadTaskForObj:(id)obj completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler{
+    Coding_DownloadTask *cTask = nil;
+    if ([obj isKindOfClass:[ProjectFile class]]) {
+        ProjectFile *file = (ProjectFile*)obj;
+        cTask = [self addDownloadTaskWithPath:file.downloadPath diskFileName:file.diskFileName storage_key:file.storage_key completionHandler:completionHandler];
+    }else if ([obj isKindOfClass:[FileVersion class]]){
+        FileVersion *fileVersion = (FileVersion *)obj;
+        cTask = [self addDownloadTaskWithPath:fileVersion.downloadPath diskFileName:fileVersion.diskFileName storage_key:fileVersion.storage_key completionHandler:completionHandler];
+    }
+    return cTask;
 }
 
-- (Coding_DownloadTask *)addDownloadTaskForFile:(ProjectFile *)file completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler{
-    
-    __weak typeof(file) weakFile = file;
+- (Coding_DownloadTask *)addDownloadTaskWithPath:(NSString *)downloadPath
+                                    diskFileName:(NSString *)diskFileName
+                                       storage_key:(NSString *)storage_key
+                               completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler{
     NSProgress *progress;
-    
-    NSURL *downloadURL = [NSURL URLWithString:file.downloadPath];
+    NSURL *downloadURL = [NSURL URLWithString:downloadPath];
     NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];
     NSURLSessionDownloadTask *downloadTask = [self.af_manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         NSURL *downloadUrl = [[Coding_FileManager sharedManager] urlForDownloadFolder];
-        Coding_DownloadTask *cDownloadTask = [[Coding_FileManager sharedManager] cDownloadTaskForResponse:response];
+        Coding_DownloadTask *cDownloadTask = [Coding_FileManager cDownloadTaskForResponse:response];
         if (cDownloadTask) {
             downloadUrl = [downloadUrl URLByAppendingPathComponent:cDownloadTask.diskFileName];
         }else{
             downloadUrl = [downloadUrl URLByAppendingPathComponent:[response suggestedFilename]];
         }
-        
         [downloadUrl setResourceValue:[NSNumber numberWithBool:YES] forKey:NSURLIsExcludedFromBackupKey error:nil];
-        
         DebugLog(@"download_destinationPath------\n%@", downloadUrl.absoluteString);
         return downloadUrl;
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         if (error) {
-            [[Coding_FileManager sharedManager] removeCDownloadTaskForKey:weakFile.storage_key];
+            [Coding_FileManager cancelCDownloadTaskForKey:storage_key];
         }else{
-            [[Coding_FileManager sharedManager] removeCDownloadTaskForResponse:response];
+            [Coding_FileManager cancelCDownloadTaskForResponse:response];
         }
         if (completionHandler) {
             completionHandler(response, filePath, error);
         }
     }];
-    
-    Coding_DownloadTask *cDownloadTask = [Coding_DownloadTask cDownloadTaskWithTask:downloadTask progress:progress fileName:file.diskFileName];
-    [self.downloadDict setObject:cDownloadTask forKey:file.storage_key];
-    
+    Coding_DownloadTask *cDownloadTask = [Coding_DownloadTask cDownloadTaskWithTask:downloadTask progress:progress fileName:diskFileName];
+    [self.downloadDict setObject:cDownloadTask forKey:storage_key];
     [downloadTask resume];
     return cDownloadTask;
 }
-
 
 #pragma upload
 + (BOOL)writeUploadDataWithName:(NSString *)fileName andAsset:(ALAsset *)asset{
@@ -286,7 +291,7 @@
                 DebugLog(@"upload_fileName------\n%@", block_fileName);
                 
                 //移除任务
-                [[Coding_FileManager sharedManager] removeCUploadTaskForFile:block_fileName hasError:(error != nil)];
+                [Coding_FileManager cancelCUploadTaskForFile:block_fileName hasError:(error != nil)];
                 
                 //处理completionHandler
                 [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUploadCompled object:manager userInfo:@{@"response" : response,
@@ -301,38 +306,37 @@
 
     return cUploadTask;
 }
-- (NSURL *)diskUploadUrlForFile:(NSString *)fileName{
-    return [self.diskUploadDict objectForKey:fileName];
+
++ (NSURL *)diskUploadUrlForFile:(NSString *)diskFileName{
+    return [self.sharedManager.diskUploadDict objectForKey:diskFileName];
 }
 
-- (void)removeCUploadTaskForFile:(NSString *)fileName hasError:(BOOL)hasError{
-    if (!fileName) {
++ (Coding_UploadTask *)cUploadTaskForFile:(NSString *)diskFileName{
+    return [self.sharedManager.uploadDict objectForKey:diskFileName];
+}
++ (void)cancelCUploadTaskForFile:(NSString *)diskFileName hasError:(BOOL)hasError{
+    if (!diskFileName) {
         return;
     }
-    Coding_UploadTask *cUploadTack = [self.uploadDict objectForKey:fileName];
+    Coding_UploadTask *cUploadTack = [self.sharedManager.uploadDict objectForKey:diskFileName];
     if (cUploadTack) {
         [cUploadTack cancel];
     }
-    [self.uploadDict removeObjectForKey:fileName];
-    
+    [self.sharedManager.uploadDict removeObjectForKey:diskFileName];
     if (!hasError) {
-        NSString *filePath = [[[self class] uploadPath] stringByAppendingPathComponent:fileName];
+        NSString *filePath = [[[self class] uploadPath] stringByAppendingPathComponent:diskFileName];
         if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
             [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
         }
     }
 }
-- (Coding_UploadTask *)cUploadTaskForFile:(NSString *)fileName{
-    return [self.uploadDict objectForKey:fileName];
-}
-
-- (NSArray *)uploadFilesInProject:(NSString *)project_id andFolder:(NSString *)folder_id{
++ (NSArray *)uploadFilesInProject:(NSString *)project_id andFolder:(NSString *)folder_id{
     if (!project_id || !folder_id) {
         return nil;
     }
-    [self directoryDidChange:self.docUploadWatcher];
+    [self.sharedManager directoryDidChange:self.sharedManager.docUploadWatcher];
     NSMutableArray *uploadFiles = [NSMutableArray array];
-    for (NSString *fileName in [self.diskUploadDict allKeys]) {
+    for (NSString *fileName in [self.sharedManager.diskUploadDict allKeys]) {
         NSArray *fileInfos = [fileName componentsSeparatedByString:@"|||"];
         if (fileInfos.count == 3 &&
             ([project_id isEqualToString:fileInfos[0]] && [folder_id isEqualToString:fileInfos[1]])) {
@@ -347,9 +351,11 @@
 - (void)directoryDidChange:(DirectoryWatcher *)folderWatcher{
     NSMutableDictionary *diskDict;
     NSString *path;
+    BOOL isDownload = NO;
     if (folderWatcher == self.docDownloadWatcher) {
         diskDict = self.diskDownloadDict;
         path = [[self class] downloadPath];
+        isDownload = YES;
     }else if (folderWatcher == self.docUploadWatcher){
         diskDict = self.diskUploadDict;
         path = [[self class] uploadPath];
@@ -362,11 +368,14 @@
         NSURL *fileUrl = [NSURL fileURLWithPath:filePath];
         BOOL isDirectory;
         [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory];
-        
-        // proceed to add the document URL to our list (ignore the "Inbox" folder)
-//        if (!(isDirectory && [curFileName isEqualToString:@"Inbox"]))
-        {
-            [diskDict setObject:fileUrl forKey:curFileName];
+        if (!isDirectory) {
+            NSString *keyStr;
+            if (isDownload) {//下载文件，用 storge_key 做键值
+                keyStr = [curFileName componentsSeparatedByString:@"|"].lastObject;
+            }else{
+                keyStr = curFileName;
+            }
+            [diskDict setObject:fileUrl forKey:keyStr];
         }
     }
 }

@@ -190,7 +190,7 @@
                     if (_myProject.is_public.boolValue) {
                         [cell setImageStr:@"project_item_member" andTitle:@"成员"];
                     }else{
-                        [cell setImageStr:@"project_item_file" andTitle:@"文档"];
+                        [cell setImageStr:@"project_item_file" andTitle:@"文件"];
                     }
                     break;
                 case 4:

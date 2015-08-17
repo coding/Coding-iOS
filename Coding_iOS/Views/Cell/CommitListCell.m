@@ -80,7 +80,7 @@
 
 - (NSAttributedString *)subTitleStr{
     NSString *nameStr = _curCommit.committer.name? _curCommit.committer.name: @"";
-    NSString *timeStr = _curCommit.commitTime? [_curCommit.commitTime stringTimesAgo]: @"";
+    NSString *timeStr = _curCommit.commitTime? [_curCommit.commitTime stringDisplay_HHmm]: @"";
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", nameStr, timeStr]];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
                                  NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}

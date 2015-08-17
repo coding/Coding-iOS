@@ -49,7 +49,7 @@
             _timeLabel.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_timeLabel];
         }
-        if ([reuseIdentifier rangeOfString:@"Media"].location != NSNotFound) {
+        if ([reuseIdentifier rangeOfString:@"_Media"].location != NSNotFound) {
             if (!self.imageCollectionView) {
                 UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
                 self.imageCollectionView = [[UICustomCollectionView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth + 40, 0, curWidth, 43) collectionViewLayout:layout];
@@ -97,7 +97,7 @@
     curBottomY += [MRPRCommentCell imageCollectionViewHeightWithCount:imagesCount];
     
     [_timeLabel setY:curBottomY];
-    _timeLabel.text = [NSString stringWithFormat:@"%@ %@", _curItem.author.name, [_curItem.created_at stringTimesAgo]];
+    _timeLabel.text = [NSString stringWithFormat:@"%@ %@", _curItem.author.name, [_curItem.created_at stringDisplay_HHmm]];
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{

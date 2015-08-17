@@ -207,7 +207,7 @@
     }
     //Bottom
     _userNameLabel.text = _task.creator.name;
-    _timeLabel.text = [_task.created_at stringTimesAgo];
+    _timeLabel.text = [_task.created_at stringDisplay_HHmm];
     _commentCountLabel.text = _task.comments.stringValue;
     _mdIconView.hidden = _mdLabel.hidden = !_task.has_description.boolValue;
 }
