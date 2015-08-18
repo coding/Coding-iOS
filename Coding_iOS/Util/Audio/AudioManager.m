@@ -32,6 +32,7 @@
         _isPlaying = NO;
         _isRecording = NO;
         _minRecordDuration = 1.0f;
+        _maxRecordDuration = 60.0f;
     }
     return self;
 }
@@ -212,6 +213,10 @@
 
     if (_delegate && [_delegate respondsToSelector:@selector(didAudioRecording:volume:)]) {
         [_delegate didAudioRecording:self volume:volume];
+    }
+    
+    if (_audioRecorder.currentTime >= _maxRecordDuration+0.1f) {
+        [self stopRecord];
     }
 }
 
