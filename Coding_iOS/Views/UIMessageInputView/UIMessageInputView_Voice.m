@@ -9,6 +9,7 @@
 #import "UIMessageInputView_Voice.h"
 #import "AudioRecordView.h"
 #import "AudioVolumeView.h"
+#import "AudioManager.h"
 
 typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
     UIMessageInputView_VoiceStateReady,
@@ -81,7 +82,12 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
             _volumeRightView.hidden = YES;
             break;
         case UIMessageInputView_VoiceStateRecording:
-            _recordTipsLabel.textColor = [UIColor colorWithRGBHex:0x2faeea];
+            if (_duration < ([AudioManager shared].maxRecordDuration - 5)) {
+                _recordTipsLabel.textColor = [UIColor colorWithRGBHex:0x2faeea];
+            }
+            else {
+                _recordTipsLabel.textColor = [UIColor colorWithRGBHex:0xDE4743];
+            }
             _recordTipsLabel.text = [self formattedTime:_duration];
             break;
         case UIMessageInputView_VoiceStateCancel:
