@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 @property (readwrite, nonatomic, strong) NSDate *created_at, *updated_at;
 @property (readonly, nonatomic, strong) NSDate *deadline_date;
 @property (readwrite, nonatomic, strong) Project *project;
-@property (readwrite, nonatomic, strong) NSNumber *id, *status, *owner_id, *priority, *comments, *has_description;
+@property (readwrite, nonatomic, strong) NSNumber *id, *status, *owner_id, *priority, *comments, *has_description, *number;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 @property (readwrite, nonatomic, strong) NSMutableArray *activityList, *labels;
 @property (nonatomic, assign) TaskHandleType handleType;

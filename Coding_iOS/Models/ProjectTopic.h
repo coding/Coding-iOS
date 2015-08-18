@@ -16,7 +16,7 @@
 
 @interface ProjectTopic : NSObject
 
-@property (readwrite, nonatomic, strong) NSNumber *id, *child_count, *current_user_role_id, *owner_id, *project_id, *parent_id;
+@property (readwrite, nonatomic, strong) NSNumber *id, *child_count, *current_user_role_id, *owner_id, *project_id, *parent_id, *number;
 @property (readwrite, nonatomic, strong) NSDate *created_at;
 @property (readwrite, nonatomic, strong) NSDate *updated_at;
 @property (readwrite, nonatomic, strong) NSString *title, *content, *path;

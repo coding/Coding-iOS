@@ -27,7 +27,7 @@
 @interface ProjectTaskListViewCell ()
 @property (strong, nonatomic) UIImageView *userIconView, *commentIconView, *timeClockIconView, *mdIconView, *taskPriorityView;
 @property (strong, nonatomic) UITapImageView *checkView;
-@property (strong, nonatomic) UILabel *contentLabel, *userNameLabel, *timeLabel, *commentCountLabel, *mdLabel;
+@property (strong, nonatomic) UILabel *contentLabel, *userNameLabel, *timeLabel, *commentCountLabel, *mdLabel, *numLabel;
 @property (strong, nonatomic) ProjectTaskListViewCellTagsView *tagsView;
 @end
 
@@ -73,6 +73,12 @@
         if (!_tagsView) {
             _tagsView = [ProjectTaskListViewCellTagsView new];
             [self.contentView addSubview:_tagsView];
+        }
+        if (!_numLabel) {
+            _numLabel = [UILabel new];
+            _numLabel.font = [UIFont systemFontOfSize:10];
+            _numLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            [self.contentView addSubview:_numLabel];
         }
         if (!_userNameLabel) {
             _userNameLabel = [UILabel new];
@@ -144,9 +150,14 @@
             make.height.mas_equalTo(25);
             make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
         }];
-        [_userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.contentView).offset(-10);
             make.left.equalTo(self.userIconView.mas_right).offset(10);
+            make.height.mas_equalTo(15);
+        }];
+        [_userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.numLabel.mas_right).offset(5);
+            make.centerY.equalTo(self.numLabel);
             make.height.mas_equalTo(15);
         }];
         [_timeClockIconView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -206,8 +217,9 @@
         _tagsView.hidden = YES;
     }
     //Bottom
+    _numLabel.text = [NSString stringWithFormat:@"#%@", _task.number.stringValue];
     _userNameLabel.text = _task.creator.name;
-    _timeLabel.text = [_task.created_at stringDisplay_HHmm];
+    _timeLabel.text = [_task.created_at stringDisplay_MMdd];
     _commentCountLabel.text = _task.comments.stringValue;
     _mdIconView.hidden = _mdLabel.hidden = !_task.has_description.boolValue;
 }

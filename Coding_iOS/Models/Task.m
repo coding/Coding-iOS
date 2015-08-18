@@ -109,6 +109,7 @@
     self.comments = task.comments;
     self.needRefreshDetail = task.needRefreshDetail;
     self.deadline = task.deadline;
+    self.number = task.number;
     
     self.has_description = task.has_description;
     self.task_description = task.task_description;
