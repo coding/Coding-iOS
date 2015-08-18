@@ -155,11 +155,13 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
 }
 
 - (void)recordView:(AudioRecordView *)recordView touchStateChanged:(AudioRecordViewTouchState)touchState {
-    if (touchState == AudioRecordViewTouchStateInside) {
-        self.state = UIMessageInputView_VoiceStateRecording;
-    }
-    else {
-        self.state = UIMessageInputView_VoiceStateCancel;
+    if (self.state != UIMessageInputView_VoiceStateReady) {
+        if (touchState == AudioRecordViewTouchStateInside) {
+            self.state = UIMessageInputView_VoiceStateRecording;
+        }
+        else {
+            self.state = UIMessageInputView_VoiceStateCancel;
+        }
     }
 }
 
