@@ -189,7 +189,7 @@
 }
 
 - (NSMutableAttributedString *)getAttributedTimeText{
-    NSString *nameStr = _curTopic.owner.name;
+    NSString *nameStr = [NSString stringWithFormat:@"%@", _curTopic.owner.name];
     NSString *timeStr = [NSString stringWithFormat:@" 发布于 %@  ", [_curTopic.created_at stringDisplay_HHmm]];
     NSString *numStr = [NSString stringWithFormat:@"#%@", _curTopic.number.stringValue];
     NSString *displayStr = [NSString stringWithFormat:@"%@%@%@", nameStr, timeStr, numStr];
