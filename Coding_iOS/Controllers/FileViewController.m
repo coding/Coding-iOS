@@ -17,6 +17,7 @@
 #import "FileActivitiesViewController.h"
 #import "FileVersionsViewController.h"
 #import "FileInfoViewController.h"
+#import "KxMenu.h"
 
 @interface FileViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate, UIDocumentInteractionControllerDelegate, UIWebViewDelegate, EaseToolBarDelegate>
 @property (strong, nonatomic, readwrite) ProjectFile *curFile;
@@ -99,10 +100,10 @@
     }else{
         self.fileUrl = fileUrl;
         [self setupDocumentControllerWithURL:fileUrl];
-        if ([self.curFile.fileType isEqualToString:@"md"]
-            || [self.curFile.fileType isEqualToString:@"html"]
-            || [self.curFile.fileType isEqualToString:@"txt"]
-            || [self.curFile.fileType isEqualToString:@"plist"]){
+        if ([self.fileType isEqualToString:@"md"]
+            || [self.fileType isEqualToString:@"html"]
+            || [self.fileType isEqualToString:@"txt"]
+            || [self.fileType isEqualToString:@"plist"]){
             [self loadWebView:fileUrl];
         }else if ([QLPreviewController canPreviewItem:fileUrl]) {
             [self showDiskFile:fileUrl];
@@ -162,7 +163,7 @@
 //            make.edges.equalTo(self.view);
         }];
     }
-    if ([self.curFile.fileType isEqualToString:@"md"]){
+    if ([self.fileType isEqualToString:@"md"]){
         NSError  *error = nil;
         NSString *htmlStr;
         @try {
@@ -178,11 +179,11 @@
         }
         NSString *contentStr = [WebContentManager markdownPatternedWithContent:htmlStr];
         [self.contentWebView loadHTMLString:contentStr baseURL:nil];
-    }else if ([self.curFile.fileType isEqualToString:@"html"]){
+    }else if ([self.fileType isEqualToString:@"html"]){
         NSString* htmlString = [NSString stringWithContentsOfURL:fileUrl encoding:NSUTF8StringEncoding error:nil];
         [self.contentWebView loadHTMLString:htmlString baseURL:nil];
-    }else if ([self.curFile.fileType isEqualToString:@"plist"]
-              || [self.curFile.fileType isEqualToString:@"txt"]){
+    }else if ([self.fileType isEqualToString:@"plist"]
+              || [self.fileType isEqualToString:@"txt"]){
         NSData *fileData = [NSData dataWithContentsOfURL:fileUrl];
         [self.contentWebView loadData:fileData MIMEType:@"text/text" textEncodingName:@"UTF-8" baseURL:fileUrl];
     }else{
@@ -207,7 +208,7 @@
         [weakSelf configContent];
     };
     self.downloadView.otherMethodOpenBlock = ^(){
-        [weakSelf.docInteractionController presentOpenInMenuFromBarButtonItem:weakSelf.navigationItem.rightBarButtonItem animated:YES];
+        [weakSelf openByOtherApp];
     };
 }
 
@@ -220,6 +221,7 @@
     [self setupNavigationItem];
 }
 
+#pragma mark nav M
 - (void)setupNavigationItem{
     if (self.fileUrl) {
         [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)] animated:NO];
@@ -230,24 +232,69 @@
 
 - (void)rightNavBtnClicked{
     __weak typeof(self) weakSelf = self;
-    if (self.curFile.preview && self.curFile.preview.length > 0) {
-        
-        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"保存到相册", @"用其他应用打开"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-            switch (index) {
-                case 0:
-                    [weakSelf saveCurImg];
-                    break;
-                case 1:
-                    [weakSelf.docInteractionController presentOpenInMenuFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
-                    break;
-                default:
-                    break;
+    if (!_curVersion) {
+        if ([KxMenu isShowingInView:self.view]) {
+            [KxMenu dismissMenu:YES];
+        }else{
+            [KxMenu setTitleFont:[UIFont systemFontOfSize:14]];
+            [KxMenu setTintColor:[UIColor whiteColor]];
+            [KxMenu setLineColor:[UIColor colorWithHexString:@"0xdddddd"]];
+            
+            NSMutableArray *menuItems = [@[
+                                          [KxMenuItem menuItem:@"共享连接" image:[UIImage imageNamed:@"file_menu_icon_share"] target:self action:@selector(goToShareFileLink)],
+                                          [KxMenuItem menuItem:@"文件信息" image:[UIImage imageNamed:@"file_menu_icon_info"] target:self action:@selector(goToFileInfo)],
+                                          [KxMenuItem menuItem:@"删除文件" image:[UIImage imageNamed:@"file_menu_icon_delete"] target:self action:@selector(deleteCurFile)],
+                                          [KxMenuItem menuItem:@"其它应用打开" image:[UIImage imageNamed:@"file_menu_icon_open"] target:self action:@selector(openByOtherApp)],
+                                          ] mutableCopy];
+            if ([self fileCanEdit]) {
+                [menuItems insertObject:[KxMenuItem menuItem:@"编辑文件" image:[UIImage imageNamed:@"file_menu_icon_edit"] target:self action:@selector(goToShareFileLink)]
+                                atIndex:0];
             }
-        }];
-        [actionSheet showInView:self.view];
+            [menuItems setValue:[UIColor colorWithHexString:@"0x222222"] forKey:@"foreColor"];
+            CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 0, 0, 0);
+            [KxMenu showMenuInView:self.view
+                          fromRect:senderFrame
+                         menuItems:menuItems];
+        }
     }else{
-        [self.docInteractionController presentOpenInMenuFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+        if (self.preview && self.preview.length > 0) {
+            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"保存到相册", @"用其他应用打开"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                switch (index) {
+                    case 0:
+                        [weakSelf saveCurImg];
+                        break;
+                    case 1:
+                        [weakSelf openByOtherApp];
+                        break;
+                    default:
+                        break;
+                }
+            }];
+            [actionSheet showInView:self.view];
+        }else{
+            [self openByOtherApp];
+        }
     }
+}
+
+- (void)goToEditFile{
+    
+}
+
+- (void)goToShareFileLink{
+    
+}
+
+- (void)goToFileInfo{
+    
+}
+
+- (void)deleteCurFile{
+    
+}
+
+- (void)openByOtherApp{
+    [self.docInteractionController presentOpenInMenuFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
 }
 
 - (void)saveCurImg{
@@ -292,10 +339,10 @@
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     [_activityIndicator stopAnimating];
-    if ([self.curFile.fileType isEqualToString:@"plist"]
-        || [self.curFile.fileType isEqualToString:@"txt"]){
+    if ([self.fileType isEqualToString:@"plist"]
+        || [self.fileType isEqualToString:@"txt"]){
         [webView stringByEvaluatingJavaScriptFromString:@"document.body.style.zoom = 3.0;"];
-    }else if ([self.curFile.fileType isEqualToString:@"html"]){
+    }else if ([self.fileType isEqualToString:@"html"]){
         [webView stringByEvaluatingJavaScriptFromString:@"document.body.style.zoom = 2.0;"];
     }
 }
@@ -329,6 +376,20 @@
     }
     return fileUrl;
 }
+- (NSString *)fileType{
+    if (_curVersion) {
+        return _curVersion.fileType;
+    }else{
+        return _curFile.fileType;
+    }
+}
+- (NSString *)preview{
+    if (_curVersion) {
+        return _curVersion.preview;
+    }else{
+        return _curFile.preview;
+    }
+}
 - (NSString *)titleStr{
     if (_curVersion) {
         return _curVersion.remark;
@@ -342,6 +403,9 @@
     }else{
         return 49.0;
     }
+}
+- (BOOL)fileCanEdit{
+    return YES;
 }
 @end
 
