@@ -189,6 +189,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 }
 
 - (void)addOneAuthURL:(OTPAuthURL *)authURL{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"2FA_扫描成功"];
+
     BOOL alreadyHave = NO;
     for (OTPAuthURL *item in self.authURLs) {
         if ([authURL.name isEqualToString:item.name]) {

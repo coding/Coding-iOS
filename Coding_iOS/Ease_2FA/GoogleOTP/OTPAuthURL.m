@@ -227,6 +227,9 @@ NSString *const OTPAuthURLSecondsBeforeNewOTPKey
         NSDictionary *query = [self keychainQuery];
         status = SecItemUpdate((__bridge CFDictionaryRef)query, (__bridge CFDictionaryRef)attributes);
     }
+    if (status == noErr) {
+        [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"2FA_录入成功"];
+    }
     return status == noErr;
 }
 
