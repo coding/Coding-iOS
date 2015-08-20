@@ -29,7 +29,7 @@
 
 + (NSString *)convertStr_yyyy_MM_ddToDisplay:(NSString *)str_yyyy_MM_dd;//(今天、明天) / MM月dd日 / yyyy年MM月dd日
 
-- (NSString *)stringTimesAgo;//暂时弃用
+- (NSString *)stringTimesAgo;//代码更新时间
 
 
 @end

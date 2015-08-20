@@ -10,6 +10,7 @@
 #import "BasicPreviewItem.h"
 #import "FileDownloadView.h"
 #import "Coding_NetAPIManager.h"
+#import "Coding_FileManager.h"
 #import "WebContentManager.h"
 #import <MMMarkdown/MMMarkdown.h>
 #import "EaseToolBar.h"
@@ -132,7 +133,6 @@
     [preview.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self.view);
         make.bottom.equalTo(self.view).offset(-[self toolBarHeight]);
-//        make.edges.equalTo(self.view);
     }];
     self.previewController = preview;
 }
@@ -160,7 +160,6 @@
         [_contentWebView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.equalTo(self.view);
             make.bottom.equalTo(self.view).offset(-[self toolBarHeight]);
-//            make.edges.equalTo(self.view);
         }];
     }
     if ([self.fileType isEqualToString:@"md"]){
@@ -247,7 +246,7 @@
                                           [KxMenuItem menuItem:@"其它应用打开" image:[UIImage imageNamed:@"file_menu_icon_open"] target:self action:@selector(openByOtherApp)],
                                           ] mutableCopy];
             if ([self fileCanEdit]) {
-                [menuItems insertObject:[KxMenuItem menuItem:@"编辑文件" image:[UIImage imageNamed:@"file_menu_icon_edit"] target:self action:@selector(goToShareFileLink)]
+                [menuItems insertObject:[KxMenuItem menuItem:@"编辑文件" image:[UIImage imageNamed:@"file_menu_icon_edit"] target:self action:@selector(goToEditFile)]
                                 atIndex:0];
             }
             [menuItems setValue:[UIColor colorWithHexString:@"0x222222"] forKey:@"foreColor"];
@@ -257,7 +256,7 @@
                          menuItems:menuItems];
         }
     }else{
-        if (self.preview && self.preview.length > 0) {
+        if (self.preview.length > 0) {
             UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"保存到相册", @"用其他应用打开"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
                 switch (index) {
                     case 0:
@@ -282,16 +281,108 @@
 }
 
 - (void)goToShareFileLink{
-    
+    __weak typeof(self) weakSelf = self;
+    UIActionSheet *actionSheet;
+    if (_curFile.share_url.length > 0) {
+        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"该链接适用于所有人，无需登录" buttonTitles:@[@"拷贝链接", @"关闭共享"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [weakSelf doCopyShareUrl];
+            }else if (index == 1) {
+                [weakSelf doCloseShareUrl];
+            }
+        }];
+    }else{
+        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"当前未开启共享，请先创建公开链接" buttonTitles:@[@"开启共享并拷贝链接"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [weakSelf doOpenAndCopyShareUrl];
+            }
+        }];
+    }
+    [actionSheet showInView:self.view];
 }
 
+- (void)doCopyShareUrl{
+    if (_curFile.share_url.length > 0) {
+        [[UIPasteboard generalPasteboard] setString:_curFile.share_url];
+        [self showHudTipStr:@"链接已拷贝到粘贴板"];
+    }else{
+        [self showHudTipStr:@"文件还未打开共享"];
+    }
+}
+
+- (void)doOpenAndCopyShareUrl{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_OpenShareOfFile:_curFile andBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.curFile.share_url = data;
+            [weakSelf doCopyShareUrl];
+        }
+    }];
+}
+
+- (void)doCloseShareUrl{
+    NSString *hashStr = [[_curFile.share_url componentsSeparatedByString:@"/"] lastObject];
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_CloseShareHash:hashStr andBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.curFile.share_url = nil;
+            [weakSelf showHudTipStr:@"共享链接已关闭"];
+        }
+    }];
+}
+
+
 - (void)goToFileInfo{
-    
+    FileInfoViewController *vc = [FileInfoViewController vcWithFile:_curFile];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)deleteCurFile{
-    
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"只是删除本地文件还是连同服务器文件一起删除？" buttonTitles:@[@"仅删除本地文件"] destructiveTitle:@"一起删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        switch (index) {
+            case 0:
+                [self doDeleteCurFile:self.curFile fromDisk:YES];
+                break;
+            case 1:
+                [self doDeleteCurFile:self.curFile fromDisk:NO];
+                break;
+            default:
+                break;
+        }
+    }] showInView:self.view];
 }
+
+- (void)doDeleteCurFile:(ProjectFile *)file fromDisk:(BOOL)fromDisk{
+    //    删除本地文件
+    NSURL *fileUrl = [file hasBeenDownload];
+    NSString *filePath = fileUrl.path;
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:filePath]) {
+        NSError *fileError;
+        [fm removeItemAtPath:filePath error:&fileError];
+        if (fileError) {
+            [self showError:fileError];
+        }else if (fromDisk){
+            [self.navigationController popViewControllerAnimated:YES];
+            if (self.fileHasBeenDeletedBlock) {
+                self.fileHasBeenDeletedBlock();
+            }
+        }
+    }
+    //    删除服务器文件
+    if (!fromDisk) {
+        __weak typeof(self) weakSelf = self;
+        [[Coding_NetAPIManager sharedManager] request_DeleteFiles:@[file.file_id] inProject:self.curFile.project_id andBlock:^(id data, NSError *error) {
+            if (data) {
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+                if (weakSelf.fileHasBeenDeletedBlock) {
+                    weakSelf.fileHasBeenDeletedBlock();
+                }
+            }
+        }];
+    }
+}
+
 
 - (void)openByOtherApp{
     [self.docInteractionController presentOpenInMenuFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];

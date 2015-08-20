@@ -17,4 +17,6 @@
 @property (strong, nonatomic, readonly) FileVersion *curVersion;
 + (instancetype)vcWithFile:(ProjectFile *)file andVersion:(FileVersion *)version;
 - (void)requestFileData;
+@property (copy, nonatomic) void (^fileHasBeenDeletedBlock)();
+
 @end

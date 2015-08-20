@@ -786,9 +786,6 @@
             NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"FileVersion"];
             [resultA setValue:file.project_id forKey:@"project_id"];
             [resultA setValue:file.fileType forKey:@"fileType"];
-            if (file.preview) {
-                [resultA setValue:file.preview forKey:@"preview"];
-            }
             block(resultA, nil);
         }else{
             block(nil, error);
@@ -835,6 +832,33 @@
         }
     }];
 }
+
+- (void)request_OpenShareOfFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/share/create";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:[file toShareParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"文件_开启共享"];
+            
+            NSString *share_url = [[data valueForKey:@"data"] valueForKey:@"url"];
+            block(share_url, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_CloseShareHash:(NSString *)hashStr andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/share/%@", hashStr];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"文件_关闭共享"];
+
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 #pragma mark Code
 - (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block{
     NSString *treePath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/tree/%@/%@", project.owner_user_name, project.name, codeTree.ref, codeTree.path];
