@@ -1762,6 +1762,13 @@
     }
 }
 
+- (void)request_playedPrivateMessage:(PrivateMessage *)pm {
+    NSString *path = [NSString stringWithFormat:@"/api/message/conversations/%@/play", pm.id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+        DebugLog(@"request_playedPrivateMessage Mark Sucess");
+    }];
+}
+
 - (void)request_CodingTips:(CodingTips *)curTips andBlock:(void (^)(id data, NSError *error))block{
     [MobClick event:kUmeng_Event_Request label:@"ATor评论or系统通知列表"];
     curTips.isLoading = YES;

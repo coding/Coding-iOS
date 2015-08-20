@@ -21,6 +21,7 @@
 #import "UICustomCollectionView.h"
 #import "Login.h"
 #import "BubblePlayView.h"
+#import "Coding_NetAPIManager.h"
 
 @interface MessageCell ()
 @property (strong, nonatomic) PrivateMessage *curPriMsg, *prePriMsg;
@@ -110,6 +111,13 @@
             else {
                 [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
             }
+            
+            if ([_curPriMsg.sender.global_key isEqualToString:[Login curLoginUser].global_key]) {
+                _voiceView.isUnread = NO;
+            }
+            else {
+                _voiceView.isUnread = curPriMsg.played.intValue == 0;
+            }
         }
         return;
     }else{
@@ -185,10 +193,20 @@
             [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
             _voiceView.duration = curPriMsg.voiceMedia.duration;
         }
+
+        if ([_curPriMsg.sender.global_key isEqualToString:[Login curLoginUser].global_key]) {
+            _voiceView.isUnread = NO;
+        }
+        else {
+            _voiceView.isUnread = curPriMsg.played.intValue == 0;
+        }
+        
         _voiceView.playStartedBlock = ^(AudioPlayView *view) {
             BubblePlayView *bubbleView = (BubblePlayView *)view;
             if (bubbleView.isUnread) {
+                [[Coding_NetAPIManager sharedManager] request_playedPrivateMessage:curPriMsg];
                 bubbleView.isUnread = NO;
+                curPriMsg.played = @1;
             }
         };
         bgImgViewSize = CGSizeMake(_voiceView.frame.size.width, 40);
