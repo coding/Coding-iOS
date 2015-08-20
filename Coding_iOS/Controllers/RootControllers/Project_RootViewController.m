@@ -193,6 +193,8 @@
 
 #pragma mark VC
 -(void)addItemClicked:(id)sender{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"快捷创建"];
+
     NSArray *menuItems = @[
                            [MenuItem itemWithTitle:@"项目" iconName:@"pop_Project" index:0],
                            [MenuItem itemWithTitle:@"任务" iconName:@"pop_Task" index:1],
@@ -208,6 +210,8 @@
     }
     @weakify(self);
     _myPopMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem){
+        [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"快捷创建_%ld", (long)selectedItem.index]];
+
         @strongify(self);
         switch (selectedItem.index) {
             case 0:

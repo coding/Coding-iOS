@@ -48,7 +48,11 @@
 
 //友盟统计
 #define kUmeng_AppKey @""
-#define kUmeng_Event_Request @""
+#define kUmeng_Event_Request_Notification @"Request_Notification"
+#define kUmeng_Event_Request_RootList @"Request_RootList"
+#define kUmeng_Event_Request_Get @"Request_Get"
+#define kUmeng_Event_Request_ActionOfServer @"Request_ActionOfServer"
+#define kUmeng_Event_Request_ActionOfLocal @"Request_ActionOfLocal"
 
 //信鸽推送
 #define kXGPush_Id 123456

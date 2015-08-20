@@ -71,7 +71,8 @@
     
     proActs.curUser = user;
     proActs.user_id = user.id;
-    
+    proActs.type = @"user";
+
     return proActs;
 }
 

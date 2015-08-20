@@ -195,6 +195,8 @@
 }
 
 - (void)goToBanner:(CodingBanner *)tapedBanner{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"冒泡列表_点击Banner"];
+
     [self analyseLinkStr:tapedBanner.link];
 }
 

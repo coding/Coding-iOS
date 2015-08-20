@@ -84,14 +84,12 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_MRPRAccept:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_MRPRRefuse:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_MRPRCancel:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_FileLineChanges_WithPath:(NSString *)path params:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CommitInfo_WithUserGK:(NSString *)userGK projectName:(NSString *)projectName commitId:(NSString *)commitId andBlock:(void (^)(CommitInfo *data, NSError *error))block;
 - (void)request_PostCommentWithPath:(NSString *)path params:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteLineNote:(NSNumber *)lineNoteId inProject:(NSString *)projectName ofUser:(NSString *)userGK andBlock:(void (^)(id data, NSError *error))block;
 
 //File
 - (void)request_Folders:(ProjectFolders *)folders inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_RefreshCountInFolders:(ProjectFolders *)folders inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_FilesInFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_RenameFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
@@ -119,7 +117,6 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_EditTask:(Task *)task withTags:(NSMutableArray *)selectedTags andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ChangeTaskStatus:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_TaskDetail:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_CommentListOfTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ActivityListOfTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DoCommentToTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteComment:(TaskComment *)comment ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
@@ -191,11 +188,6 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_ReadMeOFProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 
 //Image
-- (void)uploadUserIconImage:(UIImage *)image
-       successBlock:(void (^)(NSString *imagePath))success
-       failureBlock:(void (^)(NSError *error))failure
-      progerssBlock:(void (^)(CGFloat progressValue))progress;
-
 - (void)uploadTweetImage:(UIImage *)image
                doneBlock:(void (^)(NSString *imagePath, NSError *error))done
               progerssBlock:(void (^)(CGFloat progressValue))progress;
