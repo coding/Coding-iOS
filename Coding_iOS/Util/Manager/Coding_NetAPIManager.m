@@ -236,7 +236,7 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proActs toPath] withParams:[proActs toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
         proActs.isLoading = NO;
         if (data) {
-            [MobClick event:kUmeng_Event_Request_Get label:@"项目动态"];
+            [MobClick event:kUmeng_Event_Request_Get label:[NSString stringWithFormat:@"项目动态_%@", proActs.type]];
 
             id resultData = [data valueForKeyPath:@"data"];
             NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectActivity"];
