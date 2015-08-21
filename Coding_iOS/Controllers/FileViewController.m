@@ -496,7 +496,7 @@
     }
 }
 - (BOOL)fileCanEdit{
-    return YES;
+    return NO;
 }
 @end
 
