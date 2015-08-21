@@ -75,21 +75,32 @@
     }
 }
 
+- (void)setHighlighted:(BOOL)highlighted {
+    [super setHighlighted:highlighted];
+    _bgImageView.highlighted = highlighted;
+}
+
 - (void)setType:(BubbleType)type {
     _type = type;
     UIImage *bgImage = nil;
+    UIImage *bgHlImage = nil;
     UIImage *playImage = nil;
     if (type == BubbleTypeRight) {
         bgImage = [UIImage imageNamed:@"messageRight_bg_img"];
         bgImage = [bgImage resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImage.size.height - 19, bgImage.size.width - 31)];
+        bgHlImage = [UIImage imageNamed:@"messageRight_bg_highlight_img"];
+        bgHlImage = [bgHlImage resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImage.size.height - 19, bgImage.size.width - 31)];
         playImage = [UIImage imageNamed:@"bubble_right_play_2"];
     }
     else {
         bgImage = [UIImage imageNamed:@"messageLeft_bg_img"];
         bgImage = [bgImage resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImage.size.height - 19, bgImage.size.width - 31)];
+        bgHlImage = [UIImage imageNamed:@"messageLeft_bg_highlight_img"];
+        bgHlImage = [bgHlImage resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImage.size.height - 19, bgImage.size.width - 31)];
         playImage = [UIImage imageNamed:@"bubble_left_play_2"];
     }
     _bgImageView.image = bgImage;
+    _bgImageView.highlightedImage = bgHlImage;
     _playImageView.size = playImage.size;
     _playImageView.image = playImage;
     //refresh play state

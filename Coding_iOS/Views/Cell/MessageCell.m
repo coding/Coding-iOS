@@ -90,7 +90,6 @@
         else if ([reuseIdentifier isEqualToString:kCellIdentifier_MessageVoice]) {
             if (!_voiceView) {
                 _voiceView = [[BubblePlayView alloc] initWithFrame:CGRectMake(0, 0, kMessageCell_ContentWidth, 40)];
-                _voiceView.showBgImg = NO;
                 [_bgImgView addSubview:_voiceView];
             }
         }
@@ -223,6 +222,7 @@
         _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
         if (_voiceView) {
+            bgImg = nil;  //使用bubbleView的背景
             _voiceView.type = BubbleTypeLeft;
         }
     }else{
@@ -234,6 +234,7 @@
         _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
         if (_voiceView) {
+            bgImg = nil;  //使用bubbleView的背景
             _voiceView.type = BubbleTypeRight;
         }
     }
