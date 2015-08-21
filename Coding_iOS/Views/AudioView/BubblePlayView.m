@@ -129,7 +129,7 @@
         [self startPlayingAnimation];
     }
     else if (playState == AudioPlayViewStateDownloading) {
-        [_activityView startAnimating];
+//        [_activityView startAnimating];
         [self stopPlayingAnimation];
     }
     else {
