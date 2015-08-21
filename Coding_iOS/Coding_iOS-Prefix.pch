@@ -48,7 +48,11 @@
 
 //友盟统计
 #define kUmeng_AppKey @""
-#define kUmeng_Event_Request @""
+#define kUmeng_Event_Request_Notification @"Request_Notification"
+#define kUmeng_Event_Request_RootList @"Request_RootList"
+#define kUmeng_Event_Request_Get @"Request_Get"
+#define kUmeng_Event_Request_ActionOfServer @"Request_ActionOfServer"
+#define kUmeng_Event_Request_ActionOfLocal @"Request_ActionOfLocal"
 
 //信鸽推送
 #define kXGPush_Id 123456
@@ -133,28 +137,28 @@
 #pragma mark - Weak Object
 
 /**
-* @code
-* ESWeak(imageView, weakImageView);
-* [self testBlock:^(UIImage *image) {
-*         ESStrong(weakImageView, strongImageView);
-*         strongImageView.image = image;
-* }];
-*
-* // `ESWeak_(imageView)` will create a var named `weak_imageView`
-* ESWeak_(imageView);
-* [self testBlock:^(UIImage *image) {
-*         ESStrong_(imageView);
-* 	_imageView.image = image;
-* }];
-*
-* // weak `self` and strong `self`
-* ESWeakSelf;
-* [self testBlock:^(UIImage *image) {
-*         ESStrongSelf;
-*         _self.image = image;
-* }];
-* @endcode
-*/
+ * @code
+ * ESWeak(imageView, weakImageView);
+ * [self testBlock:^(UIImage *image) {
+ *         ESStrong(weakImageView, strongImageView);
+ *         strongImageView.image = image;
+ * }];
+ *
+ * // `ESWeak_(imageView)` will create a var named `weak_imageView`
+ * ESWeak_(imageView);
+ * [self testBlock:^(UIImage *image) {
+ *         ESStrong_(imageView);
+ * 	_imageView.image = image;
+ * }];
+ *
+ * // weak `self` and strong `self`
+ * ESWeakSelf;
+ * [self testBlock:^(UIImage *image) {
+ *         ESStrongSelf;
+ *         _self.image = image;
+ * }];
+ * @endcode
+ */
 
 #define ESWeak(var, weakVar) __weak __typeof(&*var) weakVar = var
 #define ESStrong_DoNotCheckNil(weakVar, _var) __typeof(&*weakVar) _var = weakVar

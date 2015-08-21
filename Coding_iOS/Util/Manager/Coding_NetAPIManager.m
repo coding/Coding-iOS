@@ -1794,7 +1794,7 @@
         } progerssBlock:^(CGFloat progressValue) {
         }];
     } else if (nextMsg.voiceMedia) {
-        [MobClick event:kUmeng_Event_Request label:@"发送私信_语音"];
+        [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"私信_发送_语音"];
         [[CodingNetAPIClient sharedJsonClient] uploadVoice:nextMsg.voiceMedia.file withPath:@"api/message/send_voice" withParams:[nextMsg toSendParams] andBlock:^(id data, NSError *error) {
             if (data) {
                 id resultData = [data valueForKeyPath:@"data"];
