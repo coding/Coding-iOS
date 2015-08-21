@@ -2,7 +2,7 @@
 //  FileInfoViewController.h
 //  Coding_iOS
 //
-//  Created by Ease on 15/8/12.
+//  Created by Ease on 15/8/20.
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 

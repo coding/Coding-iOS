@@ -66,10 +66,6 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.view.backgroundColor = kColorTableBG;
-}
-
-- (void)loadView{
-    [super loadView];
     
     if (self.interfaceOrientation != UIInterfaceOrientationPortrait
         && !([self supportedInterfaceOrientations] & UIInterfaceOrientationMaskLandscapeLeft)) {

@@ -762,6 +762,11 @@
 
 - (void)goToFileVC:(ProjectFile *)file{
     FileViewController *vc = [FileViewController vcWithFile:file andVersion:nil];
+    @weakify(self);
+    vc.fileHasBeenDeletedBlock = ^(){
+        @strongify(self);
+        [self refreshFileList];
+    };
     [self.navigationController pushViewController:vc animated:YES];
 }
 

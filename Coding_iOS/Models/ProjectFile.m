@@ -113,5 +113,13 @@
     return [NSString stringWithFormat:@"api/project/%@/files/%@/histories", _project_id.stringValue, _file_id.stringValue];
 }
 
+- (NSDictionary *)toShareParams{
+    return @{
+             @"projectId": _project_id,
+             @"resourceId": _file_id,
+             @"resourceType": @0,
+             @"accessType": @0
+             };
+}
 @end
 
