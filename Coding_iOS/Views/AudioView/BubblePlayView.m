@@ -48,7 +48,7 @@
         [self addSubview:_activityView];
         
         _unreadView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 7, 7)];
-        _unreadView.backgroundColor = [UIColor colorWithRGBHex:0xFF3C30];
+        _unreadView.backgroundColor = [UIColor colorWithRGBHex:0xf75288];
         _unreadView.layer.cornerRadius = _unreadView.frame.size.width/2;
         _unreadView.hidden = YES;
         [self addSubview:_unreadView];
