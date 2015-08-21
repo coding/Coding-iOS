@@ -17,6 +17,7 @@
 #import "UIPlaceHolderTextView.h"
 #import "UIMessageInputView_Add.h"
 #import "UIMessageInputView_CCell.h"
+#import "UIMessageInputView_Voice.h"
 
 //at某人的功能
 #import "UsersViewController.h"
@@ -41,14 +42,17 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 @property (strong, nonatomic) AGEmojiKeyboardView *emojiKeyboardView;
 
 @property (strong, nonatomic) UIMessageInputView_Add *addKeyboardView;
+@property (strong, nonatomic) UIMessageInputView_Voice *voiceKeyboardView;
 
 @property (strong, nonatomic) UIScrollView *contentView;
 @property (strong, nonatomic) UIPlaceHolderTextView *inputTextView;
+@property (strong, nonatomic) UIButton *arrowKeyboardButton;
 
 @property (strong, nonatomic) UICustomCollectionView *mediaView;
 @property (strong, nonatomic) NSMutableArray *mediaList, *uploadMediaList;
 
-@property (strong, nonatomic) UIButton *addButton, *emotionButton, *photoButton;
+@property (strong, nonatomic) UIButton *addButton, *emotionButton, *photoButton, *voiceButton;
+@property (strong, nonatomic) UIView *voiceRedpointView;
 
 @property (assign, nonatomic) CGFloat viewHeightOld;
 
@@ -86,26 +90,36 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
             {
                 [self.addButton setImage:[UIImage imageNamed:@"keyboard_add"] forState:UIControlStateNormal];
                 [self.emotionButton setImage:[UIImage imageNamed:@"keyboard_emotion"] forState:UIControlStateNormal];
-
+                [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_voice"] forState:UIControlStateNormal];
             }
                 break;
             case UIMessageInputViewStateEmotion:
             {
                 [self.addButton setImage:[UIImage imageNamed:@"keyboard_add"] forState:UIControlStateNormal];
                 [self.emotionButton setImage:[UIImage imageNamed:@"keyboard_keyboard"] forState:UIControlStateNormal];
-                
+                [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_voice"] forState:UIControlStateNormal];
             }
                 break;
             case UIMessageInputViewStateAdd:
             {
                 [self.addButton setImage:[UIImage imageNamed:@"keyboard_keyboard"] forState:UIControlStateNormal];
                 [self.emotionButton setImage:[UIImage imageNamed:@"keyboard_emotion"] forState:UIControlStateNormal];
-                
+                [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_voice"] forState:UIControlStateNormal];
+            }
+                break;
+            case UIMessageInputViewStateVoice:
+            {
+                [self.addButton setImage:[UIImage imageNamed:@"keyboard_add"] forState:UIControlStateNormal];
+                [self.emotionButton setImage:[UIImage imageNamed:@"keyboard_emotion"] forState:UIControlStateNormal];
+                [self.voiceButton setImage:[UIImage imageNamed:@"keyboard_keyboard"] forState:UIControlStateNormal];
             }
                 break;
             default:
                 break;
         }
+        _contentView.hidden = _inputState == UIMessageInputViewStateVoice;
+        _arrowKeyboardButton.hidden = !_contentView.hidden;
+        _arrowKeyboardButton.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
     }
 }
 - (void)setPlaceHolder:(NSString *)placeHolder{
@@ -273,6 +287,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     [kKeyWindow addSubview:self];
     [kKeyWindow addSubview:_emojiKeyboardView];
     [kKeyWindow addSubview:_addKeyboardView];
+    [kKeyWindow addSubview:_voiceKeyboardView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChange:) name:UIKeyboardWillChangeFrameNotification object:nil];
     
     if (_isAlwaysShow && ![self isCustomFirstResponder]) {
@@ -291,6 +306,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     } completion:^(BOOL finished) {
         [_emojiKeyboardView removeFromSuperview];
         [_addKeyboardView removeFromSuperview];
+        [_voiceKeyboardView removeFromSuperview];
         [self removeFromSuperview];
     }];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -305,10 +321,11 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }
 }
 - (BOOL)isAndResignFirstResponder{
-    if (self.inputState == UIMessageInputViewStateAdd || self.inputState == UIMessageInputViewStateEmotion) {
+    if (self.inputState == UIMessageInputViewStateAdd || self.inputState == UIMessageInputViewStateEmotion || self.inputState == UIMessageInputViewStateVoice) {
         [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
             [_emojiKeyboardView setY:kScreen_Height];
             [_addKeyboardView setY:kScreen_Height];
+            [_voiceKeyboardView setY:kScreen_Height];
             if (self.isAlwaysShow) {
                 [self setY:kScreen_Height- CGRectGetHeight(self.frame)];
             }else{
@@ -329,7 +346,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 }
 
 - (BOOL)isCustomFirstResponder{
-    return ([_inputTextView isFirstResponder] || self.inputState == UIMessageInputViewStateAdd || self.inputState == UIMessageInputViewStateEmotion);
+    return ([_inputTextView isFirstResponder] || self.inputState == UIMessageInputViewStateAdd || self.inputState == UIMessageInputViewStateEmotion || self.inputState == UIMessageInputViewStateVoice);
 }
 
 + (instancetype)messageInputViewWithType:(UIMessageInputViewContentType)type{
@@ -351,7 +368,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     CGFloat contentViewHeight = kMessageInputView_Height -2*kMessageInputView_PadingHeight;
     
     NSInteger toolBtnNum;
-    BOOL hasEmotionBtn, hasAddBtn, hasPhotoBtn;
+    BOOL hasEmotionBtn, hasAddBtn, hasPhotoBtn, hasVoiceBtn;
     BOOL showBigEmotion;
     
     
@@ -363,6 +380,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
             hasAddBtn = NO;
             hasPhotoBtn = NO;
             showBigEmotion = NO;
+            hasVoiceBtn = NO;
         }
             break;
         case UIMessageInputViewContentTypePriMsg:
@@ -372,6 +390,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
             hasAddBtn = YES;
             hasPhotoBtn = NO;
             showBigEmotion = YES;
+            hasVoiceBtn = YES;
         }
             break;
         case UIMessageInputViewContentTypeTopic:
@@ -382,6 +401,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
             hasAddBtn = NO;
             hasPhotoBtn = YES;
             showBigEmotion = NO;
+            hasVoiceBtn = NO;
         }
             break;
         default:
@@ -390,6 +410,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
             hasAddBtn = NO;
             hasPhotoBtn = NO;
             showBigEmotion = NO;
+            hasVoiceBtn = NO;
             break;
     }
     
@@ -404,7 +425,8 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         _contentView.alwaysBounceVertical = YES;
         [self addSubview:_contentView];
         [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self).insets(UIEdgeInsetsMake(kMessageInputView_PadingHeight, kPaddingLeftWidth, kMessageInputView_PadingHeight, kPaddingLeftWidth + toolBtnNum *kMessageInputView_Width_Tool));
+            CGFloat left = hasVoiceBtn ? (7+kMessageInputView_Width_Tool+7) : kPaddingLeftWidth;
+            make.edges.equalTo(self).insets(UIEdgeInsetsMake(kMessageInputView_PadingHeight, left, kMessageInputView_PadingHeight, kPaddingLeftWidth + toolBtnNum *kMessageInputView_Width_Tool));
         }];
     }
     
@@ -490,6 +512,41 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
             NSDictionary* userInfo = [aNotification userInfo];
             [self completionUploadWithResult:[userInfo objectForKey:@"data"] error:[userInfo objectForKey:@"error"]];
         }];
+    }
+    
+    if (hasVoiceBtn && !_voiceButton) {
+        _voiceButton = [[UIButton alloc] initWithFrame:CGRectMake(7, (kMessageInputView_Height - kMessageInputView_Width_Tool)/2, kMessageInputView_Width_Tool, kMessageInputView_Width_Tool)];
+        
+        [_voiceButton setImage:[UIImage imageNamed:@"keyboard_voice"] forState:UIControlStateNormal];
+        [_voiceButton addTarget:self action:@selector(voiceButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_voiceButton];
+        
+        if ([self needDisplayVoiceButtonRedpoint]) {
+            _voiceRedpointView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 7, 7)];
+            _voiceRedpointView.center = CGPointMake(31, 5);
+            _voiceRedpointView.backgroundColor = [UIColor colorWithRGBHex:0xFF3C30];
+            _voiceRedpointView.layer.cornerRadius = _voiceRedpointView.frame.size.width/2;
+            [_voiceButton addSubview:_voiceRedpointView];
+        }
+    }
+    _voiceButton.hidden = !hasVoiceBtn;
+    
+    if (hasVoiceBtn && !_arrowKeyboardButton) {
+        _arrowKeyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _arrowKeyboardButton.frame = CGRectMake(0, 0, kMessageInputView_Width_Tool, kMessageInputView_Width_Tool);
+        [_arrowKeyboardButton setImage:[UIImage imageNamed:@"keyboard_arrow_down"] forState:UIControlStateNormal];
+        [_arrowKeyboardButton addTarget:self action:@selector(arrowButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:_arrowKeyboardButton];
+    }
+    _arrowKeyboardButton.hidden = YES;
+    
+    if (hasVoiceBtn && !_voiceKeyboardView) {
+        _voiceKeyboardView = [[UIMessageInputView_Voice alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, kKeyboardView_Height)];
+        _voiceKeyboardView.recordSuccessfully = ^(NSString *file, NSTimeInterval duration){
+            if (weakSelf.delegate && [weakSelf.delegate respondsToSelector:@selector(messageInputView:sendVoice:duration:)]) {
+                [weakSelf.delegate messageInputView:weakSelf sendVoice:file duration:duration];
+            }
+        };
     }
 }
 
@@ -638,6 +695,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         [_addKeyboardView setY:endY];
         [_emojiKeyboardView setY:kScreen_Height];
+        [_voiceKeyboardView setY:kScreen_Height];
         if (ABS(kScreen_Height - endY) > 0.1) {
             [self setY:endY- CGRectGetHeight(self.frame)];
         }
@@ -657,6 +715,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         [_emojiKeyboardView setY:endY];
         [_addKeyboardView setY:kScreen_Height];
+        [_voiceKeyboardView setY:kScreen_Height];
         if (ABS(kScreen_Height - endY) > 0.1) {
             [self setY:endY- CGRectGetHeight(self.frame)];
         }
@@ -677,6 +736,38 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     UINavigationController *navigationController = [[BaseNavigationController alloc] initWithRootViewController:imagePickerController];
     [[BaseViewController presentingVC] presentViewController:navigationController animated:YES completion:^{
     }];
+}
+
+- (void)voiceButtonClicked:(id)sender {
+    CGFloat endY = kScreen_Height;
+    if (self.inputState == UIMessageInputViewStateVoice) {
+        self.inputState = UIMessageInputViewStateSystem;
+        [_inputTextView becomeFirstResponder];
+    } else {
+        self.inputState = UIMessageInputViewStateVoice;
+        [_inputTextView resignFirstResponder];
+        endY = kScreen_Height - kKeyboardView_Height;
+    }
+    [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
+        [_voiceKeyboardView setY:endY];
+        [_emojiKeyboardView setY:kScreen_Height];
+        [_addKeyboardView setY:kScreen_Height];
+        if (ABS(kScreen_Height - endY) > 0.1) {
+            [self setY:endY- CGRectGetHeight(self.frame)];
+        }
+    } completion:^(BOOL finished) {
+    }];
+    
+    if (_voiceRedpointView) {
+        [_voiceRedpointView removeFromSuperview];
+        self.voiceRedpointView = nil;
+        
+        [self noDisplayVoiceButtonRedpoint];
+    }
+}
+
+- (void)arrowButtonClicked:(id)sender {
+    [self isAndResignFirstResponder];
 }
 
 #pragma mark QBImagePickerControllerDelegate
@@ -851,6 +942,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
             [_emojiKeyboardView setY:kScreen_Height];
             [_addKeyboardView setY:kScreen_Height];
+            [_voiceKeyboardView setY:kScreen_Height];
         } completion:^(BOOL finished) {
             self.inputState = UIMessageInputViewStateSystem;
         }];
@@ -957,6 +1049,19 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 - (UIImage *)backSpaceButtonImageForEmojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView {
     UIImage *img = [UIImage imageNamed:@"keyboard_emotion_delete"];
     return img;
+}
+
+#pragma mark - Redpoint
+
+#define kInputViewVoiceButtonRedpoint @"InputViewVoiceButtonRedpoint"
+
+- (BOOL)needDisplayVoiceButtonRedpoint {
+    return ![[NSUserDefaults standardUserDefaults] boolForKey:kInputViewVoiceButtonRedpoint];
+}
+
+- (void)noDisplayVoiceButtonRedpoint {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kInputViewVoiceButtonRedpoint];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end

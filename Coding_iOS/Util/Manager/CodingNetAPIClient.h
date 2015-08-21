@@ -53,4 +53,9 @@ typedef NS_ENUM(NSInteger, IllegalContentType) {
        successBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
        failureBlock:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
       progerssBlock:(void (^)(CGFloat progressValue))progress;
+
+- (void)uploadVoice:(NSString *)file
+           withPath:(NSString *)path
+         withParams:(NSDictionary*)params
+           andBlock:(void (^)(id data, NSError *error))block;
 @end

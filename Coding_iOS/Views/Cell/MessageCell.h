@@ -8,6 +8,7 @@
 
 #define kCellIdentifier_Message @"MessageCell"
 #define kCellIdentifier_MessageMedia @"MessageMediaCell"
+#define kCellIdentifier_MessageVoice @"MessageVoiceCell"
 
 #import <UIKit/UIKit.h>
 #import "PrivateMessage.h"

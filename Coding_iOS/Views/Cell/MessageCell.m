@@ -20,13 +20,15 @@
 #import "MJPhotoBrowser.h"
 #import "UICustomCollectionView.h"
 #import "Login.h"
-
+#import "BubblePlayView.h"
+#import "Coding_NetAPIManager.h"
 
 @interface MessageCell ()
 @property (strong, nonatomic) PrivateMessage *curPriMsg, *prePriMsg;
 
 @property (strong, nonatomic) UITapImageView *userIconView;
 @property (strong, nonatomic) UICustomCollectionView *mediaView;
+@property (strong, nonatomic) BubblePlayView *voiceView;
 @property (strong, nonatomic) NSMutableDictionary *imageViewsDict;
 
 @property (strong, nonatomic) UIActivityIndicatorView *sendingStatus;
@@ -85,6 +87,12 @@
                 _imageViewsDict = [[NSMutableDictionary alloc] init];
             }
         }
+        else if ([reuseIdentifier isEqualToString:kCellIdentifier_MessageVoice]) {
+            if (!_voiceView) {
+                _voiceView = [[BubblePlayView alloc] initWithFrame:CGRectMake(0, 0, kMessageCell_ContentWidth, 40)];
+                [_bgImgView addSubview:_voiceView];
+            }
+        }
     }
     return self;
 }
@@ -94,6 +102,22 @@
 
     if (_curPriMsg == curPriMsg && _prePriMsg == prePriMsg && _preMediaViewHeight == mediaViewHeight) {
         [self configSendStatus];
+        //refresh voice view play state
+        if (_voiceView) {
+            if (curPriMsg.file) {
+                [_voiceView setUrl:[NSURL URLWithString:curPriMsg.file]];
+            }
+            else {
+                [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
+            }
+            
+            if ([_curPriMsg.sender.global_key isEqualToString:[Login curLoginUser].global_key]) {
+                _voiceView.isUnread = NO;
+            }
+            else {
+                _voiceView.isUnread = curPriMsg.played.intValue == 0;
+            }
+        }
         return;
     }else{
         _curPriMsg = curPriMsg;
@@ -151,10 +175,40 @@
         
         bgImgViewSize = CGSizeMake(kMessageCell_ContentWidth +2*kMessageCell_PadingWidth,
                                    mediaViewHeight +textSize.height + kMessageCell_PadingHeight*(_curPriMsg.content.length > 0? 3:2));
-    }else{
+    } else if (curPriMsg.file || curPriMsg.voiceMedia) {
+        bgImgViewSize = CGSizeMake(kMessageCell_ContentWidth, 40);
+    } else{
         [_contentLabel setY:kMessageCell_PadingHeight];
         
         bgImgViewSize = CGSizeMake(textSize.width +2*kMessageCell_PadingWidth, textSize.height +2*kMessageCell_PadingHeight);
+    }
+    
+    if (_voiceView) {
+        if (curPriMsg.file) {
+            [_voiceView setUrl:[NSURL URLWithString:curPriMsg.file]];
+            _voiceView.duration = curPriMsg.duration.doubleValue/1000;
+        }
+        else {
+            [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
+            _voiceView.duration = curPriMsg.voiceMedia.duration;
+        }
+
+        if ([_curPriMsg.sender.global_key isEqualToString:[Login curLoginUser].global_key]) {
+            _voiceView.isUnread = NO;
+        }
+        else {
+            _voiceView.isUnread = curPriMsg.played.intValue == 0;
+        }
+        
+        _voiceView.playStartedBlock = ^(AudioPlayView *view) {
+            BubblePlayView *bubbleView = (BubblePlayView *)view;
+            if (bubbleView.isUnread) {
+                [[Coding_NetAPIManager sharedManager] request_playedPrivateMessage:curPriMsg];
+                bubbleView.isUnread = NO;
+                curPriMsg.played = @1;
+            }
+        };
+        bgImgViewSize = CGSizeMake(_voiceView.frame.size.width, 40);
     }
     
     CGRect bgImgViewFrame;
@@ -167,6 +221,10 @@
         bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImg.size.height - 19, bgImg.size.width - 31)];
         _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
+        if (_voiceView) {
+            bgImg = nil;  //使用bubbleView的背景
+            _voiceView.type = BubbleTypeLeft;
+        }
     }else{
         //        这是自己发的
         bgImgViewFrame = CGRectMake((kScreen_Width - kPaddingLeftWidth - kMessageCell_UserIconWith) -bgImgViewSize.width, curBottomY +kMessageCell_PadingHeight, bgImgViewSize.width, bgImgViewSize.height);
@@ -175,6 +233,10 @@
         bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImg.size.height - 19, bgImg.size.width - 31)];
         _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
+        if (_voiceView) {
+            bgImg = nil;  //使用bubbleView的背景
+            _voiceView.type = BubbleTypeRight;
+        }
     }
     
     __weak typeof(self) weakSelf = self;
@@ -189,6 +251,7 @@
         [_mediaView setHeight:mediaViewHeight];
         [_mediaView reloadData];
     }
+    
     [self configSendStatus];
     
     _preMediaViewHeight = mediaViewHeight;
@@ -240,7 +303,11 @@
         CGSize textSize = [curPriMsg.content getSizeWithFont:kMessageCell_FontContent constrainedToSize:CGSizeMake(kMessageCell_ContentWidth, CGFLOAT_MAX)];
         CGFloat mediaViewHeight = [MessageCell mediaViewHeightWithObj:curPriMsg];
         cellHeight += mediaViewHeight;
-        cellHeight += textSize.height + kMessageCell_PadingHeight*4;
+        if (curPriMsg.voiceMedia || curPriMsg.file) {
+            cellHeight += kMessageCell_PadingHeight*2+40;
+        } else {
+            cellHeight += textSize.height + kMessageCell_PadingHeight*4;
+        }
         
         if (mediaViewHeight > 0 && curPriMsg.content && curPriMsg.content.length > 0) {
             cellHeight += kMessageCell_PadingHeight;

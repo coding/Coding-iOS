@@ -67,6 +67,9 @@
     if (_curPriMsg.hasMedia) {
         [textMsg appendString:@"[图片]"];
     }
+    if (_curPriMsg.file || _curPriMsg.voiceMedia) {
+        [textMsg setString:@"[语音]"];
+    }
     _msg.text = textMsg;
     
     NSString *badgeTip = @"";

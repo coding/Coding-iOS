@@ -69,6 +69,8 @@
     CGSize itemSize;
     if ([obj isKindOfClass:[UIImage class]]) {
         itemSize = [[ImageSizeManager shareManager] sizeWithImage:(UIImage *)obj originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2];
+    }else if ([obj isKindOfClass:[VoiceMedia class]]) {
+        itemSize = CGSizeMake(kMessageCell_ContentWidth, 40);
     }else if ([obj isKindOfClass:[HtmlMediaItem class]]){
         HtmlMediaItem *curMediaItem = (HtmlMediaItem *)obj;
         itemSize = [[ImageSizeManager shareManager] sizeWithSrc:curMediaItem.src originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2];

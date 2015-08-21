@@ -1793,10 +1793,30 @@
             }
         } progerssBlock:^(CGFloat progressValue) {
         }];
-    }else{
+    } else if (nextMsg.voiceMedia) {
+        [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"私信_发送_语音"];
+        [[CodingNetAPIClient sharedJsonClient] uploadVoice:nextMsg.voiceMedia.file withPath:@"api/message/send_voice" withParams:[nextMsg toSendParams] andBlock:^(id data, NSError *error) {
+            if (data) {
+                id resultData = [data valueForKeyPath:@"data"];
+                PrivateMessage *result = [NSObject objectOfClass:@"PrivateMessage" fromJSON:resultData];
+                nextMsg.sendStatus = PrivateMessageStatusSendSucess;
+                block(result, nil);
+            }else{
+                nextMsg.sendStatus = PrivateMessageStatusSendFail;
+                block(nil, error);
+            }
+        }];
+    } else {
 //        发送私信
         [self request_SendPrivateMessage:nextMsg andBlock:block];
     }
+}
+
+- (void)request_playedPrivateMessage:(PrivateMessage *)pm {
+    NSString *path = [NSString stringWithFormat:@"/api/message/conversations/%@/play", pm.id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
+        DebugLog(@"request_playedPrivateMessage Mark Sucess");
+    }];
 }
 
 - (void)request_CodingTips:(CodingTips *)curTips andBlock:(void (^)(id data, NSError *error))block{
