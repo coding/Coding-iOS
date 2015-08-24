@@ -15,6 +15,7 @@
     self = [super init];
     if (self) {
         _sendStatus = PrivateMessageStatusSendSucess;
+        _id = @(-1);
     }
     return self;
 }

@@ -148,14 +148,18 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
 }
 
 - (void)messageInputView:(UIMessageInputView *)inputView heightToBottomChenged:(CGFloat)heightToBottom{
-    [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-        UIEdgeInsets contentInsets= UIEdgeInsetsMake(0.0, 0.0, MAX(CGRectGetHeight(inputView.frame), heightToBottom), 0.0);;
-        self.myTableView.contentInset = contentInsets;
-        self.myTableView.scrollIndicatorInsets = contentInsets;
-        if (heightToBottom > 60) {
-            [self scrollToBottomAnimated:NO];
-        }
-    } completion:nil];
+    UIEdgeInsets contentInsets= UIEdgeInsetsMake(0.0, 0.0, MAX(CGRectGetHeight(inputView.frame), heightToBottom), 0.0);;
+    self.myTableView.contentInset = contentInsets;
+    self.myTableView.scrollIndicatorInsets = contentInsets;
+    //调整内容
+    if (heightToBottom > CGRectGetHeight(inputView.frame)) {
+        CGPoint contentOffset = self.myTableView.contentOffset;
+        CGFloat spaceHeight = MAX(0, CGRectGetHeight(self.myTableView.frame) - self.myTableView.contentSize.height - CGRectGetHeight(inputView.frame));
+        contentOffset.y += MAX(0, heightToBottom - CGRectGetHeight(inputView.frame) - spaceHeight);
+        [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
+            self.myTableView.contentOffset = contentOffset;
+        } completion:nil];
+    }
 }
 
 #pragma mark refresh

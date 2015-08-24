@@ -132,7 +132,7 @@
     if (!_p_lastId) {
         _p_lastId = @0;
         [_list enumerateObjectsUsingBlock:^(PrivateMessage *obj, NSUInteger idx, BOOL *stop) {
-            if (obj.sender.id.integerValue == obj.friend.id.integerValue) {
+            if (obj.id.integerValue > 0) {
                 _p_lastId = obj.id;
                 *stop = YES;
             }
