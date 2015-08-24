@@ -75,11 +75,6 @@
     }
 }
 
-- (void)setHighlighted:(BOOL)highlighted {
-    [super setHighlighted:highlighted];
-    _bgImageView.highlighted = highlighted;
-}
-
 - (void)setType:(BubbleType)type {
     _type = type;
     UIImage *bgImage = nil;
@@ -170,6 +165,28 @@
     else {
         _playImageView.image = [UIImage imageNamed:@"bubble_left_play_2"];
     }
+}
+
+#pragma mark - touch
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    _bgImageView.highlighted = YES;
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesEnded:touches withEvent:event];
+    //在TableViewCell中，快速点击不显示highlight状态
+    [self performSelector:@selector(cancelHighlight) withObject:nil afterDelay:0.1f];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesCancelled:touches withEvent:event];
+    _bgImageView.highlighted = NO;
+}
+
+- (void)cancelHighlight {
+    _bgImageView.highlighted = NO;
 }
 
 #pragma mark - Width
