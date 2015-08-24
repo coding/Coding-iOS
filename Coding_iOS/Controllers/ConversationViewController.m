@@ -152,13 +152,19 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
     self.myTableView.contentInset = contentInsets;
     self.myTableView.scrollIndicatorInsets = contentInsets;
     //调整内容
+    static CGPoint keyboard_down_ContentOffset;
+    static CGFloat keyboard_down_InputViewHeight;
     if (heightToBottom > CGRectGetHeight(inputView.frame)) {
-        CGPoint contentOffset = self.myTableView.contentOffset;
-        CGFloat spaceHeight = MAX(0, CGRectGetHeight(self.myTableView.frame) - self.myTableView.contentSize.height - CGRectGetHeight(inputView.frame));
-        contentOffset.y += MAX(0, heightToBottom - CGRectGetHeight(inputView.frame) - spaceHeight);
+        CGPoint contentOffset = keyboard_down_ContentOffset;
+        CGFloat spaceHeight = MAX(0, CGRectGetHeight(self.myTableView.frame) - self.myTableView.contentSize.height - keyboard_down_InputViewHeight);
+        contentOffset.y += MAX(0, heightToBottom - keyboard_down_InputViewHeight - spaceHeight);
+        NSLog(@"\nspaceHeight:%.2f heightToBottom:%.2f diff:%.2f Y:%.2f", spaceHeight, heightToBottom, MAX(0, heightToBottom - CGRectGetHeight(inputView.frame) - spaceHeight), contentOffset.y);
         [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
             self.myTableView.contentOffset = contentOffset;
         } completion:nil];
+    }else{
+        keyboard_down_ContentOffset = self.myTableView.contentOffset;
+        keyboard_down_InputViewHeight = CGRectGetHeight(inputView.frame);
     }
 }
 
@@ -212,20 +218,20 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
 }
 
 - (void)doPoll{
-    if (!_myPriMsgs ||  _myPriMsgs.isLoading) {
-        return;
-    }
-    if (_myPriMsgs.list.count <= 0) {
-        [self refreshLoadMore:NO];
-        return;
-    }
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_Fresh_PrivateMessages:_myPriMsgs andBlock:^(id data, NSError *error) {
-        if (data && [(NSArray *)data count] > 0) {
-            [weakSelf.myPriMsgs configWithPollArray:data];
-            [weakSelf dataChangedWithError:NO scrollToBottom:YES animated:YES];
-        }
-    }];
+//    if (!_myPriMsgs ||  _myPriMsgs.isLoading) {
+//        return;
+//    }
+//    if (_myPriMsgs.list.count <= 0) {
+//        [self refreshLoadMore:NO];
+//        return;
+//    }
+//    __weak typeof(self) weakSelf = self;
+//    [[Coding_NetAPIManager sharedManager] request_Fresh_PrivateMessages:_myPriMsgs andBlock:^(id data, NSError *error) {
+//        if (data && [(NSArray *)data count] > 0) {
+//            [weakSelf.myPriMsgs configWithPollArray:data];
+//            [weakSelf dataChangedWithError:NO scrollToBottom:YES animated:YES];
+//        }
+//    }];
 }
 
 #pragma mark Table M
