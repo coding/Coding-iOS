@@ -763,6 +763,36 @@
         }
     }];
 }
+- (void)request_FileContent:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[file toDetailPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"文件_获取内容"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            resultData = [resultData valueForKeyPath:@"content"];
+            block(resultData, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_EditFile:(ProjectFile *)file withContent:(NSString *)contentStr andBlock:(void (^)(id data, NSError *error))block{
+    if (!contentStr || !file.name) {
+        return;
+    }
+    NSString *path = [NSString stringWithFormat:@"api/project/%@/files/%@/edit", file.project_id, file.file_id];
+    NSDictionary *params = @{@"name" : file.name,
+                             @"content" : contentStr};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"文件_编辑内容"];
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 
 - (void)request_ActivityListOfFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[file toActivityListPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {

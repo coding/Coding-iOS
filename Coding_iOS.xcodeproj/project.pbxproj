@@ -246,6 +246,7 @@
 		4E72F8331B15B811001B6CE6 /* gif_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E72F8321B15B811001B6CE6 /* gif_mark@2x.png */; };
 		4E743E6D1A88A3CC00DADDE5 /* EaseMarkdownTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E743E6C1A88A3CC00DADDE5 /* EaseMarkdownTextView.m */; };
 		4E743E6F1A88ABF700DADDE5 /* blankpage_image_Hi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E743E6E1A88ABF700DADDE5 /* blankpage_image_Hi@2x.png */; };
+		4E753D441B8AFDEC003A00B9 /* FileEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E753D431B8AFDEC003A00B9 /* FileEditViewController.m */; };
 		4E76D4DE1A5A7B4A0094A35E /* text_clear_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E76D4DD1A5A7B4A0094A35E /* text_clear_btn@2x.png */; };
 		4E787DE21B0329B300F06E83 /* ProjectLineNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E787DE11B0329B300F06E83 /* ProjectLineNote.m */; };
 		4E787DE51B03342000F06E83 /* ProjectActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E787DE41B03342000F06E83 /* ProjectActivity.m */; };
@@ -1243,6 +1244,8 @@
 		4E743E6B1A88A3CC00DADDE5 /* EaseMarkdownTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseMarkdownTextView.h; sourceTree = "<group>"; };
 		4E743E6C1A88A3CC00DADDE5 /* EaseMarkdownTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseMarkdownTextView.m; sourceTree = "<group>"; };
 		4E743E6E1A88ABF700DADDE5 /* blankpage_image_Hi@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blankpage_image_Hi@2x.png"; sourceTree = "<group>"; };
+		4E753D421B8AFDEC003A00B9 /* FileEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileEditViewController.h; sourceTree = "<group>"; };
+		4E753D431B8AFDEC003A00B9 /* FileEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileEditViewController.m; sourceTree = "<group>"; };
 		4E76D4DD1A5A7B4A0094A35E /* text_clear_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "text_clear_btn@2x.png"; sourceTree = "<group>"; };
 		4E787DE01B0329B300F06E83 /* ProjectLineNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectLineNote.h; sourceTree = "<group>"; };
 		4E787DE11B0329B300F06E83 /* ProjectLineNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectLineNote.m; sourceTree = "<group>"; };
@@ -3693,6 +3696,8 @@
 				4E93F2411B85C4C300017916 /* FileInfoViewController.h */,
 				4E93F2421B85C4C300017916 /* FileInfoViewController.m */,
 				4E93F2431B85C4C300017916 /* FileInfoViewController.xib */,
+				4E753D421B8AFDEC003A00B9 /* FileEditViewController.h */,
+				4E753D431B8AFDEC003A00B9 /* FileEditViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -5179,6 +5184,7 @@
 				8E1C3DEE19E7D58A00EF3032 /* ActionSheetLocalePicker.m in Sources */,
 				4ECE8AE91A3943E80021E29C /* UIViewController+Swizzle.m in Sources */,
 				8EA6D1F919E240C40076D59C /* MJPhotoLoadingView.m in Sources */,
+				4E753D441B8AFDEC003A00B9 /* FileEditViewController.m in Sources */,
 				8EA6D14419E240C40076D59C /* TopicDetailViewController.m in Sources */,
 				4EA7F1641A6D192B00A046BD /* UIImageView+HighlightedWebCache.m in Sources */,
 				E7A046A01A47279E00528C12 /* Helper.m in Sources */,
