@@ -431,7 +431,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }
     
     if (!_inputTextView) {
-        _inputTextView = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width -2*kPaddingLeftWidth - toolBtnNum *kMessageInputView_Width_Tool, contentViewHeight)];
+        _inputTextView = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width - kPaddingLeftWidth - toolBtnNum *kMessageInputView_Width_Tool - (hasVoiceBtn ? 7+kMessageInputView_Width_Tool+7 : kPaddingLeftWidth), contentViewHeight)];
         _inputTextView.font = [UIFont systemFontOfSize:16];
         _inputTextView.returnKeyType = UIReturnKeySend;
         _inputTextView.scrollsToTop = NO;
