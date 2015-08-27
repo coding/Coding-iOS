@@ -552,7 +552,7 @@ static char LoadingViewKey, BlankPageViewKey;
             case EaseBlankPageTypeTweet://冒泡列表（自己的）
             {
                 imageName = @"blankpage_image_Hi";
-                tipStr = @"无冒泡\n来，冒个泡吧～";
+                tipStr = @"来，冒个泡吧～";
             }
                 break;
             case EaseBlankPageTypeTweetOther://冒泡列表（别人的）
@@ -588,7 +588,7 @@ static char LoadingViewKey, BlankPageViewKey;
             case EaseBlankPageTypePrivateMsg://私信列表
             {
                 imageName = @"blankpage_image_Hi";
-                tipStr = @"无私信\n打个招呼吧～";
+                tipStr = @"打个招呼吧～";
             }
                 break;
             case EaseBlankPageTypeMyJoinedTopic://我参与的话题
