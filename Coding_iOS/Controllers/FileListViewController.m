@@ -570,7 +570,8 @@
             [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xff5846"] icon:[UIImage imageNamed:@"icon_file_cell_delete"]];
         }
     }else{
-        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xe6e6e6"] icon:[UIImage imageNamed:@"icon_file_cell_move"]];
+        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xdddddd"] icon:[UIImage imageNamed:@"icon_file_cell_move"]];
+        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xe6e6e6"] icon:[UIImage imageNamed:@"icon_file_cell_rename"]];
         [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xff5846"] icon:[UIImage imageNamed:@"icon_file_cell_delete"]];
     }
     return rightUtilityButtons;
@@ -618,6 +619,8 @@
         ProjectFile *file = [_myFiles.list objectAtIndex:(indexPath.row - _curFolder.sub_folders.count - _uploadFiles.count)];
         if (index == 0) {
             [self moveFiles:@[file] fromFolder:self.curFolder];
+        }else if (index == 1){
+            [self renameFile:file];
         }else{
             [self deleteFile:file];
         }
@@ -644,17 +647,35 @@
     @weakify(folder);
     [SettingTextViewController showSettingFolderNameVCFromVC:nil withTitle:@"重命名文件夹" textValue:folder.name type:SettingTypeFolderName doneBlock:^(NSString *textValue) {
         @strongify(folder);
-        if (![textValue isEqualToString:folder.name]) {
-            folder.next_name = textValue;
-            [[Coding_NetAPIManager sharedManager] request_RenameFolder:folder andBlock:^(id data, NSError *error) {
-                if (data) {
-                    ProjectFolder *originalFolder = (ProjectFolder *)data;
-                    DebugLog(@"重命名文件夹成功:%@", originalFolder.name);
-                    originalFolder.name = originalFolder.next_name;
-                    [weakSelf.myTableView reloadData];
-                }
-            }];
-        }
+        folder.next_name = textValue;
+        [[Coding_NetAPIManager sharedManager] request_RenameFolder:folder andBlock:^(id data, NSError *error) {
+            if (data) {
+                ProjectFolder *originalFolder = (ProjectFolder *)data;
+                originalFolder.name = originalFolder.next_name;
+                [self showHudTipStr:[NSString stringWithFormat:@"成功重命名为:%@", originalFolder.name]];
+                [weakSelf.myTableView reloadData];
+            }
+        }];
+    }];
+}
+- (void)renameFile:(ProjectFile *)file{
+    __weak typeof(self) weakSelf = self;
+    @weakify(file);
+    NSString *nameValue = file.name;
+    NSRange rangeOfType = [nameValue rangeOfString:[NSString stringWithFormat:@".%@", file.fileType] options:NSBackwardsSearch];
+    if (rangeOfType.location != NSNotFound) {
+        nameValue = [nameValue stringByReplacingCharactersInRange:rangeOfType withString:@""];
+    }
+    [SettingTextViewController showSettingFolderNameVCFromVC:nil withTitle:@"重命名文件" textValue:nameValue type:SettingTypeFolderName doneBlock:^(NSString *textValue) {
+        textValue = [NSString stringWithFormat:@"%@.%@", textValue, file.fileType];
+        @strongify(file);
+        [[Coding_NetAPIManager sharedManager] request_RenameFile:file withName:textValue andBlock:^(id data, NSError *error) {
+            if (data) {
+                file.name = textValue;
+                [self showHudTipStr:[NSString stringWithFormat:@"成功重命名为:%@", file.name]];
+                [weakSelf.myTableView reloadData];
+            }
+        }];
     }];
 }
 - (void)deleteFile:(ProjectFile *)file{

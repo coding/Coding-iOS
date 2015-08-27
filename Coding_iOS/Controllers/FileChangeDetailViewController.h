@@ -12,6 +12,7 @@
 
 @interface FileChangeDetailViewController : BaseViewController
 @property (strong, nonatomic) NSString *linkUrlStr;
+@property (strong, nonatomic) NSString *noteable_id;
 
 @property (strong, nonatomic) Project *curProject;
 @property (strong, nonatomic) NSString *commitId, *filePath;

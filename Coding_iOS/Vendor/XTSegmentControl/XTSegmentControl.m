@@ -473,6 +473,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         [curItem setSelected:YES];
         _currentIndex = currentIndex;
     }
+    [self setScrollOffset:currentIndex];
 }
 
 - (void)endMoveIndex:(NSInteger)index

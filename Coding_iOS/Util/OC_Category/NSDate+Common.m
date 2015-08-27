@@ -59,13 +59,7 @@
 }
 
 - (NSInteger)leftDayCount{
-    NSCalendar *calendar = [[self class] sharedCalendar];
-    NSDate *today = [NSDate dateFromString:[[NSDate date] stringWithFormat:@"yyyy-MM-dd"] withFormat:@"yyyy-MM-dd"];
-    NSDateComponents *components = [calendar components:(NSDayCalendarUnit)
-                                               fromDate:today
-                                                 toDate:self
-                                                options:0];
-    return [components day];
+    return [self day] - [[NSDate date] day];
 }
 
 - (NSString *)stringTimesAgo{

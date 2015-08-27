@@ -87,6 +87,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_CommitInfo_WithUserGK:(NSString *)userGK projectName:(NSString *)projectName commitId:(NSString *)commitId andBlock:(void (^)(CommitInfo *data, NSError *error))block;
 - (void)request_PostCommentWithPath:(NSString *)path params:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteLineNote:(NSNumber *)lineNoteId inProject:(NSString *)projectName ofUser:(NSString *)userGK andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_DeleteLineNoteWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block;
 
 //File
 - (void)request_Folders:(ProjectFolders *)folders inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
@@ -97,6 +98,10 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_MoveFiles:(NSArray *)fileIdList toFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CreatFolder:(NSString *)fileName inFolder:(ProjectFolder *)parentFolder inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_FileDetail:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_FileContent:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_EditFile:(ProjectFile *)file withContent:(NSString *)contentStr andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_RenameFile:(ProjectFile *)file withName:(NSString *)nameStr andBlock:(void (^)(id data, NSError *error))block;
+
 - (void)request_ActivityListOfFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_VersionListOfFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteComment:(NSNumber *)comment_id inFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
@@ -189,6 +194,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_WatchProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ForkProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ReadMeOFProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_FileDiffDetailWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block;
 
 //Image
 - (void)uploadTweetImage:(UIImage *)image

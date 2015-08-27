@@ -112,6 +112,598 @@ body {
 .diff .header .diff-header > a {
   display: none;
 }
+.diff .inline-comments {
+  display: table-row;
+}
+.diff .inline-comments .line-comments {
+  vertical-align: top;
+  padding: 10px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+.diff .diff-comments {
+  max-width: 780px;
+  position: relative;
+}
+.diff .diff-comments .comment {
+  margin-bottom: 0;
+  border: 1px solid #ddd;
+  border-top: none;
+  background: #fff;
+  position: relative;
+  padding: 10px;
+}
+.diff .diff-comments .comment:first-child {
+  border-top: 1px solid #ddd;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.diff .diff-comments .comment img.avatar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 32px;
+}
+.diff .diff-comments .comment .time {
+  font-size: 12px;
+  color: #999;
+}
+.diff .diff-comments .comment .time span {
+  margin-right: 10px;
+}
+.diff .diff-comments .comment-detail {
+  margin-left: 40px;
+  position: relative;
+  background: #fff;
+}
+.diff .diff-comments .content {
+  font-size: 13px;
+  white-space: normal;
+  line-height: 23px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  word-wrap: break-word;
+  color: #333;
+}
+</style>
+  <style type="text/css">@charset "UTF-8";
+/*markdown 样式*/
+.webview-detail {
+    font-size: 0.875rem;
+    line-height: 23px;
+    overflow: hidden;
+    word-wrap: break-word;
+    color: #333;
+}
+.webview-detail .three_wrapper img.emotion.monkey {
+    width: 31%;
+    margin: 1%;
+}
+.webview-detail .two_wrapper img.emotion.monkey {
+    width: 46%;
+    margin: 2%;
+}
+.webview-detail > *:first-child {
+    margin-top: 0 !important;
+}
+.webview-detail > *:last-child {
+    margin-bottom: 0 !important;
+}
+
+.webview-detail a{
+    color: #3bbd79;
+    text-decoration: none;
+}
+
+.webview-detail a.absent {
+    color: #c00;
+}
+.webview-detail a.anchor {
+    display: block;
+    padding-right: 6px;
+    padding-left: 30px;
+    margin-left: -30px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+.webview-detail a.anchor:focus {
+    outline: none;
+}
+.webview-detail h1, .webview-detail h2, .webview-detail h3, .webview-detail h4, .webview-detail h5, .webview-detail h6 {
+    margin: 1em 0 15px;
+    padding: 0;
+    cursor: text;
+    position: relative;
+    font-weight: 700;
+    line-height: 2rem;
+}
+.webview-detail h1 .octicon-link, .webview-detail h2 .octicon-link, .webview-detail h3 .octicon-link, .webview-detail h4 .octicon-link, .webview-detail h5 .octicon-link, .webview-detail h6 .octicon-link {
+    display: none;
+    color: #000;
+}
+.webview-detail h1:hover a.anchor, .webview-detail h2:hover a.anchor, .webview-detail h3:hover a.anchor, .webview-detail h4:hover a.anchor, .webview-detail h5:hover a.anchor, .webview-detail h6:hover a.anchor {
+    text-decoration: none;
+    line-height: 1;
+    padding-left: 8px;
+    margin-left: -30px;
+    top: 15%;
+}
+.webview-detail h1:hover a.anchor .octicon-link, .webview-detail h2:hover a.anchor .octicon-link, .webview-detail h3:hover a.anchor .octicon-link, .webview-detail h4:hover a.anchor .octicon-link, .webview-detail h5:hover a.anchor .octicon-link, .webview-detail h6:hover a.anchor .octicon-link {
+    display: inline-block;
+}
+.webview-detail h1 tt, .webview-detail h1 code, .webview-detail h2 tt, .webview-detail h2 code, .webview-detail h3 tt, .webview-detail h3 code, .webview-detail h4 tt, .webview-detail h4 code, .webview-detail h5 tt, .webview-detail h5 code, .webview-detail h6 tt, .webview-detail h6 code {
+    font-size: inherit;
+}
+.webview-detail h1 {
+    font-size: 28px;
+    color: #000;
+    font-weight: 400;
+    border-bottom: 1px solid #ddd;
+}
+.webview-detail.bubble h1, .webview-detail.bubble h2 {
+    border: none !important;
+}
+.webview-detail h2 {
+    font-size: 24px;
+    border-bottom: 1px solid #ddd;
+    color: #000;
+    font-weight: 400;
+}
+.webview-detail h3 {
+    font-size: 20px;
+}
+.webview-detail h4 {
+    font-size: 16px;
+}
+.webview-detail h5 {
+    font-size: 14px;
+    color: #666;
+}
+.webview-detail h6 {
+    font-size: 14px;
+}
+.webview-detail p, .webview-detail blockquote, .webview-detail ul, .webview-detail ol, .webview-detail dl, .webview-detail table, .webview-detail pre {
+    margin: 15px 0;
+}
+.webview-detail hr {
+    border: none;
+    border-top: 1px dashed #ddd;
+    height: 1px;
+    padding: 0;
+    margin: 30px 0;
+}
+.webview-detail ul, .webview-detail ol {
+    padding-left: 30px;
+}
+.webview-detail ul.no-list, .webview-detail ol.no-list {
+    list-style-type: none;
+    padding: 0;
+}
+.webview-detail ul ul, .webview-detail ul ol, .webview-detail ol ol, .webview-detail ol ul {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.webview-detail dl {
+    padding: 0;
+}
+.webview-detail dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin-top: 15px;
+}
+.webview-detail dl dd {
+    margin-bottom: 15px;
+    padding: 0 15px;
+}
+.webview-detail blockquote {
+    border-left: 4px solid #DDD;
+    padding: 10px 15px;
+    color: #666;
+    background: rgba(0, 0, 0, 0.03);
+}
+.webview-detail blockquote > :first-child {
+    margin-top: 0px;
+}
+.webview-detail blockquote > :last-child {
+    margin-bottom: 0px;
+}
+.webview-detail table {
+    width: 100%;
+    overflow: auto;
+    border-collapse: collapse;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.webview-detail .markdown-table {
+    width: 100%;
+    overflow: auto;
+    margin: 15px 0!important;
+}
+.webview-detail .markdown-table table {
+    margin: 0;
+}
+.webview-detail table th {
+    font-weight: bold;
+    background: #eee;
+}
+.webview-detail table th, .webview-detail table td {
+    border: 1px solid #ddd;
+    padding: 6px 13px;
+}
+.webview-detail table tr {
+    border-top: 1px solid #ccc;
+    background-color: #fff;
+}
+.webview-detail table tr:nth-child(2n) {
+    background-color: #f6f6f6;
+}
+
+.webview-detail img {
+    max-width: 100%;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #fff;
+    padding: 8px;
+    margin: 0.25rem 0;
+    border: 1px solid #eee;
+    border-radius: 3px;
+}
+.webview-detail img.emotion {
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    background: none;
+}
+
+.webview-detail img.emotion.emoji {
+    height: 1.3em!important;
+    width: 1.3em!important;
+    vertical-align: middle;
+}
+
+.webview-detail img.emotion.monkey{
+    max-width: 44%;
+    margin: 2%;
+}
+
+.bubble-detial .one_wrapper img.emotion.monkey{
+    max-width: 100%;
+}
+
+.webview-detail .three_wrapper img.emotion.monkey,
+.webview-detail .two_wrapper img.emotion.monkey{
+    width: 46%;
+}
+
+.webview-detail span.frame {
+    display: block;
+    overflow: hidden;
+}
+.webview-detail span.frame > span {
+    border: 1px solid #ddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto;
+}
+.webview-detail span.frame span img {
+    display: block;
+    float: left;
+}
+.webview-detail span.frame span span {
+    clear: both;
+    color: #333;
+    display: block;
+    padding: 5px 0 0;
+}
+.webview-detail span.align-center {
+    display: block;
+    overflow: hidden;
+    clear: both;
+}
+.webview-detail span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center;
+}
+.webview-detail span.align-center span img {
+    margin: 0 auto;
+    text-align: center;
+}
+.webview-detail span.align-right {
+    display: block;
+    overflow: hidden;
+    clear: both;
+}
+.webview-detail span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right;
+}
+.webview-detail span.align-right span img {
+    margin: 0;
+    text-align: right;
+}
+.webview-detail span.float-left {
+    display: block;
+    margin-right: 13px;
+    overflow: hidden;
+    float: left;
+}
+.webview-detail span.float-left span {
+    margin: 13px 0 0;
+}
+.webview-detail span.float-right {
+    display: block;
+    margin-left: 13px;
+    overflow: hidden;
+    float: right;
+}
+.webview-detail span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right;
+}
+.webview-detail code, .webview-detail tt {
+    margin: 0;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    max-width: 100%;
+    display: inline-block;
+    overflow: auto;
+    vertical-align: middle;
+    padding: 0;
+}
+.webview-detail code:before, .webview-detail code:after, .webview-detail tt:before, .webview-detail tt:after {
+    content: "\00a0";
+    letter-spacing: -0.2em;
+}
+.webview-detail del code {
+    text-decoration: inherit;
+    vertical-align: text-top;
+}
+.webview-detail code {
+    white-space: nowrap;
+}
+.webview-detail pre > code {
+    margin: 0;
+    padding: 0;
+    white-space: pre;
+    border: none;
+    background: transparent;
+    font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace !important;
+}
+.webview-detail .highlight pre, .webview-detail pre {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    font-size: 13px;
+    line-height: 19px;
+    overflow: auto;
+    padding: 6px 10px;
+    border-radius: 3px;
+}
+.webview-detail pre {
+    word-wrap: normal;
+}
+.webview-detail pre code, .webview-detail pre tt {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    word-wrap: normal;
+    max-width: initial;
+    display: inline;
+    overflow: initial;
+    line-height: inherit;
+}
+.webview-detail pre code:before, .webview-detail pre code:after, .webview-detail pre tt:before, .webview-detail pre tt:after {
+    content: normal;
+}
+
+.webview-detail table tr {
+    font-size: 0.875rem;
+}
+
+.webview-detail h1{
+    line-height: 2rem;
+}
+
+.webview-detail h2{
+    line-height: 1.8rem;
+}
+
+.webview-detail h3{
+    line-height: 1.6rem;
+}
+
+.webview-detail h4{
+    line-height: 1.4rem;
+}
+
+.webview-detail h5{
+    line-height: 1.4rem;
+}
+</style>
+  <style type="text/css">html,body{
+    font-family: '微软雅黑','Helvetica Neue',sans-serif,SimHei;
+    -webkit-font-smoothing: antialiased;
+    font-size: 17px;
+    margin: 0;
+    padding: 0;
+}
+.webview-detail h1 {
+    border-bottom: .5px solid #ddd;
+}
+.webview-detail h2 {
+    border-bottom: 0.5px solid #ddd;
+}
+.webview-detail hr {
+    border-top: .5px dashed #ddd;
+}
+.webview-detail img {
+    border: .5px solid #eee;
+}
+
+.webview-detail h1{
+    font-size: 20px;
+}
+
+.webview-detail h2{
+    font-size: 18px;
+}
+
+.webview-detail h3{
+    font-size: 16px;
+}
+
+.webview-detail h4{
+    font-size: 14px;
+}
+
+.webview-detail h5{
+    font-size: 14px;
+}
+</style>
+  <style type="text/css">/*
+
+github.com style (c) Vasily Polovnyov <vast@whiteants.net>
+
+*/
+
+.hljs {
+  display: block; padding: 0.5em;
+  color: #333;
+  background: #f8f8f8
+}
+
+.hljs-comment,
+.hljs-template_comment,
+.diff .hljs-header,
+.hljs-javadoc {
+  color: #998;
+  font-style: italic
+}
+
+.hljs-keyword,
+.css .rule .hljs-keyword,
+.hljs-winutils,
+.javascript .hljs-title,
+.nginx .hljs-title,
+.hljs-subst,
+.hljs-request,
+.hljs-status {
+  color: #333;
+  font-weight: bold
+}
+
+.hljs-number,
+.hljs-hexcolor,
+.ruby .hljs-constant {
+  color: #099;
+}
+
+.hljs-string,
+.hljs-tag .hljs-value,
+.hljs-phpdoc,
+.tex .hljs-formula {
+  color: #d14
+}
+
+.hljs-title,
+.hljs-id,
+.coffeescript .hljs-params,
+.scss .hljs-preprocessor {
+  color: #900;
+  font-weight: bold
+}
+
+.javascript .hljs-title,
+.lisp .hljs-title,
+.clojure .hljs-title,
+.hljs-subst {
+  font-weight: normal
+}
+
+.hljs-class .hljs-title,
+.haskell .hljs-type,
+.vhdl .hljs-literal,
+.tex .hljs-command {
+  color: #458;
+  font-weight: bold
+}
+
+.hljs-tag,
+.hljs-tag .hljs-title,
+.hljs-rules .hljs-property,
+.django .hljs-tag .hljs-keyword {
+  color: #000080;
+  font-weight: normal
+}
+
+.hljs-attribute,
+.hljs-variable,
+.lisp .hljs-body {
+  color: #008080
+}
+
+.hljs-regexp {
+  color: #009926
+}
+
+.hljs-symbol,
+.ruby .hljs-symbol .hljs-string,
+.lisp .hljs-keyword,
+.tex .hljs-special,
+.hljs-prompt {
+  color: #990073
+}
+
+.hljs-built_in,
+.lisp .hljs-title,
+.clojure .hljs-built_in {
+  color: #0086b3
+}
+
+.hljs-preprocessor,
+.hljs-pragma,
+.hljs-pi,
+.hljs-doctype,
+.hljs-shebang,
+.hljs-cdata {
+  color: #999;
+  font-weight: bold
+}
+
+.hljs-deletion {
+  background: #fdd
+}
+
+.hljs-addition {
+  background: #dfd
+}
+
+.diff .hljs-change {
+  background: #0086b3
+}
+
+.hljs-chunk {
+  color: #aaa
+}
 </style>
 </head>
 <body>
@@ -138,7 +730,7 @@ var diff = function (data) {
   var noPreview = '<table><tbody><tr><td><pre>不支持预览此文件</pre></td></tr></tbody></table>';
   if (data.fileType === 'image') {
     if (data.changeType && (data.changeType === 'delete' || data.changeType === 'add' )) {
-      html.push('<div class="image-' + data.changeType + '"><img src="' + data.image + '"></div>')
+      html.push('<div class="image-' + data.changeType + '"><img src="' + data.image + '"></div>');
     } else {
       html.push(noDiff);
     }
@@ -161,17 +753,21 @@ var diff = function (data) {
       } else if (diffLine.rightNo === 0 && diffLine.leftNo === 0) {
         prefixClass = 'gc';
       }
-      html.push('<tr data-index="'+i+'">');
+      html.push('<tr data-index="'+i+'" data-position="'+diffLine.index+'" ');
       if (prefixClass === 'gc') {
+        html.push('>');
         html.push('<td class="diff-line-num '+prefixClass+'">...</td>');
         html.push('<td class="diff-line-num '+prefixClass+'">...</td>');
       } else if (prefixClass === 'gi') {
+        html.push('data-line="'+diffLine.rightNo+'">');
         html.push('<td class="diff-line-num '+prefixClass+'" ></td>');
         html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.rightNo+'"></td>');
       } else if (prefixClass === 'gd') {
+        html.push('data-line="'+diffLine.leftNo+'">');
         html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.leftNo+'"></td>');
         html.push('<td class="diff-line-num '+prefixClass+'" ></td>');
       } else {
+        html.push('data-line="'+diffLine.leftNo+'">');
         html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.leftNo+'"></td>');
         html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.rightNo+'"></td>');
       }
@@ -183,10 +779,113 @@ var diff = function (data) {
   html.push('</div>');
   return html.join('');
 };
+var drawComment = function(item) {
+  var htmls = [];
+  htmls.push('<div class="comment"');
+  htmls.push('data-commit="'+item.commitId+'" ');
+  htmls.push('data-noteable-type="'+item.noteable_type+'" ');
+  htmls.push('data-noteable-id="'+item.noteable_id+'" ');
+  htmls.push('data-id="'+item.id+'" ');
+  htmls.push('data-line="'+item.line+'" ');
+  htmls.push('data-position="'+item.position+'" ');
+  htmls.push('data-path="'+item.path+'" ');
+  htmls.push('>');
+  if (item.noteable_type === 'Commit') {
+    htmls.push('<a name="commit-comment'+item.id+'"></a>');
+  } else if (item.noteable_type === 'MergeRequestBean') {
+    htmls.push('<a name="mr-comment'+item.id+'"></a>');
+  } else if (item.noteable_type === 'PullRequestBean') {
+    htmls.push('<a name="pr-comment'+item.id+'"></a>');
+  }
+  htmls.push('<img class="avatar" height="32" src="'+item.author.avatar+'">');
+  htmls.push('<div class="comment-detail">');
+  htmls.push('<div class="content webview-detail">');
+  htmls.push(item.content);
+  htmls.push('</div>');
+  htmls.push('<div class="time">');
+  htmls.push('<span class="user" data-user="'+item.author.global_key+'">'+item.author.name+'</span>');
+  htmls.push('<span>'+new Date(item.created_at).toLocaleString()+'</span>');
+  htmls.push('</div>');
+  htmls.push('</div>');
+  htmls.push('</div>');
+  return htmls.join('');
+};
+var drawDiffComments = function(item) {
+  var htmls = [];
+  htmls.push('<tr class="inline-comments">');
+  htmls.push('<td class="line-comments" colspan="4">');
+  htmls.push('<div class="diff-comments">');
+  htmls.push(drawComment(item));
+  htmls.push('</div>');
+  htmls.push('</td>');
+  htmls.push('</tr>');
+  return htmls.join('');
+};
+var generateComments = function(comments) {
+  $.each(comments, function(index, item) {
+    var position = item.position;
+    var $tr = $('tr[data-position="'+position+'"]');
+    var html = '';
+    if ($tr.next().hasClass('inline-comments')) {
+      html = drawComment(item);
+      $tr.next().find('.comment').last().after($(html));
+    } else {
+      html = drawDiffComments(item);
+      $tr.after($(html));
+    }
+  });
+};
 $(function() {
   var diffContent = $('#diff-content');
   var data = ${diff-content};
+  //var data = '';
+  var comments = ${comments}
+  //var comments = '';
+
+  // Diff
   diffContent.html(diff(data.data));
+  var commitId = data.data.linkRef;
+  var path = data.data.path;
+  var noteable_type = data.data.type;
+  var anchor = 'diff-' + data.data.pathMD5;
+
+  $('.diff-line-code').on('click', function() {
+    var $this = $(this);
+    if ($this.hasClass('gc')) {
+      return;
+    }
+    var params = {
+      'commitId': commitId,
+      'noteable_type': noteable_type,
+      'path': path,
+      'position': $this.parent().data('position'),
+      'line': $this.parent().data('line'),
+      'anchor': anchor
+    };
+                          var url = 'coding://line_note?' + $.param(params);
+    console.log(url);
+    document.location.href = url;
+  });
+
+  // Comments
+  generateComments(comments.data);
+  $('.comment').on('click', function() {
+    var $this = $(this);
+    var params = {
+      'clicked_line_note_id': $this.data('id'),
+      'clicked_user_name': $this.find('.user').data('user'),
+      'commitId': $this.data('commit'),
+      'noteable_type': $this.data('noteable-type'),
+      'noteable_id': $this.data('noteable-id'),
+      'path': $this.data('path'),
+      'position': $this.data('position'),
+      'line': $this.data('line'),
+      'anchor': anchor
+    };
+                   var url = 'coding://line_note_comment?' + $.param(params);
+    console.log(url);
+    document.location.href = url;
+  });
 });
 
 </script>

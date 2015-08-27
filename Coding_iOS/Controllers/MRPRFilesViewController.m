@@ -174,6 +174,7 @@
         vc.curProject = _curProject;
         vc.commitId = curFileChange.commitId;
         vc.filePath = curFileChange.path;
+        vc.noteable_id = _curMRPR.id.stringValue;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

@@ -18,6 +18,7 @@
 #import "FileActivitiesViewController.h"
 #import "FileVersionsViewController.h"
 #import "FileInfoViewController.h"
+#import "FileEditViewController.h"
 #import "KxMenu.h"
 
 @interface FileViewController () <QLPreviewControllerDataSource, QLPreviewControllerDelegate, UIDocumentInteractionControllerDelegate, UIWebViewDelegate, EaseToolBarDelegate>
@@ -121,26 +122,23 @@
 
 
 - (void)showDiskFile:(NSURL *)fileUrl{
-    if (self.downloadView) {
-        self.downloadView.hidden = YES;
+    self.downloadView.hidden = self.contentWebView.hidden = YES;
+    if (!self.previewController) {
+        QLPreviewController* preview = [[QLPreviewController alloc] init];
+        preview.dataSource = self;
+        preview.delegate = self;
+        [self.view addSubview:preview.view];
+        [preview.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.equalTo(self.view);
+            make.bottom.equalTo(self.view).offset(-[self toolBarHeight]);
+        }];
+        self.previewController = preview;
     }
-    
-    QLPreviewController* preview = [[QLPreviewController alloc] init];
-    preview.dataSource = self;
-    preview.delegate = self;
-    
-    [self.view addSubview:preview.view];
-    [preview.view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(self.view);
-        make.bottom.equalTo(self.view).offset(-[self toolBarHeight]);
-    }];
-    self.previewController = preview;
+    self.previewController.view.hidden = NO;
 }
 
 - (void)loadWebView:(NSURL *)fileUrl{
-    if (self.downloadView) {
-        self.downloadView.hidden = YES;
-    }
+    self.downloadView.hidden = self.previewController.view.hidden = YES;
     
     if (!_contentWebView) {
         //用webView显示内容
@@ -188,27 +186,31 @@
     }else{
         [self.contentWebView loadRequest:[NSURLRequest requestWithURL:fileUrl]];
     }
+    self.contentWebView.hidden = NO;
 }
 
 - (void)showDownloadView{
+    self.contentWebView.hidden = self.previewController.view.hidden = YES;
     if (!self.downloadView) {
         self.downloadView = [[FileDownloadView alloc] initWithFrame:self.view.bounds];
-        self.downloadView.file = self.curFile;
-        self.downloadView.version = self.curVersion;
-        [self.downloadView reloadData];
         [self.view addSubview:self.downloadView];
         [self.downloadView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
     }
+    
+    self.downloadView.file = self.curFile;
+    self.downloadView.version = self.curVersion;
+    [self.downloadView reloadData];
+    
     __weak typeof(self) weakSelf = self;
-    self.downloadView.hidden = NO;
     self.downloadView.completionBlock = ^(){
         [weakSelf configContent];
     };
     self.downloadView.otherMethodOpenBlock = ^(){
         [weakSelf openByOtherApp];
     };
+    self.downloadView.hidden = NO;
 }
 
 - (void)setupDocumentControllerWithURL:(NSURL *)url{
@@ -248,6 +250,9 @@
             if ([self fileCanEdit]) {
                 [menuItems insertObject:[KxMenuItem menuItem:@"编辑文件" image:[UIImage imageNamed:@"file_menu_icon_edit"] target:self action:@selector(goToEditFile)]
                                 atIndex:0];
+            }else if (self.preview.length > 0){
+                [menuItems insertObject:[KxMenuItem menuItem:@"保存到相册" image:[UIImage imageNamed:@"file_menu_icon_edit"] target:self action:@selector(saveCurImg)]
+                                atIndex:0];
             }
             [menuItems setValue:[UIColor colorWithHexString:@"0x222222"] forKey:@"foreColor"];
             CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 0, 0, 0);
@@ -277,7 +282,13 @@
 }
 
 - (void)goToEditFile{
-    
+    __weak typeof(self) weakSelf = self;
+    FileEditViewController *vc = [FileEditViewController new];
+    vc.curFile = _curFile;
+    vc.completeBlock = ^(){
+        [weakSelf requestFileData];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)goToShareFileLink{
@@ -496,7 +507,12 @@
     }
 }
 - (BOOL)fileCanEdit{
-    return NO;
+    NSArray *supportTypeList = @[@"md", @"txt"];
+    if ([supportTypeList containsObject:_curFile.fileType]) {
+        return YES;
+    }else{
+        return NO;
+    }
 }
 @end
 

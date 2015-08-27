@@ -604,19 +604,21 @@
 
 - (void)request_DeleteLineNote:(NSNumber *)lineNoteId inProject:(NSString *)projectName ofUser:(NSString *)userGK andBlock:(void (^)(id data, NSError *error))block{
     NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/line_notes/%@", userGK, projectName, lineNoteId.stringValue];
-    
+    [self request_DeleteLineNoteWithPath:path andBlock:block];
+}
+
+- (void)request_DeleteLineNoteWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"LineNote_评论_删除"];
-
+            
             block(data, nil);
-
+            
         }else{
             block(nil, error);
         }
     }];
 }
-
 #pragma mark File
 - (void)request_Folders:(ProjectFolders *)folders inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     folders.isLoading = YES;
@@ -758,6 +760,51 @@
                 detailFile.project_id = file.project_id;
             }
             block(detailFile, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_FileContent:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[file toDetailPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"文件_获取内容"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            resultData = [resultData valueForKeyPath:@"content"];
+            block(resultData, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_EditFile:(ProjectFile *)file withContent:(NSString *)contentStr andBlock:(void (^)(id data, NSError *error))block{
+    if (!contentStr || !file.name) {
+        return;
+    }
+    NSString *path = [NSString stringWithFormat:@"api/project/%@/files/%@/edit", file.project_id, file.file_id];
+    NSDictionary *params = @{@"name" : file.name,
+                             @"content" : contentStr};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"文件_编辑内容"];
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_RenameFile:(ProjectFile *)file withName:(NSString *)nameStr andBlock:(void (^)(id data, NSError *error))block{
+    if (!nameStr) {
+        return;
+    }
+    NSString *path = [NSString stringWithFormat:@"api/project/%@/files/%@/rename", file.project_id, file.file_id];
+    NSDictionary *params = @{@"name" : nameStr};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Put andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"文件_重命名"];
+            block(data, nil);
         }else{
             block(nil, error);
         }
@@ -1982,6 +2029,28 @@
             }
         }else{
             block(@"加载失败...", errorTemp);
+        }
+    }];
+}
+
+- (void)request_FileDiffDetailWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block{
+    NSString *commentsPath = [path stringByReplacingOccurrencesOfString:@"/commitDiffContent" withString:@"/commitDiffComment"];
+    NSMutableDictionary *resultA = [NSMutableDictionary new];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            resultA[@"rawData"] = data;
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:commentsPath withParams:nil withMethodType:Get andBlock:^(id dataC, NSError *errorC) {
+                if (dataC) {
+                    [MobClick event:kUmeng_Event_Request_Get label:@"文件改动_详情"];
+                    
+                    resultA[@"commentsData"] = dataC;
+                    block(resultA, nil);
+                }else{
+                    block(nil, error);
+                }
+            }];
+        }else{
+            block(nil, error);
         }
     }];
 }
