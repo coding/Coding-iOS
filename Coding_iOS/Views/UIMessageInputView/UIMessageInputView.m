@@ -32,6 +32,7 @@
 #import "Coding_FileManager.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 #import "MJPhotoBrowser.h"
+#import "FunctionTipsManager.h"
 
 static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 
@@ -521,10 +522,10 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         [_voiceButton addTarget:self action:@selector(voiceButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_voiceButton];
         
-        if ([self needDisplayVoiceButtonRedpoint]) {
+        if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_VoiceMessage]) {
             _voiceRedpointView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 7, 7)];
             _voiceRedpointView.center = CGPointMake(31, 5);
-            _voiceRedpointView.backgroundColor = [UIColor colorWithRGBHex:0xFF3C30];
+            _voiceRedpointView.backgroundColor = [UIColor colorWithRGBHex:0xf75288];
             _voiceRedpointView.layer.cornerRadius = _voiceRedpointView.frame.size.width/2;
             [_voiceButton addSubview:_voiceRedpointView];
         }
@@ -762,7 +763,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         [_voiceRedpointView removeFromSuperview];
         self.voiceRedpointView = nil;
         
-        [self noDisplayVoiceButtonRedpoint];
+        [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_VoiceMessage];
     }
 }
 
@@ -1049,19 +1050,6 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 - (UIImage *)backSpaceButtonImageForEmojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView {
     UIImage *img = [UIImage imageNamed:@"keyboard_emotion_delete"];
     return img;
-}
-
-#pragma mark - Redpoint
-
-#define kInputViewVoiceButtonRedpoint @"InputViewVoiceButtonRedpoint"
-
-- (BOOL)needDisplayVoiceButtonRedpoint {
-    return ![[NSUserDefaults standardUserDefaults] boolForKey:kInputViewVoiceButtonRedpoint];
-}
-
-- (void)noDisplayVoiceButtonRedpoint {
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kInputViewVoiceButtonRedpoint];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end
