@@ -524,7 +524,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         if ([self needDisplayVoiceButtonRedpoint]) {
             _voiceRedpointView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 7, 7)];
             _voiceRedpointView.center = CGPointMake(31, 5);
-            _voiceRedpointView.backgroundColor = [UIColor colorWithRGBHex:0xFF3C30];
+            _voiceRedpointView.backgroundColor = [UIColor colorWithRGBHex:0xf75288];
             _voiceRedpointView.layer.cornerRadius = _voiceRedpointView.frame.size.width/2;
             [_voiceButton addSubview:_voiceRedpointView];
         }
