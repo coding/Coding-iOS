@@ -10,12 +10,13 @@
 #import "Coding_NetAPIManager.h"
 #import "WebContentManager.h"
 #import "CodeViewController.h"
+#import "AddMDCommentViewController.h"
 
 
 @interface FileChangeDetailViewController ()<UIWebViewDelegate>
 @property (strong, nonatomic) UIWebView *webContentView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
-@property (strong, nonatomic) NSDictionary *rawData;
+@property (strong, nonatomic) NSDictionary *rawData, *commentsData;
 @property (strong, nonatomic) NSString *linkRef;
 @end
 
@@ -50,15 +51,13 @@
 
 - (void)refresh{
     [self.view beginLoading];
-    
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.linkUrlStr withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_FileDiffDetailWithPath:self.linkUrlStr andBlock:^(id data, NSError *error) {
         [self.view endLoading];
-
-        data = [data valueForKey:@"data"];
         if (data) {
-            self.rawData = @{@"data" : data};
-            if ([data isKindOfClass:[NSDictionary class]]) {
-                self.linkRef = [data objectForKey:@"linkRef"];
+            self.rawData = data[@"rawData"];
+            self.commentsData = data[@"commentsData"];
+            if ([self.rawData isKindOfClass:[NSDictionary class]]) {
+                self.linkRef = self.rawData[@"data"][@"linkRef"];
             }
             [self refreshUI];
         }
@@ -70,9 +69,13 @@
 
 - (void)refreshUI{
     if (self.rawData) {
-        NSData *JSONData = [NSJSONSerialization dataWithJSONObject:self.rawData options:NSJSONWritingPrettyPrinted error:nil];
-        NSString *contentStr = [[NSString alloc] initWithData:JSONData encoding:NSUTF8StringEncoding];
-        contentStr = [WebContentManager diffPatternedWithContent:contentStr];
+        NSData *JSONDataRaw = [NSJSONSerialization dataWithJSONObject:self.rawData options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *contentStr = [[NSString alloc] initWithData:JSONDataRaw encoding:NSUTF8StringEncoding];
+        
+        NSData *JSONDataComments = [NSJSONSerialization dataWithJSONObject:self.commentsData options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *commentsStr = [[NSString alloc] initWithData:JSONDataComments encoding:NSUTF8StringEncoding];
+        
+        contentStr = [WebContentManager diffPatternedWithContent:contentStr andComments:commentsStr];
         [self.webContentView loadHTMLString:contentStr baseURL:nil];
     }
     self.navigationItem.rightBarButtonItem = self.linkRef.length > 0? [UIBarButtonItem itemWithBtnTitle:@"查看文件" target:self action:@selector(rightBarButtonClicked:)]: nil;
@@ -96,7 +99,14 @@
 #pragma mark UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     DebugLog(@"strLink=[%@]",request.URL.absoluteString);
-    return YES;
+    NSString *strLink = request.URL.absoluteString;
+    if ([strLink hasPrefix:@"coding://"]) {
+        [self handleURL:request.URL];
+        return NO;
+    }
+    else{
+        return YES;
+    }
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     [_activityIndicator startAnimating];
@@ -111,4 +121,77 @@
     else
         DebugLog(@"%@", error.description);
 }
+#pragma mark Clicked One Line
+- (void)handleURL:(NSURL *)curURL{
+    NSMutableDictionary *params = [self getParamsFromURLStr:curURL.absoluteString];
+    if ([curURL.absoluteString hasPrefix:@"coding://line_note?"]) {
+        NSString *title = [NSString stringWithFormat:@"Line %@", params[@"line"]];
+        [[UIActionSheet bk_actionSheetCustomWithTitle:title buttonTitles:@[@"添加评论"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [self goToAddCommentWithParams:params];
+            }
+        }] showInView:self.view];
+    }else if ([curURL.absoluteString hasPrefix:@"coding://line_note_comment?"]){
+        NSString *title = [NSString stringWithFormat:@"%@ 的评论", params[@"clicked_user_name"]];
+        BOOL belongToSelf = [params[@"clicked_user_name"] isEqualToString:[Login curLoginUser].global_key];
+        [[UIActionSheet bk_actionSheetCustomWithTitle:title buttonTitles:@[belongToSelf? @"删除": @"回复"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                if (belongToSelf) {
+                    [self doDeleteCommentWithParams:params];
+                }else{
+                    [self goToAddCommentWithParams:params];
+                }
+            }
+        }] showInView:self.view];
+    }
+}
+
+- (NSMutableDictionary *)getParamsFromURLStr:(NSString *)urlStr{
+    urlStr = [[urlStr componentsSeparatedByString:@"?"] lastObject];
+    NSMutableDictionary *params = [NSMutableDictionary new];
+    for (NSString *param in [urlStr componentsSeparatedByString:@"&"]) {
+        NSArray *elts = [param componentsSeparatedByString:@"="];
+        if([elts count] < 2) continue;
+        [params setObject:[elts objectAtIndex:1] forKey:[elts objectAtIndex:0]];
+    }
+    return params;
+}
+
+- (void)goToAddCommentWithParams:(NSMutableDictionary *)params{
+    AddMDCommentViewController *vc = [AddMDCommentViewController new];
+    vc.curProject = _curProject;
+    
+    NSString *requestPath = [[self.linkUrlStr componentsSeparatedByString:@"/git"] firstObject];
+    requestPath = [requestPath stringByAppendingString:@"/git/line_notes"];
+    vc.requestPath = requestPath;
+    
+    vc.contentStr = params[@"clicked_user_name"]? [NSString stringWithFormat:@"@%@ ", params[@"clicked_user_name"]] : @"";
+    
+    [params removeObjectsForKeys:@[@"clicked_line_note_id", @"clicked_user_name", @"clicked_user_name"]];
+    if (self.noteable_id) {
+        params[@"noteable_id"] = self.noteable_id;
+    }
+    if ([params[@"noteable_type"] hasSuffix:@"Request"]) {
+        params[@"noteable_type"] = [params[@"noteable_type"] stringByAppendingString:@"Bean"];
+    }
+    vc.requestParams = params;
+    
+    @weakify(self);
+    vc.completeBlock = ^(id data){
+        @strongify(self);
+        if (data) {
+            [self refresh];
+        }
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)doDeleteCommentWithParams:(NSMutableDictionary *)params{
+    NSString *requestPath = [[self.linkUrlStr componentsSeparatedByString:@"/git"] firstObject];
+    requestPath = [requestPath stringByAppendingFormat:@"/git/line_notes/%@", params[@"clicked_line_note_id"]];
+    [[Coding_NetAPIManager sharedManager] request_DeleteLineNoteWithPath:requestPath andBlock:^(id data, NSError *error) {
+        [self refresh];
+    }];
+}
+
 @end

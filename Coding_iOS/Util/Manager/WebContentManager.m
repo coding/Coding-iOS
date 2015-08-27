@@ -46,7 +46,7 @@
         if (error) {
             DebugLog(@"markdown_pattern_htmlStr fail: %@", error.description);
         }
-        path = [[NSBundle mainBundle] pathForResource:@"diff" ofType:@"html"];
+        path = [[NSBundle mainBundle] pathForResource:@"diff-ios" ofType:@"html"];
         shared_manager.diff_pattern_htmlStr = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
         if (error) {
             DebugLog(@"diff_pattern_htmlStr fail: %@", error.description);
@@ -92,11 +92,12 @@
     return patternedStr;
 }
 
-- (NSString *)diffPatternedWithContent:(NSString *)content{
+- (NSString *)diffPatternedWithContent:(NSString *)content andComments:(NSString *)comments{
     if (!content) {
         return @"";
     }
     NSString *patternedStr = [self.diff_pattern_htmlStr stringByReplacingOccurrencesOfString:@"${diff-content}" withString:content];
+    patternedStr = [patternedStr stringByReplacingOccurrencesOfString:@"${comments}" withString:comments];
     return patternedStr;
 }
 
@@ -112,7 +113,7 @@
 + (NSString *)markdownPatternedWithContent:(NSString *)content{
     return [[self sharedManager] markdownPatternedWithContent:content];
 }
-+ (NSString *)diffPatternedWithContent:(NSString *)content{
-    return [[self sharedManager] diffPatternedWithContent:content];
++ (NSString *)diffPatternedWithContent:(NSString *)content andComments:(NSString *)comments{
+    return [[self sharedManager] diffPatternedWithContent:content andComments:comments];
 }
 @end

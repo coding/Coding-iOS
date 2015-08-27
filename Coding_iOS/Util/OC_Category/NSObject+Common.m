@@ -109,15 +109,15 @@
         //生产
         baseURLStr = @"https://coding.net/";
     }
-    
-//    {//其他
-//        //村民
-//        baseURLStr = @"http://192.168.0.188:8080/";
-//        
-//        //彭博
-//        baseURLStr = @"http://192.168.0.156:9990/";
-//    }
-    
+//    //staging
+//    baseURLStr = kBaseUrlStr_Test;
+//    //村民
+//    baseURLStr = @"http://192.168.0.188:8080/";
+//    //彭博
+//    baseURLStr = @"http://192.168.0.156:9990/";
+//    //小胖
+//    baseURLStr = @"http://192.168.0.222:8080/";
+
     return baseURLStr;
 }
 

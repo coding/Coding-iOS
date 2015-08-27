@@ -40,7 +40,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = self.curFile.name;
+    self.title = @"历史版本";
     
     //    添加myTableView
     _myTableView = ({

@@ -159,7 +159,6 @@
 		4E53EB5A1AFB090E0034FE1C /* nav_page_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB581AFB090E0034FE1C /* nav_page_unselected@2x.png */; };
 		4E59E1D31A5E6B34004DAEEC /* TaskDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */; };
 		4E5A66951B268D160007A0AD /* UIView+PressMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5A66941B268D160007A0AD /* UIView+PressMenu.m */; };
-		4E5A66991B26EB210007A0AD /* diff.html in Resources */ = {isa = PBXBuildFile; fileRef = 4E5A66981B26EB210007A0AD /* diff.html */; };
 		4E5C06E81AC2B34800F427C5 /* tipIcon_BranchMember@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5C06E71AC2B34800F427C5 /* tipIcon_BranchMember@2x.png */; };
 		4E5C06EB1AC4009100F427C5 /* CannotLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */; };
 		4E5C06EE1AC4405300F427C5 /* PasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5C06ED1AC4405300F427C5 /* PasswordViewController.m */; };
@@ -247,6 +246,7 @@
 		4E743E6D1A88A3CC00DADDE5 /* EaseMarkdownTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E743E6C1A88A3CC00DADDE5 /* EaseMarkdownTextView.m */; };
 		4E743E6F1A88ABF700DADDE5 /* blankpage_image_Hi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E743E6E1A88ABF700DADDE5 /* blankpage_image_Hi@2x.png */; };
 		4E753D441B8AFDEC003A00B9 /* FileEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E753D431B8AFDEC003A00B9 /* FileEditViewController.m */; };
+		4E753D481B8DA099003A00B9 /* diff-ios.html in Resources */ = {isa = PBXBuildFile; fileRef = 4E753D471B8DA099003A00B9 /* diff-ios.html */; };
 		4E76D4DE1A5A7B4A0094A35E /* text_clear_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E76D4DD1A5A7B4A0094A35E /* text_clear_btn@2x.png */; };
 		4E787DE21B0329B300F06E83 /* ProjectLineNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E787DE11B0329B300F06E83 /* ProjectLineNote.m */; };
 		4E787DE51B03342000F06E83 /* ProjectActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E787DE41B03342000F06E83 /* ProjectActivity.m */; };
@@ -1123,7 +1123,6 @@
 		4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDescriptionViewController.m; sourceTree = "<group>"; };
 		4E5A66931B268D160007A0AD /* UIView+PressMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PressMenu.h"; sourceTree = "<group>"; };
 		4E5A66941B268D160007A0AD /* UIView+PressMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+PressMenu.m"; sourceTree = "<group>"; };
-		4E5A66981B26EB210007A0AD /* diff.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = diff.html; sourceTree = "<group>"; };
 		4E5C06E71AC2B34800F427C5 /* tipIcon_BranchMember@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_BranchMember@2x.png"; sourceTree = "<group>"; };
 		4E5C06E91AC4009100F427C5 /* CannotLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CannotLoginViewController.h; sourceTree = "<group>"; };
 		4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CannotLoginViewController.m; sourceTree = "<group>"; };
@@ -1246,6 +1245,7 @@
 		4E743E6E1A88ABF700DADDE5 /* blankpage_image_Hi@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blankpage_image_Hi@2x.png"; sourceTree = "<group>"; };
 		4E753D421B8AFDEC003A00B9 /* FileEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileEditViewController.h; sourceTree = "<group>"; };
 		4E753D431B8AFDEC003A00B9 /* FileEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileEditViewController.m; sourceTree = "<group>"; };
+		4E753D471B8DA099003A00B9 /* diff-ios.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "diff-ios.html"; sourceTree = "<group>"; };
 		4E76D4DD1A5A7B4A0094A35E /* text_clear_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "text_clear_btn@2x.png"; sourceTree = "<group>"; };
 		4E787DE01B0329B300F06E83 /* ProjectLineNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectLineNote.h; sourceTree = "<group>"; };
 		4E787DE11B0329B300F06E83 /* ProjectLineNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectLineNote.m; sourceTree = "<group>"; };
@@ -4062,7 +4062,7 @@
 			children = (
 				4EE083DD1ADB739300CA342E /* modules */,
 				4EE083DB1ADB736800CA342E /* service_terms.html */,
-				4E5A66981B26EB210007A0AD /* diff.html */,
+				4E753D471B8DA099003A00B9 /* diff-ios.html */,
 				8E1C3DF519E7F4CA00EF3032 /* address.json */,
 			);
 			path = Resources;
@@ -4890,7 +4890,6 @@
 				8EA6D19219E240C40076D59C /* timeline_icon_unread@2x.png in Resources */,
 				4E095A6D1B69F920008DC439 /* banner__page_selected@2x.png in Resources */,
 				4E217F141A70EDC700F6DF88 /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
-				4E5A66991B26EB210007A0AD /* diff.html in Resources */,
 				4EF91F641B00B62B0021C951 /* icon_not_locationed@2x.png in Resources */,
 				4E6383EA1B32791600D98648 /* checkbox_unchecked@2x.png in Resources */,
 				8EA6D19119E240C40076D59C /* timeline_icon_read@2x.png in Resources */,
@@ -4926,6 +4925,7 @@
 				8EA6D18519E240C40076D59C /* privatemessage_normal@2x.png in Resources */,
 				8EA6D18219E240C40076D59C /* splitlineImg@2x.png in Resources */,
 				8EA6D18119E240C40076D59C /* sex_woman_icon@2x.png in Resources */,
+				4E753D481B8DA099003A00B9 /* diff-ios.html in Resources */,
 				8E7612F41A08B1EA005BE797 /* tipIcon_TaskComment@2x.png in Resources */,
 				4E94C50C1B4D334B00EB668A /* pop_Task@2x.png in Resources */,
 				4E6383E01B32676600D98648 /* taskDeadline@2x.png in Resources */,

@@ -604,19 +604,21 @@
 
 - (void)request_DeleteLineNote:(NSNumber *)lineNoteId inProject:(NSString *)projectName ofUser:(NSString *)userGK andBlock:(void (^)(id data, NSError *error))block{
     NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/line_notes/%@", userGK, projectName, lineNoteId.stringValue];
-    
+    [self request_DeleteLineNoteWithPath:path andBlock:block];
+}
+
+- (void)request_DeleteLineNoteWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"LineNote_评论_删除"];
-
+            
             block(data, nil);
-
+            
         }else{
             block(nil, error);
         }
     }];
 }
-
 #pragma mark File
 - (void)request_Folders:(ProjectFolders *)folders inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     folders.isLoading = YES;
@@ -2027,6 +2029,28 @@
             }
         }else{
             block(@"加载失败...", errorTemp);
+        }
+    }];
+}
+
+- (void)request_FileDiffDetailWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block{
+    NSString *commentsPath = [path stringByReplacingOccurrencesOfString:@"/commitDiffContent" withString:@"/commitDiffComment"];
+    NSMutableDictionary *resultA = [NSMutableDictionary new];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            resultA[@"rawData"] = data;
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:commentsPath withParams:nil withMethodType:Get andBlock:^(id dataC, NSError *errorC) {
+                if (dataC) {
+                    [MobClick event:kUmeng_Event_Request_Get label:@"文件改动_详情"];
+                    
+                    resultA[@"commentsData"] = dataC;
+                    block(resultA, nil);
+                }else{
+                    block(nil, error);
+                }
+            }];
+        }else{
+            block(nil, error);
         }
     }];
 }

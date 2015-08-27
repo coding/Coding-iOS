@@ -87,6 +87,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_CommitInfo_WithUserGK:(NSString *)userGK projectName:(NSString *)projectName commitId:(NSString *)commitId andBlock:(void (^)(CommitInfo *data, NSError *error))block;
 - (void)request_PostCommentWithPath:(NSString *)path params:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteLineNote:(NSNumber *)lineNoteId inProject:(NSString *)projectName ofUser:(NSString *)userGK andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_DeleteLineNoteWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block;
 
 //File
 - (void)request_Folders:(ProjectFolders *)folders inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
@@ -193,6 +194,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_WatchProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ForkProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ReadMeOFProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_FileDiffDetailWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block;
 
 //Image
 - (void)uploadTweetImage:(UIImage *)image

@@ -15,5 +15,5 @@
 + (NSString *)bubblePatternedWithContent:(NSString *)content;
 + (NSString *)topicPatternedWithContent:(NSString *)content;
 + (NSString *)markdownPatternedWithContent:(NSString *)content;
-+ (NSString *)diffPatternedWithContent:(NSString *)content;
++ (NSString *)diffPatternedWithContent:(NSString *)content andComments:(NSString *)comments;
 @end

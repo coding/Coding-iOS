@@ -279,6 +279,7 @@
         vc.curProject = _curProject;
         vc.commitId = curFileChange.commitId;
         vc.filePath = curFileChange.path;
+        vc.noteable_id = nil;
 
         [self.navigationController pushViewController:vc animated:YES];
     }else if (indexPath.section == _listGroupKeys.count+ 1 && _curCommitInfo.commitComments.count > 0){
