@@ -187,11 +187,9 @@
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[Task class]]) {
         Task *task = (Task *)obj;
-//        CGFloat taskViewHeight = [task.content getHeightWithFont:kTaskContentCell_ContentFont constrainedToSize:CGSizeMake(kTaskContentCell_ContentWidth, CGFLOAT_MAX)];
-//        taskViewHeight = MAX(taskViewHeight+kTextView_Pading*2, kTaskContentCell_ContentHeightMin);
-        cellHeight += kTaskContentCell_ContentHeightMin + 40;
+        cellHeight += 10;
         cellHeight += [ProjectTagsView getHeightForTags:task.labels];
-        cellHeight += 10 + 5 + 5 + 35;
+        cellHeight += 10 + kTaskContentCell_ContentHeightMin + 40;
     }
     return cellHeight;
 }
