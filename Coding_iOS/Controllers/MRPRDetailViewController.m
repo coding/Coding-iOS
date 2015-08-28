@@ -360,6 +360,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }else{
             MRPRFilesViewController *vc = [MRPRFilesViewController new];
             vc.curMRPR = _curMRPR;
+            vc.curMRPRInfo = _curMRPRInfo;
             vc.curProject = _curProject;
             [self.navigationController pushViewController:vc animated:YES];
         }

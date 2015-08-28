@@ -10,9 +10,11 @@
 #import "MRPR.h"
 #import "FileChanges.h"
 #import "Project.h"
+#import "MRPRBaseInfo.h"
 
 @interface MRPRFilesViewController : BaseViewController
 @property (strong, nonatomic) MRPR *curMRPR;
+@property (strong, nonatomic) MRPRBaseInfo *curMRPRInfo;
 @property (strong, nonatomic) Project *curProject;
 
 @end
