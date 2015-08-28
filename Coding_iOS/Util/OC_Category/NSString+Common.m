@@ -30,7 +30,11 @@
                                                                                               kCFStringEncodingUTF8 ));
     return result;
 }
-
+- (NSString *)URLEncoding_Coding{
+    NSString *result = [self stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    result = [result stringByReplacingOccurrencesOfString: @"%2F" withString: @"/"];
+    return result;
+}
 - (NSString *)URLDecoding
 {
     NSMutableString * string = [NSMutableString stringWithString:self];

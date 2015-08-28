@@ -62,7 +62,6 @@ static dispatch_once_t onceToken;
     //log请求数据
     DebugLog(@"\n===========request===========:%@\n%@:\n%@", kNetworkMethodName[method], aPath, params);
     aPath = [aPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    aPath = [aPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 //    发起请求
     switch (method) {
         case Get:{

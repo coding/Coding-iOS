@@ -14,6 +14,7 @@
 + (NSString *)userAgentStr;
 
 - (NSString *)URLEncoding;
+- (NSString *)URLEncoding_Coding;
 - (NSString *)URLDecoding;
 - (NSString *)md5Str;
 - (NSString*) sha1Str;

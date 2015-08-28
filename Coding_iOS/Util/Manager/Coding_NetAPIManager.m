@@ -908,8 +908,8 @@
 
 #pragma mark Code
 - (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block{
-    NSString *treePath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/tree/%@/%@", project.owner_user_name, project.name, codeTree.ref, codeTree.path];
-    NSString *treeinfoPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/treeinfo/%@/%@", project.owner_user_name, project.name, codeTree.ref, codeTree.path];
+    NSString *treePath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/tree/%@/%@", project.owner_user_name, project.name, [codeTree.ref URLEncoding_Coding], [codeTree.path URLEncoding_Coding]];
+    NSString *treeinfoPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/treeinfo/%@/%@", project.owner_user_name, project.name, [codeTree.ref URLEncoding_Coding], [codeTree.path URLEncoding_Coding]];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:treePath withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
@@ -936,7 +936,7 @@
 }
 
 - (void)request_CodeFile:(CodeFile *)codeFile withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
-    NSString *filePath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/blob/%@/%@", project.owner_user_name, project.name, codeFile.ref, codeFile.path];
+    NSString *filePath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/blob/%@/%@", project.owner_user_name, project.name, [codeFile.ref URLEncoding_Coding], [codeFile.path URLEncoding_Coding]];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:filePath withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_Get label:@"代码文件内容"];
@@ -966,7 +966,7 @@
 }
 
 - (void)request_Commits:(Commits *)curCommits withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
-    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/commits/%@/%@", project.owner_user_name, project.name, curCommits.ref, curCommits.path];
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/commits/%@/%@", project.owner_user_name, project.name, [curCommits.ref URLEncoding_Coding], [curCommits.path URLEncoding_Coding]];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:[curCommits toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_Get label:@"提交记录_列表"];

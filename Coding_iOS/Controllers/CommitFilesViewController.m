@@ -274,7 +274,7 @@
         FileChange *curFileChange = [curList objectAtIndex:indexPath.row];
         
         FileChangeDetailViewController *vc = [FileChangeDetailViewController new];
-        vc.linkUrlStr = [NSString stringWithFormat:@"api/user/%@/project/%@/git/commitDiffContent/%@/%@", _ownerGK, _projectName, _commitId, curFileChange.path];
+        vc.linkUrlStr = [NSString stringWithFormat:@"api/user/%@/project/%@/git/commitDiffContent/%@/%@", _ownerGK, _projectName, _commitId, [curFileChange.path URLEncoding_Coding]];
 
         vc.curProject = _curProject;
         vc.commitId = curFileChange.commitId;

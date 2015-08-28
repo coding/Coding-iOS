@@ -100,7 +100,7 @@
 
 - (void)refreshCodeViewData{
     if ([_myCodeFile.file.mode isEqualToString:@"image"]) {
-        NSURL *imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@u/%@/p/%@/git/raw/%@/%@", [NSObject baseURLStr], _myProject.owner_user_name, _myProject.name, _myCodeFile.ref, _myCodeFile.file.path]];
+        NSURL *imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@u/%@/p/%@/git/raw/%@/%@", [NSObject baseURLStr], _myProject.owner_user_name, _myProject.name, [_myCodeFile.ref URLEncoding_Coding], [_myCodeFile.file.path URLEncoding_Coding]]];
         DebugLog(@"imageUrl: %@", imageUrl);
         [self.webContentView loadRequest:[NSURLRequest requestWithURL:imageUrl]];
     }else if ([_myCodeFile.file.mode isEqualToString:@"file"]){
