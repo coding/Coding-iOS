@@ -171,6 +171,9 @@
     if (self.noteable_id) {
         params[@"noteable_id"] = self.noteable_id;
     }
+    if (self.commitId) {
+        params[@"commitId"] = self.commitId;
+    }
     if ([params[@"noteable_type"] hasSuffix:@"Request"]) {
         params[@"noteable_type"] = [params[@"noteable_type"] stringByAppendingString:@"Bean"];
     }

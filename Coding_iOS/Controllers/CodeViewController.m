@@ -9,6 +9,8 @@
 #import "CodeViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "WebContentManager.h"
+#import "ProjectCommitsViewController.h"
+#import "ProjectViewController.h"
 
 @interface CodeViewController ()
 @property (strong, nonatomic) UIWebView *webContentView;
@@ -77,6 +79,7 @@
     }else{
         [[Coding_NetAPIManager sharedManager] request_CodeFile:_myCodeFile withPro:_myProject andBlock:^(id data, NSError *error) {
             [weakSelf doSomethingWithResponse:data andError:error];
+            [weakSelf configRightNavBtn];
         }];
     }
 }
@@ -125,6 +128,49 @@
         DebugLog(@"%@", error.description);
 }
 
+#pragma mark Nav
+- (void)configRightNavBtn{
+    if (!self.navigationItem.rightBarButtonItem) {
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)] animated:NO];
+    }
+}
 
+- (void)rightNavBtnClicked{
+    __weak typeof(self) weakSelf = self;
+    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"查看提交记录", @"退出代码查看"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        switch (index) {
+            case 0:{
+                [weakSelf goToCommitsVC];
+            }
+                break;
+            case 1:{
+                [weakSelf.navigationController.viewControllers enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UIViewController *obj, NSUInteger idx, BOOL *stop) {
+                    if (![obj isKindOfClass:[weakSelf class]]) {
+                        if ([obj isKindOfClass:[ProjectViewController class]]) {
+                            if ([(ProjectViewController *)obj curType] != ProjectViewTypeCodes) {
+                                *stop = YES;
+                            }
+                        }else{
+                            *stop = YES;
+                        }
+                    }
+                    if (*stop) {
+                        [weakSelf.navigationController popToViewController:obj animated:YES];
+                    }
+                }];
+            }
+                break;
+            default:
+                break;
+        }
+    }] showInView:self.view];
+}
+
+- (void)goToCommitsVC{
+    ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
+    vc.curProject = self.myProject;
+    vc.curCommits = [Commits commitsWithRef:self.myCodeFile.ref Path:self.myCodeFile.path];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 @end

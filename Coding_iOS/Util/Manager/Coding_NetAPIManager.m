@@ -943,6 +943,7 @@
 
             id resultData = [data valueForKey:@"data"];
             CodeFile *rCodeFile = [NSObject objectOfClass:@"CodeFile" fromJSON:resultData];
+            rCodeFile.path = codeFile.path;
             block(rCodeFile, nil);
         }else{
             block(nil, error);
