@@ -204,31 +204,14 @@
             switch (indexPath.row) {
                 case 0:
                     [cell setImageStr:@"project_item_readme" andTitle:@"README"];
-                    if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_ReadMe]) {
-                        [cell addTipIcon];
-                    }
                     break;
                 default:
                     [cell setImageStr:@"project_item_mr_pr" andTitle:_myProject.is_public.boolValue? @"Pull Request": @"Merge Request"];
-                    if ((_myProject.is_public.boolValue &&
-                         [[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_PR]) ||
-                        (!_myProject.is_public.boolValue &&
-                         [[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_MR])) {
-                        [cell addTipIcon];
-                    }else
                     break;
             }
         }
         FunctionTipsManager *ftm = [FunctionTipsManager shareManager];
-        NSString *tipStr;
-        if (indexPath.section == 1) {
-            if ((_myProject.is_public.boolValue && indexPath.row == 2) ||
-                (!_myProject.is_public.boolValue && indexPath.row == 4)) {
-                tipStr = kFunctionTipStr_CommitList;
-            }
-        }else if (indexPath.section == 2){
-            tipStr = indexPath.row == 0? kFunctionTipStr_ReadMe: _myProject.is_public.boolValue? kFunctionTipStr_PR: kFunctionTipStr_MR;
-        }
+        NSString *tipStr = [self p_TipStrForIndexPath:indexPath];
         if (tipStr && [ftm needToTip:tipStr]) {
             [cell addTipIcon];
         }
@@ -270,13 +253,26 @@
     }
     
     FunctionTipsManager *ftm = [FunctionTipsManager shareManager];
-    NSString *tipStr;
-    if (indexPath.section == 2) {
-        tipStr = indexPath.row == 0? kFunctionTipStr_ReadMe: _myProject.is_public.boolValue? kFunctionTipStr_PR: kFunctionTipStr_MR;
-    }
+    NSString *tipStr = [self p_TipStrForIndexPath:indexPath];
     if (tipStr && [ftm needToTip:tipStr]) {
         [ftm markTiped:tipStr];
+        NProjectItemCell *cell = (NProjectItemCell *)[tableView cellForRowAtIndexPath:indexPath];
+        [cell removeTip];
     }
+}
+
+- (NSString *)p_TipStrForIndexPath:(NSIndexPath *)indexPath{
+    NSString *tipStr = nil;
+    if (indexPath.section == 1) {
+        if (!_myProject.is_public.boolValue && indexPath.row == 3) {
+            tipStr = kFunctionTipStr_File_2V;
+        }
+    }else if (indexPath.section == 2){
+        if (indexPath.row == 1) {
+            tipStr = kFunctionTipStr_LineNote_MRPR;
+        }
+    }
+    return tipStr;
 }
 
 #pragma mark goTo VC

@@ -30,11 +30,6 @@
                                                                                               kCFStringEncodingUTF8 ));
     return result;
 }
-- (NSString *)URLEncoding_Coding{
-    NSString *result = [self stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    result = [result stringByReplacingOccurrencesOfString: @"%2F" withString: @"/"];
-    return result;
-}
 - (NSString *)URLDecoding
 {
     NSMutableString * string = [NSMutableString stringWithString:self];
@@ -142,6 +137,20 @@
 - (NSString *)stringByRemoveHtmlTag{
     HtmlMedia *media = [HtmlMedia htmlMediaWithString:self showType:MediaShowTypeImageAndMonkey];
     return media.contentDisplay;
+}
++ (NSString *)handelRef:(NSString *)ref path:(NSString *)path{
+    if (ref.length <= 0 && path.length <= 0) {
+        return nil;
+    }
+    
+    NSMutableString *result = [NSMutableString new];
+    if (ref.length > 0) {
+        [result appendString:ref];
+    }
+    if (path.length > 0) {
+        [result appendFormat:@"%@%@", ref.length > 0? @"/": @"", path];
+    }
+    return [result stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 - (CGSize)getSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size{
     CGSize resultSize = CGSizeZero;

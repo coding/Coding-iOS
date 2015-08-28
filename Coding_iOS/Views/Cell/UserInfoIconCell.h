@@ -13,4 +13,7 @@
 @interface UserInfoIconCell : UITableViewCell
 - (void)setTitle:(NSString *)title icon:(NSString *)iconName;
 + (CGFloat)cellHeight;
+
+- (void)addTipIcon;
+- (void)removeTip;
 @end

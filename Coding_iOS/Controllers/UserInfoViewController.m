@@ -8,6 +8,7 @@
 
 #import "UserInfoViewController.h"
 #import "Coding_NetAPIManager.h"
+#import "FunctionTipsManager.h"
 
 #import "MJPhotoBrowser.h"
 #import "UsersViewController.h"
@@ -145,7 +146,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = 0;
     if (section == 0) {
-        row = 3;
+        row = [self isMe]? 0: 3;
     }else if (section == 1){
         row = 1;
     }else if (section == 2){
@@ -187,6 +188,9 @@
             }
         }else{
             [cell setTitle:@"我的码币" icon:@"user_info_point"];
+            if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Me_Points]) {
+                [cell addTipIcon];
+            }
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
@@ -232,6 +236,11 @@
             [self goToTopic];
         }
     }else if (indexPath.section == 3){
+        if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Me_Points]) {
+            [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_Me_Points];
+            UserInfoIconCell *cell = (UserInfoIconCell *)[tableView cellForRowAtIndexPath:indexPath];
+            [cell removeTip];
+        }
         [self goToPoint];
     }
 }

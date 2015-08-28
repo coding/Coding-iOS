@@ -28,4 +28,6 @@
 @interface EaseToolBarItem : UIAwesomeButton
 + (instancetype)easeToolBarItemWithTitle:(NSString *)title image:(NSString *)imageName disableImage:(NSString *)disableImageName;
 - (instancetype)initWithTitle:(NSString *)title image:(NSString *)imageName disableImage:(NSString *)disableImageName;
+- (void)addTipIcon;
+- (void)removeTipIcon;
 @end

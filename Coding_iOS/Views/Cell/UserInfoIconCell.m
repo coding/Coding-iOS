@@ -43,4 +43,19 @@
 + (CGFloat)cellHeight{
     return 44;
 }
+#pragma mark Tip
+- (void)prepareForReuse{
+    [self removeTip];
+    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+}
+
+- (void)addTipIcon{
+    CGFloat pointX = kScreen_Width - 40;
+    CGFloat pointY = [[self class] cellHeight]/2;
+    [self.contentView addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(pointX, pointY)];
+}
+
+- (void)removeTip{
+    [self.contentView removeBadgeTips];
+}
 @end

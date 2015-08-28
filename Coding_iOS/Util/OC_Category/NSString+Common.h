@@ -14,7 +14,6 @@
 + (NSString *)userAgentStr;
 
 - (NSString *)URLEncoding;
-- (NSString *)URLEncoding_Coding;
 - (NSString *)URLDecoding;
 - (NSString *)md5Str;
 - (NSString*) sha1Str;
@@ -25,7 +24,7 @@
 
 
 - (NSString *)stringByRemoveHtmlTag;
-
++ (NSString *)handelRef:(NSString *)ref path:(NSString *)path;
 
 
 - (CGSize)getSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size;

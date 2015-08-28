@@ -170,7 +170,7 @@
         FileChange *curFileChange = [curList objectAtIndex:indexPath.row];
         
         FileChangeDetailViewController *vc = [FileChangeDetailViewController new];
-        vc.linkUrlStr = [NSString stringWithFormat:@"%@?path=%@", [_curMRPR toFileLineChangesPath], [curFileChange.path URLEncoding_Coding]];
+        vc.linkUrlStr = [NSString stringWithFormat:@"%@?path=%@", [_curMRPR toFileLineChangesPath], curFileChange.path];
         vc.curProject = _curProject;
         vc.commitId = curFileChange.commitId;
         vc.filePath = curFileChange.path;

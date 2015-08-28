@@ -10,6 +10,7 @@
 
 #import "MRPRDetailViewController.h"
 #import "Coding_NetAPIManager.h"
+#import "FunctionTipsManager.h"
 #import "ODRefreshControl.h"
 
 #import "MRPRTopCell.h"
@@ -313,6 +314,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [cell setImageStr:@"mrpr_icon_commit" andTitle:@"提交记录"];
         }else{
             [cell setImageStr:@"mrpr_icon_fileChange" andTitle:@"文件改动"];
+            if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_LineNote_FileChange]) {
+                [cell addTipIcon];
+            }
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
@@ -363,6 +367,12 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             vc.curMRPRInfo = _curMRPRInfo;
             vc.curProject = _curProject;
             [self.navigationController pushViewController:vc animated:YES];
+            if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_LineNote_FileChange]) {
+                [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_LineNote_FileChange];
+                [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_LineNote_MRPR];
+                NProjectItemCell *cell = (NProjectItemCell *)[tableView cellForRowAtIndexPath:indexPath];
+                [cell removeTip];
+            }
         }
     }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 2){//Comment
         ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];

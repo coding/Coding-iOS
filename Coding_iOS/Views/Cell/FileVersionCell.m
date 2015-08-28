@@ -36,6 +36,7 @@
             _iconView.layer.cornerRadius = 2.0;
             _iconView.layer.borderWidth = 0.5;
             _iconView.layer.borderColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
+            _iconView.contentMode = UIViewContentModeScaleAspectFill;
             [self.contentView addSubview:_iconView];
         }
         if (!_nameLabel) {

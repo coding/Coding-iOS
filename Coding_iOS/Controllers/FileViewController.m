@@ -12,6 +12,7 @@
 #import "Coding_NetAPIManager.h"
 #import "Coding_FileManager.h"
 #import "WebContentManager.h"
+#import "FunctionTipsManager.h"
 #import <MMMarkdown/MMMarkdown.h>
 #import "EaseToolBar.h"
 
@@ -72,6 +73,17 @@
             make.bottom.equalTo(self.view.mas_bottom);
             make.size.mas_equalTo(_myToolBar.frame.size);
         }];
+    }
+    if (_myToolBar) {
+        FunctionTipsManager *ftM = [FunctionTipsManager shareManager];
+        if ([ftM needToTip:kFunctionTipStr_File_2V_Activity]) {
+            EaseToolBarItem *item = [_myToolBar itemOfIndex:0];
+            [item addTipIcon];
+        }
+        if ([ftM needToTip:kFunctionTipStr_File_2V_Version]) {
+            EaseToolBarItem *item = [_myToolBar itemOfIndex:1];
+            [item addTipIcon];
+        }
     }
     return _myToolBar;
 }
@@ -503,12 +515,20 @@
 
 #pragma mark EaseToolBarDelegate
 - (void)easeToolBar:(EaseToolBar *)toolBar didClickedIndex:(NSInteger)index{
+    EaseToolBarItem *item = [toolBar itemOfIndex:index];
+    NSString *tipStr = nil;
     if (index == 0) {
         FileActivitiesViewController *vc = [FileActivitiesViewController vcWithFile:_curFile];
         [self.navigationController pushViewController:vc animated:YES];
+        tipStr = kFunctionTipStr_File_2V_Activity;
     }else if (index == 1){
         FileVersionsViewController *vc = [FileVersionsViewController vcWithFile:_curFile];
         [self.navigationController pushViewController:vc animated:YES];
+        tipStr = kFunctionTipStr_File_2V_Version;
+    }
+    if ([[FunctionTipsManager shareManager] needToTip:tipStr]) {
+        [[FunctionTipsManager shareManager] markTiped:tipStr];
+        [item removeTipIcon];
     }
 }
 #pragma mark Data Value

@@ -15,6 +15,12 @@ static NSString *kFunctionTipStr_Search = @"hasSearch";
 static NSString *kFunctionTipStr_HotTopic = @"HotTopic";
 static NSString *kFunctionTipStr_TweetTopic = @"TweetTopic";
 static NSString *kFunctionTipStr_VoiceMessage = @"VoiceMessage";
+static NSString *kFunctionTipStr_File_2V = @"File_2V";
+static NSString *kFunctionTipStr_File_2V_Version = @"File_2V_Version";
+static NSString *kFunctionTipStr_File_2V_Activity = @"File_2V_Activity";
+static NSString *kFunctionTipStr_LineNote_FileChange = @"LineNote_FileChange";
+static NSString *kFunctionTipStr_LineNote_MRPR = @"LineNote_MRPR";
+static NSString *kFunctionTipStr_Me_Points = @"Me_Points";
 
 #import <Foundation/Foundation.h>
 

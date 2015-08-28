@@ -20,7 +20,7 @@
     return [[EaseToolBar alloc] initWithItems:buttonItems];
 }
 - (id)itemOfIndex:(NSInteger)index{
-    if (index > 0 && self.buttonItems && self.buttonItems.count >= index) {
+    if (index >= 0 && self.buttonItems && self.buttonItems.count >= index) {
         return self.buttonItems[index];
     }else{
         return nil;
@@ -109,6 +109,13 @@
                                  NSForegroundColorAttributeName:enabled? [UIColor colorWithHexString:@"0x888888"] : [UIColor colorWithHexString:@"0xc2c2c2"]};
     [self setIconImage:[UIImage imageNamed:imageName]];
     [self setAttributes:attributes forUIControlState:UIControlStateNormal];
+}
+- (void)addTipIcon{
+    CGRect iconFrame = [self getIconImageView].frame;
+    [self addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(iconFrame.origin.x + iconFrame.size.width +2, 12)];
+}
+- (void)removeTipIcon{
+    [self removeBadgeTips];
 }
 @end
 
