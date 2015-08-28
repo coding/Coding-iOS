@@ -152,9 +152,16 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
     self.myTableView.contentInset = contentInsets;
     self.myTableView.scrollIndicatorInsets = contentInsets;
     //调整内容
+    static BOOL keyboard_is_down = YES;
     static CGPoint keyboard_down_ContentOffset;
     static CGFloat keyboard_down_InputViewHeight;
     if (heightToBottom > CGRectGetHeight(inputView.frame)) {
+        if (keyboard_is_down) {
+            keyboard_down_ContentOffset = self.myTableView.contentOffset;
+            keyboard_down_InputViewHeight = CGRectGetHeight(inputView.frame);
+        }
+        keyboard_is_down = NO;
+        
         CGPoint contentOffset = keyboard_down_ContentOffset;
         CGFloat spaceHeight = MAX(0, CGRectGetHeight(self.myTableView.frame) - self.myTableView.contentSize.height - keyboard_down_InputViewHeight);
         contentOffset.y += MAX(0, heightToBottom - keyboard_down_InputViewHeight - spaceHeight);
@@ -163,8 +170,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
             self.myTableView.contentOffset = contentOffset;
         } completion:nil];
     }else{
-        keyboard_down_ContentOffset = self.myTableView.contentOffset;
-        keyboard_down_InputViewHeight = CGRectGetHeight(inputView.frame);
+        keyboard_is_down = YES;
     }
 }
 
