@@ -185,7 +185,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         title = @"合并";
         colorStr = @"0x4E90BF";
         if (_curMRPRInfo.mrpr.status == MRPRStatusCannotMerge) {
-            curButton.alpha = 0.7;
+            curButton.alpha = 0.5;
         }
     }else if (actionType == MRPRActionRefuse){
         title = @"拒绝";

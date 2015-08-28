@@ -148,6 +148,7 @@
 
 - (NSMutableDictionary *)getParamsFromURLStr:(NSString *)urlStr{
     urlStr = [[urlStr componentsSeparatedByString:@"?"] lastObject];
+    urlStr = [urlStr stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableDictionary *params = [NSMutableDictionary new];
     for (NSString *param in [urlStr componentsSeparatedByString:@"&"]) {
         NSArray *elts = [param componentsSeparatedByString:@"="];
