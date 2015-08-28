@@ -131,7 +131,7 @@
         if ([[UIApplication sharedApplication] canOpenURL:url]) {
             [[UIApplication sharedApplication] openURL:url];
         }else{
-            kTipAlert(@"无法打开连接：\n%@", urlString);
+            kTipAlert(@"无法打开链接：\n%@", urlString);
         }
     }else if (error.code == -999){
         //加载中断

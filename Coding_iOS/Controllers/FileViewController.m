@@ -49,6 +49,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     self.title = [self titleStr];
     if ([self.curFile isEmpty]) {
         [self requestFileData];
@@ -95,10 +99,11 @@
 
 - (void)configContent{
     self.title = [self titleStr];
+    [self setupNavigationItem];
+
     NSURL *fileUrl = [self hasBeenDownload];
     if (!fileUrl) {
         [self showDownloadView];
-        _myToolBar.hidden = YES;
     }else{
         self.fileUrl = fileUrl;
         [self setupDocumentControllerWithURL:fileUrl];
@@ -112,11 +117,11 @@
         }else {
             [self showDownloadView];
         }
-        if (_curVersion) {
-            _myToolBar.hidden = YES;
-        }else{
-            self.myToolBar.hidden = NO;
-        }
+    }
+    if (_curVersion) {
+        _myToolBar.hidden = YES;
+    }else{
+        self.myToolBar.hidden = NO;
     }
 }
 
@@ -195,7 +200,8 @@
         self.downloadView = [[FileDownloadView alloc] initWithFrame:self.view.bounds];
         [self.view addSubview:self.downloadView];
         [self.downloadView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
+            make.top.left.right.equalTo(self.view);
+            make.bottom.equalTo(self.view).offset(-[self toolBarHeight]);
         }];
     }
     
@@ -224,10 +230,11 @@
 
 #pragma mark nav M
 - (void)setupNavigationItem{
-    if (self.fileUrl) {
+    if (!self.curVersion ||
+        (self.curVersion && self.fileUrl)) {
         [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)] animated:NO];
     }else{
-        [self.navigationItem setRightBarButtonItem:nil animated:YES];
+        [self.navigationItem setRightBarButtonItem:nil animated:NO];
     }
 }
 
@@ -242,17 +249,19 @@
             [KxMenu setLineColor:[UIColor colorWithHexString:@"0xdddddd"]];
             
             NSMutableArray *menuItems = [@[
-                                          [KxMenuItem menuItem:@"共享连接" image:[UIImage imageNamed:@"file_menu_icon_share"] target:self action:@selector(goToShareFileLink)],
+                                          [KxMenuItem menuItem:@"共享链接" image:[UIImage imageNamed:@"file_menu_icon_share"] target:self action:@selector(goToShareFileLink)],
                                           [KxMenuItem menuItem:@"文件信息" image:[UIImage imageNamed:@"file_menu_icon_info"] target:self action:@selector(goToFileInfo)],
                                           [KxMenuItem menuItem:@"删除文件" image:[UIImage imageNamed:@"file_menu_icon_delete"] target:self action:@selector(deleteCurFile)],
-                                          [KxMenuItem menuItem:@"其它应用打开" image:[UIImage imageNamed:@"file_menu_icon_open"] target:self action:@selector(openByOtherApp)],
                                           ] mutableCopy];
             if ([self fileCanEdit]) {
                 [menuItems insertObject:[KxMenuItem menuItem:@"编辑文件" image:[UIImage imageNamed:@"file_menu_icon_edit"] target:self action:@selector(goToEditFile)]
                                 atIndex:0];
-            }else if (self.preview.length > 0){
+            }else if (self.preview.length > 0 && self.fileUrl){
                 [menuItems insertObject:[KxMenuItem menuItem:@"保存到相册" image:[UIImage imageNamed:@"file_menu_icon_edit"] target:self action:@selector(saveCurImg)]
                                 atIndex:0];
+            }
+            if (self.fileUrl) {
+                [menuItems addObject:[KxMenuItem menuItem:@"其它应用打开" image:[UIImage imageNamed:@"file_menu_icon_open"] target:self action:@selector(openByOtherApp)]];
             }
             [menuItems setValue:[UIColor colorWithHexString:@"0x222222"] forKey:@"foreColor"];
             CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 0, 0, 0);
@@ -349,21 +358,52 @@
 }
 
 - (void)deleteCurFile{
-    [[UIActionSheet bk_actionSheetCustomWithTitle:@"只是删除本地文件还是连同服务器文件一起删除？" buttonTitles:@[@"仅删除本地文件"] destructiveTitle:@"一起删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-        switch (index) {
-            case 0:
-                [self doDeleteCurFile:self.curFile fromDisk:YES];
-                break;
-            case 1:
+    UIActionSheet *actionSheet;
+    NSURL *fileUrl = [_curFile hasBeenDownload];
+    Coding_DownloadTask *cDownloadTask = [_curFile cDownloadTask];
+
+    if (fileUrl) {
+        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"只是删除本地文件还是连同服务器文件一起删除？" buttonTitles:@[@"仅删除本地文件"] destructiveTitle:@"一起删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            switch (index) {
+                case 0:
+                    [self doDeleteCurFile:self.curFile fromDisk:YES];
+                    break;
+                case 1:
+                    [self doDeleteCurFile:self.curFile fromDisk:NO];
+                    break;
+                default:
+                    break;
+            }
+        }];
+    }else if (cDownloadTask){
+        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"确定将服务器上的该文件删除？" buttonTitles:@[@"只是取消下载"] destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            switch (index) {
+                case 0:
+                    [self doDeleteCurFile:self.curFile fromDisk:YES];
+                    break;
+                case 1:
+                    [self doDeleteCurFile:self.curFile fromDisk:NO];
+                    break;
+                default:
+                    break;
+            }
+        }];
+    }else{
+        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"确定将服务器上的该文件删除？" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
                 [self doDeleteCurFile:self.curFile fromDisk:NO];
-                break;
-            default:
-                break;
-        }
-    }] showInView:self.view];
+            }
+        }];
+    }
+    [actionSheet showInView:self.view];
 }
 
 - (void)doDeleteCurFile:(ProjectFile *)file fromDisk:(BOOL)fromDisk{
+    //    取消当前的下载任务
+    Coding_DownloadTask *cDownloadTask = [file cDownloadTask];
+    if (cDownloadTask) {
+        [Coding_FileManager cancelCDownloadTaskForKey:file.storage_key];
+    }
     //    删除本地文件
     NSURL *fileUrl = [file hasBeenDownload];
     NSString *filePath = fileUrl.path;
