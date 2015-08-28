@@ -296,6 +296,9 @@
     vc.curFile = _curFile;
     vc.completeBlock = ^(){
         [weakSelf requestFileData];
+        if (weakSelf.fileHasChangedBlock) {
+            weakSelf.fileHasChangedBlock();
+        }
     };
     [self.navigationController pushViewController:vc animated:YES];
 }

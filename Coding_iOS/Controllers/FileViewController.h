@@ -18,5 +18,6 @@
 + (instancetype)vcWithFile:(ProjectFile *)file andVersion:(FileVersion *)version;
 - (void)requestFileData;
 @property (copy, nonatomic) void (^fileHasBeenDeletedBlock)();
+@property (copy, nonatomic) void (^fileHasChangedBlock)();
 
 @end

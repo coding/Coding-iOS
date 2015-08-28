@@ -788,6 +788,10 @@
         @strongify(self);
         [self refreshFileList];
     };
+    vc.fileHasChangedBlock = ^(){
+        @strongify(self);
+        [self refreshFileList];
+    };
     [self.navigationController pushViewController:vc animated:YES];
 }
 

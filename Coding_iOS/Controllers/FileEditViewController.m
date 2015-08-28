@@ -32,16 +32,6 @@
     [self requestFileContent];
 }
 
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    if (([self fileIsMD] && self.curIndex == 0)
-        || ![self fileIsMD]) {
-        if (self.editView) {
-            [self.editView becomeFirstResponder];
-        }
-    }
-}
-
 - (void)setCurFile:(ProjectFile *)curFile{
     _curFile = curFile;
     _curProject = [Project new];
