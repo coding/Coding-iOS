@@ -120,6 +120,8 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         }
         _contentView.hidden = _inputState == UIMessageInputViewStateVoice;
         _arrowKeyboardButton.hidden = !_contentView.hidden;
+        
+        [self updateContentViewBecauseOfMedia:NO];
         _arrowKeyboardButton.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
     }
 }
@@ -577,6 +579,9 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         if (!CGRectEqualToRect(mediaFrame, _mediaView.frame)) {
             _mediaView.frame = mediaFrame;
         }
+    }
+    if (_contentView.hidden) {
+        textSize.height = kMessageInputView_Height - 2*kMessageInputView_PadingHeight;
     }
     CGSize contentSize = CGSizeMake(textSize.width, textSize.height + mediaSize.height);
     CGFloat selfHeight = MAX(kMessageInputView_Height, contentSize.height + 2*kMessageInputView_PadingHeight);
