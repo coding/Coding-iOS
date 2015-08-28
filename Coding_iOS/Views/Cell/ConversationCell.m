@@ -63,12 +63,16 @@
     
     _name.text = _curPriMsg.friend.name;
     _time.text = [_curPriMsg.created_at stringDisplay_MMdd];
+    _msg.textColor = [UIColor colorWithHexString:@"0X999999"];
     NSMutableString *textMsg = [[NSMutableString alloc] initWithString:_curPriMsg.content];
     if (_curPriMsg.hasMedia) {
         [textMsg appendString:@"[图片]"];
     }
     if (_curPriMsg.file || _curPriMsg.voiceMedia) {
         [textMsg setString:@"[语音]"];
+        if (_curPriMsg.played.intValue == 0) {
+            _msg.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+        }
     }
     _msg.text = textMsg;
     
