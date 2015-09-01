@@ -176,7 +176,7 @@
     [self initSearchHistoryView];
     
     [[Coding_NetAPIManager sharedManager] request_TopicHotkeyWithBlock:^(id data, NSError *error) {
-        if(data) {
+        if(data && _contentView) {
             NSArray *array = data;
             NSMutableArray *hotkeyArray = [[NSMutableArray alloc] initWithCapacity:6];
             for (int i = 0; i < array.count; i++) {
