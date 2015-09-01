@@ -19,7 +19,12 @@
     userName = curActivity.user.name? curActivity.user.name: @"";
     NSMutableAttributedString *attrContent;
     
-    contentStr = [NSString stringWithFormat:@"%@ 文件 - %@", curActivity.action_msg, [curActivity.created_at stringDisplay_HHmm]];
+    if ([curActivity.action isEqualToString:@"delete_history"]) {
+        contentStr = [NSString stringWithFormat:@"%@ 历史版本 V%@ - %@", curActivity.action_msg, curActivity.version, [curActivity.created_at stringDisplay_HHmm]];
+
+    }else{
+        contentStr = [NSString stringWithFormat:@"%@ 文件 - %@", curActivity.action_msg, [curActivity.created_at stringDisplay_HHmm]];
+    }
     
     attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];
     [attrContent addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:13],
