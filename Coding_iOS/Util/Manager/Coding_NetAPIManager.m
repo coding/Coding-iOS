@@ -533,12 +533,15 @@
 }
 
 - (void)request_MRPRAccept:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block{
+    [self showStatusBarQueryStr:@"正在合并请求"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toAcceptPath] withParams:[curMRPR toAcceptParams] withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"MRPR_合并"];
 
+            [self showStatusBarSuccessStr:@"合并请求成功"];
             block(data, nil);
         }else{
+            [self showStatusBarError:error];
             block(nil, error);
         }
     }];

@@ -123,7 +123,7 @@
 
 - (UIView*)tableFooterView{
     UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 90)];
-    _mergeBtn = [UIButton buttonWithStyle:StrapInfoStyle andTitle:@"合并" andFrame:CGRectMake(10, 0, kScreen_Width-10*2, 45) target:self action:@selector(mergeBtnClicked:)];
+    _mergeBtn = [UIButton buttonWithStyle:StrapInfoStyle andTitle:@"确认合并" andFrame:CGRectMake(10, 0, kScreen_Width-10*2, 44) target:self action:@selector(mergeBtnClicked:)];
     [_mergeBtn setCenter:footerV.center];
     [footerV addSubview:_mergeBtn];
     return footerV;
