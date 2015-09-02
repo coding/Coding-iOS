@@ -8,6 +8,8 @@
 
 #import "UIButton+Common.h"
 #import "Login.h"
+#import <POP+MCAnimate/POP+MCAnimate.h>
+#import <math.h>
 
 @implementation UIButton (Common)
 + (UIButton *)buttonWithTitle:(NSString *)title titleColor:(UIColor *)color{
@@ -119,4 +121,51 @@
     return btn;
 }
 
++ (UIButton *)tweetBtnWithFrame:(CGRect)frame image:(NSString *)imageName{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = frame;
+    [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+    [button doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xCCCCCC"] cornerRadius:CGRectGetHeight(button.frame)/2];
+    return button;
+}
+- (void)animateToImage:(NSString *)imageName{
+    UIImage *image = [UIImage imageNamed:imageName];
+    if (!image) {
+        return;
+    }
+    [self setImage:image forState:UIControlStateNormal];
+    if ([self superview]) {
+        UIImageView *imageV = [[UIImageView alloc] initWithImage:image];
+        imageV.frame = self.imageView.frame;
+        
+        UIView *superV = [self superview];
+        CGPoint superCenterP = [self convertPoint:imageV.center toView:superV];
+        imageV.center = superCenterP;
+        [superV addSubview:imageV];
+
+        //animate and remove subview
+        [NSObject pop_animate:^{
+            CGPoint centerP = imageV.center;
+            centerP.x += CGRectGetWidth(self.frame) /2;
+            centerP.y -= CGRectGetHeight(self.frame) *2;
+            imageV.pop_velocity.center = imageV.center;
+            imageV.pop_springBounciness = 10;
+            imageV.pop_springSpeed = 5;
+            imageV.pop_spring.center = centerP;
+            
+            imageV.layer.pop_rotation = M_PI_4/2;
+            imageV.pop_scaleXY = CGPointMake(2.0, 2.0);
+            imageV.pop_spring.alpha = 0.5;
+        } completion:^(BOOL finished) {
+            [NSObject pop_animate:^{
+                CGPoint centerP = imageV.center;
+                centerP.y -= CGRectGetHeight(self.frame);
+                imageV.pop_easeInEaseOut.center = centerP;
+                imageV.pop_spring.alpha = 0;
+            } completion:^(BOOL finished) {
+                [imageV removeFromSuperview];
+            }];
+        }];
+    }
+}
 @end

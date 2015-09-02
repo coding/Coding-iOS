@@ -67,6 +67,7 @@ PODS:
   - TPKeyboardAvoiding (1.2.4)
   - TTTAttributedLabel (1.10.1)
   - UIImage+BlurredFrame (0.0.4)
+  - UMengSocial (4.2.3)
 
 DEPENDENCIES:
   - APParallaxHeader
@@ -89,6 +90,7 @@ DEPENDENCIES:
   - TPKeyboardAvoiding (= 1.2.4)
   - TTTAttributedLabel (= 1.10.1)
   - UIImage+BlurredFrame (= 0.0.4)
+  - UMengSocial (= 4.2.3)
 
 SPEC CHECKSUMS:
   APParallaxHeader: 854bc48a2487ca12c702f8a236fec0d89cdac5c3
@@ -115,5 +117,6 @@ SPEC CHECKSUMS:
   TPKeyboardAvoiding: 0a40dfbb0af7c8bdae1dd457496dccfd217d85f6
   TTTAttributedLabel: c8f3801a6463b9c9b82b0c84c465fdda9751892a
   UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
+  UMengSocial: 85882abe5b20aa38ad558ece71360e16b5d50909
 
 COCOAPODS: 0.38.2

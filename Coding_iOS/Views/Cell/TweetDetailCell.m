@@ -8,8 +8,8 @@
 
 #define kTweetDetailCell_PadingLeft 55.0
 #define kTweet_TimtFont [UIFont systemFontOfSize:12]
-#define kTweetDetailCell_LikeComment_Height 25.0
-#define kTweetDetailCell_LikeComment_Width 50.0
+#define kTweetDetailCell_LikeComment_Height 22.0
+#define kTweetDetailCell_LikeComment_Width 44.0
 #define kTweetCell_LocationCCell_Pading 9.0
 //#define kTweetDetailCell_ContentWidth (kScreen_Width - 2*kPaddingLeftWidth + 2*8)
 #define kTweetDetailCell_ContentWidth (kScreen_Width - 2*kPaddingLeftWidth)
@@ -33,7 +33,7 @@
 @property (strong, nonatomic) UITapImageView *ownerImgView;
 @property (strong, nonatomic) UIButton *ownerNameBtn;
 @property (strong, nonatomic) UILabel *timeLabel, *fromLabel;
-@property (strong, nonatomic) UIButton *likeBtn, *commentBtn, *deleteBtn;
+@property (strong, nonatomic) UIButton *likeBtn, *commentBtn, *deleteBtn, *shareBtn;
 @property (strong, nonatomic) UIButton *locaitonBtn;
 @property (strong, nonatomic) UICustomCollectionView *likeUsersView;
 @property (strong, nonatomic) UIImageView *timeClockIconView;
@@ -76,16 +76,18 @@
             [self.contentView addSubview:self.timeLabel];
         }
 
+        if (!self.shareBtn) {
+            self.shareBtn = [UIButton tweetBtnWithFrame:CGRectMake(kPaddingLeftWidth, 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height) image:@"tweet_btn_share"];
+            [self.shareBtn addTarget:self action:@selector(shareBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:self.shareBtn];
+        }
         if (!self.commentBtn) {
-            self.commentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            self.commentBtn.frame = CGRectMake(kScreen_Width - kPaddingLeftWidth- kTweetDetailCell_LikeComment_Width, 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height);
-            [self.commentBtn setImage:[UIImage imageNamed:@"tweet_comment_btn"] forState:UIControlStateNormal];
+            self.commentBtn = [UIButton tweetBtnWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth- kTweetDetailCell_LikeComment_Width, 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height) image:@"tweet_btn_comment"];
             [self.commentBtn addTarget:self action:@selector(commentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:self.commentBtn];
         }
         if (!self.likeBtn) {
-            self.likeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            self.likeBtn.frame = CGRectMake(kScreen_Width - kPaddingLeftWidth- 2*kTweetDetailCell_LikeComment_Width- 5 , 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height);
+            self.likeBtn = [UIButton tweetBtnWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth- 2*kTweetDetailCell_LikeComment_Width- 5 , 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height) image:nil];
             [self.likeBtn addTarget:self action:@selector(likeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:self.likeBtn];
         }
@@ -201,32 +203,32 @@
     CGFloat curBottomY = kTweetDetailCell_PadingTop +[[self class] contentHeightWithTweet:_tweet];
     curBottomY += 10;
     
-    //一下两段ifelse 已经判断了4种情况，经过精简得出
-    //
-    if (_tweet.location.length > 0) {
-        [self.locaitonBtn setTitle:_tweet.location forState:UIControlStateNormal];
-        [self.locaitonBtn setY:curBottomY];
-        self.locaitonBtn.hidden = NO;
-//        if(_tweet.device.length > 0) {
-        curBottomY += CGRectGetHeight(self.locaitonBtn.bounds) + kTweetCell_LocationCCell_Pading;
-//        }
-    }else {
-        self.locaitonBtn.hidden = YES;
+    //地址&设备小尾巴
+    if (_tweet.location.length > 0 || _tweet.device.length > 0) {
+        CGFloat curX = kPaddingLeftWidth;
+        if (_tweet.location.length > 0) {
+            [self.locaitonBtn setTitle:_tweet.location forState:UIControlStateNormal];
+            CGFloat titleWidth = [self.locaitonBtn.titleLabel.text getWidthWithFont:self.locaitonBtn.titleLabel.font constrainedToSize:CGSizeMake(kScreen_Width, 15)];
+            self.locaitonBtn.frame = CGRectMake(curX, curBottomY, titleWidth, 15);
+            curX += titleWidth +5;
+        }
+        if(_tweet.device.length > 0) {
+            self.fromLabel.text = [NSString stringWithFormat:@"来自 %@", _tweet.device];
+            CGFloat titleWidth = [self.fromLabel.text getWidthWithFont:self.fromLabel.font constrainedToSize:CGSizeMake(kScreen_Width, 15)];
+            titleWidth = MIN(titleWidth, kScreen_Width - kPaddingLeftWidth - curX);
+            self.fromLabel.frame = CGRectMake(curX, curBottomY, titleWidth, 15);
+        }
+        curBottomY += 15 + kTweetCell_LocationCCell_Pading;
     }
-    
-    if(_tweet.device.length > 0) {
-        self.fromLabel.text = [NSString stringWithFormat:@"来自 %@", _tweet.device];
-        [self.fromLabel setY:curBottomY +5];
-        self.fromLabel.hidden = NO;
-    }else {
-        self.fromLabel.hidden = YES;
-    }
+    self.locaitonBtn.hidden = _tweet.location.length <= 0;
+    self.fromLabel.hidden = _tweet.device.length <= 0;
     
     //喜欢&评论 按钮
-    [self.likeBtn setImage:[UIImage imageNamed:(_tweet.liked.boolValue? @"tweet_liked_btn":@"tweet_like_btn")] forState:UIControlStateNormal];
+    [self.likeBtn setImage:[UIImage imageNamed:(_tweet.liked.boolValue? @"tweet_btn_liked":@"tweet_btn_like")] forState:UIControlStateNormal];
     [self.likeBtn setY:curBottomY];
     [self.commentBtn setY:curBottomY];
-    
+    [self.shareBtn setY:curBottomY];
+
     BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key];
     if (isMineTweet) {
         [self.deleteBtn setY:curBottomY];
@@ -294,7 +296,7 @@
 }
 + (CGFloat)locationHeightWithTweet:(Tweet *)tweet{
     CGFloat locationHeight = 0;
-    if ( tweet.location.length > 0) {
+    if (tweet.location.length > 0 || tweet.device.length > 0) {
         locationHeight = 15 + kTweetCell_LocationCCell_Pading;
     }else{
         locationHeight = 0;
@@ -357,7 +359,11 @@
     [[Coding_NetAPIManager sharedManager] request_Tweet_DoLike_WithObj:_tweet andBlock:^(id data, NSError *error) {
         if (data) {
             [_tweet changeToLiked:[NSNumber numberWithBool:!_tweet.liked.boolValue]];
-            [self.likeBtn setImage:[UIImage imageNamed:(_tweet.liked.boolValue? @"tweet_liked_btn":@"tweet_like_btn")] forState:UIControlStateNormal];
+            if (_tweet.liked.boolValue) {
+                [self.likeBtn animateToImage:@"tweet_btn_liked"];
+            }else{
+                [self.likeBtn setImage:[UIImage imageNamed:@"tweet_btn_like"] forState:UIControlStateNormal];
+            }
             if (_likeBtnClickedBlock) {
                 _likeBtnClickedBlock();
             }
@@ -380,6 +386,10 @@
     if (_locationClickedBlock) {
         _locationClickedBlock(_tweet);
     }
+}
+
+- (void)shareBtnClicked:(id)sender{
+    kTipAlert(@"没做呢");
 }
 
 #pragma mark Collection M
