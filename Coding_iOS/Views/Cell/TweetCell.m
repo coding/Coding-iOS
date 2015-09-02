@@ -30,6 +30,7 @@
 #import "Coding_NetAPIManager.h"
 #import "MJPhotoBrowser.h"
 #import "UICustomCollectionView.h"
+#import "CodingShareView.h"
 
 @interface TweetCell ()
 @property (strong, nonatomic) Tweet *tweet;
@@ -662,7 +663,7 @@
     }
 }
 - (void)shareBtnClicked:(id)sender{
-    kTipAlert(@"没做呢");
+    [CodingShareView showShareViewWithTweet:_tweet];
 }
 #pragma mark TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{

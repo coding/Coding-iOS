@@ -25,6 +25,11 @@
 #import "PasswordViewController.h"
 #import "IntroductionViewController.h"
 #import "FunctionIntroManager.h"
+#import <UMengSocial/UMSocial.h>
+#import <UMengSocial/UMSocialWechatHandler.h>
+#import <UMengSocial/UMSocialQQHandler.h>
+#import <UMengSocial/UMSocialSinaHandler.h>
+
 
 #import "Tweet.h"
 #import "sys/utsname.h"
@@ -112,6 +117,12 @@
     
     //    UMENG 统计
     [MobClick startWithAppkey:kUmeng_AppKey reportPolicy:BATCH channelId:nil];
+    
+    //    UMENG Social
+    [UMSocialData setAppKey:@"507fcab25270157b37000010"];
+    [UMSocialWechatHandler setWXAppId:@"wxd930ea5d5a258f4f" appSecret:@"db426a9829e4b49a0dcac7b4162da6b6" url:[NSObject baseURLStr]];
+    [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"c7394704798a158208a74ab60104f0ba" url:[NSObject baseURLStr]];
+    [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
     
     //    信鸽推送
     [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];

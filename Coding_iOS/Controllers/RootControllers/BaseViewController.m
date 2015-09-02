@@ -160,8 +160,8 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         NSString *pp_id = matchedCaptures[2];
         if ([presentingVC isKindOfClass:[TweetDetailViewController class]]) {
             TweetDetailViewController *vc = (TweetDetailViewController *)presentingVC;
-            if ([vc.curTweet.pp_id isEqualToString:pp_id]
-                && [vc.curTweet.user_global_key isEqualToString:user_global_key]) {
+            if ([vc.curTweet.id.stringValue isEqualToString:pp_id]
+                && [vc.curTweet.owner.global_key isEqualToString:user_global_key]) {
                 [vc refreshTweet];
                 analyseVCIsNew = NO;
                 analyseVC = vc;

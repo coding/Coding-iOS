@@ -385,12 +385,12 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
 }
 
 - (void)doTranspondMessage:(PrivateMessage *)curMessage{
-    [self showHudTipStr:@"已发送"];
     if ([curMessage.friend.global_key isEqualToString:_myPriMsgs.curFriend.global_key]) {
         [self sendPrivateMessageWithMsg:curMessage];
     }else{
         [[Coding_NetAPIManager sharedManager] request_SendPrivateMessage:curMessage andBlock:^(id data, NSError *error) {
             if (data) {
+                [self showHudTipStr:@"已发送"];
                 DebugLog(@"转发成功：%@, %@", curMessage.friend.name, curMessage.htmlMedia.contentOrigional);
             }
         }];

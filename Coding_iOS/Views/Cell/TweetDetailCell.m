@@ -26,7 +26,7 @@
 #import "TweetLikeUserCCell.h"
 #import "Coding_NetAPIManager.h"
 #import "WebContentManager.h"
-
+#import "CodingShareView.h"
 
 
 @interface TweetDetailCell ()
@@ -389,7 +389,7 @@
 }
 
 - (void)shareBtnClicked:(id)sender{
-    kTipAlert(@"没做呢");
+    [CodingShareView showShareViewWithTweet:_tweet];
 }
 
 #pragma mark Collection M

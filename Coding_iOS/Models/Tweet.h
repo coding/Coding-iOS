@@ -69,6 +69,8 @@
 - (BOOL)isAllImagesHaveDone;
 - (void)addNewComment:(Comment *)comment;
 - (void)deleteComment:(Comment *)comment;
+
+- (NSString *)toShareLinkStr;
 @end
 
 
