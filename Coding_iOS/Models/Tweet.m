@@ -251,7 +251,7 @@ static Tweet *_tweetForSend = nil;
 }
 
 - (NSString *)toShareLinkStr{
-    return [NSString stringWithFormat:@"%@u/%@/pp/%@", [NSObject baseURLStr], _owner.global_key, _id];
+    return [NSString stringWithFormat:@"%@u/%@/pp/%@", kBaseUrlStr_Phone, _owner.global_key, _id];
 }
 
 #pragma mark ALAsset

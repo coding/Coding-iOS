@@ -54,6 +54,12 @@
 #define kUmeng_Event_Request_ActionOfServer @"Request_ActionOfServer"
 #define kUmeng_Event_Request_ActionOfLocal @"Request_ActionOfLocal"
 
+//Social Data
+#define kSocial_WX_ID @""
+#define kSocial_WX_Secret @""
+#define kSocial_QQ_ID  @""
+#define kSocial_QQ_Secret @""
+
 //信鸽推送
 #define kXGPush_Id 123456
 #define kXGPush_Key @""
@@ -65,6 +71,12 @@
 
 //测试地址
 #define kBaseUrlStr_Test @"https://coding.net/"
+
+//手机版地址
+#define kBaseUrlStr_Phone @"https://m.coding.net/"
+
+//Coding App 的专属链接
+#define kCodingAppScheme @"coding-net:"
 
 //appStore地址
 #define kAppUrl  @"http://itunes.apple.com/app/id923676989"

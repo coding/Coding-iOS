@@ -131,7 +131,10 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     
     if (!linkStr || linkStr.length <= 0) {
         return nil;
-    }else if (![linkStr hasPrefix:@"/"] && ![linkStr hasPrefix:[NSObject baseURLStr]]){
+    }else if (!([linkStr hasPrefix:@"/"] ||
+                [linkStr hasPrefix:kCodingAppScheme] ||
+                [linkStr hasPrefix:kBaseUrlStr_Phone] ||
+                [linkStr hasPrefix:[NSObject baseURLStr]])){
         return nil;
     }
     
@@ -323,9 +326,11 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     if (vc && isNewVC) {
         [self presentVC:vc];
     }else if (!vc){
-        //网页
-        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
-        [self presentVC:webVc];
+        if (![linkStr hasPrefix:kCodingAppScheme]) {
+            //网页
+            WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+            [self presentVC:webVc];
+        }
     }
 }
 
@@ -357,6 +362,9 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
 }
 
 + (void)presentVC:(UIViewController *)viewController{
+    if (!viewController) {
+        return;
+    }
     UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:viewController];
     viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:viewController action:@selector(dismissModalViewControllerAnimated:)];
     [[self presentingVC] presentViewController:nav animated:YES completion:nil];

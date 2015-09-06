@@ -20,7 +20,7 @@
 @implementation WebViewController
 
 + (instancetype)webVCWithUrlStr:(NSString *)curUrlStr{
-    if (!curUrlStr || curUrlStr.length <= 0) {
+    if (!curUrlStr || curUrlStr.length <= 0 || [curUrlStr hasPrefix:kCodingAppScheme]) {
         return nil;
     }
     

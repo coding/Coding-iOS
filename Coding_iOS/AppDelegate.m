@@ -29,7 +29,7 @@
 #import <UMengSocial/UMSocialWechatHandler.h>
 #import <UMengSocial/UMSocialQQHandler.h>
 #import <UMengSocial/UMSocialSinaHandler.h>
-
+#import "UMSocialSinaSSOHandler.h"
 
 #import "Tweet.h"
 #import "sys/utsname.h"
@@ -119,11 +119,18 @@
     [MobClick startWithAppkey:kUmeng_AppKey reportPolicy:BATCH channelId:nil];
     
     //    UMENG Social
-    [UMSocialData setAppKey:@"507fcab25270157b37000010"];
-    [UMSocialWechatHandler setWXAppId:@"wxd930ea5d5a258f4f" appSecret:@"db426a9829e4b49a0dcac7b4162da6b6" url:[NSObject baseURLStr]];
-    [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"c7394704798a158208a74ab60104f0ba" url:[NSObject baseURLStr]];
-    [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+//    [UMSocialData setAppKey:@"507fcab25270157b37000010"];
+//    [UMSocialWechatHandler setWXAppId:@"wxd930ea5d5a258f4f" appSecret:@"db426a9829e4b49a0dcac7b4162da6b6" url:[NSObject baseURLStr]];
+//    [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"c7394704798a158208a74ab60104f0ba" url:[NSObject baseURLStr]];
+//    [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
     
+    [UMSocialData setAppKey:kUmeng_AppKey];
+    [UMSocialWechatHandler setWXAppId:kSocial_WX_ID appSecret:kSocial_WX_Secret url:[NSObject baseURLStr]];
+    [UMSocialQQHandler setQQWithAppId:kSocial_QQ_ID appKey:kSocial_QQ_Secret url:[NSObject baseURLStr]];
+    
+    [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+//    [UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+
     //    信鸽推送
     [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
     [Login setXGAccountWithCurUser];
@@ -238,10 +245,14 @@
 #pragma mark URL Schemes
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     DebugLog(@"path: %@, params: %@", [url path], [url queryParams]);
-    if (![self showPasswordWithURL:url]) {//如果不是登录注册的链接，就是用正常的解析模式解析
-        [BaseViewController presentLinkStr:url.absoluteString];
+    if ([url.absoluteString hasPrefix:kCodingAppScheme]) {
+        if (![self showPasswordWithURL:url]) {//如果不是登录注册的链接，就是用正常的解析模式解析
+            [BaseViewController presentLinkStr:url.absoluteString];
+        }
+        return YES;
+    }else{
+        return  [UMSocialSnsService handleOpenURL:url];
     }
-    return YES;
 }
 
 - (BOOL)showPasswordWithURL:(NSURL *)url{

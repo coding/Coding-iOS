@@ -268,18 +268,38 @@
 - (void)p_doShareToSnsName:(NSString *)snsName{
     NSLog(@"p_doShareToSnsName : %@", snsName);
 
-
     if ([snsName isEqualToString:@"copylink"]) {
         [[UIPasteboard generalPasteboard] setString:[self p_shareLinkStr]];
         [self showHudTipStr:@"链接已拷贝到粘贴板"];
     }else if ([snsName isEqualToString:@"coding"]){
         PrivateMessage *curMsg = [PrivateMessage privateMessageWithObj:[self p_shareLinkStr] andFriend:nil];
         [self willTranspondMessage:curMsg];
+    }else if ([snsName isEqualToString:@"sina"]){
+        NSString *shareTitle, *shareText, *shareTail;
+        shareTitle = [NSString stringWithFormat:@"【%@】", [self p_shareTitle]];
+        shareText = [self p_shareText];
+        shareTail = [NSString stringWithFormat:@"%@（分享自@Coding）", [self p_shareLinkStr]];
+        NSInteger maxShareLength = 140;
+        NSInteger maxTextLength = maxShareLength - shareTitle.length - shareTail.length;
+        if (shareText.length > maxTextLength) {
+            shareText = [shareText stringByReplacingCharactersInRange:NSMakeRange(maxTextLength - 3, shareText.length - (maxTextLength - 3)) withString:@"..."];
+        }
+        NSString *shareContent = [NSString stringWithFormat:@"%@%@%@", shareTitle, shareText, shareTail];
+        [self showStatusBarQueryStr:@"正在分享到新浪微博"];
+        [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToSina] content:shareContent image:nil location:nil urlResource:nil presentedController:[BaseViewController presentingVC] completion:^(UMSocialResponseEntity *response) {
+            if (response.responseCode == UMSResponseCodeSuccess) {
+                NSLog(@"分享成功！");
+                [self showStatusBarSuccessStr:@"分享成功"];
+            }else{
+                [self showStatusBarSuccessStr:@"分享失败"];
+            }
+        }];
     }else{
-//        [[UMSocialControllerService defaultControllerService] setShareText:[self p_shareText] shareImage:[UIImage imageNamed:@"logo_about"] socialUIDelegate:self];
         [[UMSocialControllerService defaultControllerService] setSocialUIDelegate:self];
         UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:snsName];
-        snsPlatform.snsClickHandler([BaseViewController presentingVC],[UMSocialControllerService defaultControllerService],YES);
+        if (snsPlatform) {
+            snsPlatform.snsClickHandler([BaseViewController presentingVC],[UMSocialControllerService defaultControllerService],YES);
+        }
     }
 }
 
@@ -304,7 +324,8 @@
 - (NSString *)p_shareText{
     NSString *text;
     if ([_objToShare isKindOfClass:[Tweet class]]) {
-        text = [(Tweet *)_objToShare content];
+        NSString *contentOrigional = [(Tweet *)_objToShare htmlMedia].contentOrigional;
+        text = [contentOrigional stringByRemoveHtmlTag];
     }else{
         text = @"Coding 让开发更简单！";
     }
@@ -335,6 +356,7 @@
     if(response.responseCode == UMSResponseCodeSuccess){
         NSString *snsName = [[response.data allKeys] firstObject];
         NSLog(@"share to sns name is %@",snsName);
+        [self performSelector:@selector(showHudTipStr:) withObject:@"分享成功" afterDelay:0.3];
     }
 }
 
@@ -344,25 +366,34 @@
         socialData.shareText = [self p_shareText];
         socialData.shareImage = [UIImage imageNamed:@"logo_about"];
     }
-
     if ([platformName isEqualToString:@"wxsession"]) {
         UMSocialWechatSessionData *wechatSessionData = [UMSocialWechatSessionData new];
         wechatSessionData.title = [self p_shareTitle];
         wechatSessionData.url = [self p_shareLinkStr];
         wechatSessionData.wxMessageType = UMSocialWXMessageTypeWeb;
         socialData.extConfig.wechatSessionData = wechatSessionData;
+    }else if ([platformName isEqualToString:@"wxtimeline"]){
+        UMSocialWechatTimelineData *wechatTimelineData = [UMSocialWechatTimelineData new];
+        wechatTimelineData.url = [self p_shareLinkStr];
+        wechatTimelineData.wxMessageType = UMSocialWXMessageTypeWeb;
+        socialData.extConfig.wechatTimelineData = wechatTimelineData;
     }else if ([platformName isEqualToString:@"qq"]){
         UMSocialQQData *qqData = [UMSocialQQData new];
         qqData.title = [self p_shareTitle];
         qqData.url = [self p_shareLinkStr];
         qqData.qqMessageType = UMSocialQQMessageTypeDefault;
         socialData.extConfig.qqData = qqData;
+    }else if ([platformName isEqualToString:@"qzone"]){
+        UMSocialQzoneData *qzoneData = [UMSocialQzoneData new];
+        qzoneData.title = [self p_shareTitle];
+        qzoneData.url = [self p_shareLinkStr];
+        socialData.extConfig.qzoneData = qzoneData;
     }
     NSLog(@"%@ : %@", platformName, socialData);
 }
 
 -(BOOL)isDirectShareInIconActionSheet{
-    return NO;
+    return YES;
 }
 
 @end
