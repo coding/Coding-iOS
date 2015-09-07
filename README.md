@@ -2,6 +2,10 @@
 ### Coding_iOS客户端项目介绍 
 *编译环境：Xcode-Version 6.1 (6A1052d)*
 
+代码托管|在线讨论|任务管理|冒泡社交|项目文档
+------------ | ------------- | ------------| ------------| ------------
+![图片1][1]|![图片2][2]|![图片3][3]|![图片4][4]|![图片5][5]
+
 #### 让项目跑起来先
 （注：由于用到了submodule，所以必需要把git仓库下载到本地，而不是只点击‘下载’按钮下载zip文件）
 1. 把文件`Coding_iOS-Prefix.pch.example`复制一份，重命名成`Coding_iOS-Prefix.pch`
@@ -87,3 +91,9 @@ RootTabViewController继承自第三方库[RDVTabBarController](https://github.c
 ####License
 Coding is available under the MIT license. See the LICENSE file for more info.
 
+
+  [1]: https://dn-coding-net-production-pp.qbox.me/2927a0ce-52d3-4956-8b3c-9d4804e910e6.png
+  [2]: https://dn-coding-net-production-pp.qbox.me/b8575fa5-7c05-4745-9d33-ccc3bb948416.png
+  [3]: https://dn-coding-net-production-pp.qbox.me/c8e0640f-8192-474d-a531-d5ed2c87ec28.png
+  [4]: https://dn-coding-net-production-pp.qbox.me/eca47a31-636a-40c7-be26-23249f46f1be.png
+  [5]: https://dn-coding-net-production-pp.qbox.me/cc964453-2d78-494f-96e4-a2070e316302.png
