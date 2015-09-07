@@ -246,7 +246,6 @@
         return YES;
     }else if ([url.absoluteString hasPrefix:@"en-:"]){
         return [[ENSession sharedSession] handleOpenURL:url];
-        return NO;
     }else{
         return  [UMSocialSnsService handleOpenURL:url];
     }
