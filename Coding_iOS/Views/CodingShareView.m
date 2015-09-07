@@ -12,7 +12,7 @@
 
 #import "CodingShareView.h"
 #import <UMengSocial/UMSocial.h>
-#import <POP+MCAnimate/POP+MCAnimate.h>
+#import <evernote-cloud-sdk-ios/ENSDK/ENSDK.h>
 
 #import "PrivateMessage.h"
 #import "UsersViewController.h"
@@ -288,18 +288,54 @@
         [self showStatusBarQueryStr:@"正在分享到新浪微博"];
         [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToSina] content:shareContent image:nil location:nil urlResource:nil presentedController:[BaseViewController presentingVC] completion:^(UMSocialResponseEntity *response) {
             if (response.responseCode == UMSResponseCodeSuccess) {
-                NSLog(@"分享成功！");
                 [self showStatusBarSuccessStr:@"分享成功"];
             }else{
-                [self showStatusBarSuccessStr:@"分享失败"];
+                [self showStatusBarError:response.error];
             }
         }];
+    }else if ([snsName isEqualToString:@"evernote"]){
+        ENNote *noteToSave = [ENNote new];
+        noteToSave.title = [self p_shareTitle];
+        NSString *htmlStr;
+        if ([_objToShare valueForKey:@"htmlMedia"]) {
+            HtmlMedia *htmlMedia = [_objToShare valueForKey:@"htmlMedia"];
+            htmlStr = htmlMedia.contentOrigional;
+        }else{
+            htmlStr = [self p_shareText];
+        }
+        htmlStr = [htmlStr stringByAppendingFormat:@"<p><a href=\"%@\">冒泡原始链接</a></p>", [self p_shareLinkStr]];
+        noteToSave.content = [ENNoteContent noteContentWithSanitizedHTML:htmlStr];
+        
+        if (![[ENSession sharedSession] isAuthenticated]) {
+            [[ENSession sharedSession] authenticateWithViewController:[BaseViewController presentingVC] preferRegistration:NO completion:^(NSError *authenticateError) {
+                if (!authenticateError) {
+                    [self p_uploadENNote:noteToSave];
+                }else if (authenticateError.code != ENErrorCodeCancelled){
+                    [self showHudTipStr:@"授权失败"];
+                }
+            }];
+        }else{
+            [self p_uploadENNote:noteToSave];
+        }
     }else{
         [[UMSocialControllerService defaultControllerService] setSocialUIDelegate:self];
         UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:snsName];
         if (snsPlatform) {
             snsPlatform.snsClickHandler([BaseViewController presentingVC],[UMSocialControllerService defaultControllerService],YES);
         }
+    }
+}
+
+- (void)p_uploadENNote:(ENNote *)noteToSave{
+    if (noteToSave) {
+        [self showStatusBarQueryStr:@"正在保存到印象笔记"];
+        [[ENSession sharedSession] uploadNote:noteToSave notebook:nil completion:^(ENNoteRef *noteRef, NSError *uploadNoteError) {
+            if (noteRef) {
+                [self showStatusBarSuccessStr:@"笔记保存成功"];
+            }else{
+                [self showStatusBarError:uploadNoteError];
+            }
+        }];
     }
 }
 

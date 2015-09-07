@@ -572,7 +572,6 @@
 		8BDF9AA61B7456060093BF2C /* HotTopicBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BDF9AA51B7456060093BF2C /* HotTopicBannerView.m */; };
 		8BDF9AB51B7474990093BF2C /* keyboard_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDF9AB01B7474990093BF2C /* keyboard_topic@2x.png */; };
 		8BDF9AB91B7474990093BF2C /* user_info_topic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8BDF9AB41B7474990093BF2C /* user_info_topic@2x.png */; };
-		8E03D4A219F695FE0092F8C8 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */; };
 		8E03D4A419F696970092F8C8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E03D4A319F696970092F8C8 /* libz.dylib */; };
 		8E1C3DEA19E7D58A00EF3032 /* AbstractActionSheetPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3DDA19E7D58A00EF3032 /* AbstractActionSheetPicker.m */; };
 		8E1C3DEB19E7D58A00EF3032 /* ActionSheetCustomPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E1C3DDC19E7D58A00EF3032 /* ActionSheetCustomPicker.m */; };
@@ -1760,9 +1759,6 @@
 		8BDF9AA51B7456060093BF2C /* HotTopicBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotTopicBannerView.m; sourceTree = "<group>"; };
 		8BDF9AB01B7474990093BF2C /* keyboard_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_topic@2x.png"; sourceTree = "<group>"; };
 		8BDF9AB41B7474990093BF2C /* user_info_topic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_topic@2x.png"; sourceTree = "<group>"; };
-		8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
-		8E03D4A019F695FE0092F8C8 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
-		8E03D4A119F695FE0092F8C8 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
 		8E03D4A319F696970092F8C8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8E1C3DD919E7D58A00EF3032 /* AbstractActionSheetPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractActionSheetPicker.h; sourceTree = "<group>"; };
 		8E1C3DDA19E7D58A00EF3032 /* AbstractActionSheetPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractActionSheetPicker.m; sourceTree = "<group>"; };
@@ -2265,7 +2261,6 @@
 				8E477014198770E700997D05 /* Foundation.framework in Frameworks */,
 				68D9A2AD062641F5BCA573C5 /* libPods.a in Frameworks */,
 				4EF818241B09D8D8005F974B /* WebP.framework in Frameworks */,
-				8E03D4A219F695FE0092F8C8 /* libMobClickLibrary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3371,16 +3366,6 @@
 			path = AudioView;
 			sourceTree = "<group>";
 		};
-		8E03D49E19F695FE0092F8C8 /* UMENG */ = {
-			isa = PBXGroup;
-			children = (
-				8E03D49F19F695FE0092F8C8 /* libMobClickLibrary.a */,
-				8E03D4A019F695FE0092F8C8 /* MobClick.h */,
-				8E03D4A119F695FE0092F8C8 /* MobClickSocialAnalytics.h */,
-			);
-			path = UMENG;
-			sourceTree = "<group>";
-		};
 		8E1C3DD819E7D58A00EF3032 /* ActionSheetPicker */ = {
 			isa = PBXGroup;
 			children = (
@@ -4248,7 +4233,6 @@
 				8E97CE421A0A2DF8006F9AD7 /* AGEmojiKeyboard */,
 				8E59F0DC1A0098BA009A905F /* SVPullToRefresh */,
 				8ED0D87119FBA6EA00FBA818 /* NSStringEmojize */,
-				8E03D49E19F695FE0092F8C8 /* UMENG */,
 				8E64ED8619EE484A006E99DA /* NSDate+Helper */,
 				8E64ED6519ED0CE3006E99DA /* QBImagePickerController */,
 				8E1C3DD819E7D58A00EF3032 /* ActionSheetPicker */,
@@ -5662,7 +5646,6 @@
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMENG",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/XGPush",
 					"$(PROJECT_DIR)/Coding_iOS/Util/Audio/opencore-amr-iOS/lib",
-					"$(PROJECT_DIR)/Coding_iOS/Vendor/SinaSSO",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMSocial_Sdk_4.2.3_Extra/SinaSSO",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingForiOS;
@@ -5699,7 +5682,6 @@
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMENG",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/XGPush",
 					"$(PROJECT_DIR)/Coding_iOS/Util/Audio/opencore-amr-iOS/lib",
-					"$(PROJECT_DIR)/Coding_iOS/Vendor/SinaSSO",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMSocial_Sdk_4.2.3_Extra/SinaSSO",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingForiOS;

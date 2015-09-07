@@ -28,7 +28,7 @@
 #import <UMengSocial/UMSocial.h>
 #import <UMengSocial/UMSocialWechatHandler.h>
 #import <UMengSocial/UMSocialQQHandler.h>
-#import <UMengSocial/UMSocialSinaHandler.h>
+#import <evernote-cloud-sdk-ios/ENSDK/ENSDK.h>
 #import "UMSocialSinaSSOHandler.h"
 
 #import "Tweet.h"
@@ -119,17 +119,11 @@
     [MobClick startWithAppkey:kUmeng_AppKey reportPolicy:BATCH channelId:nil];
     
     //    UMENG Social
-//    [UMSocialData setAppKey:@"507fcab25270157b37000010"];
-//    [UMSocialWechatHandler setWXAppId:@"wxd930ea5d5a258f4f" appSecret:@"db426a9829e4b49a0dcac7b4162da6b6" url:[NSObject baseURLStr]];
-//    [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"c7394704798a158208a74ab60104f0ba" url:[NSObject baseURLStr]];
-//    [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
-    
     [UMSocialData setAppKey:kUmeng_AppKey];
     [UMSocialWechatHandler setWXAppId:kSocial_WX_ID appSecret:kSocial_WX_Secret url:[NSObject baseURLStr]];
     [UMSocialQQHandler setQQWithAppId:kSocial_QQ_ID appKey:kSocial_QQ_Secret url:[NSObject baseURLStr]];
-    
-    [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
-//    [UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    [ENSession setSharedSessionConsumerKey:kSocial_EN_Key consumerSecret:kSocial_EN_Secret optionalHost:ENSessionHostSandbox];
+    [UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:kSocial_Sina_RedirectURL];
 
     //    信鸽推送
     [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
@@ -250,6 +244,9 @@
             [BaseViewController presentLinkStr:url.absoluteString];
         }
         return YES;
+    }else if ([url.absoluteString hasPrefix:@"en-:"]){
+        return [[ENSession sharedSession] handleOpenURL:url];
+        return NO;
     }else{
         return  [UMSocialSnsService handleOpenURL:url];
     }

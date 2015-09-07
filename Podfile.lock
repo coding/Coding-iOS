@@ -15,6 +15,7 @@ PODS:
   - BlocksKit/UIKit (2.2.5):
     - BlocksKit/Core
     - BlocksKit/DynamicDelegate
+  - evernote-cloud-sdk-ios (2.0.3)
   - FontAwesome+iOS (0.1.4)
   - hpple (0.2.0)
   - iVersion (1.11.4)
@@ -67,11 +68,14 @@ PODS:
   - TPKeyboardAvoiding (1.2.4)
   - TTTAttributedLabel (1.10.1)
   - UIImage+BlurredFrame (0.0.4)
+  - UMengAnalytics (3.5.10)
   - UMengSocial (4.2.3)
 
 DEPENDENCIES:
   - APParallaxHeader
   - BlocksKit (= 2.2.5)
+  - evernote-cloud-sdk-ios (from `https://github.com/evernote/evernote-cloud-sdk-ios.git`,
+    branch `ios7`)
   - hpple (= 0.2.0)
   - iVersion (= 1.11.4)
   - JazzHands (= 2.0.0)
@@ -90,11 +94,23 @@ DEPENDENCIES:
   - TPKeyboardAvoiding (= 1.2.4)
   - TTTAttributedLabel (= 1.10.1)
   - UIImage+BlurredFrame (= 0.0.4)
+  - UMengAnalytics (= 3.5.10)
   - UMengSocial (= 4.2.3)
+
+EXTERNAL SOURCES:
+  evernote-cloud-sdk-ios:
+    :branch: ios7
+    :git: https://github.com/evernote/evernote-cloud-sdk-ios.git
+
+CHECKOUT OPTIONS:
+  evernote-cloud-sdk-ios:
+    :commit: c0ce8309b48e3046fd04c91f824275eb88f4741b
+    :git: https://github.com/evernote/evernote-cloud-sdk-ios.git
 
 SPEC CHECKSUMS:
   APParallaxHeader: 854bc48a2487ca12c702f8a236fec0d89cdac5c3
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
+  evernote-cloud-sdk-ios: aef615499f3bf0f1b2f6058a8430d69cd192c130
   FontAwesome+iOS: 9070b682a9255ca0fdc34bcfb129ad0ba2b73b87
   hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81
@@ -117,6 +133,7 @@ SPEC CHECKSUMS:
   TPKeyboardAvoiding: 0a40dfbb0af7c8bdae1dd457496dccfd217d85f6
   TTTAttributedLabel: c8f3801a6463b9c9b82b0c84c465fdda9751892a
   UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
+  UMengAnalytics: 092c24aef47b6ac3c76ad51543f91156a8d7b645
   UMengSocial: 85882abe5b20aa38ad558ece71360e16b5d50909
 
 COCOAPODS: 0.38.2

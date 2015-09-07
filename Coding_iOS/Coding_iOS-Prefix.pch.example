@@ -59,6 +59,9 @@
 #define kSocial_WX_Secret @""
 #define kSocial_QQ_ID  @""
 #define kSocial_QQ_Secret @""
+#define kSocial_EN_Key @""
+#define kSocial_EN_Secret @""
+#define kSocial_Sina_RedirectURL @""
 
 //信鸽推送
 #define kXGPush_Id 123456

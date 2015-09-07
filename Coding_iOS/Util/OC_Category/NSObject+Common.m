@@ -80,16 +80,21 @@
         [JDStatusBarNotification showWithStatus:tipStr dismissAfter:1.0 styleName:JDStatusBarStyleSuccess];
     }
 }
-- (void)showStatusBarError:(NSError *)error{
+- (void)showStatusBarErrorStr:(NSString *)errorStr{
     if ([JDStatusBarNotification isVisible]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [JDStatusBarNotification showActivityIndicator:NO indicatorStyle:UIActivityIndicatorViewStyleWhite];
-            [JDStatusBarNotification showWithStatus:[self tipFromError:error] dismissAfter:1.5 styleName:JDStatusBarStyleError];
+            [JDStatusBarNotification showWithStatus:errorStr dismissAfter:1.5 styleName:JDStatusBarStyleError];
         });
     }else{
         [JDStatusBarNotification showActivityIndicator:NO indicatorStyle:UIActivityIndicatorViewStyleWhite];
-        [JDStatusBarNotification showWithStatus:[self tipFromError:error] dismissAfter:1.5 styleName:JDStatusBarStyleError];
+        [JDStatusBarNotification showWithStatus:errorStr dismissAfter:1.5 styleName:JDStatusBarStyleError];
     }
+}
+
+- (void)showStatusBarError:(NSError *)error{
+    NSString *errorStr = [self tipFromError:error];
+    [self showStatusBarErrorStr:errorStr];
 }
 - (void)showStatusBarProgress:(CGFloat)progress{
     [JDStatusBarNotification showProgress:progress];

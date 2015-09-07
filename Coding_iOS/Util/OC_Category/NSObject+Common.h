@@ -16,6 +16,7 @@
 - (void)showHudTipStr:(NSString *)tipStr;
 - (void)showStatusBarQueryStr:(NSString *)tipStr;
 - (void)showStatusBarSuccessStr:(NSString *)tipStr;
+- (void)showStatusBarErrorStr:(NSString *)errorStr;
 - (void)showStatusBarError:(NSError *)error;
 - (void)showStatusBarProgress:(CGFloat)progress;
 - (void)hideStatusBarProgress;
