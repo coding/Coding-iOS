@@ -290,20 +290,20 @@
             if (response.responseCode == UMSResponseCodeSuccess) {
                 [self showStatusBarSuccessStr:@"分享成功"];
             }else{
-                [self showStatusBarError:response.error];
+                [self showStatusBarErrorStr:@"分享失败"];
             }
         }];
     }else if ([snsName isEqualToString:@"evernote"]){
         ENNote *noteToSave = [ENNote new];
         noteToSave.title = [self p_shareTitle];
         NSString *htmlStr;
-        if ([_objToShare valueForKey:@"htmlMedia"]) {
+        if ([_objToShare respondsToSelector:NSSelectorFromString(@"htmlMedia")]) {
             HtmlMedia *htmlMedia = [_objToShare valueForKey:@"htmlMedia"];
             htmlStr = htmlMedia.contentOrigional;
         }else{
             htmlStr = [self p_shareText];
         }
-        htmlStr = [htmlStr stringByAppendingFormat:@"<p><a href=\"%@\">冒泡原始链接</a></p>", [self p_shareLinkStr]];
+        htmlStr = [htmlStr stringByAppendingFormat:@"<p>\n<a href=\"%@\">冒泡原始链接</a></p>", [self p_shareLinkStr]];
         noteToSave.content = [ENNoteContent noteContentWithSanitizedHTML:htmlStr];
         
         if (![[ENSession sharedSession] isAuthenticated]) {
@@ -360,8 +360,7 @@
 - (NSString *)p_shareText{
     NSString *text;
     if ([_objToShare isKindOfClass:[Tweet class]]) {
-        NSString *contentOrigional = [(Tweet *)_objToShare htmlMedia].contentOrigional;
-        text = [contentOrigional stringByRemoveHtmlTag];
+        text = [(Tweet *)_objToShare content];
     }else{
         text = @"Coding 让开发更简单！";
     }
@@ -380,7 +379,6 @@
 - (void)doTranspondMessage:(PrivateMessage *)curMessage{
     [[Coding_NetAPIManager sharedManager] request_SendPrivateMessage:curMessage andBlock:^(id data, NSError *error) {
         if (data) {
-            DebugLog(@"转发成功：%@, %@", curMessage.friend.name, curMessage.htmlMedia.contentOrigional);
             [self showHudTipStr:@"已发送"];
         }
     }];
