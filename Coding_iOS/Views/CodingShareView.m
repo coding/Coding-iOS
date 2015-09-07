@@ -303,7 +303,7 @@
         }else{
             htmlStr = [self p_shareText];
         }
-        htmlStr = [htmlStr stringByAppendingFormat:@"<p>\n<a href=\"%@\">冒泡原始链接</a></p>", [self p_shareLinkStr]];
+        htmlStr = [htmlStr stringByAppendingFormat:@"<p><a href=\"%@\">冒泡原始链接</a></p>", [self p_shareLinkStr]];
         noteToSave.content = [ENNoteContent noteContentWithSanitizedHTML:htmlStr];
         
         if (![[ENSession sharedSession] isAuthenticated]) {
