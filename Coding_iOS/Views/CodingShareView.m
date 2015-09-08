@@ -446,11 +446,12 @@
         self.frame = CGRectMake(0, 0, [CodingShareView_Item itemWidth], [CodingShareView_Item itemHeight]);
         _button = [UIButton new];
         [self addSubview:_button];
+        CGFloat padding_button = kScaleFrom_iPhone5_Desgin(kPaddingLeftWidth);
         [_button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self);
-            make.left.equalTo(self).offset(kPaddingLeftWidth);
-            make.right.equalTo(self).offset(-kPaddingLeftWidth);
-            make.height.mas_equalTo([CodingShareView_Item itemWidth] - 2*kPaddingLeftWidth);
+            make.left.equalTo(self).offset(padding_button);
+            make.right.equalTo(self).offset(-padding_button);
+            make.height.mas_equalTo([CodingShareView_Item itemWidth] - 2*padding_button);
         }];
         _titleL = ({
             UILabel *label = [UILabel new];
