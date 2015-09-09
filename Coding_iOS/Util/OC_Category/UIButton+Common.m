@@ -141,19 +141,34 @@
         imageV.frame = vFrame;
         [superV addSubview:imageV];
 
-        //animate and remove subview
-        [NSObject pop_animate:^{
-            CGPoint centerP = imageV.center;
-            centerP.x += CGRectGetWidth(self.frame) /2;
-            centerP.y -= CGRectGetHeight(self.frame) *2;
-            imageV.pop_springSpeed = 1.0;
-            imageV.pop_spring.center = centerP;
-            imageV.layer.pop_rotation = M_PI_4/2;
-            imageV.pop_spring.pop_scaleXY = CGPointMake(2.0, 2.0);
-            imageV.pop_spring.alpha = 0.0;
-        } completion:^(BOOL finished) {
-            [imageV removeFromSuperview];
+        //animate
+        CGAffineTransform fromTransform = imageV.transform;
+        CGPoint fromCenter = imageV.center;
+        CGFloat dx = CGRectGetWidth(self.frame) /2;
+        CGFloat dy = CGRectGetHeight(self.frame) *3;
+        CGFloat dScale = 3.0;
+        CGFloat dRotation = M_PI_4;
+
+        NSTimeInterval moveDurarion = 1.0;
+        POPCustomAnimation *moveA = [POPCustomAnimation animationWithBlock:^BOOL(id target, POPCustomAnimation *animation) {
+            float time_percent = (animation.currentTime - animation.beginTime)/moveDurarion;
+            UIView *view = (UIView *)target;
+            CGPoint toCenter = CGPointMake(fromCenter.x + time_percent * dx, fromCenter.y - (dy * time_percent * (2 - time_percent)));//抛物线移动
+            view.center = toCenter;
+            
+            CGAffineTransform toTransform = fromTransform;
+            toTransform = CGAffineTransformTranslate(toTransform, 50, -50);
+
+            CGFloat toScale = 1 + time_percent *(dScale - 1);//线性放大
+            toTransform = CGAffineTransformMakeScale(toScale, toScale);
+            CGFloat toRotation = dRotation * (1- cosf(time_percent * M_PI_2));//cos曲线旋转（先慢后快）
+            toTransform = CGAffineTransformRotate(toTransform, toRotation);
+            view.transform = toTransform;
+            
+            view.alpha = 1 - time_percent;
+            return time_percent < 1.0;
         }];
+        [imageV pop_addAnimation:moveA forKey:@"animateToImage"];
     }
 }
 @end
