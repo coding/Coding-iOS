@@ -29,7 +29,6 @@ typedef void (^LocationClickedBlock) (Tweet *curTweet);
 @property (nonatomic, copy) UserBtnClickedBlock userBtnClickedBlock;
 @property (nonatomic, copy) MoreLikersBtnClickedBlock moreLikersBtnClickedBlock;
 @property (nonatomic, copy) DeleteClickedBlock deleteClickedBlock;
-@property (nonatomic, copy) LocationClickedBlock locationClickedBlock;
 @property (nonatomic, copy) void(^goToDetailTweetBlock) (Tweet *curTweet);
 @property (copy, nonatomic) void (^refreshSingleCCellBlock)();
 @property (copy, nonatomic) void (^mediaItemClickedBlock)(HtmlMediaItem *curItem);
