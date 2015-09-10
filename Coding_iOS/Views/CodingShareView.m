@@ -286,7 +286,13 @@
         }
         NSString *shareContent = [NSString stringWithFormat:@"%@%@%@", shareTitle, shareText, shareTail];
         [self showStatusBarQueryStr:@"正在分享到新浪微博"];
-        [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToSina] content:shareContent image:nil location:nil urlResource:nil presentedController:[BaseViewController presentingVC] completion:^(UMSocialResponseEntity *response) {
+        
+        UMSocialUrlResource *urlResource = nil;
+        NSString *imageUrl = [self p_imageUrl];
+        if (imageUrl.length > 0) {
+            urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:imageUrl];
+        }
+        [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToSina] content:shareContent image:nil location:nil urlResource:urlResource presentedController:[BaseViewController presentingVC] completion:^(UMSocialResponseEntity *response) {
             if (response.responseCode == UMSResponseCodeSuccess) {
                 [self showStatusBarSuccessStr:@"分享成功"];
             }else{
@@ -366,6 +372,19 @@
     }
     return text;
 }
+- (NSString *)p_imageUrl{
+    __block NSString *imageUrl = nil;
+    if ([_objToShare respondsToSelector:NSSelectorFromString(@"htmlMedia")]) {
+        HtmlMedia *htmlMedia = [_objToShare valueForKey:@"htmlMedia"];
+        [htmlMedia.imageItems enumerateObjectsUsingBlock:^(HtmlMediaItem *obj, NSUInteger idx, BOOL *stop) {
+            if (obj.type == HtmlMediaItemType_Image) {
+                imageUrl = obj.src;
+                *stop = YES;
+            }
+        }];
+    }
+    return imageUrl;
+}
 #pragma mark TranspondMessage
 
 - (void)willTranspondMessage:(PrivateMessage *)message{
@@ -398,7 +417,14 @@
     //设置分享内容，和回调对象
     {
         socialData.shareText = [self p_shareText];
-        socialData.shareImage = [UIImage imageNamed:@"logo_about"];
+        NSString *imageUrl = [self p_imageUrl];
+        if (imageUrl.length > 0) {
+            socialData.urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:imageUrl];
+            socialData.shareImage = nil;
+        }else{
+            socialData.urlResource = nil;
+            socialData.shareImage = [UIImage imageNamed:@"logo_about"];
+        }
     }
     if ([platformName isEqualToString:@"wxsession"]) {
         UMSocialWechatSessionData *wechatSessionData = [UMSocialWechatSessionData new];
