@@ -248,7 +248,10 @@
 
 - (void)animationTimerDidFired:(NSTimer *)timer
 {
-    CGPoint newOffset = CGPointMake(self.scrollView.contentOffset.x + CGRectGetWidth(self.scrollView.frame), self.scrollView.contentOffset.y);
+    CGFloat width = CGRectGetWidth(self.scrollView.frame);
+    CGFloat pX = self.scrollView.contentOffset.x;
+    pX = nearbyint(pX/width) * width;//按照当前page坐标调整
+    CGPoint newOffset = CGPointMake(pX + width, self.scrollView.contentOffset.y);
     [self.scrollView setContentOffset:newOffset animated:YES];
 }
 
