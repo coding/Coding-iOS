@@ -357,18 +357,19 @@
     }
 }
 - (void)likeBtnClicked:(id)sender{
+    if (!_tweet.liked.boolValue) {
+        [self.likeBtn animateToImage:@"tweet_btn_liked"];
+    }else{
+        [self.likeBtn setImage:[UIImage imageNamed:@"tweet_btn_like"] forState:UIControlStateNormal];
+    }
     [[Coding_NetAPIManager sharedManager] request_Tweet_DoLike_WithObj:_tweet andBlock:^(id data, NSError *error) {
         if (data) {
             [_tweet changeToLiked:[NSNumber numberWithBool:!_tweet.liked.boolValue]];
-            if (_tweet.liked.boolValue) {
-                [self.likeBtn animateToImage:@"tweet_btn_liked"];
-            }else{
-                [self.likeBtn setImage:[UIImage imageNamed:@"tweet_btn_like"] forState:UIControlStateNormal];
-            }
             if (_likeBtnClickedBlock) {
-                _likeBtnClickedBlock();
+                _likeBtnClickedBlock(_tweet);
             }
         }
+        [self.likeBtn setImage:[UIImage imageNamed:_tweet.liked.boolValue? @"tweet_btn_liked" : @"tweet_btn_like"] forState:UIControlStateNormal];
     }];
 }
 - (void)commentBtnClicked:(id)sender{
