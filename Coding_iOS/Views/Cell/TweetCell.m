@@ -16,7 +16,7 @@
 #define kTweetCell_LikeUserCCell_Height 25.0
 #define kTweetCell_LikeUserCCell_Pading 10.0
 #define kTweet_ContentFont [UIFont systemFontOfSize:16]
-#define kTweet_ContentMaxHeight 120.0
+#define kTweet_ContentMaxHeight 200.0
 #define kTweet_CommentFont [UIFont systemFontOfSize:14]
 #define kTweet_TimtFont [UIFont systemFontOfSize:12]
 #define kTweet_LikeUsersLineCount 7.0
