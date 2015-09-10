@@ -430,6 +430,7 @@
         socialData.extConfig.wechatSessionData = wechatSessionData;
     }else if ([platformName isEqualToString:@"wxtimeline"]){
         UMSocialWechatTimelineData *wechatTimelineData = [UMSocialWechatTimelineData new];
+        wechatTimelineData.shareText = [NSString stringWithFormat:@"【%@】%@", [self p_shareTitle], [self p_shareText]];
         wechatTimelineData.url = [self p_shareLinkStr];
         wechatTimelineData.wxMessageType = UMSocialWXMessageTypeWeb;
         socialData.extConfig.wechatTimelineData = wechatTimelineData;
