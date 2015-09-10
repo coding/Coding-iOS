@@ -417,14 +417,10 @@
     //设置分享内容，和回调对象
     {
         socialData.shareText = [self p_shareText];
+        socialData.shareImage = [UIImage imageNamed:@"logo_about"];
         NSString *imageUrl = [self p_imageUrl];
-        if (imageUrl.length > 0) {
-            socialData.urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:imageUrl];
-            socialData.shareImage = nil;
-        }else{
-            socialData.urlResource = nil;
-            socialData.shareImage = [UIImage imageNamed:@"logo_about"];
-        }
+        socialData.urlResource.url = imageUrl;
+        socialData.urlResource.resourceType = imageUrl.length > 0? UMSocialUrlResourceTypeImage: UMSocialUrlResourceTypeDefault;
     }
     if ([platformName isEqualToString:@"wxsession"]) {
         UMSocialWechatSessionData *wechatSessionData = [UMSocialWechatSessionData new];
