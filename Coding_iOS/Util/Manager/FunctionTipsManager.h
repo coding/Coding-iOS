@@ -11,9 +11,11 @@ static NSString *kFunctionTipStr_MR = @"MergeRequest";
 static NSString *kFunctionTipStr_PR = @"PullRequest";
 static NSString *kFunctionTipStr_ReadMe = @"ReadMe";
 static NSString *kFunctionTipStr_CommitList = @"Code_CommitList";
+//version: 3.1.5
 static NSString *kFunctionTipStr_Search = @"hasSearch";
 static NSString *kFunctionTipStr_HotTopic = @"HotTopic";
 static NSString *kFunctionTipStr_TweetTopic = @"TweetTopic";
+//version: 3.2
 static NSString *kFunctionTipStr_VoiceMessage = @"VoiceMessage";
 static NSString *kFunctionTipStr_File_2V = @"File_2V";
 static NSString *kFunctionTipStr_File_2V_Version = @"File_2V_Version";

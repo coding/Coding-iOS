@@ -39,13 +39,13 @@ static NSString *kFunctionTipStr_Version = @"version";
 //                           kFunctionTipStr_Search: @(YES),
 //                           kFunctionTipStr_HotTopic: @(YES),
 //                           kFunctionTipStr_TweetTopic: @(YES),
-                           kFunctionTipStr_VoiceMessage: @(YES),
-                           kFunctionTipStr_File_2V: @(YES),
-                           kFunctionTipStr_File_2V_Activity: @(YES),
-                           kFunctionTipStr_File_2V_Version: @(YES),
-                           kFunctionTipStr_LineNote_MRPR: @(YES),
-                           kFunctionTipStr_LineNote_FileChange: @(YES),
-                           kFunctionTipStr_Me_Points: @(YES),
+//                           kFunctionTipStr_VoiceMessage: @(YES),
+//                           kFunctionTipStr_File_2V: @(YES),
+//                           kFunctionTipStr_File_2V_Activity: @(YES),
+//                           kFunctionTipStr_File_2V_Version: @(YES),
+//                           kFunctionTipStr_LineNote_MRPR: @(YES),
+//                           kFunctionTipStr_LineNote_FileChange: @(YES),
+//                           kFunctionTipStr_Me_Points: @(YES),
                            } mutableCopy];
             [_tipsDict writeToFile:[self p_cacheFilePath] atomically:YES];
         }
