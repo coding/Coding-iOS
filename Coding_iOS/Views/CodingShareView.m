@@ -248,9 +248,9 @@
 - (void)p_checkTitle{
     NSString *title;
     if ([_objToShare isKindOfClass:[Tweet class]]) {
-        title = @"冒泡分享";
+        title = @"冒泡分享到";
     }else{
-        title = @"分享";
+        title = @"分享到";
     }
     _titleL.text = title;
 }
