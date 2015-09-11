@@ -307,7 +307,7 @@
             }];
             [actionSheet showInView:self.view];
         };
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     } else {
         ProjectTopic *toComment = [_curTopic.comments.list objectAtIndex:indexPath.row-1];
@@ -315,7 +315,7 @@
         TopicCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:toComment.htmlMedia.imageItems.count > 0? kCellIdentifier_TopicComment_Media: kCellIdentifier_TopicComment forIndexPath:indexPath];
         cell.toComment = toComment;
         cell.contentLabel.delegate = self;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }
 }

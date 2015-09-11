@@ -203,6 +203,7 @@
             FileChanges * curFileChanges = _curCommitInfo.commitDetail.diffStat;
             FileChangesIntroduceCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_FileChangesIntroduceCell forIndexPath:indexPath];
             [cell setFilesCount:curFileChanges.paths.count insertions:curFileChanges.insertions.integerValue deletions:curFileChanges.deletions.integerValue];
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
             return cell;
         }
     }else if (indexPath.section > 0 && indexPath.section < _listGroupKeys.count+ 1){
@@ -236,7 +237,7 @@
             }
         }];
         
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else{
         AddCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_AddCommentCell forIndexPath:indexPath];

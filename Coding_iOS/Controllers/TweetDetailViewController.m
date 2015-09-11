@@ -244,7 +244,7 @@
         cell.loadRequestBlock = ^(NSURLRequest *curRequest){
             [self loadRequest:curRequest];
         };
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else{
         TweetDetailCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetDetailComment forIndexPath:indexPath];
@@ -257,7 +257,7 @@
             [self goToUserInfo:curComment.owner];
         }];
         cell.contentLabel.delegate = self;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }
 }

@@ -11,9 +11,9 @@
 
 #define kTweetCell_PadingBottom 10.0
 #define kTweetCell_ContentWidth (kScreen_Width -kTweetCell_PadingLeft - kPaddingLeftWidth)
-#define kTweetCell_LikeComment_Height 25.0
+#define kTweetCell_LikeComment_Height 27.0
 #define kTweetCell_LikeComment_Width 50.0
-#define kTweetCell_LikeUserCCell_Height 25.0
+#define kTweetCell_LikeUserCCell_Height 26.0
 #define kTweetCell_LikeUserCCell_Pading 10.0
 #define kTweet_ContentFont [UIFont systemFontOfSize:16]
 #define kTweet_ContentMaxHeight 200.0
@@ -72,7 +72,7 @@
         }
         
         if (!self.ownerImgView) {
-            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15 + CGRectGetMaxY(_topView.frame), 35, 35)];
+            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15 + CGRectGetMaxY(_topView.frame), 38, 38)];
             [self.ownerImgView doCircleFrame];
             [self.contentView addSubview:self.ownerImgView];
         }
@@ -82,15 +82,16 @@
             [self.ownerNameBtn addTarget:self action:@selector(userBtnClicked) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:self.ownerNameBtn];
         }
-        if (!self.timeClockIconView) {
-            self.timeClockIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 70, 25 + CGRectGetMaxY(_topView.frame), 12, 12)];
-            self.timeClockIconView.image = [UIImage imageNamed:@"time_clock_icon"];
-            [self.contentView addSubview:self.timeClockIconView];
-        }
+//        if (!self.timeClockIconView) {
+//            self.timeClockIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 70, 25 + CGRectGetMaxY(_topView.frame), 12, 12)];
+//            self.timeClockIconView.image = [UIImage imageNamed:@"time_clock_icon"];
+//            [self.contentView addSubview:self.timeClockIconView];
+//        }
         if (!self.timeLabel) {
-            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 55, 23 + CGRectGetMaxY(_topView.frame), 55, 12)];
+            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.ownerNameBtn.frame), 0, kScreen_Width/2, 12)];
+//            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 55, 23 + CGRectGetMaxY(_topView.frame), 55, 12)];
             self.timeLabel.font = kTweet_TimtFont;
-            self.timeLabel.textAlignment = NSTextAlignmentRight;
+//            self.timeLabel.textAlignment = NSTextAlignmentRight;
             self.timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
             [self.contentView addSubview:self.timeLabel];
         }
@@ -237,10 +238,11 @@
     //owner姓名
     [self.ownerNameBtn setUserTitle:_tweet.owner.name font:[UIFont systemFontOfSize:17] maxWidth:(kTweetCell_ContentWidth-85)];
     //发出冒泡的时间
-    [self.timeLabel setLongString:[_tweet.created_at stringDisplay_HHmm] withVariableWidth:kScreen_Width/2];
-    CGFloat timeLabelX = kScreen_Width - kPaddingLeftWidth - CGRectGetWidth(self.timeLabel.frame);
-    [self.timeLabel setX:timeLabelX];
-    [self.timeClockIconView setX:timeLabelX-15];
+    self.timeLabel.text = [_tweet.created_at stringDisplay_HHmm];
+//    [self.timeLabel setLongString:[_tweet.created_at stringDisplay_HHmm] withVariableWidth:kScreen_Width/2];
+//    CGFloat timeLabelX = kScreen_Width - kPaddingLeftWidth - CGRectGetWidth(self.timeLabel.frame);
+//    [self.timeLabel setX:timeLabelX];
+//    [self.timeClockIconView setX:timeLabelX-15];
     
     CGFloat centerY = 15 + 15 + CGRectGetHeight(_ownerImgView.frame)/2;
     CGFloat curBottomY = _needTopView? 0: -15;
@@ -248,9 +250,11 @@
     
     [self.topView setY:curBottomY];
     [self.ownerImgView setCenterY:centerY];
-    [self.ownerNameBtn setCenterY:centerY];
-    [self.timeClockIconView setCenterY:centerY];
-    [self.timeLabel setCenterY:centerY];
+//    [self.ownerNameBtn setCenterY:centerY];
+//    [self.timeClockIconView setCenterY:centerY];
+//    [self.timeLabel setCenterY:centerY];
+    [self.ownerNameBtn setY:CGRectGetMinY(self.ownerImgView.frame)];
+    [self.timeLabel setY:CGRectGetMaxY(self.ownerImgView.frame) - CGRectGetHeight(self.timeLabel.frame)];
     
     curBottomY += kTweetCell_PadingTop;
     
@@ -296,6 +300,7 @@
     self.fromLabel.hidden = self.fromPhoneIconView.hidden = _tweet.device.length <= 0;
     
     //喜欢&评论 按钮
+    curBottomY += 5;
     [self.likeBtn setImage:[UIImage imageNamed:(_tweet.liked.boolValue? @"tweet_btn_liked":@"tweet_btn_like")] forState:UIControlStateNormal];
     [self.likeBtn setY:curBottomY];
     [self.commentBtn setY:curBottomY];
@@ -357,7 +362,7 @@
     cellHeight += [self contentLabelHeightWithTweet:tweet];
     cellHeight += [self contentMediaHeightWithTweet:tweet];
     cellHeight += [self locationAndDeviceHeightWithTweet:tweet];
-    cellHeight += kTweetCell_LikeComment_Height;
+    cellHeight += 5+ kTweetCell_LikeComment_Height;
     cellHeight += [TweetCell likeCommentBtn_BottomPadingWithTweet:tweet];
     cellHeight += [TweetCell likeUsersHeightWithTweet:tweet];
     cellHeight += [TweetCell commentListViewHeightWithTweet:tweet];

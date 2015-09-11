@@ -306,6 +306,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             cell.loadRequestBlock = ^(NSURLRequest *curRequest){
                 [weakSelf loadRequest:curRequest];
             };
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
             return cell;
         }
     }else if (indexPath.section == 1){//Disclosure
@@ -325,7 +326,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         MRPRCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:curCommentItem.htmlMedia.imageItems.count> 0? kCellIdentifier_MRPRCommentCell_Media: kCellIdentifier_MRPRCommentCell forIndexPath:indexPath];
         cell.curItem = curCommentItem;
         cell.contentLabel.delegate = self;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else{//Add Comment
         AddCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_AddCommentCell forIndexPath:indexPath];

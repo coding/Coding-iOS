@@ -6,10 +6,10 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kTweetDetailCell_PadingLeft 55.0
+#define kTweetDetailCell_PadingLeft 60.0
 #define kTweet_TimtFont [UIFont systemFontOfSize:12]
-#define kTweetDetailCell_LikeComment_Height 22.0
-#define kTweetDetailCell_LikeComment_Width 44.0
+#define kTweetDetailCell_LikeComment_Height 27.0
+#define kTweetDetailCell_LikeComment_Width 50.0
 #define kTweetDetailCell_ContentWidth (kScreen_Width - 2*kPaddingLeftWidth)
 #define kTweetDetailCell_PadingTop 55.0
 #define kTweetDetailCell_PadingBottom 10.0
@@ -51,25 +51,26 @@
         self.backgroundColor = [UIColor clearColor];
         //        self.backgroundColor = [UIColor colorWithHexString:@"0xf3f3f3"];
         if (!self.ownerImgView) {
-            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, 35, 35)];
+            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, 38, 38)];
             [self.ownerImgView doCircleFrame];
             [self.contentView addSubview:self.ownerImgView];
         }
         if (!self.ownerNameBtn) {
             self.ownerNameBtn = [UIButton buttonWithUserStyle];
-            self.ownerNameBtn.frame = CGRectMake(kTweetDetailCell_PadingLeft, 18, kScreen_Width/2, 20);
+            self.ownerNameBtn.frame = CGRectMake(kTweetDetailCell_PadingLeft, CGRectGetMinY(self.ownerImgView.frame), kScreen_Width/2, 20);
             [self.ownerNameBtn addTarget:self action:@selector(userBtnClicked) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:self.ownerNameBtn];
         }
-        if (!self.timeClockIconView) {
-            self.timeClockIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 85, 20, 12, 12)];
-            self.timeClockIconView.image = [UIImage imageNamed:@"time_clock_icon"];
-            [self.contentView addSubview:self.timeClockIconView];
-        }
+//        if (!self.timeClockIconView) {
+//            self.timeClockIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 85, 20, 12, 12)];
+//            self.timeClockIconView.image = [UIImage imageNamed:@"time_clock_icon"];
+//            [self.contentView addSubview:self.timeClockIconView];
+//        }
         if (!self.timeLabel) {
-            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 70, 18, 70, 12)];
+            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.ownerNameBtn.frame), CGRectGetMaxY(self.ownerImgView.frame) - 12, kScreen_Width/2, 12)];
+//            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 70, 18, 70, 12)];
             self.timeLabel.font = kTweet_TimtFont;
-            self.timeLabel.textAlignment = NSTextAlignmentRight;
+//            self.timeLabel.textAlignment = NSTextAlignmentRight;
             self.timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
             [self.contentView addSubview:self.timeLabel];
         }
@@ -132,7 +133,7 @@
             [self.likeUsersView registerClass:[TweetLikeUserCCell class] forCellWithReuseIdentifier:kCCellIdentifier_TweetLikeUser];
             self.likeUsersView.dataSource = self;
             self.likeUsersView.delegate = self;
-            [self.likeUsersView addLineUp:YES andDown:NO andColor:[UIColor colorWithHexString:@"0xdddddd"]];
+//            [self.likeUsersView addLineUp:YES andDown:NO andColor:[UIColor colorWithHexString:@"0xdddddd"]];
             [self.contentView addSubview:self.likeUsersView];
         }
         if (!self.webContentView) {
@@ -185,10 +186,11 @@
     [self.ownerNameBtn setUserTitle:_tweet.owner.name font:self.ownerNameBtn.titleLabel.font maxWidth:(kScreen_Width- kTweetDetailCell_PadingLeft - 85)];
 
     //发出冒泡的时间
-    [self.timeLabel setLongString:[_tweet.created_at stringDisplay_HHmm] withVariableWidth:kScreen_Width/2];
-    CGFloat timeLabelX = kScreen_Width - kPaddingLeftWidth - CGRectGetWidth(self.timeLabel.frame);
-    [self.timeLabel setX:timeLabelX];
-    [self.timeClockIconView setX:timeLabelX-15];
+    self.timeLabel.text = [_tweet.created_at stringDisplay_HHmm];
+//    [self.timeLabel setLongString:[_tweet.created_at stringDisplay_HHmm] withVariableWidth:kScreen_Width/2];
+//    CGFloat timeLabelX = kScreen_Width - kPaddingLeftWidth - CGRectGetWidth(self.timeLabel.frame);
+//    [self.timeLabel setX:timeLabelX];
+//    [self.timeClockIconView setX:timeLabelX-15];
     
     //owner冒泡text内容
     [self.webContentView setHeight:_tweet.contentHeight];
@@ -221,6 +223,7 @@
     self.fromLabel.hidden = self.fromPhoneIconView.hidden = _tweet.device.length <= 0;
     
     //喜欢&评论 按钮
+    curBottomY += 5;
     [self.likeBtn setImage:[UIImage imageNamed:(_tweet.liked.boolValue? @"tweet_btn_liked":@"tweet_btn_like")] forState:UIControlStateNormal];
     [self.likeBtn setY:curBottomY];
     [self.commentBtn setY:curBottomY];
@@ -262,7 +265,7 @@
         cellHeight += kTweetDetailCell_PadingTop;
         cellHeight += [[self class] contentHeightWithTweet:tweet];
         cellHeight += 10;
-        cellHeight += kTweetDetailCell_LikeComment_Height;
+        cellHeight += 5 + kTweetDetailCell_LikeComment_Height;
         cellHeight += [[self class] locationAndDeviceHeightWithTweet:tweet];
         cellHeight += [[self class] likeCommentBtn_BottomPadingWithTweet:tweet];
         cellHeight += [[self class] likeUsersHeightWithTweet:tweet];
