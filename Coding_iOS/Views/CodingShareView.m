@@ -288,7 +288,7 @@
         [self showStatusBarQueryStr:@"正在分享到新浪微博"];
         
         UMSocialUrlResource *urlResource = nil;
-        NSString *imageUrl = [self p_imageUrl];
+        NSString *imageUrl = [self p_imageUrlSquare:NO];
         if (imageUrl.length > 0) {
             urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:imageUrl];
         }
@@ -372,13 +372,17 @@
     }
     return text;
 }
-- (NSString *)p_imageUrl{
+- (NSString *)p_imageUrlSquare:(BOOL)needSquare{
     __block NSString *imageUrl = nil;
     if ([_objToShare respondsToSelector:NSSelectorFromString(@"htmlMedia")]) {
         HtmlMedia *htmlMedia = [_objToShare valueForKey:@"htmlMedia"];
         [htmlMedia.imageItems enumerateObjectsUsingBlock:^(HtmlMediaItem *obj, NSUInteger idx, BOOL *stop) {
             if (obj.type == HtmlMediaItemType_Image) {
-                imageUrl = obj.src;
+                if (needSquare) {
+                    imageUrl = [obj.src urlImageWithCodePathResize:100 crop:YES].absoluteString;
+                }else{
+                    imageUrl = obj.src;
+                }
                 *stop = YES;
             }
         }];
@@ -418,7 +422,7 @@
     {
         socialData.shareText = [self p_shareText];
         socialData.shareImage = [UIImage imageNamed:@"logo_about"];
-        NSString *imageUrl = [self p_imageUrl];
+        NSString *imageUrl = [self p_imageUrlSquare:YES];
         socialData.urlResource.url = imageUrl;
         socialData.urlResource.resourceType = imageUrl.length > 0? UMSocialUrlResourceTypeImage: UMSocialUrlResourceTypeDefault;
     }
@@ -495,6 +499,7 @@
 }
 
 - (void)buttonClicked{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"umeng_social_%@", _snsName]];
     if (self.clickedBlock) {
         self.clickedBlock(_snsName);
     }
