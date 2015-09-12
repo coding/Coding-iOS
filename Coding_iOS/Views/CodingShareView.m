@@ -276,7 +276,7 @@
         [self willTranspondMessage:curMsg];
     }else if ([snsName isEqualToString:@"sina"]){
         NSString *shareTitle, *shareText, *shareTail;
-        shareTitle = [NSString stringWithFormat:@"【%@】", [self p_shareTitle]];
+        shareTitle = [NSString stringWithFormat:@"「%@」", [self p_shareTitle]];
         shareText = [self p_shareText];
         shareTail = [NSString stringWithFormat:@"%@（分享自@Coding）", [self p_shareLinkStr]];
         NSInteger maxShareLength = 140;
@@ -434,7 +434,7 @@
         socialData.extConfig.wechatSessionData = wechatSessionData;
     }else if ([platformName isEqualToString:@"wxtimeline"]){
         UMSocialWechatTimelineData *wechatTimelineData = [UMSocialWechatTimelineData new];
-        wechatTimelineData.shareText = [NSString stringWithFormat:@"【%@】%@", [self p_shareTitle], [self p_shareText]];
+        wechatTimelineData.shareText = [NSString stringWithFormat:@"「%@」%@", [self p_shareTitle], [self p_shareText]];
         wechatTimelineData.url = [self p_shareLinkStr];
         wechatTimelineData.wxMessageType = UMSocialWXMessageTypeWeb;
         socialData.extConfig.wechatTimelineData = wechatTimelineData;
