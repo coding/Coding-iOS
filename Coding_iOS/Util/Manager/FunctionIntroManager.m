@@ -12,6 +12,8 @@
 #import "FunctionIntroManager.h"
 #import "EAIntroView.h"
 #import "SMPageControl.h"
+#import <NYXImagesKit/NYXImagesKit.h>
+
 
 @implementation FunctionIntroManager
 #pragma mark EAIntroPage
@@ -29,18 +31,19 @@
         return;
     }
     EAIntroView *introView = [[EAIntroView alloc] initWithFrame:kScreen_Bounds andPages:pages];
-    introView.swipeToExit = NO;
-    introView.scrollView.bounces = NO;
+    introView.backgroundColor = [UIColor whiteColor];
+    introView.swipeToExit = YES;
+    introView.scrollView.bounces = YES;
     
-    introView.skipButton = [self p_skipButton];
-    introView.skipButtonY = 20.f + CGRectGetHeight(introView.skipButton.frame);
-    introView.skipButtonAlignment = EAViewAlignmentCenter;
+//    introView.skipButton = [self p_skipButton];
+//    introView.skipButtonY = 20.f + CGRectGetHeight(introView.skipButton.frame);
+//    introView.skipButtonAlignment = EAViewAlignmentCenter;
     
     if (pages.count <= 1) {
         introView.pageControl.hidden = YES;
     }else{
         introView.pageControl = [self p_pageControl];
-        introView.pageControlY = 130;
+        introView.pageControlY = 10.f + CGRectGetHeight(introView.pageControl.frame);
     }
     [introView showFullscreen];
     //
@@ -48,6 +51,8 @@
 }
 
 + (BOOL)needToShowIntro{
+//    return YES;
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *preVersion = [defaults stringForKey:kIntroPageKey];
     BOOL needToShow = ![preVersion isEqualToString:kVersion_Coding];
@@ -65,9 +70,19 @@
 
 #pragma mark private M
 + (UIPageControl *)p_pageControl{
+    UIImage *pageIndicatorImage = [UIImage imageNamed:@"intro_dot_unselected"];
+    UIImage *currentPageIndicatorImage = [UIImage imageNamed:@"intro_dot_selected"];
+    
+    if (!kDevice_Is_iPhone6 && !kDevice_Is_iPhone6Plus) {
+        CGFloat desginWidth = 375.0;//iPhone6 的设计尺寸
+        CGFloat scaleFactor = kScreen_Width/desginWidth;
+        pageIndicatorImage = [pageIndicatorImage scaleByFactor:scaleFactor];
+        currentPageIndicatorImage = [currentPageIndicatorImage scaleByFactor:scaleFactor];
+    }
+    
     SMPageControl *pageControl = [SMPageControl new];
-    pageControl.pageIndicatorImage = [UIImage imageNamed:@"banner__page_unselected"];
-    pageControl.currentPageIndicatorImage = [UIImage imageNamed:@"banner__page_selected"];
+    pageControl.pageIndicatorImage = pageIndicatorImage;
+    pageControl.currentPageIndicatorImage = currentPageIndicatorImage;
     [pageControl sizeToFit];
     return (UIPageControl *)pageControl;
 }
