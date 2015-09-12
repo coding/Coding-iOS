@@ -360,19 +360,27 @@
     }
 }
 - (void)likeBtnClicked:(id)sender{
-    if (!_tweet.liked.boolValue) {
-        [self.likeBtn animateToImage:@"tweet_btn_liked"];
-    }else{
-        [self.likeBtn setImage:[UIImage imageNamed:@"tweet_btn_like"] forState:UIControlStateNormal];
+    BOOL preLiked = _tweet.liked.boolValue;
+    //重新加载likes
+    [_tweet changeToLiked:[NSNumber numberWithBool:!preLiked]];
+    if (_likeBtnClickedBlock) {
+        _likeBtnClickedBlock(_tweet);
     }
+    //开始动画
+    if (preLiked) {
+        [self.likeBtn setImage:[UIImage imageNamed:@"tweet_btn_like"] forState:UIControlStateNormal];
+    }else{
+        [self.likeBtn animateToImage:@"tweet_btn_liked"];
+    }
+    //发起请求
     [[Coding_NetAPIManager sharedManager] request_Tweet_DoLike_WithObj:_tweet andBlock:^(id data, NSError *error) {
-        if (data) {
-            [_tweet changeToLiked:[NSNumber numberWithBool:!_tweet.liked.boolValue]];
+        if (!data) {//如果请求失败，就再改回来
+            [_tweet changeToLiked:[NSNumber numberWithBool:preLiked]];
             if (_likeBtnClickedBlock) {
                 _likeBtnClickedBlock(_tweet);
             }
+            [self.likeBtn setImage:[UIImage imageNamed:preLiked? @"tweet_btn_liked" : @"tweet_btn_like"] forState:UIControlStateNormal];
         }
-        [self.likeBtn setImage:[UIImage imageNamed:_tweet.liked.boolValue? @"tweet_btn_liked" : @"tweet_btn_like"] forState:UIControlStateNormal];
     }];
 }
 - (void)commentBtnClicked:(id)sender{

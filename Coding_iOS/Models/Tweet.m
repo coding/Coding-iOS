@@ -104,7 +104,7 @@ static Tweet *_tweetForSend = nil;
 
 - (NSString *)toDoLikePath{
     NSString *doLikePath;
-    doLikePath = [NSString stringWithFormat:@"api/tweet/%d/%@", self.id.intValue, (_liked.boolValue? @"unlike":@"like")];
+    doLikePath = [NSString stringWithFormat:@"api/tweet/%d/%@", self.id.intValue, (!_liked.boolValue? @"unlike":@"like")];
     return doLikePath;
 }
 
