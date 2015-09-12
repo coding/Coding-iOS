@@ -48,8 +48,6 @@
 }
 
 + (BOOL)needToShowIntro{
-//    return NO;//这个版本不需要
-    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *preVersion = [defaults stringForKey:kIntroPageKey];
     BOOL needToShow = ![preVersion isEqualToString:kVersion_Coding];

@@ -34,8 +34,9 @@
         _bgImageView.contentMode = UIViewContentModeScaleAspectFill;
         _bgImageView.alpha = 0.0;
         [self addSubview:_bgImageView];
-        
-        [self addGradientLayerWithColors:@[(id)[blackColor colorWithAlphaComponent:0.4].CGColor, (id)[blackColor colorWithAlphaComponent:0.0].CGColor] locations:nil startPoint:CGPointMake(0.5, 0.0) endPoint:CGPointMake(0.5, 0.4)];
+        if ([NSDate isDuringMidAutumn]) {
+            [self addGradientLayerWithColors:@[(id)[blackColor colorWithAlphaComponent:0.4].CGColor, (id)[blackColor colorWithAlphaComponent:0.0].CGColor] locations:nil startPoint:CGPointMake(0.5, 0.0) endPoint:CGPointMake(0.5, 0.4)];
+        }
 
         _logoIconView = [[UIImageView alloc] init];
         _logoIconView.contentMode = UIViewContentModeScaleAspectFit;

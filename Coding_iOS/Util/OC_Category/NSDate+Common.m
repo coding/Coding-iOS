@@ -191,6 +191,7 @@
 }
 
 + (BOOL)isDuringMidAutumn{
+//    return YES;
     BOOL isDuringMidAutumn;
     NSDate *curDate = [NSDate date];
     if (curDate.year != 2015 ||
