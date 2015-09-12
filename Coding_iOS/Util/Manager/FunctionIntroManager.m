@@ -7,7 +7,7 @@
 //
 
 #define kIntroPageKey @"intro_page_version"
-#define kIntroPageNum 1
+#define kIntroPageNum 2
 
 #import "FunctionIntroManager.h"
 #import "EAIntroView.h"
@@ -48,11 +48,18 @@
 }
 
 + (BOOL)needToShowIntro{
-    return NO;//这个版本不需要
+//    return NO;//这个版本不需要
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *preVersion = [defaults stringForKey:kIntroPageKey];
     BOOL needToShow = ![preVersion isEqualToString:kVersion_Coding];
+    NSDate *curDate = [NSDate date];
+    if (curDate.year != 2015 ||
+        curDate.month != 9 ||
+        curDate.day < 25 ||
+        curDate.day > 27) {//中秋节期间才显示
+        needToShow = NO;
+    }
     return needToShow;
 }
 
