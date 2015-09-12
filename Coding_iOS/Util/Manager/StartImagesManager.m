@@ -61,12 +61,16 @@
 }
 
 - (StartImage *)randomImage{
-    NSUInteger count = _imageLoadedArray.count;
-    if (count > 0) {
-        NSUInteger index = arc4random()%count;
-        _startImage = [_imageLoadedArray objectAtIndex:index];
+    if ([NSDate isDuringMidAutumn]) {
+        _startImage = [StartImage midAutumnImage];
     }else{
-        _startImage = [StartImage defautImage];
+        NSUInteger count = _imageLoadedArray.count;
+        if (count > 0) {
+            NSUInteger index = arc4random()%count;
+            _startImage = [_imageLoadedArray objectAtIndex:index];
+        }else{
+            _startImage = [StartImage defautImage];
+        }
     }
     
     [self saveDisplayImageName:_startImage.fileName];
@@ -200,6 +204,14 @@
     st.descriptionStr = @"\"Light Returning\" © 十一步";
     st.fileName = @"STARTIMAGE.jpg";
     st.pathDisk = [[NSBundle mainBundle] pathForResource:@"STARTIMAGE" ofType:@"jpg"];
+    return st;
+}
+
++ (StartImage *)midAutumnImage{
+    StartImage *st = [[StartImage alloc] init];
+    st.descriptionStr = @"\"中秋快乐\" © Mango";
+    st.fileName = @"MIDAUTUMNIMAGE.jpg";
+    st.pathDisk = [[NSBundle mainBundle] pathForResource:@"MIDAUTUMNIMAGE" ofType:@"jpg"];
     return st;
 }
 

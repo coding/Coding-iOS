@@ -31,5 +31,6 @@
 
 - (NSString *)stringTimesAgo;//代码更新时间
 
++ (BOOL)isDuringMidAutumn;
 
 @end

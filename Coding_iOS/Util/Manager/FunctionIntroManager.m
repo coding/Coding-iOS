@@ -53,11 +53,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *preVersion = [defaults stringForKey:kIntroPageKey];
     BOOL needToShow = ![preVersion isEqualToString:kVersion_Coding];
-    NSDate *curDate = [NSDate date];
-    if (curDate.year != 2015 ||
-        curDate.month != 9 ||
-        curDate.day < 25 ||
-        curDate.day > 27) {//中秋节期间才显示
+    if (![NSDate isDuringMidAutumn]) {//中秋节期间才显示
         needToShow = NO;
     }
     return needToShow;

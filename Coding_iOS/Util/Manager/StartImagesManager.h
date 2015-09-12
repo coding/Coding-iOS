@@ -28,6 +28,8 @@
 @property (strong, nonatomic) NSString *fileName, *descriptionStr, *pathDisk;
 
 + (StartImage *)defautImage;
++ (StartImage *)midAutumnImage;
+
 - (UIImage *)image;
 - (void)startDownloadImage;
 @end

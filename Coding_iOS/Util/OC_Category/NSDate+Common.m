@@ -190,5 +190,18 @@
     return displayStr;
 }
 
++ (BOOL)isDuringMidAutumn{
+    BOOL isDuringMidAutumn;
+    NSDate *curDate = [NSDate date];
+    if (curDate.year != 2015 ||
+        curDate.month != 9 ||
+        curDate.day < 25 ||
+        curDate.day > 27) {//中秋节期间才显示
+        isDuringMidAutumn = NO;
+    }else{
+        isDuringMidAutumn = YES;
+    }
+    return isDuringMidAutumn;
+}
 
 @end
