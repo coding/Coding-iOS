@@ -152,6 +152,9 @@
                                     diskFileName:(NSString *)diskFileName
                                        storage_key:(NSString *)storage_key
                                completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler{
+    
+    [MobClick endEvent:kUmeng_Event_Request_ActionOfServer label:@"下载文件"];
+    
     NSProgress *progress;
     NSURL *downloadURL = [NSURL URLWithString:downloadPath];
     NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];
@@ -257,6 +260,8 @@
     NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:uploadUrl.absoluteString parameters:@{@"dir": folder_id} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileURL:filePathUrl name:@"file" fileName:name mimeType:@"image/jpeg, image/png, image/gif" error:nil];
     } error:nil];
+    
+    [MobClick endEvent:kUmeng_Event_Request_ActionOfServer label:@"上传文件"];
     
     NSProgress *progress = nil;
     NSURLSessionUploadTask *uploadTask = [self.af_manager uploadTaskWithStreamedRequest:request progress:&progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
