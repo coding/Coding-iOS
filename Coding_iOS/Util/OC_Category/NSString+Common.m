@@ -239,6 +239,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _emotion_monkey_dict = @{
+                                 //猴子大表情
                                  @"coding_emoji_01": @"哈哈",
                                  @"coding_emoji_02": @"吐",
                                  @"coding_emoji_03": @"压力山大",
@@ -280,7 +281,16 @@
                                  @"coding_emoji_40": @"发红包",
                                  @"coding_emoji_41": @"放鞭炮",
                                  @"coding_emoji_42": @"求红包",
-                                 @"coding_emoji_43": @"新年快乐"
+                                 @"coding_emoji_43": @"新年快乐",
+                                 //猴子大表情 Gif
+                                 @"coding_emoji_gif_01": @"奔月",
+                                 @"coding_emoji_gif_02": @"吃月饼",
+                                 @"coding_emoji_gif_03": @"捞月",
+                                 @"coding_emoji_gif_04": @"打招呼",
+                                 @"coding_emoji_gif_05": @"悠闲",
+                                 @"coding_emoji_gif_06": @"赏月",
+                                 @"coding_emoji_gif_07": @"中秋快乐",
+                                 @"coding_emoji_gif_08": @"爬爬",
                                  };
     });
     return _emotion_monkey_dict;

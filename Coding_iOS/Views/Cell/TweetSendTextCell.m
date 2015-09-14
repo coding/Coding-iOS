@@ -270,11 +270,19 @@
 }
 
 - (UIImage *)emojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView imageForSelectedCategory:(AGEmojiKeyboardViewCategoryImage)category {
-    return [UIImage imageNamed:@"keyboard_emotion_emoji"];
+    UIImage *img;
+    if (category == AGEmojiKeyboardViewCategoryImageEmoji) {
+        img = [UIImage imageNamed:@"keyboard_emotion_emoji"];
+    }else if (category == AGEmojiKeyboardViewCategoryImageMonkey){
+        img = [UIImage imageNamed:@"keyboard_emotion_monkey"];
+    }else{
+        img = [UIImage imageNamed:@"keyboard_emotion_monkey_gif"];
+    }
+    return img;
 }
 
 - (UIImage *)emojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView imageForNonSelectedCategory:(AGEmojiKeyboardViewCategoryImage)category {
-    return [UIImage imageNamed:@"keyboard_emotion_emoji"];
+    return [self emojiKeyboardView:emojiKeyboardView imageForSelectedCategory:category];
 }
 
 - (UIImage *)backSpaceButtonImageForEmojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView {

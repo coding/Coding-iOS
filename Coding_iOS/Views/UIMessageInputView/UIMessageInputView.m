@@ -1038,18 +1038,14 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         img = [UIImage imageNamed:@"keyboard_emotion_emoji"];
     }else if (category == AGEmojiKeyboardViewCategoryImageMonkey){
         img = [UIImage imageNamed:@"keyboard_emotion_monkey"];
+    }else{
+        img = [UIImage imageNamed:@"keyboard_emotion_monkey_gif"];
     }
     return img;
 }
 
 - (UIImage *)emojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView imageForNonSelectedCategory:(AGEmojiKeyboardViewCategoryImage)category {
-    UIImage *img;
-    if (category == AGEmojiKeyboardViewCategoryImageEmoji) {
-        img = [UIImage imageNamed:@"keyboard_emotion_emoji"];
-    }else if (category == AGEmojiKeyboardViewCategoryImageMonkey){
-        img = [UIImage imageNamed:@"keyboard_emotion_monkey"];
-    }
-    return img;
+    return [self emojiKeyboardView:emojiKeyboardView imageForSelectedCategory:category];
 }
 
 - (UIImage *)backSpaceButtonImageForEmojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView {

@@ -130,5 +130,16 @@
 		<string>coding_emoji_42</string>
 		<string>coding_emoji_43</string>
 	</array>
+	<key>big_monkey_gif</key>
+	<array>
+		<string>coding_emoji_gif_01</string>
+		<string>coding_emoji_gif_02</string>
+		<string>coding_emoji_gif_03</string>
+		<string>coding_emoji_gif_04</string>
+		<string>coding_emoji_gif_05</string>
+		<string>coding_emoji_gif_06</string>
+		<string>coding_emoji_gif_07</string>
+		<string>coding_emoji_gif_08</string>
+	</array>
 </dict>
 </plist>
