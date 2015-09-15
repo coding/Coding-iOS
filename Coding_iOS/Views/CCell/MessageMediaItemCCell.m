@@ -63,7 +63,7 @@
         
         CGSize reSize = CGSizeZero;
         if ([self.reuseIdentifier isEqualToString:kCCellIdentifier_MessageMediaItem_Single]) {
-            reSize = [MessageMediaItemCCell singleCcellSize];
+            reSize = [MessageMediaItemCCell monkeyCcellSize];
         }else{
             reSize = [MessageMediaItemCCell ccellSizeWithObj:_curObj];
         }
@@ -84,8 +84,9 @@
     return itemSize;
 }
 
-+(CGSize)singleCcellSize{
-    return CGSizeMake(100, 100);
++(CGSize)monkeyCcellSize{
+    CGFloat width = kScaleFrom_iPhone5_Desgin(100);
+    return CGSizeMake(width, width);
 }
 
 - (void)layoutSubviews{

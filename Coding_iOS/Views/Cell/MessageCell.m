@@ -174,7 +174,7 @@
         //        有图片
         [_contentLabel setY:2*kMessageCell_PadingHeight + mediaViewHeight];
         
-        CGFloat contentWidth = [_curPriMsg isSingleBigMonkey]? [MessageMediaItemCCell singleCcellSize].width : kMessageCell_ContentWidth;
+        CGFloat contentWidth = [_curPriMsg isSingleBigMonkey]? [MessageMediaItemCCell monkeyCcellSize].width : kMessageCell_ContentWidth;
         bgImgViewSize = CGSizeMake(contentWidth +2*kMessageCell_PadingWidth,
                                    mediaViewHeight +textSize.height + kMessageCell_PadingHeight*(_curPriMsg.content.length > 0? 3:2));
     } else if (curPriMsg.file || curPriMsg.voiceMedia) {
@@ -232,7 +232,9 @@
         _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
     }
-    if (_voiceView) {
+    if (_voiceView
+        || [_curPriMsg isSingleBigMonkey]
+        ) {
         bgImg = nil;  //使用bubbleView的背景
         _voiceView.type = BubbleTypeRight;
     }
@@ -246,7 +248,7 @@
     [_bgImgView setImage:bgImg];
     
     if (_mediaView) {
-        CGFloat contentWidth = [_curPriMsg isSingleBigMonkey]? [MessageMediaItemCCell singleCcellSize].width : kMessageCell_ContentWidth;
+        CGFloat contentWidth = [_curPriMsg isSingleBigMonkey]? [MessageMediaItemCCell monkeyCcellSize].width : kMessageCell_ContentWidth;
         [_mediaView setSize:CGSizeMake(contentWidth, mediaViewHeight)];
         [_mediaView reloadData];
     }
@@ -336,7 +338,7 @@
             mediaViewHeight += [MessageMediaItemCCell ccellSizeWithObj:curPriMsg.nextImg].height;
         }else{
             if ([curPriMsg isSingleBigMonkey]) {
-                mediaViewHeight += [MessageMediaItemCCell singleCcellSize].height;
+                mediaViewHeight += [MessageMediaItemCCell monkeyCcellSize].height;
             }else{
                 for (HtmlMediaItem *curItem in curPriMsg.htmlMedia.imageItems) {
                     mediaViewHeight += [MessageMediaItemCCell ccellSizeWithObj:curItem].height +kMessageCell_PadingHeight;
@@ -377,7 +379,7 @@
         itemSize = [MessageMediaItemCCell ccellSizeWithObj:_curPriMsg.nextImg];
     }else{
         if ([_curPriMsg isSingleBigMonkey]) {
-            itemSize = [MessageMediaItemCCell singleCcellSize];
+            itemSize = [MessageMediaItemCCell monkeyCcellSize];
         }else{
             HtmlMediaItem *curItem = [_curPriMsg.htmlMedia.imageItems objectAtIndex:indexPath.row];
             itemSize = [MessageMediaItemCCell ccellSizeWithObj:curItem];

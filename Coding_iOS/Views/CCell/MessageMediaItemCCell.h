@@ -22,6 +22,6 @@
 @property (strong, nonatomic) YLImageView *imgView;
 
 +(CGSize)ccellSizeWithObj:(NSObject *)obj;
-+(CGSize)singleCcellSize;
++(CGSize)monkeyCcellSize;
 
 @end
