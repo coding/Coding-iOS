@@ -274,31 +274,31 @@
     }else if ([snsName isEqualToString:@"coding"]){
         PrivateMessage *curMsg = [PrivateMessage privateMessageWithObj:[self p_shareLinkStr] andFriend:nil];
         [self willTranspondMessage:curMsg];
-    }else if ([snsName isEqualToString:@"sina"]){
-        NSString *shareTitle, *shareText, *shareTail;
-        shareTitle = [NSString stringWithFormat:@"「%@」", [self p_shareTitle]];
-        shareText = [self p_shareText];
-        shareTail = [NSString stringWithFormat:@"%@（分享自@Coding）", [self p_shareLinkStr]];
-        NSInteger maxShareLength = 140;
-        NSInteger maxTextLength = maxShareLength - shareTitle.length - shareTail.length;
-        if (shareText.length > maxTextLength) {
-            shareText = [shareText stringByReplacingCharactersInRange:NSMakeRange(maxTextLength - 3, shareText.length - (maxTextLength - 3)) withString:@"..."];
-        }
-        NSString *shareContent = [NSString stringWithFormat:@"%@%@%@", shareTitle, shareText, shareTail];
-        [self showStatusBarQueryStr:@"正在分享到新浪微博"];
-        
-        UMSocialUrlResource *urlResource = nil;
-        NSString *imageUrl = [self p_imageUrlSquare:NO];
-        if (imageUrl.length > 0) {
-            urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:imageUrl];
-        }
-        [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToSina] content:shareContent image:nil location:nil urlResource:urlResource presentedController:[BaseViewController presentingVC] completion:^(UMSocialResponseEntity *response) {
-            if (response.responseCode == UMSResponseCodeSuccess) {
-                [self showStatusBarSuccessStr:@"分享成功"];
-            }else{
-                [self showStatusBarErrorStr:@"分享失败"];
-            }
-        }];
+//    }else if ([snsName isEqualToString:@"sina"]){
+//        NSString *shareTitle, *shareText, *shareTail;
+//        shareTitle = [NSString stringWithFormat:@"「%@」", [self p_shareTitle]];
+//        shareText = [self p_shareText];
+//        shareTail = [NSString stringWithFormat:@"%@（分享自@Coding）", [self p_shareLinkStr]];
+//        NSInteger maxShareLength = 140;
+//        NSInteger maxTextLength = maxShareLength - shareTitle.length - shareTail.length;
+//        if (shareText.length > maxTextLength) {
+//            shareText = [shareText stringByReplacingCharactersInRange:NSMakeRange(maxTextLength - 3, shareText.length - (maxTextLength - 3)) withString:@"..."];
+//        }
+//        NSString *shareContent = [NSString stringWithFormat:@"%@%@%@", shareTitle, shareText, shareTail];
+//        [self showStatusBarQueryStr:@"正在分享到新浪微博"];
+//        
+//        UMSocialUrlResource *urlResource = nil;
+//        NSString *imageUrl = [self p_imageUrlSquare:NO];
+//        if (imageUrl.length > 0) {
+//            urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:imageUrl];
+//        }
+//        [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToSina] content:shareContent image:nil location:nil urlResource:urlResource presentedController:[BaseViewController presentingVC] completion:^(UMSocialResponseEntity *response) {
+//            if (response.responseCode == UMSResponseCodeSuccess) {
+//                [self showStatusBarSuccessStr:@"分享成功"];
+//            }else{
+//                [self showStatusBarErrorStr:@"分享失败"];
+//            }
+//        }];
     }else if ([snsName isEqualToString:@"evernote"]){
         ENNote *noteToSave = [ENNote new];
         noteToSave.title = [self p_shareTitle];
@@ -383,7 +383,9 @@
                 }else{
                     imageUrl = obj.src;
                 }
-                *stop = YES;
+                *stop = YES;//结束查询
+            }else if (!needSquare && obj.type == HtmlMediaItemType_EmotionMonkey){
+                imageUrl = obj.src;//赋值为猴子，继续查询
             }
         }];
     }
@@ -413,7 +415,7 @@
     if(response.responseCode == UMSResponseCodeSuccess){
         NSString *snsName = [[response.data allKeys] firstObject];
         NSLog(@"share to sns name is %@",snsName);
-        [self performSelector:@selector(showHudTipStr:) withObject:@"分享成功" afterDelay:0.3];
+        [self performSelector:@selector(showStatusBarSuccessStr:) withObject:@"分享成功" afterDelay:0.3];
     }
 }
 
@@ -422,7 +424,7 @@
     {
         socialData.shareText = [self p_shareText];
         socialData.shareImage = [UIImage imageNamed:@"logo_about"];
-        NSString *imageUrl = [self p_imageUrlSquare:YES];
+        NSString *imageUrl = [self p_imageUrlSquare:![platformName isEqualToString:@"sina"]];
         socialData.urlResource.url = imageUrl;
         socialData.urlResource.resourceType = imageUrl.length > 0? UMSocialUrlResourceTypeImage: UMSocialUrlResourceTypeDefault;
     }
@@ -449,7 +451,22 @@
         qzoneData.title = [self p_shareTitle];
         qzoneData.url = [self p_shareLinkStr];
         socialData.extConfig.qzoneData = qzoneData;
+    }else if ([platformName isEqualToString:@"sina"]){
+        NSString *shareTitle, *shareText, *shareTail;
+        shareTitle = [NSString stringWithFormat:@"「%@」", [self p_shareTitle]];
+        shareText = [self p_shareText];
+        shareTail = [NSString stringWithFormat:@"%@（分享自@Coding）", [self p_shareLinkStr]];
+        NSInteger maxShareLength = 140;
+        NSInteger maxTextLength = maxShareLength - shareTitle.length - shareTail.length;
+        if (shareText.length > maxTextLength) {
+            shareText = [shareText stringByReplacingCharactersInRange:NSMakeRange(maxTextLength - 3, shareText.length - (maxTextLength - 3)) withString:@"..."];
+        }
+        NSString *shareContent = [NSString stringWithFormat:@"%@%@%@", shareTitle, shareText, shareTail];
+
+        socialData.shareText = shareContent;
+        socialData.shareImage = nil;
     }
+
     NSLog(@"%@ : %@", platformName, socialData);
 }
 

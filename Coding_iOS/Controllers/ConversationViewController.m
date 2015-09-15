@@ -224,20 +224,20 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
 }
 
 - (void)doPoll{
-//    if (!_myPriMsgs ||  _myPriMsgs.isLoading) {
-//        return;
-//    }
-//    if (_myPriMsgs.list.count <= 0) {
-//        [self refreshLoadMore:NO];
-//        return;
-//    }
-//    __weak typeof(self) weakSelf = self;
-//    [[Coding_NetAPIManager sharedManager] request_Fresh_PrivateMessages:_myPriMsgs andBlock:^(id data, NSError *error) {
-//        if (data && [(NSArray *)data count] > 0) {
-//            [weakSelf.myPriMsgs configWithPollArray:data];
-//            [weakSelf dataChangedWithError:NO scrollToBottom:YES animated:YES];
-//        }
-//    }];
+    if (!_myPriMsgs ||  _myPriMsgs.isLoading) {
+        return;
+    }
+    if (_myPriMsgs.list.count <= 0) {
+        [self refreshLoadMore:NO];
+        return;
+    }
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_Fresh_PrivateMessages:_myPriMsgs andBlock:^(id data, NSError *error) {
+        if (data && [(NSArray *)data count] > 0) {
+            [weakSelf.myPriMsgs configWithPollArray:data];
+            [weakSelf dataChangedWithError:NO scrollToBottom:YES animated:YES];
+        }
+    }];
 }
 
 #pragma mark Table M

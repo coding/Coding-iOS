@@ -62,6 +62,7 @@
 #define kSocial_EN_Key @""
 #define kSocial_EN_Secret @""
 #define kSocial_Sina_RedirectURL @""
+#define kSocial_Sina_OfficailAccount @""
 
 //信鸽推送
 #define kXGPush_Id 123456

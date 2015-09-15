@@ -118,13 +118,29 @@
     //    UMENG 统计
     [MobClick startWithAppkey:kUmeng_AppKey reportPolicy:BATCH channelId:nil];
     
-    //    UMENG Social
+    //    UMENG Social Account
     [UMSocialData setAppKey:kUmeng_AppKey];
     [UMSocialWechatHandler setWXAppId:kSocial_WX_ID appSecret:kSocial_WX_Secret url:[NSObject baseURLStr]];
     [UMSocialQQHandler setQQWithAppId:kSocial_QQ_ID appKey:kSocial_QQ_Secret url:[NSObject baseURLStr]];
     [ENSession setSharedSessionConsumerKey:kSocial_EN_Key consumerSecret:kSocial_EN_Secret optionalHost:nil];
     [UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:kSocial_Sina_RedirectURL];
 
+    //    UMENG Social Config
+    [UMSocialConfig setFollowWeiboUids:@{UMShareToSina : kSocial_Sina_OfficailAccount}];//设置默认关注官方账号
+    [UMSocialConfig setFinishToastIsHidden:YES position:UMSocialiToastPositionCenter];
+    [UMSocialConfig setNavigationBarConfig:^(UINavigationBar *bar, UIButton *closeButton, UIButton *backButton, UIButton *postButton, UIButton *refreshButton, UINavigationItem *navigationItem) {
+        if (bar) {
+            [bar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:[NSObject baseURLStrIsTest]? @"0x3bbd79" : @"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+        }
+        if (navigationItem) {
+            if ([[navigationItem titleView] isKindOfClass:[UILabel class]]) {
+                UILabel *titleL = (UILabel *)[navigationItem titleView];
+                titleL.font = [UIFont boldSystemFontOfSize:kNavTitleFontSize];
+                titleL.textColor = [UIColor whiteColor];
+            }
+        }
+    }];
+    
     //    信鸽推送
     [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
     [Login setXGAccountWithCurUser];
