@@ -2031,7 +2031,7 @@
             }else{
                 [MobClick event:kUmeng_Event_Request_Get label:@"项目_README"];
 
-                block(@"我们推荐每个项目都新建一个README文件", nil);
+                block(@"我们推荐每个项目都新建一个README文件（客户端暂时不支持创建和编辑README）", nil);
             }
         }else{
             block(@"加载失败...", errorTemp);
