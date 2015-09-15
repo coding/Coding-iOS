@@ -13,7 +13,6 @@
 #import "Coding_FileManager.h"
 #import "WebContentManager.h"
 #import "FunctionTipsManager.h"
-#import <MMMarkdown/MMMarkdown.h>
 #import "EaseToolBar.h"
 
 #import "FileActivitiesViewController.h"
@@ -178,21 +177,14 @@
         }];
     }
     if ([self.fileType isEqualToString:@"md"]){
-        NSError  *error = nil;
-        NSString *htmlStr;
-        @try {
-            NSString *mdStr = [NSString stringWithContentsOfURL:fileUrl encoding:NSUTF8StringEncoding error:&error];
-            htmlStr = [MMMarkdown HTMLStringWithMarkdown:mdStr error:&error];
-        }
-        @catch (NSException *exception) {
-            htmlStr = @"加载失败！";
-        }
-        
-        if (error) {
-            htmlStr = @"加载失败！";
-        }
-        NSString *contentStr = [WebContentManager markdownPatternedWithContent:htmlStr];
-        [self.contentWebView loadHTMLString:contentStr baseURL:nil];
+        NSString *mdStr = [NSString stringWithContentsOfURL:fileUrl encoding:NSUTF8StringEncoding error:nil];
+        [self.activityIndicator startAnimating];
+        [[Coding_NetAPIManager sharedManager] request_MDHtmlStr_WithMDStr:mdStr inProject:nil andBlock:^(id data, NSError *error) {
+            NSString *htmlStr;
+            htmlStr = data? data: @"加载失败";
+            NSString *contentStr = [WebContentManager markdownPatternedWithContent:htmlStr];
+            [self.contentWebView loadHTMLString:contentStr baseURL:nil];
+        }];
     }else if ([self.fileType isEqualToString:@"html"]){
         NSString* htmlString = [NSString stringWithContentsOfURL:fileUrl encoding:NSUTF8StringEncoding error:nil];
         [self.contentWebView loadHTMLString:htmlString baseURL:nil];

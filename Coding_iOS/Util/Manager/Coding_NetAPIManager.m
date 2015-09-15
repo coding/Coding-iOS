@@ -10,6 +10,7 @@
 #import "JDStatusBarNotification.h"
 #import "UnReadManager.h"
 #import <NYXImagesKit/NYXImagesKit.h>
+#import <MMMarkdown/MMMarkdown.h>
 #import "MBProgressHUD+Add.h"
 
 @implementation Coding_NetAPIManager
@@ -2172,16 +2173,32 @@
         path = [NSString stringWithFormat:@"api/user/%@/project/%@/markdownNoAt", project.owner_user_name, project.name];
     }
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"content" : mdStr} withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-            [MobClick event:kUmeng_Event_Request_Get label:@"md-html转化"];
+        [MobClick event:kUmeng_Event_Request_Get label:@"md-html转化"];
 
+        if (data) {
             id resultData = [data valueForKeyPath:@"data"];
             block(resultData, nil);
         }else{
-            block(nil, error);
+            block([self localMDHtmlStr_WithMDStr:mdStr], error);
         }
     }];
 }
+
+- (NSString *)localMDHtmlStr_WithMDStr:(NSString *)mdStr{
+    NSError  *error = nil;
+    NSString *htmlStr;
+    @try {
+        htmlStr = [MMMarkdown HTMLStringWithMarkdown:mdStr error:&error];
+    }
+    @catch (NSException *exception) {
+        htmlStr = @"加载失败！";
+    }
+    if (error) {
+        htmlStr = @"加载失败！";
+    }
+    return htmlStr;
+}
+
 - (void)request_VerifyTypeWithBlock:(void (^)(VerifyType type, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/2fa/method" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
