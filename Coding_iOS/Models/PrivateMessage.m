@@ -33,7 +33,18 @@
 - (BOOL)hasMedia{
     return self.nextImg || (self.htmlMedia && self.htmlMedia.imageItems.count> 0);
 }
-
+- (BOOL)isSingleBigMonkey{
+    BOOL isSingleBigMonkey = NO;
+    if (self.content.length == 0) {
+        if (_htmlMedia.imageItems.count == 1) {
+            HtmlMediaItem *item = [_htmlMedia.imageItems firstObject];
+            if (item.type == HtmlMediaItemType_EmotionMonkey) {
+                isSingleBigMonkey = YES;
+            }
+        }
+    }
+    return isSingleBigMonkey;
+}
 + (instancetype)privateMessageWithObj:(id)obj andFriend:(User *)curFriend{
     PrivateMessage *nextMsg = [[PrivateMessage alloc] init];
     nextMsg.sender = [Login curLoginUser];

@@ -27,6 +27,7 @@ typedef NS_ENUM(NSInteger, PrivateMessageSendStatus) {
 @property (strong, nonatomic) VoiceMedia *voiceMedia;
 
 - (BOOL)hasMedia;
+- (BOOL)isSingleBigMonkey;
 
 + (instancetype)privateMessageWithObj:(id)obj andFriend:(User *)curFriend;
 

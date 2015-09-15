@@ -7,6 +7,7 @@
 //
 
 #define kCCellIdentifier_MessageMediaItem @"MessageMediaItemCCell"
+#define kCCellIdentifier_MessageMediaItem_Single @"MessageMediaItemCCell_Single"
 
 #import <UIKit/UIKit.h>
 #import "HtmlMedia.h"
@@ -16,9 +17,11 @@
 @interface MessageMediaItemCCell : UICollectionViewCell
 @property (copy, nonatomic) void (^refreshMessageMediaCCellBlock)(CGFloat diff);
 
-@property (strong, nonatomic) PrivateMessage *curPriMsg, *prePriMsg;
+//@property (strong, nonatomic) PrivateMessage *curPriMsg, *prePriMsg;
 @property (strong, nonatomic) NSObject *curObj;
 @property (strong, nonatomic) YLImageView *imgView;
 
 +(CGSize)ccellSizeWithObj:(NSObject *)obj;
++(CGSize)singleCcellSize;
+
 @end

@@ -79,6 +79,7 @@
                 [self.mediaView setBackgroundView:nil];
                 [self.mediaView setBackgroundColor:[UIColor clearColor]];
                 [self.mediaView registerClass:[MessageMediaItemCCell class] forCellWithReuseIdentifier:kCCellIdentifier_MessageMediaItem];
+                [self.mediaView registerClass:[MessageMediaItemCCell class] forCellWithReuseIdentifier:kCCellIdentifier_MessageMediaItem_Single];
                 self.mediaView.dataSource = self;
                 self.mediaView.delegate = self;
                 [_bgImgView addSubview:self.mediaView];
@@ -173,7 +174,8 @@
         //        有图片
         [_contentLabel setY:2*kMessageCell_PadingHeight + mediaViewHeight];
         
-        bgImgViewSize = CGSizeMake(kMessageCell_ContentWidth +2*kMessageCell_PadingWidth,
+        CGFloat contentWidth = [_curPriMsg isSingleBigMonkey]? [MessageMediaItemCCell singleCcellSize].width : kMessageCell_ContentWidth;
+        bgImgViewSize = CGSizeMake(contentWidth +2*kMessageCell_PadingWidth,
                                    mediaViewHeight +textSize.height + kMessageCell_PadingHeight*(_curPriMsg.content.length > 0? 3:2));
     } else if (curPriMsg.file || curPriMsg.voiceMedia) {
         bgImgViewSize = CGSizeMake(kMessageCell_ContentWidth, 40);
@@ -221,10 +223,6 @@
         bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImg.size.height - 19, bgImg.size.width - 31)];
         _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
-        if (_voiceView) {
-            bgImg = nil;  //使用bubbleView的背景
-            _voiceView.type = BubbleTypeLeft;
-        }
     }else{
         //        这是自己发的
         bgImgViewFrame = CGRectMake((kScreen_Width - kPaddingLeftWidth - kMessageCell_UserIconWith) -bgImgViewSize.width, curBottomY +kMessageCell_PadingHeight, bgImgViewSize.width, bgImgViewSize.height);
@@ -233,10 +231,10 @@
         bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImg.size.height - 19, bgImg.size.width - 31)];
         _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
-        if (_voiceView) {
-            bgImg = nil;  //使用bubbleView的背景
-            _voiceView.type = BubbleTypeRight;
-        }
+    }
+    if (_voiceView) {
+        bgImg = nil;  //使用bubbleView的背景
+        _voiceView.type = BubbleTypeRight;
     }
     
     __weak typeof(self) weakSelf = self;
@@ -248,7 +246,8 @@
     [_bgImgView setImage:bgImg];
     
     if (_mediaView) {
-        [_mediaView setHeight:mediaViewHeight];
+        CGFloat contentWidth = [_curPriMsg isSingleBigMonkey]? [MessageMediaItemCCell singleCcellSize].width : kMessageCell_ContentWidth;
+        [_mediaView setSize:CGSizeMake(contentWidth, mediaViewHeight)];
         [_mediaView reloadData];
     }
     
@@ -336,10 +335,14 @@
         if (curPriMsg.nextImg) {
             mediaViewHeight += [MessageMediaItemCCell ccellSizeWithObj:curPriMsg.nextImg].height;
         }else{
-            for (HtmlMediaItem *curItem in curPriMsg.htmlMedia.imageItems) {
-                mediaViewHeight += [MessageMediaItemCCell ccellSizeWithObj:curItem].height +kMessageCell_PadingHeight;
+            if ([curPriMsg isSingleBigMonkey]) {
+                mediaViewHeight += [MessageMediaItemCCell singleCcellSize].height;
+            }else{
+                for (HtmlMediaItem *curItem in curPriMsg.htmlMedia.imageItems) {
+                    mediaViewHeight += [MessageMediaItemCCell ccellSizeWithObj:curItem].height +kMessageCell_PadingHeight;
+                }
+                mediaViewHeight -= kMessageCell_PadingHeight;
             }
-            mediaViewHeight -= kMessageCell_PadingHeight;
         }
     }
     return mediaViewHeight;
@@ -356,10 +359,8 @@
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    MessageMediaItemCCell *ccell = [collectionView dequeueReusableCellWithReuseIdentifier:kCCellIdentifier_MessageMediaItem forIndexPath:indexPath];
+    MessageMediaItemCCell *ccell = [collectionView dequeueReusableCellWithReuseIdentifier:[_curPriMsg isSingleBigMonkey]? kCCellIdentifier_MessageMediaItem_Single: kCCellIdentifier_MessageMediaItem forIndexPath:indexPath];
     ccell.refreshMessageMediaCCellBlock = self.refreshMessageMediaCCellBlock;
-
-    ccell.curPriMsg = _curPriMsg;
     if (_curPriMsg.nextImg) {
         ccell.curObj = _curPriMsg.nextImg;
     }else{
@@ -370,14 +371,17 @@
     return ccell;
 }
 
-
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     CGSize itemSize = CGSizeZero;
     if (_curPriMsg.nextImg) {
         itemSize = [MessageMediaItemCCell ccellSizeWithObj:_curPriMsg.nextImg];
     }else{
-        HtmlMediaItem *curItem = [_curPriMsg.htmlMedia.imageItems objectAtIndex:indexPath.row];
-        itemSize = [MessageMediaItemCCell ccellSizeWithObj:curItem];
+        if ([_curPriMsg isSingleBigMonkey]) {
+            itemSize = [MessageMediaItemCCell singleCcellSize];
+        }else{
+            HtmlMediaItem *curItem = [_curPriMsg.htmlMedia.imageItems objectAtIndex:indexPath.row];
+            itemSize = [MessageMediaItemCCell ccellSizeWithObj:curItem];
+        }
     }
     return itemSize;
 }

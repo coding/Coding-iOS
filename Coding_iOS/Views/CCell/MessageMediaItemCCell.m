@@ -60,7 +60,13 @@
                 }
             }
         }];
-        CGSize reSize = [[ImageSizeManager shareManager] sizeWithSrc:curMediaItem.src originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2];
+        
+        CGSize reSize = CGSizeZero;
+        if ([self.reuseIdentifier isEqualToString:kCCellIdentifier_MessageMediaItem_Single]) {
+            reSize = [MessageMediaItemCCell singleCcellSize];
+        }else{
+            reSize = [MessageMediaItemCCell ccellSizeWithObj:_curObj];
+        }
         [_imgView setSize:reSize];
     }
 }
@@ -76,6 +82,10 @@
         itemSize = [[ImageSizeManager shareManager] sizeWithSrc:curMediaItem.src originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2];
     }
     return itemSize;
+}
+
++(CGSize)singleCcellSize{
+    return CGSizeMake(100, 100);
 }
 
 - (void)layoutSubviews{
