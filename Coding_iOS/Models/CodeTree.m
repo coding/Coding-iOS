@@ -67,7 +67,12 @@
 @end
 
 @implementation CodeTree_File
-
+- (NSString *)mode{
+    if (!_mode) {
+        _mode = @"";
+    }
+    return _mode;
+}
 @end
 
 @implementation CodeTree_CommitInfo

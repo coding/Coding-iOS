@@ -325,7 +325,7 @@
         vc.myProject = _myProject;
         vc.myCodeTree = nextCodeTree;
         [self.navigationController pushViewController:vc animated:YES];
-    }else if ([codeTreeFile.mode isEqualToString:@"file"] || [codeTreeFile.mode isEqualToString:@"image"]){//文件
+    }else if ([@[@"file", @"image", @"sym_link"] containsObject:codeTreeFile.mode]){//文件
         CodeFile *nextCodeFile = [CodeFile codeFileWithRef:ref andPath:codeTreeFile.path];
         CodeViewController *vc = [CodeViewController codeVCWithProject:_myProject andCodeFile:nextCodeFile];
         [self.navigationController pushViewController:vc animated:YES];
