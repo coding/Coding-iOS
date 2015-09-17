@@ -66,6 +66,7 @@
             _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kMessageCell_PadingWidth, kMessageCell_PadingHeight, 0, 0)];
             _contentLabel.numberOfLines = 0;
             _contentLabel.font =kMessageCell_FontContent;
+            _contentLabel.textColor = [UIColor blackColor];
             _contentLabel.backgroundColor = [UIColor clearColor];
             _contentLabel.linkAttributes = kLinkAttributes;
             _contentLabel.activeLinkAttributes = kLinkAttributesActive;
@@ -100,6 +101,7 @@
 
 - (void)setCurPriMsg:(PrivateMessage *)curPriMsg andPrePriMsg:(PrivateMessage *)prePriMsg{
     CGFloat mediaViewHeight = [MessageCell mediaViewHeightWithObj:curPriMsg];
+    BOOL isMyMsg = [curPriMsg.sender.global_key isEqualToString:[Login curLoginUser].global_key];
 
     if (_curPriMsg == curPriMsg && _prePriMsg == prePriMsg && _preMediaViewHeight == mediaViewHeight) {
         [self configSendStatus];
@@ -111,13 +113,7 @@
             else {
                 [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
             }
-            
-            if ([_curPriMsg.sender.global_key isEqualToString:[Login curLoginUser].global_key]) {
-                _voiceView.isUnread = NO;
-            }
-            else {
-                _voiceView.isUnread = curPriMsg.played.intValue == 0;
-            }
+            _voiceView.isUnread = !isMyMsg && (curPriMsg.played.intValue == 0);
         }
         return;
     }else{
@@ -194,13 +190,7 @@
             [_voiceView setUrl:[NSURL fileURLWithPath:curPriMsg.voiceMedia.file]];
             _voiceView.duration = curPriMsg.voiceMedia.duration;
         }
-
-        if ([_curPriMsg.sender.global_key isEqualToString:[Login curLoginUser].global_key]) {
-            _voiceView.isUnread = NO;
-        }
-        else {
-            _voiceView.isUnread = curPriMsg.played.intValue == 0;
-        }
+        _voiceView.isUnread = !isMyMsg && (curPriMsg.played.intValue == 0);
         
         _voiceView.playStartedBlock = ^(AudioPlayView *view) {
             BubblePlayView *bubbleView = (BubblePlayView *)view;
@@ -211,32 +201,26 @@
             }
         };
         bgImgViewSize = CGSizeMake(_voiceView.frame.size.width, 40);
+        _voiceView.type = isMyMsg? BubbleTypeRight: BubbleTypeLeft;
     }
     
     CGRect bgImgViewFrame;
-    if (![_curPriMsg.sender.global_key isEqualToString:[Login curLoginUser].global_key]) {
+    if (!isMyMsg) {
         //        这是好友发的
         bgImgViewFrame = CGRectMake(kPaddingLeftWidth +kMessageCell_UserIconWith, curBottomY +kMessageCell_PadingHeight, bgImgViewSize.width, bgImgViewSize.height);
         [_userIconView setCenter:CGPointMake(kPaddingLeftWidth +kMessageCell_UserIconWith/2, CGRectGetMaxY(bgImgViewFrame)- kMessageCell_UserIconWith/2)];
-        bgImg = [UIImage imageNamed:@"messageLeft_bg_img"];
-        
-        bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImg.size.height - 19, bgImg.size.width - 31)];
-        _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
     }else{
         //        这是自己发的
         bgImgViewFrame = CGRectMake((kScreen_Width - kPaddingLeftWidth - kMessageCell_UserIconWith) -bgImgViewSize.width, curBottomY +kMessageCell_PadingHeight, bgImgViewSize.width, bgImgViewSize.height);
         [_userIconView setCenter:CGPointMake(kScreen_Width - kPaddingLeftWidth -kMessageCell_UserIconWith/2, CGRectGetMaxY(bgImgViewFrame)- kMessageCell_UserIconWith/2)];
-        bgImg = [UIImage imageNamed:@"messageRight_bg_img"];
-        bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImg.size.height - 19, bgImg.size.width - 31)];
-        _contentLabel.textColor = [UIColor blackColor];
         _bgImgView.frame = bgImgViewFrame;
     }
-    if (_voiceView
-        || [_curPriMsg isSingleBigMonkey]
-        ) {
-        bgImg = nil;  //使用bubbleView的背景
-        _voiceView.type = BubbleTypeRight;
+    if (_voiceView || [_curPriMsg isSingleBigMonkey] ) {
+        bgImg = nil;
+    }else{
+        bgImg = [UIImage imageNamed:isMyMsg? @"messageRight_bg_img": @"messageLeft_bg_img"];
+        bgImg = [bgImg resizableImageWithCapInsets:UIEdgeInsetsMake(18, 30, bgImg.size.height - 19, bgImg.size.width - 31)];
     }
     
     __weak typeof(self) weakSelf = self;
