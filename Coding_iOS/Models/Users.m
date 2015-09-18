@@ -30,6 +30,14 @@
     return users;
 }
 
++(Users *)usersWithProjectOwner:(NSString *)owner_name projectName:(NSString *)name Type:(UsersType)type{
+    Users *users = [[Users alloc] init];
+    users.project_owner_name = owner_name;
+    users.project_name = name;
+    users.type = type;
+    return users;
+}
+
 - (NSString *)toPath{
     NSString *path;
     if (_type == UsersTypeFollowers) {
@@ -40,6 +48,11 @@
     if (_owner && _owner.global_key) {
         path = [path stringByAppendingFormat:@"/%@", _owner.global_key];
     }
+    if (_type == UsersTypeProjectStar) {
+        path = [NSString stringWithFormat:@"api/user/%@/project/%@/stargazers", _project_owner_name, _project_name];
+    }else if (_type == UsersTypeProjectWatch){
+        path = [NSString stringWithFormat:@"api/user/%@/project/%@/watchers", _project_owner_name, _project_name];
+    }
     return path;
 }
 
@@ -49,16 +62,21 @@
 }
 
 - (void)configWithObj:(Users *)resultA{
-    self.page = resultA.page;
-    self.pageSize = resultA.pageSize;
-    self.totalPage = resultA.totalPage;
-    self.totalRow = resultA.totalRow;
-    if (_willLoadMore) {
-        [self.list addObjectsFromArray:resultA.list];
-    }else{
-        self.list = [NSMutableArray arrayWithArray:resultA.list];
+    if ([resultA isKindOfClass:[Users class]]) {
+        self.page = resultA.page;
+        self.pageSize = resultA.pageSize;
+        self.totalPage = resultA.totalPage;
+        self.totalRow = resultA.totalRow;
+        if (_willLoadMore) {
+            [self.list addObjectsFromArray:resultA.list];
+        }else{
+            self.list = [NSMutableArray arrayWithArray:resultA.list];
+        }
+        self.canLoadMore = self.page.intValue < self.totalPage.intValue;
+    }else if ([resultA isKindOfClass:[NSArray class]]){
+        self.list = [(NSArray *)resultA mutableCopy];
+        self.canLoadMore = NO;
     }
-    self.canLoadMore = self.page.intValue < self.totalPage.intValue;
 }
 
 - (NSDictionary *)dictGroupedByPinyin{

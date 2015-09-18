@@ -23,6 +23,7 @@
 //#import "TopicDetailViewController.h"
 //#import "FileListViewController.h"
 //#import "FileViewController.h"
+#import "UsersViewController.h"
 
 #import "CodeViewController.h"
 #import "MRPRListViewController.h"
@@ -70,8 +71,12 @@
     
     __weak typeof(self) weakSelf = self;
     _gitButtonsView = [EaseGitButtonsView new];
-    _gitButtonsView.gitButtonClickedBlock = ^(NSInteger index){
-        [weakSelf gitButtonClicked:index];
+    _gitButtonsView.gitButtonClickedBlock = ^(NSInteger index, EaseGitButtonPosition position){
+        if (position == EaseGitButtonPositionLeft) {
+            [weakSelf actionWithGitBtnIndex:index];
+        }else{
+            [weakSelf goToUsersWithGitBtnIndex:index];
+        }
     };
     [self.view addSubview:_gitButtonsView];
     [_gitButtonsView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -309,7 +314,7 @@
 }
 
 #pragma mark Git_Btn
-- (void)gitButtonClicked:(NSInteger)index{
+- (void)actionWithGitBtnIndex:(NSInteger)index{
     __weak typeof(self) weakSelf = self;
     switch (index) {
         case 0://Star
@@ -346,6 +351,18 @@
             }] showInView:self.view];
         }
             break;
+    }
+}
+
+- (void)goToUsersWithGitBtnIndex:(NSInteger)index{
+    if (index == 2) {
+        //Fork
+        NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/forks", _myProject.owner_user_name, _myProject.name];
+        NSLog(@"path: %@", path);
+    }else{
+        UsersViewController *vc = [[UsersViewController alloc] init];
+        vc.curUsers = [Users usersWithProjectOwner:_myProject.owner_user_name projectName:_myProject.name Type:UsersTypeProjectStar + index];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 

@@ -28,7 +28,7 @@
         self.layer.cornerRadius = 2.0;
         self.layer.borderWidth = 0.5;
         
-        CGFloat splitX = CGRectGetWidth(frame) *11/18;
+        CGFloat splitX = floor(CGRectGetWidth(frame) *11/18);
         CGFloat frameHeight = CGRectGetHeight(frame);
         CGFloat fontSize = 11;
         if (kDevice_Is_iPhone6) {
@@ -37,8 +37,8 @@
             fontSize = 14;
         }
         
-        _lineView = [[UIView alloc] initWithFrame:CGRectMake(splitX, frameHeight/3, 0.5, frameHeight/3)];
-        _lineView.backgroundColor = [UIColor colorWithHexString:@"0xcacaca"];
+        _lineView = [[UIView alloc] initWithFrame:CGRectMake(splitX, 0, 1, frameHeight)];
+        _lineView.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
         [self addSubview:_lineView];
         
         _leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, splitX, frameHeight)];
@@ -58,7 +58,17 @@
         
         [self addSubview:_rightButton];
         
-        _leftButton.enabled = _rightButton.enabled = NO;
+        __weak typeof(self) weakSelf = self;
+        [_leftButton bk_addEventHandler:^(id sender) {
+            if (weakSelf.buttonClickedBlock) {
+                weakSelf.buttonClickedBlock(self, EaseGitButtonPositionLeft);
+            }
+        } forControlEvents:UIControlEventTouchUpInside];
+        [_rightButton bk_addEventHandler:^(id sender) {
+            if (weakSelf.buttonClickedBlock) {
+                weakSelf.buttonClickedBlock(self, EaseGitButtonPositionRight);
+            }
+        } forControlEvents:UIControlEventTouchUpInside];
         
         _normalTitle = normalTitle;
         _checkedTitle = checkedTitle? checkedTitle: normalTitle;
@@ -91,16 +101,17 @@
 
 + (EaseGitButton *)gitButtonWithFrame:(CGRect)frame type:(EaseGitButtonType)type{
     EaseGitButton *button;
+    UIColor *normalBGColor = [UIColor colorWithHexString:@"0xDDDDDD"];
     switch (type) {
         case EaseGitButtonTypeStar:
-            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" 收藏" checkedTitle:@" 已收藏" normalIcon:@"git_icon_star" checkedIcon:@"git_icon_stared" normalBGColor:nil checkedBGColor:[UIColor colorWithHexString:@"0x3BBD79"] normalBorderColor:[UIColor colorWithHexString:@"0xB5B5B5"] checkedBorderColor:nil userNum:0 checked:NO];
+            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" 收藏" checkedTitle:@" 已收藏" normalIcon:@"git_icon_star" checkedIcon:@"git_icon_stared" normalBGColor:normalBGColor checkedBGColor:[UIColor colorWithHexString:@"0x3BBD79"] normalBorderColor:nil checkedBorderColor:nil userNum:0 checked:NO];
             break;
         case EaseGitButtonTypeWatch:
-            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" 关注" checkedTitle:@" 已关注" normalIcon:@"git_icon_watch" checkedIcon:@"git_icon_watched" normalBGColor:nil checkedBGColor:[UIColor colorWithHexString:@"0x4E90BF"] normalBorderColor:[UIColor colorWithHexString:@"0xB5B5B5"] checkedBorderColor:nil userNum:0 checked:NO];
+            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" 关注" checkedTitle:@" 已关注" normalIcon:@"git_icon_watch" checkedIcon:@"git_icon_watched" normalBGColor:normalBGColor checkedBGColor:[UIColor colorWithHexString:@"0x4E90BF"] normalBorderColor:nil checkedBorderColor:nil userNum:0 checked:NO];
             break;
         case EaseGitButtonTypeFork:
         default:
-            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" Fork" checkedTitle:@" Fork" normalIcon:@"git_icon_fork" checkedIcon:nil normalBGColor:nil checkedBGColor:nil normalBorderColor:[UIColor colorWithHexString:@"0xB5B5B5"] checkedBorderColor:[UIColor colorWithHexString:@"0xB5B5B5"] userNum:0 checked:NO];
+            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" Fork" checkedTitle:@" Fork" normalIcon:@"git_icon_fork" checkedIcon:nil normalBGColor:normalBGColor checkedBGColor:normalBGColor normalBorderColor:nil checkedBorderColor:nil userNum:0 checked:NO];
             break;
     }
     button.type = type;
@@ -109,23 +120,27 @@
 
 - (void)updateContent{
     if (_checked) {
-        [_leftButton setTitle:_checkedTitle forState:UIControlStateNormal | UIControlStateDisabled];
-        [_leftButton setImage:[UIImage imageNamed:_checkedIcon] forState:UIControlStateNormal | UIControlStateDisabled];
+        [_leftButton setTitle:_checkedTitle forState:UIControlStateNormal];
+        [_leftButton setImage:[UIImage imageNamed:_checkedIcon] forState:UIControlStateNormal];
         
         self.backgroundColor = _checkedBGColor;
         self.layer.borderColor = _checkedBorderColor.CGColor;
     }else{
-        [_leftButton setTitle:_normalTitle forState:UIControlStateNormal | UIControlStateDisabled];
-        [_leftButton setImage:[UIImage imageNamed:_normalIcon] forState:UIControlStateNormal | UIControlStateDisabled];
+        [_leftButton setTitle:_normalTitle forState:UIControlStateNormal];
+        [_leftButton setImage:[UIImage imageNamed:_normalIcon] forState:UIControlStateNormal];
         
         self.backgroundColor = _normalBGColor;
         self.layer.borderColor = _normalBorderColor.CGColor;
-
+        
     }
-    [_leftButton setTitleColor:[UIColor colorWithHexString:self.backgroundColor == [UIColor clearColor]? @"0x222222": @"0xffffff"] forState:UIControlStateNormal | UIControlStateDisabled];
-    [_rightButton setTitleColor:[UIColor colorWithHexString:self.backgroundColor == [UIColor clearColor]? @"0x222222": @"0xffffff"] forState:UIControlStateNormal | UIControlStateDisabled];
+    UIColor *titleColor = [UIColor colorWithHexString:!_checked? @"0x222222": @"0xffffff"];
+    if (self.type == EaseGitButtonTypeFork) {
+        titleColor = [UIColor colorWithHexString:@"0x222222"];
+    }
+    [_leftButton setTitleColor:titleColor forState:UIControlStateNormal];
+    [_rightButton setTitleColor:titleColor forState:UIControlStateNormal];
     
-    [_rightButton setTitle:[NSString stringWithFormat:@"%ld", (long)_userNum] forState:UIControlStateNormal | UIControlStateDisabled];
+    [_rightButton setTitle:[NSString stringWithFormat:@"%ld", (long)_userNum] forState:UIControlStateNormal];
 }
 
 #pragma mark Set

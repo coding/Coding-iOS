@@ -7,6 +7,7 @@
 //
 
 #define EaseGitButtonsView_Height 49.0
+#import "EaseGitButton.h"
 
 #import <UIKit/UIKit.h>
 #import "Project.h"
@@ -14,6 +15,6 @@
 @interface EaseGitButtonsView : UIView
 
 @property (strong, nonatomic) Project *curProject;
-@property (nonatomic, copy) void(^gitButtonClickedBlock)(NSInteger index);
+@property (copy, nonatomic) void(^gitButtonClickedBlock)(NSInteger index, EaseGitButtonPosition position);
 
 @end

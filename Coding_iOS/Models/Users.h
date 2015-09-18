@@ -16,9 +16,12 @@ typedef NS_ENUM(NSInteger, UsersType) {
     UsersTypeFriends_At,
     UsersTypeFriends_Transpond,
     
+    UsersTypeProjectStar,
+    UsersTypeProjectWatch,
+    
     UsersTypeTweetLikers,
     UsersTypeAddToProject,
-    UsersTypeAddFriend
+    UsersTypeAddFriend,
 };
 
 @interface Users : NSObject
@@ -28,6 +31,7 @@ typedef NS_ENUM(NSInteger, UsersType) {
 @property (readwrite, nonatomic, strong) NSMutableArray *list;
 @property (assign, nonatomic) UsersType type;
 @property (strong, nonatomic) User *owner;
+@property (strong, nonatomic) NSString *project_owner_name, *project_name;
 
 - (NSString *)toPath;
 - (NSDictionary *)toParams;
@@ -36,4 +40,6 @@ typedef NS_ENUM(NSInteger, UsersType) {
 - (NSDictionary *)dictGroupedByPinyin;
 
 +(Users *)usersWithOwner:(User *)owner Type:(UsersType)type;
++(Users *)usersWithProjectOwner:(NSString *)owner_name projectName:(NSString *)name Type:(UsersType)type;
+
 @end

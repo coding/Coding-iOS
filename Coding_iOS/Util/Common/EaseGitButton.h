@@ -7,11 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-typedef enum {
+typedef NS_ENUM(NSInteger, EaseGitButtonType) {
     EaseGitButtonTypeStar = 0,
     EaseGitButtonTypeWatch,
     EaseGitButtonTypeFork
-} EaseGitButtonType;
+};
+
+typedef NS_ENUM(NSInteger, EaseGitButtonPosition) {
+    EaseGitButtonPositionLeft = 0,
+    EaseGitButtonPositionRight
+};
 
 @interface EaseGitButton : UIButton
 @property (strong, nonatomic) NSString *normalTitle, *checkedTitle, *normalIcon, *checkedIcon;
@@ -19,6 +24,7 @@ typedef enum {
 @property (nonatomic, assign) NSInteger userNum;
 @property (assign, nonatomic) BOOL checked;
 @property (assign, nonatomic) EaseGitButtonType type;
+@property (copy, nonatomic) void(^buttonClickedBlock)(EaseGitButton *button, EaseGitButtonPosition position);
 
 - (instancetype)initWithFrame:(CGRect)frame
         normalTitle:(NSString *)normalTitle checkedTitle:(NSString *)checkedTitle

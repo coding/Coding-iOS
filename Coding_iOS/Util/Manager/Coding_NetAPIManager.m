@@ -1661,21 +1661,29 @@
 }
 - (void)request_FollowersOrFriends_WithObj:(Users *)curUsers andBlock:(void (^)(id data, NSError *error))block{
     curUsers.isLoading = YES;
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curUsers toPath] withParams:[curUsers toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+    NSString *path = [curUsers toPath];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:[curUsers toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
         curUsers.isLoading = NO;
         if (data) {
             [MobClick event:kUmeng_Event_Request_Get label:@"关注or粉丝列表"];
 
             id resultData = [data valueForKeyPath:@"data"];
-            User *loginUser = [Login curLoginUser];
-            if (resultData
-                && loginUser
-                && (!curUsers.owner||
-                    (curUsers.owner && curUsers.owner.global_key && [curUsers.owner.global_key isEqualToString:loginUser.global_key]))) {
+            
+            if ([path hasSuffix:@"friends"] && resultData) {//AT某人时的列表数据，要保存在本地
+                User *loginUser = [Login curLoginUser];
+                if (loginUser) {
                     [NSObject saveResponseData:resultData toPath:[loginUser localFriendsPath]];
                 }
-            Users *users = [NSObject objectOfClass:@"Users" fromJSON:resultData];
-            block(users, nil);
+            }
+            
+            //处理数据
+            NSObject *resultA = nil;
+            if ([path hasSuffix:@"stargazers"] || [path hasSuffix:@"watchers"]) {
+                resultA = [NSArray arrayFromJSON:resultData ofObjects:@"User"];
+            }else{
+                resultA = [NSObject objectOfClass:@"Users" fromJSON:resultData];
+            }
+            block(resultA, nil);
         }else{
             block(nil, error);
         }

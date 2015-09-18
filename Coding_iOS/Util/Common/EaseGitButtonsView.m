@@ -37,17 +37,20 @@
             
             for (int i = 0; i < gitBtnNum; i++) {
                 EaseGitButton *gitBtn = [EaseGitButton gitButtonWithFrame:CGRectMake(kPaddingLeftWidth + i *(btnWidth +whiteSpace),(EaseGitButtonsView_Height - 30)/2, btnWidth, 30) type:i];
-                
-                [gitBtn bk_addEventHandler:^(EaseGitButton *sender) {
-                    if (sender.type == EaseGitButtonTypeStar
-                        || sender.type == EaseGitButtonTypeWatch) {
-                        gitBtn.checked = !gitBtn.checked;
-                        gitBtn.userNum += gitBtn.checked? 1: -1;
+                __weak typeof(gitBtn) weakGitBtn = gitBtn;
+                gitBtn.buttonClickedBlock = ^(EaseGitButton *button, EaseGitButtonPosition position){
+                    if (position == EaseGitButtonPositionLeft) {
+                        if (button.type == EaseGitButtonTypeStar
+                            || button.type == EaseGitButtonTypeWatch) {
+                            weakGitBtn.checked = !weakGitBtn.checked;
+                            weakGitBtn.userNum += weakGitBtn.checked? 1: -1;
+                        }
                     }
                     if (self.gitButtonClickedBlock) {
-                        self.gitButtonClickedBlock(i);
+                        self.gitButtonClickedBlock(i, position);
                     }
-                } forControlEvents:UIControlEventTouchUpInside];
+                };
+                
                 [self addSubview:gitBtn];
                 [_gitButtons addObject:gitBtn];
             }
