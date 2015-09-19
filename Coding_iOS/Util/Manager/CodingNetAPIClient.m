@@ -78,6 +78,14 @@ static dispatch_once_t onceToken;
                     block(responseObject, error);
                 }else{
                     if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                        //判断数据是否符合预期，给出提示
+                        if ([responseObject[@"data"] isKindOfClass:[NSDictionary class]]) {
+                            if (responseObject[@"data"][@"too_many_files"]) {
+                                if (autoShowError) {
+                                    [self showHudTipStr:@"文件太多，不能正常显示"];
+                                }
+                            }
+                        }
                         [NSObject saveResponseData:responseObject toPath:localPath];
                     }
                     block(responseObject, nil);
