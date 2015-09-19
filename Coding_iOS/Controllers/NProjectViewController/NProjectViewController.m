@@ -24,6 +24,7 @@
 //#import "FileListViewController.h"
 //#import "FileViewController.h"
 #import "UsersViewController.h"
+#import "ForkTreeViewController.h"
 
 #import "CodeViewController.h"
 #import "MRPRListViewController.h"
@@ -357,6 +358,10 @@
 - (void)goToUsersWithGitBtnIndex:(NSInteger)index{
     if (index == 2) {
         //Fork
+        ForkTreeViewController *vc = [ForkTreeViewController new];
+        vc.project_owner_user_name = _myProject.owner_user_name;
+        vc.project_name = _myProject.name;
+        [self.navigationController pushViewController:vc animated:YES];
         NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/forks", _myProject.owner_user_name, _myProject.name];
         NSLog(@"path: %@", path);
     }else{

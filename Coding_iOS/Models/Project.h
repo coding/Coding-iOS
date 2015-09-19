@@ -13,6 +13,9 @@
 @property (readwrite, nonatomic, strong) NSNumber *id, *owner_id, *is_public, *un_read_activities_count, *done, *processing, *star_count, *stared, *watch_count, *watched, *fork_count, *forked, *recommended, *pin, *current_user_role_id;
 @property (assign, nonatomic) BOOL isStaring, isWatching, isLoadingMember, isLoadingDetail;
 
+@property (strong, nonatomic) User *owner;
+@property (strong, nonatomic) NSDate *created_at;
+
 + (Project *)project_All;
 + (Project *)project_FeedBack;
 

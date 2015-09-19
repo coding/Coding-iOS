@@ -65,6 +65,12 @@
             self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(dismissSelf)];
         }
             break;
+        case UsersTypeProjectStar:
+            self.title = @"收藏项目的人";
+            break;
+        case UsersTypeProjectWatch:
+            self.title = @"关注项目的人";
+            break;
         default:
             break;
     }

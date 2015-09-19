@@ -74,6 +74,8 @@
 		4E095A831B6B24DE008DC439 /* task_description_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E095A801B6B24DE008DC439 /* task_description_icon@2x.png */; };
 		4E095A841B6B24DE008DC439 /* time_clock_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E095A811B6B24DE008DC439 /* time_clock_icon@2x.png */; };
 		4E095A851B6B24DE008DC439 /* topic_comment_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E095A821B6B24DE008DC439 /* topic_comment_icon@2x.png */; };
+		4E0B9A341BAC1CD100D57D54 /* ForkTreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0B9A331BAC1CD100D57D54 /* ForkTreeViewController.m */; };
+		4E0B9A371BAD377600D57D54 /* ForkTreeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0B9A361BAD377600D57D54 /* ForkTreeCell.m */; };
 		4E0BD8561B6C7DFD0061CAA6 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0BD8551B6C7DFD0061CAA6 /* UIView+Frame.m */; };
 		4E0BD86A1B6C7E3D0061CAA6 /* CSHotTopicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0BD8591B6C7E3D0061CAA6 /* CSHotTopicView.m */; };
 		4E0BD86B1B6C7E3D0061CAA6 /* CSLikesVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0BD85B1B6C7E3D0061CAA6 /* CSLikesVC.m */; };
@@ -1001,6 +1003,10 @@
 		4E095A801B6B24DE008DC439 /* task_description_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_description_icon@2x.png"; sourceTree = "<group>"; };
 		4E095A811B6B24DE008DC439 /* time_clock_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "time_clock_icon@2x.png"; sourceTree = "<group>"; };
 		4E095A821B6B24DE008DC439 /* topic_comment_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topic_comment_icon@2x.png"; sourceTree = "<group>"; };
+		4E0B9A321BAC1CD100D57D54 /* ForkTreeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForkTreeViewController.h; sourceTree = "<group>"; };
+		4E0B9A331BAC1CD100D57D54 /* ForkTreeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForkTreeViewController.m; sourceTree = "<group>"; };
+		4E0B9A351BAD377600D57D54 /* ForkTreeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForkTreeCell.h; sourceTree = "<group>"; };
+		4E0B9A361BAD377600D57D54 /* ForkTreeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForkTreeCell.m; sourceTree = "<group>"; };
 		4E0BD8541B6C7DFD0061CAA6 /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
 		4E0BD8551B6C7DFD0061CAA6 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
 		4E0BD8581B6C7E3D0061CAA6 /* CSHotTopicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSHotTopicView.h; sourceTree = "<group>"; };
@@ -3831,6 +3837,8 @@
 				4E93F2431B85C4C300017916 /* FileInfoViewController.xib */,
 				4E753D421B8AFDEC003A00B9 /* FileEditViewController.h */,
 				4E753D431B8AFDEC003A00B9 /* FileEditViewController.m */,
+				4E0B9A321BAC1CD100D57D54 /* ForkTreeViewController.h */,
+				4E0B9A331BAC1CD100D57D54 /* ForkTreeViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -4586,6 +4594,8 @@
 				4EAE06B61B7B330900179F4B /* FileActivityCell.m */,
 				4EAE06C61B7C9EFF00179F4B /* FileVersionCell.h */,
 				4EAE06C71B7C9EFF00179F4B /* FileVersionCell.m */,
+				4E0B9A351BAD377600D57D54 /* ForkTreeCell.h */,
+				4E0B9A361BAD377600D57D54 /* ForkTreeCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -5303,6 +5313,7 @@
 				4E72F82D1B144778001B6CE6 /* NSMutableString+Common.m in Sources */,
 				4E4D6A791B1C6C7800FD2E49 /* MRPRDetailCell.m in Sources */,
 				8EF643CA19FF7E2900F7EEB0 /* TopicContentCell.m in Sources */,
+				4E0B9A371BAD377600D57D54 /* ForkTreeCell.m in Sources */,
 				4E4D6A6A1B1C688200FD2E49 /* MRPRAcceptViewController.m in Sources */,
 				4ECE8AE81A3943E80021E29C /* UIView+Common.m in Sources */,
 				4EA7F15E1A6D192B00A046BD /* SDWebImageDownloaderOperation.m in Sources */,
@@ -5375,6 +5386,7 @@
 				4EA7F1601A6D192B00A046BD /* SDWebImagePrefetcher.m in Sources */,
 				4E4D6A941B1D851E00FD2E49 /* FileChanges.m in Sources */,
 				4E6BA2E81A1EE6AF005FD721 /* UIWebView+AFNetworking.m in Sources */,
+				4E0B9A341BAC1CD100D57D54 /* ForkTreeViewController.m in Sources */,
 				4E4D6A7F1B1C6D1E00FD2E49 /* CommitContentCell.m in Sources */,
 				8EA6D13519E240C40076D59C /* ProjectViewController.m in Sources */,
 				8EF643AB19FF7E2900F7EEB0 /* TagCCell.m in Sources */,

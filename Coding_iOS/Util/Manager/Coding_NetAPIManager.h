@@ -195,6 +195,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_ForkProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ReadMeOFProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_FileDiffDetailWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ForkTreeWithOwner:(NSString *)owner_name project:(NSString *)project_name andBlock:(void (^)(id data, NSError *error))block;
 
 //Image
 - (void)uploadTweetImage:(UIImage *)image

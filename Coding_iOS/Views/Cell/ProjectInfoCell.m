@@ -108,24 +108,24 @@
     BOOL is_recommended = _curProject.recommended.integerValue > 0;
     CGFloat titleWidth = [_proTitleL.text getWidthWithFont:[UIFont systemFontOfSize:17] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)];
     
-    [_proImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_proImgView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.contentView.mas_left).offset(pading);
         make.centerY.equalTo(self.contentView.mas_centerY);
         make.size.mas_equalTo(CGSizeMake(kProjectInfoCell_ProImgViewWidth, kProjectInfoCell_ProImgViewWidth));
     }];
-    [_proTitleL mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_proTitleL mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_proImgView.mas_right).offset(pading);
         make.width.mas_lessThanOrEqualTo(titleWidth);
         make.centerY.equalTo(_proImgView.mas_centerY).offset(-kProjectInfoCell_ProImgViewWidth/5);
         make.height.mas_equalTo(20);
     }];
-    [_recommendedView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_recommendedView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_lessThanOrEqualTo(self.contentView.mas_right);
         make.left.equalTo(_proTitleL.mas_right).offset(5);
         make.centerY.equalTo(_proTitleL.mas_centerY);
         make.size.mas_equalTo(is_recommended? CGSizeMake(20, 20): CGSizeZero);
     }];
-    [_proInfoL mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_proInfoL mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_proTitleL);
         make.right.equalTo(self.contentView.mas_right);
         make.centerY.equalTo(_proImgView.mas_centerY).offset(kProjectInfoCell_ProImgViewWidth/5);
