@@ -5723,7 +5723,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMENG",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/XGPush",
 					"$(PROJECT_DIR)/Coding_iOS/Util/Audio/opencore-amr-iOS/lib",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMSocial_Sdk_4.2.3_Extra/SinaSSO",
@@ -5759,7 +5758,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMENG",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/XGPush",
 					"$(PROJECT_DIR)/Coding_iOS/Util/Audio/opencore-amr-iOS/lib",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMSocial_Sdk_4.2.3_Extra/SinaSSO",

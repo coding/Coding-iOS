@@ -12,6 +12,7 @@
 
 - (BOOL)shouldAutorotate{
     return [self.visibleViewController shouldAutorotate];
+
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation{
@@ -19,7 +20,11 @@
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
-    return [self.visibleViewController supportedInterfaceOrientations];
+    if (![self.visibleViewController isKindOfClass:[UIAlertController class]]) {//iOS9 UIWebRotatingAlertController
+        return [self.visibleViewController supportedInterfaceOrientations];
+    }else{
+        return UIInterfaceOrientationMaskPortrait;
+    }
 }
 
 @end
