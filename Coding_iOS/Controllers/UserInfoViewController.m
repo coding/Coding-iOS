@@ -19,6 +19,7 @@
 #import "SettingMineInfoViewController.h"
 #import "UserInfoDetailViewController.h"
 #import "ProjectListViewController.h"
+#import "LocalFoldersViewController.h"
 
 #import "RDVTabBarController.h"
 #import "RDVTabBarItem.h"
@@ -150,7 +151,7 @@
     }else if (section == 1){
         row = 1;
     }else if (section == 2){
-        row = 3;
+        row = [self isMe]? 4: 3;
     }else if (section == 3){
         row = 1;
     }
@@ -183,8 +184,10 @@
                 [cell setTitle:[self isMe]? @"我的项目": @"Ta的项目" icon:@"user_info_project"];
             }else if(indexPath.row == 1){
                 [cell setTitle:[self isMe]? @"我的冒泡": @"Ta的冒泡" icon:@"user_info_tweet"];
-            }else{
+            }else if (indexPath.row == 2){
                 [cell setTitle:[self isMe]? @"我的话题": @"Ta的话题" icon:@"user_info_topic"];
+            }else{
+                [cell setTitle:@"本地文件" icon:@"user_info_topic"];
             }
         }else{
             [cell setTitle:@"我的码币" icon:@"user_info_point"];
@@ -232,8 +235,10 @@
             [self goToProjects];
         }else if(indexPath.row == 1){
             [self goToTweets];
-        }else{
+        }else if (indexPath.row == 2){
             [self goToTopic];
+        }else{
+            [self goToLocalFolders];
         }
     }else if (indexPath.section == 3){
         if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Me_Points]) {
@@ -301,6 +306,11 @@
 - (void)goToTopic {
     CSMyTopicVC *vc = [[CSMyTopicVC alloc] init];
     vc.curUser = _curUser;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToLocalFolders{
+    LocalFoldersViewController *vc = [LocalFoldersViewController new];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

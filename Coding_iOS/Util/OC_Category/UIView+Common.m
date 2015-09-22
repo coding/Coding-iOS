@@ -605,6 +605,12 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"这个人很懒，一个话题都木有～";
             }
                 break;
+            case EaseBlankPageTypeFileTypeCannotSupport:
+            {
+                imageName = @"blankpage_image_loadFail";
+                tipStr = @"不支持这种类型的文件\n试试右上角的按钮，用其他应用打开吧";
+            }
+                break;
             default://其它页面（这里没有提到的页面，都属于其它）
             {
                 imageName = @"blankpage_image_Sleep";

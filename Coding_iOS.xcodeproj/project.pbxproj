@@ -270,6 +270,8 @@
 		4E6D718A1A75F00E005AD988 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D71881A75F00E005AD988 /* YLImageView.m */; };
 		4E6FB0551B5799B100B0A17B /* ProjectTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6FB0541B5799B100B0A17B /* ProjectTag.m */; };
 		4E6FB0581B58DB0A00B0A17B /* ProjectTagsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6FB0571B58DB0A00B0A17B /* ProjectTagsView.m */; };
+		4E715A321BB1278200A5D24B /* LocalFolderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E715A311BB1278200A5D24B /* LocalFolderCell.m */; settings = {ASSET_TAGS = (); }; };
+		4E715A351BB1279D00A5D24B /* LocalFileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E715A341BB1279D00A5D24B /* LocalFileCell.m */; settings = {ASSET_TAGS = (); }; };
 		4E72F82D1B144778001B6CE6 /* NSMutableString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E72F82C1B144778001B6CE6 /* NSMutableString+Common.m */; };
 		4E72F82F1B159997001B6CE6 /* tipIcon_Other@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E72F82E1B159997001B6CE6 /* tipIcon_Other@2x.png */; };
 		4E72F8331B15B811001B6CE6 /* gif_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E72F8321B15B811001B6CE6 /* gif_mark@2x.png */; };
@@ -547,6 +549,9 @@
 		4EF17EE61B3C3112003CDD2D /* intro_tip_5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF17EC81B3C3112003CDD2D /* intro_tip_5@2x.png */; };
 		4EF17EE71B3C3112003CDD2D /* intro_tip_5@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF17EC91B3C3112003CDD2D /* intro_tip_5@3x.png */; };
 		4EF17EE81B3C3112003CDD2D /* intro_icon_6@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF17ECA1B3C3112003CDD2D /* intro_icon_6@2x.png */; };
+		4EF374161BB1254700DDA662 /* LocalFoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF374151BB1254700DDA662 /* LocalFoldersViewController.m */; settings = {ASSET_TAGS = (); }; };
+		4EF374191BB1255E00DDA662 /* LocalFilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF374181BB1255E00DDA662 /* LocalFilesViewController.m */; settings = {ASSET_TAGS = (); }; };
+		4EF3741C1BB1258600DDA662 /* LocalFileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF3741B1BB1258600DDA662 /* LocalFileViewController.m */; settings = {ASSET_TAGS = (); }; };
 		4EF818161B049C89005F974B /* addPictureBgImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EF818151B049C89005F974B /* addPictureBgImage@2x.png */; };
 		4EF818191B05C984005F974B /* ProjectTopicActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF818181B05C984005F974B /* ProjectTopicActivity.m */; };
 		4EF8181F1B05C9D8005F974B /* ProjectLineNoteActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EF8181E1B05C9D8005F974B /* ProjectLineNoteActivity.m */; };
@@ -1300,6 +1305,10 @@
 		4E6FB0541B5799B100B0A17B /* ProjectTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTag.m; sourceTree = "<group>"; };
 		4E6FB0561B58DB0A00B0A17B /* ProjectTagsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTagsView.h; sourceTree = "<group>"; };
 		4E6FB0571B58DB0A00B0A17B /* ProjectTagsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTagsView.m; sourceTree = "<group>"; };
+		4E715A301BB1278200A5D24B /* LocalFolderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalFolderCell.h; sourceTree = "<group>"; };
+		4E715A311BB1278200A5D24B /* LocalFolderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFolderCell.m; sourceTree = "<group>"; };
+		4E715A331BB1279D00A5D24B /* LocalFileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalFileCell.h; sourceTree = "<group>"; };
+		4E715A341BB1279D00A5D24B /* LocalFileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFileCell.m; sourceTree = "<group>"; };
 		4E72F82B1B144778001B6CE6 /* NSMutableString+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+Common.h"; sourceTree = "<group>"; };
 		4E72F82C1B144778001B6CE6 /* NSMutableString+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+Common.m"; sourceTree = "<group>"; };
 		4E72F82E1B159997001B6CE6 /* tipIcon_Other@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_Other@2x.png"; sourceTree = "<group>"; };
@@ -1735,6 +1744,12 @@
 		4EF17EC81B3C3112003CDD2D /* intro_tip_5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro_tip_5@2x.png"; sourceTree = "<group>"; };
 		4EF17EC91B3C3112003CDD2D /* intro_tip_5@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro_tip_5@3x.png"; sourceTree = "<group>"; };
 		4EF17ECA1B3C3112003CDD2D /* intro_icon_6@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro_icon_6@2x.png"; sourceTree = "<group>"; };
+		4EF374141BB1254700DDA662 /* LocalFoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalFoldersViewController.h; sourceTree = "<group>"; };
+		4EF374151BB1254700DDA662 /* LocalFoldersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFoldersViewController.m; sourceTree = "<group>"; };
+		4EF374171BB1255E00DDA662 /* LocalFilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalFilesViewController.h; sourceTree = "<group>"; };
+		4EF374181BB1255E00DDA662 /* LocalFilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFilesViewController.m; sourceTree = "<group>"; };
+		4EF3741A1BB1258600DDA662 /* LocalFileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalFileViewController.h; sourceTree = "<group>"; };
+		4EF3741B1BB1258600DDA662 /* LocalFileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFileViewController.m; sourceTree = "<group>"; };
 		4EF818151B049C89005F974B /* addPictureBgImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addPictureBgImage@2x.png"; sourceTree = "<group>"; };
 		4EF818171B05C984005F974B /* ProjectTopicActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTopicActivity.h; sourceTree = "<group>"; };
 		4EF818181B05C984005F974B /* ProjectTopicActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTopicActivity.m; sourceTree = "<group>"; };
@@ -3839,6 +3854,12 @@
 				4E753D431B8AFDEC003A00B9 /* FileEditViewController.m */,
 				4E0B9A321BAC1CD100D57D54 /* ForkTreeViewController.h */,
 				4E0B9A331BAC1CD100D57D54 /* ForkTreeViewController.m */,
+				4EF374141BB1254700DDA662 /* LocalFoldersViewController.h */,
+				4EF374151BB1254700DDA662 /* LocalFoldersViewController.m */,
+				4EF374171BB1255E00DDA662 /* LocalFilesViewController.h */,
+				4EF374181BB1255E00DDA662 /* LocalFilesViewController.m */,
+				4EF3741A1BB1258600DDA662 /* LocalFileViewController.h */,
+				4EF3741B1BB1258600DDA662 /* LocalFileViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -4596,6 +4617,10 @@
 				4EAE06C71B7C9EFF00179F4B /* FileVersionCell.m */,
 				4E0B9A351BAD377600D57D54 /* ForkTreeCell.h */,
 				4E0B9A361BAD377600D57D54 /* ForkTreeCell.m */,
+				4E715A301BB1278200A5D24B /* LocalFolderCell.h */,
+				4E715A311BB1278200A5D24B /* LocalFolderCell.m */,
+				4E715A331BB1279D00A5D24B /* LocalFileCell.h */,
+				4E715A341BB1279D00A5D24B /* LocalFileCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -5283,6 +5308,7 @@
 				4EB0C2001A807ED00042FC4F /* NSURL+Common.m in Sources */,
 				4E6BA2E71A1EE6AF005FD721 /* UIRefreshControl+AFNetworking.m in Sources */,
 				4EE1A22D1B5D02CA004284F1 /* ProjectCodeListView.m in Sources */,
+				4EF374191BB1255E00DDA662 /* LocalFilesViewController.m in Sources */,
 				8EF643BF19FF7E2900F7EEB0 /* SettingTextCell.m in Sources */,
 				8E64ED8419ED0CE3006E99DA /* QBImagePickerGroupCell.m in Sources */,
 				4ECE8AE71A3943E80021E29C /* UITableView+Common.m in Sources */,
@@ -5297,6 +5323,7 @@
 				8EA6D1CD19E240C40076D59C /* UIUnderlinedButton.m in Sources */,
 				4E5F39021AC951060010515D /* TaskCommentCCell.m in Sources */,
 				4E095A661B6909F9008DC439 /* AutoSlideScrollView.m in Sources */,
+				4EF374161BB1254700DDA662 /* LocalFoldersViewController.m in Sources */,
 				4ECE8AD91A3943E80021E29C /* UIViewController+DownMenu.m in Sources */,
 				4E94C5011B4D2B9300EB668A /* PopMenu.m in Sources */,
 				8EA6D13019E240C40076D59C /* LikersViewController.m in Sources */,
@@ -5473,6 +5500,7 @@
 				4ECE8AD81A3943E80021E29C /* UIDownMenuButton.m in Sources */,
 				8EA6D14819E240C40076D59C /* UsersViewController.m in Sources */,
 				4E94C4FF1B4D2B9300EB668A /* MenuButton.m in Sources */,
+				4EF3741C1BB1258600DDA662 /* LocalFileViewController.m in Sources */,
 				3A3878401AE295970078D5DE /* ResetLabelCell.m in Sources */,
 				4EA679201A15AB9F001A0324 /* FileListViewController.m in Sources */,
 				8EA6D14119E240C40076D59C /* ValueListViewController.m in Sources */,
@@ -5593,9 +5621,11 @@
 				8EA6D1BA19E240C40076D59C /* Projects.m in Sources */,
 				4E996BDF1ABA7CE100C704F1 /* UserInfoDetailUserCell.m in Sources */,
 				4EACB4461A2C60110097ABB3 /* ProjectActivities.m in Sources */,
+				4E715A351BB1279D00A5D24B /* LocalFileCell.m in Sources */,
 				8EA6D1CB19E240C40076D59C /* UITapImageView.m in Sources */,
 				4E8D5D5D1B45295D00B70936 /* NSURL+OTPURLArguments.m in Sources */,
 				4EAE06AB1B7B23EA00179F4B /* FileActivitiesViewController.m in Sources */,
+				4E715A321BB1278200A5D24B /* LocalFolderCell.m in Sources */,
 				4E217F171A70EDC700F6DF88 /* SVWebViewControllerActivity.m in Sources */,
 				4E996BE81ABBCD2D00C704F1 /* TaskDescriptionCell.m in Sources */,
 			);

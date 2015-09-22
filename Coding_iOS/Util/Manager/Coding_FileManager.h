@@ -28,6 +28,7 @@
 - (AFURLSessionManager *)af_manager;
 - (NSURL *)urlForDownloadFolder;
 
++ (NSArray *)localFileUrlList;
 +(NSURL *)diskDownloadUrlForKey:(NSString *)storage_key;
 + (Coding_DownloadTask *)cDownloadTaskForKey:(NSString *)storage_key;
 + (void)cancelCDownloadTaskForKey:(NSString *)storage_key;
@@ -35,6 +36,7 @@
 + (void)cancelCDownloadTaskForResponse:(NSURLResponse *)response;
 
 - (Coding_DownloadTask *)addDownloadTaskForObj:(id)obj completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler;
+
 
 //upload
 + (BOOL)writeUploadDataWithName:(NSString *)fileName andAsset:(ALAsset *)asset;

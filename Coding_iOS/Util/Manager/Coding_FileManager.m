@@ -103,6 +103,10 @@
     return _downloadDirectoryURL;
 }
 
++ (NSArray *)localFileUrlList{
+    return [[[self sharedManager] diskDownloadDict] allValues];
+}
+
 +(NSURL *)diskDownloadUrlForKey:(NSString *)storage_key{
     return [self.sharedManager.diskDownloadDict objectForKey:storage_key];
 }

@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
     EaseBlankPageTypeMyJoinedTopic,
     EaseBlankPageTypeOthersWatchedTopic,
     EaseBlankPageTypeOthersJoinedTopic,
+    EaseBlankPageTypeFileTypeCannotSupport,
 };
 
 typedef NS_ENUM(NSInteger, BadgePositionType) {
