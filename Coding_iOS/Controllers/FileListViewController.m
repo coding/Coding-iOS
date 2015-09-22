@@ -230,7 +230,7 @@
                 [weakSelf.refreshControl endRefreshing];
                 [weakSelf.view endLoading];
                 weakSelf.rootFolders = preRootFolders;
-                [weakSelf showHudTipStr:@"文件夹不存在"];
+                [NSObject showHudTipStr:@"文件夹不存在"];
                 weakSelf.navigationItem.rightBarButtonItem = nil;
                 [weakSelf.view configBlankPage:EaseBlankPageTypeFolderDleted hasData:([weakSelf totalDataRow] > 0) hasError:NO reloadButtonBlock:nil];
             }
@@ -321,7 +321,7 @@
                 [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:([weakSelf totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
                     [weakSelf refreshRootFolders];
                 }];
-                [weakSelf showHudTipStr:@"创建文件夹成功"];
+                [NSObject showHudTipStr:@"创建文件夹成功"];
             }
         }];
     }];
@@ -374,7 +374,7 @@
         }
         if (addDownloadCount == 0) {
             NSString *tipStr = downloadingCount == 0? @"所选的文件都已经下载到本地了" : @"所选的文件都已经在下载队列中了";
-            [self showHudTipStr:tipStr];
+            [NSObject showHudTipStr:tipStr];
         }
         [self changeEditStateToEditing:NO];
     }
@@ -423,7 +423,7 @@
         if ([Coding_FileManager writeUploadDataWithName:fileName andAsset:assetItem]) {
             [needToUploads addObject:fileName];
         }else{
-            [self showHudTipStr:[NSString stringWithFormat:@"%@ 文件处理失败", originalFileName]];
+            [NSObject showHudTipStr:[NSString stringWithFormat:@"%@ 文件处理失败", originalFileName]];
         }
     }
     for (NSString *fileName in needToUploads) {
@@ -540,9 +540,9 @@
     if (tableView.isEditing) {
         if (indexPath.row < _curFolder.sub_folders.count + _uploadFiles.count) {
             if (indexPath.row < _uploadFiles.count) {
-                [self showHudTipStr:@"正在上传的不能批处理"];
+                [NSObject showHudTipStr:@"正在上传的不能批处理"];
             }else{
-                [self showHudTipStr:@"文件夹不能批处理"];
+                [NSObject showHudTipStr:@"文件夹不能批处理"];
             }
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
         }
@@ -652,7 +652,7 @@
             if (data) {
                 ProjectFolder *originalFolder = (ProjectFolder *)data;
                 originalFolder.name = originalFolder.next_name;
-                [self showHudTipStr:[NSString stringWithFormat:@"成功重命名为:%@", originalFolder.name]];
+                [NSObject showHudTipStr:[NSString stringWithFormat:@"成功重命名为:%@", originalFolder.name]];
                 [weakSelf.myTableView reloadData];
             }
         }];
@@ -672,7 +672,7 @@
         [[Coding_NetAPIManager sharedManager] request_RenameFile:file withName:textValue andBlock:^(id data, NSError *error) {
             if (data) {
                 file.name = textValue;
-                [self showHudTipStr:[NSString stringWithFormat:@"成功重命名为:%@", file.name]];
+                [NSObject showHudTipStr:[NSString stringWithFormat:@"成功重命名为:%@", file.name]];
                 [weakSelf.myTableView reloadData];
             }
         }];
@@ -736,7 +736,7 @@
         NSError *fileError;
         [fm removeItemAtPath:filePath error:&fileError];
         if (fileError) {
-            [self showError:fileError];
+            [NSObject showError:fileError];
         }
     }
     [self.myTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.1];

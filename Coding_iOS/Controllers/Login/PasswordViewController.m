@@ -157,7 +157,7 @@
         tipStr = @"新密码不得长于64位";
     }
     if (tipStr) {
-        [self showHudTipStr:tipStr];
+        [NSObject showHudTipStr:tipStr];
         return;
     }
     [self.view endEditing:YES];

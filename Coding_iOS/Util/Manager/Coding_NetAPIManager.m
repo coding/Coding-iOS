@@ -249,28 +249,28 @@
 }
 - (void)request_ProjectMember_Quit:(ProjectMember *)curMember andBlock:(void (^)(id data, NSError *error))block{
     if (curMember.user_id.intValue == [Login curLoginUser].id.intValue) {
-        [self showStatusBarQueryStr:@"正在退出项目"];
+        [NSObject showStatusBarQueryStr:@"正在退出项目"];
         [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMember toQuitPath] withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
             if (data) {
                 [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"退出项目"];
 
-                [self showStatusBarSuccessStr:@"退出项目成功"];
+                [NSObject showStatusBarSuccessStr:@"退出项目成功"];
                 block(curMember, nil);
             }else{
-                [self showStatusBarError:error];
+                [NSObject showStatusBarError:error];
                 block(nil, error);
             }
         }];
     }else{
-        [self showStatusBarQueryStr:@"正在移除成员"];
+        [NSObject showStatusBarQueryStr:@"正在移除成员"];
         [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMember toKickoutPath] withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
             if (data) {
                 [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"移除成员"];
 
-                [self showStatusBarSuccessStr:@"移除成员成功"];
+                [NSObject showStatusBarSuccessStr:@"移除成员成功"];
                 block(curMember, nil);
             }else{
-                [self showStatusBarError:error];
+                [NSObject showStatusBarError:error];
                 block(nil, error);
             }
         }];
@@ -291,7 +291,7 @@
 }
 
 -(void)request_NewProject_WithObj:(Project *)project image:(UIImage *)image andBlock:(void (^)(NSString *, NSError *))block{
-    [self showStatusBarQueryStr:@"正在创建项目"];
+    [NSObject showStatusBarQueryStr:@"正在创建项目"];
     NSDictionary *fileDic;
     if (image) {
         fileDic = @{@"image":image,@"name":@"icon",@"fileName":@"icon.jpg"};
@@ -301,28 +301,28 @@
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"创建项目"];
 
-            [self showStatusBarSuccessStr:@"创建项目成功"];
+            [NSObject showStatusBarSuccessStr:@"创建项目成功"];
             id resultData = [data valueForKeyPath:@"data"];
             block(resultData, nil);
         }else{
-            [self showStatusBarError:error];
+            [NSObject showStatusBarError:error];
             block(nil, error);
         }
     }];
 }
 
 -(void)request_UpdateProject_WithObj:(Project *)project andBlock:(void (^)(Project *, NSError *))block{
-    [self showStatusBarQueryStr:@"正在更新项目"];
+    [NSObject showStatusBarQueryStr:@"正在更新项目"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toUpdatePath] withParams:[project toUpdateParams] withMethodType:Put andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"设置项目"];
 
-            [self showStatusBarSuccessStr:@"更新项目成功"];
+            [NSObject showStatusBarSuccessStr:@"更新项目成功"];
             id resultData = [data valueForKeyPath:@"data"];
             Project *resultA = [NSObject objectOfClass:@"Project" fromJSON:resultData];
             block(resultA, nil);
         }else{
-            [self showStatusBarError:error];
+            [NSObject showStatusBarError:error];
             block(nil, error);
         }
     }];
@@ -337,12 +337,11 @@
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"更改项目图标"];
 
             block(responseObject, nil);
-            [self showStatusBarSuccessStr:@"更新项目图标成功"];
+            [NSObject showStatusBarSuccessStr:@"更新项目图标成功"];
         }
-        [self hideStatusBarProgress];
     } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
         block(nil, error);
-        [self showStatusBarError:error];
+        [NSObject showStatusBarError:error];
     } progerssBlock:progress];
 }
 
@@ -364,15 +363,15 @@
     }else{
         return;
     }
-    [self showStatusBarQueryStr:@"正在删除项目"];
+    [NSObject showStatusBarQueryStr:@"正在删除项目"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toDeletePath] withParams:params withMethodType:Delete andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"删除项目"];
 
-            [self showStatusBarSuccessStr:@"删除项目成功"];
+            [NSObject showStatusBarSuccessStr:@"删除项目成功"];
             block(data, nil);
         }else{
-            [self showStatusBarError:error];
+            [NSObject showStatusBarError:error];
             block(nil, error);
         }
     }];
@@ -534,15 +533,15 @@
 }
 
 - (void)request_MRPRAccept:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block{
-    [self showStatusBarQueryStr:@"正在合并请求"];
+    [NSObject showStatusBarQueryStr:@"正在合并请求"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toAcceptPath] withParams:[curMRPR toAcceptParams] withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"MRPR_合并"];
 
-            [self showStatusBarSuccessStr:@"合并请求成功"];
+            [NSObject showStatusBarSuccessStr:@"合并请求成功"];
             block(data, nil);
         }else{
-            [self showStatusBarError:error];
+            [NSObject showStatusBarError:error];
             block(nil, error);
         }
     }];
@@ -988,31 +987,31 @@
 
 #pragma mark Task
 - (void)request_AddTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
-    [self showStatusBarQueryStr:@"正在添加任务"];
+    [NSObject showStatusBarQueryStr:@"正在添加任务"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toAddTaskPath] withParams:[task toAddTaskParams] withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"任务_添加"];
 
             id resultData = [data valueForKeyPath:@"data"];
             Task *resultT = [NSObject objectOfClass:@"Task" fromJSON:resultData];
-            [self showStatusBarSuccessStr:@"添加任务成功"];
+            [NSObject showStatusBarSuccessStr:@"添加任务成功"];
             block(resultT, nil);
         }else{
-            [self showStatusBarError:error];
+            [NSObject showStatusBarError:error];
             block(nil, error);
         }
     }];
 }
 - (void)request_DeleteTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
-    [self showStatusBarQueryStr:@"正在删除任务"];
+    [NSObject showStatusBarQueryStr:@"正在删除任务"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toDeleteTaskPath] withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"任务_删除"];
 
-            [self showStatusBarSuccessStr:@"删除任务成功"];
+            [NSObject showStatusBarSuccessStr:@"删除任务成功"];
             block(task, nil);
         }else{
-            [self showStatusBarError:error];
+            [NSObject showStatusBarError:error];
             block(nil, error);
         }
     }];
@@ -1229,17 +1228,17 @@
 }
 - (void)request_AddProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block{
     NSInteger feedbackId = 38894;
-    [self showStatusBarQueryStr:(proTopic.project_id && proTopic.project_id.integerValue == feedbackId)? @"正在发送反馈信息": @"正在添加讨论"];
+    [NSObject showStatusBarQueryStr:(proTopic.project_id && proTopic.project_id.integerValue == feedbackId)? @"正在发送反馈信息": @"正在添加讨论"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toAddTopicPath] withParams:[proTopic toAddTopicParams] withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:(proTopic.project_id && proTopic.project_id.integerValue == feedbackId)? @"发送反馈" : @"讨论_添加"];
 
-            [self showStatusBarSuccessStr:(proTopic.project_id && proTopic.project_id.integerValue == feedbackId)? @"反馈成功": @"添加讨论成功"];
+            [NSObject showStatusBarSuccessStr:(proTopic.project_id && proTopic.project_id.integerValue == feedbackId)? @"反馈成功": @"添加讨论成功"];
             id resultData = [data valueForKeyPath:@"data"];
             ProjectTopic *resultT = [NSObject objectOfClass:@"ProjectTopic" fromJSON:resultData];
             block(resultT, nil);
         }else{
-            [self showStatusBarError:error];
+            [NSObject showStatusBarError:error];
             block(nil, error);
         }
     }];
@@ -1436,54 +1435,10 @@
 }
 - (void)request_Tweet_DoTweet_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block{
     if (tweet.tweetImages && tweet.tweetImages.count > 0) {
-//        --------------------
-//        /**
-//         *  冒泡一张一张发送，有进度条
-//         */
-//        if ([tweet isAllImagesHaveDone]) {
-//            [self showStatusBarQueryStr:@"正在发送冒泡"];
-//            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/tweet" withParams:[tweet toDoTweetParams] withMethodType:Post andBlock:^(id data, NSError *error) {
-//                if (data) {
-//                    id resultData = [data valueForKeyPath:@"data"];
-//                    Tweet *tweet = [NSObject objectOfClass:@"Tweet" fromJSON:resultData];
-//                    [self showStatusBarSuccessStr:@"冒泡发送成功"];
-//                    block(tweet, nil);
-//                }else{
-//                    [self showStatusBarError:error];
-//                    block(nil, error);
-//                }
-//            }];
-//        }else{
-//            for (int i=0; i < tweet.tweetImages.count; i++) {
-//                TweetImage *imageItem = [tweet.tweetImages objectAtIndex:i];
-//                if (imageItem.uploadState == TweetImageUploadStateInit) {
-//                    imageItem.uploadState = TweetImageUploadStateIng;
-//                    [self showStatusBarQueryStr:[NSString stringWithFormat:@"正在上传第 %d 张图片", i+1]];
-//                    [self uploadTweetImage:imageItem.image doneBlock:^(NSString *imagePath, NSError *error) {
-//                        if (imagePath) {
-//                            imageItem.uploadState = TweetImageUploadStateSuccess;
-//                            imageItem.imageStr = [NSString stringWithFormat:@" ![图片](%@) ", imagePath];
-//                            [self request_Tweet_DoTweet_WithObj:tweet andBlock:block];
-//                        }else{
-//                            [self showError:error];
-//                            [self showStatusBarError:error];
-//                            block(nil, error);
-//                            imageItem.uploadState = TweetImageUploadStateFail;
-//                            imageItem.imageStr = [NSString stringWithFormat:@" ![图片]() "];
-//                        }
-//                    } progerssBlock:^(CGFloat progressValue) {
-//                        [self showStatusBarProgress:progressValue];
-//                        DebugLog(@"showStatusBarProgress %d : %.2f", i, progressValue);
-//                    }];
-//                    break;
-//                }
-//            }
-//        }
-//        -----------------
         /**
          *  冒泡多张一起发送，不显示进度条
          */
-        [self showStatusBarQueryStr:@"正在发送冒泡"];
+        [NSObject showStatusBarQueryStr:@"正在发送冒泡"];
         for (int i=0; i < tweet.tweetImages.count; i++) {
             TweetImage *imageItem = [tweet.tweetImages objectAtIndex:i];
             if (imageItem.uploadState == TweetImageUploadStateInit) {
@@ -1493,7 +1448,7 @@
                         imageItem.uploadState = TweetImageUploadStateSuccess;
                         imageItem.imageStr = [NSString stringWithFormat:@" ![图片](%@) ", imagePath];
                     }else{
-                        [self showStatusBarError:error];
+                        [NSObject showStatusBarError:error];
                         imageItem.uploadState = TweetImageUploadStateFail;
                         imageItem.imageStr = [NSString stringWithFormat:@" ![图片]() "];
                         block(nil, error);
@@ -1506,33 +1461,33 @@
 
                                 id resultData = [data valueForKeyPath:@"data"];
                                 Tweet *tweet = [NSObject objectOfClass:@"Tweet" fromJSON:resultData];
-                                [self showStatusBarSuccessStr:@"冒泡发送成功"];
+                                [NSObject showStatusBarSuccessStr:@"冒泡发送成功"];
                                 block(tweet, nil);
                             }else{
-                                [self showStatusBarError:error];
+                                [NSObject showStatusBarError:error];
                                 block(nil, error);
                             }
                         }];
                     }
                 } progerssBlock:^(CGFloat progressValue) {
-                    DebugLog(@"showStatusBarProgress %d : %.2f", i, progressValue);
+                    DebugLog(@"progressValue %d : %.2f", i, progressValue);
                 }];
             }
         }
 //        -----------------
 
     }else{
-        [self showStatusBarQueryStr:@"正在发送冒泡"];
+        [NSObject showStatusBarQueryStr:@"正在发送冒泡"];
         [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/tweet" withParams:[tweet toDoTweetParams] withMethodType:Post andBlock:^(id data, NSError *error) {
             if (data) {
                 [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"冒泡_添加_无图"];
 
                 id resultData = [data valueForKeyPath:@"data"];
                 Tweet *tweet = [NSObject objectOfClass:@"Tweet" fromJSON:resultData];
-                [self showStatusBarSuccessStr:@"冒泡发送成功"];
+                [NSObject showStatusBarSuccessStr:@"冒泡发送成功"];
                 block(tweet, nil);
             }else{
-                [self showStatusBarError:error];
+                [NSObject showStatusBarError:error];
                 block(nil, error);
             }
         }];
@@ -1576,7 +1531,7 @@
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"冒泡_删除"];
 
-            [self showHudTipStr:@"删除成功"];
+            [NSObject showHudTipStr:@"删除成功"];
             block(data, nil);
         }else{
             block(nil, error);
@@ -1727,12 +1682,12 @@
     }];
 }
 - (void)request_UpdateUserInfo_WithObj:(User *)curUser andBlock:(void (^)(id data, NSError *error))block{
-    [self showStatusBarQueryStr:@"正在修改个人信息"];
+    [NSObject showStatusBarQueryStr:@"正在修改个人信息"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curUser toUpdateInfoPath] withParams:[curUser toUpdateInfoParams] withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"个人信息_修改"];
 
-            [self showStatusBarSuccessStr:@"个人信息修改成功"];
+            [NSObject showStatusBarSuccessStr:@"个人信息修改成功"];
             id resultData = [data valueForKeyPath:@"data"];
             User *user = [NSObject objectOfClass:@"User" fromJSON:resultData];
             if (user) {
@@ -1740,7 +1695,7 @@
             }
             block(user, nil);
         }else{
-            [self showStatusBarError:error];
+            [NSObject showStatusBarError:error];
             block(nil, error);
         }
     }];
@@ -2104,10 +2059,10 @@
                        failureBlock:(void (^)(NSError *error))failure
                       progerssBlock:(void (^)(CGFloat progressValue))progress{
     if (!image) {
-        [self showHudTipStr:@"读图失败"];
+        [NSObject showHudTipStr:@"读图失败"];
         return;
     }
-    [self showStatusBarQueryStr:@"正在上传头像"];
+    [NSObject showStatusBarQueryStr:@"正在上传头像"];
     CGSize maxSize = CGSizeMake(800, 800);
     if (image.size.width > maxSize.width || image.size.height > maxSize.height) {
         image = [image scaleToSize:maxSize usingMode:NYXResizeModeAspectFit];
@@ -2115,12 +2070,12 @@
     [[CodingNetAPIClient sharedJsonClient] uploadImage:image path:@"api/user/avatar?update=1" name:@"file" successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
         [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"个人信息_更换头像"];
 
-        [self showStatusBarSuccessStr:@"上传头像成功"];
+        [NSObject showStatusBarSuccessStr:@"上传头像成功"];
         id resultData = [responseObject valueForKeyPath:@"data"];
         success(resultData);
     } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
         failure(error);
-        [self showStatusBarError:error];
+        [NSObject showStatusBarError:error];
     } progerssBlock:progress];
 }
 

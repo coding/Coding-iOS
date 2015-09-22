@@ -238,7 +238,7 @@
         NSError *fileError;
         [fm removeItemAtPath:filePath error:&fileError];
         if (fileError) {
-            [self showError:fileError];
+            [NSObject showError:fileError];
         }
     }
     [self.myTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.1];

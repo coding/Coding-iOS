@@ -345,11 +345,11 @@ static Tweet *_tweetForSend = nil;
                     }
                 }];
             } failureBlock:^(NSError *error) {
-                [self showHudTipStr:@"读取图片失败"];
+                [NSObject showHudTipStr:@"读取图片失败"];
             }];
         }
     }failureBlock:^(NSError *error) {
-        [self showHudTipStr:@"读取图片失败"];
+        [NSObject showHudTipStr:@"读取图片失败"];
     }];
     return tweetImg;
 

@@ -299,7 +299,7 @@ static NSString *CodingGetSN(NSString *path, NSString *sk, NSDictionary *paramet
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         DebugLog(@"\n===========response===========\n%@:\n%@", kBaiduAPIPlacePath, error);
-        [self showError:error];
+        [NSObject showError:error];
         block(nil, error);
     }];
 }
@@ -316,7 +316,7 @@ static NSString *CodingGetSN(NSString *path, NSString *sk, NSDictionary *paramet
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         DebugLog(@"\n===========response===========\n%@:\n%@", kBaiduAPIGeosearchPathCreate, error);
-        [self showError:error];
+        [NSObject showError:error];
         block(nil, error);
     }];
 }
@@ -333,7 +333,7 @@ static NSString *CodingGetSN(NSString *path, NSString *sk, NSDictionary *paramet
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         DebugLog(@"\n===========response===========\n%@:\n%@", kBaiduAPIGeosearchPath, error);
-        [self showError:error];
+        [NSObject showError:error];
         block(nil, error);
     }];
 }

@@ -275,7 +275,7 @@
         }
         response = response? response: [[NSURLResponse alloc] init];
         if (error){
-            [manager showError:error];
+            [NSObject showError:error];
             [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUploadCompled object:manager userInfo:@{@"response" : response,
                                                                                                                             @"error" : error}];
         }else if (responseObject) {

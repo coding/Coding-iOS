@@ -149,7 +149,7 @@
                             [weakSelf.rootFolders.list insertObject:data atIndex:1];
                         }
                         [weakSelf.myTableView reloadData];
-                        [weakSelf showHudTipStr:@"创建文件夹成功"];
+                        [NSObject showHudTipStr:@"创建文件夹成功"];
                     }
                 }];
             }];

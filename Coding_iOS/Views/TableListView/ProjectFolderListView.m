@@ -136,7 +136,7 @@
     NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
     ProjectFolder *folder = [self.myFolders.list objectAtIndex:indexPath.row];
     if ([folder isDefaultFolder]) {
-        [self showHudTipStr:@"‘默认文件夹’不可以编辑"];
+        [NSObject showHudTipStr:@"‘默认文件夹’不可以编辑"];
     }else{
         if (index == 0) {
             [self renameFolder:folder];

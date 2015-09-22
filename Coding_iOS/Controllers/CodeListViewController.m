@@ -104,7 +104,7 @@
         CodeViewController *vc = [CodeViewController codeVCWithProject:_myProject andCodeFile:nextCodeFile];
         [self.navigationController pushViewController:vc animated:YES];
     }else{
-        [self showHudTipStr:@"有些文件还不支持查看呢_(:з」∠)_"];
+        [NSObject showHudTipStr:@"有些文件还不支持查看呢_(:з」∠)_"];
     }
 }
 

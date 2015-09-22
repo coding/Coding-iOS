@@ -134,7 +134,7 @@
         NSNumber *tweet_id = self.curTweet.id;
         [ReportIllegalViewController showReportWithIllegalContent:tweet_id.stringValue andType:IllegalContentTypeTweet];
     }else{
-        [self showHudTipStr:@"冒泡为空"];
+        [NSObject showHudTipStr:@"冒泡为空"];
     }
 }
 

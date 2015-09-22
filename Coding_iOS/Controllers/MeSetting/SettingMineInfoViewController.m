@@ -427,7 +427,7 @@
             weakSelf.curUser.avatar = responseObj;
             [weakSelf.myTableView reloadData];
         } failureBlock:^(NSError *error) {
-            [weakSelf showError:error];
+            [NSObject showError:error];
         } progerssBlock:^(CGFloat progressValue) {
         }];
         

@@ -390,7 +390,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
     }else{
         [[Coding_NetAPIManager sharedManager] request_SendPrivateMessage:curMessage andBlock:^(id data, NSError *error) {
             if (data) {
-                [self showHudTipStr:@"已发送"];
+                [NSObject showHudTipStr:@"已发送"];
                 DebugLog(@"转发成功：%@, %@", curMessage.friend.name, curMessage.htmlMedia.contentOrigional);
             }
         }];

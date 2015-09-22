@@ -290,7 +290,7 @@
             });
         }];
     }else{
-        [self showHudTipStr:[NSString stringWithFormat:@"%@ 文件处理失败", originalFileName]];
+        [NSObject showHudTipStr:[NSString stringWithFormat:@"%@ 文件处理失败", originalFileName]];
     }
 }
 

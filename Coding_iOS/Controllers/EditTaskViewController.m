@@ -209,12 +209,12 @@
             }
         }];
     }else{
-        [self showStatusBarQueryStr:@"正在修改任务"];
+        [NSObject showStatusBarQueryStr:@"正在修改任务"];
         _myCopyTask.isRequesting = YES;
         [[Coding_NetAPIManager sharedManager] request_EditTask:_myCopyTask oldTask:_myTask andBlock:^(id data, NSError *error) {
             _myCopyTask.isRequesting = NO;
             if (data) {
-                [self showStatusBarSuccessStr:@"修改任务成功"];
+                [NSObject showStatusBarSuccessStr:@"修改任务成功"];
                 _myTask.content = _myCopyTask.content;
                 _myTask.owner = _myCopyTask.owner;
                 _myTask.status = _myCopyTask.status;
@@ -223,7 +223,7 @@
                 }
                 [self.navigationController popViewControllerAnimated:YES];
             }else{
-                [self showStatusBarError:error];
+                [NSObject showStatusBarError:error];
             }
         }];
     }
@@ -465,7 +465,7 @@
             NSLog(@"haimeizuo");
         }else if (cellType == LeftImage_LRTextCellTypeTaskOwner) {
             if (_myCopyTask.project == nil) {
-                [self showHudTipStr:@"需要选定所属项目先~"];
+                [NSObject showHudTipStr:@"需要选定所属项目先~"];
                 return;
             }
             ProjectMemberListViewController *vc = [[ProjectMemberListViewController alloc] init];
@@ -541,7 +541,7 @@
 
 - (void)goToTagsVC{
     if (!_myCopyTask.project) {
-        [self showHudTipStr:@"需要选定所属项目先~"];
+        [NSObject showHudTipStr:@"需要选定所属项目先~"];
         return;
     }
     EditLabelViewController *vc = [[EditLabelViewController alloc] init];

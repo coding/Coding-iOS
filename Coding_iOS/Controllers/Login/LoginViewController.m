@@ -416,7 +416,7 @@
                 if (global_key.length > 0) {
                     [weakSelf changeUITo2FAWithGK:global_key];
                 }else{
-                    [self showError:error];
+                    [NSObject showError:error];
                     [weakSelf refreshCaptchaNeeded];
                 }
             }

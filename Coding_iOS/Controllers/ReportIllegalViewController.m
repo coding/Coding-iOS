@@ -78,7 +78,7 @@
                                  };
         [[CodingNetAPIClient sharedJsonClient] reportIllegalContentWithType:self.type withParams:params];
     }
-    [self showHudTipStr:@"举报信息已发送"];
+    [NSObject showHudTipStr:@"举报信息已发送"];
     [self dismissSelf];
 }
 

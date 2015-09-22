@@ -195,7 +195,7 @@
 }
 
 - (void)popToRootVC{
-    [self showHudTipStr:@"已发送邮件"];
+    [NSObject showHudTipStr:@"已发送邮件"];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

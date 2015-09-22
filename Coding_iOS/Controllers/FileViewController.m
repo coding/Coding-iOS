@@ -331,9 +331,9 @@
 - (void)doCopyShareUrl{
     if (_curFile.share_url.length > 0) {
         [[UIPasteboard generalPasteboard] setString:_curFile.share_url];
-        [self showHudTipStr:@"链接已拷贝到粘贴板"];
+        [NSObject showHudTipStr:@"链接已拷贝到粘贴板"];
     }else{
-        [self showHudTipStr:@"文件还未打开共享"];
+        [NSObject showHudTipStr:@"文件还未打开共享"];
     }
 }
 
@@ -353,7 +353,7 @@
     [[Coding_NetAPIManager sharedManager] request_CloseShareHash:hashStr andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.curFile.share_url = nil;
-            [weakSelf showHudTipStr:@"共享链接已关闭"];
+            [NSObject showHudTipStr:@"共享链接已关闭"];
         }
     }];
 }
@@ -419,7 +419,7 @@
         NSError *fileError;
         [fm removeItemAtPath:filePath error:&fileError];
         if (fileError) {
-            [self showError:fileError];
+            [NSObject showError:fileError];
         }else if (fromDisk){
             [self.navigationController popViewControllerAnimated:YES];
             if (self.fileHasBeenDeletedBlock) {
@@ -451,7 +451,7 @@
     
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.fileUrl]];
     if (!image) {
-        [self showHudTipStr:@"提取图片失败"];
+        [NSObject showHudTipStr:@"提取图片失败"];
         return;
     }
     UIImageWriteToSavedPhotosAlbum(image, self, selectorToCall, NULL);
@@ -459,9 +459,9 @@
 
 - (void) imageWasSavedSuccessfully:(UIImage *)paramImage didFinishSavingWithError:(NSError *)paramError contextInfo:(void *)paramContextInfo{
     if (paramError == nil){
-        [self showHudTipStr:@"成功保存到相册"];
+        [NSObject showHudTipStr:@"成功保存到相册"];
     } else {
-        [self showHudTipStr:@"保存失败"];
+        [NSObject showHudTipStr:@"保存失败"];
     }
 }
 
@@ -501,7 +501,7 @@
         return;
     else{
         DebugLog(@"%@", error.description);
-        [self showError:error];
+        [NSObject showError:error];
     }
 }
 

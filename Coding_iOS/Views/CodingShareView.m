@@ -270,7 +270,7 @@
 
     if ([snsName isEqualToString:@"copylink"]) {
         [[UIPasteboard generalPasteboard] setString:[self p_shareLinkStr]];
-        [self showHudTipStr:@"链接已拷贝到粘贴板"];
+        [NSObject showHudTipStr:@"链接已拷贝到粘贴板"];
     }else if ([snsName isEqualToString:@"coding"]){
         PrivateMessage *curMsg = [PrivateMessage privateMessageWithObj:[self p_shareLinkStr] andFriend:nil];
         [self willTranspondMessage:curMsg];
@@ -285,7 +285,7 @@
 //            shareText = [shareText stringByReplacingCharactersInRange:NSMakeRange(maxTextLength - 3, shareText.length - (maxTextLength - 3)) withString:@"..."];
 //        }
 //        NSString *shareContent = [NSString stringWithFormat:@"%@%@%@", shareTitle, shareText, shareTail];
-//        [self showStatusBarQueryStr:@"正在分享到新浪微博"];
+//        [NSObject showStatusBarQueryStr:@"正在分享到新浪微博"];
 //        
 //        UMSocialUrlResource *urlResource = nil;
 //        NSString *imageUrl = [self p_imageUrlSquare:NO];
@@ -294,9 +294,9 @@
 //        }
 //        [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToSina] content:shareContent image:nil location:nil urlResource:urlResource presentedController:[BaseViewController presentingVC] completion:^(UMSocialResponseEntity *response) {
 //            if (response.responseCode == UMSResponseCodeSuccess) {
-//                [self showStatusBarSuccessStr:@"分享成功"];
+//                [NSObject showStatusBarSuccessStr:@"分享成功"];
 //            }else{
-//                [self showStatusBarErrorStr:@"分享失败"];
+//                [NSObject showStatusBarErrorStr:@"分享失败"];
 //            }
 //        }];
     }else if ([snsName isEqualToString:@"evernote"]){
@@ -317,7 +317,7 @@
                 if (!authenticateError) {
                     [self p_uploadENNote:noteToSave];
                 }else if (authenticateError.code != ENErrorCodeCancelled){
-                    [self showHudTipStr:@"授权失败"];
+                    [NSObject showHudTipStr:@"授权失败"];
                 }
             }];
         }else{
@@ -334,12 +334,12 @@
 
 - (void)p_uploadENNote:(ENNote *)noteToSave{
     if (noteToSave) {
-        [self showStatusBarQueryStr:@"正在保存到印象笔记"];
+        [NSObject showStatusBarQueryStr:@"正在保存到印象笔记"];
         [[ENSession sharedSession] uploadNote:noteToSave notebook:nil completion:^(ENNoteRef *noteRef, NSError *uploadNoteError) {
             if (noteRef) {
-                [self showStatusBarSuccessStr:@"笔记保存成功"];
+                [NSObject showStatusBarSuccessStr:@"笔记保存成功"];
             }else{
-                [self showStatusBarError:uploadNoteError];
+                [NSObject showStatusBarError:uploadNoteError];
             }
         }];
     }
@@ -404,7 +404,7 @@
 - (void)doTranspondMessage:(PrivateMessage *)curMessage{
     [[Coding_NetAPIManager sharedManager] request_SendPrivateMessage:curMessage andBlock:^(id data, NSError *error) {
         if (data) {
-            [self showHudTipStr:@"已发送"];
+            [NSObject showHudTipStr:@"已发送"];
         }
     }];
 }

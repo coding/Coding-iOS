@@ -161,7 +161,7 @@
             Coding_DownloadTask *cDownloadTask = [manager addDownloadTaskForObj:self.file completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
                 if (error) {
                     [weakSelf changeToState:DownloadStateDefault];
-                    [weakSelf showError:error];
+                    [NSObject showError:error];
                     DebugLog(@"ERROR:%@", error.description);
                 }else{
                     [weakSelf changeToState:DownloadStateDownloaded];

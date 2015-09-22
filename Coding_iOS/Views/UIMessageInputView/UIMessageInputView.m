@@ -830,7 +830,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         }];
     }else{
         media.state = UIMessageInputView_MediaStateUploadFailed;
-        [self showHudTipStr:[NSString stringWithFormat:@"%@ 文件处理失败", originalFileName]];
+        [NSObject showHudTipStr:[NSString stringWithFormat:@"%@ 文件处理失败", originalFileName]];
     }
 }
 

@@ -11,15 +11,13 @@
 @interface NSObject (Common)
 
 #pragma mark Tip M
-- (NSString *)tipFromError:(NSError *)error;
-- (BOOL)showError:(NSError *)error;
-- (void)showHudTipStr:(NSString *)tipStr;
-- (void)showStatusBarQueryStr:(NSString *)tipStr;
-- (void)showStatusBarSuccessStr:(NSString *)tipStr;
-- (void)showStatusBarErrorStr:(NSString *)errorStr;
-- (void)showStatusBarError:(NSError *)error;
-- (void)showStatusBarProgress:(CGFloat)progress;
-- (void)hideStatusBarProgress;
++ (NSString *)tipFromError:(NSError *)error;
++ (BOOL)showError:(NSError *)error;
++ (void)showHudTipStr:(NSString *)tipStr;
++ (void)showStatusBarQueryStr:(NSString *)tipStr;
++ (void)showStatusBarSuccessStr:(NSString *)tipStr;
++ (void)showStatusBarErrorStr:(NSString *)errorStr;
++ (void)showStatusBarError:(NSError *)error;
 
 #pragma mark BaseURL
 + (NSString *)baseURLStr;

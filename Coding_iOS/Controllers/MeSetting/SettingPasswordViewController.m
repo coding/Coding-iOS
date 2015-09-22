@@ -125,7 +125,7 @@
     [self.view endEditing:YES];
     NSString *tipStr = [_myUser changePasswordTips];
     if (tipStr) {
-        [self showHudTipStr:tipStr];
+        [NSObject showHudTipStr:tipStr];
         return;
     }
     self.navigationItem.rightBarButtonItem.enabled = NO;

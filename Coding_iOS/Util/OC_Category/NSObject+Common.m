@@ -20,7 +20,7 @@
 @implementation NSObject (Common)
 
 #pragma mark Tip M
-- (NSString *)tipFromError:(NSError *)error{
++ (NSString *)tipFromError:(NSError *)error{
     if (error && error.userInfo) {
         NSMutableString *tipStr = [[NSMutableString alloc] init];
         if ([error.userInfo objectForKey:@"msg"]) {
@@ -45,16 +45,16 @@
     }
     return nil;
 }
-- (BOOL)showError:(NSError *)error{
++ (BOOL)showError:(NSError *)error{
     if ([JDStatusBarNotification isVisible]) {//如果statusBar上面正在显示信息，则不再用hud显示error
         NSLog(@"如果statusBar上面正在显示信息，则不再用hud显示error");
         return NO;
     }
-    NSString *tipStr = [self tipFromError:error];
-    [self showHudTipStr:tipStr];
+    NSString *tipStr = [NSObject tipFromError:error];
+    [NSObject showHudTipStr:tipStr];
     return YES;
 }
-- (void)showHudTipStr:(NSString *)tipStr{
++ (void)showHudTipStr:(NSString *)tipStr{
     if (tipStr && tipStr.length > 0) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
         hud.mode = MBProgressHUDModeText;
@@ -65,11 +65,11 @@
         [hud hide:YES afterDelay:1.0];
     }
 }
-- (void)showStatusBarQueryStr:(NSString *)tipStr{
++ (void)showStatusBarQueryStr:(NSString *)tipStr{
     [JDStatusBarNotification showWithStatus:tipStr styleName:JDStatusBarStyleSuccess];
     [JDStatusBarNotification showActivityIndicator:YES indicatorStyle:UIActivityIndicatorViewStyleWhite];
 }
-- (void)showStatusBarSuccessStr:(NSString *)tipStr{
++ (void)showStatusBarSuccessStr:(NSString *)tipStr{
     if ([JDStatusBarNotification isVisible]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [JDStatusBarNotification showActivityIndicator:NO indicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -80,7 +80,7 @@
         [JDStatusBarNotification showWithStatus:tipStr dismissAfter:1.0 styleName:JDStatusBarStyleSuccess];
     }
 }
-- (void)showStatusBarErrorStr:(NSString *)errorStr{
++ (void)showStatusBarErrorStr:(NSString *)errorStr{
     if ([JDStatusBarNotification isVisible]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [JDStatusBarNotification showActivityIndicator:NO indicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -92,16 +92,9 @@
     }
 }
 
-- (void)showStatusBarError:(NSError *)error{
-    NSString *errorStr = [self tipFromError:error];
-    [self showStatusBarErrorStr:errorStr];
-}
-- (void)showStatusBarProgress:(CGFloat)progress{
-    [JDStatusBarNotification showProgress:progress];
-
-}
-- (void)hideStatusBarProgress{
-    [JDStatusBarNotification showProgress:0.0];
++ (void)showStatusBarError:(NSError *)error{
+    NSString *errorStr = [NSObject tipFromError:error];
+    [NSObject showStatusBarErrorStr:errorStr];
 }
 
 #pragma mark BaseURL
@@ -302,11 +295,11 @@
             if ([Login isLogin]) {//已登录的状态要抹掉
                 [Login doLogout];
                 [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
-                kTipAlert(@"%@", [self tipFromError:error]);
+                kTipAlert(@"%@", [NSObject tipFromError:error]);
             }
         }else{
             if (autoShowError) {
-                [self showError:error];
+                [NSObject showError:error];
             }
         }
     }

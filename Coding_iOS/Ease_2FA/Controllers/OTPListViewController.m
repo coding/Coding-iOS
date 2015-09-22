@@ -209,7 +209,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
                             if ([self.authURLs indexOfObject:item] != NSNotFound) {
                                 [self.authURLs replaceObjectAtIndex:[self.authURLs indexOfObject:item] withObject:authURL];
                                 [self configUI];
-                                [self showHudTipStr:@"更新成功"];
+                                [NSObject showHudTipStr:@"更新成功"];
                             }
                         }else{
                             kTipAlert(@"保存过程中发生了异常，请重新扫描");
@@ -278,7 +278,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     OTPAuthURL *authURL = self.authURLs[indexPath.section];
     if (authURL.otpCode.length > 0) {
         [[UIPasteboard generalPasteboard] setString:authURL.otpCode];
-        [self showHudTipStr:@"已复制"];
+        [NSObject showHudTipStr:@"已复制"];
     }
 }
 

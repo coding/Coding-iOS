@@ -96,7 +96,7 @@
             
         } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (error) {
-                [error showError:error];
+                [NSObject showError:error];
             }
         }];
         [_progressView hidePopUpViewAnimated:NO];
@@ -298,14 +298,14 @@
             }
         }else{//新建下载
             if (!self.project_id) {
-                [self showHudTipStr:@"下载失败~"];
+                [NSObject showHudTipStr:@"下载失败~"];
                 return;
             }
             __weak typeof(self) weakSelf = self;
             Coding_DownloadTask *cDownloadTask = [manager addDownloadTaskForObj:self.curData completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
                 if (error) {
                     [weakSelf changeToState:DownloadStateDefault];
-                    [weakSelf showError:error];
+                    [NSObject showError:error];
                     DebugLog(@"ERROR:%@", error.description);
                 }else{
                     [weakSelf changeToState:DownloadStateDownloaded];

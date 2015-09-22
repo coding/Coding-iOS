@@ -240,7 +240,7 @@
         return;
     else{
         DebugLog(@"%@", error.description);
-        [self showError:error];
+        [NSObject showError:error];
     }
 }
 

@@ -82,7 +82,7 @@ static dispatch_once_t onceToken;
                         if ([responseObject[@"data"] isKindOfClass:[NSDictionary class]]) {
                             if (responseObject[@"data"][@"too_many_files"]) {
                                 if (autoShowError) {
-                                    [self showHudTipStr:@"文件太多，不能正常显示"];
+                                    [NSObject showHudTipStr:@"文件太多，不能正常显示"];
                                 }
                             }
                         }
@@ -92,7 +92,7 @@ static dispatch_once_t onceToken;
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
-                !autoShowError || [self showError:error];
+                !autoShowError || [NSObject showError:error];
                 id responseObject = [NSObject loadResponseWithPath:localPath];
                 block(responseObject, error);
             }];
@@ -108,7 +108,7 @@ static dispatch_once_t onceToken;
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
-                !autoShowError || [self showError:error];
+                !autoShowError || [NSObject showError:error];
                 block(nil, error);
             }];
             break;}
@@ -123,7 +123,7 @@ static dispatch_once_t onceToken;
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
-                !autoShowError || [self showError:error];
+                !autoShowError || [NSObject showError:error];
                 block(nil, error);
             }];
             break;}
@@ -138,7 +138,7 @@ static dispatch_once_t onceToken;
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
-                !autoShowError || [self showError:error];
+                !autoShowError || [NSObject showError:error];
                 block(nil, error);
             }];}
         default:
@@ -190,7 +190,7 @@ static dispatch_once_t onceToken;
 
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 DebugLog(@"\n===========response===========\n%@:\n%@", aPath, error);
-                [self showError:error];
+                [NSObject showError:error];
                 block(nil, error);
             }];
             [operation start];
@@ -298,7 +298,7 @@ static dispatch_once_t onceToken;
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         DebugLog(@"\n===========response===========\n%@:\n%@", path, error);
-        [self showError:error];
+        [NSObject showError:error];
         block(nil, error);
     }];
     

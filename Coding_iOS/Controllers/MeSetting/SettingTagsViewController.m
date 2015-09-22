@@ -119,7 +119,7 @@
         [tempArray removeObject:tagId];
     }else{
         if (tempArray.count >= 10) {
-            [self showHudTipStr:@"用户个性标签不能超过10个"];
+            [NSObject showHudTipStr:@"用户个性标签不能超过10个"];
             return;
         }
         [tempArray addObject:tagId];

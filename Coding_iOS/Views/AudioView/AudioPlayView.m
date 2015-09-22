@@ -208,7 +208,7 @@
 
 - (void)didAudioPlay:(AudioManager *)am err:(NSError *)err {
     self.playState = AudioPlayViewStateNormal;
-    [self showHudTipStr:err.domain];
+    [NSObject showHudTipStr:err.domain];
 }
 
 @end
