@@ -48,6 +48,10 @@
             make.centerY.equalTo(self.contentView);
             make.height.mas_equalTo(30);
         }];
+        
+        NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xff5846"] icon:[UIImage imageNamed:@"icon_file_cell_delete"]];
+        [self setRightUtilityButtons:rightUtilityButtons WithButtonWidth:[LocalFileCell cellHeight]];
     }
     return self;
 }

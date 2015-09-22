@@ -44,6 +44,10 @@
     });
     _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self refresh];
 }
 
@@ -100,9 +104,9 @@
                 [pro_dict[@"list"] addObject:fileUrl];
             }
         }
-        return YES;
     }
-    return NO;
+    [self.myTableView reloadData];
+    return localFileUrlList.count > 0;
 }
 
 - (void)refreshProjectNameWithProjects:(Projects *)projects{
@@ -130,7 +134,7 @@
     NSDictionary *pro_dict = _projectList_dict[key];
 
     [cell setProjectName:pro_dict[@"name"] fileCount:[(NSArray *)pro_dict[@"list"] count]];
-    
+    cell.delegate = self;
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     return cell;
 }
@@ -150,5 +154,63 @@
     vc.fileList = pro_dict[@"list"];
     
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark SWTableViewCellDelegate
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell{
+    return YES;
+}
+- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state{
+    return YES;
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+    [cell hideUtilityButtonsAnimated:YES];
+    
+    NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
+    NSString *projectId = _projectId_list[indexPath.row];
+    
+    __weak typeof(self) weakSelf = self;
+    UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"确定要删除该文件夹内所有本地文件吗？" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [weakSelf deleteFilesWithProjectIdList:@[projectId]];
+        }
+    }];
+    [actionSheet showInView:self.view];
+}
+
+#pragma mark Delete
+- (void)deleteFilesWithProjectIdList:(NSArray *)projectIdList{
+    NSMutableArray *urlList = [NSMutableArray new];
+    for (NSString *key in projectIdList) {
+        NSDictionary *pro_dict = _projectList_dict[key];
+        NSArray *curList = pro_dict[@"list"];
+        if (curList.count > 0) {
+            [urlList addObjectsFromArray:curList];
+        }
+    }
+    [self deleteFilesWithUrlList:urlList];
+}
+
+- (void)deleteFilesWithUrlList:(NSArray *)urlList{
+    @weakify(self);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSFileManager *fm = [NSFileManager defaultManager];
+        for (NSURL *fileUrl in urlList) {
+            NSString *filePath = fileUrl.path;
+            if ([fm fileExistsAtPath:filePath]) {
+                NSError *fileError;
+                [fm removeItemAtPath:filePath error:&fileError];
+                if (fileError) {
+                    [NSObject showError:fileError];
+                }
+            }
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            @strongify(self);
+            [self findLocalFile];
+            [NSObject showHudTipStr:@"本地文件删除成功"];
+        });
+    });
 }
 @end
