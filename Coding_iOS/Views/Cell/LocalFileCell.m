@@ -25,6 +25,7 @@
         CGFloat icon_width = 45.0;
         if (!_iconView) {
             _iconView = [UIImageView new];
+            _iconView.contentMode = UIViewContentModeScaleAspectFill;
             _iconView.layer.masksToBounds = YES;
             _iconView.layer.cornerRadius = 2.0;
             _iconView.layer.borderWidth = 0.5;
@@ -72,7 +73,7 @@
     }
     if (image) {
         CGFloat icon_width = 2 * 45.0;
-        image = [image scaleToSize:CGSizeMake(icon_width, icon_width) usingMode:NYXResizeModeScaleToFill];
+        image = [image scaleToSize:CGSizeMake(icon_width, icon_width) usingMode:NYXResizeModeAspectFill];
     }else{
         image = [UIImage imageWithFileType:fileType];
     }
