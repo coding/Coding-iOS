@@ -60,6 +60,7 @@
     BOOL hasData = [self findLocalFile];
     [self.view configBlankPage:EaseBlankPageTypeView hasData:hasData hasError:NO reloadButtonBlock:nil];
     if (!hasData) {
+        [self.myRefreshControl endRefreshing];
         return;
     }
     if (_isLoading) {
