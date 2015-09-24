@@ -166,12 +166,21 @@
                 }else{
                     [NSObject showHudTipStr:@"没找到 Fork 到哪里去了~"];
                 }
+            }else if ([proAct.action isEqualToString:@"push"]){
+                if (proAct.commits.count == 1) {
+                    Commit *firstCommit = [proAct.commits firstObject];
+                    NSString *request_path = [NSString stringWithFormat:@"%@/commit/%@", proAct.depot.path, firstCommit.sha];
+                    CommitFilesViewController *vc = [CommitFilesViewController vcWithPath:request_path];
+                    [self.navigationController pushViewController:vc animated:YES];
+                }else{
+                    NSString *ref = proAct.ref? proAct.ref : @"master";
+                    ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
+                    vc.curProject = project;
+                    vc.curCommits = [Commits commitsWithRef:ref Path:@""];
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
             }else{
                 ProjectViewController *vc = [ProjectViewController codeVCWithCodeRef:proAct.ref andProject:project];
-                //                NSString *ref = proAct.ref? proAct.ref : @"master";
-                //                ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
-                //                vc.curProject = project;
-                //                vc.curCommits = [Commits commitsWithRef:ref Path:@""];
                 [self.navigationController pushViewController:vc animated:YES];
             }
         }else if ([target_type isEqualToString:@"PullRequestBean"] ||
