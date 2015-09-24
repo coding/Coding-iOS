@@ -62,7 +62,7 @@
     _progress = progress;
     _progressView.progress = progress;
     if (progress >= 1.0) {
-        [_progressView removeFromSuperview];
+        [_progressView performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:YES];
     }
 }
 @end
