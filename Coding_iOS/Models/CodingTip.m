@@ -7,6 +7,7 @@
 //
 
 #import "CodingTip.h"
+#import "Login.h"
 
 @implementation CodingTip
 
@@ -29,7 +30,9 @@
 
 - (void)adjust{
     //根据 content、target_type 去重组数据
-    if (_htmlMedia.mediaItems.count > 0) {
+    if ([_target_type isEqualToString:@"Depot"]) {//您导入的仓库（xxx）成功。点击查看：<a>playmore</a>
+        _user_item = [HtmlMediaItem htmlMediaItemWithTypeATUser:[Login curLoginUser] mediaRange:NSMakeRange(0, 0)];
+    }else if (_htmlMedia.mediaItems.count > 0) {
         _user_item = [_htmlMedia.mediaItems firstObject];
         [_htmlMedia removeItem:_user_item];
     }
