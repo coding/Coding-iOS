@@ -15,6 +15,7 @@
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 @property (readwrite, nonatomic, strong) NSMutableArray *list;
 @property (assign, nonatomic) NSInteger type;
+@property (assign, nonatomic) BOOL onlyUnread;
 
 +(CodingTips *)codingTipsWithType:(NSInteger)type;
 - (NSString *)toTipsPath;

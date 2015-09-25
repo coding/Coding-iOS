@@ -45,6 +45,14 @@
         _target_type_ColorName = @"0x379FD3";
     }
     _target_type_imageName = [NSString stringWithFormat:@"tipIcon_%@", _target_type];
+    
+    NSRange range = [_htmlMedia.contentDisplay rangeByTrimmingLeftCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if (range.location > 0) {
+        for (HtmlMediaItem *item in _htmlMedia.mediaItems) {
+            item.range = NSMakeRange(item.range.location - range.location, item.range.length);
+        }
+        [_htmlMedia.contentDisplay deleteCharactersInRange:NSMakeRange(0, range.location)];
+    }
     _content = _htmlMedia.contentDisplay;
 }
 

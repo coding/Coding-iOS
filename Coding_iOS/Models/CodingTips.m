@@ -24,6 +24,19 @@
     return self;
 }
 
+- (void)setOnlyUnread:(BOOL)onlyUnread{
+    if (_onlyUnread != onlyUnread) {
+        _onlyUnread = onlyUnread;
+        //初始化数据
+        _page = [NSNumber numberWithInteger:1];
+        _pageSize = [NSNumber numberWithInteger:20];
+        _canLoadMore = YES;
+        if (_list) {
+            [_list removeAllObjects];
+        }
+    }
+}
+
 +(CodingTips *)codingTipsWithType:(NSInteger)type{
     CodingTips *tips = [[CodingTips alloc] init];
     tips.type = type;
@@ -43,7 +56,13 @@
 }
 
 - (NSString *)toTipsPath{
-    return [NSString stringWithFormat:@"api/notification"];
+    NSString *path;
+    if (_onlyUnread) {
+        path = @"api/notification/unread-list";
+    }else{
+        path = @"api/notification";
+    }
+    return path;
 }
 - (NSDictionary *)toTipsParams{
     NSDictionary *params;

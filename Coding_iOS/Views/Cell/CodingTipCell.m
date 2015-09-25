@@ -12,6 +12,7 @@
 #import "CodingTipCell.h"
 @interface CodingTipCell ()
 @property (strong, nonatomic) UITapImageView *ownerImgView;
+@property (strong, nonatomic) UILabel *ownerL;
 @property (strong, nonatomic) UIButton *ownerNameBtn;
 @property (strong, nonatomic) UILabel *timeLabel;
 
@@ -42,6 +43,21 @@ static CGFloat target_height = 45.0;
         if (!self.ownerImgView) {
             self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15, user_icon_width, user_icon_width)];
             [self.ownerImgView doCircleFrame];
+            
+            _ownerL = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, user_icon_width, user_icon_width)];
+            _ownerL.backgroundColor = [UIColor clearColor];
+            _ownerL.font = [UIFont fontWithName:@"Chalkduster" size:20];
+//            PartyLetPlain
+//            Chalkduster
+            _ownerL.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _ownerL.textAlignment = NSTextAlignmentCenter;
+            [self.ownerImgView addSubview:_ownerL];
+
+            @weakify(self);
+            [_ownerImgView addTapBlock:^(id obj) {
+                @strongify(self);
+                [self userBtnClicked];
+            }];
             [self.contentView addSubview:self.ownerImgView];
         }
         if (!self.ownerNameBtn) {
@@ -97,12 +113,14 @@ static CGFloat target_height = 45.0;
         return;
     }
     //owner头像
-    __weak __typeof(self)weakSelf = self;
-    [self.ownerImgView setImageWithUrl:[@"" urlImageWithCodePathResizeToView:_ownerImgView] placeholderImage:kPlaceholderMonkeyRoundWidth(40.0) tapBlock:^(id obj) {
-        [weakSelf userBtnClicked];
-    }];
+//    [self.ownerImgView sd_setImageWithURL:[@"" urlImageWithCodePathResizeToView:_ownerImgView] placeholderImage:kPlaceholderMonkeyRoundWidth(40.0)];
+    NSString *userName = curTip.user_item.displayStr;
+    
+    NSString *pinyin = [userName transformToPinyin];
+    NSString *username_first = pinyin.length > 0? [[pinyin substringToIndex:1] uppercaseString]: @"C";
+    _ownerL.text = username_first;
     //owner姓名
-    [self.ownerNameBtn setUserTitle:curTip.user_item.displayStr font:[UIFont systemFontOfSize:17] maxWidth:(kCodingTipCell_WidthContent -80)];
+    [self.ownerNameBtn setUserTitle:userName font:[UIFont systemFontOfSize:17] maxWidth:(kCodingTipCell_WidthContent -80)];
     //时间
     _timeLabel.text = _curTip.target_type;
 
