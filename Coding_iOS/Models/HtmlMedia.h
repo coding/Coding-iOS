@@ -36,6 +36,7 @@ typedef NS_ENUM(NSInteger, MediaShowType) {
 @property (readwrite, nonatomic, strong) NSMutableString *contentDisplay;
 @property (readwrite, nonatomic, strong) NSMutableArray *mediaItems;
 @property (strong, nonatomic) NSArray *imageItems;
+- (void)removeItem:(HtmlMediaItem *)item;
 
 + (instancetype)htmlMediaWithString:(NSString *)htmlString showType:(MediaShowType)showType;
 - (instancetype)initWithString:(NSString *)htmlString showType:(MediaShowType)showType;

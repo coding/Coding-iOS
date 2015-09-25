@@ -144,6 +144,23 @@
     }
 }
 
+- (void)removeItem:(HtmlMediaItem *)delItem{
+    NSInteger index = [_mediaItems indexOfObject:delItem];
+    if (index != NSNotFound) {
+        if (delItem.range.length > 0) {
+            [_mediaItems enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(HtmlMediaItem *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (idx > index) {
+                    obj.range = NSMakeRange(obj.range.location - delItem.range.length, obj.range.length);
+                }else{
+                    *stop = YES;
+                }
+            }];
+            [_contentDisplay replaceCharactersInRange:delItem.range withString:@""];
+        }
+        [_mediaItems removeObject:delItem];
+    }
+}
+
 + (instancetype)htmlMediaWithString:(NSString *)htmlString showType:(MediaShowType)showType{
     return [[[self class] alloc] initWithString:htmlString showType:showType];
 }

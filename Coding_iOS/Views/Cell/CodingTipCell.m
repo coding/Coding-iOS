@@ -6,16 +6,31 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kCodingTipCell_WidthContent (kScreen_Width - 2*kPaddingLeftWidth - 50)
+#define kCodingTipCell_WidthContent (kScreen_Width - padding_left - kPaddingLeftWidth)
 #define kCodingTipCell_FontContent [UIFont systemFontOfSize:15]
 
 #import "CodingTipCell.h"
 @interface CodingTipCell ()
-@property (strong, nonatomic) UIImageView *iconView;
+@property (strong, nonatomic) UITapImageView *ownerImgView;
+@property (strong, nonatomic) UIButton *ownerNameBtn;
 @property (strong, nonatomic) UILabel *timeLabel;
+
+
+@property (strong, nonatomic) UITTTAttributedLabel *contentLabel;
+
+@property (strong, nonatomic) UIButton *targetBgBtn;
+@property (strong, nonatomic) UIImageView *targetIconView;
+@property (strong, nonatomic) UILabel *targetLabel;
 @end
 
 @implementation CodingTipCell
+
+static CGFloat user_icon_width = 35.0;
+static CGFloat padding_height = 45;
+static CGFloat padding_left = 75.0;
+static CGFloat padding_between_content = 15.0;
+static CGFloat target_height = 45.0;
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -24,12 +39,27 @@
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = [UIColor clearColor];
-        if (!_iconView) {
-            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(2* kPaddingLeftWidth, 12, 25, 25)];
-            [self.contentView addSubview:_iconView];
+        if (!self.ownerImgView) {
+            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15, user_icon_width, user_icon_width)];
+            [self.ownerImgView doCircleFrame];
+            [self.contentView addSubview:self.ownerImgView];
+        }
+        if (!self.ownerNameBtn) {
+            self.ownerNameBtn = [UIButton buttonWithUserStyle];
+            self.ownerNameBtn.frame = CGRectMake(padding_left, 15, 50, 20);
+            [self.ownerNameBtn addTarget:self action:@selector(userBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:self.ownerNameBtn];
+        }
+        if (!_timeLabel) {
+            _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 100, 15, 100, 15)];
+            _timeLabel.font = [UIFont systemFontOfSize:12];
+            _timeLabel.backgroundColor = [UIColor clearColor];
+            _timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _timeLabel.textAlignment = NSTextAlignmentRight;
+            [self.contentView addSubview:_timeLabel];
         }
         if (!_contentLabel) {
-            _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth +50, 12, kCodingTipCell_WidthContent, 20)];
+            _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(padding_left, padding_height, kCodingTipCell_WidthContent, 20)];
             _contentLabel.font = kCodingTipCell_FontContent;
             _contentLabel.backgroundColor = [UIColor clearColor];
             _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
@@ -38,47 +68,88 @@
             _contentLabel.delegate = self;
             [self.contentView addSubview:_contentLabel];
         }
-        if (!_timeLabel) {
-            _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 100, 0, 100, 15)];
-            _timeLabel.font = [UIFont systemFontOfSize:12];
-            _timeLabel.backgroundColor = [UIColor clearColor];
-            _timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
-            _timeLabel.textAlignment = NSTextAlignmentRight;
-            [self.contentView addSubview:_timeLabel];
+        if (!_targetBgBtn) {
+            _targetBgBtn = [[UIButton alloc] initWithFrame:CGRectMake(padding_left, 0, kCodingTipCell_WidthContent, target_height)];
+            [_targetBgBtn setBackgroundColor:[UIColor colorWithHexString:@"0xEEEEEE"]];
+            //target_icon
+            _targetIconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, target_height, target_height)];
+            _targetIconView.contentMode = UIViewContentModeCenter;
+            [_targetBgBtn addSubview:_targetIconView];
+            //target_content
+            _targetLabel = [[UILabel alloc] initWithFrame:CGRectMake(target_height + 10, 0, kCodingTipCell_WidthContent - target_height - 10, target_height)];
+            _targetLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _targetLabel.font = [UIFont systemFontOfSize:14];
+            _targetLabel.numberOfLines = 0;
+//            _targetLabel.userInteractionEnabled = NO;
+            [_targetBgBtn addSubview:_targetLabel];
+            
+            [self.targetBgBtn addTarget:self action:@selector(targetBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:_targetBgBtn];
         }
+
     }
     return self;
 }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
+- (void)setCurTip:(CodingTip *)curTip{
+    _curTip = curTip;
     if (!_curTip) {
         return;
     }
-    _contentLabel.textColor = [UIColor colorWithHexString:_curTip.status.boolValue? @"0x999999" :@"0x222222"];
+    //owner头像
+    __weak __typeof(self)weakSelf = self;
+    [self.ownerImgView setImageWithUrl:[@"" urlImageWithCodePathResizeToView:_ownerImgView] placeholderImage:kPlaceholderMonkeyRoundWidth(40.0) tapBlock:^(id obj) {
+        [weakSelf userBtnClicked];
+    }];
+    //owner姓名
+    [self.ownerNameBtn setUserTitle:curTip.user_item.displayStr font:[UIFont systemFontOfSize:17] maxWidth:(kCodingTipCell_WidthContent -80)];
+    //时间
+    _timeLabel.text = _curTip.target_type;
 
-    CGFloat curBottomY = 10;
-    UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"tipIcon_%@", _curTip.target_type]];
-    _iconView.image = image? image : [UIImage imageNamed:@"tipIcon_Other"];
+    //content
     [_contentLabel setLongString:_curTip.content withFitWidth:kCodingTipCell_WidthContent];
     for (HtmlMediaItem *item in _curTip.htmlMedia.mediaItems) {
         if (item.displayStr.length > 0) {
             [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }
-    
-    curBottomY += [_curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] + 12;
-    _timeLabel.text = [_curTip.created_at stringDisplay_HHmm];
-    [_timeLabel setY:curBottomY];
+    //target
+    if (_curTip.target_item) {
+        _targetBgBtn.hidden = NO;
+        CGFloat curBottomY = padding_height;
+        curBottomY += [_curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)];
+        curBottomY += padding_between_content;
+        
+        [_targetIconView setBackgroundColor:[UIColor colorWithHexString:_curTip.target_type_ColorName]];
+        [_targetIconView setImage:[UIImage imageNamed:_curTip.target_type_imageName]];
+        _targetLabel.text = _curTip.target_item.displayStr;
+        [_targetBgBtn setY:curBottomY];
+    }else{
+        _targetBgBtn.hidden = YES;
+    }
+    //unread
+    [self.contentView addBadgeTip:_curTip.status.boolValue? @"": kBadgeTipStr withCenterPosition:CGPointMake(_ownerImgView.center.x, CGRectGetMaxY(_ownerImgView.frame) + 10)];
+}
 
-    [self.contentView addBadgeTip:_curTip.status.boolValue? @"": kBadgeTipStr withCenterPosition:CGPointMake(kPaddingLeftWidth, _iconView.center.y)];
+- (void)targetBtnClicked{
+    if (self.curTip.target_item && self.linkClickedBlock) {
+        self.linkClickedBlock(self.curTip.target_item, self.curTip);
+    }
+}
+- (void)userBtnClicked{
+    if (self.curTip.user_item && self.linkClickedBlock) {
+        self.linkClickedBlock(self.curTip.user_item, self.curTip);
+    }
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[CodingTip class]]) {
         CodingTip *curTip = (CodingTip *)obj;
-        cellHeight += [curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] + 15 + 12 * 3;
+        cellHeight = padding_height + [curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] + padding_between_content;
+        if (curTip.target_item) {
+            cellHeight += target_height + padding_between_content;
+        }
     }
     return cellHeight;
 }

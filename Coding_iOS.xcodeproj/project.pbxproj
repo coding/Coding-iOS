@@ -144,6 +144,9 @@
 		4E38CF5F1A7A28AF005536C0 /* CodeBranchTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E38CF5E1A7A28AF005536C0 /* CodeBranchTagButton.m */; };
 		4E38CF621A7B7C99005536C0 /* CodeBranchOrTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */; };
 		4E38CF641A7B8DD4005536C0 /* icon_triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E38CF631A7B8DD4005536C0 /* icon_triangle@2x.png */; };
+		4E4972DC1BB52A8300F3AC15 /* tipIcon_TweetComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E4972DB1BB52A8300F3AC15 /* tipIcon_TweetComment@2x.png */; settings = {ASSET_TAGS = (); }; };
+		4E4972DF1BB535B400F3AC15 /* tipIcon_ProjectTweet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E4972DD1BB535B400F3AC15 /* tipIcon_ProjectTweet@2x.png */; settings = {ASSET_TAGS = (); }; };
+		4E4972E01BB535B400F3AC15 /* tipIcon_ProjectTweetComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E4972DE1BB535B400F3AC15 /* tipIcon_ProjectTweetComment@2x.png */; settings = {ASSET_TAGS = (); }; };
 		4E4ABBEA1A653027004760D9 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4ABBE91A653027004760D9 /* WebViewController.m */; };
 		4E4D6A581B1C5DC000FD2E49 /* MRPRCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A571B1C5DC000FD2E49 /* MRPRCommentCell.m */; };
 		4E4D6A5B1B1C5DDF00FD2E49 /* MRPRCommentCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E4D6A5A1B1C5DDF00FD2E49 /* MRPRCommentCCell.m */; };
@@ -273,7 +276,6 @@
 		4E715A321BB1278200A5D24B /* LocalFolderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E715A311BB1278200A5D24B /* LocalFolderCell.m */; settings = {ASSET_TAGS = (); }; };
 		4E715A351BB1279D00A5D24B /* LocalFileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E715A341BB1279D00A5D24B /* LocalFileCell.m */; settings = {ASSET_TAGS = (); }; };
 		4E72F82D1B144778001B6CE6 /* NSMutableString+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E72F82C1B144778001B6CE6 /* NSMutableString+Common.m */; };
-		4E72F82F1B159997001B6CE6 /* tipIcon_Other@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E72F82E1B159997001B6CE6 /* tipIcon_Other@2x.png */; };
 		4E72F8331B15B811001B6CE6 /* gif_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E72F8321B15B811001B6CE6 /* gif_mark@2x.png */; };
 		4E743E6D1A88A3CC00DADDE5 /* EaseMarkdownTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E743E6C1A88A3CC00DADDE5 /* EaseMarkdownTextView.m */; };
 		4E743E6F1A88ABF700DADDE5 /* blankpage_image_Hi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E743E6E1A88ABF700DADDE5 /* blankpage_image_Hi@2x.png */; };
@@ -791,7 +793,6 @@
 		8EA6D19C19E240C40076D59C /* tipIcon_QcTask@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CFB719E240C40076D59C /* tipIcon_QcTask@2x.png */; };
 		8EA6D19D19E240C40076D59C /* tipIcon_Task@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CFB819E240C40076D59C /* tipIcon_Task@2x.png */; };
 		8EA6D19E19E240C40076D59C /* tipIcon_Tweet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CFB919E240C40076D59C /* tipIcon_Tweet@2x.png */; };
-		8EA6D19F19E240C40076D59C /* tipIcon_TweetComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CFBA19E240C40076D59C /* tipIcon_TweetComment@2x.png */; };
 		8EA6D1A019E240C40076D59C /* tipIcon_TweetLike@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CFBB19E240C40076D59C /* tipIcon_TweetLike@2x.png */; };
 		8EA6D1A119E240C40076D59C /* tipIcon_UserFollow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CFBC19E240C40076D59C /* tipIcon_UserFollow@2x.png */; };
 		8EA6D1A319E240C40076D59C /* tweet_comment_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CFBE19E240C40076D59C /* tweet_comment_btn@2x.png */; };
@@ -1115,6 +1116,9 @@
 		4E38CF601A7B7C99005536C0 /* CodeBranchOrTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeBranchOrTag.h; sourceTree = "<group>"; };
 		4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodeBranchOrTag.m; sourceTree = "<group>"; };
 		4E38CF631A7B8DD4005536C0 /* icon_triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_triangle@2x.png"; sourceTree = "<group>"; };
+		4E4972DB1BB52A8300F3AC15 /* tipIcon_TweetComment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_TweetComment@2x.png"; sourceTree = "<group>"; };
+		4E4972DD1BB535B400F3AC15 /* tipIcon_ProjectTweet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_ProjectTweet@2x.png"; sourceTree = "<group>"; };
+		4E4972DE1BB535B400F3AC15 /* tipIcon_ProjectTweetComment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_ProjectTweetComment@2x.png"; sourceTree = "<group>"; };
 		4E4ABBE81A653027004760D9 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		4E4ABBE91A653027004760D9 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		4E4D6A561B1C5DC000FD2E49 /* MRPRCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRPRCommentCell.h; sourceTree = "<group>"; };
@@ -1311,7 +1315,6 @@
 		4E715A341BB1279D00A5D24B /* LocalFileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalFileCell.m; sourceTree = "<group>"; };
 		4E72F82B1B144778001B6CE6 /* NSMutableString+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableString+Common.h"; sourceTree = "<group>"; };
 		4E72F82C1B144778001B6CE6 /* NSMutableString+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableString+Common.m"; sourceTree = "<group>"; };
-		4E72F82E1B159997001B6CE6 /* tipIcon_Other@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_Other@2x.png"; sourceTree = "<group>"; };
 		4E72F8321B15B811001B6CE6 /* gif_mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gif_mark@2x.png"; sourceTree = "<group>"; };
 		4E743E6B1A88A3CC00DADDE5 /* EaseMarkdownTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseMarkdownTextView.h; sourceTree = "<group>"; };
 		4E743E6C1A88A3CC00DADDE5 /* EaseMarkdownTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseMarkdownTextView.m; sourceTree = "<group>"; };
@@ -2072,7 +2075,6 @@
 		8EA6CFB719E240C40076D59C /* tipIcon_QcTask@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_QcTask@2x.png"; sourceTree = "<group>"; };
 		8EA6CFB819E240C40076D59C /* tipIcon_Task@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_Task@2x.png"; sourceTree = "<group>"; };
 		8EA6CFB919E240C40076D59C /* tipIcon_Tweet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_Tweet@2x.png"; sourceTree = "<group>"; };
-		8EA6CFBA19E240C40076D59C /* tipIcon_TweetComment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_TweetComment@2x.png"; sourceTree = "<group>"; };
 		8EA6CFBB19E240C40076D59C /* tipIcon_TweetLike@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_TweetLike@2x.png"; sourceTree = "<group>"; };
 		8EA6CFBC19E240C40076D59C /* tipIcon_UserFollow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_UserFollow@2x.png"; sourceTree = "<group>"; };
 		8EA6CFBE19E240C40076D59C /* tweet_comment_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweet_comment_btn@2x.png"; sourceTree = "<group>"; };
@@ -4097,10 +4099,11 @@
 				8EA6CFB819E240C40076D59C /* tipIcon_Task@2x.png */,
 				8E7612F31A08B1EA005BE797 /* tipIcon_TaskComment@2x.png */,
 				8EA6CFB919E240C40076D59C /* tipIcon_Tweet@2x.png */,
-				8EA6CFBA19E240C40076D59C /* tipIcon_TweetComment@2x.png */,
 				8EA6CFBB19E240C40076D59C /* tipIcon_TweetLike@2x.png */,
 				8EA6CFBC19E240C40076D59C /* tipIcon_UserFollow@2x.png */,
-				4E72F82E1B159997001B6CE6 /* tipIcon_Other@2x.png */,
+				4E4972DB1BB52A8300F3AC15 /* tipIcon_TweetComment@2x.png */,
+				4E4972DD1BB535B400F3AC15 /* tipIcon_ProjectTweet@2x.png */,
+				4E4972DE1BB535B400F3AC15 /* tipIcon_ProjectTweetComment@2x.png */,
 			);
 			path = tip_icons;
 			sourceTree = "<group>";
@@ -4771,10 +4774,12 @@
 				4E2BF3D41B96CDF800A5A0A8 /* share_btn_sina@2x.png in Resources */,
 				8E8F7B2F19EF6306006BA8BD /* btn_privateMsg_black@2x.png in Resources */,
 				4E96E7E01A1B537E0037C098 /* icon_file_pdf@2x.png in Resources */,
+				4E4972DC1BB52A8300F3AC15 /* tipIcon_TweetComment@2x.png in Resources */,
 				4EFE8DAC1B394A0D004B7559 /* file_changeType_COPY@2x.png in Resources */,
 				4E996C071ABBF56A00C704F1 /* user_info_detail@2x.png in Resources */,
 				4E8C51B01AC1081500B4C51F /* icon_recommended@2x.png in Resources */,
 				4E96E7DA1A1B537E0037C098 /* icon_file_doc@2x.png in Resources */,
+				4E4972DF1BB535B400F3AC15 /* tipIcon_ProjectTweet@2x.png in Resources */,
 				8E62ADDA19E28DA800963870 /* tipIcon_User@2x.png in Resources */,
 				4E6383A71B3262D300D98648 /* taskPriority0_small@2x.png in Resources */,
 				8E8F7B3519EF6306006BA8BD /* btn_project_quit@2x.png in Resources */,
@@ -4839,7 +4844,6 @@
 				0A782FDE1AB5B78B00E96661 /* TweetSendCreateLocationCell.xib in Resources */,
 				8E8F7B3219EF6306006BA8BD /* btn_privateMsg_white@2x.png in Resources */,
 				8E97CEBB1A0C7E26006F9AD7 /* coding_emoji_36@2x.png in Resources */,
-				8EA6D19F19E240C40076D59C /* tipIcon_TweetComment@2x.png in Resources */,
 				4E996C041ABBF56A00C704F1 /* n_btn_followed_yes@2x.png in Resources */,
 				4EAE06901B784E9200179F4B /* store_icon@2x.png in Resources */,
 				4EF818161B049C89005F974B /* addPictureBgImage@2x.png in Resources */,
@@ -4888,9 +4892,9 @@
 				4EF17EDF1B3C3112003CDD2D /* intro_tip_1@3x.png in Resources */,
 				4E94C50E1B4D334B00EB668A /* pop_User@2x.png in Resources */,
 				4EFE8DAF1B3960E6004B7559 /* logo_coding_top@2x.png in Resources */,
+				4E4972E01BB535B400F3AC15 /* tipIcon_ProjectTweetComment@2x.png in Resources */,
 				4E66EE261A28226000DA1B3E /* button_file_createFolder_enable@2x.png in Resources */,
 				8EA6D19C19E240C40076D59C /* tipIcon_QcTask@2x.png in Resources */,
-				4E72F82F1B159997001B6CE6 /* tipIcon_Other@2x.png in Resources */,
 				4E095A841B6B24DE008DC439 /* time_clock_icon@2x.png in Resources */,
 				4E6383FC1B33C18700D98648 /* task_activity_icon_reassign@2x.png in Resources */,
 				4E6383B71B32640900D98648 /* messageAT@2x.png in Resources */,
@@ -5738,6 +5742,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -5773,6 +5778,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

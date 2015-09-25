@@ -12,7 +12,6 @@
 #import "CodingTip.h"
 
 @interface CodingTipCell : UITableViewCell<TTTAttributedLabelDelegate>
-@property (strong, nonatomic) UITTTAttributedLabel *contentLabel;
 @property (strong, nonatomic) CodingTip *curTip;
 @property (copy, nonatomic) void(^linkClickedBlock)(HtmlMediaItem *item, CodingTip *tip);
 + (CGFloat)cellHeightWithObj:(id)obj;

@@ -157,9 +157,10 @@
             }
         }
         
-        CGContextSetFillColorWithColor(context, [[self badgeTextColor] CGColor]);
-        
-        if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) {
+        //badgeValue
+        if (![self.badgeValue isEqualToString:kBadgeTipStr]) {
+            CGContextSetFillColorWithColor(context, [[self badgeTextColor] CGColor]);
+
             NSMutableParagraphStyle *badgeTextStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
             [badgeTextStyle setLineBreakMode:NSLineBreakByWordWrapping];
             [badgeTextStyle setAlignment:NSTextAlignmentCenter];
@@ -174,18 +175,8 @@
                                                      CGRectGetMinY(badgeBackgroundFrame) + kBadgeTextOffset,
                                                      badgeSize.width, badgeSize.height)
                            withAttributes:badgeTextAttributes];
-        } else {
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
-            [[self badgeValue] drawInRect:CGRectMake(CGRectGetMinX(badgeBackgroundFrame) + kBadgeTextOffset,
-                                                     CGRectGetMinY(badgeBackgroundFrame) + kBadgeTextOffset,
-                                                     badgeSize.width, badgeSize.height)
-                                 withFont:[self badgeTextFont]
-                            lineBreakMode:NSLineBreakByTruncatingTail
-                                alignment:NSTextAlignmentCenter];
-#endif
         }
     }
-    
     CGContextRestoreGState(context);
 }
 
