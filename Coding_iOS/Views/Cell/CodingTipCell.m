@@ -122,7 +122,8 @@ static CGFloat target_height = 45.0;
     //owner姓名
     [self.ownerNameBtn setUserTitle:userName font:[UIFont systemFontOfSize:17] maxWidth:(kCodingTipCell_WidthContent -80)];
     //时间
-    _timeLabel.text = _curTip.target_type;
+//    _timeLabel.text = _curTip.target_type;
+    _timeLabel.text = [_curTip.created_at stringDisplay_HHmm];
 
     //content
     [_contentLabel setLongString:_curTip.content withFitWidth:kCodingTipCell_WidthContent];
