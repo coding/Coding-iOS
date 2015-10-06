@@ -26,7 +26,7 @@
     NSString * result = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes( kCFAllocatorDefault,
                                                                                               (CFStringRef)self,
                                                                                               NULL,
-                                                                                              (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                                                              CFSTR("!*'();:@&=+$,/?%#[]"),
                                                                                               kCFStringEncodingUTF8 ));
     return result;
 }
@@ -150,7 +150,7 @@
     if (path.length > 0) {
         [result appendFormat:@"%@%@", ref.length > 0? @"/": @"", path];
     }
-    return [result stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    return [result URLEncoding];
 }
 - (CGSize)getSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size{
     CGSize resultSize = CGSizeZero;
