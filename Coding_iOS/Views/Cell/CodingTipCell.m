@@ -28,7 +28,7 @@
 
 static CGFloat user_icon_width = 35.0;
 static CGFloat padding_height = 45;
-static CGFloat padding_left = 75.0;
+static CGFloat padding_left = 65.0;
 static CGFloat padding_between_content = 15.0;
 static CGFloat target_height = 45.0;
 
