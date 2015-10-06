@@ -187,7 +187,7 @@
             }else if (indexPath.row == 2){
                 [cell setTitle:[self isMe]? @"我的话题": @"Ta的话题" icon:@"user_info_topic"];
             }else{
-                [cell setTitle:@"本地文件" icon:@"user_info_topic"];
+                [cell setTitle:@"本地文件" icon:@"user_info_file"];
             }
         }else{
             [cell setTitle:@"我的码币" icon:@"user_info_point"];
