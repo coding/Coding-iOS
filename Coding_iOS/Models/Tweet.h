@@ -11,6 +11,7 @@
 #import "User.h"
 #import "HtmlMedia.h"
 #import "TweetSendLocation.h"
+#import "Project.h"
 
 @class TweetImage;
 
@@ -31,7 +32,9 @@
 @property (readwrite, nonatomic, strong) NSString *nextCommentStr;
 @property (assign, nonatomic) CGFloat contentHeight;
 
-@property (strong, nonatomic) NSString *user_global_key, *pp_id;
+@property (strong, nonatomic) NSString *user_global_key;
+@property (strong, nonatomic) Project *project;
+@property (strong, nonatomic) NSNumber *project_id;
 
 - (void)addASelectedAssetURL:(NSURL *)assetURL;
 - (void)deleteASelectedAssetURL:(NSURL *)assetURL;
@@ -65,6 +68,8 @@
 + (void)deleteSendData;
 
 +(Tweet *)tweetWithGlobalKey:(NSString *)user_global_key andPPID:(NSString *)pp_id;
++(Tweet *)tweetInProject:(Project *)project andPPID:(NSString *)pp_id;
+
 - (NSDictionary *)toDoTweetParams;
 - (BOOL)isAllImagesHaveDone;
 - (void)addNewComment:(Comment *)comment;

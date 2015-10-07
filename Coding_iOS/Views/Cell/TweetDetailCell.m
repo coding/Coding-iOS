@@ -175,6 +175,9 @@
     if (tweet) {
         _tweet = tweet;
     }
+    BOOL isProjectTweet = _tweet.project_id != nil;
+    self.likeBtn.hidden = isProjectTweet;
+    self.shareBtn.hidden = isProjectTweet;
     
     //owner头像
     __weak __typeof(self)weakSelf = self;

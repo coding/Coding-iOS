@@ -1518,7 +1518,9 @@
             [MobClick event:kUmeng_Event_Request_Get label:@"冒泡_评论_列表"];
 
             id resultData = [data valueForKeyPath:@"data"];
-            resultData = [resultData valueForKeyPath:@"list"];
+            if ([resultData isKindOfClass:[NSDictionary class]]) {
+                resultData = [resultData valueForKeyPath:@"list"];
+            }
             NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"Comment"];
             block(resultA, nil);
         }else{

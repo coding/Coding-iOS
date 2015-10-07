@@ -109,9 +109,11 @@ static Tweet *_tweetForSend = nil;
 }
 
 - (NSString *)toDoCommentPath{
-    NSString *doCommentPath;
-    doCommentPath = [NSString stringWithFormat:@"api/tweet/%d/comment", self.id.intValue];
-    return doCommentPath;
+    if (self.project_id) {
+        return [NSString stringWithFormat:@"api/project/%@/tweet/%@/comment", self.project_id.stringValue, self.id.stringValue];
+    }else{
+        return [NSString stringWithFormat:@"api/tweet/%d/comment", self.id.intValue];
+    }
 }
 - (NSDictionary *)toDoCommentParams{
     return @{@"content" : [self.nextCommentStr aliasedString]};
@@ -124,21 +126,37 @@ static Tweet *_tweetForSend = nil;
              @"pageSize" : [NSNumber numberWithInteger:500]};
 }
 - (NSString *)toCommentsPath{
-    return [NSString stringWithFormat:@"api/tweet/%d/comments", _id.intValue];
+    NSString *path;
+    if (self.project_id) {
+        path = [NSString stringWithFormat:@"api/project/%@/tweet/%@/comments", self.project_id.stringValue, self.id.stringValue];
+    }else{
+        path = [NSString stringWithFormat:@"api/tweet/%d/comments", _id.intValue];
+    }
+    return path;
 }
 - (NSDictionary *)toCommentsParams{
     return @{@"page" : [NSNumber numberWithInteger:1],
              @"pageSize" : [NSNumber numberWithInteger:500]};
 }
 - (NSString *)toDeletePath{
-    return [NSString stringWithFormat:@"api/tweet/%d", self.id.intValue];
+    if (self.project_id) {
+        return [NSString stringWithFormat:@"api/project/%@/tweet/%@", self.project_id.stringValue, self.id.stringValue];
+    }else{
+        return [NSString stringWithFormat:@"api/tweet/%d", self.id.intValue];
+    }
 }
 - (NSString *)toDetailPath{
-    if (self.user_global_key && self.pp_id) {
-        return [NSString stringWithFormat:@"api/tweet/%@/%@", self.user_global_key, self.pp_id];
+    NSString *path;
+    if (self.project_id) {
+        path = [NSString stringWithFormat:@"api/project/%@/tweet/%@", self.project_id.stringValue, self.id.stringValue];
+    }else if (self.project){
+        //需要先去获取project_id
+    }else if (self.user_global_key) {
+        path = [NSString stringWithFormat:@"api/tweet/%@/%@", self.user_global_key, self.id.stringValue];
     }else{
-        return [NSString stringWithFormat:@"api/tweet/%@/%@", self.owner.global_key, self.id.stringValue];
+        path = [NSString stringWithFormat:@"api/tweet/%@/%@", self.owner.global_key, self.id.stringValue];
     }
+    return path;
 }
 
 +(Tweet *)tweetForSend{
@@ -198,8 +216,14 @@ static Tweet *_tweetForSend = nil;
 
 +(Tweet *)tweetWithGlobalKey:(NSString *)user_global_key andPPID:(NSString *)pp_id{
     Tweet *tweet = [[Tweet alloc] init];
+    tweet.id = [NSNumber numberWithInteger:pp_id.integerValue];
     tweet.user_global_key = user_global_key;
-    tweet.pp_id = pp_id;
+    return tweet;
+}
++(Tweet *)tweetInProject:(Project *)project andPPID:(NSString *)pp_id{
+    Tweet *tweet = [[Tweet alloc] init];
+    tweet.id = [NSNumber numberWithInteger:pp_id.integerValue];
+    tweet.project = project;
     return tweet;
 }
 
@@ -251,7 +275,13 @@ static Tweet *_tweetForSend = nil;
 }
 
 - (NSString *)toShareLinkStr{
-    return [NSString stringWithFormat:@"%@u/%@/pp/%@", kBaseUrlStr_Phone, _owner.global_key, _id];
+    NSString *shareLinkStr;
+    if (_project) {
+        shareLinkStr = [NSString stringWithFormat:@"%@u/%@/p/%@?pp=%@", [NSObject baseURLStr], _project.owner_user_name, _project.name, _id.stringValue];
+    }else{
+        shareLinkStr = [NSString stringWithFormat:@"%@u/%@/pp/%@", kBaseUrlStr_Phone, _owner.global_key, _id];
+    }
+    return shareLinkStr;
 }
 
 #pragma mark ALAsset

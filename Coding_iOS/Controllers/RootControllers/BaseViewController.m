@@ -148,6 +148,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *userRegexStr = @"/u/([^/]+)$";
     NSString *userTweetRegexStr = @"/u/([^/]+)/bubble$";
     NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)$";
+    NSString *pp_projectRegexStr = @"/u/([^/]+)/p/([^\?]+)[\?]pp=([0-9]+)$";
     NSString *topicRegexStr = @"/u/([^/]+)/p/([^/]+)/topic/(\\d+)";
     NSString *taskRegexStr = @"/u/([^/]+)/p/([^/]+)/task/(\\d+)";
     NSString *fileRegexStr = @"/u/([^/]+)/p/([^/]+)/attachment/([^/]+)/preview/(\\d+)";
@@ -175,6 +176,16 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             vc.curTweet = [Tweet tweetWithGlobalKey:user_global_key andPPID:pp_id];
             analyseVC = vc;
         }
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:pp_projectRegexStr]).count > 0){
+        NSString *owner_user_global_key = matchedCaptures[1];
+        NSString *project_name = matchedCaptures[2];
+        NSString *pp_id = matchedCaptures[3];
+        Project *curPro = [Project new];
+        curPro.owner_user_name = owner_user_global_key;
+        curPro.name = project_name;
+        TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
+        vc.curTweet = [Tweet tweetInProject:curPro andPPID:pp_id];
+        analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:gitMRPRCommitRegexStr]).count > 0){
         //MR
         NSString *path = [matchedCaptures[0] stringByReplacingOccurrencesOfString:@"https://coding.net" withString:@""];
