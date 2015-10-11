@@ -60,10 +60,12 @@
 
 - (NSInteger)leftDayCount{
     NSDate *today = [NSDate dateFromString:[[NSDate date] stringWithFormat:@"yyyy-MM-dd"] withFormat:@"yyyy-MM-dd"];//时分清零
+    NSDate *selfCopy = [NSDate dateFromString:[self stringWithFormat:@"yyyy-MM-dd"] withFormat:@"yyyy-MM-dd"];//时分清零
+    
     NSCalendar *calendar = [[self class] sharedCalendar];
     NSDateComponents *components = [calendar components:(NSDayCalendarUnit)
                                                fromDate:today
-                                                 toDate:self
+                                                 toDate:selfCopy
                                                 options:0];
     return [components day];
 }
