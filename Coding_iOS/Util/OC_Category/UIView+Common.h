@@ -72,13 +72,14 @@ typedef NS_ENUM(NSInteger, BadgePositionType) {
 
 - (void)removeViewWithTag:(NSInteger)tag;
 - (CGSize)doubleSizeOfFrame;
+- (void)outputSubviewTree;//输出子视图的目录树
 
 + (CGRect)frameWithOutNav;
 + (UIViewAnimationOptions)animationOptionsForCurve:(UIViewAnimationCurve)curve;
 + (UIView *)lineViewWithPointYY:(CGFloat)pointY;
 + (UIView *)lineViewWithPointYY:(CGFloat)pointY andColor:(UIColor *)color;
 + (UIView *)lineViewWithPointYY:(CGFloat)pointY andColor:(UIColor *)color andLeftSpace:(CGFloat)leftSpace;
-
++ (void)outputTreeInView:(UIView *)view withSeparatorCount:(NSInteger)count;//输出某个View的subview目录
 
 #pragma mark LoadingView
 @property (strong, nonatomic) EaseLoadingView *loadingView;

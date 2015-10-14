@@ -253,6 +253,26 @@ static char LoadingViewKey, BlankPageViewKey;
     return lineView;
 }
 
++ (void)outputTreeInView:(UIView *)view withSeparatorCount:(NSInteger)count{
+    NSString *outputStr = @"";
+    outputStr = [outputStr stringByReplacingCharactersInRange:NSMakeRange(0, count) withString:@"-"];
+    outputStr = [outputStr stringByAppendingString:view.description];
+    printf("%s\n", outputStr.UTF8String);
+    
+    if (view.subviews.count == 0) {
+        return;
+    }else{
+        count++;
+        for (UIView *subV in view.subviews) {
+            [self outputTreeInView:subV withSeparatorCount:count];
+        }
+    }
+}
+
+- (void)outputSubviewTree{
+    [UIView outputTreeInView:self withSeparatorCount:0];
+}
+
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown{
     [self addLineUp:hasUp andDown:hasDown andColor:[UIColor colorWithHexString:@"0xc8c7cc"]];
 }
