@@ -2,14 +2,9 @@
 ### Coding_iOS客户端项目介绍 
 *编译环境：Xcode-Version 6.1 (6A1052d)*
 #### 让项目跑起来先
-（注：[想下载代码就直接可以运行的请戳这里](https://coding.net/u/ease/p/Coding_iOS/git)）
+Clone 代码后，初次执行前，需要双击运行根目录下的`bootstrap`脚本。这个过程涉及到下载依赖，可能会有点久，需耐心等待。
 
-由于用到了 submodule，所以必需要把 git 仓库 clone 到本地，而不是只点击‘下载’按钮下载 zip 文件。
-1. 把文件`Coding_iOS-Prefix.pch.example`复制一份，重命名成`Coding_iOS-Prefix.pch`
-2. 配置pod相关。进到`Podfile`文件所在的目录，执行`pod install` or `pod update`命令。
-3. 由于项目代码管理用到了[submodule](http://git-scm.com/book/be/v2/Git-Tools-Submodules)（[中文参考阅读](http://www.kafeitu.me/git/2012/03/27/git-submodule.html)） ，所以还需要定位到路径`Coding_iOS/Resources/`然后执行代码：`git submodule init; git submodule update`
-4. 完成上述步骤之后，请打开文件`Coding_iOS.xcworkspace`，而不是`Coding_iOS.xcodeproj`！！！
- 
+**Tip：由于用到了 submodule，所以必需要把 git 仓库 clone 到本地，而不是只点击‘下载’按钮下载 zip 文件！！！**
 
 代码托管|在线讨论|任务管理|冒泡社交|项目文档
 ------------ | ------------- | ------------| ------------| ------------

@@ -1,0 +1,8 @@
+#!/bin/bash
+CMD_PATH=`dirname $0`
+cd $CMD_PATH
+cp Coding_iOS/Coding_iOS-Prefix.pch.example Coding_iOS/Coding_iOS-Prefix.pch
+git submodule update --init --recursive
+pod install
+open Coding_iOS.xcworkspace
+exit 0
