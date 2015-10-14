@@ -5795,6 +5795,7 @@
 					"$(inherited)",
 					/usr/include/libxml2,
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"Pods/evernote-cloud-sdk-ios/**",
 				);
 				INFOPLIST_FILE = "Coding_iOS/Coding_iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -5831,6 +5832,7 @@
 					"$(inherited)",
 					/usr/include/libxml2,
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"Pods/evernote-cloud-sdk-ios/**",
 				);
 				INFOPLIST_FILE = "Coding_iOS/Coding_iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
