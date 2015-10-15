@@ -48,20 +48,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    // Scroll to bottom
-    if (self.isMovingToParentViewController && !self.disableScrollToBottom) {
-        CGFloat topInset;
-        if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) { // iOS7 or later
-            topInset = ((self.edgesForExtendedLayout && UIRectEdgeTop) && (self.collectionView.contentInset.top == 0)) ? (20.0 + 44.0) : 0.0;
-        } else {
-            topInset = (self.collectionView.contentInset.top == 0) ? (20.0 + 44.0) : 0.0;
-        }
-
-        [self.collectionView setContentOffset:CGPointMake(0, self.collectionView.collectionViewLayout.collectionViewContentSize.height - self.collectionView.frame.size.height + topInset)
-                                     animated:NO];
-    }
-    
     // Validation
     if (self.allowsMultipleSelection) {
         self.navigationItem.rightBarButtonItem.enabled = [self validateNumberOfSelections:self.imagePickerController.selectedAssetURLs.count];
@@ -225,7 +211,7 @@
     QBAssetsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AssetsCell" forIndexPath:indexPath];
     cell.showsOverlayViewWhenSelected = self.allowsMultipleSelection;
     
-    ALAsset *asset = self.assets[indexPath.row];
+    ALAsset *asset = self.assets[self.assets.count -1 - indexPath.row];
     cell.asset = asset;
     
     return cell;
