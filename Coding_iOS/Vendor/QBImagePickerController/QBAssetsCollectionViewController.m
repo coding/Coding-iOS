@@ -20,7 +20,7 @@
 @property (nonatomic, assign) NSUInteger numberOfPhotos;
 @property (nonatomic, assign) NSUInteger numberOfVideos;
 
-@property (nonatomic, assign) BOOL disableScrollToBottom;
+@property (nonatomic, assign) BOOL disableScrollToBottom, appearToShow;
 
 @end
 
@@ -52,6 +52,7 @@
     if (self.allowsMultipleSelection) {
         self.navigationItem.rightBarButtonItem.enabled = [self validateNumberOfSelections:self.imagePickerController.selectedAssetURLs.count];
     }
+    _appearToShow = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -66,6 +67,14 @@
     [super viewDidDisappear:animated];
     
     self.disableScrollToBottom = NO;
+}
+
+- (void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    if (_appearToShow) {
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.numberOfAssets-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+        _appearToShow = NO;
+    }
 }
 
 
@@ -211,7 +220,7 @@
     QBAssetsCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AssetsCell" forIndexPath:indexPath];
     cell.showsOverlayViewWhenSelected = self.allowsMultipleSelection;
     
-    ALAsset *asset = self.assets[self.assets.count -1 - indexPath.row];
+    ALAsset *asset = self.assets[indexPath.row];
     cell.asset = asset;
     
     return cell;
