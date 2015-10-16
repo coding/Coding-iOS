@@ -10,7 +10,7 @@
 #import "Tweet.h"
 
 @interface CodingShareView : UIView
-+ (void)showShareViewWithTweet:(Tweet *)curTweet;
++ (void)showShareViewWithObj:(NSObject *)curObj;
 @end
 
 @interface CodingShareView_Item : UIView

@@ -9,6 +9,8 @@
 #import "BaseViewController.h"
 
 @interface SVWebViewController : BaseViewController
+@property (nonatomic, strong, readonly) UIWebView *webView;
+@property (nonatomic, strong, readonly) NSURLRequest *request;
 
 - (instancetype)initWithAddress:(NSString*)urlString;
 - (instancetype)initWithURL:(NSURL*)URL;

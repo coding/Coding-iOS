@@ -408,7 +408,7 @@
 }
 
 - (void)shareBtnClicked:(id)sender{
-    [CodingShareView showShareViewWithTweet:_tweet];
+    [CodingShareView showShareViewWithObj:_tweet];
 }
 
 #pragma mark Collection M

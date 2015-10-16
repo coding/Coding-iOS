@@ -10,9 +10,9 @@
 #import "NJKWebViewProgress.h"
 #import "NJKWebViewProgressView.h"
 #import "BaseViewController.h"
+#import "CodingShareView.h"
 
 @interface WebViewController ()<UIWebViewDelegate>
-//@property (strong, nonatomic) UIWebView *myWebView;
 @property (strong, nonatomic) NJKWebViewProgress *progressProxy;
 @property (strong, nonatomic) NJKWebViewProgressView *progressView;
 @end
@@ -65,6 +65,7 @@
     _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     _progressView.progressBarView.backgroundColor = [UIColor colorWithHexString:@"0x3abd79"];
     
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(shareItemClicked)] animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -75,6 +76,13 @@
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [_progressView removeFromSuperview];
+}
+
+- (void)shareItemClicked{
+    NSURL *url = self.webView.request.URL;
+    if (url.absoluteString && ![url.absoluteString isEmpty]) {
+        [CodingShareView showShareViewWithObj:self.webView];
+    }
 }
 
 #pragma mark UIWebViewDelegate 覆盖

@@ -676,7 +676,7 @@
     }
 }
 - (void)shareBtnClicked:(id)sender{
-    [CodingShareView showShareViewWithTweet:_tweet];
+    [CodingShareView showShareViewWithObj:_tweet];
 }
 #pragma mark TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{

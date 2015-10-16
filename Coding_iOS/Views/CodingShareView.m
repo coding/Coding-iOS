@@ -25,8 +25,8 @@
 @property (strong, nonatomic) UIButton *dismissBtn;
 @property (strong, nonatomic) UIScrollView *itemsScrollView;
 
-@property (strong, nonatomic) NSObject *objToShare;
 @property (strong, nonatomic) NSArray *shareSnsValues;
+@property (weak, nonatomic) NSObject *objToShare;
 @end
 
 @implementation CodingShareView
@@ -158,8 +158,8 @@
 
 }
 
-+ (void)showShareViewWithTweet:(Tweet *)curTweet{
-    [[self sharedInstance] showShareViewWithTweet:curTweet];
++ (void)showShareViewWithObj:(Tweet *)curObj{
+    [[self sharedInstance] showShareViewWithObj:curObj];
 }
 
 +(NSArray *)supportSnsValues{
@@ -198,8 +198,8 @@
     return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]];
 }
 
-- (void)showShareViewWithTweet:(Tweet *)curTweet{
-    self.objToShare = curTweet;
+- (void)showShareViewWithObj:(NSObject *)curObj{
+    self.objToShare = curObj;
     [self p_show];
 }
 
@@ -245,15 +245,6 @@
         }
     }];
 }
-- (void)p_checkTitle{
-    NSString *title;
-    if ([_objToShare isKindOfClass:[Tweet class]]) {
-        title = @"冒泡分享到";
-    }else{
-        title = @"分享到";
-    }
-    _titleL.text = title;
-}
 - (void)p_checkShareSnsValues{
     self.shareSnsValues = [CodingShareView supportSnsValues];
 }
@@ -274,55 +265,11 @@
     }else if ([snsName isEqualToString:@"coding"]){
         PrivateMessage *curMsg = [PrivateMessage privateMessageWithObj:[self p_shareLinkStr] andFriend:nil];
         [self willTranspondMessage:curMsg];
-//    }else if ([snsName isEqualToString:@"sina"]){
-//        NSString *shareTitle, *shareText, *shareTail;
-//        shareTitle = [NSString stringWithFormat:@"「%@」", [self p_shareTitle]];
-//        shareText = [self p_shareText];
-//        shareTail = [NSString stringWithFormat:@"%@（分享自@Coding）", [self p_shareLinkStr]];
-//        NSInteger maxShareLength = 140;
-//        NSInteger maxTextLength = maxShareLength - shareTitle.length - shareTail.length;
-//        if (shareText.length > maxTextLength) {
-//            shareText = [shareText stringByReplacingCharactersInRange:NSMakeRange(maxTextLength - 3, shareText.length - (maxTextLength - 3)) withString:@"..."];
-//        }
-//        NSString *shareContent = [NSString stringWithFormat:@"%@%@%@", shareTitle, shareText, shareTail];
-//        [NSObject showStatusBarQueryStr:@"正在分享到新浪微博"];
-//        
-//        UMSocialUrlResource *urlResource = nil;
-//        NSString *imageUrl = [self p_imageUrlSquare:NO];
-//        if (imageUrl.length > 0) {
-//            urlResource = [[UMSocialUrlResource alloc] initWithSnsResourceType:UMSocialUrlResourceTypeImage url:imageUrl];
-//        }
-//        [[UMSocialDataService defaultDataService] postSNSWithTypes:@[UMShareToSina] content:shareContent image:nil location:nil urlResource:urlResource presentedController:[BaseViewController presentingVC] completion:^(UMSocialResponseEntity *response) {
-//            if (response.responseCode == UMSResponseCodeSuccess) {
-//                [NSObject showStatusBarSuccessStr:@"分享成功"];
-//            }else{
-//                [NSObject showStatusBarErrorStr:@"分享失败"];
-//            }
-//        }];
     }else if ([snsName isEqualToString:@"evernote"]){
-        ENNote *noteToSave = [ENNote new];
-        noteToSave.title = [self p_shareTitle];
-        NSString *htmlStr;
-        if ([_objToShare respondsToSelector:NSSelectorFromString(@"htmlMedia")]) {
-            HtmlMedia *htmlMedia = [_objToShare valueForKey:@"htmlMedia"];
-            htmlStr = htmlMedia.contentOrigional;
-        }else{
-            htmlStr = [self p_shareText];
-        }
-        htmlStr = [htmlStr stringByAppendingFormat:@"<p><a href=\"%@\">冒泡原始链接</a></p>", [self p_shareLinkStr]];
-        noteToSave.content = [ENNoteContent noteContentWithSanitizedHTML:htmlStr];
-        
-        if (![[ENSession sharedSession] isAuthenticated]) {
-            [[ENSession sharedSession] authenticateWithViewController:[BaseViewController presentingVC] preferRegistration:NO completion:^(NSError *authenticateError) {
-                if (!authenticateError) {
-                    [self p_uploadENNote:noteToSave];
-                }else if (authenticateError.code != ENErrorCodeCancelled){
-                    [NSObject showHudTipStr:@"授权失败"];
-                }
-            }];
-        }else{
-            [self p_uploadENNote:noteToSave];
-        }
+        __weak typeof(self) weakSelf = self;
+        [self p_shareENNoteWithompletion:^(ENNote *note) {
+            [weakSelf p_willUploadENNote:note];
+        }];
     }else{
         [[UMSocialControllerService defaultControllerService] setSocialUIDelegate:self];
         UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:snsName];
@@ -331,8 +278,24 @@
         }
     }
 }
-
-- (void)p_uploadENNote:(ENNote *)noteToSave{
+- (void)p_willUploadENNote:(ENNote *)noteToSave{
+    if (!noteToSave) {
+        [NSObject showHudTipStr:@"不支持保存到印象笔记"];
+        return;
+    }
+    if (![[ENSession sharedSession] isAuthenticated]) {
+        [[ENSession sharedSession] authenticateWithViewController:[BaseViewController presentingVC] preferRegistration:NO completion:^(NSError *authenticateError) {
+            if (!authenticateError) {
+                [self p_doUploadENNote:noteToSave];
+            }else if (authenticateError.code != ENErrorCodeCancelled){
+                [NSObject showHudTipStr:@"授权失败"];
+            }
+        }];
+    }else{
+        [self p_doUploadENNote:noteToSave];
+    }
+}
+- (void)p_doUploadENNote:(ENNote *)noteToSave{
     if (noteToSave) {
         [NSObject showStatusBarQueryStr:@"正在保存到印象笔记"];
         [[ENSession sharedSession] uploadNote:noteToSave notebook:nil completion:^(ENNoteRef *noteRef, NSError *uploadNoteError) {
@@ -344,11 +307,25 @@
         }];
     }
 }
+#pragma mark objToShare
+- (void)p_checkTitle{
+    NSString *title;
+    if ([_objToShare isKindOfClass:[Tweet class]]) {
+        title = @"冒泡分享到";
+    }else if ([_objToShare isKindOfClass:[UIWebView class]]){
+        title = @"链接分享到";
+    }else{
+        title = @"分享到";
+    }
+    _titleL.text = title;
+}
 
 - (NSString *)p_shareLinkStr{
     NSString *linkStr;
     if ([_objToShare isKindOfClass:[Tweet class]]) {
         linkStr = [(Tweet *)_objToShare toShareLinkStr];
+    }else if ([_objToShare isKindOfClass:[UIWebView class]]){
+        linkStr = [(UIWebView *)_objToShare request].URL.absoluteString;
     }else{
         linkStr = [NSObject baseURLStr];
     }
@@ -358,6 +335,8 @@
     NSString *title;
     if ([_objToShare isKindOfClass:[Tweet class]]) {
         title = [NSString stringWithFormat:@"%@ 的冒泡", [(Tweet *)_objToShare owner].name];
+    }else if ([_objToShare isKindOfClass:[UIWebView class]]){
+        title = @"Coding 链接";
     }else{
         title = @"Coding";
     }
@@ -367,6 +346,8 @@
     NSString *text;
     if ([_objToShare isKindOfClass:[Tweet class]]) {
         text = [(Tweet *)_objToShare content];
+    }else if ([_objToShare isKindOfClass:[UIWebView class]]){
+        text =[(UIWebView *)_objToShare stringByEvaluatingJavaScriptFromString:@"document.title"];
     }else{
         text = @"Coding 让开发更简单！";
     }
@@ -390,6 +371,20 @@
         }];
     }
     return imageUrl;
+}
+- (void)p_shareENNoteWithompletion:(ENNotePopulateFromWebViewCompletionHandler)completion{
+    if ([_objToShare respondsToSelector:NSSelectorFromString(@"htmlMedia")]) {
+        ENNote *note = [ENNote new];
+        note.title = [self p_shareTitle];
+        NSString *htmlStr;
+        HtmlMedia *htmlMedia = [_objToShare valueForKey:@"htmlMedia"];
+        htmlStr = htmlMedia.contentOrigional;
+        htmlStr = [htmlStr stringByAppendingFormat:@"<p><a href=\"%@\">原始链接</a></p>", [self p_shareLinkStr]];
+        note.content = [ENNoteContent noteContentWithSanitizedHTML:htmlStr];
+        completion(note);
+    }else if ([_objToShare isKindOfClass:[UIWebView class]]){
+        [ENNote populateNoteFromWebView:(UIWebView *)_objToShare completion:completion];
+    }
 }
 #pragma mark TranspondMessage
 
@@ -415,7 +410,7 @@
     if(response.responseCode == UMSResponseCodeSuccess){
         NSString *snsName = [[response.data allKeys] firstObject];
         NSLog(@"share to sns name is %@",snsName);
-        [self performSelector:@selector(showStatusBarSuccessStr:) withObject:@"分享成功" afterDelay:0.3];
+        [NSObject performSelector:@selector(showStatusBarSuccessStr:) withObject:@"分享成功" afterDelay:0.3];
     }
 }
 
