@@ -631,6 +631,11 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"不支持这种类型的文件\n试试右上角的按钮，用其他应用打开吧";
             }
                 break;
+            case EaseBlankPageTypeViewTips:{
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"这里没有未读的消息";
+            }
+                break;
             default://其它页面（这里没有提到的页面，都属于其它）
             {
                 imageName = @"blankpage_image_Sleep";

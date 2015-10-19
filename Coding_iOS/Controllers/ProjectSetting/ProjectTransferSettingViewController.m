@@ -28,7 +28,7 @@
 @implementation ProjectTransferSettingViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"转让项目";
+    self.title = @"项目转让";
 
     for (NSLayoutConstraint *cons in self.lines) {
         cons.constant = 0.5;
@@ -55,8 +55,10 @@
     return [UIView new];
 }
 
-//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+
 //    if (indexPath.section == 1 && indexPath.row == 0) {
 //        cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
 //        return;
@@ -76,7 +78,7 @@
 //    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
 //        [cell setLayoutMargins:UIEdgeInsetsZero];
 //    }
-//}
+}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

@@ -137,7 +137,7 @@
             self.locaitonBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             self.locaitonBtn.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
             self.locaitonBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            self.locaitonBtn.frame = CGRectMake(kTweetCell_PadingLeft, 0, 100, 15);
+            self.locaitonBtn.frame = CGRectMake(kTweetCell_PadingLeft, 0, kScreen_Width - kTweetCell_PadingLeft - kPaddingLeftWidth, 15);
             self.locaitonBtn.titleLabel.adjustsFontSizeToFitWidth = NO;
             self.locaitonBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12];
             [self.locaitonBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];

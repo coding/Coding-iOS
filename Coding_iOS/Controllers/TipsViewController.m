@@ -115,7 +115,7 @@
             [weakSelf.myTableView reloadData];
             weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myCodingTips.canLoadMore;
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.myCodingTips.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypeViewTips hasData:(weakSelf.myCodingTips.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
     }];
