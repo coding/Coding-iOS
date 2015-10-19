@@ -142,6 +142,7 @@
 		4E2DB34B1BA6AEB4002F27C4 /* coding_emoji_gif_06@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2DB3441BA6AEB4002F27C4 /* coding_emoji_gif_06@2x.png */; };
 		4E2DB34C1BA6AEB4002F27C4 /* coding_emoji_gif_07@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2DB3451BA6AEB4002F27C4 /* coding_emoji_gif_07@2x.png */; };
 		4E2DB34D1BA6AEB4002F27C4 /* coding_emoji_gif_01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2DB3461BA6AEB4002F27C4 /* coding_emoji_gif_01@2x.png */; };
+		4E2ECEAD1BD4D51000CB6EC9 /* ProjectTransferSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2ECEAC1BD4D51000CB6EC9 /* ProjectTransferSettingViewController.m */; settings = {ASSET_TAGS = (); }; };
 		4E35A99F1A3EC47E00CE35F1 /* FileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E35A99E1A3EC47E00CE35F1 /* FileViewController.m */; };
 		4E38CF5F1A7A28AF005536C0 /* CodeBranchTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E38CF5E1A7A28AF005536C0 /* CodeBranchTagButton.m */; };
 		4E38CF621A7B7C99005536C0 /* CodeBranchOrTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */; };
@@ -1120,6 +1121,8 @@
 		4E2DB3441BA6AEB4002F27C4 /* coding_emoji_gif_06@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coding_emoji_gif_06@2x.png"; sourceTree = "<group>"; };
 		4E2DB3451BA6AEB4002F27C4 /* coding_emoji_gif_07@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coding_emoji_gif_07@2x.png"; sourceTree = "<group>"; };
 		4E2DB3461BA6AEB4002F27C4 /* coding_emoji_gif_01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coding_emoji_gif_01@2x.png"; sourceTree = "<group>"; };
+		4E2ECEAB1BD4D51000CB6EC9 /* ProjectTransferSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTransferSettingViewController.h; sourceTree = "<group>"; };
+		4E2ECEAC1BD4D51000CB6EC9 /* ProjectTransferSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTransferSettingViewController.m; sourceTree = "<group>"; };
 		4E35A99D1A3EC47E00CE35F1 /* FileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileViewController.h; sourceTree = "<group>"; };
 		4E35A99E1A3EC47E00CE35F1 /* FileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileViewController.m; sourceTree = "<group>"; };
 		4E38CF5D1A7A28AF005536C0 /* CodeBranchTagButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeBranchTagButton.h; sourceTree = "<group>"; };
@@ -4682,6 +4685,8 @@
 				B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */,
 				B9A00D831ACA3A55008BA008 /* ProjectAdvancedSettingViewController.h */,
 				B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */,
+				4E2ECEAB1BD4D51000CB6EC9 /* ProjectTransferSettingViewController.h */,
+				4E2ECEAC1BD4D51000CB6EC9 /* ProjectTransferSettingViewController.m */,
 				B93D90491ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.h */,
 				B93D904A1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m */,
 			);
@@ -5285,6 +5290,7 @@
 				8EA6D1B219E240C40076D59C /* Depot.m in Sources */,
 				4ED6731E1A8DD38C00DF2D1A /* ReportIllegalViewController.m in Sources */,
 				8EF643CE19FF7E2900F7EEB0 /* TweetDetailCell.m in Sources */,
+				4E2ECEAD1BD4D51000CB6EC9 /* ProjectTransferSettingViewController.m in Sources */,
 				4EABD2571AD3CAAC005E515F /* UIMessageInputView_Add.m in Sources */,
 				7EB02FCE1B6CF5D500D2166C /* UIMessageInputView_Voice.m in Sources */,
 				8E59F0E21A0098BA009A905F /* UIScrollView+SVInfiniteScrolling.m in Sources */,

@@ -162,18 +162,10 @@
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //
-    if (indexPath.section == 0 && indexPath.row == 0) {
-        return;
-    }
-    if (indexPath.section == 1 && indexPath.row == 0) {
+    if (indexPath.row == 0) {
+        cell.separatorInset = UIEdgeInsetsMake(0.f, 13, 0.f, 0.f);
+    }else{
         cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
-        return;
-    }
-    
-    // Remove seperator inset
-    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-        [cell setSeparatorInset:UIEdgeInsetsZero];
     }
     
     // Prevent the cell from inheriting the Table View's margin settings

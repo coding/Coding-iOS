@@ -377,6 +377,33 @@
     }];
 }
 
+- (void)request_TransferProject:(Project *)project toUser:(User *)user passCode:(NSString *)passCode type:(VerifyType)type andBlock:(void (^)(Project *data, NSError *error))block{
+    if (project.id.stringValue.length <= 0 || user.global_key.length <= 0|| passCode.length <= 0) {
+        return;
+    }
+    NSString *path = [NSString stringWithFormat:@"api/project/%@/transfer_to/%@", project.id.stringValue, user.global_key];
+    NSDictionary *params;
+    if (type == VerifyTypePassword) {
+        params = @{@"two_factor_code": [passCode sha1Str]};
+    }else if (type == VerifyTypeTotp){
+        params = @{@"two_factor_code": passCode};
+    }else{
+        return;
+    }
+    [NSObject showStatusBarQueryStr:@"正在转让项目"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Put andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"转让项目"];
+            
+            [NSObject showStatusBarSuccessStr:@"转让项目成功"];
+            block(data, nil);
+        }else{
+            [NSObject showStatusBarError:error];
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_ProjectTaskList_WithObj:(Tasks *)tasks andBlock:(void (^)(Tasks *data, NSError *error))block{
     tasks.isLoading = YES;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[tasks toRequestPath] withParams:[tasks toParams] withMethodType:Get andBlock:^(id data, NSError *error) {

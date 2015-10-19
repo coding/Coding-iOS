@@ -1,42 +1,53 @@
 //
-//  ProjectAdvancedSettingViewController.m
+//  ProjectTransferSettingViewController.m
 //  Coding_iOS
 //
-//  Created by isaced on 15/3/31.
-//  Copyright (c) 2015年 Coding. All rights reserved.
+//  Created by Ease on 15/10/19.
+//  Copyright © 2015年 Coding. All rights reserved.
 //
 
-#import "ProjectAdvancedSettingViewController.h"
+#import "ProjectTransferSettingViewController.h"
 #import "Coding_NetAPIManager.h"
 
 #import <SDCAlertController.h>
 #import <SDCAlertView.h>
 #import <UIView+SDCAutoLayout.h>
 #import "ProjectDeleteAlertControllerVisualStyle.h"
-
 #import "Ease_2FA.h"
+#import "ProjectMemberListViewController.h"
 
-@interface ProjectAdvancedSettingViewController ()<UITextFieldDelegate>
+@interface ProjectTransferSettingViewController ()<UITextFieldDelegate>
+@property (strong, nonatomic) User *selectedUser;
+
 @property (strong, nonatomic) SDCAlertController *alert;
+@property (weak, nonatomic) IBOutlet UIImageView *userIconView;
+@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet UIButton *transferBtn;
 @end
 
-@implementation ProjectAdvancedSettingViewController
-
+@implementation ProjectTransferSettingViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"删除项目";
-    
+    self.title = @"转让项目";
+
     for (NSLayoutConstraint *cons in self.lines) {
         cons.constant = 0.5;
     }
     
-    self.tableView.tableFooterView = [UIView new];
     [self.tableView setSeparatorColor:[UIColor colorWithRGBHex:0xe5e5e5]];
+    [_userIconView doCircleFrame];
+    [_transferBtn successStyle];
+    _transferBtn.enabled = NO;
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)setSelectedUser:(User *)selectedUser{
+    if ([selectedUser.global_key isEqualToString:[Login curLoginUser].global_key]) {
+        [NSObject showHudTipStr:@"项目不能转让给自己！"];
+        return;
+    }
+    _selectedUser = selectedUser;
+    [_userIconView sd_setImageWithURL:[_selectedUser.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:[UIImage imageNamed:@"taskOwner"]];
+    _userNameLabel.text = selectedUser.name;
+    _transferBtn.enabled = _selectedUser.global_key.length > 0;
 }
 #pragma mark UITableView
 
@@ -44,34 +55,45 @@
     return [UIView new];
 }
 
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 1 && indexPath.row == 0) {
-        cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
-        return;
-    }
-    
-    // Remove seperator inset
-    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-        [cell setSeparatorInset:UIEdgeInsetsZero];
-    }
-    
-    // Prevent the cell from inheriting the Table View's margin settings
-    if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
-        [cell setPreservesSuperviewLayoutMargins:NO];
-    }
-    
-    // Explictly set your cell's layout margins
-    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
-        [cell setLayoutMargins:UIEdgeInsetsZero];
-    }
-}
+//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if (indexPath.section == 1 && indexPath.row == 0) {
+//        cell.separatorInset = UIEdgeInsetsMake(0.f, cell.bounds.size.width, 0.f, 0.f);
+//        return;
+//    }
+//    
+//    // Remove seperator inset
+//    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+//        [cell setSeparatorInset:UIEdgeInsetsZero];
+//    }
+//    
+//    // Prevent the cell from inheriting the Table View's margin settings
+//    if ([cell respondsToSelector:@selector(setPreservesSuperviewLayoutMargins:)]) {
+//        [cell setPreservesSuperviewLayoutMargins:NO];
+//    }
+//    
+//    // Explictly set your cell's layout margins
+//    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+//        [cell setLayoutMargins:UIEdgeInsetsZero];
+//    }
+//}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section != 1) {
-        return;
+    if (indexPath.section == 1) {
+        __weak typeof(self) weakSelf = self;
+        ProjectMemberListViewController *vc = [[ProjectMemberListViewController alloc] init];
+        [vc setFrame:self.view.bounds project:_project type:ProMemTypeTaskOwner refreshBlock:nil selectBlock:^(ProjectMember *member) {
+            weakSelf.selectedUser = member.user;
+        } cellBtnBlock:nil];
+        [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+
+#pragma mark Btn
+
+- (IBAction)transferBtnClicked:(id)sender {
     [[Coding_NetAPIManager sharedManager] request_VerifyTypeWithBlock:^(VerifyType type, NSError *error) {
         if (!error) {
             [self showDeleteAlertWithType:type];
@@ -139,8 +161,8 @@
         self.alert = nil;
         NSString *passCode = passwordTextField.text;
         if ([passCode length] > 0) {
-            // 删除项目
-            [[Coding_NetAPIManager sharedManager] request_DeleteProject_WithObj:self.project passCode:passCode type:type andBlock:^(Project *data, NSError *error) {
+            // 转让项目
+            [[Coding_NetAPIManager sharedManager] request_TransferProject:self.project toUser:self.selectedUser passCode:passCode type:type andBlock:^(Project *data, NSError *error) {
                 if (!error) {
                     [self.navigationController popToRootViewControllerAnimated:YES];
                 }
@@ -171,5 +193,4 @@
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
-
 @end
