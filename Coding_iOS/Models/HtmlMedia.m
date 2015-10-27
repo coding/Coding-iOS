@@ -147,6 +147,25 @@
 - (void)removeItem:(HtmlMediaItem *)delItem{
     NSInteger index = [_mediaItems indexOfObject:delItem];
     if (index != NSNotFound) {
+        //处理链接左侧字符串尾部的空格
+        if (delItem.range.location > 0) {
+            NSString *lStr = [_contentDisplay substringToIndex:delItem.range.location];
+            NSRange lRange = [lStr rangeByTrimmingRightCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            NSUInteger diffLength = lStr.length - lRange.length;
+            if (diffLength > 0) {
+                delItem.range = NSMakeRange(delItem.range.location - diffLength, delItem.range.length + diffLength);
+            }
+        }
+        //处理链接右侧字符串头部的空格
+        if (delItem.range.location + delItem.range.length < _contentDisplay.length) {
+            NSString *rStr = [_contentDisplay substringFromIndex:delItem.range.location + delItem.range.length];
+            NSRange rRange = [rStr rangeByTrimmingLeftCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+            NSUInteger diffLength = rStr.length - rRange.length;
+            if (diffLength > 0) {
+                delItem.range = NSMakeRange(delItem.range.location, delItem.range.length + diffLength);
+            }
+        }
+        //更新 _contentDisplay 和 delItem 后面 items 的 range
         if (delItem.range.length > 0) {
             [_mediaItems enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(HtmlMediaItem *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 if (idx > index) {
@@ -157,6 +176,7 @@
             }];
             [_contentDisplay replaceCharactersInRange:delItem.range withString:@""];
         }
+        //删除 delItem
         [_mediaItems removeObject:delItem];
     }
 }
