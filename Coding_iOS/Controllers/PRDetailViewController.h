@@ -10,9 +10,9 @@
 #import "MRPRBaseInfo.h"
 #import "Project.h"
 
-@interface MRPRDetailViewController : BaseViewController
+@interface PRDetailViewController : BaseViewController
 @property (strong, nonatomic) MRPR *curMRPR;
 @property (strong, nonatomic) Project *curProject;//非必需
-+ (MRPRDetailViewController *)vcWithPath:(NSString *)path;
++ (PRDetailViewController *)vcWithPath:(NSString *)path;
 - (void)refresh;
 @end

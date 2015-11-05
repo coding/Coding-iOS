@@ -27,7 +27,8 @@
 #import "ForkTreeViewController.h"
 
 #import "CodeViewController.h"
-#import "MRPRListViewController.h"
+#import "PRListViewController.h"
+#import "MRListViewController.h"
 #import "EaseGitButtonsView.h"
 
 #import "FunctionTipsManager.h"
@@ -309,9 +310,15 @@
 }
 
 - (void)goTo_MR_PR{
-    MRPRListViewController *vc = [[MRPRListViewController alloc] init];
-    vc.curProject = self.myProject;
-    [self.navigationController pushViewController:vc animated:YES];
+    if (_myProject.is_public.boolValue) {
+        PRListViewController *vc = [[PRListViewController alloc] init];
+        vc.curProject = self.myProject;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        MRListViewController *vc = [[MRListViewController alloc] init];
+        vc.curProject = self.myProject;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark Git_Btn

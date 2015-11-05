@@ -8,15 +8,15 @@
 
 #define kMRPRListViewController_BottomViewHeight 49.0
 
-#import "MRPRListViewController.h"
+#import "PRListViewController.h"
 #import "ODRefreshControl.h"
 #import "SVPullToRefresh.h"
 #import "MRPRS.h"
 #import "Coding_NetAPIManager.h"
 #import "MRPRListCell.h"
-#import "MRPRDetailViewController.h"
+#import "PRDetailViewController.h"
 
-@interface MRPRListViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface PRListViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary *dataDict;
 @property (strong, nonatomic) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
@@ -26,15 +26,16 @@
 @property (strong, nonatomic) UISegmentedControl *mySegmentedControl;
 @end
 
-@implementation MRPRListViewController
+@implementation PRListViewController
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.title = _curProject.is_public.boolValue? @"Pull Requests": @"Merge Requests";
+    self.view.backgroundColor = kColorTableBG;
+    self.title = @"Pull Requests";
     _dataDict = [NSMutableDictionary new];
     
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        tableView.backgroundColor = kColorTableBG;
+        tableView.backgroundColor = [UIColor clearColor];
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -87,8 +88,7 @@
 - (MRPRS *)curMRPRS{
     MRPRS *curMRPRS = [_dataDict objectForKey:@(_selectedIndex)];
     if (!curMRPRS) {
-        MRPRSType type = _curProject.is_public.boolValue? _selectedIndex +4: _selectedIndex +1;
-        curMRPRS = [MRPRS MRPRSWithType:type userGK:_curProject.owner_user_name projectName:_curProject.name];
+        curMRPRS = [[MRPRS alloc] initWithType:MRPRSTypePR statusIsOpen:_selectedIndex == 0 userGK:_curProject.owner_user_name projectName:_curProject.name];
         [_dataDict setObject:curMRPRS forKey:@(_selectedIndex)];
     }
     return curMRPRS;
@@ -189,7 +189,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     MRPR *curMRPR = [[self curMRPRS].list objectAtIndex:indexPath.row];
-    MRPRDetailViewController *vc = [MRPRDetailViewController new];
+    PRDetailViewController *vc = [PRDetailViewController new];
     vc.curMRPR = curMRPR;
     vc.curProject = _curProject;
     [self.navigationController pushViewController:vc animated:YES];

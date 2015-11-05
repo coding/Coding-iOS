@@ -11,6 +11,7 @@
 #import "NJKWebViewProgressView.h"
 #import "BaseViewController.h"
 #import "CodingShareView.h"
+#import "RootTabViewController.h"
 
 @interface WebViewController ()<UIWebViewDelegate>
 @property (strong, nonatomic) NJKWebViewProgress *progressProxy;
@@ -20,6 +21,14 @@
 @implementation WebViewController
 
 + (instancetype)webVCWithUrlStr:(NSString *)curUrlStr{
+    if ([curUrlStr hasSuffix:@"/user/tasks"]){
+        if ([kKeyWindow.rootViewController isKindOfClass:[RootTabViewController class]]) {
+            RootTabViewController *vc = (RootTabViewController *)kKeyWindow.rootViewController;
+            vc.selectedIndex = 1;
+            return nil;
+        }
+    }
+    
     if (!curUrlStr || curUrlStr.length <= 0 || [curUrlStr hasPrefix:kCodingAppScheme]) {
         return nil;
     }

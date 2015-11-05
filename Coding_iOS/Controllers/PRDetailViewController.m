@@ -8,7 +8,7 @@
 
 #define kMRPRDetailViewController_BottomViewHeight 49.0
 
-#import "MRPRDetailViewController.h"
+#import "PRDetailViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "FunctionTipsManager.h"
 #import "ODRefreshControl.h"
@@ -35,22 +35,22 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     MRPRActionCancel
 };
 
-@interface MRPRDetailViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
+@interface PRDetailViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 @property (strong, nonatomic) MRPRBaseInfo *curMRPRInfo;
 @property (strong, nonatomic) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 @property (strong, nonatomic) UIView *bottomView;
 @end
 
-@implementation MRPRDetailViewController
+@implementation PRDetailViewController
 
-+ (MRPRDetailViewController *)vcWithPath:(NSString *)path{
++ (PRDetailViewController *)vcWithPath:(NSString *)path{
     
     NSArray *pathComponents = [path componentsSeparatedByString:@"/"];
     if (pathComponents.count != 8) {
         return nil;
     }
-    MRPRDetailViewController *vc = [MRPRDetailViewController new];
+    PRDetailViewController *vc = [PRDetailViewController new];
     
     vc.curMRPR = [MRPR new];
     vc.curMRPR.path = path;
@@ -148,6 +148,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         [weakSelf.view endLoading];
         [weakSelf.myRefreshControl endRefreshing];
         if (data) {
+            if (weakSelf.curMRPRInfo.contentHeight > 1) {
+                [(MRPRBaseInfo *)data setContentHeight:weakSelf.curMRPRInfo.contentHeight];
+            }
             weakSelf.curMRPRInfo = data;
             [weakSelf.myTableView reloadData];
             [weakSelf configBottomView];

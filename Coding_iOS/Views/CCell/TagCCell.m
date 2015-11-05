@@ -49,6 +49,10 @@
     }
 }
 
+- (void)setSelected:(BOOL)selected{
+    
+}
+
 + (CGSize)ccellSizeWithObj:(id)obj{
     CGSize ccellSize = CGSizeZero;
     if ([obj isKindOfClass:[Tag class]]) {

@@ -10,17 +10,23 @@
 #import "MRPR.h"
 
 typedef NS_ENUM(NSInteger, MRPRSType) {
-    MRPRSTypeMRAll = 0,
-    MRPRSTypeMROpen,
-    MRPRSTypeMRClose,
-    MRPRSTypePRAll,
-    MRPRSTypePROpen,
-    MRPRSTypePRClose,
+//    MRPRSTypeMRAll = 0,
+//    MRPRSTypeMROpen,
+//    MRPRSTypeMRClose,
+//    MRPRSTypePRAll,
+//    MRPRSTypePROpen,
+//    MRPRSTypePRClose,
+    
+    MRPRSTypeMRMine = 0,
+    MRPRSTypeMRReview,
+    MRPRSTypeMROther,
+    MRPRSTypePR,
 };
 
 @interface MRPRS : NSObject
 @property (strong, nonatomic) NSString *user_gk, *project_name;
-@property (nonatomic, assign) MRPRSType type;
+@property (nonatomic, assign, readonly) MRPRSType type;
+@property (assign, nonatomic, readonly) BOOL statusIsOpen;
 
 @property (readwrite, nonatomic, strong) NSNumber *page, *pageSize, *totalPage, *totalRow;
 @property (readwrite, nonatomic, strong) NSMutableArray *list;
@@ -31,6 +37,6 @@ typedef NS_ENUM(NSInteger, MRPRSType) {
 - (NSString *)toPath;
 - (void)configWithMRPRS:(MRPRS *)resultA;
 
-+(instancetype)MRPRSWithType:(MRPRSType)type userGK:(NSString *)user_gk projectName:(NSString *)project_name;
+-(instancetype)initWithType:(MRPRSType)type statusIsOpen:(BOOL)statusIsOpen userGK:(NSString *)user_gk projectName:(NSString *)project_name;
 
 @end

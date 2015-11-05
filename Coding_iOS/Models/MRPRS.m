@@ -23,37 +23,44 @@
     return self;
 }
 
-+(instancetype)MRPRSWithType:(MRPRSType)type userGK:(NSString *)user_gk projectName:(NSString *)project_name{
-    MRPRS *obj = [[MRPRS alloc] init];
-    obj.type = type;
-    obj.user_gk = user_gk;
-    obj.project_name = project_name;
-    return obj;
+-(instancetype)initWithType:(MRPRSType)type statusIsOpen:(BOOL)statusIsOpen userGK:(NSString *)user_gk projectName:(NSString *)project_name{
+    self = [self init];
+    if (self) {
+        _type = type;
+        _statusIsOpen = statusIsOpen;
+        _user_gk = user_gk;
+        _project_name = project_name;
+    }
+    return self;
 }
+
 - (NSDictionary *)toParams{
-    return @{@"page" : (_willLoadMore? [NSNumber numberWithInteger:_page.intValue +1] : [NSNumber numberWithInteger:1]),
-             @"pageSize" : _pageSize};
+    NSMutableDictionary *params = @{@"page" : (_willLoadMore? [NSNumber numberWithInteger:_page.intValue +1] : [NSNumber numberWithInteger:1]),
+                                    @"pageSize" : _pageSize}.mutableCopy;
+    if (_type != MRPRSTypePR) {
+        params[@"status"] = _statusIsOpen? @"open": @"closed";
+    }
+    return params;
 }
 - (NSString *)toPath{
     NSString *typeStr;
     switch (_type) {
-        case MRPRSTypeMRAll:
-            typeStr = @"merges/all";
+        case MRPRSTypeMRMine:
+            typeStr = @"merges/list/mine";
             break;
-        case MRPRSTypeMROpen:
-            typeStr = @"merges/open";
+        case MRPRSTypeMRReview:
+            typeStr = @"merges/list/review";
             break;
-        case MRPRSTypeMRClose:
-            typeStr = @"merges/closed";
+        case MRPRSTypeMROther:
+            typeStr = @"merges/list/other";
             break;
-        case MRPRSTypePRAll:
-            typeStr = @"pulls/all";
-            break;
-        case MRPRSTypePROpen:
-            typeStr = @"pulls/open";
-            break;
-        case MRPRSTypePRClose:
-            typeStr = @"pulls/closed";
+        case MRPRSTypePR:{
+            if (_statusIsOpen) {
+                typeStr = @"pulls/open";
+            }else{
+                typeStr = @"pulls/closed";
+            }
+        }
             break;
         default:
             typeStr = @"";

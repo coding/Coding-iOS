@@ -132,7 +132,7 @@
     }
 }
 - (NSURL *)urlImageWithCodePathResizeToView:(UIView *)view{
-    return [self urlImageWithCodePathResize:2*CGRectGetWidth(view.frame)];
+    return [self urlImageWithCodePathResize:[[UIScreen mainScreen] scale]*CGRectGetWidth(view.frame)];
 }
 - (NSString *)stringByRemoveHtmlTag{
     HtmlMedia *media = [HtmlMedia htmlMediaWithString:self showType:MediaShowTypeImageAndMonkey];

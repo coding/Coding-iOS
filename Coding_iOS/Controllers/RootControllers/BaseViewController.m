@@ -25,7 +25,7 @@
 #import "Message_RootViewController.h"
 
 #import "ProjectCommitsViewController.h"
-#import "MRPRDetailViewController.h"
+#import "PRDetailViewController.h"
 #import "CommitFilesViewController.h"
 #import "FileViewController.h"
 #import "CSTopicDetailVC.h"
@@ -205,8 +205,8 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
                 analyseVC = [CommitFilesViewController vcWithPath:path];
             }
         }else{
-            if ([presentingVC isKindOfClass:[MRPRDetailViewController class]]) {
-                MRPRDetailViewController *vc = (MRPRDetailViewController *)presentingVC;
+            if ([presentingVC isKindOfClass:[PRDetailViewController class]]) {
+                PRDetailViewController *vc = (PRDetailViewController *)presentingVC;
                 if ([vc.curMRPR.path isEqualToString:path]) {
                     [vc refresh];
                     analyseVCIsNew = NO;
@@ -214,7 +214,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
                 }
             }
             if (!analyseVC) {
-                analyseVC = [MRPRDetailViewController vcWithPath:path];
+                analyseVC = [PRDetailViewController vcWithPath:path];
             }
         }
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:topicRegexStr]).count > 0){

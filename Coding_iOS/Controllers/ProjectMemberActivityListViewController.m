@@ -14,7 +14,7 @@
 #import "FileViewController.h"
 
 #import "ProjectCommitsViewController.h"
-#import "MRPRDetailViewController.h"
+#import "PRDetailViewController.h"
 #import "NProjectViewController.h"
 #import "ProjectViewController.h"
 #import "CommitFilesViewController.h"
@@ -199,7 +199,7 @@
             if ([proAct.line_note.noteable_type isEqualToString:@"Commit"]) {
                 vc = [CommitFilesViewController vcWithPath:request_path];
             }else{
-                vc = [MRPRDetailViewController vcWithPath:request_path];
+                vc = [PRDetailViewController vcWithPath:request_path];
             }
             if (vc) {
                 [self.navigationController pushViewController:vc animated:YES];

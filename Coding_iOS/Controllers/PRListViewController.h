@@ -9,6 +9,6 @@
 #import "BaseViewController.h"
 #import "Project.h"
 
-@interface MRPRListViewController : BaseViewController
+@interface PRListViewController : BaseViewController
 @property (strong, nonatomic) Project *curProject;
 @end
