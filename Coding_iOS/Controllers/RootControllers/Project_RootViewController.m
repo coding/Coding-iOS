@@ -103,6 +103,10 @@
         });
     [self.navigationController.navigationBar addSubview:_mySearchBar];
     
+    //初始化过滤目录并加载数据
+    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:kScreen_Bounds items:nil];
+    [_myFliterMenu refreshMenuDate];
+    
     //添加滑块
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
@@ -304,7 +308,6 @@
 #pragma mark fliter
 -(void)fliterClicked:(id)sender{
     NSLog(@"show fliter");
-    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:kScreen_Bounds items:nil];
     [_myFliterMenu showMenuAtView:self.view];
     
 }

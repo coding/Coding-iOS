@@ -171,6 +171,23 @@
         }
     }];
 }
+
+- (void)request_ProjectsCatergoryAndCounts_WithObj:(ProjectCount *)pCount andBlock:(void (^)(ProjectCount *data, NSError *error))block
+{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/project_count" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_RootList label:@"筛选列表"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+           ProjectCount *prosC = [NSObject objectOfClass:@"ProjectCount" fromJSON:resultData];
+            block(prosC, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+
+}
+
 - (void)request_ProjectsHaveTasks_WithObj:(Projects *)projects andBlock:(void (^)(id data, NSError *error))block{
     projects.isLoading = YES;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/projects" withParams:[projects toParams] withMethodType:Get andBlock:^(id data, NSError *error) {

@@ -14,4 +14,5 @@
 - (void)showMenuAtView:(UIView *)containerView;
 //取消视图
 - (void)dismissMenu;
+- (void)refreshMenuDate;
 @end

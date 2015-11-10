@@ -8,11 +8,14 @@
 
 #import "PopFliterMenu.h"
 #import "XHRealTimeBlur.h"
+#import "Coding_NetAPIManager.h"
+#import "ProjectCount.h"
 
 @interface PopFliterMenu()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong, readwrite) NSArray *items;
 @property (nonatomic, strong) XHRealTimeBlur *realTimeBlur;
 @property (nonatomic, strong) UITableView *tableview;
+@property (nonatomic, strong) ProjectCount *pCount;
 @end
 
 @implementation PopFliterMenu
@@ -21,11 +24,22 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.items = @[@"1",@"2",@"3",@"4"];
-        
+        self.items = @[@{@"all":@""},@{@"watched":@""},@{@"created":@""},@{@"joined":@""},@{@"stared":@""}];
+        self.pCount=[ProjectCount new];
         [self setup];
     }
     return self;
+}
+
+- (void)refreshMenuDate
+{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_ProjectsCatergoryAndCounts_WithObj:_pCount andBlock:^(ProjectCount *data, NSError *error) {
+        if (data) {
+            [weakSelf.pCount configWithProjects:data];
+            [weakSelf.tableview reloadData];
+        }
+    }];
 }
 
 // 设置属性
@@ -39,19 +53,10 @@
     _realTimeBlur.disMissDuration = 0.5;
     _realTimeBlur.willShowBlurViewcomplted = ^(void) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-//        weakSelf.isShowed = YES;
-//        [weakSelf showButtons];
     };
     
     _realTimeBlur.willDismissBlurViewCompleted = ^(void) {
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-//        if (weakSelf.selectedItem) {
-//            if (weakSelf.didSelectedItemCompletion) {
-//                weakSelf.didSelectedItemCompletion(weakSelf.selectedItem);
-//                weakSelf.selectedItem = nil;
-//            }
-//        }
-//        [weakSelf hidenButtons];
     };
     _realTimeBlur.didDismissBlurViewCompleted = ^(BOOL finished) {
         [weakSelf removeFromSuperview];
@@ -83,7 +88,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
-    cell.textLabel.text=[_items objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text=[[[_items objectAtIndex:indexPath.row] allKeys] firstObject];
     return cell;
 }
 
