@@ -24,7 +24,7 @@
 #import "UsersViewController.h"
 #import "Ease_2FA.h"
 #import "PopMenu.h"
-
+#import "PopFliterMenu.h"
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
@@ -39,6 +39,7 @@
 @property (strong, nonatomic) NSString *searchString;
 
 @property (nonatomic, strong) PopMenu *myPopMenu;
+@property (nonatomic, strong) PopFliterMenu *myFliterMenu;
 
 @end
 
@@ -69,7 +70,7 @@
     [self configSegmentItems];
     
     _oldSelectedIndex = 0;
-    self.title = @"项目";
+//    self.title = @"项目";
     _myProjectsDict = [[NSMutableDictionary alloc] initWithCapacity:_segmentItems.count];
     
     //添加myCarousel
@@ -90,6 +91,18 @@
         icarousel;
     });
     
+    //添加搜索框
+    _mySearchBar = ({
+            UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(50,0, kScreen_Width-100, 44)];
+            [searchBar sizeToFit];
+            searchBar.delegate = self;
+            [searchBar setPlaceholder:@"项目名称/创建人"];
+            [searchBar setTintColor:[UIColor whiteColor]];
+            [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
+            searchBar;
+        });
+    [self.navigationController.navigationBar addSubview:_mySearchBar];
+    
     //添加滑块
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
@@ -108,7 +121,7 @@
 }
 
 - (void)setupNavBtn{
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(searchItemClicked:)] animated:NO];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(fliterClicked:)] animated:NO];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)] animated:NO];
 
 }
@@ -235,7 +248,7 @@
                 break;
         }
     };
-    [_myPopMenu showMenuAtView:kKeyWindow startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
+    [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
 }
 
 - (void)goToNewProjectVC{
@@ -288,21 +301,18 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+#pragma mark fliter
+-(void)fliterClicked:(id)sender{
+    NSLog(@"show fliter");
+    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:kScreen_Bounds items:nil];
+    [_myFliterMenu showMenuAtView:self.view];
+    
+}
+
+
 #pragma mark Search
 - (void)searchItemClicked:(id)sender{
-    if (!_mySearchBar) {
-        _mySearchBar = ({
-            UISearchBar *searchBar = [[UISearchBar alloc] init];
-            searchBar.delegate = self;
-            [searchBar sizeToFit];
-            [searchBar setPlaceholder:@"项目名称/创建人"];
-            [searchBar setTintColor:[UIColor whiteColor]];
-            [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
-            searchBar;
-        });
-        [self.navigationController.view addSubview:_mySearchBar];
-        [_mySearchBar setY:20];
-    }
+    [_mySearchBar setX:20];
     if (!_mySearchDisplayController) {
         _mySearchDisplayController = ({
             UISearchDisplayController *searchVC = [[UISearchDisplayController alloc] initWithSearchBar:_mySearchBar contentsController:self];
@@ -319,6 +329,24 @@
     }
     
     [_mySearchBar becomeFirstResponder];
+}
+
+-(void)searchAction
+{
+    if (!_mySearchDisplayController) {
+        _mySearchDisplayController = ({
+            UISearchDisplayController *searchVC = [[UISearchDisplayController alloc] initWithSearchBar:_mySearchBar contentsController:self];
+            searchVC.searchResultsTableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.mySearchBar.frame), 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
+            searchVC.searchResultsTableView.tableFooterView = [[UIView alloc] init];
+            [searchVC.searchResultsTableView registerClass:[ProjectListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectList];
+            searchVC.searchResultsDataSource = self;
+            searchVC.searchResultsDelegate = self;
+            if (kHigher_iOS_6_1) {
+                searchVC.displaysSearchBarInNavigationBar = NO;
+            }
+            searchVC;
+        });
+    }
 }
 
 #pragma mark Table
@@ -352,6 +380,14 @@
 }
 
 #pragma mark UISearchBarDelegate
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    [self searchAction];
+    [searchBar setShowsCancelButton:YES animated:YES];
+    return YES;
+    
+}
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     [self searchProjectWithStr:searchText];
@@ -426,5 +462,7 @@
     
     self.searchResults = [[self.searchResults filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
 }
+
+
 
 @end
