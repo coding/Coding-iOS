@@ -4750,7 +4750,7 @@
 				ORGANIZATIONNAME = Coding;
 				TargetAttributes = {
 					8E47700F198770E700997D05 = {
-						DevelopmentTeam = QN5Z87S3LH;
+						DevelopmentTeam = 4BGW3E8CJ3;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -5841,7 +5841,7 @@
 					"$(PROJECT_DIR)/Coding_iOS/Util/Audio/opencore-amr-iOS/lib",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMSocial_Sdk_4.2.3_Extra/SinaSSO",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingForiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zzb.coding;
 				PRODUCT_NAME = Coding_iOS;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -5878,7 +5878,7 @@
 					"$(PROJECT_DIR)/Coding_iOS/Util/Audio/opencore-amr-iOS/lib",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMSocial_Sdk_4.2.3_Extra/SinaSSO",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingForiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zzb.coding;
 				PRODUCT_NAME = Coding_iOS;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

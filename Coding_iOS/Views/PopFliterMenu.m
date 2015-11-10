@@ -58,21 +58,21 @@
     _realTimeBlur.blurStyle = XHBlurStyleTranslucentWhite;
     _realTimeBlur.showDuration = 0.3;
     _realTimeBlur.disMissDuration = 0.5;
-    _realTimeBlur.willShowBlurViewcomplted = ^(void) {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
-    };
-    
-    _realTimeBlur.willDismissBlurViewCompleted = ^(void) {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-    };
-    _realTimeBlur.didDismissBlurViewCompleted = ^(BOOL finished) {
-        [weakSelf removeFromSuperview];
-    };
+//    _realTimeBlur.willShowBlurViewcomplted = ^(void) {
+//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+//    };
+//    
+//    _realTimeBlur.willDismissBlurViewCompleted = ^(void) {
+//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+//    };
+//    _realTimeBlur.didDismissBlurViewCompleted = ^(BOOL finished) {
+////        [weakSelf removeFromSuperview];
+//    };
     _realTimeBlur.hasTapGestureEnable = YES;
     
     _tableview = ({
         UITableView *tableview=[[UITableView alloc] initWithFrame:self.bounds];
-        tableview.backgroundColor=[UIColor clearColor];
+        tableview.backgroundColor=[UIColor whiteColor];
         tableview.delegate=self;
         tableview.dataSource=self;
         [tableview registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
@@ -159,25 +159,61 @@
 
 
 #pragma mark -- uitableviewdelegate & datasource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [_items count];
+    return (section==0)?[_items count]:1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
-    cell.backgroundColor=[UIColor clearColor];
-    [cell.textLabel setX:20];
-    cell.textLabel.font=[UIFont systemFontOfSize:15];
-    cell.textLabel.textColor=[UIColor colorWithHexString:@"0x222222"];
-    cell.textLabel.text=[self formatTitleStr:[_items objectAtIndex:indexPath.row]];
+    if (indexPath.section==0) {
+        cell.backgroundColor=[UIColor clearColor];
+        [cell.textLabel setX:20];
+        cell.textLabel.font=[UIFont systemFontOfSize:15];
+        cell.textLabel.textColor=[UIColor colorWithHexString:@"0x222222"];
+        cell.textLabel.text=[self formatTitleStr:[_items objectAtIndex:indexPath.row]];
+    }else
+    {
+        [cell.textLabel setX:20];
+        cell.textLabel.font=[UIFont systemFontOfSize:15];
+        cell.textLabel.text=@"项目广场";
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    _selectNum=indexPath.row;
-    [self dismissMenu];
-    _clickBlock([self convertToProjectType]);
+    if (indexPath.section==0) {
+        _selectNum=indexPath.row;
+        [self dismissMenu];
+        _clickBlock([self convertToProjectType]);
+    }
 }
+
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (section==1) {
+        return ({
+                 UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 30.5)];
+                 UIView *seperatorLine=[[UIView alloc] initWithFrame:CGRectMake(20, 15, self.bounds.size.width-40, 0.5)];
+                 seperatorLine.backgroundColor=[UIColor colorWithHexString:@"0xcccccc"];
+                 [view addSubview:seperatorLine];
+                 view;
+        });
+    }else
+    {
+        return nil;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return (section==1)?30.5:0;
+}
+
 
 @end
