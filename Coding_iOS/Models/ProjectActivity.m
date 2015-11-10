@@ -15,8 +15,9 @@
 {
     self = [super init];
     if (self) {
-        _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
-                             @"Commit", @"commits", nil];
+        _propertyArrayMap = @{@"commits": @"Commit",
+                              @"labels": @"ProjectTag",
+                              };
         _actionMediaItems = [[NSMutableArray alloc] init];
         _contentMediaItems = [[NSMutableArray alloc] init];
     }

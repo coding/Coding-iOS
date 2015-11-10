@@ -107,6 +107,8 @@
         }
     }else if ([curActivity.action isEqualToString:@"update_description"]) {
         contentStr = [NSString stringWithFormat:@"更新了任务描述 - %@", [curActivity.created_at stringDisplay_HHmm]];
+    }else if ([curActivity.action isEqualToString:@"update_label"]) {
+        contentStr = [NSString stringWithFormat:@"更新了任务标签为 - %@", [[curActivity.labels valueForKey:@"name"] componentsJoinedByString:@","]];
     }else if ([curActivity.action isEqualToString:@"reassign"]) {
         contentStr = [NSString stringWithFormat:@"重新指派了任务给了 「%@」 - %@", curActivity.task.owner.name, [curActivity.created_at stringDisplay_HHmm]];
     }else if ([curActivity.action isEqualToString:@"finish"]) {

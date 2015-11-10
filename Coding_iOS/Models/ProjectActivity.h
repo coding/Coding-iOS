@@ -13,6 +13,7 @@
 #import "Projects.h"
 #import "FileComment.h"
 #import "ProjectFile.h"
+#import "ProjectTag.h"
 
 @class Task;
 @class ProjectTopic;
@@ -29,7 +30,7 @@
 @property (readwrite, nonatomic, strong) File *file;
 @property (readwrite, nonatomic, strong) QcTask *qc_task;
 @property (readwrite, nonatomic, strong) Depot *depot, *source_depot;
-@property (readwrite, nonatomic, strong) NSMutableArray *commits;
+@property (readwrite, nonatomic, strong) NSMutableArray *commits, *labels;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 @property (readwrite, nonatomic, strong) ProjectLineNoteActivity *line_note;
 @property (strong, nonatomic) Commit *commit;
