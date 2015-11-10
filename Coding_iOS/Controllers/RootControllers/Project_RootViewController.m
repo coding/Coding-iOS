@@ -103,12 +103,16 @@
         });
     [self.navigationController.navigationBar addSubview:_mySearchBar];
     
+    __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     //初始化过滤目录并加载数据
     _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:kScreen_Bounds items:nil];
+    _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
+        [weakCarousel scrollToItemAtIndex:pageIndex animated:NO];
+    };
+
     [_myFliterMenu refreshMenuDate];
     
     //添加滑块
-    __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
         if (index == _oldSelectedIndex) {
             return;
@@ -276,7 +280,6 @@
                 [Tweet deleteSendData];//发送成功后删除草稿
             }
         }];
-        
     };
     UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
     [self.parentViewController presentViewController:nav animated:YES completion:nil];
@@ -307,9 +310,13 @@
 
 #pragma mark fliter
 -(void)fliterClicked:(id)sender{
-    NSLog(@"show fliter");
-    [_myFliterMenu showMenuAtView:self.view];
-    
+//    NSLog(@"show fliter:%d",_myFliterMenu.showStatus);
+    if (_myFliterMenu.showStatus) {
+        [_myFliterMenu dismissMenu];
+    }else
+    {
+        [_myFliterMenu showMenuAtView:self.view];
+    }
 }
 
 

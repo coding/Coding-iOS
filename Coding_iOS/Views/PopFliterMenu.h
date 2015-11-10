@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface PopFliterMenu : UIView
+@property (assign) BOOL showStatus;
+@property (nonatomic , copy) void (^clickBlock)(NSInteger selectNum);
+@property (nonatomic,assign) NSInteger selectNum;  //选中数据
 - (instancetype)initWithFrame:(CGRect)frame items:(NSArray *)items;
 //将菜单显示到某个视图上
 - (void)showMenuAtView:(UIView *)containerView;

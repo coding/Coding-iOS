@@ -10,6 +10,7 @@
 #import "XHRealTimeBlur.h"
 #import "Coding_NetAPIManager.h"
 #import "ProjectCount.h"
+#import "Projects.h"
 
 @interface PopFliterMenu()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *items;
@@ -26,6 +27,7 @@
         // Initialization code
         self.items = @[@{@"all":@""},@{@"created":@""},@{@"joined":@""},@{@"watched":@""},@{@"stared":@""}];
         self.pCount=[ProjectCount new];
+        self.showStatus=FALSE;
         [self setup];
     }
     return self;
@@ -80,19 +82,20 @@
         tableview;
     });
     [self addSubview:_tableview];
-    _tableview.contentOffset=CGPointMake(0, 100);
+    _tableview.contentInset=UIEdgeInsetsMake(15, 0,0,0);
 
 }
 
-
 #pragma mark -- event & action
 - (void)showMenuAtView:(UIView *)containerView {
+    _showStatus=TRUE;
     [containerView addSubview:self];
     [_realTimeBlur showBlurViewAtView:self];
 }
 
 - (void)dismissMenu
 {
+    _showStatus=FALSE;
     [self removeFromSuperview];
 }
 
@@ -128,6 +131,33 @@
 }
 
 
+//转化为Projects类对应类型
+-(NSInteger)convertToProjectType
+{
+    switch (_selectNum) {
+        case 0:
+            return ProjectsTypeAll;
+            break;
+        case 1:
+            return ProjectsTypeCreated;
+            break;
+        case 2:
+            return ProjectsTypeJoined;
+            break;
+        case 3:
+            return ProjectsTypeWatched;
+            break;
+        case 4:
+            return ProjectsTypeTaStared;
+            break;
+        default:
+            NSLog(@"type error");
+            return ProjectsTypeAll;
+            break;
+    }
+}
+
+
 #pragma mark -- uitableviewdelegate & datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [_items count];
@@ -141,6 +171,13 @@
     cell.textLabel.textColor=[UIColor colorWithHexString:@"0x222222"];
     cell.textLabel.text=[self formatTitleStr:[_items objectAtIndex:indexPath.row]];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    _selectNum=indexPath.row;
+    [self dismissMenu];
+    _clickBlock([self convertToProjectType]);
 }
 
 @end

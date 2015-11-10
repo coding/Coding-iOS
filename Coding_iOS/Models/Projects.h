@@ -33,6 +33,7 @@ typedef NS_ENUM(NSInteger, ProjectsType)
 
     ProjectsTypeTaProject,
     ProjectsTypeTaStared,
+    ProjectsTypeWatched,
     
 };
 
