@@ -16,6 +16,13 @@
     self.icarouselScrollEnabled = YES;
 }
 
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.mySearchBar removeFromSuperview];
+}
+
 - (void)setupNavBtn{
     self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = nil;

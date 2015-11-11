@@ -26,6 +26,7 @@
 #import "PopMenu.h"
 #import "PopFliterMenu.h"
 
+
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) iCarousel *myCarousel;
@@ -85,7 +86,7 @@
         icarousel.bounceDistance = 0.2;
         [self.view addSubview:icarousel];
         [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(kMySegmentControl_Height, 0, 0, 0));
+            make.edges.equalTo(self.view);
         }];
         icarousel;
     });
@@ -111,13 +112,13 @@
     [_myFliterMenu refreshMenuDate];
     
     //添加滑块
-    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
-        if (index == _oldSelectedIndex) {
-            return;
-        }
-        [weakCarousel scrollToItemAtIndex:index animated:NO];
-    }];
-    [self.view addSubview:_mySegmentControl];
+//    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
+//        if (index == _oldSelectedIndex) {
+//            return;
+//        }
+//        [weakCarousel scrollToItemAtIndex:index animated:NO];
+//    }];
+//    [self.view addSubview:_mySegmentControl];
     [self setupNavBtn];
     self.icarouselScrollEnabled = NO;
 }
