@@ -110,10 +110,10 @@
         UIView  *keyboardToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(_footerToolBar.frame) - 40, kScreen_Width, 40)];
         [keyboardToolBar addLineUp:YES andDown:NO andColor:[UIColor colorWithHexString:@"0xc8c7cc"]];
         keyboardToolBar.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
-        {//location button
+        if (!_locationButton) {
             _locationButton = [self locationButtonWithStr:nil];
-            [_footerToolBar addSubview:_locationButton];
         }
+        [_footerToolBar addSubview:_locationButton];
         {//tool button
             UIButton *photoButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:0 imageStr:@"keyboard_photo" andSelecter:@selector(photoButtonClicked:)];
             [keyboardToolBar addSubview:photoButton];
