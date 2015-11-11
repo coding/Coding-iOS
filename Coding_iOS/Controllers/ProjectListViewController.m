@@ -19,6 +19,7 @@
 - (void)setupNavBtn{
     self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = nil;
+    [self.mySearchBar removeFromSuperview];
 }
 
 - (void)configSegmentItems{

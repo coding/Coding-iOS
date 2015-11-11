@@ -32,7 +32,6 @@
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
 @property (assign, nonatomic) NSInteger oldSelectedIndex;
 
-@property (strong, nonatomic) UISearchBar *mySearchBar;
 @property (strong, nonatomic) UISearchDisplayController *mySearchDisplayController;
 
 @property (strong, nonatomic) NSMutableArray *searchResults;
@@ -101,7 +100,6 @@
             [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
             searchBar;
         });
-    [self.navigationController.navigationBar addSubview:_mySearchBar];
     
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     //初始化过滤目录并加载数据
@@ -135,11 +133,12 @@
 }
 
 - (void)configSegmentItems{
-    _segmentItems = @[@"全部项目", @"我参与的", @"我创建的"];
+    _segmentItems = @[@"全部项目", @"我参与的", @"我创建的",@"我关注的",@"我收藏的"];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self.navigationController.navigationBar addSubview:_mySearchBar];
     if (_myCarousel) {
         ProjectListView *listView = (ProjectListView *)_myCarousel.currentItemView;
         if (listView) {
@@ -147,6 +146,13 @@
         }
     }
 }
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [_mySearchBar removeFromSuperview];
+}
+
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [[UnReadManager shareManager] updateUnRead];
