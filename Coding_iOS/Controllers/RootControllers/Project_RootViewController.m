@@ -25,7 +25,7 @@
 #import "Ease_2FA.h"
 #import "PopMenu.h"
 #import "PopFliterMenu.h"
-
+#import "ProjectSquareViewController.h"
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
@@ -105,8 +105,14 @@
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     //初始化过滤目录并加载数据
     _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:kScreen_Bounds items:nil];
+    __weak typeof(self) weakSelf = self;
     _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
-        [weakCarousel scrollToItemAtIndex:pageIndex animated:NO];
+        if (pageIndex==1000) {
+            [weakSelf goToProjectSquareVC];
+        }else
+        {
+            [weakCarousel scrollToItemAtIndex:pageIndex animated:NO];
+        }
     };
 
     [_myFliterMenu refreshMenuDate];
@@ -312,6 +318,11 @@
 - (void)goToMessageVC{
     UsersViewController *vc = [[UsersViewController alloc] init];
     vc.curUsers = [Users usersWithOwner:[Login curLoginUser] Type:UsersTypeFriends_Message];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToProjectSquareVC{
+    ProjectSquareViewController *vc=[ProjectSquareViewController new];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

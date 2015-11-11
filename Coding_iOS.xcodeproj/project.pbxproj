@@ -914,6 +914,7 @@
 		B9A00D7F1ACA3A05008BA008 /* ProjectSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9A00D7E1ACA3A05008BA008 /* ProjectSetting.storyboard */; };
 		B9A00D821ACA3A17008BA008 /* ProjectSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */; };
 		B9A00D851ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */; };
+		D066BB3A1BF30EB9005AB5D6 /* ProjectSquareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D066BB391BF30EB9005AB5D6 /* ProjectSquareViewController.m */; };
 		D0A32BF31BF19EF100336C52 /* PopFliterMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A32BF21BF19EF100336C52 /* PopFliterMenu.m */; };
 		D0A32BF61BF1CA8F00336C52 /* ProjectCount.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A32BF51BF1CA8F00336C52 /* ProjectCount.m */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
@@ -2311,6 +2312,8 @@
 		B9A00D831ACA3A55008BA008 /* ProjectAdvancedSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectAdvancedSettingViewController.h; sourceTree = "<group>"; };
 		B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectAdvancedSettingViewController.m; sourceTree = "<group>"; };
 		C613B8719C3D38FED828A1E2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		D066BB381BF30EB9005AB5D6 /* ProjectSquareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSquareViewController.h; sourceTree = "<group>"; };
+		D066BB391BF30EB9005AB5D6 /* ProjectSquareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSquareViewController.m; sourceTree = "<group>"; };
 		D0A32BF11BF19EF100336C52 /* PopFliterMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopFliterMenu.h; sourceTree = "<group>"; };
 		D0A32BF21BF19EF100336C52 /* PopFliterMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopFliterMenu.m; sourceTree = "<group>"; };
 		D0A32BF41BF1CA8F00336C52 /* ProjectCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectCount.h; sourceTree = "<group>"; };
@@ -3915,6 +3918,8 @@
 				4EF374181BB1255E00DDA662 /* LocalFilesViewController.m */,
 				4EF3741A1BB1258600DDA662 /* LocalFileViewController.h */,
 				4EF3741B1BB1258600DDA662 /* LocalFileViewController.m */,
+				D066BB381BF30EB9005AB5D6 /* ProjectSquareViewController.h */,
+				D066BB391BF30EB9005AB5D6 /* ProjectSquareViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -5544,6 +5549,7 @@
 				8EA6D13119E240C40076D59C /* LoginViewController.m in Sources */,
 				8E64ED7C19ED0CE3006E99DA /* QBAssetsCollectionFooterView.m in Sources */,
 				4E8D5D5C1B45295D00B70936 /* NSString+OTPURLArguments.m in Sources */,
+				D066BB3A1BF30EB9005AB5D6 /* ProjectSquareViewController.m in Sources */,
 				8E6F1C951A03BD6000BF79C8 /* ProjectMemberActivityListViewController.m in Sources */,
 				8EA6D13619E240C40076D59C /* BaseViewController.m in Sources */,
 				4E5F39051ACA958C0010515D /* TopicCommentCCell.m in Sources */,

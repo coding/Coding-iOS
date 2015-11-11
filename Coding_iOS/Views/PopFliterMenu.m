@@ -191,6 +191,9 @@
         _selectNum=indexPath.row;
         [self dismissMenu];
         _clickBlock([self convertToProjectType]);
+    }else
+    {
+        _clickBlock(1000);
     }
 }
 
