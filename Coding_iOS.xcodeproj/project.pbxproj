@@ -915,6 +915,7 @@
 		B9A00D821ACA3A17008BA008 /* ProjectSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */; };
 		B9A00D851ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */; };
 		D066BB3A1BF30EB9005AB5D6 /* ProjectSquareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D066BB391BF30EB9005AB5D6 /* ProjectSquareViewController.m */; };
+		D066BB3D1BF38844005AB5D6 /* ProjectAboutMeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D066BB3C1BF38844005AB5D6 /* ProjectAboutMeListCell.m */; };
 		D0A32BF31BF19EF100336C52 /* PopFliterMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A32BF21BF19EF100336C52 /* PopFliterMenu.m */; };
 		D0A32BF61BF1CA8F00336C52 /* ProjectCount.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A32BF51BF1CA8F00336C52 /* ProjectCount.m */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
@@ -2314,6 +2315,8 @@
 		C613B8719C3D38FED828A1E2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D066BB381BF30EB9005AB5D6 /* ProjectSquareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSquareViewController.h; sourceTree = "<group>"; };
 		D066BB391BF30EB9005AB5D6 /* ProjectSquareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSquareViewController.m; sourceTree = "<group>"; };
+		D066BB3B1BF38844005AB5D6 /* ProjectAboutMeListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectAboutMeListCell.h; sourceTree = "<group>"; };
+		D066BB3C1BF38844005AB5D6 /* ProjectAboutMeListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectAboutMeListCell.m; sourceTree = "<group>"; };
 		D0A32BF11BF19EF100336C52 /* PopFliterMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopFliterMenu.h; sourceTree = "<group>"; };
 		D0A32BF21BF19EF100336C52 /* PopFliterMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopFliterMenu.m; sourceTree = "<group>"; };
 		D0A32BF41BF1CA8F00336C52 /* ProjectCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectCount.h; sourceTree = "<group>"; };
@@ -4551,6 +4554,8 @@
 				8EF6437A19FF7E2900F7EEB0 /* ProjectActivityListCell.m */,
 				8EF6437B19FF7E2900F7EEB0 /* ProjectListCell.h */,
 				8EF6437C19FF7E2900F7EEB0 /* ProjectListCell.m */,
+				D066BB3B1BF38844005AB5D6 /* ProjectAboutMeListCell.h */,
+				D066BB3C1BF38844005AB5D6 /* ProjectAboutMeListCell.m */,
 				3A3878411AE296240078D5DE /* EditLabelCell.h */,
 				3A3878421AE296240078D5DE /* EditLabelCell.m */,
 				3A3878431AE296240078D5DE /* EditLabelHeadCell.h */,
@@ -5614,6 +5619,7 @@
 				4E0022961B73506A005308DE /* EARestrictedScrollView.m in Sources */,
 				8EA6D20B19E240C40076D59C /* RDVTabBarController.m in Sources */,
 				4E787DE21B0329B300F06E83 /* ProjectLineNote.m in Sources */,
+				D066BB3D1BF38844005AB5D6 /* ProjectAboutMeListCell.m in Sources */,
 				8BDF9AA61B7456060093BF2C /* HotTopicBannerView.m in Sources */,
 				8EA6D12E19E240C40076D59C /* EditTaskViewController.m in Sources */,
 				8EA6D1BC19E240C40076D59C /* ProjectTopics.m in Sources */,

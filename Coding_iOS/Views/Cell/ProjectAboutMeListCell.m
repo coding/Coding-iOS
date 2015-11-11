@@ -1,19 +1,18 @@
 //
-//  ProjectListCell.m
+//  ProjectAboutMeListCell.m
 //  Coding_iOS
 //
-//  Created by 王 原闯 on 14-8-11.
-//  Copyright (c) 2014年 Coding. All rights reserved.
+//  Created by jwill on 15/11/11.
+//  Copyright © 2015年 Coding. All rights reserved.
 //
 
-#define kProjectListCell_IconHeight 55.0
-#define kProjectListCell_ContentLeft (kPaddingLeftWidth+kProjectListCell_IconHeight+20)
+#define kIconSize 90
+#define kSwapBtnWidth 135
+#define kLeftOffset 12
 
+#import "ProjectAboutMeListCell.h"
 
-
-#import "ProjectListCell.h"
-
-@interface ProjectListCell ()
+@interface ProjectAboutMeListCell ()
 @property (nonatomic, strong) Project *project;
 
 @property (nonatomic, strong) UIImageView *projectIconView, *privateIconView;
@@ -21,7 +20,9 @@
 @property (nonatomic, strong) UILabel *ownerTitleLabel;
 @end
 
-@implementation ProjectListCell
+
+@implementation ProjectAboutMeListCell
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -30,20 +31,20 @@
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.backgroundColor = [UIColor clearColor];
         if (!_projectIconView) {
-            _projectIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, kProjectListCell_IconHeight, kProjectListCell_IconHeight)];
+            _projectIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kLeftOffset, 10, kIconSize, kIconSize)];
             _projectIconView.layer.masksToBounds = YES;
             _projectIconView.layer.cornerRadius = 2.0;
             [self.contentView addSubview:_projectIconView];
         }
-
+        
         if (!_projectTitleLabel) {
-            _projectTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectListCell_ContentLeft, 10, 180, 25)];
+            _projectTitleLabel = [UILabel new];
             _projectTitleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             _projectTitleLabel.font = [UIFont systemFontOfSize:17];
             [self.contentView addSubview:_projectTitleLabel];
         }
         if (!_ownerTitleLabel) {
-            _ownerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectListCell_ContentLeft, 40, 180, 25)];
+            _ownerTitleLabel = [UILabel new];
             _ownerTitleLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
             _ownerTitleLabel.font = [UIFont systemFontOfSize:15];
             [self.contentView addSubview:_ownerTitleLabel];
@@ -55,18 +56,15 @@
         }
         
         [_projectTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.contentView).offset(10);
-            make.height.mas_equalTo(25);
-            make.left.equalTo(self.contentView.mas_left).offset(kProjectListCell_ContentLeft);
-            make.right.lessThanOrEqualTo(self.contentView).offset(0);
+            make.top.equalTo(_projectIconView.mas_top);
+            make.height.equalTo(@(25));
+            make.left.equalTo(_privateIconView.mas_right).offset(8);
+            make.right.lessThanOrEqualTo(self.mas_right);
         }];
+        
         [_ownerTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.height.equalTo(self.projectTitleLabel);
-            make.top.equalTo(self.projectTitleLabel.mas_bottom).offset(5);
-        }];
-        [_privateIconView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(_projectTitleLabel);
-            make.centerY.mas_equalTo(_ownerTitleLabel.mas_centerY).offset(1);
+            make.bottom.equalTo(_projectIconView.mas_bottom);
         }];
     }
     return self;
@@ -81,16 +79,19 @@
     [_projectIconView sd_setImageWithURL:[_project.icon urlImageWithCodePathResizeToView:_projectIconView] placeholderImage:kPlaceholderCodingSquareWidth(55.0)];
     _privateIconView.hidden = _project.is_public.boolValue;
     
-    [_ownerTitleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.projectTitleLabel.mas_left).offset(_project.is_public.boolValue? 0: CGRectGetWidth(_privateIconView.frame)+10);
+    [_privateIconView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(_privateIconView.hidden?CGSizeZero:CGSizeMake(12, 9));
+        make.centerY.equalTo(_projectTitleLabel.mas_centerY);
+        make.left.equalTo(_projectIconView.mas_right).offset(kLeftOffset);
     }];
+    
     //Title & UserName
     _projectTitleLabel.text = _project.name;
     _ownerTitleLabel.text = _project.owner_user_name;
     
     //hasSWButtons
     [self setRightUtilityButtons:hasSWButtons? [self rightButtons]: nil
-                 WithButtonWidth:[[self class] cellHeight]];
+                 WithButtonWidth:kSwapBtnWidth];
     
     //hasBadgeTip
     if (hasBadgeTip) {
@@ -102,7 +103,7 @@
                 badgeTip = _project.un_read_activities_count.stringValue;
             }
         }
-        [self.contentView addBadgeTip:badgeTip withCenterPosition:CGPointMake(10+kProjectListCell_IconHeight, 15)];
+        [self.contentView addBadgeTip:badgeTip withCenterPosition:CGPointMake(10+kIconSize, 15)];
     }else{
         [self.contentView removeBadgeTips];
     }
@@ -113,16 +114,14 @@
 
 - (NSArray *)rightButtons{
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-//    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:_project.pin.boolValue? @"0xe6e6e6": @"0x3bbd79"]
-//                                                 icon:[UIImage imageNamed:_project.pin.boolValue? @"icon_project_cell_pin": @"icon_project_cell_nopin"]];
+    //    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:_project.pin.boolValue? @"0xe6e6e6": @"0x3bbd79"]
+    //                                                 icon:[UIImage imageNamed:_project.pin.boolValue? @"icon_project_cell_pin": @"icon_project_cell_nopin"]];
     
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:_project.pin.boolValue? @"0xe6e6e6": @"0x3bbd79"]
                                                 title:_project.pin.boolValue?@"取消常用":@"设置常用" titleColor:[UIColor colorWithHexString:_project.pin.boolValue?@"0x3bbd79":@"0xffffff"]];
-
+    
     return rightUtilityButtons;
 }
 
-+ (CGFloat)cellHeight{
-    return 75.0;
-}
+
 @end

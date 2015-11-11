@@ -189,8 +189,12 @@
         __weak Project_RootViewController *weakSelf = self;
         listView = [[ProjectListView alloc] initWithFrame:carousel.bounds projects:curPros block:^(Project *project) {
             [weakSelf goToProject:project];
+
             DebugLog(@"\n=====%@", project.name);
         } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
+        //使用新系列Cell样式
+        listView.useNewStyle=TRUE;
+
     }
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;

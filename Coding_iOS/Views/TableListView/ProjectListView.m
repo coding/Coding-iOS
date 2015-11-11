@@ -12,14 +12,17 @@
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"
 
+//新系列 cell
+#import "ProjectAboutMeListCell.h"
+
 @interface ProjectListView ()<UISearchBarDelegate, SWTableViewCellDelegate>
 @property (nonatomic, strong) Projects *myProjects;
 @property (nonatomic , copy) ProjectListViewBlock block;
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 @property (strong, nonatomic) NSMutableArray *dataList;
-
 @property (strong, nonatomic) UISearchBar *mySearchBar;
+
 @end
 
 @implementation ProjectListView
@@ -52,6 +55,7 @@ static NSString *const kValueKey = @"kValueKey";
             tableView.dataSource = self;
             [tableView registerClass:[ProjectListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectList];
             [tableView registerClass:[ProjectListTaCell class] forCellReuseIdentifier:kCellIdentifier_ProjectListTaCell];
+            [tableView registerClass:[ProjectAboutMeListCell class] forCellReuseIdentifier:@"ProjectAboutMeListCell"];
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             [self addSubview:tableView];
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -78,7 +82,6 @@ static NSString *const kValueKey = @"kValueKey";
             _myTableView.tableHeaderView = _mySearchBar;
         }
 
-        
         _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
         [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
         
@@ -204,29 +207,51 @@ static NSString *const kValueKey = @"kValueKey";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     Project *curPro = [[self valueForSection:indexPath.section] objectAtIndex:indexPath.row];
 
-    if (_myProjects.type < ProjectsTypeTaProject) {
-        ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectList forIndexPath:indexPath];
-        if (self.myProjects.type == ProjectsTypeToChoose) {
-            [cell setProject:curPro hasSWButtons:NO hasBadgeTip:NO hasIndicator:NO];
+    if (_useNewStyle) {
+        if (_myProjects.type < ProjectsTypeTaProject) {
+            ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectAboutMeListCell" forIndexPath:indexPath];
+            if (self.myProjects.type == ProjectsTypeToChoose) {
+                [cell setProject:curPro hasSWButtons:NO hasBadgeTip:NO hasIndicator:NO];
+            }else{
+                [cell setProject:curPro hasSWButtons:YES hasBadgeTip:YES hasIndicator:YES];
+            }
+            cell.delegate = self;
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+            return cell;
         }else{
-            [cell setProject:curPro hasSWButtons:YES hasBadgeTip:YES hasIndicator:YES];
+            ProjectListTaCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectListTaCell forIndexPath:indexPath];
+            cell.project = curPro;
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+            return cell;
         }
-        cell.delegate = self;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-        return cell;
-    }else{
-        ProjectListTaCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectListTaCell forIndexPath:indexPath];
-        cell.project = curPro;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-        return cell;
+    }else
+    {
+        if (_myProjects.type < ProjectsTypeTaProject) {
+            ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectList forIndexPath:indexPath];
+            if (self.myProjects.type == ProjectsTypeToChoose) {
+                [cell setProject:curPro hasSWButtons:NO hasBadgeTip:NO hasIndicator:NO];
+            }else{
+                [cell setProject:curPro hasSWButtons:YES hasBadgeTip:YES hasIndicator:YES];
+            }
+            cell.delegate = self;
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+            return cell;
+        }else{
+            ProjectListTaCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectListTaCell forIndexPath:indexPath];
+            cell.project = curPro;
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+            return cell;
+        }
+
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (_myProjects.type < ProjectsTypeTaProject) {
-        return [ProjectListCell cellHeight];
-    }else{
-        return [ProjectListTaCell cellHeight];
+    if (_useNewStyle) {
+        return (_myProjects.type < ProjectsTypeTaProject)?kProjectAboutMeListCellHeight:[ProjectListTaCell cellHeight];
+    }else
+    {
+        return (_myProjects.type < ProjectsTypeTaProject)?[ProjectListCell cellHeight]:[ProjectListTaCell cellHeight];
     }
 }
 

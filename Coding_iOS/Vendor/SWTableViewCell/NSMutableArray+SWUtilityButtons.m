@@ -20,6 +20,16 @@
     [self addObject:button];
 }
 
+- (void)sw_addUtilityButtonWithColor:(UIColor *)color title:(NSString *)title titleColor:(UIColor *)titleColor
+{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.backgroundColor = color;
+    [button setTitle:title forState:UIControlStateNormal];
+    [button setTitleColor:titleColor forState:UIControlStateNormal];
+    [button.titleLabel setAdjustsFontSizeToFitWidth:YES];
+    [self addObject:button];
+}
+
 - (void)sw_addUtilityButtonWithColor:(UIColor *)color attributedTitle:(NSAttributedString *)title
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
