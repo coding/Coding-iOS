@@ -30,9 +30,16 @@
 
 - (void)adjust{
     //根据 content、target_type 去重组数据
-    if ([_target_type isEqualToString:@"Depot"]) {//您导入的仓库（xxx）成功。点击查看：<a>playmore</a>
+    if (_htmlMedia.mediaItems.count > 1) {
+        _user_item = [_htmlMedia.mediaItems firstObject];
+        [_htmlMedia removeItem:_user_item];
+    }else if ([_target_type isEqualToString:@"Depot"]) {//您导入的仓库（xxx）成功。点击查看：<a>playmore</a>
         _user_item = [HtmlMediaItem htmlMediaItemWithTypeATUser:[Login curLoginUser] mediaRange:NSMakeRange(0, 0)];
-    }else if (_htmlMedia.mediaItems.count > 0) {
+    }else if ([_target_type isEqualToString:@"Task"]){//早上好，今天您有7个任务已超期
+        _user_item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_CustomLink];
+        _user_item.linkStr = @"任务提醒";
+        _user_item.href = [(HtmlMediaItem *)_htmlMedia.mediaItems.lastObject href];
+    }else{
         _user_item = [_htmlMedia.mediaItems firstObject];
         [_htmlMedia removeItem:_user_item];
     }
