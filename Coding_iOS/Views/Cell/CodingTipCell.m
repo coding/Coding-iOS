@@ -140,8 +140,7 @@ static CGFloat target_height = 45.0;
     if (_curTip.target_item) {
         _targetBgBtn.hidden = NO;
         CGFloat curBottomY = padding_height;
-        curBottomY += [_curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)];
-        curBottomY += padding_between_content;
+        curBottomY += _curTip.content.length > 0? [_curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] + padding_between_content: 0;;
         
         [_targetIconView setBackgroundColor:[UIColor colorWithHexString:_curTip.target_type_ColorName]];
         [_targetIconView setImage:[UIImage imageNamed:_curTip.target_type_imageName]];
@@ -170,7 +169,8 @@ static CGFloat target_height = 45.0;
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[CodingTip class]]) {
         CodingTip *curTip = (CodingTip *)obj;
-        cellHeight = padding_height + [curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] + padding_between_content;
+        cellHeight = padding_height;
+        cellHeight += curTip.content.length > 0? [curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] + padding_between_content: 0;
         if (curTip.target_item) {
             cellHeight += target_height + padding_between_content;
         }
