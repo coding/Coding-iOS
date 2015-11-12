@@ -37,7 +37,7 @@
 - (NSDictionary *)toParams{
     NSMutableDictionary *params = @{@"page" : (_willLoadMore? [NSNumber numberWithInteger:_page.intValue +1] : [NSNumber numberWithInteger:1]),
                                     @"pageSize" : _pageSize}.mutableCopy;
-    if (_type != MRPRSTypePR) {
+    if (_type != MRPRSTypePR || _type != MRPRSTypeMRAll) {
         params[@"status"] = _statusIsOpen? @"open": @"closed";
     }
     return params;
@@ -45,6 +45,13 @@
 - (NSString *)toPath{
     NSString *typeStr;
     switch (_type) {
+        case MRPRSTypeMRAll:
+            if (_statusIsOpen) {
+                typeStr = @"merges/open";
+            }else{
+                typeStr = @"merges/closed";
+            }
+            break;
         case MRPRSTypeMRMine:
             typeStr = @"merges/list/mine";
             break;
@@ -54,13 +61,12 @@
         case MRPRSTypeMROther:
             typeStr = @"merges/list/other";
             break;
-        case MRPRSTypePR:{
+        case MRPRSTypePR:
             if (_statusIsOpen) {
                 typeStr = @"pulls/open";
             }else{
                 typeStr = @"pulls/closed";
             }
-        }
             break;
         default:
             typeStr = @"";

@@ -6,6 +6,8 @@
 //  Copyright © 2015年 Coding. All rights reserved.
 //
 
+#define kMRPRListViewController_IsNew NO
+
 #define kMRPRListViewController_BottomViewHeight 49.0
 
 #import "MRListViewController.h"
@@ -45,19 +47,22 @@
         icarousel.pagingEnabled = YES;
         icarousel.clipsToBounds = YES;
         icarousel.bounceDistance = 0.2;
+        icarousel.scrollEnabled = kMRPRListViewController_IsNew;
         [self.view addSubview:icarousel];
         [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(kMySegmentControl_Height, 0, 0, 0));
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(kMRPRListViewController_IsNew? kMySegmentControl_Height: 0, 0, 0, 0));
         }];
         icarousel;
     });
     
     //添加滑块
-    __weak typeof(_myCarousel) weakCarousel = _myCarousel;
-    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:@[@"我评审的", @"我发布的", @"其他的"] selectedBlock:^(NSInteger index) {
-        [weakCarousel scrollToItemAtIndex:index animated:NO];
-    }];
-    [self.view addSubview:_mySegmentControl];
+    if (kMRPRListViewController_IsNew) {
+        __weak typeof(_myCarousel) weakCarousel = _myCarousel;
+        _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:@[@"我评审的", @"我发布的", @"其他的"] selectedBlock:^(NSInteger index) {
+            [weakCarousel scrollToItemAtIndex:index animated:NO];
+        }];
+        [self.view addSubview:_mySegmentControl];
+    }
     [self configBottomView];
     self.segmentIndex = 0;
 }
@@ -76,7 +81,7 @@
     NSString *curKey = [NSString stringWithFormat:@"%ld_%ld", (long)_myCarousel.currentItemIndex, (long)_segmentIndex];
     MRPRS *curMRPRS = _myMRsDict[curKey];
     if (!curMRPRS) {
-        curMRPRS = [[MRPRS alloc] initWithType:MRPRSTypeMRMine + _myCarousel.currentItemIndex
+        curMRPRS = [[MRPRS alloc] initWithType:(kMRPRListViewController_IsNew? MRPRSTypeMRMine: MRPRSTypeMRAll) + _myCarousel.currentItemIndex
                                   statusIsOpen:_segmentIndex == 0
                                         userGK:_curProject.owner_user_name
                                    projectName:_curProject.name];
