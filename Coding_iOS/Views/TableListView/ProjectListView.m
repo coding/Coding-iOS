@@ -186,16 +186,49 @@ static NSString *const kValueKey = @"kValueKey";
         }];
     }];
 }
+
+-(NSString*)getSectionHeaderName{
+    switch (self.myProjects.type) {
+        case ProjectsTypeAll:
+            return @"全部项目";
+            break;
+        case ProjectsTypeJoined:
+            return @"已筛选\"我参与的\"项目";
+            break;
+        case ProjectsTypeCreated:
+            return @"已筛选\"我创建的\"项目";
+            break;
+        case ProjectsTypeWatched:
+            return @"已筛选\"我关注的\"项目";
+            break;
+        case ProjectsTypeTaStared:
+            return @"已筛选\"我收藏的\"项目";
+            break;
+        default:
+            return nil;
+            break;
+    }
+}
+
 #pragma mark Table M
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return _dataList.count > 1? kScaleFrom_iPhone5_Desgin(24): 0;
+    return (self.myProjects.type < ProjectsTypeTaProject)&&(section==0)? 27: 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    NSString *headerStr = [self titleForSection:section];
-    return [tableView getHeaderViewWithStr:headerStr andBlock:nil];
+    if(self.myProjects.type < ProjectsTypeTaProject){
+        NSString *headerTitle=[self getSectionHeaderName];
+        if (headerTitle.length==0) {
+            return nil;
+        }
+        UIView *headerView=[tableView getHeaderViewWithStr:headerTitle color:[UIColor colorWithHexString:@"0xf3f3f3"] andBlock:nil];
+        return headerView;
+    }else{
+        return nil;
+    }
 }
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [_dataList count];
 }
@@ -209,12 +242,8 @@ static NSString *const kValueKey = @"kValueKey";
 
     if (_useNewStyle) {
         if (_myProjects.type < ProjectsTypeTaProject) {
-            ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectAboutMeListCell" forIndexPath:indexPath];
-            if (self.myProjects.type == ProjectsTypeToChoose) {
-                [cell setProject:curPro hasSWButtons:NO hasBadgeTip:NO hasIndicator:NO];
-            }else{
-                [cell setProject:curPro hasSWButtons:YES hasBadgeTip:YES hasIndicator:YES];
-            }
+            ProjectAboutMeListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectAboutMeListCell" forIndexPath:indexPath];
+            [cell setProject:curPro hasSWButtons:self.myProjects.type == ProjectActivityTypeAll?YES:NO hasBadgeTip:YES hasIndicator:NO];
             cell.delegate = self;
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
             return cell;
