@@ -916,6 +916,7 @@
 		B9A00D851ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */; };
 		D066BB3A1BF30EB9005AB5D6 /* ProjectSquareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D066BB391BF30EB9005AB5D6 /* ProjectSquareViewController.m */; };
 		D066BB3D1BF38844005AB5D6 /* ProjectAboutMeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D066BB3C1BF38844005AB5D6 /* ProjectAboutMeListCell.m */; };
+		D066BB401BF623DD005AB5D6 /* ProjectAboutOthersListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D066BB3F1BF623DD005AB5D6 /* ProjectAboutOthersListCell.m */; };
 		D0A32BF31BF19EF100336C52 /* PopFliterMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A32BF21BF19EF100336C52 /* PopFliterMenu.m */; };
 		D0A32BF61BF1CA8F00336C52 /* ProjectCount.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A32BF51BF1CA8F00336C52 /* ProjectCount.m */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
@@ -2317,6 +2318,8 @@
 		D066BB391BF30EB9005AB5D6 /* ProjectSquareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSquareViewController.m; sourceTree = "<group>"; };
 		D066BB3B1BF38844005AB5D6 /* ProjectAboutMeListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectAboutMeListCell.h; sourceTree = "<group>"; };
 		D066BB3C1BF38844005AB5D6 /* ProjectAboutMeListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectAboutMeListCell.m; sourceTree = "<group>"; };
+		D066BB3E1BF623DD005AB5D6 /* ProjectAboutOthersListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectAboutOthersListCell.h; sourceTree = "<group>"; };
+		D066BB3F1BF623DD005AB5D6 /* ProjectAboutOthersListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectAboutOthersListCell.m; sourceTree = "<group>"; };
 		D0A32BF11BF19EF100336C52 /* PopFliterMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopFliterMenu.h; sourceTree = "<group>"; };
 		D0A32BF21BF19EF100336C52 /* PopFliterMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopFliterMenu.m; sourceTree = "<group>"; };
 		D0A32BF41BF1CA8F00336C52 /* ProjectCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectCount.h; sourceTree = "<group>"; };
@@ -4556,6 +4559,8 @@
 				8EF6437C19FF7E2900F7EEB0 /* ProjectListCell.m */,
 				D066BB3B1BF38844005AB5D6 /* ProjectAboutMeListCell.h */,
 				D066BB3C1BF38844005AB5D6 /* ProjectAboutMeListCell.m */,
+				D066BB3E1BF623DD005AB5D6 /* ProjectAboutOthersListCell.h */,
+				D066BB3F1BF623DD005AB5D6 /* ProjectAboutOthersListCell.m */,
 				3A3878411AE296240078D5DE /* EditLabelCell.h */,
 				3A3878421AE296240078D5DE /* EditLabelCell.m */,
 				3A3878431AE296240078D5DE /* EditLabelHeadCell.h */,
@@ -5373,6 +5378,7 @@
 				4EAE06B71B7B330900179F4B /* FileActivityCell.m in Sources */,
 				4E6BA2E31A1EE6AF005FD721 /* UIAlertView+AFNetworking.m in Sources */,
 				4E4D6AAF1B2047DE00FD2E49 /* CommitCommentCell.m in Sources */,
+				D066BB401BF623DD005AB5D6 /* ProjectAboutOthersListCell.m in Sources */,
 				4EA7F15F1A6D192B00A046BD /* SDWebImageManager.m in Sources */,
 				8E64ED8519ED0CE3006E99DA /* QBImagePickerThumbnailView.m in Sources */,
 				7EB02FE41B6D0F3E00D2166C /* amrFileCodec.m in Sources */,

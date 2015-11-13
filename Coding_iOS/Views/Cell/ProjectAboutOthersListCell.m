@@ -1,19 +1,20 @@
 //
-//  ProjectAboutMeListCell.m
+//  ProjectAboutOthersListCell.m
 //  Coding_iOS
 //
-//  Created by jwill on 15/11/11.
+//  Created by jwill on 15/11/13.
 //  Copyright © 2015年 Coding. All rights reserved.
 //
+
+#import "ProjectAboutOthersListCell.h"
 
 #define kIconSize 90
 #define kSwapBtnWidth 135
 #define kLeftOffset 12
 #define kPinSize 18
 
-#import "ProjectAboutMeListCell.h"
 
-@interface ProjectAboutMeListCell ()
+@interface ProjectAboutOthersListCell ()
 @property (nonatomic, strong) Project *project;
 @property (nonatomic, strong) UIImageView *projectIconView, *privateIconView, *pinIconView;
 @property (nonatomic, strong) UIButton *setCommonBtn;
@@ -22,7 +23,9 @@
 @property (nonatomic, strong) UILabel *describeLabel;
 @end
 
-@implementation ProjectAboutMeListCell
+
+@implementation ProjectAboutOthersListCell
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -56,7 +59,7 @@
             _describeLabel.numberOfLines=2;
             [self.contentView addSubview:_describeLabel];
         }
-
+        
         if (!_privateIconView) {
             _privateIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_project_private"]];
             _privateIconView.hidden = YES;
@@ -87,8 +90,8 @@
                 make.bottom.equalTo(self.projectIconView);
             }];
         }
-
-
+        
+        
     }
     return self;
 }
@@ -127,8 +130,8 @@
         make.width.equalTo(@(kScreen_Width-kLeftOffset-kIconSize-kLeftOffset));
         make.top.equalTo(_projectTitleLabel.mas_bottom);
     }];
-
-
+    
+    
     //Title & UserName & description
     _projectTitleLabel.text = _project.name;
     _ownerTitleLabel.text = _project.owner_user_name;
