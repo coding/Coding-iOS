@@ -20,6 +20,8 @@
 @property (nonatomic, strong) UILabel *projectTitleLabel;
 @property (nonatomic, strong) UILabel *ownerTitleLabel;
 @property (nonatomic, strong) UILabel *describeLabel;
+@property (nonatomic, strong) UIImageView *starV, *watchV, *forkV;
+@property (strong, nonatomic) UILabel *desL, *starL, *watchL, *forkL;
 @end
 
 
@@ -45,12 +47,7 @@
             _projectTitleLabel.font = [UIFont systemFontOfSize:17];
             [self.contentView addSubview:_projectTitleLabel];
         }
-        if (!_ownerTitleLabel) {
-            _ownerTitleLabel = [UILabel new];
-            _ownerTitleLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
-            _ownerTitleLabel.font = [UIFont systemFontOfSize:15];
-            [self.contentView addSubview:_ownerTitleLabel];
-        }
+        
         if (!_describeLabel) {
             _describeLabel = [UILabel new];
             _describeLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
@@ -76,7 +73,65 @@
             }];
         }
         
+        if (!_starV) {
+            _starV = [[UIImageView alloc] init];
+            [self.contentView addSubview:_starV];
+        }
+        if (!_watchV) {
+            _watchV = [[UIImageView alloc] init];
+            [self.contentView addSubview:_watchV];
+        }
+        if (!_forkV) {
+            _forkV = [[UIImageView alloc] init];
+            [self.contentView addSubview:_forkV];
+        }
         
+        if (!_starL) {
+            _starL = [[UILabel alloc] init];
+            _starL.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _starL.font = [UIFont systemFontOfSize:10];
+            [self.contentView addSubview:_starL];
+        }
+        if (!_watchL) {
+            _watchL = [[UILabel alloc] init];
+            _watchL.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _watchL.font = [UIFont systemFontOfSize:10];
+            [self.contentView addSubview:_watchL];
+        }
+        if (!_forkL) {
+            _forkL = [[UILabel alloc] init];
+            _forkL.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _forkL.font = [UIFont systemFontOfSize:10];
+            [self.contentView addSubview:_forkL];
+        }
+        _starV.image = [UIImage imageNamed:@"git_icon_star"];
+        _watchV.image = [UIImage imageNamed:@"git_icon_watch"];
+        _forkV.image = [UIImage imageNamed:@"git_icon_fork"];
+
+        
+        [_starV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(_projectIconView);
+            make.left.equalTo(_privateIconView);
+            make.centerY.equalTo(@[_starL, _watchV, _watchL, _forkV, _forkL]);
+            make.width.height.equalTo(@[_watchV, _forkV, @12]);
+        }];
+        [_starL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_starV.mas_right).offset(2);
+            make.height.equalTo(@[_starV, _watchL, _forkL]);
+        }];
+        [_watchV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_starL.mas_right).offset(10);
+        }];
+        [_watchL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_watchV.mas_right).offset(2);
+        }];
+        [_forkV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_watchL.mas_right).offset(10);
+        }];
+        [_forkL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_forkV.mas_right).offset(2);
+        }];
+
     }
     return self;
 }
@@ -103,12 +158,6 @@
         make.right.lessThanOrEqualTo(self.mas_right);
     }];
     
-    [_ownerTitleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.right.height.equalTo(self.projectTitleLabel);
-        make.left.equalTo(self.privateIconView);
-        make.bottom.equalTo(_projectIconView.mas_bottom);
-    }];
-    
     [_describeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.privateIconView);
         make.height.equalTo(@(40));
@@ -117,11 +166,13 @@
     }];
     
     
-    //Title & UserName & description
+    //Title  & description & star & watch &fork
     _projectTitleLabel.text = _project.name;
-    _ownerTitleLabel.text = _project.owner_user_name;
     _describeLabel.text=_project.description_mine;
-    
+    _starL.text = _project.star_count.stringValue;
+    _watchL.text = _project.watch_count.stringValue;
+    _forkL.text = _project.fork_count.stringValue;
+
     //hasSWButtons
     [self setRightUtilityButtons:hasSWButtons? [self rightButtons]: nil
                  WithButtonWidth:kSwapBtnWidth];
