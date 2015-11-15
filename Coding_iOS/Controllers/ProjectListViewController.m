@@ -24,6 +24,24 @@
 }
 
 - (void)setupNavBtn{
+    
+    self.useNewStyle=FALSE;
+    
+    [self.myCarousel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(kMySegmentControl_Height, 0, 0, 0));
+    }];
+
+    
+//    添加滑块
+        __weak typeof(self.myCarousel) weakCarousel = self.myCarousel;
+        self.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:self.segmentItems selectedBlock:^(NSInteger index) {
+            if (index == self.oldSelectedIndex) {
+                return;
+            }
+            [weakCarousel scrollToItemAtIndex:index animated:NO];
+        }];
+        [self.view addSubview:self.mySegmentControl];
+
     self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = nil;
     [self.mySearchBar removeFromSuperview];
@@ -38,7 +56,7 @@
 }
 
 - (Projects *)projectsWithIndex:(NSUInteger)index{
-    return [Projects projectsWithType:(index +ProjectsTypeTaProject) andUser:self.curUser];
+    return [Projects projectsWithType:(index+ProjectsTypeTaProject) andUser:self.curUser];
 }
 
 @end

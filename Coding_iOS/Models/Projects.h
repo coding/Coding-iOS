@@ -29,10 +29,11 @@ typedef NS_ENUM(NSInteger, ProjectsType)
     ProjectsTypeJoined,
     ProjectsTypeCreated,
     ProjectsTypeWatched,
-    ProjectsTypeTaStared,
+    ProjectsTypeStared,
     ProjectsTypeToChoose,
     ProjectsTypeTaProject,
-    
+    ProjectsTypeTaStared,
+    ProjectsTypeTaWatched,
 };
 
 @interface Projects : NSObject

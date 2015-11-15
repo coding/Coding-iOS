@@ -148,7 +148,7 @@
             return ProjectsTypeWatched;
             break;
         case 4:
-            return ProjectsTypeTaStared;
+            return ProjectsTypeStared;
             break;
         default:
             NSLog(@"type error");

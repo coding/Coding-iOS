@@ -53,8 +53,14 @@
         case  ProjectsTypeTaStared:
             typeStr = @"stared";
             break;
+        case  ProjectsTypeTaWatched:
+            typeStr = @"watched";
+            break;
         case  ProjectsTypeWatched:
             typeStr = @"watched";
+            break;
+        case  ProjectsTypeStared:
+            typeStr = @"stared";
             break;
         default:
             typeStr = @"all";

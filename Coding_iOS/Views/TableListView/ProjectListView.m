@@ -204,7 +204,7 @@ static NSString *const kValueKey = @"kValueKey";
         case ProjectsTypeWatched:
             return @"已筛选\"我关注的\"项目";
             break;
-        case ProjectsTypeTaStared:
+        case ProjectsTypeStared:
             return @"已筛选\"我收藏的\"项目";
             break;
         default:
@@ -251,7 +251,7 @@ static NSString *const kValueKey = @"kValueKey";
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
             return cell;
         }else
-            if (_myProjects.type==ProjectsTypeWatched||_myProjects.type==ProjectsTypeTaStared){
+            if (_myProjects.type==ProjectsTypeWatched||_myProjects.type==ProjectsTypeStared){
             ProjectAboutOthersListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectAboutOthersListCell" forIndexPath:indexPath];
             [cell setProject:curPro hasSWButtons:self.myProjects.type == ProjectActivityTypeAll?YES:NO hasBadgeTip:YES hasIndicator:NO];
             cell.delegate = self;

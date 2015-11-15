@@ -28,16 +28,10 @@
 #import "ProjectSquareViewController.h"
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
-@property (strong, nonatomic) XTSegmentControl *mySegmentControl;
-@property (strong, nonatomic) iCarousel *myCarousel;
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
-@property (assign, nonatomic) NSInteger oldSelectedIndex;
-
 @property (strong, nonatomic) UISearchDisplayController *mySearchDisplayController;
-
 @property (strong, nonatomic) NSMutableArray *searchResults;
 @property (strong, nonatomic) NSString *searchString;
-
 @property (nonatomic, strong) PopMenu *myPopMenu;
 @property (nonatomic, strong) PopFliterMenu *myFliterMenu;
 
@@ -68,6 +62,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self configSegmentItems];
+    
+    _useNewStyle=TRUE;
     
     _oldSelectedIndex = 0;
 //    self.title = @"项目";
@@ -193,7 +189,7 @@
             DebugLog(@"\n=====%@", project.name);
         } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
         //使用新系列Cell样式
-        listView.useNewStyle=TRUE;
+        listView.useNewStyle=_useNewStyle;
 
     }
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];

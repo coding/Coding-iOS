@@ -17,7 +17,6 @@
 @interface ProjectAboutOthersListCell ()
 @property (nonatomic, strong) Project *project;
 @property (nonatomic, strong) UIImageView *projectIconView, *privateIconView, *pinIconView;
-@property (nonatomic, strong) UIButton *setCommonBtn;
 @property (nonatomic, strong) UILabel *projectTitleLabel;
 @property (nonatomic, strong) UILabel *ownerTitleLabel;
 @property (nonatomic, strong) UILabel *describeLabel;
@@ -74,20 +73,6 @@
                 make.size.mas_equalTo(CGSizeMake(kPinSize, kPinSize));
                 make.left.equalTo(self.projectIconView).offset(5);
                 make.top.equalTo(self.projectIconView).offset(6);
-            }];
-        }
-        
-        if (!_setCommonBtn) {
-            _setCommonBtn = [UIButton new];
-            _setCommonBtn.hidden = YES;
-            //for test
-            _setCommonBtn.backgroundColor=[UIColor greenColor];
-            [self.contentView addSubview:_setCommonBtn];
-            [_setCommonBtn addTarget:self action:@selector(showSliderAction) forControlEvents:UIControlEventTouchUpInside];
-            [_setCommonBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake(35, 20));
-                make.right.equalTo(self).offset(-15);
-                make.bottom.equalTo(self.projectIconView);
             }];
         }
         
@@ -159,7 +144,6 @@
     //hasIndicator
     self.accessoryType = hasIndicator? UITableViewCellAccessoryDisclosureIndicator: UITableViewCellAccessoryNone;
     _pinIconView.hidden=!_project.pin.boolValue;
-    _setCommonBtn.hidden=!hasBadgeTip;
 }
 
 - (NSArray *)rightButtons{
