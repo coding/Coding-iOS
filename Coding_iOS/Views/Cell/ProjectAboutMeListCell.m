@@ -64,7 +64,7 @@
         }
         
         if (!_pinIconView) {
-            _pinIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_project_cell_pin"]];
+            _pinIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_project_cell_setNormal"]];
             _pinIconView.hidden = YES;
             [self.contentView addSubview:_pinIconView];
             [_pinIconView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -78,7 +78,7 @@
             _setCommonBtn = [UIButton new];
             _setCommonBtn.hidden = YES;
             //for test
-            _setCommonBtn.backgroundColor=[UIColor greenColor];
+            [_setCommonBtn setImage:[UIImage imageNamed:@"btn_setFrequent"] forState:UIControlStateNormal];
             [self.contentView addSubview:_setCommonBtn];
             [_setCommonBtn addTarget:self action:@selector(showSliderAction) forControlEvents:UIControlEventTouchUpInside];
             [_setCommonBtn mas_makeConstraints:^(MASConstraintMaker *make) {
