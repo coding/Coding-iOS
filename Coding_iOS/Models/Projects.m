@@ -83,7 +83,9 @@
 
 - (NSString *)toPath{
     NSString *path;
-    if (self.type >= ProjectsTypeTaProject) {
+    if (self.type==ProjectsTypeAllPublic) {
+        path = @"api/public/all";
+    }else if (self.type >= ProjectsTypeTaProject && self.type < ProjectsTypeAllPublic) {
         path = [NSString stringWithFormat:@"api/user/%@/public_projects", _curUser.global_key];
     }else{
         path = @"api/projects";

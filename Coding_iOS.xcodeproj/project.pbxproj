@@ -920,6 +920,7 @@
 		D09E6AC21BF84AC5009D37F8 /* git_icon_star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D09E6AC11BF84AC5009D37F8 /* git_icon_star@2x.png */; };
 		D09E6AC41BF84AE5009D37F8 /* git_icon_watch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D09E6AC31BF84AE5009D37F8 /* git_icon_watch@2x.png */; };
 		D09E6AC61BF84AF9009D37F8 /* git_icon_fork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D09E6AC51BF84AF9009D37F8 /* git_icon_fork@2x.png */; };
+		D09E6AC91BF9746F009D37F8 /* ProjectPublicListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D09E6AC81BF9746F009D37F8 /* ProjectPublicListCell.m */; };
 		D0A32BF31BF19EF100336C52 /* PopFliterMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A32BF21BF19EF100336C52 /* PopFliterMenu.m */; };
 		D0A32BF61BF1CA8F00336C52 /* ProjectCount.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A32BF51BF1CA8F00336C52 /* ProjectCount.m */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
@@ -2326,6 +2327,8 @@
 		D09E6AC11BF84AC5009D37F8 /* git_icon_star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "git_icon_star@2x.png"; sourceTree = "<group>"; };
 		D09E6AC31BF84AE5009D37F8 /* git_icon_watch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "git_icon_watch@2x.png"; sourceTree = "<group>"; };
 		D09E6AC51BF84AF9009D37F8 /* git_icon_fork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "git_icon_fork@2x.png"; sourceTree = "<group>"; };
+		D09E6AC71BF9746F009D37F8 /* ProjectPublicListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectPublicListCell.h; sourceTree = "<group>"; };
+		D09E6AC81BF9746F009D37F8 /* ProjectPublicListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectPublicListCell.m; sourceTree = "<group>"; };
 		D0A32BF11BF19EF100336C52 /* PopFliterMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopFliterMenu.h; sourceTree = "<group>"; };
 		D0A32BF21BF19EF100336C52 /* PopFliterMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopFliterMenu.m; sourceTree = "<group>"; };
 		D0A32BF41BF1CA8F00336C52 /* ProjectCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectCount.h; sourceTree = "<group>"; };
@@ -4566,6 +4569,8 @@
 				8EF6437A19FF7E2900F7EEB0 /* ProjectActivityListCell.m */,
 				8EF6437B19FF7E2900F7EEB0 /* ProjectListCell.h */,
 				8EF6437C19FF7E2900F7EEB0 /* ProjectListCell.m */,
+				D09E6AC71BF9746F009D37F8 /* ProjectPublicListCell.h */,
+				D09E6AC81BF9746F009D37F8 /* ProjectPublicListCell.m */,
 				D066BB3B1BF38844005AB5D6 /* ProjectAboutMeListCell.h */,
 				D066BB3C1BF38844005AB5D6 /* ProjectAboutMeListCell.m */,
 				D066BB3E1BF623DD005AB5D6 /* ProjectAboutOthersListCell.h */,
@@ -5301,6 +5306,7 @@
 				B94C1B6E1AC98CCE0000C271 /* NewProjectTypeViewController.m in Sources */,
 				4E00229C1B735075005308DE /* EAIntroPage.m in Sources */,
 				D0A32BF31BF19EF100336C52 /* PopFliterMenu.m in Sources */,
+				D09E6AC91BF9746F009D37F8 /* ProjectPublicListCell.m in Sources */,
 				4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */,
 				4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */,
 				4E6BA2E41A1EE6AF005FD721 /* UIButton+AFNetworking.m in Sources */,

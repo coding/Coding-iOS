@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "Project.h"
 
 @interface ProjectSquareViewController : BaseViewController
 

@@ -34,6 +34,7 @@ typedef NS_ENUM(NSInteger, ProjectsType)
     ProjectsTypeTaProject,
     ProjectsTypeTaStared,
     ProjectsTypeTaWatched,
+    ProjectsTypeAllPublic,
 };
 
 @interface Projects : NSObject

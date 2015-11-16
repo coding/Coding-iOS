@@ -15,6 +15,7 @@
 //新系列 cell
 #import "ProjectAboutMeListCell.h"
 #import "ProjectAboutOthersListCell.h"
+#import "ProjectPublicListCell.h"
 
 @interface ProjectListView ()<UISearchBarDelegate, SWTableViewCellDelegate>
 @property (nonatomic, strong) Projects *myProjects;
@@ -58,7 +59,9 @@ static NSString *const kValueKey = @"kValueKey";
             [tableView registerClass:[ProjectListTaCell class] forCellReuseIdentifier:kCellIdentifier_ProjectListTaCell];
             [tableView registerClass:[ProjectAboutMeListCell class] forCellReuseIdentifier:@"ProjectAboutMeListCell"];
             [tableView registerClass:[ProjectAboutOthersListCell class] forCellReuseIdentifier:@"ProjectAboutOthersListCell"];
+            [tableView registerClass:[ProjectPublicListCell class] forCellReuseIdentifier:@"ProjectPublicListCell"];
 
+            
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             [self addSubview:tableView];
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -71,7 +74,7 @@ static NSString *const kValueKey = @"kValueKey";
             }
             tableView;
         });
-        if (projects.type < ProjectsTypeToChoose) {
+        if (projects.type < ProjectsTypeToChoose||projects.type==ProjectsTypeAllPublic) {
             _mySearchBar = nil;
             _myTableView.tableHeaderView = nil;
         }else{
@@ -216,11 +219,11 @@ static NSString *const kValueKey = @"kValueKey";
 #pragma mark Table M
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return (self.myProjects.type < ProjectsTypeTaProject)&&(section==0)? 27: 0;
+    return (self.myProjects.type < ProjectsTypeToChoose)&&(section==0)? 27: 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if(self.myProjects.type < ProjectsTypeTaProject){
+    if(self.myProjects.type < ProjectsTypeToChoose){
         NSString *headerTitle=[self getSectionHeaderName];
         if (headerTitle.length==0) {
             return nil;
@@ -250,9 +253,14 @@ static NSString *const kValueKey = @"kValueKey";
             cell.delegate = self;
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
             return cell;
-        }else
-            if (_myProjects.type==ProjectsTypeWatched||_myProjects.type==ProjectsTypeStared){
+        }else if (_myProjects.type==ProjectsTypeWatched||_myProjects.type==ProjectsTypeStared){
             ProjectAboutOthersListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectAboutOthersListCell" forIndexPath:indexPath];
+            [cell setProject:curPro hasSWButtons:self.myProjects.type == ProjectActivityTypeAll?YES:NO hasBadgeTip:YES hasIndicator:NO];
+            cell.delegate = self;
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+            return cell;
+        }else if (_myProjects.type==ProjectsTypeAllPublic){
+            ProjectPublicListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectPublicListCell" forIndexPath:indexPath];
             [cell setProject:curPro hasSWButtons:self.myProjects.type == ProjectActivityTypeAll?YES:NO hasBadgeTip:YES hasIndicator:NO];
             cell.delegate = self;
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
@@ -288,7 +296,7 @@ static NSString *const kValueKey = @"kValueKey";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_useNewStyle) {
-        return (_myProjects.type < ProjectsTypeTaProject)?kProjectAboutMeListCellHeight:[ProjectListTaCell cellHeight];
+        return (_myProjects.type < ProjectsTypeTaProject||_myProjects.type==ProjectsTypeAllPublic)?kProjectAboutMeListCellHeight:[ProjectListTaCell cellHeight];
     }else
     {
         return (_myProjects.type < ProjectsTypeTaProject)?[ProjectListCell cellHeight]:[ProjectListTaCell cellHeight];
