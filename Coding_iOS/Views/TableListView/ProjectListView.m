@@ -328,6 +328,7 @@ static NSString *const kValueKey = @"kValueKey";
     }
 }
 
+
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     [cell hideUtilityButtonsAnimated:YES];
     NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];

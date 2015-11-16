@@ -5,6 +5,7 @@
 //  Created by jwill on 15/11/10.
 //  Copyright © 2015年 Coding. All rights reserved.
 //
+#define kfirstRowNum 3
 
 #import "PopFliterMenu.h"
 #import "XHRealTimeBlur.h"
@@ -53,11 +54,11 @@
 - (void)setup {
     self.backgroundColor = [UIColor clearColor];
     
-    typeof(self) __weak weakSelf = self;
+//    typeof(self) __weak weakSelf = self;
     _realTimeBlur = [[XHRealTimeBlur alloc] initWithFrame:self.bounds];
     _realTimeBlur.blurStyle = XHBlurStyleTranslucentWhite;
-    _realTimeBlur.showDuration = 0.3;
-    _realTimeBlur.disMissDuration = 0.5;
+    _realTimeBlur.showDuration = 0.2;
+    _realTimeBlur.disMissDuration = 0.3;
 //    _realTimeBlur.willShowBlurViewcomplted = ^(void) {
 //        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 //    };
@@ -72,7 +73,7 @@
     
     _tableview = ({
         UITableView *tableview=[[UITableView alloc] initWithFrame:self.bounds];
-        tableview.backgroundColor=[UIColor whiteColor];
+        tableview.backgroundColor=[UIColor clearColor];
         tableview.delegate=self;
         tableview.dataSource=self;
         [tableview registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
@@ -96,6 +97,7 @@
 - (void)dismissMenu
 {
     _showStatus=FALSE;
+    [_realTimeBlur disMiss];
     [self removeFromSuperview];
 }
 
@@ -161,26 +163,47 @@
 #pragma mark -- uitableviewdelegate & datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return (section==0)?[_items count]:1;
+    switch (section) {
+        case 0:
+            return kfirstRowNum;
+            break;
+        case 1:
+            return 2;
+            break;
+        case 2:
+            return 1;
+            break;
+        default:
+            return 0;
+            break;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
+    cell.backgroundColor=[UIColor clearColor];
+    UILabel *titleLab=[[UILabel alloc] initWithFrame:CGRectMake(20, 0, 200, 50)];
+    titleLab.font=[UIFont systemFontOfSize:15];
+    [cell.contentView addSubview:titleLab];
     if (indexPath.section==0) {
-        cell.backgroundColor=[UIColor clearColor];
-        [cell.textLabel setX:20];
-        cell.textLabel.font=[UIFont systemFontOfSize:15];
-        cell.textLabel.textColor=[UIColor colorWithHexString:@"0x222222"];
-        cell.textLabel.text=[self formatTitleStr:[_items objectAtIndex:indexPath.row]];
+        titleLab.textColor=[UIColor colorWithHexString:@"0x222222"];
+        titleLab.text=[self formatTitleStr:[_items objectAtIndex:indexPath.row]];
+    }else if (indexPath.section==1) {
+        titleLab.textColor=[UIColor colorWithHexString:@"0x222222"];
+        titleLab.text=[self formatTitleStr:[_items objectAtIndex:3+indexPath.row]];
     }else
     {
-        [cell.textLabel setX:20];
-        cell.textLabel.font=[UIFont systemFontOfSize:15];
-        cell.textLabel.text=@"项目广场";
+        [titleLab setX:45];
+        titleLab.textColor=[UIColor colorWithHexString:@"0x727f8d"];
+        titleLab.text=@"项目广场";
+        
+        UIImageView *projectSquareIcon=[[UIImageView alloc] initWithFrame:CGRectMake(20, 25-8, 16, 16)];
+        projectSquareIcon.image=[UIImage imageNamed:@"fliter_square"];
+        [cell.contentView addSubview:projectSquareIcon];
     }
     return cell;
 }
@@ -191,15 +214,20 @@
         _selectNum=indexPath.row;
         [self dismissMenu];
         _clickBlock([self convertToProjectType]);
+    }else if (indexPath.section==1) {
+        _selectNum=indexPath.row+kfirstRowNum;
+        [self dismissMenu];
+        _clickBlock([self convertToProjectType]);
     }else
     {
         _clickBlock(1000);
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if (section==1) {
+    if (section!=0) {
         return ({
                  UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 30.5)];
                  UIView *seperatorLine=[[UIView alloc] initWithFrame:CGRectMake(20, 15, self.bounds.size.width-40, 0.5)];
@@ -215,7 +243,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return (section==1)?30.5:0;
+    return (section!=0)?30.5:0;
 }
 
 

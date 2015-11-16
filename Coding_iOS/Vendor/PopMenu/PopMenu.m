@@ -61,13 +61,13 @@
     _realTimeBlur.showDuration = 0.3;
     _realTimeBlur.disMissDuration = 0.5;
     _realTimeBlur.willShowBlurViewcomplted = ^(void) {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
         weakSelf.isShowed = YES;
         [weakSelf showButtons];
     };
     
     _realTimeBlur.willDismissBlurViewCompleted = ^(void) {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
         if (weakSelf.selectedItem) {
             if (weakSelf.didSelectedItemCompletion) {
                 weakSelf.didSelectedItemCompletion(weakSelf.selectedItem);
