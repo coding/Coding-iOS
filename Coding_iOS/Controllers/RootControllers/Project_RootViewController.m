@@ -26,7 +26,7 @@
 #import "PopMenu.h"
 #import "PopFliterMenu.h"
 #import "ProjectSquareViewController.h"
-#import "SearchViewController.h"s
+#import "SearchViewController.h"
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
@@ -141,7 +141,7 @@
 }
 
 - (void)configSegmentItems{
-    _segmentItems = @[@"全部项目", @"我参与的", @"我创建的",@"我关注的",@"我收藏的"];
+    _segmentItems = @[@"全部项目",@"我创建的", @"我参与的",@"我关注的",@"我收藏的"];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -232,6 +232,7 @@
 
 #pragma mark VC
 -(void)addItemClicked:(id)sender{
+    [self closeFliter];
     NSArray *menuItems = @[
                            [MenuItem itemWithTitle:@"项目" iconName:@"pop_Project" index:0],
                            [MenuItem itemWithTitle:@"任务" iconName:@"pop_Task" index:1],
@@ -331,9 +332,23 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+
+-(void)closeFliter{
+    if ([_myFliterMenu showStatus]) {
+        [_myFliterMenu dismissMenu];
+        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filterBtn_selected_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(fliterClicked:)] animated:NO];
+    }
+}
+
+-(void)closeMenu{
+    if ([_myPopMenu isShowed]) {
+        [_myPopMenu dismissMenu];
+    }
+}
+
 #pragma mark fliter
 -(void)fliterClicked:(id)sender{
-//    NSLog(@"show fliter:%d",_myFliterMenu.showStatus);
+    [self closeMenu];
     if (_myFliterMenu.showStatus) {
         [_myFliterMenu dismissMenu];
     }else
@@ -386,6 +401,8 @@
 
 -(void)goToSearchVC
 {
+    [self closeFliter];
+    [self closeMenu];
     SearchViewController *vc=[SearchViewController new];
     [self.navigationController pushViewController:vc animated:NO];
 //    [self.navigationController presentViewController:vc animated:NO completion:nil];
