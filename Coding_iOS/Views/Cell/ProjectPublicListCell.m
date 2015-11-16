@@ -189,11 +189,7 @@
     NSString *titleStr=[NSString stringWithFormat:@"%@ 最后更新于 %@",_project.owner_user_name,[_project.updated_at stringDisplay_HHmm]];
     NSMutableAttributedString *titleColorStr=[[NSMutableAttributedString alloc] initWithString:titleStr];
     [titleColorStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"0x3bbd79"] range:[titleStr rangeOfString:_project.owner_user_name]];
-//
-//    [titleColorStr addAttribute:NSForegroundColorAttributeName value:ZZBThemeOrangeColor range:[titleStr rangeOfString:aPerson.text]];
-//    _nameLabel.text = [NSString stringWithFormat:@"%@（%ld）", _folder.name, (long)(_folder.count.integerValue)];
-//    _infoLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _folder.owner_name, ];
-
+    
     _ownerTitleLabel.attributedText = titleColorStr;
 
     

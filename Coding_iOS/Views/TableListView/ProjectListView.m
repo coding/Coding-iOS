@@ -16,6 +16,7 @@
 #import "ProjectAboutMeListCell.h"
 #import "ProjectAboutOthersListCell.h"
 #import "ProjectPublicListCell.h"
+#import "SVPullToRefresh.h"
 
 @interface ProjectListView ()<UISearchBarDelegate, SWTableViewCellDelegate>
 @property (nonatomic, strong) Projects *myProjects;
@@ -90,7 +91,12 @@ static NSString *const kValueKey = @"kValueKey";
 
         _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
         [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+        __weak typeof(self) weakSelf = self;
         
+        [_myTableView addInfiniteScrollingWithActionHandler:^{
+            [weakSelf refreshMore];
+        }];
+
         if (_myProjects.list.count > 0) {
             [_myTableView reloadData];
         }else{
@@ -167,6 +173,16 @@ static NSString *const kValueKey = @"kValueKey";
     }
 }
 
+- (void)refreshMore{
+    if (_myProjects.isLoading || !_myProjects.canLoadMore) {
+        [_myTableView.infiniteScrollingView stopAnimating];
+        return;
+    }
+    _myProjects.willLoadMore = YES;
+    [self sendRequest];
+}
+
+
 - (void)sendRequest{
     if (_myProjects.list.count <= 0) {
         [self beginLoading];
@@ -174,7 +190,9 @@ static NSString *const kValueKey = @"kValueKey";
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Projects_WithObj:_myProjects andBlock:^(Projects *data, NSError *error) {
         [weakSelf.myRefreshControl endRefreshing];
-        [self endLoading];
+        [weakSelf endLoading];
+        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
+        
         if (data) {
             [weakSelf.myProjects configWithProjects:data];
             [weakSelf setupDataList];
