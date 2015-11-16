@@ -26,6 +26,7 @@
 #import "PopMenu.h"
 #import "PopFliterMenu.h"
 #import "ProjectSquareViewController.h"
+#import "SearchViewController.h"s
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
@@ -34,6 +35,8 @@
 @property (strong, nonatomic) NSString *searchString;
 @property (nonatomic, strong) PopMenu *myPopMenu;
 @property (nonatomic, strong) PopFliterMenu *myFliterMenu;
+@property (nonatomic,assign) NSInteger selectNum;  //筛选状态
+
 
 @end
 
@@ -66,6 +69,7 @@
     _useNewStyle=TRUE;
     
     _oldSelectedIndex = 0;
+    _selectNum=0;
 //    self.title = @"项目";
     _myProjectsDict = [[NSMutableDictionary alloc] initWithCapacity:_segmentItems.count];
     
@@ -108,6 +112,7 @@
         }else
         {
             [weakCarousel scrollToItemAtIndex:pageIndex animated:NO];
+            weakSelf.selectNum=pageIndex;
         }
     };
 
@@ -130,7 +135,7 @@
 }
 
 - (void)setupNavBtn{
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(fliterClicked:)] animated:NO];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filtertBtn_normal_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(fliterClicked:)] animated:NO];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)] animated:NO];
 
 }
@@ -333,6 +338,7 @@
         [_myFliterMenu dismissMenu];
     }else
     {
+        _myFliterMenu.selectNum=_selectNum;
         [_myFliterMenu showMenuAtView:self.view];
     }
 }
@@ -377,6 +383,15 @@
     }
 }
 
+
+-(void)goToSearchVC
+{
+    SearchViewController *vc=[SearchViewController new];
+    [self.navigationController pushViewController:vc animated:NO];
+//    [self.navigationController presentViewController:vc animated:NO completion:nil];
+    
+}
+
 #pragma mark Table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -411,9 +426,10 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
-    [self searchAction];
-    [searchBar setShowsCancelButton:YES animated:YES];
-    return YES;
+//    [self searchAction];
+//    [searchBar setShowsCancelButton:YES animated:YES];
+    [self goToSearchVC];
+    return NO;
     
 }
 

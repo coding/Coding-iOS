@@ -92,6 +92,7 @@
     _showStatus=TRUE;
     [containerView addSubview:self];
     [_realTimeBlur showBlurViewAtView:self];
+    [_tableview reloadData];
 }
 
 - (void)dismissMenu
@@ -185,15 +186,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
+    [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     cell.backgroundColor=[UIColor clearColor];
     UILabel *titleLab=[[UILabel alloc] initWithFrame:CGRectMake(20, 0, 200, 50)];
     titleLab.font=[UIFont systemFontOfSize:15];
     [cell.contentView addSubview:titleLab];
     if (indexPath.section==0) {
-        titleLab.textColor=[UIColor colorWithHexString:@"0x222222"];
+        titleLab.textColor=(indexPath.row==_selectNum)?[UIColor colorWithHexString:@"0x3BBD79"]:[UIColor colorWithHexString:@"0x222222"];
         titleLab.text=[self formatTitleStr:[_items objectAtIndex:indexPath.row]];
     }else if (indexPath.section==1) {
-        titleLab.textColor=[UIColor colorWithHexString:@"0x222222"];
+        titleLab.textColor=(indexPath.row+kfirstRowNum==_selectNum)?[UIColor colorWithHexString:@"0x3BBD79"]:[UIColor colorWithHexString:@"0x222222"];
         titleLab.text=[self formatTitleStr:[_items objectAtIndex:3+indexPath.row]];
     }else
     {
