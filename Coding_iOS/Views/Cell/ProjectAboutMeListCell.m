@@ -110,7 +110,7 @@
     
     [_projectTitleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_projectIconView.mas_top);
-        make.height.equalTo(@(25));
+        make.height.equalTo(@(20));
         make.left.equalTo(_privateIconView.mas_right).offset(_privateIconView.hidden?0:8);
         make.right.lessThanOrEqualTo(self.mas_right);
     }];
@@ -123,7 +123,7 @@
     
     [_describeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.privateIconView);
-        make.height.equalTo(@(40));
+        make.height.equalTo(@(38));
         make.width.equalTo(@(kScreen_Width-kLeftOffset-kIconSize-kLeftOffset));
         make.top.equalTo(_projectTitleLabel.mas_bottom);
     }];

@@ -60,6 +60,21 @@
             [self.contentView addSubview:_privateIconView];
         }
         
+        if (!_ownerTitleLabel) {
+            _ownerTitleLabel = [UILabel new];
+            _ownerTitleLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _ownerTitleLabel.font = [UIFont systemFontOfSize:11];
+            [self.contentView addSubview:_ownerTitleLabel];
+        }
+
+        [_ownerTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(@(14));
+            make.width.equalTo(@(200));
+            make.left.equalTo(self.privateIconView);
+            make.bottom.equalTo(_projectIconView.mas_bottom);
+        }];
+
+        
         if (!_pinIconView) {
             _pinIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_project_cell_setNormal"]];
             _pinIconView.hidden = YES;
@@ -108,7 +123,7 @@
         
         
         [_starV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(_projectIconView);
+            make.bottom.equalTo(_ownerTitleLabel.mas_top).offset(-3);
             make.left.equalTo(_privateIconView);
             make.centerY.equalTo(@[_starL, _watchV, _watchL, _forkV, _forkL]);
             make.width.height.equalTo(@[_watchV, _forkV, @12]);
@@ -151,25 +166,36 @@
     
     [_projectTitleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_projectIconView.mas_top);
-        make.height.equalTo(@(25));
+        make.height.equalTo(@(20));
         make.left.equalTo(_privateIconView.mas_right).offset(_privateIconView.hidden?0:8);
         make.right.lessThanOrEqualTo(self.mas_right);
     }];
     
     [_describeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.privateIconView);
-        make.height.equalTo(@(40));
+        make.height.equalTo(@(38));
         make.width.equalTo(@(kScreen_Width-kLeftOffset-kIconSize-kLeftOffset));
         make.top.equalTo(_projectTitleLabel.mas_bottom);
     }];
     
     
-    //Title  & description & star & watch &fork
+    //Title  & description & star & watch &fork &owner+update_time
     _projectTitleLabel.text = _project.name;
     _describeLabel.text=_project.description_mine;
     _starL.text = _project.star_count.stringValue;
     _watchL.text = _project.watch_count.stringValue;
     _forkL.text = _project.fork_count.stringValue;
+
+    NSString *titleStr=[NSString stringWithFormat:@"%@ 最后更新于 %@",_project.owner_user_name,[_project.updated_at stringDisplay_HHmm]];
+    NSMutableAttributedString *titleColorStr=[[NSMutableAttributedString alloc] initWithString:titleStr];
+    [titleColorStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"0x3bbd79"] range:[titleStr rangeOfString:_project.owner_user_name]];
+//
+//    [titleColorStr addAttribute:NSForegroundColorAttributeName value:ZZBThemeOrangeColor range:[titleStr rangeOfString:aPerson.text]];
+//    _nameLabel.text = [NSString stringWithFormat:@"%@（%ld）", _folder.name, (long)(_folder.count.integerValue)];
+//    _infoLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _folder.owner_name, ];
+
+    _ownerTitleLabel.attributedText = titleColorStr;
+
     
     //hasSWButtons
     [self setRightUtilityButtons:hasSWButtons? [self rightButtons]: nil

@@ -14,7 +14,7 @@
 @property (assign, nonatomic) BOOL isStaring, isWatching, isLoadingMember, isLoadingDetail;
 
 @property (strong, nonatomic) User *owner;
-@property (strong, nonatomic) NSDate *created_at;
+@property (strong, nonatomic) NSDate *created_at,*updated_at;
 
 + (Project *)project_All;
 + (Project *)project_FeedBack;
