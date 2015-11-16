@@ -57,11 +57,14 @@
     if (!_curActivity) {
         return;
     }
+#warning 这里缺少两张图片 task_activity_icon_add_watcher , task_activity_icon_MergeRequestBean
     NSString *tipIconImageName;
     if ([curActivity.target_type isEqualToString:@"Task"]) {
         tipIconImageName = [NSString stringWithFormat:@"task_activity_icon_%@", _curActivity.action];
     }else if ([curActivity.target_type isEqualToString:@"ProjectFile"]){
         tipIconImageName = [NSString stringWithFormat:@"file_activity_icon_%@", _curActivity.action];
+    }else if ([curActivity.target_type isEqualToString:@"MergeRequestBean"]){
+        tipIconImageName = [NSString stringWithFormat:@"task_activity_icon_%@", _curActivity.target_type];
     }
     _tipIconView.image = [UIImage imageNamed:tipIconImageName];
     NSAttributedString *attrContent = [[self class] attrContentWithObj:_curActivity];
@@ -85,46 +88,46 @@
 }
 
 + (NSAttributedString *)attrContentWithObj:(ProjectActivity *)curActivity{
-    if (![curActivity.target_type isEqualToString:@"Task"]) {
-        return nil;
-    }
-
     NSString *userName, *contentStr;
     userName = curActivity.user.name? curActivity.user.name: @"";
     NSMutableAttributedString *attrContent;
     
-    if ([curActivity.action isEqualToString:@"create"]) {
-        contentStr = [NSString stringWithFormat:@"创建了任务 - %@", [curActivity.created_at stringDisplay_HHmm]];
-    }else if ([curActivity.action isEqualToString:@"update"]) {
-        contentStr = [NSString stringWithFormat:@"更新了任务 - %@", [curActivity.created_at stringDisplay_HHmm]];
-    }else if ([curActivity.action isEqualToString:@"update_priority"]) {
-        contentStr = [NSString stringWithFormat:@"更新了任务优先级为 「%@」 - %@", kTaskPrioritiesDisplay[curActivity.task.priority.intValue], [curActivity.created_at stringDisplay_HHmm]];
-    }else if ([curActivity.action isEqualToString:@"update_deadline"]) {
-        if (curActivity.task.deadline_date) {
-            contentStr = [NSString stringWithFormat:@"更新了任务截止日期为 「%@」 - %@", [NSDate convertStr_yyyy_MM_ddToDisplay:curActivity.task.deadline], [curActivity.created_at stringDisplay_HHmm]];
-        }else{
-            contentStr = [NSString stringWithFormat:@"移除了任务的截止日期 - %@", [curActivity.created_at stringDisplay_HHmm]];
+    if ([curActivity.target_type isEqualToString:@"Task"]) {
+        if ([curActivity.action isEqualToString:@"create"]) {
+            contentStr = [NSString stringWithFormat:@"创建了任务 - %@", [curActivity.created_at stringDisplay_HHmm]];
+        }else if ([curActivity.action isEqualToString:@"update"]) {
+            contentStr = [NSString stringWithFormat:@"更新了任务 - %@", [curActivity.created_at stringDisplay_HHmm]];
+        }else if ([curActivity.action isEqualToString:@"update_priority"]) {
+            contentStr = [NSString stringWithFormat:@"更新了任务优先级为 「%@」 - %@", kTaskPrioritiesDisplay[curActivity.task.priority.intValue], [curActivity.created_at stringDisplay_HHmm]];
+        }else if ([curActivity.action isEqualToString:@"update_deadline"]) {
+            if (curActivity.task.deadline_date) {
+                contentStr = [NSString stringWithFormat:@"更新了任务截止日期为 「%@」 - %@", [NSDate convertStr_yyyy_MM_ddToDisplay:curActivity.task.deadline], [curActivity.created_at stringDisplay_HHmm]];
+            }else{
+                contentStr = [NSString stringWithFormat:@"移除了任务的截止日期 - %@", [curActivity.created_at stringDisplay_HHmm]];
+            }
+        }else if ([curActivity.action isEqualToString:@"update_description"]) {
+            contentStr = [NSString stringWithFormat:@"更新了任务描述 - %@", [curActivity.created_at stringDisplay_HHmm]];
+        }else if ([curActivity.action isEqualToString:@"update_label"]) {
+            if (curActivity.labels.count > 0) {
+                contentStr = [NSString stringWithFormat:@"更新了任务标签为 「%@」 - %@", [[curActivity.labels valueForKey:@"name"] componentsJoinedByString:@","], [curActivity.created_at stringDisplay_HHmm]];
+            }else{
+                contentStr = [NSString stringWithFormat:@"移除了任务的所有标签 - %@", [curActivity.created_at stringDisplay_HHmm]];
+            }
+        }else if ([curActivity.action isEqualToString:@"reassign"]) {
+            contentStr = [NSString stringWithFormat:@"重新指派了任务给了 「%@」 - %@", curActivity.task.owner.name, [curActivity.created_at stringDisplay_HHmm]];
+        }else if ([curActivity.action isEqualToString:@"finish"]) {
+            contentStr = [NSString stringWithFormat:@"完成了任务 - %@", [curActivity.created_at stringDisplay_HHmm]];
+        }else if ([curActivity.action isEqualToString:@"restore"]) {
+            contentStr = [NSString stringWithFormat:@"重新开启了任务 - %@", [curActivity.created_at stringDisplay_HHmm]];
+        }else if ([curActivity.action isEqualToString:@"commit_refer"]) {
+            contentStr = [NSString stringWithFormat:@"在分支 %@ 中提交的代码提到了任务「%@」 - %@", curActivity.commit.ref, curActivity.commit.contentStr, [curActivity.created_at stringDisplay_HHmm]];
+        }else if ([curActivity.action isEqualToString:@"add_watcher"]){
+            contentStr = [NSString stringWithFormat:@"%@「%@」 - %@", curActivity.action_msg, curActivity.watcher.name, [curActivity.created_at stringDisplay_HHmm]];
         }
-    }else if ([curActivity.action isEqualToString:@"update_description"]) {
-        contentStr = [NSString stringWithFormat:@"更新了任务描述 - %@", [curActivity.created_at stringDisplay_HHmm]];
-    }else if ([curActivity.action isEqualToString:@"update_label"]) {
-        if (curActivity.labels.count > 0) {
-            contentStr = [NSString stringWithFormat:@"更新了任务标签为 「%@」 - %@", [[curActivity.labels valueForKey:@"name"] componentsJoinedByString:@","], [curActivity.created_at stringDisplay_HHmm]];
-        }else{
-            contentStr = [NSString stringWithFormat:@"移除了任务的所有标签 - %@", [curActivity.created_at stringDisplay_HHmm]];
-        }
-    }else if ([curActivity.action isEqualToString:@"reassign"]) {
-        contentStr = [NSString stringWithFormat:@"重新指派了任务给了 「%@」 - %@", curActivity.task.owner.name, [curActivity.created_at stringDisplay_HHmm]];
-    }else if ([curActivity.action isEqualToString:@"finish"]) {
-        contentStr = [NSString stringWithFormat:@"完成了任务 - %@", [curActivity.created_at stringDisplay_HHmm]];
-    }else if ([curActivity.action isEqualToString:@"restore"]) {
-        contentStr = [NSString stringWithFormat:@"重新开启了任务 - %@", [curActivity.created_at stringDisplay_HHmm]];
-    }else if ([curActivity.action isEqualToString:@"commit_refer"]) {
-        contentStr = [NSString stringWithFormat:@"在分支 %@ 中提交的代码提到了任务 - %@\n%@", curActivity.commit.ref, [curActivity.created_at stringDisplay_HHmm], curActivity.commit.contentStr];
-    }else{
-        contentStr = @"...";
+    }else if ([curActivity.target_type isEqualToString:@"MergeRequestBean"]){
+        contentStr = [NSString stringWithFormat:@"%@ 合并请求「%@」 - %@", curActivity.action_msg, curActivity.merge_request_title, [curActivity.created_at stringDisplay_HHmm]];
     }
-    
+    contentStr = contentStr? contentStr: @"...";
     attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];
     [attrContent addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:13],
                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
