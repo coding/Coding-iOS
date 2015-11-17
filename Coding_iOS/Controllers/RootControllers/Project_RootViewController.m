@@ -27,6 +27,8 @@
 #import "PopFliterMenu.h"
 #import "ProjectSquareViewController.h"
 #import "SearchViewController.h"
+#import "pop.h"
+#import "FRDLivelyButton.h"
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
@@ -36,7 +38,8 @@
 @property (nonatomic, strong) PopMenu *myPopMenu;
 @property (nonatomic, strong) PopFliterMenu *myFliterMenu;
 @property (nonatomic,assign) NSInteger selectNum;  //筛选状态
-
+@property (nonatomic,strong)UIButton *leftNavBtn;
+@property (nonatomic,strong)FRDLivelyButton *rightNavBtn;
 
 @end
 
@@ -111,12 +114,58 @@
             [weakSelf goToProjectSquareVC];
         }else
         {
+            [weakSelf fliterBtnClose:TRUE];
             [weakCarousel scrollToItemAtIndex:pageIndex animated:NO];
             weakSelf.selectNum=pageIndex;
         }
     };
 
     [_myFliterMenu refreshMenuDate];
+    
+    
+    //初始化弹出菜单
+    NSArray *menuItems = @[
+                           [MenuItem itemWithTitle:@"项目" iconName:@"pop_Project" index:0],
+                           [MenuItem itemWithTitle:@"任务" iconName:@"pop_Task" index:1],
+                           [MenuItem itemWithTitle:@"冒泡" iconName:@"pop_Tweet" index:2],
+                           [MenuItem itemWithTitle:@"添加好友" iconName:@"pop_User" index:3],
+                           [MenuItem itemWithTitle:@"私信" iconName:@"pop_Message" index:4],
+                           [MenuItem itemWithTitle:@"两步验证" iconName:@"pop_2FA" index:5],
+                           ];
+    if (!_myPopMenu) {
+        _myPopMenu = [[PopMenu alloc] initWithFrame:kScreen_Bounds items:menuItems];
+        _myPopMenu.perRowItemCount = 3;
+        _myPopMenu.menuAnimationType = kPopMenuAnimationTypeSina;
+    }
+    @weakify(self);
+    _myPopMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem){
+        [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"快捷创建_%@", selectedItem.title]];
+        @strongify(self);
+        switch (selectedItem.index) {
+            case 0:
+                [self goToNewProjectVC];
+                break;
+            case 1:
+                [self goToNewTaskVC];
+                break;
+            case 2:
+                [self goToNewTweetVC];
+                break;
+            case 3:
+                [self goToAddUserVC];
+                break;
+            case 4:
+                [self goToMessageVC];
+                break;
+            case 5:
+                [self goTo2FA];
+                break;
+            default:
+                NSLog(@"%@",selectedItem.title);
+                break;
+        }
+    };
+
     
     //添加滑块
 //    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
@@ -135,8 +184,22 @@
 }
 
 - (void)setupNavBtn{
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filtertBtn_normal_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(fliterClicked:)] animated:NO];
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)] animated:NO];
+    
+    _leftNavBtn=[UIButton new];
+    [self addImageBarButtonWithImageName:@"filtertBtn_normal_Nav" button:_leftNavBtn action:@selector(fliterClicked:) isRight:NO];
+    
+    //变化按钮
+    _rightNavBtn = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(0,0,18,18)];
+    [_rightNavBtn setOptions:@{ kFRDLivelyButtonLineWidth: @(1.5f),
+                          kFRDLivelyButtonColor: [UIColor whiteColor]
+                          }];
+    [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:NO];
+    [_rightNavBtn addTarget:self action:@selector(addItemClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn];
+    self.navigationItem.rightBarButtonItem = buttonItem;
+
+
+//    [self addImageBarButtonWithImageName:@"addBtn_Nav" button:_rightNavBtn action:@selector(addItemClicked:) isRight:YES];
 
 }
 
@@ -233,49 +296,13 @@
 #pragma mark VC
 -(void)addItemClicked:(id)sender{
     [self closeFliter];
-    NSArray *menuItems = @[
-                           [MenuItem itemWithTitle:@"项目" iconName:@"pop_Project" index:0],
-                           [MenuItem itemWithTitle:@"任务" iconName:@"pop_Task" index:1],
-                           [MenuItem itemWithTitle:@"冒泡" iconName:@"pop_Tweet" index:2],
-                           [MenuItem itemWithTitle:@"添加好友" iconName:@"pop_User" index:3],
-                           [MenuItem itemWithTitle:@"私信" iconName:@"pop_Message" index:4],
-                           [MenuItem itemWithTitle:@"两步验证" iconName:@"pop_2FA" index:5],
-                           ];
-    if (!_myPopMenu) {
-        _myPopMenu = [[PopMenu alloc] initWithFrame:kScreen_Bounds items:menuItems];
-        _myPopMenu.perRowItemCount = 3;
-        _myPopMenu.menuAnimationType = kPopMenuAnimationTypeSina;
+    if (_rightNavBtn.buttonStyle == kFRDLivelyButtonStylePlus) {
+        [_rightNavBtn setStyle:kFRDLivelyButtonStyleClose animated:YES];
+        [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
+    } else{
+        [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
+        [_myPopMenu dismissMenu];
     }
-    @weakify(self);
-    _myPopMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem){
-        [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"快捷创建_%@", selectedItem.title]];
-
-        @strongify(self);
-        switch (selectedItem.index) {
-            case 0:
-                [self goToNewProjectVC];
-                break;
-            case 1:
-                [self goToNewTaskVC];
-                break;
-            case 2:
-                [self goToNewTweetVC];
-                break;
-            case 3:
-                [self goToAddUserVC];
-                break;
-            case 4:
-                [self goToMessageVC];
-                break;
-            case 5:
-                [self goTo2FA];
-                break;
-            default:
-                NSLog(@"%@",selectedItem.title);
-                break;
-        }
-    };
-    [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
 }
 
 - (void)goToNewProjectVC{
@@ -336,23 +363,79 @@
 -(void)closeFliter{
     if ([_myFliterMenu showStatus]) {
         [_myFliterMenu dismissMenu];
-        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filterBtn_selected_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(fliterClicked:)] animated:NO];
+        [self fliterBtnClose:TRUE];
     }
 }
 
 -(void)closeMenu{
     if ([_myPopMenu isShowed]) {
+        [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
         [_myPopMenu dismissMenu];
     }
 }
+
+-(void)fliterBtnClose:(BOOL)status{
+    [_leftNavBtn setImage:status?[UIImage imageNamed:@"filtertBtn_normal_Nav"]:[UIImage imageNamed:@"filterBtn_selected_Nav"] forState:UIControlStateNormal];
+}
+
+//弹出事件
+-(void)rotateView:(UIView*)aView
+{
+    POPBasicAnimation* rotateAnimation = ({
+        POPBasicAnimation* basicAnimation=[POPBasicAnimation animationWithPropertyNamed:kPOPLayerRotation];
+        basicAnimation.toValue = @(22.5 * (M_PI / 180.0f));
+        basicAnimation.timingFunction =[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        basicAnimation.duration = 0.2f;
+        [basicAnimation setCompletionBlock:^(POPAnimation * ani, BOOL fin) {
+            if (fin) {
+            }
+        }];
+        basicAnimation;
+    });
+    [aView.layer pop_addAnimation:rotateAnimation forKey:@"rotateAnimation"];
+    
+
+    
+//    [UIView beginAnimations:nil context:nil];
+//    [UIView setAnimationDuration:0.2];
+//    [UIView setAnimationDelegate:self];
+//    aView.transform = CGAffineTransformMakeRotation(22.5 * (M_PI / 180.0f));
+//    [UIView commitAnimations];
+
+}
+
+-(void)addImageBarButtonWithImageName:(NSString*)imageName button:(UIButton*)aBtn action:(SEL)action isRight:(BOOL)isR
+{
+    UIImage *image = [UIImage imageNamed:imageName];
+    CGRect frame = CGRectMake(0,0, image.size.width, image.size.height);
+    
+    aBtn.frame=frame;
+    [aBtn setImage:image forState:UIControlStateNormal];
+    [aBtn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:aBtn];
+    
+    if (isR)
+    {
+        [self.navigationItem setRightBarButtonItem:barButtonItem];
+    }else
+    {
+        [self.navigationItem setLeftBarButtonItem:barButtonItem];
+    }
+}
+
+
+
 
 #pragma mark fliter
 -(void)fliterClicked:(id)sender{
     [self closeMenu];
     if (_myFliterMenu.showStatus) {
+        [self fliterBtnClose:TRUE];
         [_myFliterMenu dismissMenu];
     }else
     {
+        [self fliterBtnClose:FALSE];
         _myFliterMenu.selectNum=_selectNum;
         [_myFliterMenu showMenuAtView:self.view];
     }
@@ -408,6 +491,8 @@
 //    [self.navigationController presentViewController:vc animated:NO completion:nil];
     
 }
+
+
 
 #pragma mark Table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

@@ -59,7 +59,7 @@
     _realTimeBlur = [[XHRealTimeBlur alloc] initWithFrame:self.bounds];
     _realTimeBlur.blurStyle = XHBlurStyleTranslucentWhite;
     _realTimeBlur.showDuration = 0.3;
-    _realTimeBlur.disMissDuration = 0.5;
+    _realTimeBlur.disMissDuration = 0.2;
     _realTimeBlur.willShowBlurViewcomplted = ^(void) {
 //        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
         weakSelf.isShowed = YES;
