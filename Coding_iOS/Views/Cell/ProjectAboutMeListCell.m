@@ -83,8 +83,8 @@
             [_setCommonBtn addTarget:self action:@selector(showSliderAction) forControlEvents:UIControlEventTouchUpInside];
             [_setCommonBtn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(35, 20));
-                make.right.equalTo(self).offset(-15);
-                make.bottom.equalTo(self.projectIconView);
+                make.right.equalTo(self).offset(-15+10);
+                make.bottom.equalTo(self.projectIconView).offset(5);
             }];
         }
 
@@ -156,7 +156,7 @@
     //hasIndicator
     self.accessoryType = hasIndicator? UITableViewCellAccessoryDisclosureIndicator: UITableViewCellAccessoryNone;
     _pinIconView.hidden=!_project.pin.boolValue;
-    _setCommonBtn.hidden=!hasBadgeTip;
+    _setCommonBtn.hidden=!hasSWButtons;
 }
 
 - (NSArray *)rightButtons{

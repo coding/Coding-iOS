@@ -59,7 +59,7 @@
     _realTimeBlur = [[XHRealTimeBlur alloc] initWithFrame:self.bounds];
     _realTimeBlur.blurStyle = XHBlurStyleTranslucentWhite;
     _realTimeBlur.showDuration = 0.3;
-    _realTimeBlur.disMissDuration = 0.2;
+    _realTimeBlur.disMissDuration = 0.1;
     _realTimeBlur.willShowBlurViewcomplted = ^(void) {
 //        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
         weakSelf.isShowed = YES;
@@ -73,6 +73,9 @@
                 weakSelf.didSelectedItemCompletion(weakSelf.selectedItem);
                 weakSelf.selectedItem = nil;
             }
+        }else
+        {
+            weakSelf.didSelectedItemCompletion(nil);
         }
         [weakSelf hidenButtons];
     };

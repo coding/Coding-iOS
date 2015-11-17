@@ -54,20 +54,21 @@
 - (void)setup {
     self.backgroundColor = [UIColor clearColor];
     
-//    typeof(self) __weak weakSelf = self;
     _realTimeBlur = [[XHRealTimeBlur alloc] initWithFrame:self.bounds];
     _realTimeBlur.blurStyle = XHBlurStyleTranslucentWhite;
     _realTimeBlur.showDuration = 0.2;
-    _realTimeBlur.disMissDuration = 0.3;
+    _realTimeBlur.disMissDuration = 0.1;
+//    typeof(self) __weak weakSelf = self;
+
 //    _realTimeBlur.willShowBlurViewcomplted = ^(void) {
-//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+//        [weakSelf addSubview:weakSelf.tableview];
 //    };
-//    
+////
 //    _realTimeBlur.willDismissBlurViewCompleted = ^(void) {
 //        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
 //    };
 //    _realTimeBlur.didDismissBlurViewCompleted = ^(BOOL finished) {
-////        [weakSelf removeFromSuperview];
+//        [weakSelf removeFromSuperview];
 //    };
     _realTimeBlur.hasTapGestureEnable = YES;
     

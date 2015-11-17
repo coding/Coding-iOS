@@ -493,6 +493,13 @@ static char LoadingViewKey, BlankPageViewKey;
 
 - (void)configWithType:(EaseBlankPageType)blankPageType hasData:(BOOL)hasData hasError:(BOOL)hasError reloadButtonBlock:(void (^)(id))block{
 
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (_loadAndShowStatusBlock) {
+            _loadAndShowStatusBlock();
+        }
+    });
+
+    
     if (hasData) {
         [self removeFromSuperview];
         return;
@@ -549,7 +556,9 @@ static char LoadingViewKey, BlankPageViewKey;
         if (_reloadButton) {
             _reloadButton.hidden = YES;
         }
+        
         NSString *imageName, *tipStr;
+        _curType=blankPageType;
         switch (blankPageType) {
             case EaseBlankPageTypeActivity://项目动态
             {
@@ -636,6 +645,31 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"这里没有未读的消息";
             }
                 break;
+            case EaseBlankPageTypeProject_ALL:{
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"您还木有项目呢，赶快起来创建吧～";
+            }
+                break;
+            case EaseBlankPageTypeProject_CREATE:{
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"您还木有项目呢，赶快起来创建吧～";
+            }
+                break;
+            case EaseBlankPageTypeProject_JOIN:{
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"您还木有项目呢，赶快起来创建吧～";
+            }
+                break;
+            case EaseBlankPageTypeProject_WATCHED:{
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"您还木有项目呢，赶快起来创建吧～";
+            }
+                break;
+            case EaseBlankPageTypeProject_STARED:{
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"您还木有项目呢，赶快起来创建吧～";
+            }
+                break;
             default://其它页面（这里没有提到的页面，都属于其它）
             {
                 imageName = @"blankpage_image_Sleep";
@@ -645,6 +679,56 @@ static char LoadingViewKey, BlankPageViewKey;
         }
         [_monkeyView setImage:[UIImage imageNamed:imageName]];
         _tipLabel.text = tipStr;
+        
+        if ((blankPageType>=EaseBlankPageTypeProject_ALL)&&(blankPageType<=EaseBlankPageTypeProject_STARED)) {
+            //新增按钮
+            UIButton *actionBtn=({
+                UIButton *button=[UIButton new];
+                button.backgroundColor=[UIColor colorWithHexString:@"0x3BBD79"];
+                button.titleLabel.font=[UIFont systemFontOfSize:15];
+                [button addTarget:self action:@selector(btnAction) forControlEvents:UIControlEventTouchUpInside];
+                button.layer.cornerRadius=18;
+                button.layer.masksToBounds=TRUE;
+                button;
+            });
+            [self addSubview:actionBtn];
+            
+            [actionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(125 , 36));
+                make.top.equalTo(_tipLabel.mas_bottom).offset(15);
+                make.centerX.equalTo(self);
+            }];
+
+            NSString *titleStr;
+            switch (blankPageType) {
+                case EaseBlankPageTypeProject_ALL:
+                case EaseBlankPageTypeProject_CREATE:
+                case EaseBlankPageTypeProject_JOIN:
+                    titleStr=@"+ 创建项目";
+//                    [actionBtn setTitle:@"+ 创建项目" forState:UIControlStateNormal];
+                    break;
+                case EaseBlankPageTypeProject_WATCHED:
+                    titleStr=@"+ 去关注";
+//                    [actionBtn setTitle:@"+ 去关注" forState:UIControlStateNormal];
+                    break;
+                case EaseBlankPageTypeProject_STARED:
+                    titleStr=@"+ 去收藏";
+//                    [actionBtn setTitle:@"+去收藏" forState:UIControlStateNormal];
+                    break;
+                default:
+                    break;
+            }
+//            NSMutableAttributedString *titleFontStr=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"+ %@",titleStr]];
+//            NSRange range;
+//            range.location=0;
+//            range.length=1;
+//            [titleFontStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:range];
+//            [actionBtn setAttributedTitle:titleFontStr forState:UIControlStateNormal];
+            
+            [actionBtn setTitle:titleStr forState:UIControlStateNormal];
+            
+        }else{
+        }
     }
 }
 
@@ -654,6 +738,14 @@ static char LoadingViewKey, BlankPageViewKey;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (_reloadButtonBlock) {
             _reloadButtonBlock(sender);
+        }
+    });
+}
+
+-(void)btnAction{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (_clickButtonBlock) {
+            _clickButtonBlock(_curType);
         }
     });
 }

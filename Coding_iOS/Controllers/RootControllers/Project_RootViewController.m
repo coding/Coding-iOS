@@ -96,17 +96,20 @@
     
     //添加搜索框
     _mySearchBar = ({
-            UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(50,0, kScreen_Width-100, 44)];
+            UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(55,0, kScreen_Width-110, 44)];
+//            searchBar.layer.cornerRadius=22;
+//            searchBar.layer.masksToBounds=TRUE;
             [searchBar sizeToFit];
             searchBar.delegate = self;
-            [searchBar setPlaceholder:@"项目名称/创建人"];
+            [searchBar setPlaceholder:@"项目、任务、讨论、冒泡等"];
             [searchBar setTintColor:[UIColor whiteColor]];
             [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
             searchBar;
         });
     
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
-    //初始化过滤目录并加载数据
+    
+    //初始化过滤目录
     _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:kScreen_Bounds items:nil];
     __weak typeof(self) weakSelf = self;
     _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
@@ -119,8 +122,6 @@
             weakSelf.selectNum=pageIndex;
         }
     };
-
-    [_myFliterMenu refreshMenuDate];
     
     
     //初始化弹出菜单
@@ -141,6 +142,9 @@
     _myPopMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem){
         [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"快捷创建_%@", selectedItem.title]];
         @strongify(self);
+        //改下显示style
+        [self.rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
+        if (!selectedItem) return;
         switch (selectedItem.index) {
             case 0:
                 [self goToNewProjectVC];
@@ -216,6 +220,7 @@
             [listView refreshToQueryData];
         }
     }
+    [_myFliterMenu refreshMenuDate];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -256,6 +261,23 @@
 
             DebugLog(@"\n=====%@", project.name);
         } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
+        
+        listView.clickButtonBlock=^(EaseBlankPageType curType) {
+            switch (curType) {
+                case EaseBlankPageTypeProject_ALL:
+                case EaseBlankPageTypeProject_CREATE:
+                case EaseBlankPageTypeProject_JOIN:
+                    [weakSelf goToNewProjectVC];
+                    break;
+                case EaseBlankPageTypeProject_WATCHED:
+                case EaseBlankPageTypeProject_STARED:
+                    [weakSelf goToProjectSquareVC];
+                    break;
+                default:
+                    break;
+            }
+        };
+
         //使用新系列Cell样式
         listView.useNewStyle=_useNewStyle;
 

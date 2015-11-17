@@ -25,6 +25,7 @@
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 @property (strong, nonatomic) NSMutableArray *dataList;
 @property (strong, nonatomic) UISearchBar *mySearchBar;
+@property (nonatomic, strong) UIView *statusView;
 
 @end
 
@@ -187,6 +188,8 @@ static NSString *const kValueKey = @"kValueKey";
     if (_myProjects.list.count <= 0) {
         [self beginLoading];
     }
+    [_statusView removeFromSuperview];
+
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Projects_WithObj:_myProjects andBlock:^(Projects *data, NSError *error) {
         [weakSelf.myRefreshControl endRefreshing];
@@ -201,13 +204,51 @@ static NSString *const kValueKey = @"kValueKey";
         EaseBlankPageType blankPageType;
         if (weakSelf.myProjects.type < ProjectsTypeTaProject
             || [weakSelf.myProjects.curUser.global_key isEqualToString:[Login curLoginUser].global_key]) {
-            blankPageType = EaseBlankPageTypeProject;
+//            blankPageType = EaseBlankPageTypeProject;
+            //再做细分  全部,创建,参与,关注,收藏
+            switch (weakSelf.myProjects.type) {
+                case ProjectsTypeAll:
+                    blankPageType = EaseBlankPageTypeProject_ALL;
+                    break;
+                case ProjectsTypeCreated:
+                    blankPageType = EaseBlankPageTypeProject_CREATE;
+                    break;
+                case ProjectsTypeJoined:
+                    blankPageType = EaseBlankPageTypeProject_JOIN;
+                    break;
+                case ProjectsTypeWatched:
+                    blankPageType = EaseBlankPageTypeProject_WATCHED;
+                    break;
+                case ProjectsTypeStared:
+                    blankPageType = EaseBlankPageTypeProject_STARED;
+                    break;
+                default:
+                    blankPageType = EaseBlankPageTypeProject;
+                    break;
+            }
         }else{
             blankPageType = EaseBlankPageTypeProjectOther;
         }
         [weakSelf configBlankPage:blankPageType hasData:(weakSelf.myProjects.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
+        
+        //空白页按钮事件
+        self.blankPageView.clickButtonBlock=^(EaseBlankPageType curType) {
+            weakSelf.clickButtonBlock(curType);
+        };
+        
+        //空白页加载后显示
+        self.blankPageView.loadAndShowStatusBlock=^() {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSString *headerTitle=[weakSelf getSectionHeaderName];
+                if (headerTitle.length>0) {
+                    weakSelf.statusView=[weakSelf.myTableView getHeaderViewWithStr:headerTitle color:[UIColor colorWithHexString:@"0xf3f3f3"] andBlock:nil];
+                    [weakSelf addSubview:weakSelf.statusView];
+                }
+            });
+        };
+
     }];
 }
 

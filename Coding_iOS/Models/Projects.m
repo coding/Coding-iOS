@@ -103,7 +103,7 @@
     if (self.type == ProjectsTypeToChoose) {
         projectList = [projectList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"is_public == %d", NO]];
     }
-    if (projectList.count <= 0) {
+    if (!projectList) {
         return;
     }
     

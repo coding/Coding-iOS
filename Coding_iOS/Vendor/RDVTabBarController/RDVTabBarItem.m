@@ -69,11 +69,11 @@
     
     _unselectedTitleAttributes = @{
                                    NSFontAttributeName: [UIFont systemFontOfSize:10],
-                                   NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x999999"],
+                                   NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x808080"],
                                    };
     _selectedTitleAttributes = @{
                                  NSFontAttributeName: [UIFont systemFontOfSize:10],
-                                 NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x28303b"],
+                                 NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x3BBD79"],
                                  };
     
     _badgeBackgroundColor = [UIColor colorWithHexString:@"0xf75388"];
