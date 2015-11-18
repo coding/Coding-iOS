@@ -893,6 +893,7 @@
 		B9A00D7F1ACA3A05008BA008 /* ProjectSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9A00D7E1ACA3A05008BA008 /* ProjectSetting.storyboard */; };
 		B9A00D821ACA3A17008BA008 /* ProjectSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */; };
 		B9A00D851ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */; };
+		D000E04A1BFC45CF00A33C2B /* CategorySearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D000E0491BFC45CF00A33C2B /* CategorySearchBar.m */; };
 		D031F5DB1BFAD6690008E964 /* FRDLivelyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D031F5DA1BFAD6690008E964 /* FRDLivelyButton.m */; };
 		D066BB3A1BF30EB9005AB5D6 /* ProjectSquareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D066BB391BF30EB9005AB5D6 /* ProjectSquareViewController.m */; };
 		D066BB3D1BF38844005AB5D6 /* ProjectAboutMeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D066BB3C1BF38844005AB5D6 /* ProjectAboutMeListCell.m */; };
@@ -2302,6 +2303,8 @@
 		B9A00D831ACA3A55008BA008 /* ProjectAdvancedSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectAdvancedSettingViewController.h; sourceTree = "<group>"; };
 		B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectAdvancedSettingViewController.m; sourceTree = "<group>"; };
 		C613B8719C3D38FED828A1E2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		D000E0481BFC45CF00A33C2B /* CategorySearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySearchBar.h; sourceTree = "<group>"; };
+		D000E0491BFC45CF00A33C2B /* CategorySearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySearchBar.m; sourceTree = "<group>"; };
 		D031F5D91BFAD6690008E964 /* FRDLivelyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRDLivelyButton.h; sourceTree = "<group>"; };
 		D031F5DA1BFAD6690008E964 /* FRDLivelyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRDLivelyButton.m; sourceTree = "<group>"; };
 		D066BB381BF30EB9005AB5D6 /* ProjectSquareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSquareViewController.h; sourceTree = "<group>"; };
@@ -2503,6 +2506,8 @@
 			children = (
 				4E0BD8881B6C7F5B0061CAA6 /* TopicHotkeyView.h */,
 				4E0BD8891B6C7F5B0061CAA6 /* TopicHotkeyView.m */,
+				D000E0481BFC45CF00A33C2B /* CategorySearchBar.h */,
+				D000E0491BFC45CF00A33C2B /* CategorySearchBar.m */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -5386,6 +5391,7 @@
 				8E59F0E21A0098BA009A905F /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				4E0022831B72095E005308DE /* PointRecord.m in Sources */,
 				4E15C7D01A26D2F000FB8DAD /* FolderToMoveViewController.m in Sources */,
+				D000E04A1BFC45CF00A33C2B /* CategorySearchBar.m in Sources */,
 				4EE5481E1AE7B7CA00A92306 /* UISearchBar+Common.m in Sources */,
 				4EA7F1621A6D192B00A046BD /* UIImage+GIF.m in Sources */,
 				8EF643BB19FF7E2900F7EEB0 /* MessageCell.m in Sources */,

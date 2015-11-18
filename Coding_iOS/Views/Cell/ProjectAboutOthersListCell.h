@@ -11,7 +11,7 @@
  */
 
 
-#define kProjectAboutOthersListCellHeight 115
+#define kProjectAboutOthersListCellHeight 104
 
 #import <UIKit/UIKit.h>
 #import "Projects.h"

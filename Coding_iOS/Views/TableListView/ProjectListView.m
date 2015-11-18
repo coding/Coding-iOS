@@ -45,6 +45,7 @@ static NSString *const kValueKey = @"kValueKey";
     }
 }
 
+
 - (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(ProjectListViewBlock)block  tabBarHeight:(CGFloat)tabBarHeight
 {
     self = [super initWithFrame:frame];
@@ -62,7 +63,6 @@ static NSString *const kValueKey = @"kValueKey";
             [tableView registerClass:[ProjectAboutMeListCell class] forCellReuseIdentifier:@"ProjectAboutMeListCell"];
             [tableView registerClass:[ProjectAboutOthersListCell class] forCellReuseIdentifier:@"ProjectAboutOthersListCell"];
             [tableView registerClass:[ProjectPublicListCell class] forCellReuseIdentifier:@"ProjectPublicListCell"];
-
             
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             [self addSubview:tableView];
@@ -258,16 +258,16 @@ static NSString *const kValueKey = @"kValueKey";
             return @"全部项目";
             break;
         case ProjectsTypeJoined:
-            return @"已筛选\"我参与的\"项目";
+            return @"我参与的";
             break;
         case ProjectsTypeCreated:
-            return @"已筛选\"我创建的\"项目";
+            return @"我创建的";
             break;
         case ProjectsTypeWatched:
-            return @"已筛选\"我关注的\"项目";
+            return @"我关注的";
             break;
         case ProjectsTypeStared:
-            return @"已筛选\"我收藏的\"项目";
+            return @"我收藏的";
             break;
         default:
             return nil;
@@ -278,7 +278,7 @@ static NSString *const kValueKey = @"kValueKey";
 #pragma mark Table M
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return (self.myProjects.type < ProjectsTypeToChoose)&&(section==0)? 27: 0;
+    return (self.myProjects.type < ProjectsTypeToChoose)&&(section==0)? 30: 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -310,25 +310,25 @@ static NSString *const kValueKey = @"kValueKey";
             ProjectAboutMeListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectAboutMeListCell" forIndexPath:indexPath];
             [cell setProject:curPro hasSWButtons:self.myProjects.type == ProjectActivityTypeAll?YES:NO hasBadgeTip:YES hasIndicator:NO];
             cell.delegate = self;
-            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpaceAndSectionLine:kPaddingLeftWidth];
             return cell;
         }else if (_myProjects.type==ProjectsTypeWatched||_myProjects.type==ProjectsTypeStared){
             ProjectAboutOthersListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectAboutOthersListCell" forIndexPath:indexPath];
             [cell setProject:curPro hasSWButtons:self.myProjects.type == ProjectActivityTypeAll?YES:NO hasBadgeTip:YES hasIndicator:NO];
             cell.delegate = self;
-            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpaceAndSectionLine:kPaddingLeftWidth];
             return cell;
         }else if (_myProjects.type==ProjectsTypeAllPublic){
             ProjectPublicListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectPublicListCell" forIndexPath:indexPath];
             [cell setProject:curPro hasSWButtons:self.myProjects.type == ProjectActivityTypeAll?YES:NO hasBadgeTip:YES hasIndicator:NO];
             cell.delegate = self;
-            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpaceAndSectionLine:kPaddingLeftWidth];
             return cell;
         }
         else{
             ProjectListTaCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectListTaCell forIndexPath:indexPath];
             cell.project = curPro;
-            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpaceAndSectionLine:kPaddingLeftWidth];
             return cell;
         }
     }else
@@ -355,7 +355,13 @@ static NSString *const kValueKey = @"kValueKey";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_useNewStyle) {
-        return (_myProjects.type < ProjectsTypeTaProject||_myProjects.type==ProjectsTypeAllPublic)?kProjectAboutMeListCellHeight:[ProjectListTaCell cellHeight];
+        if (_myProjects.type < ProjectsTypeTaProject) {
+            return kProjectAboutMeListCellHeight;
+        }else if (_myProjects.type==ProjectsTypeAllPublic){
+            return kProjectPublicListCellHeight;
+        }else{
+            return [ProjectListTaCell cellHeight];
+        }
     }else
     {
         return (_myProjects.type < ProjectsTypeTaProject)?[ProjectListCell cellHeight]:[ProjectListTaCell cellHeight];

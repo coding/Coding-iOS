@@ -8,8 +8,8 @@
 
 #define kIconSize 90
 #define kSwapBtnWidth 135
-#define kLeftOffset 12
-#define kPinSize 18
+#define kLeftOffset 20
+#define kPinSize 22
 
 
 #import "ProjectPublicListCell.h"
@@ -33,7 +33,7 @@
         // Initialization code
         self.backgroundColor = [UIColor clearColor];
         if (!_projectIconView) {
-            _projectIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kLeftOffset, 10, kIconSize, kIconSize)];
+            _projectIconView = [[UIImageView alloc] initWithFrame:CGRectMake(12, 12, kIconSize, kIconSize)];
             _projectIconView.layer.masksToBounds = YES;
             _projectIconView.layer.cornerRadius = 2.0;
             [self.contentView addSubview:_projectIconView];
@@ -50,7 +50,7 @@
             _describeLabel = [UILabel new];
             _describeLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
             _describeLabel.font = [UIFont systemFontOfSize:14];
-            _describeLabel.numberOfLines=2;
+            _describeLabel.numberOfLines=1;
             [self.contentView addSubview:_describeLabel];
         }
         
@@ -168,13 +168,13 @@
         make.top.equalTo(_projectIconView.mas_top);
         make.height.equalTo(@(20));
         make.left.equalTo(_privateIconView.mas_right).offset(_privateIconView.hidden?0:8);
-        make.right.lessThanOrEqualTo(self.mas_right);
+        make.right.lessThanOrEqualTo(self.mas_right).offset(-12);
     }];
     
     [_describeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.privateIconView);
         make.height.equalTo(@(38));
-        make.width.equalTo(@(kScreen_Width-kLeftOffset-kIconSize-kLeftOffset));
+        make.width.equalTo(@(kScreen_Width-kLeftOffset-kIconSize-20));
         make.top.equalTo(_projectTitleLabel.mas_bottom);
     }];
     

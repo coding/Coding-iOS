@@ -10,7 +10,7 @@
  *  项目广场
  */
 
-#define kProjectPublicListCellHeight 115
+#define kProjectPublicListCellHeight 114
 
 #import <UIKit/UIKit.h>
 #import "Projects.h"

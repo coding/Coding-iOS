@@ -12,7 +12,6 @@
 
 @interface ProjectSquareViewController ()
 @property (strong, nonatomic) Projects *curPros;
-
 @end
 
 @implementation ProjectSquareViewController

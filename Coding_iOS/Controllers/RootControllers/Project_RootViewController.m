@@ -524,9 +524,10 @@
     [self closeFliter];
     [self closeMenu];
     SearchViewController *vc=[SearchViewController new];
-    [self.navigationController pushViewController:vc animated:NO];
-//    [self.navigationController presentViewController:vc animated:NO completion:nil];
+//    [self.navigationController pushViewController:vc animated:NO];
     
+    UINavigationController *searchNav=[[UINavigationController alloc]initWithRootViewController:vc];
+    [self.navigationController presentViewController:searchNav animated:NO completion:nil];
 }
 
 
