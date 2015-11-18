@@ -40,6 +40,8 @@
 @property (nonatomic,assign) NSInteger selectNum;  //筛选状态
 @property (nonatomic,strong)UIButton *leftNavBtn;
 @property (nonatomic,strong)FRDLivelyButton *rightNavBtn;
+@property (nonatomic,strong)UIView *searchView;
+@property (strong, nonatomic) UISearchBar *mySearchBar;
 
 @end
 
@@ -96,16 +98,26 @@
     
     //添加搜索框
     _mySearchBar = ({
-            UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(55,0, kScreen_Width-110, 44)];
-//            searchBar.layer.cornerRadius=22;
-//            searchBar.layer.masksToBounds=TRUE;
+            UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0, kScreen_Width-110, 30)];
+            searchBar.layer.cornerRadius=15;
+            searchBar.layer.masksToBounds=TRUE;
+            [searchBar.layer setBorderWidth:8];
+            [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
             [searchBar sizeToFit];
             searchBar.delegate = self;
+        
             [searchBar setPlaceholder:@"项目、任务、讨论、冒泡等"];
             [searchBar setTintColor:[UIColor whiteColor]];
             [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
+            [searchBar setHeight:30];
             searchBar;
         });
+    
+    _searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width-110, 30)];//allocate titleView
+    UIColor *color = [UIColor colorWithHexString:[NSObject baseURLStrIsTest]? @"0x3bbd79" : @"0x28303b"];
+    [_searchView setBackgroundColor:color];
+    
+    
     
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     
@@ -122,7 +134,6 @@
             weakSelf.selectNum=pageIndex;
         }
     };
-    
     
     //初始化弹出菜单
     NSArray *menuItems = @[
@@ -202,6 +213,7 @@
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn];
     self.navigationItem.rightBarButtonItem = buttonItem;
 
+    
 
 //    [self addImageBarButtonWithImageName:@"addBtn_Nav" button:_rightNavBtn action:@selector(addItemClicked:) isRight:YES];
 
@@ -213,7 +225,10 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.navigationController.navigationBar addSubview:_mySearchBar];
+    [self.navigationItem.titleView sizeToFit];
+    [_searchView addSubview:_mySearchBar];
+    self.navigationItem.titleView = _searchView;
+
     if (_myCarousel) {
         ProjectListView *listView = (ProjectListView *)_myCarousel.currentItemView;
         if (listView) {

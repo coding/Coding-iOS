@@ -20,7 +20,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.mySearchBar removeFromSuperview];
+    //重置titleview
+    self.navigationItem.titleView=[[[[self.navigationController viewControllers] firstObject] navigationItem] titleView];
 }
 
 - (void)setupNavBtn{
@@ -44,7 +45,6 @@
 
     self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = nil;
-    [self.mySearchBar removeFromSuperview];
 }
 
 - (void)configSegmentItems{
