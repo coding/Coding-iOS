@@ -51,6 +51,9 @@
 @end
 
 @interface KxMenu : NSObject
+@property (copy, nonatomic) void(^dismissBlock)(KxMenu *menu);
+
++ (instancetype) sharedMenu;
 
 + (void) showMenuInView:(UIView *)view
                fromRect:(CGRect)rect

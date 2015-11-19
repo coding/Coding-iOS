@@ -56,7 +56,7 @@
     
     _realTimeBlur = [[XHRealTimeBlur alloc] initWithFrame:self.bounds];
     _realTimeBlur.blurStyle = XHBlurStyleTranslucentWhite;
-    _realTimeBlur.showDuration = 0.2;
+    _realTimeBlur.showDuration = 0.1;
     _realTimeBlur.disMissDuration = 0.1;
 //    typeof(self) __weak weakSelf = self;
 

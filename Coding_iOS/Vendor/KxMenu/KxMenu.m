@@ -410,7 +410,11 @@ typedef enum {
     
     CGFloat maxImageWidth = 0;    
     CGFloat maxItemHeight = 0;
-    CGFloat maxItemWidth = 0;
+    CGFloat maxItemWidth = 160;
+    
+    //默认最大宽度
+//    CGFloat maxItemWidth = 0;
+
     CGFloat titleImagePadding = 10.f;
     
     for (KxMenuItem *menuItem in _menuItems) {
@@ -446,8 +450,9 @@ typedef enum {
     const CGFloat titleWidth = maxItemWidth - titleX - kMarginX * 2;
     
     UIImage *selectedImage = [KxMenuView selectedImage:(CGSize){maxItemWidth, maxItemHeight + 2}];
-    UIImage *gradientLine = [KxMenuView gradientLine: (CGSize){maxItemWidth - kMarginX * 4, 0.5}];
-    
+//    UIImage *gradientLine = [KxMenuView gradientLine: (CGSize){maxItemWidth - kMarginX * 4, 0.5}];
+    UIImage *gradientLine = [KxMenuView gradientLine: (CGSize){maxItemWidth, 0.3}];
+
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
     contentView.autoresizingMask = UIViewAutoresizingNone;
     contentView.backgroundColor = [UIColor clearColor];
@@ -481,7 +486,7 @@ typedef enum {
                        action:@selector(performAction:)
              forControlEvents:UIControlEventTouchUpInside];
             
-            [button setBackgroundImage:selectedImage forState:UIControlStateHighlighted];
+//            [button setBackgroundImage:selectedImage forState:UIControlStateHighlighted];
             
             [itemView addSubview:button];
         }
@@ -533,10 +538,14 @@ typedef enum {
         
         if (itemNum < _menuItems.count - 1) {
             
-            UIImageView *gradientView = [[UIImageView alloc] initWithImage:gradientLine];
-            gradientView.frame = (CGRect){kMarginX * 2, maxItemHeight + 1, gradientLine.size};
-            gradientView.contentMode = UIViewContentModeLeft;
-            [itemView addSubview:gradientView];
+//            UIImageView *gradientView = [[UIImageView alloc] initWithImage:gradientLine];
+//            gradientView.frame = (CGRect){kMarginX * 2, maxItemHeight + 1, gradientLine.size};
+//            gradientView.contentMode = UIViewContentModeLeft;
+            
+            UIView *lineView=[UIView new];
+            lineView.backgroundColor=[UIColor colorWithHexString:@"0xffffff" andAlpha:0.2];
+            lineView.frame=CGRectMake(0, maxItemHeight + 0.3, 160, 0.5);
+            [itemView addSubview:lineView];
             
             itemY += 2;
         }
@@ -857,7 +866,10 @@ static UIFont *gTitleFont;
         [_menuView dismissMenu:animated];
         _menuView = nil;
     }
-    
+    if (_dismissBlock) {
+        _dismissBlock(self);
+    }
+
     if (_observing) {
         
         _observing = NO;

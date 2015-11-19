@@ -91,6 +91,8 @@
         icarousel.bounceDistance = 0.2;
         [self.view addSubview:icarousel];
         [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.right.bottom.equalTo(self.view);
+//            make.top.equalTo(self.view).offset(kMySegmentControl_Height);
             make.edges.equalTo(self.view);
         }];
         icarousel;
@@ -105,8 +107,7 @@
             [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
             [searchBar sizeToFit];
             searchBar.delegate = self;
-        
-            [searchBar setPlaceholder:@"项目、任务、讨论、冒泡等"];
+            [searchBar setPlaceholder:@"项目、任务、讨论等"];
             [searchBar setTintColor:[UIColor whiteColor]];
             [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
             [searchBar setHeight:30];
@@ -180,16 +181,7 @@
                 break;
         }
     };
-
     
-    //添加滑块
-//    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
-//        if (index == _oldSelectedIndex) {
-//            return;
-//        }
-//        [weakCarousel scrollToItemAtIndex:index animated:NO];
-//    }];
-//    [self.view addSubview:_mySegmentControl];
     [self setupNavBtn];
     self.icarouselScrollEnabled = NO;
 }
@@ -213,7 +205,17 @@
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn];
     self.navigationItem.rightBarButtonItem = buttonItem;
 
-    
+    __weak typeof(_myCarousel) weakCarousel = _myCarousel;
+
+    //添加滑块
+//    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
+//        if (index == _oldSelectedIndex) {
+//            return;
+//        }
+//        [weakCarousel scrollToItemAtIndex:index animated:NO];
+//    }];
+//    [self.view addSubview:_mySegmentControl];
+
 
 //    [self addImageBarButtonWithImageName:@"addBtn_Nav" button:_rightNavBtn action:@selector(addItemClicked:) isRight:YES];
 

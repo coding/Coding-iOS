@@ -238,7 +238,7 @@ static NSString *const kValueKey = @"kValueKey";
             weakSelf.clickButtonBlock(curType);
         };
         
-        //空白页加载后显示
+        //空白页加载后显示 开启header
         self.blankPageView.loadAndShowStatusBlock=^() {
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSString *headerTitle=[weakSelf getSectionHeaderName];
@@ -278,10 +278,14 @@ static NSString *const kValueKey = @"kValueKey";
 #pragma mark Table M
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    //开启header模式
     return (self.myProjects.type < ProjectsTypeToChoose)&&(section==0)? 30: 0;
+//    return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    //开启header模式
+
     if(self.myProjects.type < ProjectsTypeToChoose){
         NSString *headerTitle=[self getSectionHeaderName];
         if (headerTitle.length==0) {
@@ -292,6 +296,8 @@ static NSString *const kValueKey = @"kValueKey";
     }else{
         return nil;
     }
+    
+//    return nil;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
