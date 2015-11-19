@@ -57,7 +57,6 @@
     if (!_curActivity) {
         return;
     }
-#warning 这里缺少两张图片 task_activity_icon_add_watcher , task_activity_icon_MergeRequestBean
     NSString *tipIconImageName;
     if ([curActivity.target_type isEqualToString:@"Task"]) {
         tipIconImageName = [NSString stringWithFormat:@"task_activity_icon_%@", _curActivity.action];

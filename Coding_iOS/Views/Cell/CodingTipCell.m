@@ -26,7 +26,7 @@
 
 @implementation CodingTipCell
 
-static CGFloat user_icon_width = 35.0;
+//static CGFloat user_icon_width = 35.0;
 static CGFloat padding_height = 45;
 static CGFloat padding_left = 30.0;
 static CGFloat padding_between_content = 15.0;

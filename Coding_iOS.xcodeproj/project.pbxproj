@@ -148,6 +148,8 @@
 		4E38CF5F1A7A28AF005536C0 /* CodeBranchTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E38CF5E1A7A28AF005536C0 /* CodeBranchTagButton.m */; };
 		4E38CF621A7B7C99005536C0 /* CodeBranchOrTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */; };
 		4E38CF641A7B8DD4005536C0 /* icon_triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E38CF631A7B8DD4005536C0 /* icon_triangle@2x.png */; };
+		4E3DB53C1BFDD0F40062BA52 /* task_activity_icon_add_watcher@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E3DB53A1BFDD0F40062BA52 /* task_activity_icon_add_watcher@2x.png */; };
+		4E3DB53D1BFDD0F40062BA52 /* task_activity_icon_MergeRequestBean@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E3DB53B1BFDD0F40062BA52 /* task_activity_icon_MergeRequestBean@2x.png */; };
 		4E4972DC1BB52A8300F3AC15 /* tipIcon_TweetComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E4972DB1BB52A8300F3AC15 /* tipIcon_TweetComment@2x.png */; };
 		4E4972DF1BB535B400F3AC15 /* tipIcon_ProjectTweet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E4972DD1BB535B400F3AC15 /* tipIcon_ProjectTweet@2x.png */; };
 		4E4972E01BB535B400F3AC15 /* tipIcon_ProjectTweetComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E4972DE1BB535B400F3AC15 /* tipIcon_ProjectTweetComment@2x.png */; };
@@ -1135,6 +1137,8 @@
 		4E38CF601A7B7C99005536C0 /* CodeBranchOrTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeBranchOrTag.h; sourceTree = "<group>"; };
 		4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodeBranchOrTag.m; sourceTree = "<group>"; };
 		4E38CF631A7B8DD4005536C0 /* icon_triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_triangle@2x.png"; sourceTree = "<group>"; };
+		4E3DB53A1BFDD0F40062BA52 /* task_activity_icon_add_watcher@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_add_watcher@2x.png"; sourceTree = "<group>"; };
+		4E3DB53B1BFDD0F40062BA52 /* task_activity_icon_MergeRequestBean@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_MergeRequestBean@2x.png"; sourceTree = "<group>"; };
 		4E4972DB1BB52A8300F3AC15 /* tipIcon_TweetComment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_TweetComment@2x.png"; sourceTree = "<group>"; };
 		4E4972DD1BB535B400F3AC15 /* tipIcon_ProjectTweet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_ProjectTweet@2x.png"; sourceTree = "<group>"; };
 		4E4972DE1BB535B400F3AC15 /* tipIcon_ProjectTweetComment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_ProjectTweetComment@2x.png"; sourceTree = "<group>"; };
@@ -2674,6 +2678,8 @@
 		4E6383F31B33C18700D98648 /* task_activity_icon */ = {
 			isa = PBXGroup;
 			children = (
+				4E3DB53A1BFDD0F40062BA52 /* task_activity_icon_add_watcher@2x.png */,
+				4E3DB53B1BFDD0F40062BA52 /* task_activity_icon_MergeRequestBean@2x.png */,
 				4E0EF6EB1BF42E4B00F2FCC8 /* task_activity_icon_update_label@2x.png */,
 				4EC461B51B3939DC00D08970 /* task_activity_icon_commit_refer@2x.png */,
 				4E6384021B33C8E900D98648 /* task_activity_icon_create@2x.png */,
@@ -5135,6 +5141,7 @@
 				4E4D6AC81B252F4800FD2E49 /* icon_add_comment@2x.png in Resources */,
 				4E0022A71B7362EF005308DE /* intro_page0_ip5@2x.png in Resources */,
 				8E872D0019EFEFF7002C8F34 /* tweet_more_comment_icon@2x.png in Resources */,
+				4E3DB53C1BFDD0F40062BA52 /* task_activity_icon_add_watcher@2x.png in Resources */,
 				8EA6D1A019E240C40076D59C /* tipIcon_TweetLike@2x.png in Resources */,
 				4E72F8331B15B811001B6CE6 /* gif_mark@2x.png in Resources */,
 				4EC5AD921A258DF8006FA97C /* icon_file_cell_delete@2x.png in Resources */,
@@ -5174,6 +5181,7 @@
 				4E90F89D1AF709C100B44F03 /* markdown.html in Resources */,
 				4E2BF3D51B96CDF800A5A0A8 /* share_btn_wxsession@2x.png in Resources */,
 				4EB845351AB83C3B0030DC69 /* git_icon_watch@2x.png in Resources */,
+				4E3DB53D1BFDD0F40062BA52 /* task_activity_icon_MergeRequestBean@2x.png in Resources */,
 				4E96E7E31A1B537E0037C098 /* icon_file_txt@2x.png in Resources */,
 				8EA6D18919E240C40076D59C /* task_normal@2x.png in Resources */,
 				8EA6D19419E240C40076D59C /* timeline_line_unread@2x.png in Resources */,
