@@ -5819,7 +5819,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Coding_iOS/Coding_iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -5857,7 +5857,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Coding_iOS/Coding_iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
