@@ -25,8 +25,8 @@
 #import "CSHotTopicPagesVC.h"
 #import "CSTopicDetailVC.h"
 #import "PublicSearchModel.h"
+#import "ProjectAboutMeListCell.h"
 
-#define kCellIdentifier_Search  @"com.coding.search.tweet.result"
 
 
 @interface AllSearchDisplayVC () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource,UIScrollViewDelegate>
@@ -210,7 +210,8 @@
             UITableView *tableView = [[UITableView alloc] initWithFrame:_contentView.frame style:UITableViewStylePlain];
             tableView.backgroundColor = [UIColor whiteColor];
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-            [tableView registerClass:[CSSearchCell class] forCellReuseIdentifier:kCellIdentifier_Search];
+            [tableView registerClass:[CSSearchCell class] forCellReuseIdentifier:@"CSSearchCell"];
+            [tableView registerClass:[ProjectAboutMeListCell class] forCellReuseIdentifier:@"ProjectAboutMeListCell"];
             tableView.dataSource = self;
             tableView.delegate = self;
             {
@@ -419,8 +420,8 @@
 //            NSArray *resultA = [NSObject arrayFromJSON:[dataDic objectForKey:@"list"] ofObjects:@"Tweet"];
 //
             [weakSelf.dateSource addObjectsFromArray:pros.projects.list];
-//            [weakSelf.searchTableView reloadData];
-//            [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+            [weakSelf.searchTableView reloadData];
+            [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
 
 //            NSArray *resultA = [NSObject arrayFromJSON:[dataDic objectForKey:@"list"] ofObjects:@"Tweet"];
 //            [weakSelf.dateSource addObjectsFromArray:resultA];
@@ -472,7 +473,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (_curSearchType==eSearchType_Tweet) {
-        CSSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Search forIndexPath:indexPath];
+        CSSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CSSearchCell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         Tweet *tweet = _dateSource[indexPath.row];
         cell.tweet = tweet;
@@ -490,6 +491,13 @@
         
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
         return cell;
+    }else if(_curSearchType==eSearchType_Project){
+        ProjectAboutMeListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectAboutMeListCell" forIndexPath:indexPath];
+        Project *project=_dateSource[indexPath.row];
+        [cell setProject:project hasSWButtons:NO hasBadgeTip:YES hasIndicator:NO];
+        cell.delegate = self;
+//        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpaceAndSectionLine:kPaddingLeftWidth];
+        return cell;
     }
     else{
         return nil;
@@ -500,7 +508,10 @@
     if (_curSearchType==eSearchType_Tweet) {
         Tweet *tweet = _dateSource[indexPath.row];
         return[CSSearchCell cellHeightWithObj:tweet];
-    }else{
+    }else if(_curSearchType==eSearchType_Project){
+        return kProjectAboutMeListCellHeight;
+    }
+    else{
         return 100;
     }
 }
