@@ -95,7 +95,7 @@
 
 #pragma mark Table M
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+    return _curRecords.list.count <= 0? 0:2;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return section == 0? 2: self.curRecords.list.count;
