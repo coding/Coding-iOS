@@ -9,14 +9,13 @@
 #import "SearchViewController.h"
 #import "CategorySearchBar.h"
 #import "KxMenu.h"
-#import "CSSearchDisplayVC.h"
-
+#import "AllSearchDisplayVC.h"
 
 @interface SearchViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)UIView *searchView;
 @property (strong, nonatomic) NSMutableArray *statusList;
 @property (strong, nonatomic) CategorySearchBar *mySearchBar;
-@property (strong, nonatomic) CSSearchDisplayVC *searchDisplayVC;
+@property (strong, nonatomic) AllSearchDisplayVC *searchDisplayVC;
 @property (nonatomic,strong) UITableView *tableview;
 @property (nonatomic,strong) NSMutableArray *dataSource;
 @property (nonatomic,assign) int selectIndex;
@@ -77,30 +76,30 @@
     [self.navigationController.navigationBar addSubview:_mySearchBar];
     
     
+    //初始化选项
+    NSMutableArray *menuItems = @[].mutableCopy;
+    [_statusList enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        KxMenuItem *menuItem = [KxMenuItem menuItem:obj image:nil target:self action:@selector(menuItemClicked:)];
+        menuItem.alignment=NSTextAlignmentLeft;
+        //                menuItem.foreColor = [UIColor colorWithHexString:idx == _selectedStatusIndex? @"0x3bbd79": @"0x222222"];
+        menuItem.foreColor = [UIColor colorWithHexString:@"0xffffff"];
+        [menuItems addObject:menuItem];
+    }];
+
+    
     __weak typeof(self) weakSelf = self;
     [_mySearchBar patchWithCategoryWithSelectBlock:^{
-        if ([KxMenu isShowingInView:self.view]) {
+        if ([KxMenu isShowingInView:[UIApplication sharedApplication].keyWindow]) {
             [KxMenu dismissMenu:YES];
+            [weakSelf.mySearchBar becomeFirstResponder];
         }else{
             [weakSelf.mySearchBar resignFirstResponder];
             [KxMenu setTitleFont:[UIFont systemFontOfSize:14]];
             [KxMenu setTintColor:[UIColor blackColor]];
             [KxMenu setOverlayColor:[UIColor clearColor]];
             
-            NSMutableArray *menuItems = @[].mutableCopy;
-            [_statusList enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                KxMenuItem *menuItem = [KxMenuItem menuItem:obj image:nil target:weakSelf action:@selector(menuItemClicked:)];
-                menuItem.alignment=NSTextAlignmentLeft;
-//                menuItem.foreColor = [UIColor colorWithHexString:idx == _selectedStatusIndex? @"0x3bbd79": @"0x222222"];
-                menuItem.foreColor = [UIColor colorWithHexString:@"0xffffff"];
-                [menuItems addObject:menuItem];
-            }];
             CGRect senderFrame = CGRectMake(weakSelf.searchView.frame.origin.x+50, 64, 0, 0);
             [KxMenu showMenuInView:[UIApplication sharedApplication].keyWindow fromRect:senderFrame menuItems:menuItems];
-            [KxMenu sharedMenu].dismissBlock = ^(KxMenu *menu){
-                [weakSelf.mySearchBar becomeFirstResponder];
-            };
-
         }
     }];
     [_mySearchBar setSearchCategory:[_statusList objectAtIndex:_selectIndex]];
@@ -108,14 +107,18 @@
     
     if (!_searchDisplayVC) {
         _searchDisplayVC = ({
-            CSSearchDisplayVC *searchVC = [[CSSearchDisplayVC alloc] initWithSearchBar:_mySearchBar contentsController:self];
+            AllSearchDisplayVC *searchVC = [[AllSearchDisplayVC alloc] initWithSearchBar:_mySearchBar contentsController:self];
             
+            //自定义uisearchbar 要在这里重新申明
             //需要重新调整下大小
             searchVC.searchBar.frame=CGRectMake(20,7, kScreen_Width-75, 30);
             searchVC.searchBar.layer.cornerRadius=15;
             searchVC.searchBar.layer.masksToBounds=TRUE;
             [searchVC.searchBar.layer setBorderWidth:8];
             [searchVC.searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
+
+            //placeholder 要在此处设置，不然报错
+            [searchVC.searchBar setPlaceholder:@"项目、任务、讨论等"];
 
             searchVC.displaysSearchBarInNavigationBar=NO;
             searchVC.parentVC = self;
@@ -186,11 +189,14 @@
 }
 
 - (void)menuItemClicked:(KxMenuItem *)item{
+    [_mySearchBar becomeFirstResponder];
     int nowSelectIndex = [_statusList indexOfObject:item.title];
     if (nowSelectIndex == NSNotFound || nowSelectIndex == _selectIndex) {
         return;
     }
     _selectIndex = nowSelectIndex;
+    
+    _searchDisplayVC.curSearchType=_selectIndex;
     NSString *showStr=([[_statusList objectAtIndex:_selectIndex] length]>2)?[[_statusList objectAtIndex:_selectIndex] substringToIndex:[[_statusList objectAtIndex:_selectIndex] length]-2]:[_statusList objectAtIndex:_selectIndex];
     [_mySearchBar setSearchCategory:showStr];
 }

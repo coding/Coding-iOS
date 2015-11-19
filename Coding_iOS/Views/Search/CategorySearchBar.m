@@ -21,7 +21,7 @@
     self.autoresizesSubviews = YES;
     //找到输入框  右移
     UITextField *searchField=[[[[self subviews] firstObject] subviews] lastObject];
-    [searchField setFrame:CGRectMake(55,5,250,20)];
+    [searchField setFrame:CGRectMake(55,5,230,20)];
     
     //
     [(UIImageView*)searchField.leftView setImage:[UIImage imageNamed:@"tips_menu_icon_status"]];

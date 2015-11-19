@@ -2305,8 +2305,25 @@
             block(nil, error);
         }
     }];
-
 }
+
+- (void)requestWithSearchString:(NSString *)strSearch typeStr:(NSString*)type andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {
+    
+    NSString *path = [NSString stringWithFormat:@"/api/esearch/%@?q=%@&page=%d",type,strSearch, (int)page];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        
+        if(data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"全局_搜索"];
+            
+            id resultData = [(NSDictionary *)[data valueForKey:@"data"] objectForKey:@"tweets"];
+//            block(resultData, nil);
+        }else {
+            
+            block(nil, error);
+        }
+    }];
+}
+
 
 - (void)request_TopicDetailsWithTopicID:(NSInteger)topicID block:(void (^)(id data, NSError *error))block {
     NSString *path = [NSString stringWithFormat:@"/api/tweet_topic/%ld",(long)topicID];
