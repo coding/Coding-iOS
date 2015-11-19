@@ -12,6 +12,17 @@
 
 @implementation Tweets
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"Tweet", @"list", nil];
+    }
+    return self;
+}
+
+
 + (Tweets *)tweetsWithType:(TweetType)tweetType{
     Tweets *tweets = [[Tweets alloc] init];
     tweets.tweetType = tweetType;

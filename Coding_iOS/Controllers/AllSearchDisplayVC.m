@@ -23,8 +23,8 @@
 #import "TweetDetailViewController.h"
 
 #import "CSHotTopicPagesVC.h"
-
 #import "CSTopicDetailVC.h"
+#import "PublicSearchModel.h"
 
 #define kCellIdentifier_Search  @"com.coding.search.tweet.result"
 
@@ -392,9 +392,9 @@
     
     _isLoading = YES;
     
+    __weak typeof(self) weakSelf = self;
     if (_curSearchType==eSearchType_Tweet) {
-        __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_Tweet_WithSearchString:self.searchBar.text andPage:page andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"tweet" andPage:page andBlock:^(id data, NSError *error) {
             
             if(data) {
                 NSDictionary *dataDic = (NSDictionary *)data;
@@ -411,6 +411,24 @@
             weakSelf.isLoading = NO;
             weakSelf.headerLabel.text = [NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的冒泡", (long)weakSelf.totalCount, weakSelf.searchBar.text, nil];
         }];
+    }else if(_curSearchType==eSearchType_Project){
+    [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"all" andPage:page andBlock:^(id data, NSError *error) {
+        if(data) {
+            PublicSearchModel *pros = [NSObject objectOfClass:@"PublicSearchModel" fromJSON:data];
+            
+//            NSArray *resultA = [NSObject arrayFromJSON:[dataDic objectForKey:@"list"] ofObjects:@"Tweet"];
+//
+            [weakSelf.dateSource addObjectsFromArray:pros.projects.list];
+//            [weakSelf.searchTableView reloadData];
+//            [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+
+//            NSArray *resultA = [NSObject arrayFromJSON:[dataDic objectForKey:@"list"] ofObjects:@"Tweet"];
+//            [weakSelf.dateSource addObjectsFromArray:resultA];
+//            [weakSelf.searchTableView reloadData];
+//            [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+//            weakSelf.searchTableView.showsInfiniteScrolling = weakSelf.currentPage >= weakSelf.totalPage ? NO : YES;
+        }
+    }];
     }
 }
 
@@ -453,41 +471,51 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    CSSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Search forIndexPath:indexPath];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    Tweet *tweet = _dateSource[indexPath.row];
-    cell.tweet = tweet;
-    
-    __weak typeof(self) weakSelf = self;
-    
-    cell.userBtnClickedBlock = ^(User *curUser){
-        UserInfoViewController *vc = [[UserInfoViewController alloc] init];
-        vc.curUser = curUser;
-        [self.parentVC.parentViewController.navigationController pushViewController:vc animated:YES];
-    };
-    cell.mediaItemClickedBlock = ^(HtmlMediaItem *curItem){
-        [weakSelf analyseLinkStr:curItem.href];
-    };
-    
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
-    return cell;
+    if (_curSearchType==eSearchType_Tweet) {
+        CSSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Search forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        Tweet *tweet = _dateSource[indexPath.row];
+        cell.tweet = tweet;
+        
+        __weak typeof(self) weakSelf = self;
+        
+        cell.userBtnClickedBlock = ^(User *curUser){
+            UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+            vc.curUser = curUser;
+            [self.parentVC.parentViewController.navigationController pushViewController:vc animated:YES];
+        };
+        cell.mediaItemClickedBlock = ^(HtmlMediaItem *curItem){
+            [weakSelf analyseLinkStr:curItem.href];
+        };
+        
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
+        return cell;
+    }
+    else{
+        return nil;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    Tweet *tweet = _dateSource[indexPath.row];
-    return[CSSearchCell cellHeightWithObj:tweet];
+    if (_curSearchType==eSearchType_Tweet) {
+        Tweet *tweet = _dateSource[indexPath.row];
+        return[CSSearchCell cellHeightWithObj:tweet];
+    }else{
+        return 100;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    Tweet *tweet = _dateSource[indexPath.row];
-    
-    TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
-    vc.curTweet = tweet;
-    vc.deleteTweetBlock = ^(Tweet *toDeleteTweet){
-    };
-    [self.parentVC.parentViewController.navigationController pushViewController:vc animated:YES];
-    
+    if (_curSearchType==eSearchType_Tweet) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        Tweet *tweet = _dateSource[indexPath.row];
+        
+        TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
+        vc.curTweet = tweet;
+        vc.deleteTweetBlock = ^(Tweet *toDeleteTweet){
+        };
+        [self.parentVC.parentViewController.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 

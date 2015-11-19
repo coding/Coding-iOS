@@ -2310,13 +2310,17 @@
 - (void)requestWithSearchString:(NSString *)strSearch typeStr:(NSString*)type andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {
     
     NSString *path = [NSString stringWithFormat:@"/api/esearch/%@?q=%@&page=%d",type,strSearch, (int)page];
+    if ([type isEqualToString:@"all"]) {
+        path=[NSString stringWithFormat:@"%@&types=projects,project_topics,tasks,tweets,files,friends,merge_requests,pull_requests",path];
+    }
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         
         if(data) {
             [MobClick event:kUmeng_Event_Request_Get label:@"全局_搜索"];
             
-            id resultData = [(NSDictionary *)[data valueForKey:@"data"] objectForKey:@"tweets"];
-//            block(resultData, nil);
+//            id resultData = [(NSDictionary *)[data valueForKey:@"data"] objectForKey:@"tweets"];
+            id resultData = [data valueForKey:@"data"];
+            block(resultData, nil);
         }else {
             
             block(nil, error);
