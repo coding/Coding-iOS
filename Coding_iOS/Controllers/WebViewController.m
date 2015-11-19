@@ -64,7 +64,7 @@
     @weakify(self);
     _progressProxy.progressBlock = ^(float progress) {
         @strongify(self);
-        [self.progressView setProgress:progress animated:NO];
+        [self.progressView setProgress:progress animated:YES];
     };
     
     CGFloat progressBarHeight = 2.f;
