@@ -5837,7 +5837,7 @@
 					"Pods/evernote-cloud-sdk-ios/**",
 				);
 				INFOPLIST_FILE = "Coding_iOS/Coding_iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/XGPush",
@@ -5875,7 +5875,7 @@
 					"Pods/evernote-cloud-sdk-ios/**",
 				);
 				INFOPLIST_FILE = "Coding_iOS/Coding_iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/XGPush",
