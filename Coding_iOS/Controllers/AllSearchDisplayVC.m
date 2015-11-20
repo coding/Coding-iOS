@@ -32,10 +32,7 @@
 #import "TweetSearchCell.h"
 
 // nav--------
-#import "NProjectViewController.h"
 #import "TweetDetailViewController.h"
-#import "FileViewController.h"
-#import "ProjectSquareViewController.h"
 
 @interface AllSearchDisplayVC () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource,UIScrollViewDelegate>
 
@@ -307,14 +304,7 @@
 
 #pragma mark -- goVC
 - (void)goToProject:(Project *)project{
-    NProjectViewController *vc = [[NProjectViewController alloc] init];
-    
-    Project *projectCopy=[project copy];
-    projectCopy.owner_user_name=[[[[[projectCopy project_path] componentsSeparatedByString:@"/p"] firstObject] componentsSeparatedByString:@"u/"] lastObject];
-    projectCopy.name=[NSString getStr:project.name removeEmphasize:@"em"];
-    projectCopy.description_mine=[NSString getStr:project.description_mine removeEmphasize:@"em"];
-
-    vc.myProject = projectCopy;
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:project.project_path];
     [self.parentVC.navigationController pushViewController:vc animated:TRUE];
 }
 
@@ -325,15 +315,9 @@
 }
 
 - (void)goToFileVC:(ProjectFile *)file{
-    FileViewController *vc = [FileViewController vcWithFile:file andVersion:nil];
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:file.path];
     [self.parentVC.navigationController pushViewController:vc animated:YES];
 }
-
-- (void)goToProjectSquareVC{
-    ProjectSquareViewController *vc=[ProjectSquareViewController new];
-    [self.parentVC.navigationController pushViewController:vc animated:YES];
-}
-
 
 
 #pragma mark -

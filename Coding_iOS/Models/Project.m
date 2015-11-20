@@ -50,6 +50,7 @@
     person.created_at = [_created_at copy];
     person.updated_at = [_updated_at copy];
     person.project_path=[_project_path copy];
+    person.owner=[_owner copy];
     return person;
 }
 

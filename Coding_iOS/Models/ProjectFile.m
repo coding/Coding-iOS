@@ -16,6 +16,36 @@
 
 @implementation ProjectFile
 
+-(id)copyWithZone:(NSZone*)zone {
+    ProjectFile *file = [[[self class] allocWithZone:zone] init];
+    file.project_owner_name = [_project_owner_name copy];
+    file.project_name = [_project_name copy];
+    file.diskFileName = [_diskFileName copy];
+    file.owner = [_owner copy];
+    file.share_url = [_share_url copy];
+    file.title = [_title copy];
+    file.storage_type = [_storage_type copy];
+    file.storage_key = [_storage_key copy];
+    file.preview = [_preview copy];
+    file.owner_preview = [_owner_preview copy];
+    file.fileType = [_fileType copy];
+    file.name = [_name copy];
+    file.number = [_number copy];
+    file.project_id = [_project_id copy];
+    file.size = [_size copy];
+    file.current_user_role_id = [_current_user_role_id copy];
+    file.type = [_type copy];
+    file.parent_id = [_parent_id copy];
+    file.owner_id = [_owner_id copy];
+    file.file_id = [_file_id copy];
+    file.created_at = [_created_at copy];
+    file.updated_at = [_updated_at copy];
+    file.id=[_id copy];
+    file.path=[_path copy];
+    return file;
+}
+
+
 +(ProjectFile *)fileWithFileId:(NSNumber *)fileId andProjectId:(NSNumber *)project_id{
     ProjectFile *file = [[ProjectFile alloc] init];
     file.file_id = fileId;
