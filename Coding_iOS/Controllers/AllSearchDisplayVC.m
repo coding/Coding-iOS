@@ -17,16 +17,25 @@
 #import "RKSwipeBetweenViewControllers.h"
 #import "CSHotTopicView.h"
 #import "CSMyTopicVC.h"
-#import "TweetSearchCell.h"
 #import "UserInfoViewController.h"
 #import "WebViewController.h"
-#import "TweetDetailViewController.h"
 
 #import "CSHotTopicPagesVC.h"
 #import "CSTopicDetailVC.h"
 #import "PublicSearchModel.h"
+#import "Login.h"
+#import "NSString+Attribute.h"
+
+// cell--------------
 #import "ProjectAboutMeListCell.h"
 #import "FileSearchCell.h"
+#import "TweetSearchCell.h"
+
+// nav--------
+#import "NProjectViewController.h"
+#import "TweetDetailViewController.h"
+#import "FileViewController.h"
+#import "ProjectSquareViewController.h"
 
 @interface AllSearchDisplayVC () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource,UIScrollViewDelegate>
 
@@ -99,7 +108,7 @@
             _contentView = ({
                 
                 UIView *view = [[UIView alloc] init];
-                view.frame = CGRectMake(0.0f, 60.0f, kScreen_Width, kScreen_Height - 60.0f);
+                view.frame = CGRectMake(0.0f, 0, kScreen_Width, kScreen_Height - 60.0f);
                 view.backgroundColor = [UIColor clearColor];
                 view.userInteractionEnabled = YES;
                 
@@ -110,7 +119,6 @@
             });
             
             _backgroundView = ({
-                
                 XHRealTimeBlur *blur = [[XHRealTimeBlur alloc] initWithFrame:_contentView.frame];
                 blur.blurStyle = XHBlurStyleTranslucentWhite;
                 blur;
@@ -121,79 +129,14 @@
             [self initSearchHistoryView];
         }
         
-        //        [self.searchBar.superview addSubview:_backgroundView];
-        //        [self.searchBar.superview addSubview:_contentView];
-        //        [self.searchBar.superview bringSubviewToFront:_contentView];
-        [self.parentVC.parentViewController.view addSubview:_backgroundView];
-        [self.parentVC.parentViewController.view addSubview:_contentView];
-        [self.parentVC.parentViewController.view bringSubviewToFront:_contentView];
-        __weak typeof(self) weakSelf = self;
-        self.searchBar.delegate = weakSelf;
+        [self.parentVC.view addSubview:_backgroundView];
+        [self.parentVC.view addSubview:_contentView];
+        [self.parentVC.view bringSubviewToFront:_contentView];
+        self.searchBar.delegate = self;
     }
 }
 
 #pragma mark - UI
-
-//- (void)initSubViewsInContentView {
-//    
-//    UILabel *lblHotKey = [[UILabel alloc] initWithFrame:CGRectMake(12.0f, 4.0f, kScreen_Width, 39.0f)];
-//    [lblHotKey setUserInteractionEnabled:YES];
-//    [lblHotKey setText:@"热门话题"];
-//    [lblHotKey setFont:[UIFont systemFontOfSize:12.0f]];
-//    [lblHotKey setTextColor:[UIColor colorWithHexString:@"0x999999"]];
-//    [_contentView addSubview:lblHotKey];
-//    
-//    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickedMoreHotkey:)];
-//    [lblHotKey addGestureRecognizer:tapGestureRecognizer];
-//    
-//    UIImageView *moreIconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 10.0f, 20.0f, 20.0f)];
-//    moreIconView.image = [UIImage imageNamed:@"me_info_arrow_left"];
-//    moreIconView.right = kScreen_Width - 12;
-//    moreIconView.centerY = lblHotKey.centerY;
-//    [_contentView addSubview:moreIconView];
-//    
-//    __weak typeof(self) weakSelf = self;
-//    
-//    _topicHotkeyView = [[TopicHotkeyView alloc] initWithFrame:CGRectMake(0, 44, kScreen_Width, 0)];
-//    _topicHotkeyView.block = ^(NSDictionary *dict){
-//        [weakSelf.searchBar resignFirstResponder];
-//        
-//        CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
-//        vc.topicID = [dict[@"id"] intValue];
-//        [weakSelf.parentVC.navigationController pushViewController:vc animated:YES];
-//        
-//    };
-//    [_contentView addSubview:_topicHotkeyView];
-//    [_topicHotkeyView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(@0);
-//        make.top.mas_equalTo(@44);
-//        make.width.mas_equalTo(kScreen_Width);
-//        make.height.mas_equalTo(@0);
-//    }];
-//    
-//    [self initSearchHistoryView];
-//    
-//    [[Coding_NetAPIManager sharedManager] request_TopicHotkeyWithBlock:^(id data, NSError *error) {
-//        if(data && _contentView) {
-//            NSArray *array = data;
-//            NSMutableArray *hotkeyArray = [[NSMutableArray alloc] initWithCapacity:6];
-//            for (int i = 0; i < array.count; i++) {
-//                if (i == 6) {
-//                    break;
-//                }
-//                [hotkeyArray addObject:array[i]];
-//            }
-//            
-//            [weakSelf.topicHotkeyView setHotkeys:hotkeyArray];
-//            [weakSelf.topicHotkeyView mas_updateConstraints:^(MASConstraintMaker *make) {
-//                make.left.mas_equalTo(@0);
-//                make.top.mas_equalTo(@44);
-//                make.width.mas_equalTo(kScreen_Width);
-//                make.height.mas_equalTo(weakSelf.topicHotkeyView.frame.size.height);
-//            }];
-//        }
-//    }];
-//}
 
 - (void)initSearchResultsTableView {
     
@@ -220,7 +163,7 @@
                 }];
             }
             
-            [self.parentVC.parentViewController.view addSubview:tableView];
+            [self.parentVC.view addSubview:tableView];
             
             self.headerLabel = ({
                 UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, kScreen_Width, 44)];
@@ -361,6 +304,38 @@
     [self initSearchResultsTableView];
 }
 
+
+#pragma mark -- goVC
+- (void)goToProject:(Project *)project{
+    NProjectViewController *vc = [[NProjectViewController alloc] init];
+    
+    Project *projectCopy=[project copy];
+    projectCopy.owner_user_name=[[[[[projectCopy project_path] componentsSeparatedByString:@"/p"] firstObject] componentsSeparatedByString:@"u/"] lastObject];
+    projectCopy.name=[NSString getStr:project.name removeEmphasize:@"em"];
+    projectCopy.description_mine=[NSString getStr:project.description_mine removeEmphasize:@"em"];
+
+    vc.myProject = projectCopy;
+    [self.parentVC.navigationController pushViewController:vc animated:TRUE];
+}
+
+-(void)goToTweet:(Tweet *)tweet{
+    TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
+    vc.curTweet = tweet;
+    [self.parentVC.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToFileVC:(ProjectFile *)file{
+    FileViewController *vc = [FileViewController vcWithFile:file andVersion:nil];
+    [self.parentVC.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToProjectSquareVC{
+    ProjectSquareViewController *vc=[ProjectSquareViewController new];
+    [self.parentVC.navigationController pushViewController:vc animated:YES];
+}
+
+
+
 #pragma mark -
 #pragma mark Search Data Request
 
@@ -398,8 +373,28 @@
         default:
             break;
     }
+    [self refreshHeaderTitle];
     [self.searchTableView.infiniteScrollingView stopAnimating];
     [self.searchTableView reloadData];
+}
+
+//更新header数量和类型统计
+- (void)refreshHeaderTitle{
+    NSString *titleStr;
+    switch (_curSearchType) {
+        case eSearchType_Project:
+            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的项目", [_searchPros.projects.totalRow longValue],self.searchBar.text];
+            break;
+        case eSearchType_Tweet:
+            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的冒泡", [_searchPros.tweets.totalRow longValue],self.searchBar.text];
+            break;
+        case eSearchType_Document:
+            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的文档", [_searchPros.files.totalRow longValue],self.searchBar.text];
+            break;
+        default:
+            break;
+    }
+    self.headerLabel.text=titleStr;
 }
 
 - (void)requestDataWithPage:(NSInteger)page {
@@ -464,7 +459,7 @@
             [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
         }
         weakSelf.isLoading = NO;
-        weakSelf.headerLabel.text = [NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的项目", (long)weakSelf.totalCount, weakSelf.searchBar.text, nil];
+        [self refreshHeaderTitle];
     }];
 }
 
@@ -474,11 +469,11 @@
     }
     UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
     if (vc) {
-        [self.parentVC.parentViewController.navigationController pushViewController:vc animated:YES];
+        [self.parentVC.navigationController pushViewController:vc animated:YES];
     }else{
         //网页
         WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
-        [self.parentVC.parentViewController.navigationController pushViewController:webVc animated:YES];
+        [self.parentVC.navigationController pushViewController:webVc animated:YES];
     }
 }
 
@@ -492,7 +487,6 @@
     [self.searchBar resignFirstResponder];
     
     [self initSearchResultsTableView];
-    
 }
 
 #pragma mark - UITableViewDelegate & UITableViewDataSource Support
@@ -510,16 +504,6 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         Tweet *tweet = _dateSource[indexPath.row];
         cell.tweet = tweet;
-        
-        cell.userBtnClickedBlock = ^(User *curUser){
-            UserInfoViewController *vc = [[UserInfoViewController alloc] init];
-            vc.curUser = curUser;
-            [self.parentVC.parentViewController.navigationController pushViewController:vc animated:YES];
-        };
-        cell.mediaItemClickedBlock = ^(HtmlMediaItem *curItem){
-            [weakSelf analyseLinkStr:curItem.href];
-        };
-        
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else if(_curSearchType==eSearchType_Project){
@@ -527,7 +511,6 @@
         cell.openKeywords=TRUE;
         Project *project=_dateSource[indexPath.row];
         [cell setProject:project hasSWButtons:NO hasBadgeTip:YES hasIndicator:NO];
-        cell.delegate = self;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else if(_curSearchType==eSearchType_Document){
@@ -555,17 +538,15 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (_curSearchType==eSearchType_Tweet) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        Tweet *tweet = _dateSource[indexPath.row];
-        
-        TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
-        vc.curTweet = tweet;
-        vc.deleteTweetBlock = ^(Tweet *toDeleteTweet){
-        };
-        [self.parentVC.parentViewController.navigationController pushViewController:vc animated:YES];
+        [self goToTweet:_dateSource[indexPath.row]];
+    }else if(_curSearchType==eSearchType_Project){
+        [self goToProject:_dateSource[indexPath.row]];
+    }else if (_curSearchType==eSearchType_Document){
+        [self goToFileVC:_dateSource[indexPath.row]];
     }
 }
-
 
 @end

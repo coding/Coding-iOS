@@ -24,7 +24,7 @@
     [searchField setFrame:CGRectMake(55,5,230,20)];
     
     //
-    [(UIImageView*)searchField.leftView setImage:[UIImage imageNamed:@"tips_menu_icon_status"]];
+//    [(UIImageView*)searchField.leftView setImage:[UIImage imageNamed:@"tips_menu_icon_status"]];
 }
 
 -(void)patchWithCategoryWithSelectBlock:(SelectBlock)block{

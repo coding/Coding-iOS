@@ -32,6 +32,8 @@ typedef NS_ENUM(NSInteger, TweetType)
 @property (readwrite, nonatomic, strong) User *curUser;
 @property (readwrite, nonatomic, strong) Tweet *nextTweet;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
+@property (readwrite, nonatomic, strong) NSNumber *totalPage, *totalRow;
+@property (readwrite, nonatomic, strong) NSNumber *page, *pageSize;
 
 + (Tweets *)tweetsWithType:(TweetType)tweetType;
 + (Tweets *)tweetsWithUser:(User *)curUser;

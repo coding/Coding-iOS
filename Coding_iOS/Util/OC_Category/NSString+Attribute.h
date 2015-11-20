@@ -11,6 +11,6 @@
 
 +(NSAttributedString*)getAttributeFromText:(NSString*)text emphasizeTag:(NSString*)tag emphasizeColor:(UIColor*)color;
 +(NSAttributedString*)getAttributeFromText:(NSString*)text emphasize:(NSString*)emphasize emphasizeColor:(UIColor*)color;
-
++(NSString*)getStr:(NSString*)str removeEmphasize:(NSString*)emphasize;
 
 @end

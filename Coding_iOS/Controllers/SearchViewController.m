@@ -10,7 +10,9 @@
 #import "CategorySearchBar.h"
 #import "KxMenu.h"
 #import "AllSearchDisplayVC.h"
-@interface SearchViewController ()<UITableViewDataSource,UITableViewDelegate>
+#import "FileViewController.h"
+
+@interface SearchViewController ()<UITableViewDataSource,UITableViewDelegate,AllSearchDisplayVCdelegate>
 @property (nonatomic,strong)UIView *searchView;
 @property (strong, nonatomic) NSMutableArray *statusList;
 @property (strong, nonatomic) CategorySearchBar *mySearchBar;
@@ -47,11 +49,19 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [_mySearchBar becomeFirstResponder];
     [self loadData];
+    [self.navigationController.navigationBar addSubview:_mySearchBar];
+    [_mySearchBar becomeFirstResponder];
+
 //    [_mySearchBar becomeFirstResponder];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [_mySearchBar resignFirstResponder];
+    [_mySearchBar removeFromSuperview];
+}
 
 //基础化UI布局
 -(void)buildUI{
@@ -65,14 +75,12 @@
         [searchBar.layer setBorderWidth:8];
         [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
         [searchBar sizeToFit];
-        searchBar.delegate = self;
         [searchBar setTintColor:[UIColor whiteColor]];
         [searchBar insertBGColor:[UIColor colorWithHexString:@"0xffffff"]];
         [searchBar setHeight:30];
         searchBar;
     });
     
-    [self.navigationController.navigationBar addSubview:_mySearchBar];
     
     
     //初始化选项
@@ -121,6 +129,7 @@
 
             searchVC.displaysSearchBarInNavigationBar=NO;
             searchVC.parentVC = self;
+            searchVC.delegate=self;
             searchVC;
         });
     }

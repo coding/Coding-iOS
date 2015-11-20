@@ -55,4 +55,13 @@
     return text;
 }
 
++(NSString*)getStr:(NSString*)str removeEmphasize:(NSString*)emphasize{
+    NSString *sepratorStart=[NSString stringWithFormat:@"<%@>",emphasize];
+    NSString *sepratorEnd=[NSString stringWithFormat:@"</%@>",emphasize];
+    NSString *resultStr=str;
+    resultStr=[resultStr stringByReplacingOccurrencesOfString:sepratorStart withString:@""];
+    resultStr=[resultStr stringByReplacingOccurrencesOfString:sepratorEnd withString:@""];
+    return resultStr;
+}
+
 @end

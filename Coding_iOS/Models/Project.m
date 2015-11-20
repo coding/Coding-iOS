@@ -20,6 +20,40 @@
     return self;
 }
 
+-(id)copyWithZone:(NSZone*)zone {
+    Project *person = [[[self class] allocWithZone:zone] init];
+    person.icon = [_icon copy];
+    person.name = [_name copy];
+    person.owner_user_name = [_owner_user_name copy];
+    person.backend_project_path = [_backend_project_path copy];
+    person.full_name = [_full_name copy];
+    person.description_mine = [_description_mine copy];
+    person.path = [_path copy];
+    person.current_user_role = [_current_user_role copy];
+    person.id = [_id copy];
+    person.owner_id = [_owner_id copy];
+    person.is_public = [_is_public copy];
+    person.un_read_activities_count = [_un_read_activities_count copy];
+    person.done = [_done copy];
+    person.processing = [_processing copy];
+    person.star_count = [_star_count copy];
+    person.stared = [_stared copy];
+    person.watch_count = [_watch_count copy];
+    person.watched = [_watched copy];
+    person.fork_count = [_fork_count copy];
+    person.recommended = [_recommended copy];
+    person.current_user_role_id = [_current_user_role_id copy];
+    person.isStaring = _isStaring;
+    person.isWatching = _isWatching;
+    person.isLoadingMember = _isLoadingMember;
+    person.isLoadingMember = _isLoadingMember;
+    person.created_at = [_created_at copy];
+    person.updated_at = [_updated_at copy];
+    person.project_path=[_project_path copy];
+    return person;
+}
+
+
 - (void)setFull_name:(NSString *)full_name{
     _full_name = full_name;
     NSArray *components = [_full_name componentsSeparatedByString:@"/"];
