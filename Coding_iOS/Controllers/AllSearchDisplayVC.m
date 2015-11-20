@@ -26,8 +26,7 @@
 #import "CSTopicDetailVC.h"
 #import "PublicSearchModel.h"
 #import "ProjectAboutMeListCell.h"
-
-
+#import "FileSearchCell.h"
 
 @interface AllSearchDisplayVC () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource,UIScrollViewDelegate>
 
@@ -133,8 +132,7 @@
     }
 }
 
-#pragma mark -
-#pragma mark Private Method
+#pragma mark - UI
 
 //- (void)initSubViewsInContentView {
 //    
@@ -212,6 +210,7 @@
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             [tableView registerClass:[TweetSearchCell class] forCellReuseIdentifier:@"TweetSearchCell"];
             [tableView registerClass:[ProjectAboutMeListCell class] forCellReuseIdentifier:@"ProjectAboutMeListCell"];
+            [tableView registerClass:[FileSearchCell class] forCellReuseIdentifier:@"FileSearchCell"];
             tableView.dataSource = self;
             tableView.delegate = self;
             {
@@ -331,6 +330,7 @@
     
 }
 
+#pragma mark - event
 - (void)didClickedMoreHotkey:(UIGestureRecognizer *)sender {
     [self.searchBar resignFirstResponder];
     
@@ -392,9 +392,13 @@
         case eSearchType_Tweet:
             [self.dateSource addObjectsFromArray:_searchPros.tweets.list];
             break;
+        case eSearchType_Document:
+            [self.dateSource addObjectsFromArray:_searchPros.files.list];
+            break;
         default:
             break;
     }
+    [self.searchTableView.infiniteScrollingView stopAnimating];
     [self.searchTableView reloadData];
 }
 
@@ -450,6 +454,9 @@
                 case eSearchType_Tweet:
                     [weakSelf.dateSource addObjectsFromArray:_searchPros.tweets.list];
                     break;
+                case eSearchType_Document:
+                    [weakSelf.dateSource addObjectsFromArray:_searchPros.files.list];
+                    break;
                 default:
                     break;
             }
@@ -476,8 +483,7 @@
 }
 
 
-#pragma mark -
-#pragma mark UISearchBarDelegate Support
+#pragma mark - UISearchBarDelegate Support
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     
@@ -489,8 +495,7 @@
     
 }
 
-#pragma mark -
-#pragma mark UITableViewDelegate & UITableViewDataSource Support
+#pragma mark - UITableViewDelegate & UITableViewDataSource Support
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
@@ -499,13 +504,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    __weak typeof(self) weakSelf = self;
     if (_curSearchType==eSearchType_Tweet) {
         TweetSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetSearchCell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         Tweet *tweet = _dateSource[indexPath.row];
         cell.tweet = tweet;
-        
-        __weak typeof(self) weakSelf = self;
         
         cell.userBtnClickedBlock = ^(User *curUser){
             UserInfoViewController *vc = [[UserInfoViewController alloc] init];
@@ -526,8 +530,13 @@
         cell.delegate = self;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
-    }
-    else{
+    }else if(_curSearchType==eSearchType_Document){
+        FileSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileSearchCell" forIndexPath:indexPath];
+        ProjectFile *file =_dateSource[indexPath.row];
+        cell.file = file;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
+    }else{
         return nil;
     }
 }
@@ -538,8 +547,9 @@
         return[TweetSearchCell cellHeightWithObj:tweet];
     }else if(_curSearchType==eSearchType_Project){
         return kProjectAboutMeListCellHeight;
-    }
-    else{
+    }else if(_curSearchType==eSearchType_Document){
+        return kFileSearchCellHeight;
+    }else{
         return 100;
     }
 }
