@@ -20,6 +20,7 @@
 @property (nonatomic,strong) UITableView *tableview;
 @property (nonatomic,strong) NSMutableArray *dataSource;
 @property (nonatomic,assign) int selectIndex;
+@property (nonatomic,assign) BOOL firstLoad;
 @end
 
 @implementation SearchViewController
@@ -36,7 +37,7 @@
                     @"用户",
                     @"合并请求",
                     @"pull请求"].mutableCopy;
-    
+    _firstLoad=TRUE;
     [self buildUI];
     
     // Do any additional setup after loading the view.
@@ -51,9 +52,9 @@
     [super viewWillAppear:animated];
     [self loadData];
     [self.navigationController.navigationBar addSubview:_mySearchBar];
-    [_mySearchBar becomeFirstResponder];
-
-//    [_mySearchBar becomeFirstResponder];
+    if (_firstLoad) {
+        [_mySearchBar becomeFirstResponder];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -61,6 +62,7 @@
     [super viewWillDisappear:animated];
     [_mySearchBar resignFirstResponder];
     [_mySearchBar removeFromSuperview];
+    _firstLoad=FALSE;
 }
 
 //基础化UI布局
