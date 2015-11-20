@@ -12,6 +12,7 @@
 #define kPinSize 22
 
 #import "ProjectAboutMeListCell.h"
+#import "NSString+Attribute.h"
 
 @interface ProjectAboutMeListCell ()
 @property (nonatomic, strong) Project *project;
@@ -130,9 +131,19 @@
 
 
     //Title & UserName & description
-    _projectTitleLabel.text = _project.name;
+    if (_openKeywords) {
+        _projectTitleLabel.attributedText=[NSString getAttributeFromText:_project.name emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
+    }else{
+        _projectTitleLabel.text = _project.name;
+    }
+    
+    if (_openKeywords) {
+        _describeLabel.attributedText=[NSString getAttributeFromText:_project.description_mine emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
+    }else{
+        _describeLabel.text=_project.description_mine;
+    }
     _ownerTitleLabel.text = _project.owner_user_name;
-    _describeLabel.text=_project.description_mine;
+
     
     //hasSWButtons
     [self setRightUtilityButtons:hasSWButtons? [self rightButtons]: nil

@@ -17,7 +17,7 @@
 #import "RKSwipeBetweenViewControllers.h"
 #import "CSHotTopicView.h"
 #import "CSMyTopicVC.h"
-#import "CSSearchCell.h"
+#import "TweetSearchCell.h"
 #import "UserInfoViewController.h"
 #import "WebViewController.h"
 #import "TweetDetailViewController.h"
@@ -44,7 +44,7 @@
 @property (nonatomic, assign) NSInteger totalCount;
 @property (nonatomic, assign) BOOL      isLoading;
 @property (nonatomic, strong) UILabel   *headerLabel;
-
+@property (nonatomic, strong) PublicSearchModel *searchPros;
 @property (nonatomic, strong) UIScrollView  *searchHistoryView;
 
 - (void)initSubViewsInContentView;
@@ -210,7 +210,7 @@
             UITableView *tableView = [[UITableView alloc] initWithFrame:_contentView.frame style:UITableViewStylePlain];
             tableView.backgroundColor = [UIColor whiteColor];
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-            [tableView registerClass:[CSSearchCell class] forCellReuseIdentifier:@"CSSearchCell"];
+            [tableView registerClass:[TweetSearchCell class] forCellReuseIdentifier:@"TweetSearchCell"];
             [tableView registerClass:[ProjectAboutMeListCell class] forCellReuseIdentifier:@"ProjectAboutMeListCell"];
             tableView.dataSource = self;
             tableView.delegate = self;
@@ -383,6 +383,21 @@
     [self requestDataWithPage:_currentPage + 1];
 }
 
+-(void)reloadDisplayData{
+    [self.dateSource removeAllObjects];
+    switch (_curSearchType) {
+        case eSearchType_Project:
+            [self.dateSource addObjectsFromArray:_searchPros.projects.list];
+            break;
+        case eSearchType_Tweet:
+            [self.dateSource addObjectsFromArray:_searchPros.tweets.list];
+            break;
+        default:
+            break;
+    }
+    [self.searchTableView reloadData];
+}
+
 - (void)requestDataWithPage:(NSInteger)page {
     
     if(page < 1)
@@ -394,43 +409,56 @@
     _isLoading = YES;
     
     __weak typeof(self) weakSelf = self;
-    if (_curSearchType==eSearchType_Tweet) {
-        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"tweet" andPage:page andBlock:^(id data, NSError *error) {
-            
-            if(data) {
-                NSDictionary *dataDic = (NSDictionary *)data;
-                weakSelf.currentPage = [[dataDic valueForKey:@"page"] intValue];
-                weakSelf.totalPage = [[dataDic valueForKey:@"totalPage"] intValue];
-                weakSelf.totalCount = [[dataDic valueForKey:@"totalRow"] intValue];
-                NSArray *resultA = [NSObject arrayFromJSON:[dataDic objectForKey:@"list"] ofObjects:@"Tweet"];
-                [weakSelf.dateSource addObjectsFromArray:resultA];
-                [weakSelf.searchTableView reloadData];
-                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
-                weakSelf.searchTableView.showsInfiniteScrolling = weakSelf.currentPage >= weakSelf.totalPage ? NO : YES;
-            }
-            
-            weakSelf.isLoading = NO;
-            weakSelf.headerLabel.text = [NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的冒泡", (long)weakSelf.totalCount, weakSelf.searchBar.text, nil];
-        }];
-    }else if(_curSearchType==eSearchType_Project){
-    [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"all" andPage:page andBlock:^(id data, NSError *error) {
-        if(data) {
-            PublicSearchModel *pros = [NSObject objectOfClass:@"PublicSearchModel" fromJSON:data];
-            
-//            NSArray *resultA = [NSObject arrayFromJSON:[dataDic objectForKey:@"list"] ofObjects:@"Tweet"];
-//
-            [weakSelf.dateSource addObjectsFromArray:pros.projects.list];
-            [weakSelf.searchTableView reloadData];
-            [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
-
-//            NSArray *resultA = [NSObject arrayFromJSON:[dataDic objectForKey:@"list"] ofObjects:@"Tweet"];
-//            [weakSelf.dateSource addObjectsFromArray:resultA];
+//    if (_curSearchType==eSearchType_Tweet) {
+//        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"tweet" andPage:page andBlock:^(id data, NSError *error) {
+//            
+//            if(data) {
+//                NSDictionary *dataDic = (NSDictionary *)data;
+//                weakSelf.currentPage = [[dataDic valueForKey:@"page"] intValue];
+//                weakSelf.totalPage = [[dataDic valueForKey:@"totalPage"] intValue];
+//                weakSelf.totalCount = [[dataDic valueForKey:@"totalRow"] intValue];
+//                NSArray *resultA = [NSObject arrayFromJSON:[dataDic objectForKey:@"list"] ofObjects:@"Tweet"];
+//                [weakSelf.dateSource addObjectsFromArray:resultA];
+//                [weakSelf.searchTableView reloadData];
+//                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+//                weakSelf.searchTableView.showsInfiniteScrolling = weakSelf.currentPage >= weakSelf.totalPage ? NO : YES;
+//            }
+//            
+//            weakSelf.isLoading = NO;
+//            weakSelf.headerLabel.text = [NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的冒泡", (long)weakSelf.totalCount, weakSelf.searchBar.text, nil];
+//        }];
+//    }else if(_curSearchType==eSearchType_Project){
+//    [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"all" andPage:page andBlock:^(id data, NSError *error) {
+//        if(data) {
+//            PublicSearchModel *pros = [NSObject objectOfClass:@"PublicSearchModel" fromJSON:data];
+//            [weakSelf.dateSource addObjectsFromArray:pros.projects.list];
 //            [weakSelf.searchTableView reloadData];
 //            [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
-//            weakSelf.searchTableView.showsInfiniteScrolling = weakSelf.currentPage >= weakSelf.totalPage ? NO : YES;
+//        }
+//        weakSelf.isLoading = NO;
+//        weakSelf.headerLabel.text = [NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的项目", (long)weakSelf.totalCount, weakSelf.searchBar.text, nil];
+//    }];
+//    }
+    
+    [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"all" andPage:page andBlock:^(id data, NSError *error) {
+        if(data) {
+            _searchPros = [NSObject objectOfClass:@"PublicSearchModel" fromJSON:data];
+            switch (_curSearchType) {
+                case eSearchType_Project:
+                    [weakSelf.dateSource addObjectsFromArray:_searchPros.projects.list];
+                    break;
+                case eSearchType_Tweet:
+                    [weakSelf.dateSource addObjectsFromArray:_searchPros.tweets.list];
+                    break;
+                default:
+                    break;
+            }
+            [weakSelf.searchTableView reloadData];
+            [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
         }
+        weakSelf.isLoading = NO;
+        weakSelf.headerLabel.text = [NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的项目", (long)weakSelf.totalCount, weakSelf.searchBar.text, nil];
     }];
-    }
 }
 
 - (void)analyseLinkStr:(NSString *)linkStr{
@@ -446,7 +474,6 @@
         [self.parentVC.parentViewController.navigationController pushViewController:webVc animated:YES];
     }
 }
-
 
 
 #pragma mark -
@@ -473,7 +500,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (_curSearchType==eSearchType_Tweet) {
-        CSSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CSSearchCell" forIndexPath:indexPath];
+        TweetSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetSearchCell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         Tweet *tweet = _dateSource[indexPath.row];
         cell.tweet = tweet;
@@ -489,14 +516,15 @@
             [weakSelf analyseLinkStr:curItem.href];
         };
         
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else if(_curSearchType==eSearchType_Project){
         ProjectAboutMeListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectAboutMeListCell" forIndexPath:indexPath];
+        cell.openKeywords=TRUE;
         Project *project=_dateSource[indexPath.row];
         [cell setProject:project hasSWButtons:NO hasBadgeTip:YES hasIndicator:NO];
         cell.delegate = self;
-//        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpaceAndSectionLine:kPaddingLeftWidth];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }
     else{
@@ -507,7 +535,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_curSearchType==eSearchType_Tweet) {
         Tweet *tweet = _dateSource[indexPath.row];
-        return[CSSearchCell cellHeightWithObj:tweet];
+        return[TweetSearchCell cellHeightWithObj:tweet];
     }else if(_curSearchType==eSearchType_Project){
         return kProjectAboutMeListCellHeight;
     }

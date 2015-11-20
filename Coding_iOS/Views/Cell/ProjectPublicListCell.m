@@ -13,6 +13,7 @@
 
 
 #import "ProjectPublicListCell.h"
+#import "NSString+Attribute.h"
 
 @interface ProjectPublicListCell ()
 @property (nonatomic, strong) Project *project;
@@ -187,10 +188,7 @@
     _forkL.text = _project.fork_count.stringValue;
 
     NSString *titleStr=[NSString stringWithFormat:@"%@ 最后更新于 %@",_project.owner_user_name,[_project.updated_at stringDisplay_HHmm]];
-    NSMutableAttributedString *titleColorStr=[[NSMutableAttributedString alloc] initWithString:titleStr];
-    [titleColorStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"0x3bbd79"] range:[titleStr rangeOfString:_project.owner_user_name]];
-    
-    _ownerTitleLabel.attributedText = titleColorStr;
+    _ownerTitleLabel.attributedText = [NSString getAttributeFromText:titleStr emphasize:_project.owner_user_name emphasizeColor:[UIColor colorWithHexString:@"0x3bbd79"]];
 
     
     //hasSWButtons

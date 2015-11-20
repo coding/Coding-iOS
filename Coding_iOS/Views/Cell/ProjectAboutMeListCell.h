@@ -17,6 +17,7 @@
 #import "SWTableViewCell.h"
 
 @interface ProjectAboutMeListCell : SWTableViewCell
+@property(nonatomic,assign)BOOL openKeywords;
 - (void)setProject:(Project *)project hasSWButtons:(BOOL)hasSWButtons hasBadgeTip:(BOOL)hasBadgeTip hasIndicator:(BOOL)hasIndicator;
 
 @end

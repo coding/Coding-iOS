@@ -902,6 +902,8 @@
 		D09AA5B11BFCBABC008CA9EB /* filterBtn_selected_Nav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D09AA5B01BFCBABC008CA9EB /* filterBtn_selected_Nav@2x.png */; };
 		D09AA5B71BFDA38D008CA9EB /* AllSearchDisplayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = D09AA5B61BFDA38D008CA9EB /* AllSearchDisplayVC.m */; };
 		D09AA5BA1BFDBA4B008CA9EB /* PublicSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D09AA5B91BFDBA4B008CA9EB /* PublicSearchModel.m */; };
+		D09AA5BD1BFDE5F5008CA9EB /* TweetSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D09AA5BC1BFDE5F5008CA9EB /* TweetSearchCell.m */; };
+		D09AA5C01BFDEDD1008CA9EB /* NSString+Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = D09AA5BF1BFDEDD1008CA9EB /* NSString+Attribute.m */; };
 		D09E6AAF1BF826AC009D37F8 /* me_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D09E6AA51BF826AC009D37F8 /* me_normal@2x.png */; };
 		D09E6AB01BF826AC009D37F8 /* me_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D09E6AA61BF826AC009D37F8 /* me_selected@2x.png */; };
 		D09E6AB11BF826AC009D37F8 /* privatemessage_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D09E6AA71BF826AC009D37F8 /* privatemessage_normal@2x.png */; };
@@ -2321,6 +2323,10 @@
 		D09AA5B61BFDA38D008CA9EB /* AllSearchDisplayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllSearchDisplayVC.m; sourceTree = "<group>"; };
 		D09AA5B81BFDBA4B008CA9EB /* PublicSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicSearchModel.h; sourceTree = "<group>"; };
 		D09AA5B91BFDBA4B008CA9EB /* PublicSearchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicSearchModel.m; sourceTree = "<group>"; };
+		D09AA5BB1BFDE5F5008CA9EB /* TweetSearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSearchCell.h; sourceTree = "<group>"; };
+		D09AA5BC1BFDE5F5008CA9EB /* TweetSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSearchCell.m; sourceTree = "<group>"; };
+		D09AA5BE1BFDEDD1008CA9EB /* NSString+Attribute.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Attribute.h"; sourceTree = "<group>"; };
+		D09AA5BF1BFDEDD1008CA9EB /* NSString+Attribute.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Attribute.m"; sourceTree = "<group>"; };
 		D09E6AA51BF826AC009D37F8 /* me_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "me_normal@2x.png"; sourceTree = "<group>"; };
 		D09E6AA61BF826AC009D37F8 /* me_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "me_selected@2x.png"; sourceTree = "<group>"; };
 		D09E6AA71BF826AC009D37F8 /* privatemessage_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "privatemessage_normal@2x.png"; sourceTree = "<group>"; };
@@ -3259,6 +3265,8 @@
 				4E5A66941B268D160007A0AD /* UIView+PressMenu.m */,
 				4E0BD8541B6C7DFD0061CAA6 /* UIView+Frame.h */,
 				4E0BD8551B6C7DFD0061CAA6 /* UIView+Frame.m */,
+				D09AA5BE1BFDEDD1008CA9EB /* NSString+Attribute.h */,
+				D09AA5BF1BFDEDD1008CA9EB /* NSString+Attribute.m */,
 			);
 			path = OC_Category;
 			sourceTree = "<group>";
@@ -4748,6 +4756,8 @@
 				4E715A311BB1278200A5D24B /* LocalFolderCell.m */,
 				4E715A331BB1279D00A5D24B /* LocalFileCell.h */,
 				4E715A341BB1279D00A5D24B /* LocalFileCell.m */,
+				D09AA5BB1BFDE5F5008CA9EB /* TweetSearchCell.h */,
+				D09AA5BC1BFDE5F5008CA9EB /* TweetSearchCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -5738,6 +5748,7 @@
 				4ECE8AE61A3943E80021E29C /* UILabel+Common.m in Sources */,
 				4EA7F15C1A6D192B00A046BD /* SDWebImageDecoder.m in Sources */,
 				8E64ED8219ED0CE3006E99DA /* QBImagePickerController.m in Sources */,
+				D09AA5BD1BFDE5F5008CA9EB /* TweetSearchCell.m in Sources */,
 				4E6BA2E01A1EE6AF005FD721 /* AFURLResponseSerialization.m in Sources */,
 				8E59F1031A0120F1009A905F /* CodeFile.m in Sources */,
 				4E0BD8801B6C7F0A0061CAA6 /* CSSearchCell.m in Sources */,
@@ -5770,6 +5781,7 @@
 				8EF643C819FF7E2900F7EEB0 /* ToMessageCell.m in Sources */,
 				4E217F111A70EDC700F6DF88 /* SVWebViewControllerActivityChrome.m in Sources */,
 				4E0BD86D1B6C7E3D0061CAA6 /* CSScrollview.m in Sources */,
+				D09AA5C01BFDEDD1008CA9EB /* NSString+Attribute.m in Sources */,
 				4EE1A2331B5D02CA004284F1 /* ProjectTopicsView.m in Sources */,
 				4EA6790D1A1461DC001A0324 /* ProjectFolder.m in Sources */,
 				8EF643BC19FF7E2900F7EEB0 /* ProjectActivityListCell.m in Sources */,

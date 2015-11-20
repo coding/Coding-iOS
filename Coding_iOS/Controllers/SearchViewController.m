@@ -10,7 +10,6 @@
 #import "CategorySearchBar.h"
 #import "KxMenu.h"
 #import "AllSearchDisplayVC.h"
-
 @interface SearchViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)UIView *searchView;
 @property (strong, nonatomic) NSMutableArray *statusList;
@@ -126,7 +125,6 @@
         });
     }
     
-    
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(popToMainVCAction)];
     
     
@@ -153,6 +151,7 @@
 //        make.edges.equalTo(self.view);
 //    }];
 
+    
     
 }
 
@@ -189,7 +188,6 @@
 }
 
 - (void)menuItemClicked:(KxMenuItem *)item{
-    [_mySearchBar becomeFirstResponder];
     int nowSelectIndex = [_statusList indexOfObject:item.title];
     if (nowSelectIndex == NSNotFound || nowSelectIndex == _selectIndex) {
         return;
@@ -199,6 +197,13 @@
     _searchDisplayVC.curSearchType=_selectIndex;
     NSString *showStr=([[_statusList objectAtIndex:_selectIndex] length]>2)?[[_statusList objectAtIndex:_selectIndex] substringToIndex:[[_statusList objectAtIndex:_selectIndex] length]-2]:[_statusList objectAtIndex:_selectIndex];
     [_mySearchBar setSearchCategory:showStr];
+    
+    if (_searchDisplayVC.active&&(_mySearchBar.text.length>0)) {
+        NSLog(@"active And can search");
+        [_searchDisplayVC reloadDisplayData];
+    }else{
+        [_mySearchBar becomeFirstResponder];
+    }
 }
 
 

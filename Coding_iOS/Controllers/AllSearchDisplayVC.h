@@ -23,4 +23,5 @@ typedef NS_ENUM(NSUInteger, eSearchType) {
 @interface AllSearchDisplayVC : UISearchDisplayController
 @property (nonatomic,weak)UIViewController *parentVC;
 @property (nonatomic,assign)eSearchType curSearchType;
+-(void)reloadDisplayData;
 @end
