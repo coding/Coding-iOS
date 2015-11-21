@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3.5.102511201000</string>
+	<string>3.5.102511201600</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>wechat</string>
@@ -70,6 +70,7 @@
 		<string>mqzoneopensdkapi</string>
 		<string>mqzoneopensdk</string>
 		<string>evernote</string>
+		<string>mart-coding-net</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

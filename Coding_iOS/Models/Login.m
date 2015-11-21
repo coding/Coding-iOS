@@ -69,6 +69,13 @@ static User *curLoginUser;
 }
 
 + (void)doLogin:(NSDictionary *)loginData{
+    
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"cookies : %@", obj.description);
+    }];
+    
+    
     if (loginData) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:[NSNumber numberWithBool:YES] forKey:kLoginStatus];

@@ -14,8 +14,10 @@
 @class TweetSendLocationResponse;
 
 @interface TweetSendViewController : BaseViewController
+@property (strong, nonatomic) Tweet *curTweet;;
+
 @property (copy, nonatomic) void(^sendNextTweet)(Tweet *nextTweet);
 
 @property (nonatomic,strong) TweetSendLocationResponse *locationData;
-
++ (instancetype)presentWithParams:(NSDictionary *)params;//别的应用跳转过来的时候
 @end

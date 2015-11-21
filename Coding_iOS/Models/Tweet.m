@@ -174,7 +174,9 @@ static Tweet *_tweetForSend = nil;
         TweetImage *tImg = [self.tweetImages objectAtIndex:i];
         if (tImg.image) {
             NSString *imgNameStr = [NSString stringWithFormat:@"%@_%d.jpg", dataPath, i];
-            [tweetImagesDict setObject:tImg.assetURL.absoluteString forKey:imgNameStr];
+            if (tImg.assetURL.absoluteString) {
+                [tweetImagesDict setObject:tImg.assetURL.absoluteString forKey:imgNameStr];
+            }
             [NSObject saveImage:tImg.image imageName:imgNameStr inFolder:dataPath];
         }
     }
