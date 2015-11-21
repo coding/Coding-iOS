@@ -8,6 +8,7 @@
 
 #import "PointRecordsViewController.h"
 #import "WebViewController.h"
+#import "ShopViewController.h"
 #import "Coding_NetAPIManager.h"
 
 #import "SVPullToRefresh.h"
@@ -153,8 +154,12 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 && indexPath.row == 1) {
         //商城入口
-        WebViewController *vc = [WebViewController webVCWithUrlStr:@"/shop/"];
-        [self.navigationController pushViewController:vc animated:YES];
+//        WebViewController *vc = [WebViewController webVCWithUrlStr:@"/shop/"];
+//        [self.navigationController pushViewController:vc animated:YES];
+        
+        ShopViewController *shopvc = [[ShopViewController alloc] init];
+        [self.navigationController pushViewController:shopvc animated:YES];
+
     }
 }
 

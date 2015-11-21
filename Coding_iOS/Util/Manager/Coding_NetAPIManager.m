@@ -2382,4 +2382,55 @@
         }
     }];
 }
+
+#pragma mark-
+#pragma mark---------------------- shop ---------------------------
+
+
+- (void)request_shop_bannersWithBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"/api/gifts/sliders" withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        if (data) {
+//            [MobClick event:kUmeng_Event_Request_Get label:@"冒泡列表_Banner"];
+            
+            data = [data valueForKey:@"data"];
+            NSArray *resultA = [NSArray arrayFromJSON:data ofObjects:@"ShopBanner"];
+            
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_shop_userPointWithShop:(Shop *)_shop andBlock:(void (^)(id data, NSError *error))block
+{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/points" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+             data = [data valueForKey:@"data"];
+            _shop.points_left = [data objectForKey:@"points_left"];
+            _shop.points_total = [data objectForKey:@"points_total"];
+            block(data, nil);
+        }else
+            block(nil, error);
+    }];
+}
+
+
+- (void)request_shop_giftsWithShop:(Shop *)_shop andBlock:(void (^)(id data, NSError *error))block
+{
+    NSDictionary *parsms = @{@"page":_shop.page , @"pageSize":_shop.pageSize};
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[_shop toGiftsPath] withParams:parsms withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        if (data) {
+            //            [MobClick event:kUmeng_Event_Request_Get label:@"冒泡列表_Banner"];
+            data = [[data valueForKey:@"data"] valueForKey:@"list"];
+            NSArray *resultA = [NSArray arrayFromJSON:data ofObjects:@"ShopGoods"];
+            [_shop configWithGiftGoods:resultA];
+            
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 @end

@@ -34,6 +34,7 @@
 #import "CodingBanner.h"
 #import "PointRecords.h"
 #import "FileVersion.h"
+#import "Shop.h"
 
 @class CSTopic;
 
@@ -233,5 +234,13 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 
 - (void)request_Topic_DoWatch_WithUrl:(NSString *)url andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_BannersWithBlock:(void (^)(id data, NSError *error))block;
+
+
+- (void)request_shop_userPointWithShop:(Shop *)_shop andBlock:(void (^)(id data, NSError *error))block;
+
+- (void)request_shop_giftsWithShop:(Shop *)shop andBlock:(void (^)(id data, NSError *error))block;
+
+- (void)request_shop_bannersWithBlock:(void (^)(id data, NSError *error))block;
+
 
 @end
