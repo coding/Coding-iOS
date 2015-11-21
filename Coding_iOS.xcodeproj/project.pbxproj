@@ -911,6 +911,8 @@
 		923399661C00441700F29E04 /* ShopBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 923399651C00441700F29E04 /* ShopBanner.m */; };
 		923399691C0044C900F29E04 /* ShopBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 923399681C0044C900F29E04 /* ShopBannerView.m */; };
 		9233996C1C00524A00F29E04 /* ShopGoods.m in Sources */ = {isa = PBXBuildFile; fileRef = 9233996B1C00524A00F29E04 /* ShopGoods.m */; };
+		9233996F1C00970900F29E04 /* ShopGoodsInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9233996E1C00970900F29E04 /* ShopGoodsInfoView.m */; };
+		923399721C00A9EF00F29E04 /* DashesLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 923399711C00A9EF00F29E04 /* DashesLineView.m */; };
 		927AFF381BFF1CC200AAE593 /* ShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 927AFF371BFF1CC200AAE593 /* ShopViewController.m */; };
 		927AFF3B1BFF2EB300AAE593 /* Shop.m in Sources */ = {isa = PBXBuildFile; fileRef = 927AFF3A1BFF2EB300AAE593 /* Shop.m */; };
 		927AFF3E1BFF608700AAE593 /* ShopGoodsCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 927AFF3D1BFF608700AAE593 /* ShopGoodsCCell.m */; };
@@ -2322,6 +2324,10 @@
 		923399681C0044C900F29E04 /* ShopBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopBannerView.m; sourceTree = "<group>"; };
 		9233996A1C00524A00F29E04 /* ShopGoods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopGoods.h; sourceTree = "<group>"; };
 		9233996B1C00524A00F29E04 /* ShopGoods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopGoods.m; sourceTree = "<group>"; };
+		9233996D1C00970900F29E04 /* ShopGoodsInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopGoodsInfoView.h; sourceTree = "<group>"; };
+		9233996E1C00970900F29E04 /* ShopGoodsInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopGoodsInfoView.m; sourceTree = "<group>"; };
+		923399701C00A9EF00F29E04 /* DashesLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashesLineView.h; path = ../Controllers/Shop/DashesLineView.h; sourceTree = "<group>"; };
+		923399711C00A9EF00F29E04 /* DashesLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DashesLineView.m; path = ../Controllers/Shop/DashesLineView.m; sourceTree = "<group>"; };
 		927AFF361BFF1CC200AAE593 /* ShopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopViewController.h; sourceTree = "<group>"; };
 		927AFF371BFF1CC200AAE593 /* ShopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopViewController.m; sourceTree = "<group>"; };
 		927AFF391BFF2EB300AAE593 /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
@@ -4527,6 +4533,10 @@
 				4E095A5B1B6907AA008DC439 /* CodingBannersView.m */,
 				4E2BF3D71B96D0FA00A5A0A8 /* CodingShareView.h */,
 				4E2BF3D81B96D0FA00A5A0A8 /* CodingShareView.m */,
+				9233996D1C00970900F29E04 /* ShopGoodsInfoView.h */,
+				9233996E1C00970900F29E04 /* ShopGoodsInfoView.m */,
+				923399701C00A9EF00F29E04 /* DashesLineView.h */,
+				923399711C00A9EF00F29E04 /* DashesLineView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -5706,6 +5716,7 @@
 				8E64ED7F19ED0CE3006E99DA /* QBAssetsCollectionViewCell.m in Sources */,
 				4E6D718A1A75F00E005AD988 /* YLImageView.m in Sources */,
 				4E095A591B690494008DC439 /* CodingBanner.m in Sources */,
+				923399721C00A9EF00F29E04 /* DashesLineView.m in Sources */,
 				8EA6D1C119E240C40076D59C /* Tweets.m in Sources */,
 				4E8D5D5F1B45295D00B70936 /* OTPAuthURL.m in Sources */,
 				8EA6D1F619E240C40076D59C /* MJPhoto.m in Sources */,
@@ -5792,6 +5803,7 @@
 				4E93F2441B85C4C300017916 /* FileInfoViewController.m in Sources */,
 				4E4D6A9A1B1D893500FD2E49 /* CommitInfo.m in Sources */,
 				4E38CF5F1A7A28AF005536C0 /* CodeBranchTagButton.m in Sources */,
+				9233996F1C00970900F29E04 /* ShopGoodsInfoView.m in Sources */,
 				8E64ED8119ED0CE3006E99DA /* QBAssetsCollectionViewLayout.m in Sources */,
 				8EA6D1C819E240C40076D59C /* UIBadgeView.m in Sources */,
 				927AFF411BFF613500AAE593 /* BaseModel.m in Sources */,

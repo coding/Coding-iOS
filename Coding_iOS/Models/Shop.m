@@ -15,7 +15,8 @@
     self = [super init];
     if (self) {
         self.page = @1;
-        self.pageSize = @20;
+        self.pageSize = @100;
+        self.shopType = ShopTypeAll;
         self.shopGoodsArray = [NSMutableArray arrayWithCapacity:10];
     }
     return self;
@@ -35,6 +36,28 @@
 //    return tweets;
 //}
 
+
+- (void)setShopType:(ShopType)shopType
+{
+    _shopType = shopType;
+    
+    switch (_shopType) {
+        case ShopTypeAll:
+        {
+            _dateSource = _shopGoodsArray;
+        }
+            break;
+        case ShopTypeExchangeable:
+        {
+            _dateSource = [self getExchangeGiftData];
+        }
+            break;
+        default:
+            break;
+    }
+    
+}
+
 - (NSString *)toGiftsPath{
     NSString *requstPath;
     switch (_shopType) {
@@ -42,7 +65,7 @@
             requstPath = @"/api/gifts";
             break;
         case ShopTypeExchangeable:
-            requstPath = @"/api/gifts";
+
             break;
         default:
             break;
@@ -55,7 +78,7 @@
     
     if (responseA && [responseA count] > 0) {
         ShopGoods *object = [responseA firstObject];
-        [NSObject showHudTipStr: object.name];
+        [NSObject showHudTipStr: object.description_mine];
         
         [_shopGoodsArray enumerateObjectsUsingBlock:^(ShopGoods *obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (_points_total.doubleValue > obj.points_cost.doubleValue) {
@@ -63,13 +86,17 @@
             }
         }];
         
-        _canLoadMore = responseA.count >= _pageSize.intValue;
+        self.canLoadMore = (responseA.count >= _pageSize.intValue);
+        
         if (_page.intValue == 1) {
             
             _shopGoodsArray = [NSMutableArray arrayWithArray:responseA];
         }else
         {
             [_shopGoodsArray addObjectsFromArray:responseA];
+        }
+        if (_shopType == ShopTypeAll) {
+            _dateSource = _shopGoodsArray;
         }
     }else{
         self.canLoadMore = NO;

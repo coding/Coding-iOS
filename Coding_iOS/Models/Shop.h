@@ -26,6 +26,8 @@ typedef NS_ENUM(NSInteger, ShopType)
 @property (readwrite, nonatomic, strong) NSArray *shopBannerArray;
 @property (readwrite, nonatomic, strong) NSMutableArray *shopGoodsArray;
 
+@property (readwrite, strong) NSArray *dateSource;
+
 //该用户可用的code分数
 @property (readwrite, nonatomic, strong) NSNumber *points_left,*points_total;
 

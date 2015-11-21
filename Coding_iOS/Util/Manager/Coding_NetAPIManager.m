@@ -2390,8 +2390,6 @@
 - (void)request_shop_bannersWithBlock:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"/api/gifts/sliders" withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
         if (data) {
-//            [MobClick event:kUmeng_Event_Request_Get label:@"冒泡列表_Banner"];
-            
             data = [data valueForKey:@"data"];
             NSArray *resultA = [NSArray arrayFromJSON:data ofObjects:@"ShopBanner"];
             
@@ -2419,10 +2417,10 @@
 - (void)request_shop_giftsWithShop:(Shop *)_shop andBlock:(void (^)(id data, NSError *error))block
 {
     NSDictionary *parsms = @{@"page":_shop.page , @"pageSize":_shop.pageSize};
-    
+    _shop.isLoading = YES;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[_shop toGiftsPath] withParams:parsms withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        _shop.isLoading = NO;
         if (data) {
-            //            [MobClick event:kUmeng_Event_Request_Get label:@"冒泡列表_Banner"];
             data = [[data valueForKey:@"data"] valueForKey:@"list"];
             NSArray *resultA = [NSArray arrayFromJSON:data ofObjects:@"ShopGoods"];
             [_shop configWithGiftGoods:resultA];

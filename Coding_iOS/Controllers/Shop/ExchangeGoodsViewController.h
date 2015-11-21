@@ -7,7 +7,10 @@
 //
 
 #import "BaseViewController.h"
+#import "ShopGoods.h"
 
 @interface ExchangeGoodsViewController : BaseViewController
+
+@property(nonatomic , strong)ShopGoods *shopGoods;
 
 @end

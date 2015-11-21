@@ -60,7 +60,7 @@
     
      _codingCoinView = [UIButton buttonWithType:UIButtonTypeCustom];
     [_codingCoinView setImage:[UIImage imageNamed:@"shop_coding_coin_icon"] forState:UIControlStateNormal];
-    [_codingCoinView setTitle:@"  马币 " forState:UIControlStateNormal];
+    [_codingCoinView setTitle:@"  码币 " forState:UIControlStateNormal];
     [_codingCoinView setTitleColor:[UIColor colorWithHexString:@"0x222222"] forState:UIControlStateNormal];
     [_codingCoinView.titleLabel setFont:[UIFont boldSystemFontOfSize:12.0]];
     [_coinView addSubview:_codingCoinView];
@@ -124,7 +124,7 @@
     [super configViewWithModel:model];
     
     _titleLabel.text = model.name;
-    NSString *points_cost = [NSString stringWithFormat:@"  %@ 马币",[model.points_cost stringValue]];
+    NSString *points_cost = [NSString stringWithFormat:@"  %@ 码币",[model.points_cost stringValue]];
     [_codingCoinView setTitle:points_cost forState:UIControlStateNormal];
     
     [self showExchangeIcon:YES];

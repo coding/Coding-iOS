@@ -12,7 +12,9 @@
 
 @property (strong, nonatomic) NSNumber *id;
 @property (strong, nonatomic) NSNumber *points_cost;
-@property (strong, nonatomic) NSString *image ,*name, *description;
+@property (strong, nonatomic) NSString *image ,*name;
 @property (assign, nonatomic) BOOL exchangeable; //能否兑换的
+@property (strong, nonatomic) NSString *description_mine;
+
 
 @end

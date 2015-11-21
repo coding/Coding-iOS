@@ -11,6 +11,7 @@
 #import "ProjectTag.h"
 #import "MBProgressHUD+Add.h"
 #import "ShopOrderTextFieldCell.h"
+#import "ShopGoodsInfoView.h"
 
 #define kCellIdentifier_ShopOrderTextFieldCell @"ShopOrderTextFieldCell.h"
 
@@ -68,7 +69,10 @@
         tableView;
     });
     
-    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_myTableView.frame), 303/2.0)];
+    ShopGoodsInfoView *goodInfoView = [[ShopGoodsInfoView alloc] initWithFrame:CGRectZero];
+    [goodInfoView configViewWithModel:_shopGoods];
+    UIView *headView = [[UIView alloc] initWithFrame:goodInfoView.bounds];
+    [headView addSubview:goodInfoView];
     headView.backgroundColor = [UIColor whiteColor];
     _myTableView.tableHeaderView = headView;
     
@@ -83,13 +87,14 @@
         orderBtn.layer.cornerRadius = 44/2;
         [footView addSubview:orderBtn];
         [orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.equalTo(@288);
             make.height.equalTo(@44);
+            make.left.equalTo(footView.mas_left).offset(16);
+            make.right.equalTo(footView.mas_right).offset(-16);
             make.centerX.centerY.equalTo(footView);
         }];
         orderBtn;
     });
-    _shopOrderBtn.enabled = NO;
+//    _shopOrderBtn.enabled = NO;
     _myTableView.tableFooterView = footView;
 }
 
@@ -210,7 +215,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 52;
+    return 42;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -16,6 +16,7 @@
 #import "ShopBanner.h"
 
 #import "Coding_NetAPIManager.h"
+#import "UIScrollView+SVInfiniteScrolling.h"
 
 @interface ShopViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
 {
@@ -52,10 +53,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.title = @"我的商城";
-    _shopObject = [Shop new];
+    _shopObject = [[Shop alloc] init];
     _shopObject.shopType = ShopTypeAll;
     
     [self setUpCollectionView];
+    [self setUpSegmentControl];
+    
+    // 一次性加载所有数据，暂时没有做分页的需要，先注释.
+//    __weak typeof(self) weakSelf = self;
+//    [_collectionView addInfiniteScrollingWithActionHandler:^{
+//        [weakSelf refreshMore];
+//    }];
     
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"shop_nar_history_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(exchangeHistoryBtnClicked:)] animated:NO];
     
@@ -71,45 +79,41 @@
 #pragma mark-
 #pragma mark---------------------- 网络请求 ---------------------------
 
+- (void)refreshMore{
+    if (!_shopObject.isLoading || !_shopObject.canLoadMore) {
+        return;
+    }
+    _shopObject.willLoadMore = YES;
+    _shopObject.page = @(_shopObject.page.intValue + 1);
+    [self loadGiftsList];
+}
+
+
 - (void)requestgiftsList {
     [self.view beginLoading];
-    __weak typeof(self) weakSelf = self;
     
     [[Coding_NetAPIManager sharedManager] request_shop_bannersWithBlock:^(id data, NSError *error) {
         _shopObject.shopBannerArray = data;
         [_collectionView reloadData];
     }];
-
     
     [[Coding_NetAPIManager sharedManager] request_shop_userPointWithShop:_shopObject andBlock:^(id data, NSError *error) {
         if (data) {
-            
-            [[Coding_NetAPIManager sharedManager] request_shop_giftsWithShop:_shopObject andBlock:^(id data, NSError *error) {
-                
-                [weakSelf.view endLoading];
-                if (data) {
-                    [NSObject showHudTipStr:@"gitd ==>Success"];
-                    [_collectionView reloadData];
-                    
-                }else
-                    [NSObject showHudTipStr:@"Error"];
-                
-            }];
+            [ self loadGiftsList];
         }
     }];
-    
-    
-    
-    
-    
-//    [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_myProject andBlock:^(id data, NSError *error) {
-//        [weakSelf.view endLoading];
-//        if (data) {
-////            weakSelf.myProject = data;
-////            [weakSelf configNavBtnWithMyProject];
-////            [weakSelf refreshWithNewIndex:_curIndex];
-//        }
-//    }];
+}
+
+- (void)loadGiftsList
+{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_shop_giftsWithShop:_shopObject andBlock:^(id data, NSError *error) {
+        [weakSelf.view endLoading];
+        if (data) {
+            [_collectionView reloadData];
+        }else
+            [NSObject showHudTipStr:@"Error"];
+    }];
 }
 
 
@@ -140,9 +144,11 @@
     _collectionHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _collectionView.frame.size.width, bannerHeight)];
     _collectionHeaderView.backgroundColor = [UIColor whiteColor];
     [_collectionView addSubview:_collectionHeaderView];
-    //_collectionHeaderView.hidden = YES;
     
-    
+}
+
+- (void)setUpSegmentControl
+{
     //添加滑块
     NSArray *_segmentItems = @[@"全部商品",@"可兑换商品"];
     //__weak typeof(_shopSegmentControl) weakCarousel = _shopSegmentControl;
@@ -151,13 +157,14 @@
             return;
         }
         _oldSelectedIndex = index;
+        _shopObject.shopType = index;
+        [_collectionView reloadData];
         
         //        [weakCarousel scrollToItemAtIndex:index animated:NO];
     }];
     _shopSegmentControl.backgroundColor = [UIColor whiteColor];
     [_collectionHeaderView addSubview:_shopSegmentControl];
     [self.view bringSubviewToFront:_shopSegmentControl];
-
 }
 
 
@@ -183,15 +190,14 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return _shopObject.shopGoodsArray.count;
+    return _shopObject.dateSource.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ShopGoodsCCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TopicProductCollectionCellIdentifier" forIndexPath:indexPath];
-    BaseModel *model = _shopObject.shopGoodsArray[indexPath.row];
-    
-    [cell configViewWithModel:nil];
+    BaseModel *model = _shopObject.dateSource[indexPath.row];
+    [cell configViewWithModel:model];
     
     return cell;
 }
@@ -227,6 +233,11 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    ShopGoods *model = _shopObject.dateSource[indexPath.row];
+    ExchangeGoodsViewController *exChangeViewController = [[ExchangeGoodsViewController alloc] init];
+    exChangeViewController.shopGoods = model;
+    [self.navigationController pushViewController:exChangeViewController animated:YES];
 }
 
 
