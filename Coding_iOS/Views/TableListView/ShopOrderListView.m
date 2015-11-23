@@ -68,9 +68,6 @@
         }];
         
         _myTableView.tableFooterView = footView;
-        
-//        [self loadData];
-
     }
     return self;
 }
@@ -83,28 +80,29 @@
 
 - (void)refresh
 {
-    [self loadData];
-}
-
-- (void)loadData
-{
-    __weak typeof(self) weakSelf = self;
+    [self.myRefreshControl endRefreshing];
     
-    [[Coding_NetAPIManager sharedManager] request_shop_OrderListWithOrder:_myOrder andBlock:^(id data, NSError *error) {
-        [weakSelf.myRefreshControl endRefreshing];
-        [weakSelf endLoading];
-        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
-        if (data) {
-            _dataSource = [_myOrder getDataSourceByOrderType];
-            [weakSelf.myTableView reloadData];
-//            weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myOrder.canLoadMore;
-        }
-        [weakSelf configBlankPage:EaseBlankPageTypeTopic hasData:(weakSelf.myOrder.dateSource.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-            [weakSelf refresh];
-        }];
-
-    }];
+//    [self loadData];
 }
+
+//- (void)loadData
+//{
+//    __weak typeof(self) weakSelf = self;
+//    
+//    [[Coding_NetAPIManager sharedManager] request_shop_OrderListWithOrder:_myOrder andBlock:^(id data, NSError *error) {
+//        [weakSelf.myRefreshControl endRefreshing];
+//        [weakSelf endLoading];
+//        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
+//        if (data) {
+//            _dataSource = [_myOrder getDataSourceByOrderType];
+//            [weakSelf.myTableView reloadData];
+//        }
+//        [weakSelf configBlankPage:EaseBlankPageTypeTopic hasData:(weakSelf.myOrder.dateSource.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+//            [weakSelf refresh];
+//        }];
+//
+//    }];
+//}
 
 
 #pragma mark Table M

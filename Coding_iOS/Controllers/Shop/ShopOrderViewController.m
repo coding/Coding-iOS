@@ -57,6 +57,12 @@
     
     self.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:self.titlesArray selectedBlock:^(NSInteger index) {
         [weakCarousel scrollToItemAtIndex:index animated:NO];
+        
+        ShopOrderListView *listView = (ShopOrderListView *)[_myCarousel itemViewAtIndex:index];
+        _myOrder.orderType = index;
+        listView.myOrder = _myOrder;
+        [listView reloadData];
+        
     }];
     [self.view addSubview:self.mySegmentControl];
     
@@ -72,12 +78,7 @@
         if (data) {
             
             ShopOrderListView *listView = (ShopOrderListView *)[weakSelf.myCarousel itemViewAtIndex:_myOrder.orderType];
-            
             [listView reloadData];
-
-            if (listView) {
-            }
-
         }
     }];
 }
@@ -97,17 +98,13 @@
 }
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view{
     
-    _myOrder.orderType = index;
     ShopOrderListView *listView = (ShopOrderListView *)view;
     if (listView) {
 
     }else{
         listView = [[ShopOrderListView alloc] initWithFrame:carousel.bounds withOder:_myOrder];
     }
-    listView.myOrder = _myOrder;
-    [listView reloadData];
-
-//    [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
+    [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
 }
 

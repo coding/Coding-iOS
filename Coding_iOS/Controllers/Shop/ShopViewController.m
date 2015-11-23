@@ -27,6 +27,7 @@
     XTSegmentControl        *_shopSegmentControl;
     ShopBannerView          *_shopBannerView;
     NSInteger               _oldSelectedIndex;
+    BOOL                    _isRequest;
 
 }
 
@@ -73,7 +74,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self requestgiftsList];
+    if (!_isRequest) {
+        _isRequest = YES;
+        [self requestgiftsList];
+    }
 
 }
 
@@ -91,8 +95,8 @@
 
 
 - (void)requestgiftsList {
-    [self.view beginLoading];
     
+    [self.view beginLoading];
     [[Coding_NetAPIManager sharedManager] request_shop_bannersWithBlock:^(id data, NSError *error) {
         _shopObject.shopBannerArray = data;
         [_collectionView reloadData];
@@ -174,11 +178,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGFloat offsetY = scrollView.contentOffset.y + scrollView.contentInset.top;
-    
-    NSLog(@"%lf", offsetY);
-    
     CGFloat _shopSegmentControlY = CGRectGetHeight(_collectionHeaderView.frame) - kMySegmentControl_Height - 5;
-    
     if (offsetY > _shopSegmentControlY) {
         _shopSegmentControl.frame = CGRectMake(0, offsetY, kScreen_Width, kMySegmentControl_Height);
     }else
@@ -202,11 +202,6 @@
     
     return cell;
 }
-
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return CGSizeMake((self.view.frame.size.width - 10 * 3) / 2, (self.view.frame.size.width - 10 * 3) / 2 + 67);
-//}
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
@@ -234,14 +229,15 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     ShopGoods *model = _shopObject.dateSource[indexPath.row];
+    if (!model.exchangeable) {
+        [NSObject showHudTipStr:@"您的码币余额不足，不能兑换该商品"];
+        return;
+    }
     ExchangeGoodsViewController *exChangeViewController = [[ExchangeGoodsViewController alloc] init];
     exChangeViewController.shopGoods = model;
     [self.navigationController pushViewController:exChangeViewController animated:YES];
 }
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

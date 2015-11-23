@@ -77,11 +77,8 @@
 - (void)configWithGiftGoods:(NSArray *)responseA{
     
     if (responseA && [responseA count] > 0) {
-        ShopGoods *object = [responseA firstObject];
-        [NSObject showHudTipStr: object.description_mine];
-        
-        [_shopGoodsArray enumerateObjectsUsingBlock:^(ShopGoods *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (_points_total.doubleValue > obj.points_cost.doubleValue) {
+        [responseA enumerateObjectsUsingBlock:^(ShopGoods *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (_points_left.doubleValue >= obj.points_cost.doubleValue) {
                 obj.exchangeable = YES;
             }
         }];
@@ -106,16 +103,14 @@
 
 - (NSArray *)getExchangeGiftData
 {
-    if (_points_total && _points_total.doubleValue > 0) {
-        NSMutableArray *mutaleArray = [NSMutableArray arrayWithCapacity:10];
-        [_shopGoodsArray enumerateObjectsUsingBlock:^(ShopGoods *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (_points_total.doubleValue > obj.points_cost.doubleValue) {
-                [mutaleArray addObject:obj];
-            }
-        }];
-        return mutaleArray;
-    }
-    return [NSArray array];
+    NSMutableArray *mutaleArray = [NSMutableArray arrayWithCapacity:10];
+    [_shopGoodsArray enumerateObjectsUsingBlock:^(ShopGoods *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.exchangeable) {
+            [mutaleArray addObject:obj];
+        }
+    }];
+    return mutaleArray;
+
 }
 
 @end
