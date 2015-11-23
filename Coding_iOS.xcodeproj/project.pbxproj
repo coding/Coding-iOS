@@ -392,6 +392,7 @@
 		4E996C071ABBF56A00C704F1 /* user_info_detail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E996BFF1ABBF56A00C704F1 /* user_info_detail@2x.png */; };
 		4E996C081ABBF56A00C704F1 /* user_info_project@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E996C001ABBF56A00C704F1 /* user_info_project@2x.png */; };
 		4E996C091ABBF56A00C704F1 /* user_info_tweet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E996C011ABBF56A00C704F1 /* user_info_tweet@2x.png */; };
+		4E9F5D201C03051D007CCDCC /* tipIcon_tweetReward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E9F5D1F1C03051D007CCDCC /* tipIcon_tweetReward@2x.png */; };
 		4EA6790A1A1461C3001A0324 /* ProjectFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA679091A1461C3001A0324 /* ProjectFile.m */; };
 		4EA6790D1A1461DC001A0324 /* ProjectFolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA6790C1A1461DC001A0324 /* ProjectFolder.m */; };
 		4EA679131A1466A6001A0324 /* ProjectFiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EA679121A1466A6001A0324 /* ProjectFiles.m */; };
@@ -1505,6 +1506,7 @@
 		4E996BFF1ABBF56A00C704F1 /* user_info_detail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_detail@2x.png"; sourceTree = "<group>"; };
 		4E996C001ABBF56A00C704F1 /* user_info_project@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_project@2x.png"; sourceTree = "<group>"; };
 		4E996C011ABBF56A00C704F1 /* user_info_tweet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_tweet@2x.png"; sourceTree = "<group>"; };
+		4E9F5D1F1C03051D007CCDCC /* tipIcon_tweetReward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_tweetReward@2x.png"; sourceTree = "<group>"; };
 		4EA679081A1461C3001A0324 /* ProjectFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectFile.h; sourceTree = "<group>"; };
 		4EA679091A1461C3001A0324 /* ProjectFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectFile.m; sourceTree = "<group>"; };
 		4EA6790B1A1461DC001A0324 /* ProjectFolder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectFolder.h; sourceTree = "<group>"; };
@@ -4145,6 +4147,7 @@
 		8EA6CFAF19E240C40076D59C /* tip_icons */ = {
 			isa = PBXGroup;
 			children = (
+				4E9F5D1F1C03051D007CCDCC /* tipIcon_tweetReward@2x.png */,
 				4E5C06E71AC2B34800F427C5 /* tipIcon_BranchMember@2x.png */,
 				8E62ADD919E28DA800963870 /* tipIcon_User@2x.png */,
 				8EA6CFB019E240C40076D59C /* tipIcon_MergeRequestBean@2x.png */,
@@ -4785,6 +4788,7 @@
 			files = (
 				8E97CE6C1A0B243B006F9AD7 /* keyboard_add@2x.png in Resources */,
 				4E6383FD1B33C18700D98648 /* task_activity_icon_restore@2x.png in Resources */,
+				4E9F5D201C03051D007CCDCC /* tipIcon_tweetReward@2x.png in Resources */,
 				4EA6791A1A14BFA0001A0324 /* icon_file_folder_normal@2x.png in Resources */,
 				8EA6D19919E240C40076D59C /* tipIcon_ProjectTopic@2x.png in Resources */,
 				4ED673261A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png in Resources */,

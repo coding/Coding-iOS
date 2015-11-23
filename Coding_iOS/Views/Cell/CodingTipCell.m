@@ -150,7 +150,6 @@ static CGFloat target_height = 45.0;
         _targetBgBtn.hidden = YES;
     }
     //unread
-//    [self.contentView addBadgeTip:_curTip.status.boolValue? @"": kBadgeTipStr withCenterPosition:CGPointMake(_ownerImgView.center.x, CGRectGetMaxY(_ownerImgView.frame) + 10)];
     [self.contentView addBadgeTip:_curTip.status.boolValue? @"": kBadgeTipStr withCenterPosition:CGPointMake(kPaddingLeftWidth + 4.0, _ownerNameBtn.center.y)];
 }
 
