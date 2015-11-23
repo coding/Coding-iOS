@@ -37,7 +37,9 @@
             tableView.dataSource = self;
             tableView.estimatedRowHeight = 690/2;
             [tableView registerClass:[ShopOderCell class] forCellReuseIdentifier:@"ShopOderCell"];
-            tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+            tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+            tableView.separatorColor = [UIColor colorWithHexString:@"0xFFDDDDDD"];
+            tableView.separatorInset = UIEdgeInsetsMake(0, 12, 0, 12);
             [self addSubview:tableView];
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self);
@@ -50,9 +52,23 @@
         _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
         [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
         
+     
+    }
+    return self;
+}
+
+- (void)reloadData
+{
+    _dataSource = [_myOrder getDataSourceByOrderType];
+    [self.myTableView reloadData];
+    
+    [self configBlankPage:EaseBlankPageTypeTopic hasData:(_dataSource.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+        
+    }];
+
+    if (_dataSource.count > 0) {
         UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width
                                                                     , (86 +88 +25)/2)];
-    
         UILabel *tipsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         tipsLabel.font = [UIFont systemFontOfSize:12];
         tipsLabel.backgroundColor = [UIColor clearColor];
@@ -69,13 +85,6 @@
         
         _myTableView.tableFooterView = footView;
     }
-    return self;
-}
-
-- (void)reloadData
-{
-    _dataSource = [_myOrder getDataSourceByOrderType];
-    [self.myTableView reloadData];
 }
 
 - (void)refresh

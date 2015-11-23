@@ -20,8 +20,6 @@
 {
 }
 
-@property (strong, nonatomic) NSString *tagNameToAdd;
-@property (strong, nonatomic) NSMutableArray *tagList, *selectedTags;
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
 @property (strong, nonatomic) UIButton *shopOrderBtn;
 
@@ -59,6 +57,8 @@
         return;
     }
     
+    [self showPwdAlertView];
+        
 }
 
 #pragma mark-
@@ -111,57 +111,13 @@
         }];
         orderBtn;
     });
-//    _shopOrderBtn.enabled = NO;
     _myTableView.tableFooterView = footView;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self sendRequest];
 }
-
-- (void)sendRequest
-{
-//    [self.view beginLoading];
-//    __weak typeof(self) weakSelf = self;
-//    [[Coding_NetAPIManager sharedManager] request_TagListInProject:_curProject type:ProjectTagTypeTopic andBlock:^(id data, NSError *error) {
-//        [weakSelf.view endLoading];
-//        if (data) {
-//            weakSelf.tagList = data;
-//            [weakSelf.myTableView reloadData];
-//        }
-//    }];
-}
-
-#pragma mark - click
-//- (void)okBtnClick
-//{
-//    if (self.tagsChangedBlock) {
-//        self.tagsChangedBlock(self, _selectedTags);
-//    }
-//}
-//
-//- (void)addBtnClick:(UIButton *)sender
-//{
-//    [self.view endEditing:YES];
-//    if (_tagNameToAdd.length > 0) {
-//        __weak typeof(self) weakSelf = self;
-//        ProjectTag *curTag = [ProjectTag tagWithName:_tagNameToAdd];
-//        [[Coding_NetAPIManager sharedManager] request_AddTag:curTag toProject:_curProject andBlock:^(id data, NSError *error) {
-//            if (data) {
-//                curTag.id = data;
-//                [weakSelf.tagList addObject:curTag];
-//                weakSelf.tagNameToAdd = @"";
-//                [weakSelf.myTableView reloadData];
-//                sender.enabled = FALSE;
-//                
-//                [NSObject showHudTipStr:@"添加标签成功^^"];
-//            }
-//        }];
-//    }
-//}
-//
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -239,38 +195,14 @@
 {
     [self.view endEditing:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-//    if (indexPath.section > 0) {
-//        EditLabelCell *cell = (EditLabelCell *)[tableView cellForRowAtIndexPath:indexPath];
-//        cell.selectBtn.selected = !cell.selectBtn.selected;
-//        
-//        ProjectTag *tagInSelected = [ProjectTag tags:_selectedTags hasTag:_tagList[indexPath.row]];
-//        if (cell.selectBtn.selected && !tagInSelected) {
-//            [_selectedTags addObject:_tagList[indexPath.row]];
-//        }else if (!cell.selectBtn.selected && tagInSelected){
-//            [_selectedTags removeObject:tagInSelected];
-//        }
-//        self.navigationItem.rightBarButtonItem.enabled = ![ProjectTag tags:_selectedTags isEqualTo:_orignalTags];
-//    }
 }
 
 #pragma mark - UITextFieldDelegate
 
 - (void)textFieldDidChange:(UITextField *)textField
 {
-    _tagNameToAdd = [textField.text trimWhitespace];
-    BOOL enabled = _tagNameToAdd.length > 0 ? TRUE : FALSE;
-    if (enabled) {
-        for (ProjectTag *lbl in _tagList) {
-            if ([lbl.name isEqualToString:_tagNameToAdd]) {
-                enabled = FALSE;
-                break;
-            }
-        }
-    }
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    ShopOrderTextFieldCell *cell = (ShopOrderTextFieldCell *)[_myTableView cellForRowAtIndexPath:indexPath];
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//    ShopOrderTextFieldCell *cell = (ShopOrderTextFieldCell *)[_myTableView cellForRowAtIndexPath:indexPath];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -283,6 +215,84 @@
 {
     [super touchesBegan:touches withEvent:event];
     [self.view endEditing:YES];
+}
+
+
+#pragma mark-
+#pragma mark---------------------- AlertView ---------------------------
+
+- (void)showPwdAlertView
+{
+    UIAlertView *_pwdAlertView = [[UIAlertView alloc] initWithTitle:@"确认订单" message:@"请输入密码已确认兑换" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    _pwdAlertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
+    [_pwdAlertView show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (alertView.firstOtherButtonIndex == buttonIndex) {
+        UITextField *field = [alertView textFieldAtIndex:0];
+        if ([field.text isEmpty]) {
+            [NSObject showHudTipStr:@"密码不能为空"];
+            return;
+        }
+        
+        [self exchangeActionRquest:field.text];
+
+    }
+}
+
+- (void)exchangeActionRquest:(NSString *)pwd
+{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_shop_check_passwordWithpwd:pwd andBlock:^(id data, NSError *error) {
+        if (data) {
+            
+            ShopOrderTextFieldCell *nameCell = [weakSelf.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+            ShopOrderTextFieldCell *addressCell = [weakSelf.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]];
+            ShopOrderTextFieldCell *phoneCell = [weakSelf.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:2 inSection:0]];
+            ShopOrderTextFieldCell *remarkCell = [weakSelf.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:3 inSection:0]];
+
+            NSString *receiverName = nameCell.textField.text;
+            NSString *receiverAddress = addressCell.textField.text;
+            NSString *receiverPhone = phoneCell.textField.text;
+            NSString *remark = remarkCell.textField.text;
+            NSMutableDictionary *mparms = [NSMutableDictionary dictionary];
+            if (![receiverName isEmpty]) {
+                [mparms setObject:receiverName forKey:@"receiverName"];
+            }
+            if (![receiverAddress isEmpty]) {
+                [mparms setObject:receiverAddress forKey:@"receiverAddress"];
+            }
+            if (![receiverPhone isEmpty]) {
+                [mparms setObject:receiverPhone forKey:@"receiverPhone"];
+            }
+            if (![remark isEmpty]) {
+                [mparms setObject:remark forKey:@"remark"];
+            }else
+                [mparms setObject:@"" forKey:@"remark"];
+            
+            if (![_shopGoods.giftId isEmpty]) {
+                [mparms setObject:_shopGoods.id forKey:@"giftId"];
+            }
+            if (![pwd isEmpty]) {
+                [mparms setObject:[pwd sha1Str] forKey:@" "];
+            }
+
+            [[Coding_NetAPIManager sharedManager] request_shop_exchangeWithParms:mparms andBlock:^(id data, NSError *error) {
+                if (!error) {
+                    [NSObject showHudTipStr:@"恭喜你，兑换成功!"];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }else
+                {
+                    [NSObject showError:error];
+                }
+            }];
+        }else
+        {
+            [NSObject showHudTipStr:@"密码不正确"];
+        }
+    }];
 }
 
 @end

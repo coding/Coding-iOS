@@ -39,7 +39,7 @@
     
     //添加myCarousel
     self.myCarousel = ({
-        iCarousel *icarousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, kMySegmentControl_Height, kScreen_Width, kScreen_Height - kMySegmentControl_Height)];
+        iCarousel *icarousel = [[iCarousel alloc] initWithFrame:CGRectZero];
         icarousel.dataSource = self;
         icarousel.delegate = self;
         icarousel.decelerationRate = 1.0;
@@ -49,6 +49,10 @@
         icarousel.clipsToBounds = YES;
         icarousel.bounceDistance = 0.2;
         [self.view addSubview:icarousel];
+        [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(kMySegmentControl_Height, 0, 0, 0));
+        }];
+
         icarousel;
     });
     

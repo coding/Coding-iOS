@@ -2450,4 +2450,34 @@
     }];
 }
 
+- (void)request_shop_check_passwordWithpwd:(NSString *)pwd andBlock:(void (^)(id data, NSError *error))block
+{
+    if ([pwd isEmpty]) {
+        return;
+    }
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/check_password" withParams:@{@"password":[pwd sha1Str]} withMethodType:Post autoShowError:YES andBlock:^(id data, NSError *error) {
+        NSNumber *code = [data valueForKey:@"code"];
+        if (code.intValue == 0) {
+            block(code, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+///
+
+- (void)request_shop_exchangeWithParms:(NSDictionary *)parms andBlock:(void (^)(id data, NSError *error))block
+{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/gifts/exchange" withParams:parms withMethodType:Post autoShowError:YES andBlock:^(id data, NSError *error) {
+        data = [data valueForKey:@"data"];
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+
+}
+
+
 @end
