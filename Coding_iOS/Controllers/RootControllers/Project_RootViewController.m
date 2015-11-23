@@ -107,6 +107,9 @@
             [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
             [searchBar sizeToFit];
             searchBar.delegate = self;
+//            UITextField *searchField=[[[[searchBar subviews] firstObject] subviews] lastObject];
+//            [(UIImageView*)searchField.leftView setImage:[UIImage imageNamed:@"icon_seach_searchbar"]];
+            [searchBar setImage:[UIImage imageNamed:@"icon_search_searchbar"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
             [searchBar setPlaceholder:@"项目、任务、讨论等"];
             [searchBar setTintColor:[UIColor whiteColor]];
             [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];

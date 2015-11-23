@@ -10,7 +10,8 @@
 
 @interface CategorySearchBar ()
 @property (copy,nonatomic)SelectBlock curBlock;
-@property (strong, nonatomic) UIButton *categoryBtn;
+@property (strong, nonatomic)UIButton *categoryBtn;
+@property (strong, nonatomic)UIButton *iconBtn;
 @end
 
 
@@ -21,14 +22,15 @@
     self.autoresizesSubviews = YES;
     //找到输入框  右移
     UITextField *searchField=[[[[self subviews] firstObject] subviews] lastObject];
-    [searchField setFrame:CGRectMake(55,5,230,20)];
-    
+    searchField.textAlignment=NSTextAlignmentLeft;
+    [searchField setFrame:CGRectMake(58,5,225,20)];
     //
-//    [(UIImageView*)searchField.leftView setImage:[UIImage imageNamed:@"tips_menu_icon_status"]];
+    [(UIImageView*)searchField.leftView setFrame:CGRectZero];
 }
 
 -(void)patchWithCategoryWithSelectBlock:(SelectBlock)block{
     [self addSubview:self.categoryBtn];
+    [self addSubview:self.iconBtn];
     _curBlock=block;
 }
 
@@ -43,6 +45,16 @@
     }
     return _categoryBtn;
 }
+
+-(UIButton*)iconBtn{
+    if (!_iconBtn) {
+        _iconBtn=[[UIButton alloc] initWithFrame:CGRectMake(50, 11, 8, 8)];
+        [_iconBtn addTarget:self action:@selector(selectCategoryAction) forControlEvents:UIControlEventTouchUpInside];
+        [_iconBtn setBackgroundImage:[UIImage imageNamed:@"btn_fliter_down"] forState:UIControlStateNormal];
+    }
+    return _iconBtn;
+}
+
 
 
 #pragma mark -- event

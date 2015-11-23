@@ -79,6 +79,9 @@
         [searchBar sizeToFit];
         [searchBar setTintColor:[UIColor whiteColor]];
         [searchBar insertBGColor:[UIColor colorWithHexString:@"0xffffff"]];
+//        [searchBar setImage:nil forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+//        [searchBar setPositionAdjustment:UIOffsetMake(-10,0) forSearchBarIcon:UISearchBarIconSearch];
+//        searchBar.searchTextPositionAdjustment=UIOffsetMake(10,0);
         [searchBar setHeight:30];
         searchBar;
     });
@@ -117,7 +120,6 @@
     if (!_searchDisplayVC) {
         _searchDisplayVC = ({
             AllSearchDisplayVC *searchVC = [[AllSearchDisplayVC alloc] initWithSearchBar:_mySearchBar contentsController:self];
-            
             //自定义uisearchbar 要在这里重新申明
             //需要重新调整下大小
             searchVC.searchBar.frame=CGRectMake(20,7, kScreen_Width-75, 30);
@@ -135,7 +137,6 @@
             searchVC;
         });
     }
-    
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(popToMainVCAction)];
     
     
