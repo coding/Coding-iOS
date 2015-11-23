@@ -31,6 +31,8 @@
 #import "FileSearchCell.h"
 #import "TweetSearchCell.h"
 #import "UserSearchCell.h"
+#import "ProjectTaskListViewCell.h"
+
 
 // nav--------
 #import "TweetDetailViewController.h"
@@ -146,7 +148,6 @@
     
     if(!_searchTableView) {
         _searchTableView = ({
-            
             UITableView *tableView = [[UITableView alloc] initWithFrame:_contentView.frame style:UITableViewStylePlain];
             tableView.backgroundColor = [UIColor whiteColor];
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -154,6 +155,7 @@
             [tableView registerClass:[ProjectAboutMeListCell class] forCellReuseIdentifier:@"ProjectAboutMeListCell"];
             [tableView registerClass:[FileSearchCell class] forCellReuseIdentifier:@"FileSearchCell"];
             [tableView registerClass:[UserSearchCell class] forCellReuseIdentifier:@"UserSearchCell"];
+            [tableView registerClass:[ProjectTaskListViewCell class] forCellReuseIdentifier:@"ProjectTaskListViewCell"];
             tableView.dataSource = self;
             tableView.delegate = self;
             {
@@ -186,11 +188,7 @@
         });
     }
     [_searchTableView.superview bringSubviewToFront:_searchTableView];
-    //    [self.searchBar.superview bringSubviewToFront:_searchTableView];
-    
-    //    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.searchTableView];
-    //    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-    
+
     [_searchTableView reloadData];
     [self refresh];
 }
@@ -368,6 +366,9 @@
         case eSearchType_User:
             [self.dateSource addObjectsFromArray:_searchPros.friends.list];
             break;
+        case eSearchType_Task:
+            [self.dateSource addObjectsFromArray:_searchPros.tasks.list];
+            break;
         default:
             break;
     }
@@ -391,6 +392,9 @@
             break;
         case eSearchType_User:
             titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的用户", [_searchPros.friends.totalRow longValue],self.searchBar.text];
+            break;
+        case eSearchType_Task:
+            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的任务", [_searchPros.tasks.totalRow longValue],self.searchBar.text];
             break;
         default:
             break;
@@ -455,6 +459,9 @@
                     break;
                 case eSearchType_User:
                     [weakSelf.dateSource addObjectsFromArray:_searchPros.friends.list];
+                    break;
+                case eSearchType_Task:
+                    [weakSelf.dateSource addObjectsFromArray:_searchPros.tasks.list];
                     break;
                 default:
                     break;
@@ -537,6 +544,11 @@
         };
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
+    }else if(_curSearchType==eSearchType_Task){
+        ProjectTaskListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectTaskListViewCell" forIndexPath:indexPath];
+        Task *task =_dateSource[indexPath.row];
+        cell.task=task;
+        return cell;
     }else{
         return nil;
     }
@@ -552,6 +564,8 @@
         return kFileSearchCellHeight;
     }else if(_curSearchType==eSearchType_User){
         return kUserSearchCellHeight;
+    }else if(_curSearchType==eSearchType_Task){
+        return [ProjectTaskListViewCell cellHeightWithObj:[_dateSource objectAtIndex:indexPath.row]];
     }else{
         return 100;
     }
