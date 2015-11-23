@@ -8,7 +8,7 @@
 
 #define kProjectTaskListViewCell_LeftPading 93.0
 #define kProjectTaskListViewCell_RightPading 10.0
-#define kProjectTaskListViewCell_UserIconWidth 33.0
+#define kProjectTaskListViewCell_UserIconWidth 40.0
 #define kProjectTaskListViewCell_UpDownPading 10.0
 #define kProjectTaskListViewCell_MaxContentHeight 20.0
 #define kProjectTaskListViewCell_ContentWidth (kScreen_Width - kProjectTaskListViewCell_LeftPading - kProjectTaskListViewCell_RightPading)
@@ -22,8 +22,8 @@
 #import "NSString+Attribute.h"
 
 @interface TaskSearchCell ()
-@property (strong, nonatomic) UIImageView *userIconView, *commentIconView, *timeClockIconView, *mdIconView, *taskPriorityView;
-@property (strong, nonatomic) UILabel *contentLabel, *userNameLabel, *timeLabel, *commentCountLabel, *mdLabel, *numLabel;
+@property (strong, nonatomic) UIImageView *userIconView, *commentIconView, *timeClockIconView, *mdIconView;
+@property (strong, nonatomic) UILabel *contentLabel, *userNameLabel, *timeLabel, *commentCountLabel, *mdLabel, *numLabel,*describeLabe;;
 @end
 
 
@@ -41,17 +41,22 @@
             [_userIconView doCircleFrame];
             [self.contentView addSubview:_userIconView];
         }
-        if (!_taskPriorityView) {
-            _taskPriorityView = [UIImageView new];
-            _taskPriorityView.contentMode = UIViewContentModeScaleAspectFit;
-            [self.contentView addSubview:_taskPriorityView];
-        }
+
         if (!_contentLabel) {
             _contentLabel = [UILabel new];
             _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             _contentLabel.font = kProjectTaskListViewCell_ContentFont;
             [self.contentView addSubview:_contentLabel];
         }
+        
+        if (!_describeLabe) {
+            _describeLabe = [UILabel new];
+            _describeLabe.textColor = [UIColor colorWithHexString:@"0x666666"];
+            _describeLabe.font = kProjectTaskListViewCell_ContentFont;
+            _describeLabe.numberOfLines=2;
+            [self.contentView addSubview:_describeLabe];
+        }
+
         if (!_numLabel) {
             _numLabel = [UILabel new];
             _numLabel.font = [UIFont systemFontOfSize:10];
@@ -101,20 +106,23 @@
         
         [_userIconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
-            make.centerY.equalTo(self.contentView);
+            make.top.equalTo(self.contentView).offset(19);
             make.size.mas_equalTo(CGSizeMake(kProjectTaskListViewCell_UserIconWidth,
                                              kProjectTaskListViewCell_UserIconWidth));
         }];
-        [_taskPriorityView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.contentView).offset(10);
-            make.left.equalTo(self.userIconView.mas_right).offset(10);
-            make.size.mas_equalTo(CGSizeMake(17, 17));
-        }];
+
         [_contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.taskPriorityView);
-            make.left.equalTo(self.taskPriorityView.mas_right).offset(10);
+            make.top.equalTo(self.contentView).offset(19-3);
+            make.left.equalTo(self.userIconView.mas_right).offset(10);
             make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
             make.height.mas_equalTo(20);
+        }];
+        
+        [_describeLabe mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.contentLabel.mas_bottom).offset(10);
+            make.left.equalTo(self.userIconView.mas_right).offset(10);
+            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+            make.height.mas_equalTo(40);
         }];
 
         [_numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -168,32 +176,18 @@
         return;
     }
     [_userIconView sd_setImageWithURL:[_task.owner.avatar urlImageWithCodePathResize:2*kProjectTaskListViewCell_UserIconWidth] placeholderImage:kPlaceholderMonkeyRoundWidth(kProjectTaskListViewCell_UserIconWidth)];
-    [_taskPriorityView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"taskPriority%@_small", _task.priority.stringValue]]];
-    _contentLabel.textColor = [UIColor colorWithHexString:_task.status.integerValue == 1? @"0x222222" : @"0x999999"];
     
     _contentLabel.attributedText=[NSString getAttributeFromText:[_task.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
 
 //    _contentLabel.text = [_task.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     //Bottom
-    _numLabel.text = [NSString stringWithFormat:@"#%@", _task.number.stringValue];
+    _numLabel.text = [NSString stringWithFormat:@"#%@", _task.resource_id.stringValue];
     _userNameLabel.text = _task.creator.name;
     _timeLabel.text = [_task.created_at stringDisplay_MMdd];
     _commentCountLabel.text = _task.comments.stringValue;
     _mdIconView.hidden = _mdLabel.hidden = !_task.has_description.boolValue;
+    _describeLabe.text=_task.description_mine;
 }
 
-+ (CGFloat)cellHeightWithObj:(id)obj{
-    CGFloat cellHeight = 0;
-    if ([obj isKindOfClass:[Task class]]) {
-        Task *task = (Task *)obj;
-        if (task.deadline_date || task.labels.count > 0) {
-            cellHeight = 95;
-        }else{
-            cellHeight = 60;
-        }
-    }
-    return cellHeight;
-}
 @end
-
 

@@ -6,11 +6,12 @@
 //  Copyright © 2015年 Coding. All rights reserved.
 //
 
+#define kTaskSearchCellHeight 126
+
 #import <UIKit/UIKit.h>
 #import "Task.h"
 
 @interface TaskSearchCell : UITableViewCell
 @property (strong, nonatomic) Task *task;
-@property (copy, nonatomic) void(^checkViewClickedBlock)(Task *task);
 + (CGFloat)cellHeightWithObj:(id)obj;
 @end

@@ -130,6 +130,7 @@
             [self initSearchHistoryView];
         }
         
+        
         [self.parentVC.view addSubview:_backgroundView];
         [self.parentVC.view addSubview:_contentView];
         [self.parentVC.view bringSubviewToFront:_contentView];
@@ -328,7 +329,13 @@
     [self.parentVC.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)goToTask:(Task*)curTask{
+    NSString *path=[NSString stringWithFormat:@"%@/task/%@",curTask.project.project_path,curTask.id];
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:path];
+    [self.parentVC.navigationController pushViewController:vc animated:YES];
 
+
+}
 
 #pragma mark -
 #pragma mark Search Data Request
@@ -567,7 +574,7 @@
     }else if(_curSearchType==eSearchType_User){
         return kUserSearchCellHeight;
     }else if(_curSearchType==eSearchType_Task){
-        return [TaskSearchCell cellHeightWithObj:[_dateSource objectAtIndex:indexPath.row]];
+        return kTaskSearchCellHeight;
     }else{
         return 100;
     }
@@ -584,6 +591,8 @@
         [self goToFileVC:_dateSource[indexPath.row]];
     }else if (_curSearchType==eSearchType_User){
         [self goToUserInfo:_dateSource[indexPath.row]];
+    }else if (_curSearchType==eSearchType_Task){
+        [self goToTask:_dateSource[indexPath.row]];
     }
 }
 
