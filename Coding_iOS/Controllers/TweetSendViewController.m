@@ -294,6 +294,7 @@
         [alertV show];
     }else{//直接返回
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:schemeStr]];
+        [self dismissSelfWithCompletion:nil];
     }
 }
 
