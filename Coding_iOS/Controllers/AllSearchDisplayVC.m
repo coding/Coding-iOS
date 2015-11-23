@@ -31,7 +31,7 @@
 #import "FileSearchCell.h"
 #import "TweetSearchCell.h"
 #import "UserSearchCell.h"
-#import "ProjectTaskListViewCell.h"
+#import "TaskSearchCell.h"
 
 
 // nav--------
@@ -155,7 +155,8 @@
             [tableView registerClass:[ProjectAboutMeListCell class] forCellReuseIdentifier:@"ProjectAboutMeListCell"];
             [tableView registerClass:[FileSearchCell class] forCellReuseIdentifier:@"FileSearchCell"];
             [tableView registerClass:[UserSearchCell class] forCellReuseIdentifier:@"UserSearchCell"];
-            [tableView registerClass:[ProjectTaskListViewCell class] forCellReuseIdentifier:@"ProjectTaskListViewCell"];
+            [tableView registerClass:[TaskSearchCell class] forCellReuseIdentifier:@"TaskSearchCell"];
+
             tableView.dataSource = self;
             tableView.delegate = self;
             {
@@ -545,9 +546,10 @@
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else if(_curSearchType==eSearchType_Task){
-        ProjectTaskListViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectTaskListViewCell" forIndexPath:indexPath];
+        TaskSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaskSearchCell" forIndexPath:indexPath];
         Task *task =_dateSource[indexPath.row];
         cell.task=task;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else{
         return nil;
@@ -565,7 +567,7 @@
     }else if(_curSearchType==eSearchType_User){
         return kUserSearchCellHeight;
     }else if(_curSearchType==eSearchType_Task){
-        return [ProjectTaskListViewCell cellHeightWithObj:[_dateSource objectAtIndex:indexPath.row]];
+        return [TaskSearchCell cellHeightWithObj:[_dateSource objectAtIndex:indexPath.row]];
     }else{
         return 100;
     }

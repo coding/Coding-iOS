@@ -7,7 +7,6 @@
 //
 
 #import "UserSearchCell.h"
-#import "Coding_NetAPIManager.h"
 #import "NSString+Attribute.h"
 
 @interface UserSearchCell ()
