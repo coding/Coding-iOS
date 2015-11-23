@@ -109,7 +109,7 @@ static NSString *const kValueKey = @"kValueKey";
             self.statusView=[self getHeaderViewWithStr:headerTitle color:kColorTableBG leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"]];
             [self addSubview:self.statusView];
         }
-        _statusView.hidden=TRUE;
+//        _statusView.hidden=TRUE;
 
     }
     return self;
@@ -118,6 +118,16 @@ static NSString *const kValueKey = @"kValueKey";
     self.myProjects = projects;
     [self setupDataList];
     [self refreshUI];
+}
+
+-(void)setUseNewStyle:(BOOL)useNewStyle{
+    _useNewStyle=useNewStyle;
+    if (_useNewStyle) {
+        [_myTableView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.bottom.right.equalTo(self);
+            make.top.equalTo(@(44));
+        }];
+    }
 }
 
 - (void)setupDataList{
@@ -170,7 +180,13 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (void)refresh{
-    _statusView.hidden=TRUE;
+//    _statusView.hidden=TRUE;
+    NSString *headerTitle=[self getSectionHeaderName];
+    if (headerTitle.length>0) {
+        self.noticeLab.text=headerTitle;
+        self.statusView.hidden=FALSE;
+    }
+    
     if (_myProjects.isLoading) {
         return;
     }
@@ -207,9 +223,6 @@ static NSString *const kValueKey = @"kValueKey";
         if (data) {
             [weakSelf.myProjects configWithProjects:data];
             [weakSelf setupDataList];
-            if([weakSelf.dataList count]>0){
-                weakSelf.statusView.hidden=TRUE;
-            }
             [weakSelf.myTableView reloadData];
         }
         EaseBlankPageType blankPageType;
@@ -250,13 +263,13 @@ static NSString *const kValueKey = @"kValueKey";
         };
         
         //空白页加载后显示 开启header
-        self.blankPageView.loadAndShowStatusBlock=^() {
-            NSString *headerTitle=[weakSelf getSectionHeaderName];
-            if (headerTitle.length>0) {
-                weakSelf.noticeLab.text=headerTitle;
-                weakSelf.statusView.hidden=FALSE;
-            }
-        };
+//        self.blankPageView.loadAndShowStatusBlock=^() {
+//            NSString *headerTitle=[weakSelf getSectionHeaderName];
+//            if (headerTitle.length>0) {
+//                weakSelf.noticeLab.text=headerTitle;
+//                weakSelf.statusView.hidden=FALSE;
+//            }
+//        };
 
     }];
 }
@@ -288,25 +301,25 @@ static NSString *const kValueKey = @"kValueKey";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     //开启header模式
-    return (self.myProjects.type < ProjectsTypeToChoose)&&(section==0)? 44: 0;
-//    return 0;
+//    return (self.myProjects.type < ProjectsTypeToChoose)&&(section==0)? 44: 0;
+    return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     //开启header模式
 
-    if(self.myProjects.type < ProjectsTypeToChoose){
-        NSString *headerTitle=[self getSectionHeaderName];
-        if (headerTitle.length==0) {
-            return nil;
-        }
-        UIView *headerView=[tableView getHeaderViewWithStr:headerTitle color:kColorTableBG leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"] andBlock:nil];
-        return headerView;
-    }else{
-        return nil;
-    }
+//    if(self.myProjects.type < ProjectsTypeToChoose){
+//        NSString *headerTitle=[self getSectionHeaderName];
+//        if (headerTitle.length==0) {
+//            return nil;
+//        }
+//        UIView *headerView=[tableView getHeaderViewWithStr:headerTitle color:kColorTableBG leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"] andBlock:nil];
+//        return headerView;
+//    }else{
+//        return nil;
+//    }
     
-//    return nil;
+    return nil;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
