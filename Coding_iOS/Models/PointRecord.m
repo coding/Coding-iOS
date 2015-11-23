@@ -9,5 +9,8 @@
 #import "PointRecord.h"
 
 @implementation PointRecord
-
+- (void)setUsage:(NSString *)usage{
+    _htmlMedia = [HtmlMedia htmlMediaWithString:usage showType:MediaShowTypeAll];
+    _usage = _htmlMedia.contentDisplay;
+}
 @end

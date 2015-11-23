@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HtmlMedia.h"
 
 @interface PointRecord : NSObject
 @property (strong, nonatomic) NSDate *created_at;
 @property (strong, nonatomic) NSString *usage, *remark;
 @property (strong, nonatomic) NSNumber *points_change, *points_left, *action;
+@property (strong, nonatomic) HtmlMedia *htmlMedia;
 @end

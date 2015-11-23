@@ -37,15 +37,15 @@
 }
 - (void)request_UnReadNotificationsWithBlock:(void (^)(id data, NSError *error))block{
     NSMutableDictionary *notificationDict = [[NSMutableDictionary alloc] init];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/unread-count" withParams:@{@"type" : [NSNumber numberWithInteger:0]} withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/unread-count" withParams:@{@"type" : @(0)} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
 //            @我的
             [notificationDict setObject:[data valueForKeyPath:@"data"] forKey:kUnReadKey_notification_AT];
-            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/unread-count" withParams:@{@"type" : [NSArray arrayWithObjects:[NSNumber numberWithInteger:1], [NSNumber numberWithInteger:2], nil]} withMethodType:Get andBlock:^(id dataComment, NSError *errorComment) {
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/unread-count" withParams:@{@"type" : @[@(1), @(2)]} withMethodType:Get andBlock:^(id dataComment, NSError *errorComment) {
                 if (dataComment) {
 //                    评论
                     [notificationDict setObject:[dataComment valueForKeyPath:@"data"] forKey:kUnReadKey_notification_Comment];
-                    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/unread-count" withParams:@{@"type" : [NSNumber numberWithInteger:4]} withMethodType:Get andBlock:^(id dataSystem, NSError *errorSystem) {
+                    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/notification/unread-count" withParams:@{@"type" : @[@(4),@(6)]} withMethodType:Get andBlock:^(id dataSystem, NSError *errorSystem) {
                         if (dataSystem) {
 //                            系统
                             [MobClick event:kUmeng_Event_Request_Notification label:@"消息页面的红点通知"];

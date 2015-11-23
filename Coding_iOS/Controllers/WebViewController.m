@@ -12,6 +12,8 @@
 #import "BaseViewController.h"
 #import "CodingShareView.h"
 #import "RootTabViewController.h"
+#import <RegexKitLite-NoWarning/RegexKitLite.h>
+
 
 @interface WebViewController ()<UIWebViewDelegate>
 @property (strong, nonatomic) NJKWebViewProgress *progressProxy;
@@ -21,18 +23,18 @@
 @implementation WebViewController
 
 + (instancetype)webVCWithUrlStr:(NSString *)curUrlStr{
-    if ([curUrlStr hasSuffix:@"/user/tasks"]){
+//    NSString *tasksRegexStr = @"/user/tasks[\?]?";
+    NSString *tasksRegexStr = @"/user/tasks";
+    if ([curUrlStr captureComponentsMatchedByRegex:tasksRegexStr].count > 0){
         if ([kKeyWindow.rootViewController isKindOfClass:[RootTabViewController class]]) {
             RootTabViewController *vc = (RootTabViewController *)kKeyWindow.rootViewController;
             vc.selectedIndex = 1;
             return nil;
         }
     }
-    
     if (!curUrlStr || curUrlStr.length <= 0 || [curUrlStr hasPrefix:kCodingAppScheme]) {
         return nil;
     }
-    
     NSString *proName = [NSString stringWithFormat:@"/%@.app/", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]];
     NSURL *curUrl;
     if (![curUrlStr hasPrefix:@"/"] || [curUrlStr rangeOfString:proName].location != NSNotFound) {
@@ -64,7 +66,7 @@
     @weakify(self);
     _progressProxy.progressBlock = ^(float progress) {
         @strongify(self);
-        [self.progressView setProgress:progress animated:NO];
+        [self.progressView setProgress:progress animated:YES];
     };
     
     CGFloat progressBarHeight = 2.f;

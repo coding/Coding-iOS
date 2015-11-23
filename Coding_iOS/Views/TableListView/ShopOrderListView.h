@@ -12,6 +12,7 @@
 
 @interface ShopOrderListView : UIView
 
+@property (nonatomic, strong) ShopOrderModel *myOrder;
 - (instancetype)initWithFrame:(CGRect)frame withOder:(ShopOrderModel *)order;
 
 - (void)reloadData;

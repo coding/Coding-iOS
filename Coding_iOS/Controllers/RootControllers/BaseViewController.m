@@ -377,7 +377,9 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         return;
     }
     UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:viewController];
-    viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:viewController action:@selector(dismissModalViewControllerAnimated:)];
+    if (!viewController.navigationItem.leftBarButtonItem) {
+        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:viewController action:@selector(dismissModalViewControllerAnimated:)];
+    }
     [[self presentingVC] presentViewController:nav animated:YES completion:nil];
 }
 

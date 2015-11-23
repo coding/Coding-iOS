@@ -17,7 +17,6 @@
     ShopOderCell *_currentOrderCell;
     NSArray      *_dataSource;
 }
-@property (nonatomic, strong) ShopOrderModel *myOrder;
 //@property (nonatomic , copy)  ProjectActivityBlock block;
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
@@ -30,8 +29,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
-        _dataSource = [_myOrder getDataSourceByOrderType];
+        _myOrder = order;
         _myTableView = ({
             UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
             tableView.backgroundColor = [UIColor clearColor];
@@ -71,7 +69,7 @@
         
         _myTableView.tableFooterView = footView;
         
-        [self loadData];
+//        [self loadData];
 
     }
     return self;

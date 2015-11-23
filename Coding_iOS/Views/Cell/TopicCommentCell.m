@@ -42,6 +42,7 @@
             _contentLabel.font = kTopicCommentCell_FontContent;
             _contentLabel.linkAttributes = kLinkAttributes;
             _contentLabel.activeLinkAttributes = kLinkAttributesActive;
+            [_contentLabel addLongPressForCopy];
             [self.contentView addSubview:_contentLabel];
         }
         CGFloat commentBtnWidth = 40;

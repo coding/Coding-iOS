@@ -70,7 +70,9 @@
     [[Coding_NetAPIManager sharedManager] request_shop_OrderListWithOrder:_myOrder andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
+            
             ShopOrderListView *listView = (ShopOrderListView *)[weakSelf.myCarousel itemViewAtIndex:_myOrder.orderType];
+            
             [listView reloadData];
 
             if (listView) {
@@ -102,6 +104,7 @@
     }else{
         listView = [[ShopOrderListView alloc] initWithFrame:carousel.bounds withOder:_myOrder];
     }
+    listView.myOrder = _myOrder;
     [listView reloadData];
 
 //    [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
