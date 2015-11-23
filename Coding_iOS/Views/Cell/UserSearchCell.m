@@ -8,6 +8,7 @@
 
 #import "UserSearchCell.h"
 #import "Coding_NetAPIManager.h"
+#import "NSString+Attribute.h"
 
 @interface UserSearchCell ()
 @property (strong, nonatomic) UIImageView *userIconView;
@@ -41,7 +42,7 @@
             [self.contentView addSubview:_userIconView];
         }
         if (!_userNameLabel) {
-            _userNameLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(66, (kUserSearchCellHeight-30)/2, kScreen_Width - 66 - 100, 30)];
+            _userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(66, (kUserSearchCellHeight-40)/2-3, kScreen_Width - 66 - 100, 20)];
             _userNameLabel.font = [UIFont systemFontOfSize:17];
             _userNameLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             [self.contentView addSubview:_userNameLabel];
@@ -49,6 +50,13 @@
         if (!_rightBtn) {
             _rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 80-kPaddingLeftWidth, (kUserSearchCellHeight-30)/2, 80, 32)];
             [_rightBtn addTarget:self action:@selector(rightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [_rightBtn setTitle:@"私信" forState:UIControlStateNormal];
+            [_rightBtn setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateNormal];
+            [_rightBtn setBackgroundColor:[UIColor clearColor]];
+            _rightBtn.layer.borderWidth=1;
+            _rightBtn.layer.borderColor=[UIColor colorWithHexString:@"0x999999"].CGColor;
+            _rightBtn.layer.masksToBounds=TRUE;
+            _rightBtn.layer.cornerRadius=3;
             [self.contentView addSubview:_rightBtn];
         }
     }
@@ -60,55 +68,23 @@
     
     if (!_curUser) {
         [_userIconView setImage:[UIImage imageNamed:@"add_user_icon"]];
-        _userNameLabel.text = @"添加好友";
+        _userNameLabel.text = @"";
     }else{
         [_userIconView sd_setImageWithURL:[_curUser.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
-        _userNameLabel.text = _curUser.name;
-    }
-    
-    if (_usersType == UsersTypeFriends_Message || _usersType == UsersTypeFriends_At || _usersType == UsersTypeFriends_Transpond) {
-        _rightBtn.hidden = YES;
-    }else if (_usersType == UsersTypeAddToProject){
-        NSString *imageName = _isInProject? @"btn_project_added":@"btn_project_add";
-        [_rightBtn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
-        _rightBtn.hidden = NO;
-    }else{
-        _rightBtn.hidden = NO;
-        [_rightBtn configFollowBtnWithUser:_curUser fromCell:YES];
+        _userNameLabel.attributedText=[NSString getAttributeFromText:_curUser.name emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
     }
     [self configSendingStatusUI];
 }
 
 - (void)configSendingStatusUI{
-    if (_usersType == UsersTypeAddToProject){
-        if (_isQuerying) {
-            if (!_sendingStatus) {
-                _sendingStatus = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-                _sendingStatus.hidesWhenStopped = YES;
-                [_rightBtn addSubview:_sendingStatus];
-                [_sendingStatus setCenter:CGPointMake(CGRectGetMidX(_rightBtn.bounds), CGRectGetMidY(_rightBtn.bounds))];
-            }
-            [_sendingStatus startAnimating];
-        }else{
+    if (_sendingStatus) {
             [_sendingStatus stopAnimating];
-        }
-    }else{
-        if (_sendingStatus) {
-            [_sendingStatus stopAnimating];
-        }
     }
 }
 
 - (void)rightBtnClicked:(id)sender{
-    if (_leftBtnClickedBlock) {
-        _leftBtnClickedBlock(_curUser);
-    }else{
-        [[Coding_NetAPIManager sharedManager] request_FollowedOrNot_WithObj:_curUser andBlock:^(id data, NSError *error) {
-            if (data) {
-                _curUser.followed = [NSNumber numberWithBool:!_curUser.followed.boolValue];
-                [_rightBtn configFollowBtnWithUser:_curUser fromCell:YES];
-            }
-        }];
+    if (_rightBtnClickedBlock) {
+        _rightBtnClickedBlock(_curUser);
     }
 }
 

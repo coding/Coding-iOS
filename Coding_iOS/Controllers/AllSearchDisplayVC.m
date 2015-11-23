@@ -34,6 +34,7 @@
 
 // nav--------
 #import "TweetDetailViewController.h"
+#import "ConversationViewController.h"
 
 @interface AllSearchDisplayVC () <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource,UIScrollViewDelegate>
 
@@ -170,7 +171,6 @@
                 label.textColor = [UIColor colorWithHexString:@"0x999999"];
                 label.textAlignment = NSTextAlignmentCenter;
                 label.font = [UIFont systemFontOfSize:12];
-                
                 label;
             });
             
@@ -323,6 +323,12 @@
     UIViewController *vc = [BaseViewController analyseVCFromLinkStr:file.path];
     [self.parentVC.navigationController pushViewController:vc animated:YES];
 }
+
+- (void)goToUserInfo:(User *)user{
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:user.path];
+    [self.parentVC.navigationController pushViewController:vc animated:YES];
+}
+
 
 
 #pragma mark -
@@ -519,7 +525,16 @@
         UserSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserSearchCell" forIndexPath:indexPath];
         User *curUser = _dateSource[indexPath.row];
         cell.curUser = curUser;
-        cell.usersType = UsersTypeAddFriend;
+        __weak typeof(self) weakSelf = self;
+        cell.rightBtnClickedBlock=^(User *curUser) {
+            ConversationViewController *vc = [[ConversationViewController alloc] init];
+            User *copyUser=[curUser copy];
+            copyUser.name=[NSString getStr:copyUser.name removeEmphasize:@"em"];
+            copyUser.global_key=[NSString getStr:copyUser.global_key removeEmphasize:@"em"];
+            copyUser.pinyinName=[NSString getStr:copyUser.pinyinName removeEmphasize:@"em"];
+            vc.myPriMsgs = [PrivateMessages priMsgsWithUser:copyUser];
+            [weakSelf.parentVC.navigationController pushViewController:vc animated:YES];
+        };
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else{
@@ -552,7 +567,7 @@
     }else if (_curSearchType==eSearchType_Document){
         [self goToFileVC:_dateSource[indexPath.row]];
     }else if (_curSearchType==eSearchType_User){
-        
+        [self goToUserInfo:_dateSource[indexPath.row]];
     }
 }
 

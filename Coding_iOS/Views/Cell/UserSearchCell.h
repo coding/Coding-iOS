@@ -6,7 +6,7 @@
 //  Copyright © 2015年 Coding. All rights reserved.
 //
 
-#define kUserSearchCellHeight 57
+#define kUserSearchCellHeight 76
 
 #import <UIKit/UIKit.h>
 #import "User.h"
@@ -14,8 +14,7 @@
 
 @interface UserSearchCell : UITableViewCell
 @property (strong, nonatomic) User *curUser;
-@property (assign, nonatomic) UsersType usersType;
-@property (nonatomic,copy) void(^leftBtnClickedBlock)(User *curUser);
+@property (nonatomic,copy) void(^rightBtnClickedBlock)(User *curUser);
 
 @property (assign, nonatomic) BOOL isInProject, isQuerying;
 
