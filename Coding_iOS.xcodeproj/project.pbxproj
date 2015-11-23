@@ -913,6 +913,11 @@
 		9233996C1C00524A00F29E04 /* ShopGoods.m in Sources */ = {isa = PBXBuildFile; fileRef = 9233996B1C00524A00F29E04 /* ShopGoods.m */; };
 		9233996F1C00970900F29E04 /* ShopGoodsInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9233996E1C00970900F29E04 /* ShopGoodsInfoView.m */; };
 		923399721C00A9EF00F29E04 /* DashesLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 923399711C00A9EF00F29E04 /* DashesLineView.m */; };
+		923399751C00ABDE00F29E04 /* ShopOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 923399741C00ABDE00F29E04 /* ShopOrderViewController.m */; };
+		923399781C00BFC700F29E04 /* ShopOderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 923399771C00BFC700F29E04 /* ShopOderCell.m */; };
+		9233997B1C00C55600F29E04 /* ShopOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9233997A1C00C55600F29E04 /* ShopOrderModel.m */; };
+		926C043B1C019CD3004937D8 /* ShopOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 926C043A1C019CD3004937D8 /* ShopOrder.m */; };
+		926C043E1C01A212004937D8 /* ShopOrderListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 926C043D1C01A212004937D8 /* ShopOrderListView.m */; };
 		927AFF381BFF1CC200AAE593 /* ShopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 927AFF371BFF1CC200AAE593 /* ShopViewController.m */; };
 		927AFF3B1BFF2EB300AAE593 /* Shop.m in Sources */ = {isa = PBXBuildFile; fileRef = 927AFF3A1BFF2EB300AAE593 /* Shop.m */; };
 		927AFF3E1BFF608700AAE593 /* ShopGoodsCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 927AFF3D1BFF608700AAE593 /* ShopGoodsCCell.m */; };
@@ -2328,6 +2333,16 @@
 		9233996E1C00970900F29E04 /* ShopGoodsInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopGoodsInfoView.m; sourceTree = "<group>"; };
 		923399701C00A9EF00F29E04 /* DashesLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DashesLineView.h; path = ../Controllers/Shop/DashesLineView.h; sourceTree = "<group>"; };
 		923399711C00A9EF00F29E04 /* DashesLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DashesLineView.m; path = ../Controllers/Shop/DashesLineView.m; sourceTree = "<group>"; };
+		923399731C00ABDE00F29E04 /* ShopOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopOrderViewController.h; sourceTree = "<group>"; };
+		923399741C00ABDE00F29E04 /* ShopOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopOrderViewController.m; sourceTree = "<group>"; };
+		923399761C00BFC700F29E04 /* ShopOderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopOderCell.h; sourceTree = "<group>"; };
+		923399771C00BFC700F29E04 /* ShopOderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopOderCell.m; sourceTree = "<group>"; };
+		923399791C00C55600F29E04 /* ShopOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopOrderModel.h; sourceTree = "<group>"; };
+		9233997A1C00C55600F29E04 /* ShopOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopOrderModel.m; sourceTree = "<group>"; };
+		926C04391C019CD3004937D8 /* ShopOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopOrder.h; sourceTree = "<group>"; };
+		926C043A1C019CD3004937D8 /* ShopOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopOrder.m; sourceTree = "<group>"; };
+		926C043C1C01A212004937D8 /* ShopOrderListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopOrderListView.h; sourceTree = "<group>"; };
+		926C043D1C01A212004937D8 /* ShopOrderListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopOrderListView.m; sourceTree = "<group>"; };
 		927AFF361BFF1CC200AAE593 /* ShopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopViewController.h; sourceTree = "<group>"; };
 		927AFF371BFF1CC200AAE593 /* ShopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopViewController.m; sourceTree = "<group>"; };
 		927AFF391BFF2EB300AAE593 /* Shop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shop.h; sourceTree = "<group>"; };
@@ -3392,6 +3407,8 @@
 				4EE1A22A1B5D02CA004284F1 /* ProjectTopicsView.m */,
 				4E6318A01BDA261100EFED97 /* MRListView.h */,
 				4E6318A11BDA261100EFED97 /* MRListView.m */,
+				926C043C1C01A212004937D8 /* ShopOrderListView.h */,
+				926C043D1C01A212004937D8 /* ShopOrderListView.m */,
 			);
 			path = TableListView;
 			sourceTree = "<group>";
@@ -4338,6 +4355,10 @@
 				923399651C00441700F29E04 /* ShopBanner.m */,
 				9233996A1C00524A00F29E04 /* ShopGoods.h */,
 				9233996B1C00524A00F29E04 /* ShopGoods.m */,
+				923399791C00C55600F29E04 /* ShopOrderModel.h */,
+				9233997A1C00C55600F29E04 /* ShopOrderModel.m */,
+				926C04391C019CD3004937D8 /* ShopOrder.h */,
+				926C043A1C019CD3004937D8 /* ShopOrder.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -4753,6 +4774,8 @@
 				4E715A341BB1279D00A5D24B /* LocalFileCell.m */,
 				927AFF591BFF772A00AAE593 /* ShopOrderTextFieldCell.h */,
 				927AFF5A1BFF772A00AAE593 /* ShopOrderTextFieldCell.m */,
+				923399761C00BFC700F29E04 /* ShopOderCell.h */,
+				923399771C00BFC700F29E04 /* ShopOderCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -4764,6 +4787,8 @@
 				927AFF371BFF1CC200AAE593 /* ShopViewController.m */,
 				927AFF561BFF755200AAE593 /* ExchangeGoodsViewController.h */,
 				927AFF571BFF755200AAE593 /* ExchangeGoodsViewController.m */,
+				923399731C00ABDE00F29E04 /* ShopOrderViewController.h */,
+				923399741C00ABDE00F29E04 /* ShopOrderViewController.m */,
 			);
 			path = Shop;
 			sourceTree = "<group>";
@@ -5490,6 +5515,7 @@
 				8E1C3E0D19E8DFE300EF3032 /* SettingViewController.m in Sources */,
 				8E1C3DEF19E7D58A00EF3032 /* ActionSheetStringPicker.m in Sources */,
 				8EF643B919FF7E2900F7EEB0 /* LeftImage_LRTextCell.m in Sources */,
+				926C043E1C01A212004937D8 /* ShopOrderListView.m in Sources */,
 				8E1C3DF119E7D58A00EF3032 /* SWActionSheet.m in Sources */,
 				4E1A22821AB1729700CFC14F /* ProjectInfoCell.m in Sources */,
 				8EA6D1BF19E240C40076D59C /* Task.m in Sources */,
@@ -5545,6 +5571,7 @@
 				4ECE8AE81A3943E80021E29C /* UIView+Common.m in Sources */,
 				4EA7F15E1A6D192B00A046BD /* SDWebImageDownloaderOperation.m in Sources */,
 				4E996BD81ABA776500C704F1 /* UserInfoIconCell.m in Sources */,
+				923399781C00BFC700F29E04 /* ShopOderCell.m in Sources */,
 				8E1C3E0C19E8DFE300EF3032 /* SettingPasswordViewController.m in Sources */,
 				4EAE06B41B7B325600179F4B /* FileCommentCell.m in Sources */,
 				4E9113A21A1C426000AC9431 /* ASPopUpView.m in Sources */,
@@ -5640,6 +5667,7 @@
 				3A3878491AE36ED70078D5DE /* TopicListButton.m in Sources */,
 				4ECE8B011A3946C10021E29C /* ImageSizeManager.m in Sources */,
 				8EA6D1B319E240C40076D59C /* File.m in Sources */,
+				923399751C00ABDE00F29E04 /* ShopOrderViewController.m in Sources */,
 				4E8D5D7D1B462ADB00B70936 /* OTPTableViewCell.m in Sources */,
 				4EABD25A1AD3CB4A005E515F /* UIMessageInputView_CCell.m in Sources */,
 				8EF643C019FF7E2900F7EEB0 /* TaskCommentBlankCell.m in Sources */,
@@ -5716,6 +5744,7 @@
 				8E64ED7F19ED0CE3006E99DA /* QBAssetsCollectionViewCell.m in Sources */,
 				4E6D718A1A75F00E005AD988 /* YLImageView.m in Sources */,
 				4E095A591B690494008DC439 /* CodingBanner.m in Sources */,
+				9233997B1C00C55600F29E04 /* ShopOrderModel.m in Sources */,
 				923399721C00A9EF00F29E04 /* DashesLineView.m in Sources */,
 				8EA6D1C119E240C40076D59C /* Tweets.m in Sources */,
 				4E8D5D5F1B45295D00B70936 /* OTPAuthURL.m in Sources */,
@@ -5825,6 +5854,7 @@
 				4E4D6A821B1C6D5F00FD2E49 /* FileChangesIntroduceCell.m in Sources */,
 				8EA6D1BE19E240C40076D59C /* Register.m in Sources */,
 				4ECF70431B18514F000280FF /* PRListViewController.m in Sources */,
+				926C043B1C019CD3004937D8 /* ShopOrder.m in Sources */,
 				4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */,
 				8EF643B019FF7E2900F7EEB0 /* CodingTipCell.m in Sources */,
 				4E6FB0581B58DB0A00B0A17B /* ProjectTagsView.m in Sources */,

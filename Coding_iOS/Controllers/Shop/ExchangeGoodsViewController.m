@@ -12,11 +12,11 @@
 #import "MBProgressHUD+Add.h"
 #import "ShopOrderTextFieldCell.h"
 #import "ShopGoodsInfoView.h"
+#import "UIView+Common.h"
 
 #define kCellIdentifier_ShopOrderTextFieldCell @"ShopOrderTextFieldCell.h"
 
 @interface ExchangeGoodsViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
-
 {
 }
 
@@ -41,7 +41,24 @@
 
 - (void)orderCommitAction:(UIButton *)button
 {
-
+    ShopOrderTextFieldCell *receiveName = [_myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+    if ([receiveName.textField.text isEmpty]) {
+        [NSObject showHudTipStr:@"收货人名字很重要"];
+        return;
+    }
+    
+    ShopOrderTextFieldCell *address = [_myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]];
+    if ([address.textField.text isEmpty]) {
+        [NSObject showHudTipStr:@"详细地址也很重要"];
+        return;
+    }
+    
+    ShopOrderTextFieldCell *phone = [_myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:2 inSection:0]];
+    if ([phone.textField.text isEmpty]) {
+        [NSObject showHudTipStr:@"联系电话非常重要"];
+        return;
+    }
+    
 }
 
 #pragma mark-

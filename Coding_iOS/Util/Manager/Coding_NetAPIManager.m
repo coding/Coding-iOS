@@ -2431,4 +2431,23 @@
         }
     }];
 }
+
+- (void)request_shop_OrderListWithOrder:(ShopOrderModel *)_order andBlock:(void (^)(id data, NSError *error))block
+{
+    NSDictionary *parsms = @{@"page":_order.page , @"pageSize":_order.pageSize};
+    _order.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[_order toPath] withParams:parsms withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        _order.isLoading = NO;
+        data = [data valueForKey:@"data"];
+        if (data) {
+            data = [data valueForKey:@"list"];
+            NSArray *resultA = [NSArray arrayFromJSON:data ofObjects:@"ShopOrder"];
+            [_order configOrderWithReson:resultA];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 @end

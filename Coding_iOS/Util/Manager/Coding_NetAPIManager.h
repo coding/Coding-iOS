@@ -35,6 +35,7 @@
 #import "PointRecords.h"
 #import "FileVersion.h"
 #import "Shop.h"
+#import "ShopOrderModel.h"
 
 @class CSTopic;
 
@@ -241,6 +242,8 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_shop_giftsWithShop:(Shop *)shop andBlock:(void (^)(id data, NSError *error))block;
 
 - (void)request_shop_bannersWithBlock:(void (^)(id data, NSError *error))block;
+
+- (void)request_shop_OrderListWithOrder:(ShopOrderModel *)_order andBlock:(void (^)(id data, NSError *error))block;
 
 
 @end

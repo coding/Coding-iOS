@@ -7,6 +7,7 @@
 //
 
 #import "ShopViewController.h"
+#import "ShopOrderViewController.h"
 #import "ExchangeGoodsViewController.h"
 #import "XTSegmentControl.h"
 #import "ShopBannerView.h"
@@ -41,7 +42,7 @@
 
 - (void)exchangeHistoryBtnClicked:(UIButton *)button
 {
-    ExchangeGoodsViewController *orderViewController = [[ExchangeGoodsViewController alloc] init];
+    ShopOrderViewController *orderViewController = [[ShopOrderViewController alloc] init];
     [self.navigationController pushViewController:orderViewController animated:YES];
 }
 
