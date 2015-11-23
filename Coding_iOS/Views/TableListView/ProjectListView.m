@@ -26,7 +26,7 @@
 @property (strong, nonatomic) NSMutableArray *dataList;
 @property (strong, nonatomic) UISearchBar *mySearchBar;
 @property (nonatomic, strong) UIView *statusView;
-
+@property (nonatomic,strong) UILabel *noticeLab;
 @end
 
 @implementation ProjectListView
@@ -103,6 +103,14 @@ static NSString *const kValueKey = @"kValueKey";
         }else{
             [self sendRequest];
         }
+        
+        NSString *headerTitle=[weakSelf getSectionHeaderName];
+        if (headerTitle.length>0) {
+            self.statusView=[self getHeaderViewWithStr:headerTitle color:kColorTableBG leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"]];
+            [self addSubview:self.statusView];
+        }
+        _statusView.hidden=TRUE;
+
     }
     return self;
 }
@@ -162,6 +170,7 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (void)refresh{
+    _statusView.hidden=TRUE;
     if (_myProjects.isLoading) {
         return;
     }
@@ -188,7 +197,6 @@ static NSString *const kValueKey = @"kValueKey";
     if (_myProjects.list.count <= 0) {
         [self beginLoading];
     }
-    [_statusView removeFromSuperview];
 
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Projects_WithObj:_myProjects andBlock:^(Projects *data, NSError *error) {
@@ -199,6 +207,9 @@ static NSString *const kValueKey = @"kValueKey";
         if (data) {
             [weakSelf.myProjects configWithProjects:data];
             [weakSelf setupDataList];
+            if([weakSelf.dataList count]>0){
+                weakSelf.statusView.hidden=TRUE;
+            }
             [weakSelf.myTableView reloadData];
         }
         EaseBlankPageType blankPageType;
@@ -240,13 +251,11 @@ static NSString *const kValueKey = @"kValueKey";
         
         //空白页加载后显示 开启header
         self.blankPageView.loadAndShowStatusBlock=^() {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSString *headerTitle=[weakSelf getSectionHeaderName];
-                if (headerTitle.length>0) {
-                    weakSelf.statusView=[weakSelf.myTableView getHeaderViewWithStr:headerTitle color:kColorTableBG leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"] andBlock:nil];
-                    [weakSelf addSubview:weakSelf.statusView];
-                }
-            });
+            NSString *headerTitle=[weakSelf getSectionHeaderName];
+            if (headerTitle.length>0) {
+                weakSelf.noticeLab.text=headerTitle;
+                weakSelf.statusView.hidden=FALSE;
+            }
         };
 
     }];
@@ -479,6 +488,35 @@ static NSString *const kValueKey = @"kValueKey";
     
     [searchResults filterUsingPredicate:finalCompoundPredicate];
     return searchResults;
+}
+
+
+- (UIView *)getHeaderViewWithStr:(NSString *)headerStr color:(UIColor *)color leftNoticeColor:(UIColor*)noticeColor {
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width,44)];
+    headerView.backgroundColor=color;
+    
+    UIView* noticeView=[[UIView alloc] initWithFrame:CGRectMake(12, 14, 3, 16)];
+    noticeView.backgroundColor=noticeColor;
+    [headerView addSubview:noticeView];
+    
+    
+    _noticeLab = [[UILabel alloc] initWithFrame:CGRectMake(12+3+10, 7, kScreen_Width-20, 30)];
+    _noticeLab.backgroundColor = [UIColor clearColor];
+    _noticeLab.textColor = [UIColor colorWithHexString:@"0x999999"];
+    if (kDevice_Is_iPhone6Plus) {
+        _noticeLab.font = [UIFont systemFontOfSize:14];
+    }else{
+        _noticeLab.font = [UIFont systemFontOfSize:kScaleFrom_iPhone5_Desgin(12)];
+    }
+    
+    CGFloat lineHeight = (1.0f / [UIScreen mainScreen].scale);
+    UIView *seperatorline=[[UIView alloc] initWithFrame:CGRectMake(0, 44-lineHeight,kScreen_Width , lineHeight)];
+    seperatorline.backgroundColor=[UIColor colorWithHexString:@"0xdddddd"];
+    [headerView addSubview:seperatorline];
+    
+    _noticeLab.text = headerStr;
+    [headerView addSubview:_noticeLab];
+    return headerView;
 }
 
 @end

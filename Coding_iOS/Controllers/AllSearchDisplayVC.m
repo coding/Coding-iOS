@@ -30,7 +30,7 @@
 #import "ProjectAboutMeListCell.h"
 #import "FileSearchCell.h"
 #import "TweetSearchCell.h"
-#import "UserCell.h"
+#import "UserSearchCell.h"
 
 // nav--------
 #import "TweetDetailViewController.h"
@@ -152,6 +152,7 @@
             [tableView registerClass:[TweetSearchCell class] forCellReuseIdentifier:@"TweetSearchCell"];
             [tableView registerClass:[ProjectAboutMeListCell class] forCellReuseIdentifier:@"ProjectAboutMeListCell"];
             [tableView registerClass:[FileSearchCell class] forCellReuseIdentifier:@"FileSearchCell"];
+            [tableView registerClass:[UserSearchCell class] forCellReuseIdentifier:@"UserSearchCell"];
             tableView.dataSource = self;
             tableView.delegate = self;
             {
@@ -202,13 +203,6 @@
         _searchHistoryView.backgroundColor = [UIColor clearColor];
         [_contentView addSubview:_searchHistoryView];
         
-        [_searchHistoryView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(@0);
-            make.left.mas_equalTo(@0);
-            make.width.mas_equalTo(kScreen_Width);
-            make.height.mas_equalTo(@350);
-        }];
-        _searchHistoryView.contentSize = CGSizeMake(kScreen_Width, 0);
     }
     
     [[_searchHistoryView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -221,7 +215,17 @@
     NSArray *array = [CSSearchModel getSearchHistory];
     CGFloat imageLeft = 12.0f;
     CGFloat textLeft = 34.0f;
-    CGFloat height = 40.0f;
+    CGFloat height = 44.0f;
+    
+    //set history list
+    [_searchHistoryView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(@0);
+        make.left.mas_equalTo(@0);
+        make.width.mas_equalTo(kScreen_Width);
+        make.height.mas_equalTo(height*(array.count+1));
+    }];
+    _searchHistoryView.contentSize = CGSizeMake(kScreen_Width, 0);
+
     
     for (int i = 0; i < array.count; i++) {
         
@@ -355,6 +359,9 @@
         case eSearchType_Document:
             [self.dateSource addObjectsFromArray:_searchPros.files.list];
             break;
+        case eSearchType_User:
+            [self.dateSource addObjectsFromArray:_searchPros.friends.list];
+            break;
         default:
             break;
     }
@@ -375,6 +382,9 @@
             break;
         case eSearchType_Document:
             titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的文档", [_searchPros.files.totalRow longValue],self.searchBar.text];
+            break;
+        case eSearchType_User:
+            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的用户", [_searchPros.friends.totalRow longValue],self.searchBar.text];
             break;
         default:
             break;
@@ -437,6 +447,9 @@
                 case eSearchType_Document:
                     [weakSelf.dateSource addObjectsFromArray:_searchPros.files.list];
                     break;
+                case eSearchType_User:
+                    [weakSelf.dateSource addObjectsFromArray:_searchPros.friends.list];
+                    break;
                 default:
                     break;
             }
@@ -482,8 +495,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    __weak typeof(self) weakSelf = self;
     if (_curSearchType==eSearchType_Tweet) {
         TweetSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetSearchCell" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -504,6 +515,13 @@
         cell.file = file;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
+    }else if(_curSearchType==eSearchType_User){
+        UserSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserSearchCell" forIndexPath:indexPath];
+        User *curUser = _dateSource[indexPath.row];
+        cell.curUser = curUser;
+        cell.usersType = UsersTypeAddFriend;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
     }else{
         return nil;
     }
@@ -517,6 +535,8 @@
         return kProjectAboutMeListCellHeight;
     }else if(_curSearchType==eSearchType_Document){
         return kFileSearchCellHeight;
+    }else if(_curSearchType==eSearchType_User){
+        return kUserSearchCellHeight;
     }else{
         return 100;
     }
@@ -531,6 +551,8 @@
         [self goToProject:_dateSource[indexPath.row]];
     }else if (_curSearchType==eSearchType_Document){
         [self goToFileVC:_dateSource[indexPath.row]];
+    }else if (_curSearchType==eSearchType_User){
+        
     }
 }
 

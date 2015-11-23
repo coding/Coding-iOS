@@ -234,12 +234,12 @@
     UITapImageView *headerView = [[UITapImageView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width,44)];
     [headerView setImage:[UIImage imageWithColor:color]];
     
-    UIView* noticeView=[[UIView alloc] initWithFrame:CGRectMake(12, 12, 3, 20)];
+    UIView* noticeView=[[UIView alloc] initWithFrame:CGRectMake(12, 14, 3, 16)];
     noticeView.backgroundColor=noticeColor;
     [headerView addSubview:noticeView];
 
     
-    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(12+3+5, 7, kScreen_Width-20, 30)];
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(12+3+10, 7, kScreen_Width-20, 30)];
     headerLabel.backgroundColor = [UIColor clearColor];
     headerLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
     if (kDevice_Is_iPhone6Plus) {

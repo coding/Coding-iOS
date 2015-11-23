@@ -40,7 +40,7 @@
         _categoryBtn.frame=CGRectMake(15, 0, 40, 30);
         [_categoryBtn addTarget:self action:@selector(selectCategoryAction) forControlEvents:UIControlEventTouchUpInside];
         _categoryBtn.titleLabel.font=[UIFont systemFontOfSize:12];
-        [_categoryBtn setTitleColor:[UIColor colorWithHexString:@"0xcccccc"] forState:UIControlStateNormal];
+        [_categoryBtn setTitleColor:[UIColor colorWithHexString:@"0x666666"] forState:UIControlStateNormal];
         [_categoryBtn setTitle:@"项目" forState:UIControlStateNormal];
     }
     return _categoryBtn;
