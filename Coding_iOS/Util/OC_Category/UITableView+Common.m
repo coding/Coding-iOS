@@ -229,4 +229,34 @@
     [headerView addTapBlock:tapAction];
     return headerView;
 }
+
+- (UITapImageView *)getHeaderViewWithStr:(NSString *)headerStr color:(UIColor *)color leftNoticeColor:(UIColor*)noticeColor andBlock:(void(^)(id obj))tapAction{
+    UITapImageView *headerView = [[UITapImageView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width,44)];
+    [headerView setImage:[UIImage imageWithColor:color]];
+    
+    UIView* noticeView=[[UIView alloc] initWithFrame:CGRectMake(12, 12, 3, 20)];
+    noticeView.backgroundColor=noticeColor;
+    [headerView addSubview:noticeView];
+
+    
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(12+3+5, 7, kScreen_Width-20, 30)];
+    headerLabel.backgroundColor = [UIColor clearColor];
+    headerLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+    if (kDevice_Is_iPhone6Plus) {
+        headerLabel.font = [UIFont systemFontOfSize:14];
+    }else{
+        headerLabel.font = [UIFont systemFontOfSize:kScaleFrom_iPhone5_Desgin(12)];
+    }
+    
+    CGFloat lineHeight = (1.0f / [UIScreen mainScreen].scale);
+    UIView *seperatorline=[[UIView alloc] initWithFrame:CGRectMake(0, 44-lineHeight,kScreen_Width , lineHeight)];
+    seperatorline.backgroundColor=[UIColor colorWithHexString:@"0xdddddd"];
+    [headerView addSubview:seperatorline];
+    
+    headerLabel.text = headerStr;
+    [headerView addSubview:headerLabel];
+    [headerView addTapBlock:tapAction];
+    return headerView;
+
+}
 @end

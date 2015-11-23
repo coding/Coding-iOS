@@ -243,7 +243,7 @@ static NSString *const kValueKey = @"kValueKey";
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSString *headerTitle=[weakSelf getSectionHeaderName];
                 if (headerTitle.length>0) {
-                    weakSelf.statusView=[weakSelf.myTableView getHeaderViewWithStr:headerTitle color:[UIColor colorWithHexString:@"0xf3f3f3"] andBlock:nil];
+                    weakSelf.statusView=[weakSelf.myTableView getHeaderViewWithStr:headerTitle color:[UIColor clearColor] leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"] andBlock:nil];
                     [weakSelf addSubview:weakSelf.statusView];
                 }
             });
@@ -279,7 +279,7 @@ static NSString *const kValueKey = @"kValueKey";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     //开启header模式
-    return (self.myProjects.type < ProjectsTypeToChoose)&&(section==0)? 30: 0;
+    return (self.myProjects.type < ProjectsTypeToChoose)&&(section==0)? 44: 0;
 //    return 0;
 }
 
@@ -291,7 +291,7 @@ static NSString *const kValueKey = @"kValueKey";
         if (headerTitle.length==0) {
             return nil;
         }
-        UIView *headerView=[tableView getHeaderViewWithStr:headerTitle color:[UIColor colorWithHexString:@"0xf3f3f3"] andBlock:nil];
+        UIView *headerView=[tableView getHeaderViewWithStr:headerTitle color:[UIColor clearColor] leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"] andBlock:nil];
         return headerView;
     }else{
         return nil;

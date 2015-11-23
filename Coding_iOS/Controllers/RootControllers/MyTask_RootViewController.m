@@ -69,17 +69,17 @@
         }];
         icarousel;
     });
-//    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)] animated:NO];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)] animated:NO];
     
-    FRDLivelyButton *rightBtn = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(0,0,18,18)];
-
-    [rightBtn setOptions:@{ kFRDLivelyButtonLineWidth: @(1.5f),
-                                kFRDLivelyButtonColor: [UIColor whiteColor]
-                                }];
-    [rightBtn setStyle:kFRDLivelyButtonStylePlus animated:NO];
-    [rightBtn addTarget:self action:@selector(addItemClicked:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
-    self.navigationItem.rightBarButtonItem = buttonItem;
+//    FRDLivelyButton *rightBtn = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(0,0,18,18)];
+//
+//    [rightBtn setOptions:@{ kFRDLivelyButtonLineWidth: @(1.5f),
+//                                kFRDLivelyButtonColor: [UIColor whiteColor]
+//                                }];
+//    [rightBtn setStyle:kFRDLivelyButtonStylePlus animated:NO];
+//    [rightBtn addTarget:self action:@selector(addItemClicked:) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
+//    self.navigationItem.rightBarButtonItem = self.navigationItem;
 }
 
 - (void)addItemClicked:(id)sender{

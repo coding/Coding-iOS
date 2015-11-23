@@ -30,6 +30,7 @@
 #import "ProjectAboutMeListCell.h"
 #import "FileSearchCell.h"
 #import "TweetSearchCell.h"
+#import "UserCell.h"
 
 // nav--------
 #import "TweetDetailViewController.h"

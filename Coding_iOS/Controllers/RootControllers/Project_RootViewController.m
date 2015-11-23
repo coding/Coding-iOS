@@ -196,8 +196,8 @@
     [self addImageBarButtonWithImageName:@"filtertBtn_normal_Nav" button:_leftNavBtn action:@selector(fliterClicked:) isRight:NO];
     
     //变化按钮
-    _rightNavBtn = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(0,0,18,18)];
-    [_rightNavBtn setOptions:@{ kFRDLivelyButtonLineWidth: @(1.5f),
+    _rightNavBtn = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(0,0,18.5,18.5)];
+    [_rightNavBtn setOptions:@{ kFRDLivelyButtonLineWidth: @(1.0f),
                           kFRDLivelyButtonColor: [UIColor whiteColor]
                           }];
     [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:NO];
@@ -205,7 +205,7 @@
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn];
     self.navigationItem.rightBarButtonItem = buttonItem;
 
-    __weak typeof(_myCarousel) weakCarousel = _myCarousel;
+//    __weak typeof(_myCarousel) weakCarousel = _myCarousel;
 
     //添加滑块
 //    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
