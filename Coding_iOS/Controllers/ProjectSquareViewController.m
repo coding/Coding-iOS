@@ -28,9 +28,9 @@
     listView.useNewStyle=TRUE;
     [self.view addSubview:listView];
     [listView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
+        make.left.bottom.right.equalTo(self.view);
+        make.top.equalTo(self.view).offset(-44);
     }];
-    
 }
 
 - (void)didReceiveMemoryWarning {

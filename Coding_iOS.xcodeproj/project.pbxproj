@@ -966,6 +966,7 @@
 		D0C448141C02F76600DC1C4B /* icon_search_searchbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C448121C02F76600DC1C4B /* icon_search_searchbar@2x.png */; };
 		D0C448151C02F76600DC1C4B /* icon_search_searchbar@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C448131C02F76600DC1C4B /* icon_search_searchbar@3x.png */; };
 		D0C448181C03187100DC1C4B /* TaskSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C448171C03187100DC1C4B /* TaskSearchCell.m */; };
+		D0C4481B1C034C3F00DC1C4B /* TopicSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C4481A1C034C3F00DC1C4B /* TopicSearchCell.m */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
 /* End PBXBuildFile section */
 
@@ -2429,6 +2430,8 @@
 		D0C448131C02F76600DC1C4B /* icon_search_searchbar@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_search_searchbar@3x.png"; sourceTree = "<group>"; };
 		D0C448161C03187100DC1C4B /* TaskSearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskSearchCell.h; sourceTree = "<group>"; };
 		D0C448171C03187100DC1C4B /* TaskSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskSearchCell.m; sourceTree = "<group>"; };
+		D0C448191C034C3F00DC1C4B /* TopicSearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicSearchCell.h; sourceTree = "<group>"; };
+		D0C4481A1C034C3F00DC1C4B /* TopicSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicSearchCell.m; sourceTree = "<group>"; };
 		E7A0469E1A47279E00528C12 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		E7A0469F1A47279E00528C12 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -4863,6 +4866,8 @@
 				D0C447B81C02C63000DC1C4B /* UserSearchCell.m */,
 				D0C448161C03187100DC1C4B /* TaskSearchCell.h */,
 				D0C448171C03187100DC1C4B /* TaskSearchCell.m */,
+				D0C448191C034C3F00DC1C4B /* TopicSearchCell.h */,
+				D0C4481A1C034C3F00DC1C4B /* TopicSearchCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -5608,6 +5613,7 @@
 				8EA6D14219E240C40076D59C /* TipsViewController.m in Sources */,
 				4E0BD88A1B6C7F5B0061CAA6 /* TopicHotkeyView.m in Sources */,
 				8EA6D1CA19E240C40076D59C /* UIPlaceHolderTextView.m in Sources */,
+				D0C4481B1C034C3F00DC1C4B /* TopicSearchCell.m in Sources */,
 				4E4D6A6D1B1C68D700FD2E49 /* ProjectCommitsViewController.m in Sources */,
 				4E6BA2E61A1EE6AF005FD721 /* UIProgressView+AFNetworking.m in Sources */,
 				4EB0C2001A807ED00042FC4F /* NSURL+Common.m in Sources */,

@@ -32,7 +32,7 @@
 #import "TweetSearchCell.h"
 #import "UserSearchCell.h"
 #import "TaskSearchCell.h"
-
+#import "ProjectTopicCell.h"
 
 // nav--------
 #import "TweetDetailViewController.h"
@@ -157,6 +157,8 @@
             [tableView registerClass:[FileSearchCell class] forCellReuseIdentifier:@"FileSearchCell"];
             [tableView registerClass:[UserSearchCell class] forCellReuseIdentifier:@"UserSearchCell"];
             [tableView registerClass:[TaskSearchCell class] forCellReuseIdentifier:@"TaskSearchCell"];
+            [tableView registerClass:[ProjectTopicCell class] forCellReuseIdentifier:@"ProjectTopicCell"];
+
 
             tableView.dataSource = self;
             tableView.delegate = self;
@@ -377,6 +379,9 @@
         case eSearchType_Task:
             [self.dateSource addObjectsFromArray:_searchPros.tasks.list];
             break;
+        case eSearchType_Topic:
+            [self.dateSource addObjectsFromArray:_searchPros.project_topics.list];
+            break;
         default:
             break;
     }
@@ -403,6 +408,9 @@
             break;
         case eSearchType_Task:
             titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的任务", [_searchPros.tasks.totalRow longValue],self.searchBar.text];
+            break;
+        case eSearchType_Topic:
+            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的讨论", [_searchPros.project_topics.totalRow longValue],self.searchBar.text];
             break;
         default:
             break;
@@ -470,6 +478,9 @@
                     break;
                 case eSearchType_Task:
                     [weakSelf.dateSource addObjectsFromArray:_searchPros.tasks.list];
+                    break;
+                case eSearchType_Topic:
+                    [weakSelf.dateSource addObjectsFromArray:_searchPros.project_topics.list];
                     break;
                 default:
                     break;
@@ -558,6 +569,12 @@
         cell.task=task;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
+    }else if(_curSearchType==eSearchType_Topic){
+        ProjectTopicCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectTopicCell" forIndexPath:indexPath];
+        ProjectTopic *topic =_dateSource[indexPath.row];
+        cell.curTopic = topic;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
     }else{
         return nil;
     }
@@ -575,6 +592,8 @@
         return kUserSearchCellHeight;
     }else if(_curSearchType==eSearchType_Task){
         return kTaskSearchCellHeight;
+    }else if(_curSearchType==eSearchType_Topic){
+        return [ProjectTopicCell cellHeightWithObj:_dateSource[indexPath.row]];
     }else{
         return 100;
     }
