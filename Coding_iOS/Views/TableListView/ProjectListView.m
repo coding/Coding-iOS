@@ -262,6 +262,7 @@ static NSString *const kValueKey = @"kValueKey";
             weakSelf.clickButtonBlock(curType);
         };
         
+        weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myProjects.canLoadMore;
         //空白页加载后显示 开启header
 //        self.blankPageView.loadAndShowStatusBlock=^() {
 //            NSString *headerTitle=[weakSelf getSectionHeaderName];

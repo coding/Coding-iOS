@@ -47,9 +47,6 @@
 @property (nonatomic, strong) UITableView *searchTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 @property (nonatomic, strong) NSMutableArray *dateSource;
-@property (nonatomic, assign) NSInteger totalPage;
-@property (nonatomic, assign) NSInteger currentPage;
-@property (nonatomic, assign) NSInteger totalCount;
 @property (nonatomic, assign) BOOL      isLoading;
 @property (nonatomic, strong) UILabel   *headerLabel;
 @property (nonatomic, strong) PublicSearchModel *searchPros;
@@ -142,9 +139,6 @@
 - (void)initSearchResultsTableView {
     
     _dateSource = [[NSMutableArray alloc] init];
-    _currentPage = 1;
-    _totalCount = 0;
-    _totalPage = 0;
     
     if(!_searchTableView) {
         _searchTableView = ({
@@ -353,21 +347,68 @@
 
 - (void)refresh {
     
-    if(_isLoading)
+    if(_isLoading){
+        [_searchTableView.infiniteScrollingView stopAnimating];
         return;
-    
-    [self requestDataWithPage:_currentPage];
+    }
+    [self requestAll];
 }
 
 - (void)loadMore {
     
-    if(_isLoading)
+    if(_isLoading){
+        [_searchTableView.infiniteScrollingView stopAnimating];
         return;
+    }
     
-    if(_currentPage >= _totalPage)
+    //判断分类
+    int currentPage;
+    int totalPage;
+    
+    switch (_curSearchType) {
+        case eSearchType_Project:
+            currentPage=[_searchPros.projects.page intValue];
+            totalPage=[_searchPros.projects.totalPage intValue];
+            break;
+        case eSearchType_Tweet:
+            currentPage=[_searchPros.tweets.page intValue];
+            totalPage=[_searchPros.tweets.totalPage intValue];
+            break;
+        case eSearchType_Document:
+            currentPage=[_searchPros.files.page intValue];
+            totalPage=[_searchPros.files.totalPage intValue];
+            break;
+        case eSearchType_User:
+            currentPage=[_searchPros.friends.page intValue];
+            totalPage=[_searchPros.friends.totalPage intValue];
+            break;
+        case eSearchType_Task:
+            currentPage=[_searchPros.tasks.page intValue];
+            totalPage=[_searchPros.tasks.totalPage intValue];
+            break;
+        case eSearchType_Topic:
+            currentPage=[_searchPros.project_topics.page intValue];
+            totalPage=[_searchPros.project_topics.totalPage intValue];
+            break;
+        case eSearchType_Merge:
+            currentPage=[_searchPros.merge_requests.page intValue];
+            totalPage=[_searchPros.merge_requests.totalPage intValue];
+            break;
+        case eSearchType_Pull:
+            currentPage=[_searchPros.pull_requests.page intValue];
+            totalPage=[_searchPros.pull_requests.totalPage intValue];
+            break;
+        default:
+            break;
+    }
+    
+    if(currentPage >= totalPage)
+    {
+        [_searchTableView.infiniteScrollingView stopAnimating];
         return;
+    }
     
-    [self requestDataWithPage:_currentPage + 1];
+    [self requestDataWithPage:currentPage + 1];
 }
 
 -(void)reloadDisplayData{
@@ -401,9 +442,43 @@
             break;
     }
     [self refreshHeaderTitle];
-    [self.searchTableView.infiniteScrollingView stopAnimating];
+    _searchTableView.showsInfiniteScrolling = [self showTotalPage];
     [self.searchTableView reloadData];
 }
+
+//是否显示加载更多
+-(BOOL)showTotalPage{
+    switch (_curSearchType) {
+        case eSearchType_Project:
+            return  _searchPros.projects.page<_searchPros.projects.totalPage;
+            break;
+        case eSearchType_Tweet:
+            return  _searchPros.tweets.page<_searchPros.tweets.totalPage;
+            break;
+        case eSearchType_Document:
+            return  _searchPros.files.page<_searchPros.files.totalPage;
+            break;
+        case eSearchType_User:
+            return  _searchPros.friends.page<_searchPros.friends.totalPage;
+            break;
+        case eSearchType_Task:
+            return  _searchPros.tasks.page<_searchPros.tasks.totalPage;
+            break;
+        case eSearchType_Topic:
+            return  _searchPros.project_topics.page<_searchPros.project_topics.totalPage;
+            break;
+        case eSearchType_Merge:
+            return  _searchPros.merge_requests.page<_searchPros.merge_requests.totalPage;
+            break;
+        case eSearchType_Pull:
+            return  _searchPros.pull_requests.page<_searchPros.pull_requests.totalPage;
+            break;
+        default:
+            return NO;
+            break;
+    }
+}
+
 
 //更新header数量和类型统计
 - (void)refreshHeaderTitle{
@@ -439,49 +514,9 @@
     self.headerLabel.text=titleStr;
 }
 
-- (void)requestDataWithPage:(NSInteger)page {
-    
-    if(page < 1)
-        page = 1;
-    
-    if(page == 1)
-        self.headerLabel.text = @"";
-    
-    _isLoading = YES;
-    
+-(void)requestAll{
     __weak typeof(self) weakSelf = self;
-//    if (_curSearchType==eSearchType_Tweet) {
-//        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"tweet" andPage:page andBlock:^(id data, NSError *error) {
-//            
-//            if(data) {
-//                NSDictionary *dataDic = (NSDictionary *)data;
-//                weakSelf.currentPage = [[dataDic valueForKey:@"page"] intValue];
-//                weakSelf.totalPage = [[dataDic valueForKey:@"totalPage"] intValue];
-//                weakSelf.totalCount = [[dataDic valueForKey:@"totalRow"] intValue];
-//                NSArray *resultA = [NSObject arrayFromJSON:[dataDic objectForKey:@"list"] ofObjects:@"Tweet"];
-//                [weakSelf.dateSource addObjectsFromArray:resultA];
-//                [weakSelf.searchTableView reloadData];
-//                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
-//                weakSelf.searchTableView.showsInfiniteScrolling = weakSelf.currentPage >= weakSelf.totalPage ? NO : YES;
-//            }
-//            
-//            weakSelf.isLoading = NO;
-//            weakSelf.headerLabel.text = [NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的冒泡", (long)weakSelf.totalCount, weakSelf.searchBar.text, nil];
-//        }];
-//    }else if(_curSearchType==eSearchType_Project){
-//    [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"all" andPage:page andBlock:^(id data, NSError *error) {
-//        if(data) {
-//            PublicSearchModel *pros = [NSObject objectOfClass:@"PublicSearchModel" fromJSON:data];
-//            [weakSelf.dateSource addObjectsFromArray:pros.projects.list];
-//            [weakSelf.searchTableView reloadData];
-//            [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
-//        }
-//        weakSelf.isLoading = NO;
-//        weakSelf.headerLabel.text = [NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的项目", (long)weakSelf.totalCount, weakSelf.searchBar.text, nil];
-//    }];
-//    }
-    
-    [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"all" andPage:page andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"all" andPage:1 andBlock:^(id data, NSError *error) {
         if(data) {
             _searchPros = [NSObject objectOfClass:@"PublicSearchModel" fromJSON:data];
             NSDictionary *dataDic = (NSDictionary *)data;
@@ -522,10 +557,40 @@
             }
             [weakSelf.searchTableView reloadData];
             [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+            weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
         }
         weakSelf.isLoading = NO;
         [self refreshHeaderTitle];
     }];
+
+}
+
+- (void)requestDataWithPage:(NSInteger)page {
+    
+    _isLoading = YES;
+    
+    __weak typeof(self) weakSelf = self;
+    if (_curSearchType==eSearchType_Tweet) {
+        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"tweet" andPage:page andBlock:^(id data, NSError *error) {
+            if(data) {
+                NSDictionary *dataDic = (NSDictionary *)data;
+                NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"Tweet"];
+                [weakSelf.searchPros.tweets.list addObject:resultA];
+                //更新page
+                weakSelf.searchPros.tweets.page = dataDic[@"page"] ;
+                weakSelf.searchPros.tweets.totalPage = dataDic[@"totalPage"] ;
+                [weakSelf.dateSource addObjectsFromArray:resultA];
+                [weakSelf.searchTableView reloadData];
+                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+                weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
+            }
+            weakSelf.isLoading = NO;
+        }];
+    }else if(_curSearchType==eSearchType_Project){
+    
+        
+    }
+    
 }
 
 - (void)analyseLinkStr:(NSString *)linkStr{
@@ -641,9 +706,9 @@
         return kTaskSearchCellHeight;
     }else if(_curSearchType==eSearchType_Topic){
         return kTopicSearchCellHeight;
-    }else if (_currentPage==eSearchType_Pull){
+    }else if (_curSearchType==eSearchType_Pull){
         return [PRMRSearchCell cellHeight];
-    }else if (_currentPage==eSearchType_Merge){
+    }else if (_curSearchType==eSearchType_Merge){
         return [PRMRSearchCell cellHeight];
     }else{
         return 100;
