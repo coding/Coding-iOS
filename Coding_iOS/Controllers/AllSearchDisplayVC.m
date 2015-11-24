@@ -587,10 +587,122 @@
             weakSelf.isLoading = NO;
         }];
     }else if(_curSearchType==eSearchType_Project){
-    
-        
+        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"project" andPage:page andBlock:^(id data, NSError *error) {
+            if(data) {
+                NSDictionary *dataDic = (NSDictionary *)data;
+                NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"Project"];
+                [weakSelf.searchPros.projects.list addObject:resultA];
+                //更新page
+                weakSelf.searchPros.projects.page = dataDic[@"page"] ;
+                weakSelf.searchPros.projects.totalPage = dataDic[@"totalPage"] ;
+                [weakSelf.dateSource addObjectsFromArray:resultA];
+                [weakSelf.searchTableView reloadData];
+                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+                weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
+            }
+            weakSelf.isLoading = NO;
+        }];
+    }else if(_curSearchType==eSearchType_Document){
+        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"files" andPage:page andBlock:^(id data, NSError *error) {
+            if(data) {
+                NSDictionary *dataDic = (NSDictionary *)data;
+                NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"ProjectFile"];
+                [weakSelf.searchPros.files.list addObject:resultA];
+                //更新page
+                weakSelf.searchPros.files.page = dataDic[@"page"] ;
+                weakSelf.searchPros.files.totalPage = dataDic[@"totalPage"] ;
+                [weakSelf.dateSource addObjectsFromArray:resultA];
+                [weakSelf.searchTableView reloadData];
+                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+                weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
+            }
+            weakSelf.isLoading = NO;
+        }];
+    }else if(_curSearchType==eSearchType_Merge){
+        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"merge_requests" andPage:page andBlock:^(id data, NSError *error) {
+            if(data) {
+                NSDictionary *dataDic = (NSDictionary *)data;
+                NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"MRPR"];
+                [weakSelf.searchPros.merge_requests.list addObject:resultA];
+                //更新page
+                weakSelf.searchPros.merge_requests.page = dataDic[@"page"] ;
+                weakSelf.searchPros.merge_requests.totalPage = dataDic[@"totalPage"] ;
+                [weakSelf.dateSource addObjectsFromArray:resultA];
+                [weakSelf.searchTableView reloadData];
+                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+                weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
+            }
+            weakSelf.isLoading = NO;
+        }];
+    }else if(_curSearchType==eSearchType_Pull){
+        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"pull_requests" andPage:page andBlock:^(id data, NSError *error) {
+            if(data) {
+                NSDictionary *dataDic = (NSDictionary *)data;
+                NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"MRPR"];
+                [weakSelf.searchPros.pull_requests.list addObject:resultA];
+                //更新page
+                weakSelf.searchPros.pull_requests.page = dataDic[@"page"] ;
+                weakSelf.searchPros.pull_requests.totalPage = dataDic[@"totalPage"] ;
+                [weakSelf.dateSource addObjectsFromArray:resultA];
+                [weakSelf.searchTableView reloadData];
+                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+                weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
+            }
+            weakSelf.isLoading = NO;
+        }];
+    }else if(_curSearchType==eSearchType_Task){
+        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"tasks" andPage:page andBlock:^(id data, NSError *error) {
+            if(data) {
+                NSDictionary *dataDic = (NSDictionary *)data;
+                NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"Task"];
+                [weakSelf.searchPros.tasks.list addObject:resultA];
+                //更新page
+                weakSelf.searchPros.tasks.page = dataDic[@"page"] ;
+                weakSelf.searchPros.tasks.totalPage = dataDic[@"totalPage"] ;
+                [weakSelf.dateSource addObjectsFromArray:resultA];
+                [weakSelf.searchTableView reloadData];
+                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+                weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
+            }
+            weakSelf.isLoading = NO;
+        }];
+    }else if(_curSearchType==eSearchType_User){
+        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"friends" andPage:page andBlock:^(id data, NSError *error) {
+            if(data) {
+                NSDictionary *dataDic = (NSDictionary *)data;
+                NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"User"];
+                [weakSelf.searchPros.friends.list addObject:resultA];
+                //更新page
+                weakSelf.searchPros.friends.page = dataDic[@"page"] ;
+                weakSelf.searchPros.friends.totalPage = dataDic[@"totalPage"] ;
+                [weakSelf.dateSource addObjectsFromArray:resultA];
+                [weakSelf.searchTableView reloadData];
+                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+                weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
+            }
+            weakSelf.isLoading = NO;
+        }];
+    }else if(_curSearchType==eSearchType_Topic){
+        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"project_topics" andPage:page andBlock:^(id data, NSError *error) {
+            if(data) {
+                NSDictionary *dataDic = (NSDictionary *)data;
+                NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"ProjectTopic"];
+                [weakSelf.searchPros.project_topics.list addObject:resultA];
+                //更新page
+                weakSelf.searchPros.project_topics.page = dataDic[@"page"] ;
+                weakSelf.searchPros.project_topics.totalPage = dataDic[@"totalPage"] ;
+                [weakSelf.dateSource addObjectsFromArray:resultA];
+                [weakSelf.searchTableView reloadData];
+                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+                weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
+            }
+            weakSelf.isLoading = NO;
+        }];
+    }else{
+        [self.searchTableView.infiniteScrollingView stopAnimating];
+        self.searchTableView.showsInfiniteScrolling = NO;
+        self.isLoading=NO;
     }
-    
 }
 
 - (void)analyseLinkStr:(NSString *)linkStr{
