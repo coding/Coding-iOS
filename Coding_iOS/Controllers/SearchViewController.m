@@ -87,7 +87,6 @@
     });
     
     
-    
     //初始化选项
     NSMutableArray *menuItems = @[].mutableCopy;
     [_statusList enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

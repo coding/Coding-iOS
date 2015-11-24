@@ -23,7 +23,7 @@
 
 @interface TaskSearchCell ()
 @property (strong, nonatomic) UIImageView *userIconView, *commentIconView, *timeClockIconView, *mdIconView;
-@property (strong, nonatomic) UILabel *contentLabel, *userNameLabel, *timeLabel, *commentCountLabel, *mdLabel, *numLabel,*describeLabe;;
+@property (strong, nonatomic) UILabel *contentLabel, *userNameLabel, *timeLabel, *commentCountLabel, *mdLabel, *numLabel,*describeLabel;
 @end
 
 
@@ -49,12 +49,12 @@
             [self.contentView addSubview:_contentLabel];
         }
         
-        if (!_describeLabe) {
-            _describeLabe = [UILabel new];
-            _describeLabe.textColor = [UIColor colorWithHexString:@"0x666666"];
-            _describeLabe.font = kProjectTaskListViewCell_ContentFont;
-            _describeLabe.numberOfLines=2;
-            [self.contentView addSubview:_describeLabe];
+        if (!_describeLabel) {
+            _describeLabel = [UILabel new];
+            _describeLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+            _describeLabel.font = kProjectTaskListViewCell_ContentFont;
+            _describeLabel.numberOfLines=2;
+            [self.contentView addSubview:_describeLabel];
         }
 
         if (!_numLabel) {
@@ -118,7 +118,7 @@
             make.height.mas_equalTo(20);
         }];
         
-        [_describeLabe mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_describeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentLabel.mas_bottom).offset(10);
             make.left.equalTo(self.userIconView.mas_right).offset(10);
             make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
@@ -186,7 +186,7 @@
     _timeLabel.text = [_task.created_at stringDisplay_MMdd];
     _commentCountLabel.text = _task.comments.stringValue;
     _mdIconView.hidden = _mdLabel.hidden = !_task.has_description.boolValue;
-    _describeLabe.text=_task.description_mine;
+    _describeLabel.text=_task.description_mine;
 }
 
 @end

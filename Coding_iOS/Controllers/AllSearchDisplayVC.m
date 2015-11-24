@@ -32,7 +32,7 @@
 #import "TweetSearchCell.h"
 #import "UserSearchCell.h"
 #import "TaskSearchCell.h"
-#import "ProjectTopicCell.h"
+#import "TopicSearchCell.h"
 
 // nav--------
 #import "TweetDetailViewController.h"
@@ -157,7 +157,7 @@
             [tableView registerClass:[FileSearchCell class] forCellReuseIdentifier:@"FileSearchCell"];
             [tableView registerClass:[UserSearchCell class] forCellReuseIdentifier:@"UserSearchCell"];
             [tableView registerClass:[TaskSearchCell class] forCellReuseIdentifier:@"TaskSearchCell"];
-            [tableView registerClass:[ProjectTopicCell class] forCellReuseIdentifier:@"ProjectTopicCell"];
+            [tableView registerClass:[TopicSearchCell class] forCellReuseIdentifier:@"TopicSearchCell"];
 
 
             tableView.dataSource = self;
@@ -335,9 +335,14 @@
     NSString *path=[NSString stringWithFormat:@"%@/task/%@",curTask.project.project_path,curTask.id];
     UIViewController *vc = [BaseViewController analyseVCFromLinkStr:path];
     [self.parentVC.navigationController pushViewController:vc animated:YES];
-
-
 }
+
+- (void)goToTopic:(ProjectTopic*)curTopic{
+    NSString *path=[NSString stringWithFormat:@"%@/topic/%@",curTopic.project.project_path,curTopic.id];
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:path];
+    [self.parentVC.navigationController pushViewController:vc animated:YES];
+}
+
 
 #pragma mark -
 #pragma mark Search Data Request
@@ -463,6 +468,15 @@
     [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"all" andPage:page andBlock:^(id data, NSError *error) {
         if(data) {
             _searchPros = [NSObject objectOfClass:@"PublicSearchModel" fromJSON:data];
+            NSDictionary *dataDic = (NSDictionary *)data;
+            NSArray *resultA =[dataDic[@"project_topics"] objectForKey:@"list"] ;
+            for (int i=0;i<[_searchPros.project_topics.list count];i++) {
+                ProjectTopic *curTopic=[_searchPros.project_topics.list objectAtIndex:i];
+                if ([resultA count]>i) {
+                    curTopic.content= [[[resultA objectAtIndex:i] objectForKey:@"content"] firstObject];
+                }
+            }
+            
             switch (_curSearchType) {
                 case eSearchType_Project:
                     [weakSelf.dateSource addObjectsFromArray:_searchPros.projects.list];
@@ -570,7 +584,7 @@
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else if(_curSearchType==eSearchType_Topic){
-        ProjectTopicCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectTopicCell" forIndexPath:indexPath];
+        TopicSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TopicSearchCell" forIndexPath:indexPath];
         ProjectTopic *topic =_dateSource[indexPath.row];
         cell.curTopic = topic;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
@@ -593,7 +607,7 @@
     }else if(_curSearchType==eSearchType_Task){
         return kTaskSearchCellHeight;
     }else if(_curSearchType==eSearchType_Topic){
-        return [ProjectTopicCell cellHeightWithObj:_dateSource[indexPath.row]];
+        return kTopicSearchCellHeight;
     }else{
         return 100;
     }
@@ -612,6 +626,8 @@
         [self goToUserInfo:_dateSource[indexPath.row]];
     }else if (_curSearchType==eSearchType_Task){
         [self goToTask:_dateSource[indexPath.row]];
+    }else if (_curSearchType==eSearchType_Topic){
+        [self goToTopic:_dateSource[indexPath.row]];
     }
 }
 
