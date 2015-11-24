@@ -1,21 +1,24 @@
 //
-//  MRPRListCell.m
+//  PRMRSearchCell.m
 //  Coding_iOS
 //
-//  Created by Ease on 15/5/29.
-//  Copyright (c) 2015年 Coding. All rights reserved.
+//  Created by jwill on 15/11/24.
+//  Copyright © 2015年 Coding. All rights reserved.
 //
 
 #define kMRPRListCell_UserWidth 33.0
 
-#import "MRPRListCell.h"
+#import "PRMRSearchCell.h"
 
-@interface MRPRListCell ()
+@interface PRMRSearchCell ()
 @property (strong, nonatomic) UIImageView *imgView;
 @property (strong, nonatomic) UILabel *titleLabel, *subTitleLabel;
 @end
 
-@implementation MRPRListCell
+
+
+@implementation PRMRSearchCell
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -66,6 +69,7 @@
     [_imgView sd_setImageWithURL:[_curMRPR.author.avatar urlImageWithCodePathResize:2*kMRPRListCell_UserWidth] placeholderImage:kPlaceholderMonkeyRoundWidth(2*kMRPRListCell_UserWidth)];
     _titleLabel.attributedText = [self attributeTitle];
     _subTitleLabel.attributedText = [self attributeTail];
+    
 }
 
 - (NSAttributedString *)attributeTitle{
@@ -79,6 +83,7 @@
                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
                         range:NSMakeRange(iidStr.length + 1, titleStr.length)];
     return attrString;
+    
 }
 
 - (NSAttributedString *)attributeTail{
@@ -98,4 +103,5 @@
 + (CGFloat)cellHeight{
     return 70.0;
 }
+
 @end

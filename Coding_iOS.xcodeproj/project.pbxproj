@@ -888,6 +888,7 @@
 		B9A00D821ACA3A17008BA008 /* ProjectSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */; };
 		B9A00D851ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */; };
 		D000E04A1BFC45CF00A33C2B /* CategorySearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D000E0491BFC45CF00A33C2B /* CategorySearchBar.m */; };
+		D02BE0AF1C0434DB008374C0 /* PRMRSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D02BE0AE1C0434DB008374C0 /* PRMRSearchCell.m */; };
 		D031F5DB1BFAD6690008E964 /* FRDLivelyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D031F5DA1BFAD6690008E964 /* FRDLivelyButton.m */; };
 		D066BB3A1BF30EB9005AB5D6 /* ProjectSquareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D066BB391BF30EB9005AB5D6 /* ProjectSquareViewController.m */; };
 		D066BB3D1BF38844005AB5D6 /* ProjectAboutMeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D066BB3C1BF38844005AB5D6 /* ProjectAboutMeListCell.m */; };
@@ -2337,6 +2338,8 @@
 		C613B8719C3D38FED828A1E2 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D000E0481BFC45CF00A33C2B /* CategorySearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySearchBar.h; sourceTree = "<group>"; };
 		D000E0491BFC45CF00A33C2B /* CategorySearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySearchBar.m; sourceTree = "<group>"; };
+		D02BE0AD1C0434DB008374C0 /* PRMRSearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRMRSearchCell.h; sourceTree = "<group>"; };
+		D02BE0AE1C0434DB008374C0 /* PRMRSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRMRSearchCell.m; sourceTree = "<group>"; };
 		D031F5D91BFAD6690008E964 /* FRDLivelyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRDLivelyButton.h; sourceTree = "<group>"; };
 		D031F5DA1BFAD6690008E964 /* FRDLivelyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRDLivelyButton.m; sourceTree = "<group>"; };
 		D066BB381BF30EB9005AB5D6 /* ProjectSquareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectSquareViewController.h; sourceTree = "<group>"; };
@@ -4868,6 +4871,8 @@
 				D0C448171C03187100DC1C4B /* TaskSearchCell.m */,
 				D0C448191C034C3F00DC1C4B /* TopicSearchCell.h */,
 				D0C4481A1C034C3F00DC1C4B /* TopicSearchCell.m */,
+				D02BE0AD1C0434DB008374C0 /* PRMRSearchCell.h */,
+				D02BE0AE1C0434DB008374C0 /* PRMRSearchCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -5827,6 +5832,7 @@
 				4ECE8ADD1A3943E80021E29C /* NSObject+ObjectMap.m in Sources */,
 				4E8765661A22E5B40090CFB9 /* SWCellScrollView.m in Sources */,
 				8E1C3DEB19E7D58A00EF3032 /* ActionSheetCustomPicker.m in Sources */,
+				D02BE0AF1C0434DB008374C0 /* PRMRSearchCell.m in Sources */,
 				8EA6D14619E240C40076D59C /* TweetSendViewController.m in Sources */,
 				8EA6D1B819E240C40076D59C /* PrivateMessages.m in Sources */,
 				8E64ED7F19ED0CE3006E99DA /* QBAssetsCollectionViewCell.m in Sources */,

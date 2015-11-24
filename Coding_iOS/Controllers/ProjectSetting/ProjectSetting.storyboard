@@ -510,7 +510,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon_project_private.png" width="10" height="10"/>
+        <image name="icon_project_private.png" width="24" height="24"/>
         <image name="taskOwner.png" width="28" height="28"/>
     </resources>
 </document>

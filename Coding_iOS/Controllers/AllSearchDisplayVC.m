@@ -7,7 +7,6 @@
 //
 
 #import "AllSearchDisplayVC.h"
-
 #import "TopicHotkeyView.h"
 #import "Coding_NetAPIManager.h"
 #import "ODRefreshControl.h"
@@ -19,7 +18,6 @@
 #import "CSMyTopicVC.h"
 #import "UserInfoViewController.h"
 #import "WebViewController.h"
-
 #import "CSHotTopicPagesVC.h"
 #import "CSTopicDetailVC.h"
 #import "PublicSearchModel.h"
@@ -33,6 +31,7 @@
 #import "UserSearchCell.h"
 #import "TaskSearchCell.h"
 #import "TopicSearchCell.h"
+#import "PRMRSearchCell.h"
 
 // nav--------
 #import "TweetDetailViewController.h"
@@ -158,7 +157,7 @@
             [tableView registerClass:[UserSearchCell class] forCellReuseIdentifier:@"UserSearchCell"];
             [tableView registerClass:[TaskSearchCell class] forCellReuseIdentifier:@"TaskSearchCell"];
             [tableView registerClass:[TopicSearchCell class] forCellReuseIdentifier:@"TopicSearchCell"];
-
+            [tableView registerClass:[PRMRSearchCell class] forCellReuseIdentifier:@"PRMRSearchCell"];
 
             tableView.dataSource = self;
             tableView.delegate = self;
@@ -343,6 +342,11 @@
     [self.parentVC.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)goToMRDetail:(MRPR *)curMR{
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:curMR.path];
+    [self.parentVC.navigationController pushViewController:vc animated:YES];
+}
+
 
 #pragma mark -
 #pragma mark Search Data Request
@@ -387,6 +391,12 @@
         case eSearchType_Topic:
             [self.dateSource addObjectsFromArray:_searchPros.project_topics.list];
             break;
+        case eSearchType_Merge:
+            [self.dateSource addObjectsFromArray:_searchPros.merge_requests.list];
+            break;
+        case eSearchType_Pull:
+            [self.dateSource addObjectsFromArray:_searchPros.pull_requests.list];
+            break;
         default:
             break;
     }
@@ -416,6 +426,12 @@
             break;
         case eSearchType_Topic:
             titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的讨论", [_searchPros.project_topics.totalRow longValue],self.searchBar.text];
+            break;
+        case eSearchType_Merge:
+            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的合并请求", [_searchPros.merge_requests.totalRow longValue],self.searchBar.text];
+            break;
+        case eSearchType_Pull:
+            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的pull请求", [_searchPros.pull_requests.totalRow longValue],self.searchBar.text];
             break;
         default:
             break;
@@ -476,7 +492,6 @@
                     curTopic.content= [[[resultA objectAtIndex:i] objectForKey:@"content"] firstObject];
                 }
             }
-            
             switch (_curSearchType) {
                 case eSearchType_Project:
                     [weakSelf.dateSource addObjectsFromArray:_searchPros.projects.list];
@@ -495,6 +510,12 @@
                     break;
                 case eSearchType_Topic:
                     [weakSelf.dateSource addObjectsFromArray:_searchPros.project_topics.list];
+                    break;
+                case eSearchType_Merge:
+                    [weakSelf.dateSource addObjectsFromArray:_searchPros.merge_requests.list];
+                    break;
+                case eSearchType_Pull:
+                    [weakSelf.dateSource addObjectsFromArray:_searchPros.pull_requests.list];
                     break;
                 default:
                     break;
@@ -589,6 +610,18 @@
         cell.curTopic = topic;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
+    }else if(_curSearchType==eSearchType_Merge){
+        PRMRSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PRMRSearchCell" forIndexPath:indexPath];
+        MRPR *curMRPR =_dateSource[indexPath.row];
+        cell.curMRPR = curMRPR;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
+    }else if(_curSearchType==eSearchType_Pull){
+        PRMRSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PRMRSearchCell" forIndexPath:indexPath];
+        MRPR *curMRPR =_dateSource[indexPath.row];
+        cell.curMRPR = curMRPR;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
     }else{
         return nil;
     }
@@ -608,6 +641,10 @@
         return kTaskSearchCellHeight;
     }else if(_curSearchType==eSearchType_Topic){
         return kTopicSearchCellHeight;
+    }else if (_currentPage==eSearchType_Pull){
+        return [PRMRSearchCell cellHeight];
+    }else if (_currentPage==eSearchType_Merge){
+        return [PRMRSearchCell cellHeight];
     }else{
         return 100;
     }
@@ -615,7 +652,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    if (_curSearchType==eSearchType_Tweet) {
+    if(_curSearchType==eSearchType_Tweet) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self goToTweet:_dateSource[indexPath.row]];
     }else if(_curSearchType==eSearchType_Project){
@@ -627,7 +664,9 @@
     }else if (_curSearchType==eSearchType_Task){
         [self goToTask:_dateSource[indexPath.row]];
     }else if (_curSearchType==eSearchType_Topic){
-        [self goToTopic:_dateSource[indexPath.row]];
+        [self goToMRDetail:_dateSource[indexPath.row]];
+    }else if (_curSearchType==eSearchType_Merge){
+        [self goToMRDetail:_dateSource[indexPath.row]];
     }
 }
 
