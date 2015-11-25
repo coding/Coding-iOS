@@ -326,19 +326,11 @@
         make.top.equalTo(_orderNumLabel.mas_top).offset(-15);
         make.bottom.equalTo(_addressLabel.mas_bottom).offset(15);
     }];
-    
-//    [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo(superView);
-//    }];
-//    
 }
 
 - (void)configViewWithModel:(ShopOrder *)order
 {
-//    _priceLabel;
     _titleLabel.text = order.giftName;
-//    _descLabel;
-//    _countLabel;
     [_coverView sd_setImageWithURL:[order.giftImage urlWithCodePath]];
     NSString *points_cost = [NSString stringWithFormat:@"  %@ 马币",[order.pointsCost stringValue]];
     [_codingCoinView setTitle:points_cost forState:UIControlStateNormal];
@@ -362,9 +354,7 @@
     }
     if ([order.createdAt doubleValue] > 0) {
         
-         NSDate  *date =[NSDate dateWithTimeIntervalSince1970: ((double)(order.createdAt.longLongValue))/1000.0];
-
-//        NSDate  *date = [NSDate dateWithTimeIntervalSinceNow:order.createdAt.longLongValue];
+         NSDate *date =[NSDate dateWithTimeIntervalSince1970: ((double)(order.createdAt.longLongValue))/1000.0];
         if (date) {
             _sendTimeLabel.text = [date stringWithFormat:@"yyyy-MM-dd HH:mm"];
         }
@@ -374,7 +364,6 @@
     }else
         _expressLabel.text  = order.expressNo;
 
-    
     CGFloat height = [self systemLayoutSizeFittingSize:UILayoutFittingExpandedSize].height;
     self.frame = CGRectMake(0, 0, kScreen_Width, height);
     self.cellHeight = height;
