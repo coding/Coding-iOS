@@ -303,20 +303,23 @@
     _addressLabel.font = FONT(14);
     _addressLabel.backgroundColor = [UIColor clearColor];
     _addressLabel.numberOfLines = 0;
-    _addressLabel.textAlignment = NSTextAlignmentLeft;
+//    _addressLabel.lineBreakMode = NSLineBreakByWordWrapping;
     _addressLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
     [superView addSubview:_addressLabel];
     
     [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(sendTimeLabel.mas_bottom).offset(9);
         make.left.equalTo(_goodsInfoView.mas_left);
+        make.right.equalTo(_addressLabel.mas_left);
+        make.width.mas_lessThanOrEqualTo(@70);
     }];
     
     [_addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(addressLabel.mas_top);
         make.left.equalTo(addressLabel.mas_right);
         make.right.equalTo(_goodsInfoView.mas_right);
-
+        make.width.equalTo(@(kScreen_Width - 26 - 70));
+        make.bottom.equalTo(superView.mas_bottom).offset(-15);
     }];
     
     [superView mas_makeConstraints:^(MASConstraintMaker *make) {
