@@ -670,6 +670,11 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"您还木有项目呢，赶快起来创建吧～";
             }
                 break;
+            case EaseBlankPageTypeProject_SEARCH:{
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"什么都木有搜到，换个词再试试？";
+            }
+                break;
             default://其它页面（这里没有提到的页面，都属于其它）
             {
                 imageName = @"blankpage_image_Sleep";

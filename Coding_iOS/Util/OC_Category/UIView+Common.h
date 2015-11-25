@@ -37,6 +37,7 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
     EaseBlankPageTypeProject_JOIN,
     EaseBlankPageTypeProject_WATCHED,
     EaseBlankPageTypeProject_STARED,
+    EaseBlankPageTypeProject_SEARCH,
 };
 
 typedef NS_ENUM(NSInteger, BadgePositionType) {
