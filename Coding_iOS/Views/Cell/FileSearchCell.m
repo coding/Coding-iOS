@@ -7,7 +7,7 @@
 //
 
 #define kFileListFileCell_IconWidth 45.0
-#define kFileListFileCell_LeftPading (kPaddingLeftWidth +kFileListFileCell_IconWidth +20.0)
+#define kFileListFileCell_LeftPading (kPaddingLeftWidth +kFileListFileCell_IconWidth +12.0)
 #define kFileListFileCell_TopPading 10.0
 
 
@@ -38,7 +38,7 @@
             [self.contentView addSubview:_iconView];
         }
         if (!_nameLabel) {
-            _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kFileListFileCell_LeftPading, kFileListFileCell_TopPading, (kScreen_Width - kFileListFileCell_LeftPading - 60), 25)];
+            _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kFileListFileCell_LeftPading, kFileListFileCell_TopPading-3, (kScreen_Width - kFileListFileCell_LeftPading - 60), 25)];
             _nameLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             _nameLabel.font = [UIFont systemFontOfSize:16];
             [self.contentView addSubview:_nameLabel];
@@ -50,7 +50,7 @@
             [self.contentView addSubview:_sizeLabel];
         }
         if (!_infoLabel) {
-            _infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(kFileListFileCell_LeftPading, (kFileSearchCellHeight- 15 - kFileListFileCell_TopPading), (kScreen_Width - kFileListFileCell_LeftPading - 60), 15)];
+            _infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(kFileListFileCell_LeftPading, (kFileSearchCellHeight- 15 - kFileListFileCell_TopPading+1), (kScreen_Width - kFileListFileCell_LeftPading - 60), 15)];
             _infoLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
             _infoLabel.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_infoLabel];

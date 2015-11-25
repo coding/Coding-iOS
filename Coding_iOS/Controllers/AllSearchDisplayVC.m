@@ -680,7 +680,7 @@
             weakSelf.isLoading = NO;
         }];
     }else if(_curSearchType==eSearchType_Merge){
-        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"merge_request" andPage:page andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"mr" andPage:page andBlock:^(id data, NSError *error) {
             if(data) {
                 NSDictionary *dataDic = (NSDictionary *)data;
                 NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"MRPR"];
@@ -696,7 +696,7 @@
             weakSelf.isLoading = NO;
         }];
     }else if(_curSearchType==eSearchType_Pull){
-        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"pull_request" andPage:page andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"pr" andPage:page andBlock:^(id data, NSError *error) {
             if(data) {
                 NSDictionary *dataDic = (NSDictionary *)data;
                 NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"MRPR"];

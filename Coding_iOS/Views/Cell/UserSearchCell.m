@@ -8,10 +8,11 @@
 
 #import "UserSearchCell.h"
 #import "NSString+Attribute.h"
+#import "Login.h"
 
 @interface UserSearchCell ()
-@property (strong, nonatomic) UIImageView *userIconView;
-@property (strong, nonatomic) UILabel *userNameLabel;
+@property (strong, nonatomic) UIImageView *userIconView,*timeClockIconView;
+@property (strong, nonatomic) UILabel *userNameLabel,*timeLabel;
 @property (strong, nonatomic) UIButton *rightBtn;
 @property (strong, nonatomic) UIActivityIndicatorView *sendingStatus;
 
@@ -47,17 +48,27 @@
             [self.contentView addSubview:_userNameLabel];
         }
         if (!_rightBtn) {
-            _rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 80-kPaddingLeftWidth, (kUserSearchCellHeight-30)/2, 80, 32)];
+            _rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 80-10, (kUserSearchCellHeight-40)/2-3, 60, 25)];
             [_rightBtn addTarget:self action:@selector(rightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [_rightBtn setTitle:@"私信" forState:UIControlStateNormal];
-            [_rightBtn setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateNormal];
+            [_rightBtn setBackgroundImage:[UIImage imageNamed:@"btn_privateMsg_stranger"] forState:UIControlStateNormal];
             [_rightBtn setBackgroundColor:[UIColor clearColor]];
-            _rightBtn.layer.borderWidth=1;
-            _rightBtn.layer.borderColor=[UIColor colorWithHexString:@"0x999999"].CGColor;
-            _rightBtn.layer.masksToBounds=TRUE;
-            _rightBtn.layer.cornerRadius=3;
             [self.contentView addSubview:_rightBtn];
         }
+        
+        if (!self.timeClockIconView) {
+            self.timeClockIconView = [[UIImageView alloc] initWithFrame:CGRectMake(66, kUserSearchCellHeight-12-15, 12, 12)];
+            self.timeClockIconView.image = [UIImage imageNamed:@"time_clock_icon"];
+            [self.contentView addSubview:self.timeClockIconView];
+        }
+        
+        if (!self.timeLabel) {
+            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(66+12+3, kUserSearchCellHeight-12-15, 200, 12)];
+            self.timeLabel.font = [UIFont systemFontOfSize:12];
+            self.timeLabel.textAlignment = NSTextAlignmentLeft;
+            self.timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            [self.contentView addSubview:self.timeLabel];
+        }
+
     }
     return self;
 }
@@ -72,6 +83,10 @@
         [_userIconView sd_setImageWithURL:[_curUser.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
         _userNameLabel.attributedText=[NSString getAttributeFromText:_curUser.name emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
     }
+    
+    _rightBtn.hidden=[[Login curLoginUser].global_key isEqualToString:_curUser.global_key];
+    
+    self.timeLabel.text=[NSString stringWithFormat:@"%@ 加入coding",[_curUser.created_at stringDisplay_HHmm]];
     [self configSendingStatusUI];
 }
 

@@ -6,15 +6,17 @@
 //  Copyright © 2015年 Coding. All rights reserved.
 //
 
+#define kBaseCellHeight 110
+
 #define kMRPRListCell_UserWidth 33.0
 
 #import "PRMRSearchCell.h"
+#import "NSString+Attribute.h"
 
 @interface PRMRSearchCell ()
-@property (strong, nonatomic) UIImageView *imgView;
-@property (strong, nonatomic) UILabel *titleLabel, *subTitleLabel;
+@property (strong, nonatomic) UIImageView *imgView,*arrowIcon;
+@property (strong, nonatomic) UILabel *titleLabel, *subTitleLabel,*fromL,*toL;
 @end
-
 
 
 @implementation PRMRSearchCell
@@ -39,8 +41,11 @@
                 make.centerY.equalTo(self.contentView);
             }];
         }
+        
         if (!_titleLabel) {
             _titleLabel = [UILabel new];
+            _titleLabel.textColor=[UIColor colorWithHexString:@"0x222222"];
+            _titleLabel.font=[UIFont boldSystemFontOfSize:14];
             [self.contentView addSubview:_titleLabel];
             [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(_imgView.mas_right).offset(12);
@@ -49,6 +54,7 @@
                 make.height.mas_equalTo(20);
             }];
         }
+        
         if (!_subTitleLabel) {
             _subTitleLabel = [UILabel new];
             [self.contentView addSubview:_subTitleLabel];
@@ -57,6 +63,44 @@
                 make.bottom.equalTo(self.contentView.mas_bottom).offset(-13);
             }];
         }
+        
+        if (!_fromL) {
+            _fromL = [UILabel new];
+            [_fromL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x4E90BF"] cornerRadius:2.0];
+            _fromL.font = [UIFont systemFontOfSize:12];
+            _fromL.textColor = [UIColor colorWithHexString:@"0x4E90BF"];
+            [self.contentView addSubview:_fromL];
+        }
+        
+        if (!_arrowIcon) {
+            _arrowIcon = [UIImageView new];
+            _arrowIcon.image = [UIImage imageNamed:@"mrpr_icon_arrow"];
+            [self.contentView addSubview:_arrowIcon];
+        }
+        
+        if (!_toL) {
+            _toL = [UILabel new];
+            [_toL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x4E90BF"] cornerRadius:2.0];
+            _toL.font = [UIFont systemFontOfSize:12];
+            _toL.textColor = [UIColor colorWithHexString:@"0x4E90BF"];
+            [self.contentView addSubview:_toL];
+        }
+        
+        
+        [_fromL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_titleLabel);
+            make.top.equalTo(_titleLabel.mas_bottom).offset(15);
+            make.height.mas_equalTo(20);
+        }];
+        
+        [_arrowIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_fromL.mas_right).offset(10);
+            make.centerY.equalTo(_fromL);
+            make.size.mas_equalTo(CGSizeMake(15, 15));
+            make.right.lessThanOrEqualTo(self.contentView).offset(-kPaddingLeftWidth);
+        }];
+
+
     }
     return self;
 }
@@ -67,24 +111,40 @@
         return;
     }
     [_imgView sd_setImageWithURL:[_curMRPR.author.avatar urlImageWithCodePathResize:2*kMRPRListCell_UserWidth] placeholderImage:kPlaceholderMonkeyRoundWidth(2*kMRPRListCell_UserWidth)];
-    _titleLabel.attributedText = [self attributeTitle];
+    _titleLabel.attributedText = [NSString getAttributeFromText:[_curMRPR.title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
     _subTitleLabel.attributedText = [self attributeTail];
+    
+    
+    NSString *fromStr, *toStr;
+    if (_curMRPR.isMR) {
+        fromStr = [NSString stringWithFormat:@"  %@  ", _curMRPR.source_branch];
+        toStr = [NSString stringWithFormat:@"  %@  ", _curMRPR.target_branch];
+    }else{
+        fromStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPR.src_owner_name, _curMRPR.source_branch];
+        toStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPR.des_owner_name, _curMRPR.target_branch];
+    }
+    NSString *totalStr = [NSString stringWithFormat:@"%@%@", fromStr, toStr];
+    if ([totalStr getWidthWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)] + 40 > kScreen_Width - 2*kPaddingLeftWidth) {
+        [_toL mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_titleLabel);
+            make.top.equalTo(_fromL.mas_bottom).offset(15);
+            make.height.equalTo(_fromL);
+            make.right.lessThanOrEqualTo(self.contentView).offset(-kPaddingLeftWidth);
+        }];
+    }else{
+        [_toL mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_arrowIcon.mas_right).offset(10);
+            make.top.equalTo(_fromL);
+            make.height.top.equalTo(_fromL);
+            make.right.lessThanOrEqualTo(self.contentView).offset(-kPaddingLeftWidth);
+        }];
+    }
+    _fromL.attributedText = [NSString getAttributeFromText:[fromStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
+    _toL.attributedText =  [NSString getAttributeFromText:[fromStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
+
     
 }
 
-- (NSAttributedString *)attributeTitle{
-    NSString *iidStr = [NSString stringWithFormat:@"#%@", _curMRPR.iid.stringValue? _curMRPR.iid.stringValue: @""];
-    NSString *titleStr = _curMRPR.title? _curMRPR.title: @"";
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", iidStr, titleStr]];
-    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x4E90BF"]}
-                        range:NSMakeRange(0, iidStr.length)];
-    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
-                        range:NSMakeRange(iidStr.length + 1, titleStr.length)];
-    return attrString;
-    
-}
 
 - (NSAttributedString *)attributeTail{
     NSString *nameStr = _curMRPR.author.name? _curMRPR.author.name: @"";
@@ -101,7 +161,7 @@
 
 
 + (CGFloat)cellHeight{
-    return 70.0;
+    return kBaseCellHeight;
 }
 
 @end
