@@ -9,6 +9,7 @@
 #import "ShopViewController.h"
 #import "ShopOrderViewController.h"
 #import "ExchangeGoodsViewController.h"
+#import "WebViewController.h"
 #import "XTSegmentControl.h"
 #import "ShopBannerView.h"
 #import "ShopGoodsCCell.h"
@@ -26,9 +27,9 @@
     
     XTSegmentControl        *_shopSegmentControl;
     ShopBannerView          *_shopBannerView;
+    
     NSInteger               _oldSelectedIndex;
     BOOL                    _isRequest;
-
 }
 
 @property(nonatomic,strong)XTSegmentControl *shopSegmentControl;
@@ -46,6 +47,21 @@
     ShopOrderViewController *orderViewController = [[ShopOrderViewController alloc] init];
     [self.navigationController pushViewController:orderViewController animated:YES];
 }
+
+- (void)bannerClicked:(NSString *)linkStr{
+    if (linkStr.length <= 0) {
+        return;
+    }
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        //网页
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+        [self.navigationController pushViewController:webVc animated:YES];
+    }
+}
+
 
 
 #pragma mark-
@@ -93,7 +109,6 @@
     [self loadGiftsList];
 }
 
-
 - (void)requestgiftsList {
     
     [self.view beginLoading];
@@ -120,7 +135,6 @@
             [NSObject showHudTipStr:@"Error"];
     }];
 }
-
 
 
 #pragma mark-
@@ -161,7 +175,7 @@
         if (index == _oldSelectedIndex) {
             return;
         }
-        _oldSelectedIndex = index;
+        _oldSelectedIndex    = index;
         _shopObject.shopType = index;
         [_collectionView reloadData];
         if (_collectionView.contentOffset.y > CGRectGetHeight(_collectionHeaderView.frame) ) {
@@ -202,8 +216,10 @@
         _shopBannerView = [[ShopBannerView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, bannerHeight)];
         _shopBannerView.curBannerList = shopBannerArray;
         [_collectionHeaderView addSubview:_shopBannerView];
+        __weak typeof(self) weakSelf = self;
         _shopBannerView.tapActionBlock = ^(ShopBanner *banner){
-
+            [NSObject showHudTipStr:banner.title];
+            [weakSelf bannerClicked:banner.title];
         };
         [_shopBannerView reloadData];
         _shopSegmentControl.frame = CGRectMake(0, bannerHeight, kScreen_Width, kMySegmentControl_Height);
@@ -243,7 +259,7 @@
         [self.view addSubview:_shopSegmentControl];
     }else
     {
-        _shopSegmentControl.frame = CGRectMake(0, _shopSegmentControlY , kScreen_Width, kMySegmentControl_Height);
+        _shopSegmentControl.frame = CGRectMake(0, _shopSegmentControlY +5 , kScreen_Width, kMySegmentControl_Height);
         [_collectionHeaderView addSubview:_shopSegmentControl];
     }
 }

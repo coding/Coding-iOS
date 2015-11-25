@@ -30,12 +30,6 @@
     tweets.willLoadMore = NO;
     return tweets;
 }
-//+ (Tweets *)tweetsWithUser:(User *)curUser{
-//    Tweets *tweets = [Tweets tweetsWithType:TweetTypeUserSingle];
-//    tweets.curUser = curUser;
-//    return tweets;
-//}
-
 
 - (void)setShopType:(ShopType)shopType
 {

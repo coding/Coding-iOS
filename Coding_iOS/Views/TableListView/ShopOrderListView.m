@@ -17,7 +17,6 @@
     ShopOderCell *_currentOrderCell;
     NSArray      *_dataSource;
 }
-//@property (nonatomic , copy)  ProjectActivityBlock block;
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 
@@ -31,7 +30,7 @@
     if (self) {
         _myOrder = order;
         _myTableView = ({
-            UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
+            UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
             tableView.backgroundColor = [UIColor clearColor];
             tableView.delegate = self;
             tableView.dataSource = self;
@@ -120,6 +119,17 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _dataSource.count;
 }
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    ShopOrder *item = [_dataSource objectAtIndex:indexPath.row];
+    [_currentOrderCell configViewWithModel:item];
+    return _currentOrderCell.cellHeight;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 0.5;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -129,20 +139,10 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    ShopOrder *item = [_dataSource objectAtIndex:indexPath.row];
-    [_currentOrderCell configViewWithModel:item];
-    return _currentOrderCell.cellHeight;
-    
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 //    ShopOrder *item = [_dataSource objectAtIndex:indexPath.row];
-    //    if (_block) {
-    //        _block([self.myProActs.list objectAtIndex:row]);
-    //    }
+    
 }
 
 @end

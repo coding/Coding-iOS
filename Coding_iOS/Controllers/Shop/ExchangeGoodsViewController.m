@@ -56,7 +56,7 @@
         [NSObject showHudTipStr:@"联系电话非常重要"];
         return;
     }
-    
+    // alert
     [self showPwdAlertView];
         
 }
@@ -201,8 +201,6 @@
 
 - (void)textFieldDidChange:(UITextField *)textField
 {
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//    ShopOrderTextFieldCell *cell = (ShopOrderTextFieldCell *)[_myTableView cellForRowAtIndexPath:indexPath];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
