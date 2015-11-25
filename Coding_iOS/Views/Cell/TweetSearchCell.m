@@ -13,14 +13,14 @@
 #import "TweetLikeUserCCell.h"
 #import "MJPhotoBrowser.h"
 
-#define kTweetCell_PadingLeft 52.0
+#define kTweetCell_PadingLeft (15+40+kInnerHorzionOffset)
 #define kTweetCell_PadingTop 15.0
 #define kTweetCell_PadingBottom 10.0
 #define kTweetCell_ContentWidth (kScreen_Width - kTweetCell_PadingLeft - 30)
 #define kTweet_ContentMaxHeight 36.0
 #define kTweet_ContentFont [UIFont systemFontOfSize:15]
 #define kTweetCell_LikeUserCCell_Height 25.0
-#define kTweetCell_LikeUserCCell_Pading 10.0
+#define kInnerHorzionOffset 12
 #define kTweet_TimtFont [UIFont systemFontOfSize:12]
 #define kTweetCell_NameMaxWidth (kTweetCell_ContentWidth - )
 
@@ -41,7 +41,7 @@
         self.accessoryType = UITableViewCellAccessoryNone;
         
         if (!self.ownerImgView) {
-            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(12, 10, 30, 30)];
+            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(15, 18, 40, 40)];
             [self.ownerImgView doCircleFrame];
             [self.contentView addSubview:self.ownerImgView];
         }
@@ -145,7 +145,7 @@
             [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }
-    CGFloat curBottomY = kTweetCell_PadingTop + [TweetSearchCell contentLabelHeightWithTweet:_tweet] + 10;
+    CGFloat curBottomY = self.frame.size.height-12-15;
     
     CGFloat curX = kTweetCell_PadingLeft;
     [self.nameLabel setLongString:_tweet.owner.name withVariableWidth:kScreen_Width / 2];
@@ -192,15 +192,11 @@
     
     Tweet *tweet = (Tweet *)obj;
     CGFloat cellHeight = 0;
-    //    if (tweet.likes.integerValue > 0 || tweet.comments.integerValue > 0) {
-    //        cellHeight = 6;
-    //    }else{
-    //        cellHeight = 3;
-    //    }
-    cellHeight += 15 * 2 + 10;
+
+    cellHeight += 18+20+12+5;
     //    cellHeight += kTweetCell_PadingTop;
     cellHeight += [TweetSearchCell contentLabelHeightWithTweet:tweet];
-    cellHeight += 12;
+    cellHeight += 15;
     return cellHeight;
 }
 

@@ -13,7 +13,7 @@
 #define kProjectTaskListViewCell_MaxContentHeight 20.0
 #define kProjectTaskListViewCell_ContentWidth (kScreen_Width - kProjectTaskListViewCell_LeftPading - kProjectTaskListViewCell_RightPading)
 #define kProjectTaskListViewCell_ContentFont [UIFont systemFontOfSize:15]
-#define kProjectTaskListViewCell_TextPading 10.0
+#define kInnerHorizonOffset 12.0
 
 
 #import "TaskSearchCell.h"
@@ -113,21 +113,21 @@
 
         [_contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentView).offset(19-3);
-            make.left.equalTo(self.userIconView.mas_right).offset(10);
+            make.left.equalTo(self.userIconView.mas_right).offset(kInnerHorizonOffset);
             make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
             make.height.mas_equalTo(20);
         }];
         
         [_describeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentLabel.mas_bottom).offset(10);
-            make.left.equalTo(self.userIconView.mas_right).offset(10);
+            make.left.equalTo(self.userIconView.mas_right).offset(kInnerHorizonOffset);
             make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
             make.height.mas_equalTo(40);
         }];
 
         [_numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.contentView).offset(-10);
-            make.left.equalTo(self.userIconView.mas_right).offset(10);
+            make.left.equalTo(self.userIconView.mas_right).offset(kInnerHorizonOffset);
             make.height.mas_equalTo(15);
         }];
         [_userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -179,14 +179,13 @@
     
     _contentLabel.attributedText=[NSString getAttributeFromText:[_task.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
 
-//    _contentLabel.text = [_task.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     //Bottom
     _numLabel.text = [NSString stringWithFormat:@"#%@", _task.resource_id.stringValue];
     _userNameLabel.text = _task.creator.name;
     _timeLabel.text = [_task.created_at stringDisplay_MMdd];
     _commentCountLabel.text = _task.comments.stringValue;
     _mdIconView.hidden = _mdLabel.hidden = !_task.has_description.boolValue;
-    _describeLabel.text=_task.description_mine;
+    _describeLabel.attributedText=[NSString getAttributeFromText:[_task.descript stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
 }
 
 @end

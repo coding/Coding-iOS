@@ -346,7 +346,6 @@
 #pragma mark Search Data Request
 
 - (void)refresh {
-    
     if(_isLoading){
         [_searchTableView.infiniteScrollingView stopAnimating];
         return;
@@ -563,52 +562,60 @@
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"all" andPage:1 andBlock:^(id data, NSError *error) {
         if(data) {
-            _searchPros = [NSObject objectOfClass:@"PublicSearchModel" fromJSON:data];
+            [weakSelf.dateSource removeAllObjects];
+            weakSelf.searchPros = [NSObject objectOfClass:@"PublicSearchModel" fromJSON:data];
             NSDictionary *dataDic = (NSDictionary *)data;
-            NSArray *resultA =[dataDic[@"project_topics"] objectForKey:@"list"] ;
+            
+            //topic 处理 content 关键字
+            NSArray *resultTopic =[dataDic[@"project_topics"] objectForKey:@"list"] ;
             for (int i=0;i<[_searchPros.project_topics.list count];i++) {
                 ProjectTopic *curTopic=[_searchPros.project_topics.list objectAtIndex:i];
-                if ([resultA count]>i) {
-                    curTopic.content= [[[resultA objectAtIndex:i] objectForKey:@"content"] firstObject];
+                if ([resultTopic count]>i) {
+                    curTopic.contentStr= [[[resultTopic objectAtIndex:i] objectForKey:@"content"] firstObject];
                 }
             }
-            switch (_curSearchType) {
+            
+            //task 处理 description 关键字
+            NSArray *resultTask =[dataDic[@"tasks"] objectForKey:@"list"] ;
+            for (int i=0;i<[weakSelf.searchPros.tasks.list count];i++) {
+                Task *curTask=[weakSelf.searchPros.tasks.list objectAtIndex:i];
+                if ([resultTask count]>i) {
+                    curTask.descript= [[[resultTask objectAtIndex:i] objectForKey:@"description"] firstObject];
+                    NSLog(@"%@",curTask.description_mine);
+                }
+            }
+
+            switch (weakSelf.curSearchType) {
                 case eSearchType_Project:
-                    [weakSelf.dateSource addObjectsFromArray:_searchPros.projects.list];
+                    [weakSelf.dateSource addObjectsFromArray:weakSelf.searchPros.projects.list];
                     break;
                 case eSearchType_Tweet:
-                    [weakSelf.dateSource addObjectsFromArray:_searchPros.tweets.list];
+                    [weakSelf.dateSource addObjectsFromArray:weakSelf.searchPros.tweets.list];
                     break;
                 case eSearchType_Document:
-                    [weakSelf.dateSource addObjectsFromArray:_searchPros.files.list];
+                    [weakSelf.dateSource addObjectsFromArray:weakSelf.searchPros.files.list];
                     break;
                 case eSearchType_User:
-                    [weakSelf.dateSource addObjectsFromArray:_searchPros.friends.list];
+                    [weakSelf.dateSource addObjectsFromArray:weakSelf.searchPros.friends.list];
                     break;
                 case eSearchType_Task:
-                    [weakSelf.dateSource addObjectsFromArray:_searchPros.tasks.list];
+                    [weakSelf.dateSource addObjectsFromArray:weakSelf.searchPros.tasks.list];
                     break;
                 case eSearchType_Topic:
-                    [weakSelf.dateSource addObjectsFromArray:_searchPros.project_topics.list];
+                    [weakSelf.dateSource addObjectsFromArray:weakSelf.searchPros.project_topics.list];
                     break;
                 case eSearchType_Merge:
-                    [weakSelf.dateSource addObjectsFromArray:_searchPros.merge_requests.list];
+                    [weakSelf.dateSource addObjectsFromArray:weakSelf.searchPros.merge_requests.list];
                     break;
                 case eSearchType_Pull:
-                    [weakSelf.dateSource addObjectsFromArray:_searchPros.pull_requests.list];
+                    [weakSelf.dateSource addObjectsFromArray:weakSelf.searchPros.pull_requests.list];
                     break;
                 default:
                     break;
             }
             
             [weakSelf.searchTableView configBlankPage:EaseBlankPageTypeProject_SEARCH hasData:[weakSelf noEmptyList] hasError:(error != nil) reloadButtonBlock:^(id sender) {
-                [weakSelf requestAll];
             }];
-            
-            //空白页按钮事件
-            weakSelf.searchTableView.blankPageView.clickButtonBlock=^(EaseBlankPageType curType) {
-                [weakSelf requestAll];
-            };
 
             [weakSelf.searchTableView reloadData];
             [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
@@ -709,10 +716,23 @@
             if(data) {
                 NSDictionary *dataDic = (NSDictionary *)data;
                 NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"Task"];
+                
+                //task 处理 description 关键字
+                NSArray *resultTask =dataDic[@"list"];
+                for (int i=0;i<[resultA count];i++) {
+                    Task *curTask=[resultA objectAtIndex:i];
+                    if ([resultTask count]>i) {
+                        curTask.descript= [[[resultTask objectAtIndex:i] objectForKey:@"description"] firstObject];
+                        NSLog(@"%@",curTask.description_mine);
+                    }
+                }
+
                 [weakSelf.searchPros.tasks.list addObjectsFromArray:resultA];
                 //更新page
                 weakSelf.searchPros.tasks.page = dataDic[@"page"] ;
                 weakSelf.searchPros.tasks.totalPage = dataDic[@"totalPage"] ;
+                
+                
                 [weakSelf.dateSource addObjectsFromArray:resultA];
                 [weakSelf.searchTableView reloadData];
                 [weakSelf.searchTableView.infiniteScrollingView stopAnimating];

@@ -11,7 +11,7 @@
 #define kProjectTopicCell_ContentWidth (kScreen_Width - kProjectTopicCell_PadingLeft - kProjectTopicCell_PadingRight)
 #define kProjectTopicCell_ContentHeightMax 40.0
 #define kProjectTopicCell_ContentFont [UIFont systemFontOfSize:16]
-
+#define kInnerHorizonOffset 12
 
 #import "TopicSearchCell.h"
 #import "ProjectTag.h"
@@ -33,12 +33,12 @@
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.backgroundColor = [UIColor clearColor];
         if (!_userIconView) {
-            _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12, 40, 40)];
+            _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 18, 40, 40)];
             [_userIconView doCircleFrame];
             [self.contentView addSubview:_userIconView];
         }
         if (!_titleLabel) {
-            _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTopicCell_PadingLeft, 12, kProjectTopicCell_ContentWidth, 20)];
+            _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15+40+kInnerHorizonOffset, 15, kProjectTopicCell_ContentWidth, 20)];
             _titleLabel.font = kProjectTopicCell_ContentFont;
             _titleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
             [self.contentView addSubview:_titleLabel];
@@ -52,13 +52,6 @@
             [self.contentView addSubview:_describeLabel];
         }
         
-        [_describeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.titleLabel.mas_bottom).offset(10);
-            make.left.equalTo(self.userIconView.mas_right).offset(10);
-            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
-            make.height.mas_equalTo(40);
-        }];
-
 
         if (!_numLabel) {
             _numLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTopicCell_PadingLeft, 0, 150, 15)];
@@ -101,10 +94,16 @@
         }
         
         
+        [_describeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.titleLabel.mas_bottom).offset(10);
+            make.left.equalTo(self.userIconView.mas_right).offset(kInnerHorizonOffset);
+            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+            make.height.mas_equalTo(40);
+        }];
         
         [_numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.contentView).offset(-10);
-            make.left.equalTo(self.userIconView.mas_right).offset(10);
+            make.left.equalTo(self.userIconView.mas_right).offset(kInnerHorizonOffset);
             make.height.mas_equalTo(15);
         }];
         [_userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -169,7 +168,8 @@
     _commentCountLabel.text = _curTopic.child_count.stringValue;
     [_commentCountLabel sizeToFit];
     
-    _describeLabel.attributedText=[NSString getAttributeFromText:[_curTopic.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
+    NSString *content=[_curTopic.contentStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    _describeLabel.attributedText=[NSString getAttributeFromText:[content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
 }
 
 //+(CGFloat)cellHeightWithObj:(id)aObj{
