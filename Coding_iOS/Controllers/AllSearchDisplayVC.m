@@ -584,7 +584,7 @@
                     NSLog(@"%@",curTask.description_mine);
                 }
             }
-
+            
             switch (weakSelf.curSearchType) {
                 case eSearchType_Project:
                     [weakSelf.dateSource addObjectsFromArray:weakSelf.searchPros.projects.list];
@@ -893,9 +893,11 @@
     }else if(_curSearchType==eSearchType_Topic){
         return kTopicSearchCellHeight;
     }else if (_curSearchType==eSearchType_Pull){
-        return [PRMRSearchCell cellHeight];
+        MRPR *mrpr = _dateSource[indexPath.row];
+        return [PRMRSearchCell cellHeightWithObj:mrpr];
     }else if (_curSearchType==eSearchType_Merge){
-        return [PRMRSearchCell cellHeight];
+        MRPR *mrpr = _dateSource[indexPath.row];
+        return [PRMRSearchCell cellHeightWithObj:mrpr];
     }else{
         return 100;
     }

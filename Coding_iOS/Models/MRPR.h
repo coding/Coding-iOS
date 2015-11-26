@@ -30,6 +30,8 @@ typedef NS_ENUM(NSInteger, MRPRStatus) {
 //Post
 @property (assign, nonatomic) BOOL del_source_branch, can_edit_src_branch;
 @property (strong, nonatomic) NSString *message;
+@property (strong, nonatomic) NSArray *body;
+@property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 
 + (MRPR *)mrprWithPath:(NSString *)path;
 
