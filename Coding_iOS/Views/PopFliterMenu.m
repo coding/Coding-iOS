@@ -217,7 +217,6 @@
             [titleLab setX:45];
             titleLab.textColor=[UIColor colorWithHexString:@"0x727f8d"];
             titleLab.text=@"项目广场";
-            
             UIImageView *projectSquareIcon=[[UIImageView alloc] initWithFrame:CGRectMake(20, 25-8, 16, 16)];
             projectSquareIcon.image=[UIImage imageNamed:@"fliter_square"];
             [cell.contentView addSubview:projectSquareIcon];

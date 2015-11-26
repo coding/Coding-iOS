@@ -51,7 +51,7 @@
 @property (nonatomic, strong) UILabel   *headerLabel;
 @property (nonatomic, strong) PublicSearchModel *searchPros;
 @property (nonatomic, strong) UIScrollView  *searchHistoryView;
-
+@property (nonatomic, assign) double historyHeight;
 - (void)initSubViewsInContentView;
 - (void)initSearchResultsTableView;
 - (void)initSearchHistoryView;
@@ -63,9 +63,12 @@
 @end
 
 @implementation AllSearchDisplayVC
+
 - (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     _searchHistoryView.delegate = nil;
 }
+
 
 - (void)setActive:(BOOL)visible animated:(BOOL)animated {
     
@@ -198,7 +201,7 @@
         _searchHistoryView.backgroundColor = [UIColor clearColor];
         [_contentView addSubview:_searchHistoryView];
         self.searchBar.delegate=self;
-        
+        [self registerForKeyboardNotifications];
     }
     
     [[_searchHistoryView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -213,14 +216,15 @@
     CGFloat textLeft = 34.0f;
     CGFloat height = 44.0f;
     
+    _historyHeight=height*(array.count+1);
     //set history list
     [_searchHistoryView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(@0);
         make.left.mas_equalTo(@0);
         make.width.mas_equalTo(kScreen_Width);
-        make.height.mas_equalTo(height*(array.count+1));
+        make.height.mas_equalTo(_historyHeight);
     }];
-    _searchHistoryView.contentSize = CGSizeMake(kScreen_Width, 0);
+    _searchHistoryView.contentSize = CGSizeMake(kScreen_Width, _historyHeight);
 
     
     for (int i = 0; i < array.count; i++) {
@@ -792,6 +796,37 @@
 }
 
 
+- (void)registerForKeyboardNotifications
+{
+    //使用NSNotificationCenter 鍵盤出現時
+    [[NSNotificationCenter defaultCenter] addObserver:self
+     
+                                             selector:@selector(keyboardWasShown)
+     
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    
+    //使用NSNotificationCenter 鍵盤隐藏時
+    [[NSNotificationCenter defaultCenter] addObserver:self
+     
+                                             selector:@selector(keyboardWillBeHidden)
+     
+                                                 name:UIKeyboardWillHideNotification object:nil];
+    
+    
+}
+
+-(void)keyboardWasShown{
+    if (_historyHeight+236>(kScreen_Height-64)) {
+        [_searchHistoryView setHeight:kScreen_Height-236-64];
+    }
+}
+
+-(void)keyboardWillBeHidden{
+    if (_historyHeight+236>(kScreen_Height-64)) {
+        [_searchHistoryView setHeight:_historyHeight];
+    }
+}
+
 #pragma mark - UISearchBarDelegate Support
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -923,9 +958,17 @@
     }
 }
 
+
+
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
 //    [self setActive:TRUE];
+    
     return TRUE;
 }
+
+
+
+
+
 
 @end

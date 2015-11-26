@@ -186,14 +186,14 @@
             make.left.equalTo(_titleLabel);
             make.top.equalTo(_fromL.mas_bottom).offset(15);
             make.height.equalTo(_fromL);
-            make.right.lessThanOrEqualTo(self.contentView).offset(-kPaddingLeftWidth);
+            make.right.lessThanOrEqualTo(self.contentView).offset(-5);
         }];
     }else{
         [_toL mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_arrowIcon.mas_right).offset(10);
             make.top.equalTo(_fromL);
             make.height.top.equalTo(_fromL);
-            make.right.lessThanOrEqualTo(self.contentView).offset(-kPaddingLeftWidth);
+            make.right.lessThanOrEqualTo(self.contentView).offset(-5);
         }];
     }
     
