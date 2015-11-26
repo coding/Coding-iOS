@@ -297,7 +297,6 @@
     [CSSearchModel addSearchHistory:self.searchBar.text];
     [self initSearchHistoryView];
     [self.searchBar resignFirstResponder];
-    
     [self initSearchResultsTableView];
 }
 
@@ -354,7 +353,6 @@
 }
 
 - (void)loadMore {
-    
     if(_isLoading){
         [_searchTableView.infiniteScrollingView stopAnimating];
         return;
@@ -581,7 +579,6 @@
                 Task *curTask=[weakSelf.searchPros.tasks.list objectAtIndex:i];
                 if ([resultTask count]>i) {
                     curTask.descript= [[[resultTask objectAtIndex:i] objectForKey:@"description"] firstObject];
-                    NSLog(@"%@",curTask.description_mine);
                 }
             }
             
@@ -917,8 +914,10 @@
     }else if (_curSearchType==eSearchType_Task){
         [self goToTask:_dateSource[indexPath.row]];
     }else if (_curSearchType==eSearchType_Topic){
-        [self goToMRDetail:_dateSource[indexPath.row]];
+        [self goToTopic:_dateSource[indexPath.row]];
     }else if (_curSearchType==eSearchType_Merge){
+        [self goToMRDetail:_dateSource[indexPath.row]];
+    }else if(_curSearchType==eSearchType_Pull){
         [self goToMRDetail:_dateSource[indexPath.row]];
     }
 }

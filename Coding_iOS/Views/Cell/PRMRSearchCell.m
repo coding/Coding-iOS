@@ -9,15 +9,15 @@
 #define kBaseCellHeight 110
 #define kMRPRListCell_UserWidth 40.0
 #define kDetialContentMaxHeight 36.0
-#define kDetialContentWidth (kScreen_Width - 2*kPaddingLeftWidth - 12)
+#define kDetialContentWidth (kScreen_Width - 2*kPaddingLeftWidth - 12 - kMRPRListCell_UserWidth)
 
 
 #import "PRMRSearchCell.h"
 #import "NSString+Attribute.h"
 
 @interface PRMRSearchCell ()
-@property (strong, nonatomic) UIImageView *imgView,*arrowIcon;
-@property (strong, nonatomic) UILabel *titleLabel, *subTitleLabel,*fromL,*toL,*describeLab;
+@property (strong, nonatomic) UIImageView *imgView,*arrowIcon,*timeClockIconView;
+@property (strong, nonatomic) UILabel *titleLabel, *subTitleLabel,*fromL,*toL,*describeLab,*timeLabel,*statusLab;
 @end
 
 
@@ -29,7 +29,7 @@
     if (self) {
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryNone;
-        self.backgroundColor = kColorTableBG;
+        self.backgroundColor = [UIColor clearColor];
         if (!_imgView) {
             _imgView = [UIImageView new];
             _imgView.layer.masksToBounds = YES;
@@ -68,13 +68,48 @@
         
         if (!_subTitleLabel) {
             _subTitleLabel = [UILabel new];
+            _subTitleLabel.font=[UIFont boldSystemFontOfSize:12];
+            _subTitleLabel.textColor=[UIColor colorWithHexString:@"0x999999"];
             [self.contentView addSubview:_subTitleLabel];
-            [_subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.right.height.equalTo(_titleLabel);
-                make.bottom.equalTo(self.contentView.mas_bottom).offset(-13);
+//            [_subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//                make.left.right.height.equalTo(_titleLabel);
+//                make.bottom.equalTo(self.contentView.mas_bottom).offset(-13);
+//            }];
+        }
+        
+        if (!self.timeClockIconView) {
+            self.timeClockIconView = [UIImageView new];
+            self.timeClockIconView.image = [UIImage imageNamed:@"time_clock_icon"];
+            [self.contentView addSubview:self.timeClockIconView];
+            [self.timeClockIconView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(_subTitleLabel);
+                make.size.mas_equalTo(CGSizeMake(12, 12));
+                make.left.equalTo(_subTitleLabel.mas_right).offset(6);
             }];
         }
         
+        if (!self.timeLabel) {
+            self.timeLabel = [UILabel new];
+            self.timeLabel.font = [UIFont boldSystemFontOfSize:12];
+            self.timeLabel.textAlignment = NSTextAlignmentLeft;
+            self.timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            [self.contentView addSubview:self.timeLabel];
+        }
+        
+        if (!self.statusLab) {
+            self.statusLab = [UILabel new];
+            self.statusLab.font = [UIFont boldSystemFontOfSize:12];
+            self.statusLab.textAlignment = NSTextAlignmentLeft;
+            self.statusLab.textColor = [UIColor colorWithHexString:@"0xFB3B30"];
+            [self.contentView addSubview:self.statusLab];
+            [self.statusLab mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(_subTitleLabel);
+                make.height.equalTo(@(15));
+                make.left.equalTo(_timeLabel.mas_right).offset(6);
+                make.right.lessThanOrEqualTo(self.contentView).offset(-4);
+            }];
+        }
+
         if (!_fromL) {
             _fromL = [UILabel new];
             [_fromL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x4E90BF"] cornerRadius:2.0];
@@ -120,8 +155,22 @@
     }
     [_imgView sd_setImageWithURL:[_curMRPR.author.avatar urlImageWithCodePathResize:2*kMRPRListCell_UserWidth] placeholderImage:kPlaceholderMonkeyRoundWidth(2*kMRPRListCell_UserWidth)];
     _titleLabel.attributedText = [NSString getAttributeFromText:[_curMRPR.title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
-    _subTitleLabel.attributedText = [self attributeTail];
+//    _subTitleLabel.attributedText = [self attributeTail];
+    _subTitleLabel.text=[NSString stringWithFormat:@"#%@ %@", [_curMRPR.iid stringValue], _curMRPR.author.name? _curMRPR.author.name: @""];
+    [_subTitleLabel setLongString:_subTitleLabel.text withVariableWidth:kScreen_Width / 2];
+    [_subTitleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_titleLabel);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(-13);
+    }];
     
+    _timeLabel.text=_curMRPR.created_at? [_curMRPR.created_at stringDisplay_HHmm]: @"";
+    [_timeLabel setLongString:_timeLabel.text withVariableWidth:kScreen_Width / 2];
+    [_timeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_timeClockIconView.mas_right).offset(3);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(-13);
+    }];
+
+    _statusLab.text= _curMRPR.statusDisplay;
     
     NSString *fromStr, *toStr;
     if (_curMRPR.isMR) {
@@ -151,7 +200,7 @@
     [_describeLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_titleLabel);
         make.top.equalTo(_toL.mas_bottom).offset(8);
-        make.height.equalTo(@([PRMRSearchCell contentLabelHeightWithPRMR:_curMRPR]+3));
+        make.height.equalTo(@([PRMRSearchCell contentLabelHeightWithPRMR:_curMRPR]+2));
         make.width.equalTo(@(kDetialContentWidth));
     }];
     

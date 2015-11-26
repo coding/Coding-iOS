@@ -15,8 +15,5 @@
 @interface UserSearchCell : UITableViewCell
 @property (strong, nonatomic) User *curUser;
 @property (nonatomic,copy) void(^rightBtnClickedBlock)(User *curUser);
-
 @property (assign, nonatomic) BOOL isInProject, isQuerying;
-
-
 @end
