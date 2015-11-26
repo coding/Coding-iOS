@@ -16,7 +16,6 @@
 
 @interface ShopOrderViewController ()<iCarouselDataSource,iCarouselDelegate>
 @property (nonatomic, strong) ShopOrderModel *myOrder;
-//@property (nonatomic , copy) ProjectActivityBlock block;
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) NSArray *titlesArray;
 @property (strong, nonatomic) iCarousel *myCarousel;
@@ -37,6 +36,26 @@
     _myOrder = [[ShopOrderModel alloc] init];
     _myOrder.orderType = ShopOrderAll;
     
+    [self setUpView];
+    [self loadData];
+}
+
+- (void)loadData
+{
+    __weak typeof(self) weakSelf = self;
+    [self.view beginLoading];
+    [[Coding_NetAPIManager sharedManager] request_shop_OrderListWithOrder:_myOrder andBlock:^(id data, NSError *error) {
+        [weakSelf.view endLoading];
+        if (data) {
+            ShopOrderListView *listView = (ShopOrderListView *)[weakSelf.myCarousel itemViewAtIndex:weakSelf.myOrder.orderType];
+            [listView reloadData];
+        }
+    }];
+}
+
+
+- (void)setUpView
+{
     //添加myCarousel
     self.myCarousel = ({
         iCarousel *icarousel = [[iCarousel alloc] initWithFrame:CGRectZero];
@@ -52,41 +71,18 @@
         [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(kMySegmentControl_Height, 0, 0, 0));
         }];
-
+        
         icarousel;
     });
-    
-    //添加滑块
-    __weak typeof(_myCarousel) weakCarousel = _myCarousel;
-    
+    __weak typeof(self) weakSelf = self;
     self.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:self.titlesArray selectedBlock:^(NSInteger index) {
-        [weakCarousel scrollToItemAtIndex:index animated:NO];
-        
-        ShopOrderListView *listView = (ShopOrderListView *)[_myCarousel itemViewAtIndex:index];
-        _myOrder.orderType = index;
-        listView.myOrder = _myOrder;
+        ShopOrderListView *listView = (ShopOrderListView *)[weakSelf.myCarousel itemViewAtIndex:index];
+        weakSelf.myOrder.orderType = index;
+        listView.myOrder = weakSelf.myOrder;
         [listView reloadData];
-        
     }];
     [self.view addSubview:self.mySegmentControl];
-    
-    [self loadData];
 }
-
-- (void)loadData
-{
-    __weak typeof(self) weakSelf = self;
-    [self.view beginLoading];
-    [[Coding_NetAPIManager sharedManager] request_shop_OrderListWithOrder:_myOrder andBlock:^(id data, NSError *error) {
-        [weakSelf.view endLoading];
-        if (data) {
-            
-            ShopOrderListView *listView = (ShopOrderListView *)[weakSelf.myCarousel itemViewAtIndex:_myOrder.orderType];
-            [listView reloadData];
-        }
-    }];
-}
-
 
 #pragma mark - Getter/Setter
 - (NSArray*)titlesArray
@@ -128,6 +124,13 @@
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
     }];
+}
+
+- (void)dealloc
+{
+    _myCarousel.dataSource  = nil;
+    _myCarousel.delegate = nil;
+    _mySegmentControl = nil;
 }
 
 @end

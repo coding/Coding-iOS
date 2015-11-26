@@ -50,8 +50,6 @@
         
         _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
         [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-        
-     
     }
     return self;
 }
@@ -143,6 +141,14 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 //    ShopOrder *item = [_dataSource objectAtIndex:indexPath.row];
     
+}
+
+- (void)dealloc
+{
+    _currentOrderCell = nil;
+    _myRefreshControl = nil;
+    _myTableView.dataSource = nil;
+    _myTableView.delegate = nil;
 }
 
 @end

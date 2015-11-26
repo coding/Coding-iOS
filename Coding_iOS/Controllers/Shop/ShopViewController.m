@@ -33,7 +33,9 @@
 }
 
 @property(nonatomic,strong)XTSegmentControl *shopSegmentControl;
+@property(nonatomic,strong)UICollectionView *collectionView;
 @property(nonatomic,strong)Shop *shopObject;
+
 @end
 
 @implementation ShopViewController
@@ -61,7 +63,6 @@
         [self.navigationController pushViewController:webVc animated:YES];
     }
 }
-
 
 
 #pragma mark-
@@ -94,7 +95,6 @@
         _isRequest = YES;
         [self requestgiftsList];
     }
-
 }
 
 #pragma mark-
@@ -112,14 +112,15 @@
 - (void)requestgiftsList {
     
     [self.view beginLoading];
+    __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_shop_bannersWithBlock:^(id data, NSError *error) {
-        _shopObject.shopBannerArray = data;
-        [_collectionView reloadData];
+        weakSelf.shopObject.shopBannerArray = data;
+        [weakSelf.collectionView reloadData];
     }];
     
     [[Coding_NetAPIManager sharedManager] request_shop_userPointWithShop:_shopObject andBlock:^(id data, NSError *error) {
         if (data) {
-            [ self loadGiftsList];
+            [weakSelf loadGiftsList];
         }
     }];
 }
@@ -130,7 +131,7 @@
     [[Coding_NetAPIManager sharedManager] request_shop_giftsWithShop:_shopObject andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
-            [_collectionView reloadData];
+            [weakSelf.collectionView reloadData];
         }else
             [NSObject showHudTipStr:@"Error"];
     }];
@@ -170,24 +171,27 @@
 {
     //添加滑块
     NSArray *_segmentItems = @[@"全部商品",@"可兑换商品"];
-    //__weak typeof(_shopSegmentControl) weakCarousel = _shopSegmentControl;
+    __weak typeof(self) weakSelf = self;
     _shopSegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(_collectionHeaderView.frame)- kMySegmentControl_Height - 5, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
-        if (index == _oldSelectedIndex) {
-            return;
-        }
-        _oldSelectedIndex    = index;
-        _shopObject.shopType = index;
-        [_collectionView reloadData];
-        if (_collectionView.contentOffset.y > CGRectGetHeight(_collectionHeaderView.frame) ) {
-            [_collectionView setContentOffset:CGPointMake(0, CGRectGetHeight(_collectionHeaderView.frame)) animated:NO];
-        }
-        
+        [weakSelf segmentControlSelecteIndex:index];
     }];
     _shopSegmentControl.backgroundColor = [UIColor whiteColor];
     [_collectionHeaderView addSubview:_shopSegmentControl];
     [self.view bringSubviewToFront:_shopSegmentControl];
 }
 
+- (void)segmentControlSelecteIndex:(NSInteger)index
+{
+    if (index == _oldSelectedIndex) {
+        return;
+    }
+    _oldSelectedIndex  = index;
+    _shopObject.shopType = index;
+    [_collectionView reloadData];
+    if (_collectionView.contentOffset.y > CGRectGetHeight(_collectionHeaderView.frame) ) {
+        [_collectionView setContentOffset:CGPointMake(0, CGRectGetHeight(_collectionHeaderView.frame)) animated:NO];
+    }
+}
 
 
 #pragma mark - UICollectionViewDataSource
@@ -226,7 +230,6 @@
         height = kMySegmentControl_Height  + bannerHeight ;
         _collectionHeaderView.frame = CGRectMake(0, 0, kScreen_Width, height);
     }
-    
     return UIEdgeInsetsMake(5 + height, 10, 10, 10);
 }
 

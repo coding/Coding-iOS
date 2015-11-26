@@ -5,10 +5,8 @@
 
 #import "ExchangeGoodsViewController.h"
 
-#import "ResetLabelViewController.h"
 #import "TPKeyboardAvoidingTableView.h"
 #import "Coding_NetAPIManager.h"
-#import "ProjectTag.h"
 #import "MBProgressHUD+Add.h"
 #import "ShopOrderTextFieldCell.h"
 #import "ShopGoodsInfoView.h"
@@ -291,6 +289,12 @@
             [NSObject showHudTipStr:@"密码不正确"];
         }
     }];
+}
+
+- (void)dealloc
+{
+    _myTableView.dataSource  = nil;
+    _myTableView.delegate = nil;
 }
 
 @end
