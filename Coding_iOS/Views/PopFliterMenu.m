@@ -79,7 +79,6 @@
         tableview.dataSource=self;
         [tableview registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
         tableview.tableFooterView=[UIView new];
-        tableview.rowHeight=50;
         tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
         tableview;
     });
@@ -174,10 +173,10 @@
             return kfirstRowNum;
             break;
         case 1:
-            return 2;
+            return 2+1;
             break;
         case 2:
-            return 1;
+            return 1+1;
             break;
         default:
             return 0;
@@ -196,19 +195,39 @@
         titleLab.textColor=(indexPath.row==_selectNum)?[UIColor colorWithHexString:@"0x3BBD79"]:[UIColor colorWithHexString:@"0x222222"];
         titleLab.text=[self formatTitleStr:[_items objectAtIndex:indexPath.row]];
     }else if (indexPath.section==1) {
-        titleLab.textColor=(indexPath.row+kfirstRowNum==_selectNum)?[UIColor colorWithHexString:@"0x3BBD79"]:[UIColor colorWithHexString:@"0x222222"];
-        titleLab.text=[self formatTitleStr:[_items objectAtIndex:3+indexPath.row]];
+        if(indexPath.row==0){
+            [titleLab removeFromSuperview];
+            UIView *seperatorLine=[[UIView alloc] initWithFrame:CGRectMake(20, 15, self.bounds.size.width-40, 0.5)];
+            seperatorLine.backgroundColor=[UIColor colorWithHexString:@"0xcccccc"];
+            [cell.contentView addSubview:seperatorLine];
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        }else{
+            titleLab.textColor=(indexPath.row+kfirstRowNum==_selectNum)?[UIColor colorWithHexString:@"0x3BBD79"]:[UIColor colorWithHexString:@"0x222222"];
+            titleLab.text=[self formatTitleStr:[_items objectAtIndex:3+indexPath.row-1]];
+        }
     }else
     {
-        [titleLab setX:45];
-        titleLab.textColor=[UIColor colorWithHexString:@"0x727f8d"];
-        titleLab.text=@"项目广场";
-        
-        UIImageView *projectSquareIcon=[[UIImageView alloc] initWithFrame:CGRectMake(20, 25-8, 16, 16)];
-        projectSquareIcon.image=[UIImage imageNamed:@"fliter_square"];
-        [cell.contentView addSubview:projectSquareIcon];
+        if(indexPath.row==0){
+            [titleLab removeFromSuperview];
+            UIView *seperatorLine=[[UIView alloc] initWithFrame:CGRectMake(20, 15, self.bounds.size.width-40, 0.5)];
+            seperatorLine.backgroundColor=[UIColor colorWithHexString:@"0xcccccc"];
+            [cell.contentView addSubview:seperatorLine];
+            cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        }else{
+            [titleLab setX:45];
+            titleLab.textColor=[UIColor colorWithHexString:@"0x727f8d"];
+            titleLab.text=@"项目广场";
+            
+            UIImageView *projectSquareIcon=[[UIImageView alloc] initWithFrame:CGRectMake(20, 25-8, 16, 16)];
+            projectSquareIcon.image=[UIImage imageNamed:@"fliter_square"];
+            [cell.contentView addSubview:projectSquareIcon];
+        }
     }
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return ((indexPath.row==0)&&(indexPath.section==1))||((indexPath.row==0)&&(indexPath.section==2))?30.5:50;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -218,36 +237,38 @@
         [self dismissMenu];
         _clickBlock([self convertToProjectType]);
     }else if (indexPath.section==1) {
-        _selectNum=indexPath.row+kfirstRowNum;
+        if(indexPath.row==0) return;
+        _selectNum=indexPath.row+kfirstRowNum-1;
         [self dismissMenu];
         _clickBlock([self convertToProjectType]);
     }else
     {
+        if(indexPath.row==0) return;
         _clickBlock(1000);
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if (section!=0) {
-        return ({
-                 UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 30.5)];
-                 UIView *seperatorLine=[[UIView alloc] initWithFrame:CGRectMake(20, 15, self.bounds.size.width-40, 0.5)];
-                 seperatorLine.backgroundColor=[UIColor colorWithHexString:@"0xcccccc"];
-                 [view addSubview:seperatorLine];
-                 view;
-        });
-    }else
-    {
-        return nil;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return (section!=0)?30.5:0;
-}
-
+//- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    if (section!=0) {
+//        return ({
+//                 UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 30.5)];
+//                 UIView *seperatorLine=[[UIView alloc] initWithFrame:CGRectMake(20, 15, self.bounds.size.width-40, 0.5)];
+//                 seperatorLine.backgroundColor=[UIColor colorWithHexString:@"0xcccccc"];
+//                 [view addSubview:seperatorLine];
+//                 view;
+//        });
+//    }else
+//    {
+//        return nil;
+//    }
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return (section!=0)?30.5:0;
+//}
+//
 
 @end
