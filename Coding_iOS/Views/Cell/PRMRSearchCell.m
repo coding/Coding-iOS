@@ -177,7 +177,7 @@
         fromStr = [NSString stringWithFormat:@"  %@  ", _curMRPR.source_branch];
         toStr = [NSString stringWithFormat:@"  %@  ", _curMRPR.target_branch];
     }else{
-        fromStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPR.src_owner_name, _curMRPR.source_branch];
+        fromStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPR.author.name, _curMRPR.source_branch];
         toStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPR.des_owner_name, _curMRPR.target_branch];
     }
     NSString *totalStr = [NSString stringWithFormat:@"%@%@", fromStr, toStr];

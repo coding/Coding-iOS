@@ -197,6 +197,7 @@
         _searchHistoryView = [[UIScrollView alloc] init];
         _searchHistoryView.backgroundColor = [UIColor clearColor];
         [_contentView addSubview:_searchHistoryView];
+        self.searchBar.delegate=self;
         
     }
     
@@ -920,6 +921,11 @@
     }else if(_curSearchType==eSearchType_Pull){
         [self goToMRDetail:_dateSource[indexPath.row]];
     }
+}
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
+//    [self setActive:TRUE];
+    return TRUE;
 }
 
 @end

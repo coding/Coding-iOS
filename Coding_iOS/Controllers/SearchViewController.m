@@ -71,7 +71,7 @@
     
     //添加搜索框
     _mySearchBar = ({
-        CategorySearchBar *searchBar = [[CategorySearchBar alloc] initWithFrame:CGRectMake(20,7, kScreen_Width-75, 30)];
+        CategorySearchBar *searchBar = [[CategorySearchBar alloc] initWithFrame:CGRectMake(20,7, kScreen_Width-75, 31)];
         searchBar.layer.cornerRadius=15;
         searchBar.layer.masksToBounds=TRUE;
         [searchBar.layer setBorderWidth:8];
@@ -121,7 +121,7 @@
             AllSearchDisplayVC *searchVC = [[AllSearchDisplayVC alloc] initWithSearchBar:_mySearchBar contentsController:self];
             //自定义uisearchbar 要在这里重新申明
             //需要重新调整下大小
-            searchVC.searchBar.frame=CGRectMake(20,7, kScreen_Width-75, 30);
+            searchVC.searchBar.frame=CGRectMake(20,7, kScreen_Width-75, 31);
             searchVC.searchBar.layer.cornerRadius=15;
             searchVC.searchBar.layer.masksToBounds=TRUE;
             [searchVC.searchBar.layer setBorderWidth:8];
