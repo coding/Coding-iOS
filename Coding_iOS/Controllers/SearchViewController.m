@@ -106,7 +106,8 @@
         }else{
             [weakSelf.mySearchBar resignFirstResponder];
             [KxMenu setTitleFont:[UIFont systemFontOfSize:14]];
-            [KxMenu setTintColor:[UIColor blackColor]];
+//            [KxMenu setTintColor:[UIColor colorWithHexString:@"0x28303B" andAlpha:0.9]];
+            [KxMenu setTintColor:[UIColor colorWithHexString:@"0x28303B"]];
             [KxMenu setOverlayColor:[UIColor clearColor]];
             
             CGRect senderFrame = CGRectMake(weakSelf.searchView.frame.origin.x+50, 64, 0, 0);

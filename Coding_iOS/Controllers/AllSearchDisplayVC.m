@@ -532,28 +532,60 @@
     NSString *titleStr;
     switch (_curSearchType) {
         case eSearchType_Project:
-            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的项目", [_searchPros.projects.totalRow longValue],self.searchBar.text];
+            if ([_searchPros.projects.totalRow longValue]==0) {
+                titleStr=nil;
+            }else{
+                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的项目", [_searchPros.projects.totalRow longValue],self.searchBar.text];
+            }
             break;
         case eSearchType_Tweet:
-            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的冒泡", [_searchPros.tweets.totalRow longValue],self.searchBar.text];
+            if ([_searchPros.tweets.totalRow longValue]==0) {
+                titleStr=nil;
+            }else{
+                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的冒泡", [_searchPros.tweets.totalRow longValue],self.searchBar.text];
+            }
             break;
         case eSearchType_Document:
-            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的文档", [_searchPros.files.totalRow longValue],self.searchBar.text];
+            if ([_searchPros.files.totalRow longValue]==0) {
+                titleStr=nil;
+            }else{
+                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的文档", [_searchPros.files.totalRow longValue],self.searchBar.text];
+            }
             break;
         case eSearchType_User:
-            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的用户", [_searchPros.friends.totalRow longValue],self.searchBar.text];
+            if ([_searchPros.friends.totalRow longValue]==0) {
+                titleStr=nil;
+            }else{
+                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的用户", [_searchPros.friends.totalRow longValue],self.searchBar.text];
+            }
             break;
         case eSearchType_Task:
-            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的任务", [_searchPros.tasks.totalRow longValue],self.searchBar.text];
+            if ([_searchPros.tasks.totalRow longValue]==0) {
+                titleStr=nil;
+            }else{
+                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的任务", [_searchPros.tasks.totalRow longValue],self.searchBar.text];
+            }
             break;
         case eSearchType_Topic:
-            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的讨论", [_searchPros.project_topics.totalRow longValue],self.searchBar.text];
+            if ([_searchPros.project_topics.totalRow longValue]==0) {
+                titleStr=nil;
+            }else{
+                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的讨论", [_searchPros.project_topics.totalRow longValue],self.searchBar.text];
+            }
             break;
         case eSearchType_Merge:
-            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的合并请求", [_searchPros.merge_requests.totalRow longValue],self.searchBar.text];
+            if ([_searchPros.merge_requests.totalRow longValue]==0) {
+                titleStr=nil;
+            }else{
+                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的合并请求", [_searchPros.merge_requests.totalRow longValue],self.searchBar.text];
+            }
             break;
         case eSearchType_Pull:
-            titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的pull请求", [_searchPros.pull_requests.totalRow longValue],self.searchBar.text];
+            if ([_searchPros.pull_requests.totalRow longValue]==0) {
+                titleStr=nil;
+            }else{
+                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的pull请求", [_searchPros.pull_requests.totalRow longValue],self.searchBar.text];
+            }
             break;
         default:
             break;
