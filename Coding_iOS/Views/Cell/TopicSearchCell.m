@@ -5,12 +5,15 @@
 //  Created by jwill on 15/11/23.
 //  Copyright © 2015年 Coding. All rights reserved.
 //
+
+#define kBaseCellHeight 86
+#define kDetialContentMaxHeight 36
+
 #define kProjectTopicCell_PadingLeft 55.0
-#define kProjectTopicCell_PadingRight 30.0
+#define kProjectTopicCell_PadingRight 15.0
 
 #define kProjectTopicCell_ContentWidth (kScreen_Width - kProjectTopicCell_PadingLeft - kProjectTopicCell_PadingRight)
-#define kProjectTopicCell_ContentHeightMax 40.0
-#define kProjectTopicCell_ContentFont [UIFont systemFontOfSize:16]
+#define kProjectTopicCell_ContentFont [UIFont systemFontOfSize:15]
 #define kInnerHorizonOffset 12
 
 #import "TopicSearchCell.h"
@@ -30,7 +33,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        self.accessoryType = UITableViewCellAccessoryNone;
         self.backgroundColor = [UIColor clearColor];
         if (!_userIconView) {
             _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 18, 40, 40)];
@@ -94,13 +97,6 @@
         }
         
         
-        [_describeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.titleLabel.mas_bottom).offset(10);
-            make.left.equalTo(self.userIconView.mas_right).offset(kInnerHorizonOffset);
-            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
-            make.height.mas_equalTo(40);
-        }];
-        
         [_numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.contentView).offset(-10);
             make.left.equalTo(self.userIconView.mas_right).offset(kInnerHorizonOffset);
@@ -144,7 +140,7 @@
 //    [_titleLabel setLongString:_curTopic.title withFitWidth:kProjectTopicCell_ContentWidth maxHeight:kProjectTopicCell_ContentHeightMax];
     _titleLabel.attributedText=[NSString getAttributeFromText:[_curTopic.title stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
     
-    CGFloat curBottomY = 12 + [_curTopic.title getHeightWithFont:kProjectTopicCell_ContentFont constrainedToSize:CGSizeMake(kProjectTopicCell_ContentWidth, kProjectTopicCell_ContentHeightMax)] + 12;
+    CGFloat curBottomY = 12 + [_curTopic.title getHeightWithFont:kProjectTopicCell_ContentFont constrainedToSize:CGSizeMake(kProjectTopicCell_ContentWidth, [TopicSearchCell contentLabelHeightWithProjectTopic:_curTopic])] + 12;
     CGFloat curRightX = kProjectTopicCell_PadingLeft;
     
     [_numLabel setOrigin:CGPointMake(curRightX, curBottomY)];
@@ -168,19 +164,28 @@
     _commentCountLabel.text = _curTopic.child_count.stringValue;
     [_commentCountLabel sizeToFit];
     
+    [_describeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(10);
+        make.left.equalTo(self.userIconView.mas_right).offset(kInnerHorizonOffset);
+        make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+        make.height.mas_equalTo([TopicSearchCell contentLabelHeightWithProjectTopic:_curTopic]);
+    }];
+
     NSString *content=[_curTopic.contentStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     _describeLabel.attributedText=[NSString getAttributeFromText:[content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
 }
 
-//+(CGFloat)cellHeightWithObj:(id)aObj{
-//    CGFloat cellHeight = 0;
-//    if ([aObj isKindOfClass:[ProjectTopic class]]) {
-//        ProjectTopic *curTopic = (ProjectTopic *)aObj;
-//        cellHeight += 12 + [curTopic.title getHeightWithFont:kProjectTopicCell_ContentFont constrainedToSize:CGSizeMake(kProjectTopicCell_ContentWidth, kProjectTopicCell_ContentHeightMax)] + 12;
-//        cellHeight += 15 + 12;
-//    }
-//    return cellHeight;
-//}
++ (CGFloat)cellHeightWithObj:(id)obj {
+    ProjectTopic *topic = (ProjectTopic *)obj;
+    return kBaseCellHeight+[TopicSearchCell contentLabelHeightWithProjectTopic:topic];
+}
+
++ (CGFloat)contentLabelHeightWithProjectTopic:(ProjectTopic *)topic{
+    NSString *content=[topic.contentStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    NSString *realContent=[NSString getStr:content removeEmphasize:@"em"];
+    CGFloat realheight = [realContent getHeightWithFont:kProjectTopicCell_ContentFont constrainedToSize:CGSizeMake(kProjectTopicCell_ContentWidth, 1000)];
+    return MIN(realheight, kDetialContentMaxHeight);
+}
 
 @end
 

@@ -6,6 +6,10 @@
 //  Copyright © 2015年 Coding. All rights reserved.
 //
 
+#define kBaseCellHeight 86
+#define kDetialContentMaxHeight 36
+
+
 #define kProjectTaskListViewCell_LeftPading 93.0
 #define kProjectTaskListViewCell_RightPading 10.0
 #define kProjectTaskListViewCell_UserIconWidth 40.0
@@ -118,48 +122,48 @@
             make.height.mas_equalTo(20);
         }];
         
-        [_describeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.contentLabel.mas_bottom).offset(10);
-            make.left.equalTo(self.userIconView.mas_right).offset(kInnerHorizonOffset);
-            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
-            make.height.mas_equalTo(40);
-        }];
-
         [_numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.contentView).offset(-10);
             make.left.equalTo(self.userIconView.mas_right).offset(kInnerHorizonOffset);
             make.height.mas_equalTo(15);
         }];
+        
         [_userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.numLabel.mas_right).offset(5);
             make.centerY.equalTo(self.numLabel);
             make.height.mas_equalTo(15);
         }];
+        
         [_timeClockIconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.userNameLabel.mas_right).offset(10);
             make.centerY.equalTo(self.userNameLabel);
             make.size.mas_equalTo(CGSizeMake(12, 12));
         }];
+        
         [_timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.timeClockIconView.mas_right).offset(5);
             make.centerY.equalTo(self.userNameLabel);
             make.height.mas_equalTo(15);
         }];
+        
         [_commentIconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.timeLabel.mas_right).offset(10);
             make.centerY.equalTo(self.userNameLabel);
             make.size.mas_equalTo(CGSizeMake(12, 12));
         }];
+        
         [_commentCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.commentIconView.mas_right).offset(5);
             make.centerY.equalTo(self.userNameLabel);
             make.height.mas_equalTo(15);
         }];
+        
         [_mdIconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.commentCountLabel.mas_right).offset(10);
             make.centerY.equalTo(self.userNameLabel);
             make.size.mas_equalTo(CGSizeMake(12, 12));
         }];
+        
         [_mdLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.mdIconView.mas_right).offset(5);
             make.centerY.equalTo(self.userNameLabel);
@@ -176,8 +180,14 @@
         return;
     }
     [_userIconView sd_setImageWithURL:[_task.owner.avatar urlImageWithCodePathResize:2*kProjectTaskListViewCell_UserIconWidth] placeholderImage:kPlaceholderMonkeyRoundWidth(kProjectTaskListViewCell_UserIconWidth)];
-    
     _contentLabel.attributedText=[NSString getAttributeFromText:[_task.content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
+
+    [_describeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentLabel.mas_bottom).offset(10);
+        make.left.equalTo(self.userIconView.mas_right).offset(kInnerHorizonOffset);
+        make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+        make.height.mas_equalTo([TaskSearchCell contentLabelHeightWithProjectTopic:_task]);
+    }];
 
     //Bottom
     _numLabel.text = [NSString stringWithFormat:@"#%@", _task.resource_id.stringValue];
@@ -187,6 +197,20 @@
     _mdIconView.hidden = _mdLabel.hidden = !_task.has_description.boolValue;
     _describeLabel.attributedText=[NSString getAttributeFromText:[_task.descript stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] emphasizeTag:@"em" emphasizeColor:[UIColor colorWithHexString:@"0xE84D60"]];
 }
+
+
++ (CGFloat)cellHeightWithObj:(id)obj {
+    Task *task = (Task *)obj;
+    return kBaseCellHeight+[TaskSearchCell contentLabelHeightWithProjectTopic:task];
+}
+
++ (CGFloat)contentLabelHeightWithProjectTopic:(Task *)task{
+    NSString *realContent=[NSString getStr:task.descript removeEmphasize:@"em"];
+    CGFloat realheight = [realContent getHeightWithFont:kProjectTaskListViewCell_ContentFont constrainedToSize:CGSizeMake(kProjectTaskListViewCell_ContentWidth, 1000)];
+    return MIN(realheight, kDetialContentMaxHeight);
+}
+
+
 
 @end
 

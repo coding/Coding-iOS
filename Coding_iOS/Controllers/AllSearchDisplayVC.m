@@ -725,7 +725,6 @@
                     Task *curTask=[resultA objectAtIndex:i];
                     if ([resultTask count]>i) {
                         curTask.descript= [[[resultTask objectAtIndex:i] objectForKey:@"description"] firstObject];
-                        NSLog(@"%@",curTask.description_mine);
                     }
                 }
 
@@ -763,6 +762,16 @@
             if(data) {
                 NSDictionary *dataDic = (NSDictionary *)data;
                 NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"ProjectTopic"];
+                
+                //topic 处理 content 关键字
+                NSArray *resultTopic =dataDic[@"list"];
+                for (int i=0;i<[resultA count];i++) {
+                    ProjectTopic *curTopic=[resultA objectAtIndex:i];
+                    if ([resultTopic count]>i) {
+                        curTopic.contentStr= [[[resultTopic objectAtIndex:i] objectForKey:@"content"] firstObject];
+                    }
+                }
+                
                 [weakSelf.searchPros.project_topics.list addObjectsFromArray:resultA];
                 //更新page
                 weakSelf.searchPros.project_topics.page = dataDic[@"page"] ;
@@ -922,9 +931,11 @@
     }else if(_curSearchType==eSearchType_User){
         return kUserSearchCellHeight;
     }else if(_curSearchType==eSearchType_Task){
-        return kTaskSearchCellHeight;
+        Task *task = _dateSource[indexPath.row];
+        return [TaskSearchCell cellHeightWithObj:task];
     }else if(_curSearchType==eSearchType_Topic){
-        return kTopicSearchCellHeight;
+        ProjectTopic *topic = _dateSource[indexPath.row];
+        return [TopicSearchCell cellHeightWithObj:topic];
     }else if (_curSearchType==eSearchType_Pull){
         MRPR *mrpr = _dateSource[indexPath.row];
         return [PRMRSearchCell cellHeightWithObj:mrpr];

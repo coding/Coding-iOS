@@ -80,7 +80,7 @@
         [searchBar setTintColor:[UIColor whiteColor]];
         [searchBar insertBGColor:[UIColor colorWithHexString:@"0xffffff"]];
 //        [searchBar setImage:nil forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-//        [searchBar setPositionAdjustment:UIOffsetMake(-10,0) forSearchBarIcon:UISearchBarIconSearch];
+//        [searchBar setPositionAdjustment:UIOffsetMake(10,0) forSearchBarIcon:UISearchBarIconClear];
 //        searchBar.searchTextPositionAdjustment=UIOffsetMake(10,0);
         [searchBar setHeight:30];
         searchBar;

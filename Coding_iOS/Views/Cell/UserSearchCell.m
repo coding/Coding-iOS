@@ -48,7 +48,8 @@
             [self.contentView addSubview:_userNameLabel];
         }
         if (!_rightBtn) {
-            _rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 80-10, (kUserSearchCellHeight-40)/2-3, 60, 25)];
+            _rightBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+            _rightBtn.frame=CGRectMake(kScreen_Width - 80-10, kUserSearchCellHeight/2-16, 80, 32);
             [_rightBtn addTarget:self action:@selector(rightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
             [_rightBtn setBackgroundImage:[UIImage imageNamed:@"btn_privateMsg_stranger"] forState:UIControlStateNormal];
             [_rightBtn setBackgroundColor:[UIColor clearColor]];

@@ -23,7 +23,7 @@
     //找到输入框  右移
     UITextField *searchField=[[[[self subviews] firstObject] subviews] lastObject];
     searchField.textAlignment=NSTextAlignmentLeft;
-    [searchField setFrame:CGRectMake(58,4.8,225,22)];
+    [searchField setFrame:CGRectMake(53,4.8,self.frame.size.width-55,22)];
     //
     [(UIImageView*)searchField.leftView setFrame:CGRectZero];
 }
@@ -37,7 +37,7 @@
 -(UIButton*)categoryBtn{
     if (!_categoryBtn) {
         _categoryBtn=[UIButton new];
-        _categoryBtn.frame=CGRectMake(15, 0, 40, 31);
+        _categoryBtn.frame=CGRectMake(5, 0, 40, 31);
         [_categoryBtn addTarget:self action:@selector(selectCategoryAction) forControlEvents:UIControlEventTouchUpInside];
         _categoryBtn.titleLabel.font=[UIFont systemFontOfSize:12];
         [_categoryBtn setTitleColor:[UIColor colorWithHexString:@"0x666666"] forState:UIControlStateNormal];
@@ -48,7 +48,7 @@
 
 -(UIButton*)iconBtn{
     if (!_iconBtn) {
-        _iconBtn=[[UIButton alloc] initWithFrame:CGRectMake(50, 11, 8, 8)];
+        _iconBtn=[[UIButton alloc] initWithFrame:CGRectMake(45, 11, 8, 8)];
         [_iconBtn addTarget:self action:@selector(selectCategoryAction) forControlEvents:UIControlEventTouchUpInside];
         [_iconBtn setBackgroundImage:[UIImage imageNamed:@"btn_fliter_down"] forState:UIControlStateNormal];
     }

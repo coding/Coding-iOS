@@ -7,7 +7,7 @@
 //
 
 #define kFileListFileCell_IconWidth 45.0
-#define kFileListFileCell_LeftPading (kPaddingLeftWidth +kFileListFileCell_IconWidth +12.0)
+#define kFileListFileCell_LeftPading (kPaddingLeftWidth +kFileListFileCell_IconWidth +17.0)
 #define kFileListFileCell_TopPading 10.0
 
 
@@ -16,7 +16,7 @@
 #import "NSString+Attribute.h"
 
 @interface FileSearchCell ()
-@property (strong, nonatomic) UIImageView *iconView;
+@property (strong, nonatomic) YLImageView *iconView;
 @property (strong, nonatomic) UILabel *nameLabel, *infoLabel, *sizeLabel;
 @end
 
