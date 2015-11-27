@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.3</string>
+	<string>3.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3.3.20151019190000</string>
+	<string>3.5.102511201600</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>wechat</string>
@@ -70,6 +70,7 @@
 		<string>mqzoneopensdkapi</string>
 		<string>mqzoneopensdk</string>
 		<string>evernote</string>
+		<string>mart-coding-net</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

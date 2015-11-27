@@ -26,7 +26,7 @@
 
 @implementation CodingTipCell
 
-static CGFloat user_icon_width = 35.0;
+//static CGFloat user_icon_width = 35.0;
 static CGFloat padding_height = 45;
 static CGFloat padding_left = 30.0;
 static CGFloat padding_between_content = 15.0;
@@ -123,6 +123,7 @@ static CGFloat target_height = 45.0;
 //    NSString *username_first = pinyin.length > 0? [[pinyin substringToIndex:1] uppercaseString]: @"C";
 //    _ownerL.text = username_first;
     //owner姓名
+    [self.ownerNameBtn setTitleColor:[UIColor colorWithHexString:curTip.user_item.type != HtmlMediaItemType_CustomLink? @"0x3bbd79": @"0x222222"] forState:UIControlStateNormal];
     [self.ownerNameBtn setUserTitle:userName font:[UIFont systemFontOfSize:17] maxWidth:(kCodingTipCell_WidthContent -80)];
     //时间
 //    _timeLabel.text = _curTip.target_type;
@@ -139,8 +140,7 @@ static CGFloat target_height = 45.0;
     if (_curTip.target_item) {
         _targetBgBtn.hidden = NO;
         CGFloat curBottomY = padding_height;
-        curBottomY += [_curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)];
-        curBottomY += padding_between_content;
+        curBottomY += _curTip.content.length > 0? [_curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] + padding_between_content: 0;;
         
         [_targetIconView setBackgroundColor:[UIColor colorWithHexString:_curTip.target_type_ColorName]];
         [_targetIconView setImage:[UIImage imageNamed:_curTip.target_type_imageName]];
@@ -150,7 +150,6 @@ static CGFloat target_height = 45.0;
         _targetBgBtn.hidden = YES;
     }
     //unread
-//    [self.contentView addBadgeTip:_curTip.status.boolValue? @"": kBadgeTipStr withCenterPosition:CGPointMake(_ownerImgView.center.x, CGRectGetMaxY(_ownerImgView.frame) + 10)];
     [self.contentView addBadgeTip:_curTip.status.boolValue? @"": kBadgeTipStr withCenterPosition:CGPointMake(kPaddingLeftWidth + 4.0, _ownerNameBtn.center.y)];
 }
 
@@ -169,7 +168,8 @@ static CGFloat target_height = 45.0;
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[CodingTip class]]) {
         CodingTip *curTip = (CodingTip *)obj;
-        cellHeight = padding_height + [curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] + padding_between_content;
+        cellHeight = padding_height;
+        cellHeight += curTip.content.length > 0? [curTip.content getHeightWithFont:kCodingTipCell_FontContent constrainedToSize:CGSizeMake(kCodingTipCell_WidthContent, CGFLOAT_MAX)] + padding_between_content: 0;
         if (curTip.target_item) {
             cellHeight += target_height + padding_between_content;
         }

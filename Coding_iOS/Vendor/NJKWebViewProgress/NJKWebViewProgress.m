@@ -7,11 +7,15 @@
 
 #import "NJKWebViewProgress.h"
 
-NSString *completeRPCURL = @"webviewprogressproxy:///complete";
+NSString *completeRPCURLPath = @"/njkwebviewprogressproxy/complete";
 
 const float NJKInitialProgressValue = 0.1f;
 const float NJKInteractiveProgressValue = 0.5f;
 const float NJKFinalProgressValue = 0.9f;
+
+@interface NJKWebViewProgress ()
+@property (strong, nonatomic) NSTimer *timer;
+@end
 
 @implementation NJKWebViewProgress
 {
@@ -35,6 +39,7 @@ const float NJKFinalProgressValue = 0.9f;
 {
     if (_progress < NJKInitialProgressValue) {
         [self setProgress:NJKInitialProgressValue];
+        [self startUpTimer];
     }
 }
 
@@ -52,6 +57,7 @@ const float NJKFinalProgressValue = 0.9f;
 - (void)completeProgress
 {
     [self setProgress:1.0];
+    [self invalidateTimer];
 }
 
 - (void)setProgress:(float)progress
@@ -75,12 +81,33 @@ const float NJKFinalProgressValue = 0.9f;
     [self setProgress:0.0];
 }
 
-#pragma mark -
+#pragma mark timer
+- (void)startUpTimer{
+    NSTimeInterval timeStep = 0.1;
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:timeStep
+                                                  target:self
+                                                selector:@selector(timerStep:)
+                                                userInfo:nil
+                                                 repeats:YES];
+}
+
+- (void)invalidateTimer{
+    [self.timer invalidate];
+    self.timer = nil;
+}
+
+- (void)timerStep:(NSTimer *)timer {
+    static float progressStep = 0.02;
+    if (_progress + progressStep <= NJKFinalProgressValue) {
+        self.progress += progressStep;
+    }
+}
+
 #pragma mark UIWebViewDelegate
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    if ([request.URL.absoluteString isEqualToString:completeRPCURL]) {
+    if ([request.URL.path isEqualToString:completeRPCURLPath]) {
         [self completeProgress];
         return NO;
     }
@@ -98,9 +125,8 @@ const float NJKFinalProgressValue = 0.9f;
 
     BOOL isTopLevelNavigation = [request.mainDocumentURL isEqual:request.URL];
 
-    BOOL isHTTP = [request.URL.scheme isEqualToString:@"http"] || [request.URL.scheme isEqualToString:@"https"];
-    BOOL isFile = [request.URL.scheme isEqualToString:@"file"];//easeeeeeeeee modify
-    if (ret && !isFragmentJump && (isHTTP || isFile) && isTopLevelNavigation) {
+    BOOL isHTTPOrLocalFile = [request.URL.scheme isEqualToString:@"http"] || [request.URL.scheme isEqualToString:@"https"] || [request.URL.scheme isEqualToString:@"file"];
+    if (ret && !isFragmentJump && isHTTPOrLocalFile && isTopLevelNavigation) {
         _currentURL = request.URL;
         [self reset];
     }
@@ -133,7 +159,7 @@ const float NJKFinalProgressValue = 0.9f;
     BOOL interactive = [readyState isEqualToString:@"interactive"];
     if (interactive) {
         _interactive = YES;
-        NSString *waitForCompleteJS = [NSString stringWithFormat:@"window.addEventListener('load',function() { var iframe = document.createElement('iframe'); iframe.style.display = 'none'; iframe.src = '%@'; document.body.appendChild(iframe);  }, false);", completeRPCURL];
+        NSString *waitForCompleteJS = [NSString stringWithFormat:@"window.addEventListener('load',function() { var iframe = document.createElement('iframe'); iframe.style.display = 'none'; iframe.src = '%@://%@%@'; document.body.appendChild(iframe);  }, false);", webView.request.mainDocumentURL.scheme, webView.request.mainDocumentURL.host, completeRPCURLPath];
         [webView stringByEvaluatingJavaScriptFromString:waitForCompleteJS];
     }
     
@@ -158,14 +184,13 @@ const float NJKFinalProgressValue = 0.9f;
     BOOL interactive = [readyState isEqualToString:@"interactive"];
     if (interactive) {
         _interactive = YES;
-        NSString *waitForCompleteJS = [NSString stringWithFormat:@"window.addEventListener('load',function() { var iframe = document.createElement('iframe'); iframe.style.display = 'none'; iframe.src = '%@'; document.body.appendChild(iframe);  }, false);", completeRPCURL];
+        NSString *waitForCompleteJS = [NSString stringWithFormat:@"window.addEventListener('load',function() { var iframe = document.createElement('iframe'); iframe.style.display = 'none'; iframe.src = '%@://%@%@'; document.body.appendChild(iframe);  }, false);", webView.request.mainDocumentURL.scheme, webView.request.mainDocumentURL.host, completeRPCURLPath];
         [webView stringByEvaluatingJavaScriptFromString:waitForCompleteJS];
     }
     
     BOOL isNotRedirect = _currentURL && [_currentURL isEqual:webView.request.mainDocumentURL];
     BOOL complete = [readyState isEqualToString:@"complete"];
-    BOOL mainDocumentURLNotExist = !webView.request.mainDocumentURL;
-    if ((complete && isNotRedirect) || mainDocumentURLNotExist) {
+    if ((complete && isNotRedirect) || error) {
         [self completeProgress];
     }
 }

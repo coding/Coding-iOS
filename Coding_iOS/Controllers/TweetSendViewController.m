@@ -19,10 +19,33 @@
 
 @interface TweetSendViewController ()<UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, QBImagePickerControllerDelegate, UIScrollViewDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
-@property (strong, nonatomic) Tweet *curTweet;;
 @end
 
 @implementation TweetSendViewController
+
++ (instancetype)presentWithParams:(NSDictionary *)params{
+    NSString *callback, *content;
+    BOOL has_image_in_pasteboard;
+    UIImage *image;
+
+    callback = params[@"callback"];
+    content = [params[@"content"] URLDecoding];
+    has_image_in_pasteboard = [params[@"has_image_in_pasteboard"] boolValue];
+    if (has_image_in_pasteboard) {
+        image = [UIPasteboard generalPasteboard].image;
+    }
+    
+    Tweet *curTweet = [Tweet new];
+    curTweet.callback = callback;
+    curTweet.tweetContent = content;
+    if (image) {
+        curTweet.tweetImages = @[[TweetImage tweetImageWithAssetURL:nil andImage:image]].mutableCopy;
+    }
+    TweetSendViewController *vc = [TweetSendViewController new];
+    vc.curTweet = curTweet;
+    [BaseViewController presentVC:vc];
+    return vc;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -37,8 +60,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _curTweet = [Tweet tweetForSend];
-    _locationData = _curTweet.locationData;
+    if (!_curTweet) {
+        _curTweet = [Tweet tweetForSend];
+        _locationData = _curTweet.locationData;
+    }
 
     [self.navigationItem setLeftBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"取消" target:self action:@selector(cancelBtnClicked:)] animated:YES];
     
@@ -226,9 +251,11 @@
 
 #pragma mark Nav Btn M
 - (void)cancelBtnClicked:(id)sender{
-    if ([self isEmptyTweet] && !_curTweet.locationData) {//有位置
+    if (_curTweet.callback) {
+        [self handleCallBack:_curTweet.callback status:NO];
+    }else if ([self isEmptyTweet] && !_curTweet.locationData) {//有位置
         [Tweet deleteSendData];
-        [self dismissSelf];
+        [self dismissSelfWithCompletion:nil];
     }else{
         __weak typeof(self) weakSelf = self;
         [[UIActionSheet bk_actionSheetCustomWithTitle:@"是否保存草稿" buttonTitles:@[@"保存"] destructiveTitle:@"不保存" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
@@ -239,18 +266,36 @@
             }else{
                 return ;
             }
-            [weakSelf dismissSelf];
+            [weakSelf dismissSelfWithCompletion:nil];
         }] showInView:self.view];
     }
 }
 
-- (void)dismissSelf{
+- (void)dismissSelfWithCompletion:(void (^)(void))completion{
     [self.view endEditing:YES];
     TweetSendTextCell *cell = (TweetSendTextCell *)[self.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     if (cell.footerToolBar) {
         [cell.footerToolBar removeFromSuperview];
     }
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:completion];
+}
+
+- (void)handleCallBack:(NSString *)callback status:(BOOL)handleStatus{
+    NSString *schemeStr = [NSString stringWithFormat:@"%@://coding.net?type=%@&handle_result=%@", callback, @"handle_result", handleStatus? @(1): @(0)];
+    if (handleStatus) {//弹出提示给用户选择
+        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"已发送" message:@"是否需要返回原来应用？"];
+        [alertV bk_setCancelButtonWithTitle:@"返回原应用" handler:nil];
+        [alertV bk_addButtonWithTitle:@"留在 Coding" handler:nil];
+        alertV.bk_didDismissBlock = ^(UIAlertView *alertView, NSInteger buttonIndex){
+            if (buttonIndex == 0) {//
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:schemeStr]];
+            }
+        };
+        [alertV show];
+    }else{//直接返回
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:schemeStr]];
+        [self dismissSelfWithCompletion:nil];
+    }
 }
 
 - (BOOL)isEmptyTweet{
@@ -267,8 +312,22 @@
     _curTweet.tweetContent = [_curTweet.tweetContent aliasedString];
     if (_sendNextTweet) {
         _sendNextTweet(_curTweet);
+    }else{
+        [self sendTweetToServer];//自己处理发送请求
     }
-    [self dismissSelf];
+    
+    __weak typeof(self) weakSelf = self;
+    [self dismissSelfWithCompletion:^{
+        if (weakSelf.curTweet.callback) {
+            [weakSelf handleCallBack:weakSelf.curTweet.callback status:YES];
+        }
+    }];
+}
+
+- (void)sendTweetToServer{
+    [[Coding_NetAPIManager sharedManager] request_Tweet_DoTweet_WithObj:_curTweet andBlock:^(id data, NSError *error) {
+        //自己处理发送请求，不做后续操作
+    }];
 }
 
 - (void)enableNavItem:(BOOL)isEnable{

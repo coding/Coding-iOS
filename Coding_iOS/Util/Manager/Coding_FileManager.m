@@ -157,7 +157,7 @@
                                        storage_key:(NSString *)storage_key
                                completionHandler:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionHandler{
     
-    [MobClick endEvent:kUmeng_Event_Request_ActionOfServer label:@"下载文件"];
+    [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"下载文件"];
     
     NSProgress *progress;
     NSURL *downloadURL = [NSURL URLWithString:downloadPath];
@@ -265,7 +265,7 @@
         [formData appendPartWithFileURL:filePathUrl name:@"file" fileName:name mimeType:@"image/jpeg, image/png, image/gif" error:nil];
     } error:nil];
     
-    [MobClick endEvent:kUmeng_Event_Request_ActionOfServer label:@"上传文件"];
+    [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"上传文件"];
     
     NSProgress *progress = nil;
     NSURLSessionUploadTask *uploadTask = [self.af_manager uploadTaskWithStreamedRequest:request progress:&progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {

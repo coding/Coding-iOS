@@ -69,6 +69,7 @@
             _contentLabel.font = kTaskCommentCell_FontContent;
             _contentLabel.linkAttributes = kLinkAttributes;
             _contentLabel.activeLinkAttributes = kLinkAttributesActive;
+            [_contentLabel addLongPressForCopy];
             [self.contentView addSubview:_contentLabel];
         }
         if (!_timeLabel) {

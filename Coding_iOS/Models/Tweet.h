@@ -26,10 +26,11 @@
 @property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;
 @property (nonatomic,strong) TweetSendLocationResponse *locationData;
 
-@property (readonly, nonatomic, strong) NSMutableArray *tweetImages;
+@property (readwrite, nonatomic, strong) NSMutableArray *tweetImages;//对 selectedAssetURLs 操作即可，最好不要直接赋值。。应用跳转带的图片会直接对 tweetImages赋值
 @property (readwrite, nonatomic, strong) NSMutableArray *selectedAssetURLs;
 @property (readwrite, nonatomic, strong) NSString *tweetContent;
 @property (readwrite, nonatomic, strong) NSString *nextCommentStr;
+@property (strong, nonatomic) NSString *callback;
 @property (assign, nonatomic) CGFloat contentHeight;
 
 @property (strong, nonatomic) NSString *user_global_key;

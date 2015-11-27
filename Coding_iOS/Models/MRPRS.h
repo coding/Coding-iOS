@@ -10,14 +10,8 @@
 #import "MRPR.h"
 
 typedef NS_ENUM(NSInteger, MRPRSType) {
-//    MRPRSTypeMRAll = 0,
-//    MRPRSTypeMROpen,
-//    MRPRSTypeMRClose,
-//    MRPRSTypePRAll,
-//    MRPRSTypePROpen,
-//    MRPRSTypePRClose,
-    
-    MRPRSTypeMRMine = 0,
+    MRPRSTypeMRAll = 0,
+    MRPRSTypeMRMine,
     MRPRSTypeMRReview,
     MRPRSTypeMROther,
     MRPRSTypePR,

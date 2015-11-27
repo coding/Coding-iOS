@@ -69,6 +69,13 @@ static User *curLoginUser;
 }
 
 + (void)doLogin:(NSDictionary *)loginData{
+    
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"cookies : %@", obj.description);
+    }];
+    
+    
     if (loginData) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:[NSNumber numberWithBool:YES] forKey:kLoginStatus];
@@ -142,9 +149,15 @@ static User *curLoginUser;
 + (void)doLogout{
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:kLoginStatus];
     [defaults synchronize];
+    //删掉 coding 的 cookie
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.domain hasSuffix:@".coding.net"]) {
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:obj];
+        }
+    }];
     [Login setXGAccountWithCurUser];
 }
 
