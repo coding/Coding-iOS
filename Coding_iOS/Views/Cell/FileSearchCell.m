@@ -16,7 +16,7 @@
 #import "NSString+Attribute.h"
 
 @interface FileSearchCell ()
-@property (strong, nonatomic) YLImageView *iconView;
+@property (strong, nonatomic) UIImageView *iconView;
 @property (strong, nonatomic) UILabel *nameLabel, *infoLabel, *sizeLabel;
 @end
 
@@ -30,7 +30,8 @@
         // Initialization code
         self.backgroundColor = [UIColor clearColor];
         if (!_iconView) {
-            _iconView = [[YLImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, (kFileSearchCellHeight - kFileListFileCell_IconWidth)/2, kFileListFileCell_IconWidth, kFileListFileCell_IconWidth)];
+            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, (kFileSearchCellHeight - kFileListFileCell_IconWidth)/2, kFileListFileCell_IconWidth, kFileListFileCell_IconWidth)];
+            _iconView.contentMode=UIViewContentModeScaleToFill;
             _iconView.layer.masksToBounds = YES;
             _iconView.layer.cornerRadius = 2.0;
             _iconView.layer.borderWidth = 0.5;

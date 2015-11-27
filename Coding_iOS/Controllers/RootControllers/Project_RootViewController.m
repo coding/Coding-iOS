@@ -478,7 +478,7 @@
     }else
     {
         [self fliterBtnClose:FALSE];
-        _myFliterMenu.selectNum=_selectNum;
+        _myFliterMenu.selectNum=_selectNum>=3?_selectNum+1:_selectNum;
         [_myFliterMenu showMenuAtView:self.view];
     }
 }
