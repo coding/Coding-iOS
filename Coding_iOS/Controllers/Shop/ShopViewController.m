@@ -221,10 +221,10 @@
         _shopBannerView.curBannerList = shopBannerArray;
         [_collectionHeaderView addSubview:_shopBannerView];
         __weak typeof(self) weakSelf = self;
-        _shopBannerView.tapActionBlock = ^(ShopBanner *banner){
-            [NSObject showHudTipStr:banner.title];
-            [weakSelf bannerClicked:banner.title];
-        };
+//        _shopBannerView.tapActionBlock = ^(ShopBanner *banner){
+//            [NSObject showHudTipStr:banner.title];
+//            [weakSelf bannerClicked:banner.title];
+//        };
         [_shopBannerView reloadData];
         _shopSegmentControl.frame = CGRectMake(0, bannerHeight, kScreen_Width, kMySegmentControl_Height);
         height = kMySegmentControl_Height  + bannerHeight ;
@@ -245,6 +245,8 @@
     ExchangeGoodsViewController *exChangeViewController = [[ExchangeGoodsViewController alloc] init];
     exChangeViewController.shopGoods = model;
     [self.navigationController pushViewController:exChangeViewController animated:YES];
+//    [BaseViewController presentVC:exChangeViewController];
+
 }
 
 

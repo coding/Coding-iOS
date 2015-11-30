@@ -76,6 +76,7 @@
     });
     __weak typeof(self) weakSelf = self;
     self.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:self.titlesArray selectedBlock:^(NSInteger index) {
+        
         ShopOrderListView *listView = (ShopOrderListView *)[weakSelf.myCarousel itemViewAtIndex:index];
         weakSelf.myOrder.orderType = index;
         listView.myOrder = weakSelf.myOrder;
@@ -98,12 +99,15 @@
 }
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view{
     
+    _myOrder.orderType = index;
     ShopOrderListView *listView = (ShopOrderListView *)view;
     if (listView) {
 
     }else{
         listView = [[ShopOrderListView alloc] initWithFrame:carousel.bounds withOder:_myOrder];
     }
+    
+    [listView reloadData];
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
 }

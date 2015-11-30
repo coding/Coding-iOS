@@ -290,6 +290,33 @@
         make.right.equalTo(_goodsInfoView.mas_right);
 
     }];
+    
+    //快递：
+    UILabel *remarkLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    remarkLabel.font = FONT(14);
+    remarkLabel.backgroundColor = [UIColor clearColor];
+    remarkLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    remarkLabel.text = @"备注：";
+    [superView addSubview:remarkLabel];
+    
+    _remarksLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _remarksLabel.font = FONT(14);
+    _remarksLabel.backgroundColor = [UIColor clearColor];
+    _remarksLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    [superView addSubview:_remarksLabel];
+    
+    [remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(sendTimeLabel.mas_bottom).offset(9);
+        make.left.equalTo(_goodsInfoView.mas_left);
+    }];
+    
+    [_remarksLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(remarkLabel.mas_top);
+        make.left.equalTo(remarkLabel.mas_right);
+        make.right.equalTo(_goodsInfoView.mas_right);
+        
+    }];
+    
 
     //收货地址 :
     UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -308,7 +335,7 @@
     [superView addSubview:_addressLabel];
     
     [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(sendTimeLabel.mas_bottom).offset(9);
+        make.top.equalTo(remarkLabel.mas_bottom).offset(9);
         make.left.equalTo(_goodsInfoView.mas_left);
         make.right.equalTo(_addressLabel.mas_left);
         make.width.mas_lessThanOrEqualTo(@70);
@@ -336,7 +363,7 @@
     [_codingCoinView setTitle:points_cost forState:UIControlStateNormal];
     
     _orderNumLabel.text = order.orderNo;
-    _remarksLabel.text  = [NSString stringWithFormat:@"备注: %@",order.remark] ;
+    _remarksLabel.text  = order.remark;
     _nameLabel.text     = order.receiverName;
     _addressLabel.text  = order.receiverAddress;
     _phoneNumLabel.text = order.receiverPhone;

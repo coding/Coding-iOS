@@ -127,7 +127,7 @@
     NSString *points_cost = [NSString stringWithFormat:@"  %@ 码币",[model.points_cost stringValue]];
     [_codingCoinView setTitle:points_cost forState:UIControlStateNormal];
     
-    [self showExchangeIcon:YES];
+    [self showExchangeIcon:model.exchangeable];
     
     [_coverView sd_setImageWithURL:[model.image urlWithCodePath] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (cacheType == SDImageCacheTypeNone) {

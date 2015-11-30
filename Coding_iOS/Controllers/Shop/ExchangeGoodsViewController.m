@@ -4,6 +4,7 @@
 //
 
 #import "ExchangeGoodsViewController.h"
+#import "ShopOrderViewController.h"
 
 #import "TPKeyboardAvoidingTableView.h"
 #import "Coding_NetAPIManager.h"
@@ -241,8 +242,9 @@
 - (void)exchangeActionRquest:(NSString *)pwd
 {
     __weak typeof(self) weakSelf = self;
+    [self.view beginLoading];
     [[Coding_NetAPIManager sharedManager] request_shop_check_passwordWithpwd:pwd andBlock:^(id data, NSError *error) {
-        if (data) {
+        if (!error) {
             
             ShopOrderTextFieldCell *nameCell = [weakSelf.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
             ShopOrderTextFieldCell *addressCell = [weakSelf.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]];
@@ -272,20 +274,28 @@
                 [mparms setObject:_shopGoods.id forKey:@"giftId"];
             }
             if (![pwd isEmpty]) {
-                [mparms setObject:[pwd sha1Str] forKey:@" "];
+                [mparms setObject:[pwd sha1Str] forKey:@"password"];
             }
 
             [[Coding_NetAPIManager sharedManager] request_shop_exchangeWithParms:mparms andBlock:^(id data, NSError *error) {
+                [self.view endLoading];
                 if (!error) {
-                    [NSObject showHudTipStr:@"恭喜你，兑换成功!"];
-                    [self.navigationController popViewControllerAnimated:YES];
+                    [NSObject showHudTipStr:@"恭喜你，提交订单成功!"];
+//                    [self.navigationController popViewControllerAnimated:YES];
+                    ShopOrderViewController *orderViewController = [[ShopOrderViewController alloc] init];
+                    [self.navigationController pushViewController:orderViewController animated:YES];
+                    
                 }else
                 {
+                    [self.view endLoading];
+
                     [NSObject showError:error];
                 }
             }];
         }else
         {
+            [self.view endLoading];
+
             [NSObject showHudTipStr:@"密码不正确"];
         }
     }];

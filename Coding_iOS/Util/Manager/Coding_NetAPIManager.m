@@ -2457,7 +2457,7 @@
     }
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/check_password" withParams:@{@"password":[pwd sha1Str]} withMethodType:Post autoShowError:YES andBlock:^(id data, NSError *error) {
         NSNumber *code = [data valueForKey:@"code"];
-        if (code.intValue == 0) {
+        if (!error && code.intValue == 0) {
             block(code, nil);
         }else{
             block(nil, error);

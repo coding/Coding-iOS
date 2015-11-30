@@ -14,10 +14,11 @@
 
 @interface ShopOrderListView ()<UITableViewDataSource,UITableViewDelegate>
 {
-    ShopOderCell *_currentOrderCell;
     NSArray      *_dataSource;
 }
 @property (nonatomic, strong) UITableView *myTableView;
+@property (nonatomic, strong) ShopOderCell *currentOrderCell;
+
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 
 @end
@@ -36,9 +37,10 @@
             tableView.dataSource = self;
             tableView.estimatedRowHeight = 690/2;
             [tableView registerClass:[ShopOderCell class] forCellReuseIdentifier:@"ShopOderCell"];
-            tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+            tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             tableView.separatorColor = [UIColor colorWithHexString:@"0xFFDDDDDD"];
-            tableView.separatorInset = UIEdgeInsetsMake(0, 12, 0, 12);
+//            tableView.contentInset  = UIEdgeInsetsMake(6, 0, 0, 0);
+//            tableView.separatorInset = UIEdgeInsetsMake(0, 12, 0, 12);
             [self addSubview:tableView];
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self);
@@ -46,7 +48,7 @@
             tableView;
         });
         
-        _currentOrderCell = [[ShopOderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ShopOderCell"];
+        _currentOrderCell = [[ShopOderCell alloc] initWithFrame:CGRectZero];
         
         _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
         [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
@@ -57,13 +59,11 @@
 - (void)reloadData
 {
     _dataSource = [_myOrder getDataSourceByOrderType];
-    [self.myTableView reloadData];
-    
-    [self configBlankPage:EaseBlankPageTypeTopic hasData:(_dataSource.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
-        
-    }];
-
+  
     if (_dataSource.count > 0) {
+        
+        [_myTableView.tableFooterView removeFromSuperview];
+        _myTableView.tableFooterView = nil;
         UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width
                                                                     , (86 +88 +25)/2)];
         UILabel *tipsLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -79,9 +79,16 @@
             make.right.equalTo(footView.mas_right).offset(-28);
             make.bottom.equalTo(footView.mas_bottom).offset(-28);
         }];
-        
         _myTableView.tableFooterView = footView;
-    }
+    }else
+        _myTableView.tableFooterView = nil;
+    
+//
+    [self configBlankPage:EaseBlankPageTypeShopOrders hasData:(_dataSource.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+    }];
+    [self.myTableView reloadData];
+
+
 }
 
 - (void)refresh
@@ -113,25 +120,37 @@
 
 #pragma mark Table M
 
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return _dataSource.count;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (_dataSource.count > 0) {
+        return 1;
+    }
+    return 0;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    ShopOrder *item = [_dataSource objectAtIndex:indexPath.row];
+    ShopOrder *item = [_dataSource objectAtIndex:indexPath.section];
     [_currentOrderCell configViewWithModel:item];
     return _currentOrderCell.cellHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 0.5;
+    return 6;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 6;
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    ShopOrder *item = [_dataSource objectAtIndex:indexPath.row];
+    ShopOrder *item = [_dataSource objectAtIndex:indexPath.section];
     ShopOderCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopOderCell" forIndexPath:indexPath];
     [cell configViewWithModel:item];
     return cell;

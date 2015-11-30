@@ -636,6 +636,11 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"这里没有未读的消息";
             }
                 break;
+            case EaseBlankPageTypeShopOrders:{
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"您还木有订单呢\n努力推代码，把猴带回家～";
+            }
+                break;
             default://其它页面（这里没有提到的页面，都属于其它）
             {
                 imageName = @"blankpage_image_Sleep";
