@@ -174,6 +174,7 @@
 {
     [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
     [searchBar setShowsCancelButton:YES animated:YES];
+    [self resetTableview];
     return YES;
 }
 
@@ -193,22 +194,21 @@
 }
 
 #pragma mark UISearchDisplayDelegate M
-//- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-//{
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
 //    [controller.searchResultsTableView endEditing:YES];
 ////    controller.active=NO;
 //    _curPage=1;
 //    [self requestPubProjects];
 //    NSLog(@"content fram =[%@]",NSStringFromCGSize(controller.searchResultsTableView.contentSize));
-//    return FALSE;
-//}
+    return FALSE;
+}
 
 //- (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView{
 //    tableView.frame=self.view.bounds;
 //}
 
-- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView{
-//    [self resetTableview];
-}
-
+//- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView{
+//}
+//
 @end
