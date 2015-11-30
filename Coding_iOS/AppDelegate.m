@@ -10,7 +10,10 @@
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending) 
 #define _IPHONE80_ 80000
 
+#if DEBUG
+#import <FLEX/FLEXManager.h>
 
+#endif
 
 #import "AppDelegate.h"
 #import "RootTabViewController.h"
