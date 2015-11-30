@@ -650,7 +650,7 @@
             
             [weakSelf.searchTableView configBlankPage:EaseBlankPageTypeProject_SEARCH hasData:[weakSelf noEmptyList] hasError:(error != nil) reloadButtonBlock:^(id sender) {
             }];
-
+    
             [weakSelf.searchTableView reloadData];
             [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
             weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
@@ -982,7 +982,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if(_curSearchType==eSearchType_Tweet) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self goToTweet:_dateSource[indexPath.row]];
     }else if(_curSearchType==eSearchType_Project){
         [self goToProject:_dateSource[indexPath.row]];

@@ -11,6 +11,7 @@
 #import "NProjectViewController.h"
 #import "ProjectAboutMeListCell.h"
 #import "Coding_NetAPIManager.h"
+#import "SVPullToRefresh.h"
 
 @interface ProjectSquareViewController ()<UISearchBarDelegate,UISearchDisplayDelegate,UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) Projects *curPros;
@@ -18,6 +19,10 @@
 @property (strong, nonatomic) UISearchBar *mySearchBar;
 @property (strong, nonatomic) UISearchDisplayController *mySearchDisplayController;
 @property (strong, nonatomic) NSMutableArray *dateSource;
+@property (nonatomic, assign) BOOL      isLoading;
+@property (nonatomic, assign) BOOL      canLoadMore;
+@property (nonatomic, assign) NSInteger curPage;
+@property (strong, nonatomic) NSString *curSearchStr;
 
 @end
 
@@ -28,41 +33,45 @@
     self.title = @"项目广场";
     self.curPros = [Projects projectsWithType:ProjectsTypeAllPublic andUser:nil];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    __weak typeof(self) weakSelf = self;
-    _mySearchBar = ({
-        UISearchBar *searchBar = [[UISearchBar alloc] init];
-        searchBar.delegate = self;
-        [searchBar sizeToFit];
-        [searchBar setPlaceholder:@"搜索项目"];
-        searchBar;
-    });
-    
-    _mySearchDisplayController = ({
-        UISearchDisplayController *searchVC = [[UISearchDisplayController alloc] initWithSearchBar:_mySearchBar contentsController:self];
-        [searchVC.searchResultsTableView registerClass:[ProjectAboutMeListCell class] forCellReuseIdentifier:@"ProjectAboutMeListCell"];
-        [searchVC.searchResultsTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
 
+    
+    __weak typeof(self) weakSelf = self;
+    ProjectListView *listView = [[ProjectListView alloc] initWithFrame:self.view.bounds projects:self.curPros block:^(Project *project) {
+        [weakSelf goToProject:project];
+    } tabBarHeight:0];
+    listView.useNewStyle=TRUE;
+    [self.view addSubview:listView];
+    [listView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(self.view);
+        make.top.equalTo(self.view);
+    }];
+    
+    [self.view addSubview:self.mySearchBar];
+    
+//    _mySearchBar = ({
+//        UISearchBar *searchBar = [[UISearchBar alloc] init];
+//        searchBar.delegate = self;
+//        [searchBar sizeToFit];
+//        [searchBar setPlaceholder:@"搜索项目"];
+//        searchBar;
+//    });
+
+    _mySearchDisplayController = ({
+        UISearchDisplayController *searchVC = [[UISearchDisplayController alloc] initWithSearchBar:self.mySearchBar contentsController:self];
+        [searchVC.searchResultsTableView addInfiniteScrollingWithActionHandler:^{
+            weakSelf.curPage++;
+            [weakSelf requestPubProjects];
+        }];
+        [searchVC.searchResultsTableView registerClass:[ProjectAboutMeListCell class] forCellReuseIdentifier:@"ProjectAboutMeListCell"];
+//        searchVC.searchResultsTableView.separatorStyle=UITableViewCellAccessoryNone;
+        searchVC.searchResultsTableView.tableFooterView=[UIView new];
         searchVC.delegate = self;
         searchVC.searchResultsDataSource = self;
         searchVC.searchResultsDelegate = self;
-        searchVC.displaysSearchBarInNavigationBar = NO;
+        searchVC.searchResultsTableView.rowHeight=kProjectAboutMeListCellHeight;
         searchVC;
     });
-
     _dateSource=[NSMutableArray array];
-
-//    ProjectListView *listView = [[ProjectListView alloc] initWithFrame:self.view.bounds projects:self.curPros block:^(Project *project) {
-//        [weakSelf goToProject:project];
-//    } tabBarHeight:0];
-//    listView.useNewStyle=TRUE;
-//    [self.view addSubview:listView];
-//    [listView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.bottom.right.equalTo(self.view);
-//        make.top.equalTo(self.view);
-//    }];
-    
-    [self.view addSubview:_mySearchBar];
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,25 +79,43 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return kProjectAboutMeListCellHeight;
+- (UISearchBar *)mySearchBar
+{
+    if (!_mySearchBar) {
+        _mySearchBar = [[UISearchBar alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, 44)];
+        _mySearchBar.delegate = self;
+        _mySearchBar.placeholder = NSLocalizedString(@"search", @"Search");
+        _mySearchBar.backgroundColor = [UIColor colorWithRed:0.747 green:0.756 blue:0.751 alpha:1.000];
+    }
+    return _mySearchBar;
 }
 
+
+#pragma mark - Table view data source
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return kProjectAboutMeListCellHeight;
+//}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    tableView.contentSize=CGSizeMake(kScreen_Width,[_dateSource count]*kProjectAboutMeListCellHeight+60);
+//    tableView.contentOffset=CGPointZero;
+    NSLog(@"content offset %@",NSStringFromUIEdgeInsets(tableView.contentInset));
+    return [_dateSource count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ProjectAboutMeListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectAboutMeListCell"];
-    cell.textLabel.text=@"搜索记录";
+    cell.openKeywords=TRUE;
+    Project *project=_dateSource[indexPath.row];
+    [cell setProject:project hasSWButtons:NO hasBadgeTip:YES hasIndicator:NO];
+//    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     return cell;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [self goToPubProject:_dateSource[indexPath.row]];
 }
 
 
@@ -100,44 +127,49 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
--(void)requestAll{
+- (void)goToPubProject:(Project *)project{
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:project.project_path];
+    [self.navigationController pushViewController:vc animated:TRUE];
+}
+
+-(void)requestPubProjects{
+    if(_isLoading){
+        [_mySearchDisplayController.searchResultsTableView.infiniteScrollingView stopAnimating];
+        return;
+    }
+    
+    _isLoading=YES;
+    
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] requestWithSearchString:_mySearchBar.text typeStr:@"public_project" andPage:1 andBlock:^(id data, NSError *error) {
+    _curSearchStr=_mySearchBar.text;
+    
+    
+    [[Coding_NetAPIManager sharedManager] requestWithSearchString:_curSearchStr typeStr:@"public_project" andPage:_curPage andBlock:^(id data, NSError *error) {
         if(data) {
-//            _searchPros = [NSObject objectOfClass:@"Projects" fromJSON:data];
-//            NSDictionary *dataDic = (NSDictionary *)data;
-//
-//            //topic 处理 content 关键字
-//            NSArray *resultTopic =[dataDic[@"project_topics"] objectForKey:@"list"] ;
-//            for (int i=0;i<[_searchPros.project_topics.list count];i++) {
-//                ProjectTopic *curTopic=[_searchPros.project_topics.list objectAtIndex:i];
-//                if ([resultTopic count]>i) {
-//                    curTopic.contentStr= [[[resultTopic objectAtIndex:i] objectForKey:@"content"] firstObject];
-//                }
-//            }
-//            
-//            //task 处理 description 关键字
-//            NSArray *resultTask =[dataDic[@"tasks"] objectForKey:@"list"] ;
-//            for (int i=0;i<[weakSelf.searchPros.tasks.list count];i++) {
-//                Task *curTask=[weakSelf.searchPros.tasks.list objectAtIndex:i];
-//                if ([resultTask count]>i) {
-//                    curTask.descript= [[[resultTask objectAtIndex:i] objectForKey:@"description"] firstObject];
-//                }
-//            }
-//            
-//            [weakSelf.searchTableView configBlankPage:EaseBlankPageTypeProject_SEARCH hasData:[weakSelf noEmptyList] hasError:(error != nil) reloadButtonBlock:^(id sender) {
-//            }];
-//            
-//            [weakSelf.searchTableView reloadData];
-//            [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
-//            weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
+            if(weakSelf.curPage==1){
+                [weakSelf.dateSource removeAllObjects];
+            }
+
+            NSDictionary *dataDic = (NSDictionary *)data;
+            [weakSelf.dateSource addObjectsFromArray: [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"Project"]];
+            weakSelf.canLoadMore=(dataDic[@"page"]<dataDic[@"totalPage"]);
+            weakSelf.isLoading = NO;
+            [weakSelf.mySearchDisplayController.searchResultsTableView.infiniteScrollingView stopAnimating];
+            weakSelf.mySearchDisplayController.searchResultsTableView.showsInfiniteScrolling = weakSelf.canLoadMore;
+            [weakSelf resetTableview];
+            [weakSelf.mySearchDisplayController.searchResultsTableView reloadData];
         }
     }];
 }
 
-
+-(void)resetTableview{
+    _mySearchDisplayController.searchResultsTableView.contentInset=UIEdgeInsetsMake(0, 0, 60, 0);
+    _mySearchDisplayController.searchResultsTableView.scrollIndicatorInsets=UIEdgeInsetsZero;
+    _mySearchDisplayController.searchResultsTableView.height=kScreen_Height-64;
+}
 
 #pragma mark UISearchBarDelegate
+
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
@@ -146,81 +178,37 @@
 }
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar{
+//    [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
     [searchBar insertBGColor:nil];
     return YES;
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    [self requestAll];
+    if ([_curSearchStr isEqualToString:_mySearchBar.text]) {
+        return;
+    }
+    _isLoading=NO;
+    _curPage=1;
+    [self requestPubProjects];
 }
 
 #pragma mark UISearchDisplayDelegate M
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
-//    [self updateFilteredContentForSearchString:searchString];
-    return NO;
-}
-- (void)updateFilteredContentForSearchString:(NSString *)searchString{
-    // start out with the entire list
-//    self.searchResults = [self.curUsers.list mutableCopy];
-//    
-//    // strip out all the leading and trailing spaces
-//    NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-//    
-//    // break up the search terms (separated by spaces)
-//    NSArray *searchItems = nil;
-//    if (strippedStr.length > 0)
-//    {
-//        searchItems = [strippedStr componentsSeparatedByString:@" "];
-//    }
-//    
-//    // build all the "AND" expressions for each value in the searchString
-//    NSMutableArray *andMatchPredicates = [NSMutableArray array];
-//    
-//    for (NSString *searchString in searchItems)
-//    {
-//        // each searchString creates an OR predicate for: name, global_key
-//        NSMutableArray *searchItemsPredicate = [NSMutableArray array];
-//        
-//        // name field matching
-//        NSExpression *lhs = [NSExpression expressionForKeyPath:@"name"];
-//        NSExpression *rhs = [NSExpression expressionForConstantValue:searchString];
-//        NSPredicate *finalPredicate = [NSComparisonPredicate
-//                                       predicateWithLeftExpression:lhs
-//                                       rightExpression:rhs
-//                                       modifier:NSDirectPredicateModifier
-//                                       type:NSContainsPredicateOperatorType
-//                                       options:NSCaseInsensitivePredicateOption];
-//        [searchItemsPredicate addObject:finalPredicate];
-//        //        pinyinName field matching
-//        lhs = [NSExpression expressionForKeyPath:@"pinyinName"];
-//        rhs = [NSExpression expressionForConstantValue:searchString];
-//        finalPredicate = [NSComparisonPredicate
-//                          predicateWithLeftExpression:lhs
-//                          rightExpression:rhs
-//                          modifier:NSDirectPredicateModifier
-//                          type:NSContainsPredicateOperatorType
-//                          options:NSCaseInsensitivePredicateOption];
-//        [searchItemsPredicate addObject:finalPredicate];
-//        //        global_key field matching
-//        lhs = [NSExpression expressionForKeyPath:@"global_key"];
-//        rhs = [NSExpression expressionForConstantValue:searchString];
-//        finalPredicate = [NSComparisonPredicate
-//                          predicateWithLeftExpression:lhs
-//                          rightExpression:rhs
-//                          modifier:NSDirectPredicateModifier
-//                          type:NSContainsPredicateOperatorType
-//                          options:NSCaseInsensitivePredicateOption];
-//        [searchItemsPredicate addObject:finalPredicate];
-//        // at this OR predicate to ourr master AND predicate
-//        NSCompoundPredicate *orMatchPredicates = (NSCompoundPredicate *)[NSCompoundPredicate orPredicateWithSubpredicates:searchItemsPredicate];
-//        [andMatchPredicates addObject:orMatchPredicates];
-//    }
-//    
-//    NSCompoundPredicate *finalCompoundPredicate = (NSCompoundPredicate *)[NSCompoundPredicate andPredicateWithSubpredicates:andMatchPredicates];
-//    
-//    self.searchResults = [[self.searchResults filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
-}
+//- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+//{
+//    [controller.searchResultsTableView endEditing:YES];
+////    controller.active=NO;
+//    _curPage=1;
+//    [self requestPubProjects];
+//    NSLog(@"content fram =[%@]",NSStringFromCGSize(controller.searchResultsTableView.contentSize));
+//    return FALSE;
+//}
 
+//- (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView{
+//    tableView.frame=self.view.bounds;
+//}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView{
+//    [self resetTableview];
+}
 
 @end
