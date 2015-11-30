@@ -84,7 +84,7 @@
     if (!_mySearchBar) {
         _mySearchBar = [[UISearchBar alloc] initWithFrame: CGRectMake(0, 0, self.view.frame.size.width, 44)];
         _mySearchBar.delegate = self;
-        _mySearchBar.placeholder = NSLocalizedString(@"search", @"Search");
+        _mySearchBar.placeholder = @"搜索项目";
         _mySearchBar.backgroundColor = [UIColor colorWithRed:0.747 green:0.756 blue:0.751 alpha:1.000];
     }
     return _mySearchBar;
