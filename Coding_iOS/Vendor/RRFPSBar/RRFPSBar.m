@@ -114,7 +114,7 @@
         [_fpsTextLayer setForegroundColor: [UIColor redColor].CGColor];
         [_fpsTextLayer setAlignmentMode:kCAAlignmentCenter];
         
-        [_fpsTextLayer setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.5].CGColor];
+        [_fpsTextLayer setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.8].CGColor];
         [_fpsTextLayer setContentsScale: [UIScreen mainScreen].scale];
         [self.layer addSublayer:_fpsTextLayer];
         
