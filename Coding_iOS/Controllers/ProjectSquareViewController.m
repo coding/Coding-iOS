@@ -74,6 +74,11 @@
     _dateSource=[NSMutableArray array];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self resetTableview];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -168,8 +173,8 @@
     _mySearchDisplayController.searchResultsTableView.height=kScreen_Height-64;
 }
 
-#pragma mark UISearchBarDelegate
 
+#pragma mark UISearchBarDelegate
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
     [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
@@ -180,10 +185,24 @@
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar{
     [searchBar insertBGColor:[_mySearchDisplayController isActive]?[UIColor colorWithHexString:@"0x28303b"]:nil];
+    
+    if(!_isLoading){
+        if ([_curSearchStr isEqualToString:_mySearchBar.text]) {
+            return YES;
+        }
+        _isLoading=NO;
+        _curPage=1;
+        [self requestPubProjects];
+    }
     return YES;
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    _curSearchStr=nil;
+    if (!_isLoading) {
+        [_dateSource removeAllObjects];
+        [_mySearchDisplayController.searchResultsTableView reloadData];
+    }
     [searchBar insertBGColor:nil];
 }
 

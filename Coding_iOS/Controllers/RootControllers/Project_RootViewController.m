@@ -110,7 +110,7 @@
             [searchBar setPlaceholder:@"项目、任务、讨论等"];
         UITextField *searchField= [[[[searchBar subviews] firstObject] subviews] lastObject];
             [(UIImageView*)[searchField leftView] setFrame:CGRectMake(0, 0, 12, 13)];
-            [(UIImageView*)[searchField leftView] setImage:[UIImage imageNamed:@"icon_search_searchbar"]];
+//            [(UIImageView*)[searchField leftView] setImage:[UIImage imageNamed:@"icon_search_searchbar"]];
 //            [searchBar setImage:[UIImage imageNamed:@"icon_search_searchbar"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
             [searchBar setTintColor:[UIColor whiteColor]];
             [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
