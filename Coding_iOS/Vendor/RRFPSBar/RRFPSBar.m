@@ -156,6 +156,12 @@
     [_displayLink setPaused:YES];
 }
 
+- (void)becomeKeyWindow{//prevent self to be key window
+    self.hidden = YES;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.hidden = NO;
+    });
+}
 
 - (void)displayLinkTick {
     
