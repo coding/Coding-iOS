@@ -179,9 +179,12 @@
 }
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar{
-//    [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
-    [searchBar insertBGColor:nil];
+    [searchBar insertBGColor:[_mySearchDisplayController isActive]?[UIColor colorWithHexString:@"0x28303b"]:nil];
     return YES;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    [searchBar insertBGColor:nil];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
