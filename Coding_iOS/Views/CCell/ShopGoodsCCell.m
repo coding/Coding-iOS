@@ -49,7 +49,7 @@
 //    [superView addSubview:_priceLabel];
     
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _titleLabel.font = FONT(15);
+    _titleLabel.font = FONT(14);
     _titleLabel.backgroundColor = [UIColor clearColor];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
     _titleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];

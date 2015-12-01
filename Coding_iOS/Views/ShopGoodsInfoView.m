@@ -74,11 +74,12 @@
     [superView addSubview:_codingCoinView];
     
 
-    float _coverViewHeight = 144/2;
+    float _coverViewHeight = 90;
     NSLog(@"_coverViewHeight %lf",_coverViewHeight);
     [_coverView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.equalTo(superView).offset(12);
-        make.height.width.offset(_coverViewHeight);
+        make.width.offset(_coverViewHeight);
+        make.height.offset(108/2);
     }];
     
     
@@ -120,6 +121,14 @@
         make.top.equalTo(_coverView.mas_top).offset(-12);
         make.bottom.equalTo(_descLabel.mas_bottom).offset(12);
         make.width.offset(kScreen_Width);
+    }];
+    
+    UIView *bottomLineView = [[UIView alloc] init];
+    bottomLineView.backgroundColor = [UIColor colorWithHexString:@"0xC8C8C8"];
+    [superView addSubview:bottomLineView];
+    [bottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.offset(0.5);
+        make.left.right.bottom.equalTo(superView);
     }];
     
 }

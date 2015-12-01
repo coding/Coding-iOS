@@ -36,8 +36,10 @@
     _myOrder = [[ShopOrderModel alloc] init];
     _myOrder.orderType = ShopOrderAll;
     
-    [self setUpView];
     [self loadData];
+    
+    [self setUpView];
+
 }
 
 - (void)loadData

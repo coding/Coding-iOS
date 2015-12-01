@@ -149,8 +149,8 @@
 
     layout.itemSize = CGSizeMake(itemW, itemH);
     layout.minimumInteritemSpacing = 5;
-    layout.minimumLineSpacing = 5;
-    
+    layout.minimumLineSpacing = 20;
+
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 64) collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor clearColor];
     
@@ -230,7 +230,7 @@
         height = kMySegmentControl_Height  + bannerHeight ;
         _collectionHeaderView.frame = CGRectMake(0, 0, kScreen_Width, height);
     }
-    return UIEdgeInsetsMake(5 + height, 10, 10, 10);
+    return UIEdgeInsetsMake(20 + height, 10, 10, 10);
 }
 
 #pragma mark - UICollectionViewDelegate

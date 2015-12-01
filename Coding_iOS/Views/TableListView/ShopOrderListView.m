@@ -14,7 +14,7 @@
 
 @interface ShopOrderListView ()<UITableViewDataSource,UITableViewDelegate>
 {
-    NSArray      *_dataSource;
+    NSMutableArray      *_dataSource;
 }
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ShopOderCell *currentOrderCell;
@@ -32,15 +32,13 @@
         _myOrder = order;
         _myTableView = ({
             UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
-            tableView.backgroundColor = [UIColor clearColor];
+            tableView.backgroundColor = [UIColor colorWithHexString:@"0xeeeeee"];
             tableView.delegate = self;
             tableView.dataSource = self;
             tableView.estimatedRowHeight = 690/2;
             [tableView registerClass:[ShopOderCell class] forCellReuseIdentifier:@"ShopOderCell"];
-            tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-            tableView.separatorColor = [UIColor colorWithHexString:@"0xFFDDDDDD"];
-//            tableView.contentInset  = UIEdgeInsetsMake(6, 0, 0, 0);
-//            tableView.separatorInset = UIEdgeInsetsMake(0, 12, 0, 12);
+            tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+            tableView.separatorColor = [UIColor colorWithHexString:@"0xC8C8C8"];
             [self addSubview:tableView];
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self);
@@ -58,7 +56,10 @@
 
 - (void)reloadData
 {
-    _dataSource = [_myOrder getDataSourceByOrderType];
+    [_dataSource removeAllObjects];
+    [_myTableView reloadData];
+    
+    _dataSource = [NSMutableArray arrayWithArray:[_myOrder getDataSourceByOrderType]];
   
     if (_dataSource.count > 0) {
         
@@ -86,9 +87,8 @@
 //
     [self configBlankPage:EaseBlankPageTypeShopOrders hasData:(_dataSource.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
     }];
+    
     [self.myTableView reloadData];
-
-
 }
 
 - (void)refresh
@@ -139,6 +139,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if (section == 0) {
+        return 12;
+    }
     return 6;
 }
 

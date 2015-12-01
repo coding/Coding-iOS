@@ -95,7 +95,7 @@
         make.top.equalTo(orderLabel.mas_bottom).offset(15);
         make.left.equalTo(superView.mas_left).offset(12);
         make.right.equalTo(superView.mas_right).offset(-12);
-        make.height.offset(172/2);
+        make.height.offset(108/2);
     }];
     
     _coverView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -383,7 +383,7 @@
         
          NSDate *date =[NSDate dateWithTimeIntervalSince1970: ((double)(order.createdAt.longLongValue))/1000.0];
         if (date) {
-            _sendTimeLabel.text = [date stringWithFormat:@"yyyy-MM-dd HH:mm"];
+            _sendTimeLabel.text = [date stringWithFormat:@"yyyy年MM月dd日 HH:mm"];
         }
     }
     if ([order.expressNo isEmpty]) {
