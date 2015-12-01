@@ -12,7 +12,7 @@
 
 #if DEBUG
 #import <FLEX/FLEXManager.h>
-
+#import "RRFPSBar.h"
 #endif
 
 #import "AppDelegate.h"
@@ -108,6 +108,11 @@
         @strongify(self);
         [self completionStartAnimationWithOptions:launchOptions];
     }];
+    
+#if DEBUG
+    [[RRFPSBar sharedInstance] setShowsAverage:YES];
+    [[RRFPSBar sharedInstance] setHidden:NO];
+#endif
     
     return YES;
 }
