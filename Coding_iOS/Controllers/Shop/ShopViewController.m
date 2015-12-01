@@ -173,6 +173,7 @@
     NSArray *_segmentItems = @[@"全部商品",@"可兑换商品"];
     __weak typeof(self) weakSelf = self;
     _shopSegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(_collectionHeaderView.frame)- kMySegmentControl_Height - 5, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
+        
         [weakSelf segmentControlSelecteIndex:index];
     }];
     _shopSegmentControl.backgroundColor = [UIColor whiteColor];
@@ -188,9 +189,6 @@
     _oldSelectedIndex  = index;
     _shopObject.shopType = index;
     [_collectionView reloadData];
-    if (_collectionView.contentOffset.y > CGRectGetHeight(_collectionHeaderView.frame) ) {
-        [_collectionView setContentOffset:CGPointMake(0, CGRectGetHeight(_collectionHeaderView.frame)) animated:NO];
-    }
 }
 
 
@@ -220,11 +218,6 @@
         _shopBannerView = [[ShopBannerView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, bannerHeight)];
         _shopBannerView.curBannerList = shopBannerArray;
         [_collectionHeaderView addSubview:_shopBannerView];
-        __weak typeof(self) weakSelf = self;
-//        _shopBannerView.tapActionBlock = ^(ShopBanner *banner){
-//            [NSObject showHudTipStr:banner.title];
-//            [weakSelf bannerClicked:banner.title];
-//        };
         [_shopBannerView reloadData];
         _shopSegmentControl.frame = CGRectMake(0, bannerHeight, kScreen_Width, kMySegmentControl_Height);
         height = kMySegmentControl_Height  + bannerHeight ;
@@ -255,16 +248,17 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGFloat offsetY = scrollView.contentOffset.y + scrollView.contentInset.top;
+    CGFloat bannerHeight = kScreen_Width * (270.0/640);
     
-    CGFloat _shopSegmentControlY = CGRectGetHeight(_collectionHeaderView.frame) - kMySegmentControl_Height - 5;
-    
-    if (offsetY > CGRectGetHeight(_collectionHeaderView.frame)) {
+    NSLog(@"%f%f",offsetY,CGRectGetHeight(_collectionHeaderView.frame));
+
+    if (offsetY >= CGRectGetHeight(_collectionHeaderView.frame) -kMySegmentControl_Height ) {
         
         _shopSegmentControl.frame = CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height);
         [self.view addSubview:_shopSegmentControl];
     }else
     {
-        _shopSegmentControl.frame = CGRectMake(0, _shopSegmentControlY +5 , kScreen_Width, kMySegmentControl_Height);
+        _shopSegmentControl.frame = CGRectMake(0,bannerHeight, kScreen_Width, kMySegmentControl_Height);
         [_collectionHeaderView addSubview:_shopSegmentControl];
     }
 }

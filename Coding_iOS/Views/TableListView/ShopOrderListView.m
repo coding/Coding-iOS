@@ -14,7 +14,7 @@
 
 @interface ShopOrderListView ()<UITableViewDataSource,UITableViewDelegate>
 {
-    NSMutableArray      *_dataSource;
+    NSArray      *_dataSource;
 }
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ShopOderCell *currentOrderCell;
@@ -47,7 +47,7 @@
         });
         
         _currentOrderCell = [[ShopOderCell alloc] initWithFrame:CGRectZero];
-        
+
         _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
         [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     }
@@ -56,11 +56,8 @@
 
 - (void)reloadData
 {
-    [_dataSource removeAllObjects];
-    [_myTableView reloadData];
+    _dataSource = [_myOrder getDataSourceByOrderType];
     
-    _dataSource = [NSMutableArray arrayWithArray:[_myOrder getDataSourceByOrderType]];
-  
     if (_dataSource.count > 0) {
         
         [_myTableView.tableFooterView removeFromSuperview];
@@ -84,8 +81,18 @@
     }else
         _myTableView.tableFooterView = nil;
     
-//
-    [self configBlankPage:EaseBlankPageTypeShopOrders hasData:(_dataSource.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+    
+    EaseBlankPageType  _orderEmptyType;
+    if (_myOrder.orderType == ShopOrderSend) {
+        
+        _orderEmptyType = EaseBlankPageTypeShopSendOrders;
+    }else if (_myOrder.orderType == ShopOrderUnSend)
+    {
+        _orderEmptyType = EaseBlankPageTypeShopUnSendOrders;
+    }else
+        _orderEmptyType = EaseBlankPageTypeShopOrders;
+
+    [self configBlankPage:_orderEmptyType hasData:(_dataSource.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
     }];
     
     [self.myTableView reloadData];

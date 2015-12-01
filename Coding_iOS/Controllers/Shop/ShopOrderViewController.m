@@ -36,10 +36,8 @@
     _myOrder = [[ShopOrderModel alloc] init];
     _myOrder.orderType = ShopOrderAll;
     
-    [self loadData];
-    
     [self setUpView];
-
+    [self loadData];
 }
 
 - (void)loadData
@@ -49,6 +47,7 @@
     [[Coding_NetAPIManager sharedManager] request_shop_OrderListWithOrder:_myOrder andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
+            weakSelf.myOrder.orderType = ShopOrderAll;
             ShopOrderListView *listView = (ShopOrderListView *)[weakSelf.myCarousel itemViewAtIndex:weakSelf.myOrder.orderType];
             [listView reloadData];
         }
@@ -78,11 +77,7 @@
     });
     __weak typeof(self) weakSelf = self;
     self.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:self.titlesArray selectedBlock:^(NSInteger index) {
-        
-        ShopOrderListView *listView = (ShopOrderListView *)[weakSelf.myCarousel itemViewAtIndex:index];
-        weakSelf.myOrder.orderType = index;
-        listView.myOrder = weakSelf.myOrder;
-        [listView reloadData];
+        [weakSelf.myCarousel scrollToItemAtIndex:index animated:NO];
     }];
     [self.view addSubview:self.mySegmentControl];
 }
@@ -108,7 +103,6 @@
     }else{
         listView = [[ShopOrderListView alloc] initWithFrame:carousel.bounds withOder:_myOrder];
     }
-    
     [listView reloadData];
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
@@ -124,12 +118,19 @@
 }
 
 - (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel{
-    if (_mySegmentControl) {
-        _mySegmentControl.currentIndex = carousel.currentItemIndex;
-    }
-    [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
-        [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
-    }];
+    
+    
+    ShopOrderListView *listView = (ShopOrderListView *)carousel.currentItemView;
+     _myOrder.orderType = carousel.currentItemIndex;
+     listView.myOrder = _myOrder;
+    [listView reloadData];
+
+//    if (_mySegmentControl) {
+//        _mySegmentControl.currentIndex = carousel.currentItemIndex;
+//    }
+//    [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+//        [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
+//    }];
 }
 
 - (void)dealloc
