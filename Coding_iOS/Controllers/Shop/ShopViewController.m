@@ -187,7 +187,7 @@
         return;
     }
     _oldSelectedIndex  = index;
-    _shopObject.shopType = index;
+    _shopObject.shopType = index;    
     [_collectionView reloadData];
 }
 

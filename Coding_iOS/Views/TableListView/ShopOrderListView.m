@@ -115,7 +115,6 @@
 {
     if (_myOrder.isLoading || !_myOrder.canLoadMore) {
         [_myTableView.infiniteScrollingView stopAnimating];
-        [_myTableView.infiniteScrollingView ]
         return;
     }
     _myOrder.willLoadMore = YES;
