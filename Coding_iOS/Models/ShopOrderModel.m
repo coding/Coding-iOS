@@ -15,7 +15,7 @@
     self = [super init];
     if (self) {
         _page = @1;
-        _pageSize = @100;
+        _pageSize = @20;
         _orderType  = ShopOrderAll;
         _dateSource = [NSMutableArray arrayWithCapacity:20];
     }

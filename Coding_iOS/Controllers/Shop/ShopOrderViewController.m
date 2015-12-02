@@ -119,18 +119,17 @@
 
 - (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel{
     
-    
     ShopOrderListView *listView = (ShopOrderListView *)carousel.currentItemView;
      _myOrder.orderType = carousel.currentItemIndex;
      listView.myOrder = _myOrder;
     [listView reloadData];
 
-//    if (_mySegmentControl) {
-//        _mySegmentControl.currentIndex = carousel.currentItemIndex;
-//    }
-//    [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
-//        [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
-//    }];
+    if (_mySegmentControl) {
+        _mySegmentControl.currentIndex = carousel.currentItemIndex;
+    }
+    [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
+    }];
 }
 
 - (void)dealloc

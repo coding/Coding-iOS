@@ -96,13 +96,61 @@
     }];
     
     [self.myTableView reloadData];
+    
+    __weak typeof(self) weakSelf = self;
+    [self.myTableView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf refreshMore];
+    }];
 }
+
 
 - (void)refresh
 {
     [self.myRefreshControl endRefreshing];
     
 //    [self loadData];
+}
+
+- (void)refreshMore
+{
+    if (_myOrder.isLoading || !_myOrder.canLoadMore) {
+        [_myTableView.infiniteScrollingView stopAnimating];
+        [_myTableView.infiniteScrollingView ]
+        return;
+    }
+    _myOrder.willLoadMore = YES;
+    [self sendRequest];
+}
+
+- (void)sendRequest
+{
+//    __weak typeof(self) weakSelf = self;
+//    [[Coding_NetAPIManager sharedManager] request_Comments_WithProjectTpoic:self. andBlock:^(id data, NSError *error) {
+//        [weakSelf.refreshControl endRefreshing];
+//        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
+//        if (data) {
+//            [weakSelf.curTopic configWithComments:data];
+//            weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curTopic.canLoadMore;
+//        }
+//        [weakSelf.myTableView reloadData];
+//    }];
+    
+    __weak typeof(self) weakSelf = self;
+    _myOrder.page = @(_myOrder.page.intValue +1);
+    [[Coding_NetAPIManager sharedManager] request_shop_OrderListWithOrder:_myOrder andBlock:^(id data, NSError *error) {
+        [weakSelf.myRefreshControl endRefreshing];
+        [weakSelf endLoading];
+        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
+        if (data) {
+            _dataSource = [_myOrder getDataSourceByOrderType];
+            [weakSelf.myTableView reloadData];
+        }
+//        [weakSelf configBlankPage:EaseBlankPageTypeTopic hasData:(weakSelf.myOrder.dateSource.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+//            [weakSelf refresh];
+//        }];
+
+    }];
+
 }
 
 //- (void)loadData
