@@ -129,7 +129,7 @@
             [searchVC.searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
 
             //placeholder 要在此处设置，不然报错
-            [searchVC.searchBar setPlaceholder:@"项目、任务、讨论等"];
+            [searchVC.searchBar setPlaceholder:@"项目/任务/讨论/冒泡等"];
 
             searchVC.displaysSearchBarInNavigationBar=NO;
             searchVC.parentVC = self;

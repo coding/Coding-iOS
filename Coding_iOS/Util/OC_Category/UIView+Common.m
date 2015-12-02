@@ -686,6 +686,11 @@ static char LoadingViewKey, BlankPageViewKey;
         _tipLabel.text = tipStr;
         
         if ((blankPageType>=EaseBlankPageTypeProject_ALL)&&(blankPageType<=EaseBlankPageTypeProject_STARED)) {
+            [_monkeyView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.centerX.equalTo(self);
+                make.bottom.equalTo(self.mas_centerY).offset(-35);
+            }];
+            
             //新增按钮
             UIButton *actionBtn=({
                 UIButton *button=[UIButton new];

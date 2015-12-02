@@ -107,9 +107,9 @@
             [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
             [searchBar sizeToFit];
             searchBar.delegate = self;
-            [searchBar setPlaceholder:@"项目、任务、讨论等"];
+            [searchBar setPlaceholder:@"项目/任务/讨论/冒泡等"];
         UITextField *searchField= [[[[searchBar subviews] firstObject] subviews] lastObject];
-            [(UIImageView*)[searchField leftView] setFrame:CGRectMake(0, 0, 12, 13)];
+            [(UIImageView*)[searchField leftView] setFrame:CGRectMake(0, 0, 13, 13)];
 //            [(UIImageView*)[searchField leftView] setImage:[UIImage imageNamed:@"icon_search_searchbar"]];
 //            [searchBar setImage:[UIImage imageNamed:@"icon_search_searchbar"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
             [searchBar setTintColor:[UIColor whiteColor]];
@@ -127,7 +127,7 @@
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     
     //初始化过滤目录
-    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:kScreen_Bounds items:nil];
+    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height-64) items:nil];
     __weak typeof(self) weakSelf = self;
     _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
         if (pageIndex==1000) {
@@ -150,12 +150,13 @@
                            [MenuItem itemWithTitle:@"两步验证" iconName:@"pop_2FA" index:5],
                            ];
     if (!_myPopMenu) {
-        _myPopMenu = [[PopMenu alloc] initWithFrame:kScreen_Bounds items:menuItems];
+        _myPopMenu = [[PopMenu alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height) items:menuItems];
         _myPopMenu.perRowItemCount = 3;
         _myPopMenu.menuAnimationType = kPopMenuAnimationTypeSina;
     }
     @weakify(self);
     _myPopMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem){
+        [weakSelf.myPopMenu.realTimeBlurFooter disMiss];
         [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"快捷创建_%@", selectedItem.title]];
         @strongify(self);
         //改下显示style
@@ -341,7 +342,8 @@
     [self closeFliter];
     if (_rightNavBtn.buttonStyle == kFRDLivelyButtonStylePlus) {
         [_rightNavBtn setStyle:kFRDLivelyButtonStyleClose animated:YES];
-        [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
+        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+        [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100) withTabFooterView:presentView];
     } else{
         [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
         [_myPopMenu dismissMenu];
@@ -480,7 +482,8 @@
     {
         [self fliterBtnClose:FALSE];
         _myFliterMenu.selectNum=_selectNum>=3?_selectNum+1:_selectNum;
-        [_myFliterMenu showMenuAtView:self.view];
+        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+        [_myFliterMenu showMenuAtView:presentView];
     }
 }
 
