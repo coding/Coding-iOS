@@ -19,7 +19,8 @@ static Tweet *_tweetForSend = nil;
     if (self) {
         _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"Comment", @"comment_list",
-                             @"User", @"like_users", nil];
+                             @"User", @"like_users",
+                             @"User", @"reward_users", nil];
         _canLoadMore = YES;
         _isLoading = _willLoadMore = NO;
         _contentHeight = 1;
