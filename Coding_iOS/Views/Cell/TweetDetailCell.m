@@ -26,6 +26,7 @@
 #import "WebContentManager.h"
 #import "CodingShareView.h"
 #import "TweetSendLocationDetailViewController.h"
+#import "SendRewardManager.h"
 
 @interface TweetDetailCell ()
 @property (strong, nonatomic) UITapImageView *ownerImgView;
@@ -414,7 +415,11 @@
 }
 
 - (void)rewardBtnClicked:(id)sender{
-#warning rewardBtnClicked
+    @weakify(self);
+    [SendRewardManager handleTweet:_tweet completion:^(Tweet *curTweet, BOOL sendSucess) {
+        @strongify(self);
+        self.tweet = curTweet;
+    }];
 }
 
 #pragma mark Collection M

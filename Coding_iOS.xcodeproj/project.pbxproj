@@ -210,6 +210,9 @@
 		4E5D13101C0ECB3400985AEB /* tweet_btn_reward@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5D13061C0ECB3400985AEB /* tweet_btn_reward@3x.png */; };
 		4E5D13111C0ECB3400985AEB /* tweet_btn_rewarded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5D13071C0ECB3400985AEB /* tweet_btn_rewarded@2x.png */; };
 		4E5D13121C0ECB3400985AEB /* tweet_btn_rewarded@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5D13081C0ECB3400985AEB /* tweet_btn_rewarded@3x.png */; };
+		4E5D13151C0EDFE700985AEB /* SendRewardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5D13141C0EDFE700985AEB /* SendRewardManager.m */; };
+		4E5D13181C0EF48200985AEB /* button_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5D13161C0EF48200985AEB /* button_close@2x.png */; };
+		4E5D13191C0EF48200985AEB /* button_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5D13171C0EF48200985AEB /* button_close@3x.png */; };
 		4E5F39021AC951060010515D /* TaskCommentCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5F39011AC951060010515D /* TaskCommentCCell.m */; };
 		4E5F39051ACA958C0010515D /* TopicCommentCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5F39041ACA958C0010515D /* TopicCommentCCell.m */; };
 		4E5F39071ACBFDCD0010515D /* keyboard_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5F39061ACBFDCD0010515D /* keyboard_photo@2x.png */; };
@@ -1245,6 +1248,10 @@
 		4E5D13061C0ECB3400985AEB /* tweet_btn_reward@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweet_btn_reward@3x.png"; sourceTree = "<group>"; };
 		4E5D13071C0ECB3400985AEB /* tweet_btn_rewarded@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweet_btn_rewarded@2x.png"; sourceTree = "<group>"; };
 		4E5D13081C0ECB3400985AEB /* tweet_btn_rewarded@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweet_btn_rewarded@3x.png"; sourceTree = "<group>"; };
+		4E5D13131C0EDFE700985AEB /* SendRewardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendRewardManager.h; sourceTree = "<group>"; };
+		4E5D13141C0EDFE700985AEB /* SendRewardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendRewardManager.m; sourceTree = "<group>"; };
+		4E5D13161C0EF48200985AEB /* button_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_close@2x.png"; sourceTree = "<group>"; };
+		4E5D13171C0EF48200985AEB /* button_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_close@3x.png"; sourceTree = "<group>"; };
 		4E5F39001AC951060010515D /* TaskCommentCCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskCommentCCell.h; sourceTree = "<group>"; };
 		4E5F39011AC951060010515D /* TaskCommentCCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskCommentCCell.m; sourceTree = "<group>"; };
 		4E5F39031ACA958C0010515D /* TopicCommentCCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicCommentCCell.h; sourceTree = "<group>"; };
@@ -3328,6 +3335,8 @@
 				4EC461AC1B39084100D08970 /* FunctionTipsManager.m */,
 				4E00229E1B7360B1005308DE /* FunctionIntroManager.h */,
 				4E00229F1B7360B1005308DE /* FunctionIntroManager.m */,
+				4E5D13131C0EDFE700985AEB /* SendRewardManager.h */,
+				4E5D13141C0EDFE700985AEB /* SendRewardManager.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -4110,6 +4119,8 @@
 				4EAE068F1B784E9200179F4B /* store_icon@2x.png */,
 				4EAE06911B7880BA00179F4B /* me_info_arrow_left@2x.png */,
 				4EAC8B691BA01F190060B0FC /* little_phone_icon@2x.png */,
+				4E5D13161C0EF48200985AEB /* button_close@2x.png */,
+				4E5D13171C0EF48200985AEB /* button_close@3x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -4940,6 +4951,7 @@
 				4E6384011B33C18700D98648 /* task_activity_icon_update_priority@2x.png in Resources */,
 				7E335D9F1B6F5E94003D0F3D /* keyboard_voice@2x.png in Resources */,
 				4E90F89B1AF709C100B44F03 /* bubble.html in Resources */,
+				4E5D13191C0EF48200985AEB /* button_close@3x.png in Resources */,
 				8E8F7B2D19EF6306006BA8BD /* btn_followed_not@2x.png in Resources */,
 				4EF17EE11B3C3112003CDD2D /* intro_tip_2@3x.png in Resources */,
 				4E6383DC1B3266C200D98648 /* mrpr_icon_fileChange@2x.png in Resources */,
@@ -5074,6 +5086,7 @@
 				8EA6D1A119E240C40076D59C /* tipIcon_UserFollow@2x.png in Resources */,
 				4E095A7F1B6B1E40008DC439 /* calendar_0xF5A523@2x.png in Resources */,
 				8EA6D18319E240C40076D59C /* me_normal@2x.png in Resources */,
+				4E5D13181C0EF48200985AEB /* button_close@2x.png in Resources */,
 				4EF17EDC1B3C3112003CDD2D /* intro_tip_0@2x.png in Resources */,
 				8EA6D19719E240C40076D59C /* tipIcon_Project@2x.png in Resources */,
 				4EF17ED31B3C3112003CDD2D /* intro_icon_2@2x.png in Resources */,
@@ -5333,6 +5346,7 @@
 				8EA6D13B19E240C40076D59C /* RootTabViewController.m in Sources */,
 				4E4ABBEA1A653027004760D9 /* WebViewController.m in Sources */,
 				4E6FB0551B5799B100B0A17B /* ProjectTag.m in Sources */,
+				4E5D13151C0EDFE700985AEB /* SendRewardManager.m in Sources */,
 				4E6BA2E51A1EE6AF005FD721 /* UIImageView+AFNetworking.m in Sources */,
 				8EA6D1B919E240C40076D59C /* ProjectMember.m in Sources */,
 				4E996BCD1ABA773800C704F1 /* UserInfoViewController.m in Sources */,

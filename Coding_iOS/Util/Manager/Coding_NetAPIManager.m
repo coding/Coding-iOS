@@ -1744,6 +1744,15 @@
     }];
 }
 
+- (void)request_Preparereward:(NSString *)tweet_id andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/tweet/%@/preparereward", tweet_id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = data[@"data"];
+        }
+        block(data, error);
+    }];
+}
 #pragma mark Message
 - (void)request_PrivateMessages:(PrivateMessages *)priMsgs andBlock:(void (^)(id data, NSError *error))block{
     priMsgs.isLoading = YES;

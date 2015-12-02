@@ -32,6 +32,7 @@
 #import "UICustomCollectionView.h"
 #import "CodingShareView.h"
 #import "TweetSendLocationDetailViewController.h"
+#import "SendRewardManager.h"
 
 @interface TweetCell ()
 @property (strong, nonatomic) Tweet *tweet;
@@ -683,7 +684,11 @@
     }
 }
 - (void)rewardBtnClicked:(id)sender{
-#warning rewardBtnClicked
+    @weakify(self);
+    [SendRewardManager handleTweet:_tweet completion:^(Tweet *curTweet, BOOL sendSucess) {
+        @strongify(self);
+        self.tweet = curTweet;
+    }];
 }
 #pragma mark TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
