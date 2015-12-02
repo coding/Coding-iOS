@@ -127,7 +127,9 @@
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     
     //初始化过滤目录
-    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height-64) items:nil];
+//    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height-64) items:nil];
+    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height) items:nil];
+
     __weak typeof(self) weakSelf = self;
     _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
         if (pageIndex==1000) {
@@ -342,8 +344,10 @@
     [self closeFliter];
     if (_rightNavBtn.buttonStyle == kFRDLivelyButtonStylePlus) {
         [_rightNavBtn setStyle:kFRDLivelyButtonStyleClose animated:YES];
-        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
-        [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100) withTabFooterView:presentView];
+//        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+//        [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100) withTabFooterView:presentView];
+        [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
+
     } else{
         [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
         [_myPopMenu dismissMenu];
@@ -482,8 +486,9 @@
     {
         [self fliterBtnClose:FALSE];
         _myFliterMenu.selectNum=_selectNum>=3?_selectNum+1:_selectNum;
-        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
-        [_myFliterMenu showMenuAtView:presentView];
+//        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+//        [_myFliterMenu showMenuAtView:presentView];
+        [_myFliterMenu showMenuAtView:self.view];
     }
 }
 
