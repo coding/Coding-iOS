@@ -84,7 +84,16 @@
     });
     [self addSubview:_tableview];
     _tableview.contentInset=UIEdgeInsetsMake(15, 0,0,0);
-
+    
+    
+    int contentHeight=320;
+    if ((kScreen_Height-64)>contentHeight) {
+        UIView *contentView=[[UIView alloc] initWithFrame:CGRectMake(0,64+contentHeight , kScreen_Width, kScreen_Height-64-contentHeight)];
+        contentView.backgroundColor=[UIColor clearColor];
+        [self addSubview:contentView];
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickedContentView:)];
+        [contentView addGestureRecognizer:tapGestureRecognizer];
+    }
 }
 
 #pragma mark -- event & action
@@ -240,38 +249,27 @@
         [self dismissMenu];
         _clickBlock([self convertToProjectType]);
     }else if (indexPath.section==1) {
-        if(indexPath.row==0) return;
+        if(indexPath.row==0){
+            _closeBlock();
+            return;
+        }
         _selectNum=indexPath.row+kfirstRowNum-1;
         [self dismissMenu];
         _clickBlock([self convertToProjectType]);
     }else
     {
-        if(indexPath.row==0) return;
+        if(indexPath.row==0){
+            _closeBlock();
+            return;
+        }
         _clickBlock(1000);
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-//- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//    if (section!=0) {
-//        return ({
-//                 UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 30.5)];
-//                 UIView *seperatorLine=[[UIView alloc] initWithFrame:CGRectMake(20, 15, self.bounds.size.width-40, 0.5)];
-//                 seperatorLine.backgroundColor=[UIColor colorWithHexString:@"0xcccccc"];
-//                 [view addSubview:seperatorLine];
-//                 view;
-//        });
-//    }else
-//    {
-//        return nil;
-//    }
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    return (section!=0)?30.5:0;
-//}
-//
+- (void)didClickedContentView:(UIGestureRecognizer *)sender {
+    _closeBlock();
+}
+
 
 @end

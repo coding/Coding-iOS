@@ -142,6 +142,10 @@
         }
     };
     
+    _myFliterMenu.closeBlock=^(){
+        [weakSelf closeFliter];
+    };
+    
     //初始化弹出菜单
     NSArray *menuItems = @[
                            [MenuItem itemWithTitle:@"项目" iconName:@"pop_Project" index:0],
