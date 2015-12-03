@@ -84,9 +84,6 @@ static Tweet *_tweetForSend = nil;
 }
 
 - (NSArray *)like_reward_users{
-    if (_reward_users.count > 0) {
-        NSLog(@"_reward_users.count > 0");
-    }
     NSMutableArray *like_reward_users = _like_users.count > 0? _like_users.mutableCopy: @[].mutableCopy;//点赞的人多，用点赞的人列表做基
     [_reward_users enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(User *obj, NSUInteger idx, BOOL *stop) {
         __block NSInteger originalIndex = NSNotFound;
@@ -134,6 +131,16 @@ static Tweet *_tweetForSend = nil;
 - (NSDictionary *)toDoCommentParams{
     return @{@"content" : [self.nextCommentStr aliasedString]};
 }
+
+
+- (NSString *)toLikesAndRewardsPath{
+    return [NSString stringWithFormat:@"api/tweet/%d/allLikesAndRewards", _id.intValue];
+}
+- (NSDictionary *)toLikesAndRewardsParams{
+    return @{@"page" : [NSNumber numberWithInteger:1],
+             @"pageSize" : [NSNumber numberWithInteger:500]};
+}
+
 - (NSString *)toLikersPath{
     return [NSString stringWithFormat:@"api/tweet/%d/likes", _id.intValue];
 }

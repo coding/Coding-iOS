@@ -1554,6 +1554,20 @@
         }
     }];
 }
+- (void)request_Tweet_LikesAndRewards_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block{
+    tweet.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[tweet toLikesAndRewardsPath] withParams:[tweet toLikesAndRewardsParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        tweet.isLoading = NO;
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"冒泡_赞赏的人_列表"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            block(resultData, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 - (void)request_Tweet_Comments_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block{
     tweet.isLoading = YES;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[tweet toCommentsPath] withParams:[tweet toCommentsParams] withMethodType:Get andBlock:^(id data, NSError *error) {

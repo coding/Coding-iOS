@@ -5000,6 +5000,7 @@
 				8E47700D198770E700997D05 /* Frameworks */,
 				8E47700E198770E700997D05 /* Resources */,
 				96A9263FF11A4AA8B5F6BB6B /* Copy Pods Resources */,
+				E02AF118462CF977ED1C152E /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -5193,7 +5194,6 @@
 				4E0849811A918A7F00BD27F6 /* coding_emoji_39@2x.png in Resources */,
 				4EF17EDD1B3C3112003CDD2D /* intro_tip_0@3x.png in Resources */,
 				8E97CE9F1A0C7E26006F9AD7 /* coding_emoji_08@2x.png in Resources */,
-				4E6383E51B3272CF00D98648 /* info_Nav@2x.png in Resources */,
 				4E5D130D1C0ECB3400985AEB /* tweet_btn_liked@2x.png in Resources */,
 				4E93F2451B85C4C300017916 /* FileInfoViewController.xib in Resources */,
 				0A782FDE1AB5B78B00E96661 /* TweetSendCreateLocationCell.xib in Resources */,
@@ -5325,7 +5325,6 @@
 				4E96E7DE1A1B537E0037C098 /* icon_file_music@2x.png in Resources */,
 				8EA6D1A119E240C40076D59C /* tipIcon_UserFollow@2x.png in Resources */,
 				4E095A7F1B6B1E40008DC439 /* calendar_0xF5A523@2x.png in Resources */,
-				8EA6D18319E240C40076D59C /* me_normal@2x.png in Resources */,
 				4E5D13181C0EF48200985AEB /* button_close@2x.png in Resources */,
 				4EF17EDC1B3C3112003CDD2D /* intro_tip_0@2x.png in Resources */,
 				8EA6D19719E240C40076D59C /* tipIcon_Project@2x.png in Resources */,
@@ -5468,7 +5467,6 @@
 				4E217F121A70EDC700F6DF88 /* SVWebViewControllerActivityChrome@2x.png in Resources */,
 				4E217F161A70EDC700F6DF88 /* SVWebViewControllerActivitySafari@2x.png in Resources */,
 				4EF17EE21B3C3112003CDD2D /* intro_tip_3@2x.png in Resources */,
-				8E97CE511A0A3410006F9AD7 /* addBtn_Nav@2x.png in Resources */,
 				4E5D130F1C0ECB3400985AEB /* tweet_btn_reward@2x.png in Resources */,
 				4E6383D51B32665700D98648 /* project_item_mr_pr@2x.png in Resources */,
 				8E80296D19F4E23100A470A2 /* creator_image@2x.png in Resources */,
@@ -5575,6 +5573,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E02AF118462CF977ED1C152E /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -6188,7 +6201,7 @@
 					"$(PROJECT_DIR)/Coding_iOS/Util/Audio/opencore-amr-iOS/lib",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMSocial_Sdk_4.3.0_Extra/SinaSSO",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zzb.dis;
+				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingForiOS;
 				PRODUCT_NAME = Coding_iOS;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -6227,7 +6240,7 @@
 					"$(PROJECT_DIR)/Coding_iOS/Util/Audio/opencore-amr-iOS/lib",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMSocial_Sdk_4.3.0_Extra/SinaSSO",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zzb.dis;
+				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingForiOS;
 				PRODUCT_NAME = Coding_iOS;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

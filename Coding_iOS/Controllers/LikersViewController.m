@@ -16,6 +16,7 @@
 
 
 @interface LikersViewController ()
+@property (strong, nonatomic) NSArray *like_reward_users;
 
 @property (strong, nonatomic) UITableView *myTableView;
 
@@ -39,7 +40,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"点赞的人";
+    self.title = @"赞赏的人";
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         tableView.backgroundColor = [UIColor clearColor];
@@ -70,37 +71,49 @@
     if (_curTweet.isLoading) {
         return;
     }
-    if (_curTweet.like_users.count <= 0) {
+    if (_like_reward_users.count <= 0) {
         [self.view beginLoading];
     }
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_Tweet_Likers_WithObj:_curTweet andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_Tweet_LikesAndRewards_WithObj:_curTweet andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         [weakSelf.myRefreshControl endRefreshing];
-        if (data) {
-            weakSelf.curTweet.like_users = data;
-            weakSelf.curTweet.likes = [NSNumber numberWithInteger:weakSelf.curTweet.like_users.count];
-            [weakSelf.myTableView reloadData];
+        if ([data isKindOfClass:[NSDictionary class]]) {
+            [weakSelf refreshWithData:data];
         }
     }];
 }
+
+- (void)refreshWithData:(NSDictionary *)data{
+    if (data[@"likeUsers"]) {
+        _curTweet.like_users = [NSObject arrayFromJSON:data[@"likeUsers"] ofObjects:@"User"];
+    }
+    if (data[@"rewardUsers"]) {
+        _curTweet.reward_users = [NSObject arrayFromJSON:data[@"rewardUsers"] ofObjects:@"User"];
+    }
+    _like_reward_users = [_curTweet like_reward_users];
+    [self.myTableView reloadData];
+}
+
 #pragma mark Table M
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (_curTweet.like_users) {
-        return [_curTweet.like_users count];
+    if (_like_reward_users) {
+        return [_like_reward_users count];
     }else{
         return 0;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UserCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserCell];
-    if (cell == nil) {
-        cell = [[UserCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier_UserCell];
-    }
-    User *curUser = [_curTweet.like_users objectAtIndex:indexPath.row];
+    UserCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserCell forIndexPath:indexPath];
+
+    cell.userIconView.layer.borderColor = [UIColor colorWithHexString:@"0xFFAE03"].CGColor;
+    
+    User *curUser = [_like_reward_users objectAtIndex:indexPath.row];
     cell.curUser = curUser;
     cell.usersType = UsersTypeTweetLikers;
+    
+    cell.userIconView.layer.borderWidth = [_curTweet rewardedBy:curUser]? 1.0: 0;
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
     return cell;
 }
@@ -111,7 +124,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    User *user = [_curTweet.like_users objectAtIndex:indexPath.row];
+    User *user = [_like_reward_users objectAtIndex:indexPath.row];
     UserInfoViewController *vc = [[UserInfoViewController alloc] init];
     vc.curUser = user;
     [self.navigationController pushViewController:vc animated:YES];

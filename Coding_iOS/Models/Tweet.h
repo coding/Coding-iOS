@@ -55,6 +55,9 @@
 - (NSString *)toDoCommentPath;
 - (NSDictionary *)toDoCommentParams;
 
+- (NSString *)toLikesAndRewardsPath;
+- (NSDictionary *)toLikesAndRewardsParams;
+
 - (NSString *)toLikersPath;
 - (NSDictionary *)toLikersParams;
 

@@ -13,6 +13,8 @@
 #import "Users.h"
 
 @interface UserCell : UITableViewCell
+@property (strong, nonatomic) UIImageView *userIconView;
+
 @property (strong, nonatomic) User *curUser;
 @property (assign, nonatomic) UsersType usersType;
 @property (nonatomic,copy) void(^leftBtnClickedBlock)(User *curUser);
