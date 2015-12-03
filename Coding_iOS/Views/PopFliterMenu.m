@@ -97,6 +97,10 @@
 
 - (void)dismissMenu
 {
+    UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+    if ([[presentView.subviews firstObject] isMemberOfClass:NSClassFromString(@"RDVTabBar")]) {
+        [presentView bringSubviewToFront:[presentView.subviews firstObject]];
+    }
     _showStatus=FALSE;
     [_realTimeBlur disMiss];
     [self removeFromSuperview];

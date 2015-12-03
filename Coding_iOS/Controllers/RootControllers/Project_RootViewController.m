@@ -344,7 +344,8 @@
     [self closeFliter];
     if (_rightNavBtn.buttonStyle == kFRDLivelyButtonStylePlus) {
         [_rightNavBtn setStyle:kFRDLivelyButtonStyleClose animated:YES];
-//        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+        [presentView bringSubviewToFront:[presentView.subviews firstObject]];
 //        [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100) withTabFooterView:presentView];
         [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
 
@@ -481,11 +482,17 @@
     [self closeMenu];
     if (_myFliterMenu.showStatus) {
         [self fliterBtnClose:TRUE];
+        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+        if ([[presentView.subviews firstObject] isMemberOfClass:NSClassFromString(@"RDVTabBar")]) {
+            [presentView bringSubviewToFront:[presentView.subviews firstObject]];
+        }
         [_myFliterMenu dismissMenu];
     }else
     {
         [self fliterBtnClose:FALSE];
         _myFliterMenu.selectNum=_selectNum>=3?_selectNum+1:_selectNum;
+        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+        [presentView bringSubviewToFront:[presentView.subviews firstObject]];
 //        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
 //        [_myFliterMenu showMenuAtView:presentView];
         [_myFliterMenu showMenuAtView:self.view];

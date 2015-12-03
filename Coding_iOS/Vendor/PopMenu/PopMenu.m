@@ -65,6 +65,10 @@
     };
     
     _realTimeBlur.willDismissBlurViewCompleted = ^(void) {
+        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+        if ([[presentView.subviews firstObject] isMemberOfClass:NSClassFromString(@"RDVTabBar")]) {
+            [presentView bringSubviewToFront:[presentView.subviews firstObject]];
+        }
         [weakSelf.realTimeBlurFooter disMiss];
         if (weakSelf.selectedItem) {
             if (weakSelf.didSelectedItemCompletion) {
@@ -78,6 +82,7 @@
         [weakSelf hidenButtons];
     };
     _realTimeBlur.didDismissBlurViewCompleted = ^(BOOL finished) {
+        
         weakSelf.isShowed = NO;
         [weakSelf removeFromSuperview];
         [weakSelf.footerView removeFromSuperview];
