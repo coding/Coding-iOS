@@ -66,3 +66,17 @@
     [_categoryBtn setTitle:title forState:UIControlStateNormal];
 }
 @end
+
+
+@implementation MainSearchBar
+-(void)layoutSubviews
+{
+    self.autoresizesSubviews = YES;
+    //找到输入框  右移
+    UITextField *searchField=[[[[self subviews] firstObject] subviews] lastObject];
+    searchField.textAlignment=NSTextAlignmentLeft;
+    [searchField setFrame:CGRectMake(0,4.8,self.frame.size.width,22)];
+//    searchField.backgroundColor=[UIColor blueColor];
+    [(UIImageView*)searchField.leftView setSize:CGSizeMake(13, 13)];
+}
+@end

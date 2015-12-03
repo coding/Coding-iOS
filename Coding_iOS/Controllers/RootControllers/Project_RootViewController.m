@@ -29,6 +29,7 @@
 #import "SearchViewController.h"
 #import "pop.h"
 #import "FRDLivelyButton.h"
+#import "CategorySearchBar.h"
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
@@ -41,7 +42,7 @@
 @property (nonatomic,strong)UIButton *leftNavBtn;
 @property (nonatomic,strong)FRDLivelyButton *rightNavBtn;
 @property (nonatomic,strong)UIView *searchView;
-@property (strong, nonatomic) UISearchBar *mySearchBar;
+@property (strong, nonatomic) MainSearchBar *mySearchBar;
 
 @end
 
@@ -98,33 +99,52 @@
         icarousel;
     });
     
+//    //添加搜索框
+//    _mySearchBar = ({
+//            UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0, kScreen_Width-110, 31)];
+//            searchBar.layer.cornerRadius=15;
+//            searchBar.layer.masksToBounds=TRUE;
+//            [searchBar.layer setBorderWidth:8];
+//            [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
+//            [searchBar sizeToFit];
+//            searchBar.delegate = self;
+//            [searchBar setPlaceholder:@"项目/任务/讨论/冒泡等"];
+//            UITextField *searchField= [[[[searchBar subviews] firstObject] subviews] lastObject];
+////            [searchField setHeight:22];
+////            searchField.contentVerticalAlignment=UIControlContentVerticalAlignmentCenter;
+////            [searchField setBackgroundColor:[UIColor blueColor]];
+//            [(UIImageView*)[searchField leftView] setFrame:CGRectMake(0, 0, 13, 13)];
+//            [(UIImageView*)[searchField leftView] setImage:[UIImage imageNamed:@"icon_search_searchbar"]];
+//            [searchBar setImage:[UIImage imageNamed:@"icon_search_searchbar"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+//            [searchBar setTintColor:[UIColor whiteColor]];
+//            [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
+//            [searchBar setHeight:31];
+//            searchBar;
+//        });
+    
     //添加搜索框
     _mySearchBar = ({
-            UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0, kScreen_Width-110, 31)];
-            searchBar.layer.cornerRadius=15;
-            searchBar.layer.masksToBounds=TRUE;
-            [searchBar.layer setBorderWidth:8];
-            [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
-            [searchBar sizeToFit];
-            searchBar.delegate = self;
-            [searchBar setPlaceholder:@"项目/任务/讨论/冒泡等"];
-            UITextField *searchField= [[[[searchBar subviews] firstObject] subviews] lastObject];
-//            [searchField setHeight:22];
-//            searchField.contentVerticalAlignment=UIControlContentVerticalAlignmentCenter;
-//            [searchField setBackgroundColor:[UIColor blueColor]];
-            [(UIImageView*)[searchField leftView] setFrame:CGRectMake(0, 0, 13, 13)];
-            [(UIImageView*)[searchField leftView] setImage:[UIImage imageNamed:@"icon_search_searchbar"]];
-            [searchBar setImage:[UIImage imageNamed:@"icon_search_searchbar"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-            [searchBar setTintColor:[UIColor whiteColor]];
-            [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
-            [searchBar setHeight:31];
-            searchBar;
-        });
-    
+        MainSearchBar *searchBar = [[MainSearchBar alloc] initWithFrame:CGRectMake(60,7, kScreen_Width-115, 31)];
+        [searchBar setPlaceholder:@"项目/任务/讨论/冒泡等"];
+        searchBar.delegate = self;
+        searchBar.layer.cornerRadius=15;
+        searchBar.layer.masksToBounds=TRUE;
+        [searchBar.layer setBorderWidth:8];
+        [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
+        [searchBar sizeToFit];
+        [searchBar setTintColor:[UIColor whiteColor]];
+        [searchBar insertBGColor:[UIColor colorWithHexString:@"0xffffff"]];
+        //        [searchBar setImage:nil forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+        //        [searchBar setPositionAdjustment:UIOffsetMake(10,0) forSearchBarIcon:UISearchBarIconClear];
+        //        searchBar.searchTextPositionAdjustment=UIOffsetMake(10,0);
+        [searchBar setHeight:30];
+        searchBar;
+    });
 
-    _searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width-110, 31)];//allocate titleView
-    UIColor *color = [UIColor colorWithHexString:[NSObject baseURLStrIsTest]? @"0x3bbd79" : @"0x28303b"];
-    [_searchView setBackgroundColor:color];
+
+//    _searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width-110, 31)];//allocate titleView
+//    UIColor *color = [UIColor colorWithHexString:[NSObject baseURLStrIsTest]? @"0x3bbd79" : @"0x28303b"];
+//    [_searchView setBackgroundColor:color];
     
     
     
@@ -242,9 +262,12 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.navigationItem.titleView sizeToFit];
-    [_searchView addSubview:_mySearchBar];
-    self.navigationItem.titleView = _searchView;
+//    [self.navigationItem.titleView sizeToFit];
+//    [_searchView addSubview:_mySearchBar];
+//    self.navigationItem.titleView = _searchView;
+
+    [self.navigationController.navigationBar addSubview:_mySearchBar];
+
     
     if (_myCarousel) {
         ProjectListView *listView = (ProjectListView *)_myCarousel.currentItemView;

@@ -13,3 +13,7 @@ typedef void(^SelectBlock)();
 -(void)patchWithCategoryWithSelectBlock:(SelectBlock)block;
 -(void)setSearchCategory:(NSString*)title;
 @end
+
+
+@interface MainSearchBar : UISearchBar
+@end
