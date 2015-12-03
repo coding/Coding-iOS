@@ -10,7 +10,10 @@
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending) 
 #define _IPHONE80_ 80000
 
-
+#if DEBUG
+#import <FLEX/FLEXManager.h>
+#import "RRFPSBar.h"
+#endif
 
 #import "AppDelegate.h"
 #import "RootTabViewController.h"
@@ -105,6 +108,11 @@
         @strongify(self);
         [self completionStartAnimationWithOptions:launchOptions];
     }];
+    
+#if DEBUG
+    [[RRFPSBar sharedInstance] setShowsAverage:YES];
+    [[RRFPSBar sharedInstance] setHidden:NO];
+#endif
     
     return YES;
 }

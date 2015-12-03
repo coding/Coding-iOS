@@ -1761,6 +1761,30 @@
     }];
 }
 
+- (void)request_Preparereward:(NSString *)tweet_id andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/tweet/%@/preparereward", tweet_id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"准备打赏"];
+
+            data = data[@"data"];
+        }
+        block(data, error);
+    }];
+}
+- (void)request_RewardToTweet:(NSString *)tweet_id encodedPassword:(NSString *)encodedPassword andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/tweet/%@/reward", tweet_id];
+    NSDictionary *params = @{@"encodedPassword": encodedPassword};
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"打赏成功"];
+        }else{
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"打赏失败"];
+        }
+        block(data, error);
+    }];
+}
 #pragma mark Message
 - (void)request_PrivateMessages:(PrivateMessages *)priMsgs andBlock:(void (^)(id data, NSError *error))block{
     priMsgs.isLoading = YES;

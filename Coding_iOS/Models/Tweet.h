@@ -17,10 +17,10 @@
 
 @interface Tweet : NSObject
 @property (readwrite, nonatomic, strong) NSString *content, *device, *location, *coord, *address;
-@property (readwrite, nonatomic, strong) NSNumber *liked, *activity_id, *id, *comments, *likes;
+@property (readwrite, nonatomic, strong) NSNumber *liked, *rewarded, *activity_id, *id, *comments, *likes, *rewards;
 @property (readwrite, nonatomic, strong) NSDate *created_at;
 @property (readwrite, nonatomic, strong) User *owner;
-@property (readwrite, nonatomic, strong) NSMutableArray *comment_list, *like_users;
+@property (readwrite, nonatomic, strong) NSMutableArray *comment_list, *like_users, *reward_users;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 @property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading;
 @property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;
