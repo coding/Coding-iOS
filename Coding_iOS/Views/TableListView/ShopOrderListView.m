@@ -81,20 +81,6 @@
     }else
         _myTableView.tableFooterView = nil;
     
-    
-    EaseBlankPageType  _orderEmptyType;
-    if (_myOrder.orderType == ShopOrderSend) {
-        
-        _orderEmptyType = EaseBlankPageTypeShopSendOrders;
-    }else if (_myOrder.orderType == ShopOrderUnSend)
-    {
-        _orderEmptyType = EaseBlankPageTypeShopUnSendOrders;
-    }else
-        _orderEmptyType = EaseBlankPageTypeShopOrders;
-
-    [self configBlankPage:_orderEmptyType hasData:(_dataSource.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
-    }];
-    
     [self.myTableView reloadData];
     
     __weak typeof(self) weakSelf = self;

@@ -124,9 +124,24 @@
      listView.myOrder = _myOrder;
     [listView reloadData];
 
+    EaseBlankPageType  _orderEmptyType;
+    if (_myOrder.orderType == ShopOrderSend)
+    {
+        _orderEmptyType = EaseBlankPageTypeShopSendOrders;
+    }else if (_myOrder.orderType == ShopOrderUnSend)
+    {
+        _orderEmptyType = EaseBlankPageTypeShopUnSendOrders;
+    }else
+        _orderEmptyType = EaseBlankPageTypeShopOrders;
+    
+    [listView configBlankPage:_orderEmptyType hasData:( [_myOrder getDataSourceByOrderType].count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+    }];
+    
     if (_mySegmentControl) {
         _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
+    
+    
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
     }];

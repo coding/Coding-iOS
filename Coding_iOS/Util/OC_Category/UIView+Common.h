@@ -35,6 +35,7 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
     EaseBlankPageTypeShopOrders,
     EaseBlankPageTypeShopSendOrders,
     EaseBlankPageTypeShopUnSendOrders,
+    EaseBlankPageTypeNoExchangeGoods,
 
 };
 

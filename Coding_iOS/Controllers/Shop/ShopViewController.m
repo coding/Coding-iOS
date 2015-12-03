@@ -16,15 +16,29 @@
 
 #import "Shop.h"
 #import "ShopBanner.h"
+#import "iCarousel.h"
+@class ShopListView;
 
 #import "Coding_NetAPIManager.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 
-@interface ShopViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
+@protocol ShopListViewDelegate <NSObject>
+
+- (void)didSelectGoodItem:(ShopGoods *)good;
+
+@end
+
+@interface ShopListView : UIView
+
+@property(nonatomic, weak)id<ShopListViewDelegate> delegate;
+@property(nonatomic,strong)NSArray *dataSource;
+
+@end
+
+
+@interface ShopViewController ()<iCarouselDataSource,iCarouselDelegate,ShopListViewDelegate>
 {
-    UICollectionView        *_collectionView;
     UIView                  *_collectionHeaderView;
-    
     XTSegmentControl        *_shopSegmentControl;
     ShopBannerView          *_shopBannerView;
     
@@ -32,8 +46,9 @@
     BOOL                    _isRequest;
 }
 
-@property(nonatomic,strong)XTSegmentControl *shopSegmentControl;
-@property(nonatomic,strong)UICollectionView *collectionView;
+@property (strong, nonatomic) XTSegmentControl *mySegmentControl;
+@property (strong, nonatomic) NSArray *titlesArray;
+@property (strong, nonatomic) iCarousel *myCarousel;
 @property(nonatomic,strong)Shop *shopObject;
 
 @end
@@ -64,6 +79,18 @@
     }
 }
 
+#pragma mark---------------------- ShopListViewDelegate --------------------
+- (void)didSelectGoodItem:(ShopGoods *)model
+{
+    if (!model.exchangeable) {
+        [NSObject showHudTipStr:@"您的码币余额不足，不能兑换该商品"];
+        return;
+    }
+    ExchangeGoodsViewController *exChangeViewController = [[ExchangeGoodsViewController alloc] init];
+    exChangeViewController.shopGoods = model;
+    [self.navigationController pushViewController:exChangeViewController animated:YES];
+}
+
 
 #pragma mark-
 #pragma mark---------------------- ControllerLife ---------------------------
@@ -74,9 +101,8 @@
     self.title = @"我的商城";
     _shopObject = [[Shop alloc] init];
     _shopObject.shopType = ShopTypeAll;
-    
-    [self setUpCollectionView];
-    [self setUpSegmentControl];
+
+    [self setUpView];
     
     // 一次性加载所有数据，暂时没有做分页的需要，先注释.
 //    __weak typeof(self) weakSelf = self;
@@ -113,10 +139,9 @@
     
     [self.view beginLoading];
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_shop_bannersWithBlock:^(id data, NSError *error) {
-        weakSelf.shopObject.shopBannerArray = data;
-        [weakSelf.collectionView reloadData];
-    }];
+//    [[Coding_NetAPIManager sharedManager] request_shop_bannersWithBlock:^(id data, NSError *error) {
+//        weakSelf.shopObject.shopBannerArray = data;
+//    }];
     
     [[Coding_NetAPIManager sharedManager] request_shop_userPointWithShop:_shopObject andBlock:^(id data, NSError *error) {
         if (data) {
@@ -131,138 +156,95 @@
     [[Coding_NetAPIManager sharedManager] request_shop_giftsWithShop:_shopObject andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
-            [weakSelf.collectionView reloadData];
+            ShopListView *listView = (ShopListView *)[weakSelf.myCarousel currentItemView];
+            listView.dataSource = weakSelf.shopObject.dateSource;
         }else
             [NSObject showHudTipStr:@"Error"];
     }];
 }
 
 
-#pragma mark-
-#pragma mark---------------------- initView ---------------------------
-
-- (void)setUpCollectionView
+- (void)setUpView
 {
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    CGFloat itemW = (self.view.frame.size.width - 12 * 3) / 2;
-    CGFloat itemH = itemW * (175.0/284.0) + 10 +21 +5 +13 +5;
-
-    layout.itemSize = CGSizeMake(itemW, itemH);
-    layout.minimumInteritemSpacing = 5;
-    layout.minimumLineSpacing = 20;
-
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 64) collectionViewLayout:layout];
-    _collectionView.backgroundColor = [UIColor clearColor];
-    
-    [_collectionView registerClass:[ShopGoodsCCell class] forCellWithReuseIdentifier:@"TopicProductCollectionCellIdentifier"];
-    _collectionView.dataSource = self;
-    _collectionView.delegate = self;
-    _collectionView.layer.masksToBounds = NO;
-    [self.view addSubview:_collectionView];
-    
-    CGFloat bannerHeight = kMySegmentControl_Height;
-    _collectionHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _collectionView.frame.size.width, bannerHeight)];
-    _collectionHeaderView.backgroundColor = [UIColor whiteColor];
-    [_collectionView addSubview:_collectionHeaderView];
-    
-}
-
-- (void)setUpSegmentControl
-{
-    //添加滑块
-    NSArray *_segmentItems = @[@"全部商品",@"可兑换商品"];
+    //添加myCarousel
+    self.myCarousel = ({
+        iCarousel *icarousel = [[iCarousel alloc] initWithFrame:CGRectZero];
+        icarousel.dataSource = self;
+        icarousel.delegate = self;
+        icarousel.decelerationRate = 1.0;
+        icarousel.scrollSpeed = 1.0;
+        icarousel.type = iCarouselTypeLinear;
+        icarousel.pagingEnabled = YES;
+        icarousel.clipsToBounds = YES;
+        icarousel.bounceDistance = 0.2;
+        [self.view addSubview:icarousel];
+        [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(kMySegmentControl_Height, 0, 0, 0));
+        }];
+        
+        icarousel;
+    });
     __weak typeof(self) weakSelf = self;
-    _shopSegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(_collectionHeaderView.frame)- kMySegmentControl_Height - 5, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
-        
-        [weakSelf segmentControlSelecteIndex:index];
+    self.mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:self.titlesArray selectedBlock:^(NSInteger index) {
+        [weakSelf.myCarousel scrollToItemAtIndex:index animated:NO];
     }];
-    _shopSegmentControl.backgroundColor = [UIColor whiteColor];
-    [_collectionHeaderView addSubview:_shopSegmentControl];
-    [self.view bringSubviewToFront:_shopSegmentControl];
+    [self.view addSubview:self.mySegmentControl];
 }
 
-- (void)segmentControlSelecteIndex:(NSInteger)index
+#pragma mark - Getter/Setter
+- (NSArray*)titlesArray
 {
-    if (index == _oldSelectedIndex) {
-        return;
+    if (nil == _titlesArray) {
+        _titlesArray = @[@"全部商品", @"可兑换商品"];
     }
-    _oldSelectedIndex  = index;
-    _shopObject.shopType = index;    
-    [_collectionView reloadData];
+    return _titlesArray;
+}
+#pragma mark iCarousel M
+- (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel{
+    return [self.titlesArray count];
 }
 
-
-#pragma mark - UICollectionViewDataSource
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    return _shopObject.dateSource.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    ShopGoodsCCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TopicProductCollectionCellIdentifier" forIndexPath:indexPath];
-    BaseModel *model = _shopObject.dateSource[indexPath.row];
-    [cell configViewWithModel:model];
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view{
     
-    return cell;
-}
-
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    CGFloat height = kMySegmentControl_Height;
-    NSArray * shopBannerArray = _shopObject.shopBannerArray;
-    if ( shopBannerArray && shopBannerArray.count > 0) {
+    ShopListView *listView = (ShopListView *)view;
+    if (listView) {
         
-        CGFloat bannerHeight = kScreen_Width * (270.0/640);
-        _shopBannerView = [[ShopBannerView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, bannerHeight)];
-        _shopBannerView.curBannerList = shopBannerArray;
-        [_collectionHeaderView addSubview:_shopBannerView];
-        [_shopBannerView reloadData];
-        _shopSegmentControl.frame = CGRectMake(0, bannerHeight, kScreen_Width, kMySegmentControl_Height);
-        height = kMySegmentControl_Height  + bannerHeight ;
-        _collectionHeaderView.frame = CGRectMake(0, 0, kScreen_Width, height);
+    }else{
+        listView = [[ShopListView alloc] initWithFrame:carousel.bounds];
     }
-    return UIEdgeInsetsMake(20 + height, 10, 10, 10);
+    listView.delegate = self;
+    [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
+    return listView;
 }
 
-#pragma mark - UICollectionViewDelegate
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    ShopGoods *model = _shopObject.dateSource[indexPath.row];
-    if (!model.exchangeable) {
-        [NSObject showHudTipStr:@"您的码币余额不足，不能兑换该商品"];
-        return;
+- (void)carouselDidScroll:(iCarousel *)carousel{
+    if (_mySegmentControl) {
+        float offset = carousel.scrollOffset;
+        if (offset > 0) {
+            [_mySegmentControl moveIndexWithProgress:offset];
+        }
     }
-    ExchangeGoodsViewController *exChangeViewController = [[ExchangeGoodsViewController alloc] init];
-    exChangeViewController.shopGoods = model;
-    [self.navigationController pushViewController:exChangeViewController animated:YES];
-//    [BaseViewController presentVC:exChangeViewController];
-
 }
 
-
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    CGFloat offsetY = scrollView.contentOffset.y + scrollView.contentInset.top;
-    CGFloat bannerHeight = kScreen_Width * (270.0/640);
+- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel{
     
-    NSLog(@"%f%f",offsetY,CGRectGetHeight(_collectionHeaderView.frame));
-
-    if (offsetY >= CGRectGetHeight(_collectionHeaderView.frame) -kMySegmentControl_Height ) {
+    ShopListView *listView = (ShopListView *)carousel.currentItemView;
+    if (_mySegmentControl) {
+        _mySegmentControl.currentIndex = carousel.currentItemIndex;
+    }
+    
+    if (carousel.currentItemIndex == 0) {
+        listView.dataSource = _shopObject.dateSource;
         
-        _shopSegmentControl.frame = CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height);
-        [self.view addSubview:_shopSegmentControl];
-    }else
+    }else if(carousel.currentItemIndex == 1)
     {
-        _shopSegmentControl.frame = CGRectMake(0,bannerHeight, kScreen_Width, kMySegmentControl_Height);
-        [_collectionHeaderView addSubview:_shopSegmentControl];
+        listView.dataSource = [_shopObject getExchangeGiftData];
     }
+    
+    [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
+    }];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -270,8 +252,86 @@
 }
 - (void)dealloc
 {
-    _collectionView.delegate = nil;
-    _collectionView.dataSource = nil;
+    _myCarousel.delegate = nil;
+    _myCarousel.dataSource = nil;
 }
 
+@end
+
+
+@interface ShopListView () <UICollectionViewDataSource,UICollectionViewDelegate>
+{
+    UICollectionView     *_collectionView;
+}
+
+@end
+
+@implementation ShopListView
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        
+        [self setUpCollectionView];
+    }
+    return self;
+}
+
+- (void)setUpCollectionView
+{
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    CGFloat itemW = (kScreen_Width - 12 * 3) / 2;
+    CGFloat itemH = itemW * (175.0/284.0) + 10 +21 +5 +13 +5;
+    
+    layout.itemSize = CGSizeMake(itemW, itemH);
+    layout.sectionInset = UIEdgeInsetsMake(20, 12, 20, 12);
+    layout.minimumInteritemSpacing = 5;
+    layout.minimumLineSpacing = 20;
+    
+    _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:layout];
+    _collectionView.backgroundColor = [UIColor clearColor];
+    
+    [_collectionView registerClass:[ShopGoodsCCell class] forCellWithReuseIdentifier:@"TopicProductCollectionCellIdentifier"];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+    _collectionView.layer.masksToBounds = NO;
+    [self addSubview:_collectionView];
+}
+
+- (void)setDataSource:(NSArray *)dataSource
+{
+    _dataSource = dataSource;
+    [_collectionView reloadData];
+    
+    [self configBlankPage:EaseBlankPageTypeNoExchangeGoods hasData:_dataSource.count > 0 hasError:NO reloadButtonBlock:^(id sender) {
+    }];
+}
+
+#pragma mark - UICollectionViewDataSource
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return _dataSource.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    ShopGoodsCCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TopicProductCollectionCellIdentifier" forIndexPath:indexPath];
+    BaseModel *model = _dataSource[indexPath.row];
+    [cell configViewWithModel:model];
+    
+    return cell;
+}
+
+
+#pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    ShopGoods *model = _dataSource[indexPath.row];
+    if (_delegate && [_delegate respondsToSelector:@selector(didSelectGoodItem:)]) {
+        [_delegate didSelectGoodItem:model];
+    }
+}
 @end

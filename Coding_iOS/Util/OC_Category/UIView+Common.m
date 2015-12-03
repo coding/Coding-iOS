@@ -651,6 +651,11 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"您还木有未发货的订单呢～";
             }
                 break;
+            case EaseBlankPageTypeNoExchangeGoods:{
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"还木有可兑换的商品呢\n努力推代码，把洋葱猴带回家～";
+            }
+                break;
             default://其它页面（这里没有提到的页面，都属于其它）
             {
                 imageName = @"blankpage_image_Sleep";
@@ -674,13 +679,4 @@ static char LoadingViewKey, BlankPageViewKey;
 }
 
 @end
-
-
-
-
-
-
-
-
-
 
