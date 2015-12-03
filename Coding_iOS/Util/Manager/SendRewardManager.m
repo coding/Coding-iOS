@@ -20,6 +20,8 @@
 @property (strong, nonatomic) UIButton *closeBtn, *submitBtn;
 @property (strong, nonatomic) UILabel *titleL, *tipL, *bottomL;
 @property (strong, nonatomic) UITextField *passwordF;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (assign, nonatomic) BOOL isSubmitting;
 @end
 
 @implementation SendRewardManager
@@ -33,8 +35,12 @@
 }
 
 + (instancetype)handleTweet:(Tweet *)curTweet completion:(void(^)(Tweet *curTweet, BOOL sendSucess))block{
+    if (curTweet.rewarded.boolValue) {
+        [NSObject showHudTipStr:@"您已经打赏过了"];
+        return nil;
+    }
     SendRewardManager *manager = [self shareManager];
-    if (manager.curTweet) {//有正在处理的冒泡，此次调用无效
+    if (manager.curTweet) {//还有未处理完的冒泡，此次调用无效
         return nil;
     }
     manager.curTweet = curTweet;
@@ -59,6 +65,7 @@
         _titleL = [UILabel new];
         _passwordF = [UITextField new];
         _submitBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"确认打赏" andFrame:CGRectMake(0, 0, buttonHeight, buttonHeight) target:self action:@selector(submitBtnClicked)];
+        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleGray];
         _bottomL = [UILabel new];
         _tipBgView = [UIView new];
         _tipL = [UILabel new];
@@ -66,10 +73,10 @@
         [_contentView addSubview:_titleL];
         [_contentView addSubview:_passwordF];
         [_contentView addSubview:_submitBtn];
+        [_contentView addSubview:_activityIndicator];
         [_contentView addSubview:_bottomL];
         [_contentView addSubview:_tipBgView];
         [_contentView addSubview:_tipL];
-
         [_bgView addSubview:_contentView];
         
         //属性设置
@@ -121,6 +128,9 @@
             make.right.equalTo(_contentView).offset(-50);
             make.height.mas_equalTo(buttonHeight);
         }];
+        [_activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(_submitBtn);
+        }];
         [_tipBgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_titleL.mas_bottom).offset(20);
             make.left.equalTo(_contentView).offset(25);
@@ -130,21 +140,19 @@
         [_tipL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(_tipBgView).insets(UIEdgeInsetsMake(10, 15, 10, 15));
         }];
-//        [_bgView bk_whenTapped:^{
-//            [self p_dismiss];
-//        }];
-        
-        
+        [_bgView bk_whenTapped:^{
+            [self p_dismiss];
+        }];
         [_bottomL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(_contentView);
             make.bottom.equalTo(_contentView).offset(-15);
             make.height.mas_equalTo(15);
         }];
         
-        
-        //初始状态
-        _bgView.backgroundColor = [UIColor clearColor];
-        _contentView.alpha = 0;
+        //关联事件
+        [_passwordF.rac_textSignal subscribeNext:^(NSString *password) {
+            self.submitBtn.enabled = password.length > 0;
+        }];
     }
     return self;
 }
@@ -184,13 +192,41 @@
     }];
 }
 
+- (void)setIsSubmitting:(BOOL)isSubmitting{
+    _isSubmitting = isSubmitting;
+    if (_isSubmitting) {
+        _passwordF.userInteractionEnabled = NO;
+        _submitBtn.enabled = NO;
+        [_activityIndicator startAnimating];
+    }else{
+        _passwordF.userInteractionEnabled = YES;
+        [_activityIndicator stopAnimating];
+        _submitBtn.enabled = YES;
+    }
+}
+
 - (void)submitBtnClicked{
-#warning submitBtnClicked reward
-    [NSObject showHudTipStr:@"稍等~"];
+    self.isSubmitting = YES;
+    NSString *encodedPassword = [_passwordF.text sha1Str];
+    [[Coding_NetAPIManager sharedManager] request_RewardToTweet:_curTweet.id.stringValue encodedPassword:encodedPassword andBlock:^(id data, NSError *error) {
+        self.isSubmitting = NO;
+        if (data) {
+            [NSObject showHudTipStr:@"打赏成功"];
+            [self p_sucessDone];
+        }else{
+            [self.passwordF becomeFirstResponder];
+        }
+    }];
 }
 
 - (void)p_show{
+    //初始状态
+    _bgView.backgroundColor = [UIColor clearColor];
+    _contentView.alpha = 0;
+    _passwordF.text = @"";
+    _submitBtn.enabled = NO;
     _bgView.frame = kScreen_Bounds;
+    
     [kKeyWindow addSubview:_bgView];
     [UIView animateWithDuration:0.3 animations:^{
         _bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
@@ -205,13 +241,27 @@
 - (void)p_dismiss{
     _curTweet = nil;
     _completion = nil;
-    
+    [_passwordF resignFirstResponder];
     [UIView animateWithDuration:0.3 animations:^{
         _bgView.backgroundColor = [UIColor clearColor];
         _contentView.alpha = 0;
     } completion:^(BOOL finished) {
         [_bgView removeFromSuperview];
     }];
+}
+
+- (void)p_sucessDone{
+    _curTweet.rewarded = @(YES);
+    _curTweet.rewards = @(_curTweet.rewards.integerValue +1);
+    if (_curTweet.reward_users.count > 0) {
+        [_curTweet.reward_users insertObject:[Login curLoginUser] atIndex:0];
+    }else{
+        _curTweet.reward_users = @[[Login curLoginUser]].mutableCopy;
+    }
+    if (self.completion) {
+        self.completion(_curTweet, YES);
+    }
+    [self p_dismiss];
 }
 
 @end

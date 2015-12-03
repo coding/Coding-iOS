@@ -177,6 +177,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_UpdateUserInfo_WithObj:(User *)curUser andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_PointRecords:(PointRecords *)records andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Preparereward:(NSString *)tweet_id andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_RewardToTweet:(NSString *)tweet_id encodedPassword:(NSString *)encodedPassword andBlock:(void (^)(id data, NSError *error))block;
 
 
 //Message
