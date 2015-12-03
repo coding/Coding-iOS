@@ -58,7 +58,7 @@
     _realTimeBlur = [[XHRealTimeBlur alloc] initWithFrame:self.bounds];
     _realTimeBlur.blurStyle = XHBlurStyleTranslucentWhite;
     _realTimeBlur.showDuration = 0.1;
-    _realTimeBlur.disMissDuration = 0.1;
+    _realTimeBlur.disMissDuration = 0.2;
     typeof(self) __weak weakSelf = self;
 
     _realTimeBlur.willShowBlurViewcomplted = ^(void) {
@@ -73,7 +73,7 @@
         POPBasicAnimation *alphaAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
         alphaAnimation.fromValue = @1.0;
         alphaAnimation.toValue = @0.0;
-        alphaAnimation.duration = 0.3f;
+        alphaAnimation.duration = 0.2f;
         [weakSelf.tableview pop_addAnimation:alphaAnimation forKey:@"alphaAnimationE"];
     };
     
