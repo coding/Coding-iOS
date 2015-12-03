@@ -11,6 +11,7 @@
 #import "Coding_NetAPIManager.h"
 #import "EditTaskViewController.h"
 #import "RDVTabBarController.h"
+#import "FRDLivelyButton.h"
 
 @interface MyTask_RootViewController ()
 
@@ -68,7 +69,17 @@
         }];
         icarousel;
     });
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)] animated:NO];
+//    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)] animated:NO];
+    
+    FRDLivelyButton *rightBtn = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(0,0,18.5,18.5)];
+
+    [rightBtn setOptions:@{ kFRDLivelyButtonLineWidth: @(1.0f),
+                                kFRDLivelyButtonColor: [UIColor whiteColor]
+                                }];
+    [rightBtn setStyle:kFRDLivelyButtonStylePlus animated:NO];
+    [rightBtn addTarget:self action:@selector(addItemClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
+    self.navigationItem.rightBarButtonItem = buttonItem;
 }
 
 - (void)addItemClicked:(id)sender{

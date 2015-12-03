@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
@@ -253,7 +253,7 @@
                                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="此操作无法恢复!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fcd-TU-Ngv">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="此操作无法恢复!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fcd-TU-Ngv">
                                                     <rect key="frame" x="15" y="63" width="102" height="18"/>
                                                     <animations/>
                                                     <constraints>
@@ -391,7 +391,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="zLL-AE-cj7">
-                                                    <rect key="frame" x="15" y="8" width="290" height="133.5"/>
+                                                    <rect key="frame" x="15" y="8" width="290" height="134"/>
                                                     <animations/>
                                                     <string key="text">注意： 项目转让后，你将不再是“项目所有者”，你将失去某些管理权限（如添加成员、开启演示、删除项目等）。同时，项目转让后，项目的git 仓库访问路径会发生变化，例如：用户 Coding 将项目转给用户 Demo 后， git 仓库访问路径将由 https://git.coding.net/coding/test.git 变成 https://git.coding.net/demo/test.git</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -510,7 +510,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="icon_project_private.png" width="10" height="10"/>
+        <image name="icon_project_private.png" width="24" height="24"/>
         <image name="taskOwner.png" width="28" height="28"/>
     </resources>
 </document>

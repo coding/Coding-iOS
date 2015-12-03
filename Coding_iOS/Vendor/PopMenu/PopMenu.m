@@ -8,7 +8,6 @@
 
 #import "PopMenu.h"
 #import "MenuButton.h"
-#import "XHRealTimeBlur.h"
 #import <POP.h>
 
 #define MenuButtonHeight 110
@@ -31,7 +30,7 @@
 
 @property (nonatomic, assign) CGPoint startPoint;
 @property (nonatomic, assign) CGPoint endPoint;
-
+@property (nonatomic, strong) UIView *footerView;
 @end
 
 @implementation PopMenu
@@ -59,34 +58,44 @@
     _realTimeBlur = [[XHRealTimeBlur alloc] initWithFrame:self.bounds];
     _realTimeBlur.blurStyle = XHBlurStyleTranslucentWhite;
     _realTimeBlur.showDuration = 0.3;
-    _realTimeBlur.disMissDuration = 0.5;
+    _realTimeBlur.disMissDuration = 0.1;
     _realTimeBlur.willShowBlurViewcomplted = ^(void) {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
         weakSelf.isShowed = YES;
         [weakSelf showButtons];
     };
     
     _realTimeBlur.willDismissBlurViewCompleted = ^(void) {
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+//        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+//        if ([[presentView.subviews firstObject] isMemberOfClass:NSClassFromString(@"RDVTabBar")]) {
+//            [presentView bringSubviewToFront:[presentView.subviews firstObject]];
+//        }
+        [weakSelf.realTimeBlurFooter disMiss];
         if (weakSelf.selectedItem) {
             if (weakSelf.didSelectedItemCompletion) {
                 weakSelf.didSelectedItemCompletion(weakSelf.selectedItem);
                 weakSelf.selectedItem = nil;
             }
+        }else
+        {
+            weakSelf.didSelectedItemCompletion(nil);
         }
         [weakSelf hidenButtons];
     };
     _realTimeBlur.didDismissBlurViewCompleted = ^(BOOL finished) {
+        
         weakSelf.isShowed = NO;
-//        if (finished && weakSelf.selectedItem) {
-//            if (weakSelf.didSelectedItemCompletion) {
-//                weakSelf.didSelectedItemCompletion(weakSelf.selectedItem);
-//                weakSelf.selectedItem = nil;
-//            }
-//        }
         [weakSelf removeFromSuperview];
+        [weakSelf.footerView removeFromSuperview];
     };
     _realTimeBlur.hasTapGestureEnable = YES;
+    
+    
+    _realTimeBlurFooter =  [[XHRealTimeBlur alloc] initWithFrame:self.bounds];
+    _realTimeBlurFooter.blurStyle = XHBlurStyleTranslucentWhite;
+    _realTimeBlurFooter.showDuration = 0.3;
+    _realTimeBlurFooter.disMissDuration = 0.1;
+    
+    _footerView=[[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height-48, kScreen_Width, 48)];
 }
 
 #pragma mark - 公开方法
@@ -111,8 +120,23 @@
     }
     self.startPoint = startPoint;
     self.endPoint = endPoint;
+    self.clipsToBounds=TRUE;
     [containerView addSubview:self];
     [self.realTimeBlur showBlurViewAtView:self];
+}
+
+- (void)showMenuAtView:(UIView *)containerView startPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint withTabFooterView:(UIView *)containerFooter {
+    if (self.isShowed) {
+        return;
+    }
+    self.startPoint = startPoint;
+    self.endPoint = endPoint;
+    [containerView addSubview:self];
+    [self.realTimeBlur showBlurViewAtView:self];
+    
+//    _realTimeBlurFooter.frame=CGRectMake(0, 0, footerView.size.width, footerView.size.height);
+    [self.realTimeBlurFooter showBlurViewAtView:_footerView];
+    [containerFooter addSubview:_footerView];
 }
 
 - (void)dismissMenu {
@@ -120,6 +144,7 @@
         return;
     }
     [self.realTimeBlur disMiss];
+//    [_realTimeBlurFooter disMiss];
 }
 
 #pragma mark - 私有方法
