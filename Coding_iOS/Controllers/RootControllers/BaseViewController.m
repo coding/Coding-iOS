@@ -111,8 +111,8 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             [self presentLinkStr:param_url];
         });
     }else if (applicationState == UIApplicationStateActive){
-        NSString *param_url = [userInfo objectForKey:@"param_url"];
-        [self analyseVCFromLinkStr:param_url analyseMethod:AnalyseMethodTypeJustRefresh isNewVC:nil];
+//        NSString *param_url = [userInfo objectForKey:@"param_url"];
+//        [self analyseVCFromLinkStr:param_url analyseMethod:AnalyseMethodTypeJustRefresh isNewVC:nil];
         //标记未读
         UIViewController *presentingVC = [BaseViewController presentingVC];
         if ([presentingVC isKindOfClass:[Message_RootViewController class]]) {
