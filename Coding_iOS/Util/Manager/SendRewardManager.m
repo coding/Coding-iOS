@@ -38,6 +38,9 @@
     if (curTweet.rewarded.boolValue) {
         [NSObject showHudTipStr:@"您已经打赏过了"];
         return nil;
+    }else if ([curTweet.owner.global_key isEqualToString:[Login curLoginUser].global_key]){
+        [NSObject showHudTipStr:@"不可以打赏自己哟"];
+        return nil;
     }
     SendRewardManager *manager = [self shareManager];
     if (manager.curTweet) {//还有未处理完的冒泡，此次调用无效
