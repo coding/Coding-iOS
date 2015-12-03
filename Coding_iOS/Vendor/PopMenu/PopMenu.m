@@ -65,10 +65,10 @@
     };
     
     _realTimeBlur.willDismissBlurViewCompleted = ^(void) {
-        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
-        if ([[presentView.subviews firstObject] isMemberOfClass:NSClassFromString(@"RDVTabBar")]) {
-            [presentView bringSubviewToFront:[presentView.subviews firstObject]];
-        }
+//        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+//        if ([[presentView.subviews firstObject] isMemberOfClass:NSClassFromString(@"RDVTabBar")]) {
+//            [presentView bringSubviewToFront:[presentView.subviews firstObject]];
+//        }
         [weakSelf.realTimeBlurFooter disMiss];
         if (weakSelf.selectedItem) {
             if (weakSelf.didSelectedItemCompletion) {
@@ -120,6 +120,7 @@
     }
     self.startPoint = startPoint;
     self.endPoint = endPoint;
+    self.clipsToBounds=TRUE;
     [containerView addSubview:self];
     [self.realTimeBlur showBlurViewAtView:self];
 }

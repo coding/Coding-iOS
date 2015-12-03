@@ -108,16 +108,20 @@
             [searchBar sizeToFit];
             searchBar.delegate = self;
             [searchBar setPlaceholder:@"项目/任务/讨论/冒泡等"];
-        UITextField *searchField= [[[[searchBar subviews] firstObject] subviews] lastObject];
+            UITextField *searchField= [[[[searchBar subviews] firstObject] subviews] lastObject];
+//            [searchField setHeight:22];
+//            searchField.contentVerticalAlignment=UIControlContentVerticalAlignmentCenter;
+//            [searchField setBackgroundColor:[UIColor blueColor]];
             [(UIImageView*)[searchField leftView] setFrame:CGRectMake(0, 0, 13, 13)];
-//            [(UIImageView*)[searchField leftView] setImage:[UIImage imageNamed:@"icon_search_searchbar"]];
-//            [searchBar setImage:[UIImage imageNamed:@"icon_search_searchbar"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+            [(UIImageView*)[searchField leftView] setImage:[UIImage imageNamed:@"icon_search_searchbar"]];
+            [searchBar setImage:[UIImage imageNamed:@"icon_search_searchbar"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
             [searchBar setTintColor:[UIColor whiteColor]];
             [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
             [searchBar setHeight:31];
             searchBar;
         });
     
+
     _searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width-110, 31)];//allocate titleView
     UIColor *color = [UIColor colorWithHexString:[NSObject baseURLStrIsTest]? @"0x3bbd79" : @"0x28303b"];
     [_searchView setBackgroundColor:color];
@@ -127,8 +131,8 @@
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     
     //初始化过滤目录
-//    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height-64) items:nil];
-    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height) items:nil];
+    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height-64) items:nil];
+//    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height) items:nil];
 
     __weak typeof(self) weakSelf = self;
     _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
@@ -156,7 +160,7 @@
                            [MenuItem itemWithTitle:@"两步验证" iconName:@"pop_2FA" index:5],
                            ];
     if (!_myPopMenu) {
-        _myPopMenu = [[PopMenu alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height) items:menuItems];
+        _myPopMenu = [[PopMenu alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height-64) items:menuItems];
         _myPopMenu.perRowItemCount = 3;
         _myPopMenu.menuAnimationType = kPopMenuAnimationTypeSina;
     }
@@ -241,7 +245,7 @@
     [self.navigationItem.titleView sizeToFit];
     [_searchView addSubview:_mySearchBar];
     self.navigationItem.titleView = _searchView;
-
+    
     if (_myCarousel) {
         ProjectListView *listView = (ProjectListView *)_myCarousel.currentItemView;
         if (listView) {
@@ -349,9 +353,11 @@
     if (_rightNavBtn.buttonStyle == kFRDLivelyButtonStylePlus) {
         [_rightNavBtn setStyle:kFRDLivelyButtonStyleClose animated:YES];
         UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
-        [presentView bringSubviewToFront:[presentView.subviews firstObject]];
+//        [presentView bringSubviewToFront:[presentView.subviews firstObject]];
 //        [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100) withTabFooterView:presentView];
-        [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
+//        [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
+        [_myPopMenu showMenuAtView:presentView startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
+
 
     } else{
         [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
@@ -486,20 +492,20 @@
     [self closeMenu];
     if (_myFliterMenu.showStatus) {
         [self fliterBtnClose:TRUE];
-        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
-        if ([[presentView.subviews firstObject] isMemberOfClass:NSClassFromString(@"RDVTabBar")]) {
-            [presentView bringSubviewToFront:[presentView.subviews firstObject]];
-        }
+//        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+//        if ([[presentView.subviews firstObject] isMemberOfClass:NSClassFromString(@"RDVTabBar")]) {
+//            [presentView bringSubviewToFront:[presentView.subviews firstObject]];
+//        }
         [_myFliterMenu dismissMenu];
     }else
     {
         [self fliterBtnClose:FALSE];
         _myFliterMenu.selectNum=_selectNum>=3?_selectNum+1:_selectNum;
-        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
-        [presentView bringSubviewToFront:[presentView.subviews firstObject]];
 //        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
-//        [_myFliterMenu showMenuAtView:presentView];
-        [_myFliterMenu showMenuAtView:self.view];
+//        [presentView bringSubviewToFront:[presentView.subviews firstObject]];
+        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+        [_myFliterMenu showMenuAtView:presentView];
+//        [_myFliterMenu showMenuAtView:self.view];
     }
 }
 

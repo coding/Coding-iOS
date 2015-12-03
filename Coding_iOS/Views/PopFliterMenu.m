@@ -263,6 +263,7 @@
             return;
         }
         _clickBlock(1000);
+        _closeBlock();
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
