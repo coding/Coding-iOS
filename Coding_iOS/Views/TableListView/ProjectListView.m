@@ -213,7 +213,8 @@ static NSString *const kValueKey = @"kValueKey";
     if (_myProjects.list.count <= 0) {
         [self beginLoading];
     }
-
+    //都先隐藏~后续根据数据状态显示~
+    self.blankPageView.hidden=TRUE;
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Projects_WithObj:_myProjects andBlock:^(Projects *data, NSError *error) {
         [weakSelf.myRefreshControl endRefreshing];
