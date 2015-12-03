@@ -12,6 +12,7 @@
 #import "Coding_NetAPIManager.h"
 #import "ProjectCount.h"
 #import "Projects.h"
+#import "pop.h"
 
 @interface PopFliterMenu()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *items;
@@ -58,18 +59,29 @@
     _realTimeBlur.blurStyle = XHBlurStyleTranslucentWhite;
     _realTimeBlur.showDuration = 0.1;
     _realTimeBlur.disMissDuration = 0.1;
-//    typeof(self) __weak weakSelf = self;
+    typeof(self) __weak weakSelf = self;
 
-//    _realTimeBlur.willShowBlurViewcomplted = ^(void) {
-//        [weakSelf addSubview:weakSelf.tableview];
-//    };
-////
-//    _realTimeBlur.willDismissBlurViewCompleted = ^(void) {
-//        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
-//    };
-//    _realTimeBlur.didDismissBlurViewCompleted = ^(BOOL finished) {
-//        [weakSelf removeFromSuperview];
-//    };
+    _realTimeBlur.willShowBlurViewcomplted = ^(void) {
+        POPBasicAnimation *alphaAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+        alphaAnimation.fromValue = @0.0;
+        alphaAnimation.toValue = @1.0;
+        alphaAnimation.duration = 0.3f;
+        [weakSelf.tableview pop_addAnimation:alphaAnimation forKey:@"alphaAnimationS"];
+    };
+    
+    _realTimeBlur.willDismissBlurViewCompleted = ^(void) {
+        POPBasicAnimation *alphaAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPViewAlpha];
+        alphaAnimation.fromValue = @1.0;
+        alphaAnimation.toValue = @0.0;
+        alphaAnimation.duration = 0.3f;
+        [weakSelf.tableview pop_addAnimation:alphaAnimation forKey:@"alphaAnimationE"];
+    };
+    
+    _realTimeBlur.didDismissBlurViewCompleted = ^(BOOL finished) {
+        [weakSelf removeFromSuperview];
+    };
+
+    
     _realTimeBlur.hasTapGestureEnable = YES;
     
     _tableview = ({
@@ -112,7 +124,7 @@
     }
     _showStatus=FALSE;
     [_realTimeBlur disMiss];
-    [self removeFromSuperview];
+//    [self removeFromSuperview];
 }
 
 //组装cell标题
