@@ -83,24 +83,39 @@ static Tweet *_tweetForSend = nil;
     return (_comments.intValue > _comment_list.count || _comments.intValue > 5);
 }
 
-- (NSInteger)numOfLikers{
-    return MIN(_like_users.count +1,
-               MIN(_likes.intValue,
-                   [self maxLikerNum]));
-}
-
-- (NSInteger)maxLikerNum{
-    NSInteger maxNum = 9;
-    if (kDevice_Is_iPhone6) {
-        maxNum = 11;
-    }else if (kDevice_Is_iPhone6Plus){
-        maxNum = 12;
+- (NSArray *)like_reward_users{
+    if (_reward_users.count > 0) {
+        NSLog(@"_reward_users.count > 0");
     }
-    return maxNum;
+    NSMutableArray *like_reward_users = _like_users.count > 0? _like_users.mutableCopy: @[].mutableCopy;//点赞的人多，用点赞的人列表做基
+    [_reward_users enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(User *obj, NSUInteger idx, BOOL *stop) {
+        __block NSInteger originalIndex = NSNotFound;
+        [like_reward_users enumerateObjectsUsingBlock:^(User *obj_, NSUInteger idx_, BOOL *stop_) {
+            if ([obj.global_key isEqualToString:obj_.global_key]) {
+                originalIndex = idx_;
+            }
+        }];
+        if (originalIndex != NSNotFound) {
+            [like_reward_users exchangeObjectAtIndex:originalIndex withObjectAtIndex:0];
+        }else{
+            [like_reward_users insertObject:obj atIndex:0];
+        }
+    }];
+    return like_reward_users;
 }
-
-- (BOOL)hasMoreLikers{
-    return (_likes.intValue > _like_users.count || _likes.intValue > [self maxLikerNum] - 1);
+- (BOOL)hasLikesOrRewards{
+    return (_likes.integerValue + _rewards.integerValue) > 0;
+}
+- (BOOL)hasMoreLikesOrRewards{
+    return (_likes.integerValue > _like_users.count || _rewards.integerValue > _reward_users.count);
+}
+- (BOOL)rewardedBy:(User *)user{
+    for (User *obj in _reward_users) {
+        if ([obj.global_key isEqualToString:user.global_key]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 - (NSString *)toDoLikePath{

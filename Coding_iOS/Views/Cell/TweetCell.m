@@ -21,6 +21,8 @@
 #define kTweet_TimtFont [UIFont systemFontOfSize:12]
 #define kTweet_LikeUsersLineCount 7.0
 
+#define kTweetCell_MaxCollectionNum (kDevice_Is_iPhone6Plus? 12: kDevice_Is_iPhone6? 10 : 9)
+
 #import "TweetCell.h"
 #import "TweetLikeUserCCell.h"
 #import "TweetCommentCell.h"
@@ -36,6 +38,7 @@
 
 @interface TweetCell ()
 @property (strong, nonatomic) Tweet *tweet;
+@property (strong, nonatomic) NSArray *like_reward_users;
 @property (assign, nonatomic) BOOL needTopView;
 
 @property (strong, nonatomic) UIView *topView;
@@ -52,11 +55,6 @@
 @end
 
 @implementation TweetCell
-
-- (void)setTweet:(Tweet *)tweet needTopView:(BOOL)needTopView{
-    _tweet = tweet;
-    _needTopView = needTopView;
-}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -213,22 +211,11 @@
     }
     return self;
 }
+- (void)setTweet:(Tweet *)tweet needTopView:(BOOL)needTopView{
+    _tweet = tweet;
+    _like_reward_users = [_tweet like_reward_users];
+    _needTopView = needTopView;
 
-- (void)awakeFromNib
-{
-    // Initialization code
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
-- (void)layoutSubviews{
-    [super layoutSubviews];
     if (!_tweet) {
         return;
     }
@@ -320,7 +307,7 @@
     curBottomY += kTweetCell_LikeComment_Height;
     curBottomY += [TweetCell likeCommentBtn_BottomPadingWithTweet:_tweet];
     
-    if (_tweet.numOfLikers > 0 || _tweet.numOfComments > 0) {
+    if ([_tweet hasLikesOrRewards] || _tweet.numOfComments > 0) {
         [_commentOrLikeBeginImgView setY:(curBottomY - CGRectGetHeight(_commentOrLikeBeginImgView.frame) + 1)];
         _commentOrLikeBeginImgView.hidden = NO;
     }else{
@@ -329,7 +316,7 @@
     
     //点赞的人_列表
     //    可有可无
-    if (_tweet.numOfLikers > 0) {
+    if ([_tweet hasLikesOrRewards]) {
         CGFloat likeUsersHeight = [TweetCell likeUsersHeightWithTweet:_tweet];
         [self.likeUsersView setFrame:CGRectMake(kTweetCell_PadingLeft, curBottomY, kTweetCell_ContentWidth, likeUsersHeight)];
         [self.likeUsersView reloadData];
@@ -341,7 +328,7 @@
         }
     }
     //评论与赞的分割线
-    if (_tweet.numOfLikers > 0 && _tweet.numOfComments > 0) {
+    if ([_tweet hasLikesOrRewards] && _tweet.numOfComments > 0) {
         [_commentOrLikeSplitlineView setY:(curBottomY -1)];
         _commentOrLikeSplitlineView.hidden = NO;
     }else{
@@ -460,7 +447,7 @@
     if (collectionView == _mediaView) {
         row = _tweet.htmlMedia.imageItems.count;
     }else{
-        row = _tweet.numOfLikers;
+        row = MIN(kTweetCell_MaxCollectionNum, [_tweet hasMoreLikesOrRewards]? _like_reward_users.count + 1: _like_reward_users.count);
     }
     return row;
 }
@@ -485,11 +472,12 @@
         }
     }else{
         TweetLikeUserCCell *ccell = [collectionView dequeueReusableCellWithReuseIdentifier:kCCellIdentifier_TweetLikeUser forIndexPath:indexPath];
-        if (indexPath.row >= _tweet.numOfLikers-1 && _tweet.hasMoreLikers) {
-            [ccell configWithUser:nil likesNum:_tweet.likes];
+        if (indexPath.row >= kTweetCell_MaxCollectionNum -1
+            || indexPath.row >= _like_reward_users.count) {
+            [ccell configWithUser:nil rewarded:NO];
         }else{
-            User *curUser = [_tweet.like_users objectAtIndex:indexPath.row];
-            [ccell configWithUser:curUser likesNum:nil];
+            User *curUser = [_like_reward_users objectAtIndex:indexPath.row];
+            [ccell configWithUser:curUser rewarded:[_tweet rewardedBy:curUser]];
         }
         return ccell;
     }
@@ -556,12 +544,13 @@
         browser.photos = photos; // 设置所有的图片
         [browser show];
     }else{
-        if (indexPath.row >= _tweet.numOfLikers-1 && _tweet.hasMoreLikers) {
+        if (indexPath.row >= kTweetCell_MaxCollectionNum -1
+            || indexPath.row >= _like_reward_users.count) {
             if (_moreLikersBtnClickedBlock) {
                 _moreLikersBtnClickedBlock(_tweet);
             }
         }else{
-            User *curUser = [_tweet.like_users objectAtIndex:indexPath.row];
+            User *curUser = [_like_reward_users objectAtIndex:indexPath.row];
             if (_userBtnClickedBlock) {
                 _userBtnClickedBlock(curUser);
             }

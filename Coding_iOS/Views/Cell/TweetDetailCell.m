@@ -15,7 +15,8 @@
 #define kTweetDetailCell_PadingBottom 10.0
 #define kTweetDetailCell_LikeUserCCell_Height 25.0
 #define kTweetDetailCell_LikeUserCCell_Pading 10.0
-#define kTweetDetailCell_LikeNumMax (kDevice_Is_iPhone6Plus? 12: kDevice_Is_iPhone6? 11: 9)
+
+#define kTweetDetailCell_MaxCollectionNum (kDevice_Is_iPhone6Plus? 12: kDevice_Is_iPhone6? 11: 9)
 
 
 
@@ -29,6 +30,8 @@
 #import "SendRewardManager.h"
 
 @interface TweetDetailCell ()
+@property (strong, nonatomic) NSArray *like_reward_users;
+
 @property (strong, nonatomic) UITapImageView *ownerImgView;
 @property (strong, nonatomic) UIButton *ownerNameBtn;
 @property (strong, nonatomic) UILabel *timeLabel, *fromLabel;
@@ -164,22 +167,14 @@
     return self;
 }
 
-- (void)awakeFromNib
-{
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 - (void)setTweet:(Tweet *)tweet{
-    if (tweet) {
-        _tweet = tweet;
+    _tweet = tweet;
+    _like_reward_users = [_tweet like_reward_users];
+
+    if (!_tweet) {
+        return;
     }
+    
     BOOL isProjectTweet = _tweet.project_id != nil;
     self.likeBtn.hidden = isProjectTweet;
     self.rewardBtn.hidden = isProjectTweet;
@@ -254,7 +249,7 @@
     
     //点赞的人_列表
     //    可有可无
-    if (_tweet.likes.intValue > 0) {
+    if ([_tweet hasLikesOrRewards]) {
         CGFloat likeUsersHeight = [[self class] likeUsersHeightWithTweet:_tweet];
         [self.likeUsersView setFrame:CGRectMake(0, curBottomY, kScreen_Width, likeUsersHeight)];
         [self.likeUsersView reloadData];
@@ -424,29 +419,19 @@
 
 #pragma mark Collection M
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    NSInteger row = 0;
-    if (_tweet.like_users.count > 0) {
-        row = _tweet.like_users.count;
-        if (_tweet.likes.integerValue > _tweet.like_users.count) {
-            row++;
-        }
-        row = MIN(row, kTweetDetailCell_LikeNumMax);
-    }
+    NSInteger row = MIN(kTweetDetailCell_MaxCollectionNum, [_tweet hasMoreLikesOrRewards]? _like_reward_users.count + 1: _like_reward_users.count);
     return row;
 }
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     TweetLikeUserCCell *ccell = [collectionView dequeueReusableCellWithReuseIdentifier:kCCellIdentifier_TweetLikeUser forIndexPath:indexPath];
-    if (indexPath.row >= kTweetDetailCell_LikeNumMax-1) {
-        [ccell configWithUser:nil likesNum:_tweet.likes];
+    if (indexPath.row >= kTweetDetailCell_MaxCollectionNum -1
+        || indexPath.row >= _like_reward_users.count) {
+        [ccell configWithUser:nil rewarded:NO];
     }else{
-        if (_tweet.like_users.count > indexPath.row) {
-            User *curUser = [_tweet.like_users objectAtIndex:indexPath.row];
-            [ccell configWithUser:curUser likesNum:nil];
-        }else {
-            [ccell configWithUser:nil likesNum:_tweet.likes];
-        }
+        User *curUser = [_like_reward_users objectAtIndex:indexPath.row];
+        [ccell configWithUser:curUser rewarded:[_tweet rewardedBy:curUser]];
     }
     return ccell;
 }
@@ -469,14 +454,13 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSInteger numberOfItems = MIN(_tweet.like_users.count +1, _tweet.like_users.count);
-    numberOfItems = MIN(numberOfItems, kTweetDetailCell_LikeNumMax);
-    if (indexPath.row >= numberOfItems-1) {
+    if (indexPath.row >= kTweetDetailCell_MaxCollectionNum -1
+        || indexPath.row >= _like_reward_users.count) {
         if (_moreLikersBtnClickedBlock) {
             _moreLikersBtnClickedBlock(_tweet);
         }
-    }else if (_tweet.like_users.count > indexPath.row){
-        User *curUser = [_tweet.like_users objectAtIndex:indexPath.row];
+    }else{
+        User *curUser = [_like_reward_users objectAtIndex:indexPath.row];
         if (_userBtnClickedBlock) {
             _userBtnClickedBlock(curUser);
         }
