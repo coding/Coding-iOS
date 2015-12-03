@@ -66,7 +66,6 @@
     [_imgView sd_setImageWithURL:[_curMRPR.author.avatar urlImageWithCodePathResize:2*kMRPRListCell_UserWidth] placeholderImage:kPlaceholderMonkeyRoundWidth(2*kMRPRListCell_UserWidth)];
     _titleLabel.attributedText = [self attributeTitle];
     _subTitleLabel.attributedText = [self attributeTail];
-    
 }
 
 - (NSAttributedString *)attributeTitle{
@@ -80,7 +79,6 @@
                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
                         range:NSMakeRange(iidStr.length + 1, titleStr.length)];
     return attrString;
-    
 }
 
 - (NSAttributedString *)attributeTail{

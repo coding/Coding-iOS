@@ -34,6 +34,7 @@
 #import "CodingBanner.h"
 #import "PointRecords.h"
 #import "FileVersion.h"
+#import "ProjectCount.h"
 
 @class CSTopic;
 
@@ -61,6 +62,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 
 //Project
 - (void)request_Projects_WithObj:(Projects *)projects andBlock:(void (^)(Projects *data, NSError *error))block;
+- (void)request_ProjectsCatergoryAndCounts_WithObj:(ProjectCount *)pCount andBlock:(void (^)(ProjectCount *data, NSError *error))block;
 - (void)request_ProjectsHaveTasks_WithObj:(Projects *)projects andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Project_UpdateVisit_WithObj:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectDetail_WithObj:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
@@ -227,6 +229,8 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_HotTopiclistWithBlock:(void (^)(id data, NSError *error))block;
 
 - (void)request_Tweet_WithSearchString:(NSString *)strSearch andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
+
+- (void)requestWithSearchString:(NSString *)strSearch typeStr:(NSString*)type andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
 
 - (void)request_TopicDetailsWithTopicID:(NSInteger)topicID block:(void (^)(id data, NSError *error))block;
 - (void)request_TopTweetWithTopicID:(NSInteger)topicID block:(void (^)(id data, NSError *error))block;

@@ -10,6 +10,17 @@
 
 @implementation MRPR
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"NSString", @"body", nil];
+    }
+    return self;
+}
+
+
 + (MRPR *)mrprWithPath:(NSString *)path{
     MRPR *mrpr = [MRPR new];
     mrpr.path = path;

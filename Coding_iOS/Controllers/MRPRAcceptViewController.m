@@ -55,7 +55,6 @@
         }];
         tableView;
     });
-    
     _myTableView.tableFooterView = [self tableFooterView];
 }
 

@@ -220,6 +220,7 @@
         _block(self, curTask);
     }
 }
+
 #pragma mark TableViewHeader
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return kScaleFrom_iPhone5_Desgin(24);

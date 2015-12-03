@@ -181,6 +181,5 @@
     vc.curMRPR = curMR;
     vc.curProject = _curProject;
     [self.navigationController pushViewController:vc animated:YES];
-
 }
 @end
