@@ -143,8 +143,10 @@
         [_tipL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(_tipBgView).insets(UIEdgeInsetsMake(10, 15, 10, 15));
         }];
-        [_bgView bk_whenTapped:^{
-            [self p_dismiss];
+        [_bgView bk_whenTapped:^{//在不能打赏的时候，tap 就消失
+            if (self.tipStrList.count > 0) {
+                [self p_dismiss];
+            }
         }];
         [_bottomL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(_contentView);
