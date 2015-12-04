@@ -111,8 +111,8 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             [self presentLinkStr:param_url];
         });
     }else if (applicationState == UIApplicationStateActive){
-        NSString *param_url = [userInfo objectForKey:@"param_url"];
-        [self analyseVCFromLinkStr:param_url analyseMethod:AnalyseMethodTypeJustRefresh isNewVC:nil];
+//        NSString *param_url = [userInfo objectForKey:@"param_url"];
+//        [self analyseVCFromLinkStr:param_url analyseMethod:AnalyseMethodTypeJustRefresh isNewVC:nil];
         //标记未读
         UIViewController *presentingVC = [BaseViewController presentingVC];
         if ([presentingVC isKindOfClass:[Message_RootViewController class]]) {
@@ -147,7 +147,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     
     NSString *userRegexStr = @"/u/([^/]+)$";
     NSString *userTweetRegexStr = @"/u/([^/]+)/bubble$";
-    NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)$";
+    NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)";
     NSString *pp_projectRegexStr = @"/u/([^/]+)/p/([^\?]+)[\?]pp=([0-9]+)$";
     NSString *topicRegexStr = @"/u/([^/]+)/p/([^/]+)/topic/(\\d+)";
     NSString *taskRegexStr = @"/u/([^/]+)/p/([^/]+)/task/(\\d+)";

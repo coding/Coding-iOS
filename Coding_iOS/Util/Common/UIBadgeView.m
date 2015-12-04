@@ -88,9 +88,9 @@
     _badgeBackgroundColor = [UIColor colorWithHexString:@"0xf75388"];
     _badgeTextColor = [UIColor whiteColor];
     if (kDevice_Is_iPhone6 || kDevice_Is_iPhone6Plus) {
-        _badgeTextFont = [UIFont systemFontOfSize:12];
+        _badgeTextFont = [UIFont boldSystemFontOfSize:12];
     }else{
-        _badgeTextFont = [UIFont systemFontOfSize:11];
+        _badgeTextFont = [UIFont boldSystemFontOfSize:11];
     }
 }
 

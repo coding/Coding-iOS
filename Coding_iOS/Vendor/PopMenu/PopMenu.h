@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "MenuItem.h"
+#import "XHRealTimeBlur.h"
 
 typedef NS_ENUM(NSInteger, PopMenuAnimationType) {
     /** 从下部入 下部出*/
@@ -50,6 +51,7 @@ typedef void(^DidSelectedItemBlock)(MenuItem *selectedItem);
  *  点击菜单元素,Block会把点击的菜单元素当成参数返回给用户，用户可以拿到菜单元素对点击，做相应的操作
  */
 @property (nonatomic, copy) DidSelectedItemBlock didSelectedItemCompletion;
+@property (nonatomic, strong) XHRealTimeBlur *realTimeBlurFooter;
 
 #pragma mark - init 初始化
 
@@ -71,7 +73,7 @@ typedef void(^DidSelectedItemBlock)(MenuItem *selectedItem);
  *  @param endPoint      菜单从哪个 点 出 容器
  */
 - (void)showMenuAtView:(UIView *)containerView startPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint;
-
+- (void)showMenuAtView:(UIView *)containerView startPoint:(CGPoint)startPoint endPoint:(CGPoint)endPoint withTabFooterView:(UIView *)containerFooter;
 #pragma mark - dismiss
 /**
  *  容器dismiss

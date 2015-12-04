@@ -53,6 +53,15 @@
         case  ProjectsTypeTaStared:
             typeStr = @"stared";
             break;
+        case  ProjectsTypeTaWatched:
+            typeStr = @"watched";
+            break;
+        case  ProjectsTypeWatched:
+            typeStr = @"watched";
+            break;
+        case  ProjectsTypeStared:
+            typeStr = @"stared";
+            break;
         default:
             typeStr = @"all";
             break;
@@ -71,9 +80,12 @@
     }
     return params;
 }
+
 - (NSString *)toPath{
     NSString *path;
-    if (self.type >= ProjectsTypeTaProject) {
+    if (self.type==ProjectsTypeAllPublic) {
+        path = @"api/public/all";
+    }else if (self.type >= ProjectsTypeTaProject && self.type < ProjectsTypeAllPublic) {
         path = [NSString stringWithFormat:@"api/user/%@/public_projects", _curUser.global_key];
     }else{
         path = @"api/projects";
@@ -91,7 +103,7 @@
     if (self.type == ProjectsTypeToChoose) {
         projectList = [projectList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"is_public == %d", NO]];
     }
-    if (projectList.count <= 0) {
+    if (!projectList) {
         return;
     }
     

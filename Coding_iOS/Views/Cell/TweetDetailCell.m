@@ -15,7 +15,8 @@
 #define kTweetDetailCell_PadingBottom 10.0
 #define kTweetDetailCell_LikeUserCCell_Height 25.0
 #define kTweetDetailCell_LikeUserCCell_Pading 10.0
-#define kTweetDetailCell_LikeNumMax (kDevice_Is_iPhone6Plus? 12: kDevice_Is_iPhone6? 11: 9)
+
+#define kTweetDetailCell_MaxCollectionNum (kDevice_Is_iPhone6Plus? 12: kDevice_Is_iPhone6? 11: 9)
 
 
 
@@ -26,12 +27,15 @@
 #import "WebContentManager.h"
 #import "CodingShareView.h"
 #import "TweetSendLocationDetailViewController.h"
+#import "SendRewardManager.h"
 
 @interface TweetDetailCell ()
+@property (strong, nonatomic) NSArray *like_reward_users;
+
 @property (strong, nonatomic) UITapImageView *ownerImgView;
 @property (strong, nonatomic) UIButton *ownerNameBtn;
 @property (strong, nonatomic) UILabel *timeLabel, *fromLabel;
-@property (strong, nonatomic) UIButton *likeBtn, *commentBtn, *deleteBtn, *shareBtn;
+@property (strong, nonatomic) UIButton *likeBtn, *commentBtn, *deleteBtn, *rewardBtn;
 @property (strong, nonatomic) UIButton *locaitonBtn;
 @property (strong, nonatomic) UICustomCollectionView *likeUsersView;
 @property (strong, nonatomic) UIImageView *timeClockIconView, *fromPhoneIconView;
@@ -75,24 +79,28 @@
             [self.contentView addSubview:self.timeLabel];
         }
 
-        if (!self.shareBtn) {
-            self.shareBtn = [UIButton tweetBtnWithFrame:CGRectMake(kPaddingLeftWidth, 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height) image:@"tweet_btn_share"];
-            [self.shareBtn addTarget:self action:@selector(shareBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [self.contentView addSubview:self.shareBtn];
-        }
-        if (!self.commentBtn) {
-            self.commentBtn = [UIButton tweetBtnWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth- kTweetDetailCell_LikeComment_Width, 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height) image:@"tweet_btn_comment"];
-            [self.commentBtn addTarget:self action:@selector(commentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [self.contentView addSubview:self.commentBtn];
-        }
         if (!self.likeBtn) {
-            self.likeBtn = [UIButton tweetBtnWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth- 2*kTweetDetailCell_LikeComment_Width- 5 , 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height) image:nil];
+            CGRect frame = CGRectMake(kPaddingLeftWidth, 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height);
+            self.likeBtn = [UIButton tweetBtnWithFrame:frame alignmentLeft:YES];
             [self.likeBtn addTarget:self action:@selector(likeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:self.likeBtn];
         }
+        if (!self.rewardBtn) {
+            CGRect frame = CGRectMake(kPaddingLeftWidth + kTweetDetailCell_LikeComment_Width + 5, 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height);
+            self.rewardBtn = [UIButton tweetBtnWithFrame:frame alignmentLeft:YES];
+            [self.rewardBtn addTarget:self action:@selector(rewardBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:self.rewardBtn];
+        }
+        if (!self.commentBtn) {
+            CGRect frame = CGRectMake(kScreen_Width - kPaddingLeftWidth- kTweetDetailCell_LikeComment_Width, 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height);
+            self.commentBtn = [UIButton tweetBtnWithFrame:frame alignmentLeft:NO];
+            [self.commentBtn setImage:[UIImage imageNamed:@"tweet_btn_comment"] forState:UIControlStateNormal];
+            [self.commentBtn addTarget:self action:@selector(commentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:self.commentBtn];
+        }
         if (!self.deleteBtn) {
             self.deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            self.deleteBtn.frame = CGRectMake(kScreen_Width - kPaddingLeftWidth- 3*kTweetDetailCell_LikeComment_Width- 5 , 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height);
+            self.deleteBtn.frame = CGRectMake(kScreen_Width - kPaddingLeftWidth- 2*kTweetDetailCell_LikeComment_Width- 5 , 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height);
             [self.deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
             [self.deleteBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
             [self.deleteBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
@@ -114,7 +122,7 @@
             [self.contentView addSubview:self.locaitonBtn];
         }
         if (!self.fromPhoneIconView) {
-            self.fromPhoneIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 15, 15)];
+            self.fromPhoneIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 11, 11)];
             self.fromPhoneIconView.image = [UIImage imageNamed:@"little_phone_icon"];
             [self.contentView addSubview:self.fromPhoneIconView];
         }
@@ -159,25 +167,17 @@
     return self;
 }
 
-- (void)awakeFromNib
-{
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 - (void)setTweet:(Tweet *)tweet{
-    if (tweet) {
-        _tweet = tweet;
+    _tweet = tweet;
+    _like_reward_users = [_tweet like_reward_users];
+
+    if (!_tweet) {
+        return;
     }
+    
     BOOL isProjectTweet = _tweet.project_id != nil;
     self.likeBtn.hidden = isProjectTweet;
-    self.shareBtn.hidden = isProjectTweet;
+    self.rewardBtn.hidden = isProjectTweet;
     
     //owner头像
     __weak __typeof(self)weakSelf = self;
@@ -227,10 +227,12 @@
     
     //喜欢&评论 按钮
     curBottomY += 5;
+    self.likeBtn.y = self.rewardBtn.y = self.commentBtn.y = curBottomY;
     [self.likeBtn setImage:[UIImage imageNamed:(_tweet.liked.boolValue? @"tweet_btn_liked":@"tweet_btn_like")] forState:UIControlStateNormal];
-    [self.likeBtn setY:curBottomY];
-    [self.commentBtn setY:curBottomY];
-    [self.shareBtn setY:curBottomY];
+    [self.likeBtn setTitle:_tweet.likes.stringValue forState:UIControlStateNormal];
+    [self.rewardBtn setImage:[UIImage imageNamed:(_tweet.rewarded.boolValue? @"tweet_btn_rewarded": @"tweet_btn_reward")] forState:UIControlStateNormal];
+    [self.rewardBtn setTitle:_tweet.rewards.stringValue forState:UIControlStateNormal];
+    [self.commentBtn setTitle:_tweet.comments.stringValue forState:UIControlStateNormal];
 
     BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key];
     if (isMineTweet) {
@@ -247,7 +249,7 @@
     
     //点赞的人_列表
     //    可有可无
-    if (_tweet.likes.intValue > 0) {
+    if ([_tweet hasLikesOrRewards]) {
         CGFloat likeUsersHeight = [[self class] likeUsersHeightWithTweet:_tweet];
         [self.likeUsersView setFrame:CGRectMake(0, curBottomY, kScreen_Width, likeUsersHeight)];
         [self.likeUsersView reloadData];
@@ -407,35 +409,29 @@
     }
 }
 
-- (void)shareBtnClicked:(id)sender{
-    [CodingShareView showShareViewWithObj:_tweet];
+- (void)rewardBtnClicked:(id)sender{
+    @weakify(self);
+    [SendRewardManager handleTweet:_tweet completion:^(Tweet *curTweet, BOOL sendSucess) {
+        @strongify(self);
+        self.tweet = curTweet;
+    }];
 }
 
 #pragma mark Collection M
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    NSInteger row = 0;
-    if (_tweet.like_users.count > 0) {
-        row = _tweet.like_users.count;
-        if (_tweet.likes.integerValue > _tweet.like_users.count) {
-            row++;
-        }
-        row = MIN(row, kTweetDetailCell_LikeNumMax);
-    }
+    NSInteger row = MIN(kTweetDetailCell_MaxCollectionNum, [_tweet hasMoreLikesOrRewards]? _like_reward_users.count + 1: _like_reward_users.count);
     return row;
 }
 
 // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     TweetLikeUserCCell *ccell = [collectionView dequeueReusableCellWithReuseIdentifier:kCCellIdentifier_TweetLikeUser forIndexPath:indexPath];
-    if (indexPath.row >= kTweetDetailCell_LikeNumMax-1) {
-        [ccell configWithUser:nil likesNum:_tweet.likes];
+    if (indexPath.row >= kTweetDetailCell_MaxCollectionNum -1
+        || indexPath.row >= _like_reward_users.count) {
+        [ccell configWithUser:nil rewarded:NO];
     }else{
-        if (_tweet.like_users.count > indexPath.row) {
-            User *curUser = [_tweet.like_users objectAtIndex:indexPath.row];
-            [ccell configWithUser:curUser likesNum:nil];
-        }else {
-            [ccell configWithUser:nil likesNum:_tweet.likes];
-        }
+        User *curUser = [_like_reward_users objectAtIndex:indexPath.row];
+        [ccell configWithUser:curUser rewarded:[_tweet rewardedBy:curUser]];
     }
     return ccell;
 }
@@ -458,14 +454,13 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSInteger numberOfItems = MIN(_tweet.like_users.count +1, _tweet.like_users.count);
-    numberOfItems = MIN(numberOfItems, kTweetDetailCell_LikeNumMax);
-    if (indexPath.row >= numberOfItems-1) {
+    if (indexPath.row >= kTweetDetailCell_MaxCollectionNum -1
+        || indexPath.row >= _like_reward_users.count) {
         if (_moreLikersBtnClickedBlock) {
             _moreLikersBtnClickedBlock(_tweet);
         }
-    }else if (_tweet.like_users.count > indexPath.row){
-        User *curUser = [_tweet.like_users objectAtIndex:indexPath.row];
+    }else{
+        User *curUser = [_like_reward_users objectAtIndex:indexPath.row];
         if (_userBtnClickedBlock) {
             _userBtnClickedBlock(curUser);
         }

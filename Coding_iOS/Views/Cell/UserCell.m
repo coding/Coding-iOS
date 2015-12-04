@@ -10,7 +10,6 @@
 #import "Coding_NetAPIManager.h"
 
 @interface UserCell ()
-@property (strong, nonatomic) UIImageView *userIconView;
 @property (strong, nonatomic) UILabel *userNameLabel;
 @property (strong, nonatomic) UIButton *rightBtn;
 @property (strong, nonatomic) UIActivityIndicatorView *sendingStatus;

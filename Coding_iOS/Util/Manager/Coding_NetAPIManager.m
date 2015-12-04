@@ -171,6 +171,23 @@
         }
     }];
 }
+
+- (void)request_ProjectsCatergoryAndCounts_WithObj:(ProjectCount *)pCount andBlock:(void (^)(ProjectCount *data, NSError *error))block
+{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/project_count" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_RootList label:@"筛选列表"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+           ProjectCount *prosC = [NSObject objectOfClass:@"ProjectCount" fromJSON:resultData];
+            block(prosC, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+
+}
+
 - (void)request_ProjectsHaveTasks_WithObj:(Projects *)projects andBlock:(void (^)(id data, NSError *error))block{
     projects.isLoading = YES;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/projects" withParams:[projects toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
@@ -1537,6 +1554,20 @@
         }
     }];
 }
+- (void)request_Tweet_LikesAndRewards_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block{
+    tweet.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[tweet toLikesAndRewardsPath] withParams:[tweet toLikesAndRewardsParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        tweet.isLoading = NO;
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"冒泡_赞赏的人_列表"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            block(resultData, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 - (void)request_Tweet_Comments_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block{
     tweet.isLoading = YES;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[tweet toCommentsPath] withParams:[tweet toCommentsParams] withMethodType:Get andBlock:^(id data, NSError *error) {
@@ -1744,6 +1775,30 @@
     }];
 }
 
+- (void)request_Preparereward:(NSString *)tweet_id andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/tweet/%@/preparereward", tweet_id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"准备打赏"];
+
+            data = data[@"data"];
+        }
+        block(data, error);
+    }];
+}
+- (void)request_RewardToTweet:(NSString *)tweet_id encodedPassword:(NSString *)encodedPassword andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/tweet/%@/reward", tweet_id];
+    NSDictionary *params = @{@"encodedPassword": encodedPassword};
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"打赏成功"];
+        }else{
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"打赏失败"];
+        }
+        block(data, error);
+    }];
+}
 #pragma mark Message
 - (void)request_PrivateMessages:(PrivateMessages *)priMsgs andBlock:(void (^)(id data, NSError *error))block{
     priMsgs.isLoading = YES;
@@ -2288,8 +2343,32 @@
             block(nil, error);
         }
     }];
-
 }
+
+- (void)requestWithSearchString:(NSString *)strSearch typeStr:(NSString*)type andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {
+    
+    NSString *path = [NSString stringWithFormat:@"/api/esearch/%@?q=%@&page=%d",type,strSearch, (int)page];
+    if ([type isEqualToString:@"all"]) {
+        path=[NSString stringWithFormat:@"%@&types=projects,project_topics,tasks,tweets,files,friends,merge_requests,pull_requests",path];
+    }else if ([type isEqualToString:@"public_project"]) {
+        path=[NSString stringWithFormat:@"/api/esearch/project?q=%@  related:false&page=%d",strSearch,(int)page];
+    }
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        
+        if(data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"全局_搜索"];
+            
+//            id resultData = [(NSDictionary *)[data valueForKey:@"data"] objectForKey:@"tweets"];
+            id resultData = [data valueForKey:@"data"];
+            block(resultData, nil);
+        }else {
+            
+            block(nil, error);
+        }
+    }];
+}
+
 
 - (void)request_TopicDetailsWithTopicID:(NSInteger)topicID block:(void (^)(id data, NSError *error))block {
     NSString *path = [NSString stringWithFormat:@"/api/tweet_topic/%ld",(long)topicID];

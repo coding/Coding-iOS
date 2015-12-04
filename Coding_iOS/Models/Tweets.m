@@ -12,6 +12,17 @@
 
 @implementation Tweets
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"Tweet", @"list", nil];
+    }
+    return self;
+}
+
+
 + (Tweets *)tweetsWithType:(TweetType)tweetType{
     Tweets *tweets = [[Tweets alloc] init];
     tweets.tweetType = tweetType;
@@ -68,9 +79,9 @@
             break;
     }
     [params setObject:(_willLoadMore? _last_id:kDefaultLastId) forKey:@"last_id"];
-    if (kDevice_Is_iPhone6Plus) {
-        params[@"default_like_count"] = @12;
-    }
+//    if (kDevice_Is_iPhone6Plus) {
+//        params[@"default_like_count"] = @12;
+//    }
     return params;
 }
 

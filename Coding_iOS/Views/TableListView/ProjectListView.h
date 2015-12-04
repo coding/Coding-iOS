@@ -12,10 +12,13 @@
 typedef void(^ProjectListViewBlock)(Project *project);
 
 @interface ProjectListView : UIView<UITableViewDataSource, UITableViewDelegate>
+@property(nonatomic,assign)BOOL useNewStyle;
+@property(copy, nonatomic) void(^clickButtonBlock)(EaseBlankPageType curType);
 
 - (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(ProjectListViewBlock)block tabBarHeight:(CGFloat)tabBarHeight;
 - (void)setProjects:(Projects *)projects;
 - (void)refreshUI;
 - (void)refreshToQueryData;
 - (void)tabBarItemClicked;
+
 @end

@@ -19,7 +19,8 @@ static Tweet *_tweetForSend = nil;
     if (self) {
         _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"Comment", @"comment_list",
-                             @"User", @"like_users", nil];
+                             @"User", @"like_users",
+                             @"User", @"reward_users", nil];
         _canLoadMore = YES;
         _isLoading = _willLoadMore = NO;
         _contentHeight = 1;
@@ -82,24 +83,37 @@ static Tweet *_tweetForSend = nil;
     return (_comments.intValue > _comment_list.count || _comments.intValue > 5);
 }
 
-- (NSInteger)numOfLikers{
-    return MIN(_like_users.count +1,
-               MIN(_likes.intValue,
-                   [self maxLikerNum]));
+- (NSArray *)like_reward_users{
+    NSMutableArray *like_reward_users = _like_users.count > 0? _like_users.mutableCopy: @[].mutableCopy;//点赞的人多，用点赞的人列表做基
+    [_reward_users enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(User *obj, NSUInteger idx, BOOL *stop) {
+        __block NSInteger originalIndex = NSNotFound;
+        [like_reward_users enumerateObjectsUsingBlock:^(User *obj_, NSUInteger idx_, BOOL *stop_) {
+            if ([obj.global_key isEqualToString:obj_.global_key]) {
+                originalIndex = idx_;
+            }
+        }];
+        if (originalIndex != NSNotFound) {
+            [like_reward_users exchangeObjectAtIndex:originalIndex withObjectAtIndex:0];
+        }else{
+            [like_reward_users insertObject:obj atIndex:0];
+        }
+    }];
+    return like_reward_users;
 }
-
-- (NSInteger)maxLikerNum{
-    NSInteger maxNum = 9;
-    if (kDevice_Is_iPhone6) {
-        maxNum = 11;
-    }else if (kDevice_Is_iPhone6Plus){
-        maxNum = 12;
+- (BOOL)hasLikesOrRewards{
+    return (_likes.integerValue + _rewards.integerValue) > 0;
+}
+- (BOOL)hasMoreLikesOrRewards{
+    return (_like_users.count + _reward_users.count == 10 && _likes.integerValue + _rewards.integerValue > 10);
+//    return (_likes.integerValue > _like_users.count || _rewards.integerValue > _reward_users.count);
+}
+- (BOOL)rewardedBy:(User *)user{
+    for (User *obj in _reward_users) {
+        if ([obj.global_key isEqualToString:user.global_key]) {
+            return YES;
+        }
     }
-    return maxNum;
-}
-
-- (BOOL)hasMoreLikers{
-    return (_likes.intValue > _like_users.count || _likes.intValue > [self maxLikerNum] - 1);
+    return NO;
 }
 
 - (NSString *)toDoLikePath{
@@ -118,6 +132,16 @@ static Tweet *_tweetForSend = nil;
 - (NSDictionary *)toDoCommentParams{
     return @{@"content" : [self.nextCommentStr aliasedString]};
 }
+
+
+- (NSString *)toLikesAndRewardsPath{
+    return [NSString stringWithFormat:@"api/tweet/%d/allLikesAndRewards", _id.intValue];
+}
+- (NSDictionary *)toLikesAndRewardsParams{
+    return @{@"page" : [NSNumber numberWithInteger:1],
+             @"pageSize" : [NSNumber numberWithInteger:500]};
+}
+
 - (NSString *)toLikersPath{
     return [NSString stringWithFormat:@"api/tweet/%d/likes", _id.intValue];
 }

@@ -121,11 +121,18 @@
     return btn;
 }
 
-+ (UIButton *)tweetBtnWithFrame:(CGRect)frame image:(NSString *)imageName{
++ (UIButton *)tweetBtnWithFrame:(CGRect)frame alignmentLeft:(BOOL)alignmentLeft{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = frame;
-    [button setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
-    [button doBorderWidth:1.0 color:[UIColor colorWithHexString:@"0xCCCCCC"] cornerRadius:CGRectGetHeight(button.frame)/2];
+    button.titleLabel.font = [UIFont systemFontOfSize:12];
+    [button setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateNormal];
+    if (alignmentLeft) {
+        button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        button.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, -10);
+    }else{
+        button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        button.imageEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 10);
+    }
     return button;
 }
 - (void)animateToImage:(NSString *)imageName{
