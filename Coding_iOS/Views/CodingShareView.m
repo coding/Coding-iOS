@@ -227,13 +227,13 @@
                                          @"copylink",
                                          @"inform",
                                          ] mutableCopy];
-    if (![self p_canOpen:@"weixin://"] && rand()%2) {
+    if (![self p_canOpen:@"weixin://"]) {
         [resultSnsValues removeObjectsInArray:@[
                                                 @"wxsession",
                                                 @"wxtimeline",
                                                 ]];
     }
-    if (![self p_canOpen:@"mqqapi://"] && rand()%2) {
+    if (![self p_canOpen:@"mqqapi://"]) {
         [resultSnsValues removeObjectsInArray:@[
                                                 @"qq",
                                                 @"qzone",
