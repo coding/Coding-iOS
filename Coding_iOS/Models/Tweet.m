@@ -104,7 +104,8 @@ static Tweet *_tweetForSend = nil;
     return (_likes.integerValue + _rewards.integerValue) > 0;
 }
 - (BOOL)hasMoreLikesOrRewards{
-    return (_likes.integerValue > _like_users.count || _rewards.integerValue > _reward_users.count);
+    return (_like_users.count + _reward_users.count == 10 && _likes.integerValue + _rewards.integerValue > 10);
+//    return (_likes.integerValue > _like_users.count || _rewards.integerValue > _reward_users.count);
 }
 - (BOOL)rewardedBy:(User *)user{
     for (User *obj in _reward_users) {
