@@ -640,11 +640,33 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"不支持这种类型的文件\n试试右上角的按钮，用其他应用打开吧";
             }
                 break;
-            case EaseBlankPageTypeViewTips:{
+            case EaseBlankPageTypeViewTips:
+            {
                 imageName = @"blankpage_image_Sleep";
                 tipStr = @"这里没有未读的消息";
             }
                 break;
+            case EaseBlankPageTypeShopOrders:
+            {
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"您还木有订单呢\n努力推代码，把洋葱猴带回家～";
+            }
+                break;
+            case EaseBlankPageTypeShopSendOrders:
+            {
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"您还木有已发货的订单呢～";
+            }
+                break;
+            case EaseBlankPageTypeShopUnSendOrders:
+            {
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"您还木有未发货的订单呢～";
+            }
+                break;
+            case EaseBlankPageTypeNoExchangeGoods:{
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"还木有可兑换的商品呢\n努力推代码，把洋葱猴带回家～";
             case EaseBlankPageTypeProject_ALL:{
                 imageName = @"blankpage_image_Sleep";
                 tipStr = @"您还木有项目呢，赶快起来创建吧～";
@@ -740,6 +762,7 @@ static char LoadingViewKey, BlankPageViewKey;
         }else{
         }
     }
+    }
 }
 
 - (void)reloadButtonClicked:(id)sender{
@@ -761,13 +784,4 @@ static char LoadingViewKey, BlankPageViewKey;
 }
 
 @end
-
-
-
-
-
-
-
-
-
 
