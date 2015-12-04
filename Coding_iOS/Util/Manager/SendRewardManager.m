@@ -179,9 +179,12 @@
 
 - (void)setTipStrList:(NSArray *)tipStrList{
     _tipStrList = tipStrList;
-    _tipL.text = tipStrList.firstObject;
 
     BOOL hasTip = _tipStrList.count > 0;
+    if (hasTip) {
+        _tipL.text = tipStrList.firstObject;
+        _tipL.text = [_tipL.text stringByRemoveHtmlTag];
+    }
     CGFloat contentHeight = hasTip? 185: 229;
     CGFloat centerYOffset = hasTip? 0: -60;
     _passwordF.hidden = hasTip;
