@@ -130,7 +130,7 @@
         searchBar.layer.cornerRadius=15;
         searchBar.layer.masksToBounds=TRUE;
         [searchBar.layer setBorderWidth:8];
-        [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
+        [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];//设置边框为白色
         [searchBar sizeToFit];
         [searchBar setTintColor:[UIColor whiteColor]];
         [searchBar insertBGColor:[UIColor colorWithHexString:@"0xffffff"]];

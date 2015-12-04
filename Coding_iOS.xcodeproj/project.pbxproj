@@ -120,9 +120,6 @@
 		4E2719C71AB07ED6006AE214 /* dot_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2719C61AB07ED6006AE214 /* dot_line@2x.png */; };
 		4E2906A21A403B7D008A5B97 /* FileDownloadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2906A11A403B7D008A5B97 /* FileDownloadView.m */; };
 		4E2BF3BC1B957D4F00A5A0A8 /* file_activity_icon_delete_history@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2BF3BB1B957D4F00A5A0A8 /* file_activity_icon_delete_history@2x.png */; };
-		4E2BF3C21B95B97A00A5A0A8 /* tweet_btn_comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2BF3BE1B95B97A00A5A0A8 /* tweet_btn_comment@2x.png */; };
-		4E2BF3C31B95B97A00A5A0A8 /* tweet_btn_like@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2BF3BF1B95B97A00A5A0A8 /* tweet_btn_like@2x.png */; };
-		4E2BF3C41B95B97A00A5A0A8 /* tweet_btn_liked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2BF3C01B95B97A00A5A0A8 /* tweet_btn_liked@2x.png */; };
 		4E2BF3CF1B96CDF800A5A0A8 /* share_btn_coding@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2BF3C71B96CDF800A5A0A8 /* share_btn_coding@2x.png */; };
 		4E2BF3D01B96CDF800A5A0A8 /* share_btn_copylink@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2BF3C81B96CDF800A5A0A8 /* share_btn_copylink@2x.png */; };
 		4E2BF3D11B96CDF800A5A0A8 /* share_btn_evernote@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2BF3C91B96CDF800A5A0A8 /* share_btn_evernote@2x.png */; };
@@ -1201,9 +1198,6 @@
 		4E2906A01A403B7D008A5B97 /* FileDownloadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDownloadView.h; sourceTree = "<group>"; };
 		4E2906A11A403B7D008A5B97 /* FileDownloadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDownloadView.m; sourceTree = "<group>"; };
 		4E2BF3BB1B957D4F00A5A0A8 /* file_activity_icon_delete_history@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_delete_history@2x.png"; sourceTree = "<group>"; };
-		4E2BF3BE1B95B97A00A5A0A8 /* tweet_btn_comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweet_btn_comment@2x.png"; sourceTree = "<group>"; };
-		4E2BF3BF1B95B97A00A5A0A8 /* tweet_btn_like@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweet_btn_like@2x.png"; sourceTree = "<group>"; };
-		4E2BF3C01B95B97A00A5A0A8 /* tweet_btn_liked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweet_btn_liked@2x.png"; sourceTree = "<group>"; };
 		4E2BF3C71B96CDF800A5A0A8 /* share_btn_coding@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_btn_coding@2x.png"; sourceTree = "<group>"; };
 		4E2BF3C81B96CDF800A5A0A8 /* share_btn_copylink@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_btn_copylink@2x.png"; sourceTree = "<group>"; };
 		4E2BF3C91B96CDF800A5A0A8 /* share_btn_evernote@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_btn_evernote@2x.png"; sourceTree = "<group>"; };
@@ -2798,9 +2792,6 @@
 				4E5D13061C0ECB3400985AEB /* tweet_btn_reward@3x.png */,
 				4E5D13071C0ECB3400985AEB /* tweet_btn_rewarded@2x.png */,
 				4E5D13081C0ECB3400985AEB /* tweet_btn_rewarded@3x.png */,
-				4E2BF3BE1B95B97A00A5A0A8 /* tweet_btn_comment@2x.png */,
-				4E2BF3BF1B95B97A00A5A0A8 /* tweet_btn_like@2x.png */,
-				4E2BF3C01B95B97A00A5A0A8 /* tweet_btn_liked@2x.png */,
 			);
 			path = tweet_btn;
 			sourceTree = "<group>";
@@ -5204,7 +5195,6 @@
 				7E8E59831B6F91C40083CA02 /* bubble_right_play_1@2x.png in Resources */,
 				8B3516511B6CE9460049BC45 /* search_tweet_colck@2x.png in Resources */,
 				8E97CE6A1A0A3424006F9AD7 /* keyboard_page_unselected@2x.png in Resources */,
-				4E2BF3C31B95B97A00A5A0A8 /* tweet_btn_like@2x.png in Resources */,
 				4E07D3161A4D3CA6009EDDF2 /* logo_coding@2x.png in Resources */,
 				4E96E7D91A1B537E0037C098 /* icon_file_apk@2x.png in Resources */,
 				4E996C021ABBF56A00C704F1 /* n_btn_followed_both@2x.png in Resources */,
@@ -5448,7 +5438,6 @@
 				4EAE06C11B7B51AF00179F4B /* file_activity_icon_move_file@2x.png in Resources */,
 				D0C448081C02DCAC00DC1C4B /* addBtn_Nav@3x.png in Resources */,
 				D0C4480C1C02DCAC00DC1C4B /* info_Nav@3x.png in Resources */,
-				4E2BF3C21B95B97A00A5A0A8 /* tweet_btn_comment@2x.png in Resources */,
 				D0C447E31C02DB8900DC1C4B /* task_selected@3x.png in Resources */,
 				8E97CE641A0A3424006F9AD7 /* keyboard_emotion@2x.png in Resources */,
 				4EAE06A81B7B1AE100179F4B /* button_file_history@2x.png in Resources */,
@@ -5664,7 +5653,6 @@
 				4E8F92DE1B67BE3C00033D8F /* icon_user_monkey_i6@2x.png in Resources */,
 				4EAE06A71B7B1AE100179F4B /* button_file_activity@2x.png in Resources */,
 				4EAE06C21B7B51AF00179F4B /* file_activity_icon_update_file@2x.png in Resources */,
-				4E2BF3C41B95B97A00A5A0A8 /* tweet_btn_liked@2x.png in Resources */,
 				8EC911291A027A54009EAE99 /* nav_project_code@2x.png in Resources */,
 				4E2DB33D1BA6A1FC002F27C4 /* coding_emoji_gif_08@2x.png in Resources */,
 				D09E6ABA1BF829A1009D37F8 /* icon_project_private.png in Resources */,

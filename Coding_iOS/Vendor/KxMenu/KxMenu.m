@@ -449,9 +449,9 @@ typedef enum {
     const CGFloat titleX = kMarginX * 2 + maxImageWidth + titleImagePadding;
     const CGFloat titleWidth = maxItemWidth - titleX - kMarginX * 2;
     
-    UIImage *selectedImage = [KxMenuView selectedImage:(CGSize){maxItemWidth, maxItemHeight + 2}];
+//    UIImage *selectedImage = [KxMenuView selectedImage:(CGSize){maxItemWidth, maxItemHeight + 2}];
 //    UIImage *gradientLine = [KxMenuView gradientLine: (CGSize){maxItemWidth - kMarginX * 4, 0.5}];
-    UIImage *gradientLine = [KxMenuView gradientLine: (CGSize){maxItemWidth, 0.3}];
+//    UIImage *gradientLine = [KxMenuView gradientLine: (CGSize){maxItemWidth, 0.3}];
 
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectZero];
     contentView.autoresizingMask = UIViewAutoresizingNone;

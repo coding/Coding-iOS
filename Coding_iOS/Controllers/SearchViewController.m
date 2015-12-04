@@ -12,14 +12,14 @@
 #import "AllSearchDisplayVC.h"
 #import "FileViewController.h"
 
-@interface SearchViewController ()<UITableViewDataSource,UITableViewDelegate,AllSearchDisplayVCdelegate>
+@interface SearchViewController ()<UISearchDisplayDelegate>//UITableViewDataSource,UITableViewDelegate, 
 @property (nonatomic,strong)UIView *searchView;
 @property (strong, nonatomic) NSMutableArray *statusList;
 @property (strong, nonatomic) CategorySearchBar *mySearchBar;
 @property (strong, nonatomic) AllSearchDisplayVC *searchDisplayVC;
 @property (nonatomic,strong) UITableView *tableview;
 @property (nonatomic,strong) NSMutableArray *dataSource;
-@property (nonatomic,assign) int selectIndex;
+@property (nonatomic,assign) NSInteger selectIndex;
 @property (nonatomic,assign) BOOL firstLoad;
 @end
 
@@ -75,7 +75,7 @@
         searchBar.layer.cornerRadius=15;
         searchBar.layer.masksToBounds=TRUE;
         [searchBar.layer setBorderWidth:8];
-        [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
+        [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];//设置边框为白色
         [searchBar sizeToFit];
         [searchBar setTintColor:[UIColor whiteColor]];
         [searchBar insertBGColor:[UIColor colorWithHexString:@"0xffffff"]];
@@ -126,7 +126,7 @@
             searchVC.searchBar.layer.cornerRadius=15;
             searchVC.searchBar.layer.masksToBounds=TRUE;
             [searchVC.searchBar.layer setBorderWidth:8];
-            [searchVC.searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
+            [searchVC.searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];//设置边框为白色
 
             //placeholder 要在此处设置，不然报错
             [searchVC.searchBar setPlaceholder:@"项目/任务/讨论/冒泡等"];
@@ -200,7 +200,7 @@
 }
 
 - (void)menuItemClicked:(KxMenuItem *)item{
-    int nowSelectIndex = [_statusList indexOfObject:item.title];
+    NSInteger nowSelectIndex = [_statusList indexOfObject:item.title];
     if (nowSelectIndex == NSNotFound || nowSelectIndex == _selectIndex) {
         return;
     }
