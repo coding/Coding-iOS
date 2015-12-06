@@ -197,7 +197,7 @@
         }];
     }
     
-    [_describeLab mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_describeLab mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_titleLabel);
         make.top.equalTo(_toL.mas_bottom).offset(8);
         make.height.equalTo(@([PRMRSearchCell contentLabelHeightWithPRMR:_curMRPR]+2));
@@ -234,7 +234,8 @@
 
 + (CGFloat)contentLabelHeightWithPRMR:(MRPR *)curMRPR{
     NSString *content = [curMRPR.body firstObject];
-    CGFloat realheight = [content getHeightWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(kDetialContentWidth, 1000)];
+    NSString *realContent=[NSString getStr:content removeEmphasize:@"em"];
+    CGFloat realheight = [realContent getHeightWithFont:[UIFont systemFontOfSize:15] constrainedToSize:CGSizeMake(kDetialContentWidth, 1000)];
     return MIN(realheight, kDetialContentMaxHeight);
 }
 @end
