@@ -492,25 +492,25 @@ static char LoadingViewKey, BlankPageViewKey;
 }
 
 - (void)configWithType:(EaseBlankPageType)blankPageType hasData:(BOOL)hasData hasError:(BOOL)hasError reloadButtonBlock:(void (^)(id))block{
-
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (_loadAndShowStatusBlock) {
             _loadAndShowStatusBlock();
         }
     });
-
+    
     
     if (hasData) {
         [self removeFromSuperview];
         return;
     }
     self.alpha = 1.0;
-//    图片
+    //    图片
     if (!_monkeyView) {
         _monkeyView = [[UIImageView alloc] initWithFrame:CGRectZero];
         [self addSubview:_monkeyView];
     }
-//    文字
+    //    文字
     if (!_tipLabel) {
         _tipLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _tipLabel.backgroundColor = [UIColor clearColor];
@@ -521,7 +521,7 @@ static char LoadingViewKey, BlankPageViewKey;
         [self addSubview:_tipLabel];
     }
     
-//    布局
+    //    布局
     [_monkeyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
         make.bottom.equalTo(self.mas_centerY);
@@ -534,7 +534,7 @@ static char LoadingViewKey, BlankPageViewKey;
     
     _reloadButtonBlock = nil;
     if (hasError) {
-//        加载失败
+        //        加载失败
         if (!_reloadButton) {
             _reloadButton = [[UIButton alloc] initWithFrame:CGRectZero];
             [_reloadButton setImage:[UIImage imageNamed:@"blankpage_button_reload"] forState:UIControlStateNormal];
@@ -552,7 +552,7 @@ static char LoadingViewKey, BlankPageViewKey;
         [_monkeyView setImage:[UIImage imageNamed:@"blankpage_image_loadFail"]];
         _tipLabel.text = @"貌似出了点差错\n真忧伤呢";
     }else{
-//        空白数据
+        //        空白数据
         if (_reloadButton) {
             _reloadButton.hidden = YES;
         }
@@ -667,6 +667,8 @@ static char LoadingViewKey, BlankPageViewKey;
             case EaseBlankPageTypeNoExchangeGoods:{
                 imageName = @"blankpage_image_Sleep";
                 tipStr = @"还木有可兑换的商品呢\n努力推代码，把洋葱猴带回家～";
+            }
+                break;
             case EaseBlankPageTypeProject_ALL:{
                 imageName = @"blankpage_image_Sleep";
                 tipStr = @"您还木有项目呢，赶快起来创建吧～";
@@ -730,38 +732,36 @@ static char LoadingViewKey, BlankPageViewKey;
                 make.top.equalTo(_tipLabel.mas_bottom).offset(15);
                 make.centerX.equalTo(self);
             }];
-
+            
             NSString *titleStr;
             switch (blankPageType) {
                 case EaseBlankPageTypeProject_ALL:
                 case EaseBlankPageTypeProject_CREATE:
                 case EaseBlankPageTypeProject_JOIN:
                     titleStr=@"+ 创建项目";
-//                    [actionBtn setTitle:@"+ 创建项目" forState:UIControlStateNormal];
+                    //                    [actionBtn setTitle:@"+ 创建项目" forState:UIControlStateNormal];
                     break;
                 case EaseBlankPageTypeProject_WATCHED:
                     titleStr=@"+ 去关注";
-//                    [actionBtn setTitle:@"+ 去关注" forState:UIControlStateNormal];
+                    //                    [actionBtn setTitle:@"+ 去关注" forState:UIControlStateNormal];
                     break;
                 case EaseBlankPageTypeProject_STARED:
                     titleStr=@"+ 去收藏";
-//                    [actionBtn setTitle:@"+去收藏" forState:UIControlStateNormal];
+                    //                    [actionBtn setTitle:@"+去收藏" forState:UIControlStateNormal];
                     break;
                 default:
                     break;
             }
-//            NSMutableAttributedString *titleFontStr=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"+ %@",titleStr]];
-//            NSRange range;
-//            range.location=0;
-//            range.length=1;
-//            [titleFontStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:range];
-//            [actionBtn setAttributedTitle:titleFontStr forState:UIControlStateNormal];
+            //            NSMutableAttributedString *titleFontStr=[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"+ %@",titleStr]];
+            //            NSRange range;
+            //            range.location=0;
+            //            range.length=1;
+            //            [titleFontStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:range];
+            //            [actionBtn setAttributedTitle:titleFontStr forState:UIControlStateNormal];
             
             [actionBtn setTitle:titleStr forState:UIControlStateNormal];
             
-        }else{
         }
-    }
     }
 }
 
