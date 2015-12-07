@@ -160,13 +160,13 @@
     UILabel *la1 = [[UILabel alloc] initWithFrame:CGRectMake((kScreen_Width/2 - titleWidth/2) + 0*distance, 8, titleWidth, 16)];
     la1.text = @"热门话题";
     la1.textAlignment = NSTextAlignmentCenter;
-    la1.font = [UIFont systemFontOfSize:16];
+    la1.font = [UIFont boldSystemFontOfSize:18];
     la1.textColor = [UIColor whiteColor];
     
     UILabel *la2 = [[UILabel alloc] initWithFrame:CGRectMake((kScreen_Width/2 - titleWidth/2) + 1*distance, 8, titleWidth, 16)];
     la2.text = @"我的话题";
     la2.textAlignment = NSTextAlignmentCenter;
-    la2.font = [UIFont systemFontOfSize:16];
+    la2.font = [UIFont boldSystemFontOfSize:18];
     la2.textColor = [UIColor whiteColor];
     
     
