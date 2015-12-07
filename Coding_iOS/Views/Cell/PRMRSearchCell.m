@@ -180,6 +180,7 @@
         fromStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPR.author.name, _curMRPR.source_branch];
         toStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPR.des_owner_name, _curMRPR.target_branch];
     }
+    
     NSString *totalStr = [NSString stringWithFormat:@"%@%@", fromStr, toStr];
     if ([totalStr getWidthWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)] + 40 > kScreen_Width - 2*kPaddingLeftWidth) {
         [_toL mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -229,7 +230,20 @@
 
 + (CGFloat)cellHeightWithObj:(id)obj {
     MRPR *mrpr = (MRPR *)obj;
-    return kBaseCellHeight+[PRMRSearchCell contentLabelHeightWithPRMR:mrpr];
+    NSString *fromStr, *toStr;
+        if (mrpr.isMR) {
+            fromStr = [NSString stringWithFormat:@"  %@  ", mrpr.source_branch];
+            toStr = [NSString stringWithFormat:@"  %@  ", mrpr.target_branch];
+        }else{
+            fromStr = [NSString stringWithFormat:@"  %@ : %@  ", mrpr.author.name, mrpr.source_branch];
+            toStr = [NSString stringWithFormat:@"  %@ : %@  ", mrpr.des_owner_name, mrpr.target_branch];
+        }
+    
+    NSString *totalStr = [NSString stringWithFormat:@"%@%@", fromStr, toStr];
+
+    float offset= ([totalStr getWidthWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)] + 40 > kScreen_Width - 2*kPaddingLeftWidth)?(15+20):0;
+    
+    return kBaseCellHeight+[PRMRSearchCell contentLabelHeightWithPRMR:mrpr]+offset;
 }
 
 + (CGFloat)contentLabelHeightWithPRMR:(MRPR *)curMRPR{
