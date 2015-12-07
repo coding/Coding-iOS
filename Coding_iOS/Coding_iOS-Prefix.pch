@@ -1,0 +1,189 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+
+#import "NSString+Common.h"
+#import "NSObject+Common.h"
+#import "UIImage+Common.h"
+#import "UIButton+Bootstrap.h"
+#import "UIColor+expanded.h"
+#import "UIButton+Common.h"
+#import "UITableView+Common.h"
+#import "UIView+Common.h"
+#import "UILabel+Common.h"
+#import "NSDate+Common.h"
+#import "UIBarButtonItem+Common.h"
+#import "UIActionSheet+Common.h"
+#import "NSURL+Common.h"
+#import "UISearchBar+Common.h"
+#import "UITTTAttributedLabel.h"
+#import "NSObject+ObjectMap.h"
+#import "ImageSizeManager.h"
+#import "MobClick.h"
+#import <BlocksKit/BlocksKit+UIKit.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
+#import <ReactiveCocoa/RACEXTScope.h>
+#import "UIImageView+WebCache.h"
+#import <Masonry/Masonry.h>
+
+#import "BaseNavigationController.h"
+#import "BaseViewController.h"
+
+#endif
+
+#define SD_WEBP
+
+//友盟统计
+#define kUmeng_AppKey @""
+#define kUmeng_Event_Request_Notification @"Request_Notification"
+#define kUmeng_Event_Request_RootList @"Request_RootList"
+#define kUmeng_Event_Request_Get @"Request_Get"
+#define kUmeng_Event_Request_ActionOfServer @"Request_ActionOfServer"
+#define kUmeng_Event_Request_ActionOfLocal @"Request_ActionOfLocal"
+
+//Social Data
+#define kSocial_WX_ID @""
+#define kSocial_WX_Secret @""
+#define kSocial_QQ_ID  @""
+#define kSocial_QQ_Secret @""
+#define kSocial_EN_Key @""
+#define kSocial_EN_Secret @""
+#define kSocial_Sina_RedirectURL @""
+#define kSocial_Sina_OfficailAccount @""
+
+//信鸽推送
+#define kXGPush_Id 123456
+#define kXGPush_Key @""
+
+//百度定位
+#define kBaiduGeotableId @""
+#define kBaiduAK @""
+#define kBaiduSK @""
+
+//测试地址
+#define kBaseUrlStr_Test @"https://coding.net/"
+
+//手机版地址
+#define kBaseUrlStr_Phone @"https://m.coding.net/"
+
+//Coding App 的专属链接
+#define kCodingAppScheme @"coding-net:"
+
+//appStore地址
+#define kAppUrl  @"http://itunes.apple.com/app/id923676989"
+#define kAppReviewURL   @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=923676989"
+
+//版本号
+#define kVersion_Coding [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
+#define kVersionBuild_Coding [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
+
+//常用变量
+#define DebugLog(s, ...) NSLog(@"%s(%d): %@", __FUNCTION__, __LINE__, [NSString stringWithFormat:(s), ##__VA_ARGS__])
+#define kTipAlert(_S_, ...)     [[[UIAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:(_S_), ##__VA_ARGS__] delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil] show]
+
+#define kKeyWindow [UIApplication sharedApplication].keyWindow
+
+#define kHigher_iOS_6_1 (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)
+#define kHigher_iOS_6_1_DIS(_X_) ([[NSNumber numberWithBool:kHigher_iOS_6_1] intValue] * _X_)
+#define kNotHigher_iOS_6_1_DIS(_X_) (-([[NSNumber numberWithBool:kHigher_iOS_6_1] intValue]-1) * _X_)
+
+#define kDevice_Is_iPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+#define kDevice_Is_iPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
+#define kDevice_Is_iPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#define kScreen_Bounds [UIScreen mainScreen].bounds
+#define kScreen_Height [UIScreen mainScreen].bounds.size.height
+#define kScreen_Width [UIScreen mainScreen].bounds.size.width
+#define kPaddingLeftWidth 15.0
+#define kLoginPaddingLeftWidth 18.0
+#define kMySegmentControl_Height 44.0
+#define kMySegmentControlIcon_Height 70.0
+
+#define  kBackButtonFontSize 16
+#define  kNavTitleFontSize 18
+#define  kBadgeTipStr @"badgeTip"
+
+#define kDefaultLastId [NSNumber numberWithInteger:99999999]
+
+#define kColor999 [UIColor colorWithHexString:@"0x999999"]
+#define kColorTableBG [UIColor colorWithHexString:@"0xfafafa"]
+#define kColorTableSectionBg [UIColor colorWithHexString:@"0xeeeeee"]
+
+#define kImage999 [UIImage imageWithColor:kColor999]
+
+#define kPlaceholderMonkeyRoundWidth(_width_) [UIImage imageNamed:[NSString stringWithFormat:@"placeholder_monkey_round_%.0f", _width_]]
+#define kPlaceholderMonkeyRoundView(_view_) [UIImage imageNamed:[NSString stringWithFormat:@"placeholder_monkey_round_%.0f", CGRectGetWidth(_view_.frame)]]
+
+#define kPlaceholderCodingSquareWidth(_width_) [UIImage imageNamed:[NSString stringWithFormat:@"placeholder_coding_square_%.0f", _width_]]
+#define kPlaceholderCodingSquareView(_view_) [UIImage imageNamed:[NSString stringWithFormat:@"placeholder_coding_square_%.0f", CGRectGetWidth(_view_.frame)]]
+
+#define kScaleFrom_iPhone5_Desgin(_X_) (_X_ * (kScreen_Width/320))
+
+#define kUnReadKey_messages @"messages"
+#define kUnReadKey_notifications @"notifications"
+#define kUnReadKey_project_update_count @"project_update_count"
+#define kUnReadKey_notification_AT @"notification_at"
+#define kUnReadKey_notification_Comment @"notification_comment"
+#define kUnReadKey_notification_System @"notification_system"
+
+//链接颜色
+#define kLinkAttributes     @{(__bridge NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:NO],(NSString *)kCTForegroundColorAttributeName : (__bridge id)[UIColor colorWithHexString:@"0x3bbd79"].CGColor}
+#define kLinkAttributesActive       @{(NSString *)kCTUnderlineStyleAttributeName : [NSNumber numberWithBool:NO],(NSString *)kCTForegroundColorAttributeName : (__bridge id)[[UIColor colorWithHexString:@"0x1b9d59"] CGColor]}
+
+
+#define kTaskPrioritiesDisplay @[@"有空再看", @"正常处理", @"优先处理", @"十万火急"]
+
+
+///=============================================
+/// @name Weak Object
+///=============================================
+#pragma mark - Weak Object
+
+/**
+* @code
+* ESWeak(imageView, weakImageView);
+* [self testBlock:^(UIImage *image) {
+*         ESStrong(weakImageView, strongImageView);
+*         strongImageView.image = image;
+* }];
+*
+* // `ESWeak_(imageView)` will create a var named `weak_imageView`
+* ESWeak_(imageView);
+* [self testBlock:^(UIImage *image) {
+*         ESStrong_(imageView);
+* 	_imageView.image = image;
+* }];
+*
+* // weak `self` and strong `self`
+* ESWeakSelf;
+* [self testBlock:^(UIImage *image) {
+*         ESStrongSelf;
+*         _self.image = image;
+* }];
+* @endcode
+*/
+
+#define ESWeak(var, weakVar) __weak __typeof(&*var) weakVar = var
+#define ESStrong_DoNotCheckNil(weakVar, _var) __typeof(&*weakVar) _var = weakVar
+#define ESStrong(weakVar, _var) ESStrong_DoNotCheckNil(weakVar, _var); if (!_var) return;
+
+#define ESWeak_(var) ESWeak(var, weak_##var);
+#define ESStrong_(var) ESStrong(weak_##var, _##var);
+
+/** defines a weak `self` named `__weakSelf` */
+#define ESWeakSelf      ESWeak(self, __weakSelf);
+/** defines a strong `self` named `_self` from `__weakSelf` */
+#define ESStrongSelf    ESStrong(__weakSelf, _self);

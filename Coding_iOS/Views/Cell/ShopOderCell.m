@@ -79,7 +79,7 @@
     [orderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(superView.mas_left).offset(12);
         make.top.equalTo(superView.mas_top).offset(13);
-        make.width.offset(129/2);
+//        make.width.offset(132/2);
         make.height.offset(20);
     }];
     
@@ -134,7 +134,7 @@
     
     [_coverView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.equalTo(_goodsInfoView);
-        make.width.offset(172/2);
+        make.width.offset(170/2);
     }];
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -337,12 +337,13 @@
     [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(remarkLabel.mas_bottom).offset(9);
         make.left.equalTo(_goodsInfoView.mas_left);
-        make.right.equalTo(_addressLabel.mas_left);
-        make.width.mas_lessThanOrEqualTo(@70);
+//        make.right.equalTo(_addressLabel.mas_left);
+//        make.width.offset(70);
+        make.height.offset(15);
     }];
     
     [_addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(addressLabel.mas_top);
+        make.top.equalTo(addressLabel.mas_top).offset(-2);
         make.left.equalTo(addressLabel.mas_right);
         make.right.equalTo(_goodsInfoView.mas_right);
         make.width.equalTo(@(kScreen_Width - 26 - 70));

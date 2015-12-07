@@ -43,13 +43,17 @@
 - (void)loadData
 {
     __weak typeof(self) weakSelf = self;
+    __weak typeof(iCarousel) *weakCarosel = _myCarousel;
+
     [self.view beginLoading];
     [[Coding_NetAPIManager sharedManager] request_shop_OrderListWithOrder:_myOrder andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
-            weakSelf.myOrder.orderType = ShopOrderAll;
-            ShopOrderListView *listView = (ShopOrderListView *)[weakSelf.myCarousel itemViewAtIndex:weakSelf.myOrder.orderType];
-            [listView reloadData];
+            
+            [weakSelf carouselCurrentItemIndexDidChange:weakCarosel];
+//            weakSelf.myOrder.orderType = ShopOrderAll;
+//            ShopOrderListView *listView = (ShopOrderListView *)[weakSelf.myCarousel itemViewAtIndex:weakSelf.myOrder.orderType];
+//            [listView reloadData];
         }
     }];
 }
