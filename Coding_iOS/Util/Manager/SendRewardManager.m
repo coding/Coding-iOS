@@ -248,7 +248,7 @@
     CGFloat contentY = (kScreen_Height - contentHeight)/2;
     contentY += _isNeedPassword? -40: 0;
     
-    CGRect contentFrame = CGRectMake(kPaddingLeftWidth, contentY, kScreen_Width - 2*kPaddingLeftWidth, contentHeight);
+    CGRect contentFrame = CGRectMake(25, contentY, kScreen_Width - 50, contentHeight);
     if (animate) {
         [UIView animateWithDuration:0.3 animations:^{
             _contentView.frame = contentFrame;
