@@ -7,16 +7,20 @@
 //
 
 #define kCodingShareView_NumPerLine 4
+#define kCodingShareView_NumPerScroll (2 * kCodingShareView_NumPerLine)
 #define kCodingShareView_TopHeight 60.0
-#define kCodingShareView_BottomHeight 60.0
+#define kCodingShareView_BottomHeight 65.0
 
 #import "CodingShareView.h"
+#import "SMPageControl.h"
 #import <UMengSocial/UMSocial.h>
 #import <evernote-cloud-sdk-ios/ENSDK/ENSDK.h>
 
 #import "PrivateMessage.h"
 #import "UsersViewController.h"
 #import "Coding_NetAPIManager.h"
+#import "ReportIllegalViewController.h"
+
 
 @interface CodingShareView ()<UMSocialUIDelegate>
 @property (strong, nonatomic) UIView *bgView;
@@ -24,6 +28,7 @@
 @property (strong, nonatomic) UILabel *titleL;
 @property (strong, nonatomic) UIButton *dismissBtn;
 @property (strong, nonatomic) UIScrollView *itemsScrollView;
+@property (strong, nonatomic) SMPageControl *myPageControl;
 
 @property (strong, nonatomic) NSArray *shareSnsValues;
 @property (weak, nonatomic) NSObject *objToShare;
@@ -92,6 +97,9 @@
             if (!_itemsScrollView) {
                 _itemsScrollView = ({
                     UIScrollView *scrollView = [UIScrollView new];
+                    scrollView.pagingEnabled = YES;
+                    scrollView.showsHorizontalScrollIndicator = NO;
+                    scrollView.showsVerticalScrollIndicator = NO;
                     scrollView;
                 });
                 [_contentView addSubview:_itemsScrollView];
@@ -108,25 +116,69 @@
     return self;
 }
 
+- (SMPageControl *)myPageControl{
+    if (!_myPageControl) {
+        _myPageControl = ({
+            SMPageControl *pageControl = [[SMPageControl alloc] init];
+            pageControl.userInteractionEnabled = NO;
+            pageControl.backgroundColor = [UIColor clearColor];
+            pageControl.pageIndicatorImage = [UIImage imageNamed:@"banner__page_unselected"];
+            pageControl.currentPageIndicatorImage = [UIImage imageNamed:@"banner__page_selected"];
+            pageControl;
+        });
+        [self addSubview:_myPageControl];
+        [_myPageControl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(_contentView);
+            make.height.mas_equalTo(10);
+            make.bottom.equalTo(_dismissBtn.mas_top).offset(-10);
+        }];
+        
+        [RACObserve(self, itemsScrollView.contentOffset) subscribeNext:^(NSValue *point) {
+            CGPoint contentOffset;
+            [point getValue:&contentOffset];
+            CGFloat pageWidth = kScreen_Width;
+            NSUInteger page = MAX(0, floor((contentOffset.x + (pageWidth / 2)) / pageWidth));
+            if (page != self.myPageControl.currentPage) {
+                self.myPageControl.currentPage = page;
+            }
+        }];
+    }
+    return _myPageControl;
+}
+
 - (void)setShareSnsValues:(NSArray *)shareSnsValues{
     if (![_shareSnsValues isEqualToArray:shareSnsValues]) {
         _shareSnsValues = shareSnsValues;
         [[_itemsScrollView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
         for (int index = 0; index < _shareSnsValues.count; index++) {
+            NSInteger scrollIndex = index/kCodingShareView_NumPerScroll;
+            NSInteger itemIndex = index % kCodingShareView_NumPerScroll;
+            CGPoint pointO = CGPointZero;
+            pointO.x = [CodingShareView_Item itemWidth] * (itemIndex % kCodingShareView_NumPerLine) + kScreen_Width * scrollIndex;
+            pointO.y = [CodingShareView_Item itemHeight] * (itemIndex / kCodingShareView_NumPerLine);
+            
             NSString *snsName = _shareSnsValues[index];
             CodingShareView_Item *item = [CodingShareView_Item itemWithSnsName:snsName];
-            CGPoint pointO = CGPointZero;
-            pointO.x = [CodingShareView_Item itemWidth] * (index%kCodingShareView_NumPerLine);
-            pointO.y = [CodingShareView_Item itemHeight] * (index/kCodingShareView_NumPerLine);
             [item setOrigin:pointO];
             item.clickedBlock = ^(NSString *snsName){
                 [self p_shareItemClickedWithSnsName:snsName];
             };
             [_itemsScrollView addSubview:item];
         }
-        CGFloat contentHeight = kCodingShareView_TopHeight + kCodingShareView_BottomHeight + ((_shareSnsValues.count - 1)/kCodingShareView_NumPerLine + 1)* [CodingShareView_Item itemHeight];
+        CGFloat scrollPageNum = 1 + (_shareSnsValues.count/kCodingShareView_NumPerScroll);
+        [_itemsScrollView setContentSize:CGSizeMake(scrollPageNum * kScreen_Width, 2* [CodingShareView_Item itemHeight])];
+        _itemsScrollView.scrollEnabled = scrollPageNum > 1;
+
+        if (scrollPageNum > 1) {
+            self.myPageControl.numberOfPages = scrollPageNum;
+            self.myPageControl.hidden = NO;
+        }else{
+            _myPageControl.hidden = YES;
+        }
+        CGFloat contentHeight = kCodingShareView_TopHeight + kCodingShareView_BottomHeight + 2* [CodingShareView_Item itemHeight];
         [self.contentView setSize:CGSizeMake(kScreen_Width, contentHeight)];
     }
+    [_itemsScrollView setContentOffset:CGPointZero];
 }
 
 #pragma mark common M
@@ -152,6 +204,7 @@
                         @"qq": @"QQ好友",
                         @"wxtimeline": @"朋友圈",
                         @"wxsession": @"微信好友",
+                        @"inform": @"举报",
                         };
     });
     return snsNameDict;
@@ -172,6 +225,7 @@
                                          @"evernote",
                                          @"coding",
                                          @"copylink",
+                                         @"inform",
                                          ] mutableCopy];
     if (![self p_canOpen:@"weixin://"]) {
         [resultSnsValues removeObjectsInArray:@[
@@ -185,12 +239,12 @@
                                                 @"qzone",
                                                 ]];
     }
-    if (![self p_canOpen:@"weibosdk://request"]) {
-        [resultSnsValues removeObjectsInArray:@[@"sina"]];
-    }
-    if (![self p_canOpen:@"evernote://"]) {
-        [resultSnsValues removeObjectsInArray:@[@"evernote"]];
-    }
+//    if (![self p_canOpen:@"weibosdk://request"]) {
+//        [resultSnsValues removeObjectsInArray:@[@"sina"]];
+//    }
+//    if (![self p_canOpen:@"evernote://"]) {
+//        [resultSnsValues removeObjectsInArray:@[@"evernote"]];
+//    }
     return resultSnsValues;
 }
 
@@ -265,6 +319,8 @@
     }else if ([snsName isEqualToString:@"coding"]){
         PrivateMessage *curMsg = [PrivateMessage privateMessageWithObj:[self p_shareLinkStr] andFriend:nil];
         [self willTranspondMessage:curMsg];
+    }else if ([snsName isEqualToString:@"inform"]){
+        [self goToInform];
     }else if ([snsName isEqualToString:@"evernote"]){
         __weak typeof(self) weakSelf = self;
         [self p_shareENNoteWithompletion:^(ENNote *note) {
@@ -402,6 +458,10 @@
             [NSObject showHudTipStr:@"已发送"];
         }
     }];
+}
+
+- (void)goToInform{
+    [ReportIllegalViewController showReportWithIllegalContent:[self p_shareLinkStr] andType:IllegalContentTypeWebsite];
 }
 
 #pragma mark UMSocialUIDelegate

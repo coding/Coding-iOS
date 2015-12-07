@@ -27,7 +27,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.items = @[@{@"all":@""},@{@"created":@""},@{@"joined":@""},@{@"watched":@""},@{@"stared":@""}];
+        self.items = @[@{@"all":@""},@{@"created":@""},@{@"joined":@""},@{@"watched":@""},@{@"stared":@""}].mutableCopy;
         self.pCount=[ProjectCount new];
         self.showStatus=FALSE;
         [self setup];
@@ -155,7 +155,7 @@
 //更新数据源
 -(void)updateDateSource:(ProjectCount*)pCount
 {
-    _items = @[@{@"all":[pCount.all stringValue]},@{@"created":[pCount.created stringValue]},@{@"joined":[pCount.joined  stringValue]},@{@"watched":[pCount.watched stringValue]},@{@"stared":[pCount.stared stringValue]}];
+    _items = @[@{@"all":[pCount.all stringValue]},@{@"created":[pCount.created stringValue]},@{@"joined":[pCount.joined  stringValue]},@{@"watched":[pCount.watched stringValue]},@{@"stared":[pCount.stared stringValue]}].mutableCopy;
 }
 
 

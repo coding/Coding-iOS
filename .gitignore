@@ -28,3 +28,5 @@ Coding_iOS/Coding_iOS-Prefix.pch
 Pods/
 .idea/
 *.xcbkptlist
+
+npm-debug.log

@@ -34,6 +34,8 @@
 #import "CodingBanner.h"
 #import "PointRecords.h"
 #import "FileVersion.h"
+#import "Shop.h"
+#import "ShopOrderModel.h"
 #import "ProjectCount.h"
 
 @class CSTopic;
@@ -162,6 +164,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_Tweet_DoComment_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Tweet_DoTweet_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Tweet_Likers_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_Tweet_LikesAndRewards_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Tweet_Comments_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Tweet_Delete_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_TweetComment_Delete_WithTweet:(Tweet *)tweet andComment:(Comment *)comment andBlock:(void (^)(id data, NSError *error))block;
@@ -240,5 +243,19 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 
 - (void)request_Topic_DoWatch_WithUrl:(NSString *)url andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_BannersWithBlock:(void (^)(id data, NSError *error))block;
+
+
+- (void)request_shop_userPointWithShop:(Shop *)_shop andBlock:(void (^)(id data, NSError *error))block;
+
+- (void)request_shop_giftsWithShop:(Shop *)shop andBlock:(void (^)(id data, NSError *error))block;
+
+- (void)request_shop_bannersWithBlock:(void (^)(id data, NSError *error))block;
+
+- (void)request_shop_OrderListWithOrder:(ShopOrderModel *)_order andBlock:(void (^)(id data, NSError *error))block;
+
+
+- (void)request_shop_check_passwordWithpwd:(NSString *)pwd andBlock:(void (^)(id data, NSError *error))block;
+
+- (void)request_shop_exchangeWithParms:(NSDictionary *)parms andBlock:(void (^)(id data, NSError *error))block;
 
 @end

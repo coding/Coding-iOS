@@ -1554,6 +1554,20 @@
         }
     }];
 }
+- (void)request_Tweet_LikesAndRewards_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block{
+    tweet.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[tweet toLikesAndRewardsPath] withParams:[tweet toLikesAndRewardsParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        tweet.isLoading = NO;
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"冒泡_赞赏的人_列表"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            block(resultData, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 - (void)request_Tweet_Comments_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block{
     tweet.isLoading = YES;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[tweet toCommentsPath] withParams:[tweet toCommentsParams] withMethodType:Get andBlock:^(id data, NSError *error) {
@@ -2447,4 +2461,102 @@
         }
     }];
 }
+
+#pragma mark-
+#pragma mark---------------------- shop ---------------------------
+
+
+- (void)request_shop_bannersWithBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"/api/gifts/sliders" withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [data valueForKey:@"data"];
+            NSArray *resultA = [NSArray arrayFromJSON:data ofObjects:@"ShopBanner"];
+            
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_shop_userPointWithShop:(Shop *)_shop andBlock:(void (^)(id data, NSError *error))block
+{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/points" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+             data = [data valueForKey:@"data"];
+            _shop.points_left = [data objectForKey:@"points_left"];
+            _shop.points_total = [data objectForKey:@"points_total"];
+            block(data, nil);
+        }else
+            block(nil, error);
+    }];
+}
+
+
+- (void)request_shop_giftsWithShop:(Shop *)_shop andBlock:(void (^)(id data, NSError *error))block
+{
+    NSDictionary *parsms = @{@"page":_shop.page , @"pageSize":_shop.pageSize};
+    _shop.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[_shop toGiftsPath] withParams:parsms withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        _shop.isLoading = NO;
+        if (data) {
+            data = [[data valueForKey:@"data"] valueForKey:@"list"];
+            NSArray *resultA = [NSArray arrayFromJSON:data ofObjects:@"ShopGoods"];
+            [_shop configWithGiftGoods:resultA];
+            
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_shop_OrderListWithOrder:(ShopOrderModel *)_order andBlock:(void (^)(id data, NSError *error))block
+{
+    NSDictionary *parsms = @{@"page":_order.page , @"pageSize":_order.pageSize};
+    _order.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[_order toPath] withParams:parsms withMethodType:Get autoShowError:NO andBlock:^(id data, NSError *error) {
+        _order.isLoading = NO;
+        data = [data valueForKey:@"data"];
+        if (data) {
+            data = [data valueForKey:@"list"];
+            NSArray *resultA = [NSArray arrayFromJSON:data ofObjects:@"ShopOrder"];
+            [_order configOrderWithReson:resultA];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_shop_check_passwordWithpwd:(NSString *)pwd andBlock:(void (^)(id data, NSError *error))block
+{
+    if ([pwd isEmpty]) {
+        return;
+    }
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/check_password" withParams:@{@"password":[pwd sha1Str]} withMethodType:Post autoShowError:YES andBlock:^(id data, NSError *error) {
+        NSNumber *code = [data valueForKey:@"code"];
+        if (!error && code.intValue == 0) {
+            block(code, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+///
+
+- (void)request_shop_exchangeWithParms:(NSDictionary *)parms andBlock:(void (^)(id data, NSError *error))block
+{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/gifts/exchange" withParams:parms withMethodType:Post autoShowError:YES andBlock:^(id data, NSError *error) {
+        data = [data valueForKey:@"data"];
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+
+}
+
+
 @end

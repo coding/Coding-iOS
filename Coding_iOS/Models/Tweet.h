@@ -44,14 +44,19 @@
 - (NSInteger)numOfComments;
 - (BOOL)hasMoreComments;
 
-- (NSInteger)numOfLikers;
-- (BOOL)hasMoreLikers;
+- (NSArray *)like_reward_users;
+- (BOOL)hasLikesOrRewards;
+- (BOOL)hasMoreLikesOrRewards;
+- (BOOL)rewardedBy:(User *)user;
 
 - (NSString *)toDoLikePath;
 - (void)changeToLiked:(NSNumber *)liked;
 
 - (NSString *)toDoCommentPath;
 - (NSDictionary *)toDoCommentParams;
+
+- (NSString *)toLikesAndRewardsPath;
+- (NSDictionary *)toLikesAndRewardsParams;
 
 - (NSString *)toLikersPath;
 - (NSDictionary *)toLikersParams;

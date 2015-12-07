@@ -79,9 +79,9 @@
             break;
     }
     [params setObject:(_willLoadMore? _last_id:kDefaultLastId) forKey:@"last_id"];
-    if (kDevice_Is_iPhone6Plus) {
-        params[@"default_like_count"] = @12;
-    }
+//    if (kDevice_Is_iPhone6Plus) {
+//        params[@"default_like_count"] = @12;
+//    }
     return params;
 }
 
