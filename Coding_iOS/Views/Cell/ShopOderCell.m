@@ -134,7 +134,7 @@
     
     [_coverView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.equalTo(_goodsInfoView);
-        make.width.offset(170/2);
+        make.width.offset(90);
     }];
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
