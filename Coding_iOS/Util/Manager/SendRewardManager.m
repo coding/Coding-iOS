@@ -13,15 +13,16 @@
 @interface SendRewardManager ()
 @property (strong, nonatomic) Tweet *curTweet;
 @property (copy, nonatomic) void(^completion)(Tweet *curTweet, BOOL sendSucess);
-@property (strong, nonatomic) NSArray *tipStrList;
+@property (strong, nonatomic) NSString *tipStr;
 
 
 @property (strong, nonatomic) UIView *bgView, *contentView, *tipBgView;
+@property (strong, nonatomic) UIImageView *userImgV;
 @property (strong, nonatomic) UIButton *closeBtn, *submitBtn;
 @property (strong, nonatomic) UILabel *titleL, *tipL, *bottomL;
 @property (strong, nonatomic) UITextField *passwordF;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
-@property (assign, nonatomic) BOOL isSubmitting;
+@property (assign, nonatomic) BOOL isSubmitting, isNeedPassword;
 @end
 
 @implementation SendRewardManager
@@ -35,24 +36,30 @@
 }
 
 + (instancetype)handleTweet:(Tweet *)curTweet completion:(void(^)(Tweet *curTweet, BOOL sendSucess))block{
-    if (curTweet.rewarded.boolValue) {
-        [NSObject showHudTipStr:@"您已经打赏过了"];
-        return nil;
-    }else if ([curTweet.owner.global_key isEqualToString:[Login curLoginUser].global_key]){
-        [NSObject showHudTipStr:@"不可以打赏自己哟"];
-        return nil;
-    }
     SendRewardManager *manager = [self shareManager];
     if (manager.curTweet) {//还有未处理完的冒泡，此次调用无效
         return nil;
     }
-    manager.curTweet = curTweet;
-    manager.completion = block;
-    [[Coding_NetAPIManager sharedManager] request_Preparereward:curTweet.id.stringValue andBlock:^(id data, NSError *error) {
-        manager.tipStrList = data;
+    
+    NSString *tipStr = nil;
+    User *loginUser = [Login curLoginUser];
+    if (curTweet.rewarded.boolValue) {
+        tipStr = @"您已经打赏过了";
+    }else if ([curTweet.owner.global_key isEqualToString:loginUser.global_key]){
+        tipStr = @"不可以打赏自己哟";
+    }else if (loginUser.points_left.floatValue < 0.01){
+        tipStr = @"您的余额不足";
+    }
+    if (tipStr.length > 0) {
+        [NSObject showHudTipStr:tipStr];
+        return nil;
+    }else{
+        manager.curTweet = curTweet;
+        manager.completion = block;
+        [manager p_setupWithTipStr:tipStr isNeedPassword:NO animate:NO];
         [manager p_show];
-    }];
-    return manager;
+        return manager;
+    }
 }
 
 - (instancetype)init
@@ -60,11 +67,12 @@
     self = [super init];
     if (self) {
         CGFloat buttonHeight = 44;
-        
+        CGFloat userIconWidth = kScaleFrom_iPhone5_Desgin(50.0);
         //层级关系
         _bgView = [UIView new];
         _contentView = [UIView new];
         _closeBtn = [UIButton new];
+        _userImgV = [UIImageView new];
         _titleL = [UILabel new];
         _passwordF = [UITextField new];
         _submitBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"确认打赏" andFrame:CGRectMake(0, 0, buttonHeight, buttonHeight) target:self action:@selector(submitBtnClicked)];
@@ -73,6 +81,7 @@
         _tipBgView = [UIView new];
         _tipL = [UILabel new];
         [_contentView addSubview:_closeBtn];
+        [_contentView addSubview:_userImgV];
         [_contentView addSubview:_titleL];
         [_contentView addSubview:_passwordF];
         [_contentView addSubview:_submitBtn];
@@ -88,6 +97,8 @@
         _contentView.layer.cornerRadius = 6;
         [_closeBtn setImage:[UIImage imageNamed:@"button_close"] forState:UIControlStateNormal];
         [_closeBtn addTarget:self action:@selector(p_dismiss) forControlEvents:UIControlEventTouchUpInside];
+        _userImgV.layer.masksToBounds = YES;
+        _userImgV.layer.cornerRadius = userIconWidth/2;
         _titleL.font = [UIFont systemFontOfSize:18];
         _titleL.textColor = [UIColor colorWithHexString:@"0x222222"];
         _titleL.textAlignment = NSTextAlignmentCenter;
@@ -98,10 +109,10 @@
         _passwordF.textAlignment = NSTextAlignmentCenter;
         [_passwordF doBorderWidth:1.0 color:[UIColor colorWithHexString:@"0xCCCCCC"] cornerRadius:2.0];
         _passwordF.placeholder = @" 请输入密码";
+        _passwordF.alpha = 0;
         _bottomL.font = [UIFont systemFontOfSize:12];
         _bottomL.textColor = [UIColor colorWithHexString:@"0x999999"];
         _bottomL.textAlignment = NSTextAlignmentCenter;
-        _bottomL.attributedText = [self p_bottomStr];
         _tipBgView.backgroundColor = [UIColor colorWithHexString:@"0xF2DEDE"];
         _tipBgView.layer.masksToBounds = YES;
         _tipBgView.layer.cornerRadius = 3;
@@ -111,31 +122,28 @@
         _tipL.numberOfLines = 0;
         
         //位置大小
+        //align top
         [_closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.equalTo(_contentView);
             make.width.height.mas_equalTo(buttonHeight);
         }];
+        [_userImgV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_contentView).offset(25);
+            make.centerX.equalTo(_contentView);
+            make.height.width.mas_equalTo(userIconWidth);
+        }];
         [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(_contentView);
-            make.top.equalTo(_contentView).offset(35);
+            make.top.equalTo(_userImgV.mas_bottom).offset(30);
         }];
-        [_passwordF mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_titleL.mas_bottom).offset(20);
-            make.left.equalTo(_contentView).offset(25);
-            make.right.equalTo(_contentView).offset(-25);
-            make.height.mas_equalTo(35);
-        }];
-        [_submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_passwordF.mas_bottom).offset(25);
-            make.left.equalTo(_contentView).offset(50);
-            make.right.equalTo(_contentView).offset(-50);
-            make.height.mas_equalTo(buttonHeight);
-        }];
-        [_activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(_submitBtn);
+        //align bottom
+        [_bottomL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(_contentView);
+            make.bottom.equalTo(_contentView).offset(-15);
+            make.height.mas_equalTo(15);
         }];
         [_tipBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_titleL.mas_bottom).offset(20);
+            make.bottom.equalTo(_bottomL.mas_top).offset(-15);
             make.left.equalTo(_contentView).offset(25);
             make.right.equalTo(_contentView).offset(-25);
             make.height.mas_equalTo(60);
@@ -143,20 +151,34 @@
         [_tipL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(_tipBgView).insets(UIEdgeInsetsMake(10, 15, 10, 15));
         }];
-        [_bgView bk_whenTapped:^{//在不能打赏的时候，tap 就消失
-            if (self.tipStrList.count > 0) {
-                [self p_dismiss];
-            }
+        [_submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_tipBgView);
+            make.left.equalTo(_contentView).offset(50);
+            make.right.equalTo(_contentView).offset(-50);
+            make.height.mas_equalTo(buttonHeight);
         }];
-        [_bottomL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.equalTo(_contentView);
-            make.bottom.equalTo(_contentView).offset(-15);
-            make.height.mas_equalTo(15);
+        [_activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(_submitBtn);
         }];
-        
+        [_passwordF mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(_submitBtn.mas_top).offset(-30);
+            make.left.equalTo(_contentView).offset(25);
+            make.right.equalTo(_contentView).offset(-25);
+            make.height.mas_equalTo(35);
+        }];
+
         //关联事件
         [_passwordF.rac_textSignal subscribeNext:^(NSString *password) {
-            self.submitBtn.enabled = password.length > 0;
+            if (_isNeedPassword) {
+                self.submitBtn.enabled = password.length > 0;
+            }
+        }];
+        [_bgView bk_whenTapped:^{//在不能打赏的时候，tap 就消失
+            if (self.tipStr.length > 0) {
+                [self p_dismiss];
+            }else{
+                [self.passwordF resignFirstResponder];
+            }
         }];
     }
     return self;
@@ -177,27 +199,11 @@
     return bottomStr;
 }
 
-- (void)setTipStrList:(NSArray *)tipStrList{
-    _tipStrList = tipStrList;
-
-    BOOL hasTip = _tipStrList.count > 0;
-    if (hasTip) {
-        _tipL.text = tipStrList.firstObject;
-        _tipL.text = [_tipL.text stringByRemoveHtmlTag];
-    }
-    CGFloat contentHeight = hasTip? 185: 229;
-    CGFloat centerYOffset = hasTip? 0: -60;
-    _passwordF.hidden = hasTip;
-    _submitBtn.hidden = hasTip;
-    _tipBgView.hidden = !hasTip;
-    _tipL.hidden = !hasTip;
+- (void)setCurTweet:(Tweet *)curTweet{
+    _curTweet = curTweet;
     
-    [_contentView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_bgView).offset(kPaddingLeftWidth);
-        make.height.mas_equalTo(contentHeight);
-        make.centerX.equalTo(_bgView);
-        make.centerY.equalTo(_bgView).offset(centerYOffset);
-    }];
+    CGFloat userIconWidthDesgin = 50.0;
+    [_userImgV sd_setImageWithURL:[_curTweet.owner.avatar urlImageWithCodePathResize:userIconWidthDesgin * [UIScreen mainScreen].scale crop:YES] placeholderImage:kPlaceholderMonkeyRoundWidth(userIconWidthDesgin)];
 }
 
 - (void)setIsSubmitting:(BOOL)isSubmitting{
@@ -222,9 +228,42 @@
             [NSObject showHudTipStr:@"打赏成功"];
             [self p_sucessDone];
         }else{
-            [self.passwordF becomeFirstResponder];
+            [self p_handleError:error];
         }
     }];
+}
+
+- (void)p_setupWithTipStr:(NSString *)tipStr isNeedPassword:(BOOL)isNeedPassword animate:(BOOL)animate{
+    _tipStr = tipStr;
+    _isNeedPassword = isNeedPassword;
+    
+    BOOL hasTip = _tipStr.length > 0;
+    _tipL.text = [_tipStr stringByRemoveHtmlTag];
+    _tipBgView.hidden = !hasTip;
+    _tipL.hidden = !hasTip;
+    _submitBtn.hidden = hasTip;
+
+    CGFloat contentHeight = 255 + (kScaleFrom_iPhone5_Desgin(50) - 50);
+    contentHeight += _isNeedPassword? 40: 0;
+    CGFloat contentY = (kScreen_Height - contentHeight)/2;
+    contentY += _isNeedPassword? -40: 0;
+    
+    CGRect contentFrame = CGRectMake(kPaddingLeftWidth, contentY, kScreen_Width - 2*kPaddingLeftWidth, contentHeight);
+    if (animate) {
+        [UIView animateWithDuration:0.3 animations:^{
+            _contentView.frame = contentFrame;
+            _passwordF.alpha = _isNeedPassword? 1: 0;
+        } completion:^(BOOL finished) {
+            if (_isNeedPassword) {
+                [_passwordF becomeFirstResponder];
+            }else{
+                [_passwordF resignFirstResponder];
+            }
+        }];
+    }else{
+        _contentView.frame = contentFrame;
+        _passwordF.alpha = _isNeedPassword? 1: 0;
+    }
 }
 
 - (void)p_show{
@@ -232,7 +271,8 @@
     _bgView.backgroundColor = [UIColor clearColor];
     _contentView.alpha = 0;
     _passwordF.text = @"";
-    _submitBtn.enabled = NO;
+    _bottomL.attributedText = [self p_bottomStr];
+    _submitBtn.enabled = YES;
     _bgView.frame = kScreen_Bounds;
     
     [kKeyWindow addSubview:_bgView];
@@ -240,7 +280,7 @@
         _bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
         _contentView.alpha = 1;
     } completion:^(BOOL finished) {
-        if (!_passwordF.hidden) {
+        if (_isNeedPassword) {
             [_passwordF becomeFirstResponder];
         }
     }];
@@ -270,6 +310,26 @@
         self.completion(_curTweet, YES);
     }
     [self p_dismiss];
+}
+
+- (void)p_handleError:(NSError *)error{
+    NSDictionary *userInfo = error.userInfo;
+    NSArray *errorKeyList = [userInfo[@"msg"] allKeys];
+    NSString *errorMsg = userInfo[@"msg"][errorKeyList.firstObject];
+    if ([errorKeyList containsObject:@"password_error"]) {
+        if (!_isNeedPassword) {
+            [self p_setupWithTipStr:nil isNeedPassword:YES animate:YES];
+        }else{
+            [self.passwordF becomeFirstResponder];
+        }
+        if (errorMsg.length > 0) {
+            [NSObject showHudTipStr:errorMsg];
+        }
+    }else{
+        if (errorMsg.length > 0) {
+            [self p_setupWithTipStr:errorMsg isNeedPassword:_isNeedPassword animate:YES];
+        }
+    }
 }
 
 @end
