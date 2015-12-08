@@ -114,6 +114,11 @@
 #pragma mark UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     DebugLog(@"strLink=[%@]",request.URL.absoluteString);
+    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:request.URL.absoluteString];
+    if (vc) {
+        [self.navigationController pushViewController:vc animated:YES];
+        return NO;
+    }
     return YES;
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{

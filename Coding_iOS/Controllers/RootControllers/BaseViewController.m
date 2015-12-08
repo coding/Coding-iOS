@@ -29,6 +29,7 @@
 #import "CommitFilesViewController.h"
 #import "FileViewController.h"
 #import "CSTopicDetailVC.h"
+#import "CodeViewController.h"
 
 #import "UnReadManager.h"
 
@@ -155,6 +156,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *gitMRPRCommitRegexStr = @"/u/([^/]+)/p/([^/]+)/git/(merge|pull|commit)/([^/#]+)";
     NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
     NSString *pp_topicRegexStr = @"/pp/topic/([0-9]+)$";
+    NSString *codeRegexStr = @"/u/([^/]+)/p/([^/]+)/git/blob/([^/]+)[/]?([^?]*)";
     NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
     NSArray *matchedCaptures = nil;
     
@@ -309,6 +311,18 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             NSString *pp_topic_id = matchedCaptures[1];
             CSTopicDetailVC *vc = [CSTopicDetailVC new];
             vc.topicID = pp_topic_id.integerValue;
+            analyseVC = vc;
+        }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:codeRegexStr]).count > 0){
+            NSString *user_global_key = matchedCaptures[1];
+            NSString *project_name = matchedCaptures[2];
+            NSString *ref = matchedCaptures[3];
+            NSString *path = matchedCaptures.count >= 5? matchedCaptures[4]: @"";
+            
+            Project *curPro = [[Project alloc] init];
+            curPro.owner_user_name = user_global_key;
+            curPro.name = project_name;
+            CodeFile *codeFile = [CodeFile codeFileWithRef:ref andPath:path];
+            CodeViewController *vc = [CodeViewController codeVCWithProject:curPro andCodeFile:codeFile];
             analyseVC = vc;
         }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:projectRegexStr]).count > 0){
             //项目
