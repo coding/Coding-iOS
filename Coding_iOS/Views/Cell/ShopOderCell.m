@@ -10,7 +10,7 @@
 #import "ShopOrder.h"
 #import "NSDate+Common.h"
 
-#define FONT(F) [UIFont fontWithName:@"PingFangSC-Regular" size:F]
+#define FONT(F) [UIFont systemFontOfSize:F]
 
 @interface ShopOderCell()
 {
@@ -61,7 +61,7 @@
     UILabel *orderLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     orderLabel.font = FONT(14);
     orderLabel.backgroundColor = [UIColor clearColor];
-    orderLabel.text = @"订单编号";
+    orderLabel.text = @" 订单编号 ";
     orderLabel.textAlignment = NSTextAlignmentCenter;
     orderLabel.layer.masksToBounds = YES;
     orderLabel.layer.cornerRadius = 4;
@@ -106,6 +106,8 @@
     
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _titleLabel.font = FONT(15);
+    _titleLabel.adjustsFontSizeToFitWidth = YES;
+    _titleLabel.minimumScaleFactor = 0.5;
     _titleLabel.backgroundColor = [UIColor clearColor];
     _titleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
     [_goodsInfoView addSubview:_titleLabel];
@@ -360,7 +362,7 @@
 {
     _titleLabel.text = order.giftName;
     [_coverView sd_setImageWithURL:[order.giftImage urlWithCodePath]];
-    NSString *points_cost = [NSString stringWithFormat:@"  %@ 马币",[order.pointsCost stringValue]];
+    NSString *points_cost = [NSString stringWithFormat:@"  %@ 码币",[order.pointsCost stringValue]];
     [_codingCoinView setTitle:points_cost forState:UIControlStateNormal];
     
     _orderNumLabel.text = order.orderNo;

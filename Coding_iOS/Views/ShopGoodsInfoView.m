@@ -53,7 +53,7 @@
     [superView addSubview:_titleLabel];
     
     _descLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _descLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
+    _descLabel.font = [UIFont systemFontOfSize:12];
     _descLabel.numberOfLines = 0 ;
     _descLabel.backgroundColor = [UIColor clearColor];
     _descLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
@@ -136,7 +136,7 @@
 - (void)configViewWithModel:(ShopGoods *)model
 {
     _titleLabel.text = model.name;
-    NSString *points_cost = [NSString stringWithFormat:@"  %@ 马币",[model.points_cost stringValue]];
+    NSString *points_cost = [NSString stringWithFormat:@"  %@ 码币",[model.points_cost stringValue]];
     [_codingCoinView setTitle:points_cost forState:UIControlStateNormal];
     
     [_coverView sd_setImageWithURL:[model.image urlWithCodePath] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
