@@ -111,6 +111,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ProjectAboutMeListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectAboutMeListCell"];
     cell.openKeywords=TRUE;
+    cell.hidePrivateIcon=TRUE;
     Project *project=_dateSource[indexPath.row];
     [cell setProject:project hasSWButtons:NO hasBadgeTip:YES hasIndicator:NO];
 //    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];

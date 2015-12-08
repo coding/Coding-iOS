@@ -180,6 +180,7 @@
         fromStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPR.author.name, _curMRPR.source_branch];
         toStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPR.des_owner_name, _curMRPR.target_branch];
     }
+    
     NSString *totalStr = [NSString stringWithFormat:@"%@%@", fromStr, toStr];
     if ([totalStr getWidthWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)] + 40 > kScreen_Width - 2*kPaddingLeftWidth) {
         [_toL mas_remakeConstraints:^(MASConstraintMaker *make) {

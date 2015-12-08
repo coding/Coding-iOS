@@ -18,6 +18,7 @@
 
 @interface ProjectAboutMeListCell : SWTableViewCell
 @property(nonatomic,assign)BOOL openKeywords;
+@property(nonatomic,assign)BOOL hidePrivateIcon;
 - (void)setProject:(Project *)project hasSWButtons:(BOOL)hasSWButtons hasBadgeTip:(BOOL)hasBadgeTip hasIndicator:(BOOL)hasIndicator;
 
 @end
