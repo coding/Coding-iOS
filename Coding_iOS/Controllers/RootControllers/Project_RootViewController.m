@@ -29,7 +29,6 @@
 #import "SearchViewController.h"
 #import "pop.h"
 #import "FRDLivelyButton.h"
-#import "CategorySearchBar.h"
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
@@ -42,7 +41,6 @@
 @property (nonatomic,strong)UIButton *leftNavBtn;
 @property (nonatomic,strong)FRDLivelyButton *rightNavBtn;
 @property (nonatomic,strong)UIView *searchView;
-@property (strong, nonatomic) MainSearchBar *mySearchBar;
 
 @end
 
