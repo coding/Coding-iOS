@@ -203,7 +203,7 @@
     _curTweet = curTweet;
     
     CGFloat userIconWidthDesgin = 50.0;
-    [_userImgV sd_setImageWithURL:[_curTweet.owner.avatar urlImageWithCodePathResize:userIconWidthDesgin * [UIScreen mainScreen].scale crop:YES] placeholderImage:kPlaceholderMonkeyRoundWidth(userIconWidthDesgin)];
+    [_userImgV sd_setImageWithURL:[_curTweet.owner.avatar urlImageWithCodePathResize:userIconWidthDesgin * [UIScreen mainScreen].scale crop:NO] placeholderImage:kPlaceholderMonkeyRoundWidth(userIconWidthDesgin)];
 }
 
 - (void)setIsSubmitting:(BOOL)isSubmitting{
