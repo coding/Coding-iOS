@@ -193,7 +193,7 @@
 
 
 - (NSAttributedString *)p_bottomStr{
-    NSString *tempStr = [NSString stringWithFormat:@"我的码币余额：%@ ", [Login curLoginUser].points_left.stringValue];
+    NSString *tempStr = [NSString stringWithFormat:@"我的码币余额：%.2f ", [Login curLoginUser].points_left.floatValue];
     NSMutableAttributedString *bottomStr = [[NSMutableAttributedString alloc] initWithString:tempStr];
     [bottomStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"0xF5A623"] range:[tempStr rangeOfString:[Login curLoginUser].points_left.stringValue]];
     return bottomStr;
