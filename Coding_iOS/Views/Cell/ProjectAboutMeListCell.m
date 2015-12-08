@@ -101,7 +101,7 @@
     }
     //Icon
     [_projectIconView sd_setImageWithURL:[_project.icon urlImageWithCodePathResizeToView:_projectIconView] placeholderImage:kPlaceholderCodingSquareWidth(55.0)];
-    _privateIconView.hidden =(_project.is_public!=nil)? _project.is_public.boolValue:([_project.fork_count intValue]+[_project.watch_count intValue]==0)?FALSE:TRUE;
+    _privateIconView.hidden =(_project.is_public!=nil)? _project.is_public.boolValue:([_project.type intValue]==2)?FALSE:TRUE;
     if (_hidePrivateIcon) {
         _privateIconView.hidden=TRUE;
     }

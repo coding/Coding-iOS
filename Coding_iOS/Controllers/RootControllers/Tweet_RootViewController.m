@@ -28,6 +28,7 @@
 #import "CSSearchVC.h"
 #import "CSSearchDisplayVC.h"
 #import "FunctionTipsManager.h"
+#import "CSHotTopicPagesVC.h"
 
 @interface Tweet_RootViewController () <UISearchBarDelegate, UISearchDisplayDelegate>
 {
@@ -103,7 +104,9 @@
 //                              [self refreshFirst];
 //                          }];
     
-    UIBarButtonItem *leftBarItem =[UIBarButtonItem itemWithIcon:@"search_Nav" showBadge:NO target:self action:@selector(searchItemClicked:)];
+//    UIBarButtonItem *leftBarItem =[UIBarButtonItem itemWithIcon:@"search_Nav" showBadge:NO target:self action:@selector(searchItemClicked:)];
+    UIBarButtonItem *leftBarItem =[UIBarButtonItem itemWithIcon:@"hot_topic_Nav" showBadge:NO target:self action:@selector(hotTopicBtnClicked:)];
+    
     [self.parentViewController.navigationItem setLeftBarButtonItem:leftBarItem animated:NO];
     
     _tweetsDict = [[NSMutableDictionary alloc] initWithCapacity:4];
@@ -287,7 +290,12 @@
     }];
 }
 
-#pragma mark - search 
+#pragma mark - nav_LeftBtn
+
+- (void)hotTopicBtnClicked:(id)sender{
+    CSHotTopicPagesVC *vc = [CSHotTopicPagesVC new];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 - (void)searchItemClicked:(id)sender{
     if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Search]) {

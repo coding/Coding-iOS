@@ -676,7 +676,7 @@
     @weakify(self);
     [SendRewardManager handleTweet:_tweet completion:^(Tweet *curTweet, BOOL sendSucess) {
         @strongify(self);
-        self.tweet = curTweet;
+        [self setTweet:curTweet needTopView:_needTopView];
     }];
 }
 #pragma mark TTTAttributedLabelDelegate
