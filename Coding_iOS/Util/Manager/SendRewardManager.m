@@ -299,6 +299,9 @@
 }
 
 - (void)p_sucessDone{
+    User *loginUser = [Login curLoginUser];
+    loginUser.points_left = @(loginUser.points_left.floatValue - 0.01);
+    
     _curTweet.rewarded = @(YES);
     _curTweet.rewards = @(_curTweet.rewards.integerValue +1);
     if (_curTweet.reward_users.count > 0) {
