@@ -101,7 +101,10 @@
     }
     //Icon
     [_projectIconView sd_setImageWithURL:[_project.icon urlImageWithCodePathResizeToView:_projectIconView] placeholderImage:kPlaceholderCodingSquareWidth(55.0)];
-    _privateIconView.hidden = _project.is_public.boolValue;
+    _privateIconView.hidden =(_project.is_public!=nil)? _project.is_public.boolValue:([_project.type intValue]==2)?FALSE:TRUE;
+    if (_hidePrivateIcon) {
+        _privateIconView.hidden=TRUE;
+    }
     
     [_privateIconView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(_privateIconView.hidden?CGSizeZero:CGSizeMake(12, 12));

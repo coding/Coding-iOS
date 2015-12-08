@@ -74,6 +74,10 @@
 		4E095A831B6B24DE008DC439 /* task_description_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E095A801B6B24DE008DC439 /* task_description_icon@2x.png */; };
 		4E095A841B6B24DE008DC439 /* time_clock_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E095A811B6B24DE008DC439 /* time_clock_icon@2x.png */; };
 		4E095A851B6B24DE008DC439 /* topic_comment_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E095A821B6B24DE008DC439 /* topic_comment_icon@2x.png */; };
+		4E09DCA51C156387001C9392 /* hot_topic_Nav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E09DCA31C156387001C9392 /* hot_topic_Nav@2x.png */; };
+		4E09DCA61C156387001C9392 /* hot_topic_Nav@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E09DCA41C156387001C9392 /* hot_topic_Nav@3x.png */; };
+		4E09DCA91C15662E001C9392 /* share_Nav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E09DCA71C15662E001C9392 /* share_Nav@2x.png */; };
+		4E09DCAA1C15662E001C9392 /* share_Nav@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E09DCA81C15662E001C9392 /* share_Nav@3x.png */; };
 		4E0B9A341BAC1CD100D57D54 /* ForkTreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0B9A331BAC1CD100D57D54 /* ForkTreeViewController.m */; };
 		4E0B9A371BAD377600D57D54 /* ForkTreeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0B9A361BAD377600D57D54 /* ForkTreeCell.m */; };
 		4E0BD8561B6C7DFD0061CAA6 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0BD8551B6C7DFD0061CAA6 /* UIView+Frame.m */; };
@@ -1118,6 +1122,10 @@
 		4E095A801B6B24DE008DC439 /* task_description_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_description_icon@2x.png"; sourceTree = "<group>"; };
 		4E095A811B6B24DE008DC439 /* time_clock_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "time_clock_icon@2x.png"; sourceTree = "<group>"; };
 		4E095A821B6B24DE008DC439 /* topic_comment_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topic_comment_icon@2x.png"; sourceTree = "<group>"; };
+		4E09DCA31C156387001C9392 /* hot_topic_Nav@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hot_topic_Nav@2x.png"; sourceTree = "<group>"; };
+		4E09DCA41C156387001C9392 /* hot_topic_Nav@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hot_topic_Nav@3x.png"; sourceTree = "<group>"; };
+		4E09DCA71C15662E001C9392 /* share_Nav@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_Nav@2x.png"; sourceTree = "<group>"; };
+		4E09DCA81C15662E001C9392 /* share_Nav@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share_Nav@3x.png"; sourceTree = "<group>"; };
 		4E0B9A321BAC1CD100D57D54 /* ForkTreeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForkTreeViewController.h; sourceTree = "<group>"; };
 		4E0B9A331BAC1CD100D57D54 /* ForkTreeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForkTreeViewController.m; sourceTree = "<group>"; };
 		4E0B9A351BAD377600D57D54 /* ForkTreeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForkTreeCell.h; sourceTree = "<group>"; };
@@ -3939,6 +3947,10 @@
 		8E97CE4B1A0A3410006F9AD7 /* nav_button */ = {
 			isa = PBXGroup;
 			children = (
+				4E09DCA71C15662E001C9392 /* share_Nav@2x.png */,
+				4E09DCA81C15662E001C9392 /* share_Nav@3x.png */,
+				4E09DCA31C156387001C9392 /* hot_topic_Nav@2x.png */,
+				4E09DCA41C156387001C9392 /* hot_topic_Nav@3x.png */,
 				D0C447FE1C02DCAC00DC1C4B /* addBtn_Nav@3x.png */,
 				D0C447FF1C02DCAC00DC1C4B /* addUserBtn_Nav@3x.png */,
 				D0C448001C02DCAC00DC1C4B /* filterBtn_selected_Nav@3x.png */,
@@ -5119,8 +5131,6 @@
 				8E47700D198770E700997D05 /* Frameworks */,
 				8E47700E198770E700997D05 /* Resources */,
 				96A9263FF11A4AA8B5F6BB6B /* Copy Pods Resources */,
-				4D377102C370B11E75B90434 /* Embed Pods Frameworks */,
-				E02AF118462CF977ED1C152E /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -5172,6 +5182,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E09DCA51C156387001C9392 /* hot_topic_Nav@2x.png in Resources */,
 				8E97CE6C1A0B243B006F9AD7 /* keyboard_add@2x.png in Resources */,
 				4E6383FD1B33C18700D98648 /* task_activity_icon_restore@2x.png in Resources */,
 				4E9F5D201C03051D007CCDCC /* tipIcon_tweetReward@2x.png in Resources */,
@@ -5240,7 +5251,9 @@
 				4E996C071ABBF56A00C704F1 /* user_info_detail@2x.png in Resources */,
 				4E8C51B01AC1081500B4C51F /* icon_recommended@2x.png in Resources */,
 				4E96E7DA1A1B537E0037C098 /* icon_file_doc@2x.png in Resources */,
+				4E09DCA61C156387001C9392 /* hot_topic_Nav@3x.png in Resources */,
 				4E4972DF1BB535B400F3AC15 /* tipIcon_ProjectTweet@2x.png in Resources */,
+				4E09DCA91C15662E001C9392 /* share_Nav@2x.png in Resources */,
 				8E62ADDA19E28DA800963870 /* tipIcon_User@2x.png in Resources */,
 				4E6383A71B3262D300D98648 /* taskPriority0_small@2x.png in Resources */,
 				8E8F7B3519EF6306006BA8BD /* btn_project_quit@2x.png in Resources */,
@@ -5526,6 +5539,7 @@
 				8E97CE611A0A3424006F9AD7 /* keyboard_add_photo@2x.png in Resources */,
 				4E93F23B1B84356500017916 /* file_menu_icon_edit@2x.png in Resources */,
 				8E1C3DF619E7F4CA00EF3032 /* address.json in Resources */,
+				4E09DCAA1C15662E001C9392 /* share_Nav@3x.png in Resources */,
 				4E2BF3D01B96CDF800A5A0A8 /* share_btn_copylink@2x.png in Resources */,
 				4EF17ED41B3C3112003CDD2D /* intro_icon_2@3x.png in Resources */,
 				8EA6D18D19E240C40076D59C /* tabbar_background@2x.png in Resources */,
@@ -5685,21 +5699,6 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		4D377102C370B11E75B90434 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		96A9263FF11A4AA8B5F6BB6B /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -5713,21 +5712,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E02AF118462CF977ED1C152E /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
