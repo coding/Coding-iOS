@@ -128,10 +128,12 @@
     [button setTitleColor:[UIColor colorWithHexString:@"0x999999"] forState:UIControlStateNormal];
     if (alignmentLeft) {
         button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        button.imageEdgeInsets = UIEdgeInsetsMake(0, 5, 0, -5);
         button.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, -10);
     }else{
         button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         button.imageEdgeInsets = UIEdgeInsetsMake(0, -10, 0, 10);
+        button.titleEdgeInsets = UIEdgeInsetsMake(0, -5, 0, 5);
     }
     return button;
 }

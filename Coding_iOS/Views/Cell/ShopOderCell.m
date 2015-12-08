@@ -78,7 +78,7 @@
     
     [orderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(superView.mas_left).offset(12);
-        make.top.equalTo(superView.mas_top).offset(13);
+        make.top.equalTo(superView.mas_top).offset(12);
 //        make.width.offset(132/2);
         make.height.offset(20);
     }];
@@ -178,7 +178,7 @@
     [superView addSubview:_nameLabel];
     
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_goodsInfoView.mas_bottom).offset(9);
+        make.top.equalTo(_goodsInfoView.mas_bottom).offset(12);
         make.left.equalTo(_goodsInfoView.mas_left);
     }];
     
