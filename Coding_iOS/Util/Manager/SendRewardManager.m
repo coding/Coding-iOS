@@ -173,8 +173,8 @@
                 self.submitBtn.enabled = password.length > 0;
             }
         }];
-        [_bgView bk_whenTapped:^{//在不能打赏的时候，tap 就消失
-            if (self.tipStr.length > 0) {
+        [_bgView bk_whenTapped:^{//在不需要密码的时候，tap 就消失
+            if (!_isNeedPassword) {
                 [self p_dismiss];
             }else{
                 [self.passwordF resignFirstResponder];
