@@ -13,6 +13,7 @@
 #import "XTSegmentControl.h"
 #import "ShopBannerView.h"
 #import "ShopGoodsCCell.h"
+#import "ODRefreshControl.h"
 
 #import "Shop.h"
 #import "ShopBanner.h"
@@ -24,6 +25,8 @@
 
 @protocol ShopListViewDelegate <NSObject>
 
+- (void)startRefreWithShopView:(ShopListView *)listView;
+
 - (void)didSelectGoodItem:(ShopGoods *)good;
 
 @end
@@ -31,7 +34,8 @@
 @interface ShopListView : UIView
 
 @property(nonatomic, weak)id<ShopListViewDelegate> delegate;
-@property(nonatomic,strong)NSArray *dataSource;
+@property(nonatomic, strong)NSArray *dataSource;
+@property(nonatomic, strong,readonly)ODRefreshControl *myRefreshControl;
 
 @end
 
@@ -63,6 +67,23 @@
 {
     ShopOrderViewController *orderViewController = [[ShopOrderViewController alloc] init];
     [self.navigationController pushViewController:orderViewController animated:YES];
+}
+
+- (void)startRefreWithShopView:(ShopListView *)listView
+{
+    __weak typeof(self) weakSelf = self;
+    __weak typeof(iCarousel) *weakCarousel = _myCarousel;
+
+    [[Coding_NetAPIManager sharedManager] request_shop_giftsWithShop:_shopObject andBlock:^(id data, NSError *error) {
+        [weakSelf.view endLoading];
+        [listView.myRefreshControl endRefreshing];
+        if (data) {
+            [weakSelf carouselCurrentItemIndexDidChange:weakCarousel];
+            
+        }else
+            [NSObject showHudTipStr:@"Error"];
+        
+    }];
 }
 
 - (void)bannerClicked:(NSString *)linkStr{
@@ -297,6 +318,17 @@
     _collectionView.delegate = self;
     _collectionView.layer.masksToBounds = NO;
     [self addSubview:_collectionView];
+    
+     _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:_collectionView];
+    [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)refresh
+{
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(startRefreWithShopView:)]) {
+        [_delegate startRefreWithShopView:self];
+    }
 }
 
 - (void)setDataSource:(NSArray *)dataSource
