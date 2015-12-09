@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
+#define kRegisterChannel @"coding-ios"
+
 #import "Register.h"
 
 @implementation Register
@@ -22,6 +24,7 @@
 - (NSDictionary *)toParams{
     return @{@"email" : self.email,
              @"global_key" : self.global_key,
-             @"j_captcha" : _j_captcha? _j_captcha: @""};
+             @"j_captcha" : _j_captcha? _j_captcha: @"",
+             @"coding-ios" : kRegisterChannel};
 }
 @end
