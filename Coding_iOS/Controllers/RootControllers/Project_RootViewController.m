@@ -578,7 +578,7 @@
     SearchViewController *vc=[SearchViewController new];
 //    [self.navigationController pushViewController:vc animated:NO];
     
-    UINavigationController *searchNav=[[UINavigationController alloc]initWithRootViewController:vc];
+    BaseNavigationController *searchNav=[[BaseNavigationController alloc]initWithRootViewController:vc];
     [self.navigationController presentViewController:searchNav animated:NO completion:nil];
 }
 
