@@ -4062,12 +4062,12 @@
 		8EA6CF1319E240C40076D59C /* Coding_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				92448F141C15652900159790 /* Coding_iOS-Prefix.pch */,
 				8EA6CFC619E240C40076D59C /* main.m */,
 				8EA6CF1519E240C40076D59C /* AppDelegate.h */,
 				8EA6CF1619E240C40076D59C /* AppDelegate.m */,
 				4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */,
 				8EA6CF1719E240C40076D59C /* Coding_iOS-Info.plist */,
+				92448F141C15652900159790 /* Coding_iOS-Prefix.pch */,
 				4E8C51AE1AC0177600B4C51F /* Coding_iOS-Prefix.pch.example */,
 				8EA6CF1919E240C40076D59C /* Coding_iOS.xcdatamodeld */,
 				8EA6CFC519E240C40076D59C /* Images.xcassets */,
