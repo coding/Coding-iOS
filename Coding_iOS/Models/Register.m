@@ -25,6 +25,6 @@
     return @{@"email" : self.email,
              @"global_key" : self.global_key,
              @"j_captcha" : _j_captcha? _j_captcha: @"",
-             @"coding-ios" : kRegisterChannel};
+             @"channel" : kRegisterChannel};
 }
 @end
