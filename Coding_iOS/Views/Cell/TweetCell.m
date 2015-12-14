@@ -389,7 +389,7 @@
 
 + (CGFloat)likeCommentBtn_BottomPadingWithTweet:(Tweet *)tweet{
     if (tweet &&
-        (tweet.likes.intValue > 0
+        ([tweet hasLikesOrRewards]
          ||tweet.comments.intValue> 0)){
             return 15.0;
         }else{
@@ -414,7 +414,7 @@
 
 + (CGFloat)likeUsersHeightWithTweet:(Tweet *)tweet{
     CGFloat likeUsersHeight = 0;
-    if (tweet.likes.intValue > 0) {
+    if ([tweet hasLikesOrRewards]) {
         likeUsersHeight = 45;
 //        +30*(ceilf([tweet.like_users count]/kTweet_LikeUsersLineCount)-1);
     }
