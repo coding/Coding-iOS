@@ -61,8 +61,6 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_typeLabel.frame) + 5.0, (_padding_top - 30)/2, _image_width - CGRectGetWidth(_typeLabel.frame) - 70, 30)];
             label.textColor = [UIColor colorWithHexString:@"0x222222"];
             label.font = [UIFont systemFontOfSize:12];
-            label.minimumScaleFactor = 0.6;
-            label.adjustsFontSizeToFitWidth = YES;
             label;
         });
         _titleLabel.text = [(CodingBanner *)_curBannerList.firstObject title];
