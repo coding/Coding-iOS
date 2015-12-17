@@ -10,6 +10,7 @@
 
 @interface UserInfoTextCell ()
 @property (strong, nonatomic) UILabel *titleL, *valueL;
+@property (strong, nonatomic) UIScrollView *scrollV;
 @end
 
 @implementation UserInfoTextCell
@@ -27,11 +28,23 @@
             [self.contentView addSubview:_titleL];
         }
         if (!_valueL) {
-            _valueL = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_titleL.frame), 12, kScreen_Width - CGRectGetMaxX(_titleL.frame) - kPaddingLeftWidth, 20)];
+            _scrollV = [UIScrollView new];
+            _scrollV.showsHorizontalScrollIndicator = _scrollV.showsVerticalScrollIndicator = NO;
+            _valueL = [UILabel new];
             _valueL.textAlignment = NSTextAlignmentLeft;
             _valueL.font = [UIFont systemFontOfSize:15];
             _valueL.textColor = [UIColor colorWithHexString:@"0x222222"];
-            [self.contentView addSubview:_valueL];
+            [_scrollV addSubview:_valueL];
+            [self.contentView addSubview:_scrollV];
+            [_scrollV mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(_titleL.mas_right);
+                make.top.bottom.equalTo(self.contentView);
+                make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+            }];
+            [_valueL mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.centerY.equalTo(_scrollV);
+                make.height.equalTo(_titleL);
+            }];
         }
         
     }
@@ -41,6 +54,8 @@
 - (void)setTitle:(NSString *)title value:(NSString *)value{
     _titleL.text = title;
     _valueL.text = value;
+    [self.contentView updateConstraintsIfNeeded];
+    _scrollV.contentSize = CGSizeMake(CGRectGetWidth(_valueL.frame), CGRectGetHeight(_scrollV.frame));
 }
 
 + (CGFloat)cellHeight{
