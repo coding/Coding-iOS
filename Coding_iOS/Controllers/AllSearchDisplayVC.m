@@ -52,7 +52,6 @@
 @property (nonatomic, strong) PublicSearchModel *searchPros;
 @property (nonatomic, strong) UIScrollView  *searchHistoryView;
 @property (nonatomic, assign) double historyHeight;
-- (void)initSubViewsInContentView;
 - (void)initSearchResultsTableView;
 - (void)initSearchHistoryView;
 - (void)didClickedMoreHotkey:(UIGestureRecognizer *)sender;
