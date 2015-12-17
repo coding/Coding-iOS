@@ -101,6 +101,10 @@
         }else if ([_target_type isEqualToString:@"TaskComment"]){
             [self addActionUser:_user];
             [_actionStr appendFormat:@"%@任务「%@」的评论", _action_msg, _task.title];
+        }else if ([_target_type isEqualToString:@"Project"] && [_action isEqualToString:@"transfer"]){
+            [self addActionUser:_user];
+            [_actionStr appendFormat:@"将项目「%@」%@", _project.full_name, _action_msg];
+            [self addActionUser:_target_user];
         }else{
             [self addActionUser:_user];
             [_actionStr saveAppendString:_action_msg];
