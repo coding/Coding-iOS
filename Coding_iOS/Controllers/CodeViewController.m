@@ -114,6 +114,12 @@
 #pragma mark UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     DebugLog(@"strLink=[%@]",request.URL.absoluteString);
+    if ([_myCodeFile.file.mode isEqualToString:@"image"]) {
+        NSString *imageStr = [NSString stringWithFormat:@"%@u/%@/p/%@/git/raw/%@/%@", [NSObject baseURLStr], _myProject.owner_user_name, _myProject.name, _myCodeFile.ref, _myCodeFile.file.path];
+        if ([imageStr isEqualToString:request.URL.absoluteString]) {
+            return YES;
+        }
+    }
     UIViewController *vc = [BaseViewController analyseVCFromLinkStr:request.URL.absoluteString];
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];
