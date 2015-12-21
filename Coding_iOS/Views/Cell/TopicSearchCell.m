@@ -164,7 +164,7 @@
     _commentCountLabel.text = _curTopic.child_count.stringValue;
     [_commentCountLabel sizeToFit];
     
-    [_describeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+    [_describeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_bottom).offset(10);
         make.left.equalTo(self.userIconView.mas_right).offset(kInnerHorizonOffset);
         make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
