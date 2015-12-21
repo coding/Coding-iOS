@@ -30,6 +30,7 @@
 #import "FileViewController.h"
 #import "CSTopicDetailVC.h"
 #import "CodeViewController.h"
+#import "Ease_2FA.h"
 
 #import "UnReadManager.h"
 
@@ -112,8 +113,8 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             [self presentLinkStr:param_url];
         });
     }else if (applicationState == UIApplicationStateActive){
-//        NSString *param_url = [userInfo objectForKey:@"param_url"];
-//        [self analyseVCFromLinkStr:param_url analyseMethod:AnalyseMethodTypeJustRefresh isNewVC:nil];
+        NSString *param_url = [userInfo objectForKey:@"param_url"];
+        [self analyseVCFromLinkStr:param_url analyseMethod:AnalyseMethodTypeJustRefresh isNewVC:nil];//AnalyseMethodTypeJustRefresh
         //标记未读
         UIViewController *presentingVC = [BaseViewController presentingVC];
         if ([presentingVC isKindOfClass:[Message_RootViewController class]]) {
@@ -157,9 +158,9 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
     NSString *pp_topicRegexStr = @"/pp/topic/([0-9]+)$";
     NSString *codeRegexStr = @"/u/([^/]+)/p/([^/]+)/git/blob/([^/]+)[/]?([^?]*)";
+    NSString *twoFARegexStr = @"/app_intercept/show_2fa";
     NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
     NSArray *matchedCaptures = nil;
-    
     if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:ppRegexStr]).count > 0){
         //冒泡
         NSString *user_global_key = matchedCaptures[1];
@@ -324,6 +325,9 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             CodeFile *codeFile = [CodeFile codeFileWithRef:ref andPath:path];
             CodeViewController *vc = [CodeViewController codeVCWithProject:curPro andCodeFile:codeFile];
             analyseVC = vc;
+        }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:twoFARegexStr]).count > 0){
+            //两步验证
+            analyseVC = [OTPListViewController new];
         }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:projectRegexStr]).count > 0){
             //项目
             NSString *user_global_key = matchedCaptures[1];
