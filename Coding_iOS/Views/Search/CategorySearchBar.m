@@ -71,6 +71,8 @@
 @implementation MainSearchBar
 -(void)layoutSubviews
 {
+    //fix width in ios7
+    self.width=kScreen_Width-115;
     self.autoresizesSubviews = YES;
     //找到输入框  右移
     UITextField *searchField=[[[[self subviews] firstObject] subviews] lastObject];
