@@ -14,6 +14,7 @@
 @property (readwrite, nonatomic, strong) NSNumber *remember_me;
 
 - (NSString *)goToLoginTipWithCaptcha:(BOOL)needCaptcha;
+- (NSString *)toPath;
 - (NSDictionary *)toParams;
 
 + (BOOL) isLogin;

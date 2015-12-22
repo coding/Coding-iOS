@@ -56,7 +56,7 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 
 //Login
 - (void)request_Login_With2FA:(NSString *)otpCode andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_Login_WithParams:(id)params andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_Login_WithPath:(NSString *)path Params:(id)params andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Register_WithParams:(id)params andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CaptchaNeededWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_SendMailToPath:(NSString *)path email:(NSString *)email j_captcha:(NSString *)j_captcha andBlock:(void (^)(id data, NSError *error))block;

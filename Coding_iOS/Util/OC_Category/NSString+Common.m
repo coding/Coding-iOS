@@ -330,6 +330,17 @@
     float val;
     return[scan scanFloat:&val] && [scan isAtEnd];
 }
+//判断是否是手机号码或者邮箱
+- (BOOL)isPhoneNo{
+    NSString *phoneRegex = @"1[3|5|7|8|][0-9]{9}";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+    return [phoneTest evaluateWithObject:self];
+}
+- (BOOL)isEmail{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:self];
+}
 
 - (NSRange)rangeByTrimmingLeftCharactersInSet:(NSCharacterSet *)characterSet{
     NSUInteger location = 0;

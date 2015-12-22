@@ -29,17 +29,27 @@ static User *curLoginUser;
     return self;
 }
 
-- (NSDictionary *)toParams{
-    if (self.j_captcha && self.j_captcha.length > 0) {
-        return @{@"email" : self.email,
-                 @"password" : [self.password sha1Str],
-                 @"remember_me" : self.remember_me? @"true" : @"false",
-                 @"j_captcha" : self.j_captcha};
+- (NSString *)toPath{
+    NSString *path;
+    if ([self.email isPhoneNo]) {
+        path = @"api/account/login/phone";
     }else{
-        return @{@"email" : self.email,
-                 @"password" : [self.password sha1Str],
-                 @"remember_me" : self.remember_me? @"true" : @"false"};
+        path = @"api/login";
     }
+    return path;
+}
+- (NSDictionary *)toParams{
+    NSMutableDictionary *params = @{@"password" : [self.password sha1Str],
+                                    @"remember_me" : self.remember_me? @"true" : @"false",}.mutableCopy;
+    if ([self.email isPhoneNo]) {
+        params[@"phone"] = self.email;
+    }else{
+        params[@"email"] = self.email;
+    }
+    if (self.j_captcha.length > 0) {
+        params[@"j_captcha"] = self.j_captcha;
+    }
+    return params;
 }
 
 - (NSString *)goToLoginTipWithCaptcha:(BOOL)needCaptcha{
@@ -109,6 +119,10 @@ static User *curLoginUser;
         }
         if (curUser.email) {
             [loginDataList setObject:loginData forKey:curUser.email];
+            saved = YES;
+        }
+        if (curUser.phone) {
+            [loginDataList setObject:loginData forKey:curUser.phone];
             saved = YES;
         }
         if (saved) {

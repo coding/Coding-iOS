@@ -43,6 +43,9 @@
 - (BOOL)isPureInt;
 //判断是否为浮点形
 - (BOOL)isPureFloat;
+//判断是否是手机号码或者邮箱
+- (BOOL)isPhoneNo;
+- (BOOL)isEmail;
 
 - (NSRange)rangeByTrimmingLeftCharactersInSet:(NSCharacterSet *)characterSet;
 - (NSRange)rangeByTrimmingRightCharactersInSet:(NSCharacterSet *)characterSet;

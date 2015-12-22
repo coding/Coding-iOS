@@ -220,7 +220,7 @@
     }else{
         if (indexPath.row == 0) {
             cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
-            [cell configWithPlaceholder:@" 电子邮箱/个性后缀" andValue:self.myLogin.email];
+            [cell configWithPlaceholder:@" 手机号码/电子邮箱/个性后缀" andValue:self.myLogin.email];
             cell.textValueChangedBlock = ^(NSString *valueStr){
                 weakSelf.inputTipsView.valueStr = valueStr;
                 weakSelf.inputTipsView.active = YES;
@@ -405,7 +405,7 @@
             }
         }];
     }else{
-        [[Coding_NetAPIManager sharedManager] request_Login_WithParams:[self.myLogin toParams] andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_Login_WithPath:[self.myLogin toPath] Params:[self.myLogin toParams] andBlock:^(id data, NSError *error) {
             weakSelf.loginBtn.enabled = YES;
             [weakSelf.activityIndicator stopAnimating];
             if (data) {
