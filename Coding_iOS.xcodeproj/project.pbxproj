@@ -464,6 +464,7 @@
 		4EC461B31B39360F00D08970 /* file_changeType_DELETE@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC461B01B39360F00D08970 /* file_changeType_DELETE@2x.png */; };
 		4EC461B41B39360F00D08970 /* file_changeType_MODIFY@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC461B11B39360F00D08970 /* file_changeType_MODIFY@2x.png */; };
 		4EC461B71B3939DC00D08970 /* task_activity_icon_commit_refer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC461B51B3939DC00D08970 /* task_activity_icon_commit_refer@2x.png */; };
+		4EC4800C1C2936DA005F1772 /* PhoneCodeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC4800B1C2936DA005F1772 /* PhoneCodeButton.m */; };
 		4EC5AD921A258DF8006FA97C /* icon_file_cell_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD8F1A258DF8006FA97C /* icon_file_cell_delete@2x.png */; };
 		4EC5AD931A258DF8006FA97C /* icon_file_cell_move@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD901A258DF8006FA97C /* icon_file_cell_move@2x.png */; };
 		4EC5AD941A258DF8006FA97C /* icon_file_cell_rename@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD911A258DF8006FA97C /* icon_file_cell_rename@2x.png */; };
@@ -867,7 +868,6 @@
 		8EF643B019FF7E2900F7EEB0 /* CodingTipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6436519FF7E2900F7EEB0 /* CodingTipCell.m */; };
 		8EF643B119FF7E2900F7EEB0 /* ConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6436719FF7E2900F7EEB0 /* ConversationCell.m */; };
 		8EF643B619FF7E2900F7EEB0 /* Input_OnlyText_Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6436F19FF7E2900F7EEB0 /* Input_OnlyText_Cell.m */; };
-		8EF643B719FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8EF6437019FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib */; };
 		8EF643B819FF7E2900F7EEB0 /* InputOnlyTextPlainCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6437219FF7E2900F7EEB0 /* InputOnlyTextPlainCell.m */; };
 		8EF643B919FF7E2900F7EEB0 /* LeftImage_LRTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6437419FF7E2900F7EEB0 /* LeftImage_LRTextCell.m */; };
 		8EF643BA19FF7E2900F7EEB0 /* MemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EF6437619FF7E2900F7EEB0 /* MemberCell.m */; };
@@ -1726,6 +1726,8 @@
 		4EC461B01B39360F00D08970 /* file_changeType_DELETE@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_changeType_DELETE@2x.png"; sourceTree = "<group>"; };
 		4EC461B11B39360F00D08970 /* file_changeType_MODIFY@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_changeType_MODIFY@2x.png"; sourceTree = "<group>"; };
 		4EC461B51B3939DC00D08970 /* task_activity_icon_commit_refer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_commit_refer@2x.png"; sourceTree = "<group>"; };
+		4EC4800A1C2936DA005F1772 /* PhoneCodeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneCodeButton.h; sourceTree = "<group>"; };
+		4EC4800B1C2936DA005F1772 /* PhoneCodeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneCodeButton.m; sourceTree = "<group>"; };
 		4EC5AD8F1A258DF8006FA97C /* icon_file_cell_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_delete@2x.png"; sourceTree = "<group>"; };
 		4EC5AD901A258DF8006FA97C /* icon_file_cell_move@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_move@2x.png"; sourceTree = "<group>"; };
 		4EC5AD911A258DF8006FA97C /* icon_file_cell_rename@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_rename@2x.png"; sourceTree = "<group>"; };
@@ -2328,7 +2330,6 @@
 		8EF6436719FF7E2900F7EEB0 /* ConversationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConversationCell.m; sourceTree = "<group>"; };
 		8EF6436E19FF7E2900F7EEB0 /* Input_OnlyText_Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Input_OnlyText_Cell.h; sourceTree = "<group>"; };
 		8EF6436F19FF7E2900F7EEB0 /* Input_OnlyText_Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Input_OnlyText_Cell.m; sourceTree = "<group>"; };
-		8EF6437019FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Input_OnlyText_Cell.xib; sourceTree = "<group>"; };
 		8EF6437119FF7E2900F7EEB0 /* InputOnlyTextPlainCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputOnlyTextPlainCell.h; sourceTree = "<group>"; };
 		8EF6437219FF7E2900F7EEB0 /* InputOnlyTextPlainCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InputOnlyTextPlainCell.m; sourceTree = "<group>"; };
 		8EF6437319FF7E2900F7EEB0 /* LeftImage_LRTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftImage_LRTextCell.h; sourceTree = "<group>"; };
@@ -4814,6 +4815,8 @@
 				923399711C00A9EF00F29E04 /* DashesLineView.m */,
 				D0A32BF11BF19EF100336C52 /* PopFliterMenu.h */,
 				D0A32BF21BF19EF100336C52 /* PopFliterMenu.m */,
+				4EC4800A1C2936DA005F1772 /* PhoneCodeButton.h */,
+				4EC4800B1C2936DA005F1772 /* PhoneCodeButton.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -4875,7 +4878,6 @@
 				8EF6436719FF7E2900F7EEB0 /* ConversationCell.m */,
 				8EF6436E19FF7E2900F7EEB0 /* Input_OnlyText_Cell.h */,
 				8EF6436F19FF7E2900F7EEB0 /* Input_OnlyText_Cell.m */,
-				8EF6437019FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib */,
 				8EF6437119FF7E2900F7EEB0 /* InputOnlyTextPlainCell.h */,
 				8EF6437219FF7E2900F7EEB0 /* InputOnlyTextPlainCell.m */,
 				8EF6437319FF7E2900F7EEB0 /* LeftImage_LRTextCell.h */,
@@ -5235,7 +5237,6 @@
 				4E93F23A1B84356500017916 /* file_menu_icon_delete@2x.png in Resources */,
 				4E4D6AC21B252CD400FD2E49 /* icon_code_tree@2x.png in Resources */,
 				8E97CEB01A0C7E26006F9AD7 /* coding_emoji_25@2x.png in Resources */,
-				8EF643B719FF7E2900F7EEB0 /* Input_OnlyText_Cell.xib in Resources */,
 				7E335D9D1B6F5E94003D0F3D /* keyboard_arrow_down@2x.png in Resources */,
 				4EF17ED71B3C3112003CDD2D /* intro_icon_4@2x.png in Resources */,
 				4E6384031B33C8E900D98648 /* task_activity_icon_create@2x.png in Resources */,
@@ -6181,6 +6182,7 @@
 				4E0BD86F1B6C7E3D0061CAA6 /* CSTopicDetailVC.m in Sources */,
 				8EF643C819FF7E2900F7EEB0 /* ToMessageCell.m in Sources */,
 				4E217F111A70EDC700F6DF88 /* SVWebViewControllerActivityChrome.m in Sources */,
+				4EC4800C1C2936DA005F1772 /* PhoneCodeButton.m in Sources */,
 				4E0BD86D1B6C7E3D0061CAA6 /* CSScrollview.m in Sources */,
 				D09AA5C01BFDEDD1008CA9EB /* NSString+Attribute.m in Sources */,
 				4EE1A2331B5D02CA004284F1 /* ProjectTopicsView.m in Sources */,

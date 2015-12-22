@@ -63,7 +63,8 @@
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         [tableView registerClass:[Login2FATipCell class] forCellReuseIdentifier:kCellIdentifier_Login2FATipCell];
-        [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_Input_OnlyText_Cell bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell];
+        [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Text];
+        [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Captcha];
 
         tableView.backgroundView = self.bgBlurredView;
         tableView.dataSource = self;
@@ -207,39 +208,41 @@
         return cell;
     }
     
-    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Input_OnlyText_Cell forIndexPath:indexPath];
+    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:(indexPath.row > 1? kCellIdentifier_Input_OnlyText_Cell_Captcha: kCellIdentifier_Input_OnlyText_Cell_Text) forIndexPath:indexPath];
     cell.isForLoginVC = YES;
 
     __weak typeof(self) weakSelf = self;
     if (self.is2FAUI) {
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
-        [cell configWithPlaceholder:@" 动态验证码" andValue:self.otpCode];
+        [cell setPlaceholder:@" 动态验证码" value:self.otpCode];
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.otpCode = valueStr;
         };
     }else{
         if (indexPath.row == 0) {
             cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
-            [cell configWithPlaceholder:@" 手机号码/电子邮箱/个性后缀" andValue:self.myLogin.email];
+            [cell setPlaceholder:@" 手机号码/电子邮箱/个性后缀" value:self.myLogin.email];
             cell.textValueChangedBlock = ^(NSString *valueStr){
                 weakSelf.inputTipsView.valueStr = valueStr;
                 weakSelf.inputTipsView.active = YES;
                 weakSelf.myLogin.email = valueStr;
-                [weakSelf.iconUserView setImage:[UIImage imageNamed:@"icon_user_monkey"]];
+                [weakSelf refreshIconUserImage];
+            };
+            cell.editDidBeginBlock = ^(NSString *valueStr){
+                weakSelf.inputTipsView.valueStr = valueStr;
+                weakSelf.inputTipsView.active = YES;
             };
             cell.editDidEndBlock = ^(NSString *textStr){
                 weakSelf.inputTipsView.active = NO;
-                [weakSelf refreshIconUserImage];
             };
         }else if (indexPath.row == 1){
-            [cell configWithPlaceholder:@" 密码" andValue:self.myLogin.password];
+            [cell setPlaceholder:@" 密码" value:self.myLogin.password];
             cell.textField.secureTextEntry = YES;
             cell.textValueChangedBlock = ^(NSString *valueStr){
                 weakSelf.myLogin.password = valueStr;
             };
         }else{
-            cell.isCaptcha = YES;
-            [cell configWithPlaceholder:@" 验证码" andValue:self.myLogin.j_captcha];
+            [cell setPlaceholder:@" 验证码" value:self.myLogin.j_captcha];
             cell.textValueChangedBlock = ^(NSString *valueStr){
                 weakSelf.myLogin.j_captcha = valueStr;
             };
@@ -254,8 +257,10 @@
         User *curUser = [Login userWithGlobaykeyOrEmail:textStr];
         if (curUser && curUser.avatar) {
             [self.iconUserView sd_setImageWithURL:[curUser.avatar urlImageWithCodePathResizeToView:self.iconUserView] placeholderImage:[UIImage imageNamed:@"icon_user_monkey"]];
+            return;
         }
     }
+    [self.iconUserView setImage:[UIImage imageNamed:@"icon_user_monkey"]];
 }
 
 #pragma mark - Table view Header Footer

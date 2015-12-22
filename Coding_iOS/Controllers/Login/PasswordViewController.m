@@ -34,7 +34,7 @@
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_Input_OnlyText_Cell bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell];
+        [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Text];
         tableView.backgroundColor = kColorTableSectionBg;
         tableView.dataSource = self;
         tableView.delegate = self;
@@ -105,24 +105,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Input_OnlyText_Cell forIndexPath:indexPath];
+    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Input_OnlyText_Cell_Text forIndexPath:indexPath];
 
     __weak typeof(self) weakSelf = self;
     if (indexPath.row == 0) {
         cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
-        [cell configWithPlaceholder:@" 电子邮箱" andValue:self.email];
+        [cell setPlaceholder:@" 电子邮箱" value:self.email];
         cell.textField.userInteractionEnabled = NO;
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.email = valueStr;
         };
     }else if (indexPath.row == 1) {
-        [cell configWithPlaceholder:@" 密码" andValue:self.password];
+        [cell setPlaceholder:@" 密码" value:self.password];
         cell.textField.secureTextEntry = YES;
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.password = valueStr;
         };
     }else{
-        [cell configWithPlaceholder:@" 确认密码" andValue:self.confirm_password];
+        [cell setPlaceholder:@" 确认密码" value:self.confirm_password];
         cell.textField.secureTextEntry = YES;
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.confirm_password = valueStr;

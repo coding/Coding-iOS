@@ -27,7 +27,8 @@
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_Input_OnlyText_Cell bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell];
+        [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Text];
+        [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Captcha];
         tableView.backgroundColor = kColorTableSectionBg;
         tableView.dataSource = self;
         tableView.delegate = self;
@@ -134,18 +135,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Input_OnlyText_Cell forIndexPath:indexPath];
+    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:(indexPath.row > 0? kCellIdentifier_Input_OnlyText_Cell_Captcha: kCellIdentifier_Input_OnlyText_Cell_Text) forIndexPath:indexPath];
     
     __weak typeof(self) weakSelf = self;
     if (indexPath.row == 0) {
         cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
-        [cell configWithPlaceholder:@" 电子邮箱" andValue:self.email];
+        [cell setPlaceholder:@" 电子邮箱" value:self.email];
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.email = valueStr;
         };
     }else{
-        cell.isCaptcha = YES;
-        [cell configWithPlaceholder:@" 验证码" andValue:self.j_captcha];
+        [cell setPlaceholder:@" 验证码" value:self.j_captcha];
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.j_captcha = valueStr;
         };

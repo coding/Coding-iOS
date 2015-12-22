@@ -40,7 +40,8 @@
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_Input_OnlyText_Cell bundle:[NSBundle mainBundle]] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell];
+        [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Text];
+        [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Captcha];
         tableView.backgroundColor = kColorTableSectionBg;
         tableView.dataSource = self;
         tableView.delegate = self;
@@ -119,12 +120,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Input_OnlyText_Cell forIndexPath:indexPath];
+    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:(indexPath.row > 1? kCellIdentifier_Input_OnlyText_Cell_Captcha: kCellIdentifier_Input_OnlyText_Cell_Text) forIndexPath:indexPath];
     
     __weak typeof(self) weakSelf = self;
     if (indexPath.row == 0) {
         cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
-        [cell configWithPlaceholder:@" 电子邮箱" andValue:self.myRegister.email];
+        [cell setPlaceholder:@" 电子邮箱" value:self.myRegister.email];
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.inputTipsView.valueStr = valueStr;
             weakSelf.inputTipsView.active = YES;
@@ -134,13 +135,12 @@
             weakSelf.inputTipsView.active = NO;
         };
     }else if (indexPath.row == 1){
-        [cell configWithPlaceholder:@" 个性后缀" andValue:self.myRegister.global_key];
+        [cell setPlaceholder:@" 个性后缀" value:self.myRegister.global_key];
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.myRegister.global_key = valueStr;
         };
     }else{
-        cell.isCaptcha = YES;
-        [cell configWithPlaceholder:@" 验证码" andValue:self.myRegister.j_captcha];
+        [cell setPlaceholder:@" 验证码" value:self.myRegister.j_captcha];
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.myRegister.j_captcha = valueStr;
         };

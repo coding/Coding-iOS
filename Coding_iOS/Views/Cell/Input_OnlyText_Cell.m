@@ -9,50 +9,84 @@
 #import "Input_OnlyText_Cell.h"
 #import "Coding_NetAPIManager.h"
 
+
 @interface Input_OnlyText_Cell ()
+
+@property (strong, nonatomic) UIView *lineView;
+@property (strong, nonatomic) UIButton *clearBtn;
+
+@property (strong, nonatomic) UITapImageView *captchaView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+
 @end
 
 @implementation Input_OnlyText_Cell
 
-- (void)awakeFromNib
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    // Initialization code
-    _isCaptcha = NO;
-    _isForLoginVC = NO;
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-- (IBAction)editDidBegin:(id)sender {
-    _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff"];
-    self.clearBtn.hidden = _isForLoginVC? self.textField.text.length <= 0: YES;
-}
-
-- (IBAction)editDidEnd:(id)sender {
-    _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
-    self.clearBtn.hidden = YES;
-    if (self.editDidEndBlock) {
-        self.editDidEndBlock(self.textField.text);
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        // Initialization code
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (!_textField) {
+            _textField = [UITextField new];
+            [_textField setFont:[UIFont systemFontOfSize:17]];
+            [_textField addTarget:self action:@selector(editDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
+            [_textField addTarget:self action:@selector(textValueChanged:) forControlEvents:UIControlEventEditingChanged];
+            [_textField addTarget:self action:@selector(editDidEnd:) forControlEvents:UIControlEventEditingDidEnd];
+            [self.contentView addSubview:_textField];
+            [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(20);
+                make.left.equalTo(self.contentView).offset(kLoginPaddingLeftWidth);
+                make.right.equalTo(self.contentView).offset(-kLoginPaddingLeftWidth);
+                make.centerY.equalTo(self.contentView);
+            }];
+        }
+        
+        if ([reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Text]) {
+            
+        }else if ([reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Captcha]){
+            __weak typeof(self) weakSelf = self;
+            if (!_captchaView) {
+                _captchaView = [[UITapImageView alloc] initWithFrame:CGRectMake(kScreen_Width - 60 - kLoginPaddingLeftWidth, (44-25)/2, 60, 25)];
+                _captchaView.layer.masksToBounds = YES;
+                _captchaView.layer.cornerRadius = 5;
+                [_captchaView addTapBlock:^(id obj) {
+                    [weakSelf refreshCaptchaImage];
+                }];
+                [self.contentView addSubview:_captchaView];
+            }
+            if (!_activityIndicator) {
+                _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                _activityIndicator.hidesWhenStopped = YES;
+                [self.contentView addSubview:_activityIndicator];
+                [_activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.center.equalTo(self.captchaView);
+                }];
+            }
+        }else if ([reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_PhoneCode]){
+            if (_verify_codeBtn) {
+                _verify_codeBtn = [[PhoneCodeButton alloc] initWithFrame:CGRectMake(kScreen_Width - 80 - kLoginPaddingLeftWidth, (44-25)/2, 80, 25)];
+                [self.contentView addSubview:_verify_codeBtn];
+            }
+        }
+        self.isForLoginVC = NO;
+        self.textField.secureTextEntry = NO;
+        self.textField.userInteractionEnabled = YES;
+        self.textField.keyboardType = UIKeyboardTypeDefault;
+        self.editDidBeginBlock = nil;
+        self.textValueChangedBlock = nil;
+        self.editDidEndBlock = nil;
     }
+    return self;
 }
 
-- (void)configWithPlaceholder:(NSString *)phStr andValue:(NSString *)valueStr{
+- (void)setPlaceholder:(NSString *)phStr value:(NSString *)valueStr{
     self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:phStr? phStr: @"" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:_isForLoginVC? @"0xffffff": @"0x999999" andAlpha:_isForLoginVC? 0.5: 1.0]}];
     self.textField.text = valueStr;
 }
-- (IBAction)textValueChanged:(id)sender {
-    self.clearBtn.hidden = _isForLoginVC? self.textField.text.length <= 0: YES;
-    if (self.textValueChangedBlock) {
-        self.textValueChangedBlock(self.textField.text);
-    }
-}
 
-- (IBAction)clearBtnClicked:(id)sender {
+- (void)clearBtnClicked:(id)sender {
     self.textField.text = @"";
     [self textValueChanged:nil];
 }
@@ -60,79 +94,97 @@
 #pragma mark - UIView
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.backgroundColor = _isForLoginVC? [UIColor clearColor]: [UIColor whiteColor];
-    self.textField.font = [UIFont systemFontOfSize:17];
-    self.textField.textColor = _isForLoginVC? [UIColor whiteColor]: [UIColor colorWithHexString:@"0x222222"];
-    if (!_lineView && _isForLoginVC) {
-        _lineView = [[UIView alloc] initWithFrame:CGRectMake(kLoginPaddingLeftWidth, 43.5, kScreen_Width-2*kLoginPaddingLeftWidth, 0.5)];
-        _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
-        [self.contentView addSubview:_lineView];
-    }
-    if (_isCaptcha) {
-        [self.textField setWidth:(kScreen_Width - 2*kLoginPaddingLeftWidth) - (_isForLoginVC? 90 : 70)];
-        _captchaView.hidden = NO;
-        [self refreshCaptchaImage];
-    }else{
-        [self.textField setWidth:(kScreen_Width - 2*kLoginPaddingLeftWidth) - (_isForLoginVC? 20:0)];
-        _captchaView.hidden = YES;
-    }
-    [self.clearBtn setX:self.textField.maxXOfFrame - 10];
-    _lineView.hidden = !_isForLoginVC;
-    _clearBtn.hidden = YES;
-    self.textField.clearButtonMode = _isForLoginVC? UITextFieldViewModeNever: UITextFieldViewModeWhileEditing;
-
-}
-- (void)refreshCaptchaImage{
-    if (_activityIndicator && _activityIndicator.isAnimating) {
-        return;
-    }
-    self.captchaImage = nil;
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] loadImageWithPath:[NSString stringWithFormat:@"%@api/getCaptcha", [NSObject baseURLStr]] completeBlock:^(UIImage *image, NSError *error) {
-        if (image) {
-            weakSelf.captchaImage = image;
-        }else{
-            weakSelf.captchaImage = [UIImage imageNamed:@"captcha_loadfail"];
+    
+    if (_isForLoginVC) {
+        if (!_clearBtn) {
+            _clearBtn = [UIButton new];
+            _clearBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+            [_clearBtn setImage:[UIImage imageNamed:@"text_clear_btn"] forState:UIControlStateNormal];
+            [_clearBtn addTarget:self action:@selector(clearBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:_clearBtn];
+            [_clearBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(30, 30));
+                make.right.equalTo(self.contentView).offset(-kLoginPaddingLeftWidth);
+                make.centerY.equalTo(self.contentView);
+            }];
         }
+        if (!_lineView) {
+            _lineView = [UIView new];
+            _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
+            [self.contentView addSubview:_lineView];
+            [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(0.5);
+                make.left.equalTo(self.contentView).offset(kLoginPaddingLeftWidth);
+                make.right.equalTo(self.contentView).offset(-kLoginPaddingLeftWidth);
+                make.bottom.equalTo(self.contentView);
+            }];
+        }
+    }
+    
+    self.backgroundColor = _isForLoginVC? [UIColor clearColor]: [UIColor whiteColor];
+    self.textField.clearButtonMode = _isForLoginVC? UITextFieldViewModeNever: UITextFieldViewModeWhileEditing;
+    self.textField.textColor = _isForLoginVC? [UIColor whiteColor]: [UIColor colorWithHexString:@"0x222222"];
+    self.lineView.hidden = !_isForLoginVC;
+    self.clearBtn.hidden = YES;
+
+    UIView *rightElement;
+    if ([self.reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Text]) {
+        rightElement = nil;
+    }else if ([self.reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Captcha]){
+        rightElement = _captchaView;
+        [self refreshCaptchaImage];
+    }else if ([self.reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_PhoneCode]){
+        rightElement = _verify_codeBtn;
+    }
+    
+    [_clearBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        CGFloat offset = rightElement? (CGRectGetMinX(rightElement.frame) - kScreen_Width - 10): -kLoginPaddingLeftWidth;
+        make.right.equalTo(self.contentView).offset(offset);
+    }];
+    
+    [_textField mas_updateConstraints:^(MASConstraintMaker *make) {
+        CGFloat offset = self.isForLoginVC? (CGRectGetMinX(self.clearBtn.frame) - kScreen_Width) : rightElement? (CGRectGetMinX(rightElement.frame) - kScreen_Width - 10): -kLoginPaddingLeftWidth;
+        make.right.equalTo(self.contentView).offset(offset);
     }];
 }
-- (void)setCaptchaImage:(UIImage *)captchaImage{
+
+#pragma Captcha
+
+- (void)refreshCaptchaImage{
     __weak typeof(self) weakSelf = self;
-    if (!_captchaView) {
-        _captchaView = [[UITapImageView alloc] initWithFrame:CGRectMake(kScreen_Width-60-kLoginPaddingLeftWidth, (44-25)/2, 60, 25)];
-        
-        _captchaView.layer.masksToBounds = YES;
-        _captchaView.layer.cornerRadius = 5;
-        
-        [_captchaView addTapBlock:^(id obj) {
-            [weakSelf refreshCaptchaImage];
-        }];
-        [self.contentView addSubview:_captchaView];
+    if (_activityIndicator.isAnimating) {
+        return;
     }
-    if (captchaImage) {
-        [_activityIndicator stopAnimating];
-        _captchaImage = captchaImage;
-        _captchaView.image = captchaImage;
-    }else{
-        if (!_activityIndicator) {
-            _activityIndicator = [[UIActivityIndicatorView alloc]
-                                 initWithActivityIndicatorStyle:
-                                 UIActivityIndicatorViewStyleGray];
-            CGSize captchaViewSize = _captchaView.bounds.size;
-            _activityIndicator.hidesWhenStopped = YES;
-            [_activityIndicator setCenter:CGPointMake(captchaViewSize.width/2, captchaViewSize.height/2)];
-            [_captchaView addSubview:_activityIndicator];
-        }
-        [_activityIndicator startAnimating];
+    [_activityIndicator startAnimating];
+    [self.captchaView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/getCaptcha", [NSObject baseURLStr]]] placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies) completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [weakSelf.activityIndicator stopAnimating];
+    }];
+}
+
+#pragma mark TextField
+- (void)editDidBegin:(id)sender {
+    self.lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff"];
+    self.clearBtn.hidden = _isForLoginVC? self.textField.text.length <= 0: YES;
+    
+    if (self.editDidBeginBlock) {
+        self.editDidBeginBlock(self.textField.text);
     }
 }
 
-- (void)prepareForReuse{
-    self.isForLoginVC = NO;
-    self.isCaptcha = NO;
-    self.textField.secureTextEntry = NO;
-    self.textField.userInteractionEnabled = YES;
-    self.textField.keyboardType = UIKeyboardTypeDefault;
-    self.editDidEndBlock = nil;
+- (void)editDidEnd:(id)sender {
+   self.lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
+    self.clearBtn.hidden = YES;
+    
+    if (self.editDidEndBlock) {
+        self.editDidEndBlock(self.textField.text);
+    }
+}
+
+- (void)textValueChanged:(id)sender {
+    self.clearBtn.hidden = _isForLoginVC? self.textField.text.length <= 0: YES;
+    
+    if (self.textValueChangedBlock) {
+        self.textValueChangedBlock(self.textField.text);
+    }
 }
 @end
