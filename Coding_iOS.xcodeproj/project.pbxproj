@@ -465,6 +465,10 @@
 		4EC461B41B39360F00D08970 /* file_changeType_MODIFY@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC461B11B39360F00D08970 /* file_changeType_MODIFY@2x.png */; };
 		4EC461B71B3939DC00D08970 /* task_activity_icon_commit_refer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC461B51B3939DC00D08970 /* task_activity_icon_commit_refer@2x.png */; };
 		4EC4800C1C2936DA005F1772 /* PhoneCodeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EC4800B1C2936DA005F1772 /* PhoneCodeButton.m */; };
+		4EC480111C2A909D005F1772 /* register_step_ed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC4800D1C2A909D005F1772 /* register_step_ed@2x.png */; };
+		4EC480121C2A909D005F1772 /* register_step_ed@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC4800E1C2A909D005F1772 /* register_step_ed@3x.png */; };
+		4EC480131C2A909D005F1772 /* register_step_un@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC4800F1C2A909D005F1772 /* register_step_un@2x.png */; };
+		4EC480141C2A909D005F1772 /* register_step_un@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC480101C2A909D005F1772 /* register_step_un@3x.png */; };
 		4EC5AD921A258DF8006FA97C /* icon_file_cell_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD8F1A258DF8006FA97C /* icon_file_cell_delete@2x.png */; };
 		4EC5AD931A258DF8006FA97C /* icon_file_cell_move@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD901A258DF8006FA97C /* icon_file_cell_move@2x.png */; };
 		4EC5AD941A258DF8006FA97C /* icon_file_cell_rename@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EC5AD911A258DF8006FA97C /* icon_file_cell_rename@2x.png */; };
@@ -1728,6 +1732,10 @@
 		4EC461B51B3939DC00D08970 /* task_activity_icon_commit_refer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_commit_refer@2x.png"; sourceTree = "<group>"; };
 		4EC4800A1C2936DA005F1772 /* PhoneCodeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneCodeButton.h; sourceTree = "<group>"; };
 		4EC4800B1C2936DA005F1772 /* PhoneCodeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneCodeButton.m; sourceTree = "<group>"; };
+		4EC4800D1C2A909D005F1772 /* register_step_ed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "register_step_ed@2x.png"; sourceTree = "<group>"; };
+		4EC4800E1C2A909D005F1772 /* register_step_ed@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "register_step_ed@3x.png"; sourceTree = "<group>"; };
+		4EC4800F1C2A909D005F1772 /* register_step_un@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "register_step_un@2x.png"; sourceTree = "<group>"; };
+		4EC480101C2A909D005F1772 /* register_step_un@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "register_step_un@3x.png"; sourceTree = "<group>"; };
 		4EC5AD8F1A258DF8006FA97C /* icon_file_cell_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_delete@2x.png"; sourceTree = "<group>"; };
 		4EC5AD901A258DF8006FA97C /* icon_file_cell_move@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_move@2x.png"; sourceTree = "<group>"; };
 		4EC5AD911A258DF8006FA97C /* icon_file_cell_rename@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_cell_rename@2x.png"; sourceTree = "<group>"; };
@@ -4370,6 +4378,10 @@
 				4EAC8B691BA01F190060B0FC /* little_phone_icon@2x.png */,
 				4E5D13161C0EF48200985AEB /* button_close@2x.png */,
 				4E5D13171C0EF48200985AEB /* button_close@3x.png */,
+				4EC4800D1C2A909D005F1772 /* register_step_ed@2x.png */,
+				4EC4800E1C2A909D005F1772 /* register_step_ed@3x.png */,
+				4EC4800F1C2A909D005F1772 /* register_step_un@2x.png */,
+				4EC480101C2A909D005F1772 /* register_step_un@3x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -5187,6 +5199,7 @@
 			files = (
 				4E09DCA51C156387001C9392 /* hot_topic_Nav@2x.png in Resources */,
 				8E97CE6C1A0B243B006F9AD7 /* keyboard_add@2x.png in Resources */,
+				4EC480131C2A909D005F1772 /* register_step_un@2x.png in Resources */,
 				4E6383FD1B33C18700D98648 /* task_activity_icon_restore@2x.png in Resources */,
 				4E9F5D201C03051D007CCDCC /* tipIcon_tweetReward@2x.png in Resources */,
 				4EA6791A1A14BFA0001A0324 /* icon_file_folder_normal@2x.png in Resources */,
@@ -5331,6 +5344,7 @@
 				8E97CE9F1A0C7E26006F9AD7 /* coding_emoji_08@2x.png in Resources */,
 				4E5D130D1C0ECB3400985AEB /* tweet_btn_liked@2x.png in Resources */,
 				4E93F2451B85C4C300017916 /* FileInfoViewController.xib in Resources */,
+				4EC480141C2A909D005F1772 /* register_step_un@3x.png in Resources */,
 				0A782FDE1AB5B78B00E96661 /* TweetSendCreateLocationCell.xib in Resources */,
 				8E8F7B3219EF6306006BA8BD /* btn_privateMsg_white@2x.png in Resources */,
 				8E97CEBB1A0C7E26006F9AD7 /* coding_emoji_36@2x.png in Resources */,
@@ -5549,6 +5563,7 @@
 				4E96E7E11A1B537E0037C098 /* icon_file_ppt@2x.png in Resources */,
 				8EA6D16619E240C40076D59C /* nav_arrow_down@2x.png in Resources */,
 				D0C448141C02F76600DC1C4B /* icon_search_searchbar@2x.png in Resources */,
+				4EC480111C2A909D005F1772 /* register_step_ed@2x.png in Resources */,
 				D0C447E01C02DB8900DC1C4B /* project_normal@3x.png in Resources */,
 				D0C447A51C02A3C700DC1C4B /* privatemessage_normal@2x.png in Resources */,
 				8EA6D19819E240C40076D59C /* tipIcon_ProjectMember@2x.png in Resources */,
@@ -5595,6 +5610,7 @@
 				4E4D6ACB1B2571B100FD2E49 /* git_icon_stared@2x.png in Resources */,
 				4ED20A7A1AFCC43600C63498 /* button_download_cancel@2x.png in Resources */,
 				4E217F0D1A70EDC700F6DF88 /* SVWebViewController.bundle in Resources */,
+				4EC480121C2A909D005F1772 /* register_step_ed@3x.png in Resources */,
 				4E38CF641A7B8DD4005536C0 /* icon_triangle@2x.png in Resources */,
 				4E4D6AC81B252F4800FD2E49 /* icon_add_comment@2x.png in Resources */,
 				4E0022A71B7362EF005308DE /* intro_page0_ip5@2x.png in Resources */,

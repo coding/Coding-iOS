@@ -5,6 +5,7 @@
 //  Created by 王 原闯 on 14-8-4.
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
+#define kCellIdentifier_Input_OnlyText_Cell_PhoneCode @"Input_OnlyText_Cell_PhoneCode"
 
 #import "Input_OnlyText_Cell.h"
 #import "Coding_NetAPIManager.h"
@@ -67,9 +68,10 @@
                     make.center.equalTo(self.captchaView);
                 }];
             }
-        }else if ([reuseIdentifier rangeOfString:kCellIdentifier_Input_OnlyText_Cell_PhoneCode].location != NSNotFound){
+        }else if ([reuseIdentifier hasPrefix:kCellIdentifier_Input_OnlyText_Cell_PhoneCode]){
             if (!_verify_codeBtn) {
                 _verify_codeBtn = [[PhoneCodeButton alloc] initWithFrame:CGRectMake(kScreen_Width - 80 - kLoginPaddingLeftWidth, (44-25)/2, 80, 25)];
+                [_verify_codeBtn addTarget:self action:@selector(phoneCodeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
                 [self.contentView addSubview:_verify_codeBtn];
             }
         }
@@ -80,6 +82,7 @@
         self.editDidBeginBlock = nil;
         self.textValueChangedBlock = nil;
         self.editDidEndBlock = nil;
+        self.phoneCodeBtnClckedBlock = nil;
     }
     return self;
 }
@@ -89,9 +92,17 @@
     self.textField.text = valueStr;
 }
 
+#pragma mark Button
+
 - (void)clearBtnClicked:(id)sender {
     self.textField.text = @"";
     [self textValueChanged:nil];
+}
+
+- (void)phoneCodeButtonClicked:(id)sender{
+    if (self.phoneCodeBtnClckedBlock) {
+        self.phoneCodeBtnClckedBlock(sender);
+    }
 }
 
 #pragma mark - UIView
@@ -136,7 +147,7 @@
     }else if ([self.reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Captcha]){
         rightElement = _captchaView;
         [self refreshCaptchaImage];
-    }else if ([self.reuseIdentifier rangeOfString:kCellIdentifier_Input_OnlyText_Cell_PhoneCode].location != NSNotFound){
+    }else if ([self.reuseIdentifier hasPrefix:kCellIdentifier_Input_OnlyText_Cell_PhoneCode]){
         rightElement = _verify_codeBtn;
     }
     

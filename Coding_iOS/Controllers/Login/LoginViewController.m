@@ -420,6 +420,12 @@
                 NSString *global_key = error.userInfo[@"msg"][@"two_factor_auth_code_not_empty"];
                 if (global_key.length > 0) {
                     [weakSelf changeUITo2FAWithGK:global_key];
+                }else if (error.userInfo[@"msg"][@"user_need_activate"]){
+                    [NSObject showError:error];
+                    Register *re = [Register new];
+                    re.phone = weakSelf.myLogin.email;
+                    RegisterViewController *vc = [RegisterViewController vcWithMethodType:RegisterMethodPhone stepIndex:2 registerObj:re];
+                    [self.navigationController pushViewController:vc animated:YES];
                 }else{
                     [NSObject showError:error];
                     [weakSelf refreshCaptchaNeeded];
@@ -444,7 +450,7 @@
 
 
 - (IBAction)goRegisterVC:(id)sender {
-    RegisterViewController *vc = [[RegisterViewController alloc] init];    
+    RegisterViewController *vc = [RegisterViewController vcWithMethodType:RegisterMethodPhone stepIndex:0 registerObj:nil];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

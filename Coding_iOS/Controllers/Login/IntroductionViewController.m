@@ -282,7 +282,7 @@
 
 #pragma mark Action
 - (void)registerBtnClicked{
-    RegisterViewController *vc = [[RegisterViewController alloc] init];
+    RegisterViewController *vc = [RegisterViewController vcWithMethodType:RegisterMethodPhone stepIndex:0 registerObj:nil];
     UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nav animated:YES completion:nil];
 }

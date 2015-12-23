@@ -16,13 +16,12 @@
 @property (nonatomic, assign) NSUInteger stepIndex;
 @property (strong, nonatomic) NSString *userStr, *phoneCode, *password, *confirm_password, *j_captcha;
 
-@property (strong, nonatomic) UIButton *footerBtn;
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
+@property (strong, nonatomic) UIButton *footerBtn;
+@property (strong, nonatomic) NSString *phoneCodeCellIdentifier;
 @end
 
 @implementation CannotLoginViewController
-
-static NSString *kIdentifierOfPhoneCodeCell;
 
 + (instancetype)vcWithPurposeType:(PurposeType)purposeType methodType:(CannotLoginMethodType)methodType stepIndex:(NSUInteger)stepIndex userStr:(NSString *)userStr{
     CannotLoginViewController *vc = [self new];
@@ -37,14 +36,14 @@ static NSString *kIdentifierOfPhoneCodeCell;
     [super viewDidLoad];
     
     self.title = [self titleStr];
-    kIdentifierOfPhoneCodeCell = [Input_OnlyText_Cell randomCellIdentifierOfPhoneCodeType];
+    self.phoneCodeCellIdentifier = [Input_OnlyText_Cell randomCellIdentifierOfPhoneCodeType];
 
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Text];
         [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Captcha];
-        [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kIdentifierOfPhoneCodeCell];
+        [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:self.phoneCodeCellIdentifier];
         tableView.backgroundColor = kColorTableSectionBg;
         tableView.dataSource = self;
         tableView.delegate = self;
@@ -193,7 +192,7 @@ static NSString *kIdentifierOfPhoneCodeCell;
     }else{
         if (_medthodType == CannotLoginMethodPhone) {
             if (indexPath.row == 0) {
-                cellIdentifier = kIdentifierOfPhoneCodeCell;
+                cellIdentifier = self.phoneCodeCellIdentifier;
             }else if (indexPath.row <= 2){
                 cellIdentifier = kCellIdentifier_Input_OnlyText_Cell_Text;
             }else{
@@ -224,9 +223,13 @@ static NSString *kIdentifierOfPhoneCodeCell;
                     cell.textValueChangedBlock = ^(NSString *valueStr){
                         weakSelf.phoneCode = valueStr;
                     };
+                    cell.phoneCodeBtnClckedBlock = ^(PhoneCodeButton *btn){
+                        [weakSelf phoneCodeBtnClicked:btn];
+                    };
                     static bool is_first_load = true;
                     if (is_first_load) {
                         [cell.verify_codeBtn startUpTimer];
+                        is_first_load = false;
                     }
                     break;
                 }
@@ -240,7 +243,7 @@ static NSString *kIdentifierOfPhoneCodeCell;
                 }
                 case 2:{
                     cell.textField.secureTextEntry = YES;
-                    [cell setPlaceholder:@" 重复密码" value:self.confirm_password];
+                    [cell setPlaceholder:@" 确认密码" value:self.confirm_password];
                     cell.textValueChangedBlock = ^(NSString *valueStr){
                         weakSelf.confirm_password = valueStr;
                     };
@@ -278,6 +281,17 @@ static NSString *kIdentifierOfPhoneCodeCell;
 }
 
 #pragma mark Btn Clicked
+- (void)phoneCodeBtnClicked:(PhoneCodeButton *)sender{
+    sender.enabled = NO;
+    [[Coding_NetAPIManager sharedManager] request_GeneratePhoneCodeWithPhone:_userStr type:_purposeType block:^(id data, NSError *error) {
+        if (data) {
+            [sender startUpTimer];
+        }else{
+            [sender invalidateTimer];
+        }
+    }];
+}
+
 - (void)footerBtnClicked:(id)sender{
     if (_stepIndex == 0) {
         if ([_userStr isPhoneNo]) {

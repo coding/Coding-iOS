@@ -45,6 +45,7 @@
     user.last_activity_at = [_last_activity_at copy];
     user.created_at = [_created_at copy];
     user.updated_at = [_updated_at copy];
+    user.email_validation = [_email_validation copy];
     return user;
 }
 

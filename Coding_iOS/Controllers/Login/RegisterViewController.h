@@ -10,7 +10,11 @@
 #import "BaseViewController.h"
 #import "Register.h"
 
-@interface RegisterViewController : BaseViewController
-@property (nonatomic, strong) Register *myRegister;
+typedef NS_ENUM(NSInteger, RegisterMethodType) {
+    RegisterMethodEamil = 0,
+    RegisterMethodPhone
+};
 
+@interface RegisterViewController : BaseViewController
++ (instancetype)vcWithMethodType:(RegisterMethodType)methodType stepIndex:(NSUInteger)stepIndex registerObj:(Register *)obj;
 @end

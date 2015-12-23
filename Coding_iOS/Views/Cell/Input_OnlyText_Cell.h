@@ -8,7 +8,6 @@
 
 #define kCellIdentifier_Input_OnlyText_Cell_Text @"Input_OnlyText_Cell_Text"
 #define kCellIdentifier_Input_OnlyText_Cell_Captcha @"Input_OnlyText_Cell_Captcha"
-#define kCellIdentifier_Input_OnlyText_Cell_PhoneCode @"Input_OnlyText_Cell_PhoneCode"
 
 #import <UIKit/UIKit.h>
 #import "UITapImageView.h"
@@ -20,9 +19,10 @@
 
 @property (assign, nonatomic) BOOL isForLoginVC;
 
-@property (nonatomic,copy) void(^textValueChangedBlock)(NSString*);
-@property (nonatomic,copy) void(^editDidBeginBlock)(NSString*);
-@property (nonatomic,copy) void(^editDidEndBlock)(NSString*);
+@property (nonatomic,copy) void(^textValueChangedBlock)(NSString *);
+@property (nonatomic,copy) void(^editDidBeginBlock)(NSString *);
+@property (nonatomic,copy) void(^editDidEndBlock)(NSString *);
+@property (nonatomic,copy) void(^phoneCodeBtnClckedBlock)(PhoneCodeButton *);
 
 - (void)setPlaceholder:(NSString *)phStr value:(NSString *)valueStr;
 + (NSString *)randomCellIdentifierOfPhoneCodeType;

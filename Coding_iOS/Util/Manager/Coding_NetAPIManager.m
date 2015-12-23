@@ -90,13 +90,19 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         id resultData = [data valueForKeyPath:@"data"];
         if (resultData) {
-            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"登录_密码"];
-
-            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];
-            if (curLoginUser) {
-                [Login doLogin:resultData];
-            }
-            block(curLoginUser, nil);
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/unread-count" withParams:nil withMethodType:Get autoShowError:NO andBlock:^(id data_check, NSError *error_check) {//检查当前账号未设置邮箱和GK
+                if (error_check.userInfo[@"msg"][@"user_need_activate"]) {
+                    block(nil, error_check);
+                }else{
+                    [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"登录_密码"];
+                    
+                    User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];
+                    if (curLoginUser) {
+                        [Login doLogin:resultData];
+                    }
+                    block(curLoginUser, nil);
+                }
+            }];
         }else{
             block(nil, error);
         }
@@ -143,6 +149,30 @@
         }
     }];
 }
+- (void)request_CheckPhoneCodeWithPhone:(NSString *)phone code:(NSString *)code type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/account/register/check_phone_code";
+    NSMutableDictionary *params = @{@"phone": phone,
+                                    @"code": code}.mutableCopy;
+    switch (type) {
+        case PurposeToRegister:
+            params[@"type"] = @"register";
+            break;
+        case PurposeToPasswordActivate:
+            params[@"type"] = @"activate";
+            break;
+        case PurposeToPasswordReset:
+            params[@"type"] = @"reset";
+            break;
+    }
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"校验手机验证码"];
+        }
+        block(data, error);
+    }];
+}
+
 - (void)request_GeneratePhoneCodeWithPhone:(NSString *)phone type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
     NSString *path;
     NSDictionary *params = @{@"phone": phone};
@@ -188,7 +218,15 @@
     }
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
-            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"设置or重置密码"];
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:type == PurposeToRegister? @"手机注册账号": @"设置or重置密码"];
+            if (type == PurposeToRegister) {
+                User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data[@"data"]];
+                if (curLoginUser) {
+                    [Login doLogin:data[@"data"]];
+                }
+                block(curLoginUser, nil);
+                return ;
+            }
         }
         block(data, error);
     }];
@@ -210,9 +248,29 @@
     }
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"发激活or重置密码邮件"];
+            [MobClick event:kUmeng_Event_Request_Get label:@"发激活or重置密码邮件"];
         }
         block(data, nil);
+    }];
+}
+- (void)request_ActiveByPhone:(NSString *)phone setEmail:(NSString *)email global_key:(NSString *)global_key block:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/account/activate/phone";
+    NSDictionary *params = @{@"phone" : phone,
+                             @"email": email,
+                             @"global_key": global_key};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        id resultData = [data valueForKeyPath:@"data"];
+        if (resultData) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"激活账号_设置邮箱KEY"];
+            
+            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];
+            if (curLoginUser) {
+                [Login doLogin:resultData];
+            }
+            block(curLoginUser, nil);
+        }else{
+            block(nil, error);
+        }
     }];
 }
 #pragma mark Project
