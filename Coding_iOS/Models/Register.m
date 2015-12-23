@@ -6,8 +6,6 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kRegisterChannel @"coding-ios"
-
 #import "Register.h"
 
 @implementation Register
@@ -25,6 +23,10 @@
     return @{@"email" : self.email,
              @"global_key" : self.global_key,
              @"j_captcha" : _j_captcha? _j_captcha: @"",
-             @"channel" : kRegisterChannel};
+             @"channel" : [Register channel]};
+}
+
++ (NSString *)channel{
+    return @"coding-ios";
 }
 @end

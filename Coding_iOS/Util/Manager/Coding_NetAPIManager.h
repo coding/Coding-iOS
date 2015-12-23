@@ -46,6 +46,12 @@ typedef NS_ENUM(NSUInteger, VerifyType){
     VerifyTypeTotp,
 };
 
+typedef NS_ENUM(NSInteger, PurposeType) {
+    PurposeToRegister = 0,
+    PurposeToPasswordActivate,
+    PurposeToPasswordReset
+};
+
 @interface Coding_NetAPIManager : NSObject
 + (instancetype)sharedManager;
 
@@ -59,8 +65,10 @@ typedef NS_ENUM(NSUInteger, VerifyType){
 - (void)request_Login_WithPath:(NSString *)path Params:(id)params andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Register_WithParams:(id)params andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CaptchaNeededWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_SendMailToPath:(NSString *)path email:(NSString *)email j_captcha:(NSString *)j_captcha andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_SetPasswordToPath:(NSString *)path params:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_GeneratePhoneCodeWithPhone:(NSString *)phone type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
+- (void)request_SetPasswordWithPhone:(NSString *)phone code:(NSString *)code password:(NSString *)password captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
+- (void)request_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
 
 //Project
 - (void)request_Projects_WithObj:(Projects *)projects andBlock:(void (^)(Projects *data, NSError *error))block;

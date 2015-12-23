@@ -7,15 +7,15 @@
 //
 
 #import "BaseViewController.h"
-typedef NS_ENUM(NSInteger, CannotLoginType) {
-    CannotLoginTypeResetPassword = 0,
-    CannotLoginTypeActivate,
+#import "Coding_NetAPIManager.h"
+
+typedef NS_ENUM(NSInteger, CannotLoginMethodType) {
+    CannotLoginMethodEamil = 0,
+    CannotLoginMethodPhone
 };
 
-
 @interface CannotLoginViewController : BaseViewController
-@property (nonatomic, assign) CannotLoginType type;
 
-@property (strong, nonatomic) NSString *email, *j_captcha;
++ (instancetype)vcWithPurposeType:(PurposeType)purposeType methodType:(CannotLoginMethodType)methodType stepIndex:(NSUInteger)stepIndex userStr:(NSString *)userStr;
 
 @end

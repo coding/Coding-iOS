@@ -430,7 +430,7 @@
 }
 
 - (IBAction)cannotLoginBtnClicked:(id)sender {
-    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"找回密码", @"重发激活邮件"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"忘记密码？", @"已注册，未设置密码？"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         if (index <= 1) {
             [self goToCannotLoginWithIndex:index];
         }
@@ -438,8 +438,7 @@
 }
 
 - (void)goToCannotLoginWithIndex:(NSInteger)index{
-    CannotLoginViewController *vc = [[CannotLoginViewController alloc] init];
-    vc.type = index;
+    CannotLoginViewController *vc = [CannotLoginViewController vcWithPurposeType:(index == 0? PurposeToPasswordReset: PurposeToPasswordActivate) methodType:0 stepIndex:0 userStr:self.myLogin.email];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

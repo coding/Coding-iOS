@@ -21,6 +21,9 @@
 @end
 
 @implementation Input_OnlyText_Cell
++ (NSString *)randomCellIdentifierOfPhoneCodeType{
+    return [NSString stringWithFormat:@"%@_%ld", kCellIdentifier_Input_OnlyText_Cell_PhoneCode, random()];
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -64,8 +67,8 @@
                     make.center.equalTo(self.captchaView);
                 }];
             }
-        }else if ([reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_PhoneCode]){
-            if (_verify_codeBtn) {
+        }else if ([reuseIdentifier rangeOfString:kCellIdentifier_Input_OnlyText_Cell_PhoneCode].location != NSNotFound){
+            if (!_verify_codeBtn) {
                 _verify_codeBtn = [[PhoneCodeButton alloc] initWithFrame:CGRectMake(kScreen_Width - 80 - kLoginPaddingLeftWidth, (44-25)/2, 80, 25)];
                 [self.contentView addSubview:_verify_codeBtn];
             }
@@ -133,7 +136,7 @@
     }else if ([self.reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Captcha]){
         rightElement = _captchaView;
         [self refreshCaptchaImage];
-    }else if ([self.reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_PhoneCode]){
+    }else if ([self.reuseIdentifier rangeOfString:kCellIdentifier_Input_OnlyText_Cell_PhoneCode].location != NSNotFound){
         rightElement = _verify_codeBtn;
     }
     
@@ -143,7 +146,8 @@
     }];
     
     [_textField mas_updateConstraints:^(MASConstraintMaker *make) {
-        CGFloat offset = self.isForLoginVC? (CGRectGetMinX(self.clearBtn.frame) - kScreen_Width) : rightElement? (CGRectGetMinX(rightElement.frame) - kScreen_Width - 10): -kLoginPaddingLeftWidth;
+        CGFloat offset = rightElement? (CGRectGetMinX(rightElement.frame) - kScreen_Width - 10): -kLoginPaddingLeftWidth;
+        offset -= self.isForLoginVC? 30: 0;
         make.right.equalTo(self.contentView).offset(offset);
     }];
 }

@@ -18,6 +18,17 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.titleLabel.font = [UIFont systemFontOfSize:12];
+        self.enabled = YES;
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.titleLabel.font = [UIFont systemFontOfSize:12];
         self.enabled = YES;
     }
     return self;
@@ -29,7 +40,7 @@
 
 - (void)setEnabled:(BOOL)enabled{
     [super setEnabled:enabled];
-    UIColor *foreColor = [UIColor colorWithHexString:enabled? @"0x2FAEEA": @"0xCCCCCC"];
+    UIColor *foreColor = [UIColor colorWithHexString:enabled? @"0x3BBD79": @"0xCCCCCC"];
     [self doBorderWidth:1.0 color:foreColor cornerRadius:2.0];
     [self setTitleColor:foreColor forState:UIControlStateNormal];
     if (enabled) {

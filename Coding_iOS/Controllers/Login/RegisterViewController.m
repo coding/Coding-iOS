@@ -285,8 +285,7 @@
 }
 
 - (void)gotoCannotLoginVC{
-    CannotLoginViewController *vc = [[CannotLoginViewController alloc] init];
-    vc.type = CannotLoginTypeActivate;
+    CannotLoginViewController *vc = [CannotLoginViewController vcWithPurposeType:PurposeToPasswordActivate methodType:0 stepIndex:0 userStr:self.myRegister.email];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

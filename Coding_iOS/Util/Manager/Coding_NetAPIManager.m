@@ -12,6 +12,7 @@
 #import <NYXImagesKit/NYXImagesKit.h>
 #import <MMMarkdown/MMMarkdown.h>
 #import "MBProgressHUD+Add.h"
+#import "Register.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -131,18 +132,6 @@
     }];
 }
 
-- (void)request_SendMailToPath:(NSString *)path email:(NSString *)email j_captcha:(NSString *)j_captcha andBlock:(void (^)(id data, NSError *error))block{
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"email": email, @"j_captcha": j_captcha} withMethodType:Get andBlock:^(id data, NSError *error) {
-        if (data) {
-            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"发激活or重置密码邮件"];
-
-            block(data, nil);
-        }else{
-            block(nil, error);
-        }
-    }];
-}
-
 - (void)request_SetPasswordToPath:(NSString *)path params:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
@@ -152,6 +141,78 @@
         }else{
             block(nil, error);
         }
+    }];
+}
+- (void)request_GeneratePhoneCodeWithPhone:(NSString *)phone type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
+    NSString *path;
+    NSDictionary *params = @{@"phone": phone};
+    switch (type) {
+        case PurposeToRegister:
+            path = @"api/account/register/generate_phone_code";
+            break;
+        case PurposeToPasswordActivate:
+            path = @"api/account/activate/generate_phone_code";
+            break;
+        case PurposeToPasswordReset:
+            path = @"api/account/reset_password/generate_phone_code";
+            break;
+    }
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"生成手机验证码"];
+        }
+        block(data, error);
+    }];
+}
+- (void)request_SetPasswordWithPhone:(NSString *)phone code:(NSString *)code password:(NSString *)password captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/account/register/phone";
+    NSMutableDictionary *params = @{@"phone": phone,
+                                    @"code": code,
+                                    @"password": [password sha1Str]}.mutableCopy;
+    switch (type) {
+        case PurposeToRegister:{
+            path = @"api/account/register/phone";
+            params[@"channel"] = [Register channel];
+            break;
+        }
+        case PurposeToPasswordActivate:
+            path = @"api/account/activate/phone/set_password";
+            break;
+        case PurposeToPasswordReset:
+            path = @"api/phone/resetPassword";
+            break;
+    }
+    if (captcha.length > 0) {
+        params[@"j_captcha"] = captcha;
+    }
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"设置or重置密码"];
+        }
+        block(data, error);
+    }];
+}
+- (void)request_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
+    NSString *path;
+    NSDictionary *params = @{@"email": email,
+                             @"j_captcha": captcha};
+    switch (type) {
+        case PurposeToPasswordActivate:
+            path = @"api/activate";
+            break;
+        case PurposeToPasswordReset:
+            path = @"api/resetPassword";
+            break;
+        default:
+            path = nil;
+            break;
+    }
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"发激活or重置密码邮件"];
+        }
+        block(data, nil);
     }];
 }
 #pragma mark Project

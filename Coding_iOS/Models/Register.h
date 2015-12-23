@@ -12,5 +12,7 @@
 //请求
 @property (readwrite, nonatomic, strong) NSString *email, *global_key, *j_captcha;
 
++ (NSString *)channel;
+
 - (NSDictionary *)toParams;
 @end
