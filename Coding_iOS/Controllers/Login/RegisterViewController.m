@@ -411,6 +411,10 @@
 }
 #pragma mark Btn Clicked
 - (void)phoneCodeBtnClicked:(PhoneCodeButton *)sender{
+    if (![_myRegister.phone isPhoneNo]) {
+        [NSObject showHudTipStr:@"手机号码格式有误"];
+        return;
+    }
     sender.enabled = NO;
     [[Coding_NetAPIManager sharedManager] request_GeneratePhoneCodeWithPhone:_myRegister.phone type:PurposeToRegister block:^(id data, NSError *error) {
         if (data) {
@@ -451,7 +455,7 @@
             [[Coding_NetAPIManager sharedManager] request_ActiveByPhone:_myRegister.phone setEmail:_myRegister.email global_key:_myRegister.global_key block:^(id data, NSError *error) {
                 [self.footerBtn stopQueryAnimate];
                 if (data) {
-                    [Login setPreUserEmail:self.myRegister.email];//记住登录账号
+                    [Login setPreUserEmail:self.myRegister.phone];//记住登录账号
                     [((AppDelegate *)[UIApplication sharedApplication].delegate) setupTabViewController];
                     kTipAlert(@"欢迎注册 Coding，请尽快去邮箱查收邮件并验证邮箱。邮箱验证后即可使用邮箱登录。");
                 }

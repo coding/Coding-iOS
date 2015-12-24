@@ -80,10 +80,10 @@ static User *curLoginUser;
 
 + (void)doLogin:(NSDictionary *)loginData{
     
-    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-    [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSLog(@"cookies : %@", obj.description);
-    }];
+//    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+//    [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        NSLog(@"cookies : %@", obj.description);
+//    }];
     
     
     if (loginData) {

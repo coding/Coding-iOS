@@ -282,6 +282,10 @@
 
 #pragma mark Btn Clicked
 - (void)phoneCodeBtnClicked:(PhoneCodeButton *)sender{
+    if (![_userStr isPhoneNo]) {
+        [NSObject showHudTipStr:@"手机号码格式有误"];
+        return;
+    }
     sender.enabled = NO;
     [[Coding_NetAPIManager sharedManager] request_GeneratePhoneCodeWithPhone:_userStr type:_purposeType block:^(id data, NSError *error) {
         if (data) {
