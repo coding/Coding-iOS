@@ -113,15 +113,15 @@ static User *curLoginUser;
     if (loginData) {
         NSMutableDictionary *loginDataList = [self readLoginDataList];
         User *curUser = [NSObject objectOfClass:@"User" fromJSON:loginData];
-        if (curUser.global_key) {
+        if (curUser.global_key.length > 0) {
             [loginDataList setObject:loginData forKey:curUser.global_key];
             saved = YES;
         }
-        if (curUser.email) {
+        if (curUser.email.length > 0) {
             [loginDataList setObject:loginData forKey:curUser.email];
             saved = YES;
         }
-        if (curUser.phone) {
+        if (curUser.phone.length > 0) {
             [loginDataList setObject:loginData forKey:curUser.phone];
             saved = YES;
         }
