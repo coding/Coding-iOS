@@ -19,6 +19,7 @@
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
 @property (strong, nonatomic) UIButton *footerBtn;
 @property (strong, nonatomic) NSString *phoneCodeCellIdentifier;
+@property (assign, nonatomic) BOOL isFirstLoadCell;
 @end
 
 @implementation CannotLoginViewController
@@ -37,7 +38,8 @@
     
     self.title = [self titleStr];
     self.phoneCodeCellIdentifier = [Input_OnlyText_Cell randomCellIdentifierOfPhoneCodeType];
-
+    self.isFirstLoadCell = YES;
+    
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -226,10 +228,9 @@
                     cell.phoneCodeBtnClckedBlock = ^(PhoneCodeButton *btn){
                         [weakSelf phoneCodeBtnClicked:btn];
                     };
-                    static bool is_first_load = true;
-                    if (is_first_load) {
+                    if (_isFirstLoadCell) {
                         [cell.verify_codeBtn startUpTimer];
-                        is_first_load = false;
+                        _isFirstLoadCell = NO;
                     }
                     break;
                 }
