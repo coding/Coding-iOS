@@ -11,6 +11,5 @@
 #import "User.h"
 
 @interface SettingAccountViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
-@property (strong, nonatomic) User *myUser;
 
 @end

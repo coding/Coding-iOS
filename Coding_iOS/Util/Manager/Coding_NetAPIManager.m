@@ -1879,6 +1879,37 @@
     }];
 }
 
+- (void)request_GeneratePhoneCodeToResetPhone:(NSString *)phone block:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/user/generate_phone_code";
+    NSDictionary *params = @{@"phone": phone};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"生成手机验证码_绑定手机号"];
+        }
+        block(data, error);
+    }];
+}
+- (void)request_ResetPhone:(NSString *)phone code:(NSString *)code andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/user/updateInfo";
+    NSMutableDictionary *params = [[Login curLoginUser] toUpdateInfoParams].mutableCopy;
+    params[@"phone"] = phone;
+    params[@"code"] = code;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"个人信息_修改手机号码"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            User *user = [NSObject objectOfClass:@"User" fromJSON:resultData];
+            if (user) {
+                [Login doLogin:resultData];
+            }
+            block(user, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_PointRecords:(PointRecords *)records andBlock:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[records toPath] withParams:[records toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {

@@ -9,12 +9,17 @@
 #import "SettingAccountViewController.h"
 #import "TitleValueCell.h"
 #import "TitleDisclosureCell.h"
+#import "TitleValueMoreCell.h"
 
 #import "SettingPasswordViewController.h"
+#import "SettingPhoneViewController.h"
+
+#import "Login.h"
 
 @interface SettingAccountViewController ()
-@property (strong, nonatomic) UITableView *myTableView;
+@property (strong, nonatomic) User *myUser;
 
+@property (strong, nonatomic) UITableView *myTableView;
 @end
 
 @implementation SettingAccountViewController
@@ -35,6 +40,7 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[TitleValueCell class] forCellReuseIdentifier:kCellIdentifier_TitleValue];
         [tableView registerClass:[TitleDisclosureCell class] forCellReuseIdentifier:kCellIdentifier_TitleDisclosure];
+        [tableView registerClass:[TitleValueMoreCell class] forCellReuseIdentifier:kCellIdentifier_TitleValueMore];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -43,20 +49,20 @@
     });
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.myUser = [Login curLoginUser];
+    [self.myTableView reloadData];
 }
 
 #pragma mark TableM
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSInteger row = section == 0? 2: 1;
+    NSInteger row = (section == 0? 2: 1);
     return row;
 }
 
@@ -72,6 +78,11 @@
                 [cell setTitleStr:@"个性后缀" valueStr:self.myUser.global_key];
                 break;
         }
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
+    }else if (indexPath.section == 1){
+        TitleValueMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValueMore forIndexPath:indexPath];
+        [cell setTitleStr:@"手机号码" valueStr:self.myUser.phone.length > 0? self.myUser.phone: @"未验证"];
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else{
@@ -98,7 +109,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section != 0) {
+    if (indexPath.section == 1) {
+        SettingPhoneViewController *vc = [[SettingPhoneViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (indexPath.section == 2){
         SettingPasswordViewController *vc = [[SettingPasswordViewController alloc] init];
         vc.myUser = self.myUser;
         [self.navigationController pushViewController:vc animated:YES];

@@ -109,12 +109,13 @@
     return 0.5;
 }
 
+#pragma mark -
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.section) {
         case 0:{//账号设置
             SettingAccountViewController *vc = [[SettingAccountViewController alloc] init];
-            vc.myUser = self.myUser;
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;

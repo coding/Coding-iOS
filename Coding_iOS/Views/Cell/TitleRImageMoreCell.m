@@ -22,7 +22,7 @@
     if (self) {
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        
+        self.backgroundColor = kColorTableBG;
         if (!_titleLabel) {
             _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([TitleRImageMoreCell cellHeight] -30)/2, 100, 30)];
             _titleLabel.backgroundColor = [UIColor clearColor];

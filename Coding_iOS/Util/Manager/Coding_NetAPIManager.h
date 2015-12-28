@@ -55,12 +55,12 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 @interface Coding_NetAPIManager : NSObject
 + (instancetype)sharedManager;
 
-//UnRead
+#pragma mark - UnRead
 - (void)request_UnReadCountWithBlock:(void (^)(id data, NSError *error))block;
 - (void)request_UnReadNotificationsWithBlock:(void (^)(id data, NSError *error))block;
 
 
-//Login
+#pragma mark - Login
 - (void)request_Login_With2FA:(NSString *)otpCode andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Login_WithPath:(NSString *)path Params:(id)params andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Register_WithParams:(id)params andBlock:(void (^)(id data, NSError *error))block;
@@ -72,7 +72,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
 - (void)request_ActiveByPhone:(NSString *)phone setEmail:(NSString *)email global_key:(NSString *)global_key block:(void (^)(id data, NSError *error))block;
 
-//Project
+#pragma mark - Project
 - (void)request_Projects_WithObj:(Projects *)projects andBlock:(void (^)(Projects *data, NSError *error))block;
 - (void)request_ProjectsCatergoryAndCounts_WithObj:(ProjectCount *)pCount andBlock:(void (^)(ProjectCount *data, NSError *error))block;
 - (void)request_ProjectsHaveTasks_WithObj:(Projects *)projects andBlock:(void (^)(id data, NSError *error))block;
@@ -90,7 +90,8 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_UpdateProject_WithObj:(Project *)project icon:(UIImage *)icon andBlock:(void (^)(id data, NSError *error))block progerssBlock:(void (^)(CGFloat progressValue))progress;;
 - (void)request_DeleteProject_WithObj:(Project *)project passCode:(NSString *)passCode type:(VerifyType)type andBlock:(void (^)(Project *data, NSError *error))block;
 - (void)request_TransferProject:(Project *)project toUser:(User *)user passCode:(NSString *)passCode type:(VerifyType)type andBlock:(void (^)(Project *data, NSError *error))block;
-//MRPR
+
+#pragma mark - MRPR
 - (void)request_MRPRS_WithObj:(MRPRS *)curMRPRS andBlock:(void (^)(MRPRS *data, NSError *error))block;
 - (void)request_MRPRBaseInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(MRPRBaseInfo *data, NSError *error))block;
 - (void)request_MRPRCommits_WithObj:(MRPR *)curMRPR andBlock:(void (^)(NSArray *data, NSError *error))block;
@@ -103,7 +104,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_DeleteLineNote:(NSNumber *)lineNoteId inProject:(NSString *)projectName ofUser:(NSString *)userGK andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteLineNoteWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block;
 
-//File
+#pragma mark - File
 - (void)request_Folders:(ProjectFolders *)folders inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_FilesInFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
@@ -124,14 +125,14 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_OpenShareOfFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CloseShareHash:(NSString *)hashStr andBlock:(void (^)(id data, NSError *error))block;
 
-//Code
+#pragma mark - Code
 - (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block;
 - (void)request_CodeFile:(CodeFile *)codeFile withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CodeBranchOrTagWithPath:(NSString *)path withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Commits:(Commits *)curCommits withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 
 
-//Task
+#pragma mark - Task
 - (void)request_AddTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_EditTask:(Task *)task oldTask:(Task *)oldTask andBlock:(void (^)(id data, NSError *error))block;
@@ -143,10 +144,10 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_DoCommentToTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteComment:(TaskComment *)comment ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 
-//User
+#pragma mark - User
 - (void)request_AddUser:(User *)user ToProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 
-//Topic
+#pragma mark - Topic
 - (void)request_ProjectTopicList_WithObj:(ProjectTopics *)proTopics andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectTopic_WithObj:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ModifyProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block;
@@ -162,13 +163,13 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_ProjectTopic_LabelMy_WithPath:(NSString *)path
                                      andBlock:(void (^)(id data, NSError *error))block;
 
-// Project Tag
+#pragma mark -  Project Tag
 - (void)request_TagListInProject:(Project *)project type:(ProjectTagType)type andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_AddTag:(ProjectTag *)tag toProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteTag:(ProjectTag *)tag inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ModifyTag:(ProjectTag *)tag inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 
-//Tweet
+#pragma mark - Tweet
 - (void)request_Tweets_WithObj:(Tweets *)tweets andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Tweet_DoLike_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Tweet_DoComment_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
@@ -181,8 +182,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_Tweet_Detail_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_PublicTweetsWithTopic:(NSInteger)topicID andBlock:(void (^)(id data, NSError *error))block;
 
-
-//User
+#pragma mark - User
 - (void)request_UserInfo_WithObj:(User *)curUser andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ResetPassword_WithObj:(User *)curUser andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_FollowersOrFriends_WithObj:(Users *)curUsers andBlock:(void (^)(id data, NSError *error))block;
@@ -190,11 +190,12 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_UserJobArrayWithBlock:(void (^)(id data, NSError *error))block;
 - (void)request_UserTagArrayWithBlock:(void (^)(id data, NSError *error))block;
 - (void)request_UpdateUserInfo_WithObj:(User *)curUser andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_GeneratePhoneCodeToResetPhone:(NSString *)phone block:(void (^)(id data, NSError *error))block;
+- (void)request_ResetPhone:(NSString *)phone code:(NSString *)code andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_PointRecords:(PointRecords *)records andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_RewardToTweet:(NSString *)tweet_id encodedPassword:(NSString *)encodedPassword andBlock:(void (^)(id data, NSError *error))block;
 
-
-//Message
+#pragma mark - Message
 - (void)request_PrivateMessages:(PrivateMessages *)priMsgs andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Fresh_PrivateMessages:(PrivateMessages *)priMsgs andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_SendPrivateMessage:(PrivateMessage *)nextMsg andBlock:(void (^)(id data, NSError *error))block;
@@ -206,7 +207,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_DeletePrivateMessage:(PrivateMessage *)curMsg andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeletePrivateMessagesWithObj:(PrivateMessage *)curObj andBlock:(void (^)(id data, NSError *error))block;
 
-//Git Related
+#pragma mark - Git Related
 - (void)request_StarProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_WatchProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ForkProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
@@ -214,7 +215,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_FileDiffDetailWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ForkTreeWithOwner:(NSString *)owner_name project:(NSString *)project_name andBlock:(void (^)(id data, NSError *error))block;
 
-//Image
+#pragma mark - Image
 - (void)uploadTweetImage:(UIImage *)image
                doneBlock:(void (^)(NSString *imagePath, NSError *error))done
               progerssBlock:(void (^)(CGFloat progressValue))progress;
@@ -225,7 +226,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
                       progerssBlock:(void (^)(CGFloat progressValue))progress;
 - (void)loadImageWithPath:(NSString *)imageUrlStr completeBlock:(void (^)(UIImage *image, NSError *error))block;
 
-//Other
+#pragma mark - Other
 - (void)request_Users_WithSearchString:(NSString *)searchStr andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_MDHtmlStr_WithMDStr:(NSString *)mdStr inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_VerifyTypeWithBlock:(void (^)(VerifyType type, NSError *error))block;
@@ -234,9 +235,9 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_JoinedUsers_WithTopicID:(NSInteger)topicID page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
 
 
-//Topic HotKey
+#pragma mark - Topic HotKey
 - (void)request_TopicHotkeyWithBlock:(void (^)(id data, NSError *error))block;
-//Topic
+#pragma mark - Topic
 - (void)request_TopicAdlistWithBlock:(void (^)(id data, NSError *error))block;
 - (void)request_HotTopiclistWithBlock:(void (^)(id data, NSError *error))block;
 

@@ -19,6 +19,7 @@
     if (self) {
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        self.backgroundColor = kColorTableBG;
         if (!_titleL) {
             _titleL = [[UILabel alloc] init];
             [self.contentView addSubview:_titleL];
