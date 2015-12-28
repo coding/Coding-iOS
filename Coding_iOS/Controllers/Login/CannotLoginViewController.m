@@ -304,6 +304,7 @@
             [[Coding_NetAPIManager sharedManager] request_GeneratePhoneCodeWithPhone:_userStr type:_purposeType block:^(id data, NSError *error) {
                 [self.footerBtn stopQueryAnimate];
                 if (data) {
+                    [NSObject showHudTipStr:@"验证码已发送"]
                     CannotLoginViewController *vc = [CannotLoginViewController vcWithPurposeType:_purposeType methodType:CannotLoginMethodPhone stepIndex:1 userStr:_userStr];
                     [self.navigationController pushViewController:vc animated:YES];
                 }
