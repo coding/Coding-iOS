@@ -326,11 +326,12 @@
                 }
             }];
         }else{
+            NSString *tipStr = _purposeType != PurposeToPasswordReset? @"激活邮件已经发送，请尽快去邮箱查看": @"重置密码邮件已经发送，请尽快去邮箱查看";
             [self.footerBtn startQueryAnimate];
             [[Coding_NetAPIManager sharedManager] request_SetPasswordWithEmail:_userStr captcha:_j_captcha type:_purposeType block:^(id data, NSError *error) {
                 [self.footerBtn stopQueryAnimate];
                 if (data) {
-                    [NSObject showHudTipStr:@"邮件已发送"];
+                    [NSObject showHudTipStr:tipStr];
                     [self.navigationController popToRootViewControllerAnimated:YES];
                 }
             }];
