@@ -55,7 +55,9 @@
     _titleL.text = title;
     _valueL.text = value;
     [self.contentView updateConstraintsIfNeeded];
-    _scrollV.contentSize = CGSizeMake(CGRectGetWidth(_valueL.frame), CGRectGetHeight(_scrollV.frame));
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.scrollV.contentSize = CGSizeMake(CGRectGetWidth(_valueL.frame), CGRectGetHeight(_scrollV.frame));
+    });
 }
 
 + (CGFloat)cellHeight{

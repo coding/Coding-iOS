@@ -75,16 +75,21 @@
                 [self.contentView addSubview:_verify_codeBtn];
             }
         }
-        self.isForLoginVC = NO;
-        self.textField.secureTextEntry = NO;
-        self.textField.userInteractionEnabled = YES;
-        self.textField.keyboardType = UIKeyboardTypeDefault;
-        self.editDidBeginBlock = nil;
-        self.textValueChangedBlock = nil;
-        self.editDidEndBlock = nil;
-        self.phoneCodeBtnClckedBlock = nil;
     }
     return self;
+}
+
+- (void)prepareForReuse{
+    self.isForLoginVC = NO;
+
+    self.textField.secureTextEntry = NO;
+    self.textField.userInteractionEnabled = YES;
+    self.textField.keyboardType = UIKeyboardTypeDefault;
+    
+    self.editDidBeginBlock = nil;
+    self.textValueChangedBlock = nil;
+    self.editDidEndBlock = nil;
+    self.phoneCodeBtnClckedBlock = nil;
 }
 
 - (void)setPlaceholder:(NSString *)phStr value:(NSString *)valueStr{
