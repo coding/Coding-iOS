@@ -77,12 +77,14 @@
         tableView;
     });
     
-    self.myTableView.contentInset = UIEdgeInsetsMake(-kHigher_iOS_6_1_DIS(20), 0, 0, 0);
     self.myTableView.tableHeaderView = [self customHeaderView];
     self.myTableView.tableFooterView=[self customFooterView];
     [self configBottomView];
     [self showdismissButton:self.showDismissButton];
     [self buttonFor2FA];
+    
+    [self refreshCaptchaNeeded];
+    [self refreshIconUserImage];
 }
 
 - (UIButton *)buttonFor2FA{
@@ -151,8 +153,8 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self refreshCaptchaNeeded];
-    [self refreshIconUserImage];
+    
+    self.myTableView.contentOffset = CGPointZero;
 }
 
 - (void)viewDidAppear:(BOOL)animated{

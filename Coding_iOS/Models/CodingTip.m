@@ -40,6 +40,9 @@
         _user_item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_CustomLink];
         _user_item.linkStr = @"冒泡提醒";
         _user_item.href = [(HtmlMediaItem *)_htmlMedia.mediaItems.firstObject href];
+    }else if ([_target_type isEqualToString:@"User"] && _htmlMedia.mediaItems.count <= 0){
+        _user_item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_CustomLink];
+        _user_item.linkStr = @"账号提醒";
     }else{
         _user_item = [_htmlMedia.mediaItems firstObject];
         [_htmlMedia removeItem:_user_item];
