@@ -138,12 +138,12 @@ static User *curLoginUser;
 }
 
 + (User *)userWithGlobaykeyOrEmail:(NSString *)textStr{
+    if (textStr.length <= 0) {
+        return nil;
+    }
     NSMutableDictionary *loginDataList = [self readLoginDataList];
     NSDictionary *loginData = [loginDataList objectForKey:textStr];
-    if (loginData) {
-        return [NSObject objectOfClass:@"User" fromJSON:loginData];
-    }
-    return nil;
+    return [NSObject objectOfClass:@"User" fromJSON:loginData];
 }
 
 + (void)setXGAccountWithCurUser{
