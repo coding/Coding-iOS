@@ -11,6 +11,7 @@
 #import "WebContentManager.h"
 #import "ProjectCommitsViewController.h"
 #import "ProjectViewController.h"
+#import "CodeListViewController.h"
 
 @interface CodeViewController ()
 @property (strong, nonatomic) UIWebView *webContentView;
@@ -158,16 +159,10 @@
                 break;
             case 1:{
                 [weakSelf.navigationController.viewControllers enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(UIViewController *obj, NSUInteger idx, BOOL *stop) {
-                    if (![obj isKindOfClass:[weakSelf class]]) {
-                        if ([obj isKindOfClass:[ProjectViewController class]]) {
-                            if ([(ProjectViewController *)obj curType] != ProjectViewTypeCodes) {
-                                *stop = YES;
-                            }
-                        }else{
-                            *stop = YES;
-                        }
-                    }
-                    if (*stop) {
+                    if (![obj isKindOfClass:[CodeViewController class]] &&
+                        ![obj isKindOfClass:[CodeListViewController class]] &&
+                        !([obj isKindOfClass:[ProjectViewController class]] && [(ProjectViewController *)obj curType] == ProjectViewTypeCodes)) {
+                        *stop = YES;
                         [weakSelf.navigationController popToViewController:obj animated:YES];
                     }
                 }];
