@@ -120,6 +120,7 @@
 		4E217F171A70EDC700F6DF88 /* SVWebViewControllerActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E217F0B1A70EDC700F6DF88 /* SVWebViewControllerActivity.m */; };
 		4E217F1A1A71007800F6DF88 /* SVWebViewController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4E217F1C1A71007800F6DF88 /* SVWebViewController.strings */; };
 		4E24B2681B43D33F004D7989 /* ProjectToChooseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E24B2671B43D33F004D7989 /* ProjectToChooseListViewController.m */; };
+		4E25271A1C327FAE0032A7F4 /* UIViewController+BackButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2527191C327FAE0032A7F4 /* UIViewController+BackButtonHandler.m */; };
 		4E2719B81AB02F31006AE214 /* NProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2719B71AB02F31006AE214 /* NProjectViewController.m */; };
 		4E2719C71AB07ED6006AE214 /* dot_line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2719C61AB07ED6006AE214 /* dot_line@2x.png */; };
 		4E2906A21A403B7D008A5B97 /* FileDownloadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2906A11A403B7D008A5B97 /* FileDownloadView.m */; };
@@ -1205,6 +1206,8 @@
 		4E217F1D1A71007C00F6DF88 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SVWebViewController.strings"; sourceTree = "<group>"; };
 		4E24B2661B43D33F004D7989 /* ProjectToChooseListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectToChooseListViewController.h; sourceTree = "<group>"; };
 		4E24B2671B43D33F004D7989 /* ProjectToChooseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectToChooseListViewController.m; sourceTree = "<group>"; };
+		4E2527181C327FAE0032A7F4 /* UIViewController+BackButtonHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BackButtonHandler.h"; sourceTree = "<group>"; };
+		4E2527191C327FAE0032A7F4 /* UIViewController+BackButtonHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BackButtonHandler.m"; sourceTree = "<group>"; };
 		4E2719B61AB02F31006AE214 /* NProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NProjectViewController.h; sourceTree = "<group>"; };
 		4E2719B71AB02F31006AE214 /* NProjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NProjectViewController.m; sourceTree = "<group>"; };
 		4E2719C61AB07ED6006AE214 /* dot_line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dot_line@2x.png"; sourceTree = "<group>"; };
@@ -3517,6 +3520,8 @@
 				4E0BD8551B6C7DFD0061CAA6 /* UIView+Frame.m */,
 				D09AA5BE1BFDEDD1008CA9EB /* NSString+Attribute.h */,
 				D09AA5BF1BFDEDD1008CA9EB /* NSString+Attribute.m */,
+				4E2527181C327FAE0032A7F4 /* UIViewController+BackButtonHandler.h */,
+				4E2527191C327FAE0032A7F4 /* UIViewController+BackButtonHandler.m */,
 			);
 			path = OC_Category;
 			sourceTree = "<group>";
@@ -5917,6 +5922,7 @@
 				4EABD2541AD3CA7E005E515F /* UIMessageInputView.m in Sources */,
 				7EB02FE61B6D0F3E00D2166C /* AudioManager.m in Sources */,
 				4E72F82D1B144778001B6CE6 /* NSMutableString+Common.m in Sources */,
+				4E25271A1C327FAE0032A7F4 /* UIViewController+BackButtonHandler.m in Sources */,
 				4E4D6A791B1C6C7800FD2E49 /* MRPRDetailCell.m in Sources */,
 				8EF643CA19FF7E2900F7EEB0 /* TopicContentCell.m in Sources */,
 				4E0B9A371BAD377600D57D54 /* ForkTreeCell.m in Sources */,
