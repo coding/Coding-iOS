@@ -80,7 +80,7 @@
     if (_medthodType == RegisterMethodPhone && _stepIndex >= 2 && _myRegister.password.length > 0) {//顺序来到的第二步，不允许直接返回
         [[UIActionSheet bk_actionSheetCustomWithTitle:@"完成激活后才能正常使用 Coding，是否返回？" buttonTitles:nil destructiveTitle:@"确认返回" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
-                [self.navigationController popViewControllerAnimated:YES];
+                [self.navigationController popToRootViewControllerAnimated:YES];
             }
         }] showInView:self.view];
         return NO;
