@@ -152,7 +152,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];    
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -449,7 +449,7 @@
 }
 
 - (void)goToCannotLoginWithIndex:(NSInteger)index{
-    CannotLoginViewController *vc = [CannotLoginViewController vcWithPurposeType:(index == 0? PurposeToPasswordReset: PurposeToPasswordActivate) methodType:0 stepIndex:0 userStr:self.myLogin.email];
+    CannotLoginViewController *vc = [CannotLoginViewController vcWithPurposeType:(index == 0? PurposeToPasswordReset: PurposeToPasswordActivate) methodType:0 stepIndex:0 userStr:(([self.myLogin.email isPhoneNo] || [self.myLogin.email isEmail])? self.myLogin.email: nil)];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

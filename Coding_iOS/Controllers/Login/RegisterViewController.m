@@ -97,6 +97,11 @@
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.view endEditing:YES];
+}
+
 - (EaseInputTipsView *)inputTipsView{
     if (!_inputTipsView) {
         _inputTipsView = ({
