@@ -9,6 +9,7 @@
 #import "SendRewardManager.h"
 #import "Coding_NetAPIManager.h"
 #import "Login.h"
+#import "SettingPhoneViewController.h"
 
 @interface SendRewardManager ()
 @property (strong, nonatomic) Tweet *curTweet;
@@ -16,9 +17,9 @@
 @property (strong, nonatomic) NSString *tipStr;
 
 
-@property (strong, nonatomic) UIView *bgView, *contentView, *tipBgView;
+@property (strong, nonatomic) UIView *bgView, *contentView;
 @property (strong, nonatomic) UIImageView *userImgV;
-@property (strong, nonatomic) UIButton *closeBtn, *submitBtn;
+@property (strong, nonatomic) UIButton *closeBtn, *submitBtn, *tipBgView;
 @property (strong, nonatomic) UILabel *titleL, *tipL, *bottomL;
 @property (strong, nonatomic) UITextField *passwordF;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
@@ -78,7 +79,8 @@
         _submitBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"确认打赏" andFrame:CGRectMake(0, 0, buttonHeight, buttonHeight) target:self action:@selector(submitBtnClicked)];
         _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleGray];
         _bottomL = [UILabel new];
-        _tipBgView = [UIView new];
+        _tipBgView = [UIButton new];
+        [_tipBgView addTarget:self action:@selector(errorTapped) forControlEvents:UIControlEventTouchUpInside];
         _tipL = [UILabel new];
         [_contentView addSubview:_closeBtn];
         [_contentView addSubview:_userImgV];
@@ -231,6 +233,14 @@
             [self p_handleError:error];
         }
     }];
+}
+
+- (void)errorTapped{
+    if ([_tipStr isEqualToString:@"验证了手机才能打赏哦"]) {
+        SettingPhoneViewController *vc = [SettingPhoneViewController new];
+        [[BaseViewController presentingVC].navigationController pushViewController:vc animated:YES];
+    }
+    [self p_dismiss];
 }
 
 - (void)p_setupWithTipStr:(NSString *)tipStr isNeedPassword:(BOOL)isNeedPassword animate:(BOOL)animate{
