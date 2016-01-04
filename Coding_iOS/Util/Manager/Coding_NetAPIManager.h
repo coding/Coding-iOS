@@ -267,5 +267,6 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_shop_check_passwordWithpwd:(NSString *)pwd andBlock:(void (^)(id data, NSError *error))block;
 
 - (void)request_shop_exchangeWithParms:(NSDictionary *)parms andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_LocationListWithParams:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 
 @end

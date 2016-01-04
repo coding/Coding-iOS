@@ -2672,7 +2672,7 @@
     if ([pwd isEmpty]) {
         return;
     }
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/check_password" withParams:@{@"password":[pwd sha1Str]} withMethodType:Post autoShowError:YES andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/check_password" withParams:@{@"password":[pwd sha1Str]} withMethodType:Post andBlock:^(id data, NSError *error) {
         NSNumber *code = [data valueForKey:@"code"];
         if (!error && code.intValue == 0) {
             block(code, nil);
@@ -2685,7 +2685,7 @@
 
 - (void)request_shop_exchangeWithParms:(NSDictionary *)parms andBlock:(void (^)(id data, NSError *error))block
 {
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/gifts/exchange" withParams:parms withMethodType:Post autoShowError:YES andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/gifts/exchange" withParams:parms withMethodType:Post andBlock:^(id data, NSError *error) {
         data = [data valueForKey:@"data"];
         if (data) {
             block(data, nil);
@@ -2696,5 +2696,13 @@
 
 }
 
-
+- (void)request_LocationListWithParams:(NSDictionary *)params block:(void (^)(id data, NSError *error))block{
+    NSString *path  = @"api/region";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = data[@"data"];
+        }
+        block(data, error);
+    }];
+}
 @end

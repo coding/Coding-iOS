@@ -512,6 +512,11 @@
 		4ED20A781AFC7C8B00C63498 /* EasePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED20A771AFC7C8B00C63498 /* EasePageViewController.m */; };
 		4ED20A7A1AFCC43600C63498 /* button_download_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED20A791AFCC43600C63498 /* button_download_cancel@2x.png */; };
 		4ED558321B4FA68400FC10CB /* dismissBtn_Nav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED558311B4FA68400FC10CB /* dismissBtn_Nav@2x.png */; };
+		4ED618151C3A6B4B0017946C /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED618141C3A6B4B0017946C /* LocationViewController.m */; };
+		4ED618181C3A6CA50017946C /* LocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED618171C3A6CA50017946C /* LocationCell.m */; };
+		4ED6181B1C3A72AE0017946C /* ShopAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED6181A1C3A72AE0017946C /* ShopAddressCell.m */; };
+		4ED6181D1C3A72CF0017946C /* ShopAddressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4ED6181C1C3A72CF0017946C /* ShopAddressCell.xib */; };
+		4ED6181F1C3A732F0017946C /* button_arrow_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED6181E1C3A732F0017946C /* button_arrow_left@2x.png */; };
 		4ED6731E1A8DD38C00DF2D1A /* ReportIllegalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */; };
 		4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED673211A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m */; };
 		4ED673261A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED673251A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png */; };
@@ -1819,6 +1824,14 @@
 		4ED20A771AFC7C8B00C63498 /* EasePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EasePageViewController.m; sourceTree = "<group>"; };
 		4ED20A791AFCC43600C63498 /* button_download_cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_download_cancel@2x.png"; sourceTree = "<group>"; };
 		4ED558311B4FA68400FC10CB /* dismissBtn_Nav@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dismissBtn_Nav@2x.png"; sourceTree = "<group>"; };
+		4ED618131C3A6B4B0017946C /* LocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationViewController.h; sourceTree = "<group>"; };
+		4ED618141C3A6B4B0017946C /* LocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
+		4ED618161C3A6CA50017946C /* LocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationCell.h; sourceTree = "<group>"; };
+		4ED618171C3A6CA50017946C /* LocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationCell.m; sourceTree = "<group>"; };
+		4ED618191C3A72AE0017946C /* ShopAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopAddressCell.h; sourceTree = "<group>"; };
+		4ED6181A1C3A72AE0017946C /* ShopAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopAddressCell.m; sourceTree = "<group>"; };
+		4ED6181C1C3A72CF0017946C /* ShopAddressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopAddressCell.xib; sourceTree = "<group>"; };
+		4ED6181E1C3A732F0017946C /* button_arrow_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_arrow_left@2x.png"; sourceTree = "<group>"; };
 		4ED6731C1A8DD38C00DF2D1A /* ReportIllegalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportIllegalViewController.h; sourceTree = "<group>"; };
 		4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportIllegalViewController.m; sourceTree = "<group>"; };
 		4ED673201A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVWebViewControllerActivityReport.h; sourceTree = "<group>"; };
@@ -4392,6 +4405,7 @@
 				4EC4800E1C2A909D005F1772 /* register_step_ed@3x.png */,
 				4EC4800F1C2A909D005F1772 /* register_step_un@2x.png */,
 				4EC480101C2A909D005F1772 /* register_step_un@3x.png */,
+				4ED6181E1C3A732F0017946C /* button_arrow_left@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -5074,6 +5088,11 @@
 				D0C4481A1C034C3F00DC1C4B /* TopicSearchCell.m */,
 				D02BE0AD1C0434DB008374C0 /* PRMRSearchCell.h */,
 				D02BE0AE1C0434DB008374C0 /* PRMRSearchCell.m */,
+				4ED618161C3A6CA50017946C /* LocationCell.h */,
+				4ED618171C3A6CA50017946C /* LocationCell.m */,
+				4ED618191C3A72AE0017946C /* ShopAddressCell.h */,
+				4ED6181A1C3A72AE0017946C /* ShopAddressCell.m */,
+				4ED6181C1C3A72CF0017946C /* ShopAddressCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -5081,6 +5100,8 @@
 		927AFF351BFF1BD700AAE593 /* Shop */ = {
 			isa = PBXGroup;
 			children = (
+				4ED618131C3A6B4B0017946C /* LocationViewController.h */,
+				4ED618141C3A6B4B0017946C /* LocationViewController.m */,
 				927AFF361BFF1CC200AAE593 /* ShopViewController.h */,
 				927AFF371BFF1CC200AAE593 /* ShopViewController.m */,
 				927AFF561BFF755200AAE593 /* ExchangeGoodsViewController.h */,
@@ -5339,6 +5360,7 @@
 				4EF17EE11B3C3112003CDD2D /* intro_tip_2@3x.png in Resources */,
 				4E6383DC1B3266C200D98648 /* mrpr_icon_fileChange@2x.png in Resources */,
 				4E6383FB1B33C18700D98648 /* task_activity_icon_finish@2x.png in Resources */,
+				4ED6181F1C3A732F0017946C /* button_arrow_left@2x.png in Resources */,
 				4E6383E21B32676600D98648 /* taskProgress@2x.png in Resources */,
 				D0C447FD1C02DCA200DC1C4B /* tweetBtn_Nav@2x.png in Resources */,
 				7E8E59801B6F91C40083CA02 /* bubble_left_play_1@2x.png in Resources */,
@@ -5467,6 +5489,7 @@
 				4EA7F12D1A6D0C4D00A046BD /* icon_project_private_old@2x.png in Resources */,
 				D0C447FC1C02DCA200DC1C4B /* timeBtn_Nav@2x.png in Resources */,
 				7E8E59821B6F91C40083CA02 /* bubble_right_play_0@2x.png in Resources */,
+				4ED6181D1C3A72CF0017946C /* ShopAddressCell.xib in Resources */,
 				4E96E7DD1A1B537E0037C098 /* icon_file_movie@2x.png in Resources */,
 				4E93F23D1B84356500017916 /* file_menu_icon_open@2x.png in Resources */,
 				D0C447F41C02DCA200DC1C4B /* addBtn_Nav@2x.png in Resources */,
@@ -6053,6 +6076,7 @@
 				8EA6D13219E240C40076D59C /* RegisterViewController.m in Sources */,
 				923399661C00441700F29E04 /* ShopBanner.m in Sources */,
 				8EF643C519FF7E2900F7EEB0 /* TitleRImageMoreCell.m in Sources */,
+				4ED6181B1C3A72AE0017946C /* ShopAddressCell.m in Sources */,
 				4E217F151A70EDC700F6DF88 /* SVWebViewControllerActivitySafari.m in Sources */,
 				4E8D5D5A1B45295D00B70936 /* HOTPGenerator.m in Sources */,
 				8EA6D14519E240C40076D59C /* TweetDetailViewController.m in Sources */,
@@ -6092,6 +6116,7 @@
 				4E4D6A731B1C694100FD2E49 /* FileChangeDetailViewController.m in Sources */,
 				8EA6D1F819E240C40076D59C /* MJPhotoBrowser.m in Sources */,
 				4E0BD86C1B6C7E3D0061CAA6 /* CSMyTopicVC.m in Sources */,
+				4ED618151C3A6B4B0017946C /* LocationViewController.m in Sources */,
 				8ED4612019E4DC470059B3BE /* iCarousel.m in Sources */,
 				4E1A22881AB1731600CFC14F /* ProjectDescriptionCell.m in Sources */,
 				4ECE8AE11A3943E80021E29C /* UIButton+Common.m in Sources */,
@@ -6218,6 +6243,7 @@
 				8EF643BC19FF7E2900F7EEB0 /* ProjectActivityListCell.m in Sources */,
 				4E996BC91ABA754600C704F1 /* JDStatusBarStyle.m in Sources */,
 				8EF83F9419EB78CC00E86DE7 /* SettingTextViewController.m in Sources */,
+				4ED618181C3A6CA50017946C /* LocationCell.m in Sources */,
 				8EA6D1B019E240C40076D59C /* Comment.m in Sources */,
 				0A6E6BA71AAF4162004C0107 /* TweetSendLocationCell.m in Sources */,
 				4E0BD86E1B6C7E3D0061CAA6 /* CSTopicCreateVC.m in Sources */,

@@ -12,6 +12,8 @@
 #import "ShopOrderTextFieldCell.h"
 #import "ShopGoodsInfoView.h"
 #import "UIView+Common.h"
+#import "LocationViewController.h"
+#import "ShopAddressCell.h"
 
 #define kCellIdentifier_ShopOrderTextFieldCell @"ShopOrderTextFieldCell.h"
 
@@ -22,6 +24,8 @@
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
 @property (strong, nonatomic) UIButton *shopOrderBtn;
 
+@property (strong, nonatomic) NSString *receiverName, *receiverAddress, *receiverPhone, *remark;
+@property (strong, nonatomic) NSArray *locations;
 @end
 
 @implementation ExchangeGoodsViewController
@@ -38,20 +42,19 @@
 
 - (void)orderCommitAction:(UIButton *)button
 {
-    ShopOrderTextFieldCell *receiveName = [_myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-    if ([receiveName.textField.text isEmpty]) {
+    if ([_receiverName isEmpty]) {
         [NSObject showHudTipStr:@"收货人名字很重要"];
         return;
     }
-    
-    ShopOrderTextFieldCell *address = [_myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]];
-    if ([address.textField.text isEmpty]) {
+    if (_locations.count == 0) {
+        [NSObject showHudTipStr:@"请选择所在地"];
+        return;
+    }
+    if ([_receiverAddress isEmpty]) {
         [NSObject showHudTipStr:@"详细地址也很重要"];
         return;
     }
-    
-    ShopOrderTextFieldCell *phone = [_myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:2 inSection:0]];
-    if ([phone.textField.text isEmpty]) {
+    if ([_receiverPhone isEmpty]) {
         [NSObject showHudTipStr:@"联系电话非常重要"];
         return;
     }
@@ -75,6 +78,7 @@
         tableView.delegate = self;
         tableView.dataSource = self;
         [tableView registerClass:[ShopOrderTextFieldCell class] forCellReuseIdentifier:kCellIdentifier_ShopOrderTextFieldCell];
+        [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_ShopAddressCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ShopAddressCell];
         tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         tableView.separatorColor = [UIColor colorWithHexString:@"0xFFDDDDDD"];
         tableView.separatorInset = UIEdgeInsetsMake(0, 12, 0, 12);
@@ -125,44 +129,57 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger row = 4;
+    NSInteger row = 5;
     return row;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    ShopOrderTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ShopOrderTextFieldCell forIndexPath:indexPath];
-
-    switch (indexPath.row) {
-        case 0:
-        {
-            cell.nameLabel.text = @"收货人 *";
-            cell.textField.placeholder  = @"小王";
-            break;
+    if (indexPath.row == 1) {
+        ShopAddressCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ShopAddressCell forIndexPath:indexPath];
+        cell.locationF.text = [[self.locations valueForKey:@"name"] componentsJoinedByString:@" - "];
+        return cell;
+    }else{
+        ShopOrderTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ShopOrderTextFieldCell forIndexPath:indexPath];
+        
+        switch (indexPath.row) {
+            case 0:
+            {
+                cell.nameLabel.text = @"收货人 *";
+                cell.textField.placeholder  = @"小王";
+                cell.textField.text = self.receiverName;
+                RAC(self, receiverName) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
+                break;
+            }
+            case 2:
+            {
+                cell.nameLabel.text = @"详细地址 *";
+                cell.textField.placeholder  = @"省，市，县（镇），街道";
+                cell.textField.text = self.receiverAddress;
+                RAC(self, receiverAddress) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
+                break;
+            }
+            case 3:
+            {
+                cell.nameLabel.text = @"联系电话 *";
+                cell.textField.placeholder  = @"电话";
+                cell.textField.text = self.receiverPhone;
+                RAC(self, receiverPhone) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
+                break;
+            }
+            case 4:
+            {
+                cell.nameLabel.text = @"备注";
+                cell.textField.placeholder  = @"备注信息如:衣服码数XXL";
+                cell.textField.text = self.remark;
+                RAC(self, remark) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
+                break;
+            }
+            default:
+                break;
         }
-        case 1:
-        {
-            cell.nameLabel.text = @"详细地址 *";
-            cell.textField.placeholder  = @"省，市，县（镇），街道";
-            break;
-        }
-        case 2:
-        {
-            cell.nameLabel.text = @"联系电话 *";
-            cell.textField.placeholder  = @"电话";
-            break;
-        }
-        case 3:
-        {
-            cell.nameLabel.text = @"备注";
-            cell.textField.placeholder  = @"备注信息如:衣服码数XXL";
-            break;
-        }
-        default:
-            break;
+        return cell;
     }
-    return cell;
 }
 
 #pragma mark - UITableViewDelegate
@@ -174,15 +191,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [ShopOrderTextFieldCell cellHeight];
-}
-
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section > 0) {
-        return YES;
+    if (indexPath.row == 1) {
+        return [ShopAddressCell cellHeight];
+    }else{
+        return [ShopOrderTextFieldCell cellHeight];
     }
-    return NO;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -192,8 +205,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.view endEditing:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 1) {
+        [self goToLocationVC];
+    }
 }
 
 #pragma mark - UITextFieldDelegate
@@ -214,6 +229,19 @@
     [self.view endEditing:YES];
 }
 
+#pragma mark location
+
+- (void)goToLocationVC{
+    LocationViewController *vc = [LocationViewController new];
+    vc.originalSelectedList = [_locations valueForKey:@"id"];
+    
+    __weak typeof(self) weakSelf = self;
+    vc.complateBlock = ^(NSArray *selectedList){
+        weakSelf.locations = selectedList;
+        [weakSelf.myTableView reloadData];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 #pragma mark-
 #pragma mark---------------------- AlertView ---------------------------
@@ -225,7 +253,7 @@
     [_pwdAlertView show];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
     
     if (alertView.firstOtherButtonIndex == buttonIndex) {
         UITextField *field = [alertView textFieldAtIndex:0];
@@ -245,58 +273,35 @@
     [self.view beginLoading];
     [[Coding_NetAPIManager sharedManager] request_shop_check_passwordWithpwd:pwd andBlock:^(id data, NSError *error) {
         if (!error) {
-            
-            ShopOrderTextFieldCell *nameCell = [weakSelf.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-            ShopOrderTextFieldCell *addressCell = [weakSelf.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]];
-            ShopOrderTextFieldCell *phoneCell = [weakSelf.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:2 inSection:0]];
-            ShopOrderTextFieldCell *remarkCell = [weakSelf.myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:3 inSection:0]];
+            NSMutableDictionary *mparms = @{}.mutableCopy;
+            mparms[@"receiverName"] = _receiverName;
+            if (_locations.count >= 2) {
+                mparms[@"province"] = _locations[0][@"id"];
+                mparms[@"city"] = _locations[1][@"id"];
+                mparms[@"district"] = _locations.count >= 3? _locations[2][@"id"]: nil;
+            }else{
+                mparms[@"province"] =
+                mparms[@"city"] =
+                mparms[@"district"] = nil;
+            }
 
-            NSString *receiverName = nameCell.textField.text;
-            NSString *receiverAddress = addressCell.textField.text;
-            NSString *receiverPhone = phoneCell.textField.text;
-            NSString *remark = remarkCell.textField.text;
-            NSMutableDictionary *mparms = [NSMutableDictionary dictionary];
-            if (![receiverName isEmpty]) {
-                [mparms setObject:receiverName forKey:@"receiverName"];
-            }
-            if (![receiverAddress isEmpty]) {
-                [mparms setObject:receiverAddress forKey:@"receiverAddress"];
-            }
-            if (![receiverPhone isEmpty]) {
-                [mparms setObject:receiverPhone forKey:@"receiverPhone"];
-            }
-            if (![remark isEmpty]) {
-                [mparms setObject:remark forKey:@"remark"];
-            }else
-                [mparms setObject:@"" forKey:@"remark"];
-            
-            if (![_shopGoods.giftId isEmpty]) {
-                [mparms setObject:_shopGoods.id forKey:@"giftId"];
-            }
-            if (![pwd isEmpty]) {
-                [mparms setObject:[pwd sha1Str] forKey:@"password"];
-            }
+            mparms[@"receiverAddress"] = _receiverAddress;
+            mparms[@"receiverPhone"] = _receiverPhone;
+            mparms[@"remark"] = _remark;
+            mparms[@"giftId"] = _shopGoods.id;
+            mparms[@"password"] = [pwd sha1Str];
 
             [[Coding_NetAPIManager sharedManager] request_shop_exchangeWithParms:mparms andBlock:^(id data, NSError *error) {
-                [self.view endLoading];
+                [weakSelf.view endLoading];
                 if (!error) {
                     [NSObject showHudTipStr:@"恭喜你，提交订单成功!"];
-//                    [self.navigationController popViewControllerAnimated:YES];
                     ShopOrderViewController *orderViewController = [[ShopOrderViewController alloc] init];
-                    [self.navigationController pushViewController:orderViewController animated:YES];
+                    [weakSelf.navigationController pushViewController:orderViewController animated:YES];
                     
-                }else
-                {
-                    [self.view endLoading];
-
-                    [NSObject showError:error];
                 }
             }];
-        }else
-        {
-            [self.view endLoading];
-
-            [NSObject showHudTipStr:@"密码不正确"];
+        }else{
+            [weakSelf.view endLoading];
         }
     }];
 }

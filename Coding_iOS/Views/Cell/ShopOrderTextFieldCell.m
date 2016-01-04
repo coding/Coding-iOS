@@ -16,9 +16,9 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.accessoryType = UITableViewCellAccessoryNone;
-        self.backgroundColor = [UIColor whiteColor];
         // Initialization code
+        self.accessoryType = UITableViewCellAccessoryNone;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_nameLabel) {
             _nameLabel = [UILabel new];
             _nameLabel.textColor = [UIColor colorWithHexString:@"0x000000"];

@@ -7,8 +7,8 @@
 //
 #define kPath_ImageCache @"ImageCache"
 #define kPath_ResponseCache @"ResponseCache"
-
 #define kTestKey @"BaseURLIsTest"
+#define kHUDQueryViewTag 101
 
 #import "NSObject+Common.h"
 #import "JDStatusBarNotification.h"
@@ -64,6 +64,26 @@
         hud.removeFromSuperViewOnHide = YES;
         [hud hide:YES afterDelay:1.0];
     }
+}
++ (instancetype)showHUDQueryStr:(NSString *)titleStr{
+    titleStr = titleStr.length > 0? titleStr: @"正在获取数据...";
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
+    hud.tag = kHUDQueryViewTag;
+    hud.labelText = titleStr;
+    hud.labelFont = [UIFont boldSystemFontOfSize:15.0];
+    hud.margin = 10.f;
+    return hud;
+}
++ (NSUInteger)hideHUDQuery{
+    __block NSUInteger count = 0;
+    NSArray *huds = [MBProgressHUD allHUDsForView:kKeyWindow];
+    [huds enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        if (obj.tag == kHUDQueryViewTag) {
+            [obj removeFromSuperview];
+            count++;
+        }
+    }];
+    return count;
 }
 + (void)showStatusBarQueryStr:(NSString *)tipStr{
     [JDStatusBarNotification showWithStatus:tipStr styleName:JDStatusBarStyleSuccess];

@@ -14,6 +14,8 @@
 + (NSString *)tipFromError:(NSError *)error;
 + (BOOL)showError:(NSError *)error;
 + (void)showHudTipStr:(NSString *)tipStr;
++ (instancetype)showHUDQueryStr:(NSString *)titleStr;
++ (NSUInteger)hideHUDQuery;
 + (void)showStatusBarQueryStr:(NSString *)tipStr;
 + (void)showStatusBarSuccessStr:(NSString *)tipStr;
 + (void)showStatusBarErrorStr:(NSString *)errorStr;
