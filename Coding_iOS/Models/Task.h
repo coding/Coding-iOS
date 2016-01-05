@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 @property (readwrite, nonatomic, strong) Project *project;
 @property (readwrite, nonatomic, strong) NSNumber *id, *status, *owner_id, *priority, *comments, *has_description, *number,*resource_id;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
-@property (readwrite, nonatomic, strong) NSMutableArray *activityList, *labels;
+@property (readwrite, nonatomic, strong) NSMutableArray *activityList, *labels, *watchers;
 @property (nonatomic, assign) TaskHandleType handleType;
 @property (nonatomic, assign) BOOL isRequesting, isRequestingDetail, isRequestingCommentList, needRefreshDetail;
 @property (readwrite, nonatomic, strong) NSString *nextCommentStr;
@@ -40,6 +40,7 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 + (Task *)taskWithBackend_project_path:(NSString *)backend_project_path andId:(NSString *)taskId;
 + (Task *)taskWithTask:(Task *)task;
 - (BOOL)isSameToTask:(Task *)task;
+- (User *)hasWatcher:(User *)watcher;
 
 //任务状态
 - (NSString *)toEditTaskStatusPath;
@@ -64,6 +65,8 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 - (NSString *)toTaskDetailPath;
 //任务描述
 - (NSString *)toDescriptionPath;
+//任务关注者列表
+- (NSString *)toWatchersPath;
 //评论任务
 - (NSString *)toDoCommentPath;
 - (NSDictionary *)toDoCommentParams;

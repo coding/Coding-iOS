@@ -1232,28 +1232,38 @@
 }
 
 - (void)request_TaskDetail:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toTaskDetailPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toTaskDetailPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {//请求任务基本内容
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
             Task *resultA = [NSObject objectOfClass:@"Task" fromJSON:resultData];
-            if (resultA.has_description.boolValue) {
-                [MobClick event:kUmeng_Event_Request_Get label:@"任务_详情_有描述"];
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[resultA toWatchersPath] withParams:@{@"pageSize": @1000} withMethodType:Get andBlock:^(id dataW, NSError *errorW) {//请求任务关注者
+                if (dataW) {
+                    dataW = dataW[@"data"][@"list"];
+                    NSArray *watchers = [NSObject arrayFromJSON:dataW ofObjects:@"User"];
+                    resultA.watchers = watchers.mutableCopy;
+                    
+                    if (resultA.has_description.boolValue) {
+                        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[resultA toDescriptionPath] withParams:nil withMethodType:Get andBlock:^(id dataD, NSError *errorD) {//请求任务描述
+                            if (dataD) {
+                                [MobClick event:kUmeng_Event_Request_Get label:@"任务_详情_有描述"];
 
-                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[resultA toDescriptionPath] withParams:nil withMethodType:Get andBlock:^(id dataD, NSError *errorD) {
-                    if (dataD) {
-                        dataD = [dataD valueForKey:@"data"];
-                        Task_Description *taskD = [NSObject objectOfClass:@"Task_Description" fromJSON:dataD];
-                        resultA.task_description = taskD;
-                        block(resultA, nil);
+                                dataD = [dataD valueForKey:@"data"];
+                                Task_Description *taskD = [NSObject objectOfClass:@"Task_Description" fromJSON:dataD];
+                                resultA.task_description = taskD;
+                                block(resultA, nil);
+                            }else{
+                                block(nil, errorD);
+                            }
+                        }];
                     }else{
-                        block(nil, errorD);
+                        [MobClick event:kUmeng_Event_Request_Get label:@"任务_详情_无描述"];
+                        
+                        block(resultA, nil);
                     }
-                }];
-            }else{
-                [MobClick event:kUmeng_Event_Request_Get label:@"任务_详情_无描述"];
-
-                block(resultA, nil);
-            }
+                }else{
+                    block(nil, errorW);
+                }
+            }];
         }else{
             block(nil, error);
         }
@@ -1290,6 +1300,27 @@
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"任务_评论_删除"];
 
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_ChangeWatcher:(User *)watcher ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/task/%@/user/%@/watch", task.id.stringValue, watcher.global_key];
+    User *hasWatcher = [task hasWatcher:watcher];
+    NetworkMethod method = hasWatcher? Delete: Post;
+
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:method andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:method == Post? @"任务_添加关注者": @"任务_删除关注者"];
+            
+            if (!hasWatcher && watcher) {
+                [task.watchers addObject:watcher];
+            }else if (hasWatcher){
+                [task.watchers removeObject:hasWatcher];
+            }
             block(data, nil);
         }else{
             block(nil, error);

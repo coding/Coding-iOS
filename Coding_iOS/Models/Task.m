@@ -16,6 +16,7 @@
     if (self) {
         _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"ProjectTag", @"labels", nil];
+        _watchers = @[].mutableCopy;
         
         _handleType = TaskHandleTypeEdit;
         _isRequesting = _isRequestingDetail = _isRequestingCommentList = NO;
@@ -89,6 +90,16 @@
             && [ProjectTag tags:self.labels isEqualTo:task.labels]
             );
 }
+
+- (User *)hasWatcher:(User *)watcher{
+    for (User *user in self.watchers) {
+        if ([user.id isEqual:watcher.id]) {
+            return user;
+        }
+    }
+    return nil;
+}
+
 - (void)copyDataFrom:(Task *)task{
     self.id = task.id;
     self.backend_project_path = task.backend_project_path;
@@ -114,6 +125,7 @@
     self.has_description = task.has_description;
     self.task_description = task.task_description;
     self.labels = [task.labels mutableCopy];
+    self.watchers = [task.watchers mutableCopy];
 }
 
 //任务状态
@@ -180,11 +192,10 @@
         params[@"description"] = [self.task_description.markdown aliasedString];
     }
     if (self.labels.count > 0) {
-        NSMutableArray *labels = [NSMutableArray new];
-        for (ProjectTag *curL in self.labels) {
-            [labels addObject:curL.id.stringValue];
-        }
-        params[@"labels"] = labels;
+        params[@"labels"] = [self.labels valueForKey:@"id"];
+    }
+    if (self.watchers.count > 0) {
+        params[@"watchers"] = [self.watchers valueForKey:@"id"];
     }
     return params;
 }
@@ -215,6 +226,11 @@
 //任务描述
 - (NSString *)toDescriptionPath{
     return [NSString stringWithFormat:@"api/task/%@/description", self.id.stringValue];
+}
+
+//任务关注者列表
+- (NSString *)toWatchersPath{
+    return [NSString stringWithFormat:@"api%@/task/%@/watchers", self.backend_project_path, self.id.stringValue];
 }
 
 - (NSString *)backend_project_path{

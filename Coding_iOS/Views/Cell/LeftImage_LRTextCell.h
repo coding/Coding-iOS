@@ -14,7 +14,8 @@ typedef NS_ENUM(NSInteger, LeftImage_LRTextCellType) {
     LeftImage_LRTextCellTypeTaskOwner,
     LeftImage_LRTextCellTypeTaskPriority,
     LeftImage_LRTextCellTypeTaskDeadline,
-    LeftImage_LRTextCellTypeTaskStatus
+    LeftImage_LRTextCellTypeTaskWatchers,
+    LeftImage_LRTextCellTypeTaskStatus,
 };
 
 @interface LeftImage_LRTextCell : UITableViewCell

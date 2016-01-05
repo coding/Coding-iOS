@@ -18,6 +18,7 @@
 @property (strong, nonatomic) UIButton *leftBtn;
 @property (nonatomic,copy) void(^leftBtnClickedBlock)(id sender);
 @property (assign, nonatomic) ProMemType type;
+@property (assign, nonatomic) BOOL isAdded;
 
 + (CGFloat)cellHeight;
 @end

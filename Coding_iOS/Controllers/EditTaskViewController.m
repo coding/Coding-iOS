@@ -289,7 +289,7 @@
         row = 2;
     }else if (section == 1){
         TaskHandleType handleType = self.myCopyTask.handleType;
-        row = handleType == TaskHandleTypeEdit? 4: handleType == TaskHandleTypeAddWithProject? 3: 4;
+        row = handleType == TaskHandleTypeEdit? 5: handleType == TaskHandleTypeAddWithProject? 4: 5;
     }else{
         row = self.myCopyTask.activityList.count;
     }
@@ -509,6 +509,18 @@
                 [_self.myTableView reloadData];
             }];
             [self.navigationController pushViewController:vc animated:YES];
+        }else if (cellType == LeftImage_LRTextCellTypeTaskWatchers){
+            if (_myCopyTask.project == nil) {
+                [NSObject showHudTipStr:@"需要选定所属项目先~"];
+                return;
+            }
+            ProjectMemberListViewController *vc = [[ProjectMemberListViewController alloc] init];
+            [vc setFrame:self.view.bounds project:_myCopyTask.project type:ProMemTypeTaskWatchers refreshBlock:nil selectBlock:nil cellBtnBlock:^(ProjectMember *member) {
+                ESStrongSelf;
+                [_self watchersChanged:member];
+            }];
+            vc.curTask = _myCopyTask;
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }else {
         ProjectActivity *curActivity = [self.myCopyTask.activityList objectAtIndex:indexPath.row];
@@ -518,6 +530,8 @@
         }
     }
 }
+
+#pragma mark - 
 
 - (void)goToDescriptionVC{
     if (!_myCopyTask.task_description) {
@@ -606,6 +620,11 @@
         }
     }
     [_myMsgInputView notAndBecomeFirstResponder];
+}
+
+- (void)watchersChanged:(ProjectMember *)member{
+    _myTask.watchers = _myCopyTask.watchers.mutableCopy;
+    [_myTableView reloadData];
 }
 
 #pragma mark ScrollView Delegate

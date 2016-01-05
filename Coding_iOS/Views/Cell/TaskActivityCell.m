@@ -122,6 +122,8 @@
             contentStr = [NSString stringWithFormat:@"在分支 %@ 中提交的代码提到了任务「%@」 - %@", curActivity.commit.ref, curActivity.commit.contentStr, [curActivity.created_at stringDisplay_HHmm]];
         }else if ([curActivity.action isEqualToString:@"add_watcher"]){
             contentStr = [NSString stringWithFormat:@"%@「%@」 - %@", curActivity.action_msg, curActivity.watcher.name, [curActivity.created_at stringDisplay_HHmm]];
+        }else if ([curActivity.action isEqualToString:@"remove_watcher"]){
+            contentStr = [NSString stringWithFormat:@"%@「%@」 - %@", curActivity.action_msg, curActivity.watcher.name, [curActivity.created_at stringDisplay_HHmm]];
         }
     }else if ([curActivity.target_type isEqualToString:@"MergeRequestBean"]){
         contentStr = [NSString stringWithFormat:@"%@ 合并请求「%@」 - %@", curActivity.action_msg, curActivity.merge_request_title, [curActivity.created_at stringDisplay_HHmm]];

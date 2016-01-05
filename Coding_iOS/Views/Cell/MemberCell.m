@@ -90,10 +90,12 @@
                 _leftBtn.hidden = NO;
             }
         }
+    }else if (_type == ProMemTypeTaskWatchers){
+        [_leftBtn setImage:[UIImage imageNamed:_isAdded? @"btn_project_added": @"btn_project_add"] forState:UIControlStateNormal];
+        _leftBtn.hidden = NO;
     }else{
         _leftBtn.hidden = YES;
     }
-
 }
 
 - (void)leftBtnClicked:(id)sender{
@@ -104,5 +106,9 @@
 
 + (CGFloat)cellHeight{
     return 57;
+}
+
+- (void)prepareForReuse{
+    [_leftBtn stopQueryAnimate];
 }
 @end

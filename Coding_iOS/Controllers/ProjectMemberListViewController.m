@@ -202,28 +202,48 @@
     __weak typeof(self) weakSelf = self;
     cell.curMember = curMember;
     cell.type = _type;
-    cell.leftBtnClickedBlock = ^(id sender){
+    if (_type == ProMemTypeTaskWatchers) {
+        cell.isAdded = [self.curTask hasWatcher:curMember.user];
+    }
+    cell.leftBtnClickedBlock = ^(UIButton *sender){
         if (tableView.isEditing) {
             return;
         }
-        if (curMember.user_id.intValue == [Login curLoginUser].id.intValue) {
-//                自己，退出项目
-            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"确定退出项目？" buttonTitles:nil destructiveTitle:@"确认退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-                if (index == 0) {
-                    [weakSelf quitSelf_ProjectMember:curMember];
+        if (weakSelf.type == ProMemTypeProject) {
+            if (curMember.user_id.intValue == [Login curLoginUser].id.intValue) {
+                //                自己，退出项目
+                UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"确定退出项目？" buttonTitles:nil destructiveTitle:@"确认退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                    if (index == 0) {
+                        [weakSelf quitSelf_ProjectMember:curMember];
+                    }
+                }];
+                [actionSheet showInView:weakSelf.view];
+            }else{
+                //                别人，发起私信
+                if (weakSelf.cellBtnBlock) {
+                    weakSelf.cellBtnBlock(curMember);
                 }
-            }];
-            [actionSheet showInView:self.view];
-        }else{
-//                别人，发起私信
-            if (_type == ProMemTypeProject) {
-                if (self.cellBtnBlock) {
-                    self.cellBtnBlock(curMember);
+            }
+        }else if (weakSelf.type == ProMemTypeTaskWatchers){
+            if (weakSelf.curTask.handleType == TaskHandleTypeEdit) {
+                [sender startQueryAnimate];
+                [[Coding_NetAPIManager sharedManager] request_ChangeWatcher:curMember.user ofTask:weakSelf.curTask andBlock:^(id data, NSError *error) {
+                    if (cell.curMember == curMember) {
+                        [sender stopQueryAnimate];
+                        if (data) {
+                            BOOL isAdded = [weakSelf.curTask hasWatcher:curMember.user];
+                            [sender setImage:[UIImage imageNamed:isAdded? @"btn_project_added": @"btn_project_add"] forState:UIControlStateNormal];
+                        }
+                    }
+                }];
+            }else{
+                User *hasWatcher = [weakSelf.curTask hasWatcher:curMember.user];
+                if (hasWatcher) {
+                    [weakSelf.curTask.watchers removeObject:hasWatcher];
+                }else{
+                    [weakSelf.curTask.watchers addObject:curMember.user];
                 }
-            }else if (_type == ProMemTypeTaskOwner){
-                ConversationViewController *vc = [[ConversationViewController alloc] init];
-                vc.myPriMsgs = [PrivateMessages priMsgsWithUser:curMember.user];
-                [self.navigationController pushViewController:vc animated:YES];
+                [sender setImage:[UIImage imageNamed:!hasWatcher? @"btn_project_added": @"btn_project_add"] forState:UIControlStateNormal];
             }
         }
     };
