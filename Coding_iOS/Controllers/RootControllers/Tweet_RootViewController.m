@@ -99,8 +99,8 @@
 //                              [self refreshFirst];
 //                          }];
     
-    UIBarButtonItem *leftBarItem =[UIBarButtonItem itemWithIcon:@"hot_topic_Nav" showBadge:NO target:self action:@selector(hotTopicBtnClicked:)];
-    
+    UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"hot_topic_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(hotTopicBtnClicked:)];
+
     [self.parentViewController.navigationItem setLeftBarButtonItem:leftBarItem animated:NO];
     
     _tweetsDict = [[NSMutableDictionary alloc] initWithCapacity:4];

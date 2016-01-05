@@ -10,7 +10,5 @@
 
 @interface UIBarButtonItem (Common)
 + (UIBarButtonItem *)itemWithBtnTitle:(NSString *)title target:(id)obj action:(SEL)selector;
-
-+ (UIBarButtonItem *)itemWithIcon:(NSString*)iconName showBadge:(BOOL)showbadge target:(id)obj action:(SEL)selector;
 @end
 

@@ -31,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBarButtonItem *rightBarItem =[UIBarButtonItem itemWithIcon:@"search_Nav" showBadge:NO target:self action:@selector(searchItemClicked:)];
+    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"search_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(searchItemClicked:)];
     [self.navigationItem setRightBarButtonItem:rightBarItem animated:NO];
 
     [self setupUI];
