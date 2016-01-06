@@ -203,7 +203,7 @@
     cell.curMember = curMember;
     cell.type = _type;
     if (_type == ProMemTypeTaskWatchers) {
-        cell.isAdded = [self.curTask hasWatcher:curMember.user];
+        [cell.leftBtn setImage:[UIImage imageNamed:[self.curTask hasWatcher:curMember.user]? @"btn_project_added": @"btn_project_add"] forState:UIControlStateNormal];
     }
     cell.leftBtnClickedBlock = ^(UIButton *sender){
         if (tableView.isEditing) {

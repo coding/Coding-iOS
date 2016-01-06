@@ -110,7 +110,7 @@
             case LeftImage_LRTextCellTypeTaskWatchers:
             {
                 [_iconView doNotCircleFrame];
-                [_iconView setImage:[UIImage imageNamed:@"taskProgress"]];
+                [_iconView setImage:[UIImage imageNamed:@"taskWatchers"]];
                 _leftLabel.text = @"关注者";
                 _rightLabel.text = task.watchers.count > 0? [NSString stringWithFormat:@"%lu 人关注", (unsigned long)task.watchers.count]: @"未添加";
             }
