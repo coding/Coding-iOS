@@ -98,7 +98,7 @@
              @"description":self.description_mine,
              @"type":type,
              @"gitEnabled":@"true",
-             @"gitReadmeEnabled":@"true",
+             @"gitReadmeEnabled": _gitReadmeEnabled.boolValue? @"true": @"false",
              @"gitIgnore":@"no",
              @"gitLicense":@"no",
              //             @"importFrom":@"no",
