@@ -248,7 +248,7 @@
 
 - (void)showPwdAlertView
 {
-    UIAlertView *_pwdAlertView = [[UIAlertView alloc] initWithTitle:@"确认订单" message:@"请输入密码已确认兑换" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+    UIAlertView *_pwdAlertView = [[UIAlertView alloc] initWithTitle:@"确认订单" message:@"请输入密码以确认兑换" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
     _pwdAlertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
     [_pwdAlertView show];
 }
