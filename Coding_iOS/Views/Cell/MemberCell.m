@@ -10,12 +10,10 @@
 #import "Login.h"
 
 
-#define kMemberCell_MaxWidthForName (kScreen_Width - 60 - 100)
-#define kMemberCell_FontForName [UIFont systemFontOfSize:17]
 
 @interface MemberCell ()
-@property (strong, nonatomic) UIImageView *memberIconView, *creatorIconView;
-@property (strong, nonatomic) UILabel *memberNameLabel;
+@property (strong, nonatomic) UIImageView *memberIconView, *typeIconView;
+@property (strong, nonatomic) UILabel *memberNameLabel, *memberAliasLabel;
 @end
 
 @implementation MemberCell
@@ -32,17 +30,36 @@
             [self.contentView addSubview:_memberIconView];
         }
         if (!_memberNameLabel) {
-            _memberNameLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(60, ([MemberCell cellHeight]-30)/2, kMemberCell_MaxWidthForName, 30)];
-            _memberNameLabel.font = kMemberCell_FontForName;
+            _memberNameLabel = [UILabel new];
+            _memberNameLabel.font = [UIFont systemFontOfSize:17];
             _memberNameLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
-//            _memberNameLabel.minimumScaleFactor = 0.5;
-//            _memberNameLabel.adjustsFontSizeToFitWidth = YES;
             [self.contentView addSubview:_memberNameLabel];
+            [_memberNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.memberIconView.mas_right).offset(10);
+                make.height.mas_equalTo(20);
+                make.centerY.equalTo(self.contentView);
+            }];
+        }
+        if (!_memberAliasLabel) {
+            _memberAliasLabel = [UILabel new];
+            _memberAliasLabel.font = [UIFont systemFontOfSize:12];
+            _memberAliasLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+            [self.contentView addSubview:_memberAliasLabel];
+            [_memberAliasLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.memberNameLabel);
+                make.height.mas_equalTo(20);
+                make.centerY.equalTo(self.contentView).offset(10);
+            }];
         }
         if (!_leftBtn) {
-            _leftBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 80-kPaddingLeftWidth, ([MemberCell cellHeight]-30)/2, 80, 32)];
+            _leftBtn = [UIButton new];
             [_leftBtn addTarget:self action:@selector(leftBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:_leftBtn];
+            [_leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(80, 32));
+                make.centerY.equalTo(self.contentView);
+                make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+            }];
         }
     }
     return self;
@@ -54,44 +71,62 @@
         return;
     }
     [_memberIconView sd_setImageWithURL:[_curMember.user.avatar urlImageWithCodePathResizeToView:_memberIconView] placeholderImage:kPlaceholderMonkeyRoundView(_memberIconView)];
-    if (_curMember.type.intValue == 100) {//项目创建者
-        NSString *nameStr = _curMember.user.name;
-        CGFloat maxNameWidth = kMemberCell_MaxWidthForName - 30;
-        CGFloat nameWidth = [nameStr getWidthWithFont:kMemberCell_FontForName constrainedToSize:CGSizeMake(kScreen_Width, CGFLOAT_MAX)] + 5;
-        nameWidth = MIN(nameWidth, maxNameWidth);
-        [_memberNameLabel setWidth:nameWidth];
-        _memberNameLabel.text = nameStr;
-        
-        if (!_creatorIconView) {
-            _creatorIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"creator_image"]];
-            [self.contentView addSubview:_creatorIconView];
-        }
-        [_creatorIconView setCenter:CGPointMake(CGRectGetMaxX(_memberNameLabel.frame)+CGRectGetMidX(_creatorIconView.bounds)+5, CGRectGetMidY(_memberNameLabel.frame))];
-        _creatorIconView.hidden = NO;
-
+    _memberNameLabel.text = _curMember.user.name;
+    if (_curMember.alias.length > 0) {
+        _memberAliasLabel.text = _curMember.alias;
+        _memberAliasLabel.hidden = NO;
+        [_memberNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.contentView).offset(-10);
+        }];
     }else{
-        [_memberNameLabel setWidth:kMemberCell_MaxWidthForName];
-        _memberNameLabel.text = _curMember.user.name;
-        _creatorIconView.hidden = YES;
+        _memberAliasLabel.hidden = YES;
+        [_memberNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.contentView);
+        }];
     }
-    
-    if (_type == ProMemTypeProject) {
-        if (_curMember.user_id.intValue != [Login curLoginUser].id.integerValue) {
+    switch (_curMember.type.integerValue) {
+        case 100://项目所有者
+        case 90://项目管理员
+        case 75://受限成员
+        {
+            if (!_typeIconView) {
+                _typeIconView = [UIImageView new];
+                [self.contentView addSubview:_typeIconView];
+                [_typeIconView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(self.memberNameLabel.mas_right).offset(10);
+                    make.centerY.equalTo(self.memberNameLabel);
+                    make.size.mas_equalTo(CGSizeMake(16, 16));
+                }];
+            }
+            [_typeIconView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"member_type_%ld", (long)_curMember.type.integerValue]]];
+            _typeIconView.hidden = NO;
+        }
+            break;
+        case 80://普通成员
+        default:
+        {
+            _typeIconView.hidden = YES;
+        }
+            break;
+    }
+
+    if (_type == ProMemTypeTaskWatchers) {//「添加、已添加」按钮
+        _leftBtn.hidden = NO;
+    }else if (_type == ProMemTypeProject){
+        if (_curMember.user_id.intValue != [Login curLoginUser].id.integerValue) {//「私信」按钮
             //        别人
             [_leftBtn configPriMsgBtnWithUser:_curMember.user fromCell:YES];
             _leftBtn.hidden = NO;
         }else{
             //        自己
-            [_leftBtn setImage:[UIImage imageNamed:@"btn_project_quit"] forState:UIControlStateNormal];
-            [_leftBtn setTitle:@"- 退出项目" forState:UIControlStateNormal];
-            if (_curMember.type.intValue == 100) {//项目创建者
+            if (_curMember.type.intValue == 100) {//项目创建者不能「退出」
                 _leftBtn.hidden = YES;
-            }else{
+            }else{//「退出」按钮
+                [_leftBtn setImage:[UIImage imageNamed:@"btn_project_quit"] forState:UIControlStateNormal];
+                [_leftBtn setTitle:@"- 退出项目" forState:UIControlStateNormal];
                 _leftBtn.hidden = NO;
             }
         }
-    }else if (_type == ProMemTypeTaskWatchers){
-        _leftBtn.hidden = NO;
     }else{
         _leftBtn.hidden = YES;
     }

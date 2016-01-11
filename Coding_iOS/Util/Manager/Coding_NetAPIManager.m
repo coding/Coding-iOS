@@ -569,17 +569,15 @@
             resultData = [resultData objectForKey:@"list"];
 
             NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectMember"];
-            
-            __block NSUInteger mineIndex = 0;
-            [resultA enumerateObjectsUsingBlock:^(ProjectMember *obj, NSUInteger idx, BOOL *stop) {
-                if (obj.user_id.integerValue == [Login curLoginUser].id.integerValue) {
-                    mineIndex = idx;
-                    *stop = YES;
+            [resultA sortUsingComparator:^NSComparisonResult(ProjectMember *obj1, ProjectMember *obj2) {
+                if ([obj1.user_id isEqualToNumber:[Login curLoginUser].id]) {
+                    return NSOrderedAscending;
+                }else if ([obj2.user_id isEqualToNumber:[Login curLoginUser].id]){
+                    return NSOrderedDescending;
+                }else{
+                    return obj1.type.intValue < obj2.type.intValue;
                 }
             }];
-            if (mineIndex > 0) {
-                [resultA exchangeObjectAtIndex:mineIndex withObjectAtIndex:0];
-            }
             block(resultA, nil);
         }else{
             block(nil, error);

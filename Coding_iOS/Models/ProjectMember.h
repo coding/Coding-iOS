@@ -13,6 +13,7 @@
 @property (readwrite, nonatomic, strong) NSNumber *id, *project_id, *user_id, *type, *done, *processing;//type:80是member，100是creater
 @property (readwrite, nonatomic, strong) User *user;
 @property (readwrite, nonatomic, strong) NSDate *created_at, *last_visit_at;
+@property (strong, nonatomic) NSString *alias;
 + (ProjectMember *)member_All;
 - (NSString *)toQuitPath;
 - (NSString *)toKickoutPath;
