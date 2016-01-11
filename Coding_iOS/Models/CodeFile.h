@@ -15,8 +15,12 @@
 @property (nonatomic, assign) BOOL can_edit, isHead;
 @property (readwrite, nonatomic, strong) NSString *ref, *path;
 @property (readwrite, nonatomic, strong) CodeFile_RealFile *file;
+@property (strong, nonatomic) Commit *headCommit;
+@property (strong, nonatomic) NSString *editData, *editMessage;
+
 + (CodeFile *)codeFileWithRef:(NSString *)ref andPath:(NSString *)path;
 + (CodeFile *)codeFileWithMDStr:(NSString *)md_html;
+- (NSDictionary *)toEditParams;
 @end
 
 

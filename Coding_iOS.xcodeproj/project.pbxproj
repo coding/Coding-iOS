@@ -144,6 +144,7 @@
 		4E2DB34C1BA6AEB4002F27C4 /* coding_emoji_gif_07@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2DB3451BA6AEB4002F27C4 /* coding_emoji_gif_07@2x.png */; };
 		4E2DB34D1BA6AEB4002F27C4 /* coding_emoji_gif_01@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E2DB3461BA6AEB4002F27C4 /* coding_emoji_gif_01@2x.png */; };
 		4E2ECEAD1BD4D51000CB6EC9 /* ProjectTransferSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2ECEAC1BD4D51000CB6EC9 /* ProjectTransferSettingViewController.m */; };
+		4E2F6A571C437D1D00A25502 /* EditCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2F6A561C437D1D00A25502 /* EditCodeViewController.m */; };
 		4E35A99F1A3EC47E00CE35F1 /* FileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E35A99E1A3EC47E00CE35F1 /* FileViewController.m */; };
 		4E38CF5F1A7A28AF005536C0 /* CodeBranchTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E38CF5E1A7A28AF005536C0 /* CodeBranchTagButton.m */; };
 		4E38CF621A7B7C99005536C0 /* CodeBranchOrTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */; };
@@ -1243,6 +1244,8 @@
 		4E2DB3461BA6AEB4002F27C4 /* coding_emoji_gif_01@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "coding_emoji_gif_01@2x.png"; sourceTree = "<group>"; };
 		4E2ECEAB1BD4D51000CB6EC9 /* ProjectTransferSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTransferSettingViewController.h; sourceTree = "<group>"; };
 		4E2ECEAC1BD4D51000CB6EC9 /* ProjectTransferSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTransferSettingViewController.m; sourceTree = "<group>"; };
+		4E2F6A551C437D1D00A25502 /* EditCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCodeViewController.h; sourceTree = "<group>"; };
+		4E2F6A561C437D1D00A25502 /* EditCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCodeViewController.m; sourceTree = "<group>"; };
 		4E35A99D1A3EC47E00CE35F1 /* FileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileViewController.h; sourceTree = "<group>"; };
 		4E35A99E1A3EC47E00CE35F1 /* FileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileViewController.m; sourceTree = "<group>"; };
 		4E38CF5D1A7A28AF005536C0 /* CodeBranchTagButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeBranchTagButton.h; sourceTree = "<group>"; };
@@ -4183,6 +4186,8 @@
 				8E59F1091A021053009A905F /* CodeListViewController.m */,
 				8E59F10B1A02188D009A905F /* CodeViewController.h */,
 				8E59F10C1A02188D009A905F /* CodeViewController.m */,
+				4E2F6A551C437D1D00A25502 /* EditCodeViewController.h */,
+				4E2F6A561C437D1D00A25502 /* EditCodeViewController.m */,
 				4EA6791E1A15AB9F001A0324 /* FileListViewController.h */,
 				4EA6791F1A15AB9F001A0324 /* FileListViewController.m */,
 				4E15C7CE1A26D2F000FB8DAD /* FolderToMoveViewController.h */,
@@ -6254,6 +6259,7 @@
 				4EA6790D1A1461DC001A0324 /* ProjectFolder.m in Sources */,
 				8EF643BC19FF7E2900F7EEB0 /* ProjectActivityListCell.m in Sources */,
 				4E996BC91ABA754600C704F1 /* JDStatusBarStyle.m in Sources */,
+				4E2F6A571C437D1D00A25502 /* EditCodeViewController.m in Sources */,
 				8EF83F9419EB78CC00E86DE7 /* SettingTextViewController.m in Sources */,
 				4ED618181C3A6CA50017946C /* LocationCell.m in Sources */,
 				8EA6D1B019E240C40076D59C /* Comment.m in Sources */,

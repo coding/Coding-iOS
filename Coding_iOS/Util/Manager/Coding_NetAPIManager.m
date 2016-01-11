@@ -1117,6 +1117,19 @@
     }];
 }
 
+- (void)request_EditCodeFile:(CodeFile *)codeFile withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
+    NSString *filePath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/edit/%@", project.owner_user_name, project.name, [NSString handelRef:codeFile.ref path:codeFile.path]];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:filePath withParams:[codeFile toEditParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"代码文件_修改"];
+            
+            block(data, nil);//{"code":0}
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_CodeBranchOrTagWithPath:(NSString *)path withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toBranchOrTagPath:path] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {

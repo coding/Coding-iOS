@@ -39,6 +39,25 @@
     }
     return _ref;
 }
+- (NSString *)editData{
+    if (!_editData) {
+        _editData = _file.data.copy;
+    }
+    return _editData;
+}
+- (NSString *)editMessage{
+    if (!_editMessage) {
+        _editMessage = [NSString stringWithFormat:@"update %@", _path];
+    }
+    return _editMessage;
+}
+- (NSDictionary *)toEditParams{
+    NSMutableDictionary *params = @{}.mutableCopy;
+    params[@"content"] = self.editData;
+    params[@"message"] = self.editMessage;
+    params[@"lastCommitSha"] = self.headCommit.commitId;
+    return params;
+}
 @end
 
 

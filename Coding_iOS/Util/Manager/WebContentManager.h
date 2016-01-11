@@ -11,7 +11,7 @@
 
 @interface WebContentManager : NSObject
 + (instancetype)sharedManager;
-+ (NSString *)codePatternedWithContent:(CodeFile *)codeFile;
++ (NSString *)codePatternedWithContent:(CodeFile *)codeFile isEdit:(BOOL)isEdit;
 + (NSString *)bubblePatternedWithContent:(NSString *)content;
 + (NSString *)topicPatternedWithContent:(NSString *)content;
 + (NSString *)markdownPatternedWithContent:(NSString *)content;

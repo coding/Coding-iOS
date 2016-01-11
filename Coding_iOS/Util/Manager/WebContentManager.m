@@ -69,15 +69,19 @@
     return patternedStr;
 }
 
-- (NSString *)codePatternedWithContent:(CodeFile *)codeFile{
-    if (!codeFile || !codeFile.file || (!codeFile.file.data && !codeFile.file.preview)) {
+- (NSString *)codePatternedWithContent:(CodeFile *)codeFile isEdit:(BOOL)isEdit{
+    if (!codeFile || !codeFile.file) {
+        return @"";
+    }
+    NSString *dataStr = [codeFile.file.lang isEqualToString:@"markdown"]? codeFile.file.preview: isEdit? codeFile.editData: codeFile.file.data;
+    if (dataStr.length <= 0) {
         return @"";
     }
     NSString *patternedStr;
     if ([codeFile.file.lang isEqualToString:@"markdown"]) {
-        patternedStr = [self.markdown_pattern_htmlStr stringByReplacingOccurrencesOfString:@"${webview_content}" withString:codeFile.file.preview];
+        patternedStr = [self.markdown_pattern_htmlStr stringByReplacingOccurrencesOfString:@"${webview_content}" withString:dataStr];
     }else{
-        patternedStr = [codeFile.file.data stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
+        patternedStr = [dataStr stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
         patternedStr = [patternedStr stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
         patternedStr = [self.code_pattern_htmlStr stringByReplacingOccurrencesOfString:@"${file_code}" withString:patternedStr];
         patternedStr = [patternedStr stringByReplacingOccurrencesOfString:@"${file_lang}" withString:codeFile.file.lang];
@@ -101,8 +105,8 @@
     return patternedStr;
 }
 
-+ (NSString *)codePatternedWithContent:(CodeFile *)codeFile{
-    return [[self sharedManager] codePatternedWithContent:codeFile];
++ (NSString *)codePatternedWithContent:(CodeFile *)codeFile isEdit:(BOOL)isEdit{
+    return [[self sharedManager] codePatternedWithContent:codeFile isEdit:(BOOL)isEdit];
 }
 + (NSString *)bubblePatternedWithContent:(NSString *)content{
     return [[self sharedManager] bubblePatternedWithContent:content];
