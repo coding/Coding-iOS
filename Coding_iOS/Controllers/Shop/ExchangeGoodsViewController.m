@@ -154,7 +154,7 @@
             case 2:
             {
                 cell.nameLabel.text = @"详细地址 *";
-                cell.textField.placeholder  = @"省，市，县（镇），街道";
+                cell.textField.placeholder  = @"街道地址";
                 cell.textField.text = self.receiverAddress;
                 RAC(self, receiverAddress) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
                 break;
