@@ -2249,10 +2249,14 @@
                         [MobClick event:kUmeng_Event_Request_Get label:@"项目_README"];
 
                         id resultData = [[data valueForKey:@"data"] valueForKey:@"readme"];
-                        CodeFile_RealFile *realFile = [NSObject objectOfClass:@"CodeFile_RealFile" fromJSON:resultData];
-                        CodeFile *rCodeFile = [CodeFile codeFileWithRef:defultBranch andPath:realFile.path];
-                        rCodeFile.file = realFile;
-                        block(rCodeFile, nil);
+                        if (resultData) {
+                            CodeFile_RealFile *realFile = [NSObject objectOfClass:@"CodeFile_RealFile" fromJSON:resultData];
+                            CodeFile *rCodeFile = [CodeFile codeFileWithRef:defultBranch andPath:realFile.path];
+                            rCodeFile.file = realFile;
+                            block(rCodeFile, nil);
+                        }else{
+                            block(@"我们推荐每个项目都新建一个README文件（客户端暂时不支持创建和编辑README）", nil);
+                        }
                     }else{
                         block(nil, error);
                     }
