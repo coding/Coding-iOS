@@ -15,6 +15,18 @@
     mem.user = nil;
     return mem;
 }
+- (NSString *)editAlias{
+    if (!_editAlias) {
+        _editAlias = _alias ?: @"";
+    }
+    return _editAlias;
+}
+- (NSNumber *)editType{
+    if (!_editType) {
+        _editType = _type;
+    }
+    return _editType;
+}
 - (NSString *)toQuitPath{
     return [NSString stringWithFormat:@"api/project/%d/quit", _project_id.intValue];
 }

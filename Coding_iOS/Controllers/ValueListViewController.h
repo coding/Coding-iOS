@@ -11,7 +11,8 @@
 
 typedef NS_ENUM(NSInteger, ValueListType) {
     ValueListTypeTaskStatus = 0,
-    ValueListTypeTaskPriority
+    ValueListTypeTaskPriority,
+    ValueListTypeProjectMemberType
 };
 typedef void(^IndexSelectedBlock)(NSInteger index);
 

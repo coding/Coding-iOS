@@ -11,8 +11,10 @@
 #import "Coding_NetAPIManager.h"
 #import "MemberCell.h"
 #import "ConversationViewController.h"
+#import "SettingTextViewController.h"
+#import "ValueListViewController.h"
 
-@interface ProjectMemberListViewController ()
+@interface ProjectMemberListViewController ()<SWTableViewCellDelegate>
 
 @property (strong, nonatomic) UISearchBar *mySearchBar;
 @property (strong, nonatomic) UISearchDisplayController *mySearchDisplayController;
@@ -26,9 +28,21 @@
 @property (copy, nonatomic) ProjectMemberCellBtnBlock cellBtnBlock;
 @property (strong, nonatomic) NSMutableArray *searchResults;
 @property (assign, nonatomic) ProMemType type;
+
+@property (strong, nonatomic) NSNumber *selfRoleType;
 @end
 
 @implementation ProjectMemberListViewController
+
+- (void)setMyMemberArray:(NSMutableArray *)myMemberArray{
+    _myMemberArray = myMemberArray;
+    ProjectMember *mem = [_myMemberArray firstObject];
+    if ([mem.user_id isEqualToNumber:[Login curLoginUser].id]) {
+        _selfRoleType = mem.type;
+    }else{
+        _selfRoleType = @80;//普通成员
+    }
+}
 
 - (void)willHiden{
     [self.mySearchBar resignFirstResponder];
@@ -205,6 +219,10 @@
     if (_type == ProMemTypeTaskWatchers) {
         [cell.leftBtn setImage:[UIImage imageNamed:[self.curTask hasWatcher:curMember.user]? @"btn_project_added": @"btn_project_add"] forState:UIControlStateNormal];
     }
+    if (_type == ProMemTypeProject) {
+        [cell setRightUtilityButtons:[self rightButtonsWithObj:curMember] WithButtonWidth:[MemberCell cellHeight]];//编辑按钮
+        cell.delegate = self;
+    }
     cell.leftBtnClickedBlock = ^(UIButton *sender){
         if (tableView.isEditing) {
             return;
@@ -280,45 +298,49 @@
         }
     }
 }
-//-----------------------------------Editing
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return @"移除成员";
-}
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
-    BOOL canEdit = NO;
-    if (self.type == ProMemTypeProject && [Login isLoginUserGlobalKey:self.myProject.owner_user_name]) {
-        ProjectMember *curMember;
-        if (tableView == _mySearchDisplayController.searchResultsTableView) {
-            curMember = [_searchResults objectAtIndex:indexPath.row];
-        }else{
-            curMember = [_myMemberArray objectAtIndex:indexPath.row];
-        }
-        canEdit = (curMember.user_id.intValue != [Login curLoginUser].id.intValue);
-    }
-    return canEdit;
-}
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView setEditing:NO animated:YES];
 
-    ProjectMember *curMember;
-    if (tableView == _mySearchDisplayController.searchResultsTableView) {
-        curMember = [_searchResults objectAtIndex:indexPath.row];
-    }else{
-        curMember = [_myMemberArray objectAtIndex:indexPath.row];
+#pragma mark - SWTableViewCellDelegate
+- (NSArray *)rightButtonsWithObj:(ProjectMember *)mem{
+    NSMutableArray *rightUtilityButtons = @[].mutableCopy;
+    BOOL canAlias = (_selfRoleType.integerValue >= 90);
+    BOOL canDelete = (canAlias && _selfRoleType.integerValue > mem.type.integerValue);
+    if (canAlias) {
+        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xE5E5E5"] icon:[UIImage imageNamed:@"member_cell_edit_alias"]];
     }
-    
-    __weak typeof(self) weakSelf = self;
-    
-    UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"移除该成员后，他将不再显示在项目中" buttonTitles:nil destructiveTitle:@"确认移除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-        if (index == 0) {
-            [weakSelf removeMember:curMember inTableView:tableView];
-        }
-    }];
-    [actionSheet showInView:self.view];
+    if (canDelete) {
+        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xF0F0F0"] icon:[UIImage imageNamed:@"member_cell_edit_type"]];
+        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xff5846"] icon:[UIImage imageNamed:@"member_cell_edit_remove"]];
+    }
+    return rightUtilityButtons;
+}
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell{
+    return YES;
+}
+- (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state{
+    if (state == kCellStateRight) {
+        BOOL canAlias = (_selfRoleType.integerValue >= 90);
+        return canAlias;
+    }
+    return YES;
 }
 
-- (void)removeMember:(ProjectMember *)curMember inTableView:(UITableView *)tableView{
-    DebugLog(@"remove - ProjectMember : %@", curMember.user.name);
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+    [cell hideUtilityButtonsAnimated:YES];
+    ProjectMember *mem = [(MemberCell *)cell curMember];
+    if (index == 0) {//修改备注
+        [self editAliasOfMember:mem];
+    }else if (index == 1){//修改权限
+        [self editTypeOfMember:mem];
+    }else if (index == 2){//移除成员
+        [[UIActionSheet bk_actionSheetCustomWithTitle:@"移除该成员后，他将不再显示在项目中" buttonTitles:nil destructiveTitle:@"确认移除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [self removeMember:mem];
+            }
+        }] showInView:self.view];
+    }
+}
+
+- (void)removeMember:(ProjectMember *)curMember{
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_ProjectMember_Quit:curMember andBlock:^(id data, NSError *error) {
         if (data) {
@@ -326,9 +348,52 @@
             if (weakSelf.searchResults) {
                 [weakSelf.searchResults removeObject:data];
             }
-            [tableView reloadData];
+            [weakSelf.myTableView reloadData];
+            [weakSelf.mySearchDisplayController.searchResultsTableView reloadData];
         }
     }];
+}
+
+- (void)editAliasOfMember:(ProjectMember *)curMember{
+    __weak typeof(self) weakSelf = self;
+    __weak typeof(curMember) weakMember = curMember;
+    SettingTextViewController *vc = [SettingTextViewController settingTextVCWithTitle:@"设置备注" textValue:curMember.editAlias  doneBlock:^(NSString *textValue) {
+        weakMember.editAlias = textValue;
+        [[Coding_NetAPIManager sharedManager] request_EditAliasOfMember:weakMember inProject:weakSelf.myProject andBlock:^(id data, NSError *error) {
+            if (data) {
+                weakMember.alias = weakMember.editAlias;
+                [weakSelf.myTableView reloadData];
+                [weakSelf.mySearchDisplayController.searchResultsTableView reloadData];
+            }
+        }];
+    }];
+    vc.placeholderStr = @"备注名";
+    [[BaseViewController presentingVC].navigationController pushViewController:vc animated:YES];
+}
+
+- (void)editTypeOfMember:(ProjectMember *)curMember{
+    __weak typeof(self) weakSelf = self;
+    __weak typeof(curMember) weakMember = curMember;
+    ValueListViewController *vc = [ValueListViewController new];
+    NSMutableArray *valueList = @[@"受限成员", @"项目成员"].mutableCopy;
+    if (_selfRoleType.integerValue == 100) {
+        [valueList addObject:@"项目管理员"];
+    }
+    NSArray *typeRawList = @[@75, @80, @90, @100];
+    
+    [vc setTitle:@"设置成员权限" valueList:valueList defaultSelectIndex:[typeRawList indexOfObject:curMember.editType] type:ValueListTypeProjectMemberType selectBlock:^(NSInteger index) {
+        weakMember.editType = typeRawList[index];
+        if (![weakMember.type isEqualToNumber:weakMember.editType]) {
+            [[Coding_NetAPIManager sharedManager] request_EditTypeOfMember:weakMember inProject:weakSelf.myProject andBlock:^(id data, NSError *error) {
+                if (data) {
+                    weakMember.type = weakMember.editType;
+                    [weakSelf.myTableView reloadData];
+                    [weakSelf.mySearchDisplayController.searchResultsTableView reloadData];
+                }
+            }];
+        }
+    }];
+    [[BaseViewController presentingVC].navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark UISearchDisplayDelegate M

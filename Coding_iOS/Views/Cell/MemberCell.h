@@ -11,9 +11,10 @@
 #import <UIKit/UIKit.h>
 #import "ProjectMember.h"
 #import "ProjectMemberListViewController.h"
+#import "SWTableViewCell.h"
 
 
-@interface MemberCell : UITableViewCell
+@interface MemberCell : SWTableViewCell
 @property (strong, nonatomic) ProjectMember *curMember;
 @property (strong, nonatomic) UIButton *leftBtn;
 @property (nonatomic,copy) void(^leftBtnClickedBlock)(id sender);

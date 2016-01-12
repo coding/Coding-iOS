@@ -631,7 +631,35 @@
         }
     }];
 }
-
+- (void)request_EditAliasOfMember:(ProjectMember *)curMember inProject:(Project *)curPro andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/project/%@/members/update_alias/%@", curPro.id, curMember.user_id];
+    NSDictionary *params = @{@"alias": curMember.editAlias};
+    [NSObject showStatusBarQueryStr:@"正在设置备注"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"项目成员_设置备注名"];
+            
+            [NSObject showStatusBarSuccessStr:@"备注设置成功"];
+        }else{
+            [NSObject showStatusBarError:error];
+        }
+        block(data, error);
+    }];
+}
+- (void)request_EditTypeOfMember:(ProjectMember *)curMember inProject:(Project *)curPro andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/project/%@/member/%@/%@", curPro.id, curMember.user.global_key, curMember.editType];
+    [NSObject showStatusBarQueryStr:@"正在设置成员类型"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"项目成员_设置成员类型"];
+            
+            [NSObject showStatusBarSuccessStr:@"成员类型设置成功"];
+        }else{
+            [NSObject showStatusBarError:error];
+        }
+        block(data, error);
+    }];
+}
 #pragma mark MRPR
 - (void)request_MRPRS_WithObj:(MRPRS *)curMRPRS andBlock:(void (^)(MRPRS *data, NSError *error))block{
     curMRPRS.isLoading = YES;

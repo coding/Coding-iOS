@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, SettingType)
 };
 
 @interface SettingTextViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate>
-@property (strong, nonatomic) NSString *textValue;
+@property (strong, nonatomic) NSString *textValue, *placeholderStr;
 @property (copy, nonatomic) void(^doneBlock)(NSString *textValue);
 @property (assign, nonatomic) SettingType settingType;
 
