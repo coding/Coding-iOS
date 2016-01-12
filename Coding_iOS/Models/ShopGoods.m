@@ -9,5 +9,17 @@
 #import "ShopGoods.h"
 
 @implementation ShopGoods
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"ShopGoodsOption", @"options", nil];
+    }
+    return self;
+}
+@end
+
+@implementation ShopGoodsOption
 
 @end

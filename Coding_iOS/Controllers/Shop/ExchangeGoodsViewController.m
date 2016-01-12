@@ -13,7 +13,8 @@
 #import "ShopGoodsInfoView.h"
 #import "UIView+Common.h"
 #import "LocationViewController.h"
-#import "ShopAddressCell.h"
+#import "ShopMutileValueCell.h"
+#import "ActionSheetStringPicker.h"
 
 #define kCellIdentifier_ShopOrderTextFieldCell @"ShopOrderTextFieldCell.h"
 
@@ -26,6 +27,7 @@
 
 @property (strong, nonatomic) NSString *receiverName, *receiverAddress, *receiverPhone, *remark;
 @property (strong, nonatomic) NSArray *locations;
+@property (strong, nonatomic) ShopGoodsOption *option;
 @end
 
 @implementation ExchangeGoodsViewController
@@ -78,7 +80,7 @@
         tableView.delegate = self;
         tableView.dataSource = self;
         [tableView registerClass:[ShopOrderTextFieldCell class] forCellReuseIdentifier:kCellIdentifier_ShopOrderTextFieldCell];
-        [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_ShopAddressCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ShopAddressCell];
+        [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_ShopMutileValueCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ShopMutileValueCell];
         tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         tableView.separatorColor = [UIColor colorWithHexString:@"0xFFDDDDDD"];
         tableView.separatorInset = UIEdgeInsetsMake(0, 12, 0, 12);
@@ -129,17 +131,24 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger row = 5;
+    NSInteger row = self.shopGoods.options.count > 0? 6: 5;
     return row;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 1) {
-        ShopAddressCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ShopAddressCell forIndexPath:indexPath];
-        cell.locationF.text = [[self.locations valueForKey:@"name"] componentsJoinedByString:@" - "];
+    if (indexPath.row == 1 || indexPath.row == 5) {
+        ShopMutileValueCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ShopMutileValueCell forIndexPath:indexPath];
+        if (indexPath.row == 1) {
+            cell.titleL.text = @"所在地 *";
+            cell.valueF.text = [[self.locations valueForKey:@"name"] componentsJoinedByString:@" - "];
+        }else{
+            cell.titleL.text = @"选项";
+            cell.valueF.text = self.option.name;
+        }
         return cell;
-    }else{
+    }
+    else{
         ShopOrderTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ShopOrderTextFieldCell forIndexPath:indexPath];
         
         switch (indexPath.row) {
@@ -191,8 +200,8 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 1) {
-        return [ShopAddressCell cellHeight];
+    if (indexPath.row == 1 || indexPath.row == 5) {
+        return [ShopMutileValueCell cellHeight];
     }else{
         return [ShopOrderTextFieldCell cellHeight];
     }
@@ -208,6 +217,17 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 1) {
         [self goToLocationVC];
+    }else if (indexPath.row == 5){
+        NSArray *rows = [self.shopGoods.options valueForKey:@"name"];
+        NSInteger index = self.option? [self.shopGoods.options indexOfObject:self.option]: 0;
+        __weak typeof(self) weakSelf = self;
+        [ActionSheetStringPicker showPickerWithTitle:nil rows:@[rows] initialSelection:@[@(index)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
+            NSInteger newIndex = [(NSNumber *)selectedIndex.firstObject integerValue];
+            if (weakSelf.shopGoods.options.count > newIndex) {
+                weakSelf.option = weakSelf.shopGoods.options[newIndex];
+                [weakSelf.myTableView reloadData];
+            }
+        } cancelBlock:nil origin:self.view];
     }
 }
 
@@ -261,9 +281,7 @@
             [NSObject showHudTipStr:@"密码不能为空"];
             return;
         }
-        
         [self exchangeActionRquest:field.text];
-
     }
 }
 
@@ -283,6 +301,9 @@
                 mparms[@"province"] =
                 mparms[@"city"] =
                 mparms[@"district"] = nil;
+            }
+            if (self.option.id) {
+                mparms[@"option_id"] = self.option.id;
             }
 
             mparms[@"receiverAddress"] = _receiverAddress;

@@ -1,14 +1,14 @@
 //
-//  ShopAddressCell.m
+//  ShopMutileValueCell.m
 //  Coding_iOS
 //
 //  Created by Ease on 16/1/4.
 //  Copyright © 2016年 Coding. All rights reserved.
 //
 
-#import "ShopAddressCell.h"
+#import "ShopMutileValueCell.h"
 
-@implementation ShopAddressCell
+@implementation ShopMutileValueCell
 + (CGFloat)cellHeight{
     return 100;
 }

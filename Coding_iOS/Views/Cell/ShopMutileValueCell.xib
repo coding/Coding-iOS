@@ -8,7 +8,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ShopAddressCell" rowHeight="100" id="nqW-9T-8Qd" customClass="ShopAddressCell">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ShopMutileValueCell" rowHeight="100" id="nqW-9T-8Qd" customClass="ShopMutileValueCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nqW-9T-8Qd" id="aUs-Fo-8GQ">
@@ -76,7 +76,8 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="locationF" destination="XXX-Xd-G2g" id="zTs-bp-6c4"/>
+                <outlet property="titleL" destination="yZm-gB-sVo" id="Bqe-7T-wxs"/>
+                <outlet property="valueF" destination="XXX-Xd-G2g" id="DqK-cu-KKU"/>
             </connections>
         </tableViewCell>
     </objects>
