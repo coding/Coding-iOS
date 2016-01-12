@@ -155,9 +155,17 @@
     UITextView *textV = [UITextView new];
     textV.backgroundColor = [UIColor clearColor];
     textV.editable = NO;
-    textV.font = [UIFont systemFontOfSize:15];
-    textV.textColor = [UIColor whiteColor];
-    textV.text = tipStr;
+
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.maximumLineHeight = 25;
+    paragraphStyle.minimumLineHeight = 25;
+    NSDictionary *attributes = @{
+                          NSFontAttributeName : [UIFont systemFontOfSize:15],
+                          NSForegroundColorAttributeName: [UIColor whiteColor],
+                          NSParagraphStyleAttributeName : paragraphStyle,
+                          };
+    textV.attributedText = [[NSAttributedString alloc] initWithString:tipStr attributes:attributes];
+
     [RACObserve(textV, contentSize) subscribeNext:^(id x) {
         CGFloat diffY = MAX(0, (textV.size.height - textV.contentSize.height)/3);
         textV.contentInset = UIEdgeInsetsMake(diffY, 0, 0, 0);
