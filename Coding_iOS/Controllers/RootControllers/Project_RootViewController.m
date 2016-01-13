@@ -29,6 +29,7 @@
 #import "SearchViewController.h"
 #import "pop.h"
 #import "FRDLivelyButton.h"
+#import "StartImagesManager.h"
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
@@ -178,6 +179,8 @@
     
     [self setupNavBtn];
     self.icarouselScrollEnabled = NO;
+    
+    [[StartImagesManager shareManager] handleStartLink];//如果 start_image 有对应的 link 的话，需要进入到相应的 web 页面
 }
 
 - (void)viewWillAppear:(BOOL)animated{

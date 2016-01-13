@@ -62,12 +62,15 @@ static NSString *kFunctionTipStr_Version = @"version";
 
 - (BOOL)needToTip:(NSString *)functionStr{
     NSNumber *needToTip = [_tipsDict valueForKey:functionStr];
-    return needToTip.boolValue;
+    if (!needToTip) {
+        return [functionStr hasPrefix:kFunctionTipStr_Prefix];
+    }else{
+        return needToTip.boolValue;
+    }
 }
 
 - (BOOL)markTiped:(NSString *)functionStr{
-    NSNumber *needToTip = [_tipsDict valueForKey:functionStr];
-    if (!needToTip.boolValue) {
+    if (![self needToTip:functionStr]) {
         return NO;
     }
     [_tipsDict setValue:@(NO) forKey:functionStr];

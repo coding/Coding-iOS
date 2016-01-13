@@ -11,7 +11,9 @@
 
 #import "StartImagesManager.h"
 #import "CodingNetAPIClient.h"
-
+#import "Login.h"
+#import "FunctionTipsManager.h"
+#import "WebViewController.h"
 
 @interface StartImagesManager ()
 @property (strong, nonatomic) NSMutableArray *imageLoadedArray;
@@ -82,6 +84,29 @@
         _startImage = [StartImage defautImage];
     }
     return _startImage;
+}
+- (void)handleStartLink{
+    if (![Login isLogin] || [Login curLoginUser].global_key.length <= 0) {
+        return;
+    }
+    NSString *link = self.curImage.group.link;
+    if (![link hasPrefix:[NSObject baseURLStr]]) {
+        return;
+    }
+    NSString *global_key = [Login curLoginUser].global_key;
+    NSString *tipKey = [NSString stringWithFormat:@"%@_%@_%@", kFunctionTipStr_Prefix, global_key, link];
+    if (![[FunctionTipsManager shareManager] needToTip:tipKey]) {
+        return;
+    }
+    UINavigationController *curNav = [BaseViewController presentingVC].navigationController;
+    if (!curNav) {
+        return;
+    }
+    [[FunctionTipsManager shareManager] markTiped:tipKey];//标记已处理
+    WebViewController *vc = [WebViewController webVCWithUrlStr:link];
+    if (vc) {
+        [curNav pushViewController:vc animated:YES];
+    }
 }
 
 - (NSString *)pathOfSTPlist{

@@ -16,6 +16,7 @@
 
 - (StartImage *)randomImage;
 - (StartImage *)curImage;
+- (void)handleStartLink;
 
 - (void)refreshImagesPlist;
 - (void)startDownloadImages;
@@ -35,5 +36,5 @@
 @end
 
 @interface Group : NSObject
-@property (strong, nonatomic) NSString *name, *author;
+@property (strong, nonatomic) NSString *name, *author, *link;
 @end

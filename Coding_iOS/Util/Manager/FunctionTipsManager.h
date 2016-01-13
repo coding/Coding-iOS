@@ -23,6 +23,8 @@ static NSString *kFunctionTipStr_File_2V_Activity = @"File_2V_Activity";
 static NSString *kFunctionTipStr_LineNote_FileChange = @"LineNote_FileChange";
 static NSString *kFunctionTipStr_LineNote_MRPR = @"LineNote_MRPR";
 static NSString *kFunctionTipStr_Me_Points = @"Me_Points";
+//version: 3.7
+static NSString *kFunctionTipStr_Prefix = @"Prefix";
 
 #import <Foundation/Foundation.h>
 
