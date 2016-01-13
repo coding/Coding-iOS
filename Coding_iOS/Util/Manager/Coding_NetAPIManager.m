@@ -1666,63 +1666,61 @@
     }];
 }
 - (void)request_Tweet_DoTweet_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block{
-    if (tweet.tweetImages && tweet.tweetImages.count > 0) {
-        /**
-         *  冒泡多张一起发送，不显示进度条
-         */
-        [NSObject showStatusBarQueryStr:@"正在发送冒泡"];
-        for (int i=0; i < tweet.tweetImages.count; i++) {
-            TweetImage *imageItem = [tweet.tweetImages objectAtIndex:i];
-            if (imageItem.uploadState == TweetImageUploadStateInit) {
-                imageItem.uploadState = TweetImageUploadStateIng;
-                [self uploadTweetImage:imageItem.image doneBlock:^(NSString *imagePath, NSError *error) {
-                    if (imagePath) {
-                        imageItem.uploadState = TweetImageUploadStateSuccess;
-                        imageItem.imageStr = [NSString stringWithFormat:@" ![图片](%@) ", imagePath];
-                    }else{
-                        [NSObject showStatusBarError:error];
-                        imageItem.uploadState = TweetImageUploadStateFail;
-                        imageItem.imageStr = [NSString stringWithFormat:@" ![图片]() "];
-                        block(nil, error);
-                        return ;
-                    }
-                    if ([tweet isAllImagesHaveDone]) {
-                        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/tweet" withParams:[tweet toDoTweetParams] withMethodType:Post andBlock:^(id data, NSError *error) {
-                            if (data) {
-                                [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"冒泡_添加_有图"];
-
-                                id resultData = [data valueForKeyPath:@"data"];
-                                Tweet *tweet = [NSObject objectOfClass:@"Tweet" fromJSON:resultData];
-                                [NSObject showStatusBarSuccessStr:@"冒泡发送成功"];
-                                block(tweet, nil);
-                            }else{
-                                [NSObject showStatusBarError:error];
-                                block(nil, error);
-                            }
-                        }];
-                    }
-                } progerssBlock:^(CGFloat progressValue) {
-                    DebugLog(@"progressValue %d : %.2f", i, progressValue);
-                }];
-            }
-        }
-//        -----------------
-
-    }else{
-        [NSObject showStatusBarQueryStr:@"正在发送冒泡"];
+    //发送冒泡内容 block
+    void (^sendTweetBlock)() = ^{
         [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/tweet" withParams:[tweet toDoTweetParams] withMethodType:Post andBlock:^(id data, NSError *error) {
             if (data) {
-                [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"冒泡_添加_无图"];
-
+                [MobClick event:kUmeng_Event_Request_ActionOfServer label:tweet.tweetImages.count > 0? @"冒泡_添加_有图": @"冒泡_添加_无图"];
+                
                 id resultData = [data valueForKeyPath:@"data"];
-                Tweet *tweet = [NSObject objectOfClass:@"Tweet" fromJSON:resultData];
+                Tweet *result = [NSObject objectOfClass:@"Tweet" fromJSON:resultData];
                 [NSObject showStatusBarSuccessStr:@"冒泡发送成功"];
-                block(tweet, nil);
+                block(result, nil);
             }else{
                 [NSObject showStatusBarError:error];
                 block(nil, error);
             }
         }];
+    };
+    //开始发送
+    [NSObject showStatusBarQueryStr:@"正在发送冒泡"];
+    //无图片的冒泡，直接发送
+    if (tweet.tweetImages.count <= 0) {
+        sendTweetBlock();
+        return;
+    }
+    //判断图片是否全部上传完毕，是的话就发送该冒泡 block
+    BOOL (^whetherAllImagesUploadedAndSendTweetBlock)() = ^{
+        if (tweet.isAllImagesDoneSucess) {
+            sendTweetBlock();
+        }
+        return tweet.isAllImagesDoneSucess;
+    };
+    //图片均已上传，直接发送
+    if (whetherAllImagesUploadedAndSendTweetBlock()) {
+        return;
+    }
+    //遍历上传图片
+    for (TweetImage *imageItem in tweet.tweetImages) {
+        if (imageItem.imageStr.length > 0) {
+            whetherAllImagesUploadedAndSendTweetBlock();
+        }else{
+            if (imageItem.uploadState != TweetImageUploadStateIng) {
+                imageItem.uploadState = TweetImageUploadStateIng;
+                [self uploadTweetImage:imageItem.image doneBlock:^(NSString *imagePath, NSError *error) {
+                    imageItem.uploadState = imagePath? TweetImageUploadStateSuccess: TweetImageUploadStateFail;
+                    if (!imagePath) {
+                        [NSObject showStatusBarError:error];
+                        block(nil, error);
+                    }else{
+                        imageItem.imageStr = [NSString stringWithFormat:@"![](%@)", imagePath];
+                        whetherAllImagesUploadedAndSendTweetBlock();
+                    }
+                } progerssBlock:^(CGFloat progressValue) {
+                    DebugLog(@"progressValue %@ : %.2f", imageItem.assetURL.query, progressValue);
+                }];
+            }
+        }
     }
 }
 

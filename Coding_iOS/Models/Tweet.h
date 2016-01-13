@@ -77,7 +77,7 @@
 +(Tweet *)tweetInProject:(Project *)project andPPID:(NSString *)pp_id;
 
 - (NSDictionary *)toDoTweetParams;
-- (BOOL)isAllImagesHaveDone;
+- (BOOL)isAllImagesDoneSucess;
 - (void)addNewComment:(Comment *)comment;
 - (void)deleteComment:(Comment *)comment;
 

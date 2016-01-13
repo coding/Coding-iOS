@@ -271,9 +271,9 @@ static Tweet *_tweetForSend = nil;
     }
     return params;
 }
-- (BOOL)isAllImagesHaveDone{
+- (BOOL)isAllImagesDoneSucess{
     for (TweetImage *imageItem in _tweetImages) {
-        if (imageItem.uploadState != TweetImageUploadStateSuccess) {
+        if (imageItem.imageStr.length <= 0) {
             return NO;
         }
     }
