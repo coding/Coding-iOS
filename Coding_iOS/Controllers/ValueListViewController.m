@@ -16,6 +16,7 @@
 @property (strong, nonatomic) NSArray *dataList;
 @property (assign, nonatomic) NSInteger selectedIndex;
 @property (assign, nonatomic) ValueListType type;
+@property (strong, nonatomic) UIView *tipView;
 @end
 
 @implementation ValueListViewController
@@ -129,6 +130,11 @@
 
 #pragma mark - Tip
 - (void)showMemberTypeTip{
+    if (self.tipView) {
+        [self dismissTipView];
+        return;
+    }
+    
     NSString *tipStr =
     
 @"项目所有者：拥有对项目的所有权限。\n\
@@ -136,21 +142,16 @@
 普通成员：可以阅读和推送代码。\n\
 受限成员：不能进入与代码相关的页面。\n";
     
-    [self showTipStr:tipStr];
+    self.tipView = [self showTipStr:tipStr];
 }
-- (void)showTipStr:(NSString *)tipStr{
+- (UIView *)showTipStr:(NSString *)tipStr{
     if (tipStr.length <= 0) {
-        return;
+        return nil;
     }
     UIView *tipV = [[UIView alloc] initWithFrame:self.view.bounds];
     tipV.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.9];
     [tipV bk_whenTapped:^{
-        [UIView animateWithDuration:0.3 animations:^{
-            tipV.alpha = 0.0;
-        } completion:^(BOOL finished) {
-            [tipV removeFromSuperview];
-            self.myTableView.scrollEnabled = YES;
-        }];
+        [self dismissTipView];
     }];
     UITextView *textV = [UITextView new];
     textV.backgroundColor = [UIColor clearColor];
@@ -180,6 +181,17 @@
     [UIView animateWithDuration:0.3 animations:^{
         tipV.alpha = 1.0;
         self.myTableView.scrollEnabled = NO;
+    }];
+    return tipV;
+}
+
+- (void)dismissTipView{
+    [UIView animateWithDuration:0.3 animations:^{
+        self.tipView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        [self.tipView removeFromSuperview];
+        self.tipView = nil;
+        self.myTableView.scrollEnabled = YES;
     }];
 }
 
