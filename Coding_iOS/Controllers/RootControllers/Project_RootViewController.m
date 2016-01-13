@@ -90,36 +90,10 @@
         icarousel.bounceDistance = 0.2;
         [self.view addSubview:icarousel];
         [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.right.bottom.equalTo(self.view);
-//            make.top.equalTo(self.view).offset(kMySegmentControl_Height);
             make.edges.equalTo(self.view);
         }];
         icarousel;
     });
-    
-//    //添加搜索框
-//    _mySearchBar = ({
-//            UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0,0, kScreen_Width-110, 31)];
-//            searchBar.layer.cornerRadius=15;
-//            searchBar.layer.masksToBounds=TRUE;
-//            [searchBar.layer setBorderWidth:8];
-//            [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];  //设置边框为白色
-//            [searchBar sizeToFit];
-//            searchBar.delegate = self;
-//            [searchBar setPlaceholder:@"项目/任务/讨论/冒泡等"];
-//            UITextField *searchField= [[[[searchBar subviews] firstObject] subviews] lastObject];
-////            [searchField setHeight:22];
-////            searchField.contentVerticalAlignment=UIControlContentVerticalAlignmentCenter;
-////            [searchField setBackgroundColor:[UIColor blueColor]];
-//            [(UIImageView*)[searchField leftView] setFrame:CGRectMake(0, 0, 13, 13)];
-//            [(UIImageView*)[searchField leftView] setImage:[UIImage imageNamed:@"icon_search_searchbar"]];
-//            [searchBar setImage:[UIImage imageNamed:@"icon_search_searchbar"] forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-//            [searchBar setTintColor:[UIColor whiteColor]];
-//            [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
-//            [searchBar setHeight:31];
-//            searchBar;
-//        });
-    
     //添加搜索框
     _mySearchBar = ({
         MainSearchBar *searchBar = [[MainSearchBar alloc] initWithFrame:CGRectMake(60,7, kScreen_Width-115, 31)];
@@ -132,26 +106,13 @@
         [searchBar sizeToFit];
         [searchBar setTintColor:[UIColor whiteColor]];
         [searchBar insertBGColor:[UIColor colorWithHexString:@"0xffffff"]];
-        //        [searchBar setImage:nil forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-        //        [searchBar setPositionAdjustment:UIOffsetMake(10,0) forSearchBarIcon:UISearchBarIconClear];
-        //        searchBar.searchTextPositionAdjustment=UIOffsetMake(10,0);
         [searchBar setHeight:30];
         searchBar;
     });
-
-
-//    _searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width-110, 31)];//allocate titleView
-//    UIColor *color = [UIColor colorWithHexString:[NSObject baseURLStrIsTest]? @"0x3bbd79" : @"0x28303b"];
-//    [_searchView setBackgroundColor:color];
-    
-    
-    
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     
     //初始化过滤目录
     _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height-64) items:nil];
-//    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height) items:nil];
-
     __weak typeof(self) weakSelf = self;
     _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
         if (pageIndex==1000) {
@@ -219,54 +180,9 @@
     self.icarouselScrollEnabled = NO;
 }
 
-- (void)setIcarouselScrollEnabled:(BOOL)icarouselScrollEnabled{
-    _myCarousel.scrollEnabled = icarouselScrollEnabled;
-}
-
-- (void)setupNavBtn{
-    
-    _leftNavBtn=[UIButton new];
-    [self addImageBarButtonWithImageName:@"filtertBtn_normal_Nav" button:_leftNavBtn action:@selector(fliterClicked:) isRight:NO];
-    
-    //变化按钮
-    _rightNavBtn = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(0,0,18.5,18.5)];
-    [_rightNavBtn setOptions:@{ kFRDLivelyButtonLineWidth: @(1.0f),
-                          kFRDLivelyButtonColor: [UIColor whiteColor]
-                          }];
-    [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:NO];
-    [_rightNavBtn addTarget:self action:@selector(addItemClicked:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn];
-    self.navigationItem.rightBarButtonItem = buttonItem;
-
-//    __weak typeof(_myCarousel) weakCarousel = _myCarousel;
-
-    //添加滑块
-//    _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kMySegmentControl_Height) Items:_segmentItems selectedBlock:^(NSInteger index) {
-//        if (index == _oldSelectedIndex) {
-//            return;
-//        }
-//        [weakCarousel scrollToItemAtIndex:index animated:NO];
-//    }];
-//    [self.view addSubview:_mySegmentControl];
-
-
-//    [self addImageBarButtonWithImageName:@"addBtn_Nav" button:_rightNavBtn action:@selector(addItemClicked:) isRight:YES];
-
-}
-
-- (void)configSegmentItems{
-    _segmentItems = @[@"全部项目",@"我创建的", @"我参与的",@"我关注的",@"我收藏的"];
-}
-
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-//    [self.navigationItem.titleView sizeToFit];
-//    [_searchView addSubview:_mySearchBar];
-//    self.navigationItem.titleView = _searchView;
-
     [self.navigationController.navigationBar addSubview:_mySearchBar];
-
-    
     if (_myCarousel) {
         ProjectListView *listView = (ProjectListView *)_myCarousel.currentItemView;
         if (listView) {
@@ -287,10 +203,107 @@
     [[UnReadManager shareManager] updateUnRead];
 }
 
-- (void)didReceiveMemoryWarning
+#pragma mark - sub class method
+- (void)setIcarouselScrollEnabled:(BOOL)icarouselScrollEnabled{
+    _myCarousel.scrollEnabled = icarouselScrollEnabled;
+}
+
+- (void)configSegmentItems{
+    _segmentItems = @[@"全部项目",@"我创建的", @"我参与的",@"我关注的",@"我收藏的"];
+}
+
+#pragma mark - nav item
+- (void)setupNavBtn{
+    
+    _leftNavBtn=[UIButton new];
+    [self addImageBarButtonWithImageName:@"filtertBtn_normal_Nav" button:_leftNavBtn action:@selector(fliterClicked:) isRight:NO];
+    //变化按钮
+    _rightNavBtn = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(0,0,18.5,18.5)];
+    [_rightNavBtn setOptions:@{ kFRDLivelyButtonLineWidth: @(1.0f),
+                          kFRDLivelyButtonColor: [UIColor whiteColor]
+                          }];
+    [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:NO];
+    [_rightNavBtn addTarget:self action:@selector(addItemClicked:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn];
+    self.navigationItem.rightBarButtonItem = buttonItem;
+}
+
+-(void)addItemClicked:(id)sender{
+    if (_rightNavBtn.buttonStyle == kFRDLivelyButtonStylePlus) {
+        [_rightNavBtn setStyle:kFRDLivelyButtonStyleClose animated:YES];
+        [_myPopMenu showMenuAtView:kKeyWindow startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
+    } else{
+        [_myPopMenu dismissMenu];
+    }
+}
+
+-(void)fliterClicked:(id)sender{
+    [self closeMenu];
+    if (_myFliterMenu.showStatus) {
+        [self fliterBtnClose:TRUE];
+        [_myFliterMenu dismissMenu];
+    }else
+    {
+        [self fliterBtnClose:FALSE];
+        _myFliterMenu.selectNum=_selectNum>=3?_selectNum+1:_selectNum;
+        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
+        [_myFliterMenu showMenuAtView:presentView];
+    }
+}
+
+-(void)closeFliter{
+    if ([_myFliterMenu showStatus]) {
+        [_myFliterMenu dismissMenu];
+        [self fliterBtnClose:TRUE];
+    }
+}
+
+-(void)closeMenu{
+    if ([_myPopMenu isShowed]) {
+        [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
+        [_myPopMenu dismissMenu];
+    }
+}
+
+-(void)fliterBtnClose:(BOOL)status{
+    [_leftNavBtn setImage:status?[UIImage imageNamed:@"filtertBtn_normal_Nav"]:[UIImage imageNamed:@"filterBtn_selected_Nav"] forState:UIControlStateNormal];
+}
+
+//弹出事件
+-(void)rotateView:(UIView*)aView
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    POPBasicAnimation* rotateAnimation = ({
+        POPBasicAnimation* basicAnimation=[POPBasicAnimation animationWithPropertyNamed:kPOPLayerRotation];
+        basicAnimation.toValue = @(22.5 * (M_PI / 180.0f));
+        basicAnimation.timingFunction =[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        basicAnimation.duration = 0.2f;
+        [basicAnimation setCompletionBlock:^(POPAnimation * ani, BOOL fin) {
+            if (fin) {
+            }
+        }];
+        basicAnimation;
+    });
+    [aView.layer pop_addAnimation:rotateAnimation forKey:@"rotateAnimation"];
+}
+
+-(void)addImageBarButtonWithImageName:(NSString*)imageName button:(UIButton*)aBtn action:(SEL)action isRight:(BOOL)isR
+{
+    UIImage *image = [UIImage imageNamed:imageName];
+    CGRect frame = CGRectMake(0,0, image.size.width, image.size.height);
+    
+    aBtn.frame=frame;
+    [aBtn setImage:image forState:UIControlStateNormal];
+    [aBtn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:aBtn];
+    
+    if (isR)
+    {
+        [self.navigationItem setRightBarButtonItem:barButtonItem];
+    }else
+    {
+        [self.navigationItem setLeftBarButtonItem:barButtonItem];
+    }
 }
 
 #pragma mark iCarousel M
@@ -369,23 +382,6 @@
 }
 
 #pragma mark VC
--(void)addItemClicked:(id)sender{
-    [self closeFliter];
-    if (_rightNavBtn.buttonStyle == kFRDLivelyButtonStylePlus) {
-        [_rightNavBtn setStyle:kFRDLivelyButtonStyleClose animated:YES];
-        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
-//        [presentView bringSubviewToFront:[presentView.subviews firstObject]];
-//        [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100) withTabFooterView:presentView];
-//        [_myPopMenu showMenuAtView:self.view startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
-        [_myPopMenu showMenuAtView:presentView startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
-
-
-    } else{
-        [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
-        [_myPopMenu dismissMenu];
-    }
-}
-
 - (void)goToNewProjectVC{
     UIStoryboard *newProjectStoryboard = [UIStoryboard storyboardWithName:@"NewProject" bundle:nil];
     UIViewController *newProjectVC = [newProjectStoryboard instantiateViewControllerWithIdentifier:@"NewProjectVC"];
@@ -440,97 +436,6 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-
--(void)closeFliter{
-    if ([_myFliterMenu showStatus]) {
-        [_myFliterMenu dismissMenu];
-        [self fliterBtnClose:TRUE];
-    }
-}
-
--(void)closeMenu{
-    if ([_myPopMenu isShowed]) {
-        [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
-        [_myPopMenu dismissMenu];
-    }
-}
-
--(void)fliterBtnClose:(BOOL)status{
-    [_leftNavBtn setImage:status?[UIImage imageNamed:@"filtertBtn_normal_Nav"]:[UIImage imageNamed:@"filterBtn_selected_Nav"] forState:UIControlStateNormal];
-}
-
-//弹出事件
--(void)rotateView:(UIView*)aView
-{
-    POPBasicAnimation* rotateAnimation = ({
-        POPBasicAnimation* basicAnimation=[POPBasicAnimation animationWithPropertyNamed:kPOPLayerRotation];
-        basicAnimation.toValue = @(22.5 * (M_PI / 180.0f));
-        basicAnimation.timingFunction =[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        basicAnimation.duration = 0.2f;
-        [basicAnimation setCompletionBlock:^(POPAnimation * ani, BOOL fin) {
-            if (fin) {
-            }
-        }];
-        basicAnimation;
-    });
-    [aView.layer pop_addAnimation:rotateAnimation forKey:@"rotateAnimation"];
-    
-
-    
-//    [UIView beginAnimations:nil context:nil];
-//    [UIView setAnimationDuration:0.2];
-//    [UIView setAnimationDelegate:self];
-//    aView.transform = CGAffineTransformMakeRotation(22.5 * (M_PI / 180.0f));
-//    [UIView commitAnimations];
-
-}
-
--(void)addImageBarButtonWithImageName:(NSString*)imageName button:(UIButton*)aBtn action:(SEL)action isRight:(BOOL)isR
-{
-    UIImage *image = [UIImage imageNamed:imageName];
-    CGRect frame = CGRectMake(0,0, image.size.width, image.size.height);
-    
-    aBtn.frame=frame;
-    [aBtn setImage:image forState:UIControlStateNormal];
-    [aBtn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:aBtn];
-    
-    if (isR)
-    {
-        [self.navigationItem setRightBarButtonItem:barButtonItem];
-    }else
-    {
-        [self.navigationItem setLeftBarButtonItem:barButtonItem];
-    }
-}
-
-
-
-
-#pragma mark fliter
--(void)fliterClicked:(id)sender{
-    [self closeMenu];
-    if (_myFliterMenu.showStatus) {
-        [self fliterBtnClose:TRUE];
-//        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
-//        if ([[presentView.subviews firstObject] isMemberOfClass:NSClassFromString(@"RDVTabBar")]) {
-//            [presentView bringSubviewToFront:[presentView.subviews firstObject]];
-//        }
-        [_myFliterMenu dismissMenu];
-    }else
-    {
-        [self fliterBtnClose:FALSE];
-        _myFliterMenu.selectNum=_selectNum>=3?_selectNum+1:_selectNum;
-//        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
-//        [presentView bringSubviewToFront:[presentView.subviews firstObject]];
-        UIView *presentView=[[[UIApplication sharedApplication].keyWindow rootViewController] view];
-        [_myFliterMenu showMenuAtView:presentView];
-//        [_myFliterMenu showMenuAtView:self.view];
-    }
-}
-
-
 #pragma mark Search
 - (void)searchItemClicked:(id)sender{
     [_mySearchBar setX:20];
@@ -552,8 +457,7 @@
     [_mySearchBar becomeFirstResponder];
 }
 
--(void)searchAction
-{
+-(void)searchAction{
     if (!_mySearchDisplayController) {
         _mySearchDisplayController = ({
             UISearchDisplayController *searchVC = [[UISearchDisplayController alloc] initWithSearchBar:_mySearchBar contentsController:self];
@@ -570,19 +474,13 @@
     }
 }
 
-
--(void)goToSearchVC
-{
+-(void)goToSearchVC{
     [self closeFliter];
     [self closeMenu];
     SearchViewController *vc=[SearchViewController new];
-//    [self.navigationController pushViewController:vc animated:NO];
-    
     BaseNavigationController *searchNav=[[BaseNavigationController alloc]initWithRootViewController:vc];
     [self.navigationController presentViewController:searchNav animated:NO completion:nil];
 }
-
-
 
 #pragma mark Table
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -616,10 +514,7 @@
 
 #pragma mark UISearchBarDelegate
 
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
-{
-//    [self searchAction];
-//    [searchBar setShowsCancelButton:YES animated:YES];
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
     [self goToSearchVC];
     return NO;
     
