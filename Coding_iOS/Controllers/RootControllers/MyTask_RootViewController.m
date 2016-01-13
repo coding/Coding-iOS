@@ -69,8 +69,6 @@
         }];
         icarousel;
     });
-//    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)] animated:NO];
-    
     FRDLivelyButton *rightBtn = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(0,0,18.5,18.5)];
 
     [rightBtn setOptions:@{ kFRDLivelyButtonLineWidth: @(1.0f),
@@ -83,8 +81,13 @@
 }
 
 - (void)addItemClicked:(id)sender{
-    EditTaskViewController *vc = [[EditTaskViewController alloc] init];
-    vc.myTask = [Task taskWithProject:nil andUser:nil];
+    EditTaskViewController *vc = [EditTaskViewController new];
+    
+    NSInteger curIndex = _myCarousel.currentItemIndex;
+    Project *defaultPro = curIndex > 0? _myProjectList[curIndex]: nil;
+    vc.myTask = [Task taskWithProject:defaultPro andUser:defaultPro? [Login curLoginUser]: nil];
+    vc.myTask.handleType = TaskHandleTypeAddWithoutProject;
+    
     [self.navigationController pushViewController:vc animated:YES];
 }
 
