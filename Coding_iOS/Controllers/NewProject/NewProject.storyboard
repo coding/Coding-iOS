@@ -172,9 +172,6 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Lzc-jE-1JM">
                                                     <rect key="frame" x="256" y="8" width="51" height="31"/>
-                                                    <connections>
-                                                        <action selector="readmeSwitchValueChanged:" destination="vxe-vL-sGS" eventType="valueChanged" id="wSH-Ee-VJV"/>
-                                                    </connections>
                                                 </switch>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8PO-EU-AT6">
                                                     <rect key="frame" x="0.0" y="43" width="370" height="1"/>
