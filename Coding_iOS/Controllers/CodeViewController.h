@@ -13,5 +13,6 @@
 @interface CodeViewController : BaseViewController<UIWebViewDelegate>
 @property (strong, nonatomic) Project *myProject;
 @property (strong, nonatomic) CodeFile *myCodeFile;
+@property (assign, nonatomic) BOOL isReadMe;
 + (CodeViewController *)codeVCWithProject:(Project *)project andCodeFile:(CodeFile *)codeFile;
 @end

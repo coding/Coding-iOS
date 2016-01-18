@@ -2272,10 +2272,11 @@
                     if (data) {
                         [MobClick event:kUmeng_Event_Request_Get label:@"项目_README"];
 
-                        id resultData = [[data valueForKey:@"data"] valueForKey:@"readme"];
+                        id resultData = data[@"data"][@"readme"];
                         if (resultData) {
+                            CodeFile *rCodeFile = [NSObject objectOfClass:@"CodeFile" fromJSON:data[@"data"]];
                             CodeFile_RealFile *realFile = [NSObject objectOfClass:@"CodeFile_RealFile" fromJSON:resultData];
-                            CodeFile *rCodeFile = [CodeFile codeFileWithRef:defultBranch andPath:realFile.path];
+                            rCodeFile.path = realFile.path;
                             rCodeFile.file = realFile;
                             block(rCodeFile, nil);
                         }else{

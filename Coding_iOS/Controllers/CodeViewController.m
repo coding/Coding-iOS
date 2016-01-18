@@ -31,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = [[_myCodeFile.path componentsSeparatedByString:@"/"] lastObject];
+    self.title = self.isReadMe? @"README": [[_myCodeFile.path componentsSeparatedByString:@"/"] lastObject];
     
     {
         //用webView显示内容
@@ -74,14 +74,13 @@
 - (void)sendRequest{
     [self.view beginLoading];
     __weak typeof(self) weakSelf = self;
-    if (_myCodeFile.ref.length <= 0 && [_myCodeFile.path isEqualToString:@"README"]) {
+    if (_isReadMe) {
         [[Coding_NetAPIManager sharedManager] request_ReadMeOFProject:_myProject andBlock:^(id data, NSError *error) {
             [weakSelf doSomethingWithResponse:data andError:error];
         }];
     }else{
         [[Coding_NetAPIManager sharedManager] request_CodeFile:_myCodeFile withPro:_myProject andBlock:^(id data, NSError *error) {
             [weakSelf doSomethingWithResponse:data andError:error];
-            [weakSelf configRightNavBtn];
         }];
     }
 }
@@ -98,6 +97,7 @@
     [self.view configBlankPage:EaseBlankPageTypeView hasData:(data != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
         [self sendRequest];
     }];
+    [self configRightNavBtn];
 }
 
 - (void)refreshCodeViewData{
@@ -146,7 +146,11 @@
 #pragma mark Nav
 - (void)configRightNavBtn{
     if (!self.navigationItem.rightBarButtonItem) {
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)] animated:NO];
+        if (_isReadMe) {
+            [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(goToEditVC)] animated:NO];
+        }else{
+            [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)] animated:NO];
+        }
     }
 }
 

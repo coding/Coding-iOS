@@ -304,8 +304,8 @@
 }
 
 - (void)goToReadme{
-    CodeFile *nextCodeFile = [CodeFile codeFileWithRef:@"" andPath:@"README"];
-    CodeViewController *vc = [CodeViewController codeVCWithProject:_myProject andCodeFile:nextCodeFile];
+    CodeViewController *vc = [CodeViewController codeVCWithProject:_myProject andCodeFile:nil];
+    vc.isReadMe = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
