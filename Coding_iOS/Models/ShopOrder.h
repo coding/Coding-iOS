@@ -24,5 +24,5 @@
 @property (strong, nonatomic) NSString *giftName;
 @property (strong, nonatomic) NSString *giftImage;
 @property (strong, nonatomic) NSString *remark;
-
+@property (strong, nonatomic) NSString *optionName;
 @end

@@ -19,7 +19,7 @@
     UILabel     *_priceLabel;
     UILabel     *_titleLabel;
     UILabel     *_descLabel;
-    UILabel     *_countLabel;
+//    UILabel     *_countLabel;
     UIButton    *_codingCoinView;
     
     UILabel     *_orderNumLabel;
@@ -119,12 +119,12 @@
     _remarksLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
     [_goodsInfoView addSubview:_remarksLabel];
     
-    _countLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    _countLabel.font = FONT(12);
-    _countLabel.backgroundColor = [UIColor clearColor];
-    _countLabel.text  = @"ⅹ1";
-    _countLabel.textColor = [UIColor colorWithHexString:@"0x3BBD79"];
-    [_goodsInfoView addSubview:_countLabel];
+//    _countLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+//    _countLabel.font = FONT(12);
+//    _countLabel.backgroundColor = [UIColor clearColor];
+//    _countLabel.text  = @"ⅹ1";
+//    _countLabel.textColor = [UIColor colorWithHexString:@"0x3BBD79"];
+//    [_goodsInfoView addSubview:_countLabel];
     
     _codingCoinView = [UIButton buttonWithType:UIButtonTypeCustom];
     [_codingCoinView setImage:[UIImage imageNamed:@"shop_coding_coin_icon"] forState:UIControlStateNormal];
@@ -145,11 +145,11 @@
         make.right.equalTo(superView.mas_right).offset(-(40));
     }];
     
-    [_countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(_titleLabel.mas_centerY);
-        make.right.equalTo(_goodsInfoView.mas_right).offset(-7);
-        make.width.offset(20);
-    }];
+//    [_countLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.equalTo(_titleLabel.mas_centerY);
+//        make.right.equalTo(_goodsInfoView.mas_right).offset(-7);
+//        make.width.offset(20);
+//    }];
     
     [_codingCoinView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_titleLabel.mas_bottom).offset(8);
@@ -366,7 +366,11 @@
     [_codingCoinView setTitle:points_cost forState:UIControlStateNormal];
     
     _orderNumLabel.text = order.orderNo;
-    _remarksLabel.text  = order.remark;
+    NSString *remarkStr = order.remark ?: @"";
+    if (order.optionName.length > 0) {
+        remarkStr = [remarkStr stringByAppendingFormat:@"（%@）", order.optionName];
+    }
+    _remarksLabel.text  = remarkStr.length > 0? remarkStr: @"无";
     _nameLabel.text     = order.receiverName;
     _addressLabel.text  = order.receiverAddress;
     _phoneNumLabel.text = order.receiverPhone;
