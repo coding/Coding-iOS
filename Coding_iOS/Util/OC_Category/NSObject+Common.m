@@ -312,10 +312,13 @@
         error = [NSError errorWithDomain:[NSObject baseURLStr] code:resultCode.intValue userInfo:responseJSON];
 
         if (resultCode.intValue == 1000 || resultCode.intValue == 3207) {//用户未登录
-            if ([Login isLogin]) {//已登录的状态要抹掉
-                [Login doLogout];
-                [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
-                kTipAlert(@"%@", [NSObject tipFromError:error]);
+            if ([Login isLogin]) {
+                [Login doLogout];//已登录的状态要抹掉
+                //更新 UI 要延迟 >1.0 秒，否则屏幕可能会不响应触摸事件。。暂不知为何
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
+                    kTipAlert(@"%@", [NSObject tipFromError:error]);
+                });
             }
         }else{
             if (autoShowError) {
