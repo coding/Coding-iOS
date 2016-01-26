@@ -298,9 +298,9 @@
             label.delegate = self;
             label;
         });
-        NSString *tipStr = @"点击立即体验，即表示同意《coding服务条款》";
+        NSString *tipStr = @"点击立即体验，即表示同意《Coding 服务条款》";
         lineLabel.text = tipStr;
-        [lineLabel addLinkToTransitInformation:@{@"actionStr" : @"gotoServiceTermsVC"} withRange:[tipStr rangeOfString:@"《coding服务条款》"]];
+        [lineLabel addLinkToTransitInformation:@{@"actionStr" : @"gotoServiceTermsVC"} withRange:[tipStr rangeOfString:@"《Coding 服务条款》"]];
         CGRect footerBtnFrame = _footerBtn.frame;
         lineLabel.frame = CGRectMake(CGRectGetMinX(footerBtnFrame), CGRectGetMaxY(footerBtnFrame) +12, CGRectGetWidth(footerBtnFrame), 12);
         [footerV addSubview:lineLabel];
@@ -357,7 +357,7 @@
                     weakSelf.inputTipsView.active = NO;
                 };
             }else{
-                [cell setPlaceholder:@" 个性后缀" value:self.myRegister.global_key];
+                [cell setPlaceholder:@" 个性后缀（仅支持数字和字母）" value:self.myRegister.global_key];
                 cell.textValueChangedBlock = ^(NSString *valueStr){
                     weakSelf.myRegister.global_key = valueStr;
                 };
@@ -407,7 +407,7 @@
                         weakSelf.inputTipsView.active = NO;
                     };
                 }else{
-                    [cell setPlaceholder:@" 个性后缀" value:self.myRegister.global_key];
+                    [cell setPlaceholder:@" 个性后缀（仅支持数字和字母）" value:self.myRegister.global_key];
                     cell.textValueChangedBlock = ^(NSString *valueStr){
                         weakSelf.myRegister.global_key = valueStr;
                     };

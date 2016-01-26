@@ -54,7 +54,7 @@ static User *curLoginUser;
 
 - (NSString *)goToLoginTipWithCaptcha:(BOOL)needCaptcha{
     if (!_email || _email.length <= 0) {
-        return @"请填写电子邮箱或个性后缀";
+        return @"请填写「手机号码/电子邮箱/个性后缀」";
     }
     if (!_password || _password.length <= 0) {
         return @"请填写密码";
