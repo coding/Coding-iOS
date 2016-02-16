@@ -63,7 +63,7 @@
 - (void)setUserTitle:(NSString *)aUserName font:(UIFont *)font maxWidth:(CGFloat)maxWidth{
     [self setTitle:aUserName forState:UIControlStateNormal];
     CGRect frame = self.frame;
-    CGFloat titleWidth = [self.titleLabel.text getWidthWithFont:font constrainedToSize:CGSizeMake(kScreen_Width, frame.size.height)];
+    CGFloat titleWidth = [self.titleLabel.text getWidthWithFont:font constrainedToSize:CGSizeMake(CGFLOAT_MAX, frame.size.height)];
     if (titleWidth > maxWidth) {
         titleWidth = maxWidth;
 //        self.titleLabel.minimumScaleFactor = 0.5;
