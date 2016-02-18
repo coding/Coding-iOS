@@ -413,6 +413,7 @@
             if (data) {
                 [Login setPreUserEmail:self.myLogin.email];//记住登录账号
                 [((AppDelegate *)[UIApplication sharedApplication].delegate) setupTabViewController];
+                [self doSomethingAfterLogin];
             }else{
                 NSString *global_key = error.userInfo[@"msg"][@"two_factor_auth_code_not_empty"];
                 if (global_key.length > 0) {
@@ -428,6 +429,29 @@
             }
         }];
     }
+}
+
+- (void)doSomethingAfterLogin{
+    User *curUser = [Login curLoginUser];
+    if (curUser.email.length > 0 && !curUser.email_validation.boolValue) {
+        UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@"激活邮箱" message:@"该邮箱尚未激活，请尽快去邮箱查收邮件并激活账号。如果在收件箱中没有看到，请留意一下垃圾邮件箱子（T_T）"];
+        [alertView bk_setCancelButtonWithTitle:@"取消" handler:nil];
+        [alertView bk_addButtonWithTitle:@"重发激活邮件" handler:nil];
+        [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
+            if (index == 1) {
+                [self sendActivateEmail];
+            }
+        }];
+        [alertView show];
+
+    }
+}
+- (void)sendActivateEmail{
+    [[Coding_NetAPIManager sharedManager] request_SendActivateEmail:[Login curLoginUser].email block:^(id data, NSError *error) {
+        if (data) {
+            [NSObject showHudTipStr:@"邮件已发送"];
+        }
+    }];
 }
 
 - (IBAction)cannotLoginBtnClicked:(id)sender {
