@@ -13,7 +13,7 @@
 
 #import "SettingPasswordViewController.h"
 #import "SettingPhoneViewController.h"
-
+#import "Coding_NetAPIManager.h"
 #import "Login.h"
 
 @interface SettingAccountViewController ()
@@ -62,36 +62,43 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSInteger row = (section == 0? 2: 1);
+    NSInteger row = (section == 1? 2: 1);
     return row;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         TitleValueCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValue forIndexPath:indexPath];
-        
-        switch (indexPath.row) {
-            case 0:
-                [cell setTitleStr:@"邮箱" valueStr:self.myUser.email];
-                break;
-            default:
-                [cell setTitleStr:@"个性后缀" valueStr:self.myUser.global_key];
-                break;
-        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        [cell setTitleStr:@"个性后缀" valueStr:self.myUser.global_key];
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else if (indexPath.section == 1){
-        TitleValueMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValueMore forIndexPath:indexPath];
-        [cell setTitleStr:@"手机号码" valueStr:self.myUser.phone.length > 0? self.myUser.phone: @"未验证"];
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-        return cell;
+        if (indexPath.row == 0) {
+            if (self.myUser.email_validation.boolValue || self.myUser.email.length <= 0) {
+                TitleValueCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValue forIndexPath:indexPath];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                [cell setTitleStr:@"邮箱" valueStr:self.myUser.email ?: @"未绑定"];
+                [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+                return cell;
+            }else{
+                TitleValueMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValueMore forIndexPath:indexPath];
+                [cell setTitleStr:@"邮箱" valueStr:[NSString stringWithFormat:@"%@（未验证）",self.myUser.email]];
+                [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+                return cell;
+            }
+        }else{
+            TitleValueMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValueMore forIndexPath:indexPath];
+            [cell setTitleStr:@"手机号码" valueStr:self.myUser.phone ?: @"未绑定"];
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+            return cell;
+        }
     }else{
         TitleDisclosureCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleDisclosure forIndexPath:indexPath];
         [cell setTitleStr:@"修改密码"];
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }
-
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 20)];
@@ -110,13 +117,35 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 1) {
-        SettingPhoneViewController *vc = [[SettingPhoneViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
+        if (indexPath.row == 0) {
+            if (!self.myUser.email_validation.boolValue && self.myUser.email.length > 0) {
+                UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@"激活邮箱" message:@"该邮箱尚未激活，请尽快去邮箱查收邮件并激活账号。如果在收件箱中没有看到，请留意一下垃圾邮件箱子（T_T）"];
+                [alertView bk_setCancelButtonWithTitle:@"取消" handler:nil];
+                [alertView bk_addButtonWithTitle:@"重发激活邮件" handler:nil];
+                [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
+                    if (index == 1) {
+                        [self sendActivateEmail];
+                    }
+                }];
+                [alertView show];
+            }
+        }else{
+            SettingPhoneViewController *vc = [[SettingPhoneViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }else if (indexPath.section == 2){
         SettingPasswordViewController *vc = [[SettingPasswordViewController alloc] init];
         vc.myUser = self.myUser;
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+- (void)sendActivateEmail{
+    [[Coding_NetAPIManager sharedManager] request_SendActivateEmail:self.myUser.email block:^(id data, NSError *error) {
+        if (data) {
+            [NSObject showHudTipStr:@"邮件已发送"];
+        }
+    }];
 }
 
 - (void)dealloc

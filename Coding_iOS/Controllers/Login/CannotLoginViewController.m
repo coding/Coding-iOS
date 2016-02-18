@@ -117,7 +117,6 @@
                                                          reduce:^id(NSString *userStr){
                                                              return @([userStr isEmail] || [userStr isPhoneNo]);
                                                          }];
-
     }else{
         if (_medthodType == CannotLoginMethodPhone) {
             RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, userStr),

@@ -73,6 +73,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block;
 - (void)request_ActivateByPhone:(NSString *)phone setEmail:(NSString *)email global_key:(NSString *)global_key block:(void (^)(id data, NSError *error))block;
 - (void)request_ActivateBySetGlobal_key:(NSString *)global_key block:(void (^)(id data, NSError *error))block;
+- (void)request_SendActivateEmail:(NSString *)email block:(void (^)(id data, NSError *error))block;
 
 #pragma mark - Project
 - (void)request_Projects_WithObj:(Projects *)projects andBlock:(void (^)(Projects *data, NSError *error))block;

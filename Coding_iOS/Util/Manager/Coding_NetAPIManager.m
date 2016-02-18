@@ -309,6 +309,17 @@
         }
     }];
 }
+- (void)request_SendActivateEmail:(NSString *)email block:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/register/email/send" withParams:@{@"email": email} withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"激活账号_重发激活邮件"];
+            
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 #pragma mark Project
 - (void)request_Projects_WithObj:(Projects *)projects andBlock:(void (^)(Projects *data, NSError *error))block{
     projects.isLoading = YES;
