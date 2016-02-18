@@ -233,6 +233,10 @@
 
 -(void)addItemClicked:(id)sender{
     if (_rightNavBtn.buttonStyle == kFRDLivelyButtonStylePlus) {
+        if (_myFliterMenu.showStatus) {
+            [self fliterBtnClose:TRUE];
+            [_myFliterMenu dismissMenu];
+        }
         [_rightNavBtn setStyle:kFRDLivelyButtonStyleClose animated:YES];
         [_myPopMenu showMenuAtView:kKeyWindow startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
     } else{
