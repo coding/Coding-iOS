@@ -12,9 +12,9 @@
 
 typedef NS_ENUM(NSInteger, RegisterMethodType) {
     RegisterMethodEamil = 0,
-    RegisterMethodPhone
+    RegisterMethodPhone,
 };
 
 @interface RegisterViewController : BaseViewController
-+ (instancetype)vcWithMethodType:(RegisterMethodType)methodType stepIndex:(NSUInteger)stepIndex registerObj:(Register *)obj;
++ (instancetype)vcWithMethodType:(RegisterMethodType)methodType registerObj:(Register *)obj;
 @end

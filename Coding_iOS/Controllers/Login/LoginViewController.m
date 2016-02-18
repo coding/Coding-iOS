@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "RegisterViewController.h"
 #import "CannotLoginViewController.h"
+#import "ActivateViewController.h"
 #import "Input_OnlyText_Cell.h"
 #import "Coding_NetAPIManager.h"
 #import "AppDelegate.h"
@@ -302,21 +303,13 @@
     UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 150)];
     _loginBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"登录" andFrame:CGRectMake(kLoginPaddingLeftWidth, 20, kScreen_Width-kLoginPaddingLeftWidth*2, 45) target:self action:@selector(sendLogin)];
     [footerV addSubview:_loginBtn];
-    
-    
-    
-    
-    
-    RAC(self, loginBtn.enabled) = [RACSignal combineLatest:@[
-                                                             RACObserve(self, myLogin.email),
+    RAC(self, loginBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, myLogin.email),
                                                              RACObserve(self, myLogin.password),
                                                              RACObserve(self, myLogin.j_captcha),
                                                              RACObserve(self, captchaNeeded),
                                                              RACObserve(self, is2FAUI),
-                                                             RACObserve(self, otpCode)
-                                                             ]
-                                                    reduce:^id(
-                                                               NSString *email,
+                                                             RACObserve(self, otpCode)]
+                                                    reduce:^id(NSString *email,
                                                                NSString *password,
                                                                NSString *j_captcha,
                                                                NSNumber *captchaNeeded,
@@ -332,14 +325,13 @@
                                                             }
                                                         }
                                                     }];
-    
     UIButton *cannotLoginBtn = ({
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
         [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
         [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor colorWithWhite:0.5 alpha:0.5] forState:UIControlStateHighlighted];
         
-        [button setTitle:@"无法登录？" forState:UIControlStateNormal];
+        [button setTitle:@"找回密码" forState:UIControlStateNormal];
         [footerV addSubview:button];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(100, 30));
@@ -427,9 +419,7 @@
                     [weakSelf changeUITo2FAWithGK:global_key];
                 }else if (error.userInfo[@"msg"][@"user_need_activate"]){
                     [NSObject showError:error];
-                    Register *re = [Register new];
-                    re.phone = weakSelf.myLogin.email;
-                    RegisterViewController *vc = [RegisterViewController vcWithMethodType:RegisterMethodPhone stepIndex:2 registerObj:re];
+                    ActivateViewController *vc = [ActivateViewController new];
                     [self.navigationController pushViewController:vc animated:YES];
                 }else{
                     [NSObject showError:error];
@@ -441,21 +431,12 @@
 }
 
 - (IBAction)cannotLoginBtnClicked:(id)sender {
-    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"忘记密码？", @"已注册，未设置密码？"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-        if (index <= 1) {
-            [self goToCannotLoginWithIndex:index];
-        }
-    }] showInView:self.view];
-}
-
-- (void)goToCannotLoginWithIndex:(NSInteger)index{
-    CannotLoginViewController *vc = [CannotLoginViewController vcWithPurposeType:(index == 0? PurposeToPasswordReset: PurposeToPasswordActivate) methodType:0 stepIndex:0 userStr:(([self.myLogin.email isPhoneNo] || [self.myLogin.email isEmail])? self.myLogin.email: nil)];
+    CannotLoginViewController *vc = [CannotLoginViewController vcWithMethodType:0 stepIndex:0 userStr:(([self.myLogin.email isPhoneNo] || [self.myLogin.email isEmail])? self.myLogin.email: nil)];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-
 - (IBAction)goRegisterVC:(id)sender {
-    RegisterViewController *vc = [RegisterViewController vcWithMethodType:RegisterMethodPhone stepIndex:0 registerObj:nil];
+    RegisterViewController *vc = [RegisterViewController vcWithMethodType:RegisterMethodPhone registerObj:nil];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

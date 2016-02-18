@@ -5,7 +5,7 @@
 //  Created by 王 原闯 on 14-8-4.
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
-#define kCellIdentifier_Input_OnlyText_Cell_PhoneCode @"Input_OnlyText_Cell_PhoneCode"
+#define kCellIdentifier_Input_OnlyText_Cell_PhoneCode_Prefix @"Input_OnlyText_Cell_PhoneCode"
 
 #import "Input_OnlyText_Cell.h"
 #import "Coding_NetAPIManager.h"
@@ -14,7 +14,7 @@
 @interface Input_OnlyText_Cell ()
 
 @property (strong, nonatomic) UIView *lineView;
-@property (strong, nonatomic) UIButton *clearBtn;
+@property (strong, nonatomic) UIButton *clearBtn, *passwordBtn;
 
 @property (strong, nonatomic) UITapImageView *captchaView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
@@ -23,7 +23,7 @@
 
 @implementation Input_OnlyText_Cell
 + (NSString *)randomCellIdentifierOfPhoneCodeType{
-    return [NSString stringWithFormat:@"%@_%ld", kCellIdentifier_Input_OnlyText_Cell_PhoneCode, random()];
+    return [NSString stringWithFormat:@"%@_%ld", kCellIdentifier_Input_OnlyText_Cell_PhoneCode_Prefix, random()];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -68,7 +68,16 @@
                     make.center.equalTo(self.captchaView);
                 }];
             }
-        }else if ([reuseIdentifier hasPrefix:kCellIdentifier_Input_OnlyText_Cell_PhoneCode]){
+        }else if ([reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Password]){
+            if (!_passwordBtn) {
+                _textField.secureTextEntry = YES;
+
+                _passwordBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 44- kLoginPaddingLeftWidth, 0, 44, 44)];
+                [_passwordBtn setImage:[UIImage imageNamed:@"password_unlook"] forState:UIControlStateNormal];
+                [_passwordBtn addTarget:self action:@selector(passwordBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+                [self.contentView addSubview:_passwordBtn];
+            }
+        }else if ([reuseIdentifier hasPrefix:kCellIdentifier_Input_OnlyText_Cell_PhoneCode_Prefix]){
             if (!_verify_codeBtn) {
                 _verify_codeBtn = [[PhoneCodeButton alloc] initWithFrame:CGRectMake(kScreen_Width - 80 - kLoginPaddingLeftWidth, (44-25)/2, 80, 25)];
                 [_verify_codeBtn addTarget:self action:@selector(phoneCodeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -81,8 +90,9 @@
 
 - (void)prepareForReuse{
     self.isForLoginVC = NO;
-
-    self.textField.secureTextEntry = NO;
+    if (![self.reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Password]) {
+        self.textField.secureTextEntry = NO;
+    }
     self.textField.userInteractionEnabled = YES;
     self.textField.keyboardType = UIKeyboardTypeDefault;
     
@@ -152,7 +162,9 @@
     }else if ([self.reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Captcha]){
         rightElement = _captchaView;
         [self refreshCaptchaImage];
-    }else if ([self.reuseIdentifier hasPrefix:kCellIdentifier_Input_OnlyText_Cell_PhoneCode]){
+    }else if ([self.reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Password]){
+        rightElement = _passwordBtn;
+    }else if ([self.reuseIdentifier hasPrefix:kCellIdentifier_Input_OnlyText_Cell_PhoneCode_Prefix]){
         rightElement = _verify_codeBtn;
     }
     
@@ -168,8 +180,13 @@
     }];
 }
 
-#pragma Captcha
+#pragma password
+- (void)passwordBtnClicked:(UIButton *)button{
+    _textField.secureTextEntry = !_textField.secureTextEntry;
+    [button setImage:[UIImage imageNamed:_textField.secureTextEntry? @"password_unlook": @"password_look"] forState:UIControlStateNormal];
+}
 
+#pragma Captcha
 - (void)refreshCaptchaImage{
     __weak typeof(self) weakSelf = self;
     if (_activityIndicator.isAnimating) {

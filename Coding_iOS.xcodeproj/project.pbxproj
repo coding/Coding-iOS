@@ -465,6 +465,11 @@
 		4EAECBC61C44CB860096CA74 /* member_cell_edit_type@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAECBC01C44CB860096CA74 /* member_cell_edit_type@2x.png */; };
 		4EAECBC71C44CB860096CA74 /* member_cell_edit_type@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAECBC11C44CB860096CA74 /* member_cell_edit_type@3x.png */; };
 		4EB0C2001A807ED00042FC4F /* NSURL+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB0C1FF1A807ED00042FC4F /* NSURL+Common.m */; };
+		4EB52F0F1C74691B00B5EBEA /* password_look@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F0B1C74691B00B5EBEA /* password_look@2x.png */; };
+		4EB52F101C74691B00B5EBEA /* password_look@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F0C1C74691B00B5EBEA /* password_look@3x.png */; };
+		4EB52F111C74691B00B5EBEA /* password_unlook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F0D1C74691B00B5EBEA /* password_unlook@2x.png */; };
+		4EB52F121C74691B00B5EBEA /* password_unlook@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F0E1C74691B00B5EBEA /* password_unlook@3x.png */; };
+		4EB52F151C7599FC00B5EBEA /* ActivateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB52F141C7599FC00B5EBEA /* ActivateViewController.m */; };
 		4EB5A9421BF1DB4600C23AC3 /* libSocialSinaSSO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB5A9341BF1DB4600C23AC3 /* libSocialSinaSSO.a */; };
 		4EB5A9431BF1DB4600C23AC3 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB5A9351BF1DB4600C23AC3 /* libWeiboSDK.a */; };
 		4EB5A9441BF1DB4600C23AC3 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5A93F1BF1DB4600C23AC3 /* WeiboSDK.bundle */; };
@@ -1741,6 +1746,12 @@
 		4EAECBC11C44CB860096CA74 /* member_cell_edit_type@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "member_cell_edit_type@3x.png"; sourceTree = "<group>"; };
 		4EB0C1FE1A807ED00042FC4F /* NSURL+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+Common.h"; sourceTree = "<group>"; };
 		4EB0C1FF1A807ED00042FC4F /* NSURL+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Common.m"; sourceTree = "<group>"; };
+		4EB52F0B1C74691B00B5EBEA /* password_look@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "password_look@2x.png"; sourceTree = "<group>"; };
+		4EB52F0C1C74691B00B5EBEA /* password_look@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "password_look@3x.png"; sourceTree = "<group>"; };
+		4EB52F0D1C74691B00B5EBEA /* password_unlook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "password_unlook@2x.png"; sourceTree = "<group>"; };
+		4EB52F0E1C74691B00B5EBEA /* password_unlook@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "password_unlook@3x.png"; sourceTree = "<group>"; };
+		4EB52F131C7599FC00B5EBEA /* ActivateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivateViewController.h; sourceTree = "<group>"; };
+		4EB52F141C7599FC00B5EBEA /* ActivateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivateViewController.m; sourceTree = "<group>"; };
 		4EB5A9341BF1DB4600C23AC3 /* libSocialSinaSSO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSocialSinaSSO.a; sourceTree = "<group>"; };
 		4EB5A9351BF1DB4600C23AC3 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
 		4EB5A9361BF1DB4600C23AC3 /* UMSocialSinaSSOHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialSinaSSOHandler.h; sourceTree = "<group>"; };
@@ -3487,6 +3498,17 @@
 			path = member_cell_edit;
 			sourceTree = "<group>";
 		};
+		4EB52F0A1C74691B00B5EBEA /* password */ = {
+			isa = PBXGroup;
+			children = (
+				4EB52F0B1C74691B00B5EBEA /* password_look@2x.png */,
+				4EB52F0C1C74691B00B5EBEA /* password_look@3x.png */,
+				4EB52F0D1C74691B00B5EBEA /* password_unlook@2x.png */,
+				4EB52F0E1C74691B00B5EBEA /* password_unlook@3x.png */,
+			);
+			path = password;
+			sourceTree = "<group>";
+		};
 		4EB5A9331BF1DB4600C23AC3 /* SinaSSO */ = {
 			isa = PBXGroup;
 			children = (
@@ -4318,6 +4340,8 @@
 				8EA6CF2C19E240C40076D59C /* RegisterViewController.m */,
 				4E5C06E91AC4009100F427C5 /* CannotLoginViewController.h */,
 				4E5C06EA1AC4009100F427C5 /* CannotLoginViewController.m */,
+				4EB52F131C7599FC00B5EBEA /* ActivateViewController.h */,
+				4EB52F141C7599FC00B5EBEA /* ActivateViewController.m */,
 				4E5C06EC1AC4405300F427C5 /* PasswordViewController.h */,
 				4E5C06ED1AC4405300F427C5 /* PasswordViewController.m */,
 			);
@@ -4350,6 +4374,7 @@
 		8EA6CF5D19E240C40076D59C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4EB52F0A1C74691B00B5EBEA /* password */,
 				4EAECBBB1C44CB860096CA74 /* member_cell_edit */,
 				4E2F6A651C43CA4B00A25502 /* member_type */,
 				927AFF451BFF6DAD00AAE593 /* shop */,
@@ -5327,6 +5352,7 @@
 				4E2BF3CF1B96CDF800A5A0A8 /* share_btn_coding@2x.png in Resources */,
 				8EA6D15019E240C40076D59C /* commentOrLikeBeginImg@2x.png in Resources */,
 				8EA6D15E19E240C40076D59C /* login_suffix@2x.png in Resources */,
+				4EB52F101C74691B00B5EBEA /* password_look@3x.png in Resources */,
 				8E97CE721A0B8C6C006F9AD7 /* emotion_list.plist in Resources */,
 				4EC461B21B39360F00D08970 /* file_changeType_ADD@2x.png in Resources */,
 				4E4D6ACC1B2571B100FD2E49 /* git_icon_watched@2x.png in Resources */,
@@ -5451,6 +5477,7 @@
 				4E996C041ABBF56A00C704F1 /* n_btn_followed_yes@2x.png in Resources */,
 				4EAE06901B784E9200179F4B /* store_icon@2x.png in Resources */,
 				4EF818161B049C89005F974B /* addPictureBgImage@2x.png in Resources */,
+				4EB52F0F1C74691B00B5EBEA /* password_look@2x.png in Resources */,
 				4ED673281A8E12F900DF2D1A /* SVWebViewControllerActivityReport-iPad@2x.png in Resources */,
 				4E07D30E1A4A9F45009EDDF2 /* btn_file_reDo@2x.png in Resources */,
 				D0C447C41C02DB5400DC1C4B /* pop_Tweet@2x.png in Resources */,
@@ -5537,6 +5564,7 @@
 				8B35164F1B6CE9460049BC45 /* icon_arrow_searchHistory@2x.png in Resources */,
 				8EA6D16819E240C40076D59C /* nav_project_member@2x.png in Resources */,
 				4E9113A91A1CB19900AC9431 /* icon_file_state_download@2x.png in Resources */,
+				4EB52F121C74691B00B5EBEA /* password_unlook@3x.png in Resources */,
 				4E9113AB1A1CB19900AC9431 /* icon_file_state_look@2x.png in Resources */,
 				D0C447CD1C02DB6700DC1C4B /* pop_Message@3x.png in Resources */,
 				D0C447FB1C02DCA200DC1C4B /* settingBtn_Nav@2x.png in Resources */,
@@ -5782,6 +5810,7 @@
 				4E217F131A70EDC700F6DF88 /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
 				8EF6435019FF4E1600F7EEB0 /* comment_count_top_line@2x.png in Resources */,
 				7E335D9E1B6F5E94003D0F3D /* keyboard_voice_record@2x.png in Resources */,
+				4EB52F111C74691B00B5EBEA /* password_unlook@2x.png in Resources */,
 				4E2DB3481BA6AEB4002F27C4 /* coding_emoji_gif_03@2x.png in Resources */,
 				4E6B07141BA3D9B5007D6027 /* intro_page1_ip6+@3x.png in Resources */,
 				8EA6D18219E240C40076D59C /* splitlineImg@2x.png in Resources */,
@@ -6204,6 +6233,7 @@
 				3A3878401AE295970078D5DE /* ResetLabelCell.m in Sources */,
 				4EA679201A15AB9F001A0324 /* FileListViewController.m in Sources */,
 				8EA6D14119E240C40076D59C /* ValueListViewController.m in Sources */,
+				4EB52F151C7599FC00B5EBEA /* ActivateViewController.m in Sources */,
 				4ECE8ADD1A3943E80021E29C /* NSObject+ObjectMap.m in Sources */,
 				4E8765661A22E5B40090CFB9 /* SWCellScrollView.m in Sources */,
 				8E1C3DEB19E7D58A00EF3032 /* ActionSheetCustomPicker.m in Sources */,

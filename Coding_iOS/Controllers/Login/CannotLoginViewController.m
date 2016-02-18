@@ -11,7 +11,6 @@
 #import "Input_OnlyText_Cell.h"
 
 @interface CannotLoginViewController ()<UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, assign) PurposeType purposeType;
 @property (nonatomic, assign) CannotLoginMethodType medthodType;
 @property (nonatomic, assign) NSUInteger stepIndex;
 @property (strong, nonatomic) NSString *userStr, *phoneCode, *password, *confirm_password, *j_captcha;
@@ -23,20 +22,19 @@
 @end
 
 @implementation CannotLoginViewController
-
-+ (instancetype)vcWithPurposeType:(PurposeType)purposeType methodType:(CannotLoginMethodType)methodType stepIndex:(NSUInteger)stepIndex userStr:(NSString *)userStr{
++ (instancetype)vcWithMethodType:(CannotLoginMethodType)methodType stepIndex:(NSUInteger)stepIndex userStr:(NSString *)userStr{
     CannotLoginViewController *vc = [self new];
-    vc.purposeType = purposeType;
     vc.medthodType = methodType;
     vc.stepIndex = stepIndex;
     vc.userStr = userStr;
     return vc;
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    self.title = [self titleStr];
+    self.title = @"找回密码";
     self.phoneCodeCellIdentifier = [Input_OnlyText_Cell randomCellIdentifierOfPhoneCodeType];
     self.isFirstLoadCell = YES;
     
@@ -103,43 +101,10 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
-- (NSString *)titleStr{
-    NSString *curStr = @"";
-    if (_purposeType == PurposeToPasswordReset) {
-        curStr = @"重置密码";
-    }else if (_purposeType == PurposeToPasswordActivate){
-        curStr = @"设置密码";
-    }
-    return curStr;
-}
-
 #pragma mark - Table view Header Footer
 - (UIView *)customHeaderView{
-    UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 0.15*kScreen_Height)];
+    UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 60)];
     headerV.backgroundColor = [UIColor clearColor];
-    
-    UILabel *headerLabel = [UILabel new];
-    headerLabel.numberOfLines = 0;
-    headerLabel.textAlignment = NSTextAlignmentCenter;
-    NSMutableAttributedString *headerStr;
-    if (_stepIndex > 0 && _medthodType == CannotLoginMethodPhone) {
-        NSString *tempStr = [NSString stringWithFormat:@"我们已经发送了验证码到手机号\n%@", _userStr];
-        headerStr = [[NSMutableAttributedString alloc] initWithString:tempStr attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:12],
-                                                                                           NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x999999"]}];
-        [headerStr setAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:15],
-                                   NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x3BBD79"],
-                                   NSBaselineOffsetAttributeName: @(-10.0)} range:[tempStr rangeOfString:_userStr]];
-        
-    }else{
-        NSString *tempStr = @"加入Coding，体验云端开发之美！";
-        headerStr = [[NSMutableAttributedString alloc] initWithString:tempStr attributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:18],
-                                                                                           NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x222222"]}];
-    }
-    headerLabel.attributedText = headerStr;
-    [headerV addSubview:headerLabel];
-    [headerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(headerV);
-    }];
     return headerV;
 }
 - (UIView *)customFooterView{
@@ -158,10 +123,9 @@
             RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, userStr),
                                                                       RACObserve(self, phoneCode),
                                                                       RACObserve(self, password),
-                                                                      RACObserve(self, confirm_password),
-                                                                      RACObserve(self, j_captcha)]
-                                                             reduce:^id(NSString *userStr, NSString *phoneCode, NSString *password, NSString *confirm_password, NSString *j_captcha){
-                                                                 return @([userStr isPhoneNo] && phoneCode.length > 0 && password.length > 0 && confirm_password.length > 0 && j_captcha.length > 0);
+                                                                      RACObserve(self, confirm_password)]
+                                                             reduce:^id(NSString *userStr, NSString *phoneCode, NSString *password, NSString *confirm_password){
+                                                                 return @([userStr isPhoneNo] && phoneCode.length > 0 && password.length > 0 && confirm_password.length > 0);
                                                              }];
         }else{
             RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, userStr),
@@ -179,11 +143,7 @@
     if (_stepIndex == 0) {
         curStr = @"下一步";
     }else{
-        if (_purposeType == PurposeToPasswordReset) {
-            curStr = _medthodType == CannotLoginMethodPhone? @"重置密码": @"发送重置密码邮件";
-        }else if (_purposeType == PurposeToPasswordActivate){
-            curStr = _medthodType == CannotLoginMethodPhone? @"设置密码": @"重发激活邮件";
-        }
+        curStr = _medthodType == CannotLoginMethodPhone? @"重置密码": @"发送重置密码邮件";
     }
     return curStr;
 }
@@ -194,87 +154,61 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cellIdentifier;
-    if (_stepIndex == 0) {
+    if (indexPath.row == 0) {
         cellIdentifier = kCellIdentifier_Input_OnlyText_Cell_Text;
     }else{
         if (_medthodType == CannotLoginMethodPhone) {
-            if (indexPath.row == 0) {
+            if (indexPath.row == 3) {
                 cellIdentifier = self.phoneCodeCellIdentifier;
-            }else if (indexPath.row <= 2){
-                cellIdentifier = kCellIdentifier_Input_OnlyText_Cell_Text;
             }else{
-                cellIdentifier = kCellIdentifier_Input_OnlyText_Cell_Captcha;
+                cellIdentifier = kCellIdentifier_Input_OnlyText_Cell_Text;
             }
         }else{
-            if (indexPath.row == 0) {
-                cellIdentifier = kCellIdentifier_Input_OnlyText_Cell_Text;
-            }else{
-                cellIdentifier = kCellIdentifier_Input_OnlyText_Cell_Captcha;
-            }
+            cellIdentifier = kCellIdentifier_Input_OnlyText_Cell_Captcha;
         }
     }
     Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
     __weak typeof(self) weakSelf = self;
-    if (_stepIndex == 0) {
-        [cell setPlaceholder:@" 手机号/电子邮箱" value:self.userStr];
+    if (indexPath.row == 0) {
+        [cell setPlaceholder:(_stepIndex == 0? @" 手机/邮箱": _medthodType == CannotLoginMethodPhone? @" 手机号": @" 邮箱") value:self.userStr];
+        cell.textField.keyboardType = (_stepIndex == 0? UIKeyboardTypeDefault: _medthodType == CannotLoginMethodPhone? UIKeyboardTypeNumberPad: UIKeyboardTypeEmailAddress);
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.userStr = valueStr;
         };
     }else{
         if (_medthodType == CannotLoginMethodPhone) {
-            switch (indexPath.row) {
-                case 0:{
-                    cell.textField.keyboardType = UIKeyboardTypeNumberPad;
-                    [cell setPlaceholder:@" 手机验证码" value:self.phoneCode];
-                    cell.textValueChangedBlock = ^(NSString *valueStr){
-                        weakSelf.phoneCode = valueStr;
-                    };
-                    cell.phoneCodeBtnClckedBlock = ^(PhoneCodeButton *btn){
-                        [weakSelf phoneCodeBtnClicked:btn];
-                    };
-                    if (_isFirstLoadCell) {
-                        [cell.verify_codeBtn startUpTimer];
-                        _isFirstLoadCell = NO;
-                    }
-                    break;
-                }
-                case 1:{
-                    cell.textField.secureTextEntry = YES;
-                    [cell setPlaceholder:@" 密码" value:self.password];
-                    cell.textValueChangedBlock = ^(NSString *valueStr){
-                        weakSelf.password = valueStr;
-                    };
-                    break;
-                }
-                case 2:{
-                    cell.textField.secureTextEntry = YES;
-                    [cell setPlaceholder:@" 确认密码" value:self.confirm_password];
-                    cell.textValueChangedBlock = ^(NSString *valueStr){
-                        weakSelf.confirm_password = valueStr;
-                    };
-                    break;
-                }
-                default:{
-                    [cell setPlaceholder:@" 验证码" value:self.j_captcha];
-                    cell.textValueChangedBlock = ^(NSString *valueStr){
-                        weakSelf.j_captcha = valueStr;
-                    };
-                    break;
+            if (indexPath.row == 1){
+                cell.textField.secureTextEntry = YES;
+                [cell setPlaceholder:@" 设置密码" value:self.password];
+                cell.textValueChangedBlock = ^(NSString *valueStr){
+                    weakSelf.password = valueStr;
+                };
+            }else if (indexPath.row == 2){
+                cell.textField.secureTextEntry = YES;
+                [cell setPlaceholder:@" 重复密码" value:self.confirm_password];
+                cell.textValueChangedBlock = ^(NSString *valueStr){
+                    weakSelf.confirm_password = valueStr;
+                };
+            }else{
+                cell.textField.keyboardType = UIKeyboardTypeNumberPad;
+                [cell setPlaceholder:@" 手机验证码" value:self.phoneCode];
+                cell.textValueChangedBlock = ^(NSString *valueStr){
+                    weakSelf.phoneCode = valueStr;
+                };
+                cell.phoneCodeBtnClckedBlock = ^(PhoneCodeButton *btn){
+                    [weakSelf phoneCodeBtnClicked:btn];
+                };
+                if (_isFirstLoadCell) {
+                    [cell.verify_codeBtn startUpTimer];
+                    _isFirstLoadCell = NO;
                 }
             }
         }else{
-            if (indexPath.row == 0) {
-                [cell setPlaceholder:@" 手机号/电子邮箱" value:self.userStr];
-                cell.textValueChangedBlock = ^(NSString *valueStr){
-                    weakSelf.userStr = valueStr;
-                };
-            }else{
-                [cell setPlaceholder:@" 验证码" value:self.j_captcha];
-                cell.textValueChangedBlock = ^(NSString *valueStr){
-                    weakSelf.j_captcha = valueStr;
-                };
-            }
+            [cell setPlaceholder:@" 验证码" value:self.j_captcha];
+            cell.textValueChangedBlock = ^(NSString *valueStr){
+                weakSelf.j_captcha = valueStr;
+            };
         }
     }
     
@@ -293,7 +227,7 @@
         return;
     }
     sender.enabled = NO;
-    [[Coding_NetAPIManager sharedManager] request_GeneratePhoneCodeWithPhone:_userStr type:_purposeType block:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/password/forget" withParams:@{@"account": _userStr} withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [sender startUpTimer];
         }else{
@@ -306,16 +240,16 @@
     if (_stepIndex == 0) {
         if ([_userStr isPhoneNo]) {
             [self.footerBtn startQueryAnimate];
-            [[Coding_NetAPIManager sharedManager] request_GeneratePhoneCodeWithPhone:_userStr type:_purposeType block:^(id data, NSError *error) {
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/password/forget" withParams:@{@"account": _userStr} withMethodType:Post andBlock:^(id data, NSError *error) {
                 [self.footerBtn stopQueryAnimate];
                 if (data) {
                     [NSObject showHudTipStr:@"验证码已发送"];
-                    CannotLoginViewController *vc = [CannotLoginViewController vcWithPurposeType:_purposeType methodType:CannotLoginMethodPhone stepIndex:1 userStr:_userStr];
+                    CannotLoginViewController *vc = [CannotLoginViewController vcWithMethodType:CannotLoginMethodPhone stepIndex:1 userStr:_userStr];
                     [self.navigationController pushViewController:vc animated:YES];
                 }
             }];
         }else{
-            CannotLoginViewController *vc = [CannotLoginViewController vcWithPurposeType:_purposeType methodType:CannotLoginMethodEamil stepIndex:1 userStr:_userStr];
+            CannotLoginViewController *vc = [CannotLoginViewController vcWithMethodType:CannotLoginMethodEamil stepIndex:1 userStr:_userStr];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }else{
@@ -325,7 +259,12 @@
                 return;
             }
             [self.footerBtn startQueryAnimate];
-            [[Coding_NetAPIManager sharedManager] request_SetPasswordWithPhone:_userStr code:_phoneCode password:_password captcha:_j_captcha type:_purposeType block:^(id data, NSError *error) {
+            NSMutableDictionary *params = @{@"account": _userStr,
+                                            @"password": _password,
+                                            @"confirm": _confirm_password,
+                                            @"code": _phoneCode}.mutableCopy;
+            params[@"j_captcha"] = _j_captcha;
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/password/reset" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
                 [self.footerBtn stopQueryAnimate];
                 if (data) {
                     [NSObject showHudTipStr:@"密码设置成功"];
@@ -333,9 +272,9 @@
                 }
             }];
         }else{
-            NSString *tipStr = _purposeType != PurposeToPasswordReset? @"激活邮件已经发送，请尽快去邮箱查看": @"重置密码邮件已经发送，请尽快去邮箱查看";
+            NSString *tipStr = @"重置密码邮件已经发送，请尽快去邮箱查看";
             [self.footerBtn startQueryAnimate];
-            [[Coding_NetAPIManager sharedManager] request_SetPasswordWithEmail:_userStr captcha:_j_captcha type:_purposeType block:^(id data, NSError *error) {
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/password/forget" withParams:@{@"account": _userStr, @"j_captcha": _j_captcha} withMethodType:Post andBlock:^(id data, NSError *error) {
                 [self.footerBtn stopQueryAnimate];
                 if (data) {
                     [NSObject showHudTipStr:tipStr];

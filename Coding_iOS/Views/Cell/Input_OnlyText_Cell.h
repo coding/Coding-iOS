@@ -8,6 +8,7 @@
 
 #define kCellIdentifier_Input_OnlyText_Cell_Text @"Input_OnlyText_Cell_Text"
 #define kCellIdentifier_Input_OnlyText_Cell_Captcha @"Input_OnlyText_Cell_Captcha"
+#define kCellIdentifier_Input_OnlyText_Cell_Password @"Input_OnlyText_Cell_Password"
 
 #import <UIKit/UIKit.h>
 #import "UITapImageView.h"

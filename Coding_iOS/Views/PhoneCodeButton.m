@@ -11,37 +11,28 @@
 @interface PhoneCodeButton ()
 @property (nonatomic, strong, readwrite) NSTimer *timer;
 @property (assign, nonatomic) NSTimeInterval durationToValidity;
+@property (strong, nonatomic) UIView *lineView;
 @end
 
 @implementation PhoneCodeButton
-
-- (instancetype)init{
-    self = [super init];
-    if (self) {
-        self.titleLabel.font = [UIFont systemFontOfSize:12];
-        self.enabled = YES;
-    }
-    return self;
-}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.titleLabel.font = [UIFont systemFontOfSize:12];
+        self.titleLabel.font = [UIFont systemFontOfSize:14];
         self.enabled = YES;
+        
+        _lineView = [[UIView alloc] initWithFrame:CGRectMake(-10, 5, 0.5, CGRectGetHeight(frame) - 2*5)];
+        _lineView.backgroundColor = [UIColor colorWithHexString:@"0xD8D8D8"];
+        [self addSubview:_lineView];
     }
     return self;
-}
-
-- (void)awakeFromNib{
-    self.enabled = self.isEnabled;
 }
 
 - (void)setEnabled:(BOOL)enabled{
     [super setEnabled:enabled];
     UIColor *foreColor = [UIColor colorWithHexString:enabled? @"0x3BBD79": @"0xCCCCCC"];
-    [self doBorderWidth:1.0 color:foreColor cornerRadius:2.0];
     [self setTitleColor:foreColor forState:UIControlStateNormal];
     if (enabled) {
         [self setTitle:@"发送验证码" forState:UIControlStateNormal];

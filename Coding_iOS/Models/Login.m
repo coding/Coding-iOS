@@ -30,22 +30,23 @@ static User *curLoginUser;
 }
 
 - (NSString *)toPath{
-    NSString *path;
-    if ([self.email isPhoneNo]) {
-        path = @"api/account/login/phone";
-    }else{
-        path = @"api/login";
-    }
+    NSString *path = @"https://coding.net/api/v2/account/login";
+//    if ([self.email isPhoneNo]) {
+//        path = @"api/account/login/phone";
+//    }else{
+//        path = @"api/login";
+//    }
     return path;
 }
 - (NSDictionary *)toParams{
-    NSMutableDictionary *params = @{@"password" : [self.password sha1Str],
+    NSMutableDictionary *params = @{@"account": self.email,
+                                    @"password" : [self.password sha1Str],
                                     @"remember_me" : self.remember_me? @"true" : @"false",}.mutableCopy;
-    if ([self.email isPhoneNo]) {
-        params[@"phone"] = self.email;
-    }else{
-        params[@"email"] = self.email;
-    }
+//    if ([self.email isPhoneNo]) {
+//        params[@"phone"] = self.email;
+//    }else{
+//        params[@"email"] = self.email;
+//    }
     if (self.j_captcha.length > 0) {
         params[@"j_captcha"] = self.j_captcha;
     }

@@ -125,6 +125,24 @@
     }];
 }
 
+- (void)request_Register_V2_WithParams:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/v2/account/register";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        id resultData = [data valueForKeyPath:@"data"];
+        if (resultData) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"注册_V2"];
+            
+            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];
+            if (curLoginUser) {
+                [Login doLogin:resultData];
+            }
+            block(curLoginUser, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_CaptchaNeededWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path  withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
@@ -253,7 +271,7 @@
         block(data, nil);
     }];
 }
-- (void)request_ActiveByPhone:(NSString *)phone setEmail:(NSString *)email global_key:(NSString *)global_key block:(void (^)(id data, NSError *error))block{
+- (void)request_ActivateByPhone:(NSString *)phone setEmail:(NSString *)email global_key:(NSString *)global_key block:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/account/activate/phone";
     NSDictionary *params = @{@"phone" : phone,
                              @"email": email,
@@ -262,6 +280,24 @@
         id resultData = [data valueForKeyPath:@"data"];
         if (resultData) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"激活账号_设置邮箱KEY"];
+            
+            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];
+            if (curLoginUser) {
+                [Login doLogin:resultData];
+            }
+            block(curLoginUser, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_ActivateBySetGlobal_key:(NSString *)global_key block:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/account/global_key/acitvate";
+    NSDictionary *params = @{@"global_key": global_key};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        id resultData = [data valueForKeyPath:@"data"];
+        if (resultData) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"激活账号_设置GK"];
             
             User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];
             if (curLoginUser) {
