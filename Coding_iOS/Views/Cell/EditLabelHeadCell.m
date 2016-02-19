@@ -17,28 +17,28 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.accessoryType = UITableViewCellAccessoryNone;
         self.backgroundColor = kColorTableBG;
         // Initialization code
-        if (!_labelField) {
-            _labelField = [[UITextField alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, (kScreen_Width - kPaddingLeftWidth * 2 - 50), 44)];
-            _labelField.textColor = [UIColor colorWithHexString:@"0x222222"];
-            _labelField.font = [UIFont systemFontOfSize:16];
-            _labelField.placeholder = @"输入新标签的名称";
-            //_labelField.
-            [self.contentView addSubview:_labelField];
+        if (!_colorBtn) {
+            _colorBtn = [[UIButton alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 7, 30, 30)];
+            _colorBtn.layer.masksToBounds = YES;
+            _colorBtn.layer.cornerRadius = 4;
+            [_colorBtn setImage:[UIImage imageNamed:@"tag_button_editColor"] forState:UIControlStateNormal];
+            [self.contentView addSubview:_colorBtn];
         }
         if (!_addBtn) {
             _addBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 50, 7, 50, 30)];
-            _addBtn.layer.cornerRadius = 4;
-            _addBtn.layer.borderWidth = 0.6;
-            _addBtn.layer.borderColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
-            [_addBtn setTitle:@"添加" forState:UIControlStateNormal];
-            [_addBtn.titleLabel setFont:[UIFont systemFontOfSize:16]];
-            [_addBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
-            [_addBtn setTitleColor:[UIColor colorWithHexString:@"0xdddddd"] forState:UIControlStateDisabled];
+            [_addBtn doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xCCCCCC"] cornerRadius:4];
+            [_addBtn setImage:[UIImage imageNamed:@"tag_button_add"] forState:UIControlStateNormal];
             _addBtn.enabled = FALSE;
             [self.contentView addSubview:_addBtn];
+        }
+        if (!_labelField) {
+            _labelField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_colorBtn.frame) + 10, 0, (CGRectGetMinX(_addBtn.frame) - CGRectGetMaxX(_colorBtn.frame) - 20), 44)];
+            _labelField.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _labelField.font = [UIFont systemFontOfSize:16];
+            _labelField.placeholder = @"输入新标签的名称";
+            [self.contentView addSubview:_labelField];
         }
     }
     return self;

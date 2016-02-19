@@ -10,7 +10,7 @@
 
 @interface EditLabelHeadCell : UITableViewCell
 
-@property (strong, nonatomic) UIButton *addBtn;
+@property (strong, nonatomic) UIButton *addBtn, *colorBtn;
 @property (strong, nonatomic) UITextField *labelField;
 
 + (CGFloat)cellHeight;

@@ -470,6 +470,15 @@
 		4EB52F111C74691B00B5EBEA /* password_unlook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F0D1C74691B00B5EBEA /* password_unlook@2x.png */; };
 		4EB52F121C74691B00B5EBEA /* password_unlook@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F0E1C74691B00B5EBEA /* password_unlook@3x.png */; };
 		4EB52F151C7599FC00B5EBEA /* ActivateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB52F141C7599FC00B5EBEA /* ActivateViewController.m */; };
+		4EB52F1D1C76BA3B00B5EBEA /* tag_button_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F171C76BA3B00B5EBEA /* tag_button_add@2x.png */; };
+		4EB52F1E1C76BA3B00B5EBEA /* tag_button_add@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F181C76BA3B00B5EBEA /* tag_button_add@3x.png */; };
+		4EB52F1F1C76BA3B00B5EBEA /* tag_button_editColor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F191C76BA3B00B5EBEA /* tag_button_editColor@2x.png */; };
+		4EB52F201C76BA3B00B5EBEA /* tag_button_editColor@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F1A1C76BA3B00B5EBEA /* tag_button_editColor@3x.png */; };
+		4EB52F211C76BA3B00B5EBEA /* tag_button_randomColor@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F1B1C76BA3B00B5EBEA /* tag_button_randomColor@2x.png */; };
+		4EB52F221C76BA3B00B5EBEA /* tag_button_randomColor@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F1C1C76BA3B00B5EBEA /* tag_button_randomColor@3x.png */; };
+		4EB52F251C76C16300B5EBEA /* EditColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB52F241C76C16300B5EBEA /* EditColorViewController.m */; };
+		4EB52F281C76ED4A00B5EBEA /* TagColorEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB52F271C76ED4A00B5EBEA /* TagColorEditCell.m */; };
+		4EB52F2B1C76ED7000B5EBEA /* TagColorDisplayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB52F2A1C76ED7000B5EBEA /* TagColorDisplayCell.m */; };
 		4EB5A9421BF1DB4600C23AC3 /* libSocialSinaSSO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB5A9341BF1DB4600C23AC3 /* libSocialSinaSSO.a */; };
 		4EB5A9431BF1DB4600C23AC3 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB5A9351BF1DB4600C23AC3 /* libWeiboSDK.a */; };
 		4EB5A9441BF1DB4600C23AC3 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5A93F1BF1DB4600C23AC3 /* WeiboSDK.bundle */; };
@@ -1752,6 +1761,18 @@
 		4EB52F0E1C74691B00B5EBEA /* password_unlook@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "password_unlook@3x.png"; sourceTree = "<group>"; };
 		4EB52F131C7599FC00B5EBEA /* ActivateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivateViewController.h; sourceTree = "<group>"; };
 		4EB52F141C7599FC00B5EBEA /* ActivateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivateViewController.m; sourceTree = "<group>"; };
+		4EB52F171C76BA3B00B5EBEA /* tag_button_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag_button_add@2x.png"; sourceTree = "<group>"; };
+		4EB52F181C76BA3B00B5EBEA /* tag_button_add@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag_button_add@3x.png"; sourceTree = "<group>"; };
+		4EB52F191C76BA3B00B5EBEA /* tag_button_editColor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag_button_editColor@2x.png"; sourceTree = "<group>"; };
+		4EB52F1A1C76BA3B00B5EBEA /* tag_button_editColor@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag_button_editColor@3x.png"; sourceTree = "<group>"; };
+		4EB52F1B1C76BA3B00B5EBEA /* tag_button_randomColor@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag_button_randomColor@2x.png"; sourceTree = "<group>"; };
+		4EB52F1C1C76BA3B00B5EBEA /* tag_button_randomColor@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tag_button_randomColor@3x.png"; sourceTree = "<group>"; };
+		4EB52F231C76C16300B5EBEA /* EditColorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditColorViewController.h; sourceTree = "<group>"; };
+		4EB52F241C76C16300B5EBEA /* EditColorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditColorViewController.m; sourceTree = "<group>"; };
+		4EB52F261C76ED4A00B5EBEA /* TagColorEditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagColorEditCell.h; sourceTree = "<group>"; };
+		4EB52F271C76ED4A00B5EBEA /* TagColorEditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagColorEditCell.m; sourceTree = "<group>"; };
+		4EB52F291C76ED7000B5EBEA /* TagColorDisplayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagColorDisplayCell.h; sourceTree = "<group>"; };
+		4EB52F2A1C76ED7000B5EBEA /* TagColorDisplayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagColorDisplayCell.m; sourceTree = "<group>"; };
 		4EB5A9341BF1DB4600C23AC3 /* libSocialSinaSSO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSocialSinaSSO.a; sourceTree = "<group>"; };
 		4EB5A9351BF1DB4600C23AC3 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
 		4EB5A9361BF1DB4600C23AC3 /* UMSocialSinaSSOHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialSinaSSOHandler.h; sourceTree = "<group>"; };
@@ -3509,6 +3530,19 @@
 			path = password;
 			sourceTree = "<group>";
 		};
+		4EB52F161C76BA3B00B5EBEA /* tag_button */ = {
+			isa = PBXGroup;
+			children = (
+				4EB52F171C76BA3B00B5EBEA /* tag_button_add@2x.png */,
+				4EB52F181C76BA3B00B5EBEA /* tag_button_add@3x.png */,
+				4EB52F191C76BA3B00B5EBEA /* tag_button_editColor@2x.png */,
+				4EB52F1A1C76BA3B00B5EBEA /* tag_button_editColor@3x.png */,
+				4EB52F1B1C76BA3B00B5EBEA /* tag_button_randomColor@2x.png */,
+				4EB52F1C1C76BA3B00B5EBEA /* tag_button_randomColor@3x.png */,
+			);
+			path = tag_button;
+			sourceTree = "<group>";
+		};
 		4EB5A9331BF1DB4600C23AC3 /* SinaSSO */ = {
 			isa = PBXGroup;
 			children = (
@@ -4216,6 +4250,8 @@
 				8EA6CF1F19E240C40076D59C /* EditTopicViewController.m */,
 				3A3878351AE293D50078D5DE /* EditLabelViewController.h */,
 				3A3878361AE293D50078D5DE /* EditLabelViewController.m */,
+				4EB52F231C76C16300B5EBEA /* EditColorViewController.h */,
+				4EB52F241C76C16300B5EBEA /* EditColorViewController.m */,
 				3A3878381AE2949E0078D5DE /* ResetLabelViewController.h */,
 				3A3878391AE2949E0078D5DE /* ResetLabelViewController.m */,
 				8EA6CF4F19E240C40076D59C /* TopicDetailViewController.h */,
@@ -4374,6 +4410,7 @@
 		8EA6CF5D19E240C40076D59C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				4EB52F161C76BA3B00B5EBEA /* tag_button */,
 				4EB52F0A1C74691B00B5EBEA /* password */,
 				4EAECBBB1C44CB860096CA74 /* member_cell_edit */,
 				4E2F6A651C43CA4B00A25502 /* member_type */,
@@ -5181,6 +5218,10 @@
 				4ED618191C3A72AE0017946C /* ShopMutileValueCell.h */,
 				4ED6181A1C3A72AE0017946C /* ShopMutileValueCell.m */,
 				4ED6181C1C3A72CF0017946C /* ShopMutileValueCell.xib */,
+				4EB52F261C76ED4A00B5EBEA /* TagColorEditCell.h */,
+				4EB52F271C76ED4A00B5EBEA /* TagColorEditCell.m */,
+				4EB52F291C76ED7000B5EBEA /* TagColorDisplayCell.h */,
+				4EB52F2A1C76ED7000B5EBEA /* TagColorDisplayCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -5332,6 +5373,7 @@
 				4EACB43F1A2C448F0097ABB3 /* button_file_createFolder_unable@2x.png in Resources */,
 				4EED9DCD1B539366000E5827 /* taskProject@2x.png in Resources */,
 				4EF17ED91B3C3112003CDD2D /* intro_icon_5@2x.png in Resources */,
+				4EB52F221C76BA3B00B5EBEA /* tag_button_randomColor@3x.png in Resources */,
 				4E6383B81B32640900D98648 /* messageComment@2x.png in Resources */,
 				8EA6D1A319E240C40076D59C /* tweet_comment_btn@2x.png in Resources */,
 				D09E6ACE1BF9CCCF009D37F8 /* fliter_square@2x.png in Resources */,
@@ -5373,6 +5415,7 @@
 				4E4D6AC21B252CD400FD2E49 /* icon_code_tree@2x.png in Resources */,
 				8E97CEB01A0C7E26006F9AD7 /* coding_emoji_25@2x.png in Resources */,
 				7E335D9D1B6F5E94003D0F3D /* keyboard_arrow_down@2x.png in Resources */,
+				4EB52F1D1C76BA3B00B5EBEA /* tag_button_add@2x.png in Resources */,
 				4EF17ED71B3C3112003CDD2D /* intro_icon_4@2x.png in Resources */,
 				4E6384031B33C8E900D98648 /* task_activity_icon_create@2x.png in Resources */,
 				4EACB4401A2C448F0097ABB3 /* button_file_download_unable@2x.png in Resources */,
@@ -5535,6 +5578,7 @@
 				D0C447A81C02A3C700DC1C4B /* project_selected@2x.png in Resources */,
 				8EA6D19C19E240C40076D59C /* tipIcon_QcTask@2x.png in Resources */,
 				4E095A841B6B24DE008DC439 /* time_clock_icon@2x.png in Resources */,
+				4EB52F211C76BA3B00B5EBEA /* tag_button_randomColor@2x.png in Resources */,
 				4E6383FC1B33C18700D98648 /* task_activity_icon_reassign@2x.png in Resources */,
 				4E6383B71B32640900D98648 /* messageAT@2x.png in Resources */,
 				D0C447AC1C02A3C700DC1C4B /* tweet_selected@2x.png in Resources */,
@@ -5555,6 +5599,7 @@
 				4EE1A23E1B5F3834004284F1 /* project_tag_icon@2x.png in Resources */,
 				8EA6D19319E240C40076D59C /* timeline_line_read@2x.png in Resources */,
 				D09E6AC61BF84AF9009D37F8 /* git_icon_fork@2x.png in Resources */,
+				4EB52F1E1C76BA3B00B5EBEA /* tag_button_add@3x.png in Resources */,
 				4EF17EE31B3C3112003CDD2D /* intro_tip_3@3x.png in Resources */,
 				4E94C4EF1B4B73BB00EB668A /* scan_line@2x.png in Resources */,
 				4E96E7DF1A1B537E0037C098 /* icon_file_unknown@2x.png in Resources */,
@@ -5613,6 +5658,7 @@
 				4EF17EDC1B3C3112003CDD2D /* intro_tip_0@2x.png in Resources */,
 				8EA6D19719E240C40076D59C /* tipIcon_Project@2x.png in Resources */,
 				D0C447CF1C02DB6700DC1C4B /* pop_Task@3x.png in Resources */,
+				4EB52F1F1C76BA3B00B5EBEA /* tag_button_editColor@2x.png in Resources */,
 				4EF17ED31B3C3112003CDD2D /* intro_icon_2@2x.png in Resources */,
 				D0C448091C02DCAC00DC1C4B /* addUserBtn_Nav@3x.png in Resources */,
 				D0C447F51C02DCA200DC1C4B /* addUserBtn_Nav@2x.png in Resources */,
@@ -5788,6 +5834,7 @@
 				4E6384001B33C18700D98648 /* task_activity_icon_update_description@2x.png in Resources */,
 				D09E6AC21BF84AC5009D37F8 /* git_icon_star@2x.png in Resources */,
 				4E095A831B6B24DE008DC439 /* task_description_icon@2x.png in Resources */,
+				4EB52F201C76BA3B00B5EBEA /* tag_button_editColor@3x.png in Resources */,
 				D0C447F91C02DCA200DC1C4B /* moreBtn_Nav@2x.png in Resources */,
 				4EFE8DB91B3A5727004B7559 /* Launch Screen.xib in Resources */,
 				4EF17ECC1B3C3112003CDD2D /* intro_dot_selected@3x.png in Resources */,
@@ -6167,6 +6214,7 @@
 				4E2906A21A403B7D008A5B97 /* FileDownloadView.m in Sources */,
 				4E6BA2DC1A1EE6AF005FD721 /* AFNetworkReachabilityManager.m in Sources */,
 				D09E6AD11BF9D999009D37F8 /* SearchViewController.m in Sources */,
+				4EB52F251C76C16300B5EBEA /* EditColorViewController.m in Sources */,
 				8E59F0E31A0098BA009A905F /* UIScrollView+SVPullToRefresh.m in Sources */,
 				4E8D5D5B1B45295D00B70936 /* NSData+OTPBase32Encoding.m in Sources */,
 				4E8AF7861A53D69F00CDC3AE /* StartImagesManager.m in Sources */,
@@ -6264,6 +6312,7 @@
 				D066BB3D1BF38844005AB5D6 /* ProjectAboutMeListCell.m in Sources */,
 				8BDF9AA61B7456060093BF2C /* HotTopicBannerView.m in Sources */,
 				8EA6D12E19E240C40076D59C /* EditTaskViewController.m in Sources */,
+				4EB52F2B1C76ED7000B5EBEA /* TagColorDisplayCell.m in Sources */,
 				8EA6D1BC19E240C40076D59C /* ProjectTopics.m in Sources */,
 				4EE1A2311B5D02CA004284F1 /* ProjectTasksView.m in Sources */,
 				8EA6D1C919E240C40076D59C /* UICustomCollectionView.m in Sources */,
@@ -6331,6 +6380,7 @@
 				8EF643CF19FF7E2900F7EEB0 /* TweetDetailCommentCell.m in Sources */,
 				4E4D6A8E1B1D5B9A00FD2E49 /* MRPRBaseInfo.m in Sources */,
 				7EB02FF31B6D111300D2166C /* AudioRecordView.m in Sources */,
+				4EB52F281C76ED4A00B5EBEA /* TagColorEditCell.m in Sources */,
 				4E93F2441B85C4C300017916 /* FileInfoViewController.m in Sources */,
 				4E4D6A9A1B1D893500FD2E49 /* CommitInfo.m in Sources */,
 				4E38CF5F1A7A28AF005536C0 /* CodeBranchTagButton.m in Sources */,
