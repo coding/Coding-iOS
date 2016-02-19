@@ -30,6 +30,8 @@
 #import "pop.h"
 #import "FRDLivelyButton.h"
 #import "StartImagesManager.h"
+#import "ZXScanCodeViewController.h"
+#import "WebViewController.h"
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
@@ -98,7 +100,8 @@
     //添加搜索框
     _mySearchBar = ({
         MainSearchBar *searchBar = [[MainSearchBar alloc] initWithFrame:CGRectMake(60,7, kScreen_Width-115, 31)];
-        [searchBar setPlaceholder:@"项目/任务/讨论/冒泡等"];
+        [searchBar setContentMode:UIViewContentModeLeft];
+        [searchBar setPlaceholder:@"搜索"];
         searchBar.delegate = self;
         searchBar.layer.cornerRadius=15;
         searchBar.layer.masksToBounds=TRUE;
@@ -108,6 +111,7 @@
         [searchBar setTintColor:[UIColor whiteColor]];
         [searchBar insertBGColor:[UIColor colorWithHexString:@"0xffffff"]];
         [searchBar setHeight:30];
+        [searchBar.scanBtn addTarget:self action:@selector(scanBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         searchBar;
     });
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
@@ -601,6 +605,53 @@
     self.searchResults = [[self.searchResults filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
 }
 
+#pragma mark scan QR-Code
+- (void)scanBtnClicked{
+    ZXScanCodeViewController *vc = [ZXScanCodeViewController new];
+    __weak typeof(self) weakSelf = self;
+    vc.scanResultBlock = ^(ZXScanCodeViewController *vc, NSString *resultStr){
+        [weakSelf dealWithScanResult:resultStr ofVC:vc];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
+- (void)dealWithScanResult:(NSString *)resultStr ofVC:(ZXScanCodeViewController *)vc{
+    UIViewController *nextVC  = [BaseViewController analyseVCFromLinkStr:resultStr];
+    NSURL *URL = [NSURL URLWithString:resultStr];
+    if (nextVC) {
+        [self.navigationController pushViewController:nextVC animated:YES];
+    }else if (URL){
+        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"可能存在风险，是否打开此链接？\n「%@」", resultStr]];
+        [alertV bk_setCancelButtonWithTitle:@"取消" handler:nil];
+        [alertV bk_addButtonWithTitle:@"打开链接" handler:nil];
+        [alertV bk_setWillDismissBlock:^(UIAlertView *al, NSInteger index) {
+            if (index == 1) {
+                [[UIApplication sharedApplication] openURL:URL];
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        [alertV show];
+    }else if (resultStr.length > 0){
+        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"已识别此二维码内容为：\n「%@」", resultStr]];
+        [alertV bk_setCancelButtonWithTitle:@"取消" handler:nil];
+        [alertV bk_addButtonWithTitle:@"复制链接" handler:nil];
+        [alertV bk_setWillDismissBlock:^(UIAlertView *al, NSInteger index) {
+            if (index == 1) {
+                [[UIPasteboard generalPasteboard] setString:resultStr];
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        [alertV show];
+
+    }else{
+        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"无效条码" message:@"未检测到条码信息"];
+        [alertV bk_addButtonWithTitle:@"重试" handler:^{
+            if (![vc isScaning]) {
+                [vc startScan];
+            }
+        }];
+        [alertV show];
+    }
+}
 
 @end

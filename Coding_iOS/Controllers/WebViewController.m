@@ -23,6 +23,10 @@
 @implementation WebViewController
 
 + (instancetype)webVCWithUrlStr:(NSString *)curUrlStr{
+    if (!curUrlStr || curUrlStr.length <= 0 || [curUrlStr hasPrefix:kCodingAppScheme]) {
+        return nil;
+    }
+    
 //    NSString *tasksRegexStr = @"/user/tasks[\?]?";
     NSString *tasksRegexStr = @"/user/tasks";
     if ([curUrlStr captureComponentsMatchedByRegex:tasksRegexStr].count > 0){
@@ -32,9 +36,7 @@
             return nil;
         }
     }
-    if (!curUrlStr || curUrlStr.length <= 0 || [curUrlStr hasPrefix:kCodingAppScheme]) {
-        return nil;
-    }
+
     NSString *proName = [NSString stringWithFormat:@"/%@.app/", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]];
     NSURL *curUrl;
     if (![curUrlStr hasPrefix:@"/"] || [curUrlStr rangeOfString:proName].location != NSNotFound) {

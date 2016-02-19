@@ -479,6 +479,8 @@
 		4EB52F251C76C16300B5EBEA /* EditColorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB52F241C76C16300B5EBEA /* EditColorViewController.m */; };
 		4EB52F281C76ED4A00B5EBEA /* TagColorEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB52F271C76ED4A00B5EBEA /* TagColorEditCell.m */; };
 		4EB52F2B1C76ED7000B5EBEA /* TagColorDisplayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB52F2A1C76ED7000B5EBEA /* TagColorDisplayCell.m */; };
+		4EB52F2E1C77138A00B5EBEA /* button_scan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F2C1C77138A00B5EBEA /* button_scan@2x.png */; };
+		4EB52F2F1C77138A00B5EBEA /* button_scan@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F2D1C77138A00B5EBEA /* button_scan@3x.png */; };
 		4EB5A9421BF1DB4600C23AC3 /* libSocialSinaSSO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB5A9341BF1DB4600C23AC3 /* libSocialSinaSSO.a */; };
 		4EB5A9431BF1DB4600C23AC3 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB5A9351BF1DB4600C23AC3 /* libWeiboSDK.a */; };
 		4EB5A9441BF1DB4600C23AC3 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5A93F1BF1DB4600C23AC3 /* WeiboSDK.bundle */; };
@@ -1773,6 +1775,8 @@
 		4EB52F271C76ED4A00B5EBEA /* TagColorEditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagColorEditCell.m; sourceTree = "<group>"; };
 		4EB52F291C76ED7000B5EBEA /* TagColorDisplayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagColorDisplayCell.h; sourceTree = "<group>"; };
 		4EB52F2A1C76ED7000B5EBEA /* TagColorDisplayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagColorDisplayCell.m; sourceTree = "<group>"; };
+		4EB52F2C1C77138A00B5EBEA /* button_scan@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_scan@2x.png"; sourceTree = "<group>"; };
+		4EB52F2D1C77138A00B5EBEA /* button_scan@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_scan@3x.png"; sourceTree = "<group>"; };
 		4EB5A9341BF1DB4600C23AC3 /* libSocialSinaSSO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSocialSinaSSO.a; sourceTree = "<group>"; };
 		4EB5A9351BF1DB4600C23AC3 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
 		4EB5A9361BF1DB4600C23AC3 /* UMSocialSinaSSOHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialSinaSSOHandler.h; sourceTree = "<group>"; };
@@ -4531,6 +4535,8 @@
 				4EC4800F1C2A909D005F1772 /* register_step_un@2x.png */,
 				4EC480101C2A909D005F1772 /* register_step_un@3x.png */,
 				4ED6181E1C3A732F0017946C /* button_arrow_left@2x.png */,
+				4EB52F2C1C77138A00B5EBEA /* button_scan@2x.png */,
+				4EB52F2D1C77138A00B5EBEA /* button_scan@3x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -5614,6 +5620,7 @@
 				D0C447CD1C02DB6700DC1C4B /* pop_Message@3x.png in Resources */,
 				D0C447FB1C02DCA200DC1C4B /* settingBtn_Nav@2x.png in Resources */,
 				4E63840B1B33F9B400D98648 /* comment_bg@2x.png in Resources */,
+				4EB52F2E1C77138A00B5EBEA /* button_scan@2x.png in Resources */,
 				8E97CEA31A0C7E26006F9AD7 /* coding_emoji_12@2x.png in Resources */,
 				4EF17EE81B3C3112003CDD2D /* intro_icon_6@2x.png in Resources */,
 				D0C447F71C02DCA200DC1C4B /* filtertBtn_normal_Nav@2x.png in Resources */,
@@ -5816,6 +5823,7 @@
 				B9A00D7F1ACA3A05008BA008 /* ProjectSetting.storyboard in Resources */,
 				8EA6D19219E240C40076D59C /* timeline_icon_unread@2x.png in Resources */,
 				4E095A6D1B69F920008DC439 /* banner__page_selected@2x.png in Resources */,
+				4EB52F2F1C77138A00B5EBEA /* button_scan@3x.png in Resources */,
 				4E86FEE51BB556D6005E53F3 /* tipIcon_ProjectFileComment@2x.png in Resources */,
 				4E217F141A70EDC700F6DF88 /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
 				4EF91F641B00B62B0021C951 /* icon_not_locationed@2x.png in Resources */,

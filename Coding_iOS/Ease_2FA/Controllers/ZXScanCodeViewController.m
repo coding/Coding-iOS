@@ -50,6 +50,8 @@
     [super viewDidAppear:animated];
     if (!_videoPreviewLayer) {
         [self configUI];
+    }else{
+        [self startScan];
     }
 }
 
@@ -188,8 +190,7 @@
         return;
     }
     //停止扫描
-    [self.videoPreviewLayer.session stopRunning];
-    [self scanLineStopAction];
+    [self stopScan];
     //震动反馈
     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     //交给 block 处理
@@ -212,8 +213,7 @@
         return;
     }
     //停止扫描
-    [self.videoPreviewLayer.session stopRunning];
-    [self scanLineStopAction];
+    [self stopScan];
     
     UIImagePickerController *picker = [UIImagePickerController new];
     picker.delegate = self;
@@ -223,7 +223,15 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
-    [picker dismissViewControllerAnimated:YES completion:nil];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [self handleImageInfo:info];
+    }];
+}
+
+- (void)handleImageInfo:(NSDictionary *)info{
+    //停止扫描
+    [self stopScan];
+    
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image){
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -243,6 +251,7 @@
         _scanResultBlock(self, resultStr);
     }
 }
+
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     [picker dismissViewControllerAnimated:YES completion:nil];
 }

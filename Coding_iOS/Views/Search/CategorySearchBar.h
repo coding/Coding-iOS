@@ -16,4 +16,5 @@ typedef void(^SelectBlock)();
 
 
 @interface MainSearchBar : UISearchBar
+@property (strong, nonatomic) UIButton *scanBtn;
 @end

@@ -65,6 +65,7 @@
 
 
 
+
 #pragma mark -- event
 -(void)selectCategoryAction{
     _curBlock();
@@ -75,18 +76,34 @@
 }
 @end
 
-
 @implementation MainSearchBar
+
+- (UIButton *)scanBtn{
+    if (!_scanBtn) {
+        _scanBtn = [UIButton new];
+        [_scanBtn setImage:[UIImage imageNamed:@"button_scan"] forState:UIControlStateNormal];
+        [self addSubview:_scanBtn];
+        [_scanBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(50, 30));
+            make.centerY.equalTo(self);
+            make.right.equalTo(self);
+        }];
+    }
+    return _scanBtn;
+}
+
 -(void)layoutSubviews
 {
     //fix width in ios7
     self.width=kScreen_Width-115;
     self.autoresizesSubviews = YES;
     //找到输入框  右移
-    UITextField *searchField=[[[[self subviews] firstObject] subviews] lastObject];
-    searchField.textAlignment=NSTextAlignmentLeft;
-    [searchField setFrame:CGRectMake(0,4.8,self.frame.size.width,22)];
-//    searchField.backgroundColor=[UIColor blueColor];
+    NSPredicate *finalPredicate = [NSPredicate predicateWithBlock:^BOOL(UIView *candidateView, NSDictionary *bindings) {
+        return [candidateView isMemberOfClass:NSClassFromString(@"UISearchBarTextField")];
+    }];
+    UITextField *searchField = [[[[[self subviews] firstObject] subviews] filteredArrayUsingPredicate:finalPredicate] lastObject];
+    searchField.textAlignment = NSTextAlignmentLeft;
+    [searchField setFrame:CGRectMake(-CGRectGetWidth(self.frame)/2 + 40, 4.8, CGRectGetWidth(self.frame), 22)];
     [(UIImageView*)searchField.leftView setSize:CGSizeMake(13, 13)];
 }
 @end
