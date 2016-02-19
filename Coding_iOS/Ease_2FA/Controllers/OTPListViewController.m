@@ -182,10 +182,33 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
 - (void)beginButtonClicked:(id)sender{
     __weak typeof(self) weakSelf = self;
     ZXScanCodeViewController *vc = [ZXScanCodeViewController new];
-    vc.sucessScanBlock = ^(OTPAuthURL *authURL){
-        [weakSelf addOneAuthURL:authURL];
+    vc.scanResultBlock = ^(ZXScanCodeViewController *vc, NSString *resultStr){
+        [weakSelf dealWithScanResult:resultStr ofVC:vc];
     };
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)dealWithScanResult:(NSString *)resultStr ofVC:(ZXScanCodeViewController *)vc{
+    //解析结果
+    OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:[NSURL URLWithString:resultStr] secret:nil];
+    if ([authURL isKindOfClass:[TOTPAuthURL class]]) {
+        [self addOneAuthURL:authURL];
+        [vc.navigationController popViewControllerAnimated:YES];
+    }else{
+        NSString *tipStr;
+        if (authURL) {
+            tipStr = @"目前仅支持 TOTP 类型的身份验证令牌";
+        }else{
+            tipStr = [NSString stringWithFormat:@"条码「%@」不是有效的身份验证令牌条码", resultStr];
+        }
+        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"无效条码" message:tipStr];
+        [alertV bk_addButtonWithTitle:@"重试" handler:^{
+            if (![vc isScaning]) {
+                [vc startScan];
+            }
+        }];
+        [alertV show];
+    }
 }
 
 - (void)addOneAuthURL:(OTPAuthURL *)authURL{
