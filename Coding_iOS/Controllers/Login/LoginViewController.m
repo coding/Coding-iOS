@@ -348,7 +348,7 @@
 #pragma mark BottomView
 - (void)configBottomView{
     if (!_bottomView) {
-        _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height - 60, kScreen_Width, 60)];
+        _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height - 55, kScreen_Width, 55)];
         _bottomView.backgroundColor = [UIColor clearColor];
         UIButton *registerBtn = ({
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
@@ -359,8 +359,9 @@
             [button setTitle:@"去注册" forState:UIControlStateNormal];
             [_bottomView addSubview:button];
             [button mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake(100, 300));
-                make.center.equalTo(_bottomView);
+                make.size.mas_equalTo(CGSizeMake(100, 30));
+                make.centerX.equalTo(_bottomView);
+                make.top.equalTo(_bottomView);
             }];
             button;
         });
