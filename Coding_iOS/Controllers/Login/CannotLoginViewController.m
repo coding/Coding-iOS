@@ -18,7 +18,6 @@
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
 @property (strong, nonatomic) UIButton *footerBtn;
 @property (strong, nonatomic) NSString *phoneCodeCellIdentifier;
-@property (assign, nonatomic) BOOL isFirstLoadCell;
 @end
 
 @implementation CannotLoginViewController
@@ -36,7 +35,6 @@
     
     self.title = @"找回密码";
     self.phoneCodeCellIdentifier = [Input_OnlyText_Cell randomCellIdentifierOfPhoneCodeType];
-    self.isFirstLoadCell = YES;
     
     //    添加myTableView
     _myTableView = ({
@@ -198,10 +196,6 @@
                 cell.phoneCodeBtnClckedBlock = ^(PhoneCodeButton *btn){
                     [weakSelf phoneCodeBtnClicked:btn];
                 };
-                if (_isFirstLoadCell) {
-                    [cell.verify_codeBtn startUpTimer];
-                    _isFirstLoadCell = NO;
-                }
             }
         }else{
             [cell setPlaceholder:@" 验证码" value:self.j_captcha];
@@ -237,20 +231,8 @@
 
 - (void)footerBtnClicked:(id)sender{
     if (_stepIndex == 0) {
-        if ([_userStr isPhoneNo]) {
-            [self.footerBtn startQueryAnimate];
-            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/password/forget" withParams:@{@"account": _userStr} withMethodType:Post andBlock:^(id data, NSError *error) {
-                [self.footerBtn stopQueryAnimate];
-                if (data) {
-                    [NSObject showHudTipStr:@"验证码已发送"];
-                    CannotLoginViewController *vc = [CannotLoginViewController vcWithMethodType:CannotLoginMethodPhone stepIndex:1 userStr:_userStr];
-                    [self.navigationController pushViewController:vc animated:YES];
-                }
-            }];
-        }else{
-            CannotLoginViewController *vc = [CannotLoginViewController vcWithMethodType:CannotLoginMethodEamil stepIndex:1 userStr:_userStr];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
+        CannotLoginViewController *vc = [CannotLoginViewController vcWithMethodType:[_userStr isPhoneNo]? CannotLoginMethodPhone: CannotLoginMethodEamil stepIndex:1 userStr:_userStr];
+        [self.navigationController pushViewController:vc animated:YES];
     }else{
         if (_medthodType == CannotLoginMethodPhone) {
             if (![_password isEqualToString:_confirm_password]) {

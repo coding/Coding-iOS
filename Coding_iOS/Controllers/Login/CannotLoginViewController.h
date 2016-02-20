@@ -17,6 +17,4 @@ typedef NS_ENUM(NSInteger, CannotLoginMethodType) {
 @interface CannotLoginViewController : BaseViewController
 + (instancetype)vcWithMethodType:(CannotLoginMethodType)methodType stepIndex:(NSUInteger)stepIndex userStr:(NSString *)userStr;
 
-//+ (instancetype)vcWithPurposeType:(PurposeType)purposeType methodType:(CannotLoginMethodType)methodType stepIndex:(NSUInteger)stepIndex userStr:(NSString *)userStr;
-
 @end
