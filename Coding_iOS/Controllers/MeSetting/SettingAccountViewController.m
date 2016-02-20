@@ -83,7 +83,7 @@
                 return cell;
             }else{
                 TitleValueMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValueMore forIndexPath:indexPath];
-                [cell setTitleStr:@"邮箱" valueStr:[NSString stringWithFormat:@"%@（未验证）",self.myUser.email]];
+                [cell setTitleStr:@"邮箱" valueStr:[NSString stringWithFormat:@"%@ - 未验证",self.myUser.email]];
                 [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
                 return cell;
             }
