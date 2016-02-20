@@ -222,6 +222,7 @@
     sender.enabled = NO;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/password/forget" withParams:@{@"account": _userStr} withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
+            [NSObject showHudTipStr:@"验证码发送成功"];
             [sender startUpTimer];
         }else{
             [sender invalidateTimer];
@@ -241,8 +242,8 @@
             }
             [self.footerBtn startQueryAnimate];
             NSMutableDictionary *params = @{@"account": _userStr,
-                                            @"password": _password,
-                                            @"confirm": _confirm_password,
+                                            @"password": [_password sha1Str],
+                                            @"confirm": [_confirm_password sha1Str],
                                             @"code": _phoneCode}.mutableCopy;
             params[@"j_captcha"] = _j_captcha;
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/password/reset" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
@@ -253,12 +254,11 @@
                 }
             }];
         }else{
-            NSString *tipStr = @"重置密码邮件已经发送，请尽快去邮箱查看";
             [self.footerBtn startQueryAnimate];
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/password/forget" withParams:@{@"account": _userStr, @"j_captcha": _j_captcha} withMethodType:Post andBlock:^(id data, NSError *error) {
                 [self.footerBtn stopQueryAnimate];
                 if (data) {
-                    [NSObject showHudTipStr:tipStr];
+                    [NSObject showHudTipStr:@"重置密码邮件已经发送，请尽快去邮箱查看"];
                     [self.navigationController popToRootViewControllerAnimated:YES];
                 }
             }];

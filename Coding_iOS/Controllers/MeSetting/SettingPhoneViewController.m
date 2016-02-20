@@ -101,6 +101,7 @@
     sender.enabled = NO;
     [[Coding_NetAPIManager sharedManager] request_GeneratePhoneCodeToResetPhone:_phone block:^(id data, NSError *error) {
         if (data) {
+            [NSObject showHudTipStr:@"验证码发送成功"];
             [sender startUpTimer];
         }else{
             [sender invalidateTimer];

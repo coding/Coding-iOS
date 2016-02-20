@@ -30,7 +30,7 @@ static User *curLoginUser;
 }
 
 - (NSString *)toPath{
-    return @"https://coding.net/api/v2/account/login";
+    return @"api/v2/account/login";
 }
 - (NSDictionary *)toParams{
     NSMutableDictionary *params = @{@"account": self.email,
