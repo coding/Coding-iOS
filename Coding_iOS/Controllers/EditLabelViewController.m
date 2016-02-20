@@ -108,6 +108,9 @@
             if (data) {
                 weakSelf.tagToAdd.id = data;
                 [weakSelf.tagList addObject:weakSelf.tagToAdd];
+                [weakSelf.selectedTags addObject:weakSelf.tagToAdd];
+                weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+
                 weakSelf.tagToAdd = [ProjectTag new];
                 [weakSelf.myTableView reloadData];
                 sender.enabled = FALSE;
