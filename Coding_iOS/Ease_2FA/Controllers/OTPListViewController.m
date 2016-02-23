@@ -7,6 +7,7 @@
 //
 
 #import "OTPListViewController.h"
+#import "ZXScanCodeViewController.h"
 #import "OTPTableViewCell.h"
 
 #import "OTPAuthURL.h"
