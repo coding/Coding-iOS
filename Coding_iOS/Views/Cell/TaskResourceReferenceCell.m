@@ -29,7 +29,7 @@
             _codeL = ({
                 UILabel *label = [UILabel new];
                 label.textColor = [UIColor colorWithHexString:@"0x3BBD79"];
-                label.font = [UIFont systemFontOfSize:14];
+                label.font = [UIFont systemFontOfSize:15];
                 label;
             });
             [self.contentView addSubview:_codeL];
@@ -38,7 +38,7 @@
             _titleL = ({
                 UILabel *label = [UILabel new];
                 label.textColor = [UIColor colorWithHexString:@"0x222222"];
-                label.font = [UIFont systemFontOfSize:14];
+                label.font = [UIFont systemFontOfSize:15];
                 label;
             });
             [self.contentView addSubview:_titleL];

@@ -486,14 +486,14 @@
 		4EB52F3C1C7C45E700B5EBEA /* taskResourceReference@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F3A1C7C45E700B5EBEA /* taskResourceReference@3x.png */; };
 		4EB52F3F1C7C464400B5EBEA /* TaskResourceReferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB52F3E1C7C464400B5EBEA /* TaskResourceReferenceViewController.m */; };
 		4EB52F421C7C480200B5EBEA /* TaskResourceReferenceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EB52F411C7C480200B5EBEA /* TaskResourceReferenceCell.m */; };
-		4EB52F4C1C7C4C0B00B5EBEA /* task_resource_reference_MergeRequestBean@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F441C7C4C0B00B5EBEA /* task_resource_reference_MergeRequestBean@2x.png */; };
-		4EB52F4D1C7C4C0B00B5EBEA /* task_resource_reference_MergeRequestBean@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F451C7C4C0B00B5EBEA /* task_resource_reference_MergeRequestBean@3x.png */; };
-		4EB52F4E1C7C4C0B00B5EBEA /* task_resource_reference_ProjectFile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F461C7C4C0B00B5EBEA /* task_resource_reference_ProjectFile@2x.png */; };
-		4EB52F4F1C7C4C0B00B5EBEA /* task_resource_reference_ProjectFile@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F471C7C4C0B00B5EBEA /* task_resource_reference_ProjectFile@3x.png */; };
-		4EB52F501C7C4C0B00B5EBEA /* task_resource_reference_ProjectTopic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F481C7C4C0B00B5EBEA /* task_resource_reference_ProjectTopic@2x.png */; };
-		4EB52F511C7C4C0B00B5EBEA /* task_resource_reference_ProjectTopic@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F491C7C4C0B00B5EBEA /* task_resource_reference_ProjectTopic@3x.png */; };
-		4EB52F521C7C4C0B00B5EBEA /* task_resource_reference_Task@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F4A1C7C4C0B00B5EBEA /* task_resource_reference_Task@2x.png */; };
-		4EB52F531C7C4C0B00B5EBEA /* task_resource_reference_Task@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F4B1C7C4C0B00B5EBEA /* task_resource_reference_Task@3x.png */; };
+		4EB52F5C1C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F541C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@2x.png */; };
+		4EB52F5D1C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F551C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@3x.png */; };
+		4EB52F5E1C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F561C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@2x.png */; };
+		4EB52F5F1C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F571C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@3x.png */; };
+		4EB52F601C7C5C4F00B5EBEA /* task_resource_reference_ProjectTopic@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F581C7C5C4F00B5EBEA /* task_resource_reference_ProjectTopic@2x.png */; };
+		4EB52F611C7C5C4F00B5EBEA /* task_resource_reference_ProjectTopic@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F591C7C5C4F00B5EBEA /* task_resource_reference_ProjectTopic@3x.png */; };
+		4EB52F621C7C5C4F00B5EBEA /* task_resource_reference_Task@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F5A1C7C5C4F00B5EBEA /* task_resource_reference_Task@2x.png */; };
+		4EB52F631C7C5C4F00B5EBEA /* task_resource_reference_Task@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EB52F5B1C7C5C4F00B5EBEA /* task_resource_reference_Task@3x.png */; };
 		4EB5A9421BF1DB4600C23AC3 /* libSocialSinaSSO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB5A9341BF1DB4600C23AC3 /* libSocialSinaSSO.a */; };
 		4EB5A9431BF1DB4600C23AC3 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EB5A9351BF1DB4600C23AC3 /* libWeiboSDK.a */; };
 		4EB5A9441BF1DB4600C23AC3 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4EB5A93F1BF1DB4600C23AC3 /* WeiboSDK.bundle */; };
@@ -1798,14 +1798,14 @@
 		4EB52F3E1C7C464400B5EBEA /* TaskResourceReferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskResourceReferenceViewController.m; sourceTree = "<group>"; };
 		4EB52F401C7C480200B5EBEA /* TaskResourceReferenceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskResourceReferenceCell.h; sourceTree = "<group>"; };
 		4EB52F411C7C480200B5EBEA /* TaskResourceReferenceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskResourceReferenceCell.m; sourceTree = "<group>"; };
-		4EB52F441C7C4C0B00B5EBEA /* task_resource_reference_MergeRequestBean@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_MergeRequestBean@2x.png"; sourceTree = "<group>"; };
-		4EB52F451C7C4C0B00B5EBEA /* task_resource_reference_MergeRequestBean@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_MergeRequestBean@3x.png"; sourceTree = "<group>"; };
-		4EB52F461C7C4C0B00B5EBEA /* task_resource_reference_ProjectFile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_ProjectFile@2x.png"; sourceTree = "<group>"; };
-		4EB52F471C7C4C0B00B5EBEA /* task_resource_reference_ProjectFile@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_ProjectFile@3x.png"; sourceTree = "<group>"; };
-		4EB52F481C7C4C0B00B5EBEA /* task_resource_reference_ProjectTopic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_ProjectTopic@2x.png"; sourceTree = "<group>"; };
-		4EB52F491C7C4C0B00B5EBEA /* task_resource_reference_ProjectTopic@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_ProjectTopic@3x.png"; sourceTree = "<group>"; };
-		4EB52F4A1C7C4C0B00B5EBEA /* task_resource_reference_Task@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_Task@2x.png"; sourceTree = "<group>"; };
-		4EB52F4B1C7C4C0B00B5EBEA /* task_resource_reference_Task@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_Task@3x.png"; sourceTree = "<group>"; };
+		4EB52F541C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_MergeRequestBean@2x.png"; sourceTree = "<group>"; };
+		4EB52F551C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_MergeRequestBean@3x.png"; sourceTree = "<group>"; };
+		4EB52F561C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_ProjectFile@2x.png"; sourceTree = "<group>"; };
+		4EB52F571C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_ProjectFile@3x.png"; sourceTree = "<group>"; };
+		4EB52F581C7C5C4F00B5EBEA /* task_resource_reference_ProjectTopic@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_ProjectTopic@2x.png"; sourceTree = "<group>"; };
+		4EB52F591C7C5C4F00B5EBEA /* task_resource_reference_ProjectTopic@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_ProjectTopic@3x.png"; sourceTree = "<group>"; };
+		4EB52F5A1C7C5C4F00B5EBEA /* task_resource_reference_Task@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_Task@2x.png"; sourceTree = "<group>"; };
+		4EB52F5B1C7C5C4F00B5EBEA /* task_resource_reference_Task@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_Task@3x.png"; sourceTree = "<group>"; };
 		4EB5A9341BF1DB4600C23AC3 /* libSocialSinaSSO.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSocialSinaSSO.a; sourceTree = "<group>"; };
 		4EB5A9351BF1DB4600C23AC3 /* libWeiboSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeiboSDK.a; sourceTree = "<group>"; };
 		4EB5A9361BF1DB4600C23AC3 /* UMSocialSinaSSOHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialSinaSSOHandler.h; sourceTree = "<group>"; };
@@ -3581,14 +3581,14 @@
 		4EB52F431C7C4C0B00B5EBEA /* task_resource_reference */ = {
 			isa = PBXGroup;
 			children = (
-				4EB52F441C7C4C0B00B5EBEA /* task_resource_reference_MergeRequestBean@2x.png */,
-				4EB52F451C7C4C0B00B5EBEA /* task_resource_reference_MergeRequestBean@3x.png */,
-				4EB52F461C7C4C0B00B5EBEA /* task_resource_reference_ProjectFile@2x.png */,
-				4EB52F471C7C4C0B00B5EBEA /* task_resource_reference_ProjectFile@3x.png */,
-				4EB52F481C7C4C0B00B5EBEA /* task_resource_reference_ProjectTopic@2x.png */,
-				4EB52F491C7C4C0B00B5EBEA /* task_resource_reference_ProjectTopic@3x.png */,
-				4EB52F4A1C7C4C0B00B5EBEA /* task_resource_reference_Task@2x.png */,
-				4EB52F4B1C7C4C0B00B5EBEA /* task_resource_reference_Task@3x.png */,
+				4EB52F541C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@2x.png */,
+				4EB52F551C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@3x.png */,
+				4EB52F561C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@2x.png */,
+				4EB52F571C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@3x.png */,
+				4EB52F581C7C5C4F00B5EBEA /* task_resource_reference_ProjectTopic@2x.png */,
+				4EB52F591C7C5C4F00B5EBEA /* task_resource_reference_ProjectTopic@3x.png */,
+				4EB52F5A1C7C5C4F00B5EBEA /* task_resource_reference_Task@2x.png */,
+				4EB52F5B1C7C5C4F00B5EBEA /* task_resource_reference_Task@3x.png */,
 			);
 			path = task_resource_reference;
 			sourceTree = "<group>";
@@ -5452,6 +5452,7 @@
 				7E8E59841B6F91C40083CA02 /* bubble_right_play_2@2x.png in Resources */,
 				4E2BF3CF1B96CDF800A5A0A8 /* share_btn_coding@2x.png in Resources */,
 				8EA6D15019E240C40076D59C /* commentOrLikeBeginImg@2x.png in Resources */,
+				4EB52F5F1C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@3x.png in Resources */,
 				8EA6D15E19E240C40076D59C /* login_suffix@2x.png in Resources */,
 				4EB52F101C74691B00B5EBEA /* password_look@3x.png in Resources */,
 				8E97CE721A0B8C6C006F9AD7 /* emotion_list.plist in Resources */,
@@ -5462,6 +5463,7 @@
 				8E97CE681A0A3424006F9AD7 /* keyboard_keyboard@2x.png in Resources */,
 				8EA6D17919E240C40076D59C /* placeholder_monkey_round_48@2x.png in Resources */,
 				8EA6D1A819E240C40076D59C /* xtsegment_bordor_left@2x.png in Resources */,
+				4EB52F5C1C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@2x.png in Resources */,
 				8E525C8A19F7E3F800496B34 /* blankpage_image_loadFail@2x.png in Resources */,
 				4E095A7E1B6B1E40008DC439 /* calendar_0xF24B4B@2x.png in Resources */,
 				4E5D13091C0ECB3400985AEB /* tweet_btn_comment@2x.png in Resources */,
@@ -5470,9 +5472,9 @@
 				8E525C8919F7E3F800496B34 /* blankpage_button_reload@2x.png in Resources */,
 				8E97CEAC1A0C7E26006F9AD7 /* coding_emoji_21@2x.png in Resources */,
 				7E8E59811B6F91C40083CA02 /* bubble_left_play_2@2x.png in Resources */,
+				4EB52F631C7C5C4F00B5EBEA /* task_resource_reference_Task@3x.png in Resources */,
 				4E93F23A1B84356500017916 /* file_menu_icon_delete@2x.png in Resources */,
 				4E4D6AC21B252CD400FD2E49 /* icon_code_tree@2x.png in Resources */,
-				4EB52F531C7C4C0B00B5EBEA /* task_resource_reference_Task@3x.png in Resources */,
 				8E97CEB01A0C7E26006F9AD7 /* coding_emoji_25@2x.png in Resources */,
 				7E335D9D1B6F5E94003D0F3D /* keyboard_arrow_down@2x.png in Resources */,
 				4EB52F3C1C7C45E700B5EBEA /* taskResourceReference@3x.png in Resources */,
@@ -5521,9 +5523,9 @@
 				4E5D130A1C0ECB3400985AEB /* tweet_btn_comment@3x.png in Resources */,
 				8E97CEA51A0C7E26006F9AD7 /* coding_emoji_14@2x.png in Resources */,
 				D0C447D11C02DB6700DC1C4B /* pop_User@3x.png in Resources */,
+				4EB52F621C7C5C4F00B5EBEA /* task_resource_reference_Task@2x.png in Resources */,
 				4E4972E81BB5446900F3AC15 /* tips_menu_icon_mkread@2x.png in Resources */,
 				8E97CEA61A0C7E26006F9AD7 /* coding_emoji_15@2x.png in Resources */,
-				4EB52F521C7C4C0B00B5EBEA /* task_resource_reference_Task@2x.png in Resources */,
 				D0C4480A1C02DCAC00DC1C4B /* filterBtn_selected_Nav@3x.png in Resources */,
 				8EA6D17819E240C40076D59C /* placeholder_monkey_round_40@2x.png in Resources */,
 				4E5D130B1C0ECB3400985AEB /* tweet_btn_like@2x.png in Resources */,
@@ -5540,7 +5542,6 @@
 				8EA6D14C19E240C40076D59C /* btn_delete_tweetimage@2x.png in Resources */,
 				4EC5AD931A258DF8006FA97C /* icon_file_cell_move@2x.png in Resources */,
 				4EAECBC31C44CB860096CA74 /* member_cell_edit_alias@3x.png in Resources */,
-				4EB52F4F1C7C4C0B00B5EBEA /* task_resource_reference_ProjectFile@3x.png in Resources */,
 				4EC5AD941A258DF8006FA97C /* icon_file_cell_rename@2x.png in Resources */,
 				8E97CE9A1A0C7E26006F9AD7 /* coding_emoji_03@2x.png in Resources */,
 				4ED618241C3CB1AF0017946C /* taskWatchers@2x.png in Resources */,
@@ -5568,7 +5569,6 @@
 				4E5D13121C0ECB3400985AEB /* tweet_btn_rewarded@3x.png in Resources */,
 				4E6383FF1B33C18700D98648 /* task_activity_icon_update_deadline@2x.png in Resources */,
 				0A0519E31ABA918100551B61 /* TweetSendDetailLoctionCell.xib in Resources */,
-				4EB52F4C1C7C4C0B00B5EBEA /* task_resource_reference_MergeRequestBean@2x.png in Resources */,
 				4EF91F631B00B62B0021C951 /* icon_locationed@2x.png in Resources */,
 				4E5D130C1C0ECB3400985AEB /* tweet_btn_like@3x.png in Resources */,
 				4EE548281AE9166B00A92306 /* icon_project_cell_nopin@2x.png in Resources */,
@@ -5613,6 +5613,7 @@
 				4EF17ECD1B3C3112003CDD2D /* intro_dot_unselected@2x.png in Resources */,
 				8E97CEA01A0C7E26006F9AD7 /* coding_emoji_09@2x.png in Resources */,
 				0A06C2531AB9E57900AB3B03 /* map_annotation@2x.png in Resources */,
+				4EB52F601C7C5C4F00B5EBEA /* task_resource_reference_ProjectTopic@2x.png in Resources */,
 				4E90F89C1AF709C100B44F03 /* code.html in Resources */,
 				4E6383FE1B33C18700D98648 /* task_activity_icon_update@2x.png in Resources */,
 				4E0849831A918A7F00BD27F6 /* coding_emoji_41@2x.png in Resources */,
@@ -5644,6 +5645,7 @@
 				4E095A841B6B24DE008DC439 /* time_clock_icon@2x.png in Resources */,
 				4EB52F211C76BA3B00B5EBEA /* tag_button_randomColor@2x.png in Resources */,
 				4E6383FC1B33C18700D98648 /* task_activity_icon_reassign@2x.png in Resources */,
+				4EB52F5E1C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@2x.png in Resources */,
 				4E6383B71B32640900D98648 /* messageAT@2x.png in Resources */,
 				D0C447AC1C02A3C700DC1C4B /* tweet_selected@2x.png in Resources */,
 				4E96E7DB1A1B537E0037C098 /* icon_file_code@2x.png in Resources */,
@@ -5713,7 +5715,6 @@
 				8E97CE641A0A3424006F9AD7 /* keyboard_emotion@2x.png in Resources */,
 				4EAE06A81B7B1AE100179F4B /* button_file_history@2x.png in Resources */,
 				4E0849851A918A7F00BD27F6 /* coding_emoji_43@2x.png in Resources */,
-				4EB52F4E1C7C4C0B00B5EBEA /* task_resource_reference_ProjectFile@2x.png in Resources */,
 				4E5D130E1C0ECB3400985AEB /* tweet_btn_liked@3x.png in Resources */,
 				4E96E7DE1A1B537E0037C098 /* icon_file_music@2x.png in Resources */,
 				927AFF541BFF6DAD00AAE593 /* shop_unexchange_icon@2x.png in Resources */,
@@ -5761,6 +5762,7 @@
 				4E94C4ED1B4A867A00EB668A /* scan_bg@2x.png in Resources */,
 				4E996C031ABBF56A00C704F1 /* n_btn_followed_not@2x.png in Resources */,
 				8EA6D17F19E240C40076D59C /* section_btn_open@2x.png in Resources */,
+				4EB52F611C7C5C4F00B5EBEA /* task_resource_reference_ProjectTopic@3x.png in Resources */,
 				4EACB4411A2C448F0097ABB3 /* button_file_move_unable@2x.png in Resources */,
 				4E0BD8851B6C7F0A0061CAA6 /* mock_topicAdlist.geojson in Resources */,
 				8EA6D17419E240C40076D59C /* placeholder_coding_square_55@2x.png in Resources */,
@@ -5839,7 +5841,6 @@
 				8E97CE9D1A0C7E26006F9AD7 /* coding_emoji_06@2x.png in Resources */,
 				4E0849821A918A7F00BD27F6 /* coding_emoji_40@2x.png in Resources */,
 				4EAECBC21C44CB860096CA74 /* member_cell_edit_alias@2x.png in Resources */,
-				4EB52F4D1C7C4C0B00B5EBEA /* task_resource_reference_MergeRequestBean@3x.png in Resources */,
 				4E6383BA1B32640900D98648 /* messageRight_bg_img@2x.png in Resources */,
 				4E9113AC1A1CB19900AC9431 /* icon_file_state_pause@2x.png in Resources */,
 				D0C447E41C02DB8900DC1C4B /* tweet_normal@3x.png in Resources */,
@@ -5885,6 +5886,7 @@
 				8EA6D19219E240C40076D59C /* timeline_icon_unread@2x.png in Resources */,
 				4E095A6D1B69F920008DC439 /* banner__page_selected@2x.png in Resources */,
 				4EB52F2F1C77138A00B5EBEA /* button_scan@3x.png in Resources */,
+				4EB52F5D1C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@3x.png in Resources */,
 				4E86FEE51BB556D6005E53F3 /* tipIcon_ProjectFileComment@2x.png in Resources */,
 				4E217F141A70EDC700F6DF88 /* SVWebViewControllerActivitySafari-iPad@2x.png in Resources */,
 				4EF91F641B00B62B0021C951 /* icon_not_locationed@2x.png in Resources */,
@@ -5892,7 +5894,6 @@
 				8EA6D19119E240C40076D59C /* timeline_icon_read@2x.png in Resources */,
 				8E97CEB21A0C7E26006F9AD7 /* coding_emoji_27@2x.png in Resources */,
 				4E4972E21BB5395B00F3AC15 /* tipIcon_CommitLineNote@2x.png in Resources */,
-				4EB52F511C7C4C0B00B5EBEA /* task_resource_reference_ProjectTopic@3x.png in Resources */,
 				8E97CEAF1A0C7E26006F9AD7 /* coding_emoji_24@2x.png in Resources */,
 				8E97CEA11A0C7E26006F9AD7 /* coding_emoji_10@2x.png in Resources */,
 				D0C447A31C02A3C700DC1C4B /* me_normal@2x.png in Resources */,
@@ -5927,7 +5928,6 @@
 				4E217F131A70EDC700F6DF88 /* SVWebViewControllerActivitySafari-iPad.png in Resources */,
 				8EF6435019FF4E1600F7EEB0 /* comment_count_top_line@2x.png in Resources */,
 				7E335D9E1B6F5E94003D0F3D /* keyboard_voice_record@2x.png in Resources */,
-				4EB52F501C7C4C0B00B5EBEA /* task_resource_reference_ProjectTopic@2x.png in Resources */,
 				4EB52F111C74691B00B5EBEA /* password_unlook@2x.png in Resources */,
 				4E2DB3481BA6AEB4002F27C4 /* coding_emoji_gif_03@2x.png in Resources */,
 				4E6B07141BA3D9B5007D6027 /* intro_page1_ip6+@3x.png in Resources */,
