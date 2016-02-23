@@ -11,6 +11,7 @@
 @interface ResetLabelCell : UITableViewCell
 
 @property (strong, nonatomic) UITextField *labelField;
+@property (strong, nonatomic) UIButton *colorBtn;
 
 + (CGFloat)cellHeight;
 
