@@ -128,6 +128,14 @@
                 self.userInteractionEnabled = (task.handleType == TaskHandleTypeEdit);
             }
                 break;
+            case LeftImage_LRTextCellTypeTaskResourceReference:
+            {
+                [_iconView doNotCircleFrame];
+                [_iconView setImage:[UIImage imageNamed:@"taskResourceReference"]];
+                _leftLabel.text = @"关联资源";
+                _rightLabel.text = [NSString stringWithFormat:@"%lu 个资源", (unsigned long)task.resourceReference.itemList.count];
+            }
+                break;
             default:
                 break;
         }

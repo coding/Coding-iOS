@@ -227,7 +227,10 @@
 - (NSString *)toDescriptionPath{
     return [NSString stringWithFormat:@"api/task/%@/description", self.id.stringValue];
 }
-
+//任务关联资源
+- (NSString *)toResourceReferencePath{
+    return [NSString stringWithFormat:@"api%@/resource_reference/%ld", self.backend_project_path, (long)self.number.integerValue];
+}
 //任务关注者列表
 - (NSString *)toWatchersPath{
     return [NSString stringWithFormat:@"api%@/task/%@/watchers", self.backend_project_path, self.id.stringValue];

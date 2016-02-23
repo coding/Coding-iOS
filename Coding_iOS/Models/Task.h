@@ -12,6 +12,7 @@
 #import "Login.h"
 #import "TaskComment.h"
 #import "ProjectTag.h"
+#import "ResourceReference.h"
 
 @class Project;
 @class Task_Description;
@@ -35,6 +36,7 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 @property (nonatomic, assign) BOOL isRequesting, isRequestingDetail, isRequestingCommentList, needRefreshDetail;
 @property (readwrite, nonatomic, strong) NSString *nextCommentStr;
 @property (strong, nonatomic) Task_Description *task_description;
+@property (strong, nonatomic) ResourceReference *resourceReference;
 
 + (Task *)taskWithProject:(Project *)project andUser:(User *)user;
 + (Task *)taskWithBackend_project_path:(NSString *)backend_project_path andId:(NSString *)taskId;
@@ -65,6 +67,8 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 - (NSString *)toTaskDetailPath;
 //任务描述
 - (NSString *)toDescriptionPath;
+//任务关联资源
+- (NSString *)toResourceReferencePath;
 //任务关注者列表
 - (NSString *)toWatchersPath;
 //评论任务

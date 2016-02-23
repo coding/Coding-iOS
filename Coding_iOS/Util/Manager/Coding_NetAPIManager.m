@@ -13,6 +13,7 @@
 #import <MMMarkdown/MMMarkdown.h>
 #import "MBProgressHUD+Add.h"
 #import "Register.h"
+#import "ResourceReference.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -1358,6 +1359,27 @@
         }else{
             block(nil, error);
         }
+    }];
+}
+- (void)request_TaskResourceReference:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toResourceReferencePath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"任务_关联资源"];
+
+            ResourceReference *rr = [NSObject objectOfClass:@"ResourceReference" fromJSON:data[@"data"]];
+            block(rr, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_DeleteResourceReference:(NSNumber *)iid ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toResourceReferencePath] withParams:@{@"iid": iid} withMethodType:Delete andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"任务_关联资源_删除"];
+        }
+        block(data, error);
     }];
 }
 - (void)request_ActivityListOfTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
