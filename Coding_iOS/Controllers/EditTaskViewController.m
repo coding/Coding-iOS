@@ -278,6 +278,7 @@
     [[Coding_NetAPIManager sharedManager] request_DoCommentToTask:commentObj andBlock:^(id data, NSError *error) {
         if (data) {
             [weakSelf queryToRefreshActivityList];
+            [weakSelf queryToRefreshResourceReference];
             [weakSelf.myTableView reloadData];
         }
     }];
