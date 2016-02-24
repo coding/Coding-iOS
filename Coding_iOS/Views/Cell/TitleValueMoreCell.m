@@ -35,6 +35,8 @@
             _valueLabel.font = [UIFont systemFontOfSize:15];
             _valueLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
             _valueLabel.textAlignment = NSTextAlignmentRight;
+            _valueLabel.adjustsFontSizeToFitWidth = YES;
+            _valueLabel.minimumScaleFactor = 0.6;
             [self.contentView addSubview:_valueLabel];
         }
     }
