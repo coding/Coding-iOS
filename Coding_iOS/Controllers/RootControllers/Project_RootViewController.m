@@ -204,6 +204,12 @@
 {
     [super viewWillDisappear:animated];
     [_mySearchBar removeFromSuperview];
+    
+    [self closeMenu];
+    if (_myFliterMenu.showStatus) {
+        [self fliterBtnClose:TRUE];
+        [_myFliterMenu dismissMenu];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated{
