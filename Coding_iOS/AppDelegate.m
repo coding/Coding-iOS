@@ -93,9 +93,9 @@
     //UIWebView 的 User-Agent
     [self registerUserAgent];
 
-    if ([Login isLogin]) {
+    if ([Login isLogin]) {//登录的状态下
         [self setupTabViewController];
-    }else{
+    }else{//非登录状态下
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
         [self setupIntroductionViewController];
     }
