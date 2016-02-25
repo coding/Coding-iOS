@@ -341,6 +341,12 @@
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     return [emailTest evaluateWithObject:self];
 }
+- (BOOL)isGK{
+    NSString *gkRegex = @"[A-Z0-9a-z-_]{3,32}";
+    NSPredicate *gkTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", gkRegex];
+    return [gkTest evaluateWithObject:self];
+}
+
 
 - (NSRange)rangeByTrimmingLeftCharactersInSet:(NSCharacterSet *)characterSet{
     NSUInteger location = 0;

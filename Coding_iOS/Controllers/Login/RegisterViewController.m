@@ -332,6 +332,10 @@
 }
 
 - (void)sendRegister{
+    if (![_myRegister.global_key isGK]) {
+        [NSObject showHudTipStr:@"个性后缀仅支持英文字母、数字、横线(-)以及下划线(_)"];
+        return;
+    }
     __weak typeof(self) weakSelf = self;
     NSMutableDictionary *params = @{@"channel": [Register channel],
                                     @"global_key": _myRegister.global_key,

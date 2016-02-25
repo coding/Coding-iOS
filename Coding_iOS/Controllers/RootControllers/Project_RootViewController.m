@@ -630,6 +630,10 @@
     NSURL *URL = [NSURL URLWithString:resultStr];
     if (nextVC) {
         [self.navigationController pushViewController:nextVC animated:YES];
+    }else if ([[URL host] hasSuffix:@"coding.net"]){
+        //网页
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:resultStr];
+        [self.navigationController pushViewController:webVc animated:YES];
     }else if ([[UIApplication sharedApplication] canOpenURL:URL]){
         UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"可能存在风险，是否打开此链接？\n「%@」", resultStr]];
         [alertV bk_setCancelButtonWithTitle:@"取消" handler:nil];
