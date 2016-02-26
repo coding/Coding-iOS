@@ -48,11 +48,11 @@
         }];
         tableView;
     });
+    _tempStr = _ptLabel.name;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    _tempStr = _ptLabel.name;
     [_myTableView reloadData];
 }
 
@@ -105,7 +105,7 @@
     [cell.labelField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [cell.colorBtn addTarget:self action:@selector(colorBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     cell.backgroundColor = kColorTableBG;
-    cell.labelField.text = _ptLabel.name;
+    cell.labelField.text = _tempStr;
     cell.colorBtn.backgroundColor = [UIColor colorWithHexString:[_ptLabel.color stringByReplacingOccurrencesOfString:@"#" withString:@"0x"]];
     return cell;
 }

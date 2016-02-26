@@ -571,7 +571,7 @@
     vc.curProject = self.myCopyTask.project;
     vc.orignalTags = self.myCopyTask.labels;
     @weakify(self);
-    vc.tagsChangedBlock = ^(EditLabelViewController *vc, NSMutableArray *selectedTags){
+    vc.tagsSelectedBlock = ^(EditLabelViewController *vc, NSMutableArray *selectedTags){
         @strongify(self);
         [self tagsHasChanged:selectedTags fromVC:vc];
     };
@@ -579,31 +579,24 @@
 }
 
 - (void)tagsHasChanged:(NSMutableArray *)selectedTags fromVC:(EditLabelViewController *)vc{
-    if ([ProjectTag tags:self.myCopyTask.labels isEqualTo:selectedTags]) {
-        [vc.navigationController popViewControllerAnimated:YES];
+    if ([ProjectTag tags:self.myCopyTask.labels isEqualTo:self.myTask.labels] || self.myCopyTask.handleType > TaskHandleTypeEdit) {
+        self.myTask.labels = [selectedTags mutableCopy];
+        self.myCopyTask.labels = [selectedTags mutableCopy];
+        [self.myTableView reloadData];
     }else{
-        if (self.myCopyTask.handleType > TaskHandleTypeEdit) {
-            self.myCopyTask.labels = selectedTags;
-            self.myTask.labels = [self.myCopyTask.labels mutableCopy];
-            [self.myTableView reloadData];
-            [vc.navigationController popViewControllerAnimated:YES];
-        }else{
-            vc.navigationItem.rightBarButtonItem.enabled = NO;
-            @weakify(self);
-            [[Coding_NetAPIManager sharedManager] request_EditTask:_myCopyTask withTags:selectedTags andBlock:^(id data, NSError *error) {
-                @strongify(self);
-                vc.navigationItem.rightBarButtonItem.enabled = YES;
-                if (data) {
-                    self.myCopyTask.labels = selectedTags;
-                    self.myTask.labels = [self.myCopyTask.labels mutableCopy];
-                    [self.myTableView reloadData];
-                    if (self.taskChangedBlock) {
-                        self.taskChangedBlock();
-                    }
-                    [vc.navigationController popViewControllerAnimated:YES];
+        @weakify(self);
+        [[Coding_NetAPIManager sharedManager] request_EditTask:_myCopyTask withTags:selectedTags andBlock:^(id data, NSError *error) {
+            @strongify(self);
+            if (data) {
+                self.myCopyTask.labels = [selectedTags mutableCopy];
+                self.myTask.labels = [selectedTags mutableCopy];
+                [self.myTableView reloadData];
+                if (self.taskChangedBlock) {
+                    self.taskChangedBlock();
                 }
-            }];
-        }
+            }
+        }];
+
     }
 }
 
