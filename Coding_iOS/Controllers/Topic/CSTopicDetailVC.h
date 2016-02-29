@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface CSTopicDetailVC : UIViewController
+@interface CSTopicDetailVC : BaseViewController
 //@property (nonatomic,strong)NSDictionary *topic;
 @property (nonatomic,assign) NSInteger topicID;
 @end

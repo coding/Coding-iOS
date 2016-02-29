@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CSSearchModel.h"
 
-@interface CSSearchVC : UIViewController
+@interface CSSearchVC : BaseViewController
 
 @end
 
