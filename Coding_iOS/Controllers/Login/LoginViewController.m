@@ -18,6 +18,7 @@
 #import <UIImage+BlurredFrame/UIImage+BlurredFrame.h>
 #import "UIImageView+WebCache.h"
 #import "EaseInputTipsView.h"
+#import "Close2FAViewController.h"
 
 #import "Ease_2FA.h"
 #import "Login2FATipCell.h"
@@ -30,7 +31,7 @@
 
 
 @property (assign, nonatomic) BOOL captchaNeeded;
-@property (strong, nonatomic) UIButton *loginBtn, *buttonFor2FA;
+@property (strong, nonatomic) UIButton *loginBtn, *buttonFor2FA, *cannotLoginBtn;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) UIImageView *iconUserView, *bgBlurredView;
 @property (strong, nonatomic) EaseInputTipsView *inputTipsView;
@@ -325,7 +326,7 @@
                                                             }
                                                         }
                                                     }];
-    UIButton *cannotLoginBtn = ({
+    _cannotLoginBtn = ({
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
         [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
         [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
@@ -340,7 +341,7 @@
         }];
         button;
     });
-    [cannotLoginBtn addTarget:self action:@selector(cannotLoginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_cannotLoginBtn addTarget:self action:@selector(cannotLoginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     return footerV;
 }
@@ -456,7 +457,15 @@
 }
 
 - (IBAction)cannotLoginBtnClicked:(id)sender {
-    CannotLoginViewController *vc = [CannotLoginViewController vcWithMethodType:0 stepIndex:0 userStr:(([self.myLogin.email isPhoneNo] || [self.myLogin.email isEmail])? self.myLogin.email: nil)];
+    UIViewController *vc;
+    if (_is2FAUI) {
+        vc = [Close2FAViewController vcWithPhone:self.myLogin.email sucessBlock:^{
+            self.is2FAUI = NO;
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }];
+    }else{
+        vc = [CannotLoginViewController vcWithMethodType:0 stepIndex:0 userStr:(([self.myLogin.email isPhoneNo] || [self.myLogin.email isEmail])? self.myLogin.email: nil)];
+    }
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -490,6 +499,8 @@
     }else{
         [self.dismissButton setImage:[UIImage imageNamed:@"backBtn_Nav"] forState:UIControlStateNormal];
     }
+    [_cannotLoginBtn setTitle:_is2FAUI? @"关闭两步验证": @"找回密码" forState:UIControlStateNormal];
+
     [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:_is2FAUI? UITableViewRowAnimationLeft: UITableViewRowAnimationRight];
 }
 
