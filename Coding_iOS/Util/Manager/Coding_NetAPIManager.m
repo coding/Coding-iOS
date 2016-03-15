@@ -1443,8 +1443,8 @@
 
 #pragma mark User
 - (void)request_AddUser:(User *)user ToProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
-//    一次添加多个成员(逗号分隔)：users=102,4
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"api/project/%ld/members/add", project.id.longValue] withParams:@{@"users" : user.id} withMethodType:Post andBlock:^(id data, NSError *error) {
+//    一次添加多个成员(逗号分隔)：users=102,4 (以后只支持 gk，不支持 id 了)
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"api/project/%ld/members/add", project.id.longValue] withParams:@{@"users" : user.global_key} withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"项目_添加成员"];
 

@@ -31,6 +31,7 @@
 #import "CSTopicDetailVC.h"
 #import "CodeViewController.h"
 #import "Ease_2FA.h"
+#import <Google/Analytics.h>
 
 #import "UnReadManager.h"
 
@@ -73,6 +74,10 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         && !([self supportedInterfaceOrientations] & UIInterfaceOrientationMaskLandscapeLeft)) {
         [self forceChangeToOrientation:UIInterfaceOrientationPortrait];
     }
+    // GA
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:[NSString stringWithUTF8String:object_getClassName(self)]];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void)tabBarItemClicked{

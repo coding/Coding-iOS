@@ -112,6 +112,8 @@
 - (void)refreshheader {
     [[Coding_NetAPIManager sharedManager]request_TopicDetailsWithTopicID:_topicID block:^(id data, NSError *error) {
         if (data) {
+            self.title = data[@"name"];
+
             [self.tableHeader updateWithTopic:data];
         }
     }];
@@ -281,8 +283,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    
     if (indexPath.section == 0 && indexPath.row ==0) {
         return;
     }
@@ -385,7 +385,7 @@
         
         [self.view addSubview:tableView];
         
-        CSTopicHeaderView *header = [[CSTopicHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 191)];
+        CSTopicHeaderView *header = [[CSTopicHeaderView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 115)];
         header.parentVC = self;
         tableView.tableHeaderView = header;
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
