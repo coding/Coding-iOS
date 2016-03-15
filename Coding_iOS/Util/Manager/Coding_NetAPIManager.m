@@ -2576,6 +2576,12 @@
     }];
 }
 
+- (void)get_is2FAOpenBlock:(void (^)(BOOL data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/2fa/method" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        block([data[@"data"] isEqualToString:@"totp"], error);
+    }];
+}
+
 #pragma mark -
 #pragma mark Topic HotKey
 

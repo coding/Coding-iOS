@@ -9,5 +9,5 @@
 #import "BaseViewController.h"
 
 @interface Close2FAViewController : BaseViewController
-+ (id)vcWithPhone:(NSString *)phone sucessBlock:(void(^)())block;
++ (id)vcWithPhone:(NSString *)phone sucessBlock:(void(^)(UIViewController *vc))block;
 @end

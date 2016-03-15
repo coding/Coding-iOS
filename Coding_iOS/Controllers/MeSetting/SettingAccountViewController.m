@@ -15,11 +15,12 @@
 #import "SettingPhoneViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "Login.h"
+#import "Close2FAViewController.h"
 
 @interface SettingAccountViewController ()
 @property (strong, nonatomic) User *myUser;
-
 @property (strong, nonatomic) UITableView *myTableView;
+@property (assign, nonatomic) BOOL is2FAOpen;
 @end
 
 @implementation SettingAccountViewController
@@ -53,12 +54,23 @@
     [super viewWillAppear:animated];
     self.myUser = [Login curLoginUser];
     [self.myTableView reloadData];
+    [self refresh2FA];
+}
+
+- (void)refresh2FA{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] get_is2FAOpenBlock:^(BOOL data, NSError *error) {
+        if (!error) {
+            weakSelf.is2FAOpen = data;
+            [weakSelf.myTableView reloadData];
+        }
+    }];
 }
 
 #pragma mark TableM
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return _is2FAOpen? 4: 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -95,7 +107,7 @@
         }
     }else{
         TitleDisclosureCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleDisclosure forIndexPath:indexPath];
-        [cell setTitleStr:@"修改密码"];
+        [cell setTitleStr:indexPath.section == 2? @"修改密码": @"关闭两步验证"];
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }
@@ -136,6 +148,11 @@
     }else if (indexPath.section == 2){
         SettingPasswordViewController *vc = [[SettingPasswordViewController alloc] init];
         vc.myUser = self.myUser;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else if (indexPath.section == 3){
+        Close2FAViewController *vc = [Close2FAViewController vcWithPhone:_myUser.phone sucessBlock:^(UIViewController *vcc) {
+            [vcc.navigationController popToRootViewControllerAnimated:YES];
+        }];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

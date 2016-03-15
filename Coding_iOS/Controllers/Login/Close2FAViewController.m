@@ -13,7 +13,7 @@
 
 @interface Close2FAViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSString *phone, *phoneCode;
-@property (copy, nonatomic) void (^sucessBlock)();
+@property (copy, nonatomic) void (^sucessBlock)(UIViewController *vc);
 
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
 @property (strong, nonatomic) UIButton *footerBtn;
@@ -21,7 +21,7 @@
 @end
 
 @implementation Close2FAViewController
-+ (id)vcWithPhone:(NSString *)phone sucessBlock:(void (^)())block{
++ (id)vcWithPhone:(NSString *)phone sucessBlock:(void (^)(UIViewController *vc))block{
     Close2FAViewController *vc = [self new];
     vc.phone = [phone isPhoneNo]? phone: nil;
     vc.sucessBlock = block;
@@ -136,7 +136,7 @@
         if (data) {
             [NSObject showHudTipStr:@"两步验证已关闭"];
             if (self.sucessBlock) {
-                self.sucessBlock();
+                self.sucessBlock(self);
             }
         }
     }];

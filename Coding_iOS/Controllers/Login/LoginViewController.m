@@ -459,7 +459,7 @@
 - (IBAction)cannotLoginBtnClicked:(id)sender {
     UIViewController *vc;
     if (_is2FAUI) {
-        vc = [Close2FAViewController vcWithPhone:self.myLogin.email sucessBlock:^{
+        vc = [Close2FAViewController vcWithPhone:self.myLogin.email sucessBlock:^(UIViewController *vc) {
             self.is2FAUI = NO;
             [self.navigationController popToRootViewControllerAnimated:YES];
         }];

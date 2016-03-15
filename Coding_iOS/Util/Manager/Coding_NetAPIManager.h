@@ -246,6 +246,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 #pragma mark - 2FA
 - (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block;
 - (void)post_Close2FAWithPhone:(NSString *)phone code:(NSString *)code block:(void (^)(id data, NSError *error))block;
+- (void)get_is2FAOpenBlock:(void (^)(BOOL data, NSError *error))block;
 
 #pragma mark - Topic HotKey
 - (void)request_TopicHotkeyWithBlock:(void (^)(id data, NSError *error))block;
