@@ -1559,7 +1559,7 @@
 		4E8AF7851A53D69F00CDC3AE /* StartImagesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartImagesManager.m; sourceTree = "<group>"; };
 		4E8AF7871A54068700CDC3AE /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		4E8AF7891A5406AE00CDC3AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		4E8C51AE1AC0177600B4C51F /* Coding_iOS-Prefix.pch.example */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Coding_iOS-Prefix.pch.example"; sourceTree = "<group>"; };
+		4E8C51AE1AC0177600B4C51F /* Coding_iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Coding_iOS-Prefix.pch"; sourceTree = "<group>"; };
 		4E8C51AF1AC1081500B4C51F /* icon_recommended@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_recommended@2x.png"; sourceTree = "<group>"; };
 		4E8D5D421B45295D00B70936 /* HOTPGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HOTPGenerator.h; sourceTree = "<group>"; };
 		4E8D5D431B45295D00B70936 /* HOTPGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HOTPGenerator.m; sourceTree = "<group>"; };
@@ -2536,7 +2536,6 @@
 		923399771C00BFC700F29E04 /* ShopOderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopOderCell.m; sourceTree = "<group>"; };
 		923399791C00C55600F29E04 /* ShopOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopOrderModel.h; sourceTree = "<group>"; };
 		9233997A1C00C55600F29E04 /* ShopOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopOrderModel.m; sourceTree = "<group>"; };
-		92448F141C15652900159790 /* Coding_iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Coding_iOS-Prefix.pch"; sourceTree = "<group>"; };
 		926C04391C019CD3004937D8 /* ShopOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopOrder.h; sourceTree = "<group>"; };
 		926C043A1C019CD3004937D8 /* ShopOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopOrder.m; sourceTree = "<group>"; };
 		926C043C1C01A212004937D8 /* ShopOrderListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopOrderListView.h; sourceTree = "<group>"; };
@@ -4270,8 +4269,7 @@
 				8EA6CF1619E240C40076D59C /* AppDelegate.m */,
 				4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */,
 				8EA6CF1719E240C40076D59C /* Coding_iOS-Info.plist */,
-				92448F141C15652900159790 /* Coding_iOS-Prefix.pch */,
-				4E8C51AE1AC0177600B4C51F /* Coding_iOS-Prefix.pch.example */,
+				4E8C51AE1AC0177600B4C51F /* Coding_iOS-Prefix.pch */,
 				8EA6CF1919E240C40076D59C /* Coding_iOS.xcdatamodeld */,
 				8EA6CFC519E240C40076D59C /* Images.xcassets */,
 				8EA6CF5B19E240C40076D59C /* InfoPlist.strings */,
