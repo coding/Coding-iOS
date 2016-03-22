@@ -18,6 +18,7 @@
 #import "MRPRDisclosureCell.h"
 #import "MRPRCommentCell.h"
 #import "AddCommentCell.h"
+#import "PRReviewerCell.h"
 
 #import "WebViewController.h"
 #import "MJPhotoBrowser.h"
@@ -75,6 +76,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         [tableView registerClass:[MRPRCommentCell class] forCellReuseIdentifier:kCellIdentifier_MRPRCommentCell];
         [tableView registerClass:[MRPRCommentCell class] forCellReuseIdentifier:kCellIdentifier_MRPRCommentCell_Media];
         [tableView registerClass:[AddCommentCell class] forCellReuseIdentifier:kCellIdentifier_AddCommentCell];
+        [tableView registerClass:[PRReviewerCell class] forCellReuseIdentifier:kCellIdentifier_PRReviewerCell];
+
         
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -280,13 +283,17 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 
 #pragma mark TableM
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _curMRPRInfo == nil? 0: _curMRPRInfo.discussions.count <= 0? 3: 4;
+    return _curMRPRInfo == nil? 0: _curMRPRInfo.discussions.count <= 0? 4: 5;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = 0;
-    if (section == 0 || section == 1) {
+    if (section == 0) {
         row = 2;
-    }else if (_curMRPRInfo.discussions.count > 0 && section == 2){
+    } else if(section == 1) {
+        row = 3;
+    } else if(section == 2) {
+         row = 1;
+    } else if (_curMRPRInfo.discussions.count > 0 && section == 3){
         row = _curMRPRInfo.discussions.count;
     }else{
         row = 1;
@@ -317,15 +324,29 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         MRPRDisclosureCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MRPRDisclosureCell forIndexPath:indexPath];
         if (indexPath.row == 0) {
             [cell setImageStr:@"mrpr_icon_commit" andTitle:@"提交记录"];
-        }else{
+        }else if(indexPath.row == 1){
             [cell setImageStr:@"mrpr_icon_fileChange" andTitle:@"文件改动"];
             if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_LineNote_FileChange]) {
                 [cell addTipIcon];
             }
+        } else {
+            [cell setImageStr:@"taskResourceReference" andTitle:@"资源关联"];
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
-    }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 2){//Comment
+    }  else if (indexPath.section == 2) {
+        PRReviewerCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PRReviewerCell forIndexPath:indexPath];
+        if (indexPath.row == 0) {
+            [cell setImageStr:@"PRReviewer" andTitle:@"评审者"];
+        }else if(indexPath.row == 1){
+            [cell setImageStr:@"mrpr_icon_fileChange" andTitle:@"文件改动"];
+            if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_LineNote_FileChange]) {
+                [cell addTipHeadIcon:@"PointLikeHead"];
+            }
+        }
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
+        return cell;
+    }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 3){//Comment
         ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
         MRPRCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:curCommentItem.htmlMedia.imageItems.count> 0? kCellIdentifier_MRPRCommentCell_Media: kCellIdentifier_MRPRCommentCell forIndexPath:indexPath];
         cell.curItem = curCommentItem;
@@ -348,7 +369,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }
     }else if (indexPath.section == 1){//Disclosure
         return [MRPRDisclosureCell cellHeight];
-    }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 2){//Comment
+    }else if (indexPath.section == 1){//Disclosure
+        return [MRPRDisclosureCell cellHeight];
+    }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 3){//Comment
         ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
         return [MRPRCommentCell cellHeightWithObj:curCommentItem];
     }else{//Add Comment

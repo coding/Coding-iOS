@@ -1,26 +1,27 @@
 //
-//  NProjectItemCell.m
+//  NSObject+PRReviewerCell.m
 //  Coding_iOS
 //
-//  Created by Ease on 15/5/28.
-//  Copyright (c) 2015年 Coding. All rights reserved.
+//  Created by hardac on 16/3/22.
+//  Copyright © 2016年 Coding. All rights reserved.
 //
 
-#import "NProjectItemCell.h"
 
-@interface NProjectItemCell ()
+#import "PRReviewerCell.h"
+
+@interface PRReviewerCell ()
 @property (strong, nonatomic) UIImageView *imgView;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *rightLabel;
 @end
 
-@implementation NProjectItemCell
+@implementation PRReviewerCell
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-       // self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.backgroundColor = kColorTableBG;
         if (!_imgView) {
             _imgView = [UIImageView new];
@@ -42,13 +43,25 @@
                 make.centerY.height.equalTo(self.contentView);
             }];
         }
+        
+        if (!self.rightLabel) {
+            self.rightLabel = [UILabel new];
+            self.rightLabel.text = @"添加";
+            self.rightLabel.font = [UIFont systemFontOfSize:15];
+            self.rightLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            [self.contentView addSubview:self.rightLabel];
+            [self.rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                //make.left.equalTo(_imgView.mas_right).offset(15);
+                make.right.equalTo(self.contentView).offset(0);
+                make.centerY.height.equalTo(self.contentView);
+            }];
+        }
     }
     return self;
 }
 
 - (void)prepareForReuse{
     [self removeTip];
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 - (void)addTip:(NSString *)countStr{

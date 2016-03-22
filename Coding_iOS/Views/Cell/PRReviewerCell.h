@@ -1,16 +1,17 @@
 //
-//  NProjectItemCell.h
+//  NSObject+PRReviewerCell.h
 //  Coding_iOS
 //
-//  Created by Ease on 15/5/28.
-//  Copyright (c) 2015年 Coding. All rights reserved.
+//  Created by hardac on 16/3/22.
+//  Copyright © 2016年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_NProjectItemCell @"NProjectItemCell"
+#define kCellIdentifier_PRReviewerCell @"PRReviewerCell"
 
 #import <UIKit/UIKit.h>
 
-@interface NProjectItemCell : UITableViewCell
+@interface PRReviewerCell: UITableViewCell
+
 - (void)setImageStr:(NSString *)imgStr andTitle:(NSString *)title;
 
 - (void)addTip:(NSString *)countStr;
@@ -19,4 +20,5 @@
 - (void)addTipHeadIcon:(NSString *)IconString;
 
 + (CGFloat)cellHeight;
+
 @end

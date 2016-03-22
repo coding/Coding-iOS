@@ -106,6 +106,7 @@
     if (pathComponents.count == 8) {
         prePath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/%@/%@/", pathComponents[2], pathComponents[4], pathComponents[6], pathComponents[7]];
     }
+    NSLog(@"path === %@", prePath);
     return prePath;
 }
 
