@@ -8,6 +8,7 @@
 
 #import "BaseViewController.h"
 #import "MRPRBaseInfo.h"
+#import "ReviewersInfo.h"
 #import "Project.h"
 
 @interface PRDetailViewController : BaseViewController

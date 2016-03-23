@@ -70,6 +70,10 @@
     return [[self p_prePath] stringByAppendingString:@"base"];
 }
 
+- (NSString *)toReviewersPath {
+     return [[self p_prePath] stringByAppendingString:@"reviewers"];
+}
+
 - (NSString *)toCommitsPath{
     return [[self p_prePath] stringByAppendingString:@"commits"];
 }

@@ -745,6 +745,20 @@
     }];
 }
 
+- (void)request_MRReviewerInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(ReviewersInfo *data, NSError *error))block {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toReviewersPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"MRPR_详情页面"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            ReviewersInfo *resultA = [NSObject objectOfClass:@"ReviewersInfo" fromJSON:resultData];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_MRPRCommits_WithObj:(MRPR *)curMRPR andBlock:(void (^)(NSArray *data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toCommitsPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {

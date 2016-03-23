@@ -40,6 +40,7 @@ typedef NS_ENUM(NSInteger, MRPRStatus) {
 - (BOOL)isMR;
 - (BOOL)isPR;
 - (NSString *)toBasePath;
+- (NSString *)toReviewersPath;
 - (NSString *)toCommitsPath;
 - (NSString *)toFileChangesPath;
 - (NSString *)toFileLineChangesPath;

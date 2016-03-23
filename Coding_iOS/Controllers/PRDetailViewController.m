@@ -38,6 +38,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 
 @interface PRDetailViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 @property (strong, nonatomic) MRPRBaseInfo *curMRPRInfo;
+@property (strong, nonatomic) ReviewersInfo *curReviewersInfo;
 @property (strong, nonatomic) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 @property (strong, nonatomic) UIView *bottomView;
@@ -156,6 +157,25 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 [(MRPRBaseInfo *)data setContentHeight:weakSelf.curMRPRInfo.contentHeight];
             }
             weakSelf.curMRPRInfo = data;
+            NSLog(@"id ==== %@", weakSelf.curMRPRInfo.merge_request.author.id);
+            
+            [weakSelf.myTableView reloadData];
+            [weakSelf configBottomView];
+        }
+        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+            [weakSelf refresh];
+        }];
+    }];
+    
+    [[Coding_NetAPIManager sharedManager] request_MRReviewerInfo_WithObj:_curMRPR andBlock:^(ReviewersInfo *data, NSError *error) {
+        [weakSelf.view endLoading];
+        [weakSelf.myRefreshControl endRefreshing];
+        if (data) {
+            if (weakSelf.curMRPRInfo.contentHeight > 1) {
+                [(MRPRBaseInfo *)data setContentHeight:weakSelf.curMRPRInfo.contentHeight];
+            }
+            weakSelf.curReviewersInfo = data;
+            
             [weakSelf.myTableView reloadData];
             [weakSelf configBottomView];
         }

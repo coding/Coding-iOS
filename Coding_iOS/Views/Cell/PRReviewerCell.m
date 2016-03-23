@@ -21,7 +21,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
         self.backgroundColor = kColorTableBG;
         if (!_imgView) {
             _imgView = [UIImageView new];
@@ -45,6 +45,7 @@
         }
         
         if (!self.rightLabel) {
+            self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             self.rightLabel = [UILabel new];
             self.rightLabel.text = @"添加";
             self.rightLabel.font = [UIFont systemFontOfSize:15];
@@ -55,6 +56,7 @@
                 make.right.equalTo(self.contentView).offset(0);
                 make.centerY.height.equalTo(self.contentView);
             }];
+            
         }
     }
     return self;

@@ -23,6 +23,9 @@
 		0AB591AC1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB591AB1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m */; };
 		0AB591AD1AB6D51C0076C454 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6E6BBC1AB180AE004C0107 /* MapKit.framework */; };
 		0AB591B01AB6D6BE0076C454 /* TweetSendMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */; };
+		1309B9FA1CA2D3960034C7A3 /* PRReviewerListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1309B9F91CA2D3960034C7A3 /* PRReviewerListCell.m */; };
+		1309B9FF1CA2E95F0034C7A3 /* ReviewersInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1309B9FE1CA2E95F0034C7A3 /* ReviewersInfo.m */; };
+		1309BA021CA2EF370034C7A3 /* Reviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1309BA011CA2EF370034C7A3 /* Reviewer.m */; };
 		13FB5D361CA17A6400EE127C /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D151CA17A6400EE127C /* add@2x.png */; };
 		13FB5D371CA17A6400EE127C /* add@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D161CA17A6400EE127C /* add@3x.png */; };
 		13FB5D381CA17A6400EE127C /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D171CA17A6400EE127C /* close@2x.png */; };
@@ -1136,6 +1139,12 @@
 		0AB591AB1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocaitonMapViewController.m; sourceTree = "<group>"; };
 		0AB591AE1AB6D6BE0076C454 /* TweetSendMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendMapAnnotation.h; sourceTree = "<group>"; };
 		0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendMapAnnotation.m; sourceTree = "<group>"; };
+		1309B9F81CA2D3960034C7A3 /* PRReviewerListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRReviewerListCell.h; sourceTree = "<group>"; };
+		1309B9F91CA2D3960034C7A3 /* PRReviewerListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRReviewerListCell.m; sourceTree = "<group>"; };
+		1309B9FD1CA2E95F0034C7A3 /* ReviewersInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewersInfo.h; sourceTree = "<group>"; };
+		1309B9FE1CA2E95F0034C7A3 /* ReviewersInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewersInfo.m; sourceTree = "<group>"; };
+		1309BA001CA2EF370034C7A3 /* Reviewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reviewer.h; sourceTree = "<group>"; };
+		1309BA011CA2EF370034C7A3 /* Reviewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reviewer.m; sourceTree = "<group>"; };
 		13FB5D151CA17A6400EE127C /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
 		13FB5D161CA17A6400EE127C /* add@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@3x.png"; sourceTree = "<group>"; };
 		13FB5D171CA17A6400EE127C /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
@@ -4945,6 +4954,10 @@
 				D09AA5B91BFDBA4B008CA9EB /* PublicSearchModel.m */,
 				4EB52F361C7C38F600B5EBEA /* ResourceReference.h */,
 				4EB52F371C7C38F600B5EBEA /* ResourceReference.m */,
+				1309B9FD1CA2E95F0034C7A3 /* ReviewersInfo.h */,
+				1309B9FE1CA2E95F0034C7A3 /* ReviewersInfo.m */,
+				1309BA001CA2EF370034C7A3 /* Reviewer.h */,
+				1309BA011CA2EF370034C7A3 /* Reviewer.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5399,6 +5412,8 @@
 				4EB52F411C7C480200B5EBEA /* TaskResourceReferenceCell.m */,
 				13FB5D571CA194D600EE127C /* PRReviewerCell.h */,
 				13FB5D581CA194D600EE127C /* PRReviewerCell.m */,
+				1309B9F81CA2D3960034C7A3 /* PRReviewerListCell.h */,
+				1309B9F91CA2D3960034C7A3 /* PRReviewerListCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -6296,6 +6311,7 @@
 				0A0519E21ABA918100551B61 /* TweetSendDetailLoctionCell.m in Sources */,
 				4E5C06EB1AC4009100F427C5 /* CannotLoginViewController.m in Sources */,
 				927AFF381BFF1CC200AAE593 /* ShopViewController.m in Sources */,
+				1309BA021CA2EF370034C7A3 /* Reviewer.m in Sources */,
 				8EA6D12819E240C40076D59C /* AppDelegate.m in Sources */,
 				7EB02FE51B6D0F3E00D2166C /* AudioAmrUtil.m in Sources */,
 				4ECE8AFF1A3946C10021E29C /* Coding_NetAPIManager.m in Sources */,
@@ -6558,6 +6574,7 @@
 				8EA6D12E19E240C40076D59C /* EditTaskViewController.m in Sources */,
 				4EB52F2B1C76ED7000B5EBEA /* TagColorDisplayCell.m in Sources */,
 				8EA6D1BC19E240C40076D59C /* ProjectTopics.m in Sources */,
+				1309B9FF1CA2E95F0034C7A3 /* ReviewersInfo.m in Sources */,
 				4EE1A2311B5D02CA004284F1 /* ProjectTasksView.m in Sources */,
 				8EA6D1C919E240C40076D59C /* UICustomCollectionView.m in Sources */,
 				4ECE8ADC1A3943E80021E29C /* NSObject+Common.m in Sources */,
@@ -6662,6 +6679,7 @@
 				4E996BDF1ABA7CE100C704F1 /* UserInfoDetailUserCell.m in Sources */,
 				4EACB4461A2C60110097ABB3 /* ProjectActivities.m in Sources */,
 				4E715A351BB1279D00A5D24B /* LocalFileCell.m in Sources */,
+				1309B9FA1CA2D3960034C7A3 /* PRReviewerListCell.m in Sources */,
 				8EA6D1CB19E240C40076D59C /* UITapImageView.m in Sources */,
 				4E8D5D5D1B45295D00B70936 /* NSURL+OTPURLArguments.m in Sources */,
 				4EAE06AB1B7B23EA00179F4B /* FileActivitiesViewController.m in Sources */,
