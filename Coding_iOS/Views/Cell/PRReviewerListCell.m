@@ -7,9 +7,12 @@
 //
 
 #import "PRReviewerListCell.h"
-#define kDefaultImageSize 30
+#import "Reviewer.h"
+#define kDefaultImageSize 33
+#define kDefaultImageCount 6
 @interface PRReviewerListCell ()
 @property (strong, nonatomic) UIImageView *imgView;
+@property (strong, nonatomic) NSMutableArray *imgViews;
 @property (strong, nonatomic) UILabel *titleLabel;
 @end
 
@@ -20,14 +23,17 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        
+        self.imgViews = [[NSMutableArray alloc] init];
         self.backgroundColor = kColorTableBG;
-        if (!_imgView) {
-            if (!_imgView) {
-                _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 20, 20)];
-                [_imgView doCircleFrame];
-                [self.contentView addSubview:_imgView];
-            }
+        for(int i = 0; i < kDefaultImageCount; i ++)
+        {
+            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1), 10, kDefaultImageSize, kDefaultImageSize)];
+            [imgView doCircleFrame];
+            [imgView setHidden:true];
+            [self.imgViews addObject:imgView];
+            [self.contentView addSubview:imgView];
+            
+           
         }
         
     }
@@ -61,13 +67,21 @@
     [self.contentView removeBadgeTips];
 }
 
-- (void)setImageStr:(NSString *)imgStr andTitle:(NSString *)title{
-    self.imgView.image = [UIImage imageNamed:imgStr];
-    self.titleLabel.text = title;
+- (void)setImageStr:(NSArray *)reviewers{
+    for (int i = 0; i < kDefaultImageCount; i++) {
+        UIImageView *image = self.imgViews[i];
+        if(i >= reviewers.count) {
+            continue;
+        }
+         [image setHidden:false];
+        Reviewer* reviewer = (Reviewer*)reviewers[i];
+        [image sd_setImageWithURL:[reviewer.reviewer.avatar urlImageWithCodePathResizeToView:image] placeholderImage:kPlaceholderMonkeyRoundView(image)];
+    }
+    
 }
 
 + (CGFloat)cellHeight{
-    return 44.0;
+    return 50.0;
 }
 
 

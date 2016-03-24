@@ -6,13 +6,14 @@
 //  Copyright © 2016年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_PRReviewerCell @"PRReviewerListCell"
+#define kCellIdentifier_PRReviewerListCell @"PRReviewerListCell"
 
 #import <UIKit/UIKit.h>
 
 @interface PRReviewerListCell : UITableViewCell
+@property (readwrite, nonatomic, strong) NSMutableArray *reviewers;
 
-- (void)setImageStr:(NSString *)imgStr andTitle:(NSString *)title;
+- (void)setImageStr:(NSArray *)reviewers;
 
 - (void)addTip:(NSString *)countStr;
 - (void)addTipIcon;

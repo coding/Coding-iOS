@@ -19,6 +19,7 @@
 #import "MRPRCommentCell.h"
 #import "AddCommentCell.h"
 #import "PRReviewerCell.h"
+#import "PRReviewerListCell.h"
 
 #import "WebViewController.h"
 #import "MJPhotoBrowser.h"
@@ -78,6 +79,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         [tableView registerClass:[MRPRCommentCell class] forCellReuseIdentifier:kCellIdentifier_MRPRCommentCell_Media];
         [tableView registerClass:[AddCommentCell class] forCellReuseIdentifier:kCellIdentifier_AddCommentCell];
         [tableView registerClass:[PRReviewerCell class] forCellReuseIdentifier:kCellIdentifier_PRReviewerCell];
+         [tableView registerClass:[PRReviewerListCell class] forCellReuseIdentifier:kCellIdentifier_PRReviewerListCell];
 
         
         [self.view addSubview:tableView];
@@ -157,7 +159,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 [(MRPRBaseInfo *)data setContentHeight:weakSelf.curMRPRInfo.contentHeight];
             }
             weakSelf.curMRPRInfo = data;
-            NSLog(@"id ==== %@", weakSelf.curMRPRInfo.merge_request.author.id);
             
             [weakSelf.myTableView reloadData];
             [weakSelf configBottomView];
@@ -312,7 +313,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     } else if(section == 1) {
         row = 3;
     } else if(section == 2) {
-         row = 1;
+         row = 2;
     } else if (_curMRPRInfo.discussions.count > 0 && section == 3){
         row = _curMRPRInfo.discussions.count;
     }else{
@@ -355,17 +356,21 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
     }  else if (indexPath.section == 2) {
-        PRReviewerCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PRReviewerCell forIndexPath:indexPath];
+        
         if (indexPath.row == 0) {
+            PRReviewerCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PRReviewerCell forIndexPath:indexPath];
             [cell setImageStr:@"PRReviewer" andTitle:@"评审者"];
-        }else if(indexPath.row == 1){
-            [cell setImageStr:@"mrpr_icon_fileChange" andTitle:@"文件改动"];
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
+            return cell;
+        }else {
+            PRReviewerListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PRReviewerListCell forIndexPath:indexPath];
+            [cell setImageStr:self.curReviewersInfo.reviewers];
             if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_LineNote_FileChange]) {
                 [cell addTipHeadIcon:@"PointLikeHead"];
             }
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
+            return cell;
         }
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
-        return cell;
     }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 3){//Comment
         ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
         MRPRCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:curCommentItem.htmlMedia.imageItems.count> 0? kCellIdentifier_MRPRCommentCell_Media: kCellIdentifier_MRPRCommentCell forIndexPath:indexPath];
@@ -389,8 +394,12 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }
     }else if (indexPath.section == 1){//Disclosure
         return [MRPRDisclosureCell cellHeight];
-    }else if (indexPath.section == 1){//Disclosure
-        return [MRPRDisclosureCell cellHeight];
+    }else if (indexPath.section == 2){//Disclosure
+        if (indexPath.row == 0) {
+            return [MRPRDisclosureCell cellHeight];
+        }else{
+            return [PRReviewerListCell cellHeight];
+        }
     }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 3){//Comment
         ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
         return [MRPRCommentCell cellHeightWithObj:curCommentItem];
