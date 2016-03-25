@@ -88,8 +88,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 }
 
 - (void)configBottomView{
-    BOOL canAction = _curMRPRInfo.can_edit.boolValue;
     BOOL canCancel = [_curMRPRInfo.mrpr.author.global_key isEqualToString:[Login curLoginUser].global_key];
+    BOOL canAction = _curMRPRInfo.can_edit.boolValue ||(canCancel && _curMRPRInfo.mrpr.granted.boolValue);//有权限 || （作者身份 && 被授权）
+
     BOOL hasBottomView = _curMRPRInfo.mrpr.status <= MRPRStatusCannotMerge && (canAction || canCancel);
     
     if (!hasBottomView) {

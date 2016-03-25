@@ -282,10 +282,9 @@
     vc.curProject = _curProTopic.project;
     vc.orignalTags = _curProTopic.mdLabels;
     @weakify(self);
-    vc.tagsChangedBlock = ^(EditLabelViewController *vc, NSMutableArray *selectedTags){
+    vc.tagsSelectedBlock = ^(EditLabelViewController *vc, NSMutableArray *selectedTags){
         @strongify(self);
         self.curProTopic.mdLabels = selectedTags;
-        [vc.navigationController popViewControllerAnimated:YES];
     };
     [self.navigationController pushViewController:vc animated:YES];
 }

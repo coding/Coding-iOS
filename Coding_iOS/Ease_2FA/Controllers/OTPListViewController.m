@@ -60,7 +60,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     return authURLs;
 }
 
-+(NSString *)otpCodeWithGK:(NSString *)global_key{
++ (NSString *)otpCodeWithGK:(NSString *)global_key{
     NSString *otpCode = nil;
     if (global_key.length > 0) {
         NSMutableArray *authURLs = [self loadKeychainAuthURLs];
@@ -75,6 +75,20 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         }
     }
     return otpCode;
+}
+
++ (BOOL)handleScanResult:(NSString *)resultStr ofVC:(UIViewController *)vc{
+    //解析结果
+    OTPAuthURL *authURL = [OTPAuthURL authURLWithURL:[NSURL URLWithString:resultStr] secret:nil];
+    if ([authURL isKindOfClass:[TOTPAuthURL class]]) {
+        OTPListViewController *nextVC = [OTPListViewController new];
+        [vc.navigationController pushViewController:nextVC animated:YES];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [nextVC addOneAuthURL:authURL];
+        });
+        return YES;
+    }
+    return NO;
 }
 
 - (void)viewDidLoad{

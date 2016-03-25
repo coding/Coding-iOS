@@ -22,6 +22,7 @@
 #import "WebViewController.h"
 #import "ProjectToChooseListViewController.h"
 #import "EditLabelViewController.h"
+#import "TaskResourceReferenceViewController.h"
 
 @interface EditTaskViewController ()<TTTAttributedLabelDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
@@ -164,7 +165,7 @@
     [[Coding_NetAPIManager sharedManager] request_ActivityListOfTask:_myCopyTask andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.myCopyTask.activityList = data;
-            [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [weakSelf.myTableView reloadData];
         };
     }];
 }
@@ -182,6 +183,7 @@
             [weakSelf configTitle];
             
             [weakSelf.myTableView reloadData];
+            [weakSelf queryToRefreshResourceReference];
             [weakSelf queryToRefreshActivityList];
         }else if ([[[error.userInfo objectForKey:@"msg"] allKeys] containsObject:@"task_not_exist"]){
             [self.navigationItem setRightBarButtonItem:nil animated:YES];
@@ -189,6 +191,15 @@
     }];
 }
 
+- (void)queryToRefreshResourceReference{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_TaskResourceReference:_myTask andBlock:^(id data, NSError *error) {
+        if (data) {
+            _myTask.resourceReference = data;
+            [weakSelf.myTableView reloadData];
+        }
+    }];
+}
 #pragma mark Mine M
 - (void)doneBtnClicked{
     if (_myCopyTask.isRequesting) {
@@ -267,6 +278,7 @@
     [[Coding_NetAPIManager sharedManager] request_DoCommentToTask:commentObj andBlock:^(id data, NSError *error) {
         if (data) {
             [weakSelf queryToRefreshActivityList];
+            [weakSelf queryToRefreshResourceReference];
             [weakSelf.myTableView reloadData];
         }
     }];
@@ -281,7 +293,7 @@
 }
 #pragma mark Table M
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return (self.myCopyTask.handleType > TaskHandleTypeEdit)? 2: 3;
+    return (self.myCopyTask.handleType > TaskHandleTypeEdit)? 2: self.myTask.resourceReference.itemList.count > 0? 4: 3;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = 0;
@@ -290,6 +302,8 @@
     }else if (section == 1){
         TaskHandleType handleType = self.myCopyTask.handleType;
         row = handleType == TaskHandleTypeEdit? 5: handleType == TaskHandleTypeAddWithProject? 4: 5;
+    }else if (section == 2 && _myTask.resourceReference.itemList.count > 0){
+        row = 1;
     }else{
         row = self.myCopyTask.activityList.count;
     }
@@ -361,6 +375,12 @@
         cell.backgroundColor = kColorTableBG;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
         return cell;
+    }else if (indexPath.section == 2 && _myTask.resourceReference.itemList.count > 0){
+        LeftImage_LRTextCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_LeftImage_LRText forIndexPath:indexPath];
+        [cell setObj:_myTask type:LeftImage_LRTextCellTypeTaskResourceReference];
+        cell.backgroundColor = kColorTableBG;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
+        return cell;
     }else{
         ProjectActivity *curActivity = [self.myCopyTask.activityList objectAtIndex:indexPath.row];
         if ([curActivity.target_type isEqualToString:@"TaskComment"]) {
@@ -376,7 +396,6 @@
             cell.contentLabel.delegate = self;
             [cell configTop:(indexPath.row == 0) andBottom:(indexPath.row == _myCopyTask.activityList.count - 1)];
             cell.backgroundColor = kColorTableBG;
-//            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
             return cell;
         }else{
             TaskActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskActivityCell forIndexPath:indexPath];
@@ -398,6 +417,8 @@
         }
     }else if (indexPath.section == 1){
         cellHeight = [LeftImage_LRTextCell cellHeight];
+    }else if (indexPath.section == 2 && _myTask.resourceReference.itemList.count > 0){
+        cellHeight = [LeftImage_LRTextCell cellHeight];
     }else if (self.myCopyTask.activityList.count > indexPath.row){
         ProjectActivity *curActivity = [self.myCopyTask.activityList objectAtIndex:indexPath.row];
         if ([curActivity.target_type isEqualToString:@"TaskComment"]) {
@@ -413,8 +434,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section == 0) {
         return 0.5;
-    }else if (section == 3){
-        return 0.5;
     }else{
         return 20.0;
     }
@@ -427,14 +446,6 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 1)];
     headerView.backgroundColor = kColorTableSectionBg;
-    if (section == 0) {
-        [headerView setHeight:30.0];
-    }else if (section == 3){
-        headerView.backgroundColor = [UIColor whiteColor];
-        [headerView setHeight:1.0];
-    }else{
-        [headerView setHeight:20];
-    }
     return headerView;
 }
 
@@ -442,13 +453,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ESWeakSelf;
     if (indexPath.section == 0) {
-//        if (indexPath.row != 0) {
-//            if (self.myCopyTask.has_description.boolValue && !self.myCopyTask.task_description) {
-//                //描述内容 还没有加载成功
-//                return ;
-//            }
-//            [self goToDescriptionVC];
-//        }
     }else if (indexPath.section == 1){
         LeftImage_LRTextCellType cellType = _myCopyTask.handleType == TaskHandleTypeAddWithoutProject? indexPath.row : indexPath.row +1;
         if (cellType == LeftImage_LRTextCellTypeTaskProject) {
@@ -522,6 +526,10 @@
             vc.curTask = _myCopyTask;
             [self.navigationController pushViewController:vc animated:YES];
         }
+    }else if (indexPath.section == 2 && _myTask.resourceReference.itemList.count > 0){
+        TaskResourceReferenceViewController *vc = [TaskResourceReferenceViewController new];
+        vc.curTask = _myTask;
+        [self.navigationController pushViewController:vc animated:YES];
     }else {
         ProjectActivity *curActivity = [self.myCopyTask.activityList objectAtIndex:indexPath.row];
         if ([curActivity.target_type isEqualToString:@"TaskComment"]) {
@@ -549,6 +557,7 @@
             _self.taskChangedBlock();
         }
         [_self.myTableView reloadData];
+        [_self queryToRefreshResourceReference];
     };
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -562,7 +571,7 @@
     vc.curProject = self.myCopyTask.project;
     vc.orignalTags = self.myCopyTask.labels;
     @weakify(self);
-    vc.tagsChangedBlock = ^(EditLabelViewController *vc, NSMutableArray *selectedTags){
+    vc.tagsSelectedBlock = ^(EditLabelViewController *vc, NSMutableArray *selectedTags){
         @strongify(self);
         [self tagsHasChanged:selectedTags fromVC:vc];
     };
@@ -570,31 +579,24 @@
 }
 
 - (void)tagsHasChanged:(NSMutableArray *)selectedTags fromVC:(EditLabelViewController *)vc{
-    if ([ProjectTag tags:self.myCopyTask.labels isEqualTo:selectedTags]) {
-        [vc.navigationController popViewControllerAnimated:YES];
+    if ([ProjectTag tags:self.myCopyTask.labels isEqualTo:self.myTask.labels] || self.myCopyTask.handleType > TaskHandleTypeEdit) {
+        self.myTask.labels = [selectedTags mutableCopy];
+        self.myCopyTask.labels = [selectedTags mutableCopy];
+        [self.myTableView reloadData];
     }else{
-        if (self.myCopyTask.handleType > TaskHandleTypeEdit) {
-            self.myCopyTask.labels = selectedTags;
-            self.myTask.labels = [self.myCopyTask.labels mutableCopy];
-            [self.myTableView reloadData];
-            [vc.navigationController popViewControllerAnimated:YES];
-        }else{
-            vc.navigationItem.rightBarButtonItem.enabled = NO;
-            @weakify(self);
-            [[Coding_NetAPIManager sharedManager] request_EditTask:_myCopyTask withTags:selectedTags andBlock:^(id data, NSError *error) {
-                @strongify(self);
-                vc.navigationItem.rightBarButtonItem.enabled = YES;
-                if (data) {
-                    self.myCopyTask.labels = selectedTags;
-                    self.myTask.labels = [self.myCopyTask.labels mutableCopy];
-                    [self.myTableView reloadData];
-                    if (self.taskChangedBlock) {
-                        self.taskChangedBlock();
-                    }
-                    [vc.navigationController popViewControllerAnimated:YES];
+        @weakify(self);
+        [[Coding_NetAPIManager sharedManager] request_EditTask:_myCopyTask withTags:selectedTags andBlock:^(id data, NSError *error) {
+            @strongify(self);
+            if (data) {
+                self.myCopyTask.labels = [selectedTags mutableCopy];
+                self.myTask.labels = [selectedTags mutableCopy];
+                [self.myTableView reloadData];
+                if (self.taskChangedBlock) {
+                    self.taskChangedBlock();
                 }
-            }];
-        }
+            }
+        }];
+
     }
 }
 

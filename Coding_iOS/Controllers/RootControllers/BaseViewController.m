@@ -31,6 +31,7 @@
 #import "CSTopicDetailVC.h"
 #import "CodeViewController.h"
 #import "Ease_2FA.h"
+#import <Google/Analytics.h>
 
 #import "UnReadManager.h"
 
@@ -39,6 +40,18 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     AnalyseMethodTypeLazyCreate,
     AnalyseMethodTypeForceCreate
 };
+
+#pragma mark - UIViewController (Dismiss)
+@interface UIViewController (Dismiss)
+- (void)dismissModalVC;
+@end
+@implementation UIViewController (Dismiss)
+- (void)dismissModalVC{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+@end
+
+#pragma mark - BaseViewController
 
 @interface BaseViewController ()
 
@@ -73,6 +86,10 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         && !([self supportedInterfaceOrientations] & UIInterfaceOrientationMaskLandscapeLeft)) {
         [self forceChangeToOrientation:UIInterfaceOrientationPortrait];
     }
+    // GA
+    id<GAITracker> tracker = [[GAI sharedInstance] defaultTracker];
+    [tracker set:kGAIScreenName value:[NSString stringWithUTF8String:object_getClassName(self)]];
+    [tracker send:[[GAIDictionaryBuilder createScreenView] build]];
 }
 
 - (void)tabBarItemClicked{
@@ -396,7 +413,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     }
     UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:viewController];
     if (!viewController.navigationItem.leftBarButtonItem) {
-        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:viewController action:@selector(dismissModalViewControllerAnimated:)];
+        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:viewController action:@selector(dismissModalVC)];
     }
     [[self presentingVC] presentViewController:nav animated:YES completion:nil];
 }

@@ -213,12 +213,12 @@
 }
 - (void)setTweet:(Tweet *)tweet needTopView:(BOOL)needTopView{
     _tweet = tweet;
-    _like_reward_users = [_tweet like_reward_users];
     _needTopView = needTopView;
-
     if (!_tweet) {
         return;
     }
+    
+    _like_reward_users = [_tweet like_reward_users];
     BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key];
 
     self.topView.hidden = !_needTopView;
@@ -263,7 +263,8 @@
     if (_tweet.htmlMedia.imageItems.count > 0) {
         
         CGFloat mediaHeight = [TweetCell contentMediaHeightWithTweet:_tweet];
-        [self.mediaView setFrame:CGRectMake(kTweetCell_PadingLeft, curBottomY, kTweetCell_ContentWidth, mediaHeight)];
+        CGFloat mediaWidth = _tweet.htmlMedia.imageItems.count == 4? kTweetCell_ContentWidth - [TweetMediaItemCCell ccellSizeWithObj:_tweet.htmlMedia.imageItems.firstObject].width: kTweetCell_ContentWidth;
+        [self.mediaView setFrame:CGRectMake(kTweetCell_PadingLeft, curBottomY, mediaWidth, mediaHeight)];
         [self.mediaView reloadData];
         self.mediaView.hidden = NO;
         curBottomY += mediaHeight;

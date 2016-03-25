@@ -14,6 +14,6 @@
 @property (strong, nonatomic) NSArray *orignalTags;
 @property (strong, nonatomic) Project *curProject;
 
-@property (copy, nonatomic) void(^tagsChangedBlock)(EditLabelViewController *vc, NSMutableArray *selectedTags);
+@property (copy, nonatomic) void(^tagsSelectedBlock)(EditLabelViewController *vc, NSMutableArray *selectedTags);
 
 @end

@@ -146,6 +146,8 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_EditTask:(Task *)task withTags:(NSMutableArray *)selectedTags andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ChangeTaskStatus:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_TaskDetail:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_TaskResourceReference:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_DeleteResourceReference:(NSNumber *)iid ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ActivityListOfTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DoCommentToTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteComment:(TaskComment *)comment ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
@@ -241,6 +243,10 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_Users_WithTopicID:(NSInteger)topicID andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_JoinedUsers_WithTopicID:(NSInteger)topicID page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
 
+#pragma mark - 2FA
+- (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block;
+- (void)post_Close2FAWithPhone:(NSString *)phone code:(NSString *)code block:(void (^)(id data, NSError *error))block;
+- (void)get_is2FAOpenBlock:(void (^)(BOOL data, NSError *error))block;
 
 #pragma mark - Topic HotKey
 - (void)request_TopicHotkeyWithBlock:(void (^)(id data, NSError *error))block;

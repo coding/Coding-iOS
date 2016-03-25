@@ -11,13 +11,13 @@
 #import "TPKeyboardAvoidingTableView.h"
 #import "Coding_NetAPIManager.h"
 #import "ProjectTag.h"
+#import "EditColorViewController.h"
 
 #define kCellIdentifier_ResetLabelCell @"ResetLabelCell"
 
 @interface ResetLabelViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
-{
-    NSString *_tempStr;
-}
+@property (strong, nonatomic) NSString *tempStr;
+
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
 
 @property (nonatomic, weak) UITextField *mCurrentTextField;
@@ -29,12 +29,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"重命名标签";
-    self.navigationController.title = @"重命名标签";
-    
+    self.title = @"编辑标签";
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"取消" target:self action:@selector(cancelBtnClick)];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(okBtnClick)];
-    self.navigationItem.rightBarButtonItem.enabled = FALSE;
     
     self.view.backgroundColor = kColorTableSectionBg;
  
@@ -51,6 +48,12 @@
         }];
         tableView;
     });
+    _tempStr = _ptLabel.name;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [_myTableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -100,8 +103,10 @@
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     cell.labelField.delegate = self;
     [cell.labelField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    [cell.colorBtn addTarget:self action:@selector(colorBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     cell.backgroundColor = kColorTableBG;
-    cell.labelField.text = _ptLabel.name;
+    cell.labelField.text = _tempStr;
+    cell.colorBtn.backgroundColor = [UIColor colorWithHexString:[_ptLabel.color stringByReplacingOccurrencesOfString:@"#" withString:@"0x"]];
     return cell;
 }
 
@@ -114,6 +119,13 @@
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return FALSE;
+}
+
+#pragma mark - color
+- (void)colorBtnClick:(UIButton *)sender{
+    EditColorViewController *vc = [EditColorViewController new];
+    vc.curTag = _ptLabel;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITextFieldDelegate
@@ -134,12 +146,8 @@
 
 - (void)textFieldDidChange:(UITextField *)textField
 {
-    _tempStr = textField.text;
-    if (_tempStr.length > 0) {
-        self.navigationItem.rightBarButtonItem.enabled = [_tempStr isEqualToString:_ptLabel.name] ? FALSE : TRUE;
-    } else {
-        self.navigationItem.rightBarButtonItem.enabled = FALSE;
-    }
+    self.tempStr = textField.text;
+    self.navigationItem.rightBarButtonItem.enabled = _tempStr.length > 0;;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

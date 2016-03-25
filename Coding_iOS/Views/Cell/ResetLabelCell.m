@@ -17,11 +17,19 @@
         self.accessoryType = UITableViewCellAccessoryNone;
         self.backgroundColor = [UIColor clearColor];
         // Initialization code
+        if (!_colorBtn) {
+            _colorBtn = [[UIButton alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 7, 30, 30)];
+            _colorBtn.layer.masksToBounds = YES;
+            _colorBtn.layer.cornerRadius = 4;
+            [_colorBtn setImage:[UIImage imageNamed:@"tag_button_editColor"] forState:UIControlStateNormal];
+            [self.contentView addSubview:_colorBtn];
+        }
         if (!_labelField) {
-            _labelField = [[UITextField alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, (kScreen_Width - kPaddingLeftWidth * 2), 44)];
+            _labelField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_colorBtn.frame) + 10, 0, (kScreen_Width - kPaddingLeftWidth - CGRectGetMaxX(_colorBtn.frame) - 10), 44)];
             _labelField.textColor = [UIColor colorWithHexString:@"0x222222"];
             _labelField.font = [UIFont systemFontOfSize:16];
             _labelField.clearButtonMode = UITextFieldViewModeWhileEditing;
+            _labelField.placeholder = @"输入标签名称";
             [self.contentView addSubview:_labelField];
         }
     }

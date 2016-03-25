@@ -135,7 +135,7 @@
     vc.curProject = self.curTopic.project;
     vc.orignalTags = self.curTopic.mdLabels;
     @weakify(self);
-    vc.tagsChangedBlock = ^(EditLabelViewController *vc, NSMutableArray *selectedTags){
+    vc.tagsSelectedBlock = ^(EditLabelViewController *vc, NSMutableArray *selectedTags){
         @strongify(self);
         [self tagsHasChanged:selectedTags fromVC:vc];
     };
@@ -143,19 +143,18 @@
 }
 
 - (void)tagsHasChanged:(NSMutableArray *)selectedTags fromVC:(EditLabelViewController *)vc{
-    self.curTopic.mdLabels = selectedTags;
     if ([ProjectTag tags:self.curTopic.mdLabels isEqualTo:self.curTopic.labels]) {
-        [vc.navigationController popViewControllerAnimated:YES];
+        self.curTopic.mdLabels = [selectedTags mutableCopy];
+        self.curTopic.labels = [selectedTags mutableCopy];
+        [self.myTableView reloadData];
     }else{
-        vc.navigationItem.rightBarButtonItem.enabled = NO;
         @weakify(self);
         [[Coding_NetAPIManager sharedManager] request_ModifyProjectTpoicLabel:self.curTopic andBlock:^(id data, NSError *error) {
             @strongify(self);
-            vc.navigationItem.rightBarButtonItem.enabled = YES;
             if (data) {
+                self.curTopic.mdLabels = [selectedTags mutableCopy];
                 self.curTopic.labels = [self.curTopic.mdLabels mutableCopy];
                 [self.myTableView reloadData];
-                [vc.navigationController popViewControllerAnimated:YES];
             }
         }];
     }

@@ -18,6 +18,19 @@ PODS:
   - evernote-cloud-sdk-ios (2.0.2)
   - FLEX (2.1.1)
   - FontAwesome+iOS (0.1.4)
+  - Google/Analytics (1.0.7):
+    - Google/Core
+    - GoogleAnalytics (~> 3.12)
+  - Google/Core (1.0.7):
+    - GoogleNetworkingUtilities (~> 1.0)
+    - GoogleSymbolUtilities (~> 1.0)
+    - GoogleUtilities (~> 1.0)
+  - GoogleAnalytics (3.14.0)
+  - GoogleNetworkingUtilities (1.0.0):
+    - GoogleSymbolUtilities (~> 1.0)
+  - GoogleSymbolUtilities (1.0.3)
+  - GoogleUtilities (1.1.0):
+    - GoogleSymbolUtilities (~> 1.0.0)
   - hpple (0.2.0)
   - iVersion (1.11.4)
   - JazzHands (2.0.0)
@@ -77,6 +90,7 @@ DEPENDENCIES:
   - BlocksKit (= 2.2.5)
   - evernote-cloud-sdk-ios (= 2.0.2)
   - FLEX (~> 2.0)
+  - Google/Analytics (~> 1.0.0)
   - hpple (= 0.2.0)
   - iVersion (= 1.11.4)
   - JazzHands (= 2.0.0)
@@ -104,6 +118,11 @@ SPEC CHECKSUMS:
   evernote-cloud-sdk-ios: 7a6e5402b837ea79ef0179caff5ffe7b4f235615
   FLEX: 27b768fcae23a313a1eb115076d429180ca9b472
   FontAwesome+iOS: 9070b682a9255ca0fdc34bcfb129ad0ba2b73b87
+  Google: 875f5a8ade86dd02e36586e4a54814843938c7f6
+  GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
+  GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
+  GoogleSymbolUtilities: 82ad9f93d3615244b3f4ce440f5ab2515e8b4f56
+  GoogleUtilities: 8ed9134debe11719097881711464752900668f10
   hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81
   JazzHands: 00002e9b1284e7fc1ac6555012e81b8942477242
@@ -116,7 +135,7 @@ SPEC CHECKSUMS:
   POP+MCAnimate: a99e209148c602512de487f1160a44bf78572024
   PPiAwesomeButton: 16f7279582fd36f65186b24b83ef876217363eb5
   RBBAnimation: 4b2d66f6d993febce63cd564da934985313b9c59
-  ReactiveCocoa: 334468a83b2c5f669f7cfb9a084415ee23219b4f
+  ReactiveCocoa: 3fe9b233ca6db810e86681b5749488564c1179a1
   RegexKitLite-NoWarning: 365d208f8187997e33d9de8baeddfc00728596d8
   SDCAlertView: f9706c18f456ea87909f8f199704cd28e582ff27
   SDCAutoLayout: e6885bb39ab8e2ec2ff84d158f38035f025f7420

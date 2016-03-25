@@ -31,6 +31,7 @@
 #import "FRDLivelyButton.h"
 #import "StartImagesManager.h"
 #import "ZXScanCodeViewController.h"
+#import "OTPListViewController.h"
 #import "WebViewController.h"
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
@@ -203,6 +204,12 @@
 {
     [super viewWillDisappear:animated];
     [_mySearchBar removeFromSuperview];
+    
+    [self closeMenu];
+    if (_myFliterMenu.showStatus) {
+        [self fliterBtnClose:TRUE];
+        [_myFliterMenu dismissMenu];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -616,11 +623,18 @@
 }
 
 - (void)dealWithScanResult:(NSString *)resultStr ofVC:(ZXScanCodeViewController *)vc{
+    if ([OTPListViewController handleScanResult:resultStr ofVC:vc]) {
+        return;
+    }
     UIViewController *nextVC  = [BaseViewController analyseVCFromLinkStr:resultStr];
     NSURL *URL = [NSURL URLWithString:resultStr];
     if (nextVC) {
         [self.navigationController pushViewController:nextVC animated:YES];
-    }else if (URL){
+    }else if ([[URL host] hasSuffix:@"coding.net"]){
+        //网页
+        WebViewController *webVc = [WebViewController webVCWithUrlStr:resultStr];
+        [self.navigationController pushViewController:webVc animated:YES];
+    }else if ([[UIApplication sharedApplication] canOpenURL:URL]){
         UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"可能存在风险，是否打开此链接？\n「%@」", resultStr]];
         [alertV bk_setCancelButtonWithTitle:@"取消" handler:nil];
         [alertV bk_addButtonWithTitle:@"打开链接" handler:nil];

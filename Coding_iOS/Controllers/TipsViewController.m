@@ -157,7 +157,7 @@
         return;
     }
     @weakify(self);
-    [[Coding_NetAPIManager sharedManager] request_markReadWithCodingTipIdStr:tip.id andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_markReadWithCodingTipIdStr:tip.id.stringValue andBlock:^(id data, NSError *error) {
         @strongify(self);
         DebugLog(@"%@: %@", data, error);
         if (data) {

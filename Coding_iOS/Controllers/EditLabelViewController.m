@@ -78,6 +78,21 @@
     [self.myTableView reloadData];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    if (_tagList.count > 0 && _selectedTags.count > 0) {
+        for (ProjectTag *tag in _tagList) {
+            ProjectTag *orignalTag = [ProjectTag tags:_selectedTags hasTag:tag];
+            if (orignalTag) {
+                [_selectedTags replaceObjectAtIndex:[_selectedTags indexOfObject:orignalTag] withObject:tag];
+            }
+        }
+    }
+    if (_tagsSelectedBlock) {
+        _tagsSelectedBlock(self, _selectedTags);
+    }
+}
+
 - (void)sendRequest
 {
     [self.view beginLoading];
@@ -88,15 +103,11 @@
             weakSelf.tagList = data;
             [weakSelf.myTableView reloadData];
         }
-    }];
-}
+    }];}
 
 #pragma mark - click
-- (void)okBtnClick
-{
-    if (self.tagsChangedBlock) {
-        self.tagsChangedBlock(self, _selectedTags);
-    }
+- (void)okBtnClick{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)addBtnClick:(UIButton *)sender

@@ -11,6 +11,14 @@
 
 @implementation CodingTip
 
+- (void)setId:(NSNumber *)id{
+    if ([id isKindOfClass:[NSString class]]){
+        _id = @([(NSString *)id integerValue]);
+    }else{
+        _id = id;
+    }
+}
+
 - (void)setContent:(NSString *)content{
     if (_content != content) {
         _htmlMedia = [HtmlMedia htmlMediaWithString:content showType:MediaShowTypeImageAndMonkey];

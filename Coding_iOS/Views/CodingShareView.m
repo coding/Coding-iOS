@@ -471,6 +471,10 @@
         NSString *snsName = [[response.data allKeys] firstObject];
         NSLog(@"share to sns name is %@",snsName);
         [NSObject performSelector:@selector(showStatusBarSuccessStr:) withObject:@"分享成功" afterDelay:0.3];
+    }else if (response.responseCode != UMSResponseCodeCancel){
+        NSString *snsName = [[response.data allKeys] firstObject];
+        NSString *errorTipStr = response.data[snsName][@"msg"];
+        [NSObject performSelector:@selector(showStatusBarErrorStr:) withObject:errorTipStr ?: @"分享失败" afterDelay:0.3];
     }
 }
 
@@ -516,7 +520,7 @@
         if (shareText.length > maxTextLength) {
             shareText = [shareText stringByReplacingCharactersInRange:NSMakeRange(maxTextLength - 3, shareText.length - (maxTextLength - 3)) withString:@"..."];
         }
-        NSString *shareContent = [NSString stringWithFormat:@"%@%@%@", shareTitle, shareText, shareTail];
+        NSString *shareContent = [NSString stringWithFormat:@"%@%@ %@", shareTitle, shareText, shareTail];
 
         socialData.shareText = shareContent;
         socialData.shareImage = nil;
