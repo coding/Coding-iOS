@@ -1,16 +1,8 @@
-//
-//  Project_RootViewController.m
-//  Coding_iOS
-//
-//  Created by 王 原闯 on 14-7-29.
-//  Copyright (c) 2014年 Coding. All rights reserved.
-//
-
-#import "Project_RootViewController.h"
+#import "ReviewerController.h"
 #import "Coding_NetAPIManager.h"
 #import "LoginViewController.h"
-#import "ProjectListView.h"
-#import "ProjectViewController.h"
+#import "ReviewerListView.h"
+#import "ReviewerController.h"
 #import "HtmlMedia.h"
 #import "UnReadManager.h"
 #import "RDVTabBarController.h"
@@ -34,7 +26,7 @@
 #import "OTPListViewController.h"
 #import "WebViewController.h"
 
-@interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface ReviewerController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
 @property (strong, nonatomic) UISearchDisplayController *mySearchDisplayController;
 @property (strong, nonatomic) NSMutableArray *searchResults;
@@ -48,14 +40,13 @@
 
 @end
 
-@implementation Project_RootViewController
+@implementation ReviewerController
 
 #pragma mark TabBar
 - (void)tabBarItemClicked{
     [super tabBarItemClicked];
-    if (_myCarousel.currentItemView && [_myCarousel.currentItemView isKindOfClass:[ProjectListView class]]) {
-        ProjectListView *listView = (ProjectListView *)_myCarousel.currentItemView;
-        [listView tabBarItemClicked];
+    if (_myCarousel.currentItemView && [_myCarousel.currentItemView isKindOfClass:[ReviewerListView class]]) {
+        ReviewerListView *listView = (ReviewerListView *)_myCarousel.currentItemView;
     }
 }
 
@@ -72,13 +63,18 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.mySearchBar removeFromSuperview];
     [self configSegmentItems];
-    
+    self.title = _curUser.name;
+    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
+    temporaryBarButtonItem.title = @"确定";
+    self.navigationItem.rightBarButtonItem = temporaryBarButtonItem;
+    self.icarouselScrollEnabled = YES;
     _useNewStyle=TRUE;
     
     _oldSelectedIndex = 0;
     _selectNum=0;
-//    self.title = @"项目";
+    //    self.title = @"项目";
     _myProjectsDict = [[NSMutableDictionary alloc] initWithCapacity:_segmentItems.count];
     
     //添加myCarousel
@@ -97,23 +93,6 @@
             make.edges.equalTo(self.view);
         }];
         icarousel;
-    });
-    //添加搜索框
-    _mySearchBar = ({
-        MainSearchBar *searchBar = [[MainSearchBar alloc] initWithFrame:CGRectMake(20,7, kScreen_Width-115, 31)];
-        [searchBar setContentMode:UIViewContentModeLeft];
-        [searchBar setPlaceholder:@"搜索"];
-        searchBar.delegate = self;
-        searchBar.layer.cornerRadius=15;
-        searchBar.layer.masksToBounds=TRUE;
-        [searchBar.layer setBorderWidth:8];
-        [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];//设置边框为白色
-        [searchBar sizeToFit];
-        [searchBar setTintColor:[UIColor whiteColor]];
-        [searchBar insertBGColor:[UIColor colorWithHexString:@"0xffffff"]];
-        [searchBar setHeight:30];
-        [searchBar.scanBtn addTarget:self action:@selector(scanBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-        searchBar;
     });
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     
@@ -182,7 +161,7 @@
         }
     };
     
-   // [self setupNavBtn];
+    // [self setupNavBtn];
     self.icarouselScrollEnabled = NO;
     
     [[StartImagesManager shareManager] handleStartLink];//如果 start_image 有对应的 link 的话，需要进入到相应的 web 页面
@@ -190,11 +169,9 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.navigationController.navigationBar addSubview:_mySearchBar];
     if (_myCarousel) {
-        ProjectListView *listView = (ProjectListView *)_myCarousel.currentItemView;
+        ReviewerListView *listView = (ReviewerListView *)_myCarousel.currentItemView;
         if (listView) {
-            [listView refreshToQueryData];
         }
     }
     [_myFliterMenu refreshMenuDate];
@@ -223,7 +200,7 @@
 }
 
 - (void)configSegmentItems{
-    _segmentItems = @[@"全部项目",@"我创建的", @"我参与的",@"我关注的",@"我收藏的"];
+    _segmentItems = @[@"全部项目——1",@"我创建的", @"我参与的",@"我关注的",@"我收藏的"];
 }
 
 #pragma mark - nav item
@@ -234,8 +211,8 @@
     //变化按钮
     _rightNavBtn = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(0,0,18.5,18.5)];
     [_rightNavBtn setOptions:@{ kFRDLivelyButtonLineWidth: @(1.0f),
-                          kFRDLivelyButtonColor: [UIColor whiteColor]
-                          }];
+                                kFRDLivelyButtonColor: [UIColor whiteColor]
+                                }];
     [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:NO];
     [_rightNavBtn addTarget:self action:@selector(addItemClicked:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn];
@@ -335,14 +312,14 @@
         curPros = [self projectsWithIndex:index];
         [_myProjectsDict setObject:curPros forKey:[NSNumber numberWithUnsignedInteger:index]];
     }
-    ProjectListView *listView = (ProjectListView *)view;
+    ReviewerListView *listView = (ReviewerListView *)view;
     if (listView) {
         [listView setProjects:curPros];
     }else{
-        __weak Project_RootViewController *weakSelf = self;
-        listView = [[ProjectListView alloc] initWithFrame:carousel.bounds projects:curPros block:^(Project *project) {
+        __weak ReviewerController *weakSelf = self;
+        listView = [[ReviewerListView alloc] initWithFrame:carousel.bounds projects:curPros block:^(Project *project) {
             [weakSelf goToProject:project];
-
+            
             DebugLog(@"\n=====%@", project.name);
         } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
         
@@ -361,10 +338,10 @@
                     break;
             }
         };
-
+        
         //使用新系列Cell样式
         listView.useNewStyle=_useNewStyle;
-
+        
     }
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
@@ -391,8 +368,6 @@
     }
     if (_oldSelectedIndex != carousel.currentItemIndex) {
         _oldSelectedIndex = carousel.currentItemIndex;
-        ProjectListView *curView = (ProjectListView *)carousel.currentItemView;
-        [curView refreshToQueryData];
     }
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
@@ -456,7 +431,6 @@
 
 #pragma mark Search
 - (void)searchItemClicked:(id)sender{
-    [_mySearchBar setX:20];
     if (!_mySearchDisplayController) {
         _mySearchDisplayController = ({
             UISearchDisplayController *searchVC = [[UISearchDisplayController alloc] initWithSearchBar:_mySearchBar contentsController:self];
@@ -526,8 +500,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.mySearchBar resignFirstResponder];
-    [self goToProject:[self.searchResults objectAtIndex:indexPath.row]];
+    UITableViewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
+    currentCell.accessoryType = UITableViewCellAccessoryCheckmark;
+   // [self.mySearchBar resignFirstResponder];
+   // [self goToProject:[self.searchResults objectAtIndex:indexPath.row]];
 }
 
 #pragma mark UISearchBarDelegate
@@ -660,7 +636,7 @@
             [self.navigationController popViewControllerAnimated:YES];
         }];
         [alertV show];
-
+        
     }else{
         UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"无效条码" message:@"未检测到条码信息"];
         [alertV bk_addButtonWithTitle:@"重试" handler:^{

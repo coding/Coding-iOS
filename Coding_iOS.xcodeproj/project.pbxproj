@@ -26,6 +26,12 @@
 		1309B9FA1CA2D3960034C7A3 /* PRReviewerListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1309B9F91CA2D3960034C7A3 /* PRReviewerListCell.m */; };
 		1309B9FF1CA2E95F0034C7A3 /* ReviewersInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1309B9FE1CA2E95F0034C7A3 /* ReviewersInfo.m */; };
 		1309BA021CA2EF370034C7A3 /* Reviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1309BA011CA2EF370034C7A3 /* Reviewer.m */; };
+		134E1B9A1CA41217002A3E0D /* ReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 134E1B981CA41217002A3E0D /* ReviewCell.m */; };
+		134E1B9B1CA41217002A3E0D /* ReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 134E1B991CA41217002A3E0D /* ReviewCell.xib */; };
+		134E1BA01CA414DB002A3E0D /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 134E1B9F1CA414DB002A3E0D /* BaseTableViewController.m */; };
+		134E1BA31CA414F2002A3E0D /* ReviewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 134E1BA21CA414F2002A3E0D /* ReviewerController.m */; };
+		134E1BA61CA41671002A3E0D /* DemoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 134E1BA51CA41671002A3E0D /* DemoModel.m */; };
+		13C793391CA4B23800A6A876 /* ReviewerListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C793381CA4B23800A6A876 /* ReviewerListView.m */; };
 		13FB5D361CA17A6400EE127C /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D151CA17A6400EE127C /* add@2x.png */; };
 		13FB5D371CA17A6400EE127C /* add@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D161CA17A6400EE127C /* add@3x.png */; };
 		13FB5D381CA17A6400EE127C /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D171CA17A6400EE127C /* close@2x.png */; };
@@ -1145,6 +1151,17 @@
 		1309B9FE1CA2E95F0034C7A3 /* ReviewersInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewersInfo.m; sourceTree = "<group>"; };
 		1309BA001CA2EF370034C7A3 /* Reviewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reviewer.h; sourceTree = "<group>"; };
 		1309BA011CA2EF370034C7A3 /* Reviewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reviewer.m; sourceTree = "<group>"; };
+		134E1B971CA41217002A3E0D /* ReviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewCell.h; sourceTree = "<group>"; };
+		134E1B981CA41217002A3E0D /* ReviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewCell.m; sourceTree = "<group>"; };
+		134E1B991CA41217002A3E0D /* ReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewCell.xib; sourceTree = "<group>"; };
+		134E1B9E1CA414DB002A3E0D /* BaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableViewController.h; sourceTree = "<group>"; };
+		134E1B9F1CA414DB002A3E0D /* BaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewController.m; sourceTree = "<group>"; };
+		134E1BA11CA414F2002A3E0D /* ReviewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewerController.h; sourceTree = "<group>"; };
+		134E1BA21CA414F2002A3E0D /* ReviewerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewerController.m; sourceTree = "<group>"; };
+		134E1BA41CA41671002A3E0D /* DemoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoModel.h; sourceTree = "<group>"; };
+		134E1BA51CA41671002A3E0D /* DemoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoModel.m; sourceTree = "<group>"; };
+		13C793371CA4B23800A6A876 /* ReviewerListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewerListView.h; sourceTree = "<group>"; };
+		13C793381CA4B23800A6A876 /* ReviewerListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewerListView.m; sourceTree = "<group>"; };
 		13FB5D151CA17A6400EE127C /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
 		13FB5D161CA17A6400EE127C /* add@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@3x.png"; sourceTree = "<group>"; };
 		13FB5D171CA17A6400EE127C /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
@@ -2795,6 +2812,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		134E1B961CA409B6002A3E0D /* Reviewer */ = {
+			isa = PBXGroup;
+			children = (
+				134E1BA11CA414F2002A3E0D /* ReviewerController.h */,
+				134E1BA21CA414F2002A3E0D /* ReviewerController.m */,
+				134E1B9E1CA414DB002A3E0D /* BaseTableViewController.h */,
+				134E1B9F1CA414DB002A3E0D /* BaseTableViewController.m */,
+				134E1B971CA41217002A3E0D /* ReviewCell.h */,
+				134E1B981CA41217002A3E0D /* ReviewCell.m */,
+				134E1B991CA41217002A3E0D /* ReviewCell.xib */,
+				13C793371CA4B23800A6A876 /* ReviewerListView.h */,
+				13C793381CA4B23800A6A876 /* ReviewerListView.m */,
+			);
+			name = Reviewer;
+			sourceTree = "<group>";
+		};
 		13FB5CD21CA17A0B00EE127C /* pullRequest */ = {
 			isa = PBXGroup;
 			children = (
@@ -4406,6 +4439,7 @@
 		8EA6CF1B19E240C40076D59C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				134E1B961CA409B6002A3E0D /* Reviewer */,
 				927AFF351BFF1BD700AAE593 /* Shop */,
 				4E0BD8731B6C7F0A0061CAA6 /* Search */,
 				4E0BD8571B6C7E3D0061CAA6 /* Topic */,
@@ -4826,6 +4860,8 @@
 		8EA6CFC719E240C40076D59C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				134E1BA41CA41671002A3E0D /* DemoModel.h */,
+				134E1BA51CA41671002A3E0D /* DemoModel.m */,
 				4E96E7B91A1B25D40037C098 /* DirectoryWatcher.h */,
 				4E96E7BA1A1B25D40037C098 /* DirectoryWatcher.m */,
 				8EA6CFCC19E240C40076D59C /* CodingTip.h */,
@@ -5588,6 +5624,7 @@
 				8EA6D15019E240C40076D59C /* commentOrLikeBeginImg@2x.png in Resources */,
 				4EB52F5F1C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@3x.png in Resources */,
 				13FB5D481CA17A6400EE127C /* MergeChanges@3x.png in Resources */,
+				134E1B9B1CA41217002A3E0D /* ReviewCell.xib in Resources */,
 				8EA6D15E19E240C40076D59C /* login_suffix@2x.png in Resources */,
 				4EB52F101C74691B00B5EBEA /* password_look@3x.png in Resources */,
 				8E97CE721A0B8C6C006F9AD7 /* emotion_list.plist in Resources */,
@@ -6291,6 +6328,7 @@
 				4E2719B81AB02F31006AE214 /* NProjectViewController.m in Sources */,
 				4E74EC011C311B6300EC0E1B /* SettingPhoneViewController.m in Sources */,
 				8EA6D1B719E240C40076D59C /* PrivateMessage.m in Sources */,
+				134E1BA31CA414F2002A3E0D /* ReviewerController.m in Sources */,
 				8EF643BE19FF7E2900F7EEB0 /* ProjectTaskListViewCell.m in Sources */,
 				4ECE8AE31A3943E80021E29C /* UIDevice+Info.m in Sources */,
 				4EABD25D1AD3CBB9005E515F /* UIMessageInputView_Media.m in Sources */,
@@ -6317,6 +6355,7 @@
 				4ECE8AFF1A3946C10021E29C /* Coding_NetAPIManager.m in Sources */,
 				8E59F0FA1A00F3F3009A905F /* FileListFileCell.m in Sources */,
 				8EA6D14219E240C40076D59C /* TipsViewController.m in Sources */,
+				134E1B9A1CA41217002A3E0D /* ReviewCell.m in Sources */,
 				4E0BD88A1B6C7F5B0061CAA6 /* TopicHotkeyView.m in Sources */,
 				8EA6D1CA19E240C40076D59C /* UIPlaceHolderTextView.m in Sources */,
 				D0C4481B1C034C3F00DC1C4B /* TopicSearchCell.m in Sources */,
@@ -6465,6 +6504,7 @@
 				923399751C00ABDE00F29E04 /* ShopOrderViewController.m in Sources */,
 				4E8D5D7D1B462ADB00B70936 /* OTPTableViewCell.m in Sources */,
 				4EABD25A1AD3CB4A005E515F /* UIMessageInputView_CCell.m in Sources */,
+				134E1BA61CA41671002A3E0D /* DemoModel.m in Sources */,
 				8EF643C019FF7E2900F7EEB0 /* TaskCommentBlankCell.m in Sources */,
 				4E6BA2E11A1EE6AF005FD721 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				8EA6D1B619E240C40076D59C /* Login.m in Sources */,
@@ -6516,10 +6556,12 @@
 				4ECE8ADE1A3943E80021E29C /* NSString+Common.m in Sources */,
 				4ECE8B081A3947300021E29C /* BasicPreviewItem.m in Sources */,
 				4EA7F15A1A6D192B00A046BD /* SDImageCache.m in Sources */,
+				134E1BA01CA414DB002A3E0D /* BaseTableViewController.m in Sources */,
 				4E0022A01B7360B1005308DE /* FunctionIntroManager.m in Sources */,
 				4EBB624C1A6F526C0045DAEF /* NJKWebViewProgress.m in Sources */,
 				4E4D6A761B1C6C6100FD2E49 /* MRPRTopCell.m in Sources */,
 				4EE1A2301B5D02CA004284F1 /* ProjectTaskListView.m in Sources */,
+				13C793391CA4B23800A6A876 /* ReviewerListView.m in Sources */,
 				3A38783A1AE2949E0078D5DE /* ResetLabelViewController.m in Sources */,
 				4EAE06A41B7AE4EF00179F4B /* FileComment.m in Sources */,
 				8EA6D13C19E240C40076D59C /* Tweet_RootViewController.m in Sources */,

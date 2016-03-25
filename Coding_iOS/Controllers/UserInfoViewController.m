@@ -9,7 +9,7 @@
 #import "UserInfoViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "FunctionTipsManager.h"
-
+#import "ReviewerController.h"
 #import "MJPhotoBrowser.h"
 #import "UsersViewController.h"
 #import "ConversationViewController.h"
@@ -333,7 +333,8 @@
 }
 
 - (void)goToProjects{
-    ProjectListViewController *vc = [[ProjectListViewController alloc] init];
+   // ProjectListViewController *vc = [[ProjectListViewController alloc] init];
+    ReviewerController *vc = [[ReviewerController alloc] init];
     vc.curUser = _curUser;
     [self.navigationController pushViewController:vc animated:YES];
 }
