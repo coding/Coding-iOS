@@ -212,23 +212,13 @@ static NSString *const kValueKey = @"kValueKey";
     ReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ReviewCell forIndexPath:indexPath];
     
     [cell configureCellWithHeadIconURL:@"test" reviewIconURL:@"PointLikeHead" userName:@"test" userState:@"test"];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
     return cell;
 
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (_useNewStyle) {
-        if (_myProjects.type < ProjectsTypeTaProject) {
-            return kProjectAboutMeListCellHeight;
-        }else if (_myProjects.type==ProjectsTypeAllPublic){
-            return kProjectPublicListCellHeight;
-        }else{
-            return [ProjectListTaCell cellHeight];
-        }
-    }else
-    {
-        return (_myProjects.type < ProjectsTypeTaProject)?[ProjectListCell cellHeight]:[ProjectListTaCell cellHeight];
-    }
+    return [ReviewCell cellHeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

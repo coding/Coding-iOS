@@ -9,11 +9,15 @@
 #import "BaseViewController.h"
 #import "MRPRBaseInfo.h"
 #import "ReviewersInfo.h"
+#import "Reviewer.h"
+#import "user.h"
 #import "Project.h"
 
 @interface PRDetailViewController : BaseViewController
 @property (strong, nonatomic) MRPR *curMRPR;
 @property (strong, nonatomic) Project *curProject;//非必需
 + (PRDetailViewController *)vcWithPath:(NSString *)path;
+- (Reviewer*)checkUserisReviewer;
+- (BOOL)CurrentUserIsOwer;
 - (void)refresh;
 @end

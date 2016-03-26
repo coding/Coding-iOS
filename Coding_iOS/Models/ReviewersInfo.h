@@ -10,5 +10,6 @@
 
 @interface ReviewersInfo:NSObject
 @property (readwrite, nonatomic, strong) NSMutableArray *reviewers;
+@property (readwrite, nonatomic, strong) NSMutableArray *volunteer_reviewers;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 @end

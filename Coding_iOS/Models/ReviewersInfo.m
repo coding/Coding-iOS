@@ -15,7 +15,7 @@
     self = [super init];
     if (self) {
         self.propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
-                             @"Reviewer", @"reviewers", nil];
+                             @"Reviewer", @"reviewers", @"Reviewer",@"volunteer_reviewers",nil];
     }
     return self;
 }

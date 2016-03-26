@@ -8,6 +8,7 @@
 
 
 #import <UIKit/UIKit.h>
+#import "Reviewer.h"
 
 #define kCellIdentifier_ReviewCell @"ReviewCell"
 
@@ -22,4 +23,8 @@
                        reviewIconURL:(NSString *)reviewIconURL
                             userName:(NSString *)userName
                             userState:(NSString *)userState;
+
+- (void)initCellWithReviewer:(Reviewer*)reviewer;
+
++ (CGFloat)cellHeight;
 @end

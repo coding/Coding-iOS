@@ -10,4 +10,6 @@
 
 @interface Reviewer:NSObject
 @property (readwrite, nonatomic, strong) User *reviewer;
+@property (readwrite, nonatomic, strong) NSNumber *value;
+@property (readwrite, nonatomic, strong) NSString *volunteer;
 @end

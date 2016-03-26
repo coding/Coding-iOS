@@ -12,7 +12,9 @@
 
 @interface PRReviewerCell: UITableViewCell
 
-- (void)setImageStr:(NSString *)imgStr andTitle:(NSString *)title;
+- (void)setImageStr:(NSString *)imgStr
+            isowner:(BOOL)ower
+          hasLikeMr:(BOOL)hasLikeMr;
 
 - (void)addTip:(NSString *)countStr;
 - (void)addTipIcon;

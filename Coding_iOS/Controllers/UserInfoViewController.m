@@ -20,6 +20,7 @@
 #import "UserInfoDetailViewController.h"
 #import "ProjectListViewController.h"
 #import "LocalFoldersViewController.h"
+#import "ReviewerListController.h"
 
 #import "RDVTabBarController.h"
 #import "RDVTabBarItem.h"
@@ -333,10 +334,12 @@
 }
 
 - (void)goToProjects{
-   // ProjectListViewController *vc = [[ProjectListViewController alloc] init];
-    ReviewerController *vc = [[ReviewerController alloc] init];
-    vc.curUser = _curUser;
-    [self.navigationController pushViewController:vc animated:YES];
+    NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
+    ReviewerListController *appview=[apparray firstObject];
+    
+    
+    [self.navigationController pushViewController:appview animated:YES];
+    //[self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)goToDetailInfo{

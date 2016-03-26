@@ -13,6 +13,7 @@
 @interface PRReviewerListCell ()
 @property (strong, nonatomic) UIImageView *imgView;
 @property (strong, nonatomic) NSMutableArray *imgViews;
+@property (strong, nonatomic) NSMutableArray *likeHeadImgViews;
 @property (strong, nonatomic) UILabel *titleLabel;
 @end
 
@@ -24,6 +25,7 @@
     if (self) {
         // Initialization code
         self.imgViews = [[NSMutableArray alloc] init];
+        self.likeHeadImgViews  = [[NSMutableArray alloc] init];
         self.backgroundColor = kColorTableBG;
         for(int i = 0; i < kDefaultImageCount; i ++)
         {
@@ -32,6 +34,12 @@
             [imgView setHidden:true];
             [self.imgViews addObject:imgView];
             [self.contentView addSubview:imgView];
+            
+            UIImageView *likeHeadView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1) + 15,25, 18, 18)];
+            [likeHeadView doCircleFrame];
+            [likeHeadView setHidden:true];
+            [self.likeHeadImgViews addObject:likeHeadView];
+            [self.contentView addSubview:likeHeadView];
             
            
         }
@@ -73,9 +81,14 @@
         if(i >= reviewers.count) {
             continue;
         }
-         [image setHidden:false];
+        [image setHidden:false];
         Reviewer* reviewer = (Reviewer*)reviewers[i];
         [image sd_setImageWithURL:[reviewer.reviewer.avatar urlImageWithCodePathResizeToView:image] placeholderImage:kPlaceholderMonkeyRoundView(image)];
+        if([reviewer.value isEqual:@100]) {
+            UIImageView *likeImage = self.likeHeadImgViews[i];
+            [likeImage setHidden:false];
+            likeImage.image = [UIImage imageNamed:@"PointLikeHead"];
+        }
     }
     
 }

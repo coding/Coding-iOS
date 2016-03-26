@@ -13,6 +13,7 @@
 @property (strong, nonatomic) UIImageView *imgView;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *rightLabel;
+@property (strong, nonatomic) UIImageView *likeImgView;
 @end
 
 @implementation PRReviewerCell
@@ -45,7 +46,6 @@
         }
         
         if (!self.rightLabel) {
-            self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             self.rightLabel = [UILabel new];
             self.rightLabel.text = @"添加";
             self.rightLabel.font = [UIFont systemFontOfSize:15];
@@ -58,6 +58,16 @@
             }];
             
         }
+        
+        if (!self.likeImgView) {
+            self.likeImgView = [UIImageView new];
+            [self.contentView addSubview:self.likeImgView];
+            [self.likeImgView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(20, 20));
+                make.right.equalTo(self.contentView).offset(-30);
+                make.centerY.equalTo(self.contentView);
+            }];
+        }
     }
     return self;
 }
@@ -67,7 +77,6 @@
 }
 
 - (void)addTip:(NSString *)countStr{
-    self.accessoryType = UITableViewCellAccessoryNone;
     CGFloat pointX = kScreen_Width - 25;
     CGFloat pointY = [[self class] cellHeight]/2;
     [self.contentView addBadgeTip:countStr withCenterPosition:CGPointMake(pointX, pointY)];
@@ -89,9 +98,30 @@
     [self.contentView removeBadgeTips];
 }
 
-- (void)setImageStr:(NSString *)imgStr andTitle:(NSString *)title{
+- (void)setImageStr:(NSString *)imgStr
+            isowner:(BOOL)ower
+          hasLikeMr:(BOOL)hasLikeMr {
     self.imgView.image = [UIImage imageNamed:imgStr];
-    self.titleLabel.text = title;
+    self.titleLabel.text = @"评审者";
+    if(!ower) {
+        [self.rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            //make.left.equalTo(_imgView.mas_right).offset(15);
+            make.right.equalTo(self.contentView).offset(-10);
+            make.centerY.height.equalTo(self.contentView);
+        }];
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        if(hasLikeMr) {
+            self.rightLabel.text = @"+1";
+            self.likeImgView.image = [UIImage imageNamed:@"PointLikeHead"];
+        } else {
+            self.rightLabel.text = @"撤销 -1";
+            [self.likeImgView setHidden:YES];
+        }
+    } else {
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        self.rightLabel.text = @"添加";
+        [self.likeImgView setHidden:YES];
+    }
 }
 
 + (CGFloat)cellHeight{

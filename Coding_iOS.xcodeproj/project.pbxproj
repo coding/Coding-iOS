@@ -28,9 +28,11 @@
 		1309BA021CA2EF370034C7A3 /* Reviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1309BA011CA2EF370034C7A3 /* Reviewer.m */; };
 		134E1B9A1CA41217002A3E0D /* ReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 134E1B981CA41217002A3E0D /* ReviewCell.m */; };
 		134E1B9B1CA41217002A3E0D /* ReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 134E1B991CA41217002A3E0D /* ReviewCell.xib */; };
-		134E1BA01CA414DB002A3E0D /* BaseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 134E1B9F1CA414DB002A3E0D /* BaseTableViewController.m */; };
+		134E1BA01CA414DB002A3E0D /* AddReviewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 134E1B9F1CA414DB002A3E0D /* AddReviewerViewController.m */; };
 		134E1BA31CA414F2002A3E0D /* ReviewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 134E1BA21CA414F2002A3E0D /* ReviewerController.m */; };
 		134E1BA61CA41671002A3E0D /* DemoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 134E1BA51CA41671002A3E0D /* DemoModel.m */; };
+		13972E291CA6157C00489EBA /* ReviewerListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13972E281CA6157C00489EBA /* ReviewerListController.xib */; };
+		13972E2C1CA616AC00489EBA /* ReviewerListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13972E2B1CA616AC00489EBA /* ReviewerListController.m */; };
 		13C793391CA4B23800A6A876 /* ReviewerListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C793381CA4B23800A6A876 /* ReviewerListView.m */; };
 		13FB5D361CA17A6400EE127C /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D151CA17A6400EE127C /* add@2x.png */; };
 		13FB5D371CA17A6400EE127C /* add@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D161CA17A6400EE127C /* add@3x.png */; };
@@ -1154,12 +1156,15 @@
 		134E1B971CA41217002A3E0D /* ReviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewCell.h; sourceTree = "<group>"; };
 		134E1B981CA41217002A3E0D /* ReviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewCell.m; sourceTree = "<group>"; };
 		134E1B991CA41217002A3E0D /* ReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewCell.xib; sourceTree = "<group>"; };
-		134E1B9E1CA414DB002A3E0D /* BaseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseTableViewController.h; sourceTree = "<group>"; };
-		134E1B9F1CA414DB002A3E0D /* BaseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseTableViewController.m; sourceTree = "<group>"; };
+		134E1B9E1CA414DB002A3E0D /* AddReviewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddReviewerViewController.h; sourceTree = "<group>"; };
+		134E1B9F1CA414DB002A3E0D /* AddReviewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddReviewerViewController.m; sourceTree = "<group>"; };
 		134E1BA11CA414F2002A3E0D /* ReviewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewerController.h; sourceTree = "<group>"; };
 		134E1BA21CA414F2002A3E0D /* ReviewerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewerController.m; sourceTree = "<group>"; };
 		134E1BA41CA41671002A3E0D /* DemoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoModel.h; sourceTree = "<group>"; };
 		134E1BA51CA41671002A3E0D /* DemoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoModel.m; sourceTree = "<group>"; };
+		13972E281CA6157C00489EBA /* ReviewerListController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewerListController.xib; sourceTree = "<group>"; };
+		13972E2A1CA616AC00489EBA /* ReviewerListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewerListController.h; sourceTree = "<group>"; };
+		13972E2B1CA616AC00489EBA /* ReviewerListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewerListController.m; sourceTree = "<group>"; };
 		13C793371CA4B23800A6A876 /* ReviewerListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewerListView.h; sourceTree = "<group>"; };
 		13C793381CA4B23800A6A876 /* ReviewerListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewerListView.m; sourceTree = "<group>"; };
 		13FB5D151CA17A6400EE127C /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
@@ -2815,15 +2820,18 @@
 		134E1B961CA409B6002A3E0D /* Reviewer */ = {
 			isa = PBXGroup;
 			children = (
+				13972E2A1CA616AC00489EBA /* ReviewerListController.h */,
+				13972E2B1CA616AC00489EBA /* ReviewerListController.m */,
 				134E1BA11CA414F2002A3E0D /* ReviewerController.h */,
 				134E1BA21CA414F2002A3E0D /* ReviewerController.m */,
-				134E1B9E1CA414DB002A3E0D /* BaseTableViewController.h */,
-				134E1B9F1CA414DB002A3E0D /* BaseTableViewController.m */,
+				134E1B9E1CA414DB002A3E0D /* AddReviewerViewController.h */,
+				134E1B9F1CA414DB002A3E0D /* AddReviewerViewController.m */,
 				134E1B971CA41217002A3E0D /* ReviewCell.h */,
 				134E1B981CA41217002A3E0D /* ReviewCell.m */,
 				134E1B991CA41217002A3E0D /* ReviewCell.xib */,
 				13C793371CA4B23800A6A876 /* ReviewerListView.h */,
 				13C793381CA4B23800A6A876 /* ReviewerListView.m */,
+				13972E281CA6157C00489EBA /* ReviewerListController.xib */,
 			);
 			name = Reviewer;
 			sourceTree = "<group>";
@@ -5713,6 +5721,7 @@
 				4EDD8F521A36F42300E9E232 /* ReleaseNotes.txt in Resources */,
 				13FB5D491CA17A6400EE127C /* PointLikeHead@1x.png in Resources */,
 				13FB5D3C1CA17A6400EE127C /* EditMerge@2x.png in Resources */,
+				13972E291CA6157C00489EBA /* ReviewerListController.xib in Resources */,
 				8EA6D19619E240C40076D59C /* tipIcon_MergeRequestComment@2x.png in Resources */,
 				4E6383BC1B32640900D98648 /* private_message_send_fail@2x.png in Resources */,
 				4E743E6F1A88ABF700DADDE5 /* blankpage_image_Hi@2x.png in Resources */,
@@ -6455,6 +6464,7 @@
 				E7A046A01A47279E00528C12 /* Helper.m in Sources */,
 				4E00228C1B721955005308DE /* PointTopCell.m in Sources */,
 				8E64ED8019ED0CE3006E99DA /* QBAssetsCollectionViewController.m in Sources */,
+				13972E2C1CA616AC00489EBA /* ReviewerListController.m in Sources */,
 				4E996BD71ABA776500C704F1 /* UserInfoDetailTagCell.m in Sources */,
 				4E87656A1A22E5B40090CFB9 /* SWUtilityButtonView.m in Sources */,
 				7EB02FFC1B6E001300D2166C /* VoiceMedia.m in Sources */,
@@ -6556,7 +6566,7 @@
 				4ECE8ADE1A3943E80021E29C /* NSString+Common.m in Sources */,
 				4ECE8B081A3947300021E29C /* BasicPreviewItem.m in Sources */,
 				4EA7F15A1A6D192B00A046BD /* SDImageCache.m in Sources */,
-				134E1BA01CA414DB002A3E0D /* BaseTableViewController.m in Sources */,
+				134E1BA01CA414DB002A3E0D /* AddReviewerViewController.m in Sources */,
 				4E0022A01B7360B1005308DE /* FunctionIntroManager.m in Sources */,
 				4EBB624C1A6F526C0045DAEF /* NJKWebViewProgress.m in Sources */,
 				4E4D6A761B1C6C6100FD2E49 /* MRPRTopCell.m in Sources */,

@@ -9,6 +9,7 @@
 #define kMRPRDetailViewController_BottomViewHeight 49.0
 
 #import "PRDetailViewController.h"
+#import "ReviewerListController.h"
 #import "Coding_NetAPIManager.h"
 #import "FunctionTipsManager.h"
 #import "ODRefreshControl.h"
@@ -359,7 +360,18 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         
         if (indexPath.row == 0) {
             PRReviewerCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PRReviewerCell forIndexPath:indexPath];
-            [cell setImageStr:@"PRReviewer" andTitle:@"评审者"];
+            if([self CurrentUserIsOwer]) {
+                [cell setImageStr:@"PRReviewer" isowner:[self CurrentUserIsOwer] hasLikeMr:NO];
+            }
+            else {
+                Reviewer* tmpReviewer = [self checkUserisReviewer];
+                if(tmpReviewer == nil){
+                    [cell setImageStr:@"PRReviewer" isowner:NO hasLikeMr:YES];
+                } else {
+                    [cell setImageStr:@"PRReviewer" isowner:NO hasLikeMr:NO];
+                }
+            }
+            //[cell setImageStr:@"PRReviewer" andTitle:@"评审者"];
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
             return cell;
         }else {
@@ -383,6 +395,32 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
     }
+}
+
+
+- (BOOL)CurrentUserIsOwer{
+    User *currentUser = [Login curLoginUser];
+    User *MROwer = self.curMRPR.author;
+    if([currentUser.id isEqual:MROwer.id]){
+        return true;
+    }
+    return false;
+}
+
+- (Reviewer*)checkUserisReviewer {
+    User *currentUser = [Login curLoginUser];
+    for(int i = 0; i < self.curReviewersInfo.reviewers.count; i ++) {
+        Reviewer *reviewer = (Reviewer *)self.curReviewersInfo.reviewers[i];
+        if([currentUser.id isEqual:reviewer.reviewer.id])
+            return reviewer;
+    }
+    
+    for(int i = 0; i < self.curReviewersInfo.volunteer_reviewers.count; i ++) {
+        Reviewer *reviewer = (Reviewer *)self.curReviewersInfo.volunteer_reviewers[i];
+        if([currentUser.id isEqual:reviewer.reviewer.id])
+            return reviewer;
+    }
+    return nil;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat cellHeight = 0;
@@ -431,7 +469,27 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 [cell removeTip];
             }
         }
-    }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 2){//Comment
+    }else if (indexPath.section == 2){//Disclosure
+        if (indexPath.row == 0) {
+            NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
+            ReviewerListController *appview=[apparray firstObject];
+            appview.reviewers = self.curReviewersInfo.reviewers;
+            
+            [self.navigationController pushViewController:appview animated:YES];
+        }else{
+            MRPRFilesViewController *vc = [MRPRFilesViewController new];
+            vc.curMRPR = _curMRPR;
+            vc.curMRPRInfo = _curMRPRInfo;
+            vc.curProject = _curProject;
+            [self.navigationController pushViewController:vc animated:YES];
+            if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_LineNote_FileChange]) {
+                [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_LineNote_FileChange];
+                [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_LineNote_MRPR];
+                NProjectItemCell *cell = (NProjectItemCell *)[tableView cellForRowAtIndexPath:indexPath];
+                [cell removeTip];
+            }
+        }
+    }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 3){//Comment
         ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         if ([cell.contentView isMenuVCVisible]) {
