@@ -334,12 +334,9 @@
 }
 
 - (void)goToProjects{
-    NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
-    ReviewerListController *appview=[apparray firstObject];
-    
-    
-    [self.navigationController pushViewController:appview animated:YES];
-    //[self.navigationController pushViewController:vc animated:YES];
+    ProjectListViewController *vc = [[ProjectListViewController alloc] init];
+    vc.curUser = _curUser;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)goToDetailInfo{
