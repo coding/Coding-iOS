@@ -25,6 +25,7 @@
                             userState:(NSString *)userState;
 
 - (void)initCellWithReviewer:(Reviewer*)reviewer;
+- (void)initCellWithVolunteerReviewers:(Reviewer*)reviewer;
 
 + (CGFloat)cellHeight;
 @end

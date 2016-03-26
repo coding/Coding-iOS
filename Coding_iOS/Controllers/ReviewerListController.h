@@ -14,5 +14,6 @@ typedef void(^ReviewerListControllerBlock)(Project *project);
 @interface ReviewerListController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (readwrite, nonatomic, strong) NSMutableArray *reviewers;
+@property (readwrite, nonatomic, strong) NSMutableArray *volunteer_reviewers;
 
 @end

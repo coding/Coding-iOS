@@ -13,6 +13,7 @@
 #import "Coding_NetAPIManager.h"
 #import "FunctionTipsManager.h"
 #import "ODRefreshControl.h"
+#import "TaskResourceReferenceViewController.h"
 
 #import "MRPRTopCell.h"
 #import "MRPRDetailCell.h"
@@ -44,6 +45,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 @property (strong, nonatomic) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 @property (strong, nonatomic) UIView *bottomView;
+@property (strong, nonatomic) NSString *referencePath;
+@property (strong, nonatomic) ResourceReference *resourceReference;
 @end
 
 @implementation PRDetailViewController
@@ -65,7 +68,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.title = [NSString stringWithFormat:@"%@ #%@", _curMRPR.des_project_name, _curMRPR.iid.stringValue];
-    
+    self.referencePath = [NSString stringWithFormat:@"/api/user/%@/project/%@/resource_reference/%@", _curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
+    __weak typeof(self) weakSelf = self;
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
         tableView.backgroundColor = kColorTableSectionBg;
@@ -180,6 +184,16 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             
             [weakSelf.myTableView reloadData];
             [weakSelf configBottomView];
+        }
+        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+            [weakSelf refresh];
+        }];
+    }];
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.referencePath withParams:@{@"iid": _curMRPR.iid} withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.resourceReference = [NSObject objectOfClass:@"ResourceReference" fromJSON:data[@"data"]];
+            [weakSelf.myTableView reloadData];
         }
         [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
@@ -353,6 +367,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             }
         } else {
             [cell setImageStr:@"taskResourceReference" andTitle:@"资源关联"];
+            [cell setrightText:[NSString stringWithFormat:@"%lu个关联资源", (unsigned long)self.resourceReference.itemList.count]];
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
@@ -376,7 +391,14 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             return cell;
         }else {
             PRReviewerListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PRReviewerListCell forIndexPath:indexPath];
-            [cell setImageStr:self.curReviewersInfo.reviewers];
+            NSMutableArray *tmpReviewers = [[NSMutableArray alloc] init];
+            for (int i = 0; i < self.curReviewersInfo.reviewers.count; i ++) {
+                [tmpReviewers addObject:self.curReviewersInfo.reviewers[i]];
+            }
+            for (int i = 0; i < self.curReviewersInfo.volunteer_reviewers.count; i ++) {
+                [tmpReviewers addObject:self.curReviewersInfo.volunteer_reviewers[i]];
+            }
+            [cell initCellWithReviewers:tmpReviewers];
             if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_LineNote_FileChange]) {
                 [cell addTipHeadIcon:@"PointLikeHead"];
             }
@@ -456,7 +478,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             vc.curMRPR = _curMRPR;
             vc.curProject = _curProject;
             [self.navigationController pushViewController:vc animated:YES];
-        }else{
+        }else if(indexPath.row == 1){
             MRPRFilesViewController *vc = [MRPRFilesViewController new];
             vc.curMRPR = _curMRPR;
             vc.curMRPRInfo = _curMRPRInfo;
@@ -468,15 +490,22 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 NProjectItemCell *cell = (NProjectItemCell *)[tableView cellForRowAtIndexPath:indexPath];
                 [cell removeTip];
             }
+        } else {
+            TaskResourceReferenceViewController *vc = [TaskResourceReferenceViewController new];
+            vc.resourceReference = self.resourceReference;
+            vc.resourceReferencePath = self.referencePath;
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }else if (indexPath.section == 2){//Disclosure
         if (indexPath.row == 0) {
+            if(![self CurrentUserIsOwer]) return;
             NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
             ReviewerListController *appview=[apparray firstObject];
             appview.reviewers = self.curReviewersInfo.reviewers;
+            appview.volunteer_reviewers = self.curReviewersInfo.volunteer_reviewers;
             
             [self.navigationController pushViewController:appview animated:YES];
-        }else{
+        }else {
             MRPRFilesViewController *vc = [MRPRFilesViewController new];
             vc.curMRPR = _curMRPR;
             vc.curMRPRInfo = _curMRPRInfo;

@@ -151,6 +151,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_TaskDetail:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_TaskResourceReference:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteResourceReference:(NSNumber *)iid ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_DeleteResourceReference:(NSNumber *)iid ResourceReferencePath:(NSString *)ResourceReferencePath andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ActivityListOfTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DoCommentToTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteComment:(TaskComment *)comment ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;

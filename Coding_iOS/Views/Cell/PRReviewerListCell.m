@@ -75,7 +75,7 @@
     [self.contentView removeBadgeTips];
 }
 
-- (void)setImageStr:(NSArray *)reviewers{
+- (void)initCellWithReviewers:(NSArray *)reviewers{
     for (int i = 0; i < kDefaultImageCount; i++) {
         UIImageView *image = self.imgViews[i];
         if(i >= reviewers.count) {

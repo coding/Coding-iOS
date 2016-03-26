@@ -528,7 +528,8 @@
         }
     }else if (indexPath.section == 2 && _myTask.resourceReference.itemList.count > 0){
         TaskResourceReferenceViewController *vc = [TaskResourceReferenceViewController new];
-        vc.curTask = _myTask;
+        vc.resourceReference = _myTask.resourceReference;
+        vc.resourceReferencePath = [self.myTask backend_project_path];
         [self.navigationController pushViewController:vc animated:YES];
     }else {
         ProjectActivity *curActivity = [self.myCopyTask.activityList objectAtIndex:indexPath.row];

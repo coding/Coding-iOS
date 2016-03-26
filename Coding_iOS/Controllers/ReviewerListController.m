@@ -31,6 +31,10 @@ static NSString *const kValueKey = @"kValueKey";
 -(void)viewDidLoad {
     self.title = @"评审人";
     [self.myTableView registerNib:[UINib nibWithNibName:kCellIdentifier_ReviewCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ReviewCell];
+    self.myTableView.separatorStyle = NO;
+    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
+    temporaryBarButtonItem.title = @"确定";
+    self.navigationItem.rightBarButtonItem = temporaryBarButtonItem;
     /*_mySearchBar = ({
         UISearchBar *searchBar = [[UISearchBar alloc] init];
         searchBar.delegate = self;
@@ -66,14 +70,18 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self.reviewers count];
+    return [self.reviewers count] + [self.volunteer_reviewers count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ReviewCell forIndexPath:indexPath];
     
  //   [cell configureCellWithHeadIconURL:@"test" reviewIconURL:@"PointLikeHead" userName:@"test" userState:@"test"];
-    [cell initCellWithReviewer:self.reviewers[indexPath.row]];
+    if(indexPath.row < self.reviewers.count) {
+        [cell initCellWithReviewer:self.reviewers[indexPath.row]];
+    } else {
+        [cell initCellWithVolunteerReviewers:self.volunteer_reviewers[indexPath.row - self.reviewers.count]];
+    }
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
     return cell;
 

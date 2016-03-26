@@ -42,6 +42,14 @@
                 make.centerY.height.equalTo(self.contentView);
             }];
         }
+        if (!_rightLabel) {
+            _rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_titleLabel.frame), 7, kScreen_Width - CGRectGetMaxX(_titleLabel.frame) - 35, 30)];
+            _rightLabel.font = [UIFont systemFontOfSize:18];
+            _rightLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _rightLabel.textAlignment = NSTextAlignmentRight;
+            [self.rightLabel setHidden:NO];
+            [self.contentView addSubview:_rightLabel];
+        }
     }
     return self;
 }
@@ -77,6 +85,11 @@
 - (void)setImageStr:(NSString *)imgStr andTitle:(NSString *)title{
     self.imgView.image = [UIImage imageNamed:imgStr];
     self.titleLabel.text = title;
+}
+
+- (void)setrightText:(NSString *)rightText {
+    [self.rightLabel setHidden:NO];
+    self.rightLabel.text = rightText;
 }
 
 + (CGFloat)cellHeight{

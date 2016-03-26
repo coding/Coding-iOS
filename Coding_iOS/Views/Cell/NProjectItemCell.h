@@ -12,7 +12,7 @@
 
 @interface NProjectItemCell : UITableViewCell
 - (void)setImageStr:(NSString *)imgStr andTitle:(NSString *)title;
-
+- (void)setrightText:(NSString *)rightText;
 - (void)addTip:(NSString *)countStr;
 - (void)addTipIcon;
 - (void)removeTip;

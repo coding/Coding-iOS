@@ -13,7 +13,7 @@
 @interface PRReviewerListCell : UITableViewCell
 @property (readwrite, nonatomic, strong) NSMutableArray *reviewers;
 
-- (void)setImageStr:(NSArray *)reviewers;
+- (void)initCellWithReviewers:(NSArray *)reviewers;
 
 - (void)addTip:(NSString *)countStr;
 - (void)addTipIcon;

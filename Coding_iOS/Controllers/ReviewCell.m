@@ -46,13 +46,23 @@
 - (void)initCellWithReviewer:(Reviewer*)reviewer {
     [self.headIcon sd_setImageWithURL:[reviewer.reviewer.avatar urlImageWithCodePathResizeToView:self.headIcon] placeholderImage:kPlaceholderMonkeyRoundView(self.headIcon)];
     [self.headIcon doCircleFrame];
+    self.reviewIcon.image = [UIImage imageNamed:@"PointLikeHead"];
     self.userName.text = reviewer.reviewer.name;
     if([reviewer.value isEqual:@100]) {
-       self.reviewIcon.image = [UIImage imageNamed:@"PointLikeHead"];
         self.userState.text = @"+1";
     } else {
-        [self.reviewIcon setHidden:YES];
         self.userState.text = @"未评审";
+    }
+    
+}
+
+- (void)initCellWithVolunteerReviewers:(Reviewer*)reviewer {
+    [self.headIcon sd_setImageWithURL:[reviewer.reviewer.avatar urlImageWithCodePathResizeToView:self.headIcon] placeholderImage:kPlaceholderMonkeyRoundView(self.headIcon)];
+    [self.headIcon doCircleFrame];
+    [self.reviewIcon setHidden:YES];
+    self.userName.text = reviewer.reviewer.name;
+    if([reviewer.value isEqual:@100]) {
+        self.userState.text = @"+1";
     }
     
 }

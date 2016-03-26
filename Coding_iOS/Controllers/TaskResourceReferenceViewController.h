@@ -10,5 +10,6 @@
 #import "Task.h"
 
 @interface TaskResourceReferenceViewController : BaseViewController
-@property (strong, nonatomic) Task *curTask;
+@property (strong, nonatomic) NSString *resourceReferencePath;
+@property (strong, nonatomic) ResourceReference *resourceReference;
 @end
