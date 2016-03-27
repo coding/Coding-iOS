@@ -22,6 +22,7 @@
 #import "AddCommentCell.h"
 #import "PRReviewerCell.h"
 #import "PRReviewerListCell.h"
+#import "DynamicCommentCell.h"
 
 #import "WebViewController.h"
 #import "MJPhotoBrowser.h"
@@ -30,7 +31,8 @@
 #import "MRPRFilesViewController.h"
 #import "AddMDCommentViewController.h"
 #import "MRPRAcceptViewController.h"
-
+#import "MActivityInfo.h"
+#import "DynamicActivityCell.h"
 #import "UIView+PressMenu.h"
 
 typedef NS_ENUM(NSInteger, MRPRAction) {
@@ -46,7 +48,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 @property (strong, nonatomic) UIView *bottomView;
 @property (strong, nonatomic) NSString *referencePath;
+@property (strong, nonatomic) NSString *activityPath;
 @property (strong, nonatomic) ResourceReference *resourceReference;
+@property (strong, nonatomic) NSMutableArray *activityList;
 @end
 
 @implementation PRDetailViewController
@@ -67,8 +71,10 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
+    self.activityList = [[NSMutableArray alloc] init];
     self.title = [NSString stringWithFormat:@"%@ #%@", _curMRPR.des_project_name, _curMRPR.iid.stringValue];
     self.referencePath = [NSString stringWithFormat:@"/api/user/%@/project/%@/resource_reference/%@", _curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
+    self.activityPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/activities", _curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     __weak typeof(self) weakSelf = self;
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -85,6 +91,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         [tableView registerClass:[AddCommentCell class] forCellReuseIdentifier:kCellIdentifier_AddCommentCell];
         [tableView registerClass:[PRReviewerCell class] forCellReuseIdentifier:kCellIdentifier_PRReviewerCell];
          [tableView registerClass:[PRReviewerListCell class] forCellReuseIdentifier:kCellIdentifier_PRReviewerListCell];
+        [tableView registerClass:[DynamicCommentCell class] forCellReuseIdentifier:kCellIdentifier_DynamicCommentCell];
+        [tableView registerClass:[DynamicCommentCell class] forCellReuseIdentifier:kCellIdentifier_DynamicCommentCell_Media];
+        [tableView registerClass:[DynamicActivityCell class] forCellReuseIdentifier:kCellIdentifier_DynamicActivityCell];
 
         
         [self.view addSubview:tableView];
@@ -194,6 +203,21 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         if (data) {
             weakSelf.resourceReference = [NSObject objectOfClass:@"ResourceReference" fromJSON:data[@"data"]];
             [weakSelf.myTableView reloadData];
+        }
+        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+            [weakSelf refresh];
+        }];
+    }];
+    
+    
+   [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.activityPath withParams:@{@"iid": _curMRPR.iid} withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectLineNote"];
+            if(resultA != nil){
+                weakSelf.activityList = resultA;
+                [weakSelf.myTableView reloadData];
+            }
         }
         [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
@@ -329,8 +353,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         row = 3;
     } else if(section == 2) {
          row = 2;
-    } else if (_curMRPRInfo.discussions.count > 0 && section == 3){
-        row = _curMRPRInfo.discussions.count;
+    } else if (self.activityList.count > 0 && section == 3){
+        row = self.activityList.count;
     }else{
         row = 1;
     }
@@ -405,12 +429,19 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
             return cell;
         }
-    }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 3){//Comment
-        ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
-        MRPRCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:curCommentItem.htmlMedia.imageItems.count> 0? kCellIdentifier_MRPRCommentCell_Media: kCellIdentifier_MRPRCommentCell forIndexPath:indexPath];
-        cell.curItem = curCommentItem;
-        cell.contentLabel.delegate = self;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+    }else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
+       ProjectLineNote *curCommentItem = self.activityList[indexPath.row];
+//        DynamicCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:curCommentItem.htmlMedia.imageItems.count> 0? kCellIdentifier_DynamicCommentCell_Media: kCellIdentifier_DynamicCommentCell forIndexPath:indexPath];
+//        cell.curComment = curCommentItem;
+//        cell.contentLabel.delegate = self;
+//        [cell configTop:(indexPath.row == 0) andBottom:(indexPath.row == _curMRPRInfo.discussions.count - 1)];
+//        cell.backgroundColor = kColorTableBG;
+//        return cell;
+        
+        DynamicActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_DynamicActivityCell forIndexPath:indexPath];
+        cell.curActivity = curCommentItem;
+        [cell configTop:(indexPath.row == 0) andBottom:(indexPath.row == self.activityList.count - 1)];
+        cell.backgroundColor = kColorTableBG;
         return cell;
     }else{//Add Comment
         AddCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_AddCommentCell forIndexPath:indexPath];
@@ -460,9 +491,10 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }else{
             return [PRReviewerListCell cellHeight];
         }
-    }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 3){//Comment
-        ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
-        return [MRPRCommentCell cellHeightWithObj:curCommentItem];
+    }else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
+        NSLog(@"test  %lu", indexPath.row);
+        ProjectLineNote *curCommentItem = self.activityList[indexPath.row];
+        return [DynamicActivityCell cellHeightWithObj:curCommentItem];
     }else{//Add Comment
         return [AddCommentCell cellHeight];
     }
@@ -518,8 +550,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 [cell removeTip];
             }
         }
-    }else if (_curMRPRInfo.discussions.count > 0 && indexPath.section == 3){//Comment
-        ProjectLineNote *curCommentItem = [[_curMRPRInfo.discussions objectAtIndex:indexPath.row] firstObject];
+    }else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
+        ProjectLineNote *curCommentItem = self.activityList[indexPath.row];
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         if ([cell.contentView isMenuVCVisible]) {
             [cell.contentView removePressMenu];

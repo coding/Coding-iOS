@@ -1,19 +1,18 @@
 //
-//  ProjectLineNote.m
+//  NSObject+MActivityInfo.m
 //  Coding_iOS
 //
-//  Created by Ease on 15/5/13.
-//  Copyright (c) 2015年 Coding. All rights reserved.
+//  Created by hardac on 16/3/26.
+//  Copyright © 2016年 Coding. All rights reserved.
 //
 
-#import "ProjectLineNote.h"
+#import "MActivityInfo.h"
 
-@implementation ProjectLineNote
+@implementation MActivityInfo
 - (void)setContent:(NSString *)content{
     if (_content != content) {
         _htmlMedia = [HtmlMedia htmlMediaWithString:content showType:MediaShowTypeCode];
         _content = _htmlMedia.contentDisplay;
     }
 }
-
 @end
