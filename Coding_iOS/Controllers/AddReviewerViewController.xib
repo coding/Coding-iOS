@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1605" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController nibName="AddReviewerViewController" id="MpB-NS-FiR" customClass="AddReviewerViewController">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="ta7-Hj-gJZ"/>
+                <viewControllerLayoutGuide type="bottom" id="Oi4-ri-mQ8"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="oa6-Kk-BiU">
+                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pqQ-5g-Tfd">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="MpB-NS-FiR" id="HCw-SA-EqP"/>
+                            <outlet property="delegate" destination="MpB-NS-FiR" id="hFN-yo-Dhh"/>
+                        </connections>
+                    </tableView>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="pqQ-5g-Tfd" secondAttribute="trailing" constant="-20" id="SSq-4I-uSQ"/>
+                    <constraint firstItem="pqQ-5g-Tfd" firstAttribute="leading" secondItem="oa6-Kk-BiU" secondAttribute="leadingMargin" constant="-20" id="SSq-H4-BmD"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="myTableView" destination="pqQ-5g-Tfd" id="hgT-C9-f60"/>
+            </connections>
+            <point key="canvasLocation" x="413" y="181"/>
+        </viewController>
+    </objects>
+</document>

@@ -11,6 +11,7 @@
 #import "ProjectListTaCell.h"
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"
+#import "AddReviewerViewController.h"
 
 //新系列 cell
 #import "ProjectAboutMeListCell.h"
@@ -32,18 +33,24 @@ static NSString *const kValueKey = @"kValueKey";
     self.title = @"评审人";
     [self.myTableView registerNib:[UINib nibWithNibName:kCellIdentifier_ReviewCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ReviewCell];
     self.myTableView.separatorStyle = NO;
-    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
-    temporaryBarButtonItem.title = @"确定";
-    self.navigationItem.rightBarButtonItem = temporaryBarButtonItem;
-    /*_mySearchBar = ({
-        UISearchBar *searchBar = [[UISearchBar alloc] init];
-        searchBar.delegate = self;
-        [searchBar sizeToFit];
-        [searchBar setPlaceholder:@"项目名称/创建人"];
-        searchBar;
-    });
-    [self.myTableView sizeToFit];
-    _myTableView.tableHeaderView = _mySearchBar;*/
+    UIImage* backImage = [UIImage imageNamed:@"tag_button_add.png"];
+    CGRect backframe = CGRectMake(0,0,19,19);
+    UIButton* addReviewerButton= [[UIButton alloc] initWithFrame:backframe];
+    [addReviewerButton setBackgroundImage:backImage forState:UIControlStateNormal];
+    [addReviewerButton addTarget:self action:@selector(selectRightAction:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addReviewerButton];
+    self.navigationItem.rightBarButtonItem = leftBarButtonItem;
+
+}
+
+-(void)selectRightAction:(id)sender
+{
+    NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"AddReviewerViewController" owner:nil options:nil];
+    AddReviewerViewController *appview=[apparray firstObject];
+    appview.reviewers = self.reviewers;
+    appview.volunteer_reviewers = self.volunteer_reviewers;
+    
+    [self.navigationController pushViewController:appview animated:YES];
 }
 
 - (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(ReviewerListControllerBlock)block  tabBarHeight:(CGFloat)tabBarHeight
