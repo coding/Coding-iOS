@@ -119,7 +119,7 @@
         }else if ([curActivity.action isEqualToString:@"review"]) {
             contentStr = [NSString stringWithFormat:@"%@对此合并请求评审+1 - %@", userName,[curActivity.created_at stringDisplay_HHmm]];
         }else if ([curActivity.action isEqualToString:@"mergeChanges"]) {
-            contentStr = [NSString stringWithFormat:@"更新了任务描述 - %@", [curActivity.created_at stringDisplay_HHmm]];
+            contentStr = [NSString stringWithFormat:@"对文件改动发起了讨论 - %@", [curActivity.created_at stringDisplay_HHmm]];
     }
     contentStr = contentStr? contentStr: @"...";
     attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];

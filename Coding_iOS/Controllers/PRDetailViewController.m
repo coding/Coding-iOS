@@ -14,6 +14,7 @@
 #import "FunctionTipsManager.h"
 #import "ODRefreshControl.h"
 #import "TaskResourceReferenceViewController.h"
+#import "FileChangeDetailViewController.h"
 
 #import "MRPRTopCell.h"
 #import "MRPRDetailCell.h"
@@ -49,6 +50,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 @property (strong, nonatomic) UIView *bottomView;
 @property (strong, nonatomic) NSString *referencePath;
 @property (strong, nonatomic) NSString *activityPath;
+@property (strong, nonatomic) NSString *diffPath;
 @property (strong, nonatomic) ResourceReference *resourceReference;
 @property (strong, nonatomic) NSMutableArray *activityList;
 @property (strong, nonatomic) NSMutableArray *activityCList;
@@ -79,6 +81,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     self.title = [NSString stringWithFormat:@"%@ #%@", _curMRPR.des_project_name, _curMRPR.iid.stringValue];
     self.referencePath = [NSString stringWithFormat:@"/api/user/%@/project/%@/resource_reference/%@", _curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     self.activityPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/activities", _curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
+    self.diffPath  = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/commitDiffContent",_curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     __weak typeof(self) weakSelf = self;
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -621,7 +624,18 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             }
         }
     }else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
+    
         ProjectLineNote *curCommentItem = self.activityList[indexPath.row];
+        if([curCommentItem.action isEqual:@"mergeChanges"]) {
+            FileChangeDetailViewController *vc = [FileChangeDetailViewController new];
+            vc.linkUrlStr = [NSString stringWithFormat:@"%@?path=%@", self.diffPath, curCommentItem.path];
+            vc.curProject = _curProject;
+            vc.commitId = curCommentItem.commitId;
+            vc.filePath = curCommentItem.path;
+            vc.noteable_id = _curMRPRInfo.mrpr.id.stringValue;
+            [self.navigationController pushViewController:vc animated:YES];
+            return;
+        }
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         if ([cell.contentView isMenuVCVisible]) {
             [cell.contentView removePressMenu];
