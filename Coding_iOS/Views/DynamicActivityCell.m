@@ -14,8 +14,8 @@
 
 
 @interface DynamicActivityCell ()
-@property (strong, nonatomic) UIImageView *tipIconView, *timeLineView;
-@property (strong, nonatomic) UILabel *contentLabel;
+@property (strong, nonatomic) UIImageView *tipIconView, *timeLineView, *contentBGView;
+@property (strong, nonatomic) UILabel *contentLabel, *tipLabel;
 @end
 
 @implementation DynamicActivityCell
@@ -26,7 +26,12 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+        if (!_contentBGView) {
+            _contentBGView = [UIImageView new];
+            _contentBGView.image = [[UIImage imageNamed:@"comment_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(35, 15, 5, 5)];
+            ;
+            [self.contentView addSubview:_contentBGView];
+        }
         if (!_timeLineView) {
             _timeLineView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 2, 1)];
             [_timeLineView setImage:[UIImage imageNamed:@"timeline_line_read"]];
@@ -49,6 +54,19 @@
             _contentLabel.numberOfLines = 0;
             [self.contentView addSubview:_contentLabel];
         }
+        
+        if (!_tipLabel) {
+            _tipLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTaskActivityCell_LeftContentPading, 13, kTaskActivityCell_ContentWidth, 15)];
+            _contentLabel.numberOfLines = 0;
+            [self.contentView addSubview:_tipLabel];
+        }
+        
+        [_contentBGView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(60, 50, 5, 20));
+        }];
+        [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(60, 70, 5, 20));
+        }];
     }
     return self;
 }
@@ -68,6 +86,12 @@
 }
 
 - (void)configTop:(BOOL)isTop andBottom:(BOOL)isBottom{
+    if([self.curActivity.action isEqualToString:@"mergeChanges"]) {
+        _contentBGView.hidden = NO;
+        _tipLabel.text = @"点击查看详情";
+    } else {
+        _contentBGView.hidden = YES;
+    }
     if (isTop && isBottom) {
         _timeLineView.hidden = YES;
     }else{
@@ -94,7 +118,7 @@
             contentStr = [NSString stringWithFormat:@"%@撤销了对此合并请求评审+ - %@", userName,[curActivity.created_at stringDisplay_HHmm]];
         }else if ([curActivity.action isEqualToString:@"review"]) {
             contentStr = [NSString stringWithFormat:@"%@对此合并请求评审+1 - %@", userName,[curActivity.created_at stringDisplay_HHmm]];
-        }else if ([curActivity.action isEqualToString:@"update_description"]) {
+        }else if ([curActivity.action isEqualToString:@"mergeChanges"]) {
             contentStr = [NSString stringWithFormat:@"更新了任务描述 - %@", [curActivity.created_at stringDisplay_HHmm]];
     }
     contentStr = contentStr? contentStr: @"...";
@@ -116,14 +140,22 @@
 }
 
 
-+ (CGFloat)cellHeightWithObj:(id)obj{
++ (CGFloat)cellHeightWithObj:(id)obj
+               contentHeight:(CGFloat)height{
     CGFloat cellHeight = 0;
+    ProjectLineNote *tmpProject = (ProjectLineNote*)obj;
     if ([obj isKindOfClass:[ProjectLineNote class]]) {
         NSAttributedString *attrContent = [self  attrContentWithObj:obj];
         CGFloat contentHeight = [attrContent boundingRectWithSize:CGSizeMake(kTaskActivityCell_ContentWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size.height;
         cellHeight = ceilf(contentHeight + 26);
         cellHeight = MAX(44, cellHeight);
     }
-    return cellHeight;
+    
+    if([tmpProject.action isEqual:@"mergeChanges"])
+    {
+        cellHeight += 50;
+    }
+    
+    return cellHeight + height;
 }
 @end

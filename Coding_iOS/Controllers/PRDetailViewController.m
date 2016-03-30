@@ -52,6 +52,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 @property (strong, nonatomic) ResourceReference *resourceReference;
 @property (strong, nonatomic) NSMutableArray *activityList;
 @property (strong, nonatomic) NSMutableArray *activityCList;
+@property (strong, nonatomic) NSMutableArray *allDiscussions;
 @end
 
 @implementation PRDetailViewController
@@ -74,6 +75,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     [super viewDidLoad];
     self.activityList = [[NSMutableArray alloc] init];
     self.activityCList = [[NSMutableArray alloc] init];
+    self.allDiscussions = [[NSMutableArray alloc] init];
     self.title = [NSString stringWithFormat:@"%@ #%@", _curMRPR.des_project_name, _curMRPR.iid.stringValue];
     self.referencePath = [NSString stringWithFormat:@"/api/user/%@/project/%@/resource_reference/%@", _curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     self.activityPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/activities", _curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
@@ -160,8 +162,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 
 -(void)sortActivityList {
     NSMutableArray *dataArray = [[NSMutableArray alloc] initWithArray:self.activityList];
-    for(int i = 0; i < self.activityCList.count; i ++) {
-        [dataArray addObject:self.activityCList[i]];
+    for(int i = 0; i < self.allDiscussions.count; i ++) {
+        [dataArray addObject:self.allDiscussions[i]];
     }
     //NSArray *sortedArray = [[NSArray alloc] initWithArray:dataArray];
     self.activityList = [dataArray sortedArrayUsingComparator:^NSComparisonResult(ProjectLineNote *obj1, ProjectLineNote *obj2) {
@@ -192,26 +194,31 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             NSMutableArray *resultA = weakSelf.curMRPRInfo.discussions;
             if(resultA != nil){
                 BOOL flag = false;
-                if(weakSelf.activityCList == nil || weakSelf.activityCList.count <= 0) {
+                if(weakSelf.allDiscussions == nil || weakSelf.allDiscussions.count <= 0) {
                     for (int i = 0; i<resultA.count; i ++) {
                         NSArray *pArray = resultA[i];
                         ProjectLineNote* addTmp = pArray[0];
-                        
-                        [weakSelf.activityCList addObject:addTmp];
+                        if (addTmp.path != nil) {
+                            addTmp.action = @"mergeChanges";
+                        }
+                        [weakSelf.allDiscussions addObject:addTmp];
                     }
                    
                 } else {
                     for (int i = 0; i< resultA.count; i++) {
                          NSArray *pArray = resultA[i];
                         ProjectLineNote* addTmp = [pArray firstObject];
+                        if (addTmp.path != nil) {
+                            addTmp.action = @"mergeChanges";
+                        }
                         flag = false;
-                        for(int j = 0; j < weakSelf.activityCList.count; j ++) {
-                            ProjectLineNote* addTmp1 = weakSelf.activityCList[j];
+                        for(int j = 0; j < weakSelf.allDiscussions.count; j ++) {
+                            ProjectLineNote* addTmp1 = weakSelf.allDiscussions[j];
                             if(addTmp.id == addTmp1.id) {
                                 flag = true;
                             }
                         }
-                        [weakSelf.activityCList addObject:addTmp];
+                        [weakSelf.allDiscussions addObject:addTmp];
                     }
                 }
             }
@@ -246,9 +253,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             weakSelf.resourceReference = [NSObject objectOfClass:@"ResourceReference" fromJSON:data[@"data"]];
             [weakSelf.myTableView reloadData];
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-            [weakSelf refresh];
-        }];
     }];
     
     
@@ -261,7 +265,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 if(weakSelf.activityList == nil || weakSelf.activityList.count <= 0) {
                     for (int i = 0; i<resultA.count; i ++) {
                         ProjectLineNote* addTmp = resultA[i];
-                        
                         [weakSelf.activityList addObject:addTmp];
                     }
                 } else {
@@ -281,9 +284,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 [weakSelf.myTableView reloadData];
             }
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-            [weakSelf refresh];
-        }];
     }];
     
     //推送过来的页面，可能 curProject 对象为空
@@ -493,18 +493,18 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }
     }else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
        ProjectLineNote *curCommentItem = self.activityList[indexPath.row];
-        if(curCommentItem.noteable_type != nil) {
+        if(curCommentItem.action == nil) {
             DynamicCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:curCommentItem.htmlMedia.imageItems.count> 0? kCellIdentifier_DynamicCommentCell_Media: kCellIdentifier_DynamicCommentCell forIndexPath:indexPath];
             cell.curComment = curCommentItem;
             cell.contentLabel.delegate = self;
-            [cell configTop:(indexPath.row == 0) andBottom:(indexPath.row == _curMRPRInfo.discussions.count - 1)];
+            [cell configTop:(indexPath.row == 0) andBottom:(indexPath.row == self.activityList.count +self.curMRPRInfo.discussions.count - 1)];
             cell.backgroundColor = kColorTableBG;
             return cell;
         } else {
         
             DynamicActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_DynamicActivityCell forIndexPath:indexPath];
             cell.curActivity = curCommentItem;
-            [cell configTop:(indexPath.row == 0) andBottom:(indexPath.row == self.activityList.count - 1)];
+            [cell configTop:(indexPath.row == 0) andBottom:(indexPath.row == self.activityList.count +self.curMRPRInfo.discussions.count - 1)];
             cell.backgroundColor = kColorTableBG;
             return cell;
         }
@@ -559,10 +559,10 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     }else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
         NSLog(@"test  %lu", indexPath.row);
         ProjectLineNote *curCommentItem = self.activityList[indexPath.row];
-        if(curCommentItem.noteable_type != nil) {
+        if(curCommentItem.action == nil) {
             return [DynamicCommentCell cellHeightWithObj:curCommentItem];
         } else {
-            return [DynamicActivityCell cellHeightWithObj:curCommentItem];
+            return [DynamicActivityCell cellHeightWithObj:curCommentItem contentHeight:0];
         }
     }else{//Add Comment
         return [AddCommentCell cellHeight];
@@ -602,6 +602,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             if(![self CurrentUserIsOwer]) return;
             NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
             ReviewerListController *appview=[apparray firstObject];
+            appview.currentProject = self.curProject;
             appview.reviewers = self.curReviewersInfo.reviewers;
             appview.volunteer_reviewers = self.curReviewersInfo.volunteer_reviewers;
             

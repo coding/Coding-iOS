@@ -8,7 +8,7 @@
 
 
 #import <UIKit/UIKit.h>
-#import "Reviewer.h"
+#import "User.h"
 
 #define kCellIdentifier_ReviewCell @"ReviewCell"
 
@@ -24,8 +24,11 @@
                             userName:(NSString *)userName
                             userState:(NSString *)userState;
 
-- (void)initCellWithReviewer:(Reviewer*)reviewer;
-- (void)initCellWithVolunteerReviewers:(Reviewer*)reviewer;
+- (void)initCellWithReviewer:(User*)reviewer
+                 likeValue:(NSNumber*)likeValue;
+- (void)initCellWithVolunteerReviewers:(User*)reviewer
+                             likeValue:(NSNumber*)likeValue;
+- (void)initCellWithUsers:(User*)user;
 
 + (CGFloat)cellHeight;
 @end

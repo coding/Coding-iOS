@@ -59,8 +59,8 @@
 		13FB5D441CA17A6400EE127C /* lock@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D231CA17A6400EE127C /* lock@3x.png */; };
 		13FB5D451CA17A6400EE127C /* merge-request coding@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D241CA17A6400EE127C /* merge-request coding@2x.png */; };
 		13FB5D461CA17A6400EE127C /* merge-request coding@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D251CA17A6400EE127C /* merge-request coding@3x.png */; };
-		13FB5D471CA17A6400EE127C /* MergeChanges@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D261CA17A6400EE127C /* MergeChanges@2x.png */; };
-		13FB5D481CA17A6400EE127C /* MergeChanges@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D271CA17A6400EE127C /* MergeChanges@3x.png */; };
+		13FB5D471CA17A6400EE127C /* PR_mergeChanges@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D261CA17A6400EE127C /* PR_mergeChanges@2x.png */; };
+		13FB5D481CA17A6400EE127C /* PR_mergeChanges@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D271CA17A6400EE127C /* PR_mergeChanges@3x.png */; };
 		13FB5D491CA17A6400EE127C /* PointLikeHead@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D281CA17A6400EE127C /* PointLikeHead@1x.png */; };
 		13FB5D4A1CA17A6400EE127C /* PointLikeHead@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D291CA17A6400EE127C /* PointLikeHead@2x.png */; };
 		13FB5D4B1CA17A6400EE127C /* PointLikeHead@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D2A1CA17A6400EE127C /* PointLikeHead@3x.png */; };
@@ -1202,8 +1202,8 @@
 		13FB5D231CA17A6400EE127C /* lock@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lock@3x.png"; sourceTree = "<group>"; };
 		13FB5D241CA17A6400EE127C /* merge-request coding@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "merge-request coding@2x.png"; sourceTree = "<group>"; };
 		13FB5D251CA17A6400EE127C /* merge-request coding@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "merge-request coding@3x.png"; sourceTree = "<group>"; };
-		13FB5D261CA17A6400EE127C /* MergeChanges@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MergeChanges@2x.png"; sourceTree = "<group>"; };
-		13FB5D271CA17A6400EE127C /* MergeChanges@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MergeChanges@3x.png"; sourceTree = "<group>"; };
+		13FB5D261CA17A6400EE127C /* PR_mergeChanges@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PR_mergeChanges@2x.png"; sourceTree = "<group>"; };
+		13FB5D271CA17A6400EE127C /* PR_mergeChanges@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PR_mergeChanges@3x.png"; sourceTree = "<group>"; };
 		13FB5D281CA17A6400EE127C /* PointLikeHead@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PointLikeHead@1x.png"; sourceTree = "<group>"; };
 		13FB5D291CA17A6400EE127C /* PointLikeHead@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PointLikeHead@2x.png"; sourceTree = "<group>"; };
 		13FB5D2A1CA17A6400EE127C /* PointLikeHead@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PointLikeHead@3x.png"; sourceTree = "<group>"; };
@@ -2911,8 +2911,8 @@
 				13FB5D231CA17A6400EE127C /* lock@3x.png */,
 				13FB5D241CA17A6400EE127C /* merge-request coding@2x.png */,
 				13FB5D251CA17A6400EE127C /* merge-request coding@3x.png */,
-				13FB5D261CA17A6400EE127C /* MergeChanges@2x.png */,
-				13FB5D271CA17A6400EE127C /* MergeChanges@3x.png */,
+				13FB5D261CA17A6400EE127C /* PR_mergeChanges@2x.png */,
+				13FB5D271CA17A6400EE127C /* PR_mergeChanges@3x.png */,
 				13FB5D281CA17A6400EE127C /* PointLikeHead@1x.png */,
 				13FB5D291CA17A6400EE127C /* PointLikeHead@2x.png */,
 				13FB5D2A1CA17A6400EE127C /* PointLikeHead@3x.png */,
@@ -5677,7 +5677,7 @@
 				4E2BF3CF1B96CDF800A5A0A8 /* share_btn_coding@2x.png in Resources */,
 				8EA6D15019E240C40076D59C /* commentOrLikeBeginImg@2x.png in Resources */,
 				4EB52F5F1C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@3x.png in Resources */,
-				13FB5D481CA17A6400EE127C /* MergeChanges@3x.png in Resources */,
+				13FB5D481CA17A6400EE127C /* PR_mergeChanges@3x.png in Resources */,
 				134E1B9B1CA41217002A3E0D /* ReviewCell.xib in Resources */,
 				8EA6D15E19E240C40076D59C /* login_suffix@2x.png in Resources */,
 				4EB52F101C74691B00B5EBEA /* password_look@3x.png in Resources */,
@@ -6072,7 +6072,7 @@
 				8EA6D19819E240C40076D59C /* tipIcon_ProjectMember@2x.png in Resources */,
 				8E97CEA81A0C7E26006F9AD7 /* coding_emoji_17@2x.png in Resources */,
 				4E6383B91B32640900D98648 /* messageLeft_bg_img@2x.png in Resources */,
-				13FB5D471CA17A6400EE127C /* MergeChanges@2x.png in Resources */,
+				13FB5D471CA17A6400EE127C /* PR_mergeChanges@2x.png in Resources */,
 				8E97CEAB1A0C7E26006F9AD7 /* coding_emoji_20@2x.png in Resources */,
 				8EA6D1AA19E240C40076D59C /* Images.xcassets in Resources */,
 				4E63840F1B34124000D98648 /* task_icon_arrow@2x.png in Resources */,

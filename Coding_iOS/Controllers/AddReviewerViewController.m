@@ -11,11 +11,13 @@
 #import "ProjectPublicListCell.h"
 #import "SVPullToRefresh.h"
 #import "Reviewer.h"
+#import "ProjectMember.h"
 
 @interface AddReviewerViewController ()<UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (strong, nonatomic) UISearchBar *mySearchBar;
-@property (readwrite, nonatomic, strong) NSMutableArray *allrReviewers;
+@property (readwrite, nonatomic, strong) NSMutableArray *users;
+@property (readwrite, nonatomic, strong) NSMutableArray *allUsers;
 @end
 
 @implementation AddReviewerViewController
@@ -25,7 +27,8 @@ static NSString *const kValueKey = @"kValueKey";
 
 -(void)viewDidLoad {
     self.title = @"评审人";
-    self.allrReviewers = [[NSMutableArray alloc] init];
+    self.users = [[NSMutableArray alloc] init];
+     self.allUsers = [[NSMutableArray alloc] init];
     [self.myTableView registerNib:[UINib nibWithNibName:kCellIdentifier_ReviewCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ReviewCell];
     self.myTableView.separatorStyle = NO;
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
@@ -43,13 +46,36 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    for(int i = 0; i < self.reviewers.count; i ++) {
-        [self.allrReviewers addObject:self.reviewers[i]];
-    }
-    
-    for(int i = 0; i < self.volunteer_reviewers.count; i ++) {
-        [self.allrReviewers addObject:self.volunteer_reviewers[i]];
-    }
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_ProjectMembers_WithObj:self.currentProject andBlock:^(id data, NSError *error) {
+        [weakSelf.view endLoading];
+        if (data) {
+            NSMutableArray* projectUsers = data;
+            BOOL flag = YES;
+            for(int i = 0; i < projectUsers.count; i ++) {
+                flag = YES;
+                ProjectMember* member = projectUsers[i];
+                for(int j = 0; j < self.reviewers.count; j ++) {
+                    Reviewer* reviewer = self.reviewers[j];
+                    if(member.user.id == reviewer.reviewer.id) {
+                        flag = NO;
+                    }
+                }
+                
+                for(int j = 0; j < self.volunteer_reviewers.count; j ++) {
+                    Reviewer* reviewer = self.volunteer_reviewers[j];
+                    if(member.user.id == reviewer.reviewer.id) {
+                        flag = NO;
+                    }
+                }
+                if(flag) {
+                    [weakSelf.allUsers addObject:member.user];
+                }
+            }
+            weakSelf.users = weakSelf.allUsers;
+            [weakSelf.myTableView reloadData];
+        }
+    }];
 }
 
 - (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(AddReviewerViewControllerBlock)block  tabBarHeight:(CGFloat)tabBarHeight
@@ -76,14 +102,15 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self.allrReviewers count];
+    return [self.allUsers count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ReviewCell forIndexPath:indexPath];
     
     //   [cell configureCellWithHeadIconURL:@"test" reviewIconURL:@"PointLikeHead" userName:@"test" userState:@"test"];
-    [cell initCellWithReviewer:self.allrReviewers[indexPath.row]];
+    User* cellReviewer = self.allUsers[indexPath.row];
+    [cell initCellWithUsers:cellReviewer];
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
     return cell;
     
@@ -123,15 +150,6 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (void)searchProjectWithStr:(NSString *)searchString{
-    NSMutableArray* arry = [[NSMutableArray alloc] init];
-  
-    for(int i = 0; i < self.reviewers.count; i ++) {
-        [arry addObject:self.reviewers[i]];
-    }
-    
-    for(int i = 0; i < self.volunteer_reviewers.count; i ++) {
-        [arry addObject:self.volunteer_reviewers[i]];
-    }
     // strip out all the leading and trailing spaces
     NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
@@ -168,7 +186,7 @@ static NSString *const kValueKey = @"kValueKey";
     
     NSCompoundPredicate *finalCompoundPredicate = (NSCompoundPredicate *)[NSCompoundPredicate andPredicateWithSubpredicates:andMatchPredicates];
     
-    self.allrReviewers = [[arry filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
+    self.allUsers = [[self.users filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
     [self.myTableView reloadData];
 }
 

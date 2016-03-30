@@ -7,5 +7,6 @@ typedef void(^AddReviewerViewControllerBlock)(Project *project);
 
 @property (readwrite, nonatomic, strong) NSMutableArray *reviewers;
 @property (readwrite, nonatomic, strong) NSMutableArray *volunteer_reviewers;
+@property (nonatomic, strong) Project *currentProject;
 
 @end

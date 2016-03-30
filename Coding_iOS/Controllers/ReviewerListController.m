@@ -49,6 +49,7 @@ static NSString *const kValueKey = @"kValueKey";
     AddReviewerViewController *appview=[apparray firstObject];
     appview.reviewers = self.reviewers;
     appview.volunteer_reviewers = self.volunteer_reviewers;
+    appview.currentProject = self.currentProject;
     
     [self.navigationController pushViewController:appview animated:YES];
 }
@@ -84,10 +85,13 @@ static NSString *const kValueKey = @"kValueKey";
     ReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ReviewCell forIndexPath:indexPath];
     
  //   [cell configureCellWithHeadIconURL:@"test" reviewIconURL:@"PointLikeHead" userName:@"test" userState:@"test"];
+
     if(indexPath.row < self.reviewers.count) {
-        [cell initCellWithReviewer:self.reviewers[indexPath.row]];
+         Reviewer* cellReviewer = self.reviewers[indexPath.row];
+        [cell initCellWithVolunteerReviewers:cellReviewer.reviewer likeValue:cellReviewer.value];
     } else {
-        [cell initCellWithVolunteerReviewers:self.volunteer_reviewers[indexPath.row - self.reviewers.count]];
+         Reviewer* cellReviewer = self.volunteer_reviewers[indexPath.row - self.reviewers.count];
+        [cell initCellWithVolunteerReviewers:cellReviewer.reviewer likeValue:cellReviewer.value];
     }
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
     return cell;

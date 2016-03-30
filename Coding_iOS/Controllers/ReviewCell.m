@@ -43,12 +43,13 @@
     
 }
 
-- (void)initCellWithReviewer:(Reviewer*)reviewer {
-    [self.headIcon sd_setImageWithURL:[reviewer.reviewer.avatar urlImageWithCodePathResizeToView:self.headIcon] placeholderImage:kPlaceholderMonkeyRoundView(self.headIcon)];
+- (void)initCellWithReviewer:(User*)reviewer
+                   likeValue:(NSNumber*)likeValue;{
+    [self.headIcon sd_setImageWithURL:[reviewer.avatar urlImageWithCodePathResizeToView:self.headIcon] placeholderImage:kPlaceholderMonkeyRoundView(self.headIcon)];
     [self.headIcon doCircleFrame];
     self.reviewIcon.image = [UIImage imageNamed:@"PointLikeHead"];
-    self.userName.text = reviewer.reviewer.name;
-    if([reviewer.value isEqual:@100]) {
+    self.userName.text = reviewer.name;
+    if([likeValue isEqual:@100]) {
         self.userState.text = @"+1";
     } else {
         self.userState.text = @"未评审";
@@ -56,14 +57,23 @@
     
 }
 
-- (void)initCellWithVolunteerReviewers:(Reviewer*)reviewer {
-    [self.headIcon sd_setImageWithURL:[reviewer.reviewer.avatar urlImageWithCodePathResizeToView:self.headIcon] placeholderImage:kPlaceholderMonkeyRoundView(self.headIcon)];
+- (void)initCellWithVolunteerReviewers:(User*)reviewer
+                           likeValue:(NSNumber*)likeValue;{
+    [self.headIcon sd_setImageWithURL:[reviewer.avatar urlImageWithCodePathResizeToView:self.headIcon] placeholderImage:kPlaceholderMonkeyRoundView(self.headIcon)];
     [self.headIcon doCircleFrame];
     [self.reviewIcon setHidden:YES];
-    self.userName.text = reviewer.reviewer.name;
-    if([reviewer.value isEqual:@100]) {
+    self.userName.text = reviewer.name;
+    if([likeValue isEqual:@100]) {
         self.userState.text = @"+1";
     }
+    
+}
+
+- (void)initCellWithUsers:(User*)user{
+    [self.headIcon sd_setImageWithURL:[user.avatar urlImageWithCodePathResizeToView:self.headIcon] placeholderImage:kPlaceholderMonkeyRoundView(self.headIcon)];
+    [self.headIcon doCircleFrame];
+    [self.reviewIcon setHidden:YES];
+    self.userName.text = user.name;
     
 }
 

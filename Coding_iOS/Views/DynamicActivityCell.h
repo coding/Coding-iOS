@@ -20,6 +20,7 @@
 
 - (void)configTop:(BOOL)isTop andBottom:(BOOL)isBottom;
 
-+ (CGFloat)cellHeightWithObj:(id)obj;
++ (CGFloat)cellHeightWithObj:(id)obj
+               contentHeight:(CGFloat)height;
 
 @end

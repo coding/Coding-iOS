@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "Projects.h"
+#import "Project.h"
 
 typedef void(^ReviewerListControllerBlock)(Project *project);
 
 @interface ReviewerListController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (readwrite, nonatomic, strong) NSMutableArray *reviewers;
+@property(strong, nonatomic) Project* currentProject;
 @property (readwrite, nonatomic, strong) NSMutableArray *volunteer_reviewers;
 
 @end
