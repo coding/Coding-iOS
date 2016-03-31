@@ -32,7 +32,7 @@ static NSString *const kValueKey = @"kValueKey";
     [self.myTableView registerNib:[UINib nibWithNibName:kCellIdentifier_ReviewCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ReviewCell];
     self.myTableView.separatorStyle = NO;
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
-    temporaryBarButtonItem.title = @"确定";
+    temporaryBarButtonItem.title = @"保存";
     self.navigationItem.rightBarButtonItem = temporaryBarButtonItem;
     _mySearchBar = ({
      UISearchBar *searchBar = [[UISearchBar alloc] init];
@@ -169,7 +169,7 @@ static NSString *const kValueKey = @"kValueKey";
         NSMutableArray *searchItemsPredicate = [NSMutableArray array];
         
         // name field matching
-        NSExpression *lhs = [NSExpression expressionForKeyPath:@"reviewer.name"];
+        NSExpression *lhs = [NSExpression expressionForKeyPath:@"name"];
         NSExpression *rhs = [NSExpression expressionForConstantValue:searchString];
         NSPredicate *finalPredicate = [NSComparisonPredicate
                                        predicateWithLeftExpression:lhs

@@ -61,12 +61,14 @@
             [self.contentView addSubview:_tipLabel];
         }
         
-        [_contentBGView mas_makeConstraints:^(MASConstraintMaker *make) {
+        /*[_contentBGView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(60, 50, 5, 20));
+        }];*/
+        [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(60, 50, 5, 20));
         }];
-        [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(60, 70, 5, 20));
-        }];
+        [_tipLabel setBackgroundColor:[UIColor grayColor]];
+        [_tipLabel setTextColor:[UIColor greenColor]];
     }
     return self;
 }

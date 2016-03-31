@@ -76,12 +76,19 @@
 }
 
 - (void)initCellWithReviewers:(NSArray *)reviewers{
+    int imageCount = self.contentView.size.width / 40 - 2;
+    NSLog(@"test ==== %d", imageCount);
     for (int i = 0; i < kDefaultImageCount; i++) {
         UIImageView *image = self.imgViews[i];
         if(i >= reviewers.count) {
             continue;
         }
         [image setHidden:false];
+        if(i >= imageCount-1) {
+            image.image = [UIImage imageNamed:@"moreBtn_Nav"];
+            continue;
+
+        }
         Reviewer* reviewer = (Reviewer*)reviewers[i];
         [image sd_setImageWithURL:[reviewer.reviewer.avatar urlImageWithCodePathResizeToView:image] placeholderImage:kPlaceholderMonkeyRoundView(image)];
         if([reviewer.value isEqual:@100]) {

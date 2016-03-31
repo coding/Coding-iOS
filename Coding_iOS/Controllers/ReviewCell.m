@@ -74,6 +74,7 @@
     [self.headIcon doCircleFrame];
     [self.reviewIcon setHidden:YES];
     self.userName.text = user.name;
+    self.userState.hidden = YES;
     
 }
 

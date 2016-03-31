@@ -164,7 +164,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 }
 
 -(void)sortActivityList {
-    NSMutableArray *dataArray = [[NSMutableArray alloc] initWithArray:self.activityList];
+    NSMutableArray *dataArray = [[NSMutableArray alloc] initWithArray:self.activityCList];
     for(int i = 0; i < self.allDiscussions.count; i ++) {
         [dataArray addObject:self.allDiscussions[i]];
     }
@@ -265,22 +265,22 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectLineNote"];
             if(resultA != nil){
                 BOOL flag = false;
-                if(weakSelf.activityList == nil || weakSelf.activityList.count <= 0) {
+                if(weakSelf.activityCList == nil || weakSelf.activityCList.count <= 0) {
                     for (int i = 0; i<resultA.count; i ++) {
                         ProjectLineNote* addTmp = resultA[i];
-                        [weakSelf.activityList addObject:addTmp];
+                        [weakSelf.activityCList addObject:addTmp];
                     }
                 } else {
                     for (int i = 0; i< resultA.count; i++) {
                         ProjectLineNote* addTmp = resultA[i];
                         flag = false;
-                        for(int j = 0; j < weakSelf.activityList.count; j ++) {
-                            ProjectLineNote* addTmp1 = weakSelf.activityList[j];
+                        for(int j = 0; j < weakSelf.activityCList.count; j ++) {
+                            ProjectLineNote* addTmp1 = weakSelf.activityCList[j];
                             if(addTmp.id == addTmp.id) {
                                 flag = true;
                             }
                         }
-                        [weakSelf.activityList addObject:addTmp];
+                        [weakSelf.activityCList addObject:addTmp];
                     }
                 }
                 [weakSelf sortActivityList];
@@ -560,7 +560,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             return [PRReviewerListCell cellHeight];
         }
     }else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
-        NSLog(@"test  %lu", indexPath.row);
+       
         ProjectLineNote *curCommentItem = self.activityList[indexPath.row];
         if(curCommentItem.action == nil) {
             return [DynamicCommentCell cellHeightWithObj:curCommentItem];
