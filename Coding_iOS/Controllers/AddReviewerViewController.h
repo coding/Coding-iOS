@@ -1,5 +1,6 @@
 #import <UIKit/UIKit.h>
 #import "Projects.h"
+#import "MRPR.h"
 
 typedef void(^AddReviewerViewControllerBlock)(Project *project);
 
@@ -8,5 +9,6 @@ typedef void(^AddReviewerViewControllerBlock)(Project *project);
 @property (readwrite, nonatomic, strong) NSMutableArray *reviewers;
 @property (readwrite, nonatomic, strong) NSMutableArray *volunteer_reviewers;
 @property (nonatomic, strong) Project *currentProject;
+@property (strong, nonatomic) MRPR *curMRPR;
 
 @end

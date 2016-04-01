@@ -45,6 +45,7 @@
 
 - (void)initCellWithReviewer:(User*)reviewer
                    likeValue:(NSNumber*)likeValue;{
+    self.user = reviewer;
     [self.headIcon sd_setImageWithURL:[reviewer.avatar urlImageWithCodePathResizeToView:self.headIcon] placeholderImage:kPlaceholderMonkeyRoundView(self.headIcon)];
     [self.headIcon doCircleFrame];
     self.reviewIcon.image = [UIImage imageNamed:@"PointLikeHead"];
@@ -59,6 +60,7 @@
 
 - (void)initCellWithVolunteerReviewers:(User*)reviewer
                            likeValue:(NSNumber*)likeValue;{
+    self.user = reviewer;
     [self.headIcon sd_setImageWithURL:[reviewer.avatar urlImageWithCodePathResizeToView:self.headIcon] placeholderImage:kPlaceholderMonkeyRoundView(self.headIcon)];
     [self.headIcon doCircleFrame];
     [self.reviewIcon setHidden:YES];
@@ -70,6 +72,7 @@
 }
 
 - (void)initCellWithUsers:(User*)user{
+    self.user = user;
     [self.headIcon sd_setImageWithURL:[user.avatar urlImageWithCodePathResizeToView:self.headIcon] placeholderImage:kPlaceholderMonkeyRoundView(self.headIcon)];
     [self.headIcon doCircleFrame];
     [self.reviewIcon setHidden:YES];

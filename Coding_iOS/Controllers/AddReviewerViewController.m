@@ -16,6 +16,8 @@
 @interface AddReviewerViewController ()<UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (strong, nonatomic) UISearchBar *mySearchBar;
+@property (strong, nonatomic) NSString *addReviewerPath;
+@property (strong, nonatomic) NSString *delReviewerPath;
 @property (readwrite, nonatomic, strong) NSMutableArray *users;
 @property (readwrite, nonatomic, strong) NSMutableArray *allUsers;
 @end
@@ -47,6 +49,7 @@ static NSString *const kValueKey = @"kValueKey";
 
 - (void)viewWillAppear:(BOOL)animated {
     __weak typeof(self) weakSelf = self;
+    self.addReviewerPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/add_reviewer",_curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     [[Coding_NetAPIManager sharedManager] request_ProjectMembers_WithObj:self.currentProject andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
@@ -121,9 +124,18 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
+    ReviewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     currentCell.accessoryType = UITableViewCellAccessoryCheckmark;
     currentCell.selectionStyle = UITableViewCellSelectionStyleNone;
+     __weak typeof(self) weakSelf = self;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.addReviewerPath withParams:@{@"user_id": currentCell.user.id} withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            NSMutableArray *userArray = weakSelf.allUsers;
+            [userArray removeObject:currentCell.user];
+            weakSelf.allUsers = userArray;
+            [weakSelf.myTableView reloadData];
+        }
+    }];
 }
 
 #pragma mark SWTableViewCellDelegate

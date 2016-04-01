@@ -21,7 +21,10 @@
 
 @interface ReviewerListController ()<UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (strong, nonatomic) NSString *delReviewerPath;
 @property (strong, nonatomic) UISearchBar *mySearchBar;
+@property (strong, nonatomic) ReviewersInfo *curReviewersInfo;
+
 @end
 
 @implementation ReviewerListController
@@ -33,6 +36,8 @@ static NSString *const kValueKey = @"kValueKey";
     self.title = @"评审人";
     [self.myTableView registerNib:[UINib nibWithNibName:kCellIdentifier_ReviewCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ReviewCell];
     self.myTableView.separatorStyle = NO;
+    self.reviewers = [[NSMutableArray alloc] init];
+    self.volunteer_reviewers = [[NSMutableArray alloc] init];
     UIImage* backImage = [UIImage imageNamed:@"tag_button_add.png"];
     CGRect backframe = CGRectMake(0,0,19,19);
     UIButton* addReviewerButton= [[UIButton alloc] initWithFrame:backframe];
@@ -43,12 +48,27 @@ static NSString *const kValueKey = @"kValueKey";
 
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    self.delReviewerPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/del_reviewer",_curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_MRReviewerInfo_WithObj:_curMRPR andBlock:^(ReviewersInfo *data, NSError *error) {
+        if (data) {
+            weakSelf.curReviewersInfo = data;
+            weakSelf.reviewers = weakSelf.curReviewersInfo.reviewers;
+            
+            weakSelf.volunteer_reviewers = weakSelf.curReviewersInfo.volunteer_reviewers;
+            [weakSelf.myTableView reloadData];
+        }
+    }];
+}
+
 -(void)selectRightAction:(id)sender
 {
     NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"AddReviewerViewController" owner:nil options:nil];
     AddReviewerViewController *appview=[apparray firstObject];
     appview.reviewers = self.reviewers;
     appview.volunteer_reviewers = self.volunteer_reviewers;
+    appview.curMRPR = self.curMRPR;
     appview.currentProject = self.currentProject;
     
     [self.navigationController pushViewController:appview animated:YES];
@@ -104,8 +124,6 @@ static NSString *const kValueKey = @"kValueKey";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
-    currentCell.accessoryType = UITableViewCellAccessoryCheckmark;
-    currentCell.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 #pragma mark SWTableViewCellDelegate
@@ -133,6 +151,63 @@ static NSString *const kValueKey = @"kValueKey";
 
 - (void)searchProjectWithStr:(NSString *)string{
     [self.myTableView reloadData];
+}
+
+
+//先要设Cell可编辑
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+//定义编辑样式
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    return UITableViewCellEditingStyleDelete;
+}
+
+//进入编辑模式，按下出现的编辑按钮后
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    ReviewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
+    __weak typeof(self) weakSelf = self;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.delReviewerPath withParams:@{@"user_id":currentCell.user.id} withMethodType:Delete andBlock:^(id data, NSError *error) {
+        if (data) {
+            Reviewer* tmpReviewer;
+            if(indexPath.row < weakSelf.reviewers.count) {
+               tmpReviewer = weakSelf.reviewers[indexPath.row];
+               [weakSelf.reviewers removeObject:tmpReviewer];
+               
+            } else {
+                tmpReviewer = weakSelf.volunteer_reviewers[indexPath.row - self.reviewers.count];
+                [weakSelf.volunteer_reviewers removeObject:tmpReviewer];
+            }
+            [weakSelf.myTableView reloadData];
+        }
+    }];
+}
+
+
+
+//修改编辑按钮文字
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"删除";
+}
+
+
+//先设置Cell可移动
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+
+//设置进入编辑状态时，Cell不会缩进
+- (BOOL)tableView: (UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return NO;
 }
 
 @end

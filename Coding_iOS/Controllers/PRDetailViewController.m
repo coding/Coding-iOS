@@ -635,8 +635,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
             ReviewerListController *appview=[apparray firstObject];
             appview.currentProject = self.curProject;
-            appview.reviewers = self.curReviewersInfo.reviewers;
-            appview.volunteer_reviewers = self.curReviewersInfo.volunteer_reviewers;
+            appview.curMRPR = self.curMRPR;
             
             [self.navigationController pushViewController:appview animated:YES];
         }else {

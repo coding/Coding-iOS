@@ -18,6 +18,7 @@
 @property (strong, nonatomic) IBOutlet UIImageView *reviewIcon;
 @property (strong, nonatomic) IBOutlet UILabel *userName;
 @property (strong, nonatomic) IBOutlet UILabel *userState;
+@property (strong, nonatomic) User * user;
 
 - (void)configureCellWithHeadIconURL:(NSString *)headIconURL
                        reviewIconURL:(NSString *)reviewIconURL
