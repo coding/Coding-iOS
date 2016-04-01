@@ -70,6 +70,10 @@
     return [[self p_prePath] stringByAppendingString:@"base"];
 }
 
+- (NSString *)toPrePath{
+    return [self p_prePath];
+}
+
 - (NSString *)toReviewersPath {
      return [[self p_prePath] stringByAppendingString:@"reviewers"];
 }
@@ -98,6 +102,10 @@
 }
 - (NSString *)toCancelPath{
     return [[self p_prePath] stringByAppendingString:@"cancel"];
+}
+
+- (NSString *)toAuthorizationPath{
+    return [[self p_prePath] stringByAppendingString:@"grant"];
 }
 
 - (NSString *)toFileChangesPath{

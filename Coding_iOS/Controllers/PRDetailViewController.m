@@ -39,6 +39,7 @@
 typedef NS_ENUM(NSInteger, MRPRAction) {
     MRPRActionAccept = 1000,
     MRPRActionRefuse,
+    MRPRActionAuthorization,
     MRPRActionCancel
 };
 
@@ -117,7 +118,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 - (void)configBottomView{
     BOOL canCancel = [_curMRPRInfo.mrpr.author.global_key isEqualToString:[Login curLoginUser].global_key];
     BOOL canAction = _curMRPRInfo.can_edit.boolValue ||(canCancel && _curMRPRInfo.mrpr.granted.boolValue);//有权限 || （作者身份 && 被授权）
-
+    BOOL canAuthorization  = !_curMRPRInfo.author_can_edit.boolValue && !_curMRPRInfo.mrpr.granted.boolValue;
     BOOL hasBottomView = _curMRPRInfo.mrpr.status <= MRPRStatusCannotMerge && (canAction || canCancel);
     
     if (!hasBottomView) {
@@ -139,8 +140,15 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                                 [self buttonWithType:MRPRActionRefuse],
                                 [self buttonWithType:MRPRActionCancel]];
             }else if (canAction && !canCancel){//两个按钮
-                buttonArray = @[[self buttonWithType:MRPRActionAccept],
-                                [self buttonWithType:MRPRActionRefuse]];
+                if(canAuthorization) {
+                    buttonArray = @[[self buttonWithType:MRPRActionRefuse],
+                                [self buttonWithType:MRPRActionAuthorization],
+                                [self buttonWithType:MRPRActionAccept]];
+                } else {
+                    buttonArray = @[[self buttonWithType:MRPRActionRefuse],
+                                    [self buttonWithType:MRPRActionAccept]];
+                }
+                
             }else if (!canAction && canCancel){//一个按钮
                 buttonArray = @[[self buttonWithType:MRPRActionCancel]];
             }else{//无按钮
@@ -327,6 +335,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         title = @"取消";
         colorStr = @"0xF8F8F8";
         [curButton doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xB5B5B5"] cornerRadius:2.0];
+    } else if(actionType == MRPRActionAuthorization) {
+        title = @"授权";
+        colorStr = @"0xE15957";
     }
     [curButton setTitleColor:[UIColor colorWithHexString:(actionType == MRPRActionCancel? @"0x222222": @"0xffffff")] forState:UIControlStateNormal];
     [curButton setTitle:title forState:UIControlStateNormal];
@@ -367,6 +378,13 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 [weakSelf cancelMRPR];
             }
         }] showInView:self.view];
+    } else if(sender.tag == MRPRActionAuthorization) {
+        tipStr = [_curMRPRInfo.mrpr isMR]? @"确定要取消这个 Merge Request 么？": @"确定要取消这个 Pull Request 么？";
+        [[UIActionSheet bk_actionSheetCustomWithTitle:tipStr buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [weakSelf authorizationMRPR];
+            }
+        }] showInView:self.view];
     }
 }
 
@@ -384,6 +402,17 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 - (void)cancelMRPR{
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_MRPRCancel:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.curMRPRInfo = nil;
+            [weakSelf.myTableView reloadData];
+            [weakSelf refresh];
+        }
+    }];
+}
+
+- (void)authorizationMRPR{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_MRPRAuthorization:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.curMRPRInfo = nil;
             [weakSelf.myTableView reloadData];
