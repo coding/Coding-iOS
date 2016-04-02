@@ -14,8 +14,10 @@
 
 
 @interface DynamicActivityCell ()
-@property (strong, nonatomic) UIImageView *tipIconView, *timeLineView, *contentBGView;
-@property (strong, nonatomic) UILabel *contentLabel, *tipLabel;
+@property (strong, nonatomic) UIImageView *tipIconView;
+@property (strong, nonatomic) UIImageView *timeLineView;
+@property (strong, nonatomic) UILabel *contentLabel;
+@property (strong, nonatomic) UILabel *tipLabel;
 @end
 
 @implementation DynamicActivityCell
@@ -26,12 +28,6 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (!_contentBGView) {
-            _contentBGView = [UIImageView new];
-            _contentBGView.image = [[UIImage imageNamed:@"comment_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(35, 15, 5, 5)];
-            ;
-            [self.contentView addSubview:_contentBGView];
-        }
         if (!_timeLineView) {
             _timeLineView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 2, 1)];
             [_timeLineView setImage:[UIImage imageNamed:@"timeline_line_read"]];
@@ -56,7 +52,7 @@
         }
         
         if (!_tipLabel) {
-            _tipLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTaskActivityCell_LeftContentPading, 13, kTaskActivityCell_ContentWidth, 15)];
+            _tipLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTaskActivityCell_LeftContentPading, 60, kTaskActivityCell_ContentWidth, 35)];
             _contentLabel.numberOfLines = 0;
             [self.contentView addSubview:_tipLabel];
         }
@@ -64,11 +60,9 @@
         /*[_contentBGView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(60, 50, 5, 20));
         }];*/
-        [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(60, 50, 5, 20));
-        }];
-        [_tipLabel setBackgroundColor:[UIColor grayColor]];
-        [_tipLabel setTextColor:[UIColor greenColor]];
+        [_tipLabel setBackgroundColor:[UIColor colorWithHexString:@"0xF0F0F0"]];
+        [_tipLabel setTextColor:[UIColor colorWithHexString:@"0x3BBD79"]];
+        _tipLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
     }
     return self;
 }
@@ -89,10 +83,10 @@
 
 - (void)configTop:(BOOL)isTop andBottom:(BOOL)isBottom{
     if([self.curActivity.action isEqualToString:@"mergeChanges"]) {
-        _contentBGView.hidden = NO;
-        _tipLabel.text = @"点击查看详情";
+        _tipLabel.hidden = NO;
+        _tipLabel.text = @"   点击查看详情";
     } else {
-        _contentBGView.hidden = YES;
+        _tipLabel.hidden = YES;
     }
     if (isTop && isBottom) {
         _timeLineView.hidden = YES;
@@ -122,7 +116,13 @@
             contentStr = [NSString stringWithFormat:@"%@对此合并请求评审+1 - %@", userName,[curActivity.created_at stringDisplay_HHmm]];
         }else if ([curActivity.action isEqualToString:@"mergeChanges"]) {
             contentStr = [NSString stringWithFormat:@"对文件改动发起了讨论 - %@", [curActivity.created_at stringDisplay_HHmm]];
-    }
+        } else if ([curActivity.action isEqualToString:@"grant"]) {
+            contentStr = [NSString stringWithFormat:@"对此合并请求授权了合并权限 - %@", [curActivity.created_at stringDisplay_HHmm]];
+        } else if ([curActivity.action isEqualToString:@"grant_undo"]) {
+            contentStr = [NSString stringWithFormat:@"取消了此合并请求授权了合并权限 - %@", [curActivity.created_at stringDisplay_HHmm]];
+        } else if ([curActivity.action isEqualToString:@"refuse"]) {
+            contentStr = [NSString stringWithFormat:@"拒绝了合并请求 - %@", [curActivity.created_at stringDisplay_HHmm]];
+        }
     contentStr = contentStr? contentStr: @"...";
     attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];
     [attrContent addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:13],
@@ -155,7 +155,7 @@
     
     if([tmpProject.action isEqual:@"mergeChanges"])
     {
-        cellHeight += 50;
+        cellHeight += 40;
     }
     
     return cellHeight + height;
