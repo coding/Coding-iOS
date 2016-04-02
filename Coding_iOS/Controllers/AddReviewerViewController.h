@@ -11,4 +11,6 @@ typedef void(^AddReviewerViewControllerBlock)(Project *project);
 @property (nonatomic, strong) Project *currentProject;
 @property (strong, nonatomic) MRPR *curMRPR;
 
+-(IBAction)selectRightAction:(id)sender;
+
 @end

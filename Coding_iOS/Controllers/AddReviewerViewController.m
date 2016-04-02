@@ -20,6 +20,8 @@
 @property (strong, nonatomic) NSString *delReviewerPath;
 @property (readwrite, nonatomic, strong) NSMutableArray *users;
 @property (readwrite, nonatomic, strong) NSMutableArray *allUsers;
+@property (readwrite, nonatomic, strong) NSMutableArray *projectUsers;
+@property (strong, nonatomic) ReviewersInfo *curReviewersInfo;
 @end
 
 @implementation AddReviewerViewController
@@ -33,9 +35,15 @@ static NSString *const kValueKey = @"kValueKey";
      self.allUsers = [[NSMutableArray alloc] init];
     [self.myTableView registerNib:[UINib nibWithNibName:kCellIdentifier_ReviewCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ReviewCell];
     self.myTableView.separatorStyle = NO;
-    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
-    temporaryBarButtonItem.title = @"保存";
-    self.navigationItem.rightBarButtonItem = temporaryBarButtonItem;
+    
+    
+    
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"保存"
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:self
+                                                                  action:@selector(selectRightAction:)];
+    self.navigationItem.rightBarButtonItem = saveButton;
+    
     _mySearchBar = ({
      UISearchBar *searchBar = [[UISearchBar alloc] init];
      searchBar.delegate = self;
@@ -47,38 +55,60 @@ static NSString *const kValueKey = @"kValueKey";
      _myTableView.tableHeaderView = _mySearchBar;
 }
 
+-(IBAction)selectRightAction:(id)sender{
+    [self updateProjectMembersData];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
+    [self updateProjectMembersData];
+}
+
+- (void)updateProjectMembersData {
     __weak typeof(self) weakSelf = self;
     self.addReviewerPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/add_reviewer",_curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     [[Coding_NetAPIManager sharedManager] request_ProjectMembers_WithObj:self.currentProject andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
             NSMutableArray* projectUsers = data;
-            BOOL flag = YES;
-            for(int i = 0; i < projectUsers.count; i ++) {
-                flag = YES;
-                ProjectMember* member = projectUsers[i];
-                for(int j = 0; j < self.reviewers.count; j ++) {
-                    Reviewer* reviewer = self.reviewers[j];
-                    if(member.user.id == reviewer.reviewer.id) {
-                        flag = NO;
-                    }
-                }
-                
-                for(int j = 0; j < self.volunteer_reviewers.count; j ++) {
-                    Reviewer* reviewer = self.volunteer_reviewers[j];
-                    if(member.user.id == reviewer.reviewer.id) {
-                        flag = NO;
-                    }
-                }
-                if(flag) {
-                    [weakSelf.allUsers addObject:member.user];
-                }
-            }
-            weakSelf.users = weakSelf.allUsers;
+            weakSelf.projectUsers = projectUsers;
+            [weakSelf updateUnReviewers];
             [weakSelf.myTableView reloadData];
         }
     }];
+    [[Coding_NetAPIManager sharedManager] request_MRReviewerInfo_WithObj:_curMRPR andBlock:^(ReviewersInfo *data, NSError *error) {
+        if (data) {
+            weakSelf.curReviewersInfo = data;
+            [weakSelf updateUnReviewers];
+            [weakSelf.myTableView reloadData];
+        }
+    }];
+}
+
+-(void)updateUnReviewers {
+    BOOL flag = NO;
+    NSMutableArray *totalUser = [[NSMutableArray alloc] init];
+    for(int i = 0; i < self.projectUsers.count; i ++) {
+        flag = YES;
+        ProjectMember* member = self.projectUsers[i];
+        for(int j = 0; j < self.curReviewersInfo.reviewers.count; j ++) {
+            Reviewer* reviewer = self.curReviewersInfo.reviewers[j];
+            if(member.user.id == reviewer.reviewer.id) {
+                flag = NO;
+            }
+        }
+        
+        for(int j = 0; j < self.curReviewersInfo.volunteer_reviewers.count; j ++) {
+            Reviewer* reviewer = self.curReviewersInfo.volunteer_reviewers[j];
+            if(member.user.id == reviewer.reviewer.id) {
+                flag = NO;
+            }
+        }
+        if(flag) {
+            [totalUser addObject:member.user];
+        }
+    }
+     self.users = totalUser;
+    self.allUsers = totalUser;
 }
 
 - (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(AddReviewerViewControllerBlock)block  tabBarHeight:(CGFloat)tabBarHeight
@@ -113,6 +143,7 @@ static NSString *const kValueKey = @"kValueKey";
     
     //   [cell configureCellWithHeadIconURL:@"test" reviewIconURL:@"PointLikeHead" userName:@"test" userState:@"test"];
     User* cellReviewer = self.allUsers[indexPath.row];
+    cell.accessoryType = UITableViewCellAccessoryNone;
     [cell initCellWithUsers:cellReviewer];
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
     return cell;
@@ -127,14 +158,7 @@ static NSString *const kValueKey = @"kValueKey";
     ReviewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     currentCell.accessoryType = UITableViewCellAccessoryCheckmark;
     currentCell.selectionStyle = UITableViewCellSelectionStyleNone;
-     __weak typeof(self) weakSelf = self;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.addReviewerPath withParams:@{@"user_id": currentCell.user.id} withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-            NSMutableArray *userArray = weakSelf.allUsers;
-            [userArray removeObject:currentCell.user];
-            weakSelf.allUsers = userArray;
-            [weakSelf.myTableView reloadData];
-        }
     }];
 }
 
