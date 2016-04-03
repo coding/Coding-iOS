@@ -16,6 +16,7 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.userState.textAlignment = NSTextAlignmentLeft;
     }
     return self;
 }
@@ -52,8 +53,10 @@
     self.userName.text = reviewer.name;
     if([likeValue isEqual:@100]) {
         self.userState.text = @"+1";
+        self.userState.textColor = [UIColor colorWithHexString:@"0x3BBD79"];
     } else {
         self.userState.text = @"未评审";
+        self.userState.textColor = [UIColor colorWithHexString:@"0x999999"];
     }
     
 }

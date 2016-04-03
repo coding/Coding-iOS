@@ -108,7 +108,7 @@ static NSString *const kValueKey = @"kValueKey";
 
     if(indexPath.row < self.reviewers.count) {
          Reviewer* cellReviewer = self.reviewers[indexPath.row];
-        [cell initCellWithVolunteerReviewers:cellReviewer.reviewer likeValue:cellReviewer.value];
+        [cell initCellWithReviewer:cellReviewer.reviewer likeValue:cellReviewer.value];
     } else {
          Reviewer* cellReviewer = self.volunteer_reviewers[indexPath.row - self.reviewers.count];
         [cell initCellWithVolunteerReviewers:cellReviewer.reviewer likeValue:cellReviewer.value];
@@ -157,7 +157,11 @@ static NSString *const kValueKey = @"kValueKey";
 //先要设Cell可编辑
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    if(indexPath.row < self.reviewers.count) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 //定义编辑样式
@@ -179,9 +183,6 @@ static NSString *const kValueKey = @"kValueKey";
                tmpReviewer = weakSelf.reviewers[indexPath.row];
                [weakSelf.reviewers removeObject:tmpReviewer];
                
-            } else {
-                tmpReviewer = weakSelf.volunteer_reviewers[indexPath.row - self.reviewers.count];
-                [weakSelf.volunteer_reviewers removeObject:tmpReviewer];
             }
             [weakSelf.myTableView reloadData];
         }
@@ -200,7 +201,11 @@ static NSString *const kValueKey = @"kValueKey";
 //先设置Cell可移动
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    if(indexPath.row < self.reviewers.count) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 

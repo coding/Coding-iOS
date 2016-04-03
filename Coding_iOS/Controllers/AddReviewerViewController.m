@@ -37,18 +37,18 @@ static NSString *const kValueKey = @"kValueKey";
     self.myTableView.separatorStyle = NO;
     
     
-    
+    /*
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"保存"
                                                                    style:UIBarButtonItemStylePlain
                                                                   target:self
                                                                   action:@selector(selectRightAction:)];
-    self.navigationItem.rightBarButtonItem = saveButton;
+    self.navigationItem.rightBarButtonItem = saveButton;*/
     
     _mySearchBar = ({
      UISearchBar *searchBar = [[UISearchBar alloc] init];
      searchBar.delegate = self;
      [searchBar sizeToFit];
-     [searchBar setPlaceholder:@"项目名称/创建人"];
+     [searchBar setPlaceholder:@"昵称，个性后缀"];
      searchBar;
      });
      [self.myTableView sizeToFit];
