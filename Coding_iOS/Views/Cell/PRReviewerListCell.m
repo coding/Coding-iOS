@@ -29,7 +29,7 @@
         self.backgroundColor = kColorTableBG;
         for(int i = 0; i < kDefaultImageCount; i ++)
         {
-            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1), 10, kDefaultImageSize, kDefaultImageSize)];
+            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1)  + 10, 10, kDefaultImageSize, kDefaultImageSize)];
             [imgView doCircleFrame];
             [imgView setHidden:true];
             [self.imgViews addObject:imgView];
