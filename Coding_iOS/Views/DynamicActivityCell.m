@@ -122,6 +122,10 @@
             contentStr = [NSString stringWithFormat:@"取消了此合并请求授权了合并权限 - %@", [curActivity.created_at stringDisplay_HHmm]];
         } else if ([curActivity.action isEqualToString:@"refuse"]) {
             contentStr = [NSString stringWithFormat:@"拒绝了合并请求 - %@", [curActivity.created_at stringDisplay_HHmm]];
+        } else if ([curActivity.action isEqualToString:@"push"]) {
+            contentStr = [NSString stringWithFormat:@"推送了新的提交，更新了合并请求 - %@", [curActivity.created_at stringDisplay_HHmm]];
+        } else if ([curActivity.action isEqualToString:@"update_content"]) {
+            contentStr = [NSString stringWithFormat:@"编辑了描述 - %@", [curActivity.created_at stringDisplay_HHmm]];
         }
     contentStr = contentStr? contentStr: @"...";
     attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];
