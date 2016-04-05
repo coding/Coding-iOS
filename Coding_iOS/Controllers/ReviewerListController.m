@@ -18,6 +18,7 @@
 #import "ProjectAboutOthersListCell.h"
 #import "ProjectPublicListCell.h"
 #import "SVPullToRefresh.h"
+#import "UserInfoViewController.h"
 
 @interface ReviewerListController ()<UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -126,7 +127,10 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
+    ReviewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
+    UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+    vc.curUser = currentCell.user;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark SWTableViewCellDelegate
