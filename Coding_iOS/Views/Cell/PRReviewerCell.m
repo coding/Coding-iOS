@@ -49,7 +49,7 @@
             self.rightLabel = [UILabel new];
             self.rightLabel.text = @"添加";
             self.rightLabel.font = [UIFont systemFontOfSize:15];
-            self.rightLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            [self.rightLabel setTextColor:[UIColor colorWithHexString:@"0x3BBD79"]];
             [self.contentView addSubview:self.rightLabel];
             [self.rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 //make.left.equalTo(_imgView.mas_right).offset(15);

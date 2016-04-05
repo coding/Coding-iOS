@@ -90,6 +90,7 @@ static NSString *const kValueKey = @"kValueKey";
     for(int i = 0; i < self.projectUsers.count; i ++) {
         flag = YES;
         ProjectMember* member = self.projectUsers[i];
+        if(self.curMRPR.author.id == member.user.id) continue;
         for(int j = 0; j < self.curReviewersInfo.reviewers.count; j ++) {
             Reviewer* reviewer = self.curReviewersInfo.reviewers[j];
             if(member.user.id == reviewer.reviewer.id) {
@@ -107,7 +108,7 @@ static NSString *const kValueKey = @"kValueKey";
             [totalUser addObject:member.user];
         }
     }
-     self.users = totalUser;
+    self.users = totalUser;
     self.allUsers = totalUser;
 }
 

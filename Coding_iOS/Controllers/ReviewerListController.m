@@ -38,17 +38,20 @@ static NSString *const kValueKey = @"kValueKey";
     self.myTableView.separatorStyle = NO;
     self.reviewers = [[NSMutableArray alloc] init];
     self.volunteer_reviewers = [[NSMutableArray alloc] init];
-    UIImage* backImage = [UIImage imageNamed:@"tag_button_add.png"];
-    CGRect backframe = CGRectMake(0,0,19,19);
-    UIButton* addReviewerButton= [[UIButton alloc] initWithFrame:backframe];
-    [addReviewerButton setBackgroundImage:backImage forState:UIControlStateNormal];
-    [addReviewerButton addTarget:self action:@selector(selectRightAction:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem* leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addReviewerButton];
-    self.navigationItem.rightBarButtonItem = leftBarButtonItem;
+   
 
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+    if(self.isPublisher) {
+        UIImage* backImage = [UIImage imageNamed:@"tag_button_add.png"];
+        CGRect backframe = CGRectMake(0,0,19,19);
+        UIButton* addReviewerButton= [[UIButton alloc] initWithFrame:backframe];
+        [addReviewerButton setBackgroundImage:backImage forState:UIControlStateNormal];
+        [addReviewerButton addTarget:self action:@selector(selectRightAction:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem* leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addReviewerButton];
+        self.navigationItem.rightBarButtonItem = leftBarButtonItem;
+    }
     self.delReviewerPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/del_reviewer",_curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_MRReviewerInfo_WithObj:_curMRPR andBlock:^(ReviewersInfo *data, NSError *error) {

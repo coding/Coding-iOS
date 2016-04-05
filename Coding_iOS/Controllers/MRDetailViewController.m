@@ -235,6 +235,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             NSMutableArray *resultA = weakSelf.curMRPRInfo.discussions;
             if(resultA != nil){
                 BOOL flag = false;
+                [weakSelf.allDiscussions removeAllObjects];
                 if(weakSelf.allDiscussions == nil || weakSelf.allDiscussions.count <= 0) {
                     for (int i = 0; i<resultA.count; i ++) {
                         NSArray *pArray = resultA[i];
@@ -245,22 +246,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                         [weakSelf.allDiscussions addObject:addTmp];
                     }
                     
-                } else {
-                    for (int i = 0; i< resultA.count; i++) {
-                        NSArray *pArray = resultA[i];
-                        ProjectLineNote* addTmp = [pArray firstObject];
-                        if (addTmp.path != nil) {
-                            addTmp.action = @"mergeChanges";
-                        }
-                        flag = false;
-                        for(int j = 0; j < weakSelf.allDiscussions.count; j ++) {
-                            ProjectLineNote* addTmp1 = weakSelf.allDiscussions[j];
-                            if(addTmp.id == addTmp1.id) {
-                                flag = true;
-                            }
-                        }
-                        [weakSelf.allDiscussions addObject:addTmp];
-                    }
                 }
             }
             [weakSelf sortActivityList];
@@ -297,21 +282,10 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectLineNote"];
             if(resultA != nil){
                 BOOL flag = false;
+                [weakSelf.activityCList removeAllObjects];
                 if(weakSelf.activityCList == nil || weakSelf.activityCList.count <= 0) {
                     for (int i = 0; i<resultA.count; i ++) {
                         ProjectLineNote* addTmp = resultA[i];
-                        [weakSelf.activityCList addObject:addTmp];
-                    }
-                } else {
-                    for (int i = 0; i< resultA.count; i++) {
-                        ProjectLineNote* addTmp = resultA[i];
-                        flag = false;
-                        for(int j = 0; j < weakSelf.activityCList.count; j ++) {
-                            ProjectLineNote* addTmp1 = weakSelf.activityCList[j];
-                            if(addTmp.id == addTmp.id) {
-                                flag = true;
-                            }
-                        }
                         [weakSelf.activityCList addObject:addTmp];
                     }
                 }
@@ -538,7 +512,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             }
         } else {
             [cell setImageStr:@"taskResourceReference" andTitle:@"资源关联"];
-            [cell setrightText:[NSString stringWithFormat:@"%lu个关联资源", (unsigned long)self.resourceReference.itemList.count]];
+            if(self.resourceReference.itemList.count > 0) {
+                [cell setrightText:[NSString stringWithFormat:@"N个关联资源"]];
+        }
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
@@ -693,6 +669,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 ReviewerListController *appview=[apparray firstObject];
                 appview.currentProject = self.curProject;
                 appview.curMRPR = self.curMRPR;
+                appview.isPublisher = [self CurrentUserIsOwer];
                 
                 [self.navigationController pushViewController:appview animated:YES];
             }
@@ -714,6 +691,14 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 
             }
         }else {
+            
+            NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
+            ReviewerListController *appview=[apparray firstObject];
+            appview.currentProject = self.curProject;
+            appview.curMRPR = self.curMRPR;
+            appview.isPublisher = [self CurrentUserIsOwer];
+            
+            [self.navigationController pushViewController:appview animated:YES];
             
         }
     }else if (self.activityList.count > 0 && indexPath.section == 3){//Comment

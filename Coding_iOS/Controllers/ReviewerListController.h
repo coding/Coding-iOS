@@ -18,6 +18,7 @@ typedef void(^ReviewerListControllerBlock)(Project *project);
 @property (readwrite, nonatomic, strong) NSMutableArray *reviewers;
 @property(strong, nonatomic) Project* currentProject;
 @property (strong, nonatomic) MRPR *curMRPR;
+@property (assign, nonatomic) BOOL *isPublisher;
 @property (readwrite, nonatomic, strong) NSMutableArray *volunteer_reviewers;
 
 @end

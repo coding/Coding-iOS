@@ -47,7 +47,7 @@
             _rightLabel.font = [UIFont systemFontOfSize:18];
             _rightLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
             _rightLabel.textAlignment = NSTextAlignmentRight;
-            [self.rightLabel setHidden:NO];
+            [self.rightLabel setHidden:YES];
             [self.contentView addSubview:_rightLabel];
         }
     }
