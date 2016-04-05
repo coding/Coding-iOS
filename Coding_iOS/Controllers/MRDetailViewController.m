@@ -61,6 +61,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 @property (strong, nonatomic) NSMutableArray *activityList;
 @property (strong, nonatomic) NSMutableArray *activityCList;
 @property (strong, nonatomic) NSMutableArray *allDiscussions;
+@property (strong, nonatomic) NSString *reviewGoodPath;
+@property (assign, nonatomic) BOOL isLike;
 @end
 
 @implementation MRDetailViewController
@@ -88,6 +90,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     self.referencePath = [NSString stringWithFormat:@"/api/user/%@/project/%@/resource_reference/%@", _curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     self.activityPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/activities", _curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     self.diffPath  = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/commitDiffContent",_curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
+    self.reviewGoodPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/review_good",_curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     __weak typeof(self) weakSelf = self;
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -273,17 +276,11 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         [weakSelf.view endLoading];
         [weakSelf.myRefreshControl endRefreshing];
         if (data) {
-            if (weakSelf.curMRPRInfo.contentHeight > 1) {
-                [(MRPRBaseInfo *)data setContentHeight:weakSelf.curMRPRInfo.contentHeight];
-            }
+            
             weakSelf.curReviewersInfo = data;
             
             [weakSelf.myTableView reloadData];
-            [weakSelf configBottomView];
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-            [weakSelf refresh];
-        }];
     }];
     
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.referencePath withParams:@{@"iid": _curMRPR.iid} withMethodType:Get andBlock:^(id data, NSError *error) {
@@ -555,10 +552,13 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             else {
                 Reviewer* tmpReviewer = [self checkUserisReviewer];
                 if(tmpReviewer == nil){
+                    self.isLike = YES;
                     [cell setImageStr:@"PRReviewer" isowner:NO hasLikeMr:YES];
                 } else {
+                    self.isLike = NO;
                     [cell setImageStr:@"PRReviewer" isowner:NO hasLikeMr:NO];
                 }
+                
             }
             //[cell setImageStr:@"PRReviewer" andTitle:@"评审者"];
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
@@ -687,25 +687,34 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }
     }else if (indexPath.section == 2){//Disclosure
         if (indexPath.row == 0) {
-            if(![self CurrentUserIsOwer]) return;
-            NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
-            ReviewerListController *appview=[apparray firstObject];
-            appview.currentProject = self.curProject;
-            appview.curMRPR = self.curMRPR;
             
-            [self.navigationController pushViewController:appview animated:YES];
-        }else {
-            MRPRFilesViewController *vc = [MRPRFilesViewController new];
-            vc.curMRPR = _curMRPR;
-            vc.curMRPRInfo = _curMRPRInfo;
-            vc.curProject = _curProject;
-            [self.navigationController pushViewController:vc animated:YES];
-            if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_LineNote_FileChange]) {
-                [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_LineNote_FileChange];
-                [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_LineNote_MRPR];
-                NProjectItemCell *cell = (NProjectItemCell *)[tableView cellForRowAtIndexPath:indexPath];
-                [cell removeTip];
+            if([self CurrentUserIsOwer]) {
+                NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
+                ReviewerListController *appview=[apparray firstObject];
+                appview.currentProject = self.curProject;
+                appview.curMRPR = self.curMRPR;
+                
+                [self.navigationController pushViewController:appview animated:YES];
             }
+            else {
+                __weak typeof(self) weakSelf = self;
+                if (!self.isLike) {
+                    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.reviewGoodPath withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
+                        
+                            [weakSelf refresh];
+                        
+                    }];
+                } else {
+                    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.reviewGoodPath withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+                        
+                            [weakSelf refresh];
+                        
+                    }];
+                }
+                
+            }
+        }else {
+            
         }
     }else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
         

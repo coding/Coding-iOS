@@ -112,9 +112,10 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if(hasLikeMr) {
             self.rightLabel.text = @"+1";
-            self.likeImgView.image = [UIImage imageNamed:@"PointLikeHead"];
+            [self.likeImgView setHidden:NO];
+            self.likeImgView.image = [UIImage imageNamed:@"EPointLikeHead"];
         } else {
-            self.rightLabel.text = @"撤销 -1";
+            self.rightLabel.text = @"撤销 +1";
             [self.likeImgView setHidden:YES];
         }
     } else {
