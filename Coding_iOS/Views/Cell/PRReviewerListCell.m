@@ -9,7 +9,7 @@
 #import "PRReviewerListCell.h"
 #import "Reviewer.h"
 #define kDefaultImageSize 33
-#define kDefaultImageCount 6
+#define kDefaultImageCount 8
 @interface PRReviewerListCell ()
 @property (strong, nonatomic) UIImageView *imgView;
 @property (strong, nonatomic) NSMutableArray *imgViews;
@@ -49,6 +49,7 @@
 }
 
 - (void)prepareForReuse{
+
     [self removeTip];
 }
 
@@ -75,10 +76,19 @@
     [self.contentView removeBadgeTips];
 }
 
-- (void)initCellWithReviewers:(NSArray *)reviewers{
+- (void)initCellWithReviewers:(NSArray *)reviewerList{
     int imageCount = self.contentView.size.width / 40 - 2;
+    
+    NSMutableArray *dataArray = [[NSMutableArray alloc] initWithArray:reviewerList];
+    //NSArray *sortedArray = [[NSArray alloc] initWithArray:dataArray];
+    NSMutableArray *reviewers= [dataArray sortedArrayUsingComparator:^NSComparisonResult(Reviewer *obj1, Reviewer *obj2) {
+        
+        NSComparisonResult result = [ obj2.value compare:obj1.value];
+        
+        return result;
+    }];
     NSLog(@"test ==== %d", imageCount);
-    for (int i = 0; i < kDefaultImageCount; i++) {
+    for (int i = 0; i < imageCount; i++) {
         UIImageView *image = self.imgViews[i];
         if(i >= reviewers.count) {
             continue;

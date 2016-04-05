@@ -120,6 +120,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     });
     _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
     [self refresh];
 }
 
