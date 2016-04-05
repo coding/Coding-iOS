@@ -52,14 +52,14 @@
         }
         
         if (!_tipLabel) {
-            _tipLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTaskActivityCell_LeftContentPading, 60, kTaskActivityCell_ContentWidth, 35)];
+            _tipLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTaskActivityCell_LeftContentPading, 50, kTaskActivityCell_ContentWidth, 35)];
             _contentLabel.numberOfLines = 0;
             [self.contentView addSubview:_tipLabel];
         }
         
-        /*[_contentBGView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(60, 50, 5, 20));
-        }];*/
+        [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(50, 60, 5, 20));
+        }];
         [_tipLabel setBackgroundColor:[UIColor colorWithHexString:@"0xF0F0F0"]];
         [_tipLabel setTextColor:[UIColor colorWithHexString:@"0x3BBD79"]];
         _tipLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
@@ -111,7 +111,7 @@
         }else if ([curActivity.action isEqualToString:@"merge"]) {
             contentStr = [NSString stringWithFormat:@"%@合并了合并请求 - %@", userName,[curActivity.created_at stringDisplay_HHmm]];
         }else if ([curActivity.action isEqualToString:@"review_undo"]) {
-            contentStr = [NSString stringWithFormat:@"%@撤销了对此合并请求评审+ - %@", userName,[curActivity.created_at stringDisplay_HHmm]];
+            contentStr = [NSString stringWithFormat:@"%@撤销了对此合并请求评审+1 - %@", userName,[curActivity.created_at stringDisplay_HHmm]];
         }else if ([curActivity.action isEqualToString:@"review"]) {
             contentStr = [NSString stringWithFormat:@"%@对此合并请求评审+1 - %@", userName,[curActivity.created_at stringDisplay_HHmm]];
         }else if ([curActivity.action isEqualToString:@"mergeChanges"]) {
@@ -155,7 +155,7 @@
     
     if([tmpProject.action isEqual:@"mergeChanges"])
     {
-        cellHeight += 40;
+        cellHeight += 50;
     }
     
     return cellHeight + height;
