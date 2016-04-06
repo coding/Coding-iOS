@@ -17,6 +17,7 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
 {
     EaseBlankPageTypeView = 0,
     EaseBlankPageTypeActivity,
+    EaseBlankPageTypeTaskResource,
     EaseBlankPageTypeTask,
     EaseBlankPageTypeTopic,
     EaseBlankPageTypeTweet,

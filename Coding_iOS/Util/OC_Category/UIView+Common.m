@@ -578,6 +578,11 @@ static char LoadingViewKey, BlankPageViewKey;
         NSString *imageName, *tipStr;
         _curType=blankPageType;
         switch (blankPageType) {
+            case EaseBlankPageTypeTaskResource: {
+                imageName = @"blankpage_image_Sleep";
+                tipStr = @"暂时没有相关的资源";
+                break;
+            }
             case EaseBlankPageTypeActivity://项目动态
             {
                 imageName = @"blankpage_image_Sleep";

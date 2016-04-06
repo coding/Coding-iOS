@@ -38,6 +38,12 @@
 
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    if(self.resourceReference.itemList.count <= 0) {
+        [self.view configBlankPage:EaseBlankPageTypeTaskResource hasData:NO hasError:NO reloadButtonBlock:nil];
+    }
+}
+
 #pragma mark Table M
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.resourceReference.itemList.count;
