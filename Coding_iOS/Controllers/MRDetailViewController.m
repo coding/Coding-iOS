@@ -217,6 +217,23 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }
     }];
 }
+
+- (BOOL) shouldShowReviews {
+    Reviewer* tmpReviewer;
+    for(int i = 0; i < self.curReviewersInfo.reviewers.count; i ++) {
+        tmpReviewer = self.curReviewersInfo.reviewers[i];
+        if([tmpReviewer.value isEqual:@100]) {
+            return YES;
+        }
+    }
+    for(int i = 0; i < self.curReviewersInfo.volunteer_reviewers.count; i ++) {
+        tmpReviewer = self.curReviewersInfo.volunteer_reviewers[i];
+        if([tmpReviewer.value isEqual:@100]) {
+            return YES;
+        }
+    }
+    return NO;
+}
 - (void)refresh{
     if (_curMRPR.isLoading) {
         return;
@@ -254,7 +271,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [weakSelf sortActivityList];
             [weakSelf.myTableView reloadData];
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil ||  weakSelf.curReviewersInfo ||  weakSelf.resourceReference) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
     }];
@@ -267,14 +284,14 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             
             weakSelf.curReviewersInfo = data;
             
-            [weakSelf.myTableView reloadData];
+           // [weakSelf.myTableView reloadData];
         }
     }];
     
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.referencePath withParams:@{@"iid": _curMRPR.iid} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.resourceReference = [NSObject objectOfClass:@"ResourceReference" fromJSON:data[@"data"]];
-            [weakSelf.myTableView reloadData];
+           // [weakSelf.myTableView reloadData];
         }
     }];
     
@@ -293,7 +310,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                     }
                 }
                 [weakSelf sortActivityList];
-                [weakSelf.myTableView reloadData];
+                //[weakSelf.myTableView reloadData];
             }
         }
     }];
@@ -472,7 +489,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             row = 2;
         }
     } else if(section == 2) {
-        if(self.curReviewersInfo.reviewers.count + self.curReviewersInfo.volunteer_reviewers.count > 0) {
+        if([self shouldShowReviews]) {
             row = 2;
         } else {
             row = 1;
@@ -516,8 +533,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         } else {
             [cell setImageStr:@"PR_TaskResource" andTitle:@"资源关联"];
             if(self.resourceReference.itemList.count > 0) {
-                [cell setrightText:[NSString stringWithFormat:@"%lu",(unsigned long)self.resourceReference.itemList.count]];
-                 [cell addTipIcon];
+                [cell setrightText:[NSString stringWithFormat:@"%lu个",(unsigned long)self.resourceReference.itemList.count]];
+              
         }
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
