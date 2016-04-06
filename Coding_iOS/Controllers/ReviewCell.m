@@ -70,6 +70,7 @@
     self.userName.text = reviewer.name;
     if([likeValue isEqual:@100]) {
         self.userState.text = @"+1";
+        self.userState.textColor = [UIColor colorWithHexString:@"0x3BBD79"];
     }
     
 }

@@ -34,7 +34,7 @@ static NSString *const kTitleKey = @"kTitleKey";
 static NSString *const kValueKey = @"kValueKey";
 
 -(void)viewDidLoad {
-    self.title = @"评审人";
+    self.title = @"评审者";
     [self.myTableView registerNib:[UINib nibWithNibName:kCellIdentifier_ReviewCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ReviewCell];
     self.myTableView.separatorStyle = NO;
     self.reviewers = [[NSMutableArray alloc] init];
