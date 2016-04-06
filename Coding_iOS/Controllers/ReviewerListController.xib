@@ -24,6 +24,9 @@
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                 <real key="value" value="2"/>
                             </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                         <connections>
                             <outlet property="dataSource" destination="ruh-Mf-Jpt" id="NEV-h9-ZgV"/>
@@ -36,6 +39,11 @@
                     <constraint firstItem="fzQ-Bf-Umi" firstAttribute="leading" secondItem="UdY-Fj-Hnc" secondAttribute="leadingMargin" constant="-20" id="2oU-2A-n3T"/>
                     <constraint firstItem="fzQ-Bf-Umi" firstAttribute="trailing" secondItem="UdY-Fj-Hnc" secondAttribute="trailingMargin" constant="20" id="vlH-ld-Rmm"/>
                 </constraints>
+                <userDefinedRuntimeAttributes>
+                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                        <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </userDefinedRuntimeAttribute>
+                </userDefinedRuntimeAttributes>
             </view>
             <connections>
                 <outlet property="myTableView" destination="fzQ-Bf-Umi" id="KJa-gQ-LCW"/>
