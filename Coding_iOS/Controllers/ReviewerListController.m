@@ -54,16 +54,33 @@ static NSString *const kValueKey = @"kValueKey";
         self.navigationItem.rightBarButtonItem = leftBarButtonItem;
     }
     self.delReviewerPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/del_reviewer",_curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
+    [self updateData];
+}
+
+- (void)updateData {
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_MRReviewerInfo_WithObj:_curMRPR andBlock:^(ReviewersInfo *data, NSError *error) {
         if (data) {
             weakSelf.curReviewersInfo = data;
-            weakSelf.reviewers = weakSelf.curReviewersInfo.reviewers;
-            
-            weakSelf.volunteer_reviewers = weakSelf.curReviewersInfo.volunteer_reviewers;
+            [weakSelf sortReviewers];
             [weakSelf.myTableView reloadData];
         }
     }];
+}
+
+- (void)sortReviewers {
+    NSMutableArray *dataArray = [[NSMutableArray alloc] initWithArray:self.curReviewersInfo.reviewers];
+    //NSArray *sortedArray = [[NSArray alloc] initWithArray:dataArray];
+    for(int i = 0; i < self.curReviewersInfo.volunteer_reviewers.count; i ++) {
+        [dataArray addObject:self.curReviewersInfo.volunteer_reviewers[i]];
+    }
+    NSMutableArray *reviewerList= [dataArray sortedArrayUsingComparator:^NSComparisonResult(Reviewer *obj1, Reviewer *obj2) {
+        
+        NSComparisonResult result = [ obj2.value compare:obj1.value];
+        
+        return result;
+    }];
+    self.reviewers =  reviewerList;
 }
 
 -(void)selectRightAction:(id)sender
@@ -102,7 +119,7 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [self.reviewers count] + [self.volunteer_reviewers count];
+    return [self.reviewers count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -110,13 +127,8 @@ static NSString *const kValueKey = @"kValueKey";
     
  //   [cell configureCellWithHeadIconURL:@"test" reviewIconURL:@"PointLikeHead" userName:@"test" userState:@"test"];
 
-    if(indexPath.row < self.reviewers.count) {
-         Reviewer* cellReviewer = self.reviewers[indexPath.row];
-        [cell initCellWithReviewer:cellReviewer.reviewer likeValue:cellReviewer.value];
-    } else {
-         Reviewer* cellReviewer = self.volunteer_reviewers[indexPath.row - self.reviewers.count];
-        [cell initCellWithVolunteerReviewers:cellReviewer.reviewer likeValue:cellReviewer.value];
-    }
+    Reviewer* cellReviewer = self.reviewers[indexPath.row];
+    [cell initCellWithReviewer:cellReviewer.reviewer likeValue:cellReviewer.value];
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
     return cell;
 
@@ -185,13 +197,7 @@ static NSString *const kValueKey = @"kValueKey";
     __weak typeof(self) weakSelf = self;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.delReviewerPath withParams:@{@"user_id":currentCell.user.id} withMethodType:Delete andBlock:^(id data, NSError *error) {
         if (data) {
-            Reviewer* tmpReviewer;
-            if(indexPath.row < weakSelf.reviewers.count) {
-               tmpReviewer = weakSelf.reviewers[indexPath.row];
-               [weakSelf.reviewers removeObject:tmpReviewer];
-               
-            }
-            [weakSelf.myTableView reloadData];
+            [weakSelf updateData];
         }
     }];
 }

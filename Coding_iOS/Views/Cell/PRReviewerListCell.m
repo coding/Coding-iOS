@@ -29,13 +29,13 @@
         self.backgroundColor = kColorTableBG;
         for(int i = 0; i < kDefaultImageCount; i ++)
         {
-            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1)  + 10, 10, kDefaultImageSize, kDefaultImageSize)];
+            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1)  + 10, 15, kDefaultImageSize, kDefaultImageSize)];
             [imgView doCircleFrame];
             [imgView setHidden:true];
             [self.imgViews addObject:imgView];
             [self.contentView addSubview:imgView];
             
-            UIImageView *likeHeadView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1)  + 25,25, 18, 18)];
+            UIImageView *likeHeadView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1)  + 25,30, 18, 18)];
             [likeHeadView doCircleFrame];
             [likeHeadView setHidden:true];
             [self.likeHeadImgViews addObject:likeHeadView];
@@ -90,7 +90,7 @@
     int index = 0;
     for (int i = 0; i < imageCount; i++) {
         UIImageView *image = self.imgViews[index];
-        if(index >= reviewers.count) {
+        if(i >= reviewers.count) {
             continue;
         }
         Reviewer* reviewer = (Reviewer*)reviewers[i];
@@ -122,7 +122,7 @@
 }
 
 + (CGFloat)cellHeight{
-    return 50.0;
+    return 64.0;
 }
 
 
