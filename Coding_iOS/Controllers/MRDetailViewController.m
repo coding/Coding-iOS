@@ -514,9 +514,10 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 [cell addTipIcon];
             }
         } else {
-            [cell setImageStr:@"taskResourceReference" andTitle:@"资源关联"];
+            [cell setImageStr:@"PR_TaskResource" andTitle:@"资源关联"];
             if(self.resourceReference.itemList.count > 0) {
-                [cell setrightText:[NSString stringWithFormat:@"N个关联资源"]];
+                [cell setrightText:[NSString stringWithFormat:@"%lu",(unsigned long)self.resourceReference.itemList.count]];
+                 [cell addTipIcon];
         }
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
