@@ -126,6 +126,8 @@
             contentStr = [NSString stringWithFormat:@"推送了新的提交，更新了合并请求 - %@", [curActivity.created_at stringDisplay_HHmm]];
         } else if ([curActivity.action isEqualToString:@"update_content"]) {
             contentStr = [NSString stringWithFormat:@"编辑了描述 - %@", [curActivity.created_at stringDisplay_HHmm]];
+        } else if ([curActivity.action isEqualToString:@"update"]) {
+            contentStr = [NSString stringWithFormat:@"编辑合并请求 - %@", [curActivity.created_at stringDisplay_HHmm]];
         }
     contentStr = contentStr? contentStr: @"...";
     attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];
