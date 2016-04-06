@@ -35,7 +35,7 @@
             [self.imgViews addObject:imgView];
             [self.contentView addSubview:imgView];
             
-            UIImageView *likeHeadView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1) + 15,25, 18, 18)];
+            UIImageView *likeHeadView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1)  + 25,25, 18, 18)];
             [likeHeadView doCircleFrame];
             [likeHeadView setHidden:true];
             [self.likeHeadImgViews addObject:likeHeadView];
@@ -87,25 +87,36 @@
         
         return result;
     }];
-    NSLog(@"test ==== %d", imageCount);
+    int index = 0;
     for (int i = 0; i < imageCount; i++) {
-        UIImageView *image = self.imgViews[i];
-        if(i >= reviewers.count) {
+        UIImageView *image = self.imgViews[index];
+        if(index >= reviewers.count) {
             continue;
-        }
-        [image setHidden:false];
-        if(i >= imageCount-1) {
-            image.image = [UIImage imageNamed:@"moreBtn_Nav"];
-            continue;
-
         }
         Reviewer* reviewer = (Reviewer*)reviewers[i];
+        if([reviewer.value isEqual:@0]) {
+            continue;
+        }
+        if(index >= imageCount-1) {
+            image.image = [UIImage imageNamed:@"PR_more"];
+            continue;
+            
+        }
+        [image setHidden:false];
         [image sd_setImageWithURL:[reviewer.reviewer.avatar urlImageWithCodePathResizeToView:image] placeholderImage:kPlaceholderMonkeyRoundView(image)];
         if([reviewer.value isEqual:@100]) {
-            UIImageView *likeImage = self.likeHeadImgViews[i];
+            UIImageView *likeImage = self.likeHeadImgViews[index];
             [likeImage setHidden:false];
             likeImage.image = [UIImage imageNamed:@"PointLikeHead"];
         }
+         index ++;
+    }
+    
+    for(int i = index; i < kDefaultImageCount; i ++) {
+        UIImageView *image = self.imgViews[i];
+        [image setHidden:true];
+        UIImageView *likeImage = self.likeHeadImgViews[i];
+        [likeImage setHidden:true];
     }
     
 }

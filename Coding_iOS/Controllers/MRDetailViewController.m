@@ -532,11 +532,15 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 Reviewer* tmpReviewer = [self checkUserisReviewer];
                 if(tmpReviewer == nil){
                     self.isLike = YES;
-                    [cell setImageStr:@"PRReviewer" isowner:NO hasLikeMr:YES];
                 } else {
-                    self.isLike = NO;
-                    [cell setImageStr:@"PRReviewer" isowner:NO hasLikeMr:NO];
+                    if([tmpReviewer.value isEqual:@0]) {
+                        self.isLike = YES;
+                    } else {
+                        self.isLike = NO;
+                    }
                 }
+                
+                [cell setImageStr:@"PRReviewer" isowner:NO hasLikeMr:self.isLike];
                 
             }
             //[cell setImageStr:@"PRReviewer" andTitle:@"评审者"];
