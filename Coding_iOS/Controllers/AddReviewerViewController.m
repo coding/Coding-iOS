@@ -30,7 +30,7 @@ static NSString *const kTitleKey = @"kTitleKey";
 static NSString *const kValueKey = @"kValueKey";
 
 -(void)viewDidLoad {
-    self.title = @"评审人";
+    self.title = @"添加评审者";
     self.users = [[NSMutableArray alloc] init];
      self.allUsers = [[NSMutableArray alloc] init];
     [self.myTableView registerNib:[UINib nibWithNibName:kCellIdentifier_ReviewCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ReviewCell];
@@ -66,6 +66,7 @@ static NSString *const kValueKey = @"kValueKey";
 - (void)updateProjectMembersData {
     __weak typeof(self) weakSelf = self;
     self.addReviewerPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/add_reviewer",_curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
+    self.delReviewerPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/del_reviewer",_curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     [[Coding_NetAPIManager sharedManager] request_ProjectMembers_WithObj:self.currentProject andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
@@ -90,6 +91,7 @@ static NSString *const kValueKey = @"kValueKey";
     for(int i = 0; i < self.projectUsers.count; i ++) {
         flag = YES;
         ProjectMember* member = self.projectUsers[i];
+        if([member.type isEqual:@75]) continue;
         if(self.curMRPR.author.id == member.user.id) continue;
         for(int j = 0; j < self.curReviewersInfo.reviewers.count; j ++) {
             Reviewer* reviewer = self.curReviewersInfo.reviewers[j];
@@ -103,6 +105,7 @@ static NSString *const kValueKey = @"kValueKey";
             if(member.user.id == reviewer.reviewer.id) {
                 flag = NO;
             }
+            
         }
         if(flag) {
             [totalUser addObject:member.user];
@@ -157,10 +160,16 @@ static NSString *const kValueKey = @"kValueKey";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ReviewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
-    currentCell.accessoryType = UITableViewCellAccessoryCheckmark;
     currentCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.addReviewerPath withParams:@{@"user_id": currentCell.user.id} withMethodType:Post andBlock:^(id data, NSError *error) {
-    }];
+    if(currentCell.accessoryType != UITableViewCellAccessoryCheckmark) {
+        currentCell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.addReviewerPath withParams:@{@"user_id": currentCell.user.id} withMethodType:Post andBlock:^(id data, NSError *error) {
+        }];
+    } else {
+        currentCell.accessoryType = UITableViewCellAccessoryNone;
+        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.delReviewerPath withParams:@{@"user_id":currentCell.user.id} withMethodType:Delete andBlock:^(id data, NSError *error) {
+        }];
+    }
 }
 
 #pragma mark SWTableViewCellDelegate
