@@ -107,13 +107,13 @@
     NSMutableAttributedString *attrContent;
     
         if ([curActivity.action isEqualToString:@"create"]) {
-            contentStr = [NSString stringWithFormat:@"%@创建了任务 - %@", userName,[curActivity.created_at stringDisplay_HHmm]];
+            contentStr = [NSString stringWithFormat:@"创建了任务 - %@", [curActivity.created_at stringDisplay_HHmm]];
         }else if ([curActivity.action isEqualToString:@"merge"]) {
-            contentStr = [NSString stringWithFormat:@"%@合并了合并请求 - %@", userName,[curActivity.created_at stringDisplay_HHmm]];
+            contentStr = [NSString stringWithFormat:@"合并了合并请求 - %@", [curActivity.created_at stringDisplay_HHmm]];
         }else if ([curActivity.action isEqualToString:@"review_undo"]) {
-            contentStr = [NSString stringWithFormat:@"%@撤销了对此合并请求评审+1 - %@", userName,[curActivity.created_at stringDisplay_HHmm]];
+            contentStr = [NSString stringWithFormat:@"撤销了对此合并请求评审+1 - %@",[curActivity.created_at stringDisplay_HHmm]];
         }else if ([curActivity.action isEqualToString:@"review"]) {
-            contentStr = [NSString stringWithFormat:@"%@对此合并请求评审+1 - %@", userName,[curActivity.created_at stringDisplay_HHmm]];
+            contentStr = [NSString stringWithFormat:@"对此合并请求评审+1 - %@",[curActivity.created_at stringDisplay_HHmm]];
         }else if ([curActivity.action isEqualToString:@"mergeChanges"]) {
             contentStr = [NSString stringWithFormat:@"对文件改动发起了讨论 - %@", [curActivity.created_at stringDisplay_HHmm]];
         } else if ([curActivity.action isEqualToString:@"grant"]) {
