@@ -49,7 +49,7 @@
             self.rightLabel = [UILabel new];
             self.rightLabel.text = @"添加";
             self.rightLabel.font = [UIFont systemFontOfSize:15];
-            [self.rightLabel setTextColor:[UIColor colorWithHexString:@"0x3BBD79"]];
+            //[self.rightLabel setTextColor:[UIColor colorWithHexString:@"0x999999"]];
             [self.contentView addSubview:self.rightLabel];
             [self.rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 //make.left.equalTo(_imgView.mas_right).offset(15);
@@ -112,15 +112,18 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if(hasLikeMr) {
             self.rightLabel.text = @"+1";
+            [self.rightLabel setTextColor:[UIColor colorWithHexString:@"0x3BBD79"]];
             [self.likeImgView setHidden:NO];
             self.likeImgView.image = [UIImage imageNamed:@"EPointLikeHead"];
         } else {
+            [self.rightLabel setTextColor:[UIColor colorWithHexString:@"0x3BBD79"]];
             self.rightLabel.text = @"撤销 +1";
             [self.likeImgView setHidden:YES];
         }
     } else {
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.rightLabel.text = @"添加";
+        [self.rightLabel setTextColor:[UIColor colorWithHexString:@"0x999999"]];
         [self.likeImgView setHidden:YES];
     }
 }
