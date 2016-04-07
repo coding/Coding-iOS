@@ -69,14 +69,26 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (void)sortReviewers {
-    NSMutableArray *dataArray = [[NSMutableArray alloc] initWithArray:self.curReviewersInfo.reviewers];
-    //NSArray *sortedArray = [[NSArray alloc] initWithArray:dataArray];
+    
+    NSMutableArray *dataArray = [[NSMutableArray alloc] init];
+    for(int i = 0; i < self.curReviewersInfo.reviewers.count; i ++) {
+        Reviewer* tmpReviewer = self.curReviewersInfo.reviewers[i];
+        
+            [dataArray addObject:tmpReviewer];
+        
+    }
+    
     for(int i = 0; i < self.curReviewersInfo.volunteer_reviewers.count; i ++) {
-        [dataArray addObject:self.curReviewersInfo.volunteer_reviewers[i]];
+        Reviewer* tmpReviewer = self.curReviewersInfo.volunteer_reviewers[i];
+        
+            [dataArray addObject:tmpReviewer];
     }
     NSMutableArray *reviewerList= [dataArray sortedArrayUsingComparator:^NSComparisonResult(Reviewer *obj1, Reviewer *obj2) {
         
         NSComparisonResult result = [ obj2.value compare:obj1.value];
+        if(result == NSOrderedSame) {
+            result = [ obj1.volunteer compare:obj2.volunteer];
+        }
         
         return result;
     }];
@@ -128,7 +140,11 @@ static NSString *const kValueKey = @"kValueKey";
  //   [cell configureCellWithHeadIconURL:@"test" reviewIconURL:@"PointLikeHead" userName:@"test" userState:@"test"];
 
     Reviewer* cellReviewer = self.reviewers[indexPath.row];
-    [cell initCellWithReviewer:cellReviewer.reviewer likeValue:cellReviewer.value];
+    if([cellReviewer.volunteer isEqualToString:@"invitee"]) {
+        [cell initCellWithReviewer:cellReviewer.reviewer likeValue:cellReviewer.value];
+    } else {
+        [cell initCellWithVolunteerReviewers:cellReviewer.reviewer likeValue:cellReviewer.value];
+    }
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
     return cell;
 

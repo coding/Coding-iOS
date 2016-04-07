@@ -35,7 +35,7 @@
             [self.imgViews addObject:imgView];
             [self.contentView addSubview:imgView];
             
-            UIImageView *likeHeadView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1)  + 25,30, 18, 18)];
+            UIImageView *likeHeadView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1)  + 23,30, 18, 18)];
             [likeHeadView doCircleFrame];
             [likeHeadView setHidden:true];
             [self.likeHeadImgViews addObject:likeHeadView];
@@ -84,6 +84,9 @@
     NSMutableArray *reviewers= [dataArray sortedArrayUsingComparator:^NSComparisonResult(Reviewer *obj1, Reviewer *obj2) {
         
         NSComparisonResult result = [ obj2.value compare:obj1.value];
+        if(result == NSOrderedSame) {
+            result = [ obj1.volunteer compare:obj2.volunteer];
+        }
         
         return result;
     }];
@@ -103,11 +106,19 @@
             
         }
         [image setHidden:false];
+        [image mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.contentView).offset(15);
+            make.left.equalTo(self.contentView).offset(40 * (index + 1) + 10);
+            make.bottom.equalTo(self.contentView).offset(-15);
+            make.right.equalTo(self.contentView).offset(-self.contentView.size.width + (40 * (index + 1) + 10) + 33);
+        }];
         [image sd_setImageWithURL:[reviewer.reviewer.avatar urlImageWithCodePathResizeToView:image] placeholderImage:kPlaceholderMonkeyRoundView(image)];
         if([reviewer.value isEqual:@100]) {
-            UIImageView *likeImage = self.likeHeadImgViews[index];
-            [likeImage setHidden:false];
-            likeImage.image = [UIImage imageNamed:@"PointLikeHead"];
+            if([reviewer.volunteer isEqualToString:@"invitee"]) {
+                UIImageView *likeImage = self.likeHeadImgViews[index];
+                [likeImage setHidden:false];
+                likeImage.image = [UIImage imageNamed:@"PointLikeHead"];
+            }
         }
          index ++;
     }
@@ -122,7 +133,7 @@
 }
 
 + (CGFloat)cellHeight{
-    return 64.0;
+    return 63.0;
 }
 
 
