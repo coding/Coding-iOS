@@ -45,7 +45,7 @@ static NSString *const kValueKey = @"kValueKey";
 
 -(void)viewWillAppear:(BOOL)animated {
     if(self.isPublisher) {
-        UIImage* backImage = [UIImage imageNamed:@"tag_button_add.png"];
+        UIImage* backImage = [UIImage imageNamed:@"addBtn_Nav"];
         CGRect backframe = CGRectMake(0,0,19,19);
         UIButton* addReviewerButton= [[UIButton alloc] initWithFrame:backframe];
         [addReviewerButton setBackgroundImage:backImage forState:UIControlStateNormal];
