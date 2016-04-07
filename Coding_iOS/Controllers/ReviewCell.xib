@@ -25,7 +25,7 @@
                         </userDefinedRuntimeAttributes>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="PointLikeHead.png" translatesAutoresizingMaskIntoConstraints="NO" id="rew-xr-t1t">
-                        <rect key="frame" x="30" y="24" width="11.5" height="11.5"/>
+                        <rect key="frame" x="25" y="20" width="18" height="18"/>
                         <edgeInsets key="layoutMargins" top="8" left="90" bottom="8" right="8"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="mangoli" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lcy-xu-sS9">
