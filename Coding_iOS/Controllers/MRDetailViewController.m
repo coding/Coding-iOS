@@ -38,6 +38,7 @@
 #import "DynamicActivityCell.h"
 #import "UIView+PressMenu.h"
 #import "MRPRPreInfo.h"
+#import "AddReviewerViewController.h"
 
 typedef NS_ENUM(NSInteger, MRPRAction) {
     MRPRActionAccept = 1000,
@@ -61,6 +62,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 @property (strong, nonatomic) NSMutableArray *activityList;
 @property (strong, nonatomic) NSMutableArray *activityCList;
 @property (strong, nonatomic) NSMutableArray *allDiscussions;
+@property (nonatomic, strong) NSMutableArray *projectUsers;
 @property (strong, nonatomic) NSString *reviewGoodPath;
 @property (assign, nonatomic) BOOL isLike;
 @end
@@ -274,6 +276,14 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil ||  weakSelf.curReviewersInfo ||  weakSelf.resourceReference) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
+    }];
+    
+    [[Coding_NetAPIManager sharedManager] request_ProjectMembers_WithObj:self.curProject andBlock:^(id data, NSError *error) {
+        [weakSelf.view endLoading];
+        if (data) {
+            NSMutableArray* projectUsers = data;
+            weakSelf.projectUsers = projectUsers;
+        }
     }];
     
     
@@ -614,6 +624,17 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     return false;
 }
 
+- (BOOL)currentUserCanAddMember {
+    User *currentUser = [Login curLoginUser];
+    for(int i = 0; i < self.projectUsers.count; i ++) {
+        ProjectMember* member = self.projectUsers[i];
+        if(member.user.id == currentUser.id && [member.type isEqual:@75]) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
 - (Reviewer*)checkUserisReviewer {
     User *currentUser = [Login curLoginUser];
     for(int i = 0; i < self.curReviewersInfo.reviewers.count; i ++) {
@@ -690,11 +711,11 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         if (indexPath.row == 0) {
             
             if([self CurrentUserIsOwer]) {
-                NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
-                ReviewerListController *appview=[apparray firstObject];
+                NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"AddReviewerViewController" owner:nil options:nil];
+                AddReviewerViewController *appview=[apparray firstObject];
                 appview.currentProject = self.curProject;
                 appview.curMRPR = self.curMRPR;
-                appview.isPublisher = [self CurrentUserIsOwer];
+                //appview.isPublisher = [self CurrentUserIsOwer];
                 
                 [self.navigationController pushViewController:appview animated:YES];
             }
@@ -721,7 +742,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             ReviewerListController *appview=[apparray firstObject];
             appview.currentProject = self.curProject;
             appview.curMRPR = self.curMRPR;
-            appview.isPublisher = [self CurrentUserIsOwer];
+            appview.isPublisher = [self currentUserCanAddMember];
             
             [self.navigationController pushViewController:appview animated:YES];
             
