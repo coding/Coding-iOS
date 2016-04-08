@@ -87,8 +87,8 @@
         _imgView = [UIImageView new];
         [self.contentView addSubview:_imgView];
         [_imgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(30, 30));
-            make.left.equalTo(self.contentView).offset(10);
+            make.size.mas_equalTo(CGSizeMake(25, 25));
+            make.left.equalTo(self.contentView).offset(15);
             make.centerY.equalTo(self.contentView);
         }];
     }
