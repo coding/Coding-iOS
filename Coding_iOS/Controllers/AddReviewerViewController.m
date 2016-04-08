@@ -1,3 +1,5 @@
+#define kMRAddReviewerViewController_BottomViewHeight 49.0
+
 #import "AddReviewerViewController.h"
 #import "ReviewCell.h"
 #import "ProjectListCell.h"
@@ -12,6 +14,8 @@
 #import "SVPullToRefresh.h"
 #import "Reviewer.h"
 #import "ProjectMember.h"
+
+
 
 @interface AddReviewerViewController ()<UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -37,12 +41,13 @@ static NSString *const kValueKey = @"kValueKey";
     self.myTableView.separatorStyle = NO;
     
     
-    /*
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"保存"
-                                                                   style:UIBarButtonItemStylePlain
-                                                                  target:self
-                                                                  action:@selector(selectRightAction:)];
-    self.navigationItem.rightBarButtonItem = saveButton;*/
+    [self.myTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, 0, 0);
+    self.myTableView.contentInset = insets;
+    self.myTableView.scrollIndicatorInsets = insets;
+
     
     _mySearchBar = ({
      UISearchBar *searchBar = [[UISearchBar alloc] init];
