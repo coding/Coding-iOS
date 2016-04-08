@@ -97,12 +97,13 @@
             continue;
         }
         Reviewer* reviewer = (Reviewer*)reviewers[i];
+        [image setHidden:false];
         if(index >= imageCount-1) {
             image.image = [UIImage imageNamed:@"PR_more"];
+            index ++;
             continue;
             
         }
-        [image setHidden:false];
         [image mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.contentView).offset(15);
             make.left.equalTo(self.contentView).offset(40 * (index + 1) + 10);
