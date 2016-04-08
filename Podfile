@@ -1,6 +1,8 @@
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
 
+target "Coding_iOS" do
+    
 pod 'TTTAttributedLabel', '1.10.1'
 pod 'RegexKitLite-NoWarning', '1.1.0'
 pod 'hpple', '0.2.0'
@@ -25,6 +27,7 @@ pod 'UMengSocial', '4.2.3'
 #pod 'evernote-cloud-sdk-ios', :git => 'https://github.com/evernote/evernote-cloud-sdk-ios.git', :branch => 'ios7'
 pod 'evernote-cloud-sdk-ios', '2.0.2'
 pod 'UMengAnalytics', '3.5.10'
-
 pod 'FLEX', '~> 2.0', :configurations => ['Debug']
 pod 'Google/Analytics', '~> 1.0.0'
+
+end

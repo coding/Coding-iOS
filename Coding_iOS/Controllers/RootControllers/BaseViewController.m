@@ -164,19 +164,19 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         presentingVC = [BaseViewController presentingVC];
     }
     
-    NSString *userRegexStr = @"/u/([^/]+)$";
-    NSString *userTweetRegexStr = @"/u/([^/]+)/bubble$";
-    NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)";
-    NSString *pp_projectRegexStr = @"/u/([^/]+)/p/([^\?]+)[\?]pp=([0-9]+)$";
-    NSString *topicRegexStr = @"/u/([^/]+)/p/([^/]+)/topic/(\\d+)";
-    NSString *taskRegexStr = @"/u/([^/]+)/p/([^/]+)/task/(\\d+)";
-    NSString *fileRegexStr = @"/u/([^/]+)/p/([^/]+)/attachment/([^/]+)/preview/(\\d+)";
-    NSString *gitMRPRCommitRegexStr = @"/u/([^/]+)/p/([^/]+)/git/(merge|pull|commit)/([^/#]+)";
-    NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";
-    NSString *pp_topicRegexStr = @"/pp/topic/([0-9]+)$";
-    NSString *codeRegexStr = @"/u/([^/]+)/p/([^/]+)/git/blob/([^/]+)[/]?([^?]*)";
-    NSString *twoFARegexStr = @"/app_intercept/show_2fa";
-    NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
+    NSString *userRegexStr = @"/u/([^/]+)$";//AT某人
+    NSString *userTweetRegexStr = @"/u/([^/]+)/bubble$";//某人的冒泡
+    NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)";//冒泡
+    NSString *pp_projectRegexStr = @"/[ut]/([^/]+)/p/([^\?]+)[\?]pp=([0-9]+)$";//项目内冒泡(含团队项目)
+    NSString *topicRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/topic/(\\d+)";//讨论(含团队项目)
+    NSString *taskRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/task/(\\d+)";//任务(含团队项目)
+    NSString *fileRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/attachment/([^/]+)/preview/(\\d+)";//文件(含团队项目)
+    NSString *gitMRPRCommitRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/git/(merge|pull|commit)/([^/#]+)";//MR(含团队项目)
+    NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";//私信
+    NSString *pp_topicRegexStr = @"/pp/topic/([0-9]+)$";//话题
+    NSString *codeRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/git/blob/([^/]+)[/]?([^?]*)";//代码(含团队项目)
+    NSString *twoFARegexStr = @"/app_intercept/show_2fa";//两步验证
+    NSString *projectRegexStr = @"/[ut]/([^/]+)/p/([^/]+)";//项目(含团队项目)
     NSArray *matchedCaptures = nil;
     if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:ppRegexStr]).count > 0){
         //冒泡
@@ -197,6 +197,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             analyseVC = vc;
         }
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:pp_projectRegexStr]).count > 0){
+        //项目内冒泡
         NSString *owner_user_global_key = matchedCaptures[1];
         NSString *project_name = matchedCaptures[2];
         NSString *pp_id = matchedCaptures[3];
@@ -279,6 +280,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             analyseVC = vc;
         }
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:fileRegexStr]).count > 0){
+        //文件
         NSString *user_global_key = matchedCaptures[1];
         NSString *project_name = matchedCaptures[2];
         NSString *fileId = matchedCaptures[4];
@@ -331,6 +333,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             vc.topicID = pp_topic_id.integerValue;
             analyseVC = vc;
         }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:codeRegexStr]).count > 0){
+            //代码
             NSString *user_global_key = matchedCaptures[1];
             NSString *project_name = matchedCaptures[2];
             NSString *ref = matchedCaptures[3];
