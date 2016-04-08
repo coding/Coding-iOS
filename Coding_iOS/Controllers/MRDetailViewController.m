@@ -148,9 +148,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             
             NSArray *buttonArray;
             if (canAction && canCancel) {//三个按钮
-                buttonArray = @[[self buttonWithType:MRPRActionAccept],
+                buttonArray = @[ [self buttonWithType:MRPRActionCancel],
                                 [self buttonWithType:MRPRActionRefuse],
-                                [self buttonWithType:MRPRActionCancel]];
+                                [self buttonWithType:MRPRActionAccept]];
             }else if (canAction && !canCancel){//两个按钮
                 if(canAuthorization) {
                     buttonArray = @[[self buttonWithType:MRPRActionRefuse],
