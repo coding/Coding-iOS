@@ -8,6 +8,7 @@
 
 #import "BaseViewController.h"
 #import "ConversationViewController.h"
+#import "MRDetailViewController.h"
 
 #import "Login.h"
 #import <RegexKitLite-NoWarning/RegexKitLite.h>
@@ -234,7 +235,14 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
                 }
             }
             if (!analyseVC) {
-                analyseVC = [PRDetailViewController vcWithPath:path];
+                if([path rangeOfString:@"qingjoin"].location !=NSNotFound)//_roaldSearchText
+                {
+                     analyseVC = [PRDetailViewController vcWithPath:path];
+                }
+                else
+                {
+                    analyseVC = [MRDetailViewController vcWithPath:path];
+                }
             }
         }
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:topicRegexStr]).count > 0){

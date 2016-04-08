@@ -72,6 +72,8 @@
     self.userName.text = reviewer.name;
     if([likeValue isEqual:@100]) {
         self.userState.text = @"+1";
+        [self.reviewIcon setHidden:NO];
+        self.reviewIcon.image = [UIImage imageNamed:@"PointLikeHead"];
         self.userState.textColor = [UIColor colorWithHexString:@"0x3BBD79"];
     }
     
