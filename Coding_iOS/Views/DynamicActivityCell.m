@@ -156,7 +156,7 @@
         NSAttributedString *attrContent = [self  attrContentWithObj:obj];
         CGFloat contentHeight = [attrContent boundingRectWithSize:CGSizeMake(kTaskActivityCell_ContentWidth, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin context:nil].size.height;
         cellHeight = ceilf(contentHeight + 26);
-        cellHeight = MAX(44, cellHeight);
+        cellHeight = MAX(50, cellHeight);
     }
     
     if([tmpProject.action isEqual:@"mergeChanges"])
