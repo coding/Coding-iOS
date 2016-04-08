@@ -97,9 +97,6 @@
             continue;
         }
         Reviewer* reviewer = (Reviewer*)reviewers[i];
-        if([reviewer.value isEqual:@0]) {
-            continue;
-        }
         if(index >= imageCount-1) {
             image.image = [UIImage imageNamed:@"PR_more"];
             continue;
@@ -113,14 +110,14 @@
             make.right.equalTo(self.contentView).offset(-self.contentView.size.width + (40 * (index + 1) + 10) + 33);
         }];
         [image sd_setImageWithURL:[reviewer.reviewer.avatar urlImageWithCodePathResizeToView:image] placeholderImage:kPlaceholderMonkeyRoundView(image)];
-        if([reviewer.value isEqual:@100]) {
-            if([reviewer.volunteer isEqualToString:@"invitee"]) {
+        if([reviewer.volunteer isEqualToString:@"invitee"]) {
+             if([reviewer.value isEqual:@100]) {
                 UIImageView *likeImage = self.likeHeadImgViews[index];
                 [likeImage setHidden:false];
-                likeImage.image = [UIImage imageNamed:@"PointLikeHead"];
-            }
+                 likeImage.image = [UIImage imageNamed:@"PointLikeHead"];
+             }
         }
-         index ++;
+        index ++;
     }
     
     for(int i = index; i < kDefaultImageCount; i ++) {
