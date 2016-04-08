@@ -222,18 +222,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 
 - (BOOL) shouldShowReviews {
     Reviewer* tmpReviewer;
-    for(int i = 0; i < self.curReviewersInfo.reviewers.count; i ++) {
-        tmpReviewer = self.curReviewersInfo.reviewers[i];
-        if([tmpReviewer.value isEqual:@100]) {
-            return YES;
-        }
-    }
-    for(int i = 0; i < self.curReviewersInfo.volunteer_reviewers.count; i ++) {
-        tmpReviewer = self.curReviewersInfo.volunteer_reviewers[i];
-        if([tmpReviewer.value isEqual:@100]) {
-            return YES;
-        }
-    }
+    if(self.curReviewersInfo.reviewers.count + self.curReviewersInfo.volunteer_reviewers.count > 0) return YES;
     return NO;
 }
 - (void)refresh{

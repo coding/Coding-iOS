@@ -64,6 +64,9 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    if([self curMRPRS].list.count <= 0) {
+        [self.view configBlankPage:EaseBlankPageTypeTaskResource hasData:NO hasError:NO reloadButtonBlock:nil];
+    }
     [self refresh];
 }
 
