@@ -64,7 +64,7 @@
             [self.contentView addSubview:self.likeImgView];
             [self.likeImgView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(20, 20));
-                make.right.equalTo(self.contentView).offset(-30);
+                make.right.equalTo(self.contentView).offset(-40);
                 make.centerY.equalTo(self.contentView);
             }];
         }
@@ -106,7 +106,7 @@
     if(!ower) {
         [self.rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             //make.left.equalTo(_imgView.mas_right).offset(15);
-            make.right.equalTo(self.contentView).offset(-10);
+            make.right.equalTo(self.contentView).offset(-20);
             make.centerY.height.equalTo(self.contentView);
         }];
         self.selectionStyle = UITableViewCellSelectionStyleNone;

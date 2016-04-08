@@ -154,7 +154,7 @@ static NSString *const kValueKey = @"kValueKey";
     User* cellReviewer = self.allUsers[indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryNone;
     [cell initCellWithUsers:cellReviewer];
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
     return cell;
     
 }
