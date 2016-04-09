@@ -532,7 +532,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 [cell addTipIcon];
             }
         } else {
-            [cell setImageStr:@"PR_TaskResource" andTitle:@"资源关联"];
+            [cell setImageStr:@"PR_TaskResource" andTitle:@"关联资源"];
             if(self.resourceReference.itemList.count > 0) {
                 [cell setrightText:[NSString stringWithFormat:@"%lu个",(unsigned long)self.resourceReference.itemList.count]];
               

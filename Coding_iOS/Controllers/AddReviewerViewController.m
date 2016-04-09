@@ -168,6 +168,7 @@ static NSString *const kValueKey = @"kValueKey";
     currentCell.selectionStyle = UITableViewCellSelectionStyleNone;
     if(currentCell.accessoryType != UITableViewCellAccessoryCheckmark) {
         currentCell.accessoryType = UITableViewCellAccessoryCheckmark;
+        currentCell.tintColor =  [UIColor colorWithHexString:@"0x3BBD79"];;
         [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.addReviewerPath withParams:@{@"user_id": currentCell.user.id} withMethodType:Post andBlock:^(id data, NSError *error) {
         }];
     } else {
