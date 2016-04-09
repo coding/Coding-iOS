@@ -235,7 +235,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
                 }
             }
             if (!analyseVC) {
-                if([path rangeOfString:@"qingjoin"].location !=NSNotFound)//_roaldSearchText
+                if([path rangeOfString:@"merge"].location == NSNotFound)//_roaldSearchText
                 {
                      analyseVC = [PRDetailViewController vcWithPath:path];
                 }
