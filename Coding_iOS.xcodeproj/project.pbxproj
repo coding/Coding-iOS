@@ -23,6 +23,7 @@
 		0AB591AC1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB591AB1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m */; };
 		0AB591AD1AB6D51C0076C454 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6E6BBC1AB180AE004C0107 /* MapKit.framework */; };
 		0AB591B01AB6D6BE0076C454 /* TweetSendMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */; };
+		285A28C61CB928F000BC607D /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 285A28C51CB928F000BC607D /* libsqlite3.0.tbd */; };
 		3A3878371AE293D50078D5DE /* EditLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3878361AE293D50078D5DE /* EditLabelViewController.m */; };
 		3A38783A1AE2949E0078D5DE /* ResetLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3878391AE2949E0078D5DE /* ResetLabelViewController.m */; };
 		3A3878401AE295970078D5DE /* ResetLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A38783F1AE295970078D5DE /* ResetLabelCell.m */; };
@@ -982,6 +983,7 @@
 		927AFF551BFF6DAD00AAE593 /* shop_unexchange_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927AFF4D1BFF6DAD00AAE593 /* shop_unexchange_icon@3x.png */; };
 		927AFF581BFF755200AAE593 /* ExchangeGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 927AFF571BFF755200AAE593 /* ExchangeGoodsViewController.m */; };
 		927AFF5B1BFF772A00AAE593 /* ShopOrderTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 927AFF5A1BFF772A00AAE593 /* ShopOrderTextFieldCell.m */; };
+		AB29158D432A29FDCB5885B8 /* libPods-Coding_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A57BDB829CC29FFE70C13FA /* libPods-Coding_iOS.a */; };
 		B93D904B1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D904A1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m */; };
 		B94C1B691AC945D30000C271 /* NewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B94C1B681AC945D30000C271 /* NewProjectViewController.m */; };
 		B94C1B6B1AC945FB0000C271 /* NewProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */; };
@@ -1085,6 +1087,7 @@
 		0A06C2521AB9E57900AB3B03 /* map_annotation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map_annotation@2x.png"; sourceTree = "<group>"; };
 		0A27A05B1AB5A13B00067833 /* TweetSendLocationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocationDetailViewController.h; sourceTree = "<group>"; };
 		0A27A05C1AB5A13B00067833 /* TweetSendLocationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocationDetailViewController.m; sourceTree = "<group>"; };
+		0A57BDB829CC29FFE70C13FA /* libPods-Coding_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Coding_iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A6E6BA51AAF4162004C0107 /* TweetSendLocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocationCell.h; sourceTree = "<group>"; };
 		0A6E6BA61AAF4162004C0107 /* TweetSendLocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocationCell.m; sourceTree = "<group>"; };
 		0A6E6BA81AAF4B24004C0107 /* TweetSendLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendLocationViewController.h; sourceTree = "<group>"; };
@@ -1103,6 +1106,7 @@
 		0AB591AB1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocaitonMapViewController.m; sourceTree = "<group>"; };
 		0AB591AE1AB6D6BE0076C454 /* TweetSendMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendMapAnnotation.h; sourceTree = "<group>"; };
 		0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendMapAnnotation.m; sourceTree = "<group>"; };
+		285A28C51CB928F000BC607D /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		3A3878351AE293D50078D5DE /* EditLabelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditLabelViewController.h; sourceTree = "<group>"; };
 		3A3878361AE293D50078D5DE /* EditLabelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditLabelViewController.m; sourceTree = "<group>"; };
 		3A3878381AE2949E0078D5DE /* ResetLabelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetLabelViewController.h; sourceTree = "<group>"; };
@@ -2689,6 +2693,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				285A28C61CB928F000BC607D /* libsqlite3.0.tbd in Frameworks */,
 				4EDBECEB1B709EB3003E87C3 /* AVFoundation.framework in Frameworks */,
 				0AB591AD1AB6D51C0076C454 /* MapKit.framework in Frameworks */,
 				0A6E6BBF1AB180CB004C0107 /* CoreLocation.framework in Frameworks */,
@@ -2714,6 +2719,7 @@
 				8E477014198770E700997D05 /* Foundation.framework in Frameworks */,
 				68D9A2AD062641F5BCA573C5 /* libPods.a in Frameworks */,
 				4EF818241B09D8D8005F974B /* WebP.framework in Frameworks */,
+				AB29158D432A29FDCB5885B8 /* libPods-Coding_iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4031,6 +4037,7 @@
 		8E477012198770E700997D05 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				285A28C51CB928F000BC607D /* libsqlite3.0.tbd */,
 				4EDBECEA1B709EB3003E87C3 /* AVFoundation.framework */,
 				4EF818231B09D8D8005F974B /* WebP.framework */,
 				0A6E6BBE1AB180CB004C0107 /* CoreLocation.framework */,
@@ -4054,6 +4061,7 @@
 				8E477019198770E700997D05 /* CoreData.framework */,
 				8E477031198770E700997D05 /* XCTest.framework */,
 				3B024F2227BD4152BC7C9A7A /* libPods.a */,
+				0A57BDB829CC29FFE70C13FA /* libPods-Coding_iOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -6000,7 +6008,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS/Pods-Coding_iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		96A9263FF11A4AA8B5F6BB6B /* Copy Pods Resources */ = {
@@ -6015,7 +6023,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS/Pods-Coding_iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

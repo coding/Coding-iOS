@@ -26,20 +26,20 @@ PODS:
     - GoogleSymbolUtilities (~> 1.0)
     - GoogleUtilities (~> 1.0)
   - GoogleAnalytics (3.14.0)
-  - GoogleNetworkingUtilities (1.0.0):
+  - GoogleNetworkingUtilities (1.2.0):
     - GoogleSymbolUtilities (~> 1.0)
-  - GoogleSymbolUtilities (1.0.3)
-  - GoogleUtilities (1.1.0):
-    - GoogleSymbolUtilities (~> 1.0.0)
+  - GoogleSymbolUtilities (1.1.0)
+  - GoogleUtilities (1.2.0):
+    - GoogleSymbolUtilities (~> 1.0)
   - hpple (0.2.0)
   - iVersion (1.11.4)
   - JazzHands (2.0.0)
-  - MarqueeLabel (2.3.5)
+  - MarqueeLabel (2.5.2)
   - Masonry (0.5.3)
   - MBProgressHUD (0.9)
   - MMMarkdown (0.3)
   - NYXImagesKit (2.3)
-  - pop (1.0.8)
+  - pop (1.0.9)
   - POP+MCAnimate (2.0.1):
     - pop (~> 1.0)
     - POP+MCAnimate/Animations (= 2.0.1)
@@ -120,18 +120,18 @@ SPEC CHECKSUMS:
   FontAwesome+iOS: 9070b682a9255ca0fdc34bcfb129ad0ba2b73b87
   Google: 875f5a8ade86dd02e36586e4a54814843938c7f6
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
-  GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
-  GoogleSymbolUtilities: 82ad9f93d3615244b3f4ce440f5ab2515e8b4f56
-  GoogleUtilities: 8ed9134debe11719097881711464752900668f10
+  GoogleNetworkingUtilities: ec1e9911aca811eb18b7144394fee6168b607785
+  GoogleSymbolUtilities: eb3965ea12710569c7b80db198a39e39b18613f7
+  GoogleUtilities: 85f8ad6b251544286a97163133d042ec95f889c5
   hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81
   JazzHands: 00002e9b1284e7fc1ac6555012e81b8942477242
-  MarqueeLabel: fd29be3b4cf5f37b01676749409679aac23eb6fa
+  MarqueeLabel: c82ca09a3a969b4d34ce5d65f0f82840525ab259
   Masonry: 9f515466afe48632562342a40a1c224071a1a022
   MBProgressHUD: d8e7ea388dc1549a42e0d219067cf5f2c898fb66
   MMMarkdown: 13af1af50e5f476f1097797f43ea2bd76c83067a
   NYXImagesKit: 8163e3335a40eaa173ca5bbbf81fafb57d3947eb
-  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   POP+MCAnimate: a99e209148c602512de487f1160a44bf78572024
   PPiAwesomeButton: 16f7279582fd36f65186b24b83ef876217363eb5
   RBBAnimation: 4b2d66f6d993febce63cd564da934985313b9c59
