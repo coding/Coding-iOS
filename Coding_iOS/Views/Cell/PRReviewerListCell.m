@@ -78,7 +78,12 @@
 
 - (void)initCellWithReviewers:(NSArray *)reviewerList{
     int imageCount = self.contentView.size.width / 40 - 2;
-    
+    for(int i = 0; i < kDefaultImageCount; i ++) {
+        UIImageView *image = self.imgViews[i];
+        [image setHidden:true];
+        UIImageView *likeImage = self.likeHeadImgViews[i];
+        [likeImage setHidden:true];
+    }
     NSMutableArray *dataArray = [[NSMutableArray alloc] initWithArray:reviewerList];
     //NSArray *sortedArray = [[NSArray alloc] initWithArray:dataArray];
     NSMutableArray *reviewers= [dataArray sortedArrayUsingComparator:^NSComparisonResult(Reviewer *obj1, Reviewer *obj2) {
@@ -121,12 +126,6 @@
         index ++;
     }
     
-    for(int i = index; i < kDefaultImageCount; i ++) {
-        UIImageView *image = self.imgViews[i];
-        [image setHidden:true];
-        UIImageView *likeImage = self.likeHeadImgViews[i];
-        [likeImage setHidden:true];
-    }
     
 }
 
