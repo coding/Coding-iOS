@@ -411,7 +411,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         tipStr = [_curMRPRInfo.mrpr isMR]? @"确定要取消授权这个 Merge Request 么？": @"确定要取消授权这个 Pull Request 么？";
         [[UIActionSheet bk_actionSheetCustomWithTitle:tipStr buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
-                [weakSelf authorizationMRPR];
+                [weakSelf cancelAuthorizationMRPR];
             }
         }] showInView:self.view];
     }
@@ -443,9 +443,11 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_MRPRAuthorization:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
         if (data) {
-            weakSelf.curMRPRInfo = nil;
+            weakSelf.curPreMRPRInfo.mrpr.granted = @1;
             [weakSelf refresh];
             [weakSelf.myTableView reloadData];
+            weakSelf.bottomView = nil;
+            [weakSelf configBottomView];
         }
     }];
 }
@@ -454,9 +456,11 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_MRPRCancelAuthorization:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
         if (data) {
-            weakSelf.curMRPRInfo = nil;
+            weakSelf.curPreMRPRInfo.mrpr.granted = @0;
             [weakSelf refresh];
             [weakSelf.myTableView reloadData];
+            weakSelf.bottomView = nil;
+            [weakSelf configBottomView];
         }
     }];
 }
