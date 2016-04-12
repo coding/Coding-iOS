@@ -354,6 +354,7 @@
     [[Coding_NetAPIManager sharedManager] request_Register_V2_WithParams:params andBlock:^(id data, NSError *error) {
         [weakSelf.footerBtn stopQueryAnimate];
         if (data) {
+            [self.view endEditing:YES];
             [Login setPreUserEmail:self.myRegister.global_key];//记住登录账号
             [((AppDelegate *)[UIApplication sharedApplication].delegate) setupTabViewController];
             if (weakSelf.medthodType == RegisterMethodEamil) {
