@@ -444,9 +444,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     [[Coding_NetAPIManager sharedManager] request_MRPRAuthorization:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.curPreMRPRInfo.mrpr.granted = @1;
+            weakSelf.bottomView = nil;
             [weakSelf refresh];
             [weakSelf.myTableView reloadData];
-            weakSelf.bottomView = nil;
             [weakSelf configBottomView];
         }
     }];
@@ -457,9 +457,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     [[Coding_NetAPIManager sharedManager] request_MRPRCancelAuthorization:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.curPreMRPRInfo.mrpr.granted = @0;
+            weakSelf.bottomView = nil;
             [weakSelf refresh];
             [weakSelf.myTableView reloadData];
-            weakSelf.bottomView = nil;
             [weakSelf configBottomView];
         }
     }];
