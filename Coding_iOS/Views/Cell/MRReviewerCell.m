@@ -7,16 +7,16 @@
 //
 
 
-#import "PRReviewerCell.h"
+#import "MRReviewerCell.h"
 
-@interface PRReviewerCell ()
+@interface MRReviewerCell ()
 @property (strong, nonatomic) UIImageView *imgView;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *rightLabel;
 @property (strong, nonatomic) UIImageView *likeImgView;
 @end
 
-@implementation PRReviewerCell
+@implementation MRReviewerCell
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -44,7 +44,6 @@
                 make.centerY.height.equalTo(self.contentView);
             }];
         }
-        
         if (!self.rightLabel) {
             self.rightLabel = [UILabel new];
             self.rightLabel.text = @"添加";
@@ -56,9 +55,7 @@
                 make.right.equalTo(self.contentView).offset(0);
                 make.centerY.height.equalTo(self.contentView);
             }];
-            
         }
-        
         if (!self.likeImgView) {
             self.likeImgView = [UIImageView new];
             [self.contentView addSubview:self.likeImgView];

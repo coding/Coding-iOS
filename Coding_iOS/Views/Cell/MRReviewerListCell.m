@@ -6,18 +6,18 @@
 //  Copyright © 2016年 Coding. All rights reserved.
 //
 
-#import "PRReviewerListCell.h"
+#import "MRReviewerListCell.h"
 #import "Reviewer.h"
 #define kDefaultImageSize 33
 #define kDefaultImageCount 8
-@interface PRReviewerListCell ()
+@interface MRReviewerListCell ()
 @property (strong, nonatomic) UIImageView *imgView;
 @property (strong, nonatomic) NSMutableArray *imgViews;
 @property (strong, nonatomic) NSMutableArray *likeHeadImgViews;
 @property (strong, nonatomic) UILabel *titleLabel;
 @end
 
-@implementation PRReviewerListCell
+@implementation MRReviewerListCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

@@ -6,11 +6,11 @@
 //  Copyright © 2016年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_PRReviewerCell @"PRReviewerCell"
+#define kCellIdentifier_MRReviewerCell @"PRReviewerCell"
 
 #import <UIKit/UIKit.h>
 
-@interface PRReviewerCell: UITableViewCell
+@interface MRReviewerCell: UITableViewCell
 
 - (void)setImageStr:(NSString *)imgStr
             isowner:(BOOL)ower

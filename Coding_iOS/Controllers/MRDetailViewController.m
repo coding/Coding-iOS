@@ -23,8 +23,8 @@
 #import "MRPRDisclosureCell.h"
 #import "MRPRCommentCell.h"
 #import "AddCommentCell.h"
-#import "PRReviewerCell.h"
-#import "PRReviewerListCell.h"
+#import "MRReviewerCell.h"
+#import "MRReviewerListCell.h"
 #import "DynamicCommentCell.h"
 
 #import "WebViewController.h"
@@ -70,17 +70,14 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 @implementation MRDetailViewController
 
 + (MRDetailViewController *)vcWithPath:(NSString *)path{
-    
     NSArray *pathComponents = [path componentsSeparatedByString:@"/"];
     if (pathComponents.count != 8) {
         return nil;
     }
     MRDetailViewController *vc = [MRDetailViewController new];
-    
     vc.curMRPR = [MRPR new];
     vc.curMRPR.path = path;
     vc.curMRPR.iid = [NSNumber numberWithInteger:[(NSString *)pathComponents.lastObject integerValue]];
-    
     return vc;
 }
 - (void)viewDidLoad{
@@ -100,20 +97,17 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        
         [tableView registerClass:[MRPRTopCell class] forCellReuseIdentifier:kCellIdentifier_MRPRTopCell];
         [tableView registerClass:[MRPRDetailCell class] forCellReuseIdentifier:kCellIdentifier_MRPRDetailCell];
         [tableView registerClass:[MRPRDisclosureCell class] forCellReuseIdentifier:kCellIdentifier_MRPRDisclosureCell];
         [tableView registerClass:[MRPRCommentCell class] forCellReuseIdentifier:kCellIdentifier_MRPRCommentCell];
         [tableView registerClass:[MRPRCommentCell class] forCellReuseIdentifier:kCellIdentifier_MRPRCommentCell_Media];
         [tableView registerClass:[AddCommentCell class] forCellReuseIdentifier:kCellIdentifier_AddCommentCell];
-        [tableView registerClass:[PRReviewerCell class] forCellReuseIdentifier:kCellIdentifier_PRReviewerCell];
-        [tableView registerClass:[PRReviewerListCell class] forCellReuseIdentifier:kCellIdentifier_PRReviewerListCell];
+        [tableView registerClass:[MRReviewerCell class] forCellReuseIdentifier:kCellIdentifier_MRReviewerCell];
+        [tableView registerClass:[MRReviewerListCell class] forCellReuseIdentifier:kCellIdentifier_MRReviewerListCell];
         [tableView registerClass:[DynamicCommentCell class] forCellReuseIdentifier:kCellIdentifier_DynamicCommentCell];
         [tableView registerClass:[DynamicCommentCell class] forCellReuseIdentifier:kCellIdentifier_DynamicCommentCell_Media];
         [tableView registerClass:[DynamicActivityCell class] forCellReuseIdentifier:kCellIdentifier_DynamicActivityCell];
-        
-        
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -134,7 +128,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     BOOL canAuthorization  = self.curPreMRPRInfo.can_edit.boolValue &&!canCancel &&!self.curPreMRPRInfo.author_can_edit.boolValue && !self.curPreMRPRInfo.mrpr.granted.boolValue;
     BOOL canCancelAuthorization = self.curPreMRPRInfo.can_edit.boolValue &&!canCancel &&!self.curPreMRPRInfo.author_can_edit.boolValue && self.curPreMRPRInfo.mrpr.granted.boolValue;
     BOOL hasBottomView = self.curPreMRPRInfo.mrpr.status <= MRPRStatusCannotMerge && (canAction || canCancel);
-    
     if (!hasBottomView) {
         [_bottomView removeFromSuperview];
     }else if (!_bottomView){
@@ -198,10 +191,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     }
     //NSArray *sortedArray = [[NSArray alloc] initWithArray:dataArray];
     self.activityList = [dataArray sortedArrayUsingComparator:^NSComparisonResult(ProjectLineNote *obj1, ProjectLineNote *obj2) {
-        
         NSComparisonResult result = [ [NSNumber numberWithDouble:[obj1.created_at timeIntervalSinceReferenceDate]] compare:[NSNumber numberWithDouble:[obj2.created_at timeIntervalSinceReferenceDate]]];
-        
-        
         return result;
     }];
 }
@@ -223,7 +213,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 - (BOOL) shouldShowReviews {
     Reviewer* tmpReviewer;
     if(self.curReviewersInfo.reviewers.count + self.curReviewersInfo.volunteer_reviewers.count > 0) return YES;
-
     return NO;
 }
 - (void)refresh{
@@ -257,7 +246,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                         }
                         [weakSelf.allDiscussions addObject:addTmp];
                     }
-                    
                 }
             }
             [weakSelf sortActivityList];
@@ -282,17 +270,13 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         [weakSelf.view endLoading];
         [weakSelf.myRefreshControl endRefreshing];
         if (data) {
-            
             weakSelf.curReviewersInfo = data;
-            
-           // [weakSelf.myTableView reloadData];
         }
     }];
     
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.referencePath withParams:@{@"iid": _curMRPR.iid} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.resourceReference = [NSObject objectOfClass:@"ResourceReference" fromJSON:data[@"data"]];
-           // [weakSelf.myTableView reloadData];
         }
     }];
     
@@ -311,7 +295,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                     }
                 }
                 [weakSelf sortActivityList];
-                //[weakSelf.myTableView reloadData];
             }
         }
     }];
@@ -339,7 +322,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     curButton.tag = actionType;
     [curButton addTarget:self action:@selector(actionMRPR:) forControlEvents:UIControlEventTouchUpInside];
     [curButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
-    
     NSString *title, *colorStr;
     if (actionType == MRPRActionAccept) {
         title = @"合并";
@@ -369,13 +351,12 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 
 - (void)actionMRPR:(UIButton *)sender{
     __weak typeof(self) weakSelf = self;
-    
     NSString *tipStr;
     if (sender.tag == MRPRActionAccept) {//合并
         if (_curMRPRInfo.mrpr.status == MRPRStatusCannotMerge) {//不能合并
             tipStr = @"Coding 不能帮你在线自动合并这个合并请求。";
             kTipAlert(@"%@", tipStr);
-        }else{
+        } else {
             MRPRAcceptViewController *vc = [MRPRAcceptViewController new];
             vc.curProject = _curProject;
             vc.curMRPRInfo = _curMRPRInfo;
@@ -386,14 +367,14 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             };
             [self.navigationController pushViewController:vc animated:YES];
         }
-    }else if (sender.tag == MRPRActionRefuse){//拒绝
+    } else if (sender.tag == MRPRActionRefuse){//拒绝
         tipStr = [_curMRPRInfo.mrpr isMR]? @"确定要拒绝这个 Merge Request 么？": @"确定要拒绝这个 Pull Request 么？";
         [[UIActionSheet bk_actionSheetCustomWithTitle:tipStr buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
                 [weakSelf refuseMRPR];
             }
         }] showInView:self.view];
-    }else if (sender.tag == MRPRActionCancel){//取消
+    } else if (sender.tag == MRPRActionCancel){//取消
         tipStr = [_curMRPRInfo.mrpr isMR]? @"确定要取消这个 Merge Request 么？": @"确定要取消这个 Pull Request 么？";
         [[UIActionSheet bk_actionSheetCustomWithTitle:tipStr buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
@@ -514,7 +495,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             MRPRTopCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MRPRTopCell forIndexPath:indexPath];
             cell.curMRPRInfo = _curMRPRInfo;
             return cell;
-        }else{
+        } else {
             MRPRDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MRPRDetailCell forIndexPath:indexPath];
             cell.curMRPRInfo = _curMRPRInfo;
             cell.cellHeightChangedBlock = ^(){
@@ -526,7 +507,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
             return cell;
         }
-    }else if (indexPath.section == 1){//Disclosure
+    } else if (indexPath.section == 1){//Disclosure
         MRPRDisclosureCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MRPRDisclosureCell forIndexPath:indexPath];
         if (indexPath.row == 0) {
             [cell setImageStr:@"mrpr_icon_commit" andTitle:@"提交记录"];
@@ -539,15 +520,13 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [cell setImageStr:@"PR_TaskResource" andTitle:@"关联资源"];
             if(self.resourceReference.itemList.count > 0) {
                 [cell setrightText:[NSString stringWithFormat:@"%lu个",(unsigned long)self.resourceReference.itemList.count]];
-              
-        }
+            }
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
     }  else if (indexPath.section == 2) {
-        
         if (indexPath.row == 0) {
-            PRReviewerCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PRReviewerCell forIndexPath:indexPath];
+            MRReviewerCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MRReviewerCell forIndexPath:indexPath];
             if([self CurrentUserIsOwer]) {
                 [cell setImageStr:@"PRReviewer" isowner:[self CurrentUserIsOwer] hasLikeMr:NO];
             }
@@ -562,15 +541,13 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                         self.isLike = NO;
                     }
                 }
-                
                 [cell setImageStr:@"PRReviewer" isowner:NO hasLikeMr:self.isLike];
-                
             }
             //[cell setImageStr:@"PRReviewer" andTitle:@"评审者"];
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
             return cell;
         }else {
-            PRReviewerListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PRReviewerListCell forIndexPath:indexPath];
+            MRReviewerListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MRReviewerListCell forIndexPath:indexPath];
             NSMutableArray *tmpReviewers = [[NSMutableArray alloc] init];
             for (int i = 0; i < self.curReviewersInfo.reviewers.count; i ++) {
                 [tmpReviewers addObject:self.curReviewersInfo.reviewers[i]];
@@ -653,23 +630,22 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }else{
             return [MRPRDetailCell cellHeightWithObj:_curMRPRInfo];
         }
-    }else if (indexPath.section == 1){//Disclosure
+    } else if (indexPath.section == 1){//Disclosure
         return [MRPRDisclosureCell cellHeight];
-    }else if (indexPath.section == 2){//Disclosure
+    } else if (indexPath.section == 2){//Disclosure
         if (indexPath.row == 0) {
             return [MRPRDisclosureCell cellHeight];
-        }else{
-            return [PRReviewerListCell cellHeight];
+        } else {
+            return [MRReviewerListCell cellHeight];
         }
-    }else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
-        
+    } else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
         ProjectLineNote *curCommentItem = self.activityList[indexPath.row];
         if(curCommentItem.action == nil) {
             return [DynamicCommentCell cellHeightWithObj:curCommentItem];
         } else {
             return [DynamicActivityCell cellHeightWithObj:curCommentItem contentHeight:0];
         }
-    }else{//Add Comment
+    } else {//Add Comment
         return [AddCommentCell cellHeight];
     }
     return cellHeight;
@@ -684,7 +660,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             vc.curMRPR = _curMRPR;
             vc.curProject = _curProject;
             [self.navigationController pushViewController:vc animated:YES];
-        }else if(indexPath.row == 1){
+        } else if(indexPath.row == 1){
             MRPRFilesViewController *vc = [MRPRFilesViewController new];
             vc.curMRPR = _curMRPR;
             vc.curMRPRInfo = _curMRPRInfo;
@@ -702,50 +678,38 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             vc.resourceReferencePath = self.referencePath;
             [self.navigationController pushViewController:vc animated:YES];
         }
-    }else if (indexPath.section == 2){//Disclosure
+    } else if (indexPath.section == 2){//Disclosure
         if (indexPath.row == 0) {
-            
             if([self CurrentUserIsOwer]) {
                 NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"AddReviewerViewController" owner:nil options:nil];
                 AddReviewerViewController *appview=[apparray firstObject];
                 appview.currentProject = self.curProject;
                 appview.curMRPR = self.curMRPR;
-                //appview.isPublisher = [self CurrentUserIsOwer];
-                
                 [self.navigationController pushViewController:appview animated:YES];
             }
             else {
                 __weak typeof(self) weakSelf = self;
                 if (!self.isLike) {
                     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.reviewGoodPath withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
-                        
                             [weakSelf refresh];
-                        
                     }];
                 } else {
                     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.reviewGoodPath withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
-                        
                             [weakSelf refresh];
-                        
                     }];
                 }
-                
             }
-        }else {
-            
+        } else {
             NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
             ReviewerListController *appview=[apparray firstObject];
             appview.currentProject = self.curProject;
             appview.curMRPR = self.curMRPR;
             appview.isPublisher = [self currentUserCanAddMember];
-            
             [self.navigationController pushViewController:appview animated:YES];
-            
         }
     }else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
-        
         ProjectLineNote *curCommentItem = self.activityList[indexPath.row];
-        if([curCommentItem.action isEqual:@"mergeChanges"]) {
+        if ([curCommentItem.action isEqual:@"mergeChanges"]) {
             FileChangeDetailViewController *vc = [FileChangeDetailViewController new];
             vc.linkUrlStr = [NSString stringWithFormat:@"%@?path=%@", self.diffPath, curCommentItem.path];
             vc.curProject = _curProject;
@@ -763,16 +727,16 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         NSArray *menuTitles;
         if ([curCommentItem.author.global_key isEqualToString:[Login curLoginUser].global_key]) {
             menuTitles = @[@"拷贝文字", @"删除"];
-        }else{
+        } else {
             menuTitles = @[@"拷贝文字", @"回复"];
         }
         __weak typeof(self) weakSelf = self;
         [cell.contentView showMenuTitles:menuTitles menuClickedBlock:^(NSInteger index, NSString *title) {
             if ([title hasPrefix:@"拷贝"]) {
                 [[UIPasteboard generalPasteboard] setString:curCommentItem.content];
-            }else if ([title isEqualToString:@"删除"]){
+            } else if ([title isEqualToString:@"删除"]){
                 [weakSelf deleteComment:curCommentItem];
-            }else if ([title isEqualToString:@"回复"]){
+            } else if ([title isEqualToString:@"回复"]){
                 [weakSelf goToAddCommentVCToUser:curCommentItem.author.name];
             }
         }];
@@ -785,7 +749,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 - (void)goToAddCommentVCToUser:(NSString *)userName{
     DebugLog(@"%@", userName);
     AddMDCommentViewController *vc = [AddMDCommentViewController new];
-    
     vc.curProject = _curProject;
     vc.requestPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/line_notes", _curMRPR.des_owner_name, _curMRPR.des_project_name];
     vc.requestParams = [@{
@@ -801,7 +764,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [self.myTableView reloadData];
         }
     };
-    
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -831,7 +793,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];
-    }else{
+    } else {
         // 可能是图片链接
         HtmlMedia *htmlMedia = self.curMRPRInfo.htmlMedia;
         if (htmlMedia.imageItems.count > 0) {

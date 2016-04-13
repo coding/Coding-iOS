@@ -23,7 +23,7 @@
 		0AB591AC1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB591AB1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m */; };
 		0AB591AD1AB6D51C0076C454 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A6E6BBC1AB180AE004C0107 /* MapKit.framework */; };
 		0AB591B01AB6D6BE0076C454 /* TweetSendMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */; };
-		1309B9FA1CA2D3960034C7A3 /* PRReviewerListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1309B9F91CA2D3960034C7A3 /* PRReviewerListCell.m */; };
+		1309B9FA1CA2D3960034C7A3 /* MRReviewerListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1309B9F91CA2D3960034C7A3 /* MRReviewerListCell.m */; };
 		1309B9FF1CA2E95F0034C7A3 /* ReviewersInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1309B9FE1CA2E95F0034C7A3 /* ReviewersInfo.m */; };
 		1309BA021CA2EF370034C7A3 /* Reviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1309BA011CA2EF370034C7A3 /* Reviewer.m */; };
 		1319D1081CA7FE6E00729F82 /* PR_create@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1319D1071CA7FE6E00729F82 /* PR_create@2x.png */; };
@@ -79,7 +79,7 @@
 		13FB5D521CA17A6400EE127C /* PR_review_undo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D311CA17A6400EE127C /* PR_review_undo@3x.png */; };
 		13FB5D551CA17A6400EE127C /* PR_grant@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D341CA17A6400EE127C /* PR_grant@2x.png */; };
 		13FB5D561CA17A6400EE127C /* PR_grant@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D351CA17A6400EE127C /* PR_grant@3x.png */; };
-		13FB5D591CA194D600EE127C /* PRReviewerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 13FB5D581CA194D600EE127C /* PRReviewerCell.m */; };
+		13FB5D591CA194D600EE127C /* MRReviewerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 13FB5D581CA194D600EE127C /* MRReviewerCell.m */; };
 		3A3878371AE293D50078D5DE /* EditLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3878361AE293D50078D5DE /* EditLabelViewController.m */; };
 		3A38783A1AE2949E0078D5DE /* ResetLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3878391AE2949E0078D5DE /* ResetLabelViewController.m */; };
 		3A3878401AE295970078D5DE /* ResetLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A38783F1AE295970078D5DE /* ResetLabelCell.m */; };
@@ -1158,8 +1158,8 @@
 		0AB591AB1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendLocaitonMapViewController.m; sourceTree = "<group>"; };
 		0AB591AE1AB6D6BE0076C454 /* TweetSendMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendMapAnnotation.h; sourceTree = "<group>"; };
 		0AB591AF1AB6D6BE0076C454 /* TweetSendMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSendMapAnnotation.m; sourceTree = "<group>"; };
-		1309B9F81CA2D3960034C7A3 /* PRReviewerListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRReviewerListCell.h; sourceTree = "<group>"; };
-		1309B9F91CA2D3960034C7A3 /* PRReviewerListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRReviewerListCell.m; sourceTree = "<group>"; };
+		1309B9F81CA2D3960034C7A3 /* MRReviewerListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRReviewerListCell.h; path = Cell/MRReviewerListCell.h; sourceTree = "<group>"; };
+		1309B9F91CA2D3960034C7A3 /* MRReviewerListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRReviewerListCell.m; path = Cell/MRReviewerListCell.m; sourceTree = "<group>"; };
 		1309B9FD1CA2E95F0034C7A3 /* ReviewersInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewersInfo.h; sourceTree = "<group>"; };
 		1309B9FE1CA2E95F0034C7A3 /* ReviewersInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewersInfo.m; sourceTree = "<group>"; };
 		1309BA001CA2EF370034C7A3 /* Reviewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reviewer.h; sourceTree = "<group>"; };
@@ -1227,8 +1227,8 @@
 		13FB5D311CA17A6400EE127C /* PR_review_undo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PR_review_undo@3x.png"; sourceTree = "<group>"; };
 		13FB5D341CA17A6400EE127C /* PR_grant@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PR_grant@2x.png"; sourceTree = "<group>"; };
 		13FB5D351CA17A6400EE127C /* PR_grant@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PR_grant@3x.png"; sourceTree = "<group>"; };
-		13FB5D571CA194D600EE127C /* PRReviewerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRReviewerCell.h; sourceTree = "<group>"; };
-		13FB5D581CA194D600EE127C /* PRReviewerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PRReviewerCell.m; sourceTree = "<group>"; };
+		13FB5D571CA194D600EE127C /* MRReviewerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRReviewerCell.h; path = Cell/MRReviewerCell.h; sourceTree = "<group>"; };
+		13FB5D581CA194D600EE127C /* MRReviewerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRReviewerCell.m; path = Cell/MRReviewerCell.m; sourceTree = "<group>"; };
 		3A3878351AE293D50078D5DE /* EditLabelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditLabelViewController.h; sourceTree = "<group>"; };
 		3A3878361AE293D50078D5DE /* EditLabelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditLabelViewController.m; sourceTree = "<group>"; };
 		3A3878381AE2949E0078D5DE /* ResetLabelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetLabelViewController.h; sourceTree = "<group>"; };
@@ -1925,8 +1925,8 @@
 		4EB52F3A1C7C45E700B5EBEA /* taskResourceReference@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskResourceReference@3x.png"; sourceTree = "<group>"; };
 		4EB52F3D1C7C464400B5EBEA /* TaskResourceReferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskResourceReferenceViewController.h; sourceTree = "<group>"; };
 		4EB52F3E1C7C464400B5EBEA /* TaskResourceReferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskResourceReferenceViewController.m; sourceTree = "<group>"; };
-		4EB52F401C7C480200B5EBEA /* TaskResourceReferenceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskResourceReferenceCell.h; sourceTree = "<group>"; };
-		4EB52F411C7C480200B5EBEA /* TaskResourceReferenceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskResourceReferenceCell.m; sourceTree = "<group>"; };
+		4EB52F401C7C480200B5EBEA /* TaskResourceReferenceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskResourceReferenceCell.h; path = Cell/TaskResourceReferenceCell.h; sourceTree = "<group>"; };
+		4EB52F411C7C480200B5EBEA /* TaskResourceReferenceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskResourceReferenceCell.m; path = Cell/TaskResourceReferenceCell.m; sourceTree = "<group>"; };
 		4EB52F541C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_MergeRequestBean@2x.png"; sourceTree = "<group>"; };
 		4EB52F551C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_MergeRequestBean@3x.png"; sourceTree = "<group>"; };
 		4EB52F561C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_resource_reference_ProjectFile@2x.png"; sourceTree = "<group>"; };
@@ -2884,6 +2884,12 @@
 				13C8FE6D1CA75816001E30FA /* DynamicCommentCell.m */,
 				13C8FE7D1CA79B90001E30FA /* DynamicActivityCell.h */,
 				13C8FE7E1CA79B90001E30FA /* DynamicActivityCell.m */,
+				4EB52F401C7C480200B5EBEA /* TaskResourceReferenceCell.h */,
+				4EB52F411C7C480200B5EBEA /* TaskResourceReferenceCell.m */,
+				13FB5D571CA194D600EE127C /* MRReviewerCell.h */,
+				13FB5D581CA194D600EE127C /* MRReviewerCell.m */,
+				1309B9F81CA2D3960034C7A3 /* MRReviewerListCell.h */,
+				1309B9F91CA2D3960034C7A3 /* MRReviewerListCell.m */,
 			);
 			name = MergeRequest;
 			sourceTree = "<group>";
@@ -5507,12 +5513,6 @@
 				4EB52F271C76ED4A00B5EBEA /* TagColorEditCell.m */,
 				4EB52F291C76ED7000B5EBEA /* TagColorDisplayCell.h */,
 				4EB52F2A1C76ED7000B5EBEA /* TagColorDisplayCell.m */,
-				4EB52F401C7C480200B5EBEA /* TaskResourceReferenceCell.h */,
-				4EB52F411C7C480200B5EBEA /* TaskResourceReferenceCell.m */,
-				13FB5D571CA194D600EE127C /* PRReviewerCell.h */,
-				13FB5D581CA194D600EE127C /* PRReviewerCell.m */,
-				1309B9F81CA2D3960034C7A3 /* PRReviewerListCell.h */,
-				1309B9F91CA2D3960034C7A3 /* PRReviewerListCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -6593,7 +6593,7 @@
 				4E8AF7861A53D69F00CDC3AE /* StartImagesManager.m in Sources */,
 				8EA6D13419E240C40076D59C /* ProjectMemberListViewController.m in Sources */,
 				4EE1A22B1B5D02CA004284F1 /* ProjectActivitiesView.m in Sources */,
-				13FB5D591CA194D600EE127C /* PRReviewerCell.m in Sources */,
+				13FB5D591CA194D600EE127C /* MRReviewerCell.m in Sources */,
 				8EF643CC19FF7E2900F7EEB0 /* TweetCommentCell.m in Sources */,
 				4E6C41191A834EA90098DC17 /* BaseNavigationController.m in Sources */,
 				0A03E6D31ABD0F690034BB8E /* LocationHelper.m in Sources */,
@@ -6797,7 +6797,7 @@
 				4E996BDF1ABA7CE100C704F1 /* UserInfoDetailUserCell.m in Sources */,
 				4EACB4461A2C60110097ABB3 /* ProjectActivities.m in Sources */,
 				4E715A351BB1279D00A5D24B /* LocalFileCell.m in Sources */,
-				1309B9FA1CA2D3960034C7A3 /* PRReviewerListCell.m in Sources */,
+				1309B9FA1CA2D3960034C7A3 /* MRReviewerListCell.m in Sources */,
 				8EA6D1CB19E240C40076D59C /* UITapImageView.m in Sources */,
 				4E8D5D5D1B45295D00B70936 /* NSURL+OTPURLArguments.m in Sources */,
 				4EAE06AB1B7B23EA00179F4B /* FileActivitiesViewController.m in Sources */,

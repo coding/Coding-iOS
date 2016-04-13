@@ -6,11 +6,11 @@
 //  Copyright © 2016年 Coding. All rights reserved.
 //
 
-#define kCellIdentifier_PRReviewerListCell @"PRReviewerListCell"
+#define kCellIdentifier_MRReviewerListCell @"PRReviewerListCell"
 
 #import <UIKit/UIKit.h>
 
-@interface PRReviewerListCell : UITableViewCell
+@interface MRReviewerListCell : UITableViewCell
 @property (readwrite, nonatomic, strong) NSMutableArray *reviewers;
 
 - (void)initCellWithReviewers:(NSArray *)reviewers;
