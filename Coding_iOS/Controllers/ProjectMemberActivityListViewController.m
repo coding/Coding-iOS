@@ -200,12 +200,9 @@
             if ([proAct.line_note.noteable_type isEqualToString:@"Commit"]) {
                 vc = [CommitFilesViewController vcWithPath:request_path];
             }else{
-                if([request_path rangeOfString:@"merge"].location == NSNotFound)//_roaldSearchText
-                {
+                if([request_path rangeOfString:@"merge"].location == NSNotFound) {
                      vc = [PRDetailViewController vcWithPath:request_path];
-                }
-                else
-                {
+                } else {
                      vc = [MRDetailViewController vcWithPath:request_path];
 
                 }

@@ -34,14 +34,11 @@
             [imgView setHidden:true];
             [self.imgViews addObject:imgView];
             [self.contentView addSubview:imgView];
-            
             UIImageView *likeHeadView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1)  + 23,30, 18, 18)];
             [likeHeadView doCircleFrame];
             [likeHeadView setHidden:true];
             [self.likeHeadImgViews addObject:likeHeadView];
             [self.contentView addSubview:likeHeadView];
-            
-           
         }
         
     }
@@ -85,14 +82,11 @@
         [likeImage setHidden:true];
     }
     NSMutableArray *dataArray = [[NSMutableArray alloc] initWithArray:reviewerList];
-    //NSArray *sortedArray = [[NSArray alloc] initWithArray:dataArray];
     NSMutableArray *reviewers= [dataArray sortedArrayUsingComparator:^NSComparisonResult(Reviewer *obj1, Reviewer *obj2) {
-        
         NSComparisonResult result = [ obj2.value compare:obj1.value];
         if(result == NSOrderedSame) {
             result = [ obj1.volunteer compare:obj2.volunteer];
         }
-        
         return result;
     }];
     int index = 0;

@@ -9,7 +9,6 @@
 #import "UserInfoViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "FunctionTipsManager.h"
-#import "ReviewerController.h"
 #import "MJPhotoBrowser.h"
 #import "UsersViewController.h"
 #import "ConversationViewController.h"

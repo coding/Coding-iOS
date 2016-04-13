@@ -109,15 +109,12 @@
     
     NSString *contentStr = _curComment.content;
     [_contentLabel setLongString:contentStr withFitWidth:kTaskCommentCell_ContentWidth];
-    
     for (HtmlMediaItem *item in _curComment.htmlMedia.mediaItems) {
         if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
             [_contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }
-    
     curBottomY += [contentStr getHeightWithFont:kTaskCommentCell_FontContent constrainedToSize:CGSizeMake(kTaskCommentCell_ContentWidth, CGFLOAT_MAX)] + 5;
-    
     NSInteger imagesCount = _curComment.htmlMedia.imageItems.count;
     if (imagesCount > 0) {
         self.imageCollectionView.hidden = NO;
@@ -126,9 +123,7 @@
     }else{
         self.imageCollectionView.hidden = YES;
     }
-    
     curBottomY += [DynamicCommentCell imageCollectionViewHeightWithCount:imagesCount];
-    
     [_timeLabel setY:curBottomY];
     _timeLabel.text = [NSString stringWithFormat:@"%@ 发布于 %@", _curComment.author.name,[_curComment.created_at stringDisplay_HHmm]];
 }

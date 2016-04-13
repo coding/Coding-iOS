@@ -38,7 +38,6 @@
 		134E1B9A1CA41217002A3E0D /* ReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 134E1B981CA41217002A3E0D /* ReviewCell.m */; };
 		134E1B9B1CA41217002A3E0D /* ReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 134E1B991CA41217002A3E0D /* ReviewCell.xib */; };
 		134E1BA01CA414DB002A3E0D /* AddReviewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 134E1B9F1CA414DB002A3E0D /* AddReviewerViewController.m */; };
-		134E1BA31CA414F2002A3E0D /* ReviewerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 134E1BA21CA414F2002A3E0D /* ReviewerController.m */; };
 		134E1BA61CA41671002A3E0D /* DemoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 134E1BA51CA41671002A3E0D /* DemoModel.m */; };
 		136526891CAABA2E00C0341D /* AddReviewerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 136526881CAABA2E00C0341D /* AddReviewerViewController.xib */; };
 		136A6DBC1CAF52F2004AA983 /* MRPRPreInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 136A6DBB1CAF52F2004AA983 /* MRPRPreInfo.m */; };
@@ -46,7 +45,6 @@
 		13972E291CA6157C00489EBA /* ReviewerListController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13972E281CA6157C00489EBA /* ReviewerListController.xib */; };
 		13972E2C1CA616AC00489EBA /* ReviewerListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13972E2B1CA616AC00489EBA /* ReviewerListController.m */; };
 		13972E2F1CA6D5C600489EBA /* MActivityInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 13972E2E1CA6D5C600489EBA /* MActivityInfo.m */; };
-		13C793391CA4B23800A6A876 /* ReviewerListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C793381CA4B23800A6A876 /* ReviewerListView.m */; };
 		13C8FE6E1CA75816001E30FA /* DynamicCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C8FE6D1CA75816001E30FA /* DynamicCommentCell.m */; };
 		13C8FE7F1CA79B90001E30FA /* DynamicActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 13C8FE7E1CA79B90001E30FA /* DynamicActivityCell.m */; };
 		13DA65E81CBE668E00810CB7 /* PRDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13DA65E71CBE668E00810CB7 /* PRDetailViewController.m */; };
@@ -1180,8 +1178,6 @@
 		134E1B991CA41217002A3E0D /* ReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ReviewCell.xib; path = ../Controllers/ReviewCell.xib; sourceTree = "<group>"; };
 		134E1B9E1CA414DB002A3E0D /* AddReviewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddReviewerViewController.h; sourceTree = "<group>"; };
 		134E1B9F1CA414DB002A3E0D /* AddReviewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddReviewerViewController.m; sourceTree = "<group>"; };
-		134E1BA11CA414F2002A3E0D /* ReviewerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewerController.h; sourceTree = "<group>"; };
-		134E1BA21CA414F2002A3E0D /* ReviewerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewerController.m; sourceTree = "<group>"; };
 		134E1BA41CA41671002A3E0D /* DemoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoModel.h; sourceTree = "<group>"; };
 		134E1BA51CA41671002A3E0D /* DemoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoModel.m; sourceTree = "<group>"; };
 		136526881CAABA2E00C0341D /* AddReviewerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddReviewerViewController.xib; sourceTree = "<group>"; };
@@ -1194,8 +1190,6 @@
 		13972E2B1CA616AC00489EBA /* ReviewerListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewerListController.m; sourceTree = "<group>"; };
 		13972E2D1CA6D5C600489EBA /* MActivityInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MActivityInfo.h; sourceTree = "<group>"; };
 		13972E2E1CA6D5C600489EBA /* MActivityInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MActivityInfo.m; sourceTree = "<group>"; };
-		13C793371CA4B23800A6A876 /* ReviewerListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReviewerListView.h; sourceTree = "<group>"; };
-		13C793381CA4B23800A6A876 /* ReviewerListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReviewerListView.m; sourceTree = "<group>"; };
 		13C8FE6D1CA75816001E30FA /* DynamicCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DynamicCommentCell.m; path = ../Controllers/DynamicCommentCell.m; sourceTree = "<group>"; };
 		13C8FE7C1CA78B16001E30FA /* DynamicCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DynamicCommentCell.h; path = ../Controllers/DynamicCommentCell.h; sourceTree = "<group>"; };
 		13C8FE7D1CA79B90001E30FA /* DynamicActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynamicActivityCell.h; sourceTree = "<group>"; };
@@ -2853,13 +2847,9 @@
 			children = (
 				13972E2A1CA616AC00489EBA /* ReviewerListController.h */,
 				13972E2B1CA616AC00489EBA /* ReviewerListController.m */,
-				134E1BA11CA414F2002A3E0D /* ReviewerController.h */,
-				134E1BA21CA414F2002A3E0D /* ReviewerController.m */,
+				13972E281CA6157C00489EBA /* ReviewerListController.xib */,
 				134E1B9E1CA414DB002A3E0D /* AddReviewerViewController.h */,
 				134E1B9F1CA414DB002A3E0D /* AddReviewerViewController.m */,
-				13C793371CA4B23800A6A876 /* ReviewerListView.h */,
-				13C793381CA4B23800A6A876 /* ReviewerListView.m */,
-				13972E281CA6157C00489EBA /* ReviewerListController.xib */,
 				136526881CAABA2E00C0341D /* AddReviewerViewController.xib */,
 				136A6DBD1CAF6BAC004AA983 /* MRDetailViewController.h */,
 				136A6DBE1CAF6BAC004AA983 /* MRDetailViewController.m */,
@@ -2882,15 +2872,6 @@
 				136A6DBB1CAF52F2004AA983 /* MRPRPreInfo.m */,
 			);
 			name = MergeRequest;
-			sourceTree = "<group>";
-		};
-		13C8FE701CA781C3001E30FA /* Task */ = {
-			isa = PBXGroup;
-			children = (
-				8EA6CF2219E240C40076D59C /* EditTaskViewController.h */,
-				8EA6CF2319E240C40076D59C /* EditTaskViewController.m */,
-			);
-			name = Task;
 			sourceTree = "<group>";
 		};
 		13C8FE711CA78359001E30FA /* MergeRequest */ = {
@@ -4525,7 +4506,6 @@
 		8EA6CF1B19E240C40076D59C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				13C8FE701CA781C3001E30FA /* Task */,
 				134E1B961CA409B6002A3E0D /* MergeRequest */,
 				927AFF351BFF1BD700AAE593 /* Shop */,
 				4E0BD8731B6C7F0A0061CAA6 /* Search */,
@@ -4538,6 +4518,8 @@
 				4E2719B21AB02F01006AE214 /* NProjectViewController */,
 				8E6F1C931A03BD6000BF79C8 /* ProjectMemberActivityListViewController.h */,
 				8E6F1C941A03BD6000BF79C8 /* ProjectMemberActivityListViewController.m */,
+				8EA6CF2219E240C40076D59C /* EditTaskViewController.h */,
+				8EA6CF2319E240C40076D59C /* EditTaskViewController.m */,
 				13DA65E61CBE668E00810CB7 /* PRDetailViewController.h */,
 				13DA65E71CBE668E00810CB7 /* PRDetailViewController.m */,
 				8EA6CF1E19E240C40076D59C /* EditTopicViewController.h */,
@@ -6418,7 +6400,6 @@
 				4E2719B81AB02F31006AE214 /* NProjectViewController.m in Sources */,
 				4E74EC011C311B6300EC0E1B /* SettingPhoneViewController.m in Sources */,
 				8EA6D1B719E240C40076D59C /* PrivateMessage.m in Sources */,
-				134E1BA31CA414F2002A3E0D /* ReviewerController.m in Sources */,
 				8EF643BE19FF7E2900F7EEB0 /* ProjectTaskListViewCell.m in Sources */,
 				4ECE8AE31A3943E80021E29C /* UIDevice+Info.m in Sources */,
 				4EABD25D1AD3CBB9005E515F /* UIMessageInputView_Media.m in Sources */,
@@ -6655,7 +6636,6 @@
 				4EBB624C1A6F526C0045DAEF /* NJKWebViewProgress.m in Sources */,
 				4E4D6A761B1C6C6100FD2E49 /* MRPRTopCell.m in Sources */,
 				4EE1A2301B5D02CA004284F1 /* ProjectTaskListView.m in Sources */,
-				13C793391CA4B23800A6A876 /* ReviewerListView.m in Sources */,
 				3A38783A1AE2949E0078D5DE /* ResetLabelViewController.m in Sources */,
 				4EAE06A41B7AE4EF00179F4B /* FileComment.m in Sources */,
 				8EA6D13C19E240C40076D59C /* Tweet_RootViewController.m in Sources */,

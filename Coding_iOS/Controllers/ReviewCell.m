@@ -8,7 +8,6 @@
 
 #import "ReviewCell.h"
 
-
 @implementation ReviewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
@@ -20,9 +19,6 @@
     }
     return self;
 }
-
-
-
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

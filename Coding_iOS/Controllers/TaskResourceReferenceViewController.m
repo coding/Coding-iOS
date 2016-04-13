@@ -70,7 +70,6 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         ResourceReferenceItem *item = self.resourceReference.itemList[indexPath.row];
-
         __weak typeof(self) weakSelf = self;
         UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确定取消关联：%@", item.title] buttonTitles:nil destructiveTitle:@"确定" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
@@ -84,7 +83,6 @@
 #pragma mark - Actiom
 - (void)deleteItem:(ResourceReferenceItem *)item{
     __weak typeof(self) weakSelf = self;
-   
     [[Coding_NetAPIManager sharedManager] request_DeleteResourceReference:item.code ResourceReferencePath:self.resourceReferencePath andBlock:^(id data, NSError *error) {
         if (data) {
             [weakSelf.resourceReference.itemList removeObject:item];
