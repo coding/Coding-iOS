@@ -579,7 +579,7 @@
 }
 
 - (void)tagsHasChanged:(NSMutableArray *)selectedTags fromVC:(EditLabelViewController *)vc{
-    if ([ProjectTag tags:self.myCopyTask.labels isEqualTo:self.myTask.labels] || self.myCopyTask.handleType > TaskHandleTypeEdit) {
+    if ([ProjectTag tags:self.myCopyTask.labels isEqualTo:selectedTags] || self.myCopyTask.handleType > TaskHandleTypeEdit) {
         self.myTask.labels = [selectedTags mutableCopy];
         self.myCopyTask.labels = [selectedTags mutableCopy];
         [self.myTableView reloadData];

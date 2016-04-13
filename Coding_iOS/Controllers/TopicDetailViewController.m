@@ -143,7 +143,7 @@
 }
 
 - (void)tagsHasChanged:(NSMutableArray *)selectedTags fromVC:(EditLabelViewController *)vc{
-    if ([ProjectTag tags:self.curTopic.mdLabels isEqualTo:self.curTopic.labels]) {
+    if ([ProjectTag tags:self.curTopic.mdLabels isEqualTo:selectedTags]) {
         self.curTopic.mdLabels = [selectedTags mutableCopy];
         self.curTopic.labels = [selectedTags mutableCopy];
         [self.myTableView reloadData];
