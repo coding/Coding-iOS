@@ -2892,6 +2892,7 @@
 				1309B9F91CA2D3960034C7A3 /* MRReviewerListCell.m */,
 			);
 			name = MergeRequest;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		13FB5CD21CA17A0B00EE127C /* pullRequest */ = {
@@ -5224,7 +5225,6 @@
 		8EA6D0CD19E240C40076D59C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				13C8FE711CA78359001E30FA /* MergeRequest */,
 				4E0BD8871B6C7F5B0061CAA6 /* Search */,
 				4EE1A2181B5D02CA004284F1 /* TableListView */,
 				8EF6436319FF7E2900F7EEB0 /* Cell */,
@@ -5324,6 +5324,7 @@
 		8EF6436319FF7E2900F7EEB0 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				13C8FE711CA78359001E30FA /* MergeRequest */,
 				8EF6436419FF7E2900F7EEB0 /* CodingTipCell.h */,
 				8EF6436519FF7E2900F7EEB0 /* CodingTipCell.m */,
 				8EF6436619FF7E2900F7EEB0 /* ConversationCell.h */,
