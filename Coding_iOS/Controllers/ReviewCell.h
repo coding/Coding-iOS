@@ -20,11 +20,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *userState;
 @property (strong, nonatomic) User * user;
 
-- (void)configureCellWithHeadIconURL:(NSString *)headIconURL
-                       reviewIconURL:(NSString *)reviewIconURL
-                            userName:(NSString *)userName
-                            userState:(NSString *)userState;
-
 - (void)initCellWithReviewer:(User*)reviewer
                  likeValue:(NSNumber*)likeValue;
 - (void)initCellWithVolunteerReviewers:(User*)reviewer

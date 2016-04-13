@@ -22,22 +22,6 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
-- (void)configureCellWithHeadIconURL:(NSString *)headIconURL
-                       reviewIconURL:(NSString *)reviewIconURL
-                            userName:(NSString *)uName
-                           userState:(NSString *)uState {
-    headIconURL = @"/static/fruit_avatar/Fruit-6.png";
-    [self.headIcon sd_setImageWithURL:[headIconURL urlImageWithCodePathResizeToView:self.headIcon] placeholderImage:kPlaceholderMonkeyRoundView(self.headIcon)];
-    [self.headIcon doCircleFrame];
-    self.reviewIcon.image = [UIImage imageNamed:reviewIconURL];
-    self.userName.text = uName;
-    self.userState.text = uState;
-    
-    
 }
 
 - (void)initCellWithReviewer:(User*)reviewer
@@ -68,8 +52,6 @@
     self.userName.text = reviewer.name;
     if([likeValue isEqual:@100]) {
         self.userState.text = @"+1";
-        //[self.reviewIcon setHidden:NO];
-        //self.reviewIcon.image = [UIImage imageNamed:@"PointLikeHead"];
         self.userState.textColor = [UIColor colorWithHexString:@"0x3BBD79"];
     }
     

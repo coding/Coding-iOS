@@ -48,10 +48,8 @@
         }
         if (!_ownerIconView) {
             CGFloat borderWidth = 2;
-            
             UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth - borderWidth, curBottomY, 28+ 2*borderWidth, 28 + 2*borderWidth)];
             bgView.backgroundColor = kColorTableBG;
-            
             _ownerIconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 28, 28)];
             _ownerIconView.layer.masksToBounds = YES;
             _ownerIconView.layer.cornerRadius = _ownerIconView.frame.size.width/2;
@@ -61,7 +59,6 @@
                 make.width.height.mas_equalTo(28.0);
                 make.center.equalTo(bgView);
             }];
-            
             [self.contentView addSubview:bgView];
         }
         if (!_contentLabel) {
@@ -106,7 +103,6 @@
     }
     CGFloat curBottomY = 15;
     [_ownerIconView sd_setImageWithURL:[_curComment.author.avatar urlImageWithCodePathResizeToView:_ownerIconView] placeholderImage:kPlaceholderMonkeyRoundWidth(33.0)];
-    
     NSString *contentStr = _curComment.content;
     [_contentLabel setLongString:contentStr withFitWidth:kTaskCommentCell_ContentWidth];
     for (HtmlMediaItem *item in _curComment.htmlMedia.mediaItems) {
@@ -120,7 +116,7 @@
         self.imageCollectionView.hidden = NO;
         [self.imageCollectionView setFrame:CGRectMake(kTaskCommentCell_LeftContentPading, curBottomY, kTaskCommentCell_ContentWidth, [DynamicCommentCell imageCollectionViewHeightWithCount:imagesCount])];
         [self.imageCollectionView reloadData];
-    }else{
+    } else {
         self.imageCollectionView.hidden = YES;
     }
     curBottomY += [DynamicCommentCell imageCollectionViewHeightWithCount:imagesCount];
@@ -128,10 +124,10 @@
     _timeLabel.text = [NSString stringWithFormat:@"%@ 发布于 %@", _curComment.author.name,[_curComment.created_at stringDisplay_HHmm]];
 }
 
-- (void)configTop:(BOOL)isTop andBottom:(BOOL)isBottom{
+- (void)configTop:(BOOL)isTop andBottom:(BOOL)isBottom {
     if (isTop && isBottom) {
         _timeLineView.hidden = YES;
-    }else{
+    } else {
         _timeLineView.hidden = NO;
         [_timeLineView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(2.0);
@@ -142,7 +138,7 @@
     }
 }
 
-+ (CGFloat)cellHeightWithObj:(id)obj{
++ (CGFloat)cellHeightWithObj:(id)obj {
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[ProjectLineNote class]]) {
         ProjectLineNote *curComment = (ProjectLineNote *)obj;
@@ -154,7 +150,7 @@
     return cellHeight;
 }
 
-+ (CGFloat)imageCollectionViewHeightWithCount:(NSInteger)countNum{
++ (CGFloat)imageCollectionViewHeightWithCount:(NSInteger)countNum {
     if (countNum <= 0) {
         return 0;
     }
@@ -162,7 +158,6 @@
     NSInteger numOfline = ceilf(countNum/(float)numInOneLine);
     return (43 *numOfline);
 }
-
 
 #pragma mark Collection M
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{

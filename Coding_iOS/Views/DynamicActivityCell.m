@@ -154,7 +154,6 @@
     if([tmpProject.action isEqual:@"mergeChanges"]) {
         cellHeight += 44;
     }
-    
     return cellHeight + height;
 }
 @end
