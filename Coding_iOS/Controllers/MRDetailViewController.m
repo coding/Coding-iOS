@@ -140,13 +140,12 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 make.left.right.bottom.equalTo(self.view);
                 make.height.mas_equalTo(kMRPRDetailViewController_BottomViewHeight);
             }];
-            
             NSArray *buttonArray;
             if (canAction && canCancel) {//三个按钮
                 buttonArray = @[ [self buttonWithType:MRPRActionCancel],
                                 [self buttonWithType:MRPRActionRefuse],
                                 [self buttonWithType:MRPRActionAccept]];
-            }else if (canAction && !canCancel){//两个按钮
+            } else if (canAction && !canCancel){//两个按钮
                 if(canAuthorization) {
                     buttonArray = @[[self buttonWithType:MRPRActionRefuse],
                                     [self buttonWithType:MRPRActionAuthorization],
@@ -162,9 +161,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                                     [self buttonWithType:MRPRActionAccept]];
                 }
                 
-            }else if (!canAction && canCancel){//一个按钮
+            } else if (!canAction && canCancel){//一个按钮
                 buttonArray = @[[self buttonWithType:MRPRActionCancel]];
-            }else{//无按钮
+            } else{//无按钮
                 buttonArray = nil;
             }
             if (buttonArray.count > 0) {
@@ -329,10 +328,10 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         if (_curMRPRInfo.mrpr.status == MRPRStatusCannotMerge) {
             curButton.alpha = 0.5;
         }
-    }else if (actionType == MRPRActionRefuse){
+    } else if (actionType == MRPRActionRefuse){
         title = @"拒绝";
         colorStr = @"0xE15957";
-    }else if (actionType == MRPRActionCancel){
+    } else if (actionType == MRPRActionCancel){
         title = @"取消";
         colorStr = @"0xF8F8F8";
         [curButton doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xB5B5B5"] cornerRadius:2.0];

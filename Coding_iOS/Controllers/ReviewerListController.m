@@ -39,8 +39,6 @@ static NSString *const kValueKey = @"kValueKey";
     self.myTableView.separatorStyle = NO;
     self.reviewers = [[NSMutableArray alloc] init];
     self.volunteer_reviewers = [[NSMutableArray alloc] init];
-   
-
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -69,27 +67,20 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (void)sortReviewers {
-    
     NSMutableArray *dataArray = [[NSMutableArray alloc] init];
     for(int i = 0; i < self.curReviewersInfo.reviewers.count; i ++) {
         Reviewer* tmpReviewer = self.curReviewersInfo.reviewers[i];
-        
-            [dataArray addObject:tmpReviewer];
-        
+        [dataArray addObject:tmpReviewer];
     }
-    
     for(int i = 0; i < self.curReviewersInfo.volunteer_reviewers.count; i ++) {
         Reviewer* tmpReviewer = self.curReviewersInfo.volunteer_reviewers[i];
-        
-            [dataArray addObject:tmpReviewer];
+        [dataArray addObject:tmpReviewer];
     }
     NSMutableArray *reviewerList= [dataArray sortedArrayUsingComparator:^NSComparisonResult(Reviewer *obj1, Reviewer *obj2) {
-        
         NSComparisonResult result = [ obj2.value compare:obj1.value];
         if(result == NSOrderedSame) {
             result = [ obj1.volunteer compare:obj2.volunteer];
         }
-        
         return result;
     }];
     self.reviewers =  reviewerList;
@@ -103,21 +94,10 @@ static NSString *const kValueKey = @"kValueKey";
     appview.volunteer_reviewers = self.volunteer_reviewers;
     appview.curMRPR = self.curMRPR;
     appview.currentProject = self.currentProject;
-    
     [self.navigationController pushViewController:appview animated:YES];
 }
 
-- (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(ReviewerListControllerBlock)block  tabBarHeight:(CGFloat)tabBarHeight
-{
-    //self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-        
-    }
-    return self;
-}
 #pragma mark Table M
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 20;
 }
@@ -178,7 +158,6 @@ static NSString *const kValueKey = @"kValueKey";
     [self searchProjectWithStr:searchText];
 }
 
-
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
     [self searchProjectWithStr:searchBar.text];
@@ -187,7 +166,6 @@ static NSString *const kValueKey = @"kValueKey";
 - (void)searchProjectWithStr:(NSString *)string{
     [self.myTableView reloadData];
 }
-
 
 //先要设Cell可编辑
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -218,14 +196,11 @@ static NSString *const kValueKey = @"kValueKey";
     }];
 }
 
-
-
 //修改编辑按钮文字
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return @"删除";
 }
-
 
 //先设置Cell可移动
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
@@ -236,7 +211,6 @@ static NSString *const kValueKey = @"kValueKey";
         return NO;
     }
 }
-
 
 //设置进入编辑状态时，Cell不会缩进
 - (BOOL)tableView: (UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath

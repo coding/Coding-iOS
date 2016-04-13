@@ -39,16 +39,12 @@ static NSString *const kValueKey = @"kValueKey";
      self.allUsers = [[NSMutableArray alloc] init];
     [self.myTableView registerNib:[UINib nibWithNibName:kCellIdentifier_ReviewCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ReviewCell];
     self.myTableView.separatorStyle = NO;
-    
-    
     [self.myTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
     UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, 0, 0);
     self.myTableView.contentInset = insets;
     self.myTableView.scrollIndicatorInsets = insets;
-
-    
     _mySearchBar = ({
      UISearchBar *searchBar = [[UISearchBar alloc] init];
      searchBar.delegate = self;
@@ -120,15 +116,6 @@ static NSString *const kValueKey = @"kValueKey";
     self.allUsers = totalUser;
 }
 
-- (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(AddReviewerViewControllerBlock)block  tabBarHeight:(CGFloat)tabBarHeight
-{
-    //self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-        
-    }
-    return self;
-}
 #pragma mark Table M
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -149,14 +136,11 @@ static NSString *const kValueKey = @"kValueKey";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ReviewCell forIndexPath:indexPath];
-    
-    //   [cell configureCellWithHeadIconURL:@"test" reviewIconURL:@"PointLikeHead" userName:@"test" userState:@"test"];
     User* cellReviewer = self.allUsers[indexPath.row];
     cell.accessoryType = UITableViewCellAccessoryNone;
     [cell initCellWithUsers:cellReviewer];
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
     return cell;
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -195,32 +179,20 @@ static NSString *const kValueKey = @"kValueKey";
     [self searchProjectWithStr:searchText];
 }
 
-
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
     [self searchProjectWithStr:searchBar.text];
 }
 
 - (void)searchProjectWithStr:(NSString *)searchString{
-    // strip out all the leading and trailing spaces
     NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    
-    // break up the search terms (separated by spaces)
     NSArray *searchItems = nil;
-    if (strippedStr.length > 0)
-    {
+    if (strippedStr.length > 0) {
         searchItems = [strippedStr componentsSeparatedByString:@" "];
     }
-    
-    // build all the "AND" expressions for each value in the searchString
     NSMutableArray *andMatchPredicates = [NSMutableArray array];
-    
-    for (NSString *searchString in searchItems)
-    {
-        // each searchString creates an OR predicate for: name, global_key
+    for (NSString *searchString in searchItems) {
         NSMutableArray *searchItemsPredicate = [NSMutableArray array];
-        
-        // name field matching
         NSExpression *lhs = [NSExpression expressionForKeyPath:@"name"];
         NSExpression *rhs = [NSExpression expressionForConstantValue:searchString];
         NSPredicate *finalPredicate = [NSComparisonPredicate
@@ -230,14 +202,10 @@ static NSString *const kValueKey = @"kValueKey";
                                        type:NSContainsPredicateOperatorType
                                        options:NSCaseInsensitivePredicateOption];
         [searchItemsPredicate addObject:finalPredicate];
-        
-        // at this OR predicate to ourr master AND predicate
         NSCompoundPredicate *orMatchPredicates = (NSCompoundPredicate *)[NSCompoundPredicate orPredicateWithSubpredicates:searchItemsPredicate];
         [andMatchPredicates addObject:orMatchPredicates];
     }
-    
     NSCompoundPredicate *finalCompoundPredicate = (NSCompoundPredicate *)[NSCompoundPredicate andPredicateWithSubpredicates:andMatchPredicates];
-    
     self.allUsers = [[self.users filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
     [self.myTableView reloadData];
 }
