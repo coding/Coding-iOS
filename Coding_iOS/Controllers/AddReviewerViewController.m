@@ -200,14 +200,29 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (void)searchProjectWithStr:(NSString *)searchString{
+    
+    // start out with the entire list
+    //self.searchResults = [self.users mutableCopy];
+    
+    // strip out all the leading and trailing spaces
     NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    // break up the search terms (separated by spaces)
     NSArray *searchItems = nil;
-    if (strippedStr.length > 0) {
+    if (strippedStr.length > 0)
+    {
         searchItems = [strippedStr componentsSeparatedByString:@" "];
     }
+    
+    // build all the "AND" expressions for each value in the searchString
     NSMutableArray *andMatchPredicates = [NSMutableArray array];
-    for (NSString *searchString in searchItems) {
+    
+    for (NSString *searchString in searchItems)
+    {
+        // each searchString creates an OR predicate for: name, global_key
         NSMutableArray *searchItemsPredicate = [NSMutableArray array];
+        
+        // name field matching
         NSExpression *lhs = [NSExpression expressionForKeyPath:@"name"];
         NSExpression *rhs = [NSExpression expressionForConstantValue:searchString];
         NSPredicate *finalPredicate = [NSComparisonPredicate
@@ -217,11 +232,25 @@ static NSString *const kValueKey = @"kValueKey";
                                        type:NSContainsPredicateOperatorType
                                        options:NSCaseInsensitivePredicateOption];
         [searchItemsPredicate addObject:finalPredicate];
+        //        global_key field matching
+        lhs = [NSExpression expressionForKeyPath:@"global_key"];
+        rhs = [NSExpression expressionForConstantValue:searchString];
+        finalPredicate = [NSComparisonPredicate
+                          predicateWithLeftExpression:lhs
+                          rightExpression:rhs
+                          modifier:NSDirectPredicateModifier
+                          type:NSContainsPredicateOperatorType
+                          options:NSCaseInsensitivePredicateOption];
+        [searchItemsPredicate addObject:finalPredicate];
+        // at this OR predicate to ourr master AND predicate
         NSCompoundPredicate *orMatchPredicates = (NSCompoundPredicate *)[NSCompoundPredicate orPredicateWithSubpredicates:searchItemsPredicate];
         [andMatchPredicates addObject:orMatchPredicates];
     }
+    
     NSCompoundPredicate *finalCompoundPredicate = (NSCompoundPredicate *)[NSCompoundPredicate andPredicateWithSubpredicates:andMatchPredicates];
+    
     self.allUsers = [[self.users filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
+    
     [self.myTableView reloadData];
 }
 
