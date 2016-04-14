@@ -101,6 +101,10 @@
     self.rightLabel.text = rightText;
 }
 
+- (void)setNorightText {
+    [self.rightLabel setHidden:YES];
+}
+
 + (CGFloat)cellHeight{
     return 44.0;
 }

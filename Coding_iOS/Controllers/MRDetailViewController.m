@@ -90,7 +90,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     self.activityPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/activities", _curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     self.diffPath  = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/commitDiffContent",_curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     self.reviewGoodPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/review_good",_curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
-    __weak typeof(self) weakSelf = self;
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
         tableView.backgroundColor = kColorTableSectionBg;
@@ -210,7 +209,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 }
 
 - (BOOL) shouldShowReviews {
-    Reviewer* tmpReviewer;
     if(self.curReviewersInfo.reviewers.count + self.curReviewersInfo.volunteer_reviewers.count > 0) return YES;
     return NO;
 }
@@ -234,7 +232,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             weakSelf.curMRPRInfo = data;
             NSMutableArray *resultA = weakSelf.curMRPRInfo.discussions;
             if(resultA != nil){
-                BOOL flag = false;
                 [weakSelf.allDiscussions removeAllObjects];
                 if(weakSelf.allDiscussions == nil || weakSelf.allDiscussions.count <= 0) {
                     for (int i = 0; i<resultA.count; i ++) {
@@ -275,7 +272,13 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.referencePath withParams:@{@"iid": _curMRPR.iid} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            weakSelf.resourceReference = [NSObject objectOfClass:@"ResourceReference" fromJSON:data[@"data"]];
+            if (weakSelf.resourceReference == nil) {
+                weakSelf.resourceReference = [NSObject objectOfClass:@"ResourceReference" fromJSON:data[@"data"]];
+            } else {
+                weakSelf.resourceReference = [NSObject objectOfClass:@"ResourceReference" fromJSON:data[@"data"]];
+                [weakSelf.myTableView reloadData];
+            }
+            
         }
     }];
     
@@ -285,7 +288,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             id resultData = [data valueForKeyPath:@"data"];
             NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectLineNote"];
             if(resultA != nil){
-                BOOL flag = false;
                 [weakSelf.activityCList removeAllObjects];
                 if(weakSelf.activityCList == nil || weakSelf.activityCList.count <= 0) {
                     for (int i = 0; i<resultA.count; i ++) {
@@ -519,6 +521,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [cell setImageStr:@"PR_TaskResource" andTitle:@"关联资源"];
             if(self.resourceReference.itemList.count > 0) {
                 [cell setrightText:[NSString stringWithFormat:@"%lu个",(unsigned long)self.resourceReference.itemList.count]];
+            } else {
+                [cell setNorightText];
             }
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];

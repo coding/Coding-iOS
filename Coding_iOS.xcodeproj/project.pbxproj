@@ -1539,7 +1539,6 @@
 		4E62410A1B74D65400E1533C /* search_tweet_like@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_tweet_like@2x.png"; sourceTree = "<group>"; };
 		4E63189A1BDA198000EFED97 /* MRListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRListViewController.h; sourceTree = "<group>"; };
 		4E63189B1BDA198000EFED97 /* MRListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRListViewController.m; sourceTree = "<group>"; };
-		4E63189E1BDA199600EFED97 /* MRDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRDetailViewController.m; sourceTree = "<group>"; };
 		4E6318A01BDA261100EFED97 /* MRListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRListView.h; sourceTree = "<group>"; };
 		4E6318A11BDA261100EFED97 /* MRListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRListView.m; sourceTree = "<group>"; };
 		4E63839B1B3262D300D98648 /* taskPriority0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskPriority0@2x.png"; sourceTree = "<group>"; };
@@ -4599,7 +4598,6 @@
 				4ECF70421B18514F000280FF /* PRListViewController.m */,
 				4E63189A1BDA198000EFED97 /* MRListViewController.h */,
 				4E63189B1BDA198000EFED97 /* MRListViewController.m */,
-				4E63189E1BDA199600EFED97 /* MRDetailViewController.m */,
 				4E4D6A5F1B1C65C100FD2E49 /* MRPRCommitsViewController.h */,
 				4E4D6A601B1C65C100FD2E49 /* MRPRCommitsViewController.m */,
 				4E4D6A621B1C65F700FD2E49 /* MRPRFilesViewController.h */,
