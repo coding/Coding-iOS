@@ -97,7 +97,7 @@
 
 - (void)setImageStr:(NSString *)imgStr
             isowner:(BOOL)ower
-          hasLikeMr:(BOOL)hasLikeMr {
+          hasLikeMr:(NSNumber *)hasLikeMr {
     self.imgView.image = [UIImage imageNamed:imgStr];
     self.titleLabel.text = @"评审者";
     if(!ower) {
@@ -107,7 +107,7 @@
             make.centerY.height.equalTo(self.contentView);
         }];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        if(hasLikeMr) {
+        if([hasLikeMr isEqual:@1]) {
             self.rightLabel.text = @"+1";
             [self.rightLabel setTextColor:[UIColor colorWithHexString:@"0x3BBD79"]];
             [self.likeImgView setHidden:NO];

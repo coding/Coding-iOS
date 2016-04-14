@@ -64,7 +64,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 @property (strong, nonatomic) NSMutableArray *allDiscussions;
 @property (nonatomic, strong) NSMutableArray *projectUsers;
 @property (strong, nonatomic) NSString *reviewGoodPath;
-@property (assign, nonatomic) BOOL isLike;
+@property (strong, nonatomic) NSNumber *isLike;
 @property (assign, nonatomic) BOOL loadedActivty;
 @end
 
@@ -526,17 +526,17 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         if (indexPath.row == 0) {
             MRReviewerCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MRReviewerCell forIndexPath:indexPath];
             if([self CurrentUserIsOwer]) {
-                [cell setImageStr:@"PRReviewer" isowner:[self CurrentUserIsOwer] hasLikeMr:NO];
+                [cell setImageStr:@"PRReviewer" isowner:[self CurrentUserIsOwer] hasLikeMr:@0];
             }
             else {
                 Reviewer* tmpReviewer = [self checkUserisReviewer];
                 if(tmpReviewer == nil){
-                    self.isLike = YES;
+                    self.isLike = @1;
                 } else {
                     if([tmpReviewer.value isEqual:@0]) {
-                        self.isLike = YES;
+                        self.isLike = @1;
                     } else {
-                        self.isLike = NO;
+                        self.isLike = @0;
                     }
                 }
                 [cell setImageStr:@"PRReviewer" isowner:NO hasLikeMr:self.isLike];
@@ -684,16 +684,17 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 appview.currentProject = self.curProject;
                 appview.curMRPR = self.curMRPR;
                 [self.navigationController pushViewController:appview animated:YES];
-            }
-            else {
+            } else {
                 __weak typeof(self) weakSelf = self;
-                if (!self.isLike) {
+                if ([self.isLike isEqual:@0]) {
                     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.reviewGoodPath withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
-                            [weakSelf refresh];
+                        weakSelf.isLike = @1;
+                        [weakSelf refresh];
                     }];
                 } else {
                     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.reviewGoodPath withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
-                            [weakSelf refresh];
+                         weakSelf.isLike = @0;
+                        [weakSelf refresh];
                     }];
                 }
             }
@@ -705,7 +706,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             appview.isPublisher = [self currentUserCanAddMember];
             [self.navigationController pushViewController:appview animated:YES];
         }
-    }else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
+    } else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
         ProjectLineNote *curCommentItem = self.activityList[indexPath.row];
         if ([curCommentItem.action isEqual:@"mergeChanges"]) {
             FileChangeDetailViewController *vc = [FileChangeDetailViewController new];

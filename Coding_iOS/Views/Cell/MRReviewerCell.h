@@ -14,7 +14,7 @@
 
 - (void)setImageStr:(NSString *)imgStr
             isowner:(BOOL)ower
-          hasLikeMr:(BOOL)hasLikeMr;
+          hasLikeMr:(NSNumber *)hasLikeMr;
 
 - (void)addTip:(NSString *)countStr;
 - (void)addTipIcon;
