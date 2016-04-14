@@ -25,6 +25,7 @@
 @property (readwrite, nonatomic, strong) NSMutableArray *users;
 @property (readwrite, nonatomic, strong) NSMutableArray *allUsers;
 @property (readwrite, nonatomic, strong) NSMutableArray *projectUsers;
+@property  (readwrite, nonatomic, strong) NSMutableArray *selectUsers;
 @property (strong, nonatomic) ReviewersInfo *curReviewersInfo;
 @end
 
@@ -36,7 +37,8 @@ static NSString *const kValueKey = @"kValueKey";
 -(void)viewDidLoad {
     self.title = @"添加评审者";
     self.users = [[NSMutableArray alloc] init];
-     self.allUsers = [[NSMutableArray alloc] init];
+    self.allUsers = [[NSMutableArray alloc] init];
+    self.selectUsers = [[NSMutableArray alloc] init];
     [self.myTableView registerNib:[UINib nibWithNibName:kCellIdentifier_ReviewCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ReviewCell];
     self.myTableView.separatorStyle = NO;
     [self.myTableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -110,6 +112,7 @@ static NSString *const kValueKey = @"kValueKey";
         }
         if(flag) {
             [totalUser addObject:member.user];
+            [self.selectUsers addObject:@0];
         }
     }
     self.users = totalUser;
@@ -140,6 +143,14 @@ static NSString *const kValueKey = @"kValueKey";
     cell.accessoryType = UITableViewCellAccessoryNone;
     [cell initCellWithUsers:cellReviewer];
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
+    NSInteger index = indexPath.row;
+    NSNumber* userState = self.selectUsers[index];
+    if ([userState isEqual:@1]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    } else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    
     return cell;
 }
 
@@ -149,15 +160,19 @@ static NSString *const kValueKey = @"kValueKey";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ReviewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
-    currentCell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if(currentCell.accessoryType != UITableViewCellAccessoryCheckmark) {
+    NSInteger index = indexPath.row;
+    NSNumber* userState = self.selectUsers[index];
+     __weak typeof(self) weakSelf = self;
+    if([userState isEqual:@0]) {
         currentCell.accessoryType = UITableViewCellAccessoryCheckmark;
         currentCell.tintColor =  [UIColor colorWithHexString:@"0x3BBD79"];;
         [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.addReviewerPath withParams:@{@"user_id": currentCell.user.id} withMethodType:Post andBlock:^(id data, NSError *error) {
+            weakSelf.selectUsers[index] = @1;
         }];
     } else {
         currentCell.accessoryType = UITableViewCellAccessoryNone;
         [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.delReviewerPath withParams:@{@"user_id":currentCell.user.id} withMethodType:Delete andBlock:^(id data, NSError *error) {
+            weakSelf.selectUsers[index] = @0;
         }];
     }
 }
