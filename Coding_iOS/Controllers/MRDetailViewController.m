@@ -193,6 +193,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         NSComparisonResult result = [ [NSNumber numberWithDouble:[obj1.created_at timeIntervalSinceReferenceDate]] compare:[NSNumber numberWithDouble:[obj2.created_at timeIntervalSinceReferenceDate]]];
         return result;
     }];
+    [self.myTableView reloadData];
 }
 
 - (void)updateProjectStatus {
@@ -246,11 +247,10 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 }
             }
             weakSelf.bottomView = nil;
-            [weakSelf sortActivityList];
             [weakSelf configBottomView];
-            [weakSelf.myTableView reloadData];
+            [weakSelf sortActivityList];
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil && weakSelf.activityList != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil && self.activityList != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
     }];
