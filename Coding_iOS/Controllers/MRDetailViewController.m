@@ -244,6 +244,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                     }
                 }
             }
+            weakSelf.bottomView = nil;
             [weakSelf sortActivityList];
             [weakSelf configBottomView];
             [weakSelf.myTableView reloadData];
