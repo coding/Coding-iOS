@@ -530,6 +530,8 @@
         TaskResourceReferenceViewController *vc = [TaskResourceReferenceViewController new];
         vc.resourceReference = _myTask.resourceReference;
         vc.resourceReferencePath = [self.myTask backend_project_path];
+        vc.number = self.myTask.number;
+        vc.resourceReferenceFromType = @1;
         [self.navigationController pushViewController:vc animated:YES];
     }else {
         ProjectActivity *curActivity = [self.myCopyTask.activityList objectAtIndex:indexPath.row];

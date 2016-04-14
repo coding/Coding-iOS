@@ -83,12 +83,18 @@
 #pragma mark - Actiom
 - (void)deleteItem:(ResourceReferenceItem *)item{
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_DeleteResourceReference:item.code ResourceReferencePath:self.resourceReferencePath andBlock:^(id data, NSError *error) {
+    NSString *requestPath = self.resourceReferencePath;
+    if([self.resourceReferenceFromType isEqual:@1]) {
+        requestPath = [NSString stringWithFormat:@"api%@/resource_reference/%ld", self.resourceReferencePath, (long)self.number.integerValue];
+
+    }
+    [[Coding_NetAPIManager sharedManager] request_DeleteResourceReference:item.code ResourceReferencePath:requestPath andBlock:^(id data, NSError *error) {
         if (data) {
             [weakSelf.resourceReference.itemList removeObject:item];
             [weakSelf.myTableView reloadData];
         }
     }];
+    
 }
 
 - (void)goToItem:(ResourceReferenceItem *)item{
