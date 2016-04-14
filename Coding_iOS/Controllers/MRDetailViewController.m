@@ -65,6 +65,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 @property (nonatomic, strong) NSMutableArray *projectUsers;
 @property (strong, nonatomic) NSString *reviewGoodPath;
 @property (assign, nonatomic) BOOL isLike;
+@property (assign, nonatomic) BOOL loadedActivty;
 @end
 
 @implementation MRDetailViewController
@@ -82,6 +83,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 }
 - (void)viewDidLoad{
     [super viewDidLoad];
+    self.loadedActivty = false;
     self.activityList = [[NSMutableArray alloc] init];
     self.activityCList = [[NSMutableArray alloc] init];
     self.allDiscussions = [[NSMutableArray alloc] init];
@@ -249,7 +251,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [weakSelf configBottomView];
             [weakSelf.myTableView reloadData];
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil && weakSelf.activityList != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
     }];
@@ -286,6 +288,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.activityPath withParams:@{@"iid": _curMRPR.iid} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
+            weakSelf.loadedActivty  = true;
             id resultData = [data valueForKeyPath:@"data"];
             NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectLineNote"];
             if(resultA != nil){
