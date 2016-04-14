@@ -722,6 +722,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [self.navigationController pushViewController:vc animated:YES];
             return;
         }
+        if (![curCommentItem.action isEqual:@"MergeRequestBean"]) {
+            return;
+        }
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         if ([cell.contentView isMenuVCVisible]) {
             [cell.contentView removePressMenu];
