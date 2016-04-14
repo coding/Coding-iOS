@@ -76,18 +76,17 @@ static NSString *const kValueKey = @"kValueKey";
         Reviewer* tmpReviewer = self.curReviewersInfo.volunteer_reviewers[i];
         [dataArray addObject:tmpReviewer];
     }
-    NSMutableArray *reviewerList= [dataArray sortedArrayUsingComparator:^NSComparisonResult(Reviewer *obj1, Reviewer *obj2) {
+    NSArray *reviewerList= [dataArray sortedArrayUsingComparator:^NSComparisonResult(Reviewer *obj1, Reviewer *obj2) {
         NSComparisonResult result = [ obj2.value compare:obj1.value];
         if(result == NSOrderedSame) {
             result = [ obj1.volunteer compare:obj2.volunteer];
         }
         return result;
     }];
-    self.reviewers =  reviewerList;
+    self.reviewers =  [[NSMutableArray alloc] initWithArray:reviewerList];
 }
 
--(void)selectRightAction:(id)sender
-{
+-(void)selectRightAction:(id)sender {
     NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"AddReviewerViewController" owner:nil options:nil];
     AddReviewerViewController *appview=[apparray firstObject];
     appview.reviewers = self.reviewers;
@@ -98,27 +97,24 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 #pragma mark Table M
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 20;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return nil;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.reviewers count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ReviewCell forIndexPath:indexPath];
-    
- //   [cell configureCellWithHeadIconURL:@"test" reviewIconURL:@"PointLikeHead" userName:@"test" userState:@"test"];
-
     Reviewer* cellReviewer = self.reviewers[indexPath.row];
     if([cellReviewer.volunteer isEqualToString:@"invitee"]) {
         [cell initCellWithReviewer:cellReviewer.reviewer likeValue:cellReviewer.value];
@@ -127,14 +123,13 @@ static NSString *const kValueKey = @"kValueKey";
     }
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
     return cell;
-
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return [ReviewCell cellHeight];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ReviewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     UserInfoViewController *vc = [[UserInfoViewController alloc] init];
     vc.curUser = currentCell.user;
@@ -168,8 +163,7 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 //先要设Cell可编辑
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.row < self.reviewers.count) {
         return YES;
     } else {
@@ -178,15 +172,12 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 //定义编辑样式
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleDelete;
 }
 
 //进入编辑模式，按下出现的编辑按钮后
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     ReviewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     __weak typeof(self) weakSelf = self;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.delReviewerPath withParams:@{@"user_id":currentCell.user.id} withMethodType:Delete andBlock:^(id data, NSError *error) {
@@ -197,14 +188,12 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 //修改编辑按钮文字
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
     return @"删除";
 }
 
 //先设置Cell可移动
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.row < self.reviewers.count) {
         return YES;
     } else {
@@ -213,8 +202,7 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 //设置进入编辑状态时，Cell不会缩进
-- (BOOL)tableView: (UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (BOOL)tableView: (UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
 

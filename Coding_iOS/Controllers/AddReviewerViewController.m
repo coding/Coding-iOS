@@ -102,7 +102,6 @@ static NSString *const kValueKey = @"kValueKey";
                 flag = NO;
             }
         }
-        
         for(int j = 0; j < self.curReviewersInfo.volunteer_reviewers.count; j ++) {
             Reviewer* reviewer = self.curReviewersInfo.volunteer_reviewers[j];
             if(member.user.id == reviewer.reviewer.id) {
@@ -121,15 +120,15 @@ static NSString *const kValueKey = @"kValueKey";
 
 #pragma mark Table M
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 0;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     return nil;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
@@ -150,15 +149,14 @@ static NSString *const kValueKey = @"kValueKey";
     } else {
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
-    
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return [ReviewCell cellHeight];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ReviewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     NSInteger index = indexPath.row;
     NSNumber* userState = self.selectUsers[index];
@@ -201,9 +199,6 @@ static NSString *const kValueKey = @"kValueKey";
 
 - (void)searchProjectWithStr:(NSString *)searchString{
     
-    // start out with the entire list
-    //self.searchResults = [self.users mutableCopy];
-    
     // strip out all the leading and trailing spaces
     NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
@@ -221,7 +216,6 @@ static NSString *const kValueKey = @"kValueKey";
     {
         // each searchString creates an OR predicate for: name, global_key
         NSMutableArray *searchItemsPredicate = [NSMutableArray array];
-        
         // name field matching
         NSExpression *lhs = [NSExpression expressionForKeyPath:@"name"];
         NSExpression *rhs = [NSExpression expressionForConstantValue:searchString];
@@ -246,11 +240,8 @@ static NSString *const kValueKey = @"kValueKey";
         NSCompoundPredicate *orMatchPredicates = (NSCompoundPredicate *)[NSCompoundPredicate orPredicateWithSubpredicates:searchItemsPredicate];
         [andMatchPredicates addObject:orMatchPredicates];
     }
-    
     NSCompoundPredicate *finalCompoundPredicate = (NSCompoundPredicate *)[NSCompoundPredicate andPredicateWithSubpredicates:andMatchPredicates];
-    
     self.allUsers = [[self.users filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
-    
     [self.myTableView reloadData];
 }
 

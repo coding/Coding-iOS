@@ -59,7 +59,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 @property (strong, nonatomic) NSString *activityPath;
 @property (strong, nonatomic) NSString *diffPath;
 @property (strong, nonatomic) ResourceReference *resourceReference;
-@property (strong, nonatomic) NSMutableArray *activityList;
+@property (strong, nonatomic) NSArray *activityList;
 @property (strong, nonatomic) NSMutableArray *activityCList;
 @property (strong, nonatomic) NSMutableArray *allDiscussions;
 @property (nonatomic, strong) NSMutableArray *projectUsers;
@@ -189,7 +189,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     for(int i = 0; i < self.allDiscussions.count; i ++) {
         [dataArray addObject:self.allDiscussions[i]];
     }
-    //NSArray *sortedArray = [[NSArray alloc] initWithArray:dataArray];
     self.activityList = [dataArray sortedArrayUsingComparator:^NSComparisonResult(ProjectLineNote *obj1, ProjectLineNote *obj2) {
         NSComparisonResult result = [ [NSNumber numberWithDouble:[obj1.created_at timeIntervalSinceReferenceDate]] compare:[NSNumber numberWithDouble:[obj2.created_at timeIntervalSinceReferenceDate]]];
         return result;
@@ -255,7 +254,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [weakSelf refresh];
         }];
     }];
-    
     [[Coding_NetAPIManager sharedManager] request_ProjectMembers_WithObj:self.curProject andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
@@ -263,8 +261,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             weakSelf.projectUsers = projectUsers;
         }
     }];
-    
-    
     [[Coding_NetAPIManager sharedManager] request_MRReviewerInfo_WithObj:_curMRPR andBlock:^(ReviewersInfo *data, NSError *error) {
         [weakSelf.view endLoading];
         [weakSelf.myRefreshControl endRefreshing];
@@ -272,7 +268,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             weakSelf.curReviewersInfo = data;
         }
     }];
-    
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.referencePath withParams:@{@"iid": _curMRPR.iid} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             if (weakSelf.resourceReference == nil) {
@@ -284,8 +279,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             
         }
     }];
-    
-    
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.activityPath withParams:@{@"iid": _curMRPR.iid} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.loadedActivty  = true;
@@ -303,8 +296,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             }
         }
     }];
-    
-    //推送过来的页面，可能 curProject 对象为空
     if (!_curProject) {
         _curProject = [Project new];
         _curProject.owner_user_name = _curMRPR.des_owner_name;
@@ -603,7 +594,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     return false;
 }
 
-- (BOOL)currentUserCanAddMember {
+- (bool)currentUserCanAddMember {
     User *currentUser = [Login curLoginUser];
     for(int i = 0; i < self.projectUsers.count; i ++) {
         ProjectMember* member = self.projectUsers[i];
@@ -726,7 +717,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [self.navigationController pushViewController:vc animated:YES];
             return;
         }
-        if (![curCommentItem.action isEqual:@"MergeRequestBean"]) {
+        if (![curCommentItem.noteable_type isEqual:@"MergeRequestBean"]) {
             return;
         }
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -781,7 +772,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_DeleteLineNote:lineNote.id inProject:_curMRPRInfo.mrpr.des_project_name ofUser:_curMRPRInfo.mrpr.des_owner_name andBlock:^(id data, NSError *error) {
         if (data) {
-            [weakSelf.curMRPRInfo.discussions removeObject:@[lineNote]];
+            [weakSelf.allDiscussions removeObject:lineNote];
+            [weakSelf sortActivityList];
             [weakSelf.myTableView reloadData];
         }
     }];
