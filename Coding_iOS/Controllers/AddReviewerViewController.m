@@ -158,12 +158,12 @@ static NSString *const kValueKey = @"kValueKey";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ReviewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
+    currentCell.tintColor =  [UIColor colorWithHexString:@"0x3BBD79"];
     NSInteger index = indexPath.row;
     NSNumber* userState = self.selectUsers[index];
      __weak typeof(self) weakSelf = self;
     if([userState isEqual:@0]) {
         currentCell.accessoryType = UITableViewCellAccessoryCheckmark;
-        currentCell.tintColor =  [UIColor colorWithHexString:@"0x3BBD79"];;
         [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.addReviewerPath withParams:@{@"user_id": currentCell.user.id} withMethodType:Post andBlock:^(id data, NSError *error) {
             weakSelf.selectUsers[index] = @1;
         }];
