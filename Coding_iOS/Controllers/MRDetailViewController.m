@@ -235,15 +235,13 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             NSMutableArray *resultA = weakSelf.curMRPRInfo.discussions;
             if(resultA != nil){
                 [weakSelf.allDiscussions removeAllObjects];
-                if(weakSelf.allDiscussions == nil || weakSelf.allDiscussions.count <= 0) {
-                    for (int i = 0; i<resultA.count; i ++) {
-                        NSArray *pArray = resultA[i];
-                        ProjectLineNote* addTmp = pArray[0];
-                        if (addTmp.path != nil) {
-                            addTmp.action = @"mergeChanges";
-                        }
-                        [weakSelf.allDiscussions addObject:addTmp];
+                 for (int i = 0; i<resultA.count; i ++) {
+                    NSArray *pArray = resultA[i];
+                    ProjectLineNote* addTmp = pArray[0];
+                    if (addTmp.path != nil) {
+                        addTmp.action = @"mergeChanges";
                     }
+                    [weakSelf.allDiscussions addObject:addTmp];
                 }
             }
             weakSelf.bottomView = nil;
@@ -281,16 +279,12 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     }];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.activityPath withParams:@{@"iid": _curMRPR.iid} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            weakSelf.loadedActivty  = true;
             id resultData = [data valueForKeyPath:@"data"];
             NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectLineNote"];
             if(resultA != nil){
-                [weakSelf.activityCList removeAllObjects];
-                if(weakSelf.activityCList == nil || weakSelf.activityCList.count <= 0) {
-                    for (int i = 0; i<resultA.count; i ++) {
-                        ProjectLineNote* addTmp = resultA[i];
-                        [weakSelf.activityCList addObject:addTmp];
-                    }
+               for (int i = 0; i<resultA.count; i ++) {
+                    ProjectLineNote* addTmp = resultA[i];
+                    [weakSelf.activityCList addObject:addTmp];
                 }
                 [weakSelf sortActivityList];
             }

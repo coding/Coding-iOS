@@ -151,6 +151,7 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ReviewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
     NSInteger index = indexPath.row;
     NSNumber* userState = self.selectUsers[index];
