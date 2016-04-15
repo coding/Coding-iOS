@@ -185,6 +185,12 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 }
 
 -(void)sortActivityList {
+    if(self.curMRPRInfo == nil) {
+        return ;
+    }
+    if (self.activityCList == nil) {
+        return ;
+    }
     NSMutableArray *dataArray = [[NSMutableArray alloc] initWithArray:self.activityCList];
     for(int i = 0; i < self.allDiscussions.count; i ++) {
         [dataArray addObject:self.allDiscussions[i]];
@@ -282,6 +288,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             id resultData = [data valueForKeyPath:@"data"];
             NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectLineNote"];
             if(resultA != nil){
+                [weakSelf.activityCList removeAllObjects];
                for (int i = 0; i<resultA.count; i ++) {
                     ProjectLineNote* addTmp = resultA[i];
                     [weakSelf.activityCList addObject:addTmp];
