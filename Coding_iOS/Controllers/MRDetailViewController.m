@@ -527,8 +527,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             MRReviewerCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MRReviewerCell forIndexPath:indexPath];
             if([self CurrentUserIsOwer]) {
                 [cell setImageStr:@"PRReviewer" isowner:[self CurrentUserIsOwer] hasLikeMr:@0];
-            }
-            else {
+            } else {
                 Reviewer* tmpReviewer = [self checkUserisReviewer];
                 if(tmpReviewer == nil){
                     self.isLike = @1;
@@ -542,7 +541,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 [cell setImageStr:@"PRReviewer" isowner:NO hasLikeMr:self.isLike];
                 
             }
-            if (self.curMRPR.status != MRPRStatusCanMerge) {
+            if (self.curMRPRInfo.mrpr.status == MRPRStatusAccepted || self.curMRPRInfo.mrpr.status == MRPRStatusRefused || self.curMRPRInfo.mrpr.status == MRPRStatusRefused) {
                 [cell cantReviewer];
             }
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
@@ -604,6 +603,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         if(member.user.id == currentUser.id && [member.type isEqual:@75]) {
             return NO;
         }
+    }
+    if (self.curMRPRInfo.mrpr.status == MRPRStatusAccepted || self.curMRPRInfo.mrpr.status == MRPRStatusRefused || self.curMRPRInfo.mrpr.status == MRPRStatusRefused) {
+        return NO;
     }
     return YES;
 }
@@ -681,6 +683,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }
     } else if (indexPath.section == 2){//Disclosure
         if (indexPath.row == 0) {
+            if (self.curMRPRInfo.mrpr.status == MRPRStatusAccepted || self.curMRPRInfo.mrpr.status == MRPRStatusRefused || self.curMRPRInfo.mrpr.status == MRPRStatusRefused) {
+                return;
+            }
             if([self CurrentUserIsOwer]) {
                 NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"AddReviewerViewController" owner:nil options:nil];
                 AddReviewerViewController *appview=[apparray firstObject];
