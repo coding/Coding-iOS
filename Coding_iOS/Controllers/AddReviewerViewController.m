@@ -102,13 +102,6 @@ static NSString *const kValueKey = @"kValueKey";
                 flag = NO;
             }
         }
-        for(int j = 0; j < self.curReviewersInfo.volunteer_reviewers.count; j ++) {
-            Reviewer* reviewer = self.curReviewersInfo.volunteer_reviewers[j];
-            if(member.user.id == reviewer.reviewer.id) {
-                flag = NO;
-            }
-            
-        }
         if(flag) {
             [totalUser addObject:member.user];
             [self.selectUsers addObject:@0];
