@@ -410,9 +410,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_MRPRCancel:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
         if (data) {
-            weakSelf.curMRPRInfo = nil;
-            [weakSelf.myTableView reloadData];
-            [weakSelf refresh];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
         }
     }];
 }
