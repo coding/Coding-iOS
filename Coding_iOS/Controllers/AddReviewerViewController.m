@@ -132,11 +132,12 @@ static NSString *const kValueKey = @"kValueKey";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ReviewCell forIndexPath:indexPath];
     User* cellReviewer = self.allUsers[indexPath.row];
-    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.tintColor =  [UIColor colorWithHexString:@"0x3BBD79"];
     [cell initCellWithUsers:cellReviewer];
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
     NSInteger index = indexPath.row;
     NSNumber* userState = self.selectUsers[index];
+   // cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if ([userState isEqual:@1]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     } else {
@@ -151,7 +152,6 @@ static NSString *const kValueKey = @"kValueKey";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ReviewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
-    currentCell.tintColor =  [UIColor colorWithHexString:@"0x3BBD79"];
     NSInteger index = indexPath.row;
     NSNumber* userState = self.selectUsers[index];
      __weak typeof(self) weakSelf = self;
