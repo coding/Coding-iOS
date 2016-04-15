@@ -49,6 +49,7 @@ typedef NS_ENUM(NSInteger, MRPRStatus) {
 - (NSDictionary *)toAcceptParams;
 - (NSString *)toRefusePath;
 - (NSString *)toCancelPath;
+- (NSString *)toCancelMRPath;
 - (NSString *)toAuthorizationPath;
 
 @end

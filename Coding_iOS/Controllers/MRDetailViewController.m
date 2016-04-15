@@ -128,7 +128,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     BOOL canAction = self.curPreMRPRInfo.can_edit.boolValue ||(canCancel && self.curPreMRPRInfo.mrpr.granted.boolValue);//有权限 || （作者身份 && 被授权）
     BOOL canAuthorization  = self.curPreMRPRInfo.can_edit.boolValue &&!canCancel &&!self.curPreMRPRInfo.author_can_edit.boolValue && !self.curPreMRPRInfo.mrpr.granted.boolValue;
     BOOL canCancelAuthorization = self.curPreMRPRInfo.can_edit.boolValue &&!canCancel &&!self.curPreMRPRInfo.author_can_edit.boolValue && self.curPreMRPRInfo.mrpr.granted.boolValue;
-    BOOL hasBottomView = self.curPreMRPRInfo.mrpr.status <= MRPRStatusCannotMerge && (canAction || canCancel);
+    BOOL hasBottomView = self.curMRPRInfo.mrpr.status <= MRPRStatusCannotMerge && (canAction || canCancel);
     if (!hasBottomView) {
         [_bottomView removeFromSuperview];
     }else if (!_bottomView){

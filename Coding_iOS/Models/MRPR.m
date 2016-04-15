@@ -104,6 +104,10 @@
     return [[self p_prePath] stringByAppendingString:@"cancel"];
 }
 
+- (NSString *)toCancelMRPath{
+    return [[self path] stringByAppendingString:@"cancel"];
+}
+
 - (NSString *)toAuthorizationPath{
     return [[self p_prePath] stringByAppendingString:@"grant"];
 }

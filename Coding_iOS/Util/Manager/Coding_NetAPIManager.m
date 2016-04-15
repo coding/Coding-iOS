@@ -839,6 +839,19 @@
     }];
 }
 
+- (void)request_MRPRCancel:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toCancelPath] withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"MRPR_取消合并"];
+            
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+
+}
+
 - (void)request_MRPRCancelAuthorization:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toAuthorizationPath] withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
         if (data) {
