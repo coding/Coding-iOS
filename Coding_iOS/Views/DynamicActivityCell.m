@@ -124,6 +124,8 @@
         contentStr = [NSString stringWithFormat:@"编辑了描述 - %@", [curActivity.created_at stringDisplay_HHmm]];
     } else if ([curActivity.action isEqualToString:@"update"]) {
         contentStr = [NSString stringWithFormat:@"编辑合并请求 - %@", [curActivity.created_at stringDisplay_HHmm]];
+    } else if ([curActivity.action isEqualToString:@"update_title"]) {
+        contentStr = [NSString stringWithFormat:@"编辑了标题 - %@", [curActivity.created_at stringDisplay_HHmm]];
     }
     contentStr = contentStr? contentStr: @"...";
     attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];

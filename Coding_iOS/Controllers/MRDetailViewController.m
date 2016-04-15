@@ -540,8 +540,11 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                     }
                 }
                 [cell setImageStr:@"PRReviewer" isowner:NO hasLikeMr:self.isLike];
+                
             }
-            //[cell setImageStr:@"PRReviewer" andTitle:@"评审者"];
+            if (self.curMRPR.status != MRPRStatusCanMerge) {
+                [cell cantReviewer];
+            }
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
             return cell;
         }else {

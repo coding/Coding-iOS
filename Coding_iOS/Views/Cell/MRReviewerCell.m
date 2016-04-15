@@ -125,6 +125,11 @@
     }
 }
 
+-(void) cantReviewer {
+    self.rightLabel.hidden = YES;
+    self.likeImgView.hidden = YES;
+}
+
 + (CGFloat)cellHeight{
     return 44.0;
 }

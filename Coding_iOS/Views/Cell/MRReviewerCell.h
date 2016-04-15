@@ -15,7 +15,7 @@
 - (void)setImageStr:(NSString *)imgStr
             isowner:(BOOL)ower
           hasLikeMr:(NSNumber *)hasLikeMr;
-
+-(void) cantReviewer;
 - (void)addTip:(NSString *)countStr;
 - (void)addTipIcon;
 - (void)removeTip;
