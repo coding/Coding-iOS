@@ -164,6 +164,10 @@ static NSString *const kValueKey = @"kValueKey";
 
 //先要设Cell可编辑
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    Reviewer* cellReviewer = self.reviewers[indexPath.row];
+    if(![cellReviewer.volunteer isEqualToString:@"invitee"]) {
+        return NO;
+    }
     if(indexPath.row < self.reviewers.count) {
         return YES;
     } else {
