@@ -168,6 +168,9 @@ static NSString *const kValueKey = @"kValueKey";
     if(![cellReviewer.volunteer isEqualToString:@"invitee"]) {
         return NO;
     }
+    if (self.curMRPR.status == MRPRStatusAccepted || self.curMRPR.status == MRPRStatusRefused || self.curMRPR.status == MRPRStatusRefused) {
+        return NO;
+    }
     if(indexPath.row < self.reviewers.count) {
         return YES;
     } else {
