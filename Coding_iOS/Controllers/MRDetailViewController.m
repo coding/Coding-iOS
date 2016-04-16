@@ -129,8 +129,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     BOOL canAuthorization  = self.curPreMRPRInfo.can_edit.boolValue &&!canCancel &&!self.curPreMRPRInfo.author_can_edit.boolValue && !self.curPreMRPRInfo.mrpr.granted.boolValue;
     BOOL canCancelAuthorization = self.curPreMRPRInfo.can_edit.boolValue &&!canCancel &&!self.curPreMRPRInfo.author_can_edit.boolValue && self.curPreMRPRInfo.mrpr.granted.boolValue;
     BOOL hasBottomView = self.curMRPRInfo.mrpr.status <= MRPRStatusCannotMerge && (canAction || canCancel);
-    if(self.curMRPRInfo == nil) {
-        hasBottomView = YES ;
+    if(self.curMRPRInfo == nil || self.curPreMRPRInfo == nil) {
+        hasBottomView = NO ;
     }
     if (!hasBottomView) {
         [_bottomView removeFromSuperview];
