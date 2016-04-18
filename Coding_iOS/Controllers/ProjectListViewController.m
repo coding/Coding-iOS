@@ -22,7 +22,7 @@
     [super viewWillAppear:animated];
     [self.mySearchBar removeFromSuperview];
     //重置titleview
-    self.navigationItem.titleView=[[[[self.navigationController viewControllers] firstObject] navigationItem] titleView];
+    self.navigationItem.titleView=[[[[self.navigationController viewControllers] lastObject] navigationItem] titleView];
 }
 
 - (void)setupNavBtn{
