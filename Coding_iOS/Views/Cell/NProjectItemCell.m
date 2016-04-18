@@ -83,15 +83,6 @@
 }
 
 - (void)setImageStr:(NSString *)imgStr andTitle:(NSString *)title{
-    if ([imgStr isEqualToString:@"PR_TaskResource"]) {
-        _imgView = [UIImageView new];
-        [self.contentView addSubview:_imgView];
-        [_imgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(25, 25));
-            make.left.equalTo(self.contentView).offset(15);
-            make.centerY.equalTo(self.contentView);
-        }];
-    }
     self.imgView.image = [UIImage imageNamed:imgStr];
     self.titleLabel.text = title;
 }
