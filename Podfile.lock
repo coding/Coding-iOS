@@ -86,7 +86,7 @@ PODS:
   - UMengSocial (4.2.3)
 
 DEPENDENCIES:
-  - APParallaxHeader
+  - APParallaxHeader (= 0.1.6)
   - BlocksKit (= 2.2.5)
   - evernote-cloud-sdk-ios (= 2.0.2)
   - FLEX (~> 2.0)
@@ -94,13 +94,13 @@ DEPENDENCIES:
   - hpple (= 0.2.0)
   - iVersion (= 1.11.4)
   - JazzHands (= 2.0.0)
-  - MarqueeLabel
+  - MarqueeLabel (= 2.5.0)
   - Masonry (= 0.5.3)
   - MBProgressHUD (= 0.9)
   - MMMarkdown (= 0.3)
   - NYXImagesKit (= 2.3)
   - POP+MCAnimate (= 2.0.1)
-  - PPiAwesomeButton
+  - PPiAwesomeButton (= 1.5.2)
   - ReactiveCocoa (= 2.3.1)
   - RegexKitLite-NoWarning (= 1.1.0)
   - SDCAlertView (= 2.5.2)
