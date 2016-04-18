@@ -274,9 +274,12 @@
 }
 
 - (void)sendCurComment:(Task *)commentObj{
+    [NSObject showHUDQueryStr:@"正在发表评论..."];
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_DoCommentToTask:commentObj andBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
         if (data) {
+            [NSObject showHudTipStr:@"评论成功"];
             [weakSelf queryToRefreshActivityList];
             [weakSelf queryToRefreshResourceReference];
             [weakSelf.myTableView reloadData];
