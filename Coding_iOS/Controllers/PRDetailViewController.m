@@ -5,45 +5,35 @@
 //  Created by Ease on 15/6/1.
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
-
 #define kMRPRDetailViewController_BottomViewHeight 49.0
-
 #import "PRDetailViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "FunctionTipsManager.h"
 #import "ODRefreshControl.h"
-
 #import "MRPRTopCell.h"
 #import "MRPRDetailCell.h"
 #import "MRPRDisclosureCell.h"
 #import "MRPRCommentCell.h"
 #import "AddCommentCell.h"
-
 #import "WebViewController.h"
 #import "MJPhotoBrowser.h"
-
 #import "MRPRCommitsViewController.h"
 #import "MRPRFilesViewController.h"
 #import "AddMDCommentViewController.h"
 #import "MRPRAcceptViewController.h"
-
 #import "UIView+PressMenu.h"
-
 typedef NS_ENUM(NSInteger, MRPRAction) {
     MRPRActionAccept = 1000,
     MRPRActionRefuse,
     MRPRActionCancel
 };
-
 @interface PRDetailViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 @property (strong, nonatomic) MRPRBaseInfo *curMRPRInfo;
 @property (strong, nonatomic) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 @property (strong, nonatomic) UIView *bottomView;
 @end
-
 @implementation PRDetailViewController
-
 + (PRDetailViewController *)vcWithPath:(NSString *)path{
     
     NSArray *pathComponents = [path componentsSeparatedByString:@"/"];
@@ -55,7 +45,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     vc.curMRPR = [MRPR new];
     vc.curMRPR.path = path;
     vc.curMRPR.iid = [NSNumber numberWithInteger:[(NSString *)pathComponents.lastObject integerValue]];
-
     return vc;
 }
 - (void)viewDidLoad{
@@ -86,11 +75,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     [self refresh];
 }
-
 - (void)configBottomView{
     BOOL canCancel = [_curMRPRInfo.mrpr.author.global_key isEqualToString:[Login curLoginUser].global_key];
     BOOL canAction = _curMRPRInfo.can_edit.boolValue ||(canCancel && _curMRPRInfo.mrpr.granted.boolValue);//有权限 || （作者身份 && 被授权）
-
     BOOL hasBottomView = _curMRPRInfo.mrpr.status <= MRPRStatusCannotMerge && (canAction || canCancel);
     
     if (!hasBottomView) {
@@ -135,7 +122,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     _myTableView.contentInset = insets;
     _myTableView.scrollIndicatorInsets = insets;
 }
-
 - (void)refresh{
     if (_curMRPR.isLoading) {
         return;
@@ -175,9 +161,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }];
     }
 }
-
 #pragma mark Action_MRPR
-
 - (UIButton *)buttonWithType:(MRPRAction)actionType{
     UIButton *curButton = [UIButton new];
     curButton.layer.cornerRadius = 2.0;
@@ -205,10 +189,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     [curButton setBackgroundColor:[UIColor colorWithHexString:colorStr]];
     return curButton;
 }
-
 - (void)actionMRPR:(UIButton *)sender{
     __weak typeof(self) weakSelf = self;
-
     NSString *tipStr;
     if (sender.tag == MRPRActionAccept) {//合并
         if (_curMRPRInfo.mrpr.status == MRPRStatusCannotMerge) {//不能合并
@@ -241,7 +223,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }] showInView:self.view];
     }
 }
-
 - (void)refuseMRPR{
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_MRPRRefuse:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
@@ -252,7 +233,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }
     }];
 }
-
 - (void)cancelMRPR{
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_MRPRCancel:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
@@ -263,7 +243,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }
     }];
 }
-
 #pragma mark TableM Footer Header
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 20.0;
@@ -271,13 +250,11 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.5;
 }
-
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     UIView *view = [UIView new];
     view.backgroundColor = kColorTableSectionBg;
     return view;
 }
-
 #pragma mark TableM
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return _curMRPRInfo == nil? 0: _curMRPRInfo.discussions.count <= 0? 3: 4;
@@ -293,7 +270,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     }
     return row;
 }
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     __weak typeof(self) weakSelf = self;
     if (indexPath.section == 0) {//Content
@@ -356,7 +332,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     }
     return cellHeight;
 }
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {//Content
@@ -406,7 +381,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         [self goToAddCommentVCToUser:nil];
     }
 }
-
 #pragma mark Comment
 - (void)goToAddCommentVCToUser:(NSString *)userName{
     DebugLog(@"%@", userName);
@@ -416,8 +390,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     vc.requestPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/line_notes", _curMRPR.des_owner_name, _curMRPR.des_project_name];
     vc.requestParams = [@{
                           @"noteable_type" : [self.curMRPRInfo.mrpr isMR]? @"MergeRequestBean" : @"PullRequestBean",
-                         @"noteable_id" : _curMRPRInfo.mrpr.id,
-                         } mutableCopy];
+                          @"noteable_id" : _curMRPRInfo.mrpr.id,
+                          } mutableCopy];
     vc.contentStr = userName.length > 0? [NSString stringWithFormat:@"@%@ ", userName]: nil;
     @weakify(self);
     vc.completeBlock = ^(id data){
@@ -430,7 +404,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     
     [self.navigationController pushViewController:vc animated:YES];
 }
-
 - (void)deleteComment:(ProjectLineNote *)lineNote{
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_DeleteLineNote:lineNote.id inProject:_curMRPRInfo.mrpr.des_project_name ofUser:_curMRPRInfo.mrpr.des_owner_name andBlock:^(id data, NSError *error) {
@@ -440,15 +413,12 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         }
     }];
 }
-
-
 #pragma mark loadCellRequest
 - (void)loadRequest:(NSURLRequest *)curRequest
 {
     NSString *linkStr = curRequest.URL.absoluteString;
     [self analyseLinkStr:linkStr];
 }
-
 - (void)analyseLinkStr:(NSString *)linkStr
 {
     if (linkStr.length <= 0) {
@@ -474,12 +444,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         [self.navigationController pushViewController:webVc animated:YES];
     }
 }
-
 #pragma mark TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
     HtmlMediaItem *clickedItem = [components objectForKey:@"value"];
     [self analyseLinkStr:clickedItem.href];
 }
-
-
 @end

@@ -6,8 +6,19 @@
 //  Copyright © 2015年 Coding. All rights reserved.
 //
 
-#import "PRDetailViewController.h"
 
-@interface MRDetailViewController : PRDetailViewController
+#import "BaseViewController.h"
+#import "MRPRBaseInfo.h"
+#import "ReviewersInfo.h"
+#import "Reviewer.h"
+#import "user.h"
+#import "Project.h"
 
+@interface MRDetailViewController : BaseViewController
+@property (strong, nonatomic) MRPR *curMRPR;
+@property (strong, nonatomic) Project *curProject;//非必需
++ (MRDetailViewController *)vcWithPath:(NSString *)path;
+- (Reviewer*)checkUserisReviewer;
+- (BOOL)CurrentUserIsOwer;
+- (void)refresh;
 @end

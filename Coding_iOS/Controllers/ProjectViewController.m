@@ -29,6 +29,7 @@
 #import "FolderToMoveViewController.h"
 #import "FileViewController.h"
 #import "ProjectCommitsViewController.h"
+#import "MRDetailViewController.h"
 
 #import "ProjectCommitsViewController.h"
 #import "PRDetailViewController.h"
@@ -472,7 +473,12 @@
             if ([proAct.line_note.noteable_type isEqualToString:@"Commit"]) {
                 vc = [CommitFilesViewController vcWithPath:request_path];
             }else{
-                vc = [PRDetailViewController vcWithPath:request_path];
+                if([request_path rangeOfString:@"merge"].location == NSNotFound) {
+                    vc = [PRDetailViewController vcWithPath:request_path];
+                } else {
+                    vc = [MRDetailViewController vcWithPath:request_path];
+                }
+               
             }
             if (vc) {
                 [self.navigationController pushViewController:vc animated:YES];

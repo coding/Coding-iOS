@@ -11,8 +11,19 @@
 
 @interface ProjectLineNote : NSObject
 @property (strong, nonatomic) User *author;
-@property (readwrite, strong, nonatomic) NSString *noteable_type, *anchor, *commit_id, *commit_path, *content, *path, *commitId;
-@property (readwrite, strong, nonatomic) NSNumber *id, *noteable_id, *outdated, *line, *position;
+@property (readwrite, strong, nonatomic) NSString *noteable_type;
+@property (readwrite, strong, nonatomic) NSString *action;
+@property (readwrite, strong, nonatomic) NSString *anchor;
+@property (readwrite, strong, nonatomic) NSString *commit_id;
+@property (readwrite, strong, nonatomic) NSString *commit_path;
+@property (readwrite, strong, nonatomic) NSString *content;
+@property (readwrite, strong, nonatomic) NSString *path;
+@property (readwrite, strong, nonatomic) NSString *commitId;
+@property (readwrite, strong, nonatomic) NSNumber *id;
+@property (readwrite, strong, nonatomic) NSNumber *noteable_id;
+@property (readwrite, strong, nonatomic) NSNumber *outdated;
+@property (readwrite, strong, nonatomic) NSNumber *line;
+@property (readwrite, strong, nonatomic) NSNumber *position;
 @property (strong, nonatomic) NSDate *created_at;
 @property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;
 @end

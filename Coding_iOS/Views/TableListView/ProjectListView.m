@@ -1,3 +1,6 @@
+
+
+
 //
 //  ProjectListView.m
 //  Coding_iOS
@@ -5,19 +8,16 @@
 //  Created by 王 原闯 on 14-8-11.
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
-
 #import "ProjectListView.h"
 #import "ProjectListCell.h"
 #import "ProjectListTaCell.h"
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"
-
 //新系列 cell
 #import "ProjectAboutMeListCell.h"
 #import "ProjectAboutOthersListCell.h"
 #import "ProjectPublicListCell.h"
 #import "SVPullToRefresh.h"
-
 @interface ProjectListView ()<UISearchBarDelegate, SWTableViewCellDelegate>
 @property (nonatomic, strong) Projects *myProjects;
 @property (nonatomic , copy) ProjectListViewBlock block;
@@ -28,12 +28,9 @@
 @property (nonatomic, strong) UIView *statusView;
 @property (nonatomic,strong) UILabel *noticeLab;
 @end
-
 @implementation ProjectListView
-
 static NSString *const kTitleKey = @"kTitleKey";
 static NSString *const kValueKey = @"kValueKey";
-
 #pragma TabBar
 - (void)tabBarItemClicked{
     if (_myTableView.contentOffset.y > 0) {
@@ -44,8 +41,6 @@ static NSString *const kValueKey = @"kValueKey";
         [self refresh];
     }
 }
-
-
 - (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(ProjectListViewBlock)block  tabBarHeight:(CGFloat)tabBarHeight
 {
     self = [super initWithFrame:frame];
@@ -89,7 +84,6 @@ static NSString *const kValueKey = @"kValueKey";
             });
             _myTableView.tableHeaderView = _mySearchBar;
         }
-
         _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
         [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
         __weak typeof(self) weakSelf = self;
@@ -97,7 +91,6 @@ static NSString *const kValueKey = @"kValueKey";
         [_myTableView addInfiniteScrollingWithActionHandler:^{
             [weakSelf refreshMore];
         }];
-
         if (_myProjects.list.count > 0) {
             [_myTableView reloadData];
         }else{
@@ -109,8 +102,7 @@ static NSString *const kValueKey = @"kValueKey";
             self.statusView=[self getHeaderViewWithStr:headerTitle color:kColorTableBG leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"]];
             [self addSubview:self.statusView];
         }
-//        _statusView.hidden=TRUE;
-
+        //        _statusView.hidden=TRUE;
     }
     return self;
 }
@@ -119,7 +111,6 @@ static NSString *const kValueKey = @"kValueKey";
     [self setupDataList];
     [self refreshUI];
 }
-
 -(void)setUseNewStyle:(BOOL)useNewStyle{
     _useNewStyle=useNewStyle;
     if (_useNewStyle) {
@@ -129,7 +120,6 @@ static NSString *const kValueKey = @"kValueKey";
         }];
     }
 }
-
 - (void)setupDataList{
     if (!_dataList) {
         _dataList = [[NSMutableArray alloc] initWithCapacity:2];
@@ -156,21 +146,18 @@ static NSString *const kValueKey = @"kValueKey";
         }
     }
 }
-
 - (NSString *)titleForSection:(NSUInteger)section{
     if (section < self.dataList.count) {
         return [[self.dataList objectAtIndex:section] valueForKey:kTitleKey];
     }
     return nil;
 }
-
 - (NSArray *)valueForSection:(NSUInteger)section{
     if (section < self.dataList.count) {
         return [[self.dataList objectAtIndex:section] valueForKey:kValueKey];
     }
     return nil;
 }
-
 - (void)refreshUI{
     [_myTableView reloadData];
     [self refreshFirst];
@@ -178,9 +165,8 @@ static NSString *const kValueKey = @"kValueKey";
 - (void)refreshToQueryData{
     [self refresh];
 }
-
 - (void)refresh{
-//    _statusView.hidden=TRUE;
+    //    _statusView.hidden=TRUE;
     NSString *headerTitle=[self getSectionHeaderName];
     if (headerTitle.length>0) {
         self.noticeLab.text=headerTitle;
@@ -192,13 +178,11 @@ static NSString *const kValueKey = @"kValueKey";
     }
     [self sendRequest];
 }
-
 - (void)refreshFirst{
     if (_myProjects && !_myProjects.list) {
         [self performSelector:@selector(refresh) withObject:nil afterDelay:0.3];
     }
 }
-
 - (void)refreshMore{
     if (_myProjects.isLoading || !_myProjects.canLoadMore) {
         [_myTableView.infiniteScrollingView stopAnimating];
@@ -207,8 +191,6 @@ static NSString *const kValueKey = @"kValueKey";
     _myProjects.willLoadMore = YES;
     [self sendRequest];
 }
-
-
 - (void)sendRequest{
     if (_myProjects.list.count <= 0) {
         [self beginLoading];
@@ -229,7 +211,7 @@ static NSString *const kValueKey = @"kValueKey";
         EaseBlankPageType blankPageType;
         if (weakSelf.myProjects.type < ProjectsTypeTaProject
             || [weakSelf.myProjects.curUser.global_key isEqualToString:[Login curLoginUser].global_key]) {
-//            blankPageType = EaseBlankPageTypeProject;
+            //            blankPageType = EaseBlankPageTypeProject;
             //再做细分  全部,创建,参与,关注,收藏
             switch (weakSelf.myProjects.type) {
                 case ProjectsTypeAll:
@@ -265,17 +247,15 @@ static NSString *const kValueKey = @"kValueKey";
         
         weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myProjects.canLoadMore;
         //空白页加载后显示 开启header
-//        self.blankPageView.loadAndShowStatusBlock=^() {
-//            NSString *headerTitle=[weakSelf getSectionHeaderName];
-//            if (headerTitle.length>0) {
-//                weakSelf.noticeLab.text=headerTitle;
-//                weakSelf.statusView.hidden=FALSE;
-//            }
-//        };
-
+        //        self.blankPageView.loadAndShowStatusBlock=^() {
+        //            NSString *headerTitle=[weakSelf getSectionHeaderName];
+        //            if (headerTitle.length>0) {
+        //                weakSelf.noticeLab.text=headerTitle;
+        //                weakSelf.statusView.hidden=FALSE;
+        //            }
+        //        };
     }];
 }
-
 -(NSString*)getSectionHeaderName{
     switch (self.myProjects.type) {
         case ProjectsTypeAll:
@@ -298,43 +278,35 @@ static NSString *const kValueKey = @"kValueKey";
             break;
     }
 }
-
 #pragma mark Table M
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     //开启header模式
-//    return (self.myProjects.type < ProjectsTypeToChoose)&&(section==0)? 44: 0;
+    //    return (self.myProjects.type < ProjectsTypeToChoose)&&(section==0)? 44: 0;
     return 0;
 }
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     //开启header模式
-
-//    if(self.myProjects.type < ProjectsTypeToChoose){
-//        NSString *headerTitle=[self getSectionHeaderName];
-//        if (headerTitle.length==0) {
-//            return nil;
-//        }
-//        UIView *headerView=[tableView getHeaderViewWithStr:headerTitle color:kColorTableBG leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"] andBlock:nil];
-//        return headerView;
-//    }else{
-//        return nil;
-//    }
+    //    if(self.myProjects.type < ProjectsTypeToChoose){
+    //        NSString *headerTitle=[self getSectionHeaderName];
+    //        if (headerTitle.length==0) {
+    //            return nil;
+    //        }
+    //        UIView *headerView=[tableView getHeaderViewWithStr:headerTitle color:kColorTableBG leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"] andBlock:nil];
+    //        return headerView;
+    //    }else{
+    //        return nil;
+    //    }
     
     return nil;
 }
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [_dataList count];
 }
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [[self valueForSection:section] count];
 }
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     Project *curPro = [[self valueForSection:indexPath.section] objectAtIndex:indexPath.row];
-
     if (_useNewStyle) {
         if (_myProjects.type < ProjectsTypeWatched) {
             ProjectAboutMeListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectAboutMeListCell" forIndexPath:indexPath];
@@ -379,10 +351,8 @@ static NSString *const kValueKey = @"kValueKey";
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
             return cell;
         }
-
     }
 }
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_useNewStyle) {
         if (_myProjects.type < ProjectsTypeTaProject) {
@@ -397,15 +367,12 @@ static NSString *const kValueKey = @"kValueKey";
         return (_myProjects.type < ProjectsTypeTaProject)?[ProjectListCell cellHeight]:[ProjectListTaCell cellHeight];
     }
 }
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (_block) {
         _block([[self valueForSection:indexPath.section] objectAtIndex:indexPath.row]);
     }
 }
-
-
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     [cell hideUtilityButtonsAnimated:YES];
     NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
@@ -421,7 +388,6 @@ static NSString *const kValueKey = @"kValueKey";
         }
     }];
 }
-
 #pragma mark SWTableViewCellDelegate
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell{
     return YES;
@@ -432,24 +398,18 @@ static NSString *const kValueKey = @"kValueKey";
         [self.mySearchBar resignFirstResponder];
     }
 }
-
 #pragma mark UISearchBarDelegate
-
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     [self searchProjectWithStr:searchText];
 }
-
-
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
     [self searchProjectWithStr:searchBar.text];
 }
-
 - (void)searchProjectWithStr:(NSString *)string{
     [self setupDataList];
     [self.myTableView reloadData];
 }
-
 - (NSMutableArray *)updateFilteredContentForSearchString:(NSString *)searchString{
     // start out with the entire list
     NSMutableArray *searchResults = [self.myProjects.list mutableCopy];
@@ -493,7 +453,6 @@ static NSString *const kValueKey = @"kValueKey";
                           type:NSContainsPredicateOperatorType
                           options:NSCaseInsensitivePredicateOption];
         [searchItemsPredicate addObject:finalPredicate];
-
         // at this OR predicate to ourr master AND predicate
         NSCompoundPredicate *orMatchPredicates = (NSCompoundPredicate *)[NSCompoundPredicate orPredicateWithSubpredicates:searchItemsPredicate];
         [andMatchPredicates addObject:orMatchPredicates];
@@ -504,8 +463,6 @@ static NSString *const kValueKey = @"kValueKey";
     [searchResults filterUsingPredicate:finalCompoundPredicate];
     return searchResults;
 }
-
-
 - (UIView *)getHeaderViewWithStr:(NSString *)headerStr color:(UIColor *)color leftNoticeColor:(UIColor*)noticeColor {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width,44)];
     headerView.backgroundColor=color;
@@ -533,5 +490,6 @@ static NSString *const kValueKey = @"kValueKey";
     [headerView addSubview:_noticeLab];
     return headerView;
 }
-
 @end
+
+

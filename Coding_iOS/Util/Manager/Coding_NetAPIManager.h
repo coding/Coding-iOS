@@ -25,6 +25,8 @@
 #import "MRPRS.h"
 #import "MRPR.h"
 #import "MRPRBaseInfo.h"
+#import "ReviewersInfo.h"
+#import "Reviewer.h"
 #import "Commit.h"
 #import "FileChanges.h"
 #import "FileLineChange.h"
@@ -99,10 +101,14 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 #pragma mark - MRPR
 - (void)request_MRPRS_WithObj:(MRPRS *)curMRPRS andBlock:(void (^)(MRPRS *data, NSError *error))block;
 - (void)request_MRPRBaseInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(MRPRBaseInfo *data, NSError *error))block;
+- (void)request_MRPRPreInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(MRPRBaseInfo *data, NSError *error))block;
+- (void)request_MRReviewerInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(ReviewersInfo *data, NSError *error))block;
 - (void)request_MRPRCommits_WithObj:(MRPR *)curMRPR andBlock:(void (^)(NSArray *data, NSError *error))block;
 - (void)request_MRPRFileChanges_WithObj:(MRPR *)curMRPR andBlock:(void (^)(FileChanges *data, NSError *error))block;
 - (void)request_MRPRAccept:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_MRPRRefuse:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_MRPRAuthorization:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_MRPRCancelAuthorization:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_MRPRCancel:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CommitInfo_WithUserGK:(NSString *)userGK projectName:(NSString *)projectName commitId:(NSString *)commitId andBlock:(void (^)(CommitInfo *data, NSError *error))block;
 - (void)request_PostCommentWithPath:(NSString *)path params:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block;
@@ -148,6 +154,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_TaskDetail:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_TaskResourceReference:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteResourceReference:(NSNumber *)iid ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_DeleteResourceReference:(NSNumber *)iid ResourceReferencePath:(NSString *)ResourceReferencePath andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ActivityListOfTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DoCommentToTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteComment:(TaskComment *)comment ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;

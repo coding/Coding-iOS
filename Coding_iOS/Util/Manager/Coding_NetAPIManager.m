@@ -14,6 +14,7 @@
 #import "MBProgressHUD+Add.h"
 #import "Register.h"
 #import "ResourceReference.h"
+#import "MRPRPreInfo.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -745,6 +746,34 @@
     }];
 }
 
+- (void)request_MRPRPreInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(MRPRBaseInfo *data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toPrePath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"MRPR_详情页面"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            MRPRBaseInfo *resultA = [NSObject objectOfClass:@"MRPRPreInfo" fromJSON:resultData];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_MRReviewerInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(ReviewersInfo *data, NSError *error))block {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toReviewersPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"MRPR_详情页面"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            ReviewersInfo *resultA = [NSObject objectOfClass:@"ReviewersInfo" fromJSON:resultData];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_MRPRCommits_WithObj:(MRPR *)curMRPR andBlock:(void (^)(NSArray *data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toCommitsPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
@@ -798,11 +827,36 @@
         }
     }];
 }
-- (void)request_MRPRCancel:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block{
+- (void)request_MRPRAuthorization:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toAuthorizationPath] withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"MRPR_授权"];
+
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_MRPRCancel:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block {
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toCancelPath] withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
-            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"MRPR_取消"];
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"MRPR_取消合并"];
+            
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
 
+}
+
+- (void)request_MRPRCancelAuthorization:(MRPR *)curMRPR andBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toAuthorizationPath] withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"MRPR_取消授权"];
+            
             block(data, nil);
         }else{
             block(nil, error);
@@ -1382,6 +1436,16 @@
         block(data, error);
     }];
 }
+
+- (void)request_DeleteResourceReference:(NSNumber *)iid ResourceReferencePath:(NSString *)ResourceReferencePath andBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:ResourceReferencePath withParams:@{@"iid": iid} withMethodType:Delete andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"任务_关联资源_删除"];
+        }
+        block(data, error);
+    }];
+}
+
 - (void)request_ActivityListOfTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[task toActivityListPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {

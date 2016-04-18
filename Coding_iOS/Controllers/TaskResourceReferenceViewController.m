@@ -38,21 +38,27 @@
 
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    if(self.resourceReference.itemList.count <= 0) {
+        [self.view configBlankPage:EaseBlankPageTypeTaskResource hasData:NO hasError:NO reloadButtonBlock:nil];
+    }
+}
+
 #pragma mark Table M
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _curTask.resourceReference.itemList.count;
+    return self.resourceReference.itemList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     TaskResourceReferenceCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskResourceReferenceCell forIndexPath:indexPath];
-    cell.item = _curTask.resourceReference.itemList[indexPath.row];
+    cell.item = self.resourceReference.itemList[indexPath.row];
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:45];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    ResourceReferenceItem *item = _curTask.resourceReference.itemList[indexPath.row];
+    ResourceReferenceItem *item = self.resourceReference.itemList[indexPath.row];
     [self goToItem:item];
 }
 
@@ -63,8 +69,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        ResourceReferenceItem *item = _curTask.resourceReference.itemList[indexPath.row];
-
+        ResourceReferenceItem *item = self.resourceReference.itemList[indexPath.row];
         __weak typeof(self) weakSelf = self;
         UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确定取消关联：%@", item.title] buttonTitles:nil destructiveTitle:@"确定" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
@@ -78,12 +83,18 @@
 #pragma mark - Actiom
 - (void)deleteItem:(ResourceReferenceItem *)item{
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_DeleteResourceReference:item.code ofTask:_curTask andBlock:^(id data, NSError *error) {
+    NSString *requestPath = self.resourceReferencePath;
+    if([self.resourceReferenceFromType isEqual:@1]) {
+        requestPath = [NSString stringWithFormat:@"api%@/resource_reference/%ld", self.resourceReferencePath, (long)self.number.integerValue];
+
+    }
+    [[Coding_NetAPIManager sharedManager] request_DeleteResourceReference:item.code ResourceReferencePath:requestPath andBlock:^(id data, NSError *error) {
         if (data) {
-            [weakSelf.curTask.resourceReference.itemList removeObject:item];
+            [weakSelf.resourceReference.itemList removeObject:item];
             [weakSelf.myTableView reloadData];
         }
     }];
+    
 }
 
 - (void)goToItem:(ResourceReferenceItem *)item{
