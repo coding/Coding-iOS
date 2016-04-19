@@ -1,7 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
 
-target :"Coding_iOS" do
+target "Coding_iOS" do
     
 pod 'TTTAttributedLabel', '1.10.1'
 pod 'RegexKitLite-NoWarning', '1.1.0'
