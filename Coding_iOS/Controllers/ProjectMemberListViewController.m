@@ -249,7 +249,7 @@
                     if (cell.curMember == curMember) {
                         [sender stopQueryAnimate];
                         if (data) {
-                            BOOL isAdded = [weakSelf.curTask hasWatcher:curMember.user];
+                            BOOL isAdded = [weakSelf.curTask hasWatcher:curMember.user] != nil;
                             [sender setImage:[UIImage imageNamed:isAdded? @"btn_project_added": @"btn_project_add"] forState:UIControlStateNormal];
                         }
                     }

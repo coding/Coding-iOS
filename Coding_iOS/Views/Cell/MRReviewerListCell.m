@@ -82,7 +82,7 @@
         [likeImage setHidden:true];
     }
     NSMutableArray *dataArray = [[NSMutableArray alloc] initWithArray:reviewerList];
-    NSMutableArray *reviewers= [dataArray sortedArrayUsingComparator:^NSComparisonResult(Reviewer *obj1, Reviewer *obj2) {
+    NSArray *reviewers = [dataArray sortedArrayUsingComparator:^NSComparisonResult(Reviewer *obj1, Reviewer *obj2) {
         NSComparisonResult result = [ obj2.value compare:obj1.value];
         if(result == NSOrderedSame) {
             result = [ obj1.volunteer compare:obj2.volunteer];
