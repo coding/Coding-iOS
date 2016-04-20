@@ -90,10 +90,12 @@
 }
 
 - (void)refreshToQueryData{
-    __weak typeof(self) weakSelf = self;
-    [self configBlankPage:EaseBlankPageTypeView hasData:([self curMRPRS].list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
-        [weakSelf refreshMore:NO];
-    }];
+    if (self.curMRPRS.list > 0) {
+        __weak typeof(self) weakSelf = self;
+        [self configBlankPage:EaseBlankPageTypeView hasData:([self curMRPRS].list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+            [weakSelf refreshMore:NO];
+        }];
+    }
     [self.myTableView reloadData];
     [self refresh];
 }

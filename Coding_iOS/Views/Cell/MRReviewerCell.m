@@ -128,6 +128,8 @@
 -(void) cantReviewer {
     self.rightLabel.hidden = YES;
     self.likeImgView.hidden = YES;
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.accessoryType = UITableViewCellAccessoryNone;
 }
 
 + (CGFloat)cellHeight{
