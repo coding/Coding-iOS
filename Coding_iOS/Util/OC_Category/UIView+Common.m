@@ -672,7 +672,7 @@ static char LoadingViewKey, BlankPageViewKey;
             case EaseBlankPageTypeShopOrders:
             {
                 imageName = @"blankpage_image_Sleep";
-                tipStr = @"您还木有订单呢\n努力推代码，把洋葱猴带回家～";
+                tipStr = @"您还木有订单呢\n努力做任务，把洋葱猴带回家～";
             }
                 break;
             case EaseBlankPageTypeShopSendOrders:
@@ -689,7 +689,7 @@ static char LoadingViewKey, BlankPageViewKey;
                 break;
             case EaseBlankPageTypeNoExchangeGoods:{
                 imageName = @"blankpage_image_Sleep";
-                tipStr = @"还木有可兑换的商品呢\n努力推代码，把洋葱猴带回家～";
+                tipStr = @"还木有可兑换的商品呢\n努力做任务，把洋葱猴带回家～";
             }
                 break;
             case EaseBlankPageTypeProject_ALL:{
