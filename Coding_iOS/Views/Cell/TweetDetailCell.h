@@ -15,7 +15,7 @@
 @interface TweetDetailCell : UITableViewCell <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIWebViewDelegate>
 @property (strong, nonatomic) Tweet *tweet;
 @property (nonatomic, copy) void (^commentClickedBlock) (id sender);
-@property (nonatomic, copy) void (^likeBtnClickedBlock) ();
+@property (nonatomic, copy) void (^cellRefreshBlock) ();
 @property (nonatomic, copy) void (^deleteClickedBlock) ();
 @property (nonatomic, copy) void (^userBtnClickedBlock) (User *curUser);
 @property (nonatomic, copy) void (^moreLikersBtnClickedBlock) ();

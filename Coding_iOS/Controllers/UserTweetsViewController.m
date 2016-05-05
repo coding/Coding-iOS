@@ -258,7 +258,7 @@
         }
         [_myMsgInputView notAndBecomeFirstResponder];
     };
-    cell.likeBtnClickedBlock = ^(Tweet *tweet){
+    cell.cellRefreshBlock = ^(){
         [weakSelf.myTableView reloadData];
     };
     cell.userBtnClickedBlock = ^(User *curUser){
@@ -288,7 +288,7 @@
     cell.goToDetailTweetBlock = ^(Tweet *curTweet){
         [self goToDetailWithTweet:curTweet];
     };
-    cell.refreshSingleCCellBlock = ^(){
+    cell.cellRefreshBlock = ^(){
         [weakSelf.myTableView reloadData];
     };
     cell.mediaItemClickedBlock = ^(HtmlMediaItem *curItem){

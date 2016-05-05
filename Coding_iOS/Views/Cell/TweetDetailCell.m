@@ -368,8 +368,8 @@
     BOOL preLiked = _tweet.liked.boolValue;
     //重新加载likes
     [_tweet changeToLiked:[NSNumber numberWithBool:!preLiked]];
-    if (_likeBtnClickedBlock) {
-        _likeBtnClickedBlock(_tweet);
+    if (_cellRefreshBlock) {
+        _cellRefreshBlock();
     }
     //开始动画
     if (preLiked) {
@@ -381,8 +381,8 @@
     [[Coding_NetAPIManager sharedManager] request_Tweet_DoLike_WithObj:_tweet andBlock:^(id data, NSError *error) {
         if (!data) {//如果请求失败，就再改回来
             [_tweet changeToLiked:[NSNumber numberWithBool:preLiked]];
-            if (_likeBtnClickedBlock) {
-                _likeBtnClickedBlock(_tweet);
+            if (_cellRefreshBlock) {
+                _cellRefreshBlock();
             }
             [self.likeBtn setImage:[UIImage imageNamed:preLiked? @"tweet_btn_liked" : @"tweet_btn_like"] forState:UIControlStateNormal];
         }
@@ -413,7 +413,9 @@
     @weakify(self);
     [SendRewardManager handleTweet:_tweet completion:^(Tweet *curTweet, BOOL sendSucess) {
         @strongify(self);
-        self.tweet = curTweet;
+        if (self.cellRefreshBlock) {
+            self.cellRefreshBlock();
+        }
     }];
 }
 

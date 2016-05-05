@@ -236,7 +236,7 @@
         cell.commentClickedBlock = ^(id sender){
             [self doCommentToComment:nil sender:sender];
         };
-        cell.likeBtnClickedBlock = ^(){
+        cell.cellRefreshBlock = ^(){
             [self.myTableView reloadData];
         };
         cell.deleteClickedBlock = ^(){

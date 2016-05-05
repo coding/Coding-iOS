@@ -197,7 +197,7 @@
         }
         [_myMsgInputView notAndBecomeFirstResponder];
     };
-    cell.likeBtnClickedBlock = ^(Tweet *tweet){
+    cell.cellRefreshBlock = ^(){
         [weakSelf.myTableView reloadData];
     };
     cell.userBtnClickedBlock = ^(User *curUser){
