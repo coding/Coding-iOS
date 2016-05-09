@@ -166,9 +166,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
         CGFloat spaceHeight = MAX(0, CGRectGetHeight(self.myTableView.frame) - self.myTableView.contentSize.height - keyboard_down_InputViewHeight);
         contentOffset.y += MAX(0, heightToBottom - keyboard_down_InputViewHeight - spaceHeight);
         NSLog(@"\nspaceHeight:%.2f heightToBottom:%.2f diff:%.2f Y:%.2f", spaceHeight, heightToBottom, MAX(0, heightToBottom - CGRectGetHeight(inputView.frame) - spaceHeight), contentOffset.y);
-        [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-            self.myTableView.contentOffset = contentOffset;
-        } completion:nil];
+        self.myTableView.contentOffset = contentOffset;
     }else{
         keyboard_is_down = YES;
     }
