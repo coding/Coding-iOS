@@ -103,7 +103,7 @@
     userName = curActivity.author.name? curActivity.author.name: @"";
     NSMutableAttributedString *attrContent;
     if ([curActivity.action isEqualToString:@"create"]) {
-        contentStr = [NSString stringWithFormat:@"创建了请求合并 - %@", [curActivity.created_at stringDisplay_HHmm]];
+        contentStr = [NSString stringWithFormat:@"创建了合并请求 - %@", [curActivity.created_at stringDisplay_HHmm]];
     } else if ([curActivity.action isEqualToString:@"merge"]) {
         contentStr = [NSString stringWithFormat:@"合并了合并请求 - %@", [curActivity.created_at stringDisplay_HHmm]];
     } else if ([curActivity.action isEqualToString:@"review_undo"]) {
