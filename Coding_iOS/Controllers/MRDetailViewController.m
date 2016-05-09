@@ -257,7 +257,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [weakSelf configBottomView];
             [weakSelf sortActivityList];
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil && self.activityList != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(_curMRPRInfo != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
     }];
