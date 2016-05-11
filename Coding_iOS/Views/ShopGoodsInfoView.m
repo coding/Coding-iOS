@@ -139,18 +139,8 @@
     NSString *points_cost = [NSString stringWithFormat:@"  %@ 码币",[model.points_cost stringValue]];
     [_codingCoinView setTitle:points_cost forState:UIControlStateNormal];
     
-    [_coverView sd_setImageWithURL:[model.image urlWithCodePath] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        if (cacheType == SDImageCacheTypeNone) {
-            [UIView transitionWithView:_coverView
-                              duration:0.56
-                               options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:^{
-                                _coverView.image = image;
-                            } completion:^(BOOL finished) {
-                            }];
-            
-        }
-    }];
+    
+    [_coverView sd_setImageWithURL:[model.image urlImageWithCodePathResize:90* 2] placeholderImage:nil];
     
     HtmlMedia *mHtml = [[HtmlMedia alloc] initWithString:model.description_mine showType:MediaShowTypeNone];
     _descLabel.text = mHtml.contentDisplay;

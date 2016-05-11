@@ -129,20 +129,7 @@
     
     [self showExchangeIcon:model.exchangeable];
     
-    [_coverView sd_setImageWithURL:[model.image urlWithCodePath] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        if (cacheType == SDImageCacheTypeNone) {
-            [UIView transitionWithView:_coverView
-                              duration:0.56
-                               options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:^{
-                                _coverView.image = image;
-                            } completion:^(BOOL finished) {
-                                //  Do whatever when the animation is finished
-                            }];
-            
-        }
-    }];
-    
+    [_coverView sd_setImageWithURL:[model.image urlImageWithCodePathResize:kScreen_Width] placeholderImage:nil];
 }
 
 - (void)showExchangeIcon:(BOOL)_isCanExchangeIcon
