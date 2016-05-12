@@ -83,6 +83,48 @@
                 [_verify_codeBtn addTarget:self action:@selector(phoneCodeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
                 [self.contentView addSubview:_verify_codeBtn];
             }
+        }else if ([reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Phone]){
+            _countryCodeL = ({
+                UILabel *label = [UILabel new];
+                label.font = [UIFont systemFontOfSize:17];
+                label.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+                [self.contentView addSubview:label];
+                [label mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
+                    make.centerY.equalTo(self.contentView);
+                }];
+                label;
+            });
+            UIView *lineV = ({
+                UIView *view = [UIView new];
+                view.backgroundColor = [UIColor colorWithHexString:@"0xCCCCCC"];
+                [self.contentView addSubview:view];
+                [view mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(self.countryCodeL.mas_right).offset(8);
+                    make.centerY.equalTo(self.countryCodeL);
+                    make.width.mas_offset(0.5);
+                    make.height.mas_equalTo(15.0);
+                }];
+                view;
+            });
+            UIButton *bgBtn = ({
+                UIButton *button = [UIButton new];
+                [self.contentView addSubview:button];
+                [button mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.top.bottom.equalTo(self.contentView);
+                    make.right.equalTo(lineV);
+                }];
+                button;
+            });
+            [bgBtn addTarget:self action:@selector(countryCodeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+
+            
+            [_textField mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(20);
+                make.right.equalTo(self.contentView).offset(-kLoginPaddingLeftWidth);
+                make.centerY.equalTo(self.contentView);
+                make.left.equalTo(lineV.mas_right).offset(8.0);
+            }];
         }
     }
     return self;
@@ -119,7 +161,11 @@
         self.phoneCodeBtnClckedBlock(sender);
     }
 }
-
+- (void)countryCodeBtnClicked:(id)sender{
+    if (_countryCodeBtnClickedBlock) {
+        _countryCodeBtnClickedBlock();
+    }
+}
 #pragma mark - UIView
 - (void)layoutSubviews {
     [super layoutSubviews];

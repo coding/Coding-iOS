@@ -16,6 +16,7 @@
 #import "WebViewController.h"
 #import "CannotLoginViewController.h"
 #import "EaseInputTipsView.h"
+#import "CountryCodeListViewController.h"
 
 @interface RegisterViewController ()<UITableViewDataSource, UITableViewDelegate, TTTAttributedLabelDelegate>
 @property (nonatomic, assign) RegisterMethodType medthodType;
@@ -29,6 +30,8 @@
 @property (assign, nonatomic) BOOL captchaNeeded;
 
 @property (strong, nonatomic) NSString *phoneCodeCellIdentifier;
+@property (strong, nonatomic) NSDictionary *countryCodeDict;
+
 @end
 
 @implementation RegisterViewController
@@ -54,6 +57,7 @@
         [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Text];
         [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Password];
         [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Captcha];
+        [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Phone];
         [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:self.phoneCodeCellIdentifier];
         tableView.backgroundColor = kColorTableSectionBg;
         tableView.dataSource = self;
@@ -234,9 +238,15 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *cellIdentifier;
     if (_medthodType == RegisterMethodEamil) {
-        cellIdentifier = indexPath.row == 3? kCellIdentifier_Input_OnlyText_Cell_Captcha: indexPath.row == 2? kCellIdentifier_Input_OnlyText_Cell_Password: kCellIdentifier_Input_OnlyText_Cell_Text;
+        cellIdentifier = (indexPath.row == 3? kCellIdentifier_Input_OnlyText_Cell_Captcha:
+                          indexPath.row == 2? kCellIdentifier_Input_OnlyText_Cell_Password:
+                          kCellIdentifier_Input_OnlyText_Cell_Text);
     }else{
-        cellIdentifier = indexPath.row == 4? kCellIdentifier_Input_OnlyText_Cell_Captcha: indexPath.row == 3? self.phoneCodeCellIdentifier: indexPath.row == 2? kCellIdentifier_Input_OnlyText_Cell_Password: kCellIdentifier_Input_OnlyText_Cell_Text;
+        cellIdentifier = (indexPath.row == 4? kCellIdentifier_Input_OnlyText_Cell_Captcha:
+                          indexPath.row == 3? self.phoneCodeCellIdentifier:
+                          indexPath.row == 2? kCellIdentifier_Input_OnlyText_Cell_Password:
+                          indexPath.row == 1? kCellIdentifier_Input_OnlyText_Cell_Phone:
+                          kCellIdentifier_Input_OnlyText_Cell_Text);
     }
     Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
 
@@ -276,8 +286,17 @@
                 weakSelf.myRegister.global_key = valueStr;
             };
         }else if (indexPath.row == 1){
+            if (!_countryCodeDict) {
+                _countryCodeDict = @{@"country": @"China",
+                                     @"country_code": @"86",
+                                     @"iso_code": @"cn"};
+            }
             cell.textField.keyboardType = UIKeyboardTypeNumberPad;
             [cell setPlaceholder:@" 手机号" value:self.myRegister.phone];
+            cell.countryCodeL.text = [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]];
+            cell.countryCodeBtnClickedBlock = ^(){
+                [weakSelf goToCountryCodeVC];
+            };
             cell.textValueChangedBlock = ^(NSString *valueStr){
                 weakSelf.myRegister.phone = valueStr;
             };
@@ -321,7 +340,9 @@
         return;
     }
     sender.enabled = NO;
-    [[Coding_NetAPIManager sharedManager] request_GeneratePhoneCodeWithPhone:_myRegister.phone type:PurposeToRegister block:^(id data, NSError *error) {
+    NSDictionary *params = @{@"phone": _myRegister.phone,
+                             @"phoneCountryCode": [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]]};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/register/generate_phone_code" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [NSObject showHudTipStr:@"验证码发送成功"];
             [sender startUpTimer];
@@ -346,6 +367,8 @@
     }else{
         params[@"phone"] = _myRegister.phone;
         params[@"code"] = _myRegister.code;
+        params[@"country"] = _countryCodeDict[@"iso_code"];
+        params[@"phoneCountryCode"] = [NSString stringWithFormat:@"+%@", _countryCodeDict[@"country_code"]];
     }
     if (_captchaNeeded) {
         params[@"j_captcha"] = _myRegister.j_captcha;
@@ -370,6 +393,15 @@
 - (void)gotoServiceTermsVC{
     NSString *pathForServiceterms = [[NSBundle mainBundle] pathForResource:@"service_terms" ofType:@"html"];
     WebViewController *vc = [WebViewController webVCWithUrlStr:pathForServiceterms];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToCountryCodeVC{
+    __weak typeof(self)  weakSelf = self;
+    CountryCodeListViewController *vc = [CountryCodeListViewController new];
+    vc.selectedBlock = ^(NSDictionary *countryCodeDict){
+        weakSelf.countryCodeDict = countryCodeDict;
+    };
     [self.navigationController pushViewController:vc animated:YES];
 }
 

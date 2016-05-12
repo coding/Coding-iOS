@@ -193,28 +193,6 @@
     }];
 }
 
-- (void)request_GeneratePhoneCodeWithPhone:(NSString *)phone type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
-    NSString *path;
-    NSDictionary *params = @{@"phone": phone};
-    switch (type) {
-        case PurposeToRegister:
-            path = @"api/account/register/generate_phone_code";
-            break;
-        case PurposeToPasswordActivate:
-            path = @"api/account/activate/generate_phone_code";
-            break;
-        case PurposeToPasswordReset:
-            path = @"api/account/reset_password/generate_phone_code";
-            break;
-    }
-    
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"生成手机验证码"];
-        }
-        block(data, error);
-    }];
-}
 - (void)request_SetPasswordWithPhone:(NSString *)phone code:(NSString *)code password:(NSString *)password captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/account/register/phone";
     NSMutableDictionary *params = @{@"phone": phone,
