@@ -332,7 +332,8 @@
 }
 //判断是否是手机号码或者邮箱
 - (BOOL)isPhoneNo{
-    NSString *phoneRegex = @"1[3|5|7|8|][0-9]{9}";
+//    NSString *phoneRegex = @"1[3|5|7|8|][0-9]{9}";
+    NSString *phoneRegex = @"[0-9]{1,15}";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
     return [phoneTest evaluateWithObject:self];
 }
