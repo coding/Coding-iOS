@@ -11,12 +11,13 @@
 #import "TPKeyboardAvoidingTableView.h"
 #import "Coding_NetAPIManager.h"
 #import "Login.h"
+#import "CountryCodeListViewController.h"
 
 @interface SettingPhoneViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
-@property (strong, nonatomic) NSString *phone, *code;
+@property (strong, nonatomic) NSString *phone, *code, *phone_country_code, *country, *verifyStr;
 @property (strong, nonatomic) NSString *phoneCodeCellIdentifier;
-
+@property (assign, nonatomic) VerifyType verifyType;
 @end
 
 @implementation SettingPhoneViewController
@@ -26,6 +27,8 @@
     // Do any additional setup after loading the view.
     self.title = @"绑定手机号码";
     self.phone = [Login curLoginUser].phone;
+    self.country = [Login curLoginUser].country;
+    self.phone_country_code = [Login curLoginUser].phone_country_code;
     
     //    添加myTableView
     self.phoneCodeCellIdentifier = [Input_OnlyText_Cell randomCellIdentifierOfPhoneCodeType];
@@ -35,7 +38,9 @@
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Phone];
         [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Text];
+        [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Password];
         [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:self.phoneCodeCellIdentifier];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -45,14 +50,25 @@
     });
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(doneBtnClicked:)];
 
+    self.verifyType = VerifyTypePassword;
+    [[Coding_NetAPIManager sharedManager] request_VerifyTypeWithBlock:^(VerifyType type, NSError *error) {
+        if (!error) {
+            self.verifyType = type;
+            [self.myTableView reloadData];
+        }
+    }];
 }
 #pragma mark TableM
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 2;
+    return 3;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:indexPath.row == 0? self.phoneCodeCellIdentifier: kCellIdentifier_Input_OnlyText_Cell_Text forIndexPath:indexPath];
+    NSString *identifier = (indexPath.row == 0? kCellIdentifier_Input_OnlyText_Cell_Phone:
+                            indexPath.row == 1? self.phoneCodeCellIdentifier:
+                            _verifyType == VerifyTypePassword? kCellIdentifier_Input_OnlyText_Cell_Password:
+                            kCellIdentifier_Input_OnlyText_Cell_Text);
+    Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     
     __weak typeof(self) weakSelf = self;
     if (indexPath.row == 0) {
@@ -61,14 +77,23 @@
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.phone = valueStr;
         };
-        cell.phoneCodeBtnClckedBlock = ^(PhoneCodeButton *btn){
-            [weakSelf phoneCodeBtnClicked:btn];
+        cell.countryCodeL.text = _phone_country_code;
+        cell.countryCodeBtnClickedBlock = ^(){
+            [weakSelf goToCountryCodeVC];
         };
-    }else{
+    }else if (indexPath.row == 1){
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
         [cell setPlaceholder:@" 手机验证码" value:self.code];
         cell.textValueChangedBlock = ^(NSString *valueStr){
             weakSelf.code = valueStr;
+        };
+        cell.phoneCodeBtnClckedBlock = ^(PhoneCodeButton *btn){
+            [weakSelf phoneCodeBtnClicked:btn];
+        };
+    }else{
+        [cell setPlaceholder:_verifyType == VerifyTypePassword? @" 输入密码": @" 输入两步验证码" value:_verifyStr];
+        cell.textValueChangedBlock = ^(NSString *valueStr){
+            weakSelf.verifyStr = valueStr;
         };
     }
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
@@ -99,7 +124,7 @@
         return;
     }
     sender.enabled = NO;
-    [[Coding_NetAPIManager sharedManager] request_GeneratePhoneCodeToResetPhone:_phone block:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_GeneratePhoneCodeToResetPhone:_phone phoneCountryCode:_phone_country_code block:^(id data, NSError *error) {
         if (data) {
             [NSObject showHudTipStr:@"验证码发送成功"];
             [sender startUpTimer];
@@ -116,19 +141,36 @@
         tipStr = @"手机号码格式有误";
     }else if (_code.length <= 0){
         tipStr = @"请填写手机验证码";
+    }else if (_verifyStr.length <= 0){
+        tipStr = _verifyType == VerifyTypePassword? @"请填写密码": @"请填写两步验证码";
     }
     if (tipStr.length > 0) {
         [NSObject showHudTipStr:tipStr];
         return;
     }
+    NSMutableDictionary *params = @{@"phone": _phone,
+                                    @"code": _code,
+                                    @"phoneCountryCode": _phone_country_code,
+                                    @"two_factor_code": _verifyType == VerifyTypePassword? [_verifyStr sha1Str]: _verifyStr}.mutableCopy;
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_ResetPhone:_phone code:_code andBlock:^(id data, NSError *error) {
-        weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/phone/change" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [NSObject showHudTipStr:@"手机号码绑定成功"];
             [weakSelf.navigationController popViewControllerAnimated:YES];
         }
     }];
+}
+
+#pragma mark - VC
+- (void)goToCountryCodeVC{
+    __weak typeof(self)  weakSelf = self;
+    CountryCodeListViewController *vc = [CountryCodeListViewController new];
+    vc.selectedBlock = ^(NSDictionary *countryCodeDict){
+        weakSelf.country = countryCodeDict[@"iso_code"];
+        weakSelf.phone_country_code = [NSString stringWithFormat:@"+%@", countryCodeDict[@"country_code"]];
+        [weakSelf.myTableView reloadData];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
