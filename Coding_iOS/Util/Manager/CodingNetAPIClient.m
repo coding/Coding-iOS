@@ -140,7 +140,8 @@ static dispatch_once_t onceToken;
                 DebugLog(@"\n===========response===========\n%@:\n%@\n%@", aPath, error, operation.responseString);
                 !autoShowError || [NSObject showError:error];
                 block(nil, error);
-            }];}
+            }];
+            break;}
         default:
             break;
     }
