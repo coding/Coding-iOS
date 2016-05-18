@@ -96,3 +96,5 @@ Coding is available under the MIT license. See the LICENSE file for more info.
   [3]: https://dn-coding-net-production-pp.qbox.me/c8e0640f-8192-474d-a531-d5ed2c87ec28.png
   [4]: https://dn-coding-net-production-pp.qbox.me/eca47a31-636a-40c7-be26-23249f46f1be.png
   [5]: https://dn-coding-net-production-pp.qbox.me/cc964453-2d78-494f-96e4-a2070e316302.png
+
+Coding-iOS 可编译成功版本。
