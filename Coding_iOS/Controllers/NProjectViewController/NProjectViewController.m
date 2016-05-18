@@ -284,7 +284,7 @@
 
 #pragma mark goTo VC
 - (void)goToIndex:(NSInteger)index{
-    if (index == 0) {
+    if (index == 0 && _myProject.current_user_role_id.integerValue >= 80) {
         __weak typeof(self) weakSelf = self;
         [[Coding_NetAPIManager sharedManager] request_Project_UpdateVisit_WithObj:_myProject andBlock:^(id data, NSError *error) {
             if (data) {

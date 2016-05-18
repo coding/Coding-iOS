@@ -263,7 +263,7 @@
     if (_tweet.htmlMedia.imageItems.count > 0) {
         
         CGFloat mediaHeight = [TweetCell contentMediaHeightWithTweet:_tweet];
-        CGFloat mediaWidth = _tweet.htmlMedia.imageItems.count == 4? kTweetCell_ContentWidth - [TweetMediaItemCCell ccellSizeWithObj:_tweet.htmlMedia.imageItems.firstObject].width - 3: kTweetCell_ContentWidth;
+        CGFloat mediaWidth = _tweet.htmlMedia.imageItems.count == 4? kTweetCell_ContentWidth - [TweetMediaItemCCell ccellSizeWithObj:_tweet.htmlMedia.imageItems.firstObject].width: kTweetCell_ContentWidth;
         [self.mediaView setFrame:CGRectMake(kTweetCell_PadingLeft, curBottomY, mediaWidth, mediaHeight)];
         [self.mediaView reloadData];
         self.mediaView.hidden = NO;

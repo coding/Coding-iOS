@@ -20,13 +20,6 @@
     return self;
 }
 
-- (void)setBackend_project_path:(NSString *)backend_project_path{
-    if ([backend_project_path hasPrefix:@"/team/"]) {
-        backend_project_path = [backend_project_path stringByReplacingOccurrencesOfString:@"/team/" withString:@"/user/"];
-    }
-    _backend_project_path = backend_project_path;
-}
-
 -(id)copyWithZone:(NSZone*)zone {
     Project *person = [[[self class] allocWithZone:zone] init];
     person.icon = [_icon copy];
