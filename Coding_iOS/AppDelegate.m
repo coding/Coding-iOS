@@ -46,7 +46,10 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 #pragma mark XGPush
+
+//注册通知
 - (void)registerPush{
+    //获取系统版本
     float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
     if(sysVer < 8){
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
@@ -62,6 +65,9 @@
 }
 
 #pragma mark UserAgent
+/**
+ *  获取设备信息
+ */
 - (void)registerUserAgent{
     struct utsname systemInfo;
     uname(&systemInfo);
@@ -80,7 +86,9 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     //网络
+    //1)开启网络请求活动指示器
     [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
+    //2）检查网络状态
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     
     //sd加载的数据类型
