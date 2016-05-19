@@ -288,6 +288,19 @@
     return [self deleteCacheWithPath:kPath_ResponseCache];
 }
 
++ (NSUInteger)getResponseCacheSize {
+    NSString *dirPath = [self pathInCacheDirectory:kPath_ResponseCache];
+    NSUInteger size = 0;
+    NSDirectoryEnumerator *fileEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:dirPath];
+    for (NSString *fileName in fileEnumerator) {
+        NSString *filePath = [dirPath stringByAppendingPathComponent:fileName];
+        NSDictionary *attrs = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath error:nil];
+        size += [attrs fileSize];
+    }
+    return size;
+}
+
+
 + (BOOL) deleteCacheWithPath:(NSString *)cachePath{
     NSString *dirPath = [self pathInCacheDirectory:cachePath];
     BOOL isDir = NO;

@@ -383,7 +383,7 @@
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         linkStr = [(UIWebView *)_objToShare request].URL.absoluteString;
     }else{
-        linkStr = [NSObject baseURLStr];
+        linkStr = [NSString stringWithFormat:@"%@app#download", [NSObject baseURLStr]];
     }
     return linkStr;
 }
@@ -394,7 +394,7 @@
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         title = @"Coding 链接";
     }else{
-        title = @"Coding";
+        title = @"Coding - 让开发更简单";
     }
     return title;
 }
@@ -405,7 +405,7 @@
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
         text =[(UIWebView *)_objToShare stringByEvaluatingJavaScriptFromString:@"document.title"];
     }else{
-        text = @"Coding 让开发更简单！";
+        text = @"#Coding# 软件开发，云端协作";
     }
     return text;
 }
@@ -429,17 +429,21 @@
     return imageUrl;
 }
 - (void)p_shareENNoteWithompletion:(ENNotePopulateFromWebViewCompletionHandler)completion{
-    if ([_objToShare respondsToSelector:NSSelectorFromString(@"htmlMedia")]) {
+    if ([_objToShare isKindOfClass:[UIWebView class]]){
+        [ENNote populateNoteFromWebView:(UIWebView *)_objToShare completion:completion];
+    }else{
         ENNote *note = [ENNote new];
         note.title = [self p_shareTitle];
         NSString *htmlStr;
-        HtmlMedia *htmlMedia = [_objToShare valueForKey:@"htmlMedia"];
-        htmlStr = htmlMedia.contentOrigional;
-        htmlStr = [htmlStr stringByAppendingFormat:@"<p><a href=\"%@\">原始链接</a></p>", [self p_shareLinkStr]];
+        if ([_objToShare respondsToSelector:NSSelectorFromString(@"htmlMedia")]) {
+            HtmlMedia *htmlMedia = [_objToShare valueForKey:@"htmlMedia"];
+            htmlStr = htmlMedia.contentOrigional;
+            htmlStr = [htmlStr stringByAppendingFormat:@"<p><a href=\"%@\">原始链接</a></p>", [self p_shareLinkStr]];
+        }else{
+            htmlStr = [self p_shareText];
+        }
         note.content = [ENNoteContent noteContentWithSanitizedHTML:htmlStr];
         completion(note);
-    }else if ([_objToShare isKindOfClass:[UIWebView class]]){
-        [ENNote populateNoteFromWebView:(UIWebView *)_objToShare completion:completion];
     }
 }
 #pragma mark TranspondMessage
@@ -495,7 +499,7 @@
         socialData.extConfig.wechatSessionData = wechatSessionData;
     }else if ([platformName isEqualToString:@"wxtimeline"]){
         UMSocialWechatTimelineData *wechatTimelineData = [UMSocialWechatTimelineData new];
-        wechatTimelineData.shareText = [NSString stringWithFormat:@"「%@」%@", [self p_shareTitle], [self p_shareText]];
+        wechatTimelineData.shareText = !_objToShare? [self p_shareTitle]: [NSString stringWithFormat:@"「%@」%@", [self p_shareTitle], [self p_shareText]];
         wechatTimelineData.url = [self p_shareLinkStr];
         wechatTimelineData.wxMessageType = UMSocialWXMessageTypeWeb;
         socialData.extConfig.wechatTimelineData = wechatTimelineData;
@@ -512,8 +516,9 @@
         socialData.extConfig.qzoneData = qzoneData;
     }else if ([platformName isEqualToString:@"sina"]){
         NSString *shareTitle, *shareText, *shareTail;
-        shareTitle = [NSString stringWithFormat:@"「%@」", [self p_shareTitle]];
-        shareText = [self p_shareText];
+        shareTitle = !_objToShare? @"#Coding# 让开发更简单": [NSString stringWithFormat:@"「%@」", [self p_shareTitle]];
+        shareText = !_objToShare? @"": [self p_shareText];
+        
         shareTail = [NSString stringWithFormat:@"%@（分享自@Coding）", [self p_shareLinkStr]];
         NSInteger maxShareLength = 140;
         NSInteger maxTextLength = maxShareLength - shareTitle.length - shareTail.length;
