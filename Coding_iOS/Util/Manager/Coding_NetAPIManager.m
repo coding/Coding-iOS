@@ -176,49 +176,6 @@
         block(data, error);
     }];
 }
-
-- (void)request_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
-    NSString *path;
-    NSDictionary *params = @{@"email": email,
-                             @"j_captcha": captcha};
-    switch (type) {
-        case PurposeToPasswordActivate:
-            path = @"api/activate";
-            break;
-        case PurposeToPasswordReset:
-            path = @"api/resetPassword";
-            break;
-        default:
-            path = nil;
-            break;
-    }
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
-        if (data) {
-            [MobClick event:kUmeng_Event_Request_Get label:@"发激活or重置密码邮件"];
-        }
-        block(data, nil);
-    }];
-}
-- (void)request_ActivateByPhone:(NSString *)phone setEmail:(NSString *)email global_key:(NSString *)global_key block:(void (^)(id data, NSError *error))block{
-    NSString *path = @"api/account/activate/phone";
-    NSDictionary *params = @{@"phone" : phone,
-                             @"email": email,
-                             @"global_key": global_key};
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        id resultData = [data valueForKeyPath:@"data"];
-        if (resultData) {
-            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"激活账号_设置邮箱KEY"];
-            
-            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];
-            if (curLoginUser) {
-                [Login doLogin:resultData];
-            }
-            block(curLoginUser, nil);
-        }else{
-            block(nil, error);
-        }
-    }];
-}
 - (void)request_ActivateBySetGlobal_key:(NSString *)global_key block:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/account/global_key/acitvate";
     NSDictionary *params = @{@"global_key": global_key};
