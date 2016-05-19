@@ -10,5 +10,5 @@
 #import "Project.h"
 
 @interface ProjectToChooseListViewController : BaseViewController
-@property (copy, nonatomic) void(^projectChoosedBlock)(Project *project);
+@property (copy, nonatomic) void(^projectChoosedBlock)(ProjectToChooseListViewController *chooseVC, Project *project);
 @end

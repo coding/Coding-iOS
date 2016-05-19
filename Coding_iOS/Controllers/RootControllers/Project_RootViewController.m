@@ -31,6 +31,8 @@
 #import "ZXScanCodeViewController.h"
 #import "OTPListViewController.h"
 #import "WebViewController.h"
+#import "ProjectToChooseListViewController.h"
+
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
 @property (strong, nonatomic) UISearchDisplayController *mySearchDisplayController;
@@ -376,10 +378,25 @@
     [self.navigationController pushViewController:newProjectVC animated:YES];
 }
 - (void)goToNewTaskVC{
-    EditTaskViewController *vc = [[EditTaskViewController alloc] init];
-    vc.myTask = [Task taskWithProject:nil andUser:nil];
-    [self.navigationController pushViewController:vc animated:YES];
+    __weak typeof(self) weakSelf = self;
+    ProjectToChooseListViewController *chooseVC = [[ProjectToChooseListViewController alloc] init];
+    chooseVC.projectChoosedBlock = ^(ProjectToChooseListViewController *blockChooseVC, Project *project){
+        [weakSelf goToNewTaskFromVC:blockChooseVC withPro:project];
+    };
+    [self.navigationController pushViewController:chooseVC animated:YES];
 }
+
+- (void)goToNewTaskFromVC:(ProjectToChooseListViewController *)proListVC withPro:(Project *)project{
+    EditTaskViewController *taskVC = [EditTaskViewController new];
+    taskVC.myTask = [Task taskWithProject:project andUser:[Login curLoginUser]];
+    taskVC.myTask.handleType = TaskHandleTypeAddWithoutProject;
+    __weak typeof(self) weakSelf = self;
+    taskVC.doneBlock = ^(EditTaskViewController *vc){
+        [vc.navigationController popToViewController:weakSelf animated:YES];
+    };
+    [proListVC.navigationController pushViewController:taskVC animated:YES];
+}
+
 - (void)goToNewTweetVC{
     TweetSendViewController *vc = [[TweetSendViewController alloc] init];
     vc.sendNextTweet = ^(Tweet *nextTweet){

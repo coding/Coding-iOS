@@ -216,7 +216,7 @@
                 if (_taskChangedBlock) {
                     _taskChangedBlock();
                 }
-                [self.navigationController popViewControllerAnimated:YES];
+                [self handleDone];
             }
         }];
     }else{
@@ -232,7 +232,7 @@
                 if (_taskChangedBlock) {
                     _taskChangedBlock();
                 }
-                [self.navigationController popViewControllerAnimated:YES];
+                [self handleDone];
             }else{
                 [NSObject showStatusBarError:error];
             }
@@ -240,6 +240,13 @@
     }
 }
 
+- (void)handleDone{
+    if (self.doneBlock) {
+        self.doneBlock(self);
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
 - (void)deleteTask:(Task *)toDelete{
     if (toDelete.isRequesting) {
         return;
@@ -460,16 +467,15 @@
         LeftImage_LRTextCellType cellType = _myCopyTask.handleType == TaskHandleTypeAddWithoutProject? indexPath.row : indexPath.row +1;
         if (cellType == LeftImage_LRTextCellTypeTaskProject) {
             ProjectToChooseListViewController *vc = [[ProjectToChooseListViewController alloc] init];
-            vc.projectChoosedBlock = ^(Project *project){
+            vc.projectChoosedBlock = ^(ProjectToChooseListViewController *blockChooseVC, Project *project){
                 ESStrongSelf;
                 _self.myCopyTask.project = project;
                 _self.myCopyTask.owner = nil;//更换新的执行人
                 [_self.myCopyTask.labels removeAllObjects];
                 [_self.myTableView reloadData];
+                [blockChooseVC.navigationController popViewControllerAnimated:YES];
             };
             [self.navigationController pushViewController:vc animated:YES];
-
-            NSLog(@"haimeizuo");
         }else if (cellType == LeftImage_LRTextCellTypeTaskOwner) {
             if (_myCopyTask.project == nil) {
                 [NSObject showHudTipStr:@"需要选定所属项目先~"];
