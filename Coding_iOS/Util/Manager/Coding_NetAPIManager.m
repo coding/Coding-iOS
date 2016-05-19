@@ -110,22 +110,6 @@
         }
     }];
 }
-- (void)request_Register_WithParams:(id)params andBlock:(void (^)(id data, NSError *error))block{
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/register" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        id resultData = [data valueForKeyPath:@"data"];
-        if (resultData) {
-            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"注册"];
-
-            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];
-            if (curLoginUser) {
-                [Login doLogin:resultData];
-            }
-            block(curLoginUser, nil);
-        }else{
-            block(nil, error);
-        }
-    }];
-}
 
 - (void)request_Register_V2_WithParams:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/v2/account/register";
@@ -193,42 +177,6 @@
     }];
 }
 
-- (void)request_SetPasswordWithPhone:(NSString *)phone code:(NSString *)code password:(NSString *)password captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
-    NSString *path = @"api/account/register/phone";
-    NSMutableDictionary *params = @{@"phone": phone,
-                                    @"code": code,
-                                    @"password": [password sha1Str]}.mutableCopy;
-    switch (type) {
-        case PurposeToRegister:{
-            path = @"api/account/register/phone";
-            params[@"channel"] = [Register channel];
-            break;
-        }
-        case PurposeToPasswordActivate:
-            path = @"api/account/activate/phone/set_password";
-            break;
-        case PurposeToPasswordReset:
-            path = @"api/phone/resetPassword";
-            break;
-    }
-    if (captcha.length > 0) {
-        params[@"j_captcha"] = captcha;
-    }
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
-        if (data) {
-            [MobClick event:kUmeng_Event_Request_ActionOfServer label:type == PurposeToRegister? @"手机注册账号": @"设置or重置密码"];
-            if (type == PurposeToRegister) {
-                User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:data[@"data"]];
-                if (curLoginUser) {
-                    [Login doLogin:data[@"data"]];
-                }
-                block(curLoginUser, nil);
-                return ;
-            }
-        }
-        block(data, error);
-    }];
-}
 - (void)request_SetPasswordWithEmail:(NSString *)email captcha:(NSString *)captcha type:(PurposeType)type block:(void (^)(id data, NSError *error))block{
     NSString *path;
     NSDictionary *params = @{@"email": email,
