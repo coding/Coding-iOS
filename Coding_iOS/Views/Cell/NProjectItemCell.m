@@ -50,6 +50,7 @@
             [self.rightLabel setHidden:YES];
             [self.contentView addSubview:_rightLabel];
         }
+        self.clipsToBounds = YES;
     }
     return self;
 }

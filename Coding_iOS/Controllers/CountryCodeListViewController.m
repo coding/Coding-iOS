@@ -104,7 +104,7 @@
     UILabel *titleL = [UILabel new];
     titleL.font = [UIFont systemFontOfSize:12];
     titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
-    titleL.text = [_keyList[section+ 1] isEqualToString:@"#"]? @"常用地区": _keyList[section+ 1];
+    titleL.text = [_keyList[section+ 1] isEqualToString:@"#"]? @"常用": _keyList[section+ 1];
     [headerV addSubview:titleL];
     [titleL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(headerV).insets(UIEdgeInsetsMake(4, 15, 4, 15));

@@ -372,6 +372,10 @@
 }
 
 - (void)editTypeOfMember:(ProjectMember *)curMember{
+    if (_myProject.is_public.boolValue) {
+        [NSObject showHudTipStr:@"公开项目不开放项目权限"];
+        return;
+    }
     __weak typeof(self) weakSelf = self;
     __weak typeof(curMember) weakMember = curMember;
     ValueListViewController *vc = [ValueListViewController new];

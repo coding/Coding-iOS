@@ -228,11 +228,15 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    current_user_role_id = 75 是受限成员，不可访问代码
     CGFloat cellHeight = 0;
     if (indexPath.section == 0) {
         cellHeight = indexPath.row == 0? [ProjectInfoCell cellHeight]: [ProjectDescriptionCell cellHeightWithObj:_myProject];
+    }else if (indexPath.section == 1){
+        NSInteger codeNum = _myProject.is_public.boolValue? 2: 4;
+        cellHeight = (indexPath.row == codeNum && _myProject.current_user_role_id.integerValue <= 75)? 0: [NProjectItemCell cellHeight];
     }else{
-        cellHeight = [NProjectItemCell cellHeight];
+        cellHeight = _myProject.current_user_role_id.integerValue <= 75? 0: [NProjectItemCell cellHeight];
     }
     return cellHeight;
 }
