@@ -16,6 +16,8 @@
 #import "AppDelegate.h"
 #import "MBProgressHUD+Add.h"
 #import "CodingNetAPIClient.h"
+#import <SDCAlertView/SDCAlertController.h>
+#import "Coding_NetAPIManager.h"
 
 @implementation NSObject (Common)
 
@@ -343,4 +345,54 @@
     }
     return error;
 }
+
+
++ (void)showCaptchaView{
+    SDCAlertController *alertV = [SDCAlertController alertControllerWithTitle:@"提示" message:@"亲，您操作这么快，不会是机器人吧？\n来，输个验证码先？" preferredStyle:SDCAlertControllerStyleAlert];
+    
+    UITextField *textF = [UITextField new];
+    textF.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
+    textF.backgroundColor = [UIColor whiteColor];
+    [textF doBorderWidth:0.5 color:nil cornerRadius:2.0];
+    
+    UIImageView *imageV = [UIImageView new];
+    imageV.backgroundColor = [UIColor lightGrayColor];
+    imageV.contentMode = UIViewContentModeScaleAspectFit;
+    imageV.clipsToBounds = YES;
+    imageV.userInteractionEnabled = YES;
+    [textF doBorderWidth:0.5 color:nil cornerRadius:2.0];
+    __weak typeof(imageV) weakImageV = imageV;
+    NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/getCaptcha", [NSObject baseURLStr]]];
+    [imageV bk_whenTapped:^{
+        [weakImageV sd_setImageWithURL:imageURL placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies)];
+    }];
+    [imageV sd_setImageWithURL:imageURL placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies)];
+    
+    [alertV.contentView addSubview:textF];
+    [alertV.contentView addSubview:imageV];
+    [textF mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(alertV.contentView).offset(15);
+        make.height.mas_equalTo(25);
+        make.bottom.equalTo(alertV.contentView).offset(-10);
+    }];
+    [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(alertV.contentView).offset(-15);
+        make.left.equalTo(textF.mas_right).offset(10);
+        make.width.mas_equalTo(60);
+        make.height.mas_equalTo(25);
+        make.centerY.equalTo(textF);
+    }];
+    [alertV addAction:[SDCAlertAction actionWithTitle:@"取消" style:SDCAlertActionStyleDefault handler:nil]];
+    [alertV addAction:[SDCAlertAction actionWithTitle:@"还真不是" style:SDCAlertActionStyleDefault handler:^(SDCAlertAction *action) {
+        //校验验证码的接口。。。。
+        
+        NSLog(@"textF.text ===== %@", textF.text);
+    }]];
+    
+    [alertV presentWithCompletion:^{
+        [textF becomeFirstResponder];
+    }];
+}
+
+
 @end
