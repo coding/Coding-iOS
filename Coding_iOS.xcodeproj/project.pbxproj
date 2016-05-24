@@ -377,6 +377,7 @@
 		4E76D4DE1A5A7B4A0094A35E /* text_clear_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E76D4DD1A5A7B4A0094A35E /* text_clear_btn@2x.png */; };
 		4E787DE21B0329B300F06E83 /* ProjectLineNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E787DE11B0329B300F06E83 /* ProjectLineNote.m */; };
 		4E787DE51B03342000F06E83 /* ProjectActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E787DE41B03342000F06E83 /* ProjectActivity.m */; };
+		4E83AE7B1CF30F1A006BA3BB /* SettingEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E83AE7A1CF30F1A006BA3BB /* SettingEmailViewController.m */; };
 		4E86FEE51BB556D6005E53F3 /* tipIcon_ProjectFileComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E86FEE41BB556D6005E53F3 /* tipIcon_ProjectFileComment@2x.png */; };
 		4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87655A1A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m */; };
 		4E8765661A22E5B40090CFB9 /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87655C1A22E5B40090CFB9 /* SWCellScrollView.m */; };
@@ -1673,6 +1674,8 @@
 		4E787DE11B0329B300F06E83 /* ProjectLineNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectLineNote.m; sourceTree = "<group>"; };
 		4E787DE31B03342000F06E83 /* ProjectActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectActivity.h; sourceTree = "<group>"; };
 		4E787DE41B03342000F06E83 /* ProjectActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectActivity.m; sourceTree = "<group>"; };
+		4E83AE791CF30F1A006BA3BB /* SettingEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingEmailViewController.h; sourceTree = "<group>"; };
+		4E83AE7A1CF30F1A006BA3BB /* SettingEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingEmailViewController.m; sourceTree = "<group>"; };
 		4E86FEE41BB556D6005E53F3 /* tipIcon_ProjectFileComment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_ProjectFileComment@2x.png"; sourceTree = "<group>"; };
 		4E8765591A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
 		4E87655A1A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+SWUtilityButtons.m"; sourceTree = "<group>"; };
@@ -4238,6 +4241,8 @@
 				8E1C3E0319E8DFE300EF3032 /* SettingPasswordViewController.m */,
 				4E74EBFF1C311B6300EC0E1B /* SettingPhoneViewController.h */,
 				4E74EC001C311B6300EC0E1B /* SettingPhoneViewController.m */,
+				4E83AE791CF30F1A006BA3BB /* SettingEmailViewController.h */,
+				4E83AE7A1CF30F1A006BA3BB /* SettingEmailViewController.m */,
 				8E1C3E0419E8DFE300EF3032 /* SettingViewController.h */,
 				8E1C3E0519E8DFE300EF3032 /* SettingViewController.m */,
 				8EF83F8819E92AA500E86DE7 /* SettingTagsViewController.h */,
@@ -6348,6 +6353,7 @@
 				8E59F1001A01133C009A905F /* CodeTree.m in Sources */,
 				4E93F2331B84243D00017916 /* KxMenu.m in Sources */,
 				D0C447B91C02C63000DC1C4B /* UserSearchCell.m in Sources */,
+				4E83AE7B1CF30F1A006BA3BB /* SettingEmailViewController.m in Sources */,
 				8EF643BA19FF7E2900F7EEB0 /* MemberCell.m in Sources */,
 				4ECE8B021A3946C10021E29C /* JobManager.m in Sources */,
 				4E0BD8561B6C7DFD0061CAA6 /* UIView+Frame.m in Sources */,
