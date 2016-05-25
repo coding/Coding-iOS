@@ -20,7 +20,7 @@
 + (void)showStatusBarSuccessStr:(NSString *)tipStr;
 + (void)showStatusBarErrorStr:(NSString *)errorStr;
 + (void)showStatusBarError:(NSError *)error;
-+ (void)showCaptchaView;
++ (void)showCaptchaViewParams:(NSMutableDictionary *)params;
 
 #pragma mark BaseURL
 + (NSString *)baseURLStr;

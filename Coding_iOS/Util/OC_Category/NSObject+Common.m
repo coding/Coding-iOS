@@ -338,6 +338,16 @@
                 });
             }
         }else{
+            NSDictionary *msgDict = [responseJSON valueForKey:@"msg"];
+            __block BOOL need_captcha = NO;
+            [[msgDict allKeys] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj rangeOfString:@"need_captcha"].location != NSNotFound) {
+                    need_captcha = YES;
+                }
+            }];
+            if (need_captcha) {
+                [NSObject showCaptchaViewParams:nil];
+            }
             if (autoShowError) {
                 [NSObject showError:error];
             }
@@ -347,25 +357,28 @@
 }
 
 
-+ (void)showCaptchaView{
++ (void)showCaptchaViewParams:(NSMutableDictionary *)params{
+    //Data
+    if (!params) {
+        params = @{}.mutableCopy;
+    }
+    if (!params[@"type"]) {
+        params[@"type"] = @1;
+    }
+    NSString *path = @"api/request_valid";
+    NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/getCaptcha?type=%@", [NSObject baseURLStr], params[@"type"]]];
+    //UI
     SDCAlertController *alertV = [SDCAlertController alertControllerWithTitle:@"提示" message:@"亲，您操作这么快，不会是机器人吧？\n来，输个验证码先？" preferredStyle:SDCAlertControllerStyleAlert];
-    
     UITextField *textF = [UITextField new];
     textF.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
     textF.backgroundColor = [UIColor whiteColor];
     [textF doBorderWidth:0.5 color:nil cornerRadius:2.0];
-    
     UIImageView *imageV = [UIImageView new];
     imageV.backgroundColor = [UIColor lightGrayColor];
     imageV.contentMode = UIViewContentModeScaleAspectFit;
     imageV.clipsToBounds = YES;
     imageV.userInteractionEnabled = YES;
     [textF doBorderWidth:0.5 color:nil cornerRadius:2.0];
-    __weak typeof(imageV) weakImageV = imageV;
-    NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/getCaptcha", [NSObject baseURLStr]]];
-    [imageV bk_whenTapped:^{
-        [weakImageV sd_setImageWithURL:imageURL placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies)];
-    }];
     [imageV sd_setImageWithURL:imageURL placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies)];
     
     [alertV.contentView addSubview:textF];
@@ -382,17 +395,31 @@
         make.height.mas_equalTo(25);
         make.centerY.equalTo(textF);
     }];
-    [alertV addAction:[SDCAlertAction actionWithTitle:@"取消" style:SDCAlertActionStyleDefault handler:nil]];
-    [alertV addAction:[SDCAlertAction actionWithTitle:@"还真不是" style:SDCAlertActionStyleDefault handler:^(SDCAlertAction *action) {
-        //校验验证码的接口。。。。
-        
-        NSLog(@"textF.text ===== %@", textF.text);
-    }]];
-    
+    //Action
+    __weak typeof(imageV) weakImageV = imageV;
+    [imageV bk_whenTapped:^{
+        [weakImageV sd_setImageWithURL:imageURL placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies)];
+    }];
+    __weak typeof(alertV) weakAlertV = alertV;
+    [alertV addAction:[SDCAlertAction actionWithTitle:@"取消" style:SDCAlertActionStyleCancel handler:nil]];
+    [alertV addAction:[SDCAlertAction actionWithTitle:@"还真不是" style:SDCAlertActionStyleDefault handler:nil]];
+    alertV.shouldDismissBlock =  ^BOOL (SDCAlertAction *action){
+        BOOL shouldDismiss = [action.title isEqualToString:@"取消"];
+        if (!shouldDismiss) {
+            params[@"j_captcha"] = textF.text;
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+                if (data) {
+                    [weakAlertV dismissWithCompletion:^{
+                        [NSObject showHudTipStr:@"验证码正确"];
+                    }];
+                }
+            }];
+        }
+        return shouldDismiss;
+    };
     [alertV presentWithCompletion:^{
         [textF becomeFirstResponder];
     }];
 }
-
 
 @end
