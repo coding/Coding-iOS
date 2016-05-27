@@ -25,6 +25,7 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
     EaseBlankPageTypeProject,
     EaseBlankPageTypeProjectOther,
     EaseBlankPageTypeFileDleted,
+    EaseBlankPageTypeMRForbidden,
     EaseBlankPageTypeFolderDleted,
     EaseBlankPageTypePrivateMsg,
     EaseBlankPageTypeMyWatchedTopic,

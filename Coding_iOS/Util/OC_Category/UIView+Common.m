@@ -630,6 +630,11 @@ static char LoadingViewKey, BlankPageViewKey;
                 imageName = @"blankpage_image_loadFail";
                 tipStr = @"晚了一步\n文件刚刚被人删除了～";
             }
+            case EaseBlankPageTypeMRForbidden://去了MR页面，发现没有权限
+            {
+                imageName = @"blankpage_image_loadFail";
+                tipStr = @"无权访问\n请联系项目管理员进行代码权限设置";
+            }
                 break;
             case EaseBlankPageTypeFolderDleted://文件夹
             {

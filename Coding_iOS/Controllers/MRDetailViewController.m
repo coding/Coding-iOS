@@ -59,9 +59,8 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 @property (strong, nonatomic) NSString *activityPath;
 @property (strong, nonatomic) NSString *diffPath;
 @property (strong, nonatomic) ResourceReference *resourceReference;
-@property (strong, nonatomic) NSArray *activityList;
+@property (strong, nonatomic) NSMutableArray *activityList;
 @property (strong, nonatomic) NSMutableArray *activityCList;
-@property (strong, nonatomic) NSMutableArray *allDiscussions;
 @property (nonatomic, strong) NSMutableArray *projectUsers;
 @property (strong, nonatomic) NSString *reviewGoodPath;
 @property (strong, nonatomic) NSNumber *isLike;
@@ -85,8 +84,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     [super viewDidLoad];
     self.loadedActivty = false;
     self.activityList = [[NSMutableArray alloc] init];
-    self.activityCList = [[NSMutableArray alloc] init];
-    self.allDiscussions = [[NSMutableArray alloc] init];
     self.title = [NSString stringWithFormat:@"%@ #%@", _curMRPR.des_project_name, _curMRPR.iid.stringValue];
     self.referencePath = [NSString stringWithFormat:@"/api/user/%@/project/%@/resource_reference/%@", _curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     self.activityPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/activities", _curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
@@ -187,23 +184,25 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     _myTableView.scrollIndicatorInsets = insets;
 }
 
--(void)sortActivityList {
-    if(self.curMRPRInfo == nil) {
-        return ;
+- (void)updateActivityList{
+    if (!_curMRPRInfo || !_activityCList) {
+        return;
     }
-    if (self.activityCList == nil) {
-        return ;
+    NSMutableArray *activityList = [NSMutableArray new];
+    for (NSArray *list in _curMRPRInfo.discussions) {
+        ProjectLineNote *note = list.firstObject;
+        if (note.path.length > 0) {
+            note.action = @"mergeChanges";
+        }
+        [activityList addObject:note];
     }
-    NSMutableArray *dataArray = [[NSMutableArray alloc] initWithArray:self.activityCList];
-    for(int i = 0; i < self.allDiscussions.count; i ++) {
-        [dataArray addObject:self.allDiscussions[i]];
-    }
-    self.activityList = [dataArray sortedArrayUsingComparator:^NSComparisonResult(ProjectLineNote *obj1, ProjectLineNote *obj2) {
-        NSComparisonResult result = [ [NSNumber numberWithDouble:[obj1.created_at timeIntervalSinceReferenceDate]] compare:[NSNumber numberWithDouble:[obj2.created_at timeIntervalSinceReferenceDate]]];
-        return result;
+    [activityList addObjectsFromArray:_activityCList];
+    [activityList sortUsingComparator:^NSComparisonResult(ProjectLineNote *obj1, ProjectLineNote *obj2) {
+        return [obj1.created_at compare:obj2.created_at];
     }];
-    [self.myTableView reloadData];
+    self.activityList = activityList;
 }
+
 
 - (void)updateProjectStatus {
     __weak typeof(self) weakSelf = self;
@@ -212,7 +211,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
         [weakSelf.myRefreshControl endRefreshing];
         if (data) {
             weakSelf.curPreMRPRInfo = (MRPRPreInfo*)data;
-            [weakSelf sortActivityList];
             [weakSelf.myTableView reloadData];
             [weakSelf configBottomView];
         }
@@ -241,23 +239,24 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 [(MRPRBaseInfo *)data setContentHeight:weakSelf.curMRPRInfo.contentHeight];
             }
             weakSelf.curMRPRInfo = data;
-            NSMutableArray *resultA = weakSelf.curMRPRInfo.discussions;
-            if(resultA != nil){
-                [weakSelf.allDiscussions removeAllObjects];
-                 for (int i = 0; i<resultA.count; i ++) {
-                    NSArray *pArray = resultA[i];
-                    ProjectLineNote* addTmp = pArray[0];
-                    if (addTmp.path != nil) {
-                        addTmp.action = @"mergeChanges";
-                    }
-                    [weakSelf.allDiscussions addObject:addTmp];
-                }
-            }
-            weakSelf.bottomView = nil;
+            [weakSelf updateActivityList];
             [weakSelf configBottomView];
-            [weakSelf sortActivityList];
+            [weakSelf.myTableView reloadData];
+        }
+        [weakSelf.view configBlankPage:EaseBlankPageTypeMRForbidden hasData:data != nil hasError:(error != nil && error.code != 1400) reloadButtonBlock:^(id sender) {
+            [weakSelf refresh];
+        }];
+    }];
+    //MR 动态
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.activityPath withParams:@{@"iid": _curMRPR.iid} withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            id resultData = [data valueForKeyPath:@"data"];
+            weakSelf.activityCList = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectLineNote"];
+            [weakSelf updateActivityList];
+            [weakSelf.myTableView reloadData];
         }
     }];
+    //项目成员
     [[Coding_NetAPIManager sharedManager] request_ProjectMembers_WithObj:self.curProject andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
@@ -265,6 +264,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             weakSelf.projectUsers = projectUsers;
         }
     }];
+    //MR 评审者
     [[Coding_NetAPIManager sharedManager] request_MRReviewerInfo_WithObj:_curMRPR andBlock:^(ReviewersInfo *data, NSError *error) {
         [weakSelf.view endLoading];
         [weakSelf.myRefreshControl endRefreshing];
@@ -272,6 +272,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             weakSelf.curReviewersInfo = data;
         }
     }];
+    //关联资源
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.referencePath withParams:@{@"iid": _curMRPR.iid} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             if (weakSelf.resourceReference == nil) {
@@ -283,20 +284,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             
         }
     }];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.activityPath withParams:@{@"iid": _curMRPR.iid} withMethodType:Get andBlock:^(id data, NSError *error) {
-        if (data) {
-            id resultData = [data valueForKeyPath:@"data"];
-            NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectLineNote"];
-            if(resultA != nil){
-                [weakSelf.activityCList removeAllObjects];
-               for (int i = 0; i<resultA.count; i ++) {
-                    ProjectLineNote* addTmp = resultA[i];
-                    [weakSelf.activityCList addObject:addTmp];
-                }
-                [weakSelf sortActivityList];
-            }
-        }
-    }];
+    //项目信息
     if (!_curProject) {
         _curProject = [Project new];
         _curProject.owner_user_name = _curMRPR.des_owner_name;
@@ -420,7 +408,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     [[Coding_NetAPIManager sharedManager] request_MRPRAuthorization:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.curPreMRPRInfo.mrpr.granted = @1;
-            weakSelf.bottomView = nil;
+//            weakSelf.bottomView = nil;
             [weakSelf refresh];
             [weakSelf.myTableView reloadData];
             [weakSelf configBottomView];
@@ -433,7 +421,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     [[Coding_NetAPIManager sharedManager] request_MRPRCancelAuthorization:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.curPreMRPRInfo.mrpr.granted = @0;
-            weakSelf.bottomView = nil;
+//            weakSelf.bottomView = nil;
             [weakSelf refresh];
             [weakSelf.myTableView reloadData];
             [weakSelf configBottomView];
@@ -457,7 +445,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 
 #pragma mark TableM
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return self.activityList.count  <= 0? 4: 5;
+    return !self.curMRPRInfo? 0: self.activityList.count > 0? 5: 4;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = 0;
@@ -780,8 +768,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_DeleteLineNote:lineNote.id inProject:_curMRPRInfo.mrpr.des_project_name ofUser:_curMRPRInfo.mrpr.des_owner_name andBlock:^(id data, NSError *error) {
         if (data) {
-            [weakSelf.allDiscussions removeObject:lineNote];
-            [weakSelf sortActivityList];
+            [weakSelf.activityList removeObject:lineNote];
             [weakSelf.myTableView reloadData];
         }
     }];
