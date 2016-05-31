@@ -14,6 +14,8 @@
 
 @interface SettingEmailViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
+@property (strong, nonatomic) UIButton *footerBtn;
+
 @property (assign, nonatomic) BOOL is2FAOpen;
 @property (strong, nonatomic) NSString *email, *j_captcha, *two_factor_code;
 @end
@@ -39,7 +41,8 @@
         }];
         tableView;
     });
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(doneBtnClicked:)];
+    _myTableView.tableFooterView = [self customFooterView];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"完成" style:UIBarButtonItemStylePlain target:self action:@selector(doneBtnClicked:)];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -58,6 +61,20 @@
 }
 
 #pragma mark TableM
+
+- (UIView *)customFooterView{
+    UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 150)];
+    _footerBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"发送验证邮箱" andFrame:CGRectMake(kLoginPaddingLeftWidth, 20, kScreen_Width-kLoginPaddingLeftWidth*2, 45) target:self action:@selector(doneBtnClicked:)];
+    RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, email),
+                                                              RACObserve(self, j_captcha),
+                                                              RACObserve(self, two_factor_code)]
+                                                     reduce:^id(NSString *email, NSString *j_captcha, NSString *two_factor_code){
+                                                         return @(email.length > 0 && j_captcha.length > 0 && two_factor_code.length > 0);
+                                                     }];
+
+    [footerV addSubview:_footerBtn];
+    return footerV;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 3;
