@@ -129,7 +129,7 @@
         }] showInView:self.view];
     }else{
         if (indexPath.row == 0) {
-            WebViewController *webVc = [WebViewController webVCWithUrlStr:@"/help/doc/mobile/index.html "];
+            WebViewController *webVc = [WebViewController webVCWithUrlStr:@"/help/doc/mobile/index.html"];
             [self.navigationController pushViewController:webVc animated:YES];
         }else{//关于
             AboutViewController *vc = [[AboutViewController alloc] init];
