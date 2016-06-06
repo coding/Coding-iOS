@@ -15,7 +15,7 @@
 
 @interface SettingPhoneViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
-@property (strong, nonatomic) NSString *phone, *code, *phone_country_code, *country, *verifyStr;
+@property (strong, nonatomic) NSString *phone, *code, *phone_country_code, *verifyStr;
 @property (strong, nonatomic) NSString *phoneCodeCellIdentifier;
 @property (assign, nonatomic) VerifyType verifyType;
 @end
@@ -27,8 +27,7 @@
     // Do any additional setup after loading the view.
     self.title = @"绑定手机号码";
     self.phone = [Login curLoginUser].phone;
-    self.country = [Login curLoginUser].country;
-    self.phone_country_code = [Login curLoginUser].phone_country_code;
+    self.phone_country_code = [Login curLoginUser].phone_country_code.length > 0? [Login curLoginUser].phone_country_code: @"+86";
     
     //    添加myTableView
     self.phoneCodeCellIdentifier = [Input_OnlyText_Cell randomCellIdentifierOfPhoneCodeType];
@@ -166,7 +165,6 @@
     __weak typeof(self)  weakSelf = self;
     CountryCodeListViewController *vc = [CountryCodeListViewController new];
     vc.selectedBlock = ^(NSDictionary *countryCodeDict){
-        weakSelf.country = countryCodeDict[@"iso_code"];
         weakSelf.phone_country_code = [NSString stringWithFormat:@"+%@", countryCodeDict[@"country_code"]];
         [weakSelf.myTableView reloadData];
     };
