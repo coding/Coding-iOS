@@ -11,6 +11,7 @@
 #import "TPKeyboardAvoidingTableView.h"
 #import "Coding_NetAPIManager.h"
 #import "Login.h"
+#import "Ease_2FA.h"
 
 @interface SettingEmailViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
@@ -55,6 +56,7 @@
     [[Coding_NetAPIManager sharedManager] get_is2FAOpenBlock:^(BOOL data, NSError *error) {
         if (!error) {
             weakSelf.is2FAOpen = data;
+            weakSelf.two_factor_code = data? [OTPListViewController otpCodeWithGK:[Login curLoginUser].global_key]: @"";
             [weakSelf.myTableView reloadData];
         }
     }];

@@ -12,6 +12,7 @@
 #import "Coding_NetAPIManager.h"
 #import "Login.h"
 #import "CountryCodeListViewController.h"
+#import "Ease_2FA.h"
 
 @interface SettingPhoneViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
@@ -53,6 +54,7 @@
     [[Coding_NetAPIManager sharedManager] request_VerifyTypeWithBlock:^(VerifyType type, NSError *error) {
         if (!error) {
             self.verifyType = type;
+            self.verifyStr = type == VerifyTypeTotp? [OTPListViewController otpCodeWithGK:[Login curLoginUser].global_key]: @"";
             [self.myTableView reloadData];
         }
     }];
