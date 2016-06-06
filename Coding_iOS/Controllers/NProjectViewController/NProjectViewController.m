@@ -234,9 +234,9 @@
         cellHeight = indexPath.row == 0? [ProjectInfoCell cellHeight]: [ProjectDescriptionCell cellHeightWithObj:_myProject];
     }else if (indexPath.section == 1){
         NSInteger codeNum = _myProject.is_public.boolValue? 2: 4;
-        cellHeight = (indexPath.row == codeNum && _myProject.current_user_role_id.integerValue <= 75)? 0: [NProjectItemCell cellHeight];
+        cellHeight = (indexPath.row == codeNum && !_myProject.is_public.boolValue && _myProject.current_user_role_id.integerValue <= 75)? 0: [NProjectItemCell cellHeight];
     }else{
-        cellHeight = _myProject.current_user_role_id.integerValue <= 75? 0: [NProjectItemCell cellHeight];
+        cellHeight = (!_myProject.is_public.boolValue && _myProject.current_user_role_id.integerValue <= 75)? 0: [NProjectItemCell cellHeight];
     }
     return cellHeight;
 }

@@ -169,7 +169,7 @@
                 }
             }else if ([proAct.action isEqualToString:@"push"]){
                 //    current_user_role_id = 75 是受限成员，不可访问代码
-                if (project.current_user_role_id.integerValue <= 75) {
+                if (!project.is_public.boolValue && project.current_user_role_id.integerValue <= 75) {
                     [NSObject showHudTipStr:@"无权访问项目代码相关功能"];
                     return;
                 }
@@ -193,7 +193,7 @@
                   [target_type isEqualToString:@"MergeRequestBean"] ||
                   [target_type isEqualToString:@"CommitLineNote"]){
             //    current_user_role_id = 75 是受限成员，不可访问代码
-            if (project.current_user_role_id.integerValue <= 75) {
+            if (!project.is_public.boolValue && project.current_user_role_id.integerValue <= 75) {
                 [NSObject showHudTipStr:@"无权访问项目代码相关功能"];
                 return;
             }
