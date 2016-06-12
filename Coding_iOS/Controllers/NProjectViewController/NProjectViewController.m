@@ -149,7 +149,7 @@
     if (section == 0 || section == 2) {
         row = 2;
     }else if (section == 1){
-        row = _myProject.is_public.boolValue? 4: 6;
+        row = _myProject.is_public.boolValue? _myProject.current_user_role_id.integerValue <= 70? 3: 4: 6;
     }
     return row;
 }
@@ -233,10 +233,13 @@
     if (indexPath.section == 0) {
         cellHeight = indexPath.row == 0? [ProjectInfoCell cellHeight]: [ProjectDescriptionCell cellHeightWithObj:_myProject];
     }else if (indexPath.section == 1){
-        NSInteger codeNum = _myProject.is_public.boolValue? 2: 4;
-        cellHeight = (indexPath.row == codeNum && !_myProject.is_public.boolValue && _myProject.current_user_role_id.integerValue <= 75)? 0: [NProjectItemCell cellHeight];
+        if (!_myProject.is_public.boolValue && _myProject.current_user_role_id.integerValue <= 75 && indexPath.row == 4) {//私有项目的受限成员，不能查看代码
+            cellHeight = 0;
+        }else{
+            cellHeight = [NProjectItemCell cellHeight];
+        }
     }else{
-        cellHeight = (!_myProject.is_public.boolValue && _myProject.current_user_role_id.integerValue <= 75)? 0: [NProjectItemCell cellHeight];
+        cellHeight = (!_myProject.is_public.boolValue && _myProject.current_user_role_id.integerValue <= 75)? 0: [NProjectItemCell cellHeight];//私有项目的受限成员，不能查看代码
     }
     return cellHeight;
 }
