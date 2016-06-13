@@ -521,7 +521,7 @@
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
     if (collectionView == _mediaView) {
-        return 3.0;
+        return 2.0;
     }else{
         return kTweetCell_LikeUserCCell_Pading/2;
     }
