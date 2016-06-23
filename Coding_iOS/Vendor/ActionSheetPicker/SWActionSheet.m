@@ -14,7 +14,7 @@ static const float duration = .3f;
 static const enum UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseIn;
 
 
-@interface SWActionSheetVC : UIViewController
+@interface SWActionSheetVC : BaseViewController
 
 @property (nonatomic, retain) SWActionSheet *actionSheet;
 
@@ -173,6 +173,7 @@ static const enum UIViewAnimationOptions options = UIViewAnimationOptionCurveEas
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.view.backgroundColor = [UIColor clearColor];
     [self presentActionSheetAnimated:YES];
 }
 
