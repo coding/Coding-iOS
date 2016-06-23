@@ -1,7 +1,7 @@
 <html><head lang="zh-cn">
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=0.5,maximum-scale=2.0,user-scalable=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=0.5,maximum-scale=2.0,user-scalable=1">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="format-detection" content="telephone=no">
@@ -839,15 +839,15 @@ var diff = function (data) {
         html.push('<td class="diff-line-num '+prefixClass+'">...</td>');
         html.push('<td class="diff-line-num '+prefixClass+'">...</td>');
       } else if (prefixClass === 'gi') {
-        html.push('data-line="'+diffLine.rightNo+'">');
+        html.push('data-line="'+diffLine.rightNo+'" data-type="1">');
         html.push('<td class="diff-line-num '+prefixClass+'" ></td>');
         html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.rightNo+'"></td>');
       } else if (prefixClass === 'gd') {
-        html.push('data-line="'+diffLine.leftNo+'">');
+        html.push('data-line="'+diffLine.leftNo+'" data-type="2">');
         html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.leftNo+'"></td>');
         html.push('<td class="diff-line-num '+prefixClass+'" ></td>');
       } else {
-        html.push('data-line="'+diffLine.leftNo+'">');
+        html.push('data-line="'+diffLine.leftNo+'" data-type="3">');
         html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.leftNo+'"></td>');
         html.push('<td class="diff-line-num '+prefixClass+'" line-data="'+diffLine.rightNo+'"></td>');
       }
@@ -867,6 +867,7 @@ var drawComment = function(item) {
   htmls.push('data-noteable-id="'+item.noteable_id+'" ');
   htmls.push('data-id="'+item.id+'" ');
   htmls.push('data-line="'+item.line+'" ');
+  htmls.push('data-type="'+item.change_type+'" ');
   htmls.push('data-position="'+item.position+'" ');
   htmls.push('data-path="'+item.path+'" ');
   htmls.push('>');
@@ -904,7 +905,7 @@ var drawDiffComments = function(item) {
 var generateComments = function(comments) {
   $.each(comments, function(index, item) {
     var position = item.position;
-    var $tr = $('tr[data-position="'+position+'"]');
+    var $tr = item.change_type > 0 ? $('tr[data-line='+item.line+'][data-type='+item.change_type+']') : $('tr[data-position='+item.position+']');
     var html = '';
     if ($tr.next().hasClass('inline-comments')) {
       html = drawComment(item);
@@ -1013,6 +1014,7 @@ $(function() {
       'path': path,
       'position': $this.parent().data('position'),
       'line': $this.parent().data('line'),
+      'change_type': $this.parent().data('type'),
       'anchor': anchor
     };
     document.location.href = 'coding://line_note?' + $.param(params);
@@ -1031,6 +1033,7 @@ $(function() {
       'path': $this.data('path'),
       'position': $this.data('position'),
       'line': $this.data('line'),
+      'change_type': $this.data('type'),
       'anchor': anchor
     };
     document.location.href = 'coding://line_note_comment?' + $.param(params);
