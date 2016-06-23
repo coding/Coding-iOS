@@ -1832,13 +1832,15 @@
     }];
 }
 
-- (void)request_PublicTweetsWithTopic:(NSInteger)topicID andBlock:(void (^)(id data, NSError *error))block {
+- (void)request_PublicTweetsWithTopic:(NSInteger)topicID last_id:(NSNumber *)last_id andBlock:(void (^)(id data, NSError *error))block{
     //TODO psy lastid，是否要做分页
     NSString *path = [NSString stringWithFormat:@"api/public_tweets/topic/%ld",(long)topicID];
-    NSDictionary *params = @{
+    NSMutableDictionary *params = @{
                              @"type" : @"topic",
-                             @"sort" : @"new"
-                             };
+                             @"sort" : @"new",
+                             @"size" : @20,
+                             }.mutableCopy;
+    params[@"last_id"] = last_id;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_Get label:@"话题_冒泡列表"];
