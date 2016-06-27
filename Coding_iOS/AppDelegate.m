@@ -35,7 +35,6 @@
 #import <UMengSocial/UMSocialQQHandler.h>
 #import <evernote-cloud-sdk-ios/ENSDK/ENSDK.h>
 #import "UMSocialSinaSSOHandler.h"
-#import <Google/Analytics.h>
 
 #import "Tweet.h"
 #import "sys/utsname.h"
@@ -128,8 +127,6 @@
     
     //    UMENG 统计
     [MobClick startWithAppkey:kUmeng_AppKey reportPolicy:BATCH channelId:nil];
-    //    Google Analytics
-    [self registerGA];
     
     //    UMENG Social Account
     [UMSocialData setAppKey:kUmeng_AppKey];
@@ -172,18 +169,6 @@
     
     //推送反馈(app不在前台运行时，点击推送激活时。统计而已)
     [XGPush handleLaunching:launchOptions];
-}
-
-- (void)registerGA{
-    // Configure tracker from GoogleService-Info.plist.
-    NSError *configureError;
-    [[GGLContext sharedInstance] configureWithError:&configureError];
-    NSAssert(!configureError, @"Error configuring Google services: %@", configureError);
-    
-    // Optional: configure GAI options.
-    GAI *gai = [GAI sharedInstance];
-    gai.trackUncaughtExceptions = YES;  // report uncaught exceptions
-    gai.logger.logLevel = kGAILogLevelError;  // remove before app release
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
