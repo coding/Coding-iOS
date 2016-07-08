@@ -301,6 +301,15 @@
     return sizeDisplayStr;
 }
 
+- (NSString *)stringByRemoveSpecailCharacters{
+    static NSCharacterSet *specailCharacterSet;
+    if (!specailCharacterSet) {
+        NSMutableString *specailCharacters = @"\u2028\u2029".mutableCopy;
+        specailCharacterSet = [NSCharacterSet characterSetWithCharactersInString:specailCharacters];
+    }
+    return [[self componentsSeparatedByCharactersInSet:specailCharacterSet] componentsJoinedByString:@""];
+}
+
 - (NSString *)trimWhitespace
 {
     NSMutableString *str = [self mutableCopy];
