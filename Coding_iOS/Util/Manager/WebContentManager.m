@@ -81,7 +81,8 @@
     if ([codeFile.file.lang isEqualToString:@"markdown"]) {
         patternedStr = [self.markdown_pattern_htmlStr stringByReplacingOccurrencesOfString:@"${webview_content}" withString:dataStr];
     }else{
-        patternedStr = [dataStr stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
+        patternedStr = [dataStr stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
+        patternedStr = [patternedStr stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
         patternedStr = [patternedStr stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
         patternedStr = [self.code_pattern_htmlStr stringByReplacingOccurrencesOfString:@"${file_code}" withString:patternedStr];
         patternedStr = [patternedStr stringByReplacingOccurrencesOfString:@"${file_lang}" withString:codeFile.file.lang];
