@@ -18,6 +18,7 @@
     if (self) {
         _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"Tweet", @"list", nil];
+        _last_time = nil;
     }
     return self;
 }
@@ -26,7 +27,6 @@
 + (Tweets *)tweetsWithType:(TweetType)tweetType{
     Tweets *tweets = [[Tweets alloc] init];
     tweets.tweetType = tweetType;
-    tweets.last_id = kDefaultLastId;
     tweets.canLoadMore = NO;
     tweets.isLoading = NO;
     tweets.willLoadMore = NO;
@@ -78,25 +78,16 @@
         default:
             break;
     }
-    [params setObject:(_willLoadMore? _last_id:kDefaultLastId) forKey:@"last_id"];
-//    if (kDevice_Is_iPhone6Plus) {
-//        params[@"default_like_count"] = @12;
-//    }
+    params[@"last_time"] = _willLoadMore? @((NSUInteger)([_last_time timeIntervalSince1970] * 1000)): nil;
+
     return params;
 }
 
-- (NSString *)localResponsePath{
-    if ([_last_id isEqualToNumber:kDefaultLastId]) {
-        return [NSString stringWithFormat:@"ActivieiesWithType_%d", (int)_tweetType];
-    }else{
-        return nil;
-    }
-}
 - (void)configWithTweets:(NSArray *)responseA{
     if (responseA && [responseA count] > 0) {
         self.canLoadMore = (_tweetType != TweetTypePublicHot);
         Tweet *lastTweet = [responseA lastObject];
-        self.last_id = lastTweet.id;
+        _last_time = lastTweet.sort_time;
         if (_willLoadMore) {
             [_list addObjectsFromArray:responseA];
         }else{

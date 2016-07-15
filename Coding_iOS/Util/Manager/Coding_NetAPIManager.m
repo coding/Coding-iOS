@@ -1651,8 +1651,6 @@
         
         if (data) {
             [MobClick event:kUmeng_Event_Request_RootList label:@"冒泡_列表"];
-
-            [NSObject saveResponseData:data toPath:[tweets localResponsePath]];
             id resultData = [data valueForKeyPath:@"data"];
             NSArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"Tweet"];
             block(resultA, nil);

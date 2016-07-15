@@ -18,7 +18,7 @@
 @interface Tweet : NSObject
 @property (readwrite, nonatomic, strong) NSString *content, *device, *location, *coord, *address;
 @property (readwrite, nonatomic, strong) NSNumber *liked, *rewarded, *activity_id, *id, *comments, *likes, *rewards;
-@property (readwrite, nonatomic, strong) NSDate *created_at;
+@property (readwrite, nonatomic, strong) NSDate *created_at, *sort_time;
 @property (readwrite, nonatomic, strong) User *owner;
 @property (readwrite, nonatomic, strong) NSMutableArray *comment_list, *like_users, *reward_users;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;

@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, TweetType)
 
 
 @interface Tweets : NSObject
-@property (readwrite, nonatomic, strong) NSNumber *last_id;
+@property (strong, nonatomic, readonly) NSDate *last_time;
 @property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading;
 @property (assign, nonatomic) TweetType tweetType;
 @property (readwrite, nonatomic, strong) NSMutableArray *list;
@@ -37,7 +37,6 @@ typedef NS_ENUM(NSInteger, TweetType)
 
 + (Tweets *)tweetsWithType:(TweetType)tweetType;
 + (Tweets *)tweetsWithUser:(User *)curUser;
-- (NSString *)localResponsePath;
 - (void)configWithTweets:(NSArray *)responseA;
 
 - (NSString *)toPath;
