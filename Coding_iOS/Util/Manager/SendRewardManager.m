@@ -281,9 +281,18 @@
     _bgView.backgroundColor = [UIColor clearColor];
     _contentView.alpha = 0;
     _passwordF.text = @"";
-    _bottomL.attributedText = [self p_bottomStr];
     _submitBtn.enabled = YES;
     _bgView.frame = kScreen_Bounds;
+    
+    _bottomL.attributedText = [self p_bottomStr];
+    @weakify(self);
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/points" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        @strongify(self);
+        if (data) {
+            [Login curLoginUser].points_left = data[@"data"][@"points_left"];
+            self.bottomL.attributedText = [self p_bottomStr];
+        }
+    }];
     
     [kKeyWindow addSubview:_bgView];
     [UIView animateWithDuration:0.3 animations:^{
