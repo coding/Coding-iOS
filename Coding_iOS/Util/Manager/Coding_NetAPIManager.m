@@ -2560,6 +2560,29 @@
         }];
 }
 
+- (void)request_DefautsHotTopicNamelistWithBlock:(void (^)(id data, NSError *error))block {
+    NSString *defaultsPath = @"api/tweet_topic/defaults";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:defaultsPath withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            NSMutableArray *resultList = [[data[@"data"] valueForKey:@"name"] mutableCopy];
+            NSString *hotPath = @"/api/tweet_topic/hot";
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:hotPath withParams:nil withMethodType:Get andBlock:^(id dataHot, NSError *errorHot) {
+                if (dataHot) {
+                    [MobClick event:kUmeng_Event_Request_Get label:@"话题_热门话题_榜单"];
+                    NSMutableArray *hotList = [[dataHot[@"data"] valueForKey:@"name"] mutableCopy];
+                    [hotList removeObjectsInArray:resultList];//剔除重复元素
+                    [resultList addObjectsFromArray:hotList];//将 hot 追加到 defaults 末尾
+                    block(resultList, nil);
+                }else{
+                    block(nil, errorHot);
+                }
+            }];
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_Tweet_WithSearchString:(NSString *)strSearch andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {
 
     NSString *path = [NSString stringWithFormat:@"/api/search/quick?q=%@&page=%d", strSearch, (int)page];

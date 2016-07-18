@@ -254,7 +254,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 #pragma mark - Topic
 - (void)request_TopicAdlistWithBlock:(void (^)(id data, NSError *error))block;
 - (void)request_HotTopiclistWithBlock:(void (^)(id data, NSError *error))block;
-
+- (void)request_DefautsHotTopicNamelistWithBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Tweet_WithSearchString:(NSString *)strSearch andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
 
 - (void)requestWithSearchString:(NSString *)strSearch typeStr:(NSString*)type andPage:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;

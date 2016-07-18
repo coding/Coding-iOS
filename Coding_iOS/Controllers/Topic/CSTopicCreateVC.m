@@ -96,17 +96,8 @@
 
 - (void)refreshHotTopiclist{
     __weak typeof(self) wself = self;
-    [[Coding_NetAPIManager sharedManager] request_HotTopiclistWithBlock:^(NSArray *topiclist, NSError *error) {
-        if (topiclist) {
-            NSMutableArray *namelist = [NSMutableArray array];
-            for (int i=0; i<topiclist.count && i < 10; i++) {
-                NSDictionary *topicDict = topiclist[i];
-                [namelist addObject:topicDict[@"name"]];
-            }
-            wself.hotTopiclist = [namelist copy];
-        }else {
-            wself.hotTopiclist = [NSArray array];
-        }
+    [[Coding_NetAPIManager sharedManager] request_DefautsHotTopicNamelistWithBlock:^(NSArray *nameList, NSError *error) {
+        wself.hotTopiclist = nameList.count > 10? [nameList subarrayWithRange:NSMakeRange(0, 10)]: nameList;
         [wself.listView reloadData];
     }];
 }
