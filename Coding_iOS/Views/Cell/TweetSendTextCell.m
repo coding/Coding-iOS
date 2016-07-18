@@ -174,6 +174,8 @@
 - (void)emotionButtonClicked:(id)sender{
     UIButton *emotionButton = sender;
     if (self.tweetContentView.inputView != self.emojiKeyboardView) {
+        [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"冒泡_添加_表情"];
+
         self.tweetContentView.inputView = self.emojiKeyboardView;
         [emotionButton setImage:[UIImage imageNamed:@"keyboard_keyboard"] forState:UIControlStateNormal];
     }else{
@@ -187,6 +189,8 @@
 }
 
 - (void)atButtonClicked:(id)sender{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"冒泡_添加_@好友"];
+
     @weakify(self);
     [UsersViewController showATSomeoneWithBlock:^(User *curUser) {
         @strongify(self);
@@ -198,6 +202,8 @@
 }
 
 - (void)topicButtonClicked:(id)sender{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"冒泡_添加_话题"];
+
     if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_TweetTopic]) {
         [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_TweetTopic];
         UIButton *btnTopic = (UIButton *)sender;
@@ -215,12 +221,15 @@
 }
 
 - (void)photoButtonClicked:(id)sender{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"冒泡_添加_图片"];
+
     if (self.photoBtnBlock) {
         self.photoBtnBlock();
     }
 }
 
 - (void)locationButtonClicked:(id)sender{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"冒泡_添加_定位"];
     if (self.locationBtnBlock) {
         self.locationBtnBlock();
     }

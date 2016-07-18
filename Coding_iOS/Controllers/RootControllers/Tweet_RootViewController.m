@@ -287,6 +287,8 @@
 #pragma mark - nav_LeftBtn
 
 - (void)hotTopicBtnClicked:(id)sender{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"冒泡_点击话题"];
+    
     CSHotTopicPagesVC *vc = [CSHotTopicPagesVC new];
     [self.navigationController pushViewController:vc animated:YES];
 }

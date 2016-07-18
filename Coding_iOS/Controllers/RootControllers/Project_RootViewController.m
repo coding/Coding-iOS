@@ -115,6 +115,8 @@
     _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height-64) items:nil];
     __weak typeof(self) weakSelf = self;
     _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
+        [weakSelf mobClickFliterMenuIndex:pageIndex];
+        
         if (pageIndex==1000) {
             [weakSelf goToProjectSquareVC];
         }else
@@ -146,7 +148,7 @@
     @weakify(self);
     _myPopMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem){
         [weakSelf.myPopMenu.realTimeBlurFooter disMiss];
-        [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"快捷创建_%@", selectedItem.title]];
+        [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"首页_添加_%@", selectedItem.title]];
         @strongify(self);
         //改下显示style
         [self.rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
@@ -181,6 +183,20 @@
     
     [[StartImagesManager shareManager] handleStartLink];//如果 start_image 有对应的 link 的话，需要进入到相应的 web 页面
 }
+
+- (void)mobClickFliterMenuIndex:(NSInteger)index{
+    static NSArray *menuList;
+    if (!menuList) {
+        menuList = @[@"全部项目",
+                     @"我创建的",
+                     @"我参与的",
+                     @"我关注的",
+                     @"我收藏的",
+                     @"项目广场"];
+    }
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"首页_筛选_%@", menuList.count > index? menuList[index]: menuList.lastObject]];
+}
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar addSubview:_mySearchBar];
@@ -578,6 +594,7 @@
 }
 #pragma mark scan QR-Code
 - (void)scanBtnClicked{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"首页_扫描二维码"];
     ZXScanCodeViewController *vc = [ZXScanCodeViewController new];
     __weak typeof(self) weakSelf = self;
     vc.scanResultBlock = ^(ZXScanCodeViewController *vc, NSString *resultStr){

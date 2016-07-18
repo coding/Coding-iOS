@@ -55,7 +55,7 @@
 
 #pragma mark -
 - (void)searchItemClicked:(id)sender{
-    
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"热门话题_搜索"];
     if(!_searchBar) {
         
         _searchBar = ({

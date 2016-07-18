@@ -36,7 +36,7 @@
                     @"文档",
                     @"用户",
                     @"合并请求",
-                    @"pull请求"].mutableCopy;
+                    @"pull 请求"].mutableCopy;
     _firstLoad=TRUE;
     [self buildUI];
     
@@ -200,6 +200,7 @@
 }
 
 - (void)menuItemClicked:(KxMenuItem *)item{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"全局搜索_%@", item.title]];
     NSInteger nowSelectIndex = [_statusList indexOfObject:item.title];
     if (nowSelectIndex == NSNotFound || nowSelectIndex == _selectIndex) {
         return;

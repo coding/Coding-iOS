@@ -583,7 +583,7 @@
             if ([_searchPros.pull_requests.totalRow longValue]==0) {
                 titleStr=nil;
             }else{
-                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的pull请求", [_searchPros.pull_requests.totalRow longValue],self.searchBar.text];
+                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的 pull 请求", [_searchPros.pull_requests.totalRow longValue],self.searchBar.text];
             }
             break;
         default:
@@ -593,6 +593,8 @@
 }
 
 -(void)requestAll{
+    [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"全局搜索_全部(发起请求)"];
+    
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] requestWithSearchString:self.searchBar.text typeStr:@"all" andPage:1 andBlock:^(id data, NSError *error) {
         if(data) {
