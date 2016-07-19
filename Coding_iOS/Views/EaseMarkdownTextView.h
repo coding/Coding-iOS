@@ -12,4 +12,5 @@
 
 @interface EaseMarkdownTextView : UIPlaceHolderTextView<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 @property (strong, nonatomic) Project *curProject;
+@property (assign, nonatomic) BOOL *isForProjectTweet;
 @end

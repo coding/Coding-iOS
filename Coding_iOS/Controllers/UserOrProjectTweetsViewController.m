@@ -17,6 +17,7 @@
 #import "TweetDetailViewController.h"
 #import "SVPullToRefresh.h"
 #import "WebViewController.h"
+#import "ProjectTweetSendViewController.h"
 
 @interface UserOrProjectTweetsViewController ()
 @property (nonatomic, strong) UITableView *myTableView;
@@ -53,6 +54,7 @@
         self.title = _curTweets.curUser.name;
     }else if (_curTweets.tweetType == TweetTypeProject){
         self.title = _curTweets.curPro.name;
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addBtnClicked)];
     }else{
         self.title = @"冒泡列表";
     }
@@ -106,6 +108,17 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)addBtnClicked{
+    ProjectTweetSendViewController *vc = [ProjectTweetSendViewController new];
+    vc.curPro = _curTweets.curPro;
+    @weakify(self);
+    vc.sentBlock = ^(Tweet *tweet){
+        @strongify(self);
+        [self refresh];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark UIMessageInputViewDelegate

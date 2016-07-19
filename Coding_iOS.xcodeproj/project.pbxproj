@@ -263,6 +263,7 @@
 		4E554D6E1C9804F40008686A /* Close2FAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E554D6D1C9804F40008686A /* Close2FAViewController.m */; };
 		4E59D32B1D3E106D008C914B /* tweetsBtn_Nav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E59D3291D3E106D008C914B /* tweetsBtn_Nav@2x.png */; };
 		4E59D32C1D3E106D008C914B /* tweetsBtn_Nav@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E59D32A1D3E106D008C914B /* tweetsBtn_Nav@3x.png */; };
+		4E59D32F1D3E1920008C914B /* ProjectTweetSendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E59D32E1D3E1920008C914B /* ProjectTweetSendViewController.m */; };
 		4E59E1D31A5E6B34004DAEEC /* TaskDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */; };
 		4E5A66951B268D160007A0AD /* UIView+PressMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5A66941B268D160007A0AD /* UIView+PressMenu.m */; };
 		4E5C06E81AC2B34800F427C5 /* tipIcon_BranchMember@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5C06E71AC2B34800F427C5 /* tipIcon_BranchMember@2x.png */; };
@@ -1522,6 +1523,8 @@
 		4E554D6D1C9804F40008686A /* Close2FAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Close2FAViewController.m; sourceTree = "<group>"; };
 		4E59D3291D3E106D008C914B /* tweetsBtn_Nav@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweetsBtn_Nav@2x.png"; sourceTree = "<group>"; };
 		4E59D32A1D3E106D008C914B /* tweetsBtn_Nav@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweetsBtn_Nav@3x.png"; sourceTree = "<group>"; };
+		4E59D32D1D3E1920008C914B /* ProjectTweetSendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTweetSendViewController.h; sourceTree = "<group>"; };
+		4E59D32E1D3E1920008C914B /* ProjectTweetSendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTweetSendViewController.m; sourceTree = "<group>"; };
 		4E59E1D11A5E6B34004DAEEC /* TaskDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDescriptionViewController.h; sourceTree = "<group>"; };
 		4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDescriptionViewController.m; sourceTree = "<group>"; };
 		4E5A66931B268D160007A0AD /* UIView+PressMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PressMenu.h"; sourceTree = "<group>"; };
@@ -4613,6 +4616,8 @@
 				8EA6CF5819E240C40076D59C /* UsersViewController.m */,
 				8EA6CF5919E240C40076D59C /* UserOrProjectTweetsViewController.h */,
 				8EA6CF5A19E240C40076D59C /* UserOrProjectTweetsViewController.m */,
+				4E59D32D1D3E1920008C914B /* ProjectTweetSendViewController.h */,
+				4E59D32E1D3E1920008C914B /* ProjectTweetSendViewController.m */,
 				8EABB1FF19EE7A85009EB53A /* AddUserViewController.h */,
 				8EABB20019EE7A85009EB53A /* AddUserViewController.m */,
 				8E59F1081A021053009A905F /* CodeListViewController.h */,
@@ -6743,6 +6748,7 @@
 				8EA6D1C019E240C40076D59C /* Tasks.m in Sources */,
 				8EE72BE819E3F4A8002C11D9 /* MBProgressHUD+Add.m in Sources */,
 				8E59F10D1A02188D009A905F /* CodeViewController.m in Sources */,
+				4E59D32F1D3E1920008C914B /* ProjectTweetSendViewController.m in Sources */,
 				4E4D6A7C1B1C6CDE00FD2E49 /* CommitListCell.m in Sources */,
 				4E0022961B73506A005308DE /* EARestrictedScrollView.m in Sources */,
 				8EA6D20B19E240C40076D59C /* RDVTabBarController.m in Sources */,

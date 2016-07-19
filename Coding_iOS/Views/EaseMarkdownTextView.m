@@ -20,6 +20,7 @@
 
 //photo
 #import "Coding_FileManager.h"
+#import "Coding_NetAPIManager.h"
 #import <MBProgressHUD/MBProgressHUD.h>
 
 @interface EaseMarkdownTextView ()
@@ -271,26 +272,48 @@
 }
 
 - (void)doUploadPhoto:(UIImage *)image{
-    //保存到app内
-    NSString *dateMarkStr = [[NSDate date] stringWithFormat:@"yyyyMMdd_HHmmss"];
-    NSString *originalFileName = [NSString stringWithFormat:@"%@.jpg", dateMarkStr];
-    
-    NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@", self.curProject.id.stringValue, @"0", originalFileName];
-    if ([Coding_FileManager writeUploadDataWithName:fileName andImage:image]) {
+    if (_isForProjectTweet || !_curProject) {
         [self hudTipWillShow:YES];
-        self.uploadingPhotoName = originalFileName;
-        Coding_UploadTask *uploadTask =[[Coding_FileManager sharedManager] addUploadTaskWithFileName:fileName projectIsPublic:_curProject.is_public.boolValue];
-        @weakify(self)
-        [RACObserve(uploadTask, progress.fractionCompleted) subscribeNext:^(NSNumber *fractionCompleted) {
-            @strongify(self);
+        __weak typeof(self) weakSelf = self;
+        [[Coding_NetAPIManager sharedManager] uploadTweetImage:image doneBlock:^(NSString *imagePath, NSError *error) {
+            [weakSelf hudTipWillShow:NO];
+            if (imagePath) {
+                //插入文字
+                NSString *photoLinkStr = [NSString stringWithFormat:[self needPreNewLine]? @"\n![图片](%@)\n": @"![图片](%@)\n", imagePath];
+                [weakSelf insertText:photoLinkStr];
+                [weakSelf becomeFirstResponder];
+            }else{
+                [NSObject showError:error];
+            }
+        } progerssBlock:^(CGFloat progressValue) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (self.HUD) {
-                    self.HUD.progress = MAX(0, fractionCompleted.floatValue-0.05) ;
+                if (weakSelf.HUD) {
+                    weakSelf.HUD.progress = MAX(0, progressValue-0.05) ;
                 }
             });
         }];
     }else{
-        [NSObject showHudTipStr:[NSString stringWithFormat:@"%@ 文件处理失败", originalFileName]];
+        //保存到app内
+        NSString *dateMarkStr = [[NSDate date] stringWithFormat:@"yyyyMMdd_HHmmss"];
+        NSString *originalFileName = [NSString stringWithFormat:@"%@.jpg", dateMarkStr];
+        
+        NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@", self.curProject.id.stringValue, @"0", originalFileName];
+        if ([Coding_FileManager writeUploadDataWithName:fileName andImage:image]) {
+            [self hudTipWillShow:YES];
+            self.uploadingPhotoName = originalFileName;
+            Coding_UploadTask *uploadTask =[[Coding_FileManager sharedManager] addUploadTaskWithFileName:fileName projectIsPublic:_curProject.is_public.boolValue];
+            @weakify(self)
+            [RACObserve(uploadTask, progress.fractionCompleted) subscribeNext:^(NSNumber *fractionCompleted) {
+                @strongify(self);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (self.HUD) {
+                        self.HUD.progress = MAX(0, fractionCompleted.floatValue-0.05) ;
+                    }
+                });
+            }];
+        }else{
+            [NSObject showHudTipStr:[NSString stringWithFormat:@"%@ 文件处理失败", originalFileName]];
+        }
     }
 }
 
