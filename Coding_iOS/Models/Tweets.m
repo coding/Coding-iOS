@@ -18,7 +18,6 @@
     if (self) {
         _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
                              @"Tweet", @"list", nil];
-        _last_time = nil;
     }
     return self;
 }
@@ -37,6 +36,11 @@
     tweets.curUser = curUser;
     return tweets;
 }
++ (Tweets *)tweetsWithProject:(Project *)curPro{
+    Tweets *tweets = [Tweets tweetsWithType:TweetTypeUserProject];
+    tweets.curPro = curPro;
+    return tweets;
+}
 
 - (NSString *)toPath{
     NSString *requstPath;
@@ -51,6 +55,8 @@
         case TweetTypeUserSingle:
             requstPath = @"api/tweet/user_public";
             break;
+            case TweetTypeUserProject:
+            requstPath = [NSString stringWithFormat:@"api/project/%@/tweet", _curPro.id.stringValue];
         default:
             break;
     }
@@ -78,8 +84,8 @@
         default:
             break;
     }
-    params[@"last_time"] = _willLoadMore? @((NSUInteger)([_last_time timeIntervalSince1970] * 1000)): nil;
-
+    params[@"last_time"] = _willLoadMore? @((NSUInteger)([_last_time timeIntervalSince1970] * 1000)): nil;//冒泡广场、朋友圈、个人，都已经改成用 time 了
+    params[@"last_id"] = _willLoadMore? _last_id: nil;//项目内冒泡还在用 id
     return params;
 }
 
@@ -88,6 +94,7 @@
         self.canLoadMore = (_tweetType != TweetTypePublicHot);
         Tweet *lastTweet = [responseA lastObject];
         _last_time = lastTweet.sort_time;
+        _last_id = lastTweet.id;
         if (_willLoadMore) {
             [_list addObjectsFromArray:responseA];
         }else{
