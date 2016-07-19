@@ -8,7 +8,7 @@
 
 #define kCommentIndexNotFound -1
 
-#import "UserTweetsViewController.h"
+#import "UserOrProjectTweetsViewController.h"
 #import "TweetCell.h"
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"
@@ -18,7 +18,7 @@
 #import "SVPullToRefresh.h"
 #import "WebViewController.h"
 
-@interface UserTweetsViewController ()
+@interface UserOrProjectTweetsViewController ()
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 
@@ -34,7 +34,7 @@
 @property (nonatomic, assign) NSInteger deleteTweetsIndex;
 @end
 
-@implementation UserTweetsViewController
+@implementation UserOrProjectTweetsViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -49,7 +49,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = _curTweets.curUser.name;
+    if (_curTweets.tweetType == TweetTypeUserSingle) {
+        self.title = _curTweets.curUser.name;
+    }else if (_curTweets.tweetType == TweetTypeProject){
+        self.title = _curTweets.curPro.name;
+    }else{
+        self.title = @"冒泡列表";
+    }
     
     //    添加myTableView
     _myTableView = ({
@@ -174,12 +180,12 @@
     if (_curTweets.list.count <= 0) {
         [self.view beginLoading];
     }
-    __weak typeof(self) weakSelf = self;
-    if (_curTweets.curUser.name.length <= 0) {
+    if (_curTweets.tweetType == TweetTypeUserSingle && _curTweets.curUser.name.length <= 0) {
         [self refreshCurUser];
         return;
     }
     
+    __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Tweets_WithObj:_curTweets andBlock:^(id data, NSError *error) {
         [weakSelf.refreshControl endRefreshing];
         [weakSelf.view endLoading];

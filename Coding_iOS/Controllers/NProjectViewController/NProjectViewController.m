@@ -30,7 +30,7 @@
 #import "PRListViewController.h"
 #import "MRListViewController.h"
 #import "EaseGitButtonsView.h"
-
+#import "UserOrProjectTweetsViewController.h"
 #import "FunctionTipsManager.h"
 
 @interface NProjectViewController ()<UITableViewDataSource, UITableViewDelegate>
@@ -71,6 +71,7 @@
         tableView;
     });
     
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetsBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(tweetsBtnClicked)];
     __weak typeof(self) weakSelf = self;
     _gitButtonsView = [EaseGitButtonsView new];
     _gitButtonsView.gitButtonClickedBlock = ^(NSInteger index, EaseGitButtonPosition position){
@@ -106,6 +107,12 @@
         }
         [weakSelf.refreshControl endRefreshing];
     }];
+}
+
+- (void)tweetsBtnClicked{
+    UserOrProjectTweetsViewController *vc = [UserOrProjectTweetsViewController new];
+    vc.curTweets = [Tweets tweetsWithProject:self.myProject];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark Table M

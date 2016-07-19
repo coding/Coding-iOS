@@ -218,6 +218,8 @@
         return;
     }
     
+    self.likeBtn.hidden = self.rewardBtn.hidden = [_tweet isProjectTweet];
+    
     _like_reward_users = [_tweet like_reward_users];
     BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key];
 

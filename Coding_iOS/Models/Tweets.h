@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger, TweetType)
     TweetTypeUserFriends,
     TweetTypePublicHot,
     TweetTypeUserSingle,
-    TweetTypeUserProject
+    TweetTypeProject
 };
 
 

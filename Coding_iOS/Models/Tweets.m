@@ -37,7 +37,7 @@
     return tweets;
 }
 + (Tweets *)tweetsWithProject:(Project *)curPro{
-    Tweets *tweets = [Tweets tweetsWithType:TweetTypeUserProject];
+    Tweets *tweets = [Tweets tweetsWithType:TweetTypeProject];
     tweets.curPro = curPro;
     return tweets;
 }
@@ -55,7 +55,7 @@
         case TweetTypeUserSingle:
             requstPath = @"api/tweet/user_public";
             break;
-            case TweetTypeUserProject:
+            case TweetTypeProject:
             requstPath = [NSString stringWithFormat:@"api/project/%@/tweet", _curPro.id.stringValue];
         default:
             break;

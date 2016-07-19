@@ -12,7 +12,7 @@
 #import "MJPhotoBrowser.h"
 #import "UsersViewController.h"
 #import "ConversationViewController.h"
-#import "UserTweetsViewController.h"
+#import "UserOrProjectTweetsViewController.h"
 #import "AddUserViewController.h"
 #import "SettingViewController.h"
 #import "SettingMineInfoViewController.h"
@@ -298,7 +298,7 @@
 }
 
 - (void)goToTweets{
-    UserTweetsViewController *vc = [[UserTweetsViewController alloc] init];
+    UserOrProjectTweetsViewController *vc = [[UserOrProjectTweetsViewController alloc] init];
     vc.curTweets = [Tweets tweetsWithUser:_curUser];
     [self.navigationController pushViewController:vc animated:YES];
 }

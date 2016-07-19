@@ -18,7 +18,7 @@
 #import "EditTaskViewController.h"
 #import "ProjectViewController.h"
 #import "NProjectViewController.h"
-#import "UserTweetsViewController.h"
+#import "UserOrProjectTweetsViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "AppDelegate.h"
 #import "WebViewController.h"
@@ -322,7 +322,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             analyseVC = vc;
         }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userTweetRegexStr]).count > 0){
             //某人的冒泡
-            UserTweetsViewController *vc = [[UserTweetsViewController alloc] init];
+            UserOrProjectTweetsViewController *vc = [[UserOrProjectTweetsViewController alloc] init];
             NSString *user_global_key = matchedCaptures[1];
             vc.curTweets = [Tweets tweetsWithUser:[User userWithGlobalKey:user_global_key]];
             analyseVC = vc;

@@ -332,6 +332,9 @@ static Tweet *_tweetForSend = nil;
     }];
 }
 
+- (BOOL)isProjectTweet{
+    return self.project_id != nil;
+}
 - (void)addASelectedAssetURL:(NSURL *)assetURL{
     if (!_selectedAssetURLs) {
         _selectedAssetURLs = [NSMutableArray new];

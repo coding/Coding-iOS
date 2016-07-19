@@ -175,9 +175,7 @@
         return;
     }
     
-    BOOL isProjectTweet = _tweet.project_id != nil;
-    self.likeBtn.hidden = isProjectTweet;
-    self.rewardBtn.hidden = isProjectTweet;
+    self.likeBtn.hidden = self.rewardBtn.hidden = [_tweet isProjectTweet];
     
     //owner头像
     __weak __typeof(self)weakSelf = self;

@@ -607,10 +607,10 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"来，冒个泡吧～";
             }
                 break;
-            case EaseBlankPageTypeTweetOther://冒泡列表（别人的）
+            case EaseBlankPageTypeTweetOther://冒泡列表（别人的、项目内的）
             {
                 imageName = @"blankpage_image_Sleep";
-                tipStr = @"这个人很懒\n一个冒泡都木有～";
+                tipStr = @"这里很空\n一个冒泡都木有～";
             }
                 break;
             case EaseBlankPageTypeProject://项目列表（自己的）

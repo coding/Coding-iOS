@@ -37,6 +37,8 @@
 @property (strong, nonatomic) Project *project;
 @property (strong, nonatomic) NSNumber *project_id;
 
+- (BOOL)isProjectTweet;
+
 - (void)addASelectedAssetURL:(NSURL *)assetURL;
 - (void)deleteASelectedAssetURL:(NSURL *)assetURL;
 - (void)deleteATweetImage:(TweetImage *)tweetImage;
