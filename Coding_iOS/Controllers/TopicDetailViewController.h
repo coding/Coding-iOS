@@ -19,3 +19,11 @@
 
 - (void)refreshTopic;
 @end
+
+
+@interface TopicDetailHeaderView : UIView
+@property (strong, nonatomic) ProjectTopic *curTopic;
+@property (nonatomic, copy) void (^goToUserBlock)(User *);
+@property (nonatomic, copy) void (^commentBlock)(id sender);
+@property (nonatomic, copy) void (^deleteBlock)(ProjectTopic *curTopic);
+@end

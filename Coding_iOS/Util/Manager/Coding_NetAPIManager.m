@@ -1429,13 +1429,22 @@
             ProjectTopic *resultT = [NSObject objectOfClass:@"ProjectTopic" fromJSON:resultData];
             resultT.mdLabels = [resultT.labels mutableCopy];
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toTopicPath] withParams:@{@"type": [NSNumber numberWithInteger:1]} withMethodType:Get andBlock:^(id dataMD, NSError *errorMD) {
-                proTopic.isTopicLoading = NO;
                 if (dataMD) {
-                    [MobClick event:kUmeng_Event_Request_Get label:@"讨论详情"];
-
                     resultT.mdTitle = [[dataMD valueForKey:@"data"] valueForKey:@"title"];
                     resultT.mdContent = [[dataMD valueForKey:@"data"] valueForKey:@"content"];
-                    block(resultT, nil);
+                    NSString *watchersPath = [NSString stringWithFormat:@"api/project/%@/topic/%@/watchers", proTopic.project_id.stringValue, proTopic.id.stringValue];
+                    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:watchersPath withParams:@{@"pageSize": @1000} withMethodType:Get andBlock:^(id dataW, NSError *errorW) {
+                        proTopic.isTopicLoading = NO;
+                        if (dataW) {
+                            [MobClick event:kUmeng_Event_Request_Get label:@"讨论详情"];
+
+                            NSArray *watchers = [NSArray arrayFromJSON:dataW[@"data"][@"list"] ofObjects:@"User"];
+                            proTopic.watchers = watchers.mutableCopy;
+                            block(proTopic, nil);
+                        }else{
+                            block(nil, errorW);
+                        }
+                    }];
                 }else{
                     block(nil, errorMD);
                 }

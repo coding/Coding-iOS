@@ -33,6 +33,7 @@
 
 @property (strong, nonatomic) NSString *mdTitle, *mdContent;
 @property (strong, nonatomic) NSMutableArray *mdLabels;
+@property (strong, nonatomic) NSMutableArray *watchers;
 
 @property (readwrite, nonatomic, strong) NSNumber *page, *pageSize, *totalPage, *totalRow;
 @property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading, isTopicLoading, isTopicEditLoading;

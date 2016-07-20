@@ -13,5 +13,10 @@
 - (void) setLongString:(NSString *)str withFitWidth:(CGFloat)width;
 - (void) setLongString:(NSString *)str withFitWidth:(CGFloat)width maxHeight:(CGFloat)maxHeight;
 - (void) setLongString:(NSString *)str withVariableWidth:(CGFloat)maxWidth;
+
+- (void)setAttrStrWithStr:(NSString *)text diffColorStr:(NSString *)diffColorStr diffColor:(UIColor *)diffColor;
+- (void)addAttrDict:(NSDictionary *)attrDict toStr:(NSString *)str;
+- (void)addAttrDict:(NSDictionary *)attrDict toRange:(NSRange)range;
+
 + (instancetype)labelWithFont:(UIFont *)font textColor:(UIColor *)textColor;
 @end

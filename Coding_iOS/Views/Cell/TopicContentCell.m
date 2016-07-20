@@ -18,8 +18,9 @@
 @interface TopicContentCell () <UIWebViewDelegate>
 
 @property (strong, nonatomic) UIImageView *userIconView;
-@property (strong, nonatomic) UILabel *titleLabel, *timeLabel, *commentCountLabel;
-@property (strong, nonatomic) UIButton *commentBtn, *deleteBtn;
+@property (strong, nonatomic) UILabel *titleLabel, *timeLabel;
+//, *commentCountLabel;
+//@property (strong, nonatomic) UIButton *commentBtn, *deleteBtn;
 @property (strong, nonatomic) UIWebView *webContentView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 
@@ -94,30 +95,30 @@
             }];
         }
         
-        if (!_commentCountLabel) {
-            _commentCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 120, 20)];
-            _commentCountLabel.textColor = [UIColor colorWithHexString:@"0x99999999"];
-            _commentCountLabel.font = [UIFont systemFontOfSize:12];
-            [self.contentView addSubview:_commentCountLabel];
-        }
-        if (!_commentBtn) {
-            _commentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            _commentBtn.frame = CGRectMake(kScreen_Width - kPaddingLeftWidth - 50, 0, 50, 25);
-            [_commentBtn setImage:[UIImage imageNamed:@"tweet_comment_btn"] forState:UIControlStateNormal];
-            [self.commentBtn addTarget:self action:@selector(commentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [self.contentView addSubview:_commentBtn];
-        }
-        
-        if (!self.deleteBtn) {
-            self.deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            self.deleteBtn.frame = CGRectMake(kScreen_Width - kPaddingLeftWidth - 50 - 50, 0, 50, 25);
-            [self.deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
-            [self.deleteBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
-            [self.deleteBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
-            self.deleteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12];
-            [self.deleteBtn addTarget:self action:@selector(deleteBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [self.contentView addSubview:self.deleteBtn];
-        }
+//        if (!_commentCountLabel) {
+//            _commentCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 120, 20)];
+//            _commentCountLabel.textColor = [UIColor colorWithHexString:@"0x99999999"];
+//            _commentCountLabel.font = [UIFont systemFontOfSize:12];
+//            [self.contentView addSubview:_commentCountLabel];
+//        }
+//        if (!_commentBtn) {
+//            _commentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//            _commentBtn.frame = CGRectMake(kScreen_Width - kPaddingLeftWidth - 50, 0, 50, 25);
+//            [_commentBtn setImage:[UIImage imageNamed:@"tweet_comment_btn"] forState:UIControlStateNormal];
+//            [self.commentBtn addTarget:self action:@selector(commentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//            [self.contentView addSubview:_commentBtn];
+//        }
+//        
+//        if (!self.deleteBtn) {
+//            self.deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//            self.deleteBtn.frame = CGRectMake(kScreen_Width - kPaddingLeftWidth - 50 - 50, 0, 50, 25);
+//            [self.deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
+//            [self.deleteBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
+//            [self.deleteBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
+//            self.deleteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12];
+//            [self.deleteBtn addTarget:self action:@selector(deleteBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+//            [self.contentView addSubview:self.deleteBtn];
+//        }
         
     }
     return self;
@@ -161,15 +162,15 @@
     }
     
     curBottomY += _curTopic.contentHeight + 5;
-    [_commentCountLabel setY:curBottomY + 2];
-    _commentCountLabel.text = [NSString stringWithFormat:@"%d条评论", _curTopic.child_count.intValue];
-    [_commentBtn setY:curBottomY];
-    if ([_curTopic canEdit]) {
-        _deleteBtn.hidden = NO;
-        [_deleteBtn setY:curBottomY];
-    } else {
-        _deleteBtn.hidden = YES;
-    }
+//    [_commentCountLabel setY:curBottomY + 2];
+//    _commentCountLabel.text = [NSString stringWithFormat:@"%d条评论", _curTopic.child_count.intValue];
+//    [_commentBtn setY:curBottomY];
+//    if ([_curTopic canEdit]) {
+//        _deleteBtn.hidden = NO;
+//        [_deleteBtn setY:curBottomY];
+//    } else {
+//        _deleteBtn.hidden = YES;
+//    }
 }
 
 - (void)deleteTag:(ProjectTag *)curTag
@@ -218,7 +219,8 @@
         
         cellHeight += [ProjectTagsView getHeightForTags:topic.labels];
         cellHeight += topic.contentHeight;
-        cellHeight += 25 + 25 + 5;
+        cellHeight += 25 + 10;
+//        + 25 + 5;
     }
     return cellHeight;
 }
