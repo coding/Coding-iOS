@@ -42,6 +42,8 @@
 + (ProjectTopic *)topicWithPro:(Project *)pro;
 + (ProjectTopic *)topicWithId:(NSNumber *)topicId;
 
+- (User *)hasWatcher:(User *)watcher;
+
 - (NSString *)toTopicPath;
 - (NSDictionary *)toEditParams;
 

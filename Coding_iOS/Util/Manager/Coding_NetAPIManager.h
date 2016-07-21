@@ -166,6 +166,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_Comments_WithProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DoComment_WithProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectTopic_Delete_WithObj:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ChangeWatcher:(User *)watcher ofTopic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block;
 
 - (void)request_ModifyProjectTpoicLabel:(ProjectTopic *)proTopic
                                andBlock:(void (^)(id data, NSError *error))block;

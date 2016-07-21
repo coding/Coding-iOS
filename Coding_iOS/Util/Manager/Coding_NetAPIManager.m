@@ -1439,8 +1439,8 @@
                             [MobClick event:kUmeng_Event_Request_Get label:@"讨论详情"];
 
                             NSArray *watchers = [NSArray arrayFromJSON:dataW[@"data"][@"list"] ofObjects:@"User"];
-                            proTopic.watchers = watchers.mutableCopy;
-                            block(proTopic, nil);
+                            resultT.watchers = watchers.mutableCopy;
+                            block(resultT, nil);
                         }else{
                             block(nil, errorW);
                         }
@@ -1545,6 +1545,27 @@
             block(nil, error);
         }
     }];
+}
+- (void)request_ChangeWatcher:(User *)watcher ofTopic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/topic/%@/user/%@/watch", proTopic.id.stringValue, watcher.global_key];
+    User *hasWatcher = [proTopic hasWatcher:watcher];
+    NetworkMethod method = hasWatcher? Delete: Post;
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:method andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:method == Post? @"讨论_添加关注者": @"讨论_删除关注者"];
+            
+            if (!hasWatcher && watcher) {
+                [proTopic.watchers addObject:watcher];
+            }else if (hasWatcher){
+                [proTopic.watchers removeObject:hasWatcher];
+            }
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+
 }
 
 - (void)request_ProjectTopic_Count_WithPath:(NSString *)path

@@ -110,7 +110,7 @@
             break;
     }
 
-    if (_type == ProMemTypeTaskWatchers) {//「添加、已添加」按钮
+    if (_type == ProMemTypeTaskWatchers || _type == ProMemTypeTopicWatchers) {//「添加、已添加」按钮
         _leftBtn.hidden = NO;
     }else if (_type == ProMemTypeProject){
         if (_curMember.user_id.intValue != [Login curLoginUser].id.integerValue) {//「私信」按钮

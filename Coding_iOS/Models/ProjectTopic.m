@@ -65,6 +65,15 @@
     return topic;
 }
 
+- (User *)hasWatcher:(User *)watcher{
+    for (User *user in self.watchers) {
+        if ([user.id isEqual:watcher.id]) {
+            return user;
+        }
+    }
+    return nil;
+}
+
 - (NSString *)toTopicPath
 {
     return [NSString stringWithFormat:@"api/topic/%d", self.id.intValue];

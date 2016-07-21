@@ -216,12 +216,13 @@
     __weak typeof(self) weakSelf = self;
     cell.curMember = curMember;
     cell.type = _type;
-    if (_type == ProMemTypeTaskWatchers) {
-        [cell.leftBtn setImage:[UIImage imageNamed:[self.curTask hasWatcher:curMember.user]? @"btn_project_added": @"btn_project_add"] forState:UIControlStateNormal];
-    }
     if (_type == ProMemTypeProject) {
         [cell setRightUtilityButtons:[self rightButtonsWithObj:curMember] WithButtonWidth:[MemberCell cellHeight]];//编辑按钮
         cell.delegate = self;
+    }else if (_type == ProMemTypeTaskWatchers) {
+        [cell.leftBtn setImage:[UIImage imageNamed:[self.curTask hasWatcher:curMember.user]? @"btn_project_added": @"btn_project_add"] forState:UIControlStateNormal];
+    }else if (_type == ProMemTypeTopicWatchers){
+        [cell.leftBtn setImage:[UIImage imageNamed:[self.curTopic hasWatcher:curMember.user]? @"btn_project_added": @"btn_project_add"] forState:UIControlStateNormal];
     }
     cell.leftBtnClickedBlock = ^(UIButton *sender){
         if (tableView.isEditing) {
@@ -251,6 +252,9 @@
                         if (data) {
                             BOOL isAdded = [weakSelf.curTask hasWatcher:curMember.user] != nil;
                             [sender setImage:[UIImage imageNamed:isAdded? @"btn_project_added": @"btn_project_add"] forState:UIControlStateNormal];
+                            if (weakSelf.cellBtnBlock) {
+                                weakSelf.cellBtnBlock(curMember);
+                            }
                         }
                     }
                 }];
@@ -262,7 +266,24 @@
                     [weakSelf.curTask.watchers addObject:curMember.user];
                 }
                 [sender setImage:[UIImage imageNamed:!hasWatcher? @"btn_project_added": @"btn_project_add"] forState:UIControlStateNormal];
+                if (weakSelf.cellBtnBlock) {
+                    weakSelf.cellBtnBlock(curMember);
+                }
             }
+        }else if (_type == ProMemTypeTopicWatchers){
+            [sender startQueryAnimate];
+            [[Coding_NetAPIManager sharedManager] request_ChangeWatcher:curMember.user ofTopic:weakSelf.curTopic andBlock:^(id data, NSError *error) {
+                if (cell.curMember == curMember) {
+                    [sender stopQueryAnimate];
+                    if (data) {
+                        BOOL isAdded = [weakSelf.curTopic hasWatcher:curMember.user] != nil;
+                        [sender setImage:[UIImage imageNamed:isAdded? @"btn_project_added": @"btn_project_add"] forState:UIControlStateNormal];
+                        if (weakSelf.cellBtnBlock) {
+                            weakSelf.cellBtnBlock(curMember);
+                        }
+                    }
+                }
+            }];
         }
     };
 

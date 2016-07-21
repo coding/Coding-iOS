@@ -14,7 +14,8 @@ typedef NS_ENUM(NSInteger, ProMemType) {
     ProMemTypeProject = 0,
     ProMemTypeTaskOwner,
     ProMemTypeAT,
-    ProMemTypeTaskWatchers
+    ProMemTypeTaskWatchers,
+    ProMemTypeTopicWatchers
 };
 typedef void(^ProjectMemberBlock)(ProjectMember *member);
 typedef void(^ProjectMemberListBlock)(NSArray *memberArray);
@@ -23,6 +24,7 @@ typedef void(^ProjectMemberCellBtnBlock)(ProjectMember *member);
 @interface ProjectMemberListViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate,UISearchDisplayDelegate>
 @property (strong, nonatomic) NSMutableArray *myMemberArray;
 @property (strong, nonatomic) Task *curTask;
+@property (strong, nonatomic) ProjectTopic *curTopic;
 - (void)setFrame:(CGRect)frame project:(Project *)project type:(ProMemType)type refreshBlock:(ProjectMemberListBlock)refreshBlock selectBlock:(ProjectMemberBlock)selectBlock cellBtnBlock:(ProjectMemberCellBtnBlock)cellBtnBlock;
 - (void)willHiden;
 - (void)refreshMembersData;

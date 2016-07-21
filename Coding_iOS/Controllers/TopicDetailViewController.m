@@ -22,6 +22,7 @@
 #import "WebViewController.h"
 #import "EditTopicViewController.h"
 #import "EditLabelViewController.h"
+#import "ProjectMemberListViewController.h"
 
 @interface TopicDetailViewController ()<TTTAttributedLabelDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
@@ -97,11 +98,6 @@
     self.title = curTopic.project.name ? curTopic.project.name : @"讨论详情";
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -120,12 +116,6 @@
         }
         [_myMsgInputView prepareToShow];
     }
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - click
@@ -214,6 +204,9 @@
     if (_curTopic.isTopicLoading) {
         return;
     }
+    if (!_curTopic.comments) {
+        [self.view beginLoading];
+    }
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_ProjectTopic_WithObj:_curTopic andBlock:^(id data, NSError *error) {
         if (data) {
@@ -225,9 +218,9 @@
             weakSelf.myMsgInputView.commentOfId = weakSelf.curTopic.id;
             weakSelf.myMsgInputView.toUser = nil;
             [weakSelf configNavBtn];
-            [weakSelf.myTableView reloadData];
             [weakSelf refreshComments];
         } else {
+            [weakSelf.view endLoading];
             [weakSelf.refreshControl endRefreshing];
         }
     }];
@@ -244,8 +237,12 @@
 
 - (void)sendRequest
 {
+    if (!_curTopic.comments) {
+        [self.view beginLoading];
+    }
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Comments_WithProjectTpoic:self.curTopic andBlock:^(id data, NSError *error) {
+        [weakSelf.view endLoading];
         [weakSelf.refreshControl endRefreshing];
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
         if (data) {
@@ -281,13 +278,7 @@
         _headerV.curTopic = self.curTopic;
         __weak typeof(self) weakSelf = self;
         _headerV.goToUserBlock = ^(User *user){
-            if (user) {
-                UserInfoViewController *vc = [UserInfoViewController new];
-                vc.curUser = user;
-                [weakSelf.navigationController pushViewController:vc animated:YES];
-            }else{
-                
-            }
+            [weakSelf goToUser:user];
         };
         _headerV.commentBlock = ^(id sender){
             [weakSelf doCommentToTopic:nil sender:sender];
@@ -303,6 +294,22 @@
         headerV = _headerV;
     }
     return headerV;
+}
+
+- (void)goToUser:(User *)user{
+    if (user) {
+        UserInfoViewController *vc = [UserInfoViewController new];
+        vc.curUser = user;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        __weak typeof(self) weakSelf = self;
+        ProjectMemberListViewController *vc = [ProjectMemberListViewController new];
+        [vc setFrame:self.view.bounds project:_curTopic.project type:ProMemTypeTopicWatchers refreshBlock:nil selectBlock:nil cellBtnBlock:^(ProjectMember *member) {
+            [weakSelf.myTableView reloadData];
+        }];
+        vc.curTopic = _curTopic;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark Table M
@@ -321,12 +328,8 @@
         TopicContentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TopicContent forIndexPath:indexPath];
         cell.curTopic = self.curTopic;
         __weak typeof(self) weakSelf = self;
-//        cell.commentTopicBlock = ^(ProjectTopic *curTopic, id sender){
-//            [weakSelf doCommentToTopic:nil sender:sender];
-//        };
         cell.cellHeightChangedBlock = ^(){
-            [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
-//            [weakSelf.myTableView reloadData];
+            [weakSelf.myTableView reloadData];
         };
         cell.addLabelBlock = ^(){
             [weakSelf addtitleBtnClick];
@@ -334,14 +337,6 @@
         cell.loadRequestBlock = ^(NSURLRequest *curRequest){
             [weakSelf loadRequest:curRequest];
         };
-//        cell.deleteTopicBlock = ^(ProjectTopic *curTopic){
-//            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此讨论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-//                if (index == 0) {
-//                    [weakSelf deleteTopic:weakSelf.curTopic isComment:NO];
-//                }
-//            }];
-//            [actionSheet showInView:self.view];
-//        };
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     } else {
