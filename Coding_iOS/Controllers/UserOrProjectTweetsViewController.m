@@ -53,7 +53,7 @@
     if (_curTweets.tweetType == TweetTypeUserSingle) {
         self.title = _curTweets.curUser.name;
     }else if (_curTweets.tweetType == TweetTypeProject){
-        self.title = _curTweets.curPro.name;
+        self.title = @"项目内冒泡";
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addBtnClicked)];
     }else{
         self.title = @"冒泡列表";

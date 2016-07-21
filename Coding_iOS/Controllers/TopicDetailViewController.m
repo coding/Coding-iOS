@@ -259,11 +259,17 @@
 
 #pragma mark Table header footer
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return section == 0? 1.0/[UIScreen mainScreen].scale: _curTopic.watchers.count > 0? 152: 98;
+    return section == 0? 1.0/[UIScreen mainScreen].scale: _curTopic.watchers.count > 0? 142: 88;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 1.0/[UIScreen mainScreen].scale;
+    return section == 0? 10: 1.0/[UIScreen mainScreen].scale;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView *footerV = [UIView new];
+    footerV.backgroundColor = kColorTableSectionBg;
+    return footerV;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -498,7 +504,6 @@
     self = [super init];
     if (self) {
         __weak typeof(self) weakSelf = self;
-        self.backgroundColor = kColorTableSectionBg;
         if (!_contentView) {
             _contentView = [UIView new];
             _contentView.backgroundColor = kColorTableBG;
@@ -572,8 +577,7 @@
             [self.contentView addSubview:_deleteBtn];
         }
         [_contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.bottom.equalTo(self);
-            make.top.equalTo(self).offset(10);
+            make.edges.equalTo(self);
         }];
         [_watchersL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_contentView).offset(kPaddingLeftWidth);
