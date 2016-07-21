@@ -264,6 +264,7 @@
 		4E59D32B1D3E106D008C914B /* tweetsBtn_Nav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E59D3291D3E106D008C914B /* tweetsBtn_Nav@2x.png */; };
 		4E59D32C1D3E106D008C914B /* tweetsBtn_Nav@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E59D32A1D3E106D008C914B /* tweetsBtn_Nav@3x.png */; };
 		4E59D32F1D3E1920008C914B /* ProjectTweetSendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E59D32E1D3E1920008C914B /* ProjectTweetSendViewController.m */; };
+		4E59D3311D409C8C008C914B /* topic_add_watcher_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E59D3301D409C8C008C914B /* topic_add_watcher_btn@2x.png */; };
 		4E59E1D31A5E6B34004DAEEC /* TaskDescriptionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */; };
 		4E5A66951B268D160007A0AD /* UIView+PressMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5A66941B268D160007A0AD /* UIView+PressMenu.m */; };
 		4E5C06E81AC2B34800F427C5 /* tipIcon_BranchMember@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5C06E71AC2B34800F427C5 /* tipIcon_BranchMember@2x.png */; };
@@ -1525,6 +1526,7 @@
 		4E59D32A1D3E106D008C914B /* tweetsBtn_Nav@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweetsBtn_Nav@3x.png"; sourceTree = "<group>"; };
 		4E59D32D1D3E1920008C914B /* ProjectTweetSendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTweetSendViewController.h; sourceTree = "<group>"; };
 		4E59D32E1D3E1920008C914B /* ProjectTweetSendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTweetSendViewController.m; sourceTree = "<group>"; };
+		4E59D3301D409C8C008C914B /* topic_add_watcher_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topic_add_watcher_btn@2x.png"; sourceTree = "<group>"; };
 		4E59E1D11A5E6B34004DAEEC /* TaskDescriptionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDescriptionViewController.h; sourceTree = "<group>"; };
 		4E59E1D21A5E6B34004DAEEC /* TaskDescriptionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDescriptionViewController.m; sourceTree = "<group>"; };
 		4E5A66931B268D160007A0AD /* UIView+PressMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+PressMenu.h"; sourceTree = "<group>"; };
@@ -4869,6 +4871,7 @@
 				4EB52F2D1C77138A00B5EBEA /* button_scan@3x.png */,
 				4ECEFA001D1D0B4B002A27D3 /* tip_bg@2x.png */,
 				4ECEFA011D1D0B4B002A27D3 /* tip_bg@3x.png */,
+				4E59D3301D409C8C008C914B /* topic_add_watcher_btn@2x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -5728,6 +5731,7 @@
 				D0FE4DB91C103FA0006E5A76 /* git_icon_star_old@2x.png in Resources */,
 				D0C447CC1C02DB6700DC1C4B /* pop_2FA@3x.png in Resources */,
 				4ECEF9FF1D1D0B3D002A27D3 /* tip_selected_Nav@3x.png in Resources */,
+				4E59D3311D409C8C008C914B /* topic_add_watcher_btn@2x.png in Resources */,
 				7E8E59831B6F91C40083CA02 /* bubble_right_play_1@2x.png in Resources */,
 				8B3516511B6CE9460049BC45 /* search_tweet_colck@2x.png in Resources */,
 				8E97CE6A1A0A3424006F9AD7 /* keyboard_page_unselected@2x.png in Resources */,

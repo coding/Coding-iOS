@@ -528,7 +528,7 @@
         }
         if (!_addBtn) {
             _addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            [_addBtn setImage:[UIImage imageNamed:@"tweet_comment_btn"] forState:UIControlStateNormal];
+            [_addBtn setImage:[UIImage imageNamed:@"topic_add_watcher_btn"] forState:UIControlStateNormal];
             [_addBtn bk_addEventHandler:^(id sender) {
                 if (weakSelf.goToUserBlock) {
                     weakSelf.goToUserBlock(nil);
