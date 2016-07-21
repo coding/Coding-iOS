@@ -147,12 +147,13 @@
     }
     @weakify(self);
     _myPopMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem){
+        if (!selectedItem) return;
+
         [weakSelf.myPopMenu.realTimeBlurFooter disMiss];
         [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"首页_添加_%@", selectedItem.title]];
         @strongify(self);
         //改下显示style
         [self.rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
-        if (!selectedItem) return;
         switch (selectedItem.index) {
             case 0:
                 [self goToNewProjectVC];
@@ -254,7 +255,7 @@
         [_rightNavBtn setStyle:kFRDLivelyButtonStyleClose animated:YES];
         [_myPopMenu showMenuAtView:kKeyWindow startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
     } else{
-        [_myPopMenu dismissMenu];
+        [self closeMenu];
     }
 }
 -(void)fliterClicked:(id)sender{
@@ -277,8 +278,8 @@
     }
 }
 -(void)closeMenu{
+    [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
     if ([_myPopMenu isShowed]) {
-        [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
         [_myPopMenu dismissMenu];
     }
 }
