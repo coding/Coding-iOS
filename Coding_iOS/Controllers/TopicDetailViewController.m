@@ -237,9 +237,6 @@
 
 - (void)sendRequest
 {
-    if (!_curTopic.comments) {
-        [self.view beginLoading];
-    }
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Comments_WithProjectTpoic:self.curTopic andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
@@ -517,7 +514,7 @@
             _tipL = [UILabel new];
             _tipL.textColor = [UIColor colorWithHexString:@"0x99999999"];
             _tipL.font = [UIFont systemFontOfSize:12];
-            [_tipL setAttrStrWithStr:@"尚未添加任何关注着，去添加" diffColorStr:@"去添加" diffColor:[UIColor colorWithHexString:@"0x3bbd79"]];
+            [_tipL setAttrStrWithStr:@"尚未添加任何关注者，去添加" diffColorStr:@"去添加" diffColor:[UIColor colorWithHexString:@"0x3bbd79"]];
             _tipL.userInteractionEnabled = YES;
             [_tipL bk_whenTapped:^{
                 if (weakSelf.goToUserBlock) {
