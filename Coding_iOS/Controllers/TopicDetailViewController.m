@@ -415,8 +415,10 @@
             }];
         }else{
             [[Coding_NetAPIManager sharedManager] request_ProjectTopicComment_Delete_WithObj:curTopic projectId:_curTopic.project.id andBlock:^(id data, NSError *error) {
-                [weakSelf.curTopic.comments.list removeObject:_toComment];
-                [weakSelf.myTableView reloadData];
+                if (data) {
+                    [weakSelf.curTopic.comments.list removeObject:_toComment];
+                    [weakSelf.myTableView reloadData];
+                }
             }];
         }
     }

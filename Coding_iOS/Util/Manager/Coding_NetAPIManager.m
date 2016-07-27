@@ -1432,7 +1432,7 @@
                 if (dataMD) {
                     resultT.mdTitle = [[dataMD valueForKey:@"data"] valueForKey:@"title"];
                     resultT.mdContent = [[dataMD valueForKey:@"data"] valueForKey:@"content"];
-                    NSString *watchersPath = [NSString stringWithFormat:@"api/project/%@/topic/%@/watchers", proTopic.project_id.stringValue, proTopic.id.stringValue];
+                    NSString *watchersPath = [NSString stringWithFormat:@"api/project/%@/topic/%@/watchers", resultT.project_id.stringValue, resultT.id.stringValue];
                     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:watchersPath withParams:@{@"pageSize": @1000} withMethodType:Get andBlock:^(id dataW, NSError *errorW) {
                         proTopic.isTopicLoading = NO;
                         if (dataW) {
