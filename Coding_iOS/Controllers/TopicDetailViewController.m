@@ -404,19 +404,21 @@
 - (void)deleteTopic:(ProjectTopic *)curTopic isComment:(BOOL)isC{
     if (curTopic) {
         __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_ProjectTopic_Delete_WithObj:curTopic andBlock:^(id data, NSError *error) {
-            if (data) {
-                if (isC) {
-                    [weakSelf.curTopic.comments.list removeObject:_toComment];
-                    [weakSelf.myTableView reloadData];
-                }else{
+        if (!isC) {
+            [[Coding_NetAPIManager sharedManager] request_ProjectTopic_Delete_WithObj:curTopic andBlock:^(id data, NSError *error) {
+                if (data) {
                     if (weakSelf.deleteTopicBlock) {
                         weakSelf.deleteTopicBlock(weakSelf.curTopic);
                     }
                     [weakSelf.navigationController popViewControllerAnimated:YES];
                 }
-            }
-        }];
+            }];
+        }else{
+            [[Coding_NetAPIManager sharedManager] request_ProjectTopicComment_Delete_WithObj:curTopic projectId:_curTopic.project.id andBlock:^(id data, NSError *error) {
+                [weakSelf.curTopic.comments.list removeObject:_toComment];
+                [weakSelf.myTableView reloadData];
+            }];
+        }
     }
 }
 

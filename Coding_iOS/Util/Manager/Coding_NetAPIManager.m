@@ -1546,6 +1546,20 @@
         }
     }];
 }
+
+- (void)request_ProjectTopicComment_Delete_WithObj:(ProjectTopic *)proTopic projectId:(NSNumber *)projectId andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/project/%@/topic/%@/comment/%@", projectId, proTopic.topic_id, proTopic.id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"讨论评论_删除"];
+            
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_ChangeWatcher:(User *)watcher ofTopic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block{
     NSString *path = [NSString stringWithFormat:@"api/topic/%@/user/%@/watch", proTopic.id.stringValue, watcher.global_key];
     User *hasWatcher = [proTopic hasWatcher:watcher];
