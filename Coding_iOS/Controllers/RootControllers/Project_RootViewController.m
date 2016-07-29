@@ -147,13 +147,13 @@
     }
     @weakify(self);
     _myPopMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem){
-        if (!selectedItem) return;
-
-        [weakSelf.myPopMenu.realTimeBlurFooter disMiss];
-        [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"首页_添加_%@", selectedItem.title]];
         @strongify(self);
         //改下显示style
-        [self.rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
+        if (self.rightNavBtn.buttonStyle != kFRDLivelyButtonStylePlus) {
+            [self.rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
+        }
+        if (!selectedItem) return;
+        [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"首页_添加_%@", selectedItem.title]];
         switch (selectedItem.index) {
             case 0:
                 [self goToNewProjectVC];
