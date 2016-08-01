@@ -21,4 +21,7 @@
 + (UIImage *)fullScreenImageALAsset:(ALAsset *)asset;
 
 + (UIImage *)imageWithFileType:(NSString *)fileType;
+
+- (NSData *)dataSmallerThan:(NSUInteger)dataLength;
+- (NSData *)dataForCodingUpload;
 @end

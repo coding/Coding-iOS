@@ -168,4 +168,17 @@
     return [UIImage imageNamed:iconName];
 }
 
+- (NSData *)dataSmallerThan:(NSUInteger)dataLength{
+    NSData *data = UIImageJPEGRepresentation(self, 1.0);
+    while (data.length > dataLength) {
+        UIImage *image = [UIImage imageWithData:data];
+        data = UIImageJPEGRepresentation(image, 0.7);
+    }
+    return data;
+}
+- (NSData *)dataForCodingUpload{
+    return [self dataSmallerThan:1024 * 1000];
+}
+
+
 @end

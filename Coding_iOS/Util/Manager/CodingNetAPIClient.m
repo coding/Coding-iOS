@@ -159,16 +159,8 @@ static dispatch_once_t onceToken;
     
     if (file) {
         UIImage *image = file[@"image"];
-        
-        // 缩小到最大 800x800
-//        image = [image scaledToMaxSize:CGSizeMake(500, 500)];
-        
         // 压缩
-        data = UIImageJPEGRepresentation(image, 1.0);
-        if ((float)data.length/1024 > 1000) {
-            data = UIImageJPEGRepresentation(image, 1024*1000.0/(float)data.length);
-        }
-        
+        data = [image dataForCodingUpload];
         name = file[@"name"];
         fileName = file[@"fileName"];
     }
@@ -236,10 +228,7 @@ static dispatch_once_t onceToken;
        failureBlock:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
       progerssBlock:(void (^)(CGFloat progressValue))progress{
 
-    NSData *data = UIImageJPEGRepresentation(image, 1.0);
-    if ((float)data.length/1024 > 1000) {
-        data = UIImageJPEGRepresentation(image, 1024*1000.0/(float)data.length);
-    }
+    NSData *data = [image dataForCodingUpload];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.dateFormat = @"yyyyMMddHHmmss";

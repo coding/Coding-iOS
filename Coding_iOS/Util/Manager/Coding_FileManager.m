@@ -228,7 +228,7 @@
     }
     NSString *filePath = [[self uploadPath] stringByAppendingPathComponent:fileName];
     
-    return [UIImageJPEGRepresentation(image, 1.0) writeToFile:filePath options:NSAtomicWrite error:nil];
+    return [[image dataForCodingUpload] writeToFile:filePath options:NSAtomicWrite error:nil];
 }
 + (BOOL)deleteUploadDataWithName:(NSString *)fileName{
     NSString *filePath = [[self uploadPath] stringByAppendingPathComponent:fileName];

@@ -202,7 +202,7 @@
         bool isSaved = false;
         if ( isDir == YES && existed == YES )
         {
-            isSaved = [UIImageJPEGRepresentation(image, 1.0) writeToFile:[directoryPath stringByAppendingPathComponent:imageName] options:NSAtomicWrite error:nil];
+            isSaved = [[image dataForCodingUpload] writeToFile:[directoryPath stringByAppendingPathComponent:imageName] options:NSAtomicWrite error:nil];
         }
         return isSaved;
     }else{
