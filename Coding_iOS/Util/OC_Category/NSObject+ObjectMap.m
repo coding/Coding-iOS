@@ -197,7 +197,7 @@ static const __unused short _base64DecodingTable[256] = {
     
     for (NSString *key in [dict allKeys]) {
         NSString *tempKey;
-        if ([key isEqualToString:@"description"]) {
+        if ([key isEqualToString:@"description"] || [key isEqualToString:@"hash"]) {
             tempKey = [key stringByAppendingString:@"_mine"];
         }else{
             tempKey = key;
@@ -358,7 +358,7 @@ static const char * getPropertyType(objc_property_t property) {
                 // Else, it is an object
                 else {
                     NSString *tempNewKey;
-                    if ([newKey isEqualToString:@"description"]) {
+                    if ([newKey isEqualToString:@"description"] || [newKey isEqualToString:@"hash"]) {
                         tempNewKey = [newKey stringByAppendingString:@"_mine"];
                     }else{
                         tempNewKey = newKey;

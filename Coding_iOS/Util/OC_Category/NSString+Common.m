@@ -157,11 +157,11 @@
     if (self.length <= 0) {
         return resultSize;
     }
-    resultSize = [self boundingRectWithSize:size
+    resultSize = [self boundingRectWithSize:CGSizeMake(floor(size.width), floor(size.height))//用相对小的 width 去计算 height / 小 heigth 算 width
                                     options:(NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin)
                                  attributes:@{NSFontAttributeName: font}
                                     context:nil].size;
-    resultSize = CGSizeMake(MIN(size.width, ceilf(resultSize.width)), MIN(size.height, ceilf(resultSize.height)));
+    resultSize = CGSizeMake(floor(resultSize.width + 1), floor(resultSize.height + 1));//上面用的小 width（height） 来计算了，这里要 +1
     return resultSize;
 }
 
