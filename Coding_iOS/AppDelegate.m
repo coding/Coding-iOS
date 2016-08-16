@@ -140,7 +140,7 @@
     [UMSocialConfig setFinishToastIsHidden:YES position:UMSocialiToastPositionCenter];
     [UMSocialConfig setNavigationBarConfig:^(UINavigationBar *bar, UIButton *closeButton, UIButton *backButton, UIButton *postButton, UIButton *refreshButton, UINavigationItem *navigationItem) {
         if (bar) {
-            [bar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:[NSObject baseURLStrIsTest]? @"0x3bbd79" : @"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+            [bar setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:![NSObject baseURLStrIsProduction]? @"0x3bbd79" : @"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
         }
         if (navigationItem) {
             if ([[navigationItem titleView] isKindOfClass:[UILabel class]]) {
@@ -249,7 +249,7 @@
     //设置Nav的背景色和title色
     
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
-    [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:[NSObject baseURLStrIsTest]? @"0x3bbd79" : @"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+    [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:![NSObject baseURLStrIsProduction]? @"0x3bbd79" : @"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
     [navigationBarAppearance setTintColor:[UIColor whiteColor]];//返回按钮的箭头颜色
     NSDictionary *textAttributes = @{
                                      NSFontAttributeName: [UIFont boldSystemFontOfSize:kNavTitleFontSize],

@@ -2621,10 +2621,10 @@
 }
 
 - (void)request_DefautsHotTopicNamelistWithBlock:(void (^)(id data, NSError *error))block {
-    NSString *defaultsPath = @"api/tweet_topic/defaults";
+    NSString *defaultsPath = @"api/tweet/pop";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:defaultsPath withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            NSMutableArray *resultList = [[data[@"data"] valueForKey:@"name"] mutableCopy];
+            NSMutableArray *resultList = [[data[@"data"][@"default_topics"] valueForKey:@"name"] mutableCopy];
             NSString *hotPath = @"/api/tweet_topic/hot";
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:hotPath withParams:nil withMethodType:Get andBlock:^(id dataHot, NSError *errorHot) {
                 if (dataHot) {

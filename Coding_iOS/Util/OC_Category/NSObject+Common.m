@@ -7,8 +7,9 @@
 //
 #define kPath_ImageCache @"ImageCache"
 #define kPath_ResponseCache @"ResponseCache"
-#define kTestKey @"BaseURLIsTest"
 #define kHUDQueryViewTag 101
+
+#define kBaseURLStr @"https://coding.net/"
 
 #import "NSObject+Common.h"
 #import "JDStatusBarNotification.h"
@@ -123,38 +124,26 @@
 
 #pragma mark BaseURL
 + (NSString *)baseURLStr{
-    NSString *baseURLStr;
-    if ([self baseURLStrIsTest]) {
-        //staging
-        baseURLStr = kBaseUrlStr_Test;
-    }else{
-        //生产
-        baseURLStr = @"https://coding.net/";
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults valueForKey:kBaseURLStr] ?: kBaseURLStr;
+}
+
++ (BOOL)baseURLStrIsProduction{
+    return [[self baseURLStr] isEqualToString:kBaseURLStr];
+}
+
++ (void)changeBaseURLStrTo:(NSString *)baseURLStr{
+    if (baseURLStr.length <= 0) {
+        baseURLStr = kBaseURLStr;
     }
-//    //staging
-//    baseURLStr = kBaseUrlStr_Test;
-//    //村民
-//    baseURLStr = @"http://192.168.0.188:8080/";
-//    //彭博
-//    baseURLStr = @"http://192.168.0.156:9990/";
-//    //小胖
-//    baseURLStr = @"http://192.168.0.222:8080/";
 
-    return baseURLStr;
-}
-
-+ (BOOL)baseURLStrIsTest{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [[defaults valueForKey:kTestKey] boolValue];
-}
-+ (void)changeBaseURLStrToTest:(BOOL)isTest{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:@(isTest) forKey:kTestKey];
+    [defaults setObject:baseURLStr forKey:kBaseURLStr];
     [defaults synchronize];
     
     [CodingNetAPIClient changeJsonClient];
     
-    [[UINavigationBar appearance] setBackgroundImage: [UIImage imageWithColor:[UIColor colorWithHexString:isTest?@"0x3bbd79": @"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBackgroundImage: [UIImage imageWithColor:[UIColor colorWithHexString:![self baseURLStrIsProduction] ?@"0x3bbd79": @"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
 }
 
 #pragma mark File M

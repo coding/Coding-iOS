@@ -56,9 +56,6 @@
     self.myTableView.tableHeaderView = [self customHeaderView];
     
     [self addChangeBaseURLGesture];
-    if ([NSObject baseURLStrIsTest]) {
-        kTipAlert(@"在此页面连续点击屏幕 10 下切换到生产环境！");
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -71,27 +68,32 @@
     UITapGestureRecognizer *tapGR = [UITapGestureRecognizer bk_recognizerWithHandler:^(UIGestureRecognizer *sender, UIGestureRecognizerState state, CGPoint location) {
         @strongify(self);
         if (state == UIGestureRecognizerStateRecognized) {
-            [self changeToTest:![NSObject baseURLStrIsTest]];
+            [self changeBaseURLTip];
         }
     }];
     tapGR.numberOfTapsRequired = 10.0;
     [self.view addGestureRecognizer:tapGR];
 }
 
-- (void)changeToTest:(BOOL)isTest{
-    [NSObject changeBaseURLStrToTest:isTest];
-    NSString *tipstr;
-    if (isTest) {
-        tipstr = @"你现在切换到了测试环境。\n若要重新切换回生产环境则需要按照如下步骤操作：\n\
-                                                                                1. 进到 '登录' 页\n\
-                                                                                2. 点击 '无法登陆' 按钮\n\
-                                                                                3. 进入 '忘记密码？/未设置密码？' 页面\n\
-                                                                                4. 单击屏幕 10 次";
-    }else{
-        tipstr = @"你已成功切换到了生产环境！";
+- (void)changeBaseURLTip{
+    if ([UIDevice currentDevice].systemVersion.integerValue < 8) {
+        [NSObject showHudTipStr:@"需要 8.0 以上系统才能切换服务器地址"];
+        return;
     }
-    kTipAlert(@"%@", tipstr);
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"更改服务器 URL" message:@"空白值可切换回生产环境\n（地址末尾务必加上「/」）" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelA = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *confirmA = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [NSObject changeBaseURLStrTo:alertCtrl.textFields[0].text];
+    }];
+    [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"Coding 服务器地址";
+        textField.text = [NSObject baseURLStr];
+    }];
+    [alertCtrl addAction:cancelA];
+    [alertCtrl addAction:confirmA];
+    [self presentViewController:alertCtrl animated:YES completion:nil];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated{

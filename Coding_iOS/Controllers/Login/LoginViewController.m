@@ -92,7 +92,7 @@
 - (UIButton *)buttonFor2FA{
     if (!_buttonFor2FA) {
         _buttonFor2FA = ({
-            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 100, 20, 80, 50)];
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 100, 20, 90, 50)];
             [button.titleLabel setFont:[UIFont systemFontOfSize:13]];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateHighlighted];
