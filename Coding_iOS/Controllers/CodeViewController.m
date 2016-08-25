@@ -106,8 +106,7 @@
         NSURL *imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@u/%@/p/%@/git/raw/%@/%@", [NSObject baseURLStr], _myProject.owner_user_name, _myProject.name, _myCodeFile.ref, _myCodeFile.file.path]];
         DebugLog(@"imageUrl: %@", imageUrl);
         [self.webContentView loadRequest:[NSURLRequest requestWithURL:imageUrl]];
-    }else if ([_myCodeFile.file.mode isEqualToString:@"file"] ||
-              [_myCodeFile.file.mode isEqualToString:@"sym_link"]){
+    }else if ([@[@"file", @"sym_link", @"executable"] containsObject:_myCodeFile.file.mode]){
         NSString *contentStr = [WebContentManager codePatternedWithContent:_myCodeFile isEdit:NO];
         [self.webContentView loadHTMLString:contentStr baseURL:nil];
     }
