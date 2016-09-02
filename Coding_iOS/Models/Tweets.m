@@ -84,7 +84,7 @@
         default:
             break;
     }
-    params[@"last_time"] = _willLoadMore? @((NSUInteger)([_last_time timeIntervalSince1970] * 1000)): nil;//冒泡广场、朋友圈、个人，都已经改成用 time 了
+    params[@"last_time"] = _willLoadMore? @((long long)([_last_time timeIntervalSince1970] * 1000)): nil;//冒泡广场、朋友圈、个人，都已经改成用 time 了
     params[@"last_id"] = _willLoadMore? _last_id: nil;//项目内冒泡还在用 id
     return params;
 }
