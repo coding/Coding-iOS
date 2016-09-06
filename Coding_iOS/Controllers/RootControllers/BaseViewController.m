@@ -64,7 +64,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:[NSString stringWithUTF8String:object_getClassName(self)]];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 
     if (self.interfaceOrientation != UIInterfaceOrientationPortrait
         && !([self supportedInterfaceOrientations] & UIInterfaceOrientationMaskLandscapeLeft)) {

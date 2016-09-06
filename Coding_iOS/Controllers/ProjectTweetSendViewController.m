@@ -34,13 +34,13 @@
             [segmentedControl setWidth:80 forSegmentAtIndex:0];
             [segmentedControl setWidth:80 forSegmentAtIndex:1];
             [segmentedControl setTitleTextAttributes:@{
-                                                       NSFontAttributeName: [UIFont boldSystemFontOfSize:16],
-                                                       NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x28303b"]
+                                                       NSFontAttributeName: [UIFont systemFontOfSize:16],
+                                                       NSForegroundColorAttributeName: [UIColor whiteColor]
                                                        }
                                             forState:UIControlStateSelected];
             [segmentedControl setTitleTextAttributes:@{
-                                                       NSFontAttributeName: [UIFont boldSystemFontOfSize:16],
-                                                       NSForegroundColorAttributeName: [UIColor whiteColor]
+                                                       NSFontAttributeName: [UIFont systemFontOfSize:16],
+                                                       NSForegroundColorAttributeName: kColorNavTitle
                                                        } forState:UIControlStateNormal];
             [segmentedControl addTarget:self action:@selector(segmentedControlSelected:) forControlEvents:UIControlEventValueChanged];
             segmentedControl;

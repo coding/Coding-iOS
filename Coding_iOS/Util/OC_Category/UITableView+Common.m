@@ -114,7 +114,7 @@
     }else{
         layer.fillColor = [UIColor colorWithWhite:1.f alpha:0.8f].CGColor;
     }
-    CGColorRef lineColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
+    CGColorRef lineColor = kColorDDD.CGColor;
 
     //判断整个tableview 最后的元素
     if ((self.numberOfSections==(indexPath.section+1))&&indexPath.row == [self numberOfRowsInSection:indexPath.section]-1) {
@@ -152,11 +152,8 @@
         layer.fillColor = [UIColor colorWithWhite:1.f alpha:0.8f].CGColor;
     }
     
-    CGColorRef lineColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
+    CGColorRef lineColor = kColorDDD.CGColor;
     CGColorRef sectionLineColor = lineColor;
-
-//    CGColorRef lineColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
-//    CGColorRef sectionLineColor = self.separatorColor.CGColor;
     
     if (indexPath.row == 0 && indexPath.row == [self numberOfRowsInSection:indexPath.section]-1) {
         //只有一个cell。加上长线&下长线
@@ -249,8 +246,8 @@
     }
     
     CGFloat lineHeight = (1.0f / [UIScreen mainScreen].scale);
-    UIView *seperatorline=[[UIView alloc] initWithFrame:CGRectMake(0, 44-lineHeight,kScreen_Width , lineHeight)];
-    seperatorline.backgroundColor=[UIColor colorWithHexString:@"0xdddddd"];
+    UIView *seperatorline = [[UIView alloc] initWithFrame:CGRectMake(0, 44-lineHeight,kScreen_Width , lineHeight)];
+    seperatorline.backgroundColor = kColorDDD;
     [headerView addSubview:seperatorline];
     
     headerLabel.text = headerStr;

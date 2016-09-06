@@ -87,7 +87,7 @@
             _countryCodeL = ({
                 UILabel *label = [UILabel new];
                 label.font = [UIFont systemFontOfSize:17];
-                label.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+                label.textColor = kColorBrandGreen;
                 [self.contentView addSubview:label];
                 [label mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);

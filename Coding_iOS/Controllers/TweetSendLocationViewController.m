@@ -477,7 +477,7 @@
 
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
-    [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
+    [searchBar insertBGColor:kColorNavBG];
     [self.mySearchDisplayController setActive:YES animated:YES];
     return YES;
 }
@@ -725,14 +725,14 @@
             cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
             cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
         }
-        cell.tintColor = [UIColor colorWithHexString:@"0x3bbd79"];
+        cell.tintColor = kColorBrandGreen;
         //如果为自定义数据
         if([self.locationArray[indexPath.row][@"cellType"] isEqualToString:@"defualt"])
         {
             switch (indexPath.row) {
                 case 0:
                     cell.textLabel.text = self.locationArray[indexPath.row][@"title"];
-                    cell.textLabel.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+                    cell.textLabel.textColor = kColorBrandGreen;
                     if ([self.locationArray[indexPath.row][@"checkmark"] isEqualToString:@"YES"]) {
                         cell.accessoryType = UITableViewCellAccessoryCheckmark;
                     }else {

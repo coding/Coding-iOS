@@ -102,7 +102,7 @@
             self.deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             self.deleteBtn.frame = CGRectMake(kScreen_Width - kPaddingLeftWidth- 2*kTweetDetailCell_LikeComment_Width- 5 , 0, kTweetDetailCell_LikeComment_Width, kTweetDetailCell_LikeComment_Height);
             [self.deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
-            [self.deleteBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
+            [self.deleteBtn setTitleColor:kColorBrandGreen forState:UIControlStateNormal];
             [self.deleteBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
             self.deleteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12];
             [self.deleteBtn addTarget:self action:@selector(deleteBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -117,7 +117,7 @@
             self.locaitonBtn.frame = CGRectMake(kPaddingLeftWidth, 0,
                                                 (kScreen_Width - 2*kPaddingLeftWidth), 15);
             self.locaitonBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12];
-            [self.locaitonBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
+            [self.locaitonBtn setTitleColor:kColorBrandGreen forState:UIControlStateNormal];
             [self.locaitonBtn addTarget:self action:@selector(locationBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:self.locaitonBtn];
         }

@@ -140,7 +140,7 @@
     UIButton *bottomBtn = ({
         UIButton *button = [UIButton new];
         button.titleLabel.font = [UIFont systemFontOfSize:15];
-        [button setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
+        [button setTitleColor:kColorBrandGreen forState:UIControlStateNormal];
         [button setTitle:_medthodType == RegisterMethodEamil? @"手机号注册": @"邮箱注册" forState:UIControlStateNormal];
         [button addTarget:self action:@selector(changeMethodType) forControlEvents:UIControlEventTouchUpInside];
         button;

@@ -90,7 +90,7 @@
         _imageViewList = [[NSMutableArray alloc] initWithCapacity:3];
         for (int i = 0; i < 3; i++) {
             UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.width,self.height)];
-            view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+            view.backgroundColor = kColorTableBG;
             view.clipsToBounds = YES;
             view.contentMode = UIViewContentModeScaleAspectFill;
             [_imageViewList addObject:view];

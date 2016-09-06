@@ -178,14 +178,14 @@
 #pragma mark UISearchBarDelegate
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
 {
-    [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
+    [searchBar insertBGColor:kColorNavBG];
     [searchBar setShowsCancelButton:YES animated:YES];
     [self resetTableview];
     return YES;
 }
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar{
-    [searchBar insertBGColor:[_mySearchDisplayController isActive]?[UIColor colorWithHexString:@"0x28303b"]:nil];
+    [searchBar insertBGColor:[_mySearchDisplayController isActive]? kColorNavBG: nil];
     
     if(!_isLoading){
         if ([_curSearchStr isEqualToString:_mySearchBar.text]) {

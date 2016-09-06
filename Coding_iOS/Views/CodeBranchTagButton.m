@@ -92,7 +92,7 @@
     if (!_mySegmentedControl) {
         _mySegmentedControl = ({
             UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"分支", @"标签"]];
-            segmentedControl.tintColor = [UIColor colorWithHexString:@"0x3bbd79"];
+            segmentedControl.tintColor = kColorBrandGreen;
             [segmentedControl setTitleTextAttributes:@{
                                                        NSFontAttributeName: [UIFont boldSystemFontOfSize:16],
                                                        NSForegroundColorAttributeName: [UIColor whiteColor]
@@ -100,7 +100,7 @@
                                             forState:UIControlStateSelected];
             [segmentedControl setTitleTextAttributes:@{
                                                        NSFontAttributeName: [UIFont boldSystemFontOfSize:16],
-                                                       NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x3bbd79"]
+                                                       NSForegroundColorAttributeName: kColorBrandGreen
                                                        } forState:UIControlStateNormal];
             [segmentedControl addTarget:self action:@selector(segmentedControlSelected:) forControlEvents:UIControlEventValueChanged];
             segmentedControl;

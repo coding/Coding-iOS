@@ -66,7 +66,7 @@
             [searchBar setPlaceholder:@"搜索冒泡、用户名、话题"];
             [searchBar setTintColor:[UIColor whiteColor]];
             [searchBar setTranslucent:NO];
-            [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
+            [searchBar insertBGColor:kColorNavBG];
             searchBar;
         });
         [self.navigationController.view addSubview:_searchBar];
@@ -207,14 +207,14 @@
     UILabel *la1 = [[UILabel alloc] initWithFrame:CGRectMake((kScreen_Width/2 - titleWidth/2) + 0*distance, 8, titleWidth, 16)];
     la1.text = @"热门话题";
     la1.textAlignment = NSTextAlignmentCenter;
-    la1.font = [UIFont boldSystemFontOfSize:18];
-    la1.textColor = [UIColor whiteColor];
+    la1.font = [UIFont systemFontOfSize:kNavTitleFontSize];
+    la1.textColor = kColorNavTitle;
     
     UILabel *la2 = [[UILabel alloc] initWithFrame:CGRectMake((kScreen_Width/2 - titleWidth/2) + 1*distance, 8, titleWidth, 16)];
     la2.text = @"我的话题";
     la2.textAlignment = NSTextAlignmentCenter;
-    la2.font = [UIFont boldSystemFontOfSize:18];
-    la2.textColor = [UIColor whiteColor];
+    la2.font = [UIFont systemFontOfSize:kNavTitleFontSize];
+    la2.textColor = kColorNavTitle;
     
     
     la2.alpha = 0;

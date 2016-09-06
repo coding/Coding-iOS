@@ -41,7 +41,6 @@
 @property (nonatomic, strong) PopMenu *myPopMenu;
 @property (nonatomic, strong) PopFliterMenu *myFliterMenu;
 @property (nonatomic,assign) NSInteger selectNum;  //筛选状态
-@property (nonatomic,strong)UIButton *leftNavBtn;
 @property (nonatomic,strong)FRDLivelyButton *rightNavBtn;
 @property (nonatomic,strong)UIView *searchView;
 @end
@@ -233,14 +232,12 @@
 }
 #pragma mark - nav item
 - (void)setupNavBtn{
-    
-    _leftNavBtn=[UIButton new];
-    [self addImageBarButtonWithImageName:@"filtertBtn_normal_Nav" button:_leftNavBtn action:@selector(fliterClicked:) isRight:NO];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filtertBtn_normal_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(fliterClicked:)] animated:NO];
     //变化按钮
     _rightNavBtn = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(0,0,18.5,18.5)];
-    [_rightNavBtn setOptions:@{ kFRDLivelyButtonLineWidth: @(1.0f),
-                                kFRDLivelyButtonColor: [UIColor whiteColor]
-                                }];
+    [_rightNavBtn setOptions:@{kFRDLivelyButtonLineWidth: @(1.0f),
+                               kFRDLivelyButtonColor: kColorBrandGreen
+                               }];
     [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:NO];
     [_rightNavBtn addTarget:self action:@selector(addItemClicked:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn];
@@ -284,7 +281,7 @@
     }
 }
 -(void)fliterBtnClose:(BOOL)status{
-    [_leftNavBtn setImage:status?[UIImage imageNamed:@"filtertBtn_normal_Nav"]:[UIImage imageNamed:@"filterBtn_selected_Nav"] forState:UIControlStateNormal];
+    self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:status? @"filtertBtn_normal_Nav": @"filterBtn_selected_Nav"];
 }
 //弹出事件
 -(void)rotateView:(UIView*)aView
@@ -301,25 +298,6 @@
         basicAnimation;
     });
     [aView.layer pop_addAnimation:rotateAnimation forKey:@"rotateAnimation"];
-}
--(void)addImageBarButtonWithImageName:(NSString*)imageName button:(UIButton*)aBtn action:(SEL)action isRight:(BOOL)isR
-{
-    UIImage *image = [UIImage imageNamed:imageName];
-    CGRect frame = CGRectMake(0,0, image.size.width, image.size.height);
-    
-    aBtn.frame=frame;
-    [aBtn setImage:image forState:UIControlStateNormal];
-    [aBtn addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
-    
-    UIBarButtonItem* barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:aBtn];
-    
-    if (isR)
-    {
-        [self.navigationItem setRightBarButtonItem:barButtonItem];
-    }else
-    {
-        [self.navigationItem setLeftBarButtonItem:barButtonItem];
-    }
 }
 #pragma mark iCarousel M
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel{

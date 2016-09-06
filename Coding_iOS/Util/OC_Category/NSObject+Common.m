@@ -143,7 +143,7 @@
     
     [CodingNetAPIClient changeJsonClient];
     
-    [[UINavigationBar appearance] setBackgroundImage: [UIImage imageWithColor:[UIColor colorWithHexString:![self baseURLStrIsProduction] ?@"0x3bbd79": @"0x28303b"]] forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[self baseURLStrIsProduction]? kColorNavBG: kColorBrandGreen] forBarMetrics:UIBarMetricsDefault];
 }
 
 #pragma mark File M

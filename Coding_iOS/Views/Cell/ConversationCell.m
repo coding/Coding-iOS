@@ -71,7 +71,7 @@
     if (_curPriMsg.file || _curPriMsg.voiceMedia) {
         [textMsg setString:@"[语音]"];
         if (_curPriMsg.played.intValue == 0) {
-            _msg.textColor = [UIColor colorWithHexString:@"0x3bbd79"];
+            _msg.textColor = kColorBrandGreen;
         }
     }
     _msg.text = textMsg;

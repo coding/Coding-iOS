@@ -368,7 +368,7 @@
 
 #pragma mark UISearchBarDelegate
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
-    [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
+    [searchBar insertBGColor:kColorNavBG];
     return YES;
 }
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar{

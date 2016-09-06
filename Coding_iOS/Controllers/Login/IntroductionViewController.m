@@ -152,7 +152,7 @@
 
 - (void)configureButtonsAndPageControl{
 //    Button
-    UIColor *darkColor = [UIColor colorWithHexString:@"0x28303b"];
+    UIColor *darkColor = kColorBrandGreen;
     CGFloat buttonWidth = kScreen_Width * 0.4;
     CGFloat buttonHeight = kScaleFrom_iPhone5_Desgin(38);
     CGFloat paddingToCenter = kScaleFrom_iPhone5_Desgin(10);

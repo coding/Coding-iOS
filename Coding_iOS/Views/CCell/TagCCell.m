@@ -41,7 +41,7 @@
 - (void)setHasBeenSelected:(BOOL)hasBeenSelected{
     _hasBeenSelected = hasBeenSelected;
     if (_hasBeenSelected) {
-        self.backgroundColor = [UIColor colorWithHexString:@"0x3bbd79"];
+        self.backgroundColor = kColorBrandGreen;
         _contentLabel.textColor = [UIColor whiteColor];
     }else{
         self.backgroundColor = kColorTableSectionBg;

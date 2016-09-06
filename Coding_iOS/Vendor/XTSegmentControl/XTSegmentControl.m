@@ -118,7 +118,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         case XTSegmentControlItemTypeTitleAndIcon:
         {
             if (_titleLabel) {
-                [_titleLabel setTextColor:(selected ? [UIColor colorWithHexString:@"0x3bbd79"]:[UIColor colorWithHexString:@"0x222222"])];
+                [_titleLabel setTextColor:(selected ? kColorBrandGreen:[UIColor colorWithHexString:@"0x222222"])];
             }
             if (_titleIconView) {
                 [_titleIconView setImage:[UIImage imageNamed: selected ? @"tag_list_down" : @"tag_list_up"]];
@@ -128,7 +128,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         default:
         {
             if (_titleLabel) {
-                [_titleLabel setTextColor:(selected ? [UIColor colorWithHexString:@"0x3bbd79"]:[UIColor colorWithHexString:@"0x222222"])];
+                [_titleLabel setTextColor:(selected ? kColorBrandGreen:[UIColor colorWithHexString:@"0x222222"])];
             }
         }
             break;
@@ -358,7 +358,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
                                                              CGRectGetHeight(rect) - XTSegmentControlLineHeight,
                                                              CGRectGetWidth(rect) - 2 * XTSegmentControlHspace,
                                                              XTSegmentControlLineHeight)];
-        _lineView.backgroundColor = [UIColor colorWithHexString:@"0x3bbd79"];
+        _lineView.backgroundColor = kColorBrandGreen;
         [_contentView addSubview:_lineView];
        
         UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(rect)-0.5, CGRectGetWidth(self.bounds), 0.5)];

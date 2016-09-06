@@ -523,7 +523,7 @@
             _tipL = [UILabel new];
             _tipL.textColor = [UIColor colorWithHexString:@"0x99999999"];
             _tipL.font = [UIFont systemFontOfSize:12];
-            [_tipL setAttrStrWithStr:@"尚未添加任何关注者，去添加" diffColorStr:@"去添加" diffColor:[UIColor colorWithHexString:@"0x3bbd79"]];
+            [_tipL setAttrStrWithStr:@"尚未添加任何关注者，去添加" diffColorStr:@"去添加" diffColor:kColorBrandGreen];
             _tipL.userInteractionEnabled = YES;
             [_tipL bk_whenTapped:^{
                 if (weakSelf.goToUserBlock) {
@@ -570,7 +570,7 @@
         if (!_deleteBtn) {
             _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             [_deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
-            [_deleteBtn setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
+            [_deleteBtn setTitleColor:kColorBrandGreen forState:UIControlStateNormal];
             [_deleteBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
             _deleteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12];
             [_deleteBtn bk_addEventHandler:^(id sender) {

@@ -18,7 +18,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.tintColor = [UIColor colorWithHexString:@"0x3bbd79"];
+        self.tintColor = kColorBrandGreen;
         self.backgroundColor = kColorTableBG;
 
         if (!_contentL) {

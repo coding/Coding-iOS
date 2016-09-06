@@ -25,7 +25,7 @@
 @implementation NewProjectViewController
 
 -(void)viewWillAppear:(BOOL)animated{
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     [self.rdv_tabBarController setTabBarHidden:YES animated:YES];
 }
 

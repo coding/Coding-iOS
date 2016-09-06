@@ -37,7 +37,7 @@
                     @"用户",
                     @"合并请求",
                     @"pull 请求"].mutableCopy;
-    _firstLoad=TRUE;
+    _firstLoad = TRUE;
     [self buildUI];
     
     // Do any additional setup after loading the view.
@@ -62,7 +62,7 @@
     [super viewWillDisappear:animated];
     [_mySearchBar resignFirstResponder];
     [_mySearchBar removeFromSuperview];
-    _firstLoad=FALSE;
+    _firstLoad = FALSE;
 }
 
 //基础化UI布局
@@ -79,9 +79,6 @@
         [searchBar sizeToFit];
         [searchBar setTintColor:[UIColor whiteColor]];
         [searchBar insertBGColor:[UIColor colorWithHexString:@"0xffffff"]];
-//        [searchBar setImage:nil forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
-//        [searchBar setPositionAdjustment:UIOffsetMake(10,0) forSearchBarIcon:UISearchBarIconClear];
-//        searchBar.searchTextPositionAdjustment=UIOffsetMake(10,0);
         [searchBar setHeight:30];
         searchBar;
     });
@@ -91,9 +88,8 @@
     NSMutableArray *menuItems = @[].mutableCopy;
     [_statusList enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         KxMenuItem *menuItem = [KxMenuItem menuItem:obj image:nil target:self action:@selector(menuItemClicked:)];
-        menuItem.alignment=NSTextAlignmentLeft;
-        //                menuItem.foreColor = [UIColor colorWithHexString:idx == _selectedStatusIndex? @"0x3bbd79": @"0x222222"];
-        menuItem.foreColor = [UIColor colorWithHexString:@"0xffffff"];
+        menuItem.alignment = NSTextAlignmentLeft;
+        menuItem.foreColor = kColorNavTitle;
         [menuItems addObject:menuItem];
     }];
 
@@ -106,8 +102,7 @@
         }else{
             [weakSelf.mySearchBar resignFirstResponder];
             [KxMenu setTitleFont:[UIFont systemFontOfSize:14]];
-//            [KxMenu setTintColor:[UIColor colorWithHexString:@"0x28303B" andAlpha:0.9]];
-            [KxMenu setTintColor:[UIColor colorWithHexString:@"0x28303B"]];
+            [KxMenu setTintColor:kColorNavBG];
             [KxMenu setOverlayColor:[UIColor clearColor]];
             
             CGRect senderFrame = CGRectMake(weakSelf.searchView.frame.origin.x+50, 64, 0, 0);
@@ -115,7 +110,6 @@
         }
     }];
     [_mySearchBar setSearchCategory:[_statusList objectAtIndex:_selectIndex]];
-
     
     if (!_searchDisplayVC) {
         _searchDisplayVC = ({
@@ -138,33 +132,6 @@
         });
     }
     self.navigationItem.rightBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(popToMainVCAction)];
-    
-    
-//    //表格内容
-//    _tableview=({
-//        UITableView *tableview=[UITableView new];
-//        tableview.tableFooterView=[UIView new];
-//        tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
-//        //解决左侧分割线偏短问题
-//        if ([tableview respondsToSelector:@selector(setSeparatorInset:)]) {
-//            [tableview setSeparatorInset:UIEdgeInsetsMake(0, 10, 0, 10)];
-//        }
-//        tableview.backgroundColor=[UIColor whiteColor];
-//        tableview.delegate=self;
-//        tableview.dataSource=self;
-//        tableview.rowHeight=45;
-//        //注册cell
-//        [tableview registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
-//        tableview;
-//    });
-//    [self.view addSubview:_tableview];
-//    
-//    [_tableview mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.edges.equalTo(self.view);
-//    }];
-
-    
-    
 }
 
 
@@ -173,29 +140,9 @@
     [_tableview reloadData];
 }
 
-
-//#pragma mark - Table view data source
-//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    return 3;
-//}
-//
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell"];
-//    cell.textLabel.text=@"搜索记录";
-//    return cell;
-//}
-//
-//
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    
-//}
-
-
 #pragma mark - event
 //弹出到首页
--(void)popToMainVCAction
-{
+-(void)popToMainVCAction{
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 

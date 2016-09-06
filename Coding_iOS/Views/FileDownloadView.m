@@ -151,7 +151,7 @@
             _progressView.popUpViewCornerRadius = 12.0;
             _progressView.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:12];
             [_progressView setTrackTintColor:[UIColor colorWithHexString:@"0xfafafa"]];
-            _progressView.popUpViewAnimatedColors = @[[UIColor colorWithHexString:@"0x3bbd79"]];
+            _progressView.popUpViewAnimatedColors = @[kColorBrandGreen];
             _progressView.hidden = YES;
             [_progressView hidePopUpViewAnimated:NO];
             [_toolBarView addSubview:self.progressView];
@@ -164,7 +164,7 @@
         }
         if (!_stateButton) {
             _stateButton = [UIButton new];
-            [_stateButton setTitleColor:[UIColor colorWithHexString:@"0x3bbd79"] forState:UIControlStateNormal];
+            [_stateButton setTitleColor:kColorBrandGreen forState:UIControlStateNormal];
             [_stateButton addTarget:self action:@selector(clickedByUser) forControlEvents:UIControlEventTouchUpInside];
             [_toolBarView addSubview:_stateButton];
         }
@@ -198,7 +198,7 @@
             _progressView.popUpViewCornerRadius = 12.0;
             _progressView.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:12];
             [_progressView setTrackTintColor:[UIColor colorWithHexString:@"0xe6e6e6"]];
-            _progressView.popUpViewAnimatedColors = @[[UIColor colorWithHexString:@"0x3bbd79"]];
+            _progressView.popUpViewAnimatedColors = @[kColorBrandGreen];
             _progressView.hidden = YES;
             [_progressView hidePopUpViewAnimated:NO];
             [self addSubview:self.progressView];

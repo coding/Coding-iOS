@@ -32,7 +32,7 @@
             [self.contentView addSubview:_pointsLeftL];
         }
         if (!_pointsChangeL) {
-            _pointsChangeL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:[UIColor colorWithHexString:@"0x3bbd79"]];
+            _pointsChangeL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:kColorBrandGreen];
             [self.contentView addSubview:_pointsChangeL];
         }
         [_usageL mas_makeConstraints:^(MASConstraintMaker *make) {

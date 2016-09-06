@@ -64,7 +64,7 @@
         [searchBar setPlaceholder:@"#新话题"];
         searchBar.showsCancelButton = YES;
         [searchBar setTintColor:[UIColor whiteColor]];
-        [searchBar insertBGColor:[UIColor colorWithHexString:@"0x28303b"]];
+        [searchBar insertBGColor:kColorNavBG];
         
         searchBar.searchBarStyle = UISearchBarStyleDefault;
         searchBar.translucent = YES;

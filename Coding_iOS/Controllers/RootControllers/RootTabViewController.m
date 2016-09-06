@@ -102,12 +102,9 @@
 }
 
 - (void)customizeTabBarForController {
-
-    
     UIImage *backgroundImage = [UIImage imageNamed:@"tabbar_background"];
     NSArray *tabBarItemImages = @[@"project", @"task", @"tweet", @"privatemessage", @"me"];
     NSArray *tabBarItemTitles = @[@"项目", @"任务", @"冒泡", @"消息", @"我"];
-    
     NSInteger index = 0;
     for (RDVTabBarItem *item in [[self tabBar] items]) {
         item.titlePositionAdjustment = UIOffsetMake(0, 3);
