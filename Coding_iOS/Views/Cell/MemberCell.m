@@ -65,8 +65,9 @@
     return self;
 }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
+- (void)setCurMember:(ProjectMember *)curMember{
+    _curMember = curMember;
+    
     if (!_curMember) {
         return;
     }
@@ -109,7 +110,7 @@
         }
             break;
     }
-
+    
     if (_type == ProMemTypeTaskWatchers || _type == ProMemTypeTopicWatchers) {//「添加、已添加」按钮
         _leftBtn.hidden = NO;
     }else if (_type == ProMemTypeProject){
@@ -139,7 +140,7 @@
 }
 
 + (CGFloat)cellHeight{
-    return 57;
+    return 60;
 }
 
 - (void)prepareForReuse{

@@ -16,6 +16,8 @@
 #import "ResourceReference.h"
 #import "MRPRPreInfo.h"
 #import "ServiceInfo.h"
+#import "Team.h"
+#import "TeamMember.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -598,6 +600,54 @@
         block(data, error);
     }];
 }
+
+#pragma mark Team
+- (void)request_JoinedTeamsBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/team/joined" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"团队_列表"];
+
+            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"Team"];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)request_DetailOfTeam:(Team *)team andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/team/%@/get", team.global_key];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"团队_详情"];
+            
+            data = [NSObject objectOfClass:@"Team" fromJSON:data[@"data"]];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)request_ProjectsInTeam:(Team *)team isJoined:(BOOL)isJoined andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/team/%@/projects/%@", team.global_key, isJoined? @"joined": @"unjoined"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"团队_项目列表"];
+            
+            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"Project"];
+        }
+        block(data, error);
+    }];
+}
+- (void)request_MembersInTeam:(Team *)team andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/team/%@/members", team.global_key];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"团队_项目列表"];
+            
+            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"TeamMember"];
+        }
+        block(data, error);
+    }];
+}
+
 #pragma mark MRPR
 - (void)request_MRPRS_WithObj:(MRPRS *)curMRPRS andBlock:(void (^)(MRPRS *data, NSError *error))block{
     curMRPRS.isLoading = YES;

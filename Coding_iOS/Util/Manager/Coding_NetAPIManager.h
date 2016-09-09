@@ -40,7 +40,7 @@
 #import "ShopOrderModel.h"
 #import "ProjectCount.h"
 
-@class CSTopic;
+@class CSTopic, Team;
 
 typedef NS_ENUM(NSUInteger, VerifyType){
     VerifyTypeUnknow = 0,
@@ -92,6 +92,12 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_TransferProject:(Project *)project toUser:(User *)user passCode:(NSString *)passCode type:(VerifyType)type andBlock:(void (^)(Project *data, NSError *error))block;
 - (void)request_EditAliasOfMember:(ProjectMember *)curMember inProject:(Project *)curPro andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_EditTypeOfMember:(ProjectMember *)curMember inProject:(Project *)curPro andBlock:(void (^)(id data, NSError *error))block;
+
+#pragma mark Team
+- (void)request_JoinedTeamsBlock:(void (^)(id data, NSError *error))block;
+- (void)request_DetailOfTeam:(Team *)team andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectsInTeam:(Team *)team isJoined:(BOOL)isJoined andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_MembersInTeam:(Team *)team andBlock:(void (^)(id data, NSError *error))block;
 
 #pragma mark - MRPR
 - (void)request_MRPRS_WithObj:(MRPRS *)curMRPRS andBlock:(void (^)(MRPRS *data, NSError *error))block;
@@ -272,6 +278,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_Topic_DoWatch_WithUrl:(NSString *)url andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_BannersWithBlock:(void (^)(id data, NSError *error))block;
 
+#pragma mark shop
 
 - (void)request_shop_userPointWithShop:(Shop *)_shop andBlock:(void (^)(id data, NSError *error))block;
 

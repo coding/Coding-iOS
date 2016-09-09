@@ -643,6 +643,15 @@
 		4ED4B4921D82646100EED8C6 /* user_info_topic@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED4B4821D82646000EED8C6 /* user_info_topic@3x.png */; };
 		4ED4B4931D82646100EED8C6 /* user_info_tweet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED4B4831D82646000EED8C6 /* user_info_tweet@2x.png */; };
 		4ED4B4941D82646100EED8C6 /* user_info_tweet@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED4B4841D82646000EED8C6 /* user_info_tweet@3x.png */; };
+		4ED4B4971D82939700EED8C6 /* Team.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4B4961D82939700EED8C6 /* Team.m */; };
+		4ED4B49A1D8295EA00EED8C6 /* TeamListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4B4991D8295EA00EED8C6 /* TeamListViewController.m */; };
+		4ED4B49D1D8295F600EED8C6 /* TeamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4B49C1D8295F600EED8C6 /* TeamViewController.m */; };
+		4ED4B4A01D82962100EED8C6 /* TeamProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4B49F1D82962100EED8C6 /* TeamProjectsViewController.m */; };
+		4ED4B4A31D82980F00EED8C6 /* TeamListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4B4A21D82980F00EED8C6 /* TeamListCell.m */; };
+		4ED4B4A61D82990600EED8C6 /* TeamTopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4B4A51D82990600EED8C6 /* TeamTopCell.m */; };
+		4ED4B4A91D829C9F00EED8C6 /* TeamMember.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4B4A81D829C9F00EED8C6 /* TeamMember.m */; };
+		4ED4B4AC1D829E1200EED8C6 /* TeamMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4B4AB1D829E1200EED8C6 /* TeamMemberCell.m */; };
+		4ED4B4AF1D82B28B00EED8C6 /* TeamMembersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED4B4AE1D82B28B00EED8C6 /* TeamMembersViewController.m */; };
 		4ED558321B4FA68400FC10CB /* dismissBtn_Nav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED558311B4FA68400FC10CB /* dismissBtn_Nav@2x.png */; };
 		4ED618151C3A6B4B0017946C /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED618141C3A6B4B0017946C /* LocationViewController.m */; };
 		4ED618181C3A6CA50017946C /* LocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED618171C3A6CA50017946C /* LocationCell.m */; };
@@ -2116,6 +2125,24 @@
 		4ED4B4821D82646000EED8C6 /* user_info_topic@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_topic@3x.png"; sourceTree = "<group>"; };
 		4ED4B4831D82646000EED8C6 /* user_info_tweet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_tweet@2x.png"; sourceTree = "<group>"; };
 		4ED4B4841D82646000EED8C6 /* user_info_tweet@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_tweet@3x.png"; sourceTree = "<group>"; };
+		4ED4B4951D82939700EED8C6 /* Team.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Team.h; sourceTree = "<group>"; };
+		4ED4B4961D82939700EED8C6 /* Team.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Team.m; sourceTree = "<group>"; };
+		4ED4B4981D8295EA00EED8C6 /* TeamListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamListViewController.h; sourceTree = "<group>"; };
+		4ED4B4991D8295EA00EED8C6 /* TeamListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamListViewController.m; sourceTree = "<group>"; };
+		4ED4B49B1D8295F600EED8C6 /* TeamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamViewController.h; sourceTree = "<group>"; };
+		4ED4B49C1D8295F600EED8C6 /* TeamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamViewController.m; sourceTree = "<group>"; };
+		4ED4B49E1D82962100EED8C6 /* TeamProjectsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamProjectsViewController.h; sourceTree = "<group>"; };
+		4ED4B49F1D82962100EED8C6 /* TeamProjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamProjectsViewController.m; sourceTree = "<group>"; };
+		4ED4B4A11D82980F00EED8C6 /* TeamListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamListCell.h; sourceTree = "<group>"; };
+		4ED4B4A21D82980F00EED8C6 /* TeamListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamListCell.m; sourceTree = "<group>"; };
+		4ED4B4A41D82990600EED8C6 /* TeamTopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamTopCell.h; sourceTree = "<group>"; };
+		4ED4B4A51D82990600EED8C6 /* TeamTopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamTopCell.m; sourceTree = "<group>"; };
+		4ED4B4A71D829C9F00EED8C6 /* TeamMember.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamMember.h; sourceTree = "<group>"; };
+		4ED4B4A81D829C9F00EED8C6 /* TeamMember.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamMember.m; sourceTree = "<group>"; };
+		4ED4B4AA1D829E1200EED8C6 /* TeamMemberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamMemberCell.h; sourceTree = "<group>"; };
+		4ED4B4AB1D829E1200EED8C6 /* TeamMemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamMemberCell.m; sourceTree = "<group>"; };
+		4ED4B4AD1D82B28B00EED8C6 /* TeamMembersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamMembersViewController.h; sourceTree = "<group>"; };
+		4ED4B4AE1D82B28B00EED8C6 /* TeamMembersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamMembersViewController.m; sourceTree = "<group>"; };
 		4ED558311B4FA68400FC10CB /* dismissBtn_Nav@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dismissBtn_Nav@2x.png"; sourceTree = "<group>"; };
 		4ED618131C3A6B4B0017946C /* LocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationViewController.h; sourceTree = "<group>"; };
 		4ED618141C3A6B4B0017946C /* LocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
@@ -4740,6 +4767,14 @@
 				4EBD7FAE1CE4827A00B3AF49 /* CountryCodeListViewController.m */,
 				4E44DCF81D81486600E7F9AF /* HelpViewController.h */,
 				4E44DCF91D81486600E7F9AF /* HelpViewController.m */,
+				4ED4B4981D8295EA00EED8C6 /* TeamListViewController.h */,
+				4ED4B4991D8295EA00EED8C6 /* TeamListViewController.m */,
+				4ED4B49B1D8295F600EED8C6 /* TeamViewController.h */,
+				4ED4B49C1D8295F600EED8C6 /* TeamViewController.m */,
+				4ED4B49E1D82962100EED8C6 /* TeamProjectsViewController.h */,
+				4ED4B49F1D82962100EED8C6 /* TeamProjectsViewController.m */,
+				4ED4B4AD1D82B28B00EED8C6 /* TeamMembersViewController.h */,
+				4ED4B4AE1D82B28B00EED8C6 /* TeamMembersViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -5065,6 +5100,8 @@
 				8EA6CFE119E240C40076D59C /* PrivateMessages.m */,
 				8EA6CFE219E240C40076D59C /* ProjectMember.h */,
 				8EA6CFE319E240C40076D59C /* ProjectMember.m */,
+				4ED4B4A71D829C9F00EED8C6 /* TeamMember.h */,
+				4ED4B4A81D829C9F00EED8C6 /* TeamMember.m */,
 				8EA6CFE419E240C40076D59C /* Projects.h */,
 				8EA6CFE519E240C40076D59C /* Projects.m */,
 				4EE5481F1AE8DB5600A92306 /* Project.h */,
@@ -5167,6 +5204,8 @@
 				D09AA5B91BFDBA4B008CA9EB /* PublicSearchModel.m */,
 				4E87DE011D813BBE00D1B5B1 /* ServiceInfo.h */,
 				4E87DE021D813BBE00D1B5B1 /* ServiceInfo.m */,
+				4ED4B4951D82939700EED8C6 /* Team.h */,
+				4ED4B4961D82939700EED8C6 /* Team.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5624,6 +5663,12 @@
 				4E87DDFC1D813B1E00D1B5B1 /* MeRootUserCell.m */,
 				4E87DDFE1D813B4500D1B5B1 /* MeRootServiceCell.h */,
 				4E87DDFF1D813B4500D1B5B1 /* MeRootServiceCell.m */,
+				4ED4B4A11D82980F00EED8C6 /* TeamListCell.h */,
+				4ED4B4A21D82980F00EED8C6 /* TeamListCell.m */,
+				4ED4B4A41D82990600EED8C6 /* TeamTopCell.h */,
+				4ED4B4A51D82990600EED8C6 /* TeamTopCell.m */,
+				4ED4B4AA1D829E1200EED8C6 /* TeamMemberCell.h */,
+				4ED4B4AB1D829E1200EED8C6 /* TeamMemberCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -6444,6 +6489,7 @@
 				D09E6AC91BF9746F009D37F8 /* ProjectPublicListCell.m in Sources */,
 				4E96E7BB1A1B25D40037C098 /* DirectoryWatcher.m in Sources */,
 				4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */,
+				4ED4B4A91D829C9F00EED8C6 /* TeamMember.m in Sources */,
 				4E6BA2E41A1EE6AF005FD721 /* UIButton+AFNetworking.m in Sources */,
 				8EF643C919FF7E2900F7EEB0 /* TopicCommentCell.m in Sources */,
 				7EB02FF61B6DAF3800D2166C /* AudioVolumeView.m in Sources */,
@@ -6512,6 +6558,7 @@
 				8EA6D1FC19E240C40076D59C /* MJPhotoView.m in Sources */,
 				8E59F10A1A021053009A905F /* CodeListViewController.m in Sources */,
 				4ECF702C1B1704C5000280FF /* NProjectItemCell.m in Sources */,
+				4ED4B4AF1D82B28B00EED8C6 /* TeamMembersViewController.m in Sources */,
 				8E1C3DEC19E7D58A00EF3032 /* ActionSheetDatePicker.m in Sources */,
 				8EF643B619FF7E2900F7EEB0 /* Input_OnlyText_Cell.m in Sources */,
 				4E07D3081A4A96EA009EDDF2 /* FileListUploadCell.m in Sources */,
@@ -6632,6 +6679,7 @@
 				4ECE8B001A3946C10021E29C /* CodingNetAPIClient.m in Sources */,
 				927AFF5B1BFF772A00AAE593 /* ShopOrderTextFieldCell.m in Sources */,
 				8EF643B119FF7E2900F7EEB0 /* ConversationCell.m in Sources */,
+				4ED4B49A1D8295EA00EED8C6 /* TeamListViewController.m in Sources */,
 				8EF643D019FF7E2900F7EEB0 /* TweetSendImagesCell.m in Sources */,
 				4ECF704C1B1876CB000280FF /* MRPRListCell.m in Sources */,
 				3A38784F1AE557700078D5DE /* TopicPreviewCell.m in Sources */,
@@ -6641,6 +6689,7 @@
 				8EE72BE519E3F2E8002C11D9 /* UIImageView+MJWebCache.m in Sources */,
 				8EA6D1B119E240C40076D59C /* Commit.m in Sources */,
 				4EAE06C81B7C9EFF00179F4B /* FileVersionCell.m in Sources */,
+				4ED4B4A31D82980F00EED8C6 /* TeamListCell.m in Sources */,
 				4EA7F1661A6D192B00A046BD /* UIView+WebCacheOperation.m in Sources */,
 				8EF643D119FF7E2900F7EEB0 /* TweetSendTextCell.m in Sources */,
 				8EA6D22319E240C40076D59C /* XTSegmentControl.m in Sources */,
@@ -6667,6 +6716,7 @@
 				E7A046A01A47279E00528C12 /* Helper.m in Sources */,
 				4E00228C1B721955005308DE /* PointTopCell.m in Sources */,
 				8E64ED8019ED0CE3006E99DA /* QBAssetsCollectionViewController.m in Sources */,
+				4ED4B4AC1D829E1200EED8C6 /* TeamMemberCell.m in Sources */,
 				13972E2C1CA616AC00489EBA /* ReviewerListController.m in Sources */,
 				4E996BD71ABA776500C704F1 /* UserInfoDetailTagCell.m in Sources */,
 				4E87656A1A22E5B40090CFB9 /* SWUtilityButtonView.m in Sources */,
@@ -6739,6 +6789,7 @@
 				D0C448181C03187100DC1C4B /* TaskSearchCell.m in Sources */,
 				4E6BA2D91A1EE6AF005FD721 /* AFURLConnectionOperation.m in Sources */,
 				8EA6D1BB19E240C40076D59C /* ProjectTopic.m in Sources */,
+				4ED4B4A01D82962100EED8C6 /* TeamProjectsViewController.m in Sources */,
 				8EA6D13219E240C40076D59C /* RegisterViewController.m in Sources */,
 				923399661C00441700F29E04 /* ShopBanner.m in Sources */,
 				8EF643C519FF7E2900F7EEB0 /* TitleRImageMoreCell.m in Sources */,
@@ -6746,6 +6797,7 @@
 				4E217F151A70EDC700F6DF88 /* SVWebViewControllerActivitySafari.m in Sources */,
 				4E8D5D5A1B45295D00B70936 /* HOTPGenerator.m in Sources */,
 				8EA6D14519E240C40076D59C /* TweetDetailViewController.m in Sources */,
+				4ED4B4971D82939700EED8C6 /* Team.m in Sources */,
 				8EA6D13119E240C40076D59C /* LoginViewController.m in Sources */,
 				8E64ED7C19ED0CE3006E99DA /* QBAssetsCollectionFooterView.m in Sources */,
 				4E8D5D5C1B45295D00B70936 /* NSString+OTPURLArguments.m in Sources */,
@@ -6791,6 +6843,7 @@
 				4ECE8AD81A3943E80021E29C /* UIDownMenuButton.m in Sources */,
 				8EA6D14819E240C40076D59C /* UsersViewController.m in Sources */,
 				4E94C4FF1B4D2B9300EB668A /* MenuButton.m in Sources */,
+				4ED4B49D1D8295F600EED8C6 /* TeamViewController.m in Sources */,
 				4EF3741C1BB1258600DDA662 /* LocalFileViewController.m in Sources */,
 				3A3878401AE295970078D5DE /* ResetLabelCell.m in Sources */,
 				4EA679201A15AB9F001A0324 /* FileListViewController.m in Sources */,
@@ -6853,6 +6906,7 @@
 				4E4D6A911B1D84B400FD2E49 /* FileChange.m in Sources */,
 				8EA6D1AB19E240C40076D59C /* main.m in Sources */,
 				B94C1B691AC945D30000C271 /* NewProjectViewController.m in Sources */,
+				4ED4B4A61D82990600EED8C6 /* TeamTopCell.m in Sources */,
 				4E996BD91ABA776500C704F1 /* UserInfoTextCell.m in Sources */,
 				4E4D6AA61B1DBA3A00FD2E49 /* MRPRDisclosureCell.m in Sources */,
 				8E1C3E0819E8DFE300EF3032 /* AboutViewController.m in Sources */,

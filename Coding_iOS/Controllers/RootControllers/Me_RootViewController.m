@@ -28,6 +28,7 @@
 #import "MeRootServiceCell.h"
 
 #import "ServiceInfo.h"
+#import "TeamListViewController.h"
 
 @interface Me_RootViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
@@ -219,7 +220,7 @@
 }
 
 - (void)goToTeams{
-    
+    [self.navigationController pushViewController:[TeamListViewController new] animated:YES];
 }
 
 - (void)goToMeDisplay{

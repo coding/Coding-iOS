@@ -12,7 +12,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = _curUser.name;
+    self.title = _isFromMeRoot? @"我的项目": _curUser.name;
     self.icarouselScrollEnabled = YES;
 }
 
@@ -28,7 +28,7 @@
     self.navigationItem.leftBarButtonItem = nil;
     self.navigationItem.rightBarButtonItem = nil;
     
-    self.useNewStyle = _isFromMeRoot;
+    self.useNewStyle = NO;
     if (!_isFromMeRoot) {
         [self.myCarousel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(kMySegmentControl_Height, 0, 0, 0));

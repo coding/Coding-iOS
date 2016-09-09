@@ -206,7 +206,7 @@
 }
 
 - (UITapImageView *)getHeaderViewWithStr:(NSString *)headerStr andBlock:(void(^)(id obj))tapAction{
-    return [self getHeaderViewWithStr:headerStr color:[UIColor colorWithHexString:@"0xeeeeee"] andBlock:tapAction];
+    return [self getHeaderViewWithStr:headerStr color:kColorTableSectionBg andBlock:tapAction];
 }
 
 - (UITapImageView *)getHeaderViewWithStr:(NSString *)headerStr color:(UIColor *)color andBlock:(void(^)(id obj))tapAction{
