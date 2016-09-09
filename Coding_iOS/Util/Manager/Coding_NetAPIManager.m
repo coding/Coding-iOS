@@ -15,6 +15,7 @@
 #import "Register.h"
 #import "ResourceReference.h"
 #import "MRPRPreInfo.h"
+#import "ServiceInfo.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -2067,6 +2068,18 @@
         block(data, error);
     }];
 }
+
+- (void)request_ServiceInfoBlock:(void (^)(id data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/service_info" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            data = [NSObject objectOfClass:@"ServiceInfo" fromJSON:data[@"data"]];
+            
+            [MobClick event:kUmeng_Event_Request_Get label:@"我_查询项目和团队个数"];
+        }
+        block(data, error);
+    }];
+}
+
 #pragma mark Message
 - (void)request_PrivateMessages:(PrivateMessages *)priMsgs andBlock:(void (^)(id data, NSError *error))block{
     priMsgs.isLoading = YES;

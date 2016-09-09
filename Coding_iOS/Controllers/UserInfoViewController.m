@@ -19,7 +19,6 @@
 #import "UserInfoDetailViewController.h"
 #import "ProjectListViewController.h"
 #import "LocalFoldersViewController.h"
-#import "ReviewerListController.h"
 
 #import "RDVTabBarController.h"
 #import "RDVTabBarItem.h"
@@ -44,8 +43,7 @@
 @end
 
 @implementation UserInfoViewController
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     if (_isRoot) {

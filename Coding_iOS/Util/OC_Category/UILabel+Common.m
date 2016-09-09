@@ -77,4 +77,11 @@
     return label;
 }
 
++ (instancetype)labelWithSystemFontSize:(CGFloat)fontSize textColorHexString:(NSString *)stringToConvert{
+    UILabel *label = [self new];
+    label.font = [UIFont systemFontOfSize:fontSize];
+    label.textColor = [UIColor colorWithHexString:stringToConvert];
+    return label;
+}
+
 @end

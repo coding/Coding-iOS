@@ -335,7 +335,7 @@
             }
         };
         //使用新系列Cell样式
-        listView.useNewStyle=_useNewStyle;
+        listView.useNewStyle = _useNewStyle;
     }
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;

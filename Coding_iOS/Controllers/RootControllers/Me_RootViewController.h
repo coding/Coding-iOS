@@ -6,8 +6,8 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#import "UserInfoViewController.h"
+#import "BaseViewController.h"
 
-@interface Me_RootViewController : UserInfoViewController
+@interface Me_RootViewController : BaseViewController
 
 @end

@@ -96,13 +96,9 @@ static NSString *const kValueKey = @"kValueKey";
         }else{
             [self sendRequest];
         }
-        
-        NSString *headerTitle=[weakSelf getSectionHeaderName];
-        if (headerTitle.length>0) {
-            self.statusView=[self getHeaderViewWithStr:headerTitle color:kColorTableBG leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"]];
-            [self addSubview:self.statusView];
-        }
-        //        _statusView.hidden=TRUE;
+        _statusView = [self getHeaderViewWithStr:[self getSectionHeaderName] color:kColorTableBG leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"]];
+        _statusView.hidden = !_useNewStyle;
+        [self addSubview:self.statusView];
     }
     return self;
 }
@@ -112,7 +108,9 @@ static NSString *const kValueKey = @"kValueKey";
     [self refreshUI];
 }
 -(void)setUseNewStyle:(BOOL)useNewStyle{
-    _useNewStyle=useNewStyle;
+    _useNewStyle = useNewStyle;
+    
+    _statusView.hidden = !_useNewStyle;
     if (_useNewStyle) {
         [_myTableView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.left.bottom.right.equalTo(self);
@@ -166,17 +164,10 @@ static NSString *const kValueKey = @"kValueKey";
     [self refresh];
 }
 - (void)refresh{
-    //    _statusView.hidden=TRUE;
-    NSString *headerTitle=[self getSectionHeaderName];
-    if (headerTitle.length>0) {
-        self.noticeLab.text=headerTitle;
-        self.statusView.hidden=FALSE;
+    self.noticeLab.text = [self getSectionHeaderName];
+    if (!_myProjects.isLoading) {
+        [self sendRequest];
     }
-    
-    if (_myProjects.isLoading) {
-        return;
-    }
-    [self sendRequest];
 }
 - (void)refreshFirst{
     if (_myProjects && !_myProjects.list) {
@@ -246,14 +237,6 @@ static NSString *const kValueKey = @"kValueKey";
         };
         
         weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myProjects.canLoadMore;
-        //空白页加载后显示 开启header
-        //        self.blankPageView.loadAndShowStatusBlock=^() {
-        //            NSString *headerTitle=[weakSelf getSectionHeaderName];
-        //            if (headerTitle.length>0) {
-        //                weakSelf.noticeLab.text=headerTitle;
-        //                weakSelf.statusView.hidden=FALSE;
-        //            }
-        //        };
     }];
 }
 -(NSString*)getSectionHeaderName{
@@ -274,31 +257,11 @@ static NSString *const kValueKey = @"kValueKey";
             return @"我收藏的";
             break;
         default:
-            return nil;
+            return @"项目列表";
             break;
     }
 }
 #pragma mark Table M
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    //开启header模式
-    //    return (self.myProjects.type < ProjectsTypeToChoose)&&(section==0)? 44: 0;
-    return 0;
-}
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    //开启header模式
-    //    if(self.myProjects.type < ProjectsTypeToChoose){
-    //        NSString *headerTitle=[self getSectionHeaderName];
-    //        if (headerTitle.length==0) {
-    //            return nil;
-    //        }
-    //        UIView *headerView=[tableView getHeaderViewWithStr:headerTitle color:kColorTableBG leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"] andBlock:nil];
-    //        return headerView;
-    //    }else{
-    //        return nil;
-    //    }
-    
-    return nil;
-}
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [_dataList count];
 }

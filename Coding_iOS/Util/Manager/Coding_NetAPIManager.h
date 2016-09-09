@@ -207,6 +207,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_GeneratePhoneCodeToResetPhone:(NSString *)phone phoneCountryCode:(NSString *)phoneCountryCode block:(void (^)(id data, NSError *error))block;
 - (void)request_PointRecords:(PointRecords *)records andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_RewardToTweet:(NSString *)tweet_id encodedPassword:(NSString *)encodedPassword andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ServiceInfoBlock:(void (^)(id data, NSError *error))block;
 
 #pragma mark - Message
 - (void)request_PrivateMessages:(PrivateMessages *)priMsgs andBlock:(void (^)(id data, NSError *error))block;

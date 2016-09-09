@@ -19,4 +19,5 @@
 - (void)addAttrDict:(NSDictionary *)attrDict toRange:(NSRange)range;
 
 + (instancetype)labelWithFont:(UIFont *)font textColor:(UIColor *)textColor;
++ (instancetype)labelWithSystemFontSize:(CGFloat)fontSize textColorHexString:(NSString *)stringToConvert;
 @end
