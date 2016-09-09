@@ -29,6 +29,7 @@
 
 #import "ServiceInfo.h"
 #import "TeamListViewController.h"
+#import "MeDisplayViewController.h"
 
 @interface Me_RootViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
@@ -224,7 +225,9 @@
 }
 
 - (void)goToMeDisplay{
-    
+    MeDisplayViewController *vc = [MeDisplayViewController new];
+    vc.curTweets = [Tweets tweetsWithUser:_curUser];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

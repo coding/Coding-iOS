@@ -178,6 +178,7 @@
 		4E217F161A70EDC700F6DF88 /* SVWebViewControllerActivitySafari@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E217F091A70EDC700F6DF88 /* SVWebViewControllerActivitySafari@2x.png */; };
 		4E217F171A70EDC700F6DF88 /* SVWebViewControllerActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E217F0B1A70EDC700F6DF88 /* SVWebViewControllerActivity.m */; };
 		4E217F1A1A71007800F6DF88 /* SVWebViewController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4E217F1C1A71007800F6DF88 /* SVWebViewController.strings */; };
+		4E2247FC1D82C98800551EA4 /* MeDisplayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2247FB1D82C98800551EA4 /* MeDisplayViewController.m */; };
 		4E24B2681B43D33F004D7989 /* ProjectToChooseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E24B2671B43D33F004D7989 /* ProjectToChooseListViewController.m */; };
 		4E25271A1C327FAE0032A7F4 /* UIViewController+BackButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2527191C327FAE0032A7F4 /* UIViewController+BackButtonHandler.m */; };
 		4E2719B81AB02F31006AE214 /* NProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E2719B71AB02F31006AE214 /* NProjectViewController.m */; };
@@ -1423,6 +1424,8 @@
 		4E217F0B1A70EDC700F6DF88 /* SVWebViewControllerActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVWebViewControllerActivity.m; sourceTree = "<group>"; };
 		4E217F1B1A71007800F6DF88 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SVWebViewController.strings; sourceTree = "<group>"; };
 		4E217F1D1A71007C00F6DF88 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SVWebViewController.strings"; sourceTree = "<group>"; };
+		4E2247FA1D82C98800551EA4 /* MeDisplayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeDisplayViewController.h; sourceTree = "<group>"; };
+		4E2247FB1D82C98800551EA4 /* MeDisplayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeDisplayViewController.m; sourceTree = "<group>"; };
 		4E24B2661B43D33F004D7989 /* ProjectToChooseListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectToChooseListViewController.h; sourceTree = "<group>"; };
 		4E24B2671B43D33F004D7989 /* ProjectToChooseListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectToChooseListViewController.m; sourceTree = "<group>"; };
 		4E2527181C327FAE0032A7F4 /* UIViewController+BackButtonHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BackButtonHandler.h"; sourceTree = "<group>"; };
@@ -4775,6 +4778,8 @@
 				4ED4B49F1D82962100EED8C6 /* TeamProjectsViewController.m */,
 				4ED4B4AD1D82B28B00EED8C6 /* TeamMembersViewController.h */,
 				4ED4B4AE1D82B28B00EED8C6 /* TeamMembersViewController.m */,
+				4E2247FA1D82C98800551EA4 /* MeDisplayViewController.h */,
+				4E2247FB1D82C98800551EA4 /* MeDisplayViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -6820,6 +6825,7 @@
 				3A3878451AE296240078D5DE /* EditLabelCell.m in Sources */,
 				4ECE8ADE1A3943E80021E29C /* NSString+Common.m in Sources */,
 				4ECE8B081A3947300021E29C /* BasicPreviewItem.m in Sources */,
+				4E2247FC1D82C98800551EA4 /* MeDisplayViewController.m in Sources */,
 				4EA7F15A1A6D192B00A046BD /* SDImageCache.m in Sources */,
 				134E1BA01CA414DB002A3E0D /* AddReviewerViewController.m in Sources */,
 				4E0022A01B7360B1005308DE /* FunctionIntroManager.m in Sources */,
