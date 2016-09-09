@@ -12,10 +12,6 @@
 #import "Login.h"
 #import "AppDelegate.h"
 #import "SettingAccountViewController.h"
-#import "AboutViewController.h"
-#import "EditTopicViewController.h"
-#import "CodingShareView.h"
-#import "WebViewController.h"
 
 @interface SettingViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
@@ -55,35 +51,21 @@
     return footerV;
 }
 
-- (void)dealloc{
-    _myTableView.delegate = nil;
-    _myTableView.dataSource = nil;
-}
 #pragma mark TableM
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 4;
-}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSInteger row = (section == 1? 3:
-                     section == 3? 2:
-                     1);
-    return row;
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell;
-    if (indexPath.section == 2) {
+    if (indexPath.row == 0) {
+        cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleDisclosure forIndexPath:indexPath];
+        [(TitleDisclosureCell *)cell setTitleStr:@"账号设置"];
+
+    }else{
         cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValueMore forIndexPath:indexPath];
         [(TitleValueMoreCell *)cell setTitleStr:@"清除缓存" valueStr:[self p_diskCacheSizeStr]];
-    }else{
-        cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleDisclosure forIndexPath:indexPath];
-
-        NSString *titleStr = (indexPath.section == 0? @"账号设置":
-                              indexPath.section == 1? (indexPath.row == 0? @"意见反馈":
-                                                       indexPath.row == 1? @"去评分":
-                                                       @"推荐 Coding"):
-                              indexPath.row == 0? @"帮助中心": @"关于Coding");
-        [(TitleDisclosureCell *)cell setTitleStr:titleStr];
     }
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     return cell;
@@ -104,38 +86,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    if (indexPath.section == 0) {//账号设置
+    if (indexPath.row == 0) {
         SettingAccountViewController *vc = [[SettingAccountViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
-    }else if (indexPath.section == 1){
-        if (indexPath.row == 0) {//意见反馈
-            EditTopicViewController *vc = [[EditTopicViewController alloc] init];
-            vc.curProTopic = [ProjectTopic feedbackTopic];
-            vc.type = TopicEditTypeFeedBack;
-            vc.topicChangedBlock = nil;
-            [self.navigationController pushViewController:vc animated:YES];
-        }else if (indexPath.row == 1){//评分
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
-        }else{//推荐 Coding
-            [CodingShareView showShareViewWithObj:nil];
-        }
-    }else if (indexPath.section == 2){//清除缓存
+    }else{
         __weak typeof(self) weakSelf = self;
         [[UIActionSheet bk_actionSheetCustomWithTitle:@"缓存数据有助于再次浏览或离线查看，你确定要清除缓存吗？" buttonTitles:nil destructiveTitle:@"确定清除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
                 [weakSelf clearDiskCache];
             }
         }] showInView:self.view];
-    }else{
-        if (indexPath.row == 0) {//帮助中心
-            WebViewController *webVc = [WebViewController webVCWithUrlStr:@"/help/doc/mobile/index.html"];
-            [self.navigationController pushViewController:webVc animated:YES];
-        }else{//关于
-            AboutViewController *vc = [[AboutViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-        
     }
 }
 

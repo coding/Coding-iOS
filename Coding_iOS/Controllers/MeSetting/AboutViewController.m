@@ -7,23 +7,15 @@
 //
 
 #import "AboutViewController.h"
+#import "TitleDisclosureCell.h"
+#import "CodingShareView.h"
 
-@interface AboutViewController ()
+@interface AboutViewController ()<UITableViewDataSource, UITableViewDelegate>
 @end
 
 @implementation AboutViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = kColorTableSectionBg;
@@ -99,62 +91,39 @@
         make.left.right.mas_equalTo(self.view);
         make.height.mas_equalTo(5*infoLabel.font.pointSize);
     }];
-    
-    
-    
-    
-//    UILabel *infoLabel1 = [[UILabel alloc] init];
-//    infoLabel1.numberOfLines = 0;
-//    infoLabel1.backgroundColor = [UIColor clearColor];
-//    infoLabel1.font = [UIFont systemFontOfSize:12];
-//    infoLabel1.textColor = [UIColor colorWithHexString:@"0x666666"];
-//    infoLabel1.textAlignment = NSTextAlignmentRight;
-//    infoLabel1.text = [NSString stringWithFormat:@"官网：\nE-mail：\n微博：\n微信："];
-//    [self.view addSubview:infoLabel1];
-//
-//    UILabel *infoLabel2 = [[UILabel alloc] init];
-//    infoLabel2.numberOfLines = 0;
-//    infoLabel2.backgroundColor = [UIColor clearColor];
-//    infoLabel2.font = [UIFont systemFontOfSize:12];
-//    infoLabel2.textColor = [UIColor colorWithHexString:@"0x666666"];
-//    infoLabel2.textAlignment = NSTextAlignmentLeft;
-//    infoLabel2.text = [NSString stringWithFormat:@"https://coding.net \nlink@coding.net \nCoding \n扣钉Coding"];
-//    [self.view addSubview:infoLabel2];
 
-
-//    UILabel *copyrightLabel = [[UILabel alloc] init];
-//    copyrightLabel.font = [UIFont systemFontOfSize:12];
-//    copyrightLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
-//    copyrightLabel.textAlignment = NSTextAlignmentCenter;
-//    copyrightLabel.text = [NSString stringWithFormat:@"Copyright © 2015 Coding.net"];
-//    [self.view addSubview:copyrightLabel];
-
-//    [infoLabel1 mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.equalTo(copyrightLabel.mas_top).offset(-20);
-//        make.left.mas_equalTo(self.view.mas_left);
-//        make.right.equalTo(self.view.mas_centerX).offset(-20);
-//        make.height.mas_equalTo(60);
-//    }];
-//
-//    [infoLabel2 mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.equalTo(copyrightLabel.mas_top).offset(-20);
-//        make.left.mas_equalTo(infoLabel1.mas_right);
-//        make.right.equalTo(self.view.mas_right);
-//        make.height.mas_equalTo(60);
-//    }];
-
-//    [copyrightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.bottom.equalTo(self.view.mas_bottom).offset(-20);
-//        make.left.right.equalTo(self.view);
-//        make.height.mas_equalTo(20);
-//    }];
-    
+    UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    tableView.scrollEnabled = NO;
+    tableView.backgroundColor = [UIColor clearColor];
+    tableView.dataSource = self;
+    tableView.delegate = self;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [tableView registerClass:[TitleDisclosureCell class] forCellReuseIdentifier:kCellIdentifier_TitleDisclosure];
+    [self.view addSubview:tableView];
+    [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view);
+        make.top.equalTo(versionLabel.mas_bottom).offset(44);
+    }];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark Table
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    TitleDisclosureCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleDisclosure forIndexPath:indexPath];
+    [cell setTitleStr:indexPath.row == 0? @"去评分": @"推荐 Coding"];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+    return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 0) {//评分
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppReviewURL]];
+    }else{//推荐 Coding
+        [CodingShareView showShareViewWithObj:nil];
+    }
 }
 
 @end

@@ -75,7 +75,8 @@
             make.left.equalTo(_lineV.mas_right);
         }];
         [_proL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(@[_proTL, _lineV, _teamL, _teamTL]);
+            make.centerY.equalTo(_lineV);
+            make.baseline.equalTo(@[_proTL, _teamL, _teamTL]);
             make.right.equalTo(self.contentView.mas_right).multipliedBy(1.0/4);
         }];
         [_proTL mas_makeConstraints:^(MASConstraintMaker *make) {

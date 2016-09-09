@@ -12,7 +12,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = _isFromMeRoot? @"我创建的": _curUser.name;
+    self.title = _curUser.name;
     self.icarouselScrollEnabled = YES;
 }
 
