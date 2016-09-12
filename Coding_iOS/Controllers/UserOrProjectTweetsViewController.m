@@ -10,7 +10,6 @@
 
 #import "UserOrProjectTweetsViewController.h"
 #import "TweetCell.h"
-#import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"
 #import "UserInfoViewController.h"
 #import "LikersViewController.h"
@@ -20,8 +19,8 @@
 #import "ProjectTweetSendViewController.h"
 
 @interface UserOrProjectTweetsViewController ()
-@property (nonatomic, strong) UITableView *myTableView;
-@property (nonatomic, strong) ODRefreshControl *refreshControl;
+@property (nonatomic, strong, readwrite) UITableView *myTableView;
+@property (nonatomic, strong, readwrite) ODRefreshControl *refreshControl;
 
 //评论
 @property (nonatomic, strong) UIMessageInputView *myMsgInputView;
@@ -53,7 +52,7 @@
     if (_curTweets.tweetType == TweetTypeUserSingle) {
         self.title = _curTweets.curUser.name;
     }else if (_curTweets.tweetType == TweetTypeProject){
-        self.title = @"项目内冒泡";
+        self.title = _curTweets.curPro.name ?: @"项目内冒泡";
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addBtnClicked)];
     }else{
         self.title = @"冒泡列表";
@@ -234,11 +233,7 @@
 
 #pragma mark TableM
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (_curTweets && _curTweets.list) {
-        return [_curTweets.list count];
-    }else{
-        return 0;
-    }
+    return [_curTweets.list count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

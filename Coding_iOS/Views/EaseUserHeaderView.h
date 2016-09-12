@@ -20,5 +20,5 @@
 
 + (id)userHeaderViewWithUser:(User *)user image:(UIImage *)image;
 - (void)updateData;
-
+- (CGFloat)originalHeight;
 @end

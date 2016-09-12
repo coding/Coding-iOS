@@ -257,4 +257,9 @@
     }
     [_followBtn setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
 }
+- (CGFloat)originalHeight{
+    BOOL isMe = [_curUser.global_key isEqualToString:[Login curLoginUser].global_key];
+    CGFloat viewHeight = isMe? EaseUserHeaderView_Height_Me: EaseUserHeaderView_Height_Other;
+    return viewHeight;
+}
 @end
