@@ -126,8 +126,8 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }
 }
 - (void)setPlaceHolder:(NSString *)placeHolder{
+    _placeHolder = placeHolder;
     if (_inputTextView && ![_inputTextView.placeholder isEqualToString:placeHolder]) {
-        _placeHolder = placeHolder;
         _inputTextView.placeholder = placeHolder;
     }
 }
@@ -268,10 +268,11 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     _toUser = toUser;
     NSString *inputStr = [self inputStr];
     if (_inputTextView) {
+
         if (_contentType != UIMessageInputViewContentTypePriMsg) {
-            self.placeHolder = _toUser? [NSString stringWithFormat:@"回复 %@", _toUser.name]: @"撰写评论";
+            _inputTextView.placeholder = _toUser? [NSString stringWithFormat:@"回复 %@", _toUser.name]: _placeHolder;
         }else{
-            self.placeHolder = @"请输入私信内容";
+            self.placeHolder = _placeHolder;
         }
         _inputTextView.selectedRange = NSMakeRange(0, _inputTextView.text.length);
         [_inputTextView insertText:inputStr? inputStr: @""];
@@ -361,7 +362,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     if (placeHolder) {
         messageInputView.placeHolder = placeHolder;
     }else{
-        messageInputView.placeHolder = @"说点什么吧...";
+        messageInputView.placeHolder = @"撰写评论";
     }
     return messageInputView;
 }

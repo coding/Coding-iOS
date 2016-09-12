@@ -73,7 +73,7 @@
     
     // 评论
     __weak typeof(self) weakSelf = self;
-    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTopic];
+    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTopic placeHolder:@"撰写答案"];
     _myMsgInputView.isAlwaysShow = YES;
     _myMsgInputView.delegate = self;
     
@@ -632,7 +632,7 @@
 - (void)setCurTopic:(ProjectTopic *)curTopic{
     _curTopic = curTopic;
     
-    _commentL.text = [NSString stringWithFormat:@"%d 条评论", _curTopic.child_count.intValue];
+    _commentL.text = [NSString stringWithFormat:@"%d 条回答", _curTopic.child_count.intValue];
 
     BOOL hasWatchers = _curTopic.watchers.count > 0;
     _tipL.hidden = hasWatchers;
