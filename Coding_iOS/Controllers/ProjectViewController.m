@@ -139,7 +139,7 @@
 
 - (void)configRightBarButtonItemWithViewType:(ProjectViewType)viewType{
     UIBarButtonItem *navRightBtn = nil;
-    if ((viewType == ProjectViewTypeMembers && [[Login curLoginUser].global_key isEqualToString:_myProject.owner_user_name])
+    if ((viewType == ProjectViewTypeMembers && _myProject.current_user_role_id.integerValue >= 90)
         || viewType == ProjectViewTypeTasks
         || viewType == ProjectViewTypeTopics
         || viewType == ProjectViewTypeFiles) {
