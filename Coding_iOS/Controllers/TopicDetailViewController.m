@@ -73,7 +73,7 @@
     
     // 评论
     __weak typeof(self) weakSelf = self;
-    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTopic placeHolder:@"撰写答案"];
+    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTopic placeHolder:@"发表看法"];
     _myMsgInputView.isAlwaysShow = YES;
     _myMsgInputView.delegate = self;
     
