@@ -169,6 +169,7 @@
     TopicCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:toComment.htmlMedia.imageItems.count > 0? kCellIdentifier_TopicComment_Media: kCellIdentifier_TopicComment forIndexPath:indexPath];
     cell.toComment = toComment;
     cell.isAnswer = indexPath.row == 0;
+    cell.projectId = _curTopic.project.id;
     cell.contentLabel.delegate = self;
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth + (indexPath.row == 0? 0: 40) hasSectionLine:YES];
     return cell;

@@ -12,6 +12,7 @@
 
 @interface TopicAnswerCell : UITableViewCell
 @property (strong, nonatomic) ProjectTopic *curAnswer;
+@property (strong, nonatomic) NSNumber *projectId;
 
 @property (copy, nonatomic) void(^linkStrBlock)(NSString *linkStr);
 @property (copy, nonatomic) void(^commentClickedBlock)(ProjectTopic *curAnswer, ProjectTopic *toComment, id sender);

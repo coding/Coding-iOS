@@ -348,6 +348,7 @@
         
         TopicAnswerCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TopicAnswerCell forIndexPath:indexPath];
         cell.curAnswer = toComment;
+        cell.projectId = _curTopic.project.id;
         cell.linkStrBlock = ^(NSString *linkStr){
             [weakSelf analyseLinkStr:linkStr];
         };

@@ -1588,6 +1588,21 @@
         }
     }];
 }
+
+- (void)request_UpvoteAnswer:(ProjectTopic *)proTopic inProjectId:(NSNumber *)projectId andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/project/%@/topic/%@/comment/%@/upvote", projectId, proTopic.parent_id, proTopic.id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:proTopic.is_up_voted.boolValue? Delete: Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"讨论_答案_点赞"];
+            
+            [proTopic change_is_up_voted];
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+
+}
 - (void)request_DoComment_WithProjectTpoic:(ProjectTopic *)proTopic andAnswerId:(NSNumber *)answerId andBlock:(void (^)(id data, NSError *error))block{
     NSMutableDictionary *params = @{@"content" : [proTopic.nextCommentStr aliasedString]}.mutableCopy;
     params[@"type"] = answerId? @1: @0;

@@ -65,4 +65,5 @@
 
 - (BOOL)canEdit;
 - (NSInteger)commentsDisplayNum;
+- (void)change_is_up_voted;
 @end

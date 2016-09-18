@@ -92,6 +92,7 @@
         TopicCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:toComment.htmlMedia.imageItems.count > 0? kCellIdentifier_TopicComment_Media: kCellIdentifier_TopicComment forIndexPath:indexPath];
         cell.toComment = toComment;
         cell.isAnswer = indexPath.row == 0;
+        cell.projectId = _projectId;
         cell.contentLabel.delegate = self;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:leftSpace hasSectionLine:NO];
         return cell;

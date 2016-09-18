@@ -201,4 +201,26 @@
 - (NSInteger)commentsDisplayNum{
     return MIN(_child_comments.count, 2);
 }
+- (void)change_is_up_voted{
+    _is_up_voted = @(!self.is_up_voted.boolValue);
+    if (_is_up_voted.boolValue) {//原来没有，现在需要添加
+        if (!_up_vote_users) {
+            _up_vote_users = @[].mutableCopy;
+        }
+        [_up_vote_users addObject:[Login curLoginUser]];
+        _up_vote_counts = @(_up_vote_counts.integerValue + 1);
+    }else{//原来有，现在需要移除
+        User *meUser = nil;
+        for (User *user in _up_vote_users) {
+            if ([user.global_key isEqualToString:[Login curLoginUser].global_key]) {
+                meUser = user;
+                break;
+            }
+        }
+        if (meUser) {
+            [_up_vote_users removeObject:meUser];
+            _up_vote_counts = @(_up_vote_counts.integerValue - 1);
+        }
+    }
+}
 @end

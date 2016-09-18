@@ -368,6 +368,8 @@
 		4E6CBE4B1D8E71DC00644086 /* TopicAnswerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6CBE4A1D8E71DC00644086 /* TopicAnswerCell.m */; };
 		4E6CBE4E1D8E7E8000644086 /* TopicAnswerCommentMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6CBE4D1D8E7E8000644086 /* TopicAnswerCommentMoreCell.m */; };
 		4E6CBE511D8E962300644086 /* TopicAnswerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6CBE501D8E962300644086 /* TopicAnswerDetailViewController.m */; };
+		4E6CBE541D8EA9D100644086 /* icon_best_answer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6CBE521D8EA9D100644086 /* icon_best_answer@2x.png */; };
+		4E6CBE551D8EA9D100644086 /* icon_best_answer@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6CBE531D8EA9D100644086 /* icon_best_answer@3x.png */; };
 		4E6D71891A75F00E005AD988 /* YLGIFImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D71861A75F00E005AD988 /* YLGIFImage.m */; };
 		4E6D718A1A75F00E005AD988 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D71881A75F00E005AD988 /* YLImageView.m */; };
 		4E6FB0551B5799B100B0A17B /* ProjectTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6FB0541B5799B100B0A17B /* ProjectTag.m */; };
@@ -1696,6 +1698,8 @@
 		4E6CBE4D1D8E7E8000644086 /* TopicAnswerCommentMoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicAnswerCommentMoreCell.m; sourceTree = "<group>"; };
 		4E6CBE4F1D8E962300644086 /* TopicAnswerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicAnswerDetailViewController.h; sourceTree = "<group>"; };
 		4E6CBE501D8E962300644086 /* TopicAnswerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicAnswerDetailViewController.m; sourceTree = "<group>"; };
+		4E6CBE521D8EA9D100644086 /* icon_best_answer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_best_answer@2x.png"; sourceTree = "<group>"; };
+		4E6CBE531D8EA9D100644086 /* icon_best_answer@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_best_answer@3x.png"; sourceTree = "<group>"; };
 		4E6D71851A75F00E005AD988 /* YLGIFImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLGIFImage.h; sourceTree = "<group>"; };
 		4E6D71861A75F00E005AD988 /* YLGIFImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLGIFImage.m; sourceTree = "<group>"; };
 		4E6D71871A75F00E005AD988 /* YLImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLImageView.h; sourceTree = "<group>"; };
@@ -4970,6 +4974,8 @@
 				4ECEFA001D1D0B4B002A27D3 /* tip_bg@2x.png */,
 				4ECEFA011D1D0B4B002A27D3 /* tip_bg@3x.png */,
 				4E59D3301D409C8C008C914B /* topic_add_watcher_btn@2x.png */,
+				4E6CBE521D8EA9D100644086 /* icon_best_answer@2x.png */,
+				4E6CBE531D8EA9D100644086 /* icon_best_answer@3x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -5875,6 +5881,7 @@
 				8E97CE721A0B8C6C006F9AD7 /* emotion_list.plist in Resources */,
 				4EC461B21B39360F00D08970 /* file_changeType_ADD@2x.png in Resources */,
 				13FB5D3E1CA17A6400EE127C /* EPointLikeHead@1x.png in Resources */,
+				4E6CBE541D8EA9D100644086 /* icon_best_answer@2x.png in Resources */,
 				4E4D6ACC1B2571B100FD2E49 /* git_icon_watched@2x.png in Resources */,
 				8E97CEB11A0C7E26006F9AD7 /* coding_emoji_26@2x.png in Resources */,
 				8E97CEBA1A0C7E26006F9AD7 /* coding_emoji_35@2x.png in Resources */,
@@ -6186,6 +6193,7 @@
 				8EA6D19719E240C40076D59C /* tipIcon_Project@2x.png in Resources */,
 				D0C447CF1C02DB6700DC1C4B /* pop_Task@3x.png in Resources */,
 				4EB52F1F1C76BA3B00B5EBEA /* tag_button_editColor@2x.png in Resources */,
+				4E6CBE551D8EA9D100644086 /* icon_best_answer@3x.png in Resources */,
 				4EF17ED31B3C3112003CDD2D /* intro_icon_2@2x.png in Resources */,
 				4ECEFA031D1D0B4B002A27D3 /* tip_bg@3x.png in Resources */,
 				D0C448091C02DCAC00DC1C4B /* addUserBtn_Nav@3x.png in Resources */,
