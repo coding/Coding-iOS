@@ -77,6 +77,8 @@
     }
     CGFloat curBottomY = 10;
     CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
+    
+    
     [_ownerIconView sd_setImageWithURL:[_toComment.owner.avatar urlImageWithCodePathResizeToView:_ownerIconView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerIconView)];
     [_contentLabel setLongString:_toComment.content withFitWidth:curWidth];
     
@@ -101,6 +103,12 @@
     
     [_timeLabel setY:curBottomY];
     _timeLabel.text = [NSString stringWithFormat:@"%@ 发布于 %@", _toComment.owner.name, [_toComment.created_at stringDisplay_HHmm]];
+}
+
+- (void)setIsAnswer:(BOOL)isAnswer{
+    _isAnswer = isAnswer;
+    _ownerIconView.hidden = !_isAnswer;
+    _contentLabel.textColor = [UIColor colorWithHexString:_isAnswer? @"0x222222": @"0x666666"];
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj{

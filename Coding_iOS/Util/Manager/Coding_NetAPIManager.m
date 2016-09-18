@@ -1572,8 +1572,27 @@
         }
     }];
 }
-- (void)request_DoComment_WithProjectTpoic:(ProjectTopic *)proTopic andBlock:(void (^)(id data, NSError *error))block{
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toDoCommentPath] withParams:[proTopic toDoCommentParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+- (void)request_Comments_WithAnswer:(ProjectTopic *)proTopic inProjectId:(NSNumber *)projectId andBlock:(void (^)(id data, NSError *error))block{
+    proTopic.isLoading = YES;
+    NSString *path = [NSString stringWithFormat:@"api/project/%@/topic/%@/comment/%@/comments", projectId, proTopic.parent_id, proTopic.id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"pageSize": @(99999)} withMethodType:Get andBlock:^(id data, NSError *error) {
+        proTopic.isLoading = NO;
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"讨论_答案_评论列表"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            ProjectTopics *resultT = [NSObject objectOfClass:@"ProjectTopics" fromJSON:resultData];
+            block(resultT, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+- (void)request_DoComment_WithProjectTpoic:(ProjectTopic *)proTopic andAnswerId:(NSNumber *)answerId andBlock:(void (^)(id data, NSError *error))block{
+    NSMutableDictionary *params = @{@"content" : [proTopic.nextCommentStr aliasedString]}.mutableCopy;
+    params[@"type"] = answerId? @1: @0;
+    params[@"parent_id"] = answerId;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[proTopic toDoCommentPath] withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"讨论_评论_添加"];
 

@@ -365,6 +365,9 @@
 		4E6C41191A834EA90098DC17 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6C41181A834EA90098DC17 /* BaseNavigationController.m */; };
 		4E6C411F1A846AC30098DC17 /* RFKeyboardToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6C411C1A846AC30098DC17 /* RFKeyboardToolbar.m */; };
 		4E6C41201A846AC30098DC17 /* RFToolbarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6C411E1A846AC30098DC17 /* RFToolbarButton.m */; };
+		4E6CBE4B1D8E71DC00644086 /* TopicAnswerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6CBE4A1D8E71DC00644086 /* TopicAnswerCell.m */; };
+		4E6CBE4E1D8E7E8000644086 /* TopicAnswerCommentMoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6CBE4D1D8E7E8000644086 /* TopicAnswerCommentMoreCell.m */; };
+		4E6CBE511D8E962300644086 /* TopicAnswerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6CBE501D8E962300644086 /* TopicAnswerDetailViewController.m */; };
 		4E6D71891A75F00E005AD988 /* YLGIFImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D71861A75F00E005AD988 /* YLGIFImage.m */; };
 		4E6D718A1A75F00E005AD988 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6D71881A75F00E005AD988 /* YLImageView.m */; };
 		4E6FB0551B5799B100B0A17B /* ProjectTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6FB0541B5799B100B0A17B /* ProjectTag.m */; };
@@ -1687,6 +1690,12 @@
 		4E6C411C1A846AC30098DC17 /* RFKeyboardToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFKeyboardToolbar.m; sourceTree = "<group>"; };
 		4E6C411D1A846AC30098DC17 /* RFToolbarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RFToolbarButton.h; sourceTree = "<group>"; };
 		4E6C411E1A846AC30098DC17 /* RFToolbarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RFToolbarButton.m; sourceTree = "<group>"; };
+		4E6CBE491D8E71DC00644086 /* TopicAnswerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicAnswerCell.h; sourceTree = "<group>"; };
+		4E6CBE4A1D8E71DC00644086 /* TopicAnswerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicAnswerCell.m; sourceTree = "<group>"; };
+		4E6CBE4C1D8E7E8000644086 /* TopicAnswerCommentMoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicAnswerCommentMoreCell.h; sourceTree = "<group>"; };
+		4E6CBE4D1D8E7E8000644086 /* TopicAnswerCommentMoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicAnswerCommentMoreCell.m; sourceTree = "<group>"; };
+		4E6CBE4F1D8E962300644086 /* TopicAnswerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicAnswerDetailViewController.h; sourceTree = "<group>"; };
+		4E6CBE501D8E962300644086 /* TopicAnswerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicAnswerDetailViewController.m; sourceTree = "<group>"; };
 		4E6D71851A75F00E005AD988 /* YLGIFImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLGIFImage.h; sourceTree = "<group>"; };
 		4E6D71861A75F00E005AD988 /* YLGIFImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLGIFImage.m; sourceTree = "<group>"; };
 		4E6D71871A75F00E005AD988 /* YLImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLImageView.h; sourceTree = "<group>"; };
@@ -4780,6 +4789,8 @@
 				4ED4B4AE1D82B28B00EED8C6 /* TeamMembersViewController.m */,
 				4E2247FA1D82C98800551EA4 /* MeDisplayViewController.h */,
 				4E2247FB1D82C98800551EA4 /* MeDisplayViewController.m */,
+				4E6CBE4F1D8E962300644086 /* TopicAnswerDetailViewController.h */,
+				4E6CBE501D8E962300644086 /* TopicAnswerDetailViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -5529,6 +5540,8 @@
 				8EF6439219FF7E2900F7EEB0 /* ToMessageCell.m */,
 				8EF6439319FF7E2900F7EEB0 /* TopicCommentCell.h */,
 				8EF6439419FF7E2900F7EEB0 /* TopicCommentCell.m */,
+				4E6CBE491D8E71DC00644086 /* TopicAnswerCell.h */,
+				4E6CBE4A1D8E71DC00644086 /* TopicAnswerCell.m */,
 				8EF6439519FF7E2900F7EEB0 /* TopicContentCell.h */,
 				8EF6439619FF7E2900F7EEB0 /* TopicContentCell.m */,
 				3A38784D1AE557700078D5DE /* TopicPreviewCell.h */,
@@ -5539,6 +5552,8 @@
 				8EF6439A19FF7E2900F7EEB0 /* TweetCommentCell.m */,
 				8EF6439B19FF7E2900F7EEB0 /* TweetCommentMoreCell.h */,
 				8EF6439C19FF7E2900F7EEB0 /* TweetCommentMoreCell.m */,
+				4E6CBE4C1D8E7E8000644086 /* TopicAnswerCommentMoreCell.h */,
+				4E6CBE4D1D8E7E8000644086 /* TopicAnswerCommentMoreCell.m */,
 				8EF6439D19FF7E2900F7EEB0 /* TweetDetailCell.h */,
 				8EF6439E19FF7E2900F7EEB0 /* TweetDetailCell.m */,
 				8EF6439F19FF7E2900F7EEB0 /* TweetDetailCommentCell.h */,
@@ -6847,6 +6862,7 @@
 				4E1A22881AB1731600CFC14F /* ProjectDescriptionCell.m in Sources */,
 				4ECE8AE11A3943E80021E29C /* UIButton+Common.m in Sources */,
 				4ECE8AD81A3943E80021E29C /* UIDownMenuButton.m in Sources */,
+				4E6CBE511D8E962300644086 /* TopicAnswerDetailViewController.m in Sources */,
 				8EA6D14819E240C40076D59C /* UsersViewController.m in Sources */,
 				4E94C4FF1B4D2B9300EB668A /* MenuButton.m in Sources */,
 				4ED4B49D1D8295F600EED8C6 /* TeamViewController.m in Sources */,
@@ -6971,6 +6987,7 @@
 				8EF643C819FF7E2900F7EEB0 /* ToMessageCell.m in Sources */,
 				4E217F111A70EDC700F6DF88 /* SVWebViewControllerActivityChrome.m in Sources */,
 				4EC4800C1C2936DA005F1772 /* PhoneCodeButton.m in Sources */,
+				4E6CBE4E1D8E7E8000644086 /* TopicAnswerCommentMoreCell.m in Sources */,
 				13C8FE6E1CA75816001E30FA /* DynamicCommentCell.m in Sources */,
 				4E0BD86D1B6C7E3D0061CAA6 /* CSScrollview.m in Sources */,
 				D09AA5C01BFDEDD1008CA9EB /* NSString+Attribute.m in Sources */,
@@ -6991,6 +7008,7 @@
 				8EA6D1BE19E240C40076D59C /* Register.m in Sources */,
 				4ECF70431B18514F000280FF /* PRListViewController.m in Sources */,
 				926C043B1C019CD3004937D8 /* ShopOrder.m in Sources */,
+				4E6CBE4B1D8E71DC00644086 /* TopicAnswerCell.m in Sources */,
 				4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */,
 				8EF643B019FF7E2900F7EEB0 /* CodingTipCell.m in Sources */,
 				4E6FB0581B58DB0A00B0A17B /* ProjectTagsView.m in Sources */,

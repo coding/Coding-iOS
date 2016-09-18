@@ -16,17 +16,11 @@
 #import "ProjectTagsView.h"
 
 @interface TopicContentCell () <UIWebViewDelegate>
-
 @property (strong, nonatomic) UIImageView *userIconView;
 @property (strong, nonatomic) UILabel *titleLabel, *timeLabel;
-//, *commentCountLabel;
-//@property (strong, nonatomic) UIButton *commentBtn, *deleteBtn;
 @property (strong, nonatomic) UIWebView *webContentView;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
-
 @property (strong, nonatomic) ProjectTagsView *tagsView;
-//@property (strong, nonatomic) UIView *lineView;
-
 @end
 
 @implementation TopicContentCell
@@ -69,11 +63,6 @@
             };
             [self.contentView addSubview:_tagsView];
         }
-//        if (!_lineView) {
-//            _lineView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, 1)];
-//            _lineView.backgroundColor = kColorTableSectionBg;
-//            [self.contentView addSubview:_lineView];
-//        }
         if (!self.webContentView) {
             self.webContentView = [[UIWebView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, curWidth, 1)];
             self.webContentView.delegate = self;
@@ -94,38 +83,11 @@
                 make.center.equalTo(self.contentView);
             }];
         }
-        
-//        if (!_commentCountLabel) {
-//            _commentCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 120, 20)];
-//            _commentCountLabel.textColor = [UIColor colorWithHexString:@"0x99999999"];
-//            _commentCountLabel.font = [UIFont systemFontOfSize:12];
-//            [self.contentView addSubview:_commentCountLabel];
-//        }
-//        if (!_commentBtn) {
-//            _commentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//            _commentBtn.frame = CGRectMake(kScreen_Width - kPaddingLeftWidth - 50, 0, 50, 25);
-//            [_commentBtn setImage:[UIImage imageNamed:@"tweet_comment_btn"] forState:UIControlStateNormal];
-//            [self.commentBtn addTarget:self action:@selector(commentBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//            [self.contentView addSubview:_commentBtn];
-//        }
-//        
-//        if (!self.deleteBtn) {
-//            self.deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//            self.deleteBtn.frame = CGRectMake(kScreen_Width - kPaddingLeftWidth - 50 - 50, 0, 50, 25);
-//            [self.deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
-//            [self.deleteBtn setTitleColor:kColorBrandGreen forState:UIControlStateNormal];
-//            [self.deleteBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
-//            self.deleteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12];
-//            [self.deleteBtn addTarget:self action:@selector(deleteBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-//            [self.contentView addSubview:self.deleteBtn];
-//        }
-        
     }
     return self;
 }
 
-- (void)setCurTopic:(ProjectTopic *)curTopic
-{
+- (void)setCurTopic:(ProjectTopic *)curTopic{
     if (curTopic) {
         _curTopic = curTopic;
     }
@@ -146,8 +108,6 @@
     _tagsView.tags = _curTopic.labels;
     [_tagsView setY:curBottomY];
     
-    //[_lineView setY:curBottomY];
-
     // 讨论的内容
     curBottomY += CGRectGetHeight(_tagsView.frame);
     [self.webContentView setY:curBottomY];
@@ -162,15 +122,6 @@
     }
     
     curBottomY += _curTopic.contentHeight + 5;
-//    [_commentCountLabel setY:curBottomY + 2];
-//    _commentCountLabel.text = [NSString stringWithFormat:@"%d条评论", _curTopic.child_count.intValue];
-//    [_commentBtn setY:curBottomY];
-//    if ([_curTopic canEdit]) {
-//        _deleteBtn.hidden = NO;
-//        [_deleteBtn setY:curBottomY];
-//    } else {
-//        _deleteBtn.hidden = YES;
-//    }
 }
 
 - (void)deleteTag:(ProjectTag *)curTag
@@ -220,7 +171,6 @@
         cellHeight += [ProjectTagsView getHeightForTags:topic.labels];
         cellHeight += topic.contentHeight;
         cellHeight += 25 + 10;
-//        + 25 + 5;
     }
     return cellHeight;
 }
@@ -269,8 +219,6 @@
 - (void)refreshwebContentView
 {
     if (_webContentView) {
-        //        NSString *js = @"window.onload = function(){ document.body.style.backgroundColor = '#333333';}";
-        //        [_webContentView stringByEvaluatingJavaScriptFromString:js];
         //修改服务器页面的meta的值
         NSString *meta = [NSString stringWithFormat:@"document.getElementsByName(\"viewport\")[0].content = \"width=%f, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\"", CGRectGetWidth(_webContentView.frame)];
         [_webContentView stringByEvaluatingJavaScriptFromString:meta];
@@ -278,8 +226,7 @@
 }
 
 #pragma mark - click
-- (void)addtitleBtnClick
-{
+- (void)addtitleBtnClick{
     if (_addLabelBlock) {
         _addLabelBlock();
     }

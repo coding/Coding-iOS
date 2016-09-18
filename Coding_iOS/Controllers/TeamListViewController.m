@@ -44,11 +44,11 @@
 
 - (void)refresh{
     if (_teamList.count <= 0) {
-        [self.myTableView beginLoading];
+        [self.view beginLoading];
     }
     ESWeak(self, weakSelf);
     [[Coding_NetAPIManager sharedManager] request_JoinedTeamsBlock:^(id data, NSError *error) {
-        [weakSelf.myTableView endLoading];
+        [weakSelf.view endLoading];
         [weakSelf.myRefreshControl endRefreshing];
         if (data) {
             weakSelf.teamList = data;

@@ -65,11 +65,11 @@
 
 - (void)refresh{
     if (_myMemberArray.count <= 0) {
-        [self.myTableView beginLoading];
+        [self.view beginLoading];
     }
     ESWeak(self, weakSelf);
     [[Coding_NetAPIManager sharedManager] request_MembersInTeam:_curTeam andBlock:^(id data, NSError *error) {
-        [weakSelf.myTableView endLoading];
+        [weakSelf.view endLoading];
         [weakSelf.myRefreshControl endRefreshing];
         if (data) {
             weakSelf.myMemberArray = data;

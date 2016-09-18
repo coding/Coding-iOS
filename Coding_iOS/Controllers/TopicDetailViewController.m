@@ -8,7 +8,6 @@
 
 #import "TopicDetailViewController.h"
 #import "TopicContentCell.h"
-#import "TopicCommentCell.h"
 #import "ODRefreshControl.h"
 #import "Coding_NetAPIManager.h"
 #import "RegexKitLite.h"
@@ -23,6 +22,8 @@
 #import "EditTopicViewController.h"
 #import "EditLabelViewController.h"
 #import "ProjectMemberListViewController.h"
+#import "TopicAnswerCell.h"
+#import "TopicAnswerDetailViewController.h"
 
 @interface TopicDetailViewController ()<TTTAttributedLabelDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
@@ -30,7 +31,7 @@
 
 // 评论
 @property (nonatomic, strong) UIMessageInputView *myMsgInputView;
-@property (nonatomic, strong) ProjectTopic *toComment;
+@property (nonatomic, strong) ProjectTopic *toComment, *toAnswer;
 @property (nonatomic, strong) UIView *commentSender;
 
 // 链接
@@ -59,8 +60,7 @@
         tableView.delegate = self;
         tableView.dataSource = self;
         [tableView registerClass:[TopicContentCell class] forCellReuseIdentifier:kCellIdentifier_TopicContent];
-        [tableView registerClass:[TopicCommentCell class] forCellReuseIdentifier:kCellIdentifier_TopicComment];
-        [tableView registerClass:[TopicCommentCell class] forCellReuseIdentifier:kCellIdentifier_TopicComment_Media];
+        [tableView registerClass:[TopicAnswerCell class] forCellReuseIdentifier:kCellIdentifier_TopicAnswerCell];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -116,6 +116,7 @@
         }
         [_myMsgInputView prepareToShow];
     }
+    [_myTableView reloadData];
 }
 
 #pragma mark - click
@@ -284,12 +285,12 @@
             [weakSelf goToUser:user];
         };
         _headerV.commentBlock = ^(id sender){
-            [weakSelf doCommentToTopic:nil sender:sender];
+            [weakSelf doCommentToTopic:nil ofAnswer:nil sender:sender];
         };
         _headerV.deleteBlock = ^(ProjectTopic *curTopic){
             UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此讨论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
                 if (index == 0) {
-                    [weakSelf deleteTopic:weakSelf.curTopic isComment:NO];
+                    [weakSelf deleteTopic:weakSelf.curTopic ofAnswer:nil isComment:NO];
                 }
             }];
             [actionSheet showInView:weakSelf.view];
@@ -327,10 +328,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    __weak typeof(self) weakSelf = self;
     if (indexPath.section == 0) {
         TopicContentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TopicContent forIndexPath:indexPath];
         cell.curTopic = self.curTopic;
-        __weak typeof(self) weakSelf = self;
         cell.cellHeightChangedBlock = ^(){
             [weakSelf.myTableView reloadData];
         };
@@ -344,11 +345,19 @@
         return cell;
     } else {
         ProjectTopic *toComment = [_curTopic.comments.list objectAtIndex:indexPath.row];
-
-        TopicCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:toComment.htmlMedia.imageItems.count > 0? kCellIdentifier_TopicComment_Media: kCellIdentifier_TopicComment forIndexPath:indexPath];
-        cell.toComment = toComment;
-        cell.contentLabel.delegate = self;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        
+        TopicAnswerCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TopicAnswerCell forIndexPath:indexPath];
+        cell.curAnswer = toComment;
+        cell.linkStrBlock = ^(NSString *linkStr){
+            [weakSelf analyseLinkStr:linkStr];
+        };
+        cell.commentClickedBlock = ^(ProjectTopic *curAnswer, ProjectTopic *toComment, id sender){
+            if (toComment) {//评论或删除
+                [weakSelf doCommentToTopic:toComment ofAnswer:curAnswer sender:sender];
+            }else{//查看更多评论
+                [weakSelf goToAnswer:curAnswer];
+            }
+        };
         return cell;
     }
 }
@@ -360,26 +369,18 @@
         cellHeight = [TopicContentCell cellHeightWithObj:self.curTopic];
     } else {
         ProjectTopic *toComment = [_curTopic.comments.list objectAtIndex:indexPath.row];
-        cellHeight = [TopicCommentCell cellHeightWithObj:toComment];
+        cellHeight = [TopicAnswerCell cellHeightWithObj:toComment];
     }
     return cellHeight;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section != 0) {
-        ProjectTopic *toComment = [_curTopic.comments.list objectAtIndex:indexPath.row];
-        [self doCommentToTopic:toComment sender:[tableView cellForRowAtIndexPath:indexPath]];
-    }
-}
-
-- (void)doCommentToTopic:(ProjectTopic *)toComment sender:(id)sender
+- (void)doCommentToTopic:(ProjectTopic *)toComment ofAnswer:(ProjectTopic *)answer sender:(id)sender
 {
     if ([self.myMsgInputView isAndResignFirstResponder]) {
         return ;
     }
     _toComment = toComment;
+    _toAnswer = answer;
     _commentSender = sender;
     
     _myMsgInputView.toUser = toComment.owner;
@@ -390,7 +391,7 @@
             UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
                 ESStrongSelf
                 if (index == 0) {
-                    [_self deleteTopic:_self.toComment isComment:YES];
+                    [_self deleteTopic:_self.toComment ofAnswer:answer isComment:YES];
                 }
             }];
             [actionSheet showInView:self.view];
@@ -401,7 +402,7 @@
 }
 
 #pragma mark Delete M
-- (void)deleteTopic:(ProjectTopic *)curTopic isComment:(BOOL)isC{
+- (void)deleteTopic:(ProjectTopic *)curTopic ofAnswer:(ProjectTopic *)answer isComment:(BOOL)isC{
     if (curTopic) {
         __weak typeof(self) weakSelf = self;
         if (!isC) {
@@ -416,35 +417,58 @@
         }else{
             [[Coding_NetAPIManager sharedManager] request_ProjectTopicComment_Delete_WithObj:curTopic projectId:_curTopic.project.id andBlock:^(id data, NSError *error) {
                 if (data) {
-                    [weakSelf.curTopic.comments.list removeObject:_toComment];
-                    [weakSelf.myTableView reloadData];
+                    [weakSelf uiDeleteTopic:curTopic ofAnswer:answer];
                 }
             }];
         }
     }
 }
 
+- (void)uiDeleteTopic:(ProjectTopic *)curTopic ofAnswer:(ProjectTopic *)answer{
+    if (curTopic == answer) {
+        [self.curTopic.comments.list removeObject:curTopic];
+        self.curTopic.child_count = @(self.curTopic.child_count.integerValue - 1);
+    }else{
+        [answer.child_comments removeObject:curTopic];
+        answer.child_count = @(answer.child_count.integerValue - 1);
+    }
+    self.toComment = self.toAnswer = nil;
+    self.commentSender = nil;
+    self.myMsgInputView.toUser = nil;
+    
+    [self.myTableView reloadData];
+}
 #pragma mark Comment To Topic
 - (void)sendCommentMessage:(id)obj
 {
     __weak typeof(self) weakSelf = self;
+    NSNumber *answerId = nil;
     if (_toComment) {
         _curTopic.nextCommentStr = [NSString stringWithFormat:@"@%@ %@", _toComment.owner.name, obj];
+        answerId = _toComment.parent_id;
+        if ([answerId isEqual:_curTopic.id]) {
+            answerId = _toComment.id;
+        }
     }else{
         _curTopic.nextCommentStr = obj;
     }
-    [[Coding_NetAPIManager sharedManager] request_DoComment_WithProjectTpoic:_curTopic andBlock:^(id data, NSError *error) {
+    [NSObject showHUDQueryStr:@"请稍等..."];
+    [[Coding_NetAPIManager sharedManager] request_DoComment_WithProjectTpoic:_curTopic andAnswerId:answerId andBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
         if (data) {
-            [weakSelf.curTopic configWithComment:data];
-            [weakSelf.myTableView reloadData];
+            [NSObject showHudTipStr:@"发表成功"];
+            [weakSelf uiDoComment:data ofAnswer:weakSelf.toAnswer];
         }
     }];
-    {
-        _toComment = nil;
-        _commentSender = nil;
-    }
+}
+
+- (void)uiDoComment:(ProjectTopic *)comment ofAnswer:(ProjectTopic *)answer{
+    [self.curTopic configWithComment:comment andAnswer:answer];
+    self.toComment = self.toAnswer = nil;
+    self.commentSender = nil;
     self.myMsgInputView.toUser = nil;
     [self.myMsgInputView isAndResignFirstResponder];
+    [self.myTableView reloadData];
 }
 
 #pragma mark loadCellRequest
@@ -480,16 +504,12 @@
     }
 }
 
-#pragma mark TTTAttributedLabelDelegate
-- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithTransitInformation:(NSDictionary *)components{
-    HtmlMediaItem *clickedItem = [components objectForKey:@"value"];
-    [self analyseLinkStr:clickedItem.href];
-}
-
-- (void)dealloc
-{
-    _myTableView.delegate = nil;
-    _myTableView.dataSource = nil;
+#pragma mark goTo
+- (void)goToAnswer:(ProjectTopic *)answer{
+    TopicAnswerDetailViewController *vc = [TopicAnswerDetailViewController new];
+    vc.curAnswer = answer;
+    vc.curTopic = _curTopic;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

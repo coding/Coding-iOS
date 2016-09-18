@@ -45,11 +45,11 @@
 
 - (void)refresh{
     if (_joinedList.count + _unjoinedList.count <= 0) {
-        [self.myTableView beginLoading];
+        [self.view beginLoading];
     }
     ESWeak(self, weakSelf);
     void (^requestFinishedBlock)(NSError *) = ^(NSError *error){
-        [weakSelf.myTableView endLoading];
+        [weakSelf.view endLoading];
         [weakSelf.myRefreshControl endRefreshing];
         [weakSelf.myTableView reloadData];
         [weakSelf.myTableView configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.joinedList.count + weakSelf.unjoinedList.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
