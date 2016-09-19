@@ -50,6 +50,19 @@
     [self updateData];
 }
 
+- (void)setNameBtnClicked:(void (^)())nameBtnClicked{
+    _nameBtnClicked = nameBtnClicked;
+    if (_nameBtnClicked) {
+        [_userSexIconView setImage:[UIImage imageNamed:@"user_info_edit"]];
+        _userSexIconView.userInteractionEnabled = _userLabel.userInteractionEnabled = YES;
+        [_userSexIconView bk_whenTapped:_nameBtnClicked];
+        [_userLabel bk_whenTapped:_nameBtnClicked];
+    }else{
+        [_userLabel bk_whenTapped:nil];
+        [_userSexIconView bk_whenTapped:nil];
+    }
+}
+
 - (void)configUI{
     if (!_curUser) {
         return;

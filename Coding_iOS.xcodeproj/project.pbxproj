@@ -261,6 +261,8 @@
 		4E53EB521AFA03990034FE1C /* RKSwipeBetweenViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */; };
 		4E53EB591AFB090E0034FE1C /* nav_page_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB571AFB090E0034FE1C /* nav_page_selected@2x.png */; };
 		4E53EB5A1AFB090E0034FE1C /* nav_page_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB581AFB090E0034FE1C /* nav_page_unselected@2x.png */; };
+		4E54C24B1D8FE19100A61023 /* user_info_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E54C2491D8FE19100A61023 /* user_info_edit@2x.png */; };
+		4E54C24C1D8FE19100A61023 /* user_info_edit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E54C24A1D8FE19100A61023 /* user_info_edit@3x.png */; };
 		4E554D6E1C9804F40008686A /* Close2FAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E554D6D1C9804F40008686A /* Close2FAViewController.m */; };
 		4E59D32B1D3E106D008C914B /* tweetsBtn_Nav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E59D3291D3E106D008C914B /* tweetsBtn_Nav@2x.png */; };
 		4E59D32C1D3E106D008C914B /* tweetsBtn_Nav@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E59D32A1D3E106D008C914B /* tweetsBtn_Nav@3x.png */; };
@@ -1556,6 +1558,8 @@
 		4E53EB511AFA03990034FE1C /* RKSwipeBetweenViewControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSwipeBetweenViewControllers.m; sourceTree = "<group>"; };
 		4E53EB571AFB090E0034FE1C /* nav_page_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_page_selected@2x.png"; sourceTree = "<group>"; };
 		4E53EB581AFB090E0034FE1C /* nav_page_unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_page_unselected@2x.png"; sourceTree = "<group>"; };
+		4E54C2491D8FE19100A61023 /* user_info_edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_edit@2x.png"; sourceTree = "<group>"; };
+		4E54C24A1D8FE19100A61023 /* user_info_edit@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_edit@3x.png"; sourceTree = "<group>"; };
 		4E554D6C1C9804F40008686A /* Close2FAViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Close2FAViewController.h; sourceTree = "<group>"; };
 		4E554D6D1C9804F40008686A /* Close2FAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Close2FAViewController.m; sourceTree = "<group>"; };
 		4E59D3291D3E106D008C914B /* tweetsBtn_Nav@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweetsBtn_Nav@2x.png"; sourceTree = "<group>"; };
@@ -3825,6 +3829,8 @@
 				4ED4B4821D82646000EED8C6 /* user_info_topic@3x.png */,
 				4ED4B4831D82646000EED8C6 /* user_info_tweet@2x.png */,
 				4ED4B4841D82646000EED8C6 /* user_info_tweet@3x.png */,
+				4E54C2491D8FE19100A61023 /* user_info_edit@2x.png */,
+				4E54C24A1D8FE19100A61023 /* user_info_edit@3x.png */,
 			);
 			path = userInfo;
 			sourceTree = "<group>";
@@ -5874,6 +5880,7 @@
 				8B3516511B6CE9460049BC45 /* search_tweet_colck@2x.png in Resources */,
 				8E97CE6A1A0A3424006F9AD7 /* keyboard_page_unselected@2x.png in Resources */,
 				134116F01CB529E1005E6550 /* PR_more@2x.png in Resources */,
+				4E54C24C1D8FE19100A61023 /* user_info_edit@3x.png in Resources */,
 				4E07D3161A4D3CA6009EDDF2 /* logo_coding@2x.png in Resources */,
 				4E96E7D91A1B537E0037C098 /* icon_file_apk@2x.png in Resources */,
 				4E996C021ABBF56A00C704F1 /* n_btn_followed_both@2x.png in Resources */,
@@ -6377,6 +6384,7 @@
 				4EFE8DAD1B394A0D004B7559 /* file_changeType_RENAME@2x.png in Resources */,
 				B9A00D7F1ACA3A05008BA008 /* ProjectSetting.storyboard in Resources */,
 				8EA6D19219E240C40076D59C /* timeline_icon_unread@2x.png in Resources */,
+				4E54C24B1D8FE19100A61023 /* user_info_edit@2x.png in Resources */,
 				4E095A6D1B69F920008DC439 /* banner__page_selected@2x.png in Resources */,
 				4EB52F2F1C77138A00B5EBEA /* button_scan@3x.png in Resources */,
 				4EB52F5D1C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@3x.png in Resources */,

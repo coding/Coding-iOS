@@ -17,6 +17,7 @@
 @property (nonatomic, copy) void (^fansCountBtnClicked)();
 @property (nonatomic, copy) void (^followsCountBtnClicked)();
 @property (nonatomic, copy) void (^followBtnClicked)();
+@property (nonatomic, copy) void (^nameBtnClicked)();
 
 + (id)userHeaderViewWithUser:(User *)user image:(UIImage *)image;
 - (void)updateData;

@@ -18,6 +18,7 @@
 #import "CSTopicDetailVC.h"
 #import "SVPullToRefresh.h"
 #import "Coding_NetAPIManager.h"
+#import "SettingMineInfoViewController.h"
 
 
 @interface MeDisplayViewController ()
@@ -61,6 +62,9 @@
         };
         _eaV.followsCountBtnClicked = ^(){
             [weakSelf followsCountBtnClicked];
+        };
+        _eaV.nameBtnClicked = ^(){
+            [weakSelf goToSettingInfo];
         };
         _eaV.clipsToBounds = YES;
         _tableHeaderView = [[UIView alloc] initWithFrame:_eaV.bounds];
@@ -215,6 +219,11 @@
 - (void)goToTopic:(NSDictionary*)topic{
     CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
     vc.topicID = [topic[@"id"] intValue];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToSettingInfo{
+    SettingMineInfoViewController *vc = [[SettingMineInfoViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
