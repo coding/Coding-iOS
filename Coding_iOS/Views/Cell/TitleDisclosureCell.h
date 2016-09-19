@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 
 @interface TitleDisclosureCell : UITableViewCell
+@property (strong, nonatomic, readonly) UILabel *titleLabel;
 
 - (void)setTitleStr:(NSString *)title;
 

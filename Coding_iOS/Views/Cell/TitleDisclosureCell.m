@@ -9,7 +9,7 @@
 #import "TitleDisclosureCell.h"
 
 @interface TitleDisclosureCell ()
-@property (strong, nonatomic) UILabel *titleLabel;
+@property (strong, nonatomic, readwrite) UILabel *titleLabel;
 @property (strong, nonatomic) NSString *title;
 @end
 

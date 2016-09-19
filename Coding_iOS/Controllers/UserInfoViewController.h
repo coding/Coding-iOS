@@ -10,7 +10,6 @@
 #import "user.h"
 
 @interface UserInfoViewController : BaseViewController
-@property (assign, nonatomic) BOOL isRoot;
 @property (strong, nonatomic) User *curUser;
 @property (copy, nonatomic) void(^followChanged)(User *user);
 

@@ -27,6 +27,7 @@
 
 #import "UserInfoTextCell.h"
 #import "UserInfoIconCell.h"
+#import "TitleDisclosureCell.h"
 
 #import "StartImagesManager.h"
 #import "EaseUserHeaderView.h"
@@ -45,18 +46,7 @@
 @implementation UserInfoViewController
 - (void)viewDidLoad{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    if (_isRoot) {
-        self.title = @"我";
-        _curUser = [Login curLoginUser]? [Login curLoginUser]: [User userWithGlobalKey:@""];
-        
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(settingBtnClicked:)] animated:NO];
-        [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addUserBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addUserBtnClicked:)] animated:NO];
-        
-    }else{
-        self.title = _curUser.name;
-    }
-    
+    self.title = _curUser.name;
     //    添加myTableView
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -66,15 +56,11 @@
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[UserInfoTextCell class] forCellReuseIdentifier:kCellIdentifier_UserInfoTextCell];
         [tableView registerClass:[UserInfoIconCell class] forCellReuseIdentifier:kCellIdentifier_UserInfoIconCell];
+        [tableView registerClass:[TitleDisclosureCell class] forCellReuseIdentifier:kCellIdentifier_TitleDisclosure];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
-        if (_isRoot) {
-            UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
-            tableView.contentInset = insets;
-            tableView.scrollIndicatorInsets = insets;
-        }
         tableView;
     });
     __weak typeof(self) weakSelf = self;
@@ -92,29 +78,16 @@
         [weakSelf followBtnClicked];
     };
     [_myTableView addParallaxWithView:_headerView andHeight:CGRectGetHeight(_headerView.frame)];
-    if (![self isMe]) {
-        _myTableView.tableFooterView = [self footerV];
-    }
+    _myTableView.tableFooterView = [self footerV];
     
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-}
-
-- (BOOL)isMe{
-    return (_isRoot || [_curUser.global_key isEqualToString:[Login curLoginUser].global_key]);
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self refresh];
 }
-
-- (void)dealloc
-{
-    _myTableView.delegate = nil;
-    _myTableView.dataSource = nil;
-}
-
 
 - (void)refresh{
     __weak typeof(self) weakSelf = self;
@@ -123,7 +96,7 @@
         if (data) {
             weakSelf.curUser = data;
             weakSelf.headerView.curUser = data;
-            weakSelf.title = _isRoot? @"我": weakSelf.curUser.name;
+            weakSelf.title = weakSelf.curUser.name;
             [weakSelf.myTableView reloadData];
         }
     }];
@@ -132,7 +105,6 @@
 #pragma mark footerV
 - (UIView *)footerV{
     UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 72)];
-    
     UIButton *footerBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:@"发消息" andFrame:CGRectMake(kPaddingLeftWidth, (CGRectGetHeight(footerV.frame)-44)/2 , kScreen_Width - 2*kPaddingLeftWidth, 44) target:self action:@selector(messageBtnClicked)];
     [footerV addSubview:footerBtn];
     return footerV;
@@ -140,58 +112,46 @@
 
 #pragma mark Table M
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return [self.curUser.global_key isEqualToString:[Login curLoginUser].global_key]? 4: 3;
+    return 2;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSInteger row = 0;
-    if (section == 0) {
-        row = [self isMe]? 0: 3;
-    }else if (section == 1){
-        row = 1;
-    }else if (section == 2){
-        row = [self isMe]? 4: 3;
-    }else if (section == 3){
-        row = 1;
-    }
-    return row;
+    return section == 0? 4: 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
-        UserInfoTextCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserInfoTextCell forIndexPath:indexPath];
-        switch (indexPath.row) {
-            case 0:
-                [cell setTitle:@"所在地" value:_curUser.location];
-                break;
-            case 1:
-                [cell setTitle:@"座右铭" value:_curUser.slogan];
-                break;
-            default:
-                [cell setTitle:@"个性标签" value:_curUser.tags_str];
-                break;
+        if (indexPath.row < 3) {
+            UserInfoTextCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserInfoTextCell forIndexPath:indexPath];
+            switch (indexPath.row) {
+                case 0:
+                    [cell setTitle:@"所在地" value:_curUser.location];
+                    break;
+                case 1:
+                    [cell setTitle:@"座右铭" value:_curUser.slogan];
+                    break;
+                default:
+                    [cell setTitle:@"个性标签" value:_curUser.tags_str];
+                    break;
+            }
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+            return cell;
+        }else{
+            TitleDisclosureCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleDisclosure forIndexPath:indexPath];
+            cell.titleLabel.font = [UIFont systemFontOfSize:15];
+            cell.backgroundColor = [UIColor whiteColor];
+            [cell setTitleStr:@"详细信息"];
+            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+            return cell;
         }
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-        return cell;
     }else{
         UserInfoIconCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserInfoIconCell forIndexPath:indexPath];
-        if (indexPath.section == 1) {
-            [cell setTitle:@"详细信息" icon:@"user_info_detail"];
-        }else if (indexPath.section == 2){
-            if (indexPath.row == 0) {
-                [cell setTitle:[self isMe]? @"我的项目": @"Ta的项目" icon:@"user_info_project"];
-            }else if(indexPath.row == 1){
-                [cell setTitle:[self isMe]? @"我的冒泡": @"Ta的冒泡" icon:@"user_info_tweet"];
-            }else if (indexPath.row == 2){
-                [cell setTitle:[self isMe]? @"我的话题": @"Ta的话题" icon:@"user_info_topic"];
-            }else{
-                [cell setTitle:@"本地文件" icon:@"user_info_file"];
-            }
-        }else{
-            [cell setTitle:@"我的码币" icon:@"user_info_point"];
-            if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Me_Points]) {
-                [cell addTipIcon];
-            }
+        if (indexPath.row == 0) {
+            [cell setTitle:@"Ta的项目" icon:@"user_info_project"];
+        }else if(indexPath.row == 1){
+            [cell setTitle:@"Ta的冒泡" icon:@"user_info_tweet"];
+        }else {
+            [cell setTitle:@"Ta的话题" icon:@"user_info_topic"];
         }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
@@ -199,20 +159,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat cellHeight = 0;
-    if (indexPath.section == 0) {
-        cellHeight = [UserInfoTextCell cellHeight];
-    }else{
-        cellHeight = [UserInfoIconCell cellHeight];
-    }
-    return cellHeight;
+    return 44.0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    if (![self isMe]
-        && section == [self numberOfSectionsInTableView:self.myTableView] -1) {
-        return 0.5;
-    }
     return 20.0;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -224,27 +174,19 @@
     footerView.backgroundColor = kColorTableSectionBg;
     return footerView;
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 1) {
+    if (indexPath.section == 0 && indexPath.row == 3) {
         [self goToDetailInfo];
-    }else if (indexPath.section == 2){
+    }else if (indexPath.section == 1){
         if (indexPath.row == 0) {
             [self goToProjects];
         }else if(indexPath.row == 1){
             [self goToTweets];
         }else if (indexPath.row == 2){
             [self goToTopic];
-        }else{
-            [self goToLocalFolders];
         }
-    }else if (indexPath.section == 3){
-        if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Me_Points]) {
-            [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_Me_Points];
-            UserInfoIconCell *cell = (UserInfoIconCell *)[tableView cellForRowAtIndexPath:indexPath];
-            [cell removeTip];
-        }
-        [self goToPoint];
     }
 }
 
@@ -337,14 +279,9 @@
 }
 
 - (void)goToDetailInfo{
-    if ([self isMe]) {
-        SettingMineInfoViewController *vc = [[SettingMineInfoViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
-    }else{
-        UserInfoDetailViewController *vc = [[UserInfoDetailViewController alloc] init];
-        vc.curUser = self.curUser;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+    UserInfoDetailViewController *vc = [[UserInfoDetailViewController alloc] init];
+    vc.curUser = self.curUser;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
