@@ -35,14 +35,14 @@
 
 @interface Project_RootViewController ()<UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
-@property (strong, nonatomic) UISearchDisplayController *mySearchDisplayController;
-@property (strong, nonatomic) NSMutableArray *searchResults;
-@property (strong, nonatomic) NSString *searchString;
+//@property (strong, nonatomic) UISearchDisplayController *mySearchDisplayController;
+//@property (strong, nonatomic) NSMutableArray *searchResults;
+//@property (strong, nonatomic) NSString *searchString;
 @property (nonatomic, strong) PopMenu *myPopMenu;
 @property (nonatomic, strong) PopFliterMenu *myFliterMenu;
 @property (nonatomic,assign) NSInteger selectNum;  //筛选状态
 @property (nonatomic,strong)FRDLivelyButton *rightNavBtn;
-@property (nonatomic,strong)UIView *searchView;
+//@property (nonatomic,strong)UIView *searchView;
 @end
 @implementation Project_RootViewController
 #pragma mark TabBar
@@ -53,27 +53,23 @@
         [listView tabBarItemClicked];
     }
 }
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+//{
+//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+//    if (self) {
+//        // Custom initialization
+//    }
+//    return self;
+//}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self configSegmentItems];
-    
-    _useNewStyle=TRUE;
-    
+    _useNewStyle = TRUE;
     _oldSelectedIndex = 0;
-    _selectNum=0;
-    //    self.title = @"项目";
+    _selectNum = 0;
     _myProjectsDict = [[NSMutableDictionary alloc] initWithCapacity:_segmentItems.count];
-    
     //添加myCarousel
     _myCarousel = ({
         iCarousel *icarousel = [[iCarousel alloc] init];
@@ -97,10 +93,10 @@
         [searchBar setContentMode:UIViewContentModeLeft];
         [searchBar setPlaceholder:@"搜索"];
         searchBar.delegate = self;
-        searchBar.layer.cornerRadius=15;
-        searchBar.layer.masksToBounds=TRUE;
-        [searchBar.layer setBorderWidth:8];
-        [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];//设置边框为白色
+//        searchBar.layer.cornerRadius=15;
+//        searchBar.layer.masksToBounds=TRUE;
+//        [searchBar.layer setBorderWidth:8];
+//        [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];//设置边框为白色
         [searchBar sizeToFit];
         [searchBar setTintColor:[UIColor whiteColor]];
         [searchBar insertBGColor:[UIColor colorWithHexString:@"0xffffff"]];
@@ -109,27 +105,22 @@
         searchBar;
     });
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
-    
     //初始化过滤目录
-    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height-64) items:nil];
+    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64) items:nil];
     __weak typeof(self) weakSelf = self;
     _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
         [weakSelf mobClickFliterMenuIndex:pageIndex];
-        
         if (pageIndex==1000) {
             [weakSelf goToProjectSquareVC];
-        }else
-        {
+        }else{
             [weakSelf fliterBtnClose:TRUE];
             [weakCarousel scrollToItemAtIndex:pageIndex animated:NO];
             weakSelf.selectNum=pageIndex;
         }
     };
-    
     _myFliterMenu.closeBlock=^(){
         [weakSelf closeFliter];
     };
-    
     //初始化弹出菜单
     NSArray *menuItems = @[
                            [MenuItem itemWithTitle:@"项目" iconName:@"pop_Project" index:0],
@@ -177,7 +168,6 @@
                 break;
         }
     };
-    
     [self setupNavBtn];
     self.icarouselScrollEnabled = NO;
     
@@ -208,8 +198,8 @@
     }
     [_myFliterMenu refreshMenuDate];
 }
--(void)viewWillDisappear:(BOOL)animated
-{
+
+-(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [_mySearchBar removeFromSuperview];
     
@@ -283,22 +273,22 @@
 -(void)fliterBtnClose:(BOOL)status{
     self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:status? @"filtertBtn_normal_Nav": @"filterBtn_selected_Nav"];
 }
-//弹出事件
--(void)rotateView:(UIView*)aView
-{
-    POPBasicAnimation* rotateAnimation = ({
-        POPBasicAnimation* basicAnimation=[POPBasicAnimation animationWithPropertyNamed:kPOPLayerRotation];
-        basicAnimation.toValue = @(22.5 * (M_PI / 180.0f));
-        basicAnimation.timingFunction =[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        basicAnimation.duration = 0.2f;
-        [basicAnimation setCompletionBlock:^(POPAnimation * ani, BOOL fin) {
-            if (fin) {
-            }
-        }];
-        basicAnimation;
-    });
-    [aView.layer pop_addAnimation:rotateAnimation forKey:@"rotateAnimation"];
-}
+////弹出事件
+//-(void)rotateView:(UIView*)aView
+//{
+//    POPBasicAnimation* rotateAnimation = ({
+//        POPBasicAnimation* basicAnimation=[POPBasicAnimation animationWithPropertyNamed:kPOPLayerRotation];
+//        basicAnimation.toValue = @(22.5 * (M_PI / 180.0f));
+//        basicAnimation.timingFunction =[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//        basicAnimation.duration = 0.2f;
+//        [basicAnimation setCompletionBlock:^(POPAnimation * ani, BOOL fin) {
+//            if (fin) {
+//            }
+//        }];
+//        basicAnimation;
+//    });
+//    [aView.layer pop_addAnimation:rotateAnimation forKey:@"rotateAnimation"];
+//}
 #pragma mark iCarousel M
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel{
     return _segmentItems.count;
@@ -340,9 +330,11 @@
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
 }
+
 - (Projects *)projectsWithIndex:(NSUInteger)index{
     return [Projects projectsWithType:index andUser:nil];
 }
+
 - (void)carouselDidScroll:(iCarousel *)carousel{
     [self.view endEditing:YES];
     if (_mySegmentControl) {
@@ -352,8 +344,8 @@
         }
     }
 }
-- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel
-{
+
+- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel{
     if (_mySegmentControl) {
         _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
@@ -429,41 +421,41 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark Search
-- (void)searchItemClicked:(id)sender{
-    [_mySearchBar setX:20];
-    if (!_mySearchDisplayController) {
-        _mySearchDisplayController = ({
-            UISearchDisplayController *searchVC = [[UISearchDisplayController alloc] initWithSearchBar:_mySearchBar contentsController:self];
-            searchVC.searchResultsTableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.mySearchBar.frame), 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
-            searchVC.searchResultsTableView.tableFooterView = [[UIView alloc] init];
-            [searchVC.searchResultsTableView registerClass:[ProjectListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectList];
-            searchVC.searchResultsDataSource = self;
-            searchVC.searchResultsDelegate = self;
-            if (kHigher_iOS_6_1) {
-                searchVC.displaysSearchBarInNavigationBar = NO;
-            }
-            searchVC;
-        });
-    }
-    
-    [_mySearchBar becomeFirstResponder];
-}
--(void)searchAction{
-    if (!_mySearchDisplayController) {
-        _mySearchDisplayController = ({
-            UISearchDisplayController *searchVC = [[UISearchDisplayController alloc] initWithSearchBar:_mySearchBar contentsController:self];
-            searchVC.searchResultsTableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.mySearchBar.frame), 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
-            searchVC.searchResultsTableView.tableFooterView = [[UIView alloc] init];
-            [searchVC.searchResultsTableView registerClass:[ProjectListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectList];
-            searchVC.searchResultsDataSource = self;
-            searchVC.searchResultsDelegate = self;
-            if (kHigher_iOS_6_1) {
-                searchVC.displaysSearchBarInNavigationBar = NO;
-            }
-            searchVC;
-        });
-    }
-}
+//- (void)searchItemClicked:(id)sender{
+//    [_mySearchBar setX:20];
+//    if (!_mySearchDisplayController) {
+//        _mySearchDisplayController = ({
+//            UISearchDisplayController *searchVC = [[UISearchDisplayController alloc] initWithSearchBar:_mySearchBar contentsController:self];
+//            searchVC.searchResultsTableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.mySearchBar.frame), 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
+//            searchVC.searchResultsTableView.tableFooterView = [[UIView alloc] init];
+//            [searchVC.searchResultsTableView registerClass:[ProjectListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectList];
+//            searchVC.searchResultsDataSource = self;
+//            searchVC.searchResultsDelegate = self;
+//            if (kHigher_iOS_6_1) {
+//                searchVC.displaysSearchBarInNavigationBar = NO;
+//            }
+//            searchVC;
+//        });
+//    }
+//    
+//    [_mySearchBar becomeFirstResponder];
+//}
+//-(void)searchAction{
+//    if (!_mySearchDisplayController) {
+//        _mySearchDisplayController = ({
+//            UISearchDisplayController *searchVC = [[UISearchDisplayController alloc] initWithSearchBar:_mySearchBar contentsController:self];
+//            searchVC.searchResultsTableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight(self.mySearchBar.frame), 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
+//            searchVC.searchResultsTableView.tableFooterView = [[UIView alloc] init];
+//            [searchVC.searchResultsTableView registerClass:[ProjectListCell class] forCellReuseIdentifier:kCellIdentifier_ProjectList];
+//            searchVC.searchResultsDataSource = self;
+//            searchVC.searchResultsDelegate = self;
+//            if (kHigher_iOS_6_1) {
+//                searchVC.displaysSearchBarInNavigationBar = NO;
+//            }
+//            searchVC;
+//        });
+//    }
+//}
 -(void)goToSearchVC{
     [self closeFliter];
     [self closeMenu];
@@ -471,106 +463,106 @@
     BaseNavigationController *searchNav=[[BaseNavigationController alloc]initWithRootViewController:vc];
     [self.navigationController presentViewController:searchNav animated:NO completion:nil];
 }
-#pragma mark Table
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-}
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.searchResults) {
-        return [self.searchResults count];
-    }else{
-        return 0;
-    }
-}
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectList forIndexPath:indexPath];
-    [cell setProject:[self.searchResults objectAtIndex:indexPath.row] hasSWButtons:NO hasBadgeTip:YES hasIndicator:YES];
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-    return cell;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [ProjectListCell cellHeight];
-}
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.mySearchBar resignFirstResponder];
-    [self goToProject:[self.searchResults objectAtIndex:indexPath.row]];
-}
+//#pragma mark Table
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+//    return 1;
+//}
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+//    if (self.searchResults) {
+//        return [self.searchResults count];
+//    }else{
+//        return 0;
+//    }
+//}
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    ProjectListCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ProjectList forIndexPath:indexPath];
+//    [cell setProject:[self.searchResults objectAtIndex:indexPath.row] hasSWButtons:NO hasBadgeTip:YES hasIndicator:YES];
+//    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+//    return cell;
+//}
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return [ProjectListCell cellHeight];
+//}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    [self.mySearchBar resignFirstResponder];
+//    [self goToProject:[self.searchResults objectAtIndex:indexPath.row]];
+//}
 #pragma mark UISearchBarDelegate
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
     [self goToSearchVC];
     return NO;
     
 }
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    [self searchProjectWithStr:searchText];
-}
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    [self searchProjectWithStr:searchBar.text];
-}
-- (void)searchProjectWithStr:(NSString *)string{
-    self.searchString = string;
-    [self updateFilteredContentForSearchString:string];
-    [self.mySearchDisplayController.searchResultsTableView reloadData];
-}
-- (void)updateFilteredContentForSearchString:(NSString *)searchString{
-    // start out with the entire list
-    Projects *curPros = [_myProjectsDict objectForKey:@0];
-    if (curPros) {
-        self.searchResults = [curPros.list mutableCopy];
-    }else{
-        self.searchResults = nil;
-    }
-    
-    // strip out all the leading and trailing spaces
-    NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    
-    // break up the search terms (separated by spaces)
-    NSArray *searchItems = nil;
-    if (strippedStr.length > 0)
-    {
-        searchItems = [strippedStr componentsSeparatedByString:@" "];
-    }
-    
-    // build all the "AND" expressions for each value in the searchString
-    NSMutableArray *andMatchPredicates = [NSMutableArray array];
-    
-    for (NSString *searchString in searchItems)
-    {
-        // each searchString creates an OR predicate for: name, global_key
-        NSMutableArray *searchItemsPredicate = [NSMutableArray array];
-        
-        // name field matching
-        NSExpression *lhs = [NSExpression expressionForKeyPath:@"name"];
-        NSExpression *rhs = [NSExpression expressionForConstantValue:searchString];
-        NSPredicate *finalPredicate = [NSComparisonPredicate
-                                       predicateWithLeftExpression:lhs
-                                       rightExpression:rhs
-                                       modifier:NSDirectPredicateModifier
-                                       type:NSContainsPredicateOperatorType
-                                       options:NSCaseInsensitivePredicateOption];
-        [searchItemsPredicate addObject:finalPredicate];
-        
-        //        owner_user_name field matching
-        lhs = [NSExpression expressionForKeyPath:@"owner_user_name"];
-        rhs = [NSExpression expressionForConstantValue:searchString];
-        finalPredicate = [NSComparisonPredicate
-                          predicateWithLeftExpression:lhs
-                          rightExpression:rhs
-                          modifier:NSDirectPredicateModifier
-                          type:NSContainsPredicateOperatorType
-                          options:NSCaseInsensitivePredicateOption];
-        [searchItemsPredicate addObject:finalPredicate];
-        
-        // at this OR predicate to ourr master AND predicate
-        NSCompoundPredicate *orMatchPredicates = (NSCompoundPredicate *)[NSCompoundPredicate orPredicateWithSubpredicates:searchItemsPredicate];
-        [andMatchPredicates addObject:orMatchPredicates];
-    }
-    
-    NSCompoundPredicate *finalCompoundPredicate = (NSCompoundPredicate *)[NSCompoundPredicate andPredicateWithSubpredicates:andMatchPredicates];
-    
-    self.searchResults = [[self.searchResults filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
-}
+//- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+//    [self searchProjectWithStr:searchText];
+//}
+//- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+//    [self searchProjectWithStr:searchBar.text];
+//}
+//- (void)searchProjectWithStr:(NSString *)string{
+//    self.searchString = string;
+//    [self updateFilteredContentForSearchString:string];
+//    [self.mySearchDisplayController.searchResultsTableView reloadData];
+//}
+//- (void)updateFilteredContentForSearchString:(NSString *)searchString{
+//    // start out with the entire list
+//    Projects *curPros = [_myProjectsDict objectForKey:@0];
+//    if (curPros) {
+//        self.searchResults = [curPros.list mutableCopy];
+//    }else{
+//        self.searchResults = nil;
+//    }
+//    
+//    // strip out all the leading and trailing spaces
+//    NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+//    
+//    // break up the search terms (separated by spaces)
+//    NSArray *searchItems = nil;
+//    if (strippedStr.length > 0)
+//    {
+//        searchItems = [strippedStr componentsSeparatedByString:@" "];
+//    }
+//    
+//    // build all the "AND" expressions for each value in the searchString
+//    NSMutableArray *andMatchPredicates = [NSMutableArray array];
+//    
+//    for (NSString *searchString in searchItems)
+//    {
+//        // each searchString creates an OR predicate for: name, global_key
+//        NSMutableArray *searchItemsPredicate = [NSMutableArray array];
+//        
+//        // name field matching
+//        NSExpression *lhs = [NSExpression expressionForKeyPath:@"name"];
+//        NSExpression *rhs = [NSExpression expressionForConstantValue:searchString];
+//        NSPredicate *finalPredicate = [NSComparisonPredicate
+//                                       predicateWithLeftExpression:lhs
+//                                       rightExpression:rhs
+//                                       modifier:NSDirectPredicateModifier
+//                                       type:NSContainsPredicateOperatorType
+//                                       options:NSCaseInsensitivePredicateOption];
+//        [searchItemsPredicate addObject:finalPredicate];
+//        
+//        //        owner_user_name field matching
+//        lhs = [NSExpression expressionForKeyPath:@"owner_user_name"];
+//        rhs = [NSExpression expressionForConstantValue:searchString];
+//        finalPredicate = [NSComparisonPredicate
+//                          predicateWithLeftExpression:lhs
+//                          rightExpression:rhs
+//                          modifier:NSDirectPredicateModifier
+//                          type:NSContainsPredicateOperatorType
+//                          options:NSCaseInsensitivePredicateOption];
+//        [searchItemsPredicate addObject:finalPredicate];
+//        
+//        // at this OR predicate to ourr master AND predicate
+//        NSCompoundPredicate *orMatchPredicates = (NSCompoundPredicate *)[NSCompoundPredicate orPredicateWithSubpredicates:searchItemsPredicate];
+//        [andMatchPredicates addObject:orMatchPredicates];
+//    }
+//    
+//    NSCompoundPredicate *finalCompoundPredicate = (NSCompoundPredicate *)[NSCompoundPredicate andPredicateWithSubpredicates:andMatchPredicates];
+//    
+//    self.searchResults = [[self.searchResults filteredArrayUsingPredicate:finalCompoundPredicate] mutableCopy];
+//}
 #pragma mark scan QR-Code
 - (void)scanBtnClicked{
     [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"首页_扫描二维码"];

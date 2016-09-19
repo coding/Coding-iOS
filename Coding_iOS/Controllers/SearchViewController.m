@@ -27,7 +27,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title=@"搜索";
     _selectIndex=0;
     _statusList = @[@"项目",
                     @"任务",
