@@ -18,6 +18,7 @@
 #import "UserServiceInfo.h"
 #import "Team.h"
 #import "TeamMember.h"
+#import "ProjectServiceInfo.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -596,6 +597,18 @@
             [NSObject showStatusBarSuccessStr:@"成员类型设置成功"];
         }else{
             [NSObject showStatusBarError:error];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)request_ProjectServiceInfo:(Project *)curPro andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/service_info", curPro.owner_user_name, curPro.name];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"项目_信息"];
+            
+            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"ProjectServiceInfo"];
         }
         block(data, error);
     }];
