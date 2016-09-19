@@ -132,10 +132,9 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     NSInteger leftNum = _curProject.max_member.integerValue - _addedArray.count;
-    UILabel *label = [UILabel labelWithSystemFontSize:13 textColorHexString:@"0x999999"];
+    UILabel *label = [UILabel labelWithSystemFontSize:13 textColorHexString:leftNum > 0? @"0x999999": @"0xF34A4A"];
     label.backgroundColor = self.view.backgroundColor;
     label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = leftNum > 0? kColor999: [UIColor colorWithHexString:@"0xAA0000" andAlpha:0.8];
     label.text = leftNum > 0? [NSString stringWithFormat:@"你还可以添加 %lu 个项目成员", leftNum]: @"已到达到成员最大数，不能再继续选择成员！";
     return label;
 }
