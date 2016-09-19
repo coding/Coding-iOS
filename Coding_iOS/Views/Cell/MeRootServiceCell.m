@@ -92,7 +92,7 @@
     return self;
 }
 
-- (void)setCurServiceInfo:(ServiceInfo *)curServiceInfo{
+- (void)setCurServiceInfo:(UserServiceInfo *)curServiceInfo{
     _curServiceInfo = curServiceInfo;
     _proL.text = _curServiceInfo? [NSString stringWithFormat:@"%ld", _curServiceInfo.private.integerValue + _curServiceInfo.public.integerValue]: @"--";
     _teamL.text = _curServiceInfo? _curServiceInfo.team.stringValue: @"--";

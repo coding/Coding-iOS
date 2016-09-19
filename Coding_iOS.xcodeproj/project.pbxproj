@@ -397,7 +397,7 @@
 		4E87656A1A22E5B40090CFB9 /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8765641A22E5B40090CFB9 /* SWUtilityButtonView.m */; };
 		4E87DDFD1D813B1E00D1B5B1 /* MeRootUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87DDFC1D813B1E00D1B5B1 /* MeRootUserCell.m */; };
 		4E87DE001D813B4500D1B5B1 /* MeRootServiceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87DDFF1D813B4500D1B5B1 /* MeRootServiceCell.m */; };
-		4E87DE031D813BBE00D1B5B1 /* ServiceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87DE021D813BBE00D1B5B1 /* ServiceInfo.m */; };
+		4E87DE031D813BBE00D1B5B1 /* UserServiceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87DE021D813BBE00D1B5B1 /* UserServiceInfo.m */; };
 		4E8AF7861A53D69F00CDC3AE /* StartImagesManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8AF7851A53D69F00CDC3AE /* StartImagesManager.m */; };
 		4E8C51B01AC1081500B4C51F /* icon_recommended@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E8C51AF1AC1081500B4C51F /* icon_recommended@2x.png */; };
 		4E8D5D5A1B45295D00B70936 /* HOTPGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E8D5D431B45295D00B70936 /* HOTPGenerator.m */; };
@@ -1750,8 +1750,8 @@
 		4E87DDFC1D813B1E00D1B5B1 /* MeRootUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeRootUserCell.m; sourceTree = "<group>"; };
 		4E87DDFE1D813B4500D1B5B1 /* MeRootServiceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeRootServiceCell.h; sourceTree = "<group>"; };
 		4E87DDFF1D813B4500D1B5B1 /* MeRootServiceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeRootServiceCell.m; sourceTree = "<group>"; };
-		4E87DE011D813BBE00D1B5B1 /* ServiceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceInfo.h; sourceTree = "<group>"; };
-		4E87DE021D813BBE00D1B5B1 /* ServiceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceInfo.m; sourceTree = "<group>"; };
+		4E87DE011D813BBE00D1B5B1 /* UserServiceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserServiceInfo.h; sourceTree = "<group>"; };
+		4E87DE021D813BBE00D1B5B1 /* UserServiceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserServiceInfo.m; sourceTree = "<group>"; };
 		4E8AF7841A53D69F00CDC3AE /* StartImagesManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartImagesManager.h; sourceTree = "<group>"; };
 		4E8AF7851A53D69F00CDC3AE /* StartImagesManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartImagesManager.m; sourceTree = "<group>"; };
 		4E8AF7871A54068700CDC3AE /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -5230,8 +5230,8 @@
 				D0A32BF51BF1CA8F00336C52 /* ProjectCount.m */,
 				D09AA5B81BFDBA4B008CA9EB /* PublicSearchModel.h */,
 				D09AA5B91BFDBA4B008CA9EB /* PublicSearchModel.m */,
-				4E87DE011D813BBE00D1B5B1 /* ServiceInfo.h */,
-				4E87DE021D813BBE00D1B5B1 /* ServiceInfo.m */,
+				4E87DE011D813BBE00D1B5B1 /* UserServiceInfo.h */,
+				4E87DE021D813BBE00D1B5B1 /* UserServiceInfo.m */,
 				4ED4B4951D82939700EED8C6 /* Team.h */,
 				4ED4B4961D82939700EED8C6 /* Team.m */,
 			);
@@ -6982,7 +6982,7 @@
 				B9A00D821ACA3A17008BA008 /* ProjectSettingViewController.m in Sources */,
 				8E1C3DED19E7D58A00EF3032 /* ActionSheetDistancePicker.m in Sources */,
 				8E59F0F41A00F3B9009A905F /* ProjectCodeListCell.m in Sources */,
-				4E87DE031D813BBE00D1B5B1 /* ServiceInfo.m in Sources */,
+				4E87DE031D813BBE00D1B5B1 /* UserServiceInfo.m in Sources */,
 				0A6E6BAA1AAF4B24004C0107 /* TweetSendLocationViewController.m in Sources */,
 				8E59F0F71A00F3E2009A905F /* ProjectFolderListCell.m in Sources */,
 				8EA6D1C319E240C40076D59C /* User.m in Sources */,

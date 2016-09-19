@@ -6,8 +6,8 @@
 //  Copyright © 2016年 Coding. All rights reserved.
 //
 
-#import "ServiceInfo.h"
+#import "UserServiceInfo.h"
 
-@implementation ServiceInfo
+@implementation UserServiceInfo
 
 @end

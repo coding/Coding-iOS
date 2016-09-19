@@ -8,10 +8,10 @@
 #define kCellIdentifier_MeRootServiceCell @"MeRootServiceCell"
 
 #import <UIKit/UIKit.h>
-#import "ServiceInfo.h"
+#import "UserServiceInfo.h"
 
 @interface MeRootServiceCell : UITableViewCell
-@property (strong, nonatomic) ServiceInfo *curServiceInfo;
+@property (strong, nonatomic) UserServiceInfo *curServiceInfo;
 @property (copy, nonatomic) void (^leftBlock)();
 @property (copy, nonatomic) void (^rightBlock)();
 + (CGFloat)cellHeight;

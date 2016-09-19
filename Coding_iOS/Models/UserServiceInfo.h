@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ServiceInfo : NSObject
+@interface UserServiceInfo : NSObject
 @property (strong, nonatomic) NSNumber *balance, *point_left, *private, *public, *team, *total_memory, *used_memory;
 @end

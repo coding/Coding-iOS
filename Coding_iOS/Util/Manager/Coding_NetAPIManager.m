@@ -15,7 +15,7 @@
 #import "Register.h"
 #import "ResourceReference.h"
 #import "MRPRPreInfo.h"
-#import "ServiceInfo.h"
+#import "UserServiceInfo.h"
 #import "Team.h"
 #import "TeamMember.h"
 
@@ -2156,7 +2156,7 @@
 - (void)request_ServiceInfoBlock:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/user/service_info" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
-            data = [NSObject objectOfClass:@"ServiceInfo" fromJSON:data[@"data"]];
+            data = [NSObject objectOfClass:@"UserServiceInfo" fromJSON:data[@"data"]];
             
             [MobClick event:kUmeng_Event_Request_Get label:@"我_查询项目和团队个数"];
         }

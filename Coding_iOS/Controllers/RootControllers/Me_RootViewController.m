@@ -27,7 +27,7 @@
 #import "MeRootUserCell.h"
 #import "MeRootServiceCell.h"
 
-#import "ServiceInfo.h"
+#import "UserServiceInfo.h"
 #import "TeamListViewController.h"
 #import "MeDisplayViewController.h"
 
@@ -36,7 +36,7 @@
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 
 @property (strong, nonatomic) User *curUser;
-@property (strong, nonatomic) ServiceInfo *curServiceInfo;
+@property (strong, nonatomic) UserServiceInfo *curServiceInfo;
 @end
 
 @implementation Me_RootViewController
