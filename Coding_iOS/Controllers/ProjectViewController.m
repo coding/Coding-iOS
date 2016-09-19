@@ -542,7 +542,7 @@
             __weak typeof(self) weakSelf = self;
             AddUserViewController *vc = [[AddUserViewController alloc] init];
             vc.curProject = self.myProject;
-            vc.type = AddUserTypeProject;
+            vc.type = AddUserTypeProjectRoot;
             if (_proMemberVC && _proMemberVC.myMemberArray) {
                 [vc configAddedArrayWithMembers:_proMemberVC.myMemberArray];
             }

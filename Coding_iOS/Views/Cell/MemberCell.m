@@ -117,7 +117,8 @@
         if (_curMember.user_id.intValue != [Login curLoginUser].id.integerValue) {//「私信」按钮
             //        别人
             [_leftBtn configPriMsgBtnWithUser:_curMember.user fromCell:YES];
-            _leftBtn.hidden = NO;
+//            _leftBtn.hidden = NO;
+            _leftBtn.hidden = YES;//说是不要私信按钮了
         }else{
             //        自己
             if (_curMember.type.intValue == 100) {//项目创建者不能「退出」

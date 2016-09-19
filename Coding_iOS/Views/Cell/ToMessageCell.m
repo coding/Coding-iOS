@@ -38,6 +38,14 @@
             imageName = @"messageSystem";
             titleStr = @"系统通知";
             break;
+            case ToMessageTypeProjectFollows:
+            imageName = @"messageProjectFollows";
+            titleStr = @"我的关注";
+            break;
+            case ToMessageTypeProjectFans:
+            imageName = @"messageProjectFans";
+            titleStr = @"我的粉丝";
+            break;
         default:
             break;
     }

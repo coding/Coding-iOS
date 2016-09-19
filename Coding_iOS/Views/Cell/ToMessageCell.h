@@ -12,7 +12,9 @@
 typedef NS_ENUM(NSInteger, ToMessageType) {
     ToMessageTypeAT = 0,
     ToMessageTypeComment,
-    ToMessageTypeSystemNotification
+    ToMessageTypeSystemNotification,
+    ToMessageTypeProjectFollows,
+    ToMessageTypeProjectFans,
 };
 
 @interface ToMessageCell : UITableViewCell

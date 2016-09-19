@@ -11,10 +11,15 @@
 #import "UserCell.h"
 #import "UserInfoViewController.h"
 #import "Coding_NetAPIManager.h"
+#import "ToMessageCell.h"
+#import "ODRefreshControl.h"
+
 
 @interface AddUserViewController ()
 @property (strong, nonatomic) UISearchBar *mySearchBar;
 @property (strong, nonatomic) UITableView *myTableView;
+@property (strong, nonatomic) ODRefreshControl *myRefreshControl;
+@property (strong, nonatomic) Users *curUsers;
 @end
 
 @implementation AddUserViewController
@@ -22,8 +27,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    if (self.type == AddUserTypeProject) {
-        self.title = @"添加成员";
+    if (self.type < AddUserTypeFollow) {
+        self.title = (self.type == AddUserTypeProjectRoot? @"添加成员":
+                      self.type == AddUserTypeProjectFollows? @"我的关注":
+                      @"我的粉丝");
         _queryingArray = [NSMutableArray array];
         _searchedArray = [NSMutableArray array];
     }else if (self.type == AddUserTypeFollow){
@@ -37,6 +44,7 @@
         tableView.dataSource = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [tableView registerClass:[UserCell class] forCellReuseIdentifier:kCellIdentifier_UserCell];
+        [tableView registerClass:[ToMessageCell class] forCellReuseIdentifier:kCellIdentifier_ToMessage];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -51,11 +59,31 @@
         searchBar;
     });
     _myTableView.tableHeaderView = _mySearchBar;
+    if (self.type == AddUserTypeProjectFollows || self.type == AddUserTypeProjectFans) {
+        _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
+        [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+        _curUsers = [Users usersWithOwner:[Login curLoginUser] Type:self.type == AddUserTypeProjectFollows? UsersTypeFriends_Attentive: UsersTypeFollowers];
+        [self refresh];
+    }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)refresh{
+    if (_curUsers.isLoading) {
+        return;
+    }
+    _curUsers.willLoadMore = NO;
+    if (_curUsers.list.count <= 0) {
+        [self.view beginLoading];
+    }
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_FollowersOrFriends_WithObj:self.curUsers andBlock:^(id data, NSError *error) {
+        [weakSelf.myRefreshControl endRefreshing];
+        [weakSelf.view endLoading];
+        if (data) {
+            [weakSelf.curUsers configWithObj:data];
+            [weakSelf searchUserWithStr:weakSelf.mySearchBar.text];
+        }
+    }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
@@ -74,7 +102,9 @@
 }
 
 - (void)configAddedArrayWithMembers:(NSArray *)memberArray{
-    _addedArray = [NSMutableArray array];
+    if (!_addedArray) {
+        _addedArray = [NSMutableArray array];
+    }
     for (ProjectMember *member in memberArray) {
         [_addedArray addObject:member.user];
     }
@@ -97,51 +127,72 @@
 }
 #pragma mark Table M
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _searchedArray.count;
+    if (self.type == AddUserTypeProjectRoot && _searchedArray.count == 0) {
+        return 2;
+    }else{
+        return _searchedArray.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    __weak typeof(self) weakSelf = self;
-
-    UserCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserCell forIndexPath:indexPath];
-    User *curUser = [_searchedArray objectAtIndex:indexPath.row];
-    cell.curUser = curUser;
-    if (self.type == AddUserTypeProject) {
-        cell.usersType = UsersTypeAddToProject;
-        cell.isInProject = [self userIsInProject:curUser];
-        cell.isQuerying = [self userIsQuering:curUser];
-        cell.leftBtnClickedBlock = ^(User *clickedUser){
-            NSLog(@"add %@ to pro:%@", clickedUser.name, weakSelf.curProject.name);
-            if (![weakSelf userIsQuering:clickedUser]) {
-                //            添加改用户到项目
-                [weakSelf.queryingArray addObject:clickedUser];
-                [weakSelf.myTableView reloadData];
-                
-                [[Coding_NetAPIManager sharedManager] request_AddUser:clickedUser ToProject:weakSelf.curProject andBlock:^(id data, NSError *error) {
-                    if (data) {
-                        [weakSelf.addedArray addObject:clickedUser];
-                    }
-                    [weakSelf.queryingArray removeObject:clickedUser];
-                    [weakSelf.myTableView reloadData];
-                }];
-            }
-        };
+    if (self.type == AddUserTypeProjectRoot && _searchedArray.count == 0) {
+        ToMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ToMessage forIndexPath:indexPath];
+        cell.type = ToMessageTypeProjectFollows + indexPath.row;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
     }else{
-        cell.usersType = UsersTypeAddFriend;
-        cell.leftBtnClickedBlock = nil;
+        __weak typeof(self) weakSelf = self;
+        UserCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserCell forIndexPath:indexPath];
+        User *curUser = [_searchedArray objectAtIndex:indexPath.row];
+        cell.curUser = curUser;
+        if (self.type < AddUserTypeFollow) {
+            cell.usersType = UsersTypeAddToProject;
+            cell.isInProject = [self userIsInProject:curUser];
+            cell.isQuerying = [self userIsQuering:curUser];
+            cell.leftBtnClickedBlock = ^(User *clickedUser){
+                NSLog(@"add %@ to pro:%@", clickedUser.name, weakSelf.curProject.name);
+                if (![weakSelf userIsQuering:clickedUser]) {
+                    //            添加改用户到项目
+                    [weakSelf.queryingArray addObject:clickedUser];
+                    [weakSelf.myTableView reloadData];
+                    
+                    [[Coding_NetAPIManager sharedManager] request_AddUser:clickedUser ToProject:weakSelf.curProject andBlock:^(id data, NSError *error) {
+                        if (data) {
+                            [weakSelf.addedArray addObject:clickedUser];
+                        }
+                        [weakSelf.queryingArray removeObject:clickedUser];
+                        [weakSelf.myTableView reloadData];
+                    }];
+                }
+            };
+        }else{
+            cell.usersType = UsersTypeAddFriend;
+            cell.leftBtnClickedBlock = nil;
+        }
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
+        return cell;
     }
-
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
-    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [UserCell cellHeight];
+    if (self.type == AddUserTypeProjectRoot && _searchedArray.count == 0) {
+        return [ToMessageCell cellHeight];
+    }else{
+        return [UserCell cellHeight];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self goToUserInfo:[_searchedArray objectAtIndex:indexPath.row]];
+    if (self.type == AddUserTypeProjectRoot && _searchedArray.count == 0) {
+        AddUserViewController *vc = [AddUserViewController new];
+        vc.curProject = _curProject;
+        vc.type = AddUserTypeProjectFollows + indexPath.row;
+        vc.addedArray = self.addedArray;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        [self goToUserInfo:[_searchedArray objectAtIndex:indexPath.row]];
+    }
 }
 
 - (void)goToUserInfo:(User *)user{
@@ -172,28 +223,91 @@
 }
 
 - (void)searchUserWithStr:(NSString *)string{
-     NSString *strippedStr = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    if (strippedStr.length > 0) {
-        __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_Users_WithSearchString:string andBlock:^(id data, NSError *error) {
-            if (data) {
-                weakSelf.searchedArray = data;
-                [weakSelf.myTableView reloadData];
-            }
-        }];
+    NSString *strippedStr = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    if (self.type == AddUserTypeProjectRoot || self.type == AddUserTypeFollow) {
+        if (strippedStr.length > 0) {
+            __weak typeof(self) weakSelf = self;
+            [[Coding_NetAPIManager sharedManager] request_Users_WithSearchString:string andBlock:^(id data, NSError *error) {
+                if (data) {
+                    weakSelf.searchedArray = data;
+                    [weakSelf.myTableView reloadData];
+                }
+            }];
+        }else{
+            _searchedArray = nil;
+            [_myTableView reloadData];
+        }
     }else{
-        [_searchedArray removeAllObjects];
-        [_myTableView reloadData];
+        if (strippedStr.length > 0) {
+            [self updateFilteredContentForSearchString:strippedStr];
+        }else{
+            _searchedArray = _curUsers.list.copy;
+            [_myTableView reloadData];
+        }
     }
-
 }
 
-
-- (void)dealloc
-{
-    _myTableView.delegate = nil;
-    _myTableView.dataSource = nil;
+- (void)updateFilteredContentForSearchString:(NSString *)searchString{
+    // start out with the entire list
+    NSMutableArray *searchResults = [self.curUsers.list mutableCopy];
+    
+    // strip out all the leading and trailing spaces
+    NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    // break up the search terms (separated by spaces)
+    NSArray *searchItems = nil;
+    if (strippedStr.length > 0)
+    {
+        searchItems = [strippedStr componentsSeparatedByString:@" "];
+    }
+    
+    // build all the "AND" expressions for each value in the searchString
+    NSMutableArray *andMatchPredicates = [NSMutableArray array];
+    
+    for (NSString *searchString in searchItems)
+    {
+        // each searchString creates an OR predicate for: name, global_key
+        NSMutableArray *searchItemsPredicate = [NSMutableArray array];
+        
+        // name field matching
+        NSExpression *lhs = [NSExpression expressionForKeyPath:@"name"];
+        NSExpression *rhs = [NSExpression expressionForConstantValue:searchString];
+        NSPredicate *finalPredicate = [NSComparisonPredicate
+                                       predicateWithLeftExpression:lhs
+                                       rightExpression:rhs
+                                       modifier:NSDirectPredicateModifier
+                                       type:NSContainsPredicateOperatorType
+                                       options:NSCaseInsensitivePredicateOption];
+        [searchItemsPredicate addObject:finalPredicate];
+        //        pinyinName field matching
+        lhs = [NSExpression expressionForKeyPath:@"pinyinName"];
+        rhs = [NSExpression expressionForConstantValue:searchString];
+        finalPredicate = [NSComparisonPredicate
+                          predicateWithLeftExpression:lhs
+                          rightExpression:rhs
+                          modifier:NSDirectPredicateModifier
+                          type:NSContainsPredicateOperatorType
+                          options:NSCaseInsensitivePredicateOption];
+        [searchItemsPredicate addObject:finalPredicate];
+        //        global_key field matching
+        lhs = [NSExpression expressionForKeyPath:@"global_key"];
+        rhs = [NSExpression expressionForConstantValue:searchString];
+        finalPredicate = [NSComparisonPredicate
+                          predicateWithLeftExpression:lhs
+                          rightExpression:rhs
+                          modifier:NSDirectPredicateModifier
+                          type:NSContainsPredicateOperatorType
+                          options:NSCaseInsensitivePredicateOption];
+        [searchItemsPredicate addObject:finalPredicate];
+        // at this OR predicate to ourr master AND predicate
+        NSCompoundPredicate *orMatchPredicates = (NSCompoundPredicate *)[NSCompoundPredicate orPredicateWithSubpredicates:searchItemsPredicate];
+        [andMatchPredicates addObject:orMatchPredicates];
+    }
+    
+    NSCompoundPredicate *finalCompoundPredicate = (NSCompoundPredicate *)[NSCompoundPredicate andPredicateWithSubpredicates:andMatchPredicates];
+    
+    self.searchedArray = [searchResults filteredArrayUsingPredicate:finalCompoundPredicate].copy;
+    [self.myTableView reloadData];
 }
-
 
 @end
