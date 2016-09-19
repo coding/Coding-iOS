@@ -161,7 +161,7 @@
 
 - (NSString *)toDoCommentPath
 {
-    return [NSString stringWithFormat:@"api/project/%d/topic?parent=%d", _project_id.intValue, _id.intValue];
+    return [NSString stringWithFormat:@"api/project/%@/topic/%@/comment", _project_id, _id];
 }
 
 - (void)configWithComment:(ProjectTopic *)comment andAnswer:(ProjectTopic *)answer

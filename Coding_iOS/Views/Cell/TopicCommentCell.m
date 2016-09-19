@@ -53,7 +53,7 @@
             }];
             [self.contentView addSubview:_bestAnswerV];
         }
-        CGFloat curBottomY = 10;
+        CGFloat curBottomY = 15;
         if (!_ownerIconView) {
             _ownerIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, curBottomY, 33, 33)];
             [_ownerIconView doCircleFrame];
@@ -121,7 +121,7 @@
     if (!_toComment) {
         return;
     }
-    CGFloat curBottomY = 10;
+    CGFloat curBottomY = 15;
     CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
     
     _bestAnswerV.hidden = !_toComment.is_recommended.boolValue;
@@ -130,7 +130,7 @@
     }
     
     _ownerIconView.y = _contentLabel.y = curBottomY;
-    _voteBtn.y = _ownerIconView.bottom + 2;
+    _voteBtn.y = _ownerIconView.bottom + 5;
     [self setVoteCount:_toComment.up_vote_counts isVoted:_toComment.is_up_voted.boolValue];
     [_ownerIconView sd_setImageWithURL:[_toComment.owner.avatar urlImageWithCodePathResizeToView:_ownerIconView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerIconView)];
     [_contentLabel setLongString:_toComment.content withFitWidth:curWidth];
@@ -140,7 +140,7 @@
         }
     }
     
-    curBottomY += [_toComment.content getHeightWithFont:kTopicCommentCell_FontContent constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 5;
+    curBottomY += [_toComment.content getHeightWithFont:kTopicCommentCell_FontContent constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 10;
     
     NSInteger imagesCount = _toComment.htmlMedia.imageItems.count;
     if (imagesCount > 0) {
@@ -168,9 +168,9 @@
     if ([obj isKindOfClass:[ProjectTopic class]]) {
         ProjectTopic *toComment = (ProjectTopic *)obj;
         CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
-        cellHeight += 10 +[toComment.content getHeightWithFont:kTopicCommentCell_FontContent constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 5 +20 +10;
+        cellHeight += 15 +[toComment.content getHeightWithFont:kTopicCommentCell_FontContent constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 10 +20 +15;
         cellHeight += [self imageCollectionViewHeightWithCount:toComment.htmlMedia.imageItems.count];
-        cellHeight += toComment.is_recommended.boolValue? 25: 0;
+        cellHeight += toComment.is_recommended.boolValue? 20: 0;
     }
     return cellHeight;
 }

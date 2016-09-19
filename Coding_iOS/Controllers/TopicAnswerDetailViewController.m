@@ -171,7 +171,7 @@
     cell.isAnswer = indexPath.row == 0;
     cell.projectId = _curTopic.project.id;
     cell.contentLabel.delegate = self;
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth + (indexPath.row == 0? 0: 40) hasSectionLine:YES];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth + (indexPath.row == 0? 40: 40) hasSectionLine:YES];
     return cell;
 }
 

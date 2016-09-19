@@ -84,7 +84,7 @@
         CGFloat leftSpace;
         if (indexPath.row == 0) {
             toComment = _curAnswer;
-            leftSpace = [_curAnswer commentsDisplayNum] > 0? kPaddingLeftWidth: kScreen_Width;
+            leftSpace = [_curAnswer commentsDisplayNum] > 0? kPaddingLeftWidth + 40: kScreen_Width;
         }else{
             toComment = _curAnswer.child_comments[indexPath.row - 1];
             leftSpace = (indexPath.row - 1 == [_curAnswer commentsDisplayNum] - 1)? kScreen_Width: kPaddingLeftWidth + 40;
