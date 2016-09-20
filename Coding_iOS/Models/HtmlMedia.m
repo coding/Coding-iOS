@@ -62,6 +62,9 @@
         if (![_contentDisplay hasSuffix:@"\n"] && _contentDisplay.length > 0) {
             [_contentDisplay appendString:@"\n"];
         }
+    }else if ([element.attributes[@"class"] isEqualToString:@"kdmath"]) {
+        item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_Math];
+        item.code = [element.text trimWhitespace];
     }else if ([element.tagName isEqualToString:@"code"]) {
         item = [HtmlMediaItem htmlMediaItemWithType:HtmlMediaItemType_Code];
         item.code = [element.text trimWhitespace];
@@ -248,6 +251,9 @@
         case HtmlMediaItemType_AutoLink:
         case HtmlMediaItemType_CustomLink:
             displayStr = [_linkStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            break;
+        case HtmlMediaItemType_Math:
+            displayStr = @"[math]";
             break;
         default:
             displayStr = @"";

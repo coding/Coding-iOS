@@ -132,7 +132,7 @@ static CGFloat target_height = 45.0;
     //content
     [_contentLabel setLongString:_curTip.content withFitWidth:kCodingTipCell_WidthContent];
     for (HtmlMediaItem *item in _curTip.htmlMedia.mediaItems) {
-        if (item.displayStr.length > 0) {
+        if (item.displayStr.length > 0 && item.href.length > 0) {
             [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }

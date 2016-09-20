@@ -158,7 +158,7 @@
     [_contentLabel sizeToFit];
     
     for (HtmlMediaItem *item in _curPriMsg.htmlMedia.mediaItems) {
-        if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
+        if (item.displayStr.length > 0 && item.href.length > 0) {
             [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }

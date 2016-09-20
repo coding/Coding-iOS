@@ -142,7 +142,7 @@
 //    [self.contentLabel setLongString:contentStr withFitWidth:kTweetCell_ContentWidth maxHeight:kTweet_ContentMaxHeight];
 //    
     for (HtmlMediaItem *item in _tweet.htmlMedia.mediaItems) {
-        if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
+        if (item.displayStr.length > 0 && item.href.length > 0) {
             [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }

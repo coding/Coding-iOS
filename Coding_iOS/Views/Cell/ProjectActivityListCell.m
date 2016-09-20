@@ -135,7 +135,7 @@
 
     [_actionLabel setLongString:_proAct.actionStr withFitWidth:kProjectActivityListCell_ContentWidth maxHeight:kProjectActivityListCell_MaxActionHeight];
     for (HtmlMediaItem *item in _proAct.actionMediaItems) {
-        if (item.displayStr.length > 0) {
+        if (item.displayStr.length > 0 && item.href.length > 0) {
             [self.actionLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }

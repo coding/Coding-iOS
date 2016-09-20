@@ -96,6 +96,7 @@
                        @"TweetLike" : @"0xFF5847",
                        @"User" : @"0x496AB3",
                        @"UserFollow" : @"0x3BBD79",
+                       @"ProjectTopicCommentVote": @"",
                        };
     });
     return color_dict;

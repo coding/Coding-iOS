@@ -17,7 +17,8 @@ typedef NS_ENUM(NSInteger, HtmlMediaItemType) {
     HtmlMediaItemType_EmotionMonkey,
     HtmlMediaItemType_ATUser,
     HtmlMediaItemType_AutoLink,
-    HtmlMediaItemType_CustomLink
+    HtmlMediaItemType_CustomLink,
+    HtmlMediaItemType_Math
 };
 
 typedef NS_ENUM(NSInteger, MediaShowType) {

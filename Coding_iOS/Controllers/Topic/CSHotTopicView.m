@@ -285,7 +285,7 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
     [self.contentLabel setLongString:contentStr withFitWidth:self.contentLabel.width maxHeight:34];
     self.contentLabel.centerY = self.height / 2;
     for (HtmlMediaItem *item in tweet.htmlMedia.mediaItems) {
-        if (item.displayStr.length > 0 && !(item.type == HtmlMediaItemType_Code ||item.type == HtmlMediaItemType_EmotionEmoji)) {
+        if (item.displayStr.length > 0 && item.href.length > 0) {
             [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }
