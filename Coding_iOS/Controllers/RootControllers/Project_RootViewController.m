@@ -26,7 +26,6 @@
 #import "ProjectSquareViewController.h"
 #import "SearchViewController.h"
 #import "pop.h"
-#import "FRDLivelyButton.h"
 #import "StartImagesManager.h"
 #import "ZXScanCodeViewController.h"
 #import "OTPListViewController.h"
@@ -41,7 +40,6 @@
 @property (nonatomic, strong) PopMenu *myPopMenu;
 @property (nonatomic, strong) PopFliterMenu *myFliterMenu;
 @property (nonatomic,assign) NSInteger selectNum;  //筛选状态
-@property (nonatomic,strong)FRDLivelyButton *rightNavBtn;
 //@property (nonatomic,strong)UIView *searchView;
 @end
 @implementation Project_RootViewController
@@ -138,10 +136,6 @@
     @weakify(self);
     _myPopMenu.didSelectedItemCompletion = ^(MenuItem *selectedItem){
         @strongify(self);
-        //改下显示style
-        if (self.rightNavBtn.buttonStyle != kFRDLivelyButtonStylePlus) {
-            [self.rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
-        }
         if (!selectedItem) return;
         [MobClick event:kUmeng_Event_Request_ActionOfLocal label:[NSString stringWithFormat:@"首页_添加_%@", selectedItem.title]];
         switch (selectedItem.index) {
@@ -222,24 +216,15 @@
 }
 #pragma mark - nav item
 - (void)setupNavBtn{
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filtertBtn_normal_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(fliterClicked:)] animated:NO];
-    //变化按钮
-    _rightNavBtn = [[FRDLivelyButton alloc] initWithFrame:CGRectMake(0,0,18.5,18.5)];
-    [_rightNavBtn setOptions:@{kFRDLivelyButtonLineWidth: @(1.0f),
-                               kFRDLivelyButtonColor: kColorBrandGreen
-                               }];
-    [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:NO];
-    [_rightNavBtn addTarget:self action:@selector(addItemClicked:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn];
-    self.navigationItem.rightBarButtonItem = buttonItem;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"filtertBtn_normal_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(fliterClicked:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)];
 }
 -(void)addItemClicked:(id)sender{
-    if (_rightNavBtn.buttonStyle == kFRDLivelyButtonStylePlus) {
+    if (!_myPopMenu.isShowed) {
         if (_myFliterMenu.showStatus) {
-            [self fliterBtnClose:TRUE];
+            [self fliterBtnClose:YES];
             [_myFliterMenu dismissMenu];
         }
-        [_rightNavBtn setStyle:kFRDLivelyButtonStyleClose animated:YES];
         [_myPopMenu showMenuAtView:kKeyWindow startPoint:CGPointMake(0, -100) endPoint:CGPointMake(0, -100)];
     } else{
         [self closeMenu];
@@ -265,7 +250,6 @@
     }
 }
 -(void)closeMenu{
-    [_rightNavBtn setStyle:kFRDLivelyButtonStylePlus animated:YES];
     if ([_myPopMenu isShowed]) {
         [_myPopMenu dismissMenu];
     }
