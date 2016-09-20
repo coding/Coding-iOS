@@ -10,5 +10,5 @@
 
 @interface UISearchBar (Common)
 - (void)insertBGColor:(UIColor *)backgroundColor;
-
+- (UITextField *)eaTextField;
 @end

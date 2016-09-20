@@ -24,4 +24,12 @@
         [[[self subviews] firstObject] insertSubview:customBg atIndex:1];
     }
 }
+
+- (UITextField *)eaTextField{
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(UIView *candidateView, NSDictionary *bindings) {
+        return [candidateView isMemberOfClass:NSClassFromString(@"UISearchBarTextField")];
+    }];
+    return [self.subviews.firstObject.subviews filteredArrayUsingPredicate:predicate].lastObject;
+}
+
 @end

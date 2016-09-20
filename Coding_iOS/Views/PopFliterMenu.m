@@ -56,6 +56,7 @@
     self.backgroundColor = [UIColor clearColor];
     
     _realTimeBlur = [[XHRealTimeBlur alloc] initWithFrame:self.bounds];
+    _realTimeBlur.clipsToBounds = YES;
     _realTimeBlur.blurStyle = XHBlurStyleTranslucentWhite;
     _realTimeBlur.showDuration = 0.1;
     _realTimeBlur.disMissDuration = 0.2;
@@ -124,7 +125,6 @@
     }
     _showStatus=FALSE;
     [_realTimeBlur disMiss];
-//    [self removeFromSuperview];
 }
 
 //组装cell标题

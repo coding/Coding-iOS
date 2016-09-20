@@ -12,7 +12,7 @@
 #import "AllSearchDisplayVC.h"
 #import "FileViewController.h"
 
-@interface SearchViewController ()<UISearchDisplayDelegate>//UITableViewDataSource,UITableViewDelegate, 
+@interface SearchViewController ()<UISearchDisplayDelegate>
 @property (nonatomic,strong)UIView *searchView;
 @property (strong, nonatomic) NSMutableArray *statusList;
 @property (strong, nonatomic) CategorySearchBar *mySearchBar;
@@ -27,6 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // Do any additional setup after loading the view.
     _selectIndex=0;
     _statusList = @[@"项目",
                     @"任务",
@@ -38,13 +39,6 @@
                     @"pull 请求"].mutableCopy;
     _firstLoad = TRUE;
     [self buildUI];
-    
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -70,15 +64,13 @@
     
     //添加搜索框
     _mySearchBar = ({
-        CategorySearchBar *searchBar = [[CategorySearchBar alloc] initWithFrame:CGRectMake(20,7, kScreen_Width-75, 31)];
-        searchBar.layer.cornerRadius=15;
-        searchBar.layer.masksToBounds=TRUE;
-        [searchBar.layer setBorderWidth:8];
-        [searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];//设置边框为白色
-        [searchBar sizeToFit];
-        [searchBar setTintColor:[UIColor whiteColor]];
-        [searchBar insertBGColor:[UIColor colorWithHexString:@"0xffffff"]];
+        CategorySearchBar *searchBar = [[CategorySearchBar alloc] initWithFrame:CGRectMake(20, 7, kScreen_Width-75, 31)];
+        searchBar.layer.cornerRadius = 2;
+        searchBar.layer.masksToBounds = TRUE;
+        [searchBar insertBGColor:kColorTableSectionBg];
+        [searchBar setSearchFieldBackgroundImage:[UIImage imageWithColor:kColorTableSectionBg] forState:UIControlStateNormal];
         [searchBar setHeight:30];
+        [searchBar setPlaceholder:@"项目、任务、冒泡等"];
         searchBar;
     });
     
@@ -115,18 +107,10 @@
             AllSearchDisplayVC *searchVC = [[AllSearchDisplayVC alloc] initWithSearchBar:_mySearchBar contentsController:self];
             //自定义uisearchbar 要在这里重新申明
             //需要重新调整下大小
-            searchVC.searchBar.frame=CGRectMake(20,7, kScreen_Width-75, 31);
-            searchVC.searchBar.layer.cornerRadius=15;
-            searchVC.searchBar.layer.masksToBounds=TRUE;
-            [searchVC.searchBar.layer setBorderWidth:8];
-            [searchVC.searchBar.layer setBorderColor:[UIColor whiteColor].CGColor];//设置边框为白色
-
-            //placeholder 要在此处设置，不然报错
-            [searchVC.searchBar setPlaceholder:@"项目/任务/讨论/冒泡等"];
-
-            searchVC.displaysSearchBarInNavigationBar=NO;
+            searchVC.searchBar.frame = CGRectMake(20, 7, kScreen_Width-75, 31);
+            searchVC.displaysSearchBarInNavigationBar = NO;
             searchVC.parentVC = self;
-            searchVC.delegate=self;
+            searchVC.delegate = self;
             searchVC;
         });
     }

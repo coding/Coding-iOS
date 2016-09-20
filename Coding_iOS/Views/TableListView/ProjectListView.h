@@ -16,6 +16,7 @@ typedef void(^ProjectListViewBlock)(Project *project);
 @property(copy, nonatomic) void(^clickButtonBlock)(EaseBlankPageType curType);
 
 - (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(ProjectListViewBlock)block tabBarHeight:(CGFloat)tabBarHeight;
+- (void)setSearchBlock:(void(^)())searchBlock andScanBlock:(void(^)())scanBlock;
 - (void)setProjects:(Projects *)projects;
 - (void)refreshUI;
 - (void)refreshToQueryData;

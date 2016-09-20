@@ -10,7 +10,6 @@
 #import "Projects.h"
 #import "XTSegmentControl.h"
 #import "iCarousel.h"
-#import "CategorySearchBar.h"
 
 @interface Project_RootViewController : BaseViewController<iCarouselDataSource, iCarouselDelegate>
 @property (strong, nonatomic) NSArray *segmentItems;
@@ -19,5 +18,4 @@
 @property (assign, nonatomic) NSInteger oldSelectedIndex;
 @property (strong, nonatomic) iCarousel *myCarousel;
 @property (assign, nonatomic) BOOL useNewStyle;
-@property (strong, nonatomic) MainSearchBar *mySearchBar;
 @end

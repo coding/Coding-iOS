@@ -18,6 +18,8 @@
 #import "ProjectAboutOthersListCell.h"
 #import "ProjectPublicListCell.h"
 #import "SVPullToRefresh.h"
+#import "CategorySearchBar.h"
+
 @interface ProjectListView ()<UISearchBarDelegate, SWTableViewCellDelegate>
 @property (nonatomic, strong) Projects *myProjects;
 @property (nonatomic , copy) ProjectListViewBlock block;
@@ -25,8 +27,8 @@
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 @property (strong, nonatomic) NSMutableArray *dataList;
 @property (strong, nonatomic) UISearchBar *mySearchBar;
-@property (nonatomic, strong) UIView *statusView;
-@property (nonatomic,strong) UILabel *noticeLab;
+@property (copy, nonatomic) void(^searchBlock)();
+@property (copy, nonatomic) void(^scanBlock)();
 @end
 @implementation ProjectListView
 static NSString *const kTitleKey = @"kTitleKey";
@@ -41,8 +43,8 @@ static NSString *const kValueKey = @"kValueKey";
         [self refresh];
     }
 }
-- (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(ProjectListViewBlock)block  tabBarHeight:(CGFloat)tabBarHeight
-{
+
+- (id)initWithFrame:(CGRect)frame projects:(Projects *)projects block:(ProjectListViewBlock)block  tabBarHeight:(CGFloat)tabBarHeight{
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
@@ -71,7 +73,7 @@ static NSString *const kValueKey = @"kValueKey";
             }
             tableView;
         });
-        if (projects.type < ProjectsTypeToChoose||projects.type==ProjectsTypeAllPublic) {
+        if (projects.type < ProjectsTypeToChoose || projects.type == ProjectsTypeAllPublic) {
             _mySearchBar = nil;
             _myTableView.tableHeaderView = nil;
         }else{
@@ -96,28 +98,51 @@ static NSString *const kValueKey = @"kValueKey";
         }else{
             [self sendRequest];
         }
-        _statusView = [self getHeaderViewWithStr:[self getSectionHeaderName] color:kColorTableBG leftNoticeColor:[UIColor colorWithHexString:@"3BBD79"]];
-        _statusView.hidden = !_useNewStyle;
-        [self addSubview:self.statusView];
     }
     return self;
 }
+
 - (void)setProjects:(Projects *)projects{
     self.myProjects = projects;
     [self setupDataList];
     [self refreshUI];
 }
+
 -(void)setUseNewStyle:(BOOL)useNewStyle{
     _useNewStyle = useNewStyle;
-    
-    _statusView.hidden = !_useNewStyle;
-    if (_useNewStyle) {
+    if (_useNewStyle && _myProjects.type == ProjectsTypeAllPublic) {
         [_myTableView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.left.bottom.right.equalTo(self);
             make.top.equalTo(@(44));
         }];
     }
+    [_myTableView reloadData];
 }
+
+- (void)setSearchBlock:(void(^)())searchBlock andScanBlock:(void(^)())scanBlock{
+    _searchBlock = searchBlock;
+    _scanBlock = scanBlock;
+    if (_searchBlock || _scanBlock) {
+        _mySearchBar = ({
+            MainSearchBar *searchBar = [MainSearchBar new];
+            [searchBar setPlaceholder:@"搜索"];
+            searchBar.delegate = self;
+            [searchBar sizeToFit];
+            [searchBar.scanBtn addTarget:self action:@selector(scanBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+            searchBar;
+        });
+        _myTableView.tableHeaderView = _mySearchBar;
+    }else{
+        _myTableView.tableHeaderView = nil;
+    }
+}
+
+- (void)scanBtnClicked{
+    if (_scanBlock) {
+        _scanBlock();
+    }
+}
+
 - (void)setupDataList{
     if (!_dataList) {
         _dataList = [[NSMutableArray alloc] initWithCapacity:2];
@@ -164,7 +189,6 @@ static NSString *const kValueKey = @"kValueKey";
     [self refresh];
 }
 - (void)refresh{
-    self.noticeLab.text = [self getSectionHeaderName];
     if (!_myProjects.isLoading) {
         [self sendRequest];
     }
@@ -239,28 +263,7 @@ static NSString *const kValueKey = @"kValueKey";
         weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myProjects.canLoadMore;
     }];
 }
--(NSString*)getSectionHeaderName{
-    switch (self.myProjects.type) {
-        case ProjectsTypeAll:
-            return @"全部项目";
-            break;
-        case ProjectsTypeJoined:
-            return @"我参与的";
-            break;
-        case ProjectsTypeCreated:
-            return @"我创建的";
-            break;
-        case ProjectsTypeWatched:
-            return @"我关注的";
-            break;
-        case ProjectsTypeStared:
-            return @"我收藏的";
-            break;
-        default:
-            return @"项目列表";
-            break;
-    }
-}
+
 #pragma mark Table M
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [_dataList count];
@@ -325,8 +328,7 @@ static NSString *const kValueKey = @"kValueKey";
         }else{
             return [ProjectListTaCell cellHeight];
         }
-    }else
-    {
+    }else{
         return (_myProjects.type < ProjectsTypeTaProject)?[ProjectListCell cellHeight]:[ProjectListTaCell cellHeight];
     }
 }
@@ -362,6 +364,12 @@ static NSString *const kValueKey = @"kValueKey";
     }
 }
 #pragma mark UISearchBarDelegate
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
+    if (_searchBlock) {
+        _searchBlock();
+    }
+    return _searchBlock == nil;
+}
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     [self searchProjectWithStr:searchText];
 }
@@ -425,33 +433,6 @@ static NSString *const kValueKey = @"kValueKey";
     
     [searchResults filterUsingPredicate:finalCompoundPredicate];
     return searchResults;
-}
-- (UIView *)getHeaderViewWithStr:(NSString *)headerStr color:(UIColor *)color leftNoticeColor:(UIColor*)noticeColor {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width,44)];
-    headerView.backgroundColor=color;
-    
-    UIView* noticeView=[[UIView alloc] initWithFrame:CGRectMake(12, 14, 3, 16)];
-    noticeView.backgroundColor=noticeColor;
-    [headerView addSubview:noticeView];
-    
-    
-    _noticeLab = [[UILabel alloc] initWithFrame:CGRectMake(12+3+10, 7, kScreen_Width-20, 30)];
-    _noticeLab.backgroundColor = [UIColor clearColor];
-    _noticeLab.textColor = [UIColor colorWithHexString:@"0x999999"];
-    if (kDevice_Is_iPhone6Plus) {
-        _noticeLab.font = [UIFont systemFontOfSize:14];
-    }else{
-        _noticeLab.font = [UIFont systemFontOfSize:kScaleFrom_iPhone5_Desgin(12)];
-    }
-    
-    CGFloat lineHeight = (1.0f / [UIScreen mainScreen].scale);
-    UIView *seperatorline=[[UIView alloc] initWithFrame:CGRectMake(0, 44-lineHeight,kScreen_Width , lineHeight)];
-    seperatorline.backgroundColor=[UIColor colorWithHexString:@"0xdddddd"];
-    [headerView addSubview:seperatorline];
-    
-    _noticeLab.text = headerStr;
-    [headerView addSubview:_noticeLab];
-    return headerView;
 }
 @end
 
