@@ -180,13 +180,13 @@
                 cell.unreadCount = [_notificationDict objectForKey:kUnReadKey_notification_System];
                 break;
         }
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:75];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:75 hasSectionLine:NO];
         return cell;
     }else{
         ConversationCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Conversation forIndexPath:indexPath];
         PrivateMessage *msg = [_myPriMsgs.list objectAtIndex:indexPath.row-3];
         cell.curPriMsg = msg;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:75];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:75 hasSectionLine:NO];
         return cell;
     }
 }
