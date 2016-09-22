@@ -240,18 +240,11 @@
     }
     self.image = _bgImage;
     [_userIconView sd_setImageWithURL:[_curUser.avatar urlImageWithCodePathResize:2* _userIconViewWith] placeholderImage:kPlaceholderMonkeyRoundWidth(54.0)];
-    if (_curUser.sex.intValue == 0) {
-        //        男
-        [_userSexIconView setImage:[UIImage imageNamed:@"n_sex_man_icon"]];
-        _userSexIconView.hidden = NO;
-    }else if (_curUser.sex.intValue == 1){
-        //        女
-        [_userSexIconView setImage:[UIImage imageNamed:@"n_sex_woman_icon"]];
-        _userSexIconView.hidden = NO;
-    }else{
-        //        未知
-        _userSexIconView.hidden = YES;
-    }
+    
+    [_userSexIconView setImage:[UIImage imageNamed:(_nameBtnClicked != nil? @"user_info_edit"://编辑
+                                                    _curUser.sex.intValue == 0? @"n_sex_man_icon"://男
+                                                    _curUser.sex.intValue == 1? @"n_sex_woman_icon"://女
+                                                    @"")]];//未知
     _userLabel.text = _curUser.name;
     [_userLabel sizeToFit];
     
