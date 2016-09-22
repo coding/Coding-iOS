@@ -20,30 +20,25 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
-    [self setupBorderInView:self.navigationBar];
+    //藏旧
+    [self hideBorderInView:self.navigationBar];
+    //添新
+    if (!_navLineV) {
+        _navLineV = [[UIView alloc]initWithFrame:CGRectMake(0, 44, kScreen_Width, 1.0/ [UIScreen mainScreen].scale)];
+        _navLineV.backgroundColor = kColorDDD;
+        [self.navigationBar addSubview:_navLineV];
+    }
 }
 
-- (void)setupBorderInView:(UIView *)view{
+- (void)hideBorderInView:(UIView *)view{
+
+    
     if ([view isKindOfClass:[UIImageView class]]
         && view.frame.size.height <= 1) {
         view.hidden = YES;
-        
-        if (!_navLineV) {
-            _navLineV = ({
-                UIView *lineV = [UIView new];
-                lineV.backgroundColor = kColorDDD;
-                [view.superview addSubview:lineV];
-                [lineV mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.left.right.bottom.equalTo(view.superview);
-                    make.height.mas_equalTo(1.0/ [UIScreen mainScreen].scale);
-                }];
-                lineV;
-            });
-        }
     }
     for (UIView *subView in view.subviews) {
-        [self setupBorderInView:subView];
+        [self hideBorderInView:subView];
     }
 }
 
