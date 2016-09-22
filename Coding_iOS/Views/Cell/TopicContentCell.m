@@ -197,7 +197,7 @@
 {
     [self refreshwebContentView];
     [_activityIndicator stopAnimating];
-    CGFloat scrollHeight = MIN(webView.scrollView.contentSize.height, 10*kScreen_Height);
+    CGFloat scrollHeight = MIN(webView.scrollView.contentSize.height, 15*kScreen_Height);
     if (ABS(scrollHeight - _curTopic.contentHeight) > 5) {
         NSLog(@"scrollHeight: %.2f, contentHeight: %.2f, (scrollHeight - contentHeight): %.2f", scrollHeight, _curTopic.contentHeight, (scrollHeight - _curTopic.contentHeight));
         webView.scalesPageToFit = YES;
