@@ -118,14 +118,14 @@
 #define  kBadgeTipStr @"badgeTip"
 
 #define kDefaultLastId [NSNumber numberWithInteger:99999999]
+
 #define kColor999 [UIColor colorWithHexString:@"0x999999"]
-#define kColorTableBG [UIColor colorWithHexString:@"0xfafafa"]
-#define kColorTableSectionBg [UIColor colorWithHexString:@"0xeeeeee"]
+#define kColorTableBG [UIColor colorWithHexString:@"0xFFFFFF"]
+#define kColorTableSectionBg [UIColor colorWithHexString:@"0xF2F4F6"]
 #define kColorBrandGreen [UIColor colorWithHexString:@"0x3bbc79"]
 #define kColorDDD [UIColor colorWithHexString:@"0xDDDDDD"]
 #define kColorNavBG [UIColor colorWithHexString:@"0xFAFAFA"]
 #define kColorNavTitle [UIColor colorWithHexString:@"0x323A45"]
-
 #define kImage999 [UIImage imageWithColor:kColor999]
 
 #define kPlaceholderMonkeyRoundWidth(_width_) [UIImage imageNamed:[NSString stringWithFormat:@"placeholder_monkey_round_%.0f", _width_]]
