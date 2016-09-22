@@ -362,7 +362,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         [_contentView addSubview:_lineView];
        
         UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(rect)-0.5, CGRectGetWidth(self.bounds), 0.5)];
-        bottomLineView.backgroundColor = [UIColor colorWithHexString:@"0xc8c7cc"];
+        bottomLineView.backgroundColor = kColorDDD;
         [self addSubview:bottomLineView];
     }
 }

@@ -108,8 +108,8 @@
         _footerToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, 80)];
         
         UIView  *keyboardToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(_footerToolBar.frame) - 40, kScreen_Width, 40)];
-        [keyboardToolBar addLineUp:YES andDown:NO andColor:[UIColor colorWithHexString:@"0xc8c7cc"]];
-        keyboardToolBar.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
+        [keyboardToolBar addLineUp:YES andDown:NO andColor:kColorDDD];
+        keyboardToolBar.backgroundColor = kColorTableSectionBg;
         if (!_locationButton) {
             _locationButton = [self locationButtonWithStr:nil];
         }

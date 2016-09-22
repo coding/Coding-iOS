@@ -38,7 +38,7 @@
         }
         
         _lineView = [[UIView alloc] initWithFrame:CGRectMake(splitX, 0, 1, frameHeight)];
-        _lineView.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
+        _lineView.backgroundColor = kColorTableSectionBg;
         [self addSubview:_lineView];
         
         _leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, splitX, frameHeight)];

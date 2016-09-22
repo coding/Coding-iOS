@@ -101,7 +101,7 @@
 }
 
 - (void)customizeTabBarForController {
-    UIImage *backgroundImage = [UIImage imageNamed:@"tabbar_background"];
+    UIImage *backgroundImage = [UIImage imageWithColor:kColorNavBG];
     NSArray *tabBarItemImages = @[@"project", @"task", @"tweet", @"privatemessage", @"me"];
     NSArray *tabBarItemTitles = @[@"项目", @"任务", @"冒泡", @"消息", @"我"];
     NSInteger index = 0;
@@ -116,6 +116,7 @@
         [item setTitle:[tabBarItemTitles objectAtIndex:index]];
         index++;
     }
+    [self.tabBar addLineUp:YES andDown:NO];
 }
 
 #pragma mark RDVTabBarControllerDelegate

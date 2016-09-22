@@ -109,7 +109,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 - (instancetype)initWithFrame:(CGRect)frame dataSource:(id<AGEmojiKeyboardViewDataSource>)dataSource  showBigEmotion:(BOOL)showBigEmotion{
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
+        self.backgroundColor = kColorTableSectionBg;
         // initialize category
         _dataSource = dataSource;
         self.category = [self categoryNameAtIndex:self.defaultSelectedCategory];

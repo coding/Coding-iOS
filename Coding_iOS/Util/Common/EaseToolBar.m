@@ -30,7 +30,7 @@
     self = [super init];
     if (self) {
         self.frame = CGRectMake(0, 0, kScreen_Width, kEaseToolBar_Height);
-        self.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
+        self.backgroundColor = kColorTableSectionBg;
         self.buttonItems = buttonItems;
     }
     return self;

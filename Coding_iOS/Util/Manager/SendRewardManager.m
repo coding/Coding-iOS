@@ -94,7 +94,7 @@
         [_bgView addSubview:_contentView];
         
         //属性设置
-        _contentView.backgroundColor = [UIColor colorWithHexString:@"0xF8F8F8"];
+        _contentView.backgroundColor = kColorTableSectionBg;
         _contentView.layer.masksToBounds = YES;
         _contentView.layer.cornerRadius = 6;
         [_closeBtn setImage:[UIImage imageNamed:@"button_close"] forState:UIControlStateNormal];

@@ -152,7 +152,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
+        self.backgroundColor = kColorTableSectionBg;
         [self addLineUp:YES andDown:NO andColor:[UIColor lightGrayColor]];
         _viewHeightOld = CGRectGetHeight(frame);
         _inputState = UIMessageInputViewStateSystem;

@@ -258,7 +258,7 @@ static char LoadingViewKey, BlankPageViewKey;
 }
 
 + (UIView *)lineViewWithPointYY:(CGFloat)pointY{
-    return [self lineViewWithPointYY:pointY andColor:[UIColor colorWithHexString:@"0xc8c7cc"]];
+    return [self lineViewWithPointYY:pointY andColor:kColorDDD];
 }
 
 + (UIView *)lineViewWithPointYY:(CGFloat)pointY andColor:(UIColor *)color{
@@ -292,7 +292,7 @@ static char LoadingViewKey, BlankPageViewKey;
 }
 
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown{
-    [self addLineUp:hasUp andDown:hasDown andColor:[UIColor colorWithHexString:@"0xc8c7cc"]];
+    [self addLineUp:hasUp andDown:hasDown andColor:kColorDDD];
 }
 
 - (void)addLineUp:(BOOL)hasUp andDown:(BOOL)hasDown andColor:(UIColor *)color{

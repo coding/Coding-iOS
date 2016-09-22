@@ -21,7 +21,7 @@
     self = [super init];
     if (self) {
         [self addLineUp:YES andDown:NO];
-        self.backgroundColor = [UIColor colorWithHexString:@"0xf8f8f8"];
+        self.backgroundColor = kColorTableSectionBg;
     }
     return self;
 }
