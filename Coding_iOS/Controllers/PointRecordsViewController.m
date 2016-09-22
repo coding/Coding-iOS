@@ -23,7 +23,6 @@
 
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
-@property (strong, nonatomic) UIButton *rightNavBtn;
 @property (assign, nonatomic) BOOL isShowingTip;
 @property (strong, nonatomic) UIView *tipContainerV;
 @property (strong, nonatomic) UIImageView *tipBGV;
@@ -56,9 +55,7 @@
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     
-    _rightNavBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 40)];
-    [_rightNavBtn addTarget:self action:@selector(rightNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightNavBtn];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tip_normal_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)];
     self.isShowingTip = NO;
     
     __weak typeof(self) weakSelf = self;
@@ -66,11 +63,6 @@
         [weakSelf refreshMore];
     }];
     [self refresh];
-}
-
-- (void)setIsShowingTip:(BOOL)isShowingTip{
-    _isShowingTip = isShowingTip;
-    [_rightNavBtn setImage:[UIImage imageNamed:_isShowingTip? @"tip_selected_Nav": @"tip_normal_Nav"] forState:UIControlStateNormal];
 }
 
 - (void)refresh{
@@ -169,12 +161,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 && indexPath.row == 1) {
         //商城入口
-//        WebViewController *vc = [WebViewController webVCWithUrlStr:@"/shop/"];
-//        [self.navigationController pushViewController:vc animated:YES];
-        
         ShopViewController *shopvc = [[ShopViewController alloc] init];
         [self.navigationController pushViewController:shopvc animated:YES];
-
     }
 }
 

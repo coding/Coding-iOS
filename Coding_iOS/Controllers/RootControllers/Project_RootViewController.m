@@ -207,13 +207,13 @@
 - (void)setTitleBtnStr:(NSString *)titleStr{
     if (_titleBtn) {
         CGFloat titleWidth = [titleStr getWidthWithFont:_titleBtn.titleLabel.font constrainedToSize:CGSizeMake(kScreen_Width, 30)];
-        CGFloat imageWidth = 20;
+        CGFloat imageWidth = 12;
         CGFloat btnWidth = titleWidth +imageWidth;
         _titleBtn.frame = CGRectMake((kScreen_Width-btnWidth)/2, (44-30)/2, btnWidth, 30);
         _titleBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -imageWidth, 0, imageWidth);
         _titleBtn.imageEdgeInsets = UIEdgeInsetsMake(0, titleWidth, 0, -titleWidth);
         [_titleBtn setTitle:titleStr forState:UIControlStateNormal];
-        [_titleBtn setImage:[UIImage imageNamed:@"nav_arrow_down"] forState:UIControlStateNormal];
+        [_titleBtn setImage:[UIImage imageNamed:@"btn_fliter_down"] forState:UIControlStateNormal];
     }
 }
 

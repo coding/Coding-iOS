@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kNavImageWidth (15.0+5.0)
+#define kNavImageWidth (7.0+5.0)
 #define kDownMenu_ContentLeftPading 27.0
 #define kDownMenuCellHeight 50.0
 
@@ -58,7 +58,7 @@
     self.titleEdgeInsets = UIEdgeInsetsMake(0, -kNavImageWidth, 0, kNavImageWidth);
     self.imageEdgeInsets = UIEdgeInsetsMake(0, titleWidth, 0, -titleWidth);
     [self setTitle:titleStr forState:UIControlStateNormal];
-    [self setImage:[UIImage imageNamed:@"nav_arrow_down"] forState:UIControlStateNormal];
+    [self setImage:[UIImage imageNamed:@"btn_fliter_down"] forState:UIControlStateNormal];
 }
 
 - (void)changeShowing{

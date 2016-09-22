@@ -223,22 +223,13 @@
 
 #pragma mark TableViewHeader
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return kScaleFrom_iPhone5_Desgin(24);
+    return 20;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    NSString *headerStr;
-    if (section == 0) {
-        if (_myTasks.processingList.count > 0) {
-            headerStr = @"进行中的任务";
-        }else{
-            headerStr = @"已完成的任务";
-        }
-    }else{
-        headerStr = @"已完成的任务";
-    }
-    return [tableView getHeaderViewWithStr:headerStr andBlock:^(id obj) {
-    }];
+    UIView *headerV = [UIView new];
+    headerV.backgroundColor = kColorTableSectionBg;
+    return headerV;
 }
 
 @end

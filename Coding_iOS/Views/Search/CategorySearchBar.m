@@ -12,7 +12,6 @@
 @property (copy,nonatomic)SelectBlock curBlock;
 @property (strong, nonatomic)UIButton *categoryBtn;
 @property (strong, nonatomic)UIButton *iconBtn;
-@property (strong, nonatomic) UIView *lineV;
 @end
 
 
@@ -21,7 +20,7 @@
 -(void)layoutSubviews{
     self.autoresizesSubviews = YES;
     UITextField *searchField = self.eaTextField;
-    [searchField setFrame:CGRectMake(75, 4.5, self.frame.size.width - 75, 22)];
+    [searchField setFrame:CGRectMake(60, 4.5, self.frame.size.width - 75, 22)];
     searchField.leftView = nil;
     searchField.textAlignment = NSTextAlignmentLeft;
 }
@@ -29,7 +28,6 @@
 -(void)patchWithCategoryWithSelectBlock:(SelectBlock)block{
     [self addSubview:self.categoryBtn];
     [self addSubview:self.iconBtn];
-    [self addSubview:self.lineV];
     _curBlock = block;
 }
 
@@ -53,15 +51,6 @@
     }
     return _iconBtn;
 }
-
-- (UIView *)lineV{
-    if (!_lineV) {
-        _lineV = [[UIView alloc] initWithFrame:CGRectMake(66, 8, 1.0, 15)];
-        _lineV.backgroundColor = kColorBrandGreen;
-    }
-    return _lineV;
-}
-
 
 #pragma mark -- event
 -(void)selectCategoryAction{
