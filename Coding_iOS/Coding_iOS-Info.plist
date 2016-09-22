@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>4.0.201606011800</string>
+	<string>4.0.201609221600</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -107,5 +107,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>我们需要您的同意才能使用相机</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>我们需要您的同意才能读取您的照片</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>我们需要您的同意才能使用麦克风</string>
 </dict>
 </plist>

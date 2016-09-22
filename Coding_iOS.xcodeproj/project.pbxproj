@@ -2042,6 +2042,7 @@
 		4EBDA87A1A6640340035ED96 /* UIActionSheet+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+Common.h"; sourceTree = "<group>"; };
 		4EBDA87B1A6640340035ED96 /* UIActionSheet+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+Common.m"; sourceTree = "<group>"; };
 		4EBDC27A1BC501C00037EB66 /* tipIcon_ProjectPayment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_ProjectPayment@2x.png"; sourceTree = "<group>"; };
+		4EBED55A1D93C9F700E3684E /* Coding_iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Coding_iOS.entitlements; sourceTree = "<group>"; };
 		4EBFBD171AA85B8500E4B10E /* add_user_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_user_icon@2x.png"; sourceTree = "<group>"; };
 		4EC461AB1B39084100D08970 /* FunctionTipsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FunctionTipsManager.h; sourceTree = "<group>"; };
 		4EC461AC1B39084100D08970 /* FunctionTipsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FunctionTipsManager.m; sourceTree = "<group>"; };
@@ -4643,6 +4644,7 @@
 		8EA6CF1319E240C40076D59C /* Coding_iOS */ = {
 			isa = PBXGroup;
 			children = (
+				4EBED55A1D93C9F700E3684E /* Coding_iOS.entitlements */,
 				8EA6CFC619E240C40076D59C /* main.m */,
 				8EA6CF1519E240C40076D59C /* AppDelegate.h */,
 				8EA6CF1619E240C40076D59C /* AppDelegate.m */,
@@ -5823,6 +5825,9 @@
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
 							};
 						};
 					};
@@ -7165,6 +7170,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Coding_iOS/Coding_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -7204,6 +7210,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Coding_iOS/Coding_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
