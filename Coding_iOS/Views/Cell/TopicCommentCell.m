@@ -33,7 +33,7 @@
         // Initialization code
         if (!_bestAnswerV) {
             _bestAnswerV = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 80, 24)];
-            _bestAnswerV.backgroundColor = kColorBrandGreen;
+            _bestAnswerV.backgroundColor = [UIColor colorWithHexString:@"0x2FAEEA"];
             UIImageView *imageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_best_answer"]];
             [_bestAnswerV addSubview:imageV];
             UILabel *label = [UILabel labelWithSystemFontSize:11 textColorHexString:@"0xFFFFFF"];
@@ -60,7 +60,7 @@
         }
         if (!_voteBtn) {
             _voteBtn = [[UIButton alloc] initWithFrame:CGRectMake(kPaddingLeftWidth + 1.5, _ownerIconView.bottom, 30, 18)];
-            [_voteBtn doBorderWidth:0.5 color:nil cornerRadius:2.0];
+            [_voteBtn doBorderWidth:0.5 color:kColorCCC cornerRadius:2.0];
             _voteBtn.titleLabel.font = [UIFont systemFontOfSize:11];
             [_voteBtn addTarget:self action:@selector(voteBtnClicked) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:_voteBtn];
@@ -109,8 +109,8 @@
 }
 
 - (void)setVoteCount:(NSNumber *)voteCount isVoted:(BOOL)isVoted{
-    [_voteBtn setBackgroundColor:isVoted? kColorBrandGreen: [UIColor whiteColor]];
-    [_voteBtn setTitleColor:[UIColor colorWithHexString:isVoted? @"0xFFFFFF": @"0x999999"] forState:UIControlStateNormal];
+    [_voteBtn setBackgroundColor:[UIColor colorWithHexString:isVoted? @"0x2FAEEA": @"0xFFFFFF"]];
+    [_voteBtn setTitleColor:[UIColor colorWithHexString:isVoted? @"0xFFFFFF": @"0x666666"] forState:UIControlStateNormal];
     [_voteBtn setTitle:[NSString stringWithFormat:@"+%@", voteCount] forState:UIControlStateNormal];
 }
 

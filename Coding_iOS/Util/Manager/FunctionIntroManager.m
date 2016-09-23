@@ -7,14 +7,14 @@
 //
 
 #define kIntroPageKey @"intro_page_version"
-#define kIntroPageNum 4
+#define kIntroPageNum 3
 
 #import "FunctionIntroManager.h"
 #import "EAIntroView.h"
 #import "SMPageControl.h"
 #import <NYXImagesKit/NYXImagesKit.h>
 
-@interface FunctionIntroManager ()
+@interface FunctionIntroManager ()<EAIntroDelegate>
 @property (strong, nonatomic) EAIntroView *introView;
 @end
 
@@ -29,6 +29,7 @@
 }
 
 + (BOOL)needToShowIntro{
+    return YES;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *preVersion = [defaults stringForKey:kIntroPageKey];
     BOOL needToShow = ![preVersion isEqualToString:kVersionBuild_Coding];
@@ -66,27 +67,26 @@
         _introView.swipeToExit = YES;
         _introView.scrollView.bounces = YES;
         _introView.skipButton = nil;
+        _introView.delegate = self;
         if (pages.count <= 1) {
             _introView.pageControl.hidden = YES;
         }else{
             _introView.pageControl = [self p_pageControl];
-            _introView.pageControlY = 10.f + CGRectGetHeight(_introView.pageControl.frame);
+            _introView.pageControlY = 30.f + CGRectGetHeight(_introView.pageControl.frame);
         }
     }
     return self;
 }
 
 - (UIPageControl *)p_pageControl{
-    UIImage *pageIndicatorImage = [UIImage imageNamed:@"intro_dot_unselected"];
-    UIImage *currentPageIndicatorImage = [UIImage imageNamed:@"intro_dot_selected"];
-    
+    UIImage *pageIndicatorImage = [UIImage imageNamed:@"intro_page_unselected"];
+    UIImage *currentPageIndicatorImage = [UIImage imageNamed:@"intro_page_selected"];
     if (!kDevice_Is_iPhone6 && !kDevice_Is_iPhone6Plus) {
         CGFloat desginWidth = 375.0;//iPhone6 的设计尺寸
         CGFloat scaleFactor = kScreen_Width/desginWidth;
         pageIndicatorImage = [pageIndicatorImage scaleByFactor:scaleFactor];
         currentPageIndicatorImage = [currentPageIndicatorImage scaleByFactor:scaleFactor];
     }
-    
     SMPageControl *pageControl = [SMPageControl new];
     pageControl.pageIndicatorImage = pageIndicatorImage;
     pageControl.currentPageIndicatorImage = currentPageIndicatorImage;
@@ -148,11 +148,22 @@
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(200, 44));
             make.centerX.equalTo(imageView);
-            make.bottom.equalTo(imageView).offset(-70);
+            make.bottom.equalTo(imageView).offset(kDevice_Is_iPhone4? -30: -40);
         }];
     }
     EAIntroPage *page = [EAIntroPage pageWithCustomView:imageView];
     return page;
+}
+
+#pragma mark EAIntroDelegate
+- (void)intro:(EAIntroView *)introView pageStartScrolling:(EAIntroPage *)page withIndex:(NSUInteger)pageIndex{
+    introView.pageControl.hidden = (pageIndex >= kIntroPageNum - 2);
+}
+- (void)intro:(EAIntroView *)introView pageAppeared:(EAIntroPage *)page withIndex:(NSUInteger)pageIndex{
+    introView.pageControl.hidden = (pageIndex == kIntroPageNum - 1);
+}
+- (void)intro:(EAIntroView *)introView pageEndScrolling:(EAIntroPage *)page withIndex:(NSUInteger)pageIndex{
+    introView.pageControl.hidden = (pageIndex == kIntroPageNum - 1);
 }
 
 @end

@@ -9,6 +9,7 @@
 #import "HotTopicBannerView.h"
 #import "SMPageControl.h"
 #import "AutoSlideScrollView.h"
+#import "YLImageView.h"
 
 @interface HotTopicBannerView ()
 @property (strong, nonatomic) SMPageControl *myPageControl;
@@ -59,7 +60,7 @@
             };
             slideView.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex){
                 if (weakSelf.curBannerList.count > pageIndex) {
-                    UIImageView *imageView = [weakSelf p_reuseViewForIndex:pageIndex];
+                    YLImageView *imageView = [weakSelf p_reuseViewForIndex:pageIndex];
                     NSDictionary *curBanner = weakSelf.curBannerList[pageIndex];
                     
                     [imageView sd_setImageWithURL:[curBanner[@"image_url"] urlWithCodePath]];
@@ -85,18 +86,18 @@
     NSLog(@"%@", _curBannerList);
 }
 
-- (UIImageView *)p_reuseViewForIndex:(NSInteger)pageIndex{
+- (YLImageView *)p_reuseViewForIndex:(NSInteger)pageIndex{
     if (!_imageViewList) {
         _imageViewList = [[NSMutableArray alloc] initWithCapacity:3];
         for (int i = 0; i < 3; i++) {
-            UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.width,self.height)];
+            YLImageView *view = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, self.width,self.height)];
             view.backgroundColor = kColorTableBG;
             view.clipsToBounds = YES;
             view.contentMode = UIViewContentModeScaleAspectFill;
             [_imageViewList addObject:view];
         }
     }
-    UIImageView *imageView;
+    YLImageView *imageView;
     NSInteger currentPageIndex = self.mySlideView.currentPageIndex;
     if (pageIndex == currentPageIndex) {
         imageView = _imageViewList[1];

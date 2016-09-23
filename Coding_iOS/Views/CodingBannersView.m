@@ -120,7 +120,7 @@
     [_typeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self).offset(kPaddingLeftWidth);
         make.centerY.equalTo(_myPageControl);
-        make.height.mas_equalTo(15);
+        make.height.mas_equalTo(18);
     }];
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(_typeLabel.mas_right).offset(5);

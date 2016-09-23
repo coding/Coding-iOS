@@ -69,7 +69,7 @@
     
     _unselectedTitleAttributes = @{
                                    NSFontAttributeName: [UIFont systemFontOfSize:10],
-                                   NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x808080"],
+                                   NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x76808E"],
                                    };
     _selectedTitleAttributes = @{
                                  NSFontAttributeName: [UIFont systemFontOfSize:10],
