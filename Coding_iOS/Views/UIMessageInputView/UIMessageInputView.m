@@ -152,8 +152,8 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.backgroundColor = kColorTableSectionBg;
-        [self addLineUp:YES andDown:NO andColor:[UIColor lightGrayColor]];
+        self.backgroundColor = kColorNavBG;
+        [self addLineUp:YES andDown:NO andColor:kColorCCC];
         _viewHeightOld = CGRectGetHeight(frame);
         _inputState = UIMessageInputViewStateSystem;
         _isAlwaysShow = NO;

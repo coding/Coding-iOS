@@ -24,7 +24,7 @@
         }
         if (!_randomBtn) {
             _randomBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 50, 7, 50, 30)];
-            [_randomBtn doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xCCCCCC"] cornerRadius:4];
+            [_randomBtn doBorderWidth:0.5 color:kColorCCC cornerRadius:4];
             [_randomBtn setImage:[UIImage imageNamed:@"tag_button_randomColor"] forState:UIControlStateNormal];
             [self.contentView addSubview:_randomBtn];
         }

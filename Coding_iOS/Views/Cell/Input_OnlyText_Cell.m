@@ -97,7 +97,7 @@
             });
             UIView *lineV = ({
                 UIView *view = [UIView new];
-                view.backgroundColor = [UIColor colorWithHexString:@"0xCCCCCC"];
+                view.backgroundColor = kColorCCC;
                 [self.contentView addSubview:view];
                 [view mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(self.countryCodeL.mas_right).offset(8);

@@ -109,7 +109,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 - (instancetype)initWithFrame:(CGRect)frame dataSource:(id<AGEmojiKeyboardViewDataSource>)dataSource  showBigEmotion:(BOOL)showBigEmotion{
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = kColorTableSectionBg;
+        self.backgroundColor = kColorNavBG;
         // initialize category
         _dataSource = dataSource;
         self.category = [self categoryNameAtIndex:self.defaultSelectedCategory];
@@ -453,7 +453,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
             UIButton *tabButton = self.tabButtons[i];
             if (i==selectedIndex) {
                 [tabButton setImage:self.selectedImages[i] forState:UIControlStateNormal];
-                [tabButton setBackgroundColor:kColorTableSectionBg];
+                [tabButton setBackgroundColor:kColorNavBG];
             }else{
                 [tabButton setImage:self.unSelectedImages[i] forState:UIControlStateNormal];
                 [tabButton setBackgroundColor:[UIColor clearColor]];

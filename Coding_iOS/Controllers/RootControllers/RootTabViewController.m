@@ -116,7 +116,7 @@
         [item setTitle:[tabBarItemTitles objectAtIndex:index]];
         index++;
     }
-    [self.tabBar addLineUp:YES andDown:NO];
+    [self.tabBar addLineUp:YES andDown:NO andColor:kColorCCC];
 }
 
 #pragma mark RDVTabBarControllerDelegate

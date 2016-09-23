@@ -28,7 +28,7 @@
         }
         if (!_addBtn) {
             _addBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 50, 7, 50, 30)];
-            [_addBtn doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xCCCCCC"] cornerRadius:4];
+            [_addBtn doBorderWidth:0.5 color:kColorCCC cornerRadius:4];
             [_addBtn setImage:[UIImage imageNamed:@"tag_button_add"] forState:UIControlStateNormal];
             _addBtn.enabled = FALSE;
             [self.contentView addSubview:_addBtn];

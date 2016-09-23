@@ -223,7 +223,7 @@
         if(indexPath.row==0){
             [titleLab removeFromSuperview];
             UIView *seperatorLine=[[UIView alloc] initWithFrame:CGRectMake(20, 15, self.bounds.size.width-40, 0.5)];
-            seperatorLine.backgroundColor=[UIColor colorWithHexString:@"0xcccccc"];
+            seperatorLine.backgroundColor=kColorCCC;
             [cell.contentView addSubview:seperatorLine];
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
         }else{
@@ -235,7 +235,7 @@
         if(indexPath.row==0){
             [titleLab removeFromSuperview];
             UIView *seperatorLine=[[UIView alloc] initWithFrame:CGRectMake(20, 15, self.bounds.size.width-40, 0.5)];
-            seperatorLine.backgroundColor=[UIColor colorWithHexString:@"0xcccccc"];
+            seperatorLine.backgroundColor=kColorCCC;
             [cell.contentView addSubview:seperatorLine];
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
         }else{

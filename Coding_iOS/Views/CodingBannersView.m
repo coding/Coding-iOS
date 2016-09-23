@@ -34,6 +34,7 @@
         _ratio = 0.4;
         CGFloat viewHeight = _padding_top + _padding_bottom + _image_width * _ratio;
         [self setSize:CGSizeMake(kScreen_Width, viewHeight)];
+        [self addLineUp:NO andDown:YES];
     }
     return self;
 }

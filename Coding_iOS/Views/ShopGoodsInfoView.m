@@ -101,7 +101,7 @@
     }];
     
     DashesLineView *lineView = [[DashesLineView alloc] init];
-    lineView.lineColor = [UIColor colorWithHexString:@"0xCCCCCC"];
+    lineView.lineColor = kColorCCC;
     lineView.backgroundColor = [UIColor clearColor];
     [superView addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {

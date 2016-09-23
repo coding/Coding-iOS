@@ -109,7 +109,7 @@
         _passwordF.textColor = kColor222;
         _passwordF.secureTextEntry = YES;
         _passwordF.textAlignment = NSTextAlignmentCenter;
-        [_passwordF doBorderWidth:1.0 color:[UIColor colorWithHexString:@"0xCCCCCC"] cornerRadius:2.0];
+        [_passwordF doBorderWidth:1.0 color:kColorCCC cornerRadius:2.0];
         _passwordF.placeholder = @" 请输入密码";
         _passwordF.alpha = 0;
         _bottomL.font = [UIFont systemFontOfSize:12];
