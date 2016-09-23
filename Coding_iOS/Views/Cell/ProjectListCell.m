@@ -49,7 +49,7 @@
             [self.contentView addSubview:_ownerTitleLabel];
         }
         if (!_privateIconView) {
-            _privateIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_project_private_old"]];
+            _privateIconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_project_private"]];
             _privateIconView.hidden = YES;
             [self.contentView addSubview:_privateIconView];
         }
