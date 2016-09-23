@@ -127,21 +127,15 @@
 }
 
 #pragma mark Comment To Topic
-- (void)sendCommentMessage:(id)obj
-{
+- (void)sendCommentMessage:(id)obj{
     __weak typeof(self) weakSelf = self;
-    NSNumber *answerId = nil;
     if (_toComment) {
         _curTopic.nextCommentStr = [NSString stringWithFormat:@"@%@ %@", _toComment.owner.name, obj];
-        answerId = _toComment.parent_id;
-        if ([answerId isEqual:_curTopic.id]) {
-            answerId = _toComment.id;
-        }
     }else{
         _curTopic.nextCommentStr = obj;
     }
     [NSObject showHUDQueryStr:@"请稍等..."];
-    [[Coding_NetAPIManager sharedManager] request_DoComment_WithProjectTpoic:_curTopic andAnswerId:answerId andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_DoComment_WithProjectTpoic:_curTopic andAnswerId:_curAnswer.id andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
             [NSObject showHudTipStr:@"发表成功"];
