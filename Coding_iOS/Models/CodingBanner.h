@@ -11,4 +11,5 @@
 @interface CodingBanner : NSObject
 @property (strong, nonatomic) NSNumber *id, *status;
 @property (strong, nonatomic) NSString *title, *image, *link, *name;
+@property (strong, nonatomic, readonly) NSString *displayName;
 @end

@@ -27,10 +27,10 @@
     
     self = [super init];
     if (self) {
-        _padding_top = 40;
-        _padding_bottom = 15;
-        _image_width = kScreen_Width - 2*kPaddingLeftWidth;
-        _ratio = 0.3;
+        _padding_top = 0;
+        _padding_bottom = 40;
+        _image_width = kScreen_Width;
+        _ratio = 0.4;
         CGFloat viewHeight = _padding_top + _padding_bottom + _image_width * _ratio;
         [self setSize:CGSizeMake(kScreen_Width, viewHeight)];
     }
@@ -42,53 +42,10 @@
         return;
     }
     _curBannerList = curBannerList;
-    
-    if (!_typeLabel) {
-        _typeLabel = ({
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, (_padding_top - 15)/2, 30, 15)];
-            [label doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xb5b5b5"] cornerRadius:2.0];
-            label.textColor = kColor666;
-            label.font = [UIFont systemFontOfSize:10];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.text = @"活动";
-            label;
-        });
-        _typeLabel.text = [(CodingBanner *)_curBannerList.firstObject name];
-        [self addSubview:_typeLabel];
-    }
-    
-    if (!_titleLabel) {
-        _titleLabel = ({
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_typeLabel.frame) + 5.0, (_padding_top - 30)/2, _image_width - CGRectGetWidth(_typeLabel.frame) - 70, 30)];
-            label.textColor = kColor222;
-            label.font = [UIFont systemFontOfSize:12];
-            label;
-        });
-        _titleLabel.text = [(CodingBanner *)_curBannerList.firstObject title];
-        [self addSubview:_titleLabel];
-    }
-    
-    if (!_myPageControl) {
-        _myPageControl = ({
-            SMPageControl *pageControl = [[SMPageControl alloc] init];
-            pageControl.userInteractionEnabled = NO;
-            pageControl.backgroundColor = [UIColor clearColor];
-            pageControl.pageIndicatorImage = [UIImage imageNamed:@"banner__page_unselected"];
-            pageControl.currentPageIndicatorImage = [UIImage imageNamed:@"banner__page_selected"];
-            pageControl.frame = (CGRect){CGRectGetMaxX(_titleLabel.frame) + 5, (_padding_top - 10)/2, kScreen_Width - CGRectGetMaxX(_titleLabel.frame) - kPaddingLeftWidth - 5, 10};
-            pageControl.numberOfPages = _curBannerList.count;
-            pageControl.currentPage = 0;
-            pageControl.alignment = SMPageControlAlignmentRight;
-            pageControl;
-        });
-        [self addSubview:_myPageControl];
-    }
-    
     if (!_mySlideView) {
         _mySlideView = ({
             __weak typeof(self) weakSelf = self;
-            AutoSlideScrollView *slideView = [[AutoSlideScrollView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, _padding_top, _image_width, _image_width * _ratio) animationDuration:5.0];
-//            slideView.layer.cornerRadius = 2.0;
+            AutoSlideScrollView *slideView = [[AutoSlideScrollView alloc] initWithFrame:CGRectMake(0, _padding_top, _image_width, _image_width * _ratio) animationDuration:5.0];
             slideView.layer.masksToBounds = YES;
             slideView.scrollView.scrollsToTop = NO;
             
@@ -108,10 +65,10 @@
             slideView.currentPageIndexChangeBlock = ^(NSInteger currentPageIndex){
                 if (weakSelf.curBannerList.count > currentPageIndex) {
                     CodingBanner *curBanner = weakSelf.curBannerList[currentPageIndex];
-                    weakSelf.typeLabel.text = curBanner.name;
+                    weakSelf.typeLabel.text = curBanner.displayName;
                     weakSelf.titleLabel.text = curBanner.title;
                 }else{
-                    weakSelf.typeLabel.text = weakSelf.titleLabel.text = @"...";
+                    weakSelf.typeLabel.text = weakSelf.titleLabel.text = @"...    ";
                 }
                 weakSelf.myPageControl.currentPage = currentPageIndex;
             };
@@ -120,11 +77,54 @@
                     weakSelf.tapActionBlock(weakSelf.curBannerList[pageIndex]);
                 }
             };
-            
             slideView;
         });
         [self addSubview:_mySlideView];
     }
+    if (!_myPageControl) {
+        _myPageControl = ({
+            SMPageControl *pageControl = [[SMPageControl alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 30, _mySlideView.bottom + (40 - 10)/2, 30, 10)];
+            pageControl.userInteractionEnabled = NO;
+            pageControl.backgroundColor = [UIColor clearColor];
+            pageControl.pageIndicatorImage = [UIImage imageNamed:@"banner__page_unselected"];
+            pageControl.currentPageIndicatorImage = [UIImage imageNamed:@"banner__page_selected"];
+            pageControl.numberOfPages = _curBannerList.count;
+            pageControl.currentPage = 0;
+            pageControl.alignment = SMPageControlAlignmentRight;
+            pageControl;
+        });
+        [self addSubview:_myPageControl];
+    }
+
+    if (!_typeLabel) {
+        _typeLabel = ({
+            UILabel *label = [UILabel labelWithFont:[UIFont systemFontOfSize:10] textColor:kColor666];
+            [label setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+            [label setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
+            [label doBorderWidth:0.5 color:nil cornerRadius:2.0];
+            label.textAlignment = NSTextAlignmentCenter;
+            label.text = @"活动    ";
+            label;
+        });
+        _typeLabel.text = [(CodingBanner *)_curBannerList.firstObject displayName];
+        [self addSubview:_typeLabel];
+    }
+    
+    if (!_titleLabel) {
+        _titleLabel =  [UILabel labelWithFont:[UIFont systemFontOfSize:12] textColor:kColor222];
+        _titleLabel.text = [(CodingBanner *)_curBannerList.firstObject title];
+        [self addSubview:_titleLabel];
+    }
+    [_typeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self).offset(kPaddingLeftWidth);
+        make.centerY.equalTo(_myPageControl);
+        make.height.mas_equalTo(15);
+    }];
+    [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_typeLabel.mas_right).offset(5);
+        make.right.equalTo(_myPageControl.mas_left).offset(-5);
+        make.centerY.equalTo(_myPageControl);
+    }];
     [self reloadData];
     NSLog(@"%@", _curBannerList);
 }
@@ -162,7 +162,7 @@
     NSInteger currentPageIndex = MIN(self.mySlideView.currentPageIndex, _curBannerList.count - 1) ;
     CodingBanner *curBanner = _curBannerList[currentPageIndex];
     _titleLabel.text = curBanner.title;
-    _typeLabel.text = curBanner.name;
+    _typeLabel.text = curBanner.displayName;
     
     _myPageControl.numberOfPages = _curBannerList.count;
     _myPageControl.currentPage = currentPageIndex;

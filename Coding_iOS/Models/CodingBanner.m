@@ -9,5 +9,7 @@
 #import "CodingBanner.h"
 
 @implementation CodingBanner
-
+- (NSString *)displayName{
+    return [NSString stringWithFormat:@"%@    ", _name.length > 0? _name: @"..."];
+}
 @end
