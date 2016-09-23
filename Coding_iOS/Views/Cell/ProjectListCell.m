@@ -28,7 +28,6 @@
     if (self) {
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        self.backgroundColor = [UIColor clearColor];
         if (!_projectIconView) {
             _projectIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, kProjectListCell_IconHeight, kProjectListCell_IconHeight)];
             _projectIconView.layer.masksToBounds = YES;

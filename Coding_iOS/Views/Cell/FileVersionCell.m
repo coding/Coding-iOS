@@ -29,7 +29,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor clearColor];
         if (!_iconView) {
             _iconView = [[YLImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([FileVersionCell cellHeight] - kFileVersionCell_IconWidth)/2, kFileVersionCell_IconWidth, kFileVersionCell_IconWidth)];
             _iconView.layer.masksToBounds = YES;

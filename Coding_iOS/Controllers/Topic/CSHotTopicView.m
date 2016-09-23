@@ -52,11 +52,6 @@
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self);
         }];
-//        {
-//            UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
-//            tableView.contentInset = insets;
-//            tableView.scrollIndicatorInsets = insets;
-//        }
         tableView;
     });
     
@@ -169,39 +164,6 @@
     [self.parentVC.navigationController pushViewController:vc animated:YES];
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    if (_adlist.count == 0) {
-//        return 0;
-//    }
-//    return _adHeight;
-//}
-
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    if (_adlist.count == 0) {
-//        return nil;
-//    }
-//    
-//    if (!_adView) {
-//        
-//        __weak CSHotTopicView *wself = self;
-//        _adView = [CodingBannersView new];
-//        _adView.tapActionBlock = ^(CodingBanner *tapedBanner) {
-//            
-//            CSTopicDetailVC *vc = [[CSTopicDetailVC alloc] init];
-//            vc.topicID = [tapedBanner.id intValue];
-//            
-//            [wself.parentVC.navigationController pushViewController:vc animated:YES];
-//        };
-//        _adView.backgroundColor = [UIColor whiteColor];
-//
-//    }
-//    
-//    _adView.curBannerList = self.adlist;
-//    
-//    return _adView;
-//}
-//
-
 
 @end
 
@@ -229,8 +191,6 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor clearColor];
-        
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15, kScreen_Width - kPaddingLeftWidth - kHotTopicCellPaddingRight, 12)];
@@ -331,8 +291,6 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor clearColor];
-        
         self.textLabel.frame = CGRectMake(kPaddingLeftWidth, 12, kScreen_Width - 100, 12);
         self.textLabel.font = [UIFont systemFontOfSize:13];
         self.textLabel.textColor = kColor222;
@@ -362,8 +320,6 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor clearColor];
-        
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.minimumLineSpacing = 0;
         layout.itemSize = CGSizeMake(kScreen_Width, 80);

@@ -22,7 +22,6 @@
     if (self) {
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        self.backgroundColor = [UIColor clearColor];
         if (!_iconV) {
             _iconV = [[UIImageView alloc] init];
             _iconV.layer.masksToBounds = YES;

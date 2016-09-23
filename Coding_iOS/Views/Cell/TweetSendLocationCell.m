@@ -20,7 +20,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor clearColor];
         if (!_iconImageView) {
             _iconImageView = [UIImageView new];
             [self.contentView addSubview:_iconImageView];
@@ -78,7 +77,6 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleDefault;
-        self.backgroundColor = [UIColor clearColor];
         
         CGRect frame = CGRectZero;
         frame.size.width = kScreen_Width;

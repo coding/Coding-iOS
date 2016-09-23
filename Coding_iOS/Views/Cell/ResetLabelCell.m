@@ -15,7 +15,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.accessoryType = UITableViewCellAccessoryNone;
-        self.backgroundColor = [UIColor clearColor];
         // Initialization code
         if (!_colorBtn) {
             _colorBtn = [[UIButton alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 7, 30, 30)];

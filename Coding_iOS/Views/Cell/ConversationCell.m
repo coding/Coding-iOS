@@ -20,7 +20,6 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
         // Initialization code
         if (!_userIconView) {
             _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([ConversationCell cellHeight]-48)/2, 48, 48)];

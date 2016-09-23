@@ -28,7 +28,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor clearColor];
         if (!_iconView) {
             _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, (kFileSearchCellHeight - kFileListFileCell_IconWidth)/2, kFileListFileCell_IconWidth, kFileListFileCell_IconWidth)];
             _iconView.contentMode=UIViewContentModeScaleAspectFill;

@@ -31,7 +31,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor clearColor];
         if (!_bestAnswerV) {
             _bestAnswerV = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 80, 24)];
             _bestAnswerV.backgroundColor = kColorBrandGreen;

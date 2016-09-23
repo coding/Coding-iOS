@@ -22,7 +22,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor clearColor];
         CGFloat curBottomY = 10;
         if (!_ownerIconView) {
             _ownerIconView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, curBottomY, 33, 33)];

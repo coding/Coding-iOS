@@ -23,7 +23,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor clearColor];
         if (!_userIconView) {
             _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([UserCell cellHeight]-40)/2, 40, 40)];
             [_userIconView doCircleFrame];

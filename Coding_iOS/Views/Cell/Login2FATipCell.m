@@ -14,7 +14,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor clearColor];
         self.userInteractionEnabled = NO;
         if (!_tipLabel) {
             _tipLabel = [UILabel new];

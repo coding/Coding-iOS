@@ -17,7 +17,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor clearColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_usageL) {
             _usageL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:kColor222];

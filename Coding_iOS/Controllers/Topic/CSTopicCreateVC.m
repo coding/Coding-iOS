@@ -324,9 +324,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor clearColor];
-        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;        
         self.textLabel.frame = CGRectMake(kPaddingLeftWidth, 0, kScreen_Width - kPaddingLeftWidth - 15, 44);
         self.textLabel.font = [UIFont systemFontOfSize:15];
         self.textLabel.textColor = kColor222;

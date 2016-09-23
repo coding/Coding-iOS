@@ -29,7 +29,6 @@
     if (self) {
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryNone;
-        self.backgroundColor = [UIColor clearColor];
         if (!_imgView) {
             _imgView = [UIImageView new];
             _imgView.layer.masksToBounds = YES;

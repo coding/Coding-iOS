@@ -39,7 +39,6 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor clearColor];
         if (!_checkView) {
             _checkView = [UITapImageView new];
             _checkView.contentMode = UIViewContentModeCenter;

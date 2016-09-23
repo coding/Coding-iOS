@@ -34,7 +34,6 @@
     if (self) {
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        self.backgroundColor = [UIColor clearColor];
         if (!_userIconView) {
             _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 12, 33, 33)];
             [_userIconView doCircleFrame];

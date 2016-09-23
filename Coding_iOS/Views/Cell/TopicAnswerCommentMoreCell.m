@@ -18,7 +18,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor clearColor];
         if (!_contentLabel) {
             _contentLabel = [UILabel labelWithFont:[UIFont systemFontOfSize:14] textColor:kColorBrandGreen];
             [self.contentView addSubview:_contentLabel];

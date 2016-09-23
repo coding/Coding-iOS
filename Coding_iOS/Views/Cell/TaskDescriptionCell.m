@@ -23,7 +23,7 @@
         if (!_button) {
             _button = [[UIButton alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([[self class] cellHeight] - 30)/2, kScreen_Width - 2*kPaddingLeftWidth, 30)];
             _button.titleLabel.font = [UIFont systemFontOfSize:16];
-            _button.backgroundColor = [UIColor colorWithHexString:@"0xf0f0f0"];
+            _button.backgroundColor = kColorTableSectionBg;
             _button.layer.masksToBounds = YES;
             _button.layer.cornerRadius = 2.0;
             [_button setImage:[UIImage imageNamed:@"task_icon_arrow"] forState:UIControlStateNormal];

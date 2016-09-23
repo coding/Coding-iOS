@@ -47,7 +47,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor clearColor];
         if (!_userIconView) {
             _userIconView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, kProjectActivityListCell_UpDownPading, kProjectActivityListCell_IconHeight, kProjectActivityListCell_IconHeight)];
             [_userIconView doCircleFrame];

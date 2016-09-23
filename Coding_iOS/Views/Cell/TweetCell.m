@@ -62,8 +62,6 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor clearColor];
-//        self.backgroundColor = [UIColor colorWithHexString:@"0xf3f3f3"];
         if (!_topView) {
             _topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 15)];
             _topView.backgroundColor = kColorTableSectionBg;
@@ -569,10 +567,12 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row >= _tweet.numOfComments-1 && _tweet.hasMoreComments) {
         TweetCommentMoreCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetCommentMore forIndexPath:indexPath];
+        cell.backgroundColor = [UIColor clearColor];
         cell.commentNum = _tweet.comments;
         return cell;
     }else{
         TweetCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TweetComment forIndexPath:indexPath];
+        cell.backgroundColor = [UIColor clearColor];
         Comment *curComment = [_tweet.comment_list objectAtIndex:indexPath.row];
         [cell configWithComment:curComment topLine:(indexPath.row != 0)];
         cell.commentLabel.delegate = self;

@@ -182,7 +182,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 - (id)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem withIcon:(BOOL)isIcon
 {
     if (self = [super initWithFrame:frame]) {
-        [self initUIWith:isIcon Items:titleItem];
+        [self setupUI_IsIcon:isIcon Items:titleItem];
     }
     return self;
 }
@@ -190,16 +190,16 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 - (id)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem
 {
     if (self = [super initWithFrame:frame]) {
-        [self initUIWith:NO Items:titleItem];
+        [self setupUI_IsIcon:NO Items:titleItem];
     }
     return self;
 }
 
-- (void)initUIWith:(BOOL)isIcon Items:(NSArray *)titleItem
+- (void)setupUI_IsIcon:(BOOL)isIcon Items:(NSArray *)titleItem
 {
     _contentView = ({
         UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
-        scrollView.backgroundColor = [UIColor clearColor];
+        scrollView.backgroundColor = kColorTableBG;
         scrollView.delegate = self;
         scrollView.showsHorizontalScrollIndicator = NO;
         scrollView.scrollsToTop = NO;

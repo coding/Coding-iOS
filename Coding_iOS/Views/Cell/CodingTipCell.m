@@ -39,7 +39,6 @@ static CGFloat target_height = 45.0;
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor clearColor];
 //        if (!self.ownerImgView) {
 //            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15, user_icon_width, user_icon_width)];
 //            [self.ownerImgView doCircleFrame];

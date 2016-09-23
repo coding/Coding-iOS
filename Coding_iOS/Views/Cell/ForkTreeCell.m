@@ -24,7 +24,6 @@
     if (self) {
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        self.backgroundColor = [UIColor clearColor];
         if (!_forkerIconView) {
             _forkerIconView = [UIImageView new];
             _forkerIconView.layer.masksToBounds = YES;

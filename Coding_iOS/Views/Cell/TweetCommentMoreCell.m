@@ -22,8 +22,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor clearColor];
-        self.backgroundView = nil;
         if (!_commentIconView) {
             _commentIconView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 13, 13)];
             _commentIconView.image = [UIImage imageNamed:@"tweet_more_comment_icon"];

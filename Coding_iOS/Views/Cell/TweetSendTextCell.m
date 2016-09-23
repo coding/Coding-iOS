@@ -29,7 +29,6 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor clearColor];
         if (!_tweetContentView) {
             _tweetContentView = [[UIPlaceHolderTextView alloc] initWithFrame:CGRectMake(7, 7, kScreen_Width-7*2, [TweetSendTextCell cellHeight]-10)];
             _tweetContentView.backgroundColor = [UIColor clearColor];

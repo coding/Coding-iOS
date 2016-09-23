@@ -27,6 +27,7 @@
     
     self = [super init];
     if (self) {
+        self.backgroundColor = kColorTableBG;
         _padding_top = 0;
         _padding_bottom = 40;
         _image_width = kScreen_Width;

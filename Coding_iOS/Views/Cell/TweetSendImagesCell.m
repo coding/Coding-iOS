@@ -25,7 +25,6 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor clearColor];
         if (!self.mediaView) {
             UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
             self.mediaView = [[UICustomCollectionView alloc] initWithFrame:CGRectMake(15, 0, kScreen_Width-2*15, 80) collectionViewLayout:layout];

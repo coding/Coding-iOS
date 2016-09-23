@@ -52,7 +52,6 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor clearColor];
         //        self.backgroundColor = [UIColor colorWithHexString:@"0xf3f3f3"];
         if (!self.ownerImgView) {
             self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, 38, 38)];

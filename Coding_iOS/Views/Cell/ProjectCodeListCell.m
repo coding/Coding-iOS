@@ -26,7 +26,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        self.backgroundColor = [UIColor clearColor];
         // Initialization code
         if (!_leftIconView) {
             _leftIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([self.class cellHeight] - kCode_IconViewWidth)/2, kCode_IconViewWidth, kCode_IconViewWidth)];

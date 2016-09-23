@@ -29,7 +29,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.backgroundColor = [UIColor clearColor];
         self.backgroundView = nil;
         if (!_commentLabel) {
             _commentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTweetCommentCell_LeftOrRightPading, kScaleFrom_iPhone5_Desgin(6), kTweetCommentCell_ContentWidth, 20)];

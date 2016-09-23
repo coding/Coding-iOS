@@ -80,7 +80,8 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.view.backgroundColor = kColorTableBG;
+//    self.view.backgroundColor = kColorTableBG;
+    self.view.backgroundColor = kColorTableSectionBg;
     
     if (self.interfaceOrientation != UIInterfaceOrientationPortrait
         && !([self supportedInterfaceOrientations] & UIInterfaceOrientationMaskLandscapeLeft)) {

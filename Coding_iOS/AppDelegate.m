@@ -234,7 +234,6 @@
 
 - (void)setupIntroductionViewController{
     IntroductionViewController *introductionVC = [[IntroductionViewController alloc] init];
-//    [self.window setRootViewController:[[BaseNavigationController alloc] initWithRootViewController:introductionVC]];
     [self.window setRootViewController:introductionVC];
 }
 
@@ -247,7 +246,6 @@
 
 - (void)customizeInterface {
     //设置Nav的背景色和title色
-    
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
     [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[NSObject baseURLStrIsProduction]? kColorNavBG: kColorBrandGreen] forBarMetrics:UIBarMetricsDefault];
     [navigationBarAppearance setTintColor:kColorBrandGreen];//返回按钮的箭头颜色

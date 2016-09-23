@@ -47,7 +47,6 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.backgroundColor = [UIColor clearColor];
         _preMediaViewHeight = 0;
 
         if (!_userIconView) {
