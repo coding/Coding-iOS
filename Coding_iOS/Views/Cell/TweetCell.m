@@ -66,7 +66,7 @@
 //        self.backgroundColor = [UIColor colorWithHexString:@"0xf3f3f3"];
         if (!_topView) {
             _topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 15)];
-            _topView.backgroundColor = [UIColor colorWithHexString:@"0xeeeeee"];
+            _topView.backgroundColor = kColorTableSectionBg;
             [self.contentView addSubview:_topView];
         }
         
@@ -91,13 +91,13 @@
 //            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 55, 23 + CGRectGetMaxY(_topView.frame), 55, 12)];
             self.timeLabel.font = kTweet_TimtFont;
 //            self.timeLabel.textAlignment = NSTextAlignmentRight;
-            self.timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            self.timeLabel.textColor = kColor999;
             [self.contentView addSubview:self.timeLabel];
         }
         if (!self.contentLabel) {
             self.contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTweetCell_PadingLeft, kTweetCell_PadingTop, kTweetCell_ContentWidth, 20)];
             self.contentLabel.font = kTweet_ContentFont;
-            self.contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            self.contentLabel.textColor = kColor222;
             self.contentLabel.numberOfLines = 0;
             
             self.contentLabel.linkAttributes = kLinkAttributes;
@@ -155,7 +155,7 @@
         if (!self.fromLabel) {
             self.fromLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.fromPhoneIconView.frame) + 5, 0, kScreen_Width/2, 15)];
             self.fromLabel.font = kTweet_TimtFont;
-            self.fromLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            self.fromLabel.textColor = kColor999;
             [self.contentView addSubview:self.fromLabel];
         }
         

@@ -19,7 +19,7 @@
         if (!_blankStrLabel) {
             _blankStrLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([self.class cellHeight]-30)/2, kScreen_Width - 2*kPaddingLeftWidth, 30)];
             _blankStrLabel.font = [UIFont boldSystemFontOfSize:15];
-            _blankStrLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _blankStrLabel.textColor = kColor999;
             _blankStrLabel.textAlignment = NSTextAlignmentCenter;
             [self.contentView addSubview:_blankStrLabel];
             

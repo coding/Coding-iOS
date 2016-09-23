@@ -34,11 +34,11 @@
         self.userState.text = @"+1";
         [self.reviewIcon setHidden:NO];
         self.reviewIcon.image = [UIImage imageNamed:@"PointLikeHead"];
-        self.userState.textColor = [UIColor colorWithHexString:@"0x3BBD79"];
+        self.userState.textColor = kColorBrandGreen;
     } else {
         [self.reviewIcon setHidden:YES];
         self.userState.text = @"未评审";
-        self.userState.textColor = [UIColor colorWithHexString:@"0x999999"];
+        self.userState.textColor = kColor999;
     }
     
 }
@@ -52,7 +52,7 @@
     self.userName.text = reviewer.name;
     if([likeValue isEqual:@100]) {
         self.userState.text = @"+1";
-        self.userState.textColor = [UIColor colorWithHexString:@"0x3BBD79"];
+        self.userState.textColor = kColorBrandGreen;
     }
     
 }

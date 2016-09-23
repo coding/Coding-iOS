@@ -28,7 +28,7 @@
             _titleL = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_iconView.frame) + kPaddingLeftWidth, 12, kScreen_Width/2, 20)];
             _titleL.textAlignment = NSTextAlignmentLeft;
             _titleL.font = [UIFont systemFontOfSize:15];
-            _titleL.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _titleL.textColor = kColor222;
             [self.contentView addSubview:_titleL];
         }
     }

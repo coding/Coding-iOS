@@ -40,7 +40,7 @@
         }
         if (!_lineV) {
             _lineV = [UIView new];
-            _lineV.backgroundColor = [UIColor colorWithHexString:@"0xDDDDDD"];
+            _lineV.backgroundColor = kColorDDD;
             [self.contentView addSubview:_lineV];
         }
         ESWeak(self, weakSelf);

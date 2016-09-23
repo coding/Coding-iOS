@@ -178,7 +178,7 @@
         pgC.backgroundColor = [UIColor clearColor];
         pgC.pageIndicatorImage = [UIImage imageNamed:@"nav_page_unselected"];
         pgC.currentPageIndicatorImage = [UIImage imageNamed:@"nav_page_selected"];
-        pgC.frame = CGRectMake(0, 32.0, kScreen_Width, 7.0);
+        pgC.frame = CGRectMake(0, 32.0, kScreen_Width, 5.0);
         pgC.numberOfPages = 2;
         pgC.currentPage = 0;
         pgC;

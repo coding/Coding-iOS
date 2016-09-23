@@ -32,7 +32,7 @@
         _myOrder = order;
         _myTableView = ({
             UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
-            tableView.backgroundColor = [UIColor colorWithHexString:@"0xeeeeee"];
+            tableView.backgroundColor = kColorTableSectionBg;
             tableView.delegate = self;
             tableView.dataSource = self;
             tableView.estimatedRowHeight = 690/2;

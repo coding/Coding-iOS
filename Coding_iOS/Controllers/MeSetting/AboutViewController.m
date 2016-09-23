@@ -48,14 +48,14 @@
     
     UILabel *logoLabel = [[UILabel alloc] init];
     logoLabel.font = [UIFont boldSystemFontOfSize:17];
-    logoLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+    logoLabel.textColor = kColor222;
     logoLabel.textAlignment = NSTextAlignmentCenter;
     logoLabel.text = @"Coding-让开发更简单";
     [self.view addSubview:logoLabel];
     
     UILabel *versionLabel = [[UILabel alloc] init];
     versionLabel.font = [UIFont systemFontOfSize:12];
-    versionLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    versionLabel.textColor = kColor666;
     versionLabel.textAlignment = NSTextAlignmentCenter;
     versionLabel.text = [NSString stringWithFormat:@"版本：V%@", kVersionBuild_Coding];
     [self.view addSubview:versionLabel];
@@ -64,7 +64,7 @@
     infoLabel.numberOfLines = 0;
     infoLabel.backgroundColor = [UIColor clearColor];
     infoLabel.font = [UIFont systemFontOfSize:12];
-    infoLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    infoLabel.textColor = kColor666;
     infoLabel.textAlignment = NSTextAlignmentCenter;
     infoLabel.text = [NSString stringWithFormat:@"官网：https://coding.net \nE-mail：link@coding.net \n微博：Coding \n微信：扣钉Coding"];
     [self.view addSubview:infoLabel];

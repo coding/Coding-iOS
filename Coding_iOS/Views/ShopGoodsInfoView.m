@@ -49,27 +49,27 @@
     _titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _titleLabel.font = FONT(15);
     _titleLabel.backgroundColor = [UIColor clearColor];
-    _titleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+    _titleLabel.textColor = kColor222;
     [superView addSubview:_titleLabel];
     
     _descLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _descLabel.font = [UIFont systemFontOfSize:12];
     _descLabel.numberOfLines = 0 ;
     _descLabel.backgroundColor = [UIColor clearColor];
-    _descLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+    _descLabel.textColor = kColor999;
     [superView addSubview:_descLabel];
     
     _countLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _countLabel.font = FONT(12);
     _countLabel.backgroundColor = [UIColor clearColor];
     _countLabel.text  = @"ⅹ1";
-    _countLabel.textColor = [UIColor colorWithHexString:@"0x3BBD79"];
+    _countLabel.textColor = kColorBrandGreen;
     [superView addSubview:_countLabel];
     
     _codingCoinView = [UIButton buttonWithType:UIButtonTypeCustom];
     [_codingCoinView setImage:[UIImage imageNamed:@"shop_coding_coin_icon"] forState:UIControlStateNormal];
     [_codingCoinView setTitle:@"  码币 " forState:UIControlStateNormal];
-    [_codingCoinView setTitleColor:[UIColor colorWithHexString:@"0x222222"] forState:UIControlStateNormal];
+    [_codingCoinView setTitleColor:kColor222 forState:UIControlStateNormal];
     [_codingCoinView.titleLabel setFont:[UIFont boldSystemFontOfSize:12.0]];
     [superView addSubview:_codingCoinView];
     

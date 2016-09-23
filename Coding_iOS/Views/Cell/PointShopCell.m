@@ -28,7 +28,7 @@
             _titleL = [UILabel new];
             _titleL.textAlignment = NSTextAlignmentLeft;
             _titleL.font = [UIFont systemFontOfSize:15];
-            _titleL.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _titleL.textColor = kColor222;
             [self.contentView addSubview:_titleL];
         }
         [_iconView mas_makeConstraints:^(MASConstraintMaker *make) {

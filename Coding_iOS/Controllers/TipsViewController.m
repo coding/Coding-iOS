@@ -174,12 +174,12 @@
     }else{
         [KxMenu setTitleFont:[UIFont systemFontOfSize:14]];
         [KxMenu setTintColor:[UIColor whiteColor]];
-        [KxMenu setLineColor:[UIColor colorWithHexString:@"0xdddddd"]];
+        [KxMenu setLineColor:kColorDDD];
         NSArray *menuItems = @[
                                [KxMenuItem menuItem:_myCodingTips.onlyUnread? @"查看全部": @"查看未读" image:[UIImage imageNamed:@"tips_menu_icon_status"] target:self action:@selector(p_changeTipStatus)],
                                [KxMenuItem menuItem:@"全部标注已读" image:[UIImage imageNamed:@"tips_menu_icon_mkread"] target:self action:@selector(p_markReadAll)],
                                ];
-        [menuItems setValue:[UIColor colorWithHexString:@"0x222222"] forKey:@"foreColor"];
+        [menuItems setValue:kColor222 forKey:@"foreColor"];
         CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 0, 0, 0);
         [KxMenu showMenuInView:self.view
                       fromRect:senderFrame

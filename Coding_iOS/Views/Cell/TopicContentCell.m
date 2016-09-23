@@ -40,13 +40,13 @@
         CGFloat curWidth = kScreen_Width - 2 * kPaddingLeftWidth;
         if (!_titleLabel) {
             _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15,  curWidth, 30)];
-            _titleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _titleLabel.textColor = kColor222;
             _titleLabel.font = kTopicContentCell_FontTitle;
             [self.contentView addSubview:_titleLabel];
         }
         if (!_timeLabel) {
             _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth +25, 0, curWidth, 20)];
-            _timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _timeLabel.textColor = kColor999;
             _timeLabel.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_timeLabel];
         }
@@ -148,14 +148,14 @@
     
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:displayStr];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+                                NSForegroundColorAttributeName : kColor222}
                         range:[displayStr rangeOfString:nameStr]];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+                                NSForegroundColorAttributeName : kColor222}
                         range:[displayStr rangeOfString:numStr]];
     
     [attrString addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:12],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
+                                NSForegroundColorAttributeName : kColor999}
                         range:[displayStr rangeOfString:timeStr]];
     return  attrString;
 }

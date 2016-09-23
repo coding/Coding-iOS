@@ -52,7 +52,7 @@
     _titleLabel.font = FONT(14);
     _titleLabel.backgroundColor = [UIColor clearColor];
     _titleLabel.textAlignment = NSTextAlignmentCenter;
-    _titleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+    _titleLabel.textColor = kColor222;
     [superView addSubview:_titleLabel];
     
     UIView *_coinView = [UIView new];
@@ -61,7 +61,7 @@
      _codingCoinView = [UIButton buttonWithType:UIButtonTypeCustom];
     [_codingCoinView setImage:[UIImage imageNamed:@"shop_coding_coin_icon"] forState:UIControlStateNormal];
     [_codingCoinView setTitle:@"  码币 " forState:UIControlStateNormal];
-    [_codingCoinView setTitleColor:[UIColor colorWithHexString:@"0x222222"] forState:UIControlStateNormal];
+    [_codingCoinView setTitleColor:kColor222 forState:UIControlStateNormal];
     [_codingCoinView.titleLabel setFont:[UIFont boldSystemFontOfSize:12.0]];
     [_coinView addSubview:_codingCoinView];
     

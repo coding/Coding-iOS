@@ -66,7 +66,7 @@
     UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 50)];
     headerLabel.backgroundColor = [UIColor clearColor];
     headerLabel.font = [UIFont boldSystemFontOfSize:18];
-    headerLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+    headerLabel.textColor = kColor222;
     headerLabel.textAlignment = NSTextAlignmentCenter;
     headerLabel.text = @"加入Coding，体验云端开发之美！";
     [headerLabel setCenter:headerV.center];

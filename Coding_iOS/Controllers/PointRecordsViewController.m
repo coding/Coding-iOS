@@ -191,7 +191,7 @@
         }
         if (!_tipL) {
             _tipL = [UILabel new];
-            _tipL.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _tipL.textColor = kColor222;
             _tipL.font = [UIFont systemFontOfSize:14];
             _tipL.numberOfLines = 0;
             NSString *tipStr =

@@ -36,7 +36,7 @@
         CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
         if (!_contentLabel) {
             _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth + 40, curBottomY, curWidth, 30)];
-            _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _contentLabel.textColor = kColor222;
             _contentLabel.font = kMRPRCommentCell_FontContent;
             _contentLabel.linkAttributes = kLinkAttributes;
             _contentLabel.activeLinkAttributes = kLinkAttributesActive;
@@ -45,7 +45,7 @@
         CGFloat commentBtnWidth = 40;
         if (!_timeLabel) {
             _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth +40, 0, curWidth- commentBtnWidth, 20)];
-            _timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _timeLabel.textColor = kColor999;
             _timeLabel.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_timeLabel];
         }

@@ -145,7 +145,7 @@
     if (!_addTagButton) {
         _addTagButton = [UIButton new];
         _addTagButton.layer.cornerRadius = 2;
-        _addTagButton.layer.borderColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
+        _addTagButton.layer.borderColor = kColorDDD.CGColor;
         @weakify(self);
         [_addTagButton bk_addEventHandler:^(id sender) {
             @strongify(self);

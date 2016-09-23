@@ -40,7 +40,7 @@ static char LoadingViewKey, BlankPageViewKey;
     self.layer.masksToBounds = YES;
     self.layer.cornerRadius = self.frame.size.width/2;
     self.layer.borderWidth = 0.5;
-    self.layer.borderColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
+    self.layer.borderColor = kColorDDD.CGColor;
 }
 - (void)doNotCircleFrame{
     self.layer.cornerRadius = 0.0;
@@ -52,7 +52,7 @@ static char LoadingViewKey, BlankPageViewKey;
     self.layer.cornerRadius = cornerRadius;
     self.layer.borderWidth = width;
     if (!color) {
-        self.layer.borderColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
+        self.layer.borderColor = kColorDDD.CGColor;
     }else{
         self.layer.borderColor = color.CGColor;
     }
@@ -746,7 +746,7 @@ static char LoadingViewKey, BlankPageViewKey;
             //新增按钮
             UIButton *actionBtn=({
                 UIButton *button=[UIButton new];
-                button.backgroundColor=[UIColor colorWithHexString:@"0x3BBD79"];
+                button.backgroundColor=kColorBrandGreen;
                 button.titleLabel.font=[UIFont systemFontOfSize:15];
                 [button addTarget:self action:@selector(btnAction) forControlEvents:UIControlEventTouchUpInside];
                 button.layer.cornerRadius=18;

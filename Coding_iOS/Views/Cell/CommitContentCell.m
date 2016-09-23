@@ -31,13 +31,13 @@
         CGFloat curWidth = kScreen_Width - 2 * kPaddingLeftWidth;
         if (!_titleL) {
             _titleL = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15,  curWidth, 30)];
-            _titleL.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _titleL.textColor = kColor222;
             _titleL.font = kCommitContentCell_FontTitle;
             [self.contentView addSubview:_titleL];
         }
         if (!_timeL) {
             _timeL = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth +25, 0, curWidth, 20)];
-            _timeL.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _timeL.textColor = kColor999;
             _timeL.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_timeL];
             [_timeL mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -96,10 +96,10 @@
     NSString *timeStr = _curCommitInfo.commitDetail.commitTime? [_curCommitInfo.commitDetail.commitTime stringDisplay_HHmm]: @"";
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", nameStr, timeStr]];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+                                 NSForegroundColorAttributeName : kColor222}
                          range:NSMakeRange(0, nameStr.length)];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
+                                 NSForegroundColorAttributeName : kColor999}
                          range:NSMakeRange(nameStr.length + 1, timeStr.length)];
     return attrString;
 }

@@ -35,7 +35,7 @@
         }
         if (!_labelField) {
             _labelField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_colorBtn.frame) + 10, 0, (CGRectGetMinX(_addBtn.frame) - CGRectGetMaxX(_colorBtn.frame) - 20), 44)];
-            _labelField.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _labelField.textColor = kColor222;
             _labelField.font = [UIFont systemFontOfSize:16];
             _labelField.placeholder = @"输入新标签的名称";
             [self.contentView addSubview:_labelField];

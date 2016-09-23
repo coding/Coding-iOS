@@ -19,10 +19,6 @@
     return self;
 }
 
-- (void)awakeFromNib
-{
-    // Initialization code
-}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
@@ -38,7 +34,7 @@
     self.imageView.frame = CGRectMake(27, (50.0-25.0)/2, 25, 25);
     self.textLabel.frame = CGRectMake(65, (50.0-25.0)/2, 150, 25);
     self.textLabel.backgroundColor = [UIColor clearColor];
-    self.textLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+    self.textLabel.textColor = kColor222;
     self.textLabel.font = [UIFont systemFontOfSize:15];
     
     self.imageView.image = [UIImage imageNamed:_curItem.imageName];

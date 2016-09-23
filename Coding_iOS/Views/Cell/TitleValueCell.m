@@ -31,7 +31,7 @@
             _valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 7, kScreen_Width-(120+kPaddingLeftWidth), 30)];
             _valueLabel.backgroundColor = [UIColor clearColor];
             _valueLabel.font = [UIFont systemFontOfSize:15];
-            _valueLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _valueLabel.textColor = kColor999;
             _valueLabel.textAlignment = NSTextAlignmentRight;
             [self.contentView addSubview:_valueLabel];
         }

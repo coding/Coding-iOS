@@ -45,7 +45,7 @@
         [tableView registerClass:[CSTopicNameCell class] forCellReuseIdentifier:kCellIdentifier_TopicNameCell];
         tableView.sectionIndexBackgroundColor = [UIColor clearColor];
         tableView.sectionIndexTrackingBackgroundColor = [UIColor clearColor];
-        tableView.sectionIndexColor = [UIColor colorWithHexString:@"0x666666"];
+        tableView.sectionIndexColor = kColor666;
         tableView.sectionHeaderHeight = 20;
         tableView.rowHeight = 44;
         [self.view addSubview:tableView];
@@ -151,7 +151,7 @@
     
     UILabel *titleL = [[UILabel alloc] init];
     titleL.font = [UIFont systemFontOfSize:12];
-    titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
+    titleL.textColor = kColor999;
     titleL.text = [self tableView:tableView titleForHeaderInSection:section];
     [headerV addSubview:titleL];
     [titleL mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -329,7 +329,7 @@
         
         self.textLabel.frame = CGRectMake(kPaddingLeftWidth, 0, kScreen_Width - kPaddingLeftWidth - 15, 44);
         self.textLabel.font = [UIFont systemFontOfSize:15];
-        self.textLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+        self.textLabel.textColor = kColor222;
         self.textLabel.backgroundColor = [UIColor clearColor];
     }
     return self;

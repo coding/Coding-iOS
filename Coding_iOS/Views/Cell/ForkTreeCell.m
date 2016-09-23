@@ -34,13 +34,13 @@
         
         if (!_projectTitleLabel) {
             _projectTitleLabel = [UILabel new];
-            _projectTitleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _projectTitleLabel.textColor = kColor222;
             _projectTitleLabel.font = [UIFont systemFontOfSize:15];
             [self.contentView addSubview:_projectTitleLabel];
         }
         if (!_forkInfoLabel) {
             _forkInfoLabel = [UILabel new];
-            _forkInfoLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _forkInfoLabel.textColor = kColor999;
             _forkInfoLabel.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_forkInfoLabel];
         }

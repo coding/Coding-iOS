@@ -28,7 +28,7 @@
         }
         if (!_nameLabel) {
             _nameLabel = [UILabel new];
-            _nameLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _nameLabel.textColor = kColor222;
             _nameLabel.font = [UIFont systemFontOfSize:16];
             [self.contentView addSubview:_nameLabel];
         }

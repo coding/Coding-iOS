@@ -29,7 +29,7 @@
         [tableView registerClass:[CountryCodeCell class] forCellReuseIdentifier:kCellIdentifier_CountryCodeCell];
         tableView.sectionIndexBackgroundColor = [UIColor clearColor];
         tableView.sectionIndexTrackingBackgroundColor = [UIColor clearColor];
-        tableView.sectionIndexColor = [UIColor colorWithHexString:@"0x666666"];
+        tableView.sectionIndexColor = kColor666;
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -103,7 +103,7 @@
     headerV.backgroundColor = self.myTableView.backgroundColor;
     UILabel *titleL = [UILabel new];
     titleL.font = [UIFont systemFontOfSize:12];
-    titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
+    titleL.textColor = kColor999;
     titleL.text = [_keyList[section+ 1] isEqualToString:@"#"]? @"常用": _keyList[section+ 1];
     [headerV addSubview:titleL];
     [titleL mas_makeConstraints:^(MASConstraintMaker *make) {

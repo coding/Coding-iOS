@@ -29,7 +29,7 @@
             _proDesL = [[UILabel alloc] init];
             _proDesL.numberOfLines = 0;
             _proDesL.font = kProjectDescriptionCell_Font;
-            _proDesL.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _proDesL.textColor = kColor222;
             [self.contentView addSubview:_proDesL];
         }
     }

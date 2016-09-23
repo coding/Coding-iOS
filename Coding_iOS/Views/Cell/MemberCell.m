@@ -32,7 +32,7 @@
         if (!_memberNameLabel) {
             _memberNameLabel = [UILabel new];
             _memberNameLabel.font = [UIFont systemFontOfSize:17];
-            _memberNameLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _memberNameLabel.textColor = kColor222;
             [self.contentView addSubview:_memberNameLabel];
             [_memberNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(self.memberIconView.mas_right).offset(10);
@@ -43,7 +43,7 @@
         if (!_memberAliasLabel) {
             _memberAliasLabel = [UILabel new];
             _memberAliasLabel.font = [UIFont systemFontOfSize:12];
-            _memberAliasLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+            _memberAliasLabel.textColor = kColor666;
             [self.contentView addSubview:_memberAliasLabel];
             [_memberAliasLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(self.memberNameLabel);

@@ -119,14 +119,15 @@
 
 #define kDefaultLastId [NSNumber numberWithInteger:99999999]
 
+#define kColor222 [UIColor colorWithHexString:@"0x222222"]
+#define kColor666 [UIColor colorWithHexString:@"0x666666"]
 #define kColor999 [UIColor colorWithHexString:@"0x999999"]
+#define kColorDDD [UIColor colorWithHexString:@"0xDDDDDD"]
 #define kColorTableBG [UIColor colorWithHexString:@"0xFFFFFF"]
 #define kColorTableSectionBg [UIColor colorWithHexString:@"0xF2F4F6"]
-#define kColorBrandGreen [UIColor colorWithHexString:@"0x3bbc79"]
-#define kColorDDD [UIColor colorWithHexString:@"0xDDDDDD"]
+#define kColorBrandGreen [UIColor colorWithHexString:@"0x3BBD79"]
 #define kColorNavBG [UIColor colorWithHexString:@"0xFAFAFA"]
 #define kColorNavTitle [UIColor colorWithHexString:@"0x323A45"]
-#define kImage999 [UIImage imageWithColor:kColor999]
 
 #define kPlaceholderMonkeyRoundWidth(_width_) [UIImage imageNamed:[NSString stringWithFormat:@"placeholder_monkey_round_%.0f", _width_]]
 #define kPlaceholderMonkeyRoundView(_view_) [UIImage imageNamed:[NSString stringWithFormat:@"placeholder_monkey_round_%.0f", CGRectGetWidth(_view_.frame)]]

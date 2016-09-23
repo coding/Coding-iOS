@@ -40,19 +40,19 @@
         
         if (!_projectTitleLabel) {
             _projectTitleLabel = [UILabel new];
-            _projectTitleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _projectTitleLabel.textColor = kColor222;
             _projectTitleLabel.font = [UIFont systemFontOfSize:17];
             [self.contentView addSubview:_projectTitleLabel];
         }
         if (!_ownerTitleLabel) {
             _ownerTitleLabel = [UILabel new];
-            _ownerTitleLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _ownerTitleLabel.textColor = kColor999;
             _ownerTitleLabel.font = [UIFont systemFontOfSize:15];
             [self.contentView addSubview:_ownerTitleLabel];
         }
         if (!_describeLabel) {
             _describeLabel = [UILabel new];
-            _describeLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+            _describeLabel.textColor = kColor666;
             _describeLabel.font = [UIFont systemFontOfSize:14];
             _describeLabel.numberOfLines=1;
             [self.contentView addSubview:_describeLabel];
@@ -175,8 +175,9 @@
 
 - (NSArray *)rightButtons{
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:_project.pin.boolValue? @"0xeeeeee": @"0x3bbd79"]
-                                                title:_project.pin.boolValue?@"取消常用":@"设置常用" titleColor:[UIColor colorWithHexString:_project.pin.boolValue?@"0x3bbd79":@"0xffffff"]];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:_project.pin.boolValue? kColorTableSectionBg: kColorBrandGreen
+                                                title:_project.pin.boolValue?@"取消常用":@"设置常用"
+                                           titleColor:_project.pin.boolValue? kColorBrandGreen: [UIColor whiteColor]];
     return rightUtilityButtons;
 }
 

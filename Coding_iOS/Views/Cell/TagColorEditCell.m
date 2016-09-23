@@ -30,7 +30,7 @@
         }
         if (!_colorF) {
             _colorF = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_colorView.frame) + 10, 0, (CGRectGetMinX(_randomBtn.frame) - CGRectGetMaxX(_colorView.frame) - 20), 44)];
-            _colorF.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _colorF.textColor = kColor222;
             _colorF.font = [UIFont systemFontOfSize:16];
             _colorF.placeholder = @"#00A7F4";
             [self.contentView addSubview:_colorF];

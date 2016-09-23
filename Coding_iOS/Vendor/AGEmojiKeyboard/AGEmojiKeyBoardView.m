@@ -432,7 +432,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 - (instancetype)initWithFrame:(CGRect)frame selectedImages:(NSArray *)selectedImages unSelectedImages:(NSArray *)unSelectedImages{
     self = [super initWithFrame:frame];
     if (self) {
-        [self addLineUp:YES andDown:NO andColor:[UIColor colorWithHexString:@"0xdddddd"]];
+        [self addLineUp:YES andDown:NO andColor:kColorDDD];
         self.selectedImages = selectedImages;
         self.unSelectedImages = unSelectedImages;
         self.numOfTabs = selectedImages.count;
@@ -465,7 +465,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 - (UIButton *)tabButtonWithIndex:(NSInteger)index{
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(_buttonWidth *index, 0, _buttonWidth, CGRectGetHeight(self.frame))];
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(_buttonWidth-0.5, 0, 0.5, CGRectGetHeight(self.frame))];
-    lineView.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+    lineView.backgroundColor = kColorDDD;
     [button addSubview:lineView];
     [button addTarget:self action:@selector(tabButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     return button;

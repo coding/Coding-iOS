@@ -75,7 +75,7 @@
 //            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 70, 18, 70, 12)];
             self.timeLabel.font = kTweet_TimtFont;
 //            self.timeLabel.textAlignment = NSTextAlignmentRight;
-            self.timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            self.timeLabel.textColor = kColor999;
             [self.contentView addSubview:self.timeLabel];
         }
 
@@ -129,7 +129,7 @@
         if (!self.fromLabel) {
             self.fromLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.fromPhoneIconView.frame) + 5, 0, kScreen_Width/2, 15)];
             self.fromLabel.font = kTweet_TimtFont;
-            self.fromLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            self.fromLabel.textColor = kColor999;
             [self.contentView addSubview:self.fromLabel];
         }
         if (!self.likeUsersView) {
@@ -141,7 +141,7 @@
             [self.likeUsersView registerClass:[TweetLikeUserCCell class] forCellWithReuseIdentifier:kCCellIdentifier_TweetLikeUser];
             self.likeUsersView.dataSource = self;
             self.likeUsersView.delegate = self;
-//            [self.likeUsersView addLineUp:YES andDown:NO andColor:[UIColor colorWithHexString:@"0xdddddd"]];
+//            [self.likeUsersView addLineUp:YES andDown:NO andColor:kColorDDD];
             [self.contentView addSubview:self.likeUsersView];
         }
         if (!self.webContentView) {

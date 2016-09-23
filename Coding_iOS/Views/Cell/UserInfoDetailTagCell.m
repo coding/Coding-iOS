@@ -31,7 +31,7 @@
             _valueL.numberOfLines = 0;
             [self.contentView addSubview:_valueL];
             _valueL.font = [UIFont systemFontOfSize:15];
-            _valueL.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _valueL.textColor = kColor999;
         }
         
         [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {

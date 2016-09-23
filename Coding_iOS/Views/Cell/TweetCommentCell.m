@@ -36,7 +36,7 @@
             _commentLabel.numberOfLines = 0;
             _commentLabel.backgroundColor = [UIColor clearColor];
             _commentLabel.font = kTweet_CommentFont;
-            _commentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _commentLabel.textColor = kColor222;
             _commentLabel.linkAttributes = kLinkAttributes;
             _commentLabel.activeLinkAttributes = kLinkAttributesActive;
             [self.contentView addSubview:_commentLabel];
@@ -46,14 +46,14 @@
             _userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kTweetCommentCell_LeftOrRightPading, 0, 150, 15)];
             _userNameLabel.backgroundColor = [UIColor clearColor];
             _userNameLabel.font = [UIFont boldSystemFontOfSize:10];
-            _userNameLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+            _userNameLabel.textColor = kColor666;
             [self.contentView addSubview:_userNameLabel];
         }
         if (!_timeLabel) {
             _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 0, 80, 15)];
             _timeLabel.backgroundColor = [UIColor clearColor];
             _timeLabel.font = [UIFont systemFontOfSize:10];
-            _timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _timeLabel.textColor = kColor999;
             [self.contentView addSubview:_timeLabel];
         }
         if (!_timeClockIconView) {

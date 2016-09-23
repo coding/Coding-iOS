@@ -63,7 +63,7 @@
                     UILabel *label = [UILabel new];
                     label.textAlignment = NSTextAlignmentCenter;
                     label.font = [UIFont systemFontOfSize:14];
-                    label.textColor = [UIColor colorWithHexString:@"0x666666"];
+                    label.textColor = kColor666;
                     label;
                 });
                 [_contentView addSubview:_titleL];
@@ -565,7 +565,7 @@
             UILabel *label = [UILabel new];
             label.textAlignment = NSTextAlignmentCenter;
             label.font = [UIFont systemFontOfSize:12];
-            label.textColor = [UIColor colorWithHexString:@"0x666666"];
+            label.textColor = kColor666;
             label;
         });
         [self addSubview:_titleL];

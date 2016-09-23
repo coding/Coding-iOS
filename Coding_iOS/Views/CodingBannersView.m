@@ -47,7 +47,7 @@
         _typeLabel = ({
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, (_padding_top - 15)/2, 30, 15)];
             [label doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xb5b5b5"] cornerRadius:2.0];
-            label.textColor = [UIColor colorWithHexString:@"0x666666"];
+            label.textColor = kColor666;
             label.font = [UIFont systemFontOfSize:10];
             label.textAlignment = NSTextAlignmentCenter;
             label.text = @"活动";
@@ -60,7 +60,7 @@
     if (!_titleLabel) {
         _titleLabel = ({
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_typeLabel.frame) + 5.0, (_padding_top - 30)/2, _image_width - CGRectGetWidth(_typeLabel.frame) - 70, 30)];
-            label.textColor = [UIColor colorWithHexString:@"0x222222"];
+            label.textColor = kColor222;
             label.font = [UIFont systemFontOfSize:12];
             label;
         });

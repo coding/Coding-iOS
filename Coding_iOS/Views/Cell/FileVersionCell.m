@@ -35,25 +35,25 @@
             _iconView.layer.masksToBounds = YES;
             _iconView.layer.cornerRadius = 2.0;
             _iconView.layer.borderWidth = 0.5;
-            _iconView.layer.borderColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
+            _iconView.layer.borderColor = kColorDDD.CGColor;
             _iconView.contentMode = UIViewContentModeScaleAspectFill;
             [self.contentView addSubview:_iconView];
         }
         if (!_nameLabel) {
             _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kFileVersionCell_LeftPading, kFileVersionCell_TopPading, (kScreen_Width - kFileVersionCell_LeftPading - 60), 25)];
-            _nameLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _nameLabel.textColor = kColor222;
             _nameLabel.font = [UIFont systemFontOfSize:16];
             [self.contentView addSubview:_nameLabel];
         }
         if (!_sizeLabel) {
             _sizeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kFileVersionCell_LeftPading, ([FileVersionCell cellHeight]- 15)/2+3, (kScreen_Width - kFileVersionCell_LeftPading - 60), 15)];
-            _sizeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _sizeLabel.textColor = kColor999;
             _sizeLabel.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_sizeLabel];
         }
         if (!_infoLabel) {
             _infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(kFileVersionCell_LeftPading, ([FileVersionCell cellHeight]- 15 - kFileVersionCell_TopPading), (kScreen_Width - kFileVersionCell_LeftPading - 60), 15)];
-            _infoLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _infoLabel.textColor = kColor999;
             _infoLabel.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_infoLabel];
         }

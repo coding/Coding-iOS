@@ -30,7 +30,7 @@
         self.clipsToBounds = YES;
         
         UIView *sepLine = [[UIView alloc] initWithFrame:CGRectMake(12, 41, kScreen_Width - 12, 0.5)];
-        sepLine.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+        sepLine.backgroundColor = kColorDDD;
         [self addSubview:sepLine];
         
         _userCountLabel = ({
@@ -47,7 +47,7 @@
         label2.right = kScreen_Width - 25;
         label2.font = [UIFont systemFontOfSize:13];
         label2.backgroundColor = [UIColor clearColor];
-        label2.textColor = [UIColor colorWithHexString:@"0x999999"];
+        label2.textColor = kColor999;
         label2.textAlignment = NSTextAlignmentRight;
         label2.text = @"查看全部";
         [self addSubview:label2];

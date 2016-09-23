@@ -236,13 +236,13 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
         _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15, kScreen_Width - kPaddingLeftWidth - kHotTopicCellPaddingRight, 12)];
         _nameLabel.font = [UIFont boldSystemFontOfSize:15];
         _nameLabel.backgroundColor = [UIColor clearColor];
-        _nameLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+        _nameLabel.textColor = kColor222;
         _nameLabel.textAlignment = NSTextAlignmentLeft;
         [self.contentView addSubview:_nameLabel];
         
         self.contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, _nameLabel.bottom + 15, kScreen_Width - kPaddingLeftWidth - 30, 30)];
         self.contentLabel.font = [UIFont systemFontOfSize:14];
-        self.contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+        self.contentLabel.textColor = kColor222;
         self.contentLabel.numberOfLines = 0;
         
         self.contentLabel.linkAttributes = kLinkAttributes;
@@ -254,7 +254,7 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
         _userCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 75, kScreen_Width - kPaddingLeftWidth - kHotTopicCellPaddingRight, 12)];
         _userCountLabel.font = [UIFont systemFontOfSize:12];
         _userCountLabel.backgroundColor = [UIColor clearColor];
-        _userCountLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+        _userCountLabel.textColor = kColor999;
         _userCountLabel.textAlignment = NSTextAlignmentLeft;
         [self.contentView addSubview:_userCountLabel];
         
@@ -335,7 +335,7 @@ static CGFloat const kHotTopicCellPaddingRight = 15;
         
         self.textLabel.frame = CGRectMake(kPaddingLeftWidth, 12, kScreen_Width - 100, 12);
         self.textLabel.font = [UIFont systemFontOfSize:13];
-        self.textLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+        self.textLabel.textColor = kColor222;
         self.textLabel.text = @"热门话题榜单";
         self.textLabel.backgroundColor = [UIColor clearColor];
     }

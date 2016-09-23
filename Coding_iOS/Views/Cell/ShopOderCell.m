@@ -67,7 +67,7 @@
     orderLabel.layer.cornerRadius = 4;
     orderLabel.layer.borderWidth = 0.5;
     orderLabel.layer.borderColor = [UIColor colorWithHexString:@"0xB5B5B5"].CGColor;
-    orderLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+    orderLabel.textColor = kColor222;
     [superView addSubview:orderLabel];
     
     _orderNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -89,7 +89,7 @@
     }];
     
     UIView *_goodsInfoView = [[UIView alloc] init];
-    _goodsInfoView.backgroundColor = [UIColor colorWithHexString:@"0xF0F0F0"];
+    _goodsInfoView.backgroundColor = kColorTableSectionBg;
     [superView addSubview:_goodsInfoView];
     [_goodsInfoView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(orderLabel.mas_bottom).offset(15);
@@ -99,7 +99,7 @@
     }];
     
     _coverView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    _coverView.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
+    _coverView.backgroundColor = [UIColor clearColor];
     _coverView.contentMode = UIViewContentModeScaleAspectFill;
     _coverView.layer.masksToBounds =YES;
     [_goodsInfoView addSubview:_coverView];
@@ -109,27 +109,27 @@
     _titleLabel.adjustsFontSizeToFitWidth = YES;
     _titleLabel.minimumScaleFactor = 0.5;
     _titleLabel.backgroundColor = [UIColor clearColor];
-    _titleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+    _titleLabel.textColor = kColor222;
     [_goodsInfoView addSubview:_titleLabel];
     
     _remarksLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _remarksLabel.font = FONT(12);
     _remarksLabel.numberOfLines = 0 ;
     _remarksLabel.backgroundColor = [UIColor clearColor];
-    _remarksLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    _remarksLabel.textColor = kColor666;
     [_goodsInfoView addSubview:_remarksLabel];
     
 //    _countLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 //    _countLabel.font = FONT(12);
 //    _countLabel.backgroundColor = [UIColor clearColor];
 //    _countLabel.text  = @"ⅹ1";
-//    _countLabel.textColor = [UIColor colorWithHexString:@"0x3BBD79"];
+//    _countLabel.textColor = kColorBrandGreen;
 //    [_goodsInfoView addSubview:_countLabel];
     
     _codingCoinView = [UIButton buttonWithType:UIButtonTypeCustom];
     [_codingCoinView setImage:[UIImage imageNamed:@"shop_coding_coin_icon"] forState:UIControlStateNormal];
     [_codingCoinView setTitle:@"  码币 " forState:UIControlStateNormal];
-    [_codingCoinView setTitleColor:[UIColor colorWithHexString:@"0x222222"] forState:UIControlStateNormal];
+    [_codingCoinView setTitleColor:kColor222 forState:UIControlStateNormal];
     [_codingCoinView.titleLabel setFont:[UIFont boldSystemFontOfSize:12.0]];
     [_goodsInfoView addSubview:_codingCoinView];
     
@@ -167,14 +167,14 @@
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     nameLabel.font = FONT(14);
     nameLabel.backgroundColor = [UIColor clearColor];
-    nameLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    nameLabel.textColor = kColor666;
     nameLabel.text = @"收货人：";
     [superView addSubview:nameLabel];
     
     _nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _nameLabel.font = FONT(14);
     _nameLabel.backgroundColor = [UIColor clearColor];
-    _nameLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    _nameLabel.textColor = kColor666;
     [superView addSubview:_nameLabel];
     
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -192,14 +192,14 @@
     UILabel *phoneNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     phoneNumLabel.font = FONT(14);
     phoneNumLabel.backgroundColor = [UIColor clearColor];
-    phoneNumLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    phoneNumLabel.textColor = kColor666;
     phoneNumLabel.text = @"联系电话：";
     [superView addSubview:phoneNumLabel];
     
     _phoneNumLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _phoneNumLabel.font = FONT(14);
     _phoneNumLabel.backgroundColor = [UIColor clearColor];
-    _phoneNumLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    _phoneNumLabel.textColor = kColor666;
     [superView addSubview:_phoneNumLabel];
     
     [phoneNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -218,14 +218,14 @@
     UILabel *sendStatusLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     sendStatusLabel.font = FONT(14);
     sendStatusLabel.backgroundColor = [UIColor clearColor];
-    sendStatusLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    sendStatusLabel.textColor = kColor666;
     sendStatusLabel.text = @"状态：";
     [superView addSubview:sendStatusLabel];
     
     _sendStatusLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _sendStatusLabel.font = FONT(14);
     _sendStatusLabel.backgroundColor = [UIColor clearColor];
-    _sendStatusLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    _sendStatusLabel.textColor = kColor666;
     [superView addSubview:_sendStatusLabel];
     
     [sendStatusLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -244,14 +244,14 @@
     UILabel *expressLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     expressLabel.font = FONT(14);
     expressLabel.backgroundColor = [UIColor clearColor];
-    expressLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    expressLabel.textColor = kColor666;
     expressLabel.text = @"快递：";
     [superView addSubview:expressLabel];
     
     _expressLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _expressLabel.font = FONT(14);
     _expressLabel.backgroundColor = [UIColor clearColor];
-    _expressLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    _expressLabel.textColor = kColor666;
     [superView addSubview:_expressLabel];
     
     [expressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -271,14 +271,14 @@
     UILabel *sendTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     sendTimeLabel.font = FONT(14);
     sendTimeLabel.backgroundColor = [UIColor clearColor];
-    sendTimeLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    sendTimeLabel.textColor = kColor666;
     sendTimeLabel.text = @"时间：";
     [superView addSubview:sendTimeLabel];
     
     _sendTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _sendTimeLabel.font = FONT(14);
     _sendTimeLabel.backgroundColor = [UIColor clearColor];
-    _sendTimeLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    _sendTimeLabel.textColor = kColor666;
     [superView addSubview:_sendTimeLabel];
     
     [sendTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -297,14 +297,14 @@
     UILabel *remarkLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     remarkLabel.font = FONT(14);
     remarkLabel.backgroundColor = [UIColor clearColor];
-    remarkLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    remarkLabel.textColor = kColor666;
     remarkLabel.text = @"备注：";
     [superView addSubview:remarkLabel];
     
     _remarksLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _remarksLabel.font = FONT(14);
     _remarksLabel.backgroundColor = [UIColor clearColor];
-    _remarksLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    _remarksLabel.textColor = kColor666;
     [superView addSubview:_remarksLabel];
     
     [remarkLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -324,7 +324,7 @@
     UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     addressLabel.font = FONT(14);
     addressLabel.backgroundColor = [UIColor clearColor];
-    addressLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    addressLabel.textColor = kColor666;
     addressLabel.text = @"收货地址 : ";
     [superView addSubview:addressLabel];
     
@@ -333,7 +333,7 @@
     _addressLabel.backgroundColor = [UIColor clearColor];
     _addressLabel.numberOfLines = 0;
 //    _addressLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _addressLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    _addressLabel.textColor = kColor666;
     [superView addSubview:_addressLabel];
     
     [addressLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -361,7 +361,7 @@
 - (void)configViewWithModel:(ShopOrder *)order
 {
     _titleLabel.text = order.giftName;
-    [_coverView sd_setImageWithURL:[order.giftImage urlWithCodePath]];
+    [_coverView sd_setImageWithURL:[order.giftImage urlImageWithCodePathResize:90 * 2]];
     NSString *points_cost = [NSString stringWithFormat:@"  %@ 码币",[order.pointsCost stringValue]];
     [_codingCoinView setTitle:points_cost forState:UIControlStateNormal];
     

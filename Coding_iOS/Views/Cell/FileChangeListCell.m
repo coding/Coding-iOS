@@ -34,7 +34,7 @@
         if (!_fileNameL) {
             _fileNameL = [UILabel new];
             _fileNameL.font = [UIFont systemFontOfSize:15];
-            _fileNameL.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _fileNameL.textColor = kColor222;
             [self.contentView addSubview:_fileNameL];
             [_fileNameL mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(_iconView.mas_right).offset(15);

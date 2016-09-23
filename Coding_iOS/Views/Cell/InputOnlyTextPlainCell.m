@@ -36,7 +36,7 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:_phStr? _phStr: @"" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x999999"]}];
+    _textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:_phStr? _phStr: @"" attributes:@{NSForegroundColorAttributeName: kColor999}];
     _textField.text = _valueStr;
     _textField.secureTextEntry = _isSecure;
 }

@@ -33,7 +33,7 @@
             _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 5, 245, 20)];
             _contentLabel.backgroundColor = [UIColor clearColor];
             _contentLabel.font = kTweet_CommentFont;
-            _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _contentLabel.textColor = kColor222;
             [self.contentView addSubview:_contentLabel];
         }
         if (!_splitLineView) {

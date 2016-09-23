@@ -250,7 +250,7 @@
         }else{
             [KxMenu setTitleFont:[UIFont systemFontOfSize:14]];
             [KxMenu setTintColor:[UIColor whiteColor]];
-            [KxMenu setLineColor:[UIColor colorWithHexString:@"0xdddddd"]];
+            [KxMenu setLineColor:kColorDDD];
             
             NSMutableArray *menuItems = [@[
                                           [KxMenuItem menuItem:@"共享链接" image:[UIImage imageNamed:@"file_menu_icon_share"] target:self action:@selector(goToShareFileLink)],
@@ -267,7 +267,7 @@
             if (self.fileUrl) {
                 [menuItems addObject:[KxMenuItem menuItem:@"其它应用打开" image:[UIImage imageNamed:@"file_menu_icon_open"] target:self action:@selector(openByOtherApp)]];
             }
-            [menuItems setValue:[UIColor colorWithHexString:@"0x222222"] forKey:@"foreColor"];
+            [menuItems setValue:kColor222 forKey:@"foreColor"];
             CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 0, 0, 0);
             [KxMenu showMenuInView:self.view
                           fromRect:senderFrame

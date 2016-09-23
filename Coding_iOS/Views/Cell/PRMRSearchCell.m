@@ -35,7 +35,7 @@
             _imgView.layer.masksToBounds = YES;
             _imgView.layer.cornerRadius = kMRPRListCell_UserWidth/2;
             _imgView.layer.borderWidth = 0.5;
-            _imgView.layer.borderColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
+            _imgView.layer.borderColor = kColorDDD.CGColor;
             [self.contentView addSubview:_imgView];
             [_imgView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(kMRPRListCell_UserWidth, kMRPRListCell_UserWidth));
@@ -46,7 +46,7 @@
         
         if (!_titleLabel) {
             _titleLabel = [UILabel new];
-            _titleLabel.textColor=[UIColor colorWithHexString:@"0x222222"];
+            _titleLabel.textColor=kColor222;
             _titleLabel.font=[UIFont boldSystemFontOfSize:16];
             [self.contentView addSubview:_titleLabel];
             [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -59,7 +59,7 @@
         
         if (!_describeLab) {
             _describeLab = [UILabel new];
-            _describeLab.textColor = [UIColor colorWithHexString:@"0x666666"];
+            _describeLab.textColor = kColor666;
             _describeLab.font = [UIFont systemFontOfSize:15];
             _describeLab.numberOfLines=2;
             [self.contentView addSubview:_describeLab];
@@ -69,7 +69,7 @@
         if (!_subTitleLabel) {
             _subTitleLabel = [UILabel new];
             _subTitleLabel.font=[UIFont boldSystemFontOfSize:12];
-            _subTitleLabel.textColor=[UIColor colorWithHexString:@"0x999999"];
+            _subTitleLabel.textColor=kColor999;
             [self.contentView addSubview:_subTitleLabel];
 //            [_subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
 //                make.left.right.height.equalTo(_titleLabel);
@@ -92,7 +92,7 @@
             self.timeLabel = [UILabel new];
             self.timeLabel.font = [UIFont boldSystemFontOfSize:12];
             self.timeLabel.textAlignment = NSTextAlignmentLeft;
-            self.timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            self.timeLabel.textColor = kColor999;
             [self.contentView addSubview:self.timeLabel];
         }
         
@@ -219,10 +219,10 @@
     NSString *timeStr = _curMRPR.created_at? [_curMRPR.created_at stringDisplay_HHmm]: @"";
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"#%@ %@ %@",numStr, nameStr, timeStr]];
 //    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-//                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+//                                NSForegroundColorAttributeName : kColor222}
 //                        range:NSMakeRange(0, nameStr.length)];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
+                                NSForegroundColorAttributeName : kColor999}
                         range:NSMakeRange(0,numStr.length+timeStr.length+nameStr.length+3)];
     return attrString;
 }

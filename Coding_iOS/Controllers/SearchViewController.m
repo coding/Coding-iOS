@@ -60,7 +60,7 @@
 
 //基础化UI布局
 -(void)buildUI{
-    self.view.backgroundColor=[UIColor colorWithHexString:@"0xeeeeee"];
+//    self.view.backgroundColor=[UIColor colorWithHexString:@"0xeeeeee"];
     
     //添加搜索框
     _mySearchBar = ({

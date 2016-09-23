@@ -52,7 +52,7 @@
     UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 50)];
     headerLabel.backgroundColor = [UIColor clearColor];
     headerLabel.font = [UIFont boldSystemFontOfSize:12];
-    headerLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+    headerLabel.textColor = kColor999;
     headerLabel.numberOfLines = 0;
     headerLabel.textAlignment = NSTextAlignmentCenter;
     headerLabel.text = @"您还未设置过用户名（个性后缀）\n设置后才能正常登录！";

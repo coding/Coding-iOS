@@ -17,7 +17,7 @@
         // Initialization code
         self.backgroundColor = [UIColor clearColor];
         self.textLabel.font = [UIFont systemFontOfSize:17];
-        self.textLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+        self.textLabel.textColor = kColor222;
     }
     return self;
 }

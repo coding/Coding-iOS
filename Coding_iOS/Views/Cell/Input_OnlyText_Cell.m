@@ -198,7 +198,7 @@
     
     self.backgroundColor = _isForLoginVC? [UIColor clearColor]: [UIColor whiteColor];
     self.textField.clearButtonMode = _isForLoginVC? UITextFieldViewModeNever: UITextFieldViewModeWhileEditing;
-    self.textField.textColor = _isForLoginVC? [UIColor whiteColor]: [UIColor colorWithHexString:@"0x222222"];
+    self.textField.textColor = _isForLoginVC? [UIColor whiteColor]: kColor222;
     self.lineView.hidden = !_isForLoginVC;
     self.clearBtn.hidden = YES;
 
@@ -246,7 +246,7 @@
 
 #pragma mark TextField
 - (void)editDidBegin:(id)sender {
-    self.lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff"];
+    self.lineView.backgroundColor = [UIColor whiteColor];
     self.clearBtn.hidden = _isForLoginVC? self.textField.text.length <= 0: YES;
     
     if (self.editDidBeginBlock) {

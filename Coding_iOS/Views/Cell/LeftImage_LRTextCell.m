@@ -31,14 +31,14 @@
         if (!_leftLabel) {
             _leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 7, 80, 30)];
             _leftLabel.font = [UIFont systemFontOfSize:16];
-            _leftLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _leftLabel.textColor = kColor222;
             _leftLabel.textAlignment = NSTextAlignmentLeft;
             [self.contentView addSubview:_leftLabel];
         }
         if (!_rightLabel) {
             _rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_leftLabel.frame), 7, kScreen_Width - CGRectGetMaxX(_leftLabel.frame) - 35, 30)];
             _rightLabel.font = [UIFont systemFontOfSize:18];
-            _rightLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _rightLabel.textColor = kColor999;
             _rightLabel.textAlignment = NSTextAlignmentRight;
             [self.contentView addSubview:_rightLabel];
         }

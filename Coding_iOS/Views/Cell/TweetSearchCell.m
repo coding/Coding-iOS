@@ -49,7 +49,7 @@
         if (!self.contentLabel) {
             self.contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTweetCell_PadingLeft, 15, kTweetCell_ContentWidth, 20)];
             self.contentLabel.font = kTweet_ContentFont;
-            self.contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            self.contentLabel.textColor = kColor222;
             self.contentLabel.numberOfLines = 0;
             
             self.contentLabel.linkAttributes = kLinkAttributes;
@@ -76,7 +76,7 @@
             self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kTweetCell_PadingLeft, 0, 55, 12)];
             self.timeLabel.font = kTweet_TimtFont;
             self.timeLabel.textAlignment = NSTextAlignmentLeft;
-            self.timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            self.timeLabel.textColor = kColor999;
             [self.contentView addSubview:self.timeLabel];
         }
         
@@ -91,7 +91,7 @@
             self.likeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kTweetCell_PadingLeft, 0, 55, 12)];
             self.likeLabel.font = kTweet_TimtFont;
             self.likeLabel.textAlignment = NSTextAlignmentLeft;
-            self.likeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            self.likeLabel.textColor = kColor999;
             [self.contentView addSubview:self.likeLabel];
         }
         
@@ -105,7 +105,7 @@
             self.commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(kTweetCell_PadingLeft, 0, 55, 12)];
             self.commentLabel.font = kTweet_TimtFont;
             self.commentLabel.textAlignment = NSTextAlignmentLeft;
-            self.commentLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            self.commentLabel.textColor = kColor999;
             [self.contentView addSubview:self.commentLabel];
         }
         
@@ -121,6 +121,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     // Initialization code
     self.selectionStyle = UITableViewCellSelectionStyleNone;
 }

@@ -28,7 +28,7 @@
             _imgView.layer.masksToBounds = YES;
             _imgView.layer.cornerRadius = kMRPRListCell_UserWidth/2;
             _imgView.layer.borderWidth = 0.5;
-            _imgView.layer.borderColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
+            _imgView.layer.borderColor = kColorDDD.CGColor;
             [self.contentView addSubview:_imgView];
             [_imgView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(kMRPRListCell_UserWidth, kMRPRListCell_UserWidth));
@@ -76,7 +76,7 @@
                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x4E90BF"]}
                         range:NSMakeRange(0, iidStr.length)];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+                                NSForegroundColorAttributeName : kColor222}
                         range:NSMakeRange(iidStr.length + 1, titleStr.length)];
     return attrString;
 }
@@ -86,10 +86,10 @@
     NSString *timeStr = _curMRPR.created_at? [_curMRPR.created_at stringDisplay_HHmm]: @"";
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", nameStr, timeStr]];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+                                NSForegroundColorAttributeName : kColor222}
                         range:NSMakeRange(0, nameStr.length)];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
+                                NSForegroundColorAttributeName : kColor999}
                         range:NSMakeRange(nameStr.length + 1, timeStr.length)];
     return attrString;
 }

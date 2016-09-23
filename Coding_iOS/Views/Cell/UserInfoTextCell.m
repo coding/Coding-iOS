@@ -33,7 +33,7 @@
             _valueL = [UILabel new];
             _valueL.textAlignment = NSTextAlignmentLeft;
             _valueL.font = [UIFont systemFontOfSize:15];
-            _valueL.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _valueL.textColor = kColor222;
             [_scrollV addSubview:_valueL];
             [self.contentView addSubview:_scrollV];
             [_scrollV mas_makeConstraints:^(MASConstraintMaker *make) {

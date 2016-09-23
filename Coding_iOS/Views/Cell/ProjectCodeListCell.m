@@ -35,13 +35,13 @@
         if (!_fileName) {
             _fileName = [[UILabel alloc] initWithFrame:CGRectMake(kCode_ContentLeftPading, 10, kScreen_Width-kCode_ContentLeftPading-30, 20)];
             _fileName.font = [UIFont systemFontOfSize:15];
-            _fileName.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _fileName.textColor = kColor222;
             [self.contentView addSubview:_fileName];
         }
         if (!_commitTime) {
             _commitTime = [[UILabel alloc] initWithFrame:CGRectMake(kCode_ContentLeftPading, [self.class cellHeight]-25, kScreen_Width-kCode_ContentLeftPading-30, 20)];
             _commitTime.font = [UIFont systemFontOfSize:12];
-            _commitTime.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _commitTime.textColor = kColor999;
             [self.contentView addSubview:_commitTime];
         }
     }
@@ -68,10 +68,10 @@
     NSString *timeStr = _file.info.lastCommitDate? [_file.info.lastCommitDate stringTimesAgo]: @"...";
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", nameStr, timeStr]];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+                                NSForegroundColorAttributeName : kColor222}
                         range:NSMakeRange(0, nameStr.length)];
     [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
+                                NSForegroundColorAttributeName : kColor999}
                         range:NSMakeRange(nameStr.length + 1, timeStr.length)];
     return attrString;
 }

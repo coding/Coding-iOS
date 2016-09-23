@@ -457,7 +457,7 @@
     self.textLabel.backgroundColor = [UIColor clearColor];
     self.textLabel.frame = CGRectMake(30, 0, 100, 36);
     self.textLabel.font = [UIFont systemFontOfSize:12];
-    self.textLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+    self.textLabel.textColor = kColor666;
     self.textLabel.text = @"置顶话题";
 }
 

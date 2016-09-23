@@ -28,7 +28,7 @@
         if (!_codeL) {
             _codeL = ({
                 UILabel *label = [UILabel new];
-                label.textColor = [UIColor colorWithHexString:@"0x3BBD79"];
+                label.textColor = kColorBrandGreen;
                 label.font = [UIFont systemFontOfSize:15];
                 label;
             });
@@ -37,7 +37,7 @@
         if (!_titleL) {
             _titleL = ({
                 UILabel *label = [UILabel new];
-                label.textColor = [UIColor colorWithHexString:@"0x222222"];
+                label.textColor = kColor222;
                 label.font = [UIFont systemFontOfSize:15];
                 label;
             });

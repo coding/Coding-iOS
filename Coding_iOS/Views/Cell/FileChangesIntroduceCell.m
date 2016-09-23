@@ -43,9 +43,9 @@
     NSDictionary *attrLeft = @{NSFontAttributeName : [UIFont boldSystemFontOfSize:15],
                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x4E90BF"]};
     NSDictionary *attrRight = @{NSFontAttributeName : [UIFont boldSystemFontOfSize:15],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]};
+                                NSForegroundColorAttributeName : kColor222};
     NSDictionary *attrCommon = @{NSFontAttributeName : [UIFont systemFontOfSize:15],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]};
+                                 NSForegroundColorAttributeName : kColor222};
     [attrString addAttributes:attrLeft range:NSMakeRange(0, filesCountStr.length)];
     [attrString addAttributes:attrRight range:NSMakeRange(filesCountStr.length + 2, insertionsStr.length)];
     [attrString addAttributes:attrRight range:NSMakeRange(filesCountStr.length + insertionsStr.length + 3, deletionsStr.length)];

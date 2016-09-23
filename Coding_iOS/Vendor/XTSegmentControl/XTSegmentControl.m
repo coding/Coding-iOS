@@ -66,7 +66,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
                     label.font = [UIFont systemFontOfSize:(kDevice_Is_iPhone6Plus) ? (XTSegmentControlItemFont + 1) : (kDevice_Is_iPhone6 ? XTSegmentControlItemFont : XTSegmentControlItemFont - 2)];
                     label.textAlignment = NSTextAlignmentCenter;
                     label.text = title;
-                    label.textColor = [UIColor colorWithHexString:@"0x222222"];
+                    label.textColor = kColor222;
                     label.backgroundColor = [UIColor clearColor];
                     [label sizeToFit];
                     if (label.frame.size.width > CGRectGetWidth(self.bounds) - XTSegmentControlIconSpace - 10) {
@@ -94,7 +94,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
                     label.font = [UIFont systemFontOfSize:XTSegmentControlItemFont];
                     label.textAlignment = NSTextAlignmentCenter;
                     label.text = title;
-                    label.textColor = [UIColor colorWithHexString:@"0x222222"];
+                    label.textColor = kColor222;
                     label.backgroundColor = [UIColor clearColor];
                     label;
                 });
@@ -118,7 +118,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         case XTSegmentControlItemTypeTitleAndIcon:
         {
             if (_titleLabel) {
-                [_titleLabel setTextColor:(selected ? kColorBrandGreen:[UIColor colorWithHexString:@"0x222222"])];
+                [_titleLabel setTextColor:(selected ? kColorBrandGreen:kColor222)];
             }
             if (_titleIconView) {
                 [_titleIconView setImage:[UIImage imageNamed: selected ? @"tag_list_down" : @"tag_list_up"]];
@@ -128,7 +128,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         default:
         {
             if (_titleLabel) {
-                [_titleLabel setTextColor:(selected ? kColorBrandGreen:[UIColor colorWithHexString:@"0x222222"])];
+                [_titleLabel setTextColor:(selected ? kColorBrandGreen:kColor222)];
             }
         }
             break;
@@ -343,7 +343,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
                                                                          (CGRectGetHeight(rect) - 14) * 0.5,
                                                                          1,
                                                                          14)];
-            lineView.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+            lineView.backgroundColor = kColorDDD;
             [self addSubview:lineView];
         }
     }

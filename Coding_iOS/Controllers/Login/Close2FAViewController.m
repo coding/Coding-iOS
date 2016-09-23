@@ -64,7 +64,7 @@
     headerV.backgroundColor = [UIColor clearColor];
     UILabel *tipL = [UILabel new];
     tipL.font = [UIFont systemFontOfSize:14];
-    tipL.textColor = [UIColor colorWithHexString:@"0x999999"];
+    tipL.textColor = kColor999;
     tipL.text = @"关闭两步验证，请先验证您的注册手机";
     [headerV addSubview:tipL];
     [tipL mas_makeConstraints:^(MASConstraintMaker *make) {

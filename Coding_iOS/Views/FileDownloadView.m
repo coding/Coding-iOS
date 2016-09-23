@@ -137,7 +137,7 @@
         if (!_sizeLabel) {
             _sizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             _sizeLabel.textAlignment = NSTextAlignmentCenter;
-            _sizeLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+            _sizeLabel.textColor = kColor666;
             _sizeLabel.font = [UIFont systemFontOfSize:14];
             _sizeLabel.text = @"正在下载中...";
             [_toolBarView addSubview:_sizeLabel];
@@ -150,7 +150,7 @@
             _progressView = [[ASProgressPopUpView alloc] initWithFrame:CGRectZero];
             _progressView.popUpViewCornerRadius = 12.0;
             _progressView.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:12];
-            [_progressView setTrackTintColor:[UIColor colorWithHexString:@"0xfafafa"]];
+            [_progressView setTrackTintColor:kColorNavBG];
             _progressView.popUpViewAnimatedColors = @[kColorBrandGreen];
             _progressView.hidden = YES;
             [_progressView hidePopUpViewAnimated:NO];
@@ -176,20 +176,20 @@
             _iconView.layer.masksToBounds = YES;
             _iconView.layer.cornerRadius = 2.0;
             _iconView.layer.borderWidth = 0.5;
-            _iconView.layer.borderColor = [UIColor colorWithHexString:@"0xdddddd"].CGColor;
+            _iconView.layer.borderColor = kColorDDD.CGColor;
             [self addSubview:_iconView];
         }
         if (!_nameLabel) {
             _nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             _nameLabel.textAlignment = NSTextAlignmentCenter;
-            _nameLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _nameLabel.textColor = kColor222;
             _nameLabel.font = [UIFont systemFontOfSize:16];
             [self addSubview:_nameLabel];
         }
         if (!_sizeLabel) {
             _sizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             _sizeLabel.textAlignment = NSTextAlignmentCenter;
-            _sizeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _sizeLabel.textColor = kColor999;
             _sizeLabel.font = [UIFont systemFontOfSize:12];
             [self addSubview:_sizeLabel];
         }

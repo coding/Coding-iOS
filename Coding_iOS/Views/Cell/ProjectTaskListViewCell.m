@@ -66,7 +66,7 @@
         }
         if (!_contentLabel) {
             _contentLabel = [UILabel new];
-            _contentLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _contentLabel.textColor = kColor222;
             _contentLabel.font = kProjectTaskListViewCell_ContentFont;
             [self.contentView addSubview:_contentLabel];
         }
@@ -77,13 +77,13 @@
         if (!_numLabel) {
             _numLabel = [UILabel new];
             _numLabel.font = [UIFont systemFontOfSize:10];
-            _numLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _numLabel.textColor = kColor222;
             [self.contentView addSubview:_numLabel];
         }
         if (!_userNameLabel) {
             _userNameLabel = [UILabel new];
             _userNameLabel.font = [UIFont systemFontOfSize:10];
-            _userNameLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+            _userNameLabel.textColor = kColor666;
             [self.contentView addSubview:_userNameLabel];
         }
         if (!_timeClockIconView) {
@@ -94,7 +94,7 @@
         if (!_timeLabel) {
             _timeLabel = [UILabel new];
             _timeLabel.font = [UIFont systemFontOfSize:10];
-            _timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _timeLabel.textColor = kColor999;
             [self.contentView addSubview:_timeLabel];
         }
         if (!_commentIconView) {
@@ -105,7 +105,7 @@
         if (!_commentCountLabel) {
             _commentCountLabel = [UILabel new];
             _commentCountLabel.font = [UIFont systemFontOfSize:10];
-            _commentCountLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _commentCountLabel.textColor = kColor999;
             [self.contentView addSubview:_commentCountLabel];
         }
         if (!_mdIconView) {
@@ -116,7 +116,7 @@
         if (!_mdLabel) {
             _mdLabel = [UILabel new];
             _mdLabel.font = [UIFont systemFontOfSize:10];
-            _mdLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _mdLabel.textColor = kColor999;
             _mdLabel.text = @"描述";
             [self.contentView addSubview:_mdLabel];
         }
@@ -302,7 +302,7 @@
 
 - (void)p_makeMoreStyleWithTagLabel:(ProjectTagLabel *)tagLabel{
     tagLabel.layer.backgroundColor = [UIColor clearColor].CGColor;
-    tagLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+    tagLabel.textColor = kColor999;
     tagLabel.text = @"···";
     [tagLabel setWidth:15];
 }

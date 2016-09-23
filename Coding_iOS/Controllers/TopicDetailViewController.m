@@ -536,13 +536,13 @@
         }
         if (!_watchersL) {
             _watchersL = [UILabel new];
-            _watchersL.textColor = [UIColor colorWithHexString:@"0x99999999"];
+            _watchersL.textColor = kColor999;
             _watchersL.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_watchersL];
         }
         if (!_tipL) {
             _tipL = [UILabel new];
-            _tipL.textColor = [UIColor colorWithHexString:@"0x99999999"];
+            _tipL.textColor = kColor999;
             _tipL.font = [UIFont systemFontOfSize:12];
             [_tipL setAttrStrWithStr:@"尚未添加任何关注者，去添加" diffColorStr:@"去添加" diffColor:kColorBrandGreen];
             _tipL.userInteractionEnabled = YES;
@@ -565,7 +565,7 @@
         }
         if (!_lineV) {
             _lineV = [UIView new];
-            _lineV.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+            _lineV.backgroundColor = kColorDDD;
             [self.contentView addSubview:_lineV];
         }
         if (!_watchersV) {
@@ -574,7 +574,7 @@
         }
         if (!_commentL) {
             _commentL = [UILabel new];
-            _commentL.textColor = [UIColor colorWithHexString:@"0x99999999"];
+            _commentL.textColor = kColor999;
             _commentL.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_commentL];
         }

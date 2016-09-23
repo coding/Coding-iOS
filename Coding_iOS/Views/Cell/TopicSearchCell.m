@@ -43,13 +43,13 @@
         if (!_titleLabel) {
             _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(15+40+kInnerHorizonOffset, 15, kProjectTopicCell_ContentWidth, 20)];
             _titleLabel.font = kProjectTopicCell_ContentFont;
-            _titleLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _titleLabel.textColor = kColor222;
             [self.contentView addSubview:_titleLabel];
         }
         
         if (!_describeLabel) {
             _describeLabel = [UILabel new];
-            _describeLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+            _describeLabel.textColor = kColor666;
             _describeLabel.font = kProjectTopicCell_ContentFont;
             _describeLabel.numberOfLines=2;
             [self.contentView addSubview:_describeLabel];
@@ -60,7 +60,7 @@
             _numLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTopicCell_PadingLeft, 0, 150, 15)];
             _numLabel.backgroundColor = [UIColor clearColor];
             _numLabel.font = [UIFont systemFontOfSize:10];
-            _numLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _numLabel.textColor = kColor222;
             [self.contentView addSubview:_numLabel];
         }
         
@@ -68,7 +68,7 @@
             _userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTopicCell_PadingLeft, 0, 150, 15)];
             _userNameLabel.backgroundColor = [UIColor clearColor];
             _userNameLabel.font = [UIFont systemFontOfSize:10];
-            _userNameLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+            _userNameLabel.textColor = kColor666;
             [self.contentView addSubview:_userNameLabel];
         }
         if (!_timeClockIconView) {
@@ -79,7 +79,7 @@
         if (!_timeLabel) {
             _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kProjectTopicCell_PadingLeft, 0, 80, 15)];
             _timeLabel.font = [UIFont systemFontOfSize:10];
-            _timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _timeLabel.textColor = kColor999;
             [self.contentView addSubview:_timeLabel];
         }
         if (!_commentIconView) {
@@ -92,7 +92,7 @@
             _commentCountLabel.font = [UIFont systemFontOfSize:10];
             _commentCountLabel.minimumScaleFactor = 0.5;
             _commentCountLabel.adjustsFontSizeToFitWidth = YES;
-            _commentCountLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _commentCountLabel.textColor = kColor999;
             [self.contentView addSubview:_commentCountLabel];
         }
         

@@ -28,7 +28,7 @@
         }
         if (!_titleL) {
             _titleL = [UILabel new];
-            _titleL.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _titleL.textColor = kColor999;
             _titleL.font = [UIFont systemFontOfSize:12];
             _titleL.textAlignment = NSTextAlignmentCenter;
             [self.contentView addSubview:_titleL];

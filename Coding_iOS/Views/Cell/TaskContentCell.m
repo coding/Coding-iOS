@@ -64,21 +64,21 @@
             if (!_numLabel) {
                 _numLabel = [[UILabel alloc] init];
                 _numLabel.font = [UIFont systemFontOfSize:12];
-                _numLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+                _numLabel.textColor = kColor222;
                 [self.contentView addSubview:_numLabel];
             }
         }
         if (!_creatorLabel) {
             _creatorLabel = [[UILabel alloc] init];
             _creatorLabel.font = [UIFont systemFontOfSize:12];
-            _creatorLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _creatorLabel.textColor = kColor999;
             [self.contentView addSubview:_creatorLabel];
         }
         if (!_deleteBtn) {
             _deleteBtn = ({
                 UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
                 button.titleLabel.font = [UIFont systemFontOfSize:13];
-                [button setTitleColor:[UIColor colorWithHexString:@"0x666666"] forState:UIControlStateNormal];
+                [button setTitleColor:kColor666 forState:UIControlStateNormal];
                 [button setTitle:@"删除" forState:UIControlStateNormal];
                 [button addTarget:self action:@selector(deleteBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
                 [self.contentView addSubview:button];

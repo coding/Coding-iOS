@@ -45,7 +45,7 @@
             
             _proTitleL = [[UILabel alloc] init];
             _proTitleL.font = [UIFont systemFontOfSize:17];
-            _proTitleL.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _proTitleL.textColor = kColor222;
             [self.contentView addSubview:_proTitleL];
         }
         if (!_proInfoL) {
@@ -54,7 +54,7 @@
             _proInfoL.linkAttributes = kLinkAttributes;
             _proInfoL.activeLinkAttributes = kLinkAttributesActive;
             _proInfoL.font = [UIFont systemFontOfSize:13];
-            _proInfoL.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _proInfoL.textColor = kColor999;
             [self.contentView addSubview:_proInfoL];
         }
         if (!_lineView) {

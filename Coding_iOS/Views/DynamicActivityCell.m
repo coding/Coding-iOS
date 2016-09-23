@@ -58,7 +58,7 @@
             make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(50, 60, 5, 20));
         }];
         [_tipLabel setBackgroundColor:[UIColor colorWithHexString:@"0xF0F0F0"]];
-        [_tipLabel setTextColor:[UIColor colorWithHexString:@"0x3BBD79"]];
+        [_tipLabel setTextColor:kColorBrandGreen];
         _tipLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
     }
     return self;
@@ -130,10 +130,10 @@
     contentStr = contentStr? contentStr: @"...";
     attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];
     [attrContent addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:13],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+                                 NSForegroundColorAttributeName : kColor222}
                          range:NSMakeRange(0, userName.length)];
     [attrContent addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13],
-                                 NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
+                                 NSForegroundColorAttributeName : kColor999}
                          range:NSMakeRange(userName.length + 1, contentStr.length)];
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.minimumLineHeight = 18;

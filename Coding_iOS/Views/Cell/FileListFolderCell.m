@@ -33,13 +33,13 @@
         }
         if (!_nameLabel) {
             _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kFileListFolderCell_LeftPading, kFileListFolderCell_TopPading, (kScreen_Width - kFileListFolderCell_LeftPading - 30), 25)];
-            _nameLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _nameLabel.textColor = kColor222;
             _nameLabel.font = [UIFont systemFontOfSize:16];
             [self.contentView addSubview:_nameLabel];
         }
         if (!_infoLabel) {
             _infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(kFileListFolderCell_LeftPading, ([FileListFolderCell cellHeight]- 20 - kFileListFolderCell_TopPading), (kScreen_Width - kFileListFolderCell_LeftPading - 30), 20)];
-            _infoLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _infoLabel.textColor = kColor999;
             _infoLabel.font = [UIFont systemFontOfSize:12];
             [self.contentView addSubview:_infoLabel];
         }

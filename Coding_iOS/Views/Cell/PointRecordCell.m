@@ -20,15 +20,15 @@
         self.backgroundColor = [UIColor clearColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_usageL) {
-            _usageL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:[UIColor colorWithHexString:@"0x222222"]];
+            _usageL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:kColor222];
             [self.contentView addSubview:_usageL];
         }
         if (!_timeL) {
-            _timeL = [UILabel labelWithFont:[UIFont systemFontOfSize:12] textColor:[UIColor colorWithHexString:@"0x999999"]];
+            _timeL = [UILabel labelWithFont:[UIFont systemFontOfSize:12] textColor:kColor999];
             [self.contentView addSubview:_timeL];
         }
         if (!_pointsLeftL) {
-            _pointsLeftL = [UILabel labelWithFont:[UIFont systemFontOfSize:12] textColor:[UIColor colorWithHexString:@"0x999999"]];
+            _pointsLeftL = [UILabel labelWithFont:[UIFont systemFontOfSize:12] textColor:kColor999];
             [self.contentView addSubview:_pointsLeftL];
         }
         if (!_pointsChangeL) {

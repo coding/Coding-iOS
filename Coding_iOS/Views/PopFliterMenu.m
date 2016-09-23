@@ -217,7 +217,7 @@
     titleLab.font=[UIFont systemFontOfSize:15];
     [cell.contentView addSubview:titleLab];
     if (indexPath.section==0) {
-        titleLab.textColor=(indexPath.row==_selectNum)?[UIColor colorWithHexString:@"0x3BBD79"]:[UIColor colorWithHexString:@"0x222222"];
+        titleLab.textColor=(indexPath.row==_selectNum)?kColorBrandGreen:kColor222;
         titleLab.text=[self formatTitleStr:[_items objectAtIndex:indexPath.row]];
     }else if (indexPath.section==1) {
         if(indexPath.row==0){
@@ -227,7 +227,7 @@
             [cell.contentView addSubview:seperatorLine];
             cell.selectionStyle=UITableViewCellSelectionStyleNone;
         }else{
-            titleLab.textColor=(indexPath.row+kfirstRowNum==_selectNum)?[UIColor colorWithHexString:@"0x3BBD79"]:[UIColor colorWithHexString:@"0x222222"];
+            titleLab.textColor=(indexPath.row+kfirstRowNum==_selectNum)?kColorBrandGreen:kColor222;
             titleLab.text=[self formatTitleStr:[_items objectAtIndex:3+indexPath.row-1]];
         }
     }else

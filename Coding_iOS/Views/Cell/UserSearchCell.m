@@ -20,16 +20,6 @@
 
 @implementation UserSearchCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -44,7 +34,7 @@
         if (!_userNameLabel) {
             _userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(66, (kUserSearchCellHeight-40)/2-3, kScreen_Width - 66 - 100, 20)];
             _userNameLabel.font = [UIFont systemFontOfSize:17];
-            _userNameLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _userNameLabel.textColor = kColor222;
             [self.contentView addSubview:_userNameLabel];
         }
         if (!_rightBtn) {
@@ -66,7 +56,7 @@
             self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(66+12+3, kUserSearchCellHeight-12-15, 200, 12)];
             self.timeLabel.font = [UIFont systemFontOfSize:12];
             self.timeLabel.textAlignment = NSTextAlignmentLeft;
-            self.timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            self.timeLabel.textColor = kColor999;
             [self.contentView addSubview:self.timeLabel];
         }
 

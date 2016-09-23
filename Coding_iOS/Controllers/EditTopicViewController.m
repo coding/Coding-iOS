@@ -157,7 +157,7 @@
         _editView = [[UIView alloc] initWithFrame:self.view.bounds];
         
         _inputTitleView = [[UITextField alloc] initWithFrame:CGRectZero];
-        _inputTitleView.textColor = [UIColor colorWithHexString:@"0x222222"];
+        _inputTitleView.textColor = kColor222;
         _inputTitleView.font = [UIFont systemFontOfSize:18];
         _inputTitleView.attributedPlaceholder = [[NSAttributedString alloc] initWithString:(self.type == TopicEditTypeFeedBack ? @"反馈标题" : @"讨论标题") attributes:@{NSForegroundColorAttributeName : [UIColor lightGrayColor]}];
         [_editView addSubview:_inputTitleView];
@@ -168,7 +168,7 @@
         
         _inputContentView = [[EaseMarkdownTextView alloc] initWithFrame:CGRectZero];
         _inputContentView.curProject = self.curProTopic.project;
-        _inputContentView.textColor = [UIColor colorWithHexString:@"0x222222"];
+        _inputContentView.textColor = kColor222;
         _inputContentView.placeholder = self.type == TopicEditTypeFeedBack ? @"反馈内容" : @"讨论内容";
         
         _inputContentView.backgroundColor = [UIColor clearColor];

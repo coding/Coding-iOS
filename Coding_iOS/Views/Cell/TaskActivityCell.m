@@ -131,10 +131,10 @@
     contentStr = contentStr? contentStr: @"...";
     attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];
     [attrContent addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:13],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x222222"]}
+                                NSForegroundColorAttributeName : kColor222}
                         range:NSMakeRange(0, userName.length)];
     [attrContent addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x999999"]}
+                                NSForegroundColorAttributeName : kColor999}
                         range:NSMakeRange(userName.length + 1, contentStr.length)];
     
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];

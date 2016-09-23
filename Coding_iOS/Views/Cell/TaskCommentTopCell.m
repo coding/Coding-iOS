@@ -27,7 +27,7 @@
         if (!_commentNumStrLabel) {
             _commentNumStrLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 250, 20)];
             _commentNumStrLabel.font = [UIFont systemFontOfSize:13];
-            _commentNumStrLabel.textColor = [UIColor colorWithHexString:@"0x666666"];
+            _commentNumStrLabel.textColor = kColor666;
             [self.contentView addSubview:_commentNumStrLabel];
         }
     }

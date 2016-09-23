@@ -169,7 +169,7 @@
             self.headerLabel = ({
                 UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 2, kScreen_Width, 44)];
                 label.backgroundColor = [UIColor clearColor];
-                label.textColor = [UIColor colorWithHexString:@"0x999999"];
+                label.textColor = kColor999;
                 label.textAlignment = NSTextAlignmentCenter;
                 label.font = [UIFont systemFontOfSize:12];
                 label;
@@ -207,7 +207,7 @@
     
     {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 0.5)];
-        view.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+        view.backgroundColor = kColorDDD;
         [_searchHistoryView addSubview:view];
     }
     NSArray *array = [CSSearchModel getSearchHistory];
@@ -231,7 +231,7 @@
         UILabel *lblHistory = [[UILabel alloc] initWithFrame:CGRectMake(textLeft, i * height, kScreen_Width - textLeft, height)];
         lblHistory.userInteractionEnabled = YES;
         lblHistory.font = [UIFont systemFontOfSize:14];
-        lblHistory.textColor = [UIColor colorWithHexString:@"0x222222"];
+        lblHistory.textColor = kColor222;
         lblHistory.text = array[i];
         
         UIImageView *leftView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 15, 15)];
@@ -245,7 +245,7 @@
         rightImageView.image = [UIImage imageNamed:@"icon_arrow_searchHistory"];
         
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(imageLeft, (i + 1) * height, kScreen_Width - imageLeft, 0.5)];
-        view.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+        view.backgroundColor = kColorDDD;
         
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickedHistory:)];
         [lblHistory addGestureRecognizer:tapGestureRecognizer];
@@ -267,7 +267,7 @@
         [btnClean addTarget:self action:@selector(didCLickedCleanSearchHistory:) forControlEvents:UIControlEventTouchUpInside];
         {
             UIView *view = [[UIView alloc] initWithFrame:CGRectMake(imageLeft, (array.count + 1) * height, kScreen_Width - imageLeft, 0.5)];
-            view.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+            view.backgroundColor = kColorDDD;
             [_searchHistoryView addSubview:view];
         }
     }

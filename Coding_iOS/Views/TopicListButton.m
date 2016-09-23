@@ -23,7 +23,7 @@
     if (self) {
         _titleLbl = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, kScreen_Width - kPaddingLeftWidth - 20, kMySegmentControl_Height)];
         _titleLbl.font = [UIFont systemFontOfSize:16];
-        _titleLbl.textColor = [UIColor colorWithHexString:@"0x666666"];
+        _titleLbl.textColor = kColor666;
         [self addSubview:_titleLbl];
         
         _iconImg = [[UIImageView alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 18, (kMySegmentControl_Height - 18) * 0.5, 18, 18)];
@@ -31,7 +31,7 @@
         [self addSubview:_iconImg];
         
         UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, kMySegmentControl_Height - 0.6, kScreen_Width - kPaddingLeftWidth, 0.6)];
-        bottomLineView.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+        bottomLineView.backgroundColor = kColorDDD;
         [self addSubview:bottomLineView];
     }
     return self;

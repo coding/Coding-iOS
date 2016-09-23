@@ -70,7 +70,7 @@
         if (!_actionLabel) {
             _actionLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kProjectActivityListCell_LeftPading, kProjectActivityListCell_UpDownPading, kProjectActivityListCell_ContentWidth, 20)];
             _actionLabel.backgroundColor = [UIColor clearColor];
-            _actionLabel.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _actionLabel.textColor = kColor222;
             _actionLabel.font = kProjectActivityListCell_ActionFont;
             _actionLabel.linkAttributes = kLinkAttributes;
             _actionLabel.activeLinkAttributes = kLinkAttributesActive;
@@ -91,7 +91,7 @@
             _timeLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kProjectActivityListCell_LeftPading, 0, kProjectActivityListCell_ContentWidth, kProjectActivityListCell_TimeHeight)];
             _timeLabel.backgroundColor = [UIColor clearColor];
             _timeLabel.font = kProjectActivityListCell_TimeFont;
-            _timeLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _timeLabel.textColor = kColor999;
             [self.contentView addSubview:_timeLabel];
         }
     }

@@ -511,7 +511,7 @@
             
             UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"移除" style:UIBarButtonItemStylePlain target:nil action:nil];
             [barButton setTitleTextAttributes:@{NSFontAttributeName: [UIFont boldSystemFontOfSize:17],
-                                                NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x666666"]} forState:UIControlStateNormal];
+                                                NSForegroundColorAttributeName: kColor666} forState:UIControlStateNormal];
             [picker setCancelButton:barButton];
             [picker showActionSheetPicker];
         }else if (cellType == LeftImage_LRTextCellTypeTaskStatus){

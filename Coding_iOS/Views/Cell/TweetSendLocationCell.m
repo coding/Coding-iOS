@@ -90,7 +90,7 @@
         if (!_descriptionLabel) {
             _descriptionLabel = [[UILabel alloc]initWithFrame:frame];
             _descriptionLabel.font = font;
-            _descriptionLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _descriptionLabel.textColor = kColor999;
             _descriptionLabel.text = @"没有找到你的位置？";
             _descriptionLabel.textAlignment = NSTextAlignmentLeft;
             
@@ -100,7 +100,7 @@
             frame.origin.y = 25;
             _locationLabel = [[UILabel alloc]initWithFrame:frame];
             _locationLabel.font = font;
-            _locationLabel.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _locationLabel.textColor = kColor999;
             _locationLabel.text = @"创建新的位置";
             _locationLabel.textAlignment = NSTextAlignmentLeft;
 
@@ -112,15 +112,11 @@
         lineFrame.size.height = 0.5;
         lineFrame.origin.y = 50 - 0.5;
         UIView *bottomLine = [[UIView alloc]initWithFrame:lineFrame];
-        bottomLine.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
+        bottomLine.backgroundColor = kColorDDD;
         
         [self addSubview:bottomLine];
     }
     return self;
-}
-- (void)awakeFromNib
-{
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

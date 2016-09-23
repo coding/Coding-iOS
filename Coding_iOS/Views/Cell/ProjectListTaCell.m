@@ -44,31 +44,31 @@
         
         if (!_nameL) {
             _nameL = [[UILabel alloc] init];
-            _nameL.textColor = [UIColor colorWithHexString:@"0x222222"];
+            _nameL.textColor = kColor222;
             _nameL.font = [UIFont systemFontOfSize:16];
             [self.contentView addSubview:_nameL];
         }
         if (!_desL) {
             _desL = [[UILabel alloc] init];
-            _desL.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _desL.textColor = kColor999;
             _desL.font = [UIFont systemFontOfSize:14];
             [self.contentView addSubview:_desL];
         }
         if (!_starL) {
             _starL = [[UILabel alloc] init];
-            _starL.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _starL.textColor = kColor999;
             _starL.font = [UIFont systemFontOfSize:10];
             [self.contentView addSubview:_starL];
         }
         if (!_watchL) {
             _watchL = [[UILabel alloc] init];
-            _watchL.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _watchL.textColor = kColor999;
             _watchL.font = [UIFont systemFontOfSize:10];
             [self.contentView addSubview:_watchL];
         }
         if (!_forkL) {
             _forkL = [[UILabel alloc] init];
-            _forkL.textColor = [UIColor colorWithHexString:@"0x999999"];
+            _forkL.textColor = kColor999;
             _forkL.font = [UIFont systemFontOfSize:10];
             [self.contentView addSubview:_forkL];
         }

@@ -37,7 +37,7 @@
         _categoryBtn.frame=CGRectMake(5, 0, 40, 31);
         [_categoryBtn addTarget:self action:@selector(selectCategoryAction) forControlEvents:UIControlEventTouchUpInside];
         _categoryBtn.titleLabel.font = self.eaTextField.font;
-        [_categoryBtn setTitleColor:[UIColor colorWithHexString:@"0x666666"] forState:UIControlStateNormal];
+        [_categoryBtn setTitleColor:kColor666 forState:UIControlStateNormal];
         [_categoryBtn setTitle:@"项目" forState:UIControlStateNormal];
     }
     return _categoryBtn;
