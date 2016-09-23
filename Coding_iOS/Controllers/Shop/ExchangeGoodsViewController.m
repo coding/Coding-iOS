@@ -101,7 +101,7 @@
     UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_myTableView.frame), 136/2)];
     _shopOrderBtn = ({
         UIButton *orderBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [orderBtn setBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0xFF3BBD79"]] forState:UIControlStateNormal];
+        [orderBtn setBackgroundImage:[UIImage imageWithColor:kColorBrandGreen] forState:UIControlStateNormal];
         [orderBtn addTarget:self action:@selector(orderCommitAction:) forControlEvents:UIControlEventTouchUpInside];
         [orderBtn setTitle:@"提交订单" forState:UIControlStateNormal];
         [orderBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

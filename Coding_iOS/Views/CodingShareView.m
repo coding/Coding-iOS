@@ -57,7 +57,7 @@
         }
         if (!_contentView) {
             _contentView = [UIView new];
-            _contentView.backgroundColor = [UIColor colorWithHexString:@"0xF0F0F0"];
+            _contentView.backgroundColor = kColorTableSectionBg;
             if (!_titleL) {
                 _titleL = ({
                     UILabel *label = [UILabel new];

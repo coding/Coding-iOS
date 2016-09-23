@@ -453,7 +453,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
             UIButton *tabButton = self.tabButtons[i];
             if (i==selectedIndex) {
                 [tabButton setImage:self.selectedImages[i] forState:UIControlStateNormal];
-                [tabButton setBackgroundColor:[UIColor colorWithHexString:@"0xe5e5e5"]];
+                [tabButton setBackgroundColor:kColorTableSectionBg];
             }else{
                 [tabButton setImage:self.unSelectedImages[i] forState:UIControlStateNormal];
                 [tabButton setBackgroundColor:[UIColor clearColor]];

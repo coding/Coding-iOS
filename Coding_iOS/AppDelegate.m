@@ -250,15 +250,15 @@
     
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
     [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[NSObject baseURLStrIsProduction]? kColorNavBG: kColorBrandGreen] forBarMetrics:UIBarMetricsDefault];
-    [navigationBarAppearance setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];//返回按钮的箭头颜色
+    [navigationBarAppearance setTintColor:kColorBrandGreen];//返回按钮的箭头颜色
     NSDictionary *textAttributes = @{
                                      NSFontAttributeName: [UIFont systemFontOfSize:kNavTitleFontSize],
                                      NSForegroundColorAttributeName: kColorNavTitle,
                                      };
     [navigationBarAppearance setTitleTextAttributes:textAttributes];
     
-    [[UITextField appearance] setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];//设置UITextField的光标颜色
-    [[UITextView appearance] setTintColor:[UIColor colorWithHexString:@"0x3bbc79"]];//设置UITextView的光标颜色
+    [[UITextField appearance] setTintColor:kColorBrandGreen];//设置UITextField的光标颜色
+    [[UITextView appearance] setTintColor:kColorBrandGreen];//设置UITextView的光标颜色
     [[UISearchBar appearance] setBackgroundImage:[UIImage imageWithColor:kColorTableSectionBg] forBarPosition:0 barMetrics:UIBarMetricsDefault];
 }
 

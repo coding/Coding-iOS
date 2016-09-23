@@ -32,7 +32,7 @@
         tableView.dataSource = self;
         [tableView registerClass:[LocationCell class] forCellReuseIdentifier:kCellIdentifier_LocationCell];
         tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        tableView.separatorColor = [UIColor colorWithHexString:@"0xFFDDDDDD"];
+        tableView.separatorColor = [UIColor colorWithHexString:@"0xDDDDDD"];
         tableView.separatorInset = UIEdgeInsetsMake(0, 12, 0, 12);
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {

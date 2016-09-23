@@ -47,7 +47,7 @@
     if ([temporaryBarButtonItem respondsToSelector:@selector(setTitleTextAttributes:forState:)]){
         textAttributes = @{
                            NSFontAttributeName: [UIFont systemFontOfSize:kBackButtonFontSize],
-                           NSForegroundColorAttributeName: [UIColor colorWithHexString:@"0x3bbc79"],
+                           NSForegroundColorAttributeName: kColorBrandGreen,
                            };
         
         [[UIBarButtonItem appearance] setTitleTextAttributes:textAttributes forState:UIControlStateNormal];
