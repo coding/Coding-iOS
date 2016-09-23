@@ -29,7 +29,6 @@
 }
 
 + (BOOL)needToShowIntro{
-    return YES;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *preVersion = [defaults stringForKey:kIntroPageKey];
     BOOL needToShow = ![preVersion isEqualToString:kVersionBuild_Coding];
