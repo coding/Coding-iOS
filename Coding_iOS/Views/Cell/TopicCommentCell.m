@@ -19,7 +19,7 @@
 @interface TopicCommentCell ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UIImageView *ownerIconView;
 @property (strong, nonatomic) UIView *bestAnswerV;
-@property (strong, nonatomic) UIButton *voteBtn;
+@property (strong, nonatomic) UIButton *voteBtn, *voteBtnBig;
 @property (strong, nonatomic) UILabel *timeLabel;
 @property (strong, nonatomic) UICustomCollectionView *imageCollectionView;
 @end
@@ -64,6 +64,10 @@
             _voteBtn.titleLabel.font = [UIFont systemFontOfSize:11];
             [_voteBtn addTarget:self action:@selector(voteBtnClicked) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:_voteBtn];
+            
+            _voteBtnBig = [[UIButton alloc] initWithFrame:CGRectInset(_voteBtn.frame, -10, -5)];
+            [_voteBtnBig addTarget:self action:@selector(voteBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView insertSubview:_voteBtnBig belowSubview:_voteBtn];
         }
         CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
         if (!_contentLabel) {
@@ -109,7 +113,7 @@
 }
 
 - (void)setVoteCount:(NSNumber *)voteCount isVoted:(BOOL)isVoted{
-    [_voteBtn setBackgroundColor:[UIColor colorWithHexString:isVoted? @"0x2FAEEA": @"0xFFFFFF"]];
+    [_voteBtn setBackgroundColor:[UIColor colorWithHexString:isVoted? @"0x3BBD79": @"0xFFFFFF"]];
     [_voteBtn setTitleColor:[UIColor colorWithHexString:isVoted? @"0xFFFFFF": @"0x666666"] forState:UIControlStateNormal];
     [_voteBtn setTitle:[NSString stringWithFormat:@"+%@", voteCount] forState:UIControlStateNormal];
 }
@@ -130,6 +134,7 @@
     
     _ownerIconView.y = _contentLabel.y = curBottomY;
     _voteBtn.y = _ownerIconView.bottom + 5;
+    _voteBtnBig.y = _voteBtn.y - 5;
     [self setVoteCount:_toComment.up_vote_counts isVoted:_toComment.is_up_voted.boolValue];
     [_ownerIconView sd_setImageWithURL:[_toComment.owner.avatar urlImageWithCodePathResizeToView:_ownerIconView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerIconView)];
     [_contentLabel setLongString:_toComment.content withFitWidth:curWidth];
@@ -158,7 +163,7 @@
 
 - (void)setIsAnswer:(BOOL)isAnswer{
     _isAnswer = isAnswer;
-    _ownerIconView.hidden = _voteBtn.hidden = !_isAnswer;
+    _ownerIconView.hidden = _voteBtn.hidden = _voteBtnBig.hidden = !_isAnswer;
     _contentLabel.textColor = [UIColor colorWithHexString:_isAnswer? @"0x222222": @"0x666666"];
 }
 

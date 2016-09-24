@@ -24,7 +24,7 @@
 }
 
 - (UIButton *)buttonWithImageName:(NSString *)imageName title:(NSString *)title index:(NSInteger)index{
-    CGFloat itemWidth = (kScreen_Width- 2*kPaddingLeftWidth)/3;
+    CGFloat itemWidth = (kScreen_Width- 2*kPaddingLeftWidth)/4;
     CGFloat itemHeight = 90;
     CGFloat iconWidth = 57;
     CGFloat leftX = kPaddingLeftWidth, topY = 10;
