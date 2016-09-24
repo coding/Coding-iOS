@@ -19,7 +19,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = kColorTableSectionBg;
-    self.title = @"关于Coding";
+    self.title = @"关于我们";
     
     CGFloat logoViewTop, logoLabelTop, versionLabelTop, infoLabelBottom;
     NSString *icon_user_monkey;
