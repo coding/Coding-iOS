@@ -71,7 +71,6 @@
         tableView;
     });
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetsBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(tweetsBtnClicked)];
     __weak typeof(self) weakSelf = self;
     _gitButtonsView = [EaseGitButtonsView new];
     _gitButtonsView.gitButtonClickedBlock = ^(NSInteger index, EaseGitButtonPosition position){
@@ -102,6 +101,7 @@
     [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_myProject andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.myProject = data;
+            weakSelf.navigationItem.rightBarButtonItem = weakSelf.myProject.is_public.boolValue? nil: [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetsBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(tweetsBtnClicked)];
             [self refreshGitButtonsView];
             [weakSelf.myTableView reloadData];
         }
