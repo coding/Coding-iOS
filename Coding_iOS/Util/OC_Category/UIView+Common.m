@@ -401,7 +401,7 @@ static char LoadingViewKey, BlankPageViewKey;
             self.blankPageView = [[EaseBlankPageView alloc] initWithFrame:self.bounds];
         }
         self.blankPageView.hidden = NO;
-        [self.blankPageContainer addSubview:self.blankPageView];
+        [self.blankPageContainer insertSubview:self.blankPageView atIndex:0];
 
 //        [self.blankPageContainer insertSubview:self.blankPageView atIndex:0];
 //        [self.blankPageView mas_makeConstraints:^(MASConstraintMaker *make) {
