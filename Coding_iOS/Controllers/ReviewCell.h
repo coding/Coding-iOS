@@ -14,7 +14,7 @@
 
 @interface ReviewCell : UITableViewCell
 
-@property (strong, nonatomic) IBOutlet UIImageView *headIcon;
+@property (strong, nonatomic) IBOutlet UIImageView *userIcon;
 @property (strong, nonatomic) IBOutlet UIImageView *reviewIcon;
 @property (strong, nonatomic) IBOutlet UILabel *userName;
 @property (strong, nonatomic) IBOutlet UILabel *userState;

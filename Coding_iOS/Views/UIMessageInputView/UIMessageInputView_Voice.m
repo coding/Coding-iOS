@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_VoiceState) {
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = kColorTableSectionBg;
+        self.backgroundColor = kColorNavBG;
         
         _recordTipsLabel = [[UILabel alloc] init];
         _recordTipsLabel.font = [UIFont systemFontOfSize:18];
