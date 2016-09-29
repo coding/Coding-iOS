@@ -172,7 +172,7 @@
         CGFloat contentWidth = [_curPriMsg isSingleBigMonkey]? [MessageMediaItemCCell monkeyCcellSize].width : kMessageCell_ContentWidth;
         bgImgViewSize = CGSizeMake(contentWidth +2*kMessageCell_PadingWidth,
                                    mediaViewHeight +textSize.height + kMessageCell_PadingHeight*(_curPriMsg.content.length > 0? 3:2));
-    } else if (curPriMsg.file || curPriMsg.voiceMedia) {
+    } else if ([curPriMsg isVoice]) {
         bgImgViewSize = CGSizeMake(kMessageCell_ContentWidth, 40);
     } else{
         [_contentLabel setY:kMessageCell_PadingHeight];
@@ -287,7 +287,7 @@
         CGSize textSize = [curPriMsg.content getSizeWithFont:kMessageCell_FontContent constrainedToSize:CGSizeMake(kMessageCell_ContentWidth, CGFLOAT_MAX)];
         CGFloat mediaViewHeight = [MessageCell mediaViewHeightWithObj:curPriMsg];
         cellHeight += mediaViewHeight;
-        if (curPriMsg.voiceMedia || curPriMsg.file) {
+        if ([curPriMsg isVoice]) {
             cellHeight += kMessageCell_PadingHeight*2+40;
         } else {
             cellHeight += textSize.height + kMessageCell_PadingHeight*4;

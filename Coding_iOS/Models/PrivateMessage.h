@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger, PrivateMessageSendStatus) {
 @interface PrivateMessage : NSObject
 @property (readwrite, nonatomic, strong) NSString *content, *extra, *file;
 @property (readwrite, nonatomic, strong) User *friend, *sender;
-@property (readwrite, nonatomic, strong) NSNumber *count, *unreadCount, *id, *read_at, *status, *duration, *played;
+@property (readwrite, nonatomic, strong) NSNumber *count, *unreadCount, *id, *read_at, *status, *duration, *played, *type;
 @property (readwrite, nonatomic, strong) NSDate *created_at;
 @property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;
 @property (assign, nonatomic) PrivateMessageSendStatus sendStatus;
@@ -28,6 +28,7 @@ typedef NS_ENUM(NSInteger, PrivateMessageSendStatus) {
 
 - (BOOL)hasMedia;
 - (BOOL)isSingleBigMonkey;
+- (BOOL)isVoice;
 
 + (instancetype)privateMessageWithObj:(id)obj andFriend:(User *)curFriend;
 

@@ -67,7 +67,7 @@
     if (_curPriMsg.hasMedia) {
         [textMsg appendString:@"[图片]"];
     }
-    if (_curPriMsg.file || _curPriMsg.voiceMedia) {
+    if ([_curPriMsg isVoice]) {
         [textMsg setString:@"[语音]"];
         if (_curPriMsg.played.intValue == 0) {
             _msg.textColor = kColorBrandGreen;

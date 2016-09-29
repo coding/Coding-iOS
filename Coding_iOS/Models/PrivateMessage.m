@@ -45,6 +45,9 @@
     }
     return isSingleBigMonkey;
 }
+- (BOOL)isVoice{
+    return (_type.integerValue == 1 || _voiceMedia);
+}
 + (instancetype)privateMessageWithObj:(id)obj andFriend:(User *)curFriend{
     PrivateMessage *nextMsg = [[PrivateMessage alloc] init];
     nextMsg.sender = [Login curLoginUser];
@@ -61,7 +64,6 @@
         nextMsg.extra = @"";
     }else if ([obj isKindOfClass:[VoiceMedia class]]){
         nextMsg.voiceMedia = obj;
-//        nextMsg.content = @"";
         nextMsg.extra = @"";
     }else if ([obj isKindOfClass:[PrivateMessage class]]){
         PrivateMessage *originalMsg = (PrivateMessage *)obj;
