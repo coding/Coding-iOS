@@ -81,7 +81,7 @@
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-        tableView.backgroundColor = [UIColor clearColor];
+        tableView.backgroundColor = [UIColor whiteColor];
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

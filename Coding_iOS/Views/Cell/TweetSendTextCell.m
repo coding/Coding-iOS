@@ -104,7 +104,7 @@
         
         UIView  *keyboardToolBar = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(_footerToolBar.frame) - 40, kScreen_Width, 40)];
         [keyboardToolBar addLineUp:YES andDown:NO andColor:kColorDDD];
-        keyboardToolBar.backgroundColor = kColorTableSectionBg;
+        keyboardToolBar.backgroundColor = kColorNavBG;
         if (!_locationButton) {
             _locationButton = [self locationButtonWithStr:nil];
         }
