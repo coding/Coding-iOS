@@ -143,6 +143,10 @@
         QLPreviewController* preview = [[QLPreviewController alloc] init];
         preview.dataSource = self;
         preview.delegate = self;
+        if ([[[UIDevice currentDevice] systemVersion] compare:@"10.0" options:NSNumericSearch] != NSOrderedAscending) {
+            [self addChildViewController:preview];
+            [preview didMoveToParentViewController:self];
+        }
         [self.view addSubview:preview.view];
         [preview.view mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.left.right.equalTo(self.view);

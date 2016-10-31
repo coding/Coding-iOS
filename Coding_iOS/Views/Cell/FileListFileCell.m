@@ -96,7 +96,7 @@
             stateImageName = @"icon_file_state_download";
             break;
     }
-    [self setBackgroundColor:(state == DownloadStateDownloaded)? [UIColor colorWithHexString:@"0xf1fcf6"]:[UIColor clearColor]];
+    [self setBackgroundColor:(state == DownloadStateDownloaded)? [UIColor colorWithHexString:@"0xf1fcf6"]:[UIColor whiteColor]];
     [self.progressView setHidden:!(state == DownloadStateDownloading || state == DownloadStatePausing)];
     
     [_stateButton setImage:[UIImage imageNamed:stateImageName] forState:UIControlStateNormal];
