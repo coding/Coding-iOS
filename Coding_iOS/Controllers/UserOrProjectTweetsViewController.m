@@ -330,6 +330,7 @@
 }
 
 - (void)goToDetailWithTweet:(Tweet *)curTweet{
+    curTweet.project = _curTweets.curPro;
     TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
     vc.curTweet = curTweet;
     __weak typeof(self) weakSelf = self;

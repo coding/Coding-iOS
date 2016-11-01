@@ -336,7 +336,7 @@ static Tweet *_tweetForSend = nil;
 }
 
 - (BOOL)isProjectTweet{
-    return self.project_id != nil;
+    return self.project_id != nil || _project != nil;
 }
 - (void)addASelectedAssetURL:(NSURL *)assetURL{
     if (!_selectedAssetURLs) {

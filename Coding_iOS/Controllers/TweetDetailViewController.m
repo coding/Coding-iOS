@@ -51,9 +51,10 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"冒泡详情";
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"share_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)] animated:NO];
-
+    self.title = self.curTweet.project.name ?: @"冒泡详情";
+    if (![_curTweet isProjectTweet]) {
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"share_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)] animated:NO];
+    }
     //    添加myTableView
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -175,6 +176,7 @@
         [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_curTweet.project andBlock:^(id data, NSError *error) {
             if (data) {
                 weakSelf.curTweet.project = data;
+                weakSelf.title = weakSelf.curTweet.project.name;
                 weakSelf.curTweet.project_id = [(Project *)data id];
                 [weakSelf refreshTweet];
             }else{
