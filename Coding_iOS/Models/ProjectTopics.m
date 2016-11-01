@@ -43,13 +43,15 @@
                  @"pageSize" : _pageSize,
                  @"type" : (_queryType == TopicQueryTypeAll ? @"all" : @"my"),
                  @"orderBy" : [NSNumber numberWithInteger:_labelType],
-                 @"labelId" : _labelID
+                 @"labelId" : _labelID,
+                 @"no_content": @(true)
                  };
     } else {
         dict = @{@"page" : (_willLoadMore? [NSNumber numberWithInteger:_page.intValue+1] : [NSNumber numberWithInteger:1]),
                  @"pageSize" : _pageSize,
                  @"type" : (_queryType == TopicQueryTypeAll ? @"all" : @"my"),
-                 @"orderBy" : [NSNumber numberWithInteger:_labelType]
+                 @"orderBy" : [NSNumber numberWithInteger:_labelType],
+                 @"no_content": @(true)
                  };
     }
     return dict;
