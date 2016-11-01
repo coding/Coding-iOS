@@ -168,7 +168,7 @@
 {
     if (answer) {
         if (answer.child_comments) {
-            [answer.child_comments insertObject:comment atIndex:0];
+            [answer.child_comments addObject:comment];
             answer.child_count = @(answer.child_count.integerValue + 1);
         }else{
             answer.child_comments = @[comment].mutableCopy;
@@ -199,7 +199,7 @@
             [Login isLoginUserGlobalKey:self.project.owner_user_name]);// 项目创建者
 }
 - (NSInteger)commentsDisplayNum{
-    return MIN(_child_comments.count, 2);
+    return MIN(_child_comments.count, 6);
 }
 - (void)change_is_up_voted{
     _is_up_voted = @(!self.is_up_voted.boolValue);
