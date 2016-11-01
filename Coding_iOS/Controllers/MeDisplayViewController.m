@@ -133,7 +133,7 @@
             [weakSelf.myTableView reloadData];
             weakSelf.myTableView.showsInfiniteScrolling = hasMoreData;
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeMyJoinedTopic hasData:weakSelf.dataList.count > 0 hasError:error != nil reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypeMyJoinedTopic hasData:weakSelf.dataList.count > 0 hasError:error != nil offsetY:[_eaV originalHeight] + 60 reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
 

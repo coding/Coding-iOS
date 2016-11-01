@@ -107,6 +107,7 @@ typedef NS_ENUM(NSInteger, BadgePositionType) {
 #pragma mark BlankPageView
 @property (strong, nonatomic) EaseBlankPageView *blankPageView;
 - (void)configBlankPage:(EaseBlankPageType)blankPageType hasData:(BOOL)hasData hasError:(BOOL)hasError reloadButtonBlock:(void(^)(id sender))block;
+- (void)configBlankPage:(EaseBlankPageType)blankPageType hasData:(BOOL)hasData hasError:(BOOL)hasError offsetY:(CGFloat)offsetY reloadButtonBlock:(void(^)(id sender))block;
 @end
 
 @interface EaseLoadingView : UIView
@@ -124,6 +125,6 @@ typedef NS_ENUM(NSInteger, BadgePositionType) {
 @property (copy, nonatomic) void(^reloadButtonBlock)(id sender);
 @property (copy, nonatomic) void(^loadAndShowStatusBlock)();
 @property (copy, nonatomic) void(^clickButtonBlock)(EaseBlankPageType curType);
-- (void)configWithType:(EaseBlankPageType)blankPageType hasData:(BOOL)hasData hasError:(BOOL)hasError reloadButtonBlock:(void(^)(id sender))block;
+- (void)configWithType:(EaseBlankPageType)blankPageType hasData:(BOOL)hasData hasError:(BOOL)hasError offsetY:(CGFloat)offsetY reloadButtonBlock:(void(^)(id sender))block;
 @end
 

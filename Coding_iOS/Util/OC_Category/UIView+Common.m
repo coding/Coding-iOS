@@ -391,6 +391,10 @@ static char LoadingViewKey, BlankPageViewKey;
 }
 
 - (void)configBlankPage:(EaseBlankPageType)blankPageType hasData:(BOOL)hasData hasError:(BOOL)hasError reloadButtonBlock:(void (^)(id))block{
+    [self configBlankPage:blankPageType hasData:hasData hasError:hasError offsetY:0 reloadButtonBlock:block];
+}
+
+- (void)configBlankPage:(EaseBlankPageType)blankPageType hasData:(BOOL)hasData hasError:(BOOL)hasError offsetY:(CGFloat)offsetY reloadButtonBlock:(void(^)(id sender))block{
     if (hasData) {
         if (self.blankPageView) {
             self.blankPageView.hidden = YES;
@@ -402,13 +406,7 @@ static char LoadingViewKey, BlankPageViewKey;
         }
         self.blankPageView.hidden = NO;
         [self.blankPageContainer insertSubview:self.blankPageView atIndex:0];
-
-//        [self.blankPageContainer insertSubview:self.blankPageView atIndex:0];
-//        [self.blankPageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.size.equalTo(self);
-//            make.top.left.equalTo(self.blankPageContainer);
-//        }];
-        [self.blankPageView configWithType:blankPageType hasData:hasData hasError:hasError reloadButtonBlock:block];
+        [self.blankPageView configWithType:blankPageType hasData:hasData hasError:hasError offsetY:offsetY reloadButtonBlock:block];
     }
 }
 
@@ -509,7 +507,7 @@ static char LoadingViewKey, BlankPageViewKey;
     return self;
 }
 
-- (void)configWithType:(EaseBlankPageType)blankPageType hasData:(BOOL)hasData hasError:(BOOL)hasError reloadButtonBlock:(void (^)(id))block{
+- (void)configWithType:(EaseBlankPageType)blankPageType hasData:(BOOL)hasData hasError:(BOOL)hasError offsetY:(CGFloat)offsetY reloadButtonBlock:(void (^)(id))block{
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (_loadAndShowStatusBlock) {
@@ -542,7 +540,11 @@ static char LoadingViewKey, BlankPageViewKey;
     //    布局
     [_monkeyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
-        make.bottom.equalTo(self.mas_centerY);
+        if (ABS(offsetY) > 1.0) {
+            make.top.equalTo(self).offset(offsetY);
+        }else{
+            make.bottom.equalTo(self.mas_centerY);
+        }
     }];
     [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.centerX.equalTo(self);
