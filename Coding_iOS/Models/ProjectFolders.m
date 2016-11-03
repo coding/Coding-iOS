@@ -60,7 +60,7 @@
 }
 
 - (NSString *)toFoldersCountPathWithObj:(NSNumber *)project_id{
-    return [NSString stringWithFormat:@"api/project/%@/folders/all_file_count", project_id.stringValue];//all-file-count-with-share
+    return [NSString stringWithFormat:@"api/project/%@/folders/all-file-count-with-share", project_id.stringValue];
 }
 
 @end

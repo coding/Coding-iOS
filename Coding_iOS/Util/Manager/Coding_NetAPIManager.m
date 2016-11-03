@@ -889,13 +889,13 @@
                     [MobClick event:kUmeng_Event_Request_Get label:@"文件夹列表"];
                    
                     //每个文件夹内的文件数量
-                    NSArray *countArray = [countData valueForKey:@"data"];
+                    countData = countData[@"data"];
+                    NSArray *countArray = [countData valueForKey:@"folders"];
                     NSMutableDictionary *countDict = [[NSMutableDictionary alloc] initWithCapacity:countArray.count];
                     for (NSDictionary *item in countArray) {
                         [countDict setObject:[item objectForKey:@"count"] forKey:[item objectForKey:@"folder"]];
                     }
-//                    countDict[@(-1)] = countData[@"shareCount"];//shareFolder 特殊处理下
-                    countDict[@(-1)] = @10;
+                    countDict[@(-1)] = countData[@"shareCount"];//shareFolder 特殊处理下
                     
                     for (ProjectFolder *folder in proFolders.list) {
                         folder.count = [countDict objectForKey:folder.file_id];
