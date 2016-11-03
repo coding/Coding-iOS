@@ -6,7 +6,7 @@ Clone 代码后，初次执行前，需要双击运行根目录下的`bootstrap`
 
 **Tip：由于用到了 submodule，所以必需要把 git 仓库 clone 到本地，而不是只点击‘下载’按钮下载 zip 文件！！！**
 
-代码托管|在线讨论|任务管理|冒泡社交|项目文档
+精彩项目|任务管理|项目文档|代码托管|趣味冒泡
 ------------ | ------------- | ------------| ------------| ------------
 ![图片1][1]|![图片2][2]|![图片3][3]|![图片4][4]|![图片5][5]
 
@@ -91,8 +91,8 @@ RootTabViewController继承自第三方库[RDVTabBarController](https://github.c
 Coding is available under the MIT license. See the LICENSE file for more info.
 
 
-  [1]: Screenshots/image1.png
-  [2]: Screenshots/image2.png
-  [3]: Screenshots/image3.png
-  [4]: Screenshots/image4.png
-  [5]: Screenshots/image5.png
+  [1]: Screenshots/1.png
+  [2]: Screenshots/2.png
+  [3]: Screenshots/3.png
+  [4]: Screenshots/4.png
+  [5]: Screenshots/5.png
