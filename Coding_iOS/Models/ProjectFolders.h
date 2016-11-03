@@ -11,6 +11,7 @@
 
 @interface ProjectFolders : NSObject
 @property (readwrite, nonatomic, strong) NSMutableArray *list;
+//@property (strong, nonatomic, readonly) NSArray *useToMoveList;
 @property (readwrite, nonatomic, strong) NSNumber *page, *pageSize, *totalPage, *totalRow;
 @property (strong, nonatomic) NSDictionary *propertyArrayMap;
 @property (assign, nonatomic) BOOL isLoading;

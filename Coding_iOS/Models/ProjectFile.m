@@ -22,7 +22,7 @@
     file.project_name = [_project_name copy];
     file.diskFileName = [_diskFileName copy];
     file.owner = [_owner copy];
-    file.share_url = [_share_url copy];
+    file.share = [FileShare instanceWithUrl:_share.url];
     file.title = [_title copy];
     file.storage_type = [_storage_type copy];
     file.storage_key = [_storage_key copy];
@@ -44,7 +44,6 @@
     file.path=[_path copy];
     return file;
 }
-
 
 +(ProjectFile *)fileWithFileId:(NSNumber *)fileId andProjectId:(NSNumber *)project_id{
     ProjectFile *file = [[ProjectFile alloc] init];

@@ -18,7 +18,7 @@
 
 
 @interface FileListFileCell ()<ASProgressPopUpViewDelegate>
-@property (strong, nonatomic) UIImageView *iconView;
+@property (strong, nonatomic) UIImageView *iconView, *shareLogoV;
 @property (strong, nonatomic) UILabel *nameLabel, *infoLabel, *sizeLabel;
 @property (strong, nonatomic) UIButton *stateButton;
 
@@ -38,6 +38,15 @@
             _iconView.layer.borderWidth = 0.5;
             _iconView.layer.borderColor = kColorDDD.CGColor;
             [self.contentView addSubview:_iconView];
+        }
+        if (!_shareLogoV) {
+            _shareLogoV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_file_share_logo"]];
+            _shareLogoV.hidden = YES;
+            [_iconView addSubview:_shareLogoV];
+            [_shareLogoV mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(20, 20));
+                make.top.right.equalTo(_iconView);
+            }];
         }
         if (!_nameLabel) {
             _nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kFileListFileCell_LeftPading, kFileListFileCell_TopPading, (kScreen_Width - kFileListFileCell_LeftPading - 60), 25)];
@@ -107,6 +116,7 @@
     if (!_file) {
         return;
     }
+    _shareLogoV.hidden = !_file.share;
     _nameLabel.text = _file.name;
     _sizeLabel.text = [NSString sizeDisplayWithByte:_file.size.floatValue];
     _infoLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _file.owner.name, [_file.created_at stringDisplay_HHmm]];

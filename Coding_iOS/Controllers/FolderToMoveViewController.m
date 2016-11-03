@@ -15,6 +15,7 @@
 @interface FolderToMoveViewController ()<UITableViewDataSource, UITableViewDelegate, EaseToolBarDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) EaseToolBar *myToolBar;
+@property (strong, nonatomic) NSMutableArray *dataList;
 @end
 
 @implementation FolderToMoveViewController
@@ -83,18 +84,42 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark Data Thing
-- (NSArray *)dataList{
-    if (self.curFolder) {
-        return self.curFolder.sub_folders;
-    }else{
-        return self.rootFolders.list;
+- (NSMutableArray *)dataList{
+    if (!_dataList) {
+        if (self.curFolder) {
+            _dataList = _isMoveFolder? nil: self.curFolder.sub_folders;
+        }else{
+            _dataList = _rootFolders.list.mutableCopy;
+            [_dataList removeObjectAtIndex:0];//移除「分享中」文件夹
+            if (_isMoveFolder) {
+                ProjectFolder *outFolder = [ProjectFolder outFolder];
+                [_dataList replaceObjectAtIndex:0 withObject:outFolder];
+            }
+        }
+        if (_dataList.count > 0) {
+            //移除 fromFolder
+            ProjectFolder *folderToRemove = _fromFolder ?: [ProjectFolder defaultFolder];
+            folderToRemove = [_dataList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"file_id = %@", folderToRemove.file_id]].firstObject;
+            if (folderToRemove) {
+                [_dataList removeObject:folderToRemove];
+            }
+            if (_isMoveFolder) {//移除 要移动的 Folder
+                for (NSNumber *folderId in _toMovedIdList) {
+                    folderToRemove = [_dataList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"file_id = %@", folderId]].firstObject;
+                    if (folderToRemove) {
+                        [_dataList removeObject:folderToRemove];
+                    }
+                }
+            }
+        }
     }
+    return _dataList;
 }
 - (BOOL)canMovedHere{
     return (self.curFolder != nil);
 }
 - (BOOL)canCreatNewFolder{
-    return (self.curFolder == nil || (self.curFolder.parent_id.intValue == 0 && self.curFolder.file_id.intValue != 0));
+    return (self.curFolder == nil || (!_isMoveFolder && self.curFolder.parent_id.intValue == 0 && self.curFolder.file_id.intValue != 0));
 }
 
 #pragma mark Table
@@ -124,7 +149,8 @@
     ProjectFolder *clickedFolder = [[self dataList] objectAtIndex:indexPath.row];
 
     FolderToMoveViewController *vc = [[FolderToMoveViewController alloc] init];
-    vc.toMovedFileIdList = self.toMovedFileIdList;
+    vc.isMoveFolder = _isMoveFolder;
+    vc.toMovedIdList = self.toMovedIdList;
     vc.curProject = self.curProject;
     vc.rootFolders = self.rootFolders;
     vc.curFolder = clickedFolder;
@@ -159,7 +185,7 @@
         {//移动文件
             DebugLog(@"移动文件");
             if (self.moveToFolderBlock) {
-                self.moveToFolderBlock(self.curFolder, self.toMovedFileIdList);
+                self.moveToFolderBlock(self.curFolder, self.toMovedIdList);
             }
             [self dismissViewControllerAnimated:YES completion:nil];
         }

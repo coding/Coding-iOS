@@ -124,6 +124,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_RenameFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteFiles:(NSArray *)fileIdList inProject:(NSNumber *)project_id andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_MoveFiles:(NSArray *)fileIdList toFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_MoveFolder:(NSNumber *)folderId toFolder:(ProjectFolder *)folder inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CreatFolder:(NSString *)fileName inFolder:(ProjectFolder *)parentFolder inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_FileDetail:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_FileContent:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;

@@ -148,7 +148,6 @@
     if (!_myToolBar) {
         EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 新建文件夹" image:@"button_file_createFolder_enable" disableImage:@"button_file_createFolder_unable"];
         EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 上传文件" image:@"button_file_upload_enable" disableImage:nil];
-        item1.enabled = [self canCreatNewFolder];
         _myToolBar = [EaseToolBar easeToolBarWithItems:@[item1, item2]];
         _myToolBar.delegate = self;
         [self.view addSubview:_myToolBar];
@@ -174,14 +173,14 @@
     if (_myTableView.isEditing) {
         _myToolBar.hidden = YES;
         _myEditToolBar.hidden = NO;
-        
-        
     }else{
         _myToolBar.hidden = NO;
         _myEditToolBar.hidden = YES;
         
         EaseToolBarItem *item1 = [_myToolBar itemOfIndex:0];
         item1.enabled = [self canCreatNewFolder];
+        EaseToolBarItem *item2 = [_myToolBar itemOfIndex:1];
+        item2.enabled = [self canUploadNewFile];
     }
     
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myToolBar.frame), 0.0);
@@ -190,7 +189,11 @@
 }
 
 - (BOOL)canCreatNewFolder{
-    return (self.curFolder == nil || (self.curFolder.parent_id.intValue == 0 && self.curFolder.file_id.intValue != 0));
+    return (self.curFolder == nil || (self.curFolder.parent_id.intValue == 0 && ![_curFolder isDefaultFolder] && ![_curFolder isShareFolder]));
+}
+
+- (BOOL)canUploadNewFile{
+    return ![self.curFolder isShareFolder];
 }
 
 - (void)refresh{
@@ -565,7 +568,10 @@
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     if ([obj isKindOfClass:[ProjectFolder class]]) {
         ProjectFolder *folder = (ProjectFolder *)obj;
-        if (![folder isDefaultFolder]) {
+        if (![folder isDefaultFolder] && ![folder isShareFolder]) {
+            if (folder.sub_folders.count <= 0) {
+                [rightUtilityButtons sw_addUtilityButtonWithColor:kColorDDD icon:[UIImage imageNamed:@"icon_file_cell_move"]];
+            }
             [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xe6e6e6"] icon:[UIImage imageNamed:@"icon_file_cell_rename"]];
             [rightUtilityButtons sw_addUtilityButtonWithColor:kColorBrandRed icon:[UIImage imageNamed:@"icon_file_cell_delete"]];
         }
@@ -603,11 +609,13 @@
     NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
     if (indexPath.row < _curFolder.sub_folders.count && indexPath.row >= _uploadFiles.count) {
         ProjectFolder *folder = [_curFolder.sub_folders objectAtIndex:indexPath.row - _uploadFiles.count];
-        if (index == 0) {
+        NSInteger buttonCount = cell.rightUtilityButtons.count;
+        if (index == buttonCount - 3) {//移动
+            [self moveFolder:folder fromFolder:self.curFolder];
+        }else if (index == buttonCount - 2) {//重命名
             [self renameFolder:folder];
-        }else{
+        }else{//删除
             __weak typeof(self) weakSelf = self;
-            
             UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确定要删除文件夹:%@？",folder.name] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
                 if (index == 0) {
                     [weakSelf deleteFolder:folder];
@@ -757,13 +765,35 @@
     }
     __weak typeof(self) weakSelf = self;
     FolderToMoveViewController *vc = [[FolderToMoveViewController alloc] init];
-    vc.toMovedFileIdList = fileIdList;
+    vc.fromFolder = folder;
+    vc.toMovedIdList = fileIdList;
     vc.curProject = self.curProject;
     vc.rootFolders = self.rootFolders;
     vc.curFolder = nil;
-    vc.moveToFolderBlock = ^(ProjectFolder *curFolder, NSArray *toMovedFileIdList){
+    vc.moveToFolderBlock = ^(ProjectFolder *curFolder, NSArray *toMovedIdList){
         [weakSelf changeEditStateToEditing:NO];
-        [[Coding_NetAPIManager sharedManager] request_MoveFiles:toMovedFileIdList toFolder:curFolder andBlock:^(id data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_MoveFiles:toMovedIdList toFolder:curFolder andBlock:^(id data, NSError *error) {
+            if (data) {
+                [weakSelf refreshRootFolders];
+            }
+        }];
+    };
+    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
+- (void)moveFolder:(ProjectFolder *)movedFolder fromFolder:(ProjectFolder *)folder{
+    __weak typeof(self) weakSelf = self;
+    FolderToMoveViewController *vc = [[FolderToMoveViewController alloc] init];
+    vc.isMoveFolder = YES;
+    vc.fromFolder = folder;
+    vc.toMovedIdList = @[movedFolder.file_id];
+    vc.curProject = self.curProject;
+    vc.rootFolders = self.rootFolders;
+    vc.curFolder = nil;
+    vc.moveToFolderBlock = ^(ProjectFolder *curFolder, NSArray *toMovedIdList){
+        [weakSelf changeEditStateToEditing:NO];
+        [[Coding_NetAPIManager sharedManager] request_MoveFolder:toMovedIdList.firstObject toFolder:curFolder  inProject:weakSelf.curProject andBlock:^(id data, NSError *error) {
             if (data) {
                 [weakSelf refreshRootFolders];
             }

@@ -130,7 +130,6 @@
                     folder.name = file.name;
                 }else{
                     folder = [ProjectFolder defaultFolder];
-                    folder.name = @"默认文件夹";
                 }
                 FileListViewController *vc = [[FileListViewController alloc] init];
                 vc.curProject = project;

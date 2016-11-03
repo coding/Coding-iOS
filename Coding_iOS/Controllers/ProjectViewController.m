@@ -250,6 +250,7 @@
             case ProjectViewTypeFiles:{
                 curView = ({
                     ProjectFolderListView *folderListView = [[ProjectFolderListView alloc] initWithFrame:self.view.bounds project:_myProject];
+                    folderListView.containerVC = self;
                     folderListView.folderInProjectBlock = ^(ProjectFolders *rootFolders, ProjectFolder *clickedFolder, Project *inProject){
                         DebugLog(@"folderInProjectBlock-----: %@- %@", clickedFolder.name, inProject.name);
                         [weakSelf goToVCWithRootFolder:rootFolders folder:clickedFolder inProject:inProject];
@@ -403,7 +404,6 @@
                     folder.name = file.name;
                 }else{
                     folder = [ProjectFolder defaultFolder];
-                    folder.name = @"默认文件夹";
                 }
                 FileListViewController *vc = [[FileListViewController alloc] init];
                 vc.curProject = project;

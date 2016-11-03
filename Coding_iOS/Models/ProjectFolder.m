@@ -15,6 +15,18 @@
     folder.name = @"默认文件夹";
     return folder;
 }
++ (ProjectFolder *)shareFolder{
+    ProjectFolder *folder = [[ProjectFolder alloc] init];
+    folder.file_id = [NSNumber numberWithInteger:-1];
+    folder.name = @"分享中";
+    return folder;
+}
++ (ProjectFolder *)outFolder{
+    ProjectFolder *folder = [[ProjectFolder alloc] init];
+    folder.file_id = [NSNumber numberWithInteger:0];
+    folder.name = @"移出目录";
+    return folder;
+}
 + (ProjectFolder *)folderWithId:(NSNumber *)file_id{
     ProjectFolder *folder = [[ProjectFolder alloc] init];
     folder.sub_folders = [NSMutableArray array];
@@ -47,7 +59,13 @@
     return self;
 }
 - (BOOL)isDefaultFolder{
-    return !(_file_id && _file_id.integerValue != 0);
+    return _file_id && _file_id.integerValue == 0;
+}
+- (BOOL)isShareFolder{
+    return _file_id && _file_id.integerValue == -1;
+}
+- (BOOL)isOutFolder{
+    return _file_id && _file_id.integerValue == 0 && [_name isEqualToString:@"移出目录"];
 }
 - (BOOL)canCreatSubfolder{
     return !((_parent_id && _parent_id.integerValue != 0) || [self isDefaultFolder]);
@@ -60,7 +78,11 @@
     return fileCount;
 }
 - (NSString *)toFilesPath{
-    return [NSString stringWithFormat:@"api/project/%@/files/%@", _project_id.stringValue, _file_id.stringValue];
+    if ([self isShareFolder]) {
+        return [NSString stringWithFormat:@"api/project/%@/shared_files", _project_id];
+    }else{
+        return [NSString stringWithFormat:@"api/project/%@/files/%@", _project_id, _file_id];
+    }
 }
 - (NSDictionary *)toFilesParams{
     return @{@"height": @"90",

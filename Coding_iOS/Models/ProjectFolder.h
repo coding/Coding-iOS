@@ -16,10 +16,14 @@
 @property (readwrite, nonatomic, strong) NSMutableArray *sub_folders;
 @property (strong, nonatomic) NSDictionary *propertyArrayMap;
 + (ProjectFolder *)defaultFolder;
++ (ProjectFolder *)shareFolder;
++ (ProjectFolder *)outFolder;
 + (ProjectFolder *)folderWithId:(NSNumber *)file_id;
 - (ProjectFolder *)hasFolderWithId:(NSNumber *)file_id;
 
 - (BOOL)isDefaultFolder;
+- (BOOL)isShareFolder;
+- (BOOL)isOutFolder;
 - (BOOL)canCreatSubfolder;
 - (NSInteger)fileCountIncludeSub;
 

@@ -11,6 +11,7 @@
 #import "Coding_NetAPIManager.h"
 #import "ProjectFolderListCell.h"
 #import "SettingTextViewController.h"
+#import "FolderToMoveViewController.h"
 
 @interface ProjectFolderListView () <SWTableViewCellDelegate>
 @property (nonatomic, strong) Project *curProject;
@@ -60,7 +61,6 @@
     [[Coding_NetAPIManager sharedManager] request_Folders:_myFolders inProject:_curProject andBlock:^(id data, NSError *error) {
         [weakSelf.myRefreshControl endRefreshing];
         [weakSelf endLoading];
-        
         if (data) {
             weakSelf.myFolders = data;
             [weakSelf.myTableView reloadData];
@@ -113,7 +113,10 @@
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     if ([obj isKindOfClass:[ProjectFolder class]]) {
         ProjectFolder *folder = (ProjectFolder *)obj;
-        if (![folder isDefaultFolder]) {
+        if (![folder isDefaultFolder] && ![folder isShareFolder]) {
+            if (folder.sub_folders.count <= 0) {
+                [rightUtilityButtons sw_addUtilityButtonWithColor:kColorDDD icon:[UIImage imageNamed:@"icon_file_cell_move"]];
+            }
             [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xe6e6e6"] icon:[UIImage imageNamed:@"icon_file_cell_rename"]];
             [rightUtilityButtons sw_addUtilityButtonWithColor:kColorBrandRed icon:[UIImage imageNamed:@"icon_file_cell_delete"]];
         }
@@ -138,9 +141,12 @@
     if ([folder isDefaultFolder]) {
         [NSObject showHudTipStr:@"‘默认文件夹’不可以编辑"];
     }else{
-        if (index == 0) {
+        NSInteger buttonCount = cell.rightUtilityButtons.count;
+        if (index == buttonCount - 3) {//移动
+            [self moveFolder:folder fromFolder:nil];
+        }else if (index == buttonCount - 2) {//重命名
             [self renameFolder:folder];
-        }else{
+        }else{//删除
             __weak typeof(self) weakSelf = self;
             UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确定要删除文件夹:%@？",folder.name] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
                 if (index == 0) {
@@ -179,9 +185,31 @@
                     [weakSelf.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
                 }
             }];
-            
         }
     }];
+}
+
+- (void)moveFolder:(ProjectFolder *)movedFolder fromFolder:(ProjectFolder *)folder{
+    if (!self.containerVC) {
+        return;
+    }
+    __weak typeof(self) weakSelf = self;
+    FolderToMoveViewController *vc = [[FolderToMoveViewController alloc] init];
+    vc.isMoveFolder = YES;
+    vc.fromFolder = folder;
+    vc.toMovedIdList = @[movedFolder.file_id];
+    vc.curProject = self.curProject;
+    vc.rootFolders = self.myFolders;
+    vc.curFolder = nil;
+    vc.moveToFolderBlock = ^(ProjectFolder *curFolder, NSArray *toMovedIdList){
+        [[Coding_NetAPIManager sharedManager] request_MoveFolder:toMovedIdList.firstObject toFolder:curFolder  inProject:weakSelf.curProject andBlock:^(id data, NSError *error) {
+            if (data) {
+                [weakSelf refresh];
+            }
+        }];
+    };
+    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
+    [self.containerVC presentViewController:nav animated:YES completion:nil];
 }
 
 @end

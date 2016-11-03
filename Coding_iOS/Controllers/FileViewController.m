@@ -314,7 +314,7 @@
 - (void)goToShareFileLink{
     __weak typeof(self) weakSelf = self;
     UIActionSheet *actionSheet;
-    if (_curFile.share_url.length > 0) {
+    if (_curFile.share) {
         actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"该链接适用于所有人，无需登录" buttonTitles:@[@"拷贝链接", @"关闭共享"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
                 [weakSelf doCopyShareUrl];
@@ -333,8 +333,8 @@
 }
 
 - (void)doCopyShareUrl{
-    if (_curFile.share_url.length > 0) {
-        [[UIPasteboard generalPasteboard] setString:_curFile.share_url];
+    if (_curFile.share) {
+        [[UIPasteboard generalPasteboard] setString:_curFile.share.url];
         [NSObject showHudTipStr:@"链接已拷贝到粘贴板"];
     }else{
         [NSObject showHudTipStr:@"文件还未打开共享"];
@@ -345,18 +345,18 @@
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_OpenShareOfFile:_curFile andBlock:^(id data, NSError *error) {
         if (data) {
-            weakSelf.curFile.share_url = data;
+            weakSelf.curFile.share = [FileShare instanceWithUrl:data];
             [weakSelf doCopyShareUrl];
         }
     }];
 }
 
 - (void)doCloseShareUrl{
-    NSString *hashStr = [[_curFile.share_url componentsSeparatedByString:@"/"] lastObject];
+    NSString *hashStr = [[_curFile.share.url componentsSeparatedByString:@"/"] lastObject];
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_CloseShareHash:hashStr andBlock:^(id data, NSError *error) {
         if (data) {
-            weakSelf.curFile.share_url = nil;
+            weakSelf.curFile.share = nil;
             [NSObject showHudTipStr:@"共享链接已关闭"];
         }
     }];

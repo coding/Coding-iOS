@@ -8,6 +8,10 @@
 
 #import "ProjectFolders.h"
 
+@interface ProjectFolders ()
+@property (strong, nonatomic, readwrite) NSArray *useToMoveList;
+@end
+
 @implementation ProjectFolders
 - (instancetype)init
 {
@@ -26,7 +30,13 @@
 - (BOOL)isEmpty{
     return (!self.list || self.list.count <= 0);
 }
-
+//- (NSArray *)useToMoveList{
+//    if (!_useToMoveList) {
+//        _useToMoveList = _list.mutableCopy;
+//        [(NSMutableArray *)_useToMoveList removeObjectAtIndex:0];
+//    }
+//    return _useToMoveList;
+//}
 - (ProjectFolder *)hasFolderWithId:(NSNumber *)file_id{
     if (!file_id || [self isEmpty]) {
         return nil;
@@ -50,7 +60,7 @@
 }
 
 - (NSString *)toFoldersCountPathWithObj:(NSNumber *)project_id{
-    return [NSString stringWithFormat:@"api/project/%@/folders/all_file_count", project_id.stringValue];
+    return [NSString stringWithFormat:@"api/project/%@/folders/all_file_count", project_id.stringValue];//all-file-count-with-share
 }
 
 @end
