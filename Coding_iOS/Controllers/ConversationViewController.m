@@ -303,7 +303,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
     if (canDelete) {
         [menuItemArray addObject:@"删除"];
     }
-    if (curMsg.sendStatus == PrivateMessageStatusSendSucess) {
+    if (curMsg.sendStatus == PrivateMessageStatusSendSucess && ![curMsg isVoice]) {
         [menuItemArray addObject:@"转发"];
     }
 
