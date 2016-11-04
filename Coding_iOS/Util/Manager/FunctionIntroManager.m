@@ -32,6 +32,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *preVersion = [defaults stringForKey:kIntroPageKey];
     BOOL needToShow = ![preVersion isEqualToString:kVersionBuild_Coding];
+    needToShow = NO;//不显示了
     return needToShow;
 }
 
