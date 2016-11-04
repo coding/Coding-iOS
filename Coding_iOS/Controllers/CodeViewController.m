@@ -34,8 +34,7 @@
     self.view.backgroundColor = kColorTableBG;
     self.title = self.isReadMe? @"README": [[_myCodeFile.path componentsSeparatedByString:@"/"] lastObject];
     
-    {
-        //用webView显示内容
+    {//用webView显示内容
         _webContentView = [[UIWebView alloc] initWithFrame:self.view.bounds];
         _webContentView.delegate = self;
         _webContentView.backgroundColor = [UIColor clearColor];

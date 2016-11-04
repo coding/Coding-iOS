@@ -183,7 +183,14 @@
         [_mediaItems removeObject:delItem];
     }
 }
-
+- (BOOL)needToShowDetail{
+    for (HtmlMediaItem *item in _mediaItems) {
+        if (item.type == HtmlMediaItemType_Code || item.type == HtmlMediaItemType_Math) {
+            return YES;
+        }
+    }
+    return NO;
+}
 + (instancetype)htmlMediaWithString:(NSString *)htmlString showType:(MediaShowType)showType{
     return [[[self class] alloc] initWithString:htmlString showType:showType];
 }

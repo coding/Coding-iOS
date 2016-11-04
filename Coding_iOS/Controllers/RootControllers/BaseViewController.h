@@ -18,4 +18,5 @@
 + (void)presentLinkStr:(NSString *)linkStr;
 + (UIViewController *)presentingVC;
 + (void)presentVC:(UIViewController *)viewController;
++ (void)goToVC:(UIViewController *)viewController;
 @end

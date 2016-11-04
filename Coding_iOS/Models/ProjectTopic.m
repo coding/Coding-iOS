@@ -54,7 +54,7 @@
 
 - (void)setContent:(NSString *)content{
     if (_content != content) {
-        _htmlMedia = [HtmlMedia htmlMediaWithString:content showType:MediaShowTypeCode];
+        _htmlMedia = [HtmlMedia htmlMediaWithString:content showType:MediaShowTypeNone];
         _content = _htmlMedia.contentDisplay;
     }
 }

@@ -12,11 +12,13 @@
 #import "UICustomCollectionView.h"
 #import "MRPRCommentCCell.h"
 #import "MJPhotoBrowser.h"
+#import "HtmlMediaViewController.h"
 
 @interface MRPRCommentCell ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UIImageView *ownerIconView;
 @property (strong, nonatomic) UILabel *timeLabel;
 @property (strong, nonatomic) UICustomCollectionView *imageCollectionView;
+@property (strong, nonatomic) UIButton *detailBtn;
 
 @end
 
@@ -62,9 +64,26 @@
                 [self.contentView addSubview:self.imageCollectionView];
             }
         }
+        if (!_detailBtn) {
+            _detailBtn = [UIButton buttonWithTitle:@"查看详情" titleColor:kColorBrandGreen];
+            _detailBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+            [_detailBtn addTarget:self action:@selector(goToDetail) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:_detailBtn];
+            [_detailBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(60, 30));
+                make.right.equalTo(self.contentView).offset(-10);
+                make.centerY.equalTo(_timeLabel);
+            }];
+        }
     }
     return self;
 }
+
+- (void)goToDetail{
+    HtmlMediaViewController *vc = [HtmlMediaViewController instanceWithHtmlMedia:self.curItem.htmlMedia title:[NSString stringWithFormat:@"%@ 的评论", self.curItem.author.name]];
+    [BaseViewController goToVC:vc];
+}
+
 
 - (void)setCurItem:(ProjectLineNote *)curItem{
     _curItem = curItem;
@@ -72,6 +91,7 @@
     if (!_curItem) {
         return;
     }
+    _detailBtn.hidden = ![self.curItem.htmlMedia needToShowDetail];
     CGFloat curBottomY = 10;
     CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
     [_ownerIconView sd_setImageWithURL:[_curItem.author.avatar urlImageWithCodePathResizeToView:_ownerIconView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerIconView)];

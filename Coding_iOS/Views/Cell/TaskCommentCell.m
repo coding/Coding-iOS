@@ -17,12 +17,13 @@
 
 #import "MJPhotoBrowser.h"
 #import "FileComment.h"
+#import "HtmlMediaViewController.h"
 
 @interface TaskCommentCell ()<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) UIImageView *ownerIconView, *timeLineView, *contentBGView;
 @property (strong, nonatomic) UILabel *timeLabel;
 @property (strong, nonatomic) UICustomCollectionView *imageCollectionView;
-
+@property (strong, nonatomic) UIButton *detailBtn;
 @end
 
 @implementation TaskCommentCell
@@ -94,8 +95,24 @@
         [_contentBGView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(5, 60- 7, 5, 20));
         }];
+        if (!_detailBtn) {
+            _detailBtn = [UIButton buttonWithTitle:@"查看详情" titleColor:kColorBrandGreen];
+            _detailBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+            [_detailBtn addTarget:self action:@selector(goToDetail) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:_detailBtn];
+            [_detailBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(60, 30));
+                make.right.equalTo(_contentBGView).offset(-10);
+                make.bottom.equalTo(_contentBGView).offset(-5);
+            }];
+        }
     }
     return self;
+}
+
+- (void)goToDetail{
+    HtmlMediaViewController *vc = [HtmlMediaViewController instanceWithHtmlMedia:self.curComment.htmlMedia title:[NSString stringWithFormat:@"%@ 的评论", self.curComment.owner.name]];
+    [BaseViewController goToVC:vc];
 }
 
 - (void)setCurComment:(TaskComment *)curComment{
@@ -103,6 +120,7 @@
     if (!_curComment) {
         return;
     }
+    _detailBtn.hidden = ![self.curComment.htmlMedia needToShowDetail];
     CGFloat curBottomY = 15;
     [_ownerIconView sd_setImageWithURL:[_curComment.owner.avatar urlImageWithCodePathResizeToView:_ownerIconView] placeholderImage:kPlaceholderMonkeyRoundWidth(33.0)];
     

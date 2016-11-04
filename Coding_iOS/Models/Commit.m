@@ -22,7 +22,7 @@
         _short_message = short_message;
         return;
     }
-    HtmlMedia *htmlHedia = [HtmlMedia htmlMediaWithString:short_message showType:MediaShowTypeCode];
+    HtmlMedia *htmlHedia = [HtmlMedia htmlMediaWithString:short_message showType:MediaShowTypeNone];
     _short_message = htmlHedia.contentDisplay;
 }
 

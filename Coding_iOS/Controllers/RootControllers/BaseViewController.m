@@ -421,6 +421,15 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     }
     [[self presentingVC] presentViewController:nav animated:YES completion:nil];
 }
++ (void)goToVC:(UIViewController *)viewController{
+    if (!viewController) {
+        return;
+    }
+    UINavigationController *nav = [self presentingVC].navigationController;
+    if (nav) {
+        [nav pushViewController:viewController animated:YES];
+    }
+}
 
 #pragma mark Login
 - (void)loginOutToLoginVC{
