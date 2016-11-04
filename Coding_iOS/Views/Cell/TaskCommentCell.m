@@ -34,7 +34,7 @@
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        CGFloat curBottomY = 15;
+        CGFloat curBottomY = 25;
         if (!_contentBGView) {
             _contentBGView = [UIImageView new];
             _contentBGView.image = [[UIImage imageNamed:@"comment_bg"] resizableImageWithCapInsets:UIEdgeInsetsMake(35, 15, 5, 5)];
@@ -93,7 +93,7 @@
             }
         }
         [_contentBGView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(5, 60- 7, 5, 20));
+            make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(10, 60- 7, 10, 20));
         }];
         if (!_detailBtn) {
             _detailBtn = [UIButton buttonWithTitle:@"查看详情" titleColor:kColorBrandGreen];
@@ -121,7 +121,7 @@
         return;
     }
     _detailBtn.hidden = ![self.curComment.htmlMedia needToShowDetail];
-    CGFloat curBottomY = 15;
+    CGFloat curBottomY = 25;
     [_ownerIconView sd_setImageWithURL:[_curComment.owner.avatar urlImageWithCodePathResizeToView:_ownerIconView] placeholderImage:kPlaceholderMonkeyRoundWidth(33.0)];
     
     NSString *contentStr = _curComment.content;
@@ -170,9 +170,9 @@
         || [obj isKindOfClass:[FileComment class]]) {
         TaskComment *curComment = (TaskComment *)obj;
         NSString *contentStr = curComment.content;
-        cellHeight += 10 +[contentStr getHeightWithFont:kTaskCommentCell_FontContent constrainedToSize:CGSizeMake(kTaskCommentCell_ContentWidth, CGFLOAT_MAX)] + 5 +20 +10;
+        cellHeight += 20 +[contentStr getHeightWithFont:kTaskCommentCell_FontContent constrainedToSize:CGSizeMake(kTaskCommentCell_ContentWidth, CGFLOAT_MAX)] + 5 +20 +10;
         cellHeight += [self imageCollectionViewHeightWithCount:curComment.htmlMedia.imageItems.count];
-        cellHeight += 10;
+        cellHeight += 20;
     }
     return cellHeight;
 }
