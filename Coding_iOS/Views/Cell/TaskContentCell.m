@@ -94,7 +94,7 @@
             make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
             make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
             make.height.mas_equalTo(0.5);
-            make.bottom.equalTo(_tagsView).offset(5);
+            make.bottom.equalTo(_tagsView).offset(7);
         }];
         [_taskContentView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_upLineView.mas_bottom).offset(5.0);
@@ -136,7 +136,7 @@
     }
     _tagsView.tags = _task.labels;
     [_tagsView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView).offset(10);
+        make.top.equalTo(self.contentView).offset(12);
         make.left.right.equalTo(self.contentView);
         make.height.mas_equalTo([ProjectTagsView getHeightForTags:self.task.labels]);
     }];
@@ -187,9 +187,9 @@
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[Task class]]) {
         Task *task = (Task *)obj;
-        cellHeight += 10;
+        cellHeight += 12;
         cellHeight += [ProjectTagsView getHeightForTags:task.labels];
-        cellHeight += 10 + kTaskContentCell_ContentHeightMin + 40;
+        cellHeight += 7 + 5 + kTaskContentCell_ContentHeightMin + 40;
     }
     return cellHeight;
 }

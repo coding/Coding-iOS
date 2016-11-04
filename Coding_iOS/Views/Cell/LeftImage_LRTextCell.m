@@ -37,7 +37,7 @@
         }
         if (!_rightLabel) {
             _rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_leftLabel.frame), 7, kScreen_Width - CGRectGetMaxX(_leftLabel.frame) - 35, 30)];
-            _rightLabel.font = [UIFont systemFontOfSize:18];
+            _rightLabel.font = [UIFont systemFontOfSize:16];
             _rightLabel.textColor = kColor999;
             _rightLabel.textAlignment = NSTextAlignmentRight;
             [self.contentView addSubview:_rightLabel];
@@ -144,6 +144,6 @@
 
 
 + (CGFloat)cellHeight{
-    return 44;
+    return 50;
 }
 @end
