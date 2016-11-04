@@ -102,7 +102,7 @@
             [_detailBtn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(60, 30));
                 make.right.equalTo(_contentBGView).offset(-10);
-                make.bottom.equalTo(_contentBGView).offset(-5);
+                make.centerY.equalTo(_timeLabel);
             }];
         }
 
@@ -141,6 +141,7 @@
     }
     curBottomY += [DynamicCommentCell imageCollectionViewHeightWithCount:imagesCount];
     [_timeLabel setY:curBottomY];
+    _timeLabel.width = _detailBtn.hidden? kTaskCommentCell_ContentWidth: kTaskCommentCell_ContentWidth - 60;
     _timeLabel.text = [NSString stringWithFormat:@"%@ 发布于 %@", _curComment.author.name,[_curComment.created_at stringDisplay_HHmm]];
 }
 
