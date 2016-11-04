@@ -119,9 +119,7 @@
         }
     }else{
         _leftBtn.hidden = YES;
-    }
-    _leftBtn.hidden = rand()%2;
-    
+    }    
     [_memberNameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.memberIconView.mas_right).offset(10);
         make.height.mas_equalTo(20);
