@@ -105,7 +105,7 @@
                 make.centerY.equalTo(_timeLabel);
             }];
         }
-
+        _timeLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
     }
     return self;
 }

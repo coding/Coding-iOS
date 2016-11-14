@@ -32,6 +32,7 @@ static NSString *kFunctionTipStr_Version = @"version";
         if (![[_tipsDict valueForKey:@"version"] isEqualToString:kVersionBuild_Coding]) {
             _tipsDict = [@{kFunctionTipStr_Version: kVersionBuild_Coding,
                            //Function Need To Tip
+                           kFunctionTipStr_File_3V: @(YES),
 //                           kFunctionTipStr_MR: @(YES),
 //                           kFunctionTipStr_PR: @(YES),
 //                           kFunctionTipStr_ReadMe: @(YES),

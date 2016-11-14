@@ -25,6 +25,8 @@ static NSString *kFunctionTipStr_LineNote_MRPR = @"LineNote_MRPR";
 static NSString *kFunctionTipStr_Me_Points = @"Me_Points";
 //version: 3.7
 static NSString *kFunctionTipStr_Prefix = @"Prefix";
+//version 4.0.8
+static NSString *kFunctionTipStr_File_3V = @"File_3V";
 
 #import <Foundation/Foundation.h>
 
