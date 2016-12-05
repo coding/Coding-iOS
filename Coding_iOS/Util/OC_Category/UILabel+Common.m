@@ -84,4 +84,18 @@
     return label;
 }
 
+- (void)colorTextWithColor:(UIColor *)color range:(NSRange)range {
+    NSMutableAttributedString *attrStr = self.attributedText? self.attributedText.mutableCopy: [[NSMutableAttributedString alloc] initWithString:self.text];
+    
+    [attrStr addAttribute:NSForegroundColorAttributeName value:color range:range];
+    self.attributedText = attrStr;
+}
+
+- (void)fontTextWithFont:(UIFont *)font range:(NSRange)range {
+    NSMutableAttributedString *attrStr = self.attributedText? self.attributedText.mutableCopy: [[NSMutableAttributedString alloc] initWithString:self.text];
+    
+    [attrStr addAttribute:NSFontAttributeName value:font range:range];
+    self.attributedText = attrStr;
+}
+
 @end

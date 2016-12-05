@@ -17,7 +17,8 @@
 #import "SVPullToRefresh.h"
 #import "WebViewController.h"
 #import "ProjectTweetSendViewController.h"
-#import "EaseUserHeaderView.h"
+#import "UserActiveGraphCell.h"
+
 
 @interface UserOrProjectTweetsViewController ()
 @property (nonatomic, strong, readwrite) UITableView *myTableView;
@@ -217,7 +218,7 @@
 - (CGFloat)blankPageOffsetY{//MeDisplayViewController
     CGFloat offsetY = 0;
     if ([self isMemberOfClass:NSClassFromString(@"MeDisplayViewController")]) {
-        offsetY = [(EaseUserHeaderView *)[self valueForKey:@"eaV"] originalHeight] + 60;
+        offsetY = ((UITableViewCell *)[self valueForKey:@"userInfoCell"]).frame.size.height + [UserActiveGraphCell cellHeight] + 100;
     }
     return offsetY;
 }

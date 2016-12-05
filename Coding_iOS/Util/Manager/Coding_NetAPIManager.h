@@ -39,6 +39,7 @@
 #import "Shop.h"
 #import "ShopOrderModel.h"
 #import "ProjectCount.h"
+#import "ActivenessModel.h"
 
 @class CSTopic, Team;
 
@@ -257,6 +258,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 
 - (void)request_Users_WithTopicID:(NSInteger)topicID andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_JoinedUsers_WithTopicID:(NSInteger)topicID page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_Users_activenessWithGlobalKey:(NSString *)globalKey andBlock:(void (^)(ActivenessModel *data, NSError *error))block;
 
 #pragma mark - 2FA
 - (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block;

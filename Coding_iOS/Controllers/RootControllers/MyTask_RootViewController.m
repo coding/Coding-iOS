@@ -11,6 +11,7 @@
 #import "Coding_NetAPIManager.h"
 #import "EditTaskViewController.h"
 #import "RDVTabBarController.h"
+#import "TaskSelectionView.h"
 
 @interface MyTask_RootViewController ()
 
@@ -20,6 +21,12 @@
 
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) iCarousel *myCarousel;
+
+@property (strong, nonatomic) UIButton *titleBtn;
+@property (nonatomic,assign) NSInteger selectNum;  //筛选状态
+@property (nonatomic, strong) TaskSelectionView *myFliterMenu;
+
+
 @end
 
 @implementation MyTask_RootViewController
@@ -46,7 +53,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"我的任务";
+    [self setupTitleBtn];
     
     _myProjects = [Projects projectsWithType:ProjectsTypeAll andUser:nil];
     _myProTksDict = [[NSMutableDictionary alloc] initWithCapacity:1];
@@ -69,6 +76,20 @@
         icarousel;
     });
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)];
+    
+    
+    
+    //初始化过滤目录
+    _myFliterMenu = [[TaskSelectionView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64) items:nil];
+    __weak typeof(self) weakSelf = self;
+    _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
+        [weakSelf.titleBtn setTitle:weakSelf.myFliterMenu.items[pageIndex] forState:UIControlStateNormal];
+    };
+    _myFliterMenu.closeBlock=^(){
+        [weakSelf.myFliterMenu dismissMenu];
+    };
+
+    
 }
 
 - (void)addItemClicked:(id)sender{
@@ -193,5 +214,41 @@
         [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
     }];
 }
+
+- (void)setupTitleBtn{
+    if (!_titleBtn) {
+        _titleBtn = [UIButton new];
+        [_titleBtn setTitleColor:kColorNavTitle forState:UIControlStateNormal];
+        [_titleBtn.titleLabel setFont:[UIFont systemFontOfSize:kNavTitleFontSize]];
+        [_titleBtn addTarget:self action:@selector(fliterClicked:) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.titleView = _titleBtn;
+        [self setTitleBtnStr:@"我的任务"];
+    }
+}
+
+- (void)setTitleBtnStr:(NSString *)titleStr{
+    if (_titleBtn) {
+        CGFloat titleWidth = [titleStr getWidthWithFont:_titleBtn.titleLabel.font constrainedToSize:CGSizeMake(kScreen_Width, 30)];
+        CGFloat imageWidth = 12;
+        CGFloat btnWidth = titleWidth +imageWidth;
+        _titleBtn.frame = CGRectMake((kScreen_Width-btnWidth)/2, (44-30)/2, btnWidth, 30);
+        _titleBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -imageWidth, 0, imageWidth);
+        _titleBtn.imageEdgeInsets = UIEdgeInsetsMake(0, titleWidth, 0, -titleWidth);
+        [_titleBtn setTitle:titleStr forState:UIControlStateNormal];
+        [_titleBtn setImage:[UIImage imageNamed:@"btn_fliter_down"] forState:UIControlStateNormal];
+    }
+}
+
+-(void)fliterClicked:(id)sender{
+    if (_myFliterMenu.showStatus) {
+        [_myFliterMenu dismissMenu];
+    }else {
+        [_myFliterMenu showMenuAtView:kKeyWindow];
+    }
+
+    
+}
+
+
 
 @end

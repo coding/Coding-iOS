@@ -38,6 +38,8 @@
 #import <ReactiveCocoa/RACEXTScope.h>
 #import "UIImageView+WebCache.h"
 #import <Masonry/Masonry.h>
+#import "UIView+SDAutoLayout.h"
+#import "UITableView+SDAutoTableViewCellHeight.h"
 
 #import "BaseNavigationController.h"
 #import "BaseViewController.h"

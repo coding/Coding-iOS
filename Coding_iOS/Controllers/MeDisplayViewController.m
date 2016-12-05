@@ -19,10 +19,10 @@
 #import "SVPullToRefresh.h"
 #import "Coding_NetAPIManager.h"
 #import "SettingMineInfoViewController.h"
-
+#import "EaseUserInfoCell.h"
+#import "UserActiveGraphCell.h"
 
 @interface MeDisplayViewController ()
-@property (strong, nonatomic) UIView *tableHeaderView;
 @property (strong, nonatomic) EaseUserHeaderView *eaV;
 @property (strong, nonatomic) UIView *sectionHeaderView;
 
@@ -31,13 +31,13 @@
 @property (strong, nonatomic) NSMutableArray *dataList;//特指「话题列表」的数据
 @property (assign, nonatomic) BOOL canLoadMore, willLoadMore, isLoading;
 @property (nonatomic, assign) NSInteger curPage;
-
+@property (nonatomic, strong) EaseUserInfoCell *userInfoCell;
+@property (nonatomic, strong) ActivenessModel *activenessModel;
 @end
 
 @implementation MeDisplayViewController
 
 - (void)viewDidLoad{
-    _curUser = [Login curLoginUser];
     _dataIndex = 0;
     _dataList = @[].mutableCopy;
     _canLoadMore = YES;
@@ -47,30 +47,39 @@
     [super viewDidLoad];
     self.title = @"个人主页";
     [self.myTableView registerClass:[CSTopicCell class] forCellReuseIdentifier:kCellIdentifier_TopicCell];
+     [self.myTableView registerClass:[UserActiveGraphCell class] forCellReuseIdentifier:kCellIdentifier_UserActiveGraphCell];
     [self setupHeaderV];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    _curUser = [Login curLoginUser];
+    [self.myTableView reloadData];
+
 }
 
 - (void)setupHeaderV{
     __weak typeof(self) weakSelf = self;
-    if (!_tableHeaderView) {
-        _eaV = [EaseUserHeaderView userHeaderViewWithUser:_curUser image:[StartImagesManager shareManager].curImage.image];
-        _eaV.userIconClicked = ^(){
-            [weakSelf userIconClicked];
-        };
-        _eaV.fansCountBtnClicked = ^(){
-            [weakSelf fansCountBtnClicked];
-        };
-        _eaV.followsCountBtnClicked = ^(){
-            [weakSelf followsCountBtnClicked];
-        };
-        _eaV.nameBtnClicked = ^(){
-            [weakSelf goToSettingInfo];
-        };
-        _eaV.clipsToBounds = YES;
-        _tableHeaderView = [[UIView alloc] initWithFrame:_eaV.bounds];
-        [_tableHeaderView addSubview:_eaV];
-        self.myTableView.tableHeaderView = _tableHeaderView;
-    }
+    _userInfoCell = [[EaseUserInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier_EaseUserInfoCell];
+    _userInfoCell.userIconClicked = ^(){
+        [weakSelf userIconClicked]; //用户头像点击
+    };
+    _userInfoCell.fansCountBtnClicked = ^(){
+        [weakSelf fansCountBtnClicked]; //粉丝
+    };
+    _userInfoCell.followsCountBtnClicked = ^(){
+        [weakSelf followsCountBtnClicked]; //关注
+    };
+    _userInfoCell.editButtonClicked = ^(){
+        [weakSelf goToSettingInfo]; //编辑
+    };
+    
+    [[Coding_NetAPIManager sharedManager] request_Users_activenessWithGlobalKey:_curUser.global_key andBlock:^(ActivenessModel *data, NSError *error) {
+        weakSelf.activenessModel = data;
+        [weakSelf.myTableView reloadData];
+    }];
+
+    
     if (!_sectionHeaderView) {
         _sectionHeaderView = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 44.0) Items:@[@"冒泡", @"话题"] selectedBlock:^(NSInteger index) {
             weakSelf.dataIndex = index;
@@ -93,6 +102,13 @@
 
 - (void)refresh{
     if (_dataIndex == 0) {
+        _curUser = [Login curLoginUser];
+        [self.myTableView reloadData];
+        __weak typeof(self) weakSelf = self;
+        [[Coding_NetAPIManager sharedManager] request_Users_activenessWithGlobalKey:_curUser.global_key andBlock:^(ActivenessModel *data, NSError *error) {
+            weakSelf.activenessModel = data;
+            [weakSelf.myTableView reloadData];
+        }];
         [super refresh];
     }else{
         if (!_isLoading) {
@@ -133,7 +149,9 @@
             [weakSelf.myTableView reloadData];
             weakSelf.myTableView.showsInfiniteScrolling = hasMoreData;
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeMyJoinedTopic hasData:weakSelf.dataList.count > 0 hasError:error != nil offsetY:[_eaV originalHeight] + 60 reloadButtonBlock:^(id sender) {
+        
+        CGFloat offsetY = _userInfoCell.frame.size.height + [UserActiveGraphCell cellHeight] + 100;
+        [weakSelf.view configBlankPage:EaseBlankPageTypeMyJoinedTopic hasData:weakSelf.dataList.count > 0 hasError:error != nil offsetY:offsetY reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
 
@@ -173,15 +191,38 @@
 }
 
 #pragma mark TableM
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 3;
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section < 2) {
+        return nil;
+    }
     return self.sectionHeaderView;
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section < 2) {
+        return 0.0;
+    }
     return 44.0;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (section < 2) {
+        return 20;
+    }
+
+    return 0;
+}
+
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (section < 2) {
+        return 1;
+    }
     if (_dataIndex == 0) {
         return [super tableView:tableView numberOfRowsInSection:section];
     }else{
@@ -190,9 +231,18 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (_dataIndex == 0) {
+    if (indexPath.section == 0) {
+        EaseUserInfoCell *cell = self.userInfoCell;
+        cell.user = _curUser;
+        return cell;
+    } else if (indexPath.section == 1) {
+        UserActiveGraphCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserActiveGraphCell forIndexPath:indexPath];
+        cell.activenessModel = _activenessModel;
+        return cell;
+        
+    } else if (_dataIndex == 0) {
         return [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    }else{
+    } else{
         NSDictionary *topic = _dataList[indexPath.row];
         CSTopicCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TopicCell forIndexPath:indexPath];
         [cell updateDisplayByTopic:topic];
@@ -202,7 +252,12 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (_dataIndex == 0) {
+    if (indexPath.section == 0) {
+        return [tableView cellHeightForIndexPath:indexPath model:_curUser keyPath:@"user" cellClass:[EaseUserInfoCell class] contentViewWidth:kScreen_Width];
+        
+    } else if (indexPath.section == 1) {
+        return [UserActiveGraphCell cellHeight];
+    } else if (_dataIndex == 0) {
         return [super tableView:tableView heightForRowAtIndexPath:indexPath];
     }else{
         NSDictionary *topic = _dataList[indexPath.row];
@@ -211,6 +266,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section < 2) {
+        return;
+    }
     if (_dataIndex == 0) {
         [super tableView:tableView didSelectRowAtIndexPath:indexPath];
     }else{

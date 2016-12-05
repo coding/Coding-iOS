@@ -2630,6 +2630,22 @@
     }];
 }
 
+- (void)request_Users_activenessWithGlobalKey:(NSString *)globalKey andBlock:(void (^)(ActivenessModel *data, NSError *error))block {
+    NSString *path = [NSString stringWithFormat:@"api/user/activeness/data/%@",globalKey];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"用户活跃图"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            ActivenessModel *resultA = [NSObject objectOfClass:@"ActivenessModel" fromJSON:resultData];
+            resultA.dailyActiveness = [NSObject arrayFromJSON:resultData[@"daily_activeness"] ofObjects:@"DailyActiveness"];
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_MDHtmlStr_WithMDStr:(NSString *)mdStr inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/markdown/previewNoAt";
     if (project.name && project.owner_user_name) {
