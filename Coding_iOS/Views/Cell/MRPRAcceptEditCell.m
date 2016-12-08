@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#define kMRPRAcceptEditCell_TextViewHeight 80.0
+#define kMRPRAcceptEditCell_TextViewHeight (kScreen_Height/4)
 
 #import "MRPRAcceptEditCell.h"
 

@@ -41,6 +41,22 @@
     }
     self.curMRPR.message = [NSString stringWithFormat:@"Accept Merge Request #%@ : (%@ -> %@)", _curMRPR.iid.stringValue, fromStr, toStr];
     
+    self.curMRPR.message = [NSString stringWithFormat:
+@"Accept Merge Request #%@ : %@\n\n\
+From -> To: (%@ -> %@)\n\n\
+Merge Request: %@\n\n\
+Created By: @%@\n\
+Accepted By: @%@\n\
+URL:%@",
+_curMRPR.iid.stringValue,
+_curMRPR.title,
+fromStr,
+toStr,
+_curMRPR.title,
+_curMRPR.author.name,
+[Login curLoginUser].name,
+[NSURL URLWithString:_curMRPR.path relativeToURL:[NSURL URLWithString:[NSObject baseURLStr]]].absoluteString];
+    
     _myTableView = ({
         UITableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         tableView.backgroundColor = kColorTableSectionBg;
