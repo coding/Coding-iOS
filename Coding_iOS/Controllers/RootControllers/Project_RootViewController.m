@@ -230,6 +230,7 @@
         [self closeMenu];
     }
 }
+
 -(void)fliterClicked:(id)sender{
     [self closeMenu];
     if (_myFliterMenu.showStatus) {

@@ -15,6 +15,8 @@
 		099F63C81DEDBD0100072519 /* ActivenessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 099F63C71DEDBD0100072519 /* ActivenessModel.m */; };
 		099F63CB1DEEFE0B00072519 /* UserActiveStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 099F63CA1DEEFE0B00072519 /* UserActiveStatusView.m */; };
 		09E337821DF4481400E1A601 /* TaskSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E337811DF4481400E1A601 /* TaskSelectionView.m */; };
+		09E337851DF8361300E1A601 /* TaskSelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E337841DF8361300E1A601 /* TaskSelectionCell.m */; };
+		09E337881DF83C7F00E1A601 /* ScreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E337871DF83C7F00E1A601 /* ScreenView.m */; };
 		0A03E6D31ABD0F690034BB8E /* LocationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A03E6D21ABD0F690034BB8E /* LocationHelper.m */; };
 		0A0519E21ABA918100551B61 /* TweetSendDetailLoctionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0519E01ABA918100551B61 /* TweetSendDetailLoctionCell.m */; };
 		0A0519E31ABA918100551B61 /* TweetSendDetailLoctionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A0519E11ABA918100551B61 /* TweetSendDetailLoctionCell.xib */; };
@@ -1212,6 +1214,10 @@
 		099F63CA1DEEFE0B00072519 /* UserActiveStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserActiveStatusView.m; sourceTree = "<group>"; };
 		09E337801DF4481400E1A601 /* TaskSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskSelectionView.h; sourceTree = "<group>"; };
 		09E337811DF4481400E1A601 /* TaskSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskSelectionView.m; sourceTree = "<group>"; };
+		09E337831DF8361300E1A601 /* TaskSelectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskSelectionCell.h; sourceTree = "<group>"; };
+		09E337841DF8361300E1A601 /* TaskSelectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskSelectionCell.m; sourceTree = "<group>"; };
+		09E337861DF83C7F00E1A601 /* ScreenView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenView.h; sourceTree = "<group>"; };
+		09E337871DF83C7F00E1A601 /* ScreenView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenView.m; sourceTree = "<group>"; };
 		0A03E6D11ABD0F690034BB8E /* LocationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationHelper.h; sourceTree = "<group>"; };
 		0A03E6D21ABD0F690034BB8E /* LocationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationHelper.m; sourceTree = "<group>"; };
 		0A0519DF1ABA918100551B61 /* TweetSendDetailLoctionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendDetailLoctionCell.h; sourceTree = "<group>"; };
@@ -5511,6 +5517,8 @@
 				099F63CA1DEEFE0B00072519 /* UserActiveStatusView.m */,
 				09E337801DF4481400E1A601 /* TaskSelectionView.h */,
 				09E337811DF4481400E1A601 /* TaskSelectionView.m */,
+				09E337861DF83C7F00E1A601 /* ScreenView.h */,
+				09E337871DF83C7F00E1A601 /* ScreenView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -5776,6 +5784,8 @@
 				093C40681DEAF781008F0AFD /* EaseUserInfoCell.m */,
 				093C406A1DEAF8DA008F0AFD /* UserActiveGraphCell.h */,
 				093C406B1DEAF8DA008F0AFD /* UserActiveGraphCell.m */,
+				09E337831DF8361300E1A601 /* TaskSelectionCell.h */,
+				09E337841DF8361300E1A601 /* TaskSelectionCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -6942,6 +6952,7 @@
 				4E6318A21BDA261100EFED97 /* MRListView.m in Sources */,
 				D0A32BF61BF1CA8F00336C52 /* ProjectCount.m in Sources */,
 				099F63CB1DEEFE0B00072519 /* UserActiveStatusView.m in Sources */,
+				09E337851DF8361300E1A601 /* TaskSelectionCell.m in Sources */,
 				4EB52F381C7C38F600B5EBEA /* ResourceReference.m in Sources */,
 				4EA7F15D1A6D192B00A046BD /* SDWebImageDownloader.m in Sources */,
 				8EA6D1B419E240C40076D59C /* HtmlMedia.m in Sources */,
@@ -7113,6 +7124,7 @@
 				4E9E3B751DCC2DB10005FD79 /* HtmlMediaViewController.m in Sources */,
 				4E0BD86E1B6C7E3D0061CAA6 /* CSTopicCreateVC.m in Sources */,
 				4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */,
+				09E337881DF83C7F00E1A601 /* ScreenView.m in Sources */,
 				13972E2F1CA6D5C600489EBA /* MActivityInfo.m in Sources */,
 				8ECA8BB419FB42CC00C598C6 /* UILongPressMenuImageView.m in Sources */,
 				4E4D6A821B1C6D5F00FD2E49 /* FileChangesIntroduceCell.m in Sources */,

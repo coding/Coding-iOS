@@ -14,6 +14,7 @@
 #import "ProjectCount.h"
 #import "Projects.h"
 #import "pop.h"
+#import "TaskSelectionCell.h"
 
 @interface TaskSelectionView()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) XHRealTimeBlur *realTimeBlur;
@@ -91,7 +92,7 @@
         tableview.backgroundColor=[UIColor clearColor];
         tableview.delegate=self;
         tableview.dataSource=self;
-        [tableview registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
+        [tableview registerClass:[TaskSelectionCell class] forCellReuseIdentifier:kCellIdentifier_TaskSelectionCell];
         tableview.tableFooterView=[UIView new];
         tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
         tableview;
@@ -140,14 +141,16 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
-    [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    cell.backgroundColor=[UIColor clearColor];
-    UILabel *titleLab=[[UILabel alloc] initWithFrame:CGRectMake(20, 0, 200, 50)];
-    titleLab.font=[UIFont systemFontOfSize:15];
-    [cell.contentView addSubview:titleLab];
-    titleLab.textColor=(indexPath.row==_selectNum)?kColorBrandGreen:kColor222;
-    titleLab.text= _items[indexPath.row];
+    TaskSelectionCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskSelectionCell forIndexPath:indexPath];
+    cell.title = _items[indexPath.row];
+    cell.isSel = indexPath.row==_selectNum;
+//    [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+//    cell.backgroundColor=[UIColor clearColor];
+//    UILabel *titleLab=[[UILabel alloc] initWithFrame:CGRectMake(20, 0, 200, 50)];
+//    titleLab.font=[UIFont systemFontOfSize:15];
+//    [cell.contentView addSubview:titleLab];
+//    titleLab.textColor=(indexPath.row==_selectNum)?kColorBrandGreen:kColor222;
+//    titleLab.text= _items[indexPath.row];
     return cell;
 }
 

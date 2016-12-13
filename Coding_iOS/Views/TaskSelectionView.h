@@ -10,19 +10,6 @@
 
 @interface TaskSelectionView : UIView
 
-///**
-// 标题数组
-// */
-//@property (nonatomic, strong) NSArray *titleArray;
-//
-//
-///**
-// 选择后回调
-// */
-//@property (nonatomic, copy) void (^selectBlock)(NSInteger selectIndex);
-//
-//- (void)showOrHide;
-
 @property (assign) BOOL showStatus;
 @property (nonatomic , copy) void (^clickBlock)(NSInteger selectNum);
 @property (nonatomic , copy) void (^closeBlock)();

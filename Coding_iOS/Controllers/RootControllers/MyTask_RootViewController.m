@@ -12,6 +12,7 @@
 #import "EditTaskViewController.h"
 #import "RDVTabBarController.h"
 #import "TaskSelectionView.h"
+#import "ScreenView.h"
 
 @interface MyTask_RootViewController ()
 
@@ -25,7 +26,7 @@
 @property (strong, nonatomic) UIButton *titleBtn;
 @property (nonatomic,assign) NSInteger selectNum;  //筛选状态
 @property (nonatomic, strong) TaskSelectionView *myFliterMenu;
-
+@property (nonatomic, strong) ScreenView *screenView;
 
 @end
 
@@ -75,7 +76,10 @@
         }];
         icarousel;
     });
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)];
+    
+    UIBarButtonItem *addBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)];
+    UIBarButtonItem *screenBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"user_info_mutualConcern"] style:UIBarButtonItemStylePlain target:self action:@selector(screenItemClicked:)];
+    self.navigationItem.rightBarButtonItems = @[addBar, screenBar];
     
     
     
@@ -88,6 +92,8 @@
     _myFliterMenu.closeBlock=^(){
         [weakSelf.myFliterMenu dismissMenu];
     };
+    
+    _screenView = [ScreenView creat];
 
     
 }
@@ -101,6 +107,11 @@
     vc.myTask.handleType = TaskHandleTypeAddWithoutProject;
     
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)screenItemClicked:(UIBarButtonItem *)sender {
+//    [sender setImage:[UIImage imageNamed:@"addBtn_Nav"]];
+    [_screenView showOrHide];
 }
 
 - (void)didReceiveMemoryWarning
