@@ -165,7 +165,7 @@
             [weakSelf.navigationController popViewControllerAnimated:YES];
             if (![Login curLoginUser].is_phone_validated.boolValue) {//之前没有绑定过手机号的，奖励码币
                 [Login curLoginUser].is_phone_validated = @(YES);
-                [RewardTipManager showTipWithTitle:@"成功完成手机验证 !" rewardPoint:@"0.1"];
+                [RewardTipManager showTipWithTitle:@"成功完成手机验证 !" rewardPoint:@"0.1 MB"];
             }else{
                 [NSObject showHudTipStr:@"手机号码绑定成功"];
             }

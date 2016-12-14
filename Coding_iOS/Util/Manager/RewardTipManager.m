@@ -51,10 +51,9 @@
         _rewardPointL = [UILabel labelWithSystemFontSize:15 textColorHexString:@"0x222222"];
         _knowMoreBtn = ({
             UIButton *button = [UIButton new];
-            button.backgroundColor = kColorBrandGreen;
-            [button doBorderWidth:0 color:nil cornerRadius:4];
-            button.titleLabel.font = [UIFont systemFontOfSize:18];
-            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            button.backgroundColor = kColorTableSectionBg;
+            button.titleLabel.font = [UIFont systemFontOfSize:17];
+            [button setTitleColor:kColorNavTitle forState:UIControlStateNormal];
             [button setTitle:@"了解码币" forState:UIControlStateNormal];
             [button addTarget:self action:@selector(knowMoreBtnClicked) forControlEvents:UIControlEventTouchUpInside];
             button;
@@ -62,9 +61,8 @@
         _closeBtn = ({
             UIButton *button = [UIButton new];
             button.backgroundColor = kColorTableSectionBg;
-            [button doBorderWidth:1.0 color:kColorDDD cornerRadius:4];
-            button.titleLabel.font = [UIFont systemFontOfSize:18];
-            [button setTitleColor:kColor666 forState:UIControlStateNormal];
+            button.titleLabel.font = [UIFont systemFontOfSize:17];
+            [button setTitleColor:kColorNavTitle forState:UIControlStateNormal];
             [button setTitle:@"知道了" forState:UIControlStateNormal];
             [button addTarget:self action:@selector(p_dismiss) forControlEvents:UIControlEventTouchUpInside];
             button;
@@ -101,16 +99,32 @@
             make.left.right.equalTo(_titleL);
         }];
         [_knowMoreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_rewardPointL.mas_bottom).offset(20);
-            make.left.equalTo(_contentView).offset(20);
-            make.bottom.equalTo(_contentView).offset(-20);
-            make.right.equalTo(_closeBtn.mas_left).offset(-10);
+            make.top.equalTo(_rewardPointL.mas_bottom).offset(30);
+            make.left.equalTo(_contentView).offset(0);
+            make.bottom.equalTo(_contentView).offset(0);
+            make.right.equalTo(_closeBtn.mas_left).offset(0);
             make.width.equalTo(_closeBtn);
             make.height.mas_equalTo(44);
         }];
         [_closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(_contentView).offset(-20);
+            make.right.equalTo(_contentView).offset(0);
             make.top.bottom.equalTo(_knowMoreBtn);
+        }];
+        //改 UI，加两条线
+        UIView *hLineV = [UIView new];
+        UIView *vLineV = [UIView new];
+        hLineV.backgroundColor = vLineV.backgroundColor = kColorDDD;
+        [_contentView addSubview:hLineV];
+        [_contentView addSubview:vLineV];
+        [hLineV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(_closeBtn.mas_top);
+            make.left.right.equalTo(_contentView);
+            make.height.mas_equalTo(1.0/[UIScreen mainScreen].scale);
+        }];
+        [vLineV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(_contentView);
+            make.top.bottom.equalTo(_closeBtn);
+            make.width.mas_equalTo(1.0/[UIScreen mainScreen].scale);
         }];
         //关联事件
         [_bgView bk_whenTapped:^{
@@ -127,7 +141,7 @@
 
 - (void)setRewardPoint:(NSString *)rewardPoint{
     _rewardPoint = rewardPoint;
-    _rewardPointL.text = [NSString stringWithFormat:@"获得 %@ MB 的奖励", _rewardPoint];
+    [_rewardPointL setAttrStrWithStr:[NSString stringWithFormat:@"获得 %@ 的奖励", _rewardPoint] diffColorStr:_rewardPoint diffColor:[UIColor colorWithHexString:@"0xF5A623"]];
 }
 
 - (void)knowMoreBtnClicked{
@@ -144,7 +158,7 @@
 
     [kKeyWindow addSubview:_bgView];
     [UIView animateWithDuration:0.3 animations:^{
-        _bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
+        _bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
         _contentView.alpha = 1;
     } completion:nil];
 }

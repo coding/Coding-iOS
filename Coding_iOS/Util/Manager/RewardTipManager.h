@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface RewardTipManager : NSObject
-+ (void)showTipWithTitle:(NSString *)title rewardPoint:(NSString *)rewardPoint;
+
++ (void)showTipWithTitle:(NSString *)title rewardPoint:(NSString *)rewardPoint;//rewardPoint:@"0.1 MB"
 @end

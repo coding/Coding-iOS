@@ -296,7 +296,7 @@
     
     [kKeyWindow addSubview:_bgView];
     [UIView animateWithDuration:0.3 animations:^{
-        _bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
+        _bgView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.5];
         _contentView.alpha = 1;
     } completion:^(BOOL finished) {
         if (_isNeedPassword) {
