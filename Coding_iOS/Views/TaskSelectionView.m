@@ -144,13 +144,6 @@
     TaskSelectionCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskSelectionCell forIndexPath:indexPath];
     cell.title = _items[indexPath.row];
     cell.isSel = indexPath.row==_selectNum;
-//    [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-//    cell.backgroundColor=[UIColor clearColor];
-//    UILabel *titleLab=[[UILabel alloc] initWithFrame:CGRectMake(20, 0, 200, 50)];
-//    titleLab.font=[UIFont systemFontOfSize:15];
-//    [cell.contentView addSubview:titleLab];
-//    titleLab.textColor=(indexPath.row==_selectNum)?kColorBrandGreen:kColor222;
-//    titleLab.text= _items[indexPath.row];
     return cell;
 }
 

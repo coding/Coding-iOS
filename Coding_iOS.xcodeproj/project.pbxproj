@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		093C40691DEAF781008F0AFD /* EaseUserInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 093C40681DEAF781008F0AFD /* EaseUserInfoCell.m */; };
 		093C406C1DEAF8DA008F0AFD /* UserActiveGraphCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 093C406B1DEAF8DA008F0AFD /* UserActiveGraphCell.m */; };
+		093D950D1E01282400758BAE /* ScreenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 093D950C1E01282400758BAE /* ScreenCell.m */; };
 		099F63BF1DED9C5100072519 /* TagsScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 099F63BE1DED9C5100072519 /* TagsScrollView.m */; };
 		099F63C21DEDB34800072519 /* ActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 099F63C11DEDB34800072519 /* ActivityView.m */; };
 		099F63C51DEDB3A500072519 /* ActivityMonScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 099F63C41DEDB3A500072519 /* ActivityMonScrollView.m */; };
@@ -1202,6 +1203,8 @@
 		093C40681DEAF781008F0AFD /* EaseUserInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseUserInfoCell.m; sourceTree = "<group>"; };
 		093C406A1DEAF8DA008F0AFD /* UserActiveGraphCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserActiveGraphCell.h; sourceTree = "<group>"; };
 		093C406B1DEAF8DA008F0AFD /* UserActiveGraphCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserActiveGraphCell.m; sourceTree = "<group>"; };
+		093D950B1E01282400758BAE /* ScreenCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenCell.h; sourceTree = "<group>"; };
+		093D950C1E01282400758BAE /* ScreenCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenCell.m; sourceTree = "<group>"; };
 		099F63BD1DED9C5100072519 /* TagsScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsScrollView.h; sourceTree = "<group>"; };
 		099F63BE1DED9C5100072519 /* TagsScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsScrollView.m; sourceTree = "<group>"; };
 		099F63C01DEDB34800072519 /* ActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityView.h; sourceTree = "<group>"; };
@@ -5786,6 +5789,8 @@
 				093C406B1DEAF8DA008F0AFD /* UserActiveGraphCell.m */,
 				09E337831DF8361300E1A601 /* TaskSelectionCell.h */,
 				09E337841DF8361300E1A601 /* TaskSelectionCell.m */,
+				093D950B1E01282400758BAE /* ScreenCell.h */,
+				093D950C1E01282400758BAE /* ScreenCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -6722,6 +6727,7 @@
 				4E4D6AAF1B2047DE00FD2E49 /* CommitCommentCell.m in Sources */,
 				D066BB401BF623DD005AB5D6 /* ProjectAboutOthersListCell.m in Sources */,
 				4EA7F15F1A6D192B00A046BD /* SDWebImageManager.m in Sources */,
+				093D950D1E01282400758BAE /* ScreenCell.m in Sources */,
 				8E64ED8519ED0CE3006E99DA /* QBImagePickerThumbnailView.m in Sources */,
 				7EB02FE41B6D0F3E00D2166C /* amrFileCodec.m in Sources */,
 				8E1C3E0D19E8DFE300EF3032 /* SettingViewController.m in Sources */,

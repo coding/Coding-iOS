@@ -1472,6 +1472,17 @@
     }];
 }
 
+- (void)request_Search_filtersAndBlock:(void (^)(id data, NSError *error))block {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/v2/tasks/search_filters" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+
+}
+
 #pragma mark User
 - (void)request_AddUser:(User *)user ToProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
 //    一次添加多个成员(逗号分隔)：users=102,4 (以后只支持 gk，不支持 id 了)

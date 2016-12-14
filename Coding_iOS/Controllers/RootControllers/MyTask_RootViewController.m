@@ -78,7 +78,7 @@
     });
     
     UIBarButtonItem *addBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)];
-    UIBarButtonItem *screenBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"user_info_mutualConcern"] style:UIBarButtonItemStylePlain target:self action:@selector(screenItemClicked:)];
+    UIBarButtonItem *screenBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"a1-筛选"] style:UIBarButtonItemStylePlain target:self action:@selector(screenItemClicked:)];
     self.navigationItem.rightBarButtonItems = @[addBar, screenBar];
     
     
@@ -110,7 +110,6 @@
 }
 
 - (void)screenItemClicked:(UIBarButtonItem *)sender {
-//    [sender setImage:[UIImage imageNamed:@"addBtn_Nav"]];
     [_screenView showOrHide];
 }
 
