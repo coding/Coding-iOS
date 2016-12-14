@@ -113,5 +113,38 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>shortcut_task</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>新任务</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>shortcut_task</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>shortcut_tweet</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>发冒泡</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>shortcut_tweet</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>shortcut_2FA</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>两步验证</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>shortcut_2FA</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
+	</array>
 </dict>
 </plist>

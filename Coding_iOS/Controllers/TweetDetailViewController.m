@@ -77,6 +77,7 @@
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTweet];
     _myMsgInputView.isAlwaysShow = YES;
     _myMsgInputView.delegate = self;
+    _myMsgInputView.curProject = _curProject;
 
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myMsgInputView.frame), 0.0);
     self.myTableView.contentInset = contentInsets;

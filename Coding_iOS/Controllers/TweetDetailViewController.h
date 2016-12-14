@@ -14,6 +14,7 @@
 
 @interface TweetDetailViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, TTTAttributedLabelDelegate, UIMessageInputViewDelegate>
 @property (strong, nonatomic) Tweet *curTweet;
+@property (strong, nonatomic) Project *curProject;//项目内冒泡有这个，@ 人的时候用
 @property (copy, nonatomic) void(^deleteTweetBlock)(Tweet *);
 
 - (void)refreshTweet;

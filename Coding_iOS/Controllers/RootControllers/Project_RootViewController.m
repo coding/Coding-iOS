@@ -333,23 +333,8 @@
     [self.navigationController pushViewController:newProjectVC animated:YES];
 }
 - (void)goToNewTaskVC{
-    __weak typeof(self) weakSelf = self;
     ProjectToChooseListViewController *chooseVC = [[ProjectToChooseListViewController alloc] init];
-    chooseVC.projectChoosedBlock = ^(ProjectToChooseListViewController *blockChooseVC, Project *project){
-        [weakSelf goToNewTaskFromVC:blockChooseVC withPro:project];
-    };
     [self.navigationController pushViewController:chooseVC animated:YES];
-}
-
-- (void)goToNewTaskFromVC:(ProjectToChooseListViewController *)proListVC withPro:(Project *)project{
-    EditTaskViewController *taskVC = [EditTaskViewController new];
-    taskVC.myTask = [Task taskWithProject:project andUser:[Login curLoginUser]];
-    taskVC.myTask.handleType = TaskHandleTypeAddWithoutProject;
-    __weak typeof(self) weakSelf = self;
-    taskVC.doneBlock = ^(EditTaskViewController *vc){
-        [vc.navigationController popToViewController:weakSelf animated:YES];
-    };
-    [proListVC.navigationController pushViewController:taskVC animated:YES];
 }
 
 - (void)goToNewTweetVC{
