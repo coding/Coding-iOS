@@ -13,6 +13,7 @@
 #import "Login.h"
 #import "CountryCodeListViewController.h"
 #import "Ease_2FA.h"
+#import "RewardTipManager.h"
 
 @interface SettingPhoneViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
@@ -161,8 +162,13 @@
     __weak typeof(self) weakSelf = self;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/phone/change" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
-            [NSObject showHudTipStr:@"手机号码绑定成功"];
             [weakSelf.navigationController popViewControllerAnimated:YES];
+            if (![Login curLoginUser].is_phone_validated.boolValue) {//之前没有绑定过手机号的，奖励码币
+                [Login curLoginUser].is_phone_validated = @(YES);
+                [RewardTipManager showTipWithTitle:@"成功完成手机验证 !" rewardPoint:@"0.1"];
+            }else{
+                [NSObject showHudTipStr:@"手机号码绑定成功"];
+            }
         }
     }];
 }

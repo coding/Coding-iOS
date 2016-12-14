@@ -408,6 +408,9 @@
 		4E80E9301DFFF06E00DE1BC6 /* shortcut_task@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E80E92A1DFFF06E00DE1BC6 /* shortcut_task@3x.png */; };
 		4E80E9311DFFF06E00DE1BC6 /* shortcut_tweet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E80E92B1DFFF06E00DE1BC6 /* shortcut_tweet@2x.png */; };
 		4E80E9321DFFF06E00DE1BC6 /* shortcut_tweet@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E80E92C1DFFF06E00DE1BC6 /* shortcut_tweet@3x.png */; };
+		4E80E9351E011D6000DE1BC6 /* RewardTipManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E80E9341E011D6000DE1BC6 /* RewardTipManager.m */; };
+		4E80E9381E01218300DE1BC6 /* reward_tip_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E80E9361E01218300DE1BC6 /* reward_tip_logo@2x.png */; };
+		4E80E9391E01218300DE1BC6 /* reward_tip_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E80E9371E01218300DE1BC6 /* reward_tip_logo@3x.png */; };
 		4E83AE7B1CF30F1A006BA3BB /* SettingEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E83AE7A1CF30F1A006BA3BB /* SettingEmailViewController.m */; };
 		4E86FEE51BB556D6005E53F3 /* tipIcon_ProjectFileComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E86FEE41BB556D6005E53F3 /* tipIcon_ProjectFileComment@2x.png */; };
 		4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87655A1A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m */; };
@@ -1770,6 +1773,10 @@
 		4E80E92A1DFFF06E00DE1BC6 /* shortcut_task@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shortcut_task@3x.png"; sourceTree = "<group>"; };
 		4E80E92B1DFFF06E00DE1BC6 /* shortcut_tweet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shortcut_tweet@2x.png"; sourceTree = "<group>"; };
 		4E80E92C1DFFF06E00DE1BC6 /* shortcut_tweet@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shortcut_tweet@3x.png"; sourceTree = "<group>"; };
+		4E80E9331E011D6000DE1BC6 /* RewardTipManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RewardTipManager.h; sourceTree = "<group>"; };
+		4E80E9341E011D6000DE1BC6 /* RewardTipManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RewardTipManager.m; sourceTree = "<group>"; };
+		4E80E9361E01218300DE1BC6 /* reward_tip_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reward_tip_logo@2x.png"; sourceTree = "<group>"; };
+		4E80E9371E01218300DE1BC6 /* reward_tip_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reward_tip_logo@3x.png"; sourceTree = "<group>"; };
 		4E83AE791CF30F1A006BA3BB /* SettingEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingEmailViewController.h; sourceTree = "<group>"; };
 		4E83AE7A1CF30F1A006BA3BB /* SettingEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingEmailViewController.m; sourceTree = "<group>"; };
 		4E86FEE41BB556D6005E53F3 /* tipIcon_ProjectFileComment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_ProjectFileComment@2x.png"; sourceTree = "<group>"; };
@@ -4162,6 +4169,8 @@
 				4E00229F1B7360B1005308DE /* FunctionIntroManager.m */,
 				4E5D13131C0EDFE700985AEB /* SendRewardManager.h */,
 				4E5D13141C0EDFE700985AEB /* SendRewardManager.m */,
+				4E80E9331E011D6000DE1BC6 /* RewardTipManager.h */,
+				4E80E9341E011D6000DE1BC6 /* RewardTipManager.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -5023,6 +5032,8 @@
 				4E59D3301D409C8C008C914B /* topic_add_watcher_btn@2x.png */,
 				4E6CBE521D8EA9D100644086 /* icon_best_answer@2x.png */,
 				4E6CBE531D8EA9D100644086 /* icon_best_answer@3x.png */,
+				4E80E9361E01218300DE1BC6 /* reward_tip_logo@2x.png */,
+				4E80E9371E01218300DE1BC6 /* reward_tip_logo@3x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -6288,6 +6299,7 @@
 				927AFF531BFF6DAD00AAE593 /* shop_nar_history_icon@3x.png in Resources */,
 				4EC461B41B39360F00D08970 /* file_changeType_MODIFY@2x.png in Resources */,
 				D0C447A71C02A3C700DC1C4B /* project_normal@2x.png in Resources */,
+				4E80E9381E01218300DE1BC6 /* reward_tip_logo@2x.png in Resources */,
 				4ED4B48C1D82646100EED8C6 /* user_info_point@3x.png in Resources */,
 				4EA679191A14BFA0001A0324 /* icon_file_folder_default@2x.png in Resources */,
 				4E6383D61B32665700D98648 /* project_item_readme@2x.png in Resources */,
@@ -6355,6 +6367,7 @@
 				4EAECBC61C44CB860096CA74 /* member_cell_edit_type@2x.png in Resources */,
 				4E93F23B1B84356500017916 /* file_menu_icon_edit@2x.png in Resources */,
 				8E1C3DF619E7F4CA00EF3032 /* address.json in Resources */,
+				4E80E9391E01218300DE1BC6 /* reward_tip_logo@3x.png in Resources */,
 				4E09DCAA1C15662E001C9392 /* share_Nav@3x.png in Resources */,
 				4E2BF3D01B96CDF800A5A0A8 /* share_btn_copylink@2x.png in Resources */,
 				4EF17ED41B3C3112003CDD2D /* intro_icon_2@3x.png in Resources */,
@@ -7011,6 +7024,7 @@
 				8EF643AE19FF7E2900F7EEB0 /* TweetMediaItemSingleCCell.m in Sources */,
 				8EF643AC19FF7E2900F7EEB0 /* TweetLikeUserCCell.m in Sources */,
 				8E64ED7B19ED0CE3006E99DA /* QBAssetsCollectionCheckmarkView.m in Sources */,
+				4E80E9351E011D6000DE1BC6 /* RewardTipManager.m in Sources */,
 				4EE1A22E1B5D02CA004284F1 /* ProjectFolderListView.m in Sources */,
 				4E4D6A701B1C68F100FD2E49 /* CommitFilesViewController.m in Sources */,
 				4E4D6A911B1D84B400FD2E49 /* FileChange.m in Sources */,
