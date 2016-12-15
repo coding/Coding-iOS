@@ -17,7 +17,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setSearchFieldBackgroundImage:[UIImage imageWithColor:kColorTableSectionBg withFrame:CGRectMake(0, 0, 1, 28)] forState:UIControlStateNormal];
+        [self setSearchFieldBackgroundImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0xEBECEC"] withFrame:CGRectMake(0, 0, 1, 28)] forState:UIControlStateNormal];
+        UITextField *searchField = self.eaTextField;
+        searchField.layer.masksToBounds = YES;
+        searchField.layer.cornerRadius = 4.0;
     }
     return self;
 }
@@ -25,7 +28,7 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     UITextField *searchField = self.eaTextField;
-    searchField.leftView.frame = CGRectMake(0, 0, 25, 13);
+    searchField.leftView.frame = CGRectMake(0, 0, 20, 13);
     searchField.leftView.contentMode = UIViewContentModeLeft;
 }
 @end

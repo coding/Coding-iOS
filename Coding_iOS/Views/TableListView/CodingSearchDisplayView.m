@@ -426,7 +426,7 @@
             if ([_searchPros.pull_requests.totalRow longValue]==0) {
                 titleStr=nil;
             }else{
-                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的 pull 请求", [_searchPros.pull_requests.totalRow longValue],_searchBarText];
+                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的 Pull 请求", [_searchPros.pull_requests.totalRow longValue],_searchBarText];
             }
             break;
         default:

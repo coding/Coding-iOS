@@ -39,7 +39,6 @@
 
 - (void)showNavBottomLine{
     _navLineV.hidden = NO;
-    self.navigationBar.clipsToBounds = NO;
 }
 
 - (void)hideBorderInView:(UIView *)view{
