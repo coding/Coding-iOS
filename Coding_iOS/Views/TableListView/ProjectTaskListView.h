@@ -13,6 +13,10 @@
 typedef void(^ProjectTaskBlock)(ProjectTaskListView *taskListView, Task *task);
 
 @interface ProjectTaskListView : UIView<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
+@property (nonatomic, strong) NSString *keyword;
+@property (nonatomic, strong) NSString *status; //任务状态，进行中的为1，已完成的为2
+@property (nonatomic, strong) NSString *label; //任务标签
+@property (nonatomic, strong) NSString *project_id;
 
 - (id)initWithFrame:(CGRect)frame tasks:(Tasks *)tasks block:(ProjectTaskBlock)block tabBarHeight:(CGFloat)tabBarHeight;
 - (void)setTasks:(Tasks *)tasks;

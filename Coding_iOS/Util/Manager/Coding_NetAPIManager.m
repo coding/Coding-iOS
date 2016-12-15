@@ -1502,9 +1502,16 @@
     }
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/tasks/search" withParams:param withMethodType:Get andBlock:^(id data, NSError *error) {
         
-        Projects *pros = [NSObject objectOfClass:@"Tasks" fromJSON:data[@"data"]];
+ //       Projects *pros = [NSObject objectOfClass:@"Projects" fromJSON:data[@"data"]];
+//        pros.list = [NSObject arrayFromJSON:data[@"data"][@"list"] ofObjects:@"Project"];
+        Tasks *pros = [NSObject objectOfClass:@"Tasks" fromJSON:data[@"data"]];
         pros.list = [NSObject arrayFromJSON:data[@"data"][@"list"] ofObjects:@"Task"];
-//        Tasks
+        if (status.integerValue == 1) {
+            pros.processingList = pros.list;
+        } else {
+            pros.doneList = pros.list;
+        }
+ 
         if (data) {
             block(pros, nil);
         }else{

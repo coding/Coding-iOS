@@ -124,6 +124,24 @@
         [self beginLoading];
     }
     __weak typeof(self) weakSelf = self;
+    
+    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithOwner:nil  project_id:_project_id keyword:_keyword status:_status label:_label andBlock:^(Tasks *data, NSError *error) {
+        [weakSelf endLoading];
+        [weakSelf.myRefreshControl endRefreshing];
+        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
+        if (data) {
+            [weakSelf.myTasks configWithTasks:data];
+            [weakSelf.myTableView reloadData];
+            weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myTasks.canLoadMore;
+        }
+        [weakSelf configBlankPage:EaseBlankPageTypeTask hasData:(weakSelf.myTasks.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+            [weakSelf refresh];
+        }];
+
+        
+               
+    }];
+    return;
     [[Coding_NetAPIManager sharedManager] request_ProjectTaskList_WithObj:_myTasks andBlock:^(Tasks *data, NSError *error) {
         [weakSelf endLoading];
         [weakSelf.myRefreshControl endRefreshing];

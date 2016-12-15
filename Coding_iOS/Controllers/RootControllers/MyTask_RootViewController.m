@@ -31,7 +31,7 @@
 @property (nonatomic, strong) NSString *keyword;
 @property (nonatomic, strong) NSString *status; //任务状态，进行中的为1，已完成的为2
 @property (nonatomic, strong) NSString *label; //任务标签
-
+@property (nonatomic, strong) Tasks *tasks;
 
 @end
 
@@ -139,6 +139,7 @@
 
 
 - (void)resetCurView{
+    _tasks = nil;
     if (!_myProjects.isLoading) {
         __weak typeof(self) weakSelf = self;
         [[Coding_NetAPIManager sharedManager] request_ProjectsHaveTasks_WithObj:_myProjects andBlock:^(id data, NSError *error) {
@@ -152,14 +153,22 @@
 - (void)resetSearView {
     __weak typeof(self) weakSelf = self;
     
-    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithOwner:nil  project_id:nil keyword:_keyword status:_status label:_label andBlock:^(Projects *data, NSError *error) {
-//        weakSelf.myProjectList = data.list;
-//        [weakSelf.myCarousel reloadData];
+    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithOwner:nil  project_id:nil keyword:_keyword status:_status label:_label andBlock:^(Tasks *data, NSError *error) {
+        weakSelf.tasks = data;
         [weakSelf configSearchControlWithData:data];
+        
+        
+//        [weakSelf.myProjectList removeAllObjects];
+//         [weakSelf.myProjectList addObjectsFromArray:_tasks.list];
+//        [_myCarousel reloadData];
+
     }];
 }
 
 - (void)configSegmentControlWithData:(Projects *)freshProjects {
+    [_myProTksDict removeAllObjects];
+    [self.myProjectList removeAllObjects];
+
     BOOL dataHasChanged = NO;
     for (Project *freshPro in freshProjects.list) {
         BOOL hasFreshPro = NO;
@@ -199,31 +208,27 @@
 
 }
 
-- (void)configSearchControlWithData:(Projects *)freshProjects {
-    BOOL dataHasChanged = NO;
-    for (Project *freshPro in freshProjects.list) {
-        BOOL hasFreshPro = NO;
-        for (Project *oldPro in self.myProjectList) {
-            if (freshPro.id.integerValue == oldPro.id.integerValue) {
-                hasFreshPro = YES;
-                break;
-            }
-        }
-        if (!hasFreshPro) {
-            dataHasChanged = YES;
-            break;
-        }
-    }
+- (void)configSearchControlWithData:(Tasks *)tasks{
     
-    if (dataHasChanged) {
-//        self.myProjectList = [[NSMutableArray alloc] initWithObjects:[Project project_All], nil];
-        [self.myProjectList addObjectsFromArray:freshProjects.list];
+    [_myProTksDict removeAllObjects];
+    [self.myProjectList removeAllObjects];
+    
+    BOOL dataHasChanged = NO;
+    
+    if (!dataHasChanged) {
+        self.myProjectList = [[NSMutableArray alloc] initWithObjects:[Project project_All], nil];
+
+        NSMutableDictionary *proDict = @{}.mutableCopy;
+        for (Task *task in tasks.list) {
+            NSLog(@"-----%@--%@", task.project.id, task.project.name);
+            [proDict setObject:task.project forKey:task.project.id.stringValue];
+        }
+        [self.myProjectList addObjectsFromArray:proDict.allValues];
         
         //重置滑块
         if (_mySegmentControl) {
             [_mySegmentControl removeFromSuperview];
         }
-        
         __weak typeof(self) weakSelf = self;
         CGRect segmentFrame = CGRectMake(0, 0, kScreen_Width, kMySegmentControlIcon_Height);
         _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:segmentFrame Items:_myProjectList selectedBlock:^(NSInteger index) {
@@ -251,7 +256,9 @@
         curTasks = [Tasks tasksWithPro:curPro queryType:TaskQueryTypeAll];
         [_myProTksDict setObject:curTasks forKey:curPro.id];
     }
-    
+    if (_tasks != nil) {
+        curTasks = _tasks;
+    }
     ProjectTaskListView *listView = (ProjectTaskListView *)view;
     if (listView) {
         [listView setTasks:curTasks];
@@ -267,6 +274,9 @@
         } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
     }
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
+    listView.keyword = _keyword;
+    listView.status = _status;
+    listView.label = _label;
     return listView;
 }
 
@@ -283,6 +293,12 @@
         _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
     ProjectTaskListView *curView = (ProjectTaskListView *)carousel.currentItemView;
+    NSInteger index = carousel.scrollOffset;
+    if (index == 0) {
+        curView.project_id = nil;
+    } else {
+        curView.project_id = ((Project *)_myProjectList[index - 1]).id.stringValue;
+    }
     [curView refreshToQueryData];
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
