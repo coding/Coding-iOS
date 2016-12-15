@@ -28,6 +28,11 @@
 @property (nonatomic, strong) TaskSelectionView *myFliterMenu;
 @property (nonatomic, strong) ScreenView *screenView;
 
+@property (nonatomic, strong) NSString *keyword;
+@property (nonatomic, strong) NSString *status; //任务状态，进行中的为1，已完成的为2
+@property (nonatomic, strong) NSString *label; //任务标签
+
+
 @end
 
 @implementation MyTask_RootViewController
@@ -93,7 +98,15 @@
         [weakSelf.myFliterMenu dismissMenu];
     };
     
+    
     _screenView = [ScreenView creat];
+    _screenView.selectBlock = ^(NSString *keyword, NSString *status, NSString *label) {
+        screenBar.image = [UIImage imageNamed:@"a1-已筛"];
+        weakSelf.keyword = keyword;
+        weakSelf.status = status;
+        weakSelf.label = label;
+        [weakSelf resetSearView];
+    };
 
     
 }
@@ -136,6 +149,16 @@
     }
 }
 
+- (void)resetSearView {
+    __weak typeof(self) weakSelf = self;
+    
+    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithOwner:nil  project_id:nil keyword:_keyword status:_status label:_label andBlock:^(Projects *data, NSError *error) {
+//        weakSelf.myProjectList = data.list;
+//        [weakSelf.myCarousel reloadData];
+        [weakSelf configSearchControlWithData:data];
+    }];
+}
+
 - (void)configSegmentControlWithData:(Projects *)freshProjects {
     BOOL dataHasChanged = NO;
     for (Project *freshPro in freshProjects.list) {
@@ -175,6 +198,47 @@
     }
 
 }
+
+- (void)configSearchControlWithData:(Projects *)freshProjects {
+    BOOL dataHasChanged = NO;
+    for (Project *freshPro in freshProjects.list) {
+        BOOL hasFreshPro = NO;
+        for (Project *oldPro in self.myProjectList) {
+            if (freshPro.id.integerValue == oldPro.id.integerValue) {
+                hasFreshPro = YES;
+                break;
+            }
+        }
+        if (!hasFreshPro) {
+            dataHasChanged = YES;
+            break;
+        }
+    }
+    
+    if (dataHasChanged) {
+//        self.myProjectList = [[NSMutableArray alloc] initWithObjects:[Project project_All], nil];
+        [self.myProjectList addObjectsFromArray:freshProjects.list];
+        
+        //重置滑块
+        if (_mySegmentControl) {
+            [_mySegmentControl removeFromSuperview];
+        }
+        
+        __weak typeof(self) weakSelf = self;
+        CGRect segmentFrame = CGRectMake(0, 0, kScreen_Width, kMySegmentControlIcon_Height);
+        _mySegmentControl = [[XTSegmentControl alloc] initWithFrame:segmentFrame Items:_myProjectList selectedBlock:^(NSInteger index) {
+            [weakSelf.myCarousel scrollToItemAtIndex:index animated:NO];
+        }];
+        [self.view addSubview:_mySegmentControl];
+        
+        if (_myCarousel.currentItemIndex != 0) {
+            _myCarousel.currentItemIndex = 0;
+        }
+        [_myCarousel reloadData];
+    }
+    
+}
+
 
 #pragma mark iCarousel M
 - (NSUInteger)numberOfItemsInCarousel:(iCarousel *)carousel{

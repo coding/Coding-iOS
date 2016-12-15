@@ -1483,6 +1483,36 @@
 
 }
 
+- (void)request_tasks_searchWithOwner:(NSString *)owner project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label andBlock:(void (^)(id data, NSError *error))block {
+    NSMutableDictionary *param = @{}.mutableCopy;
+    if (owner != nil) {
+        [param setValue:owner forKey:@"owner"];
+    }
+    if (project_id != nil) {
+        [param setValue:project_id forKey:@"project_id"];
+    }
+    if (keyword != nil) {
+        [param setValue:keyword forKey:@"keyword"];
+    }
+    if (status != nil) {
+        [param setValue:status forKey:@"status"];
+    }
+    if (label != nil) {
+        [param setValue:label forKey:@"label"];
+    }
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/tasks/search" withParams:param withMethodType:Get andBlock:^(id data, NSError *error) {
+        
+        Projects *pros = [NSObject objectOfClass:@"Tasks" fromJSON:data[@"data"]];
+        pros.list = [NSObject arrayFromJSON:data[@"data"][@"list"] ofObjects:@"Task"];
+//        Tasks
+        if (data) {
+            block(pros, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 #pragma mark User
 - (void)request_AddUser:(User *)user ToProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
 //    一次添加多个成员(逗号分隔)：users=102,4 (以后只支持 gk，不支持 id 了)

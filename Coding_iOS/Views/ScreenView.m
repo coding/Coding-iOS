@@ -37,7 +37,7 @@
 #pragma mark - 外部方法
 
 + (instancetype)creat {
-    ScreenView *screenView = [[ScreenView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height)];
+    ScreenView *screenView = [[ScreenView alloc] initWithFrame:CGRectMake(0, 20, kScreen_Width, kScreen_Height)];
     screenView.hidden = YES;
     [kKeyWindow addSubview:screenView];
     
@@ -87,6 +87,15 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     _selectNum = indexPath.row;
     [tableView reloadData];
+    if (indexPath.row < _tastArray.count) {
+        self.label = nil;
+        self.status = [NSString stringWithFormat:@"%ld", indexPath.row + 1];
+    } else {
+        self.status = nil;
+        self.label = _labels[indexPath.row - _tastArray.count][@"name"];
+    }
+    [self clickDis];
+    
 }
 
 #pragma mark - 自定义委托
@@ -117,8 +126,7 @@
     searchBar.cornerRadius = 4;
     searchBar.masksToBounds = YES;
     [mainView addSubview:searchBar];
-    searchBar.sd_layout.leftSpaceToView(mainView, 15).topSpaceToView(mainView, kMySegmentControl_Height + 20).rightSpaceToView(mainView, 15).heightIs(31);
-    
+    searchBar.sd_layout.leftSpaceToView(mainView, 15).topSpaceToView(mainView, 0).rightSpaceToView(mainView, 15).heightIs(31);
     
     UITableView *tableView = [[UITableView alloc] init];
     tableView.backgroundColor = [UIColor clearColor];
@@ -143,7 +151,13 @@
             [self.tableView reloadData];
         }
     }];
+}
 
+- (void)clickDis {
+    self.hidden = YES;
+    if (_selectBlock) {
+        _selectBlock(_keyword, _status, _label);
+    }
 }
 
 #pragma mark - get/set方法
