@@ -70,7 +70,6 @@ PODS:
   - TPKeyboardAvoiding (1.2.4)
   - TTTAttributedLabel (1.10.1)
   - UIImage+BlurredFrame (0.0.4)
-  - UIImage+RTTint (1.0.0)
   - UMengAnalytics (3.5.10)
   - UMengSocial (4.2.3)
 
@@ -98,7 +97,6 @@ DEPENDENCIES:
   - TPKeyboardAvoiding (= 1.2.4)
   - TTTAttributedLabel (= 1.10.1)
   - UIImage+BlurredFrame (= 0.0.4)
-  - UIImage+RTTint (= 1.0.0)
   - UMengAnalytics (= 3.5.10)
   - UMengSocial (= 4.2.3)
 
@@ -130,10 +128,9 @@ SPEC CHECKSUMS:
   TPKeyboardAvoiding: 0a40dfbb0af7c8bdae1dd457496dccfd217d85f6
   TTTAttributedLabel: c8f3801a6463b9c9b82b0c84c465fdda9751892a
   UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
-  UIImage+RTTint: b274eeaefaba631e4527317768d3590345267e51
   UMengAnalytics: 092c24aef47b6ac3c76ad51543f91156a8d7b645
   UMengSocial: 85882abe5b20aa38ad558ece71360e16b5d50909
 
-PODFILE CHECKSUM: d1879a64b67e4e483d4219bcf9ef4d76faca6869
+PODFILE CHECKSUM: a94c62469770048a6401eeda5b117afbd57e75f0
 
-COCOAPODS: 1.2.0.beta.1
+COCOAPODS: 1.1.0.rc.3
