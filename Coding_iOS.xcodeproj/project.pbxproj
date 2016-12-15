@@ -411,6 +411,7 @@
 		4E80E9351E011D6000DE1BC6 /* RewardTipManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E80E9341E011D6000DE1BC6 /* RewardTipManager.m */; };
 		4E80E9381E01218300DE1BC6 /* reward_tip_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E80E9361E01218300DE1BC6 /* reward_tip_logo@2x.png */; };
 		4E80E9391E01218300DE1BC6 /* reward_tip_logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E80E9371E01218300DE1BC6 /* reward_tip_logo@3x.png */; };
+		4E80E93C1E02353900DE1BC6 /* CodingSearchDisplayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E80E93B1E02353900DE1BC6 /* CodingSearchDisplayView.m */; };
 		4E83AE7B1CF30F1A006BA3BB /* SettingEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E83AE7A1CF30F1A006BA3BB /* SettingEmailViewController.m */; };
 		4E86FEE51BB556D6005E53F3 /* tipIcon_ProjectFileComment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E86FEE41BB556D6005E53F3 /* tipIcon_ProjectFileComment@2x.png */; };
 		4E8765651A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E87655A1A22E5B40090CFB9 /* NSMutableArray+SWUtilityButtons.m */; };
@@ -1777,6 +1778,8 @@
 		4E80E9341E011D6000DE1BC6 /* RewardTipManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RewardTipManager.m; sourceTree = "<group>"; };
 		4E80E9361E01218300DE1BC6 /* reward_tip_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reward_tip_logo@2x.png"; sourceTree = "<group>"; };
 		4E80E9371E01218300DE1BC6 /* reward_tip_logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reward_tip_logo@3x.png"; sourceTree = "<group>"; };
+		4E80E93A1E02353900DE1BC6 /* CodingSearchDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodingSearchDisplayView.h; sourceTree = "<group>"; };
+		4E80E93B1E02353900DE1BC6 /* CodingSearchDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodingSearchDisplayView.m; sourceTree = "<group>"; };
 		4E83AE791CF30F1A006BA3BB /* SettingEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingEmailViewController.h; sourceTree = "<group>"; };
 		4E83AE7A1CF30F1A006BA3BB /* SettingEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingEmailViewController.m; sourceTree = "<group>"; };
 		4E86FEE41BB556D6005E53F3 /* tipIcon_ProjectFileComment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_ProjectFileComment@2x.png"; sourceTree = "<group>"; };
@@ -4233,6 +4236,8 @@
 				4E6318A11BDA261100EFED97 /* MRListView.m */,
 				926C043C1C01A212004937D8 /* ShopOrderListView.h */,
 				926C043D1C01A212004937D8 /* ShopOrderListView.m */,
+				4E80E93A1E02353900DE1BC6 /* CodingSearchDisplayView.h */,
+				4E80E93B1E02353900DE1BC6 /* CodingSearchDisplayView.m */,
 			);
 			path = TableListView;
 			sourceTree = "<group>";
@@ -6636,6 +6641,7 @@
 				4E996BE21ABA957B00C704F1 /* ProjectListViewController.m in Sources */,
 				4E743E6D1A88A3CC00DADDE5 /* EaseMarkdownTextView.m in Sources */,
 				8EA6D1B519E240C40076D59C /* ListGroupItem.m in Sources */,
+				4E80E93C1E02353900DE1BC6 /* CodingSearchDisplayView.m in Sources */,
 				8EA6D13919E240C40076D59C /* MyTask_RootViewController.m in Sources */,
 				8E1C3E0A19E8DFE300EF3032 /* SettingAccountViewController.m in Sources */,
 				4E8765681A22E5B40090CFB9 /* SWTableViewCell.m in Sources */,

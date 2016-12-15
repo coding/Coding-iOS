@@ -199,7 +199,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 {
     _contentView = ({
         UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
-        scrollView.backgroundColor = kColorTableBG;
+        scrollView.backgroundColor = [UIColor clearColor];
         scrollView.delegate = self;
         scrollView.showsHorizontalScrollIndicator = NO;
         scrollView.scrollsToTop = NO;
@@ -210,6 +210,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         [tapGes requireGestureRecognizerToFail:scrollView.panGestureRecognizer];
         scrollView;
     });
+    self.backgroundColor = kColorTableBG;
     
     [self initItemsWithTitleArray:titleItem withIcon:isIcon];
 }
@@ -277,7 +278,6 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
     _items = @[].mutableCopy;
     float y = 0;
     float height = CGRectGetHeight(self.bounds);
-
     NSObject *obj = [titleArray firstObject];
     if ([obj isKindOfClass:[NSString class]]) {
         for (int i = 0; i < titleArray.count; i++) {
@@ -286,7 +286,27 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
             CGRect rect = CGRectMake(x, y, width, height);
             [_itemFrames addObject:[NSValue valueWithCGRect:rect]];
         }
-        
+        if (!isIcon) {
+            BOOL needResize = NO;
+            for (int i = 0; i < titleArray.count; i++) {
+                CGRect rect = [_itemFrames[i] CGRectValue];
+                NSString *title = titleArray[i];
+                if ([title getWidthWithFont:[UIFont systemFontOfSize:XTSegmentControlItemFont] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)] > rect.size.width) {
+                    needResize = YES;
+                    break;
+                }
+            }
+            if (needResize) {
+                [_itemFrames removeAllObjects];
+                for (int i = 0; i < titleArray.count; i++) {
+                    NSString *title = titleArray[i];
+                    float width = [title getWidthWithFont:[UIFont systemFontOfSize:XTSegmentControlItemFont] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)] + 25;
+                    float x = i > 0 ? CGRectGetMaxX([_itemFrames[i-1] CGRectValue]) : 0;
+                    CGRect rect = CGRectMake(x, y, width, height);
+                    [_itemFrames addObject:[NSValue valueWithCGRect:rect]];
+                }
+            }
+        }
         for (int i = 0; i < titleArray.count; i++) {
             CGRect rect = [_itemFrames[i] CGRectValue];
             NSString *title = titleArray[i];

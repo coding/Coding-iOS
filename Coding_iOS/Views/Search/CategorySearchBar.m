@@ -9,56 +9,24 @@
 #import "CategorySearchBar.h"
 
 @interface CategorySearchBar ()
-@property (copy,nonatomic)SelectBlock curBlock;
-@property (strong, nonatomic)UIButton *categoryBtn;
-@property (strong, nonatomic)UIButton *iconBtn;
 @end
 
 
 @implementation CategorySearchBar
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setSearchFieldBackgroundImage:[UIImage imageWithColor:kColorTableSectionBg withFrame:CGRectMake(0, 0, 1, 28)] forState:UIControlStateNormal];
+    }
+    return self;
+}
 
 -(void)layoutSubviews{
-    self.autoresizesSubviews = YES;
+    [super layoutSubviews];
     UITextField *searchField = self.eaTextField;
-    [searchField setFrame:CGRectMake(60, 4.5, self.frame.size.width - 75, 22)];
-    searchField.leftView = nil;
-    searchField.textAlignment = NSTextAlignmentLeft;
-}
-
--(void)patchWithCategoryWithSelectBlock:(SelectBlock)block{
-    [self addSubview:self.categoryBtn];
-    [self addSubview:self.iconBtn];
-    _curBlock = block;
-}
-
--(UIButton*)categoryBtn{
-    if (!_categoryBtn) {
-        _categoryBtn=[UIButton new];
-        _categoryBtn.frame=CGRectMake(5, 0, 40, 31);
-        [_categoryBtn addTarget:self action:@selector(selectCategoryAction) forControlEvents:UIControlEventTouchUpInside];
-        _categoryBtn.titleLabel.font = self.eaTextField.font;
-        [_categoryBtn setTitleColor:kColor666 forState:UIControlStateNormal];
-        [_categoryBtn setTitle:@"项目" forState:UIControlStateNormal];
-    }
-    return _categoryBtn;
-}
-
--(UIButton*)iconBtn{
-    if (!_iconBtn) {
-        _iconBtn=[[UIButton alloc] initWithFrame:CGRectMake(45, 11, 8, 8)];
-        [_iconBtn addTarget:self action:@selector(selectCategoryAction) forControlEvents:UIControlEventTouchUpInside];
-        [_iconBtn setBackgroundImage:[UIImage imageNamed:@"btn_fliter_down"] forState:UIControlStateNormal];
-    }
-    return _iconBtn;
-}
-
-#pragma mark -- event
--(void)selectCategoryAction{
-    _curBlock();
-}
-
--(void)setSearchCategory:(NSString*)title{
-    [_categoryBtn setTitle:title forState:UIControlStateNormal];
+    searchField.leftView.frame = CGRectMake(0, 0, 25, 13);
+    searchField.leftView.contentMode = UIViewContentModeLeft;
 }
 @end
 
