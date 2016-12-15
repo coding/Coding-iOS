@@ -18,7 +18,7 @@
 @property (copy, nonatomic) ProjectTaskBlock block;
 @property (strong, nonatomic) UITableView *myTableView;
 @property (strong, nonatomic) ODRefreshControl *myRefreshControl;
-
+@property (nonatomic, assign) NSInteger page;
 @end
 
 @implementation ProjectTaskListView
@@ -45,6 +45,56 @@
         // Initialization code
         _myTasks = tasks;
         _block = block;
+        _page = 1;
+        
+        _myTableView = ({
+            UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
+            tableView.backgroundColor = [UIColor clearColor];
+            tableView.delegate = self;
+            tableView.dataSource = self;
+            [tableView registerClass:[ProjectTaskListViewCell class] forCellReuseIdentifier:kCellIdentifier_ProjectTaskList];
+            tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+            [self addSubview:tableView];
+            [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(self);
+            }];
+            if (tabBarHeight != 0) {
+                UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, tabBarHeight, 0);
+                tableView.contentInset = insets;
+                tableView.scrollIndicatorInsets = insets;
+            }
+            tableView;
+        });
+        
+        _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
+        [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+        __weak typeof(self) weakSelf = self;
+        [_myTableView addInfiniteScrollingWithActionHandler:^{
+            [weakSelf refreshMore];
+        }];
+        if (_myTasks.list.count > 0) {
+            [_myTableView reloadData];
+        }else{
+            [self sendRequest];
+        }
+    }
+    return self;
+}
+
+
+- (id)initWithFrame:(CGRect)frame tasks:(Tasks *)tasks project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label block:(ProjectTaskBlock)block tabBarHeight:(CGFloat)tabBarHeight{
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code
+        _myTasks = tasks;
+        _block = block;
+        _page = 1;
+        
+        self.project_id = project_id;
+        self.keyword = keyword;
+        self.status = status;
+        self.label = label;
+
         
         _myTableView = ({
             UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
@@ -106,6 +156,7 @@
     if (_myTasks.isLoading) {
         return;
     }
+    _page = 1;
     _myTasks.willLoadMore = NO;
     [self sendRequest];
 }
@@ -115,6 +166,7 @@
         [_myTableView.infiniteScrollingView stopAnimating];
         return;
     }
+    _page++;
     _myTasks.willLoadMore = YES;
     [self sendRequest];
 }
@@ -125,7 +177,7 @@
     }
     __weak typeof(self) weakSelf = self;
     
-    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithOwner:nil  project_id:_project_id keyword:_keyword status:_status label:_label andBlock:^(Tasks *data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithOwner:nil  project_id:_project_id keyword:_keyword status:_status label:_label page:_page andBlock:^(Tasks *data, NSError *error) {
         [weakSelf endLoading];
         [weakSelf.myRefreshControl endRefreshing];
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
@@ -141,7 +193,7 @@
         
                
     }];
-    return;
+   /*
     [[Coding_NetAPIManager sharedManager] request_ProjectTaskList_WithObj:_myTasks andBlock:^(Tasks *data, NSError *error) {
         [weakSelf endLoading];
         [weakSelf.myRefreshControl endRefreshing];
@@ -155,6 +207,7 @@
             [weakSelf refresh];
         }];
     }];
+    */
 }
 
 

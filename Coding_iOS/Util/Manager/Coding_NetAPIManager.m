@@ -1483,8 +1483,8 @@
 
 }
 
-- (void)request_tasks_searchWithOwner:(NSString *)owner project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label andBlock:(void (^)(id data, NSError *error))block {
-    NSMutableDictionary *param = @{}.mutableCopy;
+- (void)request_tasks_searchWithOwner:(NSString *)owner project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {
+    NSMutableDictionary *param = @{@"page": @(page)}.mutableCopy;
     if (owner != nil) {
         [param setValue:owner forKey:@"owner"];
     }

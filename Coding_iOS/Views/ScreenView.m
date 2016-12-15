@@ -16,7 +16,7 @@
 @property (nonatomic, strong) NSArray *labels;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) NSInteger selectNum;  //选中数据
-
+@property (nonatomic, strong) UISearchBar *searchBar;
 @end
 
 @implementation ScreenView
@@ -115,7 +115,7 @@
     UIView *mainView = [[UIView alloc] init];
     mainView.backgroundColor = [UIColor whiteColor];
     [self addSubview:mainView];
-    mainView.sd_layout.leftSpaceToView(self, 80).topEqualToView(self).bottomEqualToView(self).rightEqualToView(self);
+    mainView.sd_layout.leftSpaceToView(self, 80).topSpaceToView(self, 0).bottomEqualToView(self).rightEqualToView(self);
     
     UISearchBar *searchBar = [[UISearchBar alloc] init];
     UITextField *searchField = [searchBar valueForKey:@"searchField"];
@@ -126,7 +126,8 @@
     searchBar.cornerRadius = 4;
     searchBar.masksToBounds = YES;
     [mainView addSubview:searchBar];
-    searchBar.sd_layout.leftSpaceToView(mainView, 15).topSpaceToView(mainView, 0).rightSpaceToView(mainView, 15).heightIs(31);
+    searchBar.sd_layout.leftSpaceToView(mainView, 15).topSpaceToView(mainView, 15).rightSpaceToView(mainView, 15).heightIs(31);
+    _searchBar = searchBar;
     
     UITableView *tableView = [[UITableView alloc] init];
     tableView.backgroundColor = [UIColor clearColor];
@@ -155,6 +156,7 @@
 
 - (void)clickDis {
     self.hidden = YES;
+    self.keyword = _searchBar.text;
     if (_selectBlock) {
         _selectBlock(_keyword, _status, _label);
     }
