@@ -17,11 +17,13 @@ typedef void(^ProjectTaskBlock)(ProjectTaskListView *taskListView, Task *task);
 @property (nonatomic, strong) NSString *status; //任务状态，进行中的为1，已完成的为2
 @property (nonatomic, strong) NSString *label; //任务标签
 @property (nonatomic, strong) NSString *project_id;
+@property (nonatomic, strong) NSString *owner, *watcher, *creator;
+
 @property (nonatomic, strong) void (^taskcountBlock)(NSInteger processingCount, NSInteger doneListCount);
 
 - (id)initWithFrame:(CGRect)frame tasks:(Tasks *)tasks block:(ProjectTaskBlock)block tabBarHeight:(CGFloat)tabBarHeight;
 
-- (id)initWithFrame:(CGRect)frame tasks:(Tasks *)tasks project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label block:(ProjectTaskBlock)block tabBarHeight:(CGFloat)tabBarHeight;
+- (id)initWithFrame:(CGRect)frame tasks:(Tasks *)tasks project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label owner:(NSString *)owner watcher:(NSString *)watcher creator:(NSString *)creator block:(ProjectTaskBlock)block tabBarHeight:(CGFloat)tabBarHeight;
 - (void)setTasks:(Tasks *)tasks;
 - (void)refreshToQueryData;
 - (void)tabBarItemClicked;

@@ -165,7 +165,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_DeleteComment:(TaskComment *)comment ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ChangeWatcher:(User *)watcher ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Search_filtersAndBlock:(void (^)(id data, NSError *error))block; //任务标签
-- (void)request_tasks_searchWithOwner:(NSString *)owner project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_tasks_searchWithOwner:(NSString *)owner watcher:(NSString *)watcher creator:(NSString *)creator project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
 
 
 #pragma mark - User

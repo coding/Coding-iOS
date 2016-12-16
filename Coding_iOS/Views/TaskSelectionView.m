@@ -30,7 +30,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        self.items = @[@"我的任务", @"我关注的", @"我创建的"];
+        self.items = items;
         self.pCount=[ProjectCount new];
         self.showStatus=FALSE;
         [self setup];

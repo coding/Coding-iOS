@@ -31,6 +31,7 @@
 @property (nonatomic, strong) NSString *status; //任务状态，进行中的为1，已完成的为2
 @property (nonatomic, strong) NSString *label; //任务标签
 @property (nonatomic, strong) NSString *project_id;
+@property (nonatomic, strong) NSString *owner, *watcher, *creator;
 @end
 
 @implementation MyTask_RootViewController
@@ -87,10 +88,24 @@
     
     
     //初始化过滤目录
-    _myFliterMenu = [[TaskSelectionView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64) items:nil];
+    _myFliterMenu = [[TaskSelectionView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64) items:@[@"我的任务", @"我关注的", @"我创建的"]];
     __weak typeof(self) weakSelf = self;
     _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
         [weakSelf.titleBtn setTitle:weakSelf.myFliterMenu.items[pageIndex] forState:UIControlStateNormal];
+        weakSelf.owner = weakSelf.watcher = weakSelf.creator = nil;
+        if (pageIndex == 0) {
+            weakSelf.owner = [Login curLoginUser].id.stringValue;
+        }
+        if (pageIndex == 1) {
+            weakSelf.watcher = [Login curLoginUser].id.stringValue;
+        }
+        if (pageIndex == 2) {
+            weakSelf.creator = [Login curLoginUser].id.stringValue;
+        }
+        ProjectTaskListView *listView = (ProjectTaskListView *)weakSelf.myCarousel.currentItemView;
+        [weakSelf assignmentWithlistView:listView];
+        [listView refresh];
+
     };
     _myFliterMenu.closeBlock=^(){
         [weakSelf.myFliterMenu dismissMenu];
@@ -107,9 +122,7 @@
 
         }
         ProjectTaskListView *listView = (ProjectTaskListView *)weakSelf.myCarousel.currentItemView;
-        listView.keyword = keyword;
-        listView.status = status;
-        listView.label = label;
+        [weakSelf assignmentWithlistView:listView];
         [listView refresh];
 
     };
@@ -210,13 +223,11 @@
    
     ProjectTaskListView *listView = (ProjectTaskListView *)view;
     if (listView) {
-        listView.keyword = _keyword;
-        listView.status = _status;
-        listView.label = _label;
+        [self assignmentWithlistView:listView];
         [listView setTasks:curTasks];
     }else{
         __weak typeof(self) weakSelf = self;
-        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks project_id:_project_id keyword:_keyword status:_status label:_label block:^(ProjectTaskListView *taskListView, Task *task) {
+        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks project_id:_project_id keyword:_keyword status:_status label:_label  owner:_owner watcher:_watcher creator:_creator block:^(ProjectTaskListView *taskListView, Task *task) {
             EditTaskViewController *vc = [[EditTaskViewController alloc] init];
             vc.myTask = task;
             vc.taskChangedBlock = ^(){
@@ -252,10 +263,7 @@
     } else {
         _project_id = ((Project *)_myProjectList[index - 1]).id.stringValue;
     }
-    curView.project_id = _project_id;
-    curView.keyword = _keyword;
-    curView.status = _status;
-    curView.label = _label;
+    [self assignmentWithlistView:curView];
 
     [curView refreshToQueryData];
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
@@ -321,6 +329,16 @@
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc]
                                       initWithCustomView:itemButtom];
     return barButtonItem;
+}
+
+- (void)assignmentWithlistView:(ProjectTaskListView *)listView {
+    listView.keyword = self.keyword;
+    listView.status = self.status;
+    listView.label = self.label;
+    listView.project_id = self.project_id;
+    listView.owner = self.owner;
+    listView.watcher = self.watcher;
+    listView.creator = self.creator;
 }
 
 

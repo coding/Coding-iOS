@@ -82,7 +82,7 @@
 }
 
 
-- (id)initWithFrame:(CGRect)frame tasks:(Tasks *)tasks project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label block:(ProjectTaskBlock)block tabBarHeight:(CGFloat)tabBarHeight{
+- (id)initWithFrame:(CGRect)frame tasks:(Tasks *)tasks project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label owner:(NSString *)owner watcher:(NSString *)watcher creator:(NSString *)creator block:(ProjectTaskBlock)block tabBarHeight:(CGFloat)tabBarHeight{
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
@@ -94,6 +94,9 @@
         self.keyword = keyword;
         self.status = status;
         self.label = label;
+        self.owner = owner;
+        self.watcher = watcher;
+        self.creator = creator;
 
         
         _myTableView = ({
@@ -177,7 +180,7 @@
     }
     __weak typeof(self) weakSelf = self;
     
-    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithOwner:nil  project_id:_project_id keyword:_keyword status:_status label:_label page:_page andBlock:^(Tasks *data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithOwner:_owner watcher:_watcher creator:_creator project_id:_project_id keyword:_keyword status:_status label:_label page:_page andBlock:^(Tasks *data, NSError *error) {
         [weakSelf endLoading];
         [weakSelf.myRefreshControl endRefreshing];
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
