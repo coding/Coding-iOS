@@ -81,7 +81,8 @@
     });
     
     UIBarButtonItem *addBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)];
-    UIBarButtonItem *screenBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"a1-筛选"] style:UIBarButtonItemStylePlain target:self action:@selector(screenItemClicked:)];
+ //   UIBarButtonItem *screenBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"a1-筛选"] style:UIBarButtonItemStylePlain target:self action:@selector(screenItemClicked:)];
+    UIBarButtonItem *screenBar = [self HDCustomNavButtonWithTitle:nil imageName:@"a1-筛选" target:self action:@selector(screenItemClicked:)];
     self.navigationItem.rightBarButtonItems = @[addBar, screenBar];
     
     
@@ -98,12 +99,15 @@
     
     _screenView = [ScreenView creat];
     _screenView.selectBlock = ^(NSString *keyword, NSString *status, NSString *label) {
-        screenBar.image = [UIImage imageNamed:@"a1-已筛"];
+ //       screenBar.image = [UIImage imageNamed:@"a1-已筛"];
+        [((UIButton *)screenBar.customView) setImage:[UIImage imageNamed:@"a1-已筛"] forState:UIControlStateNormal];
         weakSelf.keyword = keyword;
         weakSelf.status = status;
         weakSelf.label = label;
         if (keyword == nil && status == nil && label == nil) {
-            screenBar.image = [UIImage imageNamed:@"a1-筛选"];
+ //           screenBar.image = [UIImage imageNamed:@"a1-筛选"];
+            [((UIButton *)screenBar.customView) setImage:[UIImage imageNamed:@"a1-筛选"] forState:UIControlStateNormal];
+
         }
         [weakSelf resetCurView];
     };
@@ -285,6 +289,31 @@
     
 }
 
+- (UIBarButtonItem *)HDCustomNavButtonWithTitle:(NSString *)title imageName:(NSString *)imageName target:(id)targe action:(SEL)action {
+    UIButton *itemButtom = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *image = [UIImage imageNamed:imageName];
+    [itemButtom setImage:image forState:UIControlStateNormal];
+    itemButtom.titleLabel.font = [UIFont systemFontOfSize: 16];
+    [itemButtom setTitle:title forState:UIControlStateNormal];
+    [itemButtom setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, -5)];
+    UIColor *color = [UINavigationBar appearance].titleTextAttributes[NSForegroundColorAttributeName];
+    if (color == nil) {
+        color = [UIColor blackColor];
+    }
+    [itemButtom setTitleColor:color forState:UIControlStateNormal];
+    itemButtom.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [itemButtom addTarget:targe action:action
+         forControlEvents:UIControlEventTouchUpInside];
+    if (title == nil && imageName != nil) {
+        [itemButtom setFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
+    } else {
+        [itemButtom setFrame:CGRectMake(0, 0, 80, 40)];
+    }
+    
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc]
+                                      initWithCustomView:itemButtom];
+    return barButtonItem;
+}
 
 
 @end
