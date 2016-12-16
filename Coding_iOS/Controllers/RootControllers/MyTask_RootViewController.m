@@ -253,6 +253,10 @@
         _project_id = ((Project *)_myProjectList[index - 1]).id.stringValue;
     }
     curView.project_id = _project_id;
+    curView.keyword = _keyword;
+    curView.status = _status;
+    curView.label = _label;
+
     [curView refreshToQueryData];
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
