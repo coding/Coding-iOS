@@ -72,21 +72,7 @@
 
 - (void)setColor:(NSString *)color {
     _color = color;
-    
-    /*
-    static int i = 0;
-    
-    if (i % 2 == 0) {
-        _tagButton.tintColor = [UIColor redColor];
-        
-    }else {
-        _tagButton.tintColor = [UIColor yellowColor];
-
-    }
-    i++;
-     */
-    
-    _tagButton.tintColor = [UIColor colorWithHexString:color];
+    _tagButton.tintColor = [UIColor colorWithHexString:[NSString stringWithFormat:@"0x%@", [color substringFromIndex:1]]];
 }
 
 @end
