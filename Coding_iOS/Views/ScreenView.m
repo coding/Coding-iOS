@@ -37,7 +37,7 @@
 #pragma mark - 外部方法
 
 + (instancetype)creat {
-    ScreenView *screenView = [[ScreenView alloc] initWithFrame:CGRectMake(0, 20, kScreen_Width, kScreen_Height - 20)];
+    ScreenView *screenView = [[ScreenView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height)];
     screenView.hidden = YES;
     [kKeyWindow addSubview:screenView];
     
@@ -117,7 +117,7 @@
     UIView *mainView = [[UIView alloc] init];
     mainView.backgroundColor = [UIColor whiteColor];
     [self addSubview:mainView];
-    mainView.sd_layout.leftSpaceToView(self, 80).topSpaceToView(self, 0).bottomEqualToView(self).rightEqualToView(self);
+    mainView.sd_layout.leftSpaceToView(self, 120).topSpaceToView(self, 0).bottomEqualToView(self).rightEqualToView(self);
     
     UISearchBar *searchBar = [[UISearchBar alloc] init];
     UITextField *searchField = [searchBar valueForKey:@"searchField"];
@@ -128,7 +128,7 @@
     searchBar.cornerRadius = 4;
     searchBar.masksToBounds = YES;
     [mainView addSubview:searchBar];
-    searchBar.sd_layout.leftSpaceToView(mainView, 15).topSpaceToView(mainView, 15).rightSpaceToView(mainView, 15).heightIs(31);
+    searchBar.sd_layout.leftSpaceToView(mainView, 15).topSpaceToView(mainView, 35).rightSpaceToView(mainView, 15).heightIs(31);
     _searchBar = searchBar;
     
     UIButton *resetButton = [[UIButton alloc] init];
@@ -187,5 +187,15 @@
 
 #pragma mark - get/set方法
 
+- (void)setProcessingCount:(NSInteger)processingCount {
+    _processingCount = processingCount;
+    _tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", processingCount], _tastArray[1]];
+}
+
+- (void)setDoneListCount:(NSInteger)doneListCount {
+    _doneListCount = doneListCount;
+    _tastArray = @[_tastArray[0], [NSString stringWithFormat:@"已完成的（%ld）", doneListCount]];
+    [self.tableView reloadData];
+}
 
 @end

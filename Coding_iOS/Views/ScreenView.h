@@ -14,7 +14,7 @@
 @property (nonatomic, strong) NSString *keyword;
 @property (nonatomic, strong) NSString *status; //任务状态，进行中的为1，已完成的为2
 @property (nonatomic, strong) NSString *label; //任务标签
-
+@property (nonatomic, assign) NSInteger processingCount, doneListCount;
 
 + (instancetype)creat;
 

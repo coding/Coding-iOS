@@ -190,7 +190,9 @@
             [weakSelf refresh];
         }];
 
-        
+        if (_taskcountBlock) {
+            _taskcountBlock(data.processingList.count, data.doneList.count);
+        }
                
     }];
    /*

@@ -1502,13 +1502,11 @@
     }
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/tasks/search" withParams:param withMethodType:Get andBlock:^(id data, NSError *error) {
         
- //       Projects *pros = [NSObject objectOfClass:@"Projects" fromJSON:data[@"data"]];
-//        pros.list = [NSObject arrayFromJSON:data[@"data"][@"list"] ofObjects:@"Project"];
         Tasks *pros = [NSObject objectOfClass:@"Tasks" fromJSON:data[@"data"]];
         pros.list = [NSObject arrayFromJSON:data[@"data"][@"list"] ofObjects:@"Task"];
         if (status.integerValue == 1) {
             pros.processingList = pros.list;
-        } else {
+        } else if (status.integerValue == 2) {
             pros.doneList = pros.list;
         }
  

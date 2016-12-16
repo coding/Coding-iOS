@@ -81,8 +81,7 @@
     });
     
     UIBarButtonItem *addBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)];
- //   UIBarButtonItem *screenBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"a1-筛选"] style:UIBarButtonItemStylePlain target:self action:@selector(screenItemClicked:)];
-    UIBarButtonItem *screenBar = [self HDCustomNavButtonWithTitle:nil imageName:@"a1-筛选" target:self action:@selector(screenItemClicked:)];
+     UIBarButtonItem *screenBar = [self HDCustomNavButtonWithTitle:nil imageName:@"a1-screen" target:self action:@selector(screenItemClicked:)];
     self.navigationItem.rightBarButtonItems = @[addBar, screenBar];
     
     
@@ -99,17 +98,20 @@
     
     _screenView = [ScreenView creat];
     _screenView.selectBlock = ^(NSString *keyword, NSString *status, NSString *label) {
- //       screenBar.image = [UIImage imageNamed:@"a1-已筛"];
-        [((UIButton *)screenBar.customView) setImage:[UIImage imageNamed:@"a1-已筛"] forState:UIControlStateNormal];
+        [((UIButton *)screenBar.customView) setImage:[UIImage imageNamed:@"a1-hasScreen"] forState:UIControlStateNormal];
         weakSelf.keyword = keyword;
         weakSelf.status = status;
         weakSelf.label = label;
         if (keyword == nil && status == nil && label == nil) {
- //           screenBar.image = [UIImage imageNamed:@"a1-筛选"];
-            [((UIButton *)screenBar.customView) setImage:[UIImage imageNamed:@"a1-筛选"] forState:UIControlStateNormal];
+            [((UIButton *)screenBar.customView) setImage:[UIImage imageNamed:@"a1-screen"] forState:UIControlStateNormal];
 
         }
-        [weakSelf resetCurView];
+        ProjectTaskListView *listView = (ProjectTaskListView *)weakSelf.myCarousel.currentItemView;
+        listView.keyword = keyword;
+        listView.status = status;
+        listView.label = label;
+        [listView refresh];
+
     };
 
     
@@ -154,8 +156,6 @@
 }
 
 - (void)configSegmentControlWithData:(Projects *)freshProjects {
-    [_myProTksDict removeAllObjects];
-    [self.myProjectList removeAllObjects];
 
     BOOL dataHasChanged = NO;
     for (Project *freshPro in freshProjects.list) {
@@ -224,6 +224,10 @@
             };
             [weakSelf.navigationController pushViewController:vc animated:YES];
         } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
+        listView.taskcountBlock = ^(NSInteger processingCount, NSInteger doneListCount) {
+            weakSelf.screenView.processingCount = processingCount;
+            weakSelf.screenView.doneListCount = doneListCount;
+        };
     }
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
