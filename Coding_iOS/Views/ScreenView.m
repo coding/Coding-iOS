@@ -37,7 +37,7 @@
 #pragma mark - 外部方法
 
 + (instancetype)creat {
-    ScreenView *screenView = [[ScreenView alloc] initWithFrame:CGRectMake(0, 20, kScreen_Width, kScreen_Height)];
+    ScreenView *screenView = [[ScreenView alloc] initWithFrame:CGRectMake(0, 20, kScreen_Width, kScreen_Height - 20)];
     screenView.hidden = YES;
     [kKeyWindow addSubview:screenView];
     
@@ -66,7 +66,7 @@
     if (indexPath.row < _tastArray.count) {
         TaskSelectionCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskSelectionCell forIndexPath:indexPath];
         cell.title = _tastArray[indexPath.row];
-        cell.isSel = indexPath.row ==_selectNum;
+        cell.isSel = indexPath.row == _selectNum;
         cell.isShowLine = indexPath.row == _tastArray.count - 1;
         return cell;
 
@@ -74,7 +74,7 @@
         ScreenCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ScreenCell forIndexPath:indexPath];
         cell.color = _labels[indexPath.row - _tastArray.count][@"color"];
         cell.title = _labels[indexPath.row - _tastArray.count][@"name"];
-        cell.isSel = indexPath.row ==_selectNum;
+        cell.isSel = indexPath.row == _selectNum;
 
         return cell;
 
@@ -107,6 +107,8 @@
 - (void)creatView {
     self.hidden = YES;
     self.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:.5];
+    _selectNum = -1;
+    
     UIButton *bgButton = [[UIButton alloc] init];
     [bgButton addTarget:self action:@selector(showOrHide) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:bgButton];
@@ -121,13 +123,24 @@
     UITextField *searchField = [searchBar valueForKey:@"searchField"];
     searchField.backgroundColor = [UIColor clearColor];
     searchField.borderStyle = UITextBorderStyleNone;
-    searchField.placeholder = @"123";
+    searchField.placeholder = @"查找相关任务";
     searchBar.barTintColor = [UIColor colorWithRGBHex:0xe9ecee];
     searchBar.cornerRadius = 4;
     searchBar.masksToBounds = YES;
     [mainView addSubview:searchBar];
     searchBar.sd_layout.leftSpaceToView(mainView, 15).topSpaceToView(mainView, 15).rightSpaceToView(mainView, 15).heightIs(31);
     _searchBar = searchBar;
+    
+    UIButton *resetButton = [[UIButton alloc] init];
+    [resetButton setTitle:@"重置" forState:UIControlStateNormal];
+    [resetButton setTitleColor:[UIColor colorWithRGBHex:0x222222] forState:UIControlStateNormal];
+    resetButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    resetButton.backgroundColor = [UIColor colorWithRGBHex:0xfafafa];
+    resetButton.borderWidth = 1;
+    resetButton.borderColor = [UIColor colorWithRGBHex:0xdddddd];
+    [resetButton addTarget:self action:@selector(resetButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    [mainView addSubview:resetButton];
+    resetButton.sd_layout.leftSpaceToView(mainView, -1).bottomSpaceToView(mainView, -1).rightSpaceToView(mainView, -1).heightIs(44);
     
     UITableView *tableView = [[UITableView alloc] init];
     tableView.backgroundColor = [UIColor clearColor];
@@ -140,7 +153,7 @@
     [tableView registerClass:[TaskSelectionCell class] forCellReuseIdentifier:kCellIdentifier_TaskSelectionCell];
     [tableView registerClass:[ScreenCell class] forCellReuseIdentifier:kCellIdentifier_ScreenCell];
     [mainView addSubview:tableView];
-    tableView.sd_layout.leftSpaceToView(mainView, 0).topSpaceToView(searchBar, 0).bottomEqualToView(mainView).rightEqualToView(mainView);
+    tableView.sd_layout.leftSpaceToView(mainView, 0).topSpaceToView(searchBar, 0).bottomSpaceToView(resetButton, 0).rightEqualToView(mainView);
     _tableView = tableView;
 }
 
@@ -157,6 +170,16 @@
 - (void)clickDis {
     self.hidden = YES;
     self.keyword = _searchBar.text;
+    if (_selectBlock) {
+        _selectBlock(_keyword, _status, _label);
+    }
+}
+
+- (void)resetButtonClick {
+    self.hidden = YES;
+    _keyword = _status = _label = nil;
+    _selectNum = -1;
+    [_tableView reloadData];
     if (_selectBlock) {
         _selectBlock(_keyword, _status, _label);
     }

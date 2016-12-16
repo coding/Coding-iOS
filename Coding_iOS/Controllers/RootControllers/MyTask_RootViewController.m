@@ -24,7 +24,6 @@
 @property (strong, nonatomic) iCarousel *myCarousel;
 
 @property (strong, nonatomic) UIButton *titleBtn;
-@property (nonatomic,assign) NSInteger selectNum;  //筛选状态
 @property (nonatomic, strong) TaskSelectionView *myFliterMenu;
 @property (nonatomic, strong) ScreenView *screenView;
 
@@ -97,13 +96,15 @@
         [weakSelf.myFliterMenu dismissMenu];
     };
     
-    
     _screenView = [ScreenView creat];
     _screenView.selectBlock = ^(NSString *keyword, NSString *status, NSString *label) {
         screenBar.image = [UIImage imageNamed:@"a1-已筛"];
         weakSelf.keyword = keyword;
         weakSelf.status = status;
         weakSelf.label = label;
+        if (keyword == nil && status == nil && label == nil) {
+            screenBar.image = [UIImage imageNamed:@"a1-筛选"];
+        }
         [weakSelf resetCurView];
     };
 
