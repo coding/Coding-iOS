@@ -19,6 +19,8 @@
 
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) iCarousel *myCarousel;
+@property (nonatomic, strong) NSString *project_id;
+
 
 @end
 
@@ -29,6 +31,7 @@
     if (self) {
         // Initialization code
         _myProject = project;
+        self.project_id = project.id.stringValue;
         _block = block;
         _myProTksDict = [[NSMutableDictionary alloc] initWithCapacity:1];
         _myMemberList = [[NSMutableArray alloc] initWithObjects:[ProjectMember member_All], nil];
@@ -68,6 +71,7 @@
             }
         }];
     }
+    
     return self;
 }
 - (void)refreshToQueryData{
@@ -96,9 +100,10 @@
     
     ProjectTaskListView *listView = (ProjectTaskListView *)view;
     if (listView) {
+        [self assignmentWithlistView:listView];
         [listView setTasks:curTasks];
     }else{
-        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks block:_block tabBarHeight:0];
+        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks project_id:_project_id keyword:_keyword status:_status label:_label  owner:_owner watcher:_watcher creator:_creator block:_block tabBarHeight:0];
     }
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
@@ -116,9 +121,37 @@
     if (_mySegmentControl) {
         _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
+    NSInteger index = carousel.scrollOffset;
+    NSString *userId = nil;
+    if (index != 0) {
+        userId = ((ProjectMember *)_myMemberList[index]).user_id.stringValue;
+    }
+    _owner = userId;
+    [self refresh];
+
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
     }];
 }
+
+- (void)assignmentWithlistView:(ProjectTaskListView *)listView {
+    listView.keyword = self.keyword;
+    listView.status = self.status;
+    listView.label = self.label;
+    listView.owner = self.owner;
+    listView.watcher = self.watcher;
+    listView.creator = self.creator;
+    listView.project_id = _project_id;
+}
+
+- (void)refresh {
+    ProjectTaskListView *listView = (ProjectTaskListView *)self.myCarousel.currentItemView;
+    [self assignmentWithlistView:listView];
+    [listView refresh];
+
+}
+
+
+
 
 @end

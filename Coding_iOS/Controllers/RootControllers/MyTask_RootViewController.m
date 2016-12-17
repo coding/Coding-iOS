@@ -86,7 +86,8 @@
     self.navigationItem.rightBarButtonItems = @[addBar, screenBar];
     
     
-    
+    _owner = [Login curLoginUser].id.stringValue;
+
     //初始化过滤目录
     _myFliterMenu = [[TaskSelectionView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64) items:@[@"我的任务", @"我关注的", @"我创建的"]];
     __weak typeof(self) weakSelf = self;
@@ -261,7 +262,7 @@
     if (index == 0) {
         _project_id = nil;
     } else {
-        _project_id = ((Project *)_myProjectList[index - 1]).id.stringValue;
+        _project_id = ((Project *)_myProjectList[index]).id.stringValue;
     }
     [self assignmentWithlistView:curView];
 

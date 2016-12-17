@@ -14,7 +14,16 @@
 
 
 @interface ProjectTasksView : UIView
+
+@property (nonatomic, strong) NSString *keyword;
+@property (nonatomic, strong) NSString *status; //任务状态，进行中的为1，已完成的为2
+@property (nonatomic, strong) NSString *label; //任务标签
+@property (nonatomic, strong) NSString *owner, *watcher, *creator;
+
+
 - (id)initWithFrame:(CGRect)frame project:(Project *)project block:(ProjectTaskBlock)block defaultIndex:(NSInteger)index;
 - (void)refreshToQueryData;
 - (ProjectMember *)selectedMember;
+
+- (void)refresh;
 @end
