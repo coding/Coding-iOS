@@ -45,7 +45,11 @@
 }
 
 - (void)showOrHide {
-    self.hidden = !self.hidden;
+    if (self.hidden) {
+        [self show];
+    } else {
+        [self hide];
+    }
     
 }
 
@@ -117,7 +121,7 @@
     UIView *mainView = [[UIView alloc] init];
     mainView.backgroundColor = [UIColor whiteColor];
     [self addSubview:mainView];
-    mainView.sd_layout.leftSpaceToView(self, 120).topSpaceToView(self, 0).bottomEqualToView(self).rightEqualToView(self);
+    mainView.sd_layout.leftSpaceToView(self, 45).topSpaceToView(self, 0).bottomEqualToView(self).rightEqualToView(self);
     
     UISearchBar *searchBar = [[UISearchBar alloc] init];
     UITextField *searchField = [searchBar valueForKey:@"searchField"];
@@ -155,6 +159,12 @@
     [mainView addSubview:tableView];
     tableView.sd_layout.leftSpaceToView(mainView, 0).topSpaceToView(searchBar, 0).bottomSpaceToView(resetButton, 0).rightEqualToView(mainView);
     _tableView = tableView;
+    
+    
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc]
+                                                    initWithTarget:self
+                                                    action:@selector(handlePan:)];
+    [self addGestureRecognizer:panGestureRecognizer];
 }
 
 - (void)creatData {
@@ -189,13 +199,50 @@
 
 - (void)setProcessingCount:(NSInteger)processingCount {
     _processingCount = processingCount;
-    _tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", processingCount], _tastArray[1]];
+//    _tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", processingCount], _tastArray[1]];
 }
 
 - (void)setDoneListCount:(NSInteger)doneListCount {
     _doneListCount = doneListCount;
-    _tastArray = @[_tastArray[0], [NSString stringWithFormat:@"已完成的（%ld）", doneListCount]];
-    [self.tableView reloadData];
+//    _tastArray = @[_tastArray[0], [NSString stringWithFormat:@"已完成的（%ld）", doneListCount]];
+//    [self.tableView reloadData];
 }
+
+- (void)show {
+    self.x = kScreen_Width;
+    self.hidden = NO;
+    [UIView animateWithDuration:.3 animations:^{
+        self.alpha = 1;
+        self.x = 0;
+    }];
+
+}
+
+- (void)hide {
+    [UIView animateWithDuration:.3 animations:^{
+        self.alpha = 0;
+        self.x = kScreen_Width;
+    } completion:^(BOOL finished) {
+        self.hidden = YES;
+    }];
+}
+
+- (void)handlePan:(UIPanGestureRecognizer*) recognizer {
+    CGPoint translation = [recognizer translationInView:self];
+    recognizer.view.centerX = recognizer.view.center.x + translation.x;
+    [recognizer setTranslation:CGPointZero inView:self];
+    
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        
+        if (recognizer.view.x > kScreen_Width / 2) {
+            [self hide];
+        } else {
+            [UIView animateWithDuration:.2 animations:^{
+                self.x = 0;
+            }];
+        }
+    }
+}
+
 
 @end
