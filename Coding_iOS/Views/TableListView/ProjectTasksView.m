@@ -19,7 +19,6 @@
 
 @property (strong, nonatomic) XTSegmentControl *mySegmentControl;
 @property (strong, nonatomic) iCarousel *myCarousel;
-@property (nonatomic, strong) NSString *project_id;
 
 
 @end
@@ -127,6 +126,9 @@
         userId = ((ProjectMember *)_myMemberList[index]).user_id.stringValue;
     }
     _owner = userId;
+    if (_selctUserBlock) {
+        _selctUserBlock(_owner);
+    }
     [self refresh];
 
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {

@@ -318,6 +318,9 @@
                         [weakSelf.navigationController pushViewController:vc animated:YES];
                     } defaultIndex:0];
                 });
+                ((ProjectTasksView *)curView).selctUserBlock = ^(NSString *owner) {
+                    weakSelf.owner = owner;
+                };
             }
                 break;
             case ProjectViewTypeTopics:{
@@ -742,6 +745,7 @@
     listView.owner = self.owner;
     listView.watcher = self.watcher;
     listView.creator = self.creator;
+    listView.project_id = self.myProject.id.stringValue;
 }
 
 
