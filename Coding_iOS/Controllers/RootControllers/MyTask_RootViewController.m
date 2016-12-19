@@ -31,7 +31,6 @@
 @property (nonatomic, strong) NSString *status; //任务状态，进行中的为1，已完成的为2
 @property (nonatomic, strong) NSString *label; //任务标签
 @property (nonatomic, strong) NSString *project_id;
-@property (nonatomic, strong) NSString *owner, *watcher, *creator;
 @property (nonatomic, assign) TaskRoleType role;
 @end
 
@@ -87,8 +86,6 @@
     self.navigationItem.rightBarButtonItems = @[addBar, screenBar];
     
     
-    _owner = [Login curLoginUser].id.stringValue;
-
     //初始化过滤目录
     _myFliterMenu = [[TaskSelectionView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64) items:@[@"我的任务（0）", @"我关注的（0）", @"我创建的（0）"]];
     __weak typeof(self) weakSelf = self;
@@ -96,16 +93,6 @@
         _role = pageIndex;
         NSString *title = weakSelf.myFliterMenu.items[pageIndex];
         [weakSelf.titleBtn setTitle:[title substringToIndex:4] forState:UIControlStateNormal];
-        weakSelf.owner = weakSelf.watcher = weakSelf.creator = nil;
-        if (pageIndex == 0) {
-            weakSelf.owner = [Login curLoginUser].id.stringValue;
-        }
-        if (pageIndex == 1) {
-            weakSelf.watcher = [Login curLoginUser].id.stringValue;
-        }
-        if (pageIndex == 2) {
-            weakSelf.creator = [Login curLoginUser].id.stringValue;
-        }
         ProjectTaskListView *listView = (ProjectTaskListView *)weakSelf.myCarousel.currentItemView;
         [weakSelf assignmentWithlistView:listView];
         [listView refresh];
@@ -283,7 +270,7 @@
         [listView setTasks:curTasks];
     }else{
         __weak typeof(self) weakSelf = self;
-        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks project_id:_project_id keyword:_keyword status:_status label:_label  owner:_owner watcher:_watcher creator:_creator block:^(ProjectTaskListView *taskListView, Task *task) {
+        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks project_id:_project_id keyword:_keyword status:_status label:_label userId:nil role:_role block:^(ProjectTaskListView *taskListView, Task *task) {
             EditTaskViewController *vc = [[EditTaskViewController alloc] init];
             vc.myTask = task;
             vc.taskChangedBlock = ^(){
@@ -388,9 +375,7 @@
     listView.status = self.status;
     listView.label = self.label;
     listView.project_id = self.project_id;
-    listView.owner = self.owner;
-    listView.watcher = self.watcher;
-    listView.creator = self.creator;
+    listView.role = self.role;
 }
 
 

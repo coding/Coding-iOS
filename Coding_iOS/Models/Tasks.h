@@ -22,10 +22,10 @@ typedef NS_ENUM(NSInteger, TaskEntranceType){
 
 typedef NS_ENUM(NSInteger, TaskRoleType)
 {
-    TaskRoleTypeOwner = 0, //执行者
+    TaskRoleTypeOwner = 0, //执行者 /所有任务
     TaskRoleTypeWatcher, //关注者
     TaskRoleTypeCreator,  //创建者
-    TaskRoleTypeAll, //全部
+    TaskRoleTypeAll,   //所有任务
 };
 
 @interface Tasks : NSObject

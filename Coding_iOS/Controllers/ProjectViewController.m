@@ -117,25 +117,19 @@
         [tasksView refresh];
     }
     
+    _role = TaskRoleTypeAll;
     //初始化过滤目录
     _myFliterMenu = [[TaskSelectionView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64) items:@[@"所有任务（0）", @"我关注的（0）", @"我创建的（0）"]];
     __weak typeof(self) weakSelf = self;
     _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
         _role = pageIndex;
+        if (pageIndex == 0) {
+            _role = TaskRoleTypeAll;
+        }
 
         NSString *title = weakSelf.myFliterMenu.items[pageIndex];
         [weakSelf.titleBtn setTitle:[title substringToIndex:4] forState:UIControlStateNormal];
         
-        weakSelf.owner = weakSelf.watcher = weakSelf.creator = nil;
-        if (pageIndex == 0) {
-            weakSelf.owner = [Login curLoginUser].id.stringValue;
-        }
-        if (pageIndex == 1) {
-            weakSelf.watcher = [Login curLoginUser].id.stringValue;
-        }
-        if (pageIndex == 2) {
-            weakSelf.creator = [Login curLoginUser].id.stringValue;
-        }
         UIView *curView = [weakSelf getCurContentView];
         if (![curView isKindOfClass:[ProjectTasksView class]]) {
             return;
@@ -332,7 +326,7 @@
                     } defaultIndex:0];
                 });
                 ((ProjectTasksView *)curView).selctUserBlock = ^(NSString *owner) {
-                    weakSelf.owner = owner;
+                    weakSelf.userId = owner;
                 };
             }
                 break;
@@ -726,7 +720,7 @@
         [_titleBtn.titleLabel setFont:[UIFont systemFontOfSize:kNavTitleFontSize]];
         [_titleBtn addTarget:self action:@selector(fliterClicked:) forControlEvents:UIControlEventTouchUpInside];
         self.navigationItem.titleView = _titleBtn;
-        [self setTitleBtnStr:@"我的任务"];
+        [self setTitleBtnStr:@"所有任务"];
     }
 }
 
@@ -756,9 +750,8 @@
     listView.keyword = self.keyword;
     listView.status = self.status;
     listView.label = self.label;
-    listView.owner = self.owner;
-    listView.watcher = self.watcher;
-    listView.creator = self.creator;
+    listView.userId = self.userId;
+    listView.role = self.role;
     listView.project_id = self.myProject.id.stringValue;
 }
 

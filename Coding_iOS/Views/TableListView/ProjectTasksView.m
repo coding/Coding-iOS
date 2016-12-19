@@ -30,6 +30,7 @@
     if (self) {
         // Initialization code
         _myProject = project;
+        _role = TaskRoleTypeAll;
         self.project_id = project.id.stringValue;
         _block = block;
         _myProTksDict = [[NSMutableDictionary alloc] initWithCapacity:1];
@@ -102,7 +103,10 @@
         [self assignmentWithlistView:listView];
         [listView setTasks:curTasks];
     }else{
-        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks project_id:_project_id keyword:_keyword status:_status label:_label  owner:_owner watcher:_watcher creator:_creator block:_block tabBarHeight:0];
+        if (_role == TaskRoleTypeOwner) {
+            _role = TaskRoleTypeAll;
+        }
+        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks project_id:_project_id keyword:_keyword status:_status label:_label userId:_userId role:_role block:_block tabBarHeight:0];
     }
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
@@ -125,9 +129,9 @@
     if (index != 0) {
         userId = ((ProjectMember *)_myMemberList[index]).user_id.stringValue;
     }
-    _owner = userId;
+    _userId = userId;
     if (_selctUserBlock) {
-        _selctUserBlock(_owner);
+        _selctUserBlock(_userId);
     }
     [self refresh];
 
@@ -140,9 +144,8 @@
     listView.keyword = self.keyword;
     listView.status = self.status;
     listView.label = self.label;
-    listView.owner = self.owner;
-    listView.watcher = self.watcher;
-    listView.creator = self.creator;
+    listView.userId = self.userId;
+    listView.role = self.role;
     listView.project_id = _project_id;
 }
 

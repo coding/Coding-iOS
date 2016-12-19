@@ -39,50 +39,7 @@
     }
 }
 
-- (id)initWithFrame:(CGRect)frame tasks:(Tasks *)tasks block:(ProjectTaskBlock)block tabBarHeight:(CGFloat)tabBarHeight{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-        _myTasks = tasks;
-        _block = block;
-        _page = 1;
-        
-        _myTableView = ({
-            UITableView *tableView = [[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
-            tableView.backgroundColor = [UIColor clearColor];
-            tableView.delegate = self;
-            tableView.dataSource = self;
-            [tableView registerClass:[ProjectTaskListViewCell class] forCellReuseIdentifier:kCellIdentifier_ProjectTaskList];
-            tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-            [self addSubview:tableView];
-            [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.edges.equalTo(self);
-            }];
-            if (tabBarHeight != 0) {
-                UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, tabBarHeight, 0);
-                tableView.contentInset = insets;
-                tableView.scrollIndicatorInsets = insets;
-            }
-            tableView;
-        });
-        
-        _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
-        [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-        __weak typeof(self) weakSelf = self;
-        [_myTableView addInfiniteScrollingWithActionHandler:^{
-            [weakSelf refreshMore];
-        }];
-        if (_myTasks.list.count > 0) {
-            [_myTableView reloadData];
-        }else{
-            [self sendRequest];
-        }
-    }
-    return self;
-}
-
-
-- (id)initWithFrame:(CGRect)frame tasks:(Tasks *)tasks project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label owner:(NSString *)owner watcher:(NSString *)watcher creator:(NSString *)creator block:(ProjectTaskBlock)block tabBarHeight:(CGFloat)tabBarHeight{
+- (id)initWithFrame:(CGRect)frame tasks:(Tasks *)tasks project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label userId:(NSString *)userId role:(TaskRoleType )role block:(ProjectTaskBlock)block tabBarHeight:(CGFloat)tabBarHeight{
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
@@ -94,9 +51,8 @@
         self.keyword = keyword;
         self.status = status;
         self.label = label;
-        self.owner = owner;
-        self.watcher = watcher;
-        self.creator = creator;
+        self.userId = userId;
+        self.role = role;
 
         
         _myTableView = ({
@@ -180,7 +136,7 @@
     }
     __weak typeof(self) weakSelf = self;
     
-    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithOwner:_owner watcher:_watcher creator:_creator project_id:_project_id keyword:_keyword status:_status label:_label page:_page andBlock:^(Tasks *data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:_userId role:_role project_id:_project_id keyword:_keyword status:_status label:_label page:_page andBlock:^(Tasks *data, NSError *error) {
         [weakSelf endLoading];
         [weakSelf.myRefreshControl endRefreshing];
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
@@ -194,21 +150,6 @@
         }];
                
     }];
-   /*
-    [[Coding_NetAPIManager sharedManager] request_ProjectTaskList_WithObj:_myTasks andBlock:^(Tasks *data, NSError *error) {
-        [weakSelf endLoading];
-        [weakSelf.myRefreshControl endRefreshing];
-        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
-        if (data) {
-            [weakSelf.myTasks configWithTasks:data];
-            [weakSelf.myTableView reloadData];
-            weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myTasks.canLoadMore;
-        }
-        [weakSelf configBlankPage:EaseBlankPageTypeTask hasData:(weakSelf.myTasks.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-            [weakSelf refresh];
-        }];
-    }];
-    */
 }
 
 

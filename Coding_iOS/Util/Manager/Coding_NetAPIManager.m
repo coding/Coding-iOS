@@ -1494,16 +1494,10 @@
 
 }
 
-- (void)request_tasks_searchWithOwner:(NSString *)owner watcher:(NSString *)watcher creator:(NSString *)creator project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {
+- (void)request_tasks_searchWithUserId:(NSString *)userId role:(TaskRoleType )role project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block {
     NSMutableDictionary *param = @{@"page": @(page)}.mutableCopy;
-    if (owner != nil) {
-        [param setValue:owner forKey:@"owner"];
-    }
-    if (watcher != nil) {
-        [param setValue:watcher forKey:@"watcher"];
-    }
-    if (creator != nil) {
-        [param setValue:creator forKey:@"creator"];
+    if (userId != nil) {
+        [param setValue:userId forKey:@"owner"];
     }
     if (project_id != nil) {
         [param setValue:project_id forKey:@"project_id"];
@@ -1517,6 +1511,13 @@
     if (label != nil) {
         [param setValue:label forKey:@"label"];
     }
+    
+    NSArray *roleArray = @[@"owner", @"watcher", @"creator"];
+    if (role < roleArray.count) {
+        [param setValue:[Login curLoginUser].id.stringValue forKey:roleArray[role]];
+
+    }
+    
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/tasks/search" withParams:param withMethodType:Get andBlock:^(id data, NSError *error) {
         
         Tasks *pros = [NSObject objectOfClass:@"Tasks" fromJSON:data[@"data"]];
