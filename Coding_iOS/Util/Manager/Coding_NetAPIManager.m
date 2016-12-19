@@ -1472,13 +1472,19 @@
     }];
 }
 
-- (void)request_projects_tasks_labelsWithRole:(TaskRoleType)role andBlock:(void (^)(id data, NSError *error))block {
+- (void)request_projects_tasks_labelsWithRole:(TaskRoleType)role projectId:(NSString *)projectId andBlock:(void (^)(id data, NSError *error))block {
     NSArray *roleArray = @[@"owner", @"watcher", @"creator"];
     if (role >= roleArray.count) {
         return;
     }
+    NSString *urlStr;
+    if (projectId == nil) {
+        urlStr = @"api/projects/tasks/labels";
+    } else {
+        urlStr = [NSString stringWithFormat:@"/api/project/%@/tasks/labels", projectId];
+    }
     
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/projects/tasks/labels" withParams:@{@"role": roleArray[role]} withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:urlStr withParams:@{@"role": roleArray[role]} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             block(data, nil);
         }else{
@@ -1531,6 +1537,16 @@
 
 - (void)request_tasks_countAndBlock:(void (^)(id data, NSError *error))block {
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"/api/tasks/count" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_project_tasks_countWithProjectId:(NSString *)projectId andBlock:(void (^)(id data, NSError *error))block {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"/api/project/%@/tasks/counts", projectId] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             block(data, nil);
         }else{

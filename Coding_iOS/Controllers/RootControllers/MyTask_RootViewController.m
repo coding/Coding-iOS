@@ -217,7 +217,7 @@
 
 - (void)loadTasksLabels {
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_projects_tasks_labelsWithRole:_role andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_projects_tasks_labelsWithRole:_role  projectId:nil andBlock:^(id data, NSError *error) {
         if (data != nil) {
             weakSelf.screenView.labels = data[@"data"];
         }
