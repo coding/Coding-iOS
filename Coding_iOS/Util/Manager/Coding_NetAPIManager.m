@@ -1472,8 +1472,13 @@
     }];
 }
 
-- (void)request_Search_filtersAndBlock:(void (^)(id data, NSError *error))block {
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/v2/tasks/search_filters" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+- (void)request_projects_tasks_labelsWithRole:(TaskRoleType)role andBlock:(void (^)(id data, NSError *error))block {
+    NSArray *roleArray = @[@"owner", @"watcher", @"creator"];
+    if (role >= roleArray.count) {
+        return;
+    }
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/projects/tasks/labels" withParams:@{@"role": roleArray[role]} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             block(data, nil);
         }else{
@@ -1518,6 +1523,16 @@
  
         if (data) {
             block(pros, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_tasks_countAndBlock:(void (^)(id data, NSError *error))block {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"/api/tasks/count" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
         }else{
             block(nil, error);
         }

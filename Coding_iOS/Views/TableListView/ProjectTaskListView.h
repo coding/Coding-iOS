@@ -19,7 +19,6 @@ typedef void(^ProjectTaskBlock)(ProjectTaskListView *taskListView, Task *task);
 @property (nonatomic, strong) NSString *project_id;
 @property (nonatomic, strong) NSString *owner, *watcher, *creator;
 
-@property (nonatomic, strong) void (^taskcountBlock)(NSInteger processingCount, NSInteger doneListCount);
 
 - (id)initWithFrame:(CGRect)frame tasks:(Tasks *)tasks block:(ProjectTaskBlock)block tabBarHeight:(CGFloat)tabBarHeight;
 

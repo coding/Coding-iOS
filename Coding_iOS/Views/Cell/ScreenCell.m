@@ -47,10 +47,10 @@
     _tagButton.sd_layout.leftSpaceToView(self.contentView, 20).centerYEqualToView(self.contentView).widthIs(15).heightIs(15);
 
     _selImageView = [[UIImageView alloc] init];
-    _selImageView.image = [UIImage imageNamed:@"location_checkmark"];
+    _selImageView.image = [UIImage imageNamed:@"a1-select"];
     [self.contentView addSubview:_selImageView];
     _selImageView.hidden = YES;
-    _selImageView.sd_layout.rightSpaceToView(self.contentView, 20).centerYEqualToView(self.contentView).widthIs(14).heightIs(11);
+    _selImageView.sd_layout.rightSpaceToView(self.contentView, 20).centerYEqualToView(self.contentView).widthIs(20).heightIs(21);
     
     _titleLab=[[UILabel alloc] init];
     _titleLab.font=[UIFont systemFontOfSize:15];

@@ -12,8 +12,6 @@
 #import "ScreenCell.h"
 
 @interface ScreenView ()<UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic, strong) NSArray *tastArray;
-@property (nonatomic, strong) NSArray *labels;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) NSInteger selectNum;  //选中数据
 @property (nonatomic, strong) UISearchBar *searchBar;
@@ -28,7 +26,6 @@
     if (self) {
         
         [self creatView];
-        [self creatData];
     }
     return self;
 }
@@ -167,15 +164,6 @@
     [self addGestureRecognizer:panGestureRecognizer];
 }
 
-- (void)creatData {
-    _tastArray = @[@"进行中的", @"已完成的"];
-    [[Coding_NetAPIManager sharedManager] request_Search_filtersAndBlock:^(id data, NSError *error) {
-        if (data != nil) {
-            self.labels = data[@"data"][@"labels"];
-            [self.tableView reloadData];
-        }
-    }];
-}
 
 - (void)clickDis {
     self.hidden = YES;
@@ -196,17 +184,6 @@
 }
 
 #pragma mark - get/set方法
-
-- (void)setProcessingCount:(NSInteger)processingCount {
-    _processingCount = processingCount;
-//    _tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", processingCount], _tastArray[1]];
-}
-
-- (void)setDoneListCount:(NSInteger)doneListCount {
-    _doneListCount = doneListCount;
-//    _tastArray = @[_tastArray[0], [NSString stringWithFormat:@"已完成的（%ld）", doneListCount]];
-//    [self.tableView reloadData];
-}
 
 - (void)show {
     self.x = kScreen_Width;
@@ -242,6 +219,17 @@
             }];
         }
     }
+}
+
+- (void)setTastArray:(NSArray *)tastArray {
+    _tastArray = tastArray;
+    [_tableView reloadData];
+    
+}
+
+- (void)setLabels:(NSArray *)labels {
+    _labels = labels;
+    [_tableView reloadData];
 }
 
 

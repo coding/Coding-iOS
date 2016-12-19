@@ -192,10 +192,6 @@
         [weakSelf configBlankPage:EaseBlankPageTypeTask hasData:(weakSelf.myTasks.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
-
-        if (_taskcountBlock) {
-            _taskcountBlock(data.processingList.count, data.doneList.count);
-        }
                
     }];
    /*

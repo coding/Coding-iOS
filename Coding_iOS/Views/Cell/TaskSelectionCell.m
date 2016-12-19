@@ -10,7 +10,6 @@
 
 @interface TaskSelectionCell ()
 @property (nonatomic, strong) UILabel *titleLab;
-@property (nonatomic, strong) UIImageView *selImageView;
 @property (nonatomic, strong) UILabel *line;
 @end
 
@@ -45,10 +44,10 @@
     _titleLab.sd_layout.leftSpaceToView(self.contentView, 20).topSpaceToView(self.contentView, 0).bottomSpaceToView(self.contentView, 0).widthIs(200);
     
     _selImageView = [[UIImageView alloc] init];
-    _selImageView.image = [UIImage imageNamed:@"location_checkmark"];
+    _selImageView.image = [UIImage imageNamed:@"a1-select"];
     [self.contentView addSubview:_selImageView];
     _selImageView.hidden = YES;
-    _selImageView.sd_layout.rightSpaceToView(self.contentView, 20).centerYEqualToView(self.contentView).widthIs(14).heightIs(11);
+    _selImageView.sd_layout.rightSpaceToView(self.contentView, 20).centerYEqualToView(self.contentView).widthIs(20).heightIs(21);
     
     _line = [[UILabel alloc] init];
     _line.backgroundColor = [UIColor colorWithRGBHex:0xdddddd];

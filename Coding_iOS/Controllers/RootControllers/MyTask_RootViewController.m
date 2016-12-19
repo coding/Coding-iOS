@@ -32,6 +32,7 @@
 @property (nonatomic, strong) NSString *label; //任务标签
 @property (nonatomic, strong) NSString *project_id;
 @property (nonatomic, strong) NSString *owner, *watcher, *creator;
+@property (nonatomic, assign) TaskRoleType role;
 @end
 
 @implementation MyTask_RootViewController
@@ -89,10 +90,12 @@
     _owner = [Login curLoginUser].id.stringValue;
 
     //初始化过滤目录
-    _myFliterMenu = [[TaskSelectionView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64) items:@[@"我的任务", @"我关注的", @"我创建的"]];
+    _myFliterMenu = [[TaskSelectionView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64) items:@[@"我的任务（0）", @"我关注的（0）", @"我创建的（0）"]];
     __weak typeof(self) weakSelf = self;
     _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
-        [weakSelf.titleBtn setTitle:weakSelf.myFliterMenu.items[pageIndex] forState:UIControlStateNormal];
+        _role = pageIndex;
+        NSString *title = weakSelf.myFliterMenu.items[pageIndex];
+        [weakSelf.titleBtn setTitle:[title substringToIndex:4] forState:UIControlStateNormal];
         weakSelf.owner = weakSelf.watcher = weakSelf.creator = nil;
         if (pageIndex == 0) {
             weakSelf.owner = [Login curLoginUser].id.stringValue;
@@ -106,6 +109,8 @@
         ProjectTaskListView *listView = (ProjectTaskListView *)weakSelf.myCarousel.currentItemView;
         [weakSelf assignmentWithlistView:listView];
         [listView refresh];
+        [weakSelf resetTaskCount];
+        [weakSelf loadTasksLabels];
 
     };
     _myFliterMenu.closeBlock=^(){
@@ -113,6 +118,9 @@
     };
     
     _screenView = [ScreenView creat];
+    weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（0）"],
+                                      [NSString stringWithFormat:@"已完成的（0）"]
+                                      ];
     _screenView.selectBlock = ^(NSString *keyword, NSString *status, NSString *label) {
         [((UIButton *)screenBar.customView) setImage:[UIImage imageNamed:@"a1-hasScreen"] forState:UIControlStateNormal];
         weakSelf.keyword = keyword;
@@ -127,9 +135,9 @@
         [listView refresh];
 
     };
-
-    
 }
+
+
 
 - (void)addItemClicked:(id)sender{
     EditTaskViewController *vc = [EditTaskViewController new];
@@ -143,6 +151,7 @@
 }
 
 - (void)screenItemClicked:(UIBarButtonItem *)sender {
+    [_myFliterMenu dismissMenu];
     [_screenView showOrHide];
 }
 
@@ -155,6 +164,9 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self resetCurView];
+    [self resetTaskCount];
+    [self loadTasksLabels];
+
 }
 
 
@@ -167,6 +179,49 @@
             }
         }];
     }
+}
+
+- (void)resetTaskCount {
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_tasks_countAndBlock:^(id data, NSError *error) {
+        NSInteger processing = [data[@"data"][@"processing"] integerValue];
+        NSInteger done = [data[@"data"][@"done"] integerValue];
+        
+        NSInteger watchAll = [data[@"data"][@"watchAll"] integerValue];
+        NSInteger watchAllProcessing = [data[@"data"][@"watchAllProcessing"] integerValue];
+
+        NSInteger create = [data[@"data"][@"create"] integerValue];
+        NSInteger createProcessing = [data[@"data"][@"createProcessing"] integerValue];
+
+
+        weakSelf.myFliterMenu.items = @[[NSString stringWithFormat:@"我的任务（%ld）", processing + done],
+                                        [NSString stringWithFormat:@"我关注的（%ld）", watchAll],
+                                        [NSString stringWithFormat:@"我创建的（%ld）", create]
+                                        ];
+        if (weakSelf.role == TaskRoleTypeWatcher) {
+            processing = watchAllProcessing;
+            done = watchAll - processing;
+        }
+        
+        if (weakSelf.role == TaskRoleTypeCreator) {
+            processing = createProcessing;
+            done = create - processing;
+        }
+        
+        weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", processing],
+                                          [NSString stringWithFormat:@"已完成的（%ld）", done]
+                                          ];
+    }];
+    
+}
+
+- (void)loadTasksLabels {
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_projects_tasks_labelsWithRole:_role andBlock:^(id data, NSError *error) {
+        if (data != nil) {
+            weakSelf.screenView.labels = data[@"data"];
+        }
+    }];
 }
 
 - (void)configSegmentControlWithData:(Projects *)freshProjects {
@@ -236,10 +291,6 @@
             };
             [weakSelf.navigationController pushViewController:vc animated:YES];
         } tabBarHeight:CGRectGetHeight(self.rdv_tabBarController.tabBar.frame)];
-        listView.taskcountBlock = ^(NSInteger processingCount, NSInteger doneListCount) {
-            weakSelf.screenView.processingCount = processingCount;
-            weakSelf.screenView.doneListCount = doneListCount;
-        };
     }
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;

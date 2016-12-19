@@ -13,4 +13,6 @@
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, assign) BOOL isSel;
 @property (nonatomic, assign) BOOL isShowLine;
+@property (nonatomic, strong) UIImageView *selImageView;
+
 @end

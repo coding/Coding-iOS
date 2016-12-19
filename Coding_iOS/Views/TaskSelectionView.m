@@ -144,6 +144,7 @@
     TaskSelectionCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskSelectionCell forIndexPath:indexPath];
     cell.title = _items[indexPath.row];
     cell.isSel = indexPath.row==_selectNum;
+    
     return cell;
 }
 
@@ -163,5 +164,10 @@
     _closeBlock();
 }
 
+
+- (void)setItems:(NSArray *)items {
+    _items = items;
+    [_tableview reloadData];
+}
 
 @end
