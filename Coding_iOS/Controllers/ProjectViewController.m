@@ -604,6 +604,8 @@
 
 #pragma mark Mine M
 - (void)navRightBtnClicked{
+    [_myFliterMenu dismissMenu];
+
     ProjectViewType curViewType = [self viewTypeFromIndex:_curIndex];
     switch (curViewType) {
         case ProjectViewTypeTasks:

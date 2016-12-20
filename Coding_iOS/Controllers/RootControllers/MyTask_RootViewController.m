@@ -127,6 +127,8 @@
 
 
 - (void)addItemClicked:(id)sender{
+    [_myFliterMenu dismissMenu];
+
     EditTaskViewController *vc = [EditTaskViewController new];
     
     NSInteger curIndex = _myCarousel.currentItemIndex;
