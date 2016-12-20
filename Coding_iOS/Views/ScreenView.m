@@ -49,7 +49,6 @@
     } else {
         [self hide];
     }
-    
 }
 
 #pragma makr - 消息
@@ -112,7 +111,7 @@
 #pragma mark UISearchBarDelegate
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [searchBar resignFirstResponder];
+    self.keyword = _searchBar.text;
     [self clickDis];
 }
 
@@ -128,7 +127,7 @@
     _selectNum = -1;
     
     UIButton *bgButton = [[UIButton alloc] init];
-    [bgButton addTarget:self action:@selector(showOrHide) forControlEvents:UIControlEventTouchUpInside];
+    [bgButton addTarget:self action:@selector(hide) forControlEvents:UIControlEventTouchDown];
     [self addSubview:bgButton];
     bgButton.sd_layout.leftSpaceToView(self, 0).topEqualToView(self).bottomEqualToView(self).rightEqualToView(self);
     
@@ -190,11 +189,11 @@
 
 - (void)clickDis {
     [self hide];
-    self.keyword = _searchBar.text;
     if (_selectBlock) {
         _selectBlock(_keyword, _status, _label);
     }
 }
+
 
 - (void)resetButtonClick {
     [self hide];
@@ -209,6 +208,7 @@
 #pragma mark - get/set方法
 
 - (void)show {
+    _searchBar.text = _keyword;
     _mainView.x = kScreen_Width - KMainLeftWith;
     self.hidden = NO;
     [UIView animateWithDuration:.3 animations:^{
@@ -219,11 +219,17 @@
 }
 
 - (void)hide {
+    if (_searchBar.text.length == 0) {
+        self.keyword = nil;
+    }
+    [self.searchBar resignFirstResponder];
+
     [UIView animateWithDuration:.3 animations:^{
         self.alpha = 0;
         _mainView.x += (kScreen_Width - KMainLeftWith);
     } completion:^(BOOL finished) {
         self.hidden = YES;
+
     }];
 }
 
