@@ -11,10 +11,13 @@
 #import "TaskSelectionCell.h"
 #import "ScreenCell.h"
 
+#define KMainLeftWith  45
+
 @interface ScreenView ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) NSInteger selectNum;  //选中数据
 @property (nonatomic, strong) UISearchBar *searchBar;
+@property (nonatomic, strong) UIView *mainView;
 @end
 
 @implementation ScreenView
@@ -96,7 +99,14 @@
         self.label = _labels[indexPath.row - _tastArray.count][@"name"];
     }
     [self clickDis];
-    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        return 60;
+    } else {
+        return 44;
+    }
 }
 
 #pragma mark - 自定义委托
@@ -118,14 +128,15 @@
     UIView *mainView = [[UIView alloc] init];
     mainView.backgroundColor = [UIColor whiteColor];
     [self addSubview:mainView];
-    mainView.sd_layout.leftSpaceToView(self, 45).topSpaceToView(self, 0).bottomEqualToView(self).rightEqualToView(self);
+    mainView.sd_layout.leftSpaceToView(self, KMainLeftWith).topSpaceToView(self, 0).bottomEqualToView(self).rightEqualToView(self);
+    _mainView = mainView;
     
     UISearchBar *searchBar = [[UISearchBar alloc] init];
     UITextField *searchField = [searchBar valueForKey:@"searchField"];
     searchField.backgroundColor = [UIColor clearColor];
     searchField.borderStyle = UITextBorderStyleNone;
     searchField.placeholder = @"查找相关任务";
-    searchBar.barTintColor = [UIColor colorWithRGBHex:0xe9ecee];
+    searchBar.barTintColor = [UIColor colorWithRGBHex:0xf0f2f5];
     searchBar.cornerRadius = 4;
     searchBar.masksToBounds = YES;
     [mainView addSubview:searchBar];
@@ -136,13 +147,16 @@
     [resetButton setTitle:@"重置" forState:UIControlStateNormal];
     [resetButton setTitleColor:[UIColor colorWithRGBHex:0x222222] forState:UIControlStateNormal];
     resetButton.titleLabel.font = [UIFont systemFontOfSize:15];
-    resetButton.backgroundColor = [UIColor colorWithRGBHex:0xfafafa];
-    resetButton.borderWidth = 1;
-    resetButton.borderColor = [UIColor colorWithRGBHex:0xdddddd];
+    resetButton.backgroundColor = [UIColor whiteColor];
     [resetButton addTarget:self action:@selector(resetButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [mainView addSubview:resetButton];
-    resetButton.sd_layout.leftSpaceToView(mainView, -1).bottomSpaceToView(mainView, -1).rightSpaceToView(mainView, -1).heightIs(44);
+    resetButton.sd_layout.leftSpaceToView(mainView, 0).bottomSpaceToView(mainView, 0).rightSpaceToView(mainView, 0).heightIs(44);
     
+    UILabel *line = [[UILabel alloc] init];
+    line.backgroundColor = [UIColor colorWithRGBHex:0xdddddd];
+    [mainView addSubview:line];
+    line.sd_layout.leftSpaceToView(mainView, 0).rightSpaceToView(mainView, 0).bottomSpaceToView(resetButton, 0).heightIs(.5);
+
     UITableView *tableView = [[UITableView alloc] init];
     tableView.backgroundColor = [UIColor clearColor];
     tableView.backgroundView = nil;
@@ -166,7 +180,7 @@
 
 
 - (void)clickDis {
-    self.hidden = YES;
+    [self hide];
     self.keyword = _searchBar.text;
     if (_selectBlock) {
         _selectBlock(_keyword, _status, _label);
@@ -174,7 +188,7 @@
 }
 
 - (void)resetButtonClick {
-    self.hidden = YES;
+    [self hide];
     _keyword = _status = _label = nil;
     _selectNum = -1;
     [_tableView reloadData];
@@ -186,38 +200,35 @@
 #pragma mark - get/set方法
 
 - (void)show {
-    self.x = kScreen_Width;
+    _mainView.x = kScreen_Width - KMainLeftWith;
     self.hidden = NO;
-    [UIView animateWithDuration:.3 animations:^{
+    [UIView animateWithDuration:.5 animations:^{
         self.alpha = 1;
-        self.x = 0;
+        _mainView.x = KMainLeftWith;
     }];
 
 }
 
 - (void)hide {
-    [UIView animateWithDuration:.3 animations:^{
+    [UIView animateWithDuration:.5 animations:^{
         self.alpha = 0;
-        self.x = kScreen_Width;
+        _mainView.x += (kScreen_Width - KMainLeftWith);
     } completion:^(BOOL finished) {
         self.hidden = YES;
     }];
 }
 
 - (void)handlePan:(UIPanGestureRecognizer*) recognizer {
-    CGPoint translation = [recognizer translationInView:self];
-    recognizer.view.centerX = recognizer.view.center.x + translation.x;
-    [recognizer setTranslation:CGPointZero inView:self];
+    CGPoint translation = [recognizer translationInView:_mainView];
+    if (_mainView.x + translation.x > KMainLeftWith) {
+        _mainView.x += translation.x;
+        [recognizer setTranslation:CGPointZero inView:_mainView];
+    } else {
+        _mainView.x = KMainLeftWith;
+    }
     
     if (recognizer.state == UIGestureRecognizerStateEnded) {
-        
-        if (recognizer.view.x > kScreen_Width / 2) {
-            [self hide];
-        } else {
-            [UIView animateWithDuration:.2 animations:^{
-                self.x = 0;
-            }];
-        }
+         [self hide];
     }
 }
 

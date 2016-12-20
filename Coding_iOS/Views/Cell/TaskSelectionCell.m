@@ -52,7 +52,7 @@
     _line = [[UILabel alloc] init];
     _line.backgroundColor = [UIColor colorWithRGBHex:0xdddddd];
     [self.contentView addSubview:_line];
-    _line.sd_layout.leftSpaceToView(self.contentView, 0).rightSpaceToView(self.contentView, 0).bottomSpaceToView(self.contentView, 0).heightIs(1);
+    _line.sd_layout.leftSpaceToView(self.contentView, 0).rightSpaceToView(self.contentView, 0).bottomSpaceToView(self.contentView, 0).heightIs(.5);
     _line.hidden = YES;
 
 }

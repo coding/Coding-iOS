@@ -200,6 +200,7 @@
     [self.contentView addSubview:_localButton];
     _localButton.sd_layout.leftEqualToView(_nameLabel).topSpaceToView(_nameLabel, 15).rightSpaceToView(self.contentView, 15).heightIs(20);
     _localButton.imageView.sd_layout.leftSpaceToView(_localButton, 0).centerYEqualToView(_localButton).widthIs(15).heightRatioToView(_localButton, .75);
+    _localButton.titleLabel.sd_layout.leftSpaceToView(_localButton.imageView, 15).centerYEqualToView(_localButton).heightIs(21).rightSpaceToView(_localButton, 4);
 
     _tagView = [[TagsScrollView alloc] init];
     _tagView.backgroundColor = [UIColor clearColor];

@@ -169,18 +169,35 @@
 }
 
 - (void)resetTaskCount {
+    
+    __block NSInteger processing, done, watchAll, watchAllProcessing, create, createProcessing;
+    
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_tasks_countAndBlock:^(id data, NSError *error) {
-        NSInteger processing = [data[@"data"][@"processing"] integerValue];
-        NSInteger done = [data[@"data"][@"done"] integerValue];
+    [[Coding_NetAPIManager sharedManager] request_project_tasks_countWithProjectId:_project_id andBlock:^(id data, NSError *error) {
+        if (_project_id == nil) {
+            processing = [data[@"data"][@"processing"] integerValue];
+            done = [data[@"data"][@"done"] integerValue];
+            
+            watchAll = [data[@"data"][@"watchAll"] integerValue];
+            watchAllProcessing = [data[@"data"][@"watchAllProcessing"] integerValue];
+            
+            create = [data[@"data"][@"create"] integerValue];
+            createProcessing = [data[@"data"][@"createProcessing"] integerValue];
+        } else {
+            done = [data[@"data"][@"ownerDone"] integerValue];
+            processing = [data[@"data"][@"ownerProcessing"] integerValue];
+            
+            NSInteger watcherDone = [data[@"data"][@"watcherDone"] integerValue];
+            watchAllProcessing = [data[@"data"][@"watcherProcessing"] integerValue];
+            
+            NSInteger creatorDone = [data[@"data"][@"creatorDone"] integerValue];
+            createProcessing = [data[@"data"][@"creatorProcessing"] integerValue];
+            
+            watchAll = watcherDone + watchAllProcessing;
+            create = creatorDone + createProcessing;
+            
+        }
         
-        NSInteger watchAll = [data[@"data"][@"watchAll"] integerValue];
-        NSInteger watchAllProcessing = [data[@"data"][@"watchAllProcessing"] integerValue];
-
-        NSInteger create = [data[@"data"][@"create"] integerValue];
-        NSInteger createProcessing = [data[@"data"][@"createProcessing"] integerValue];
-
-
         weakSelf.myFliterMenu.items = @[[NSString stringWithFormat:@"我的任务（%ld）", processing + done],
                                         [NSString stringWithFormat:@"我关注的（%ld）", watchAll],
                                         [NSString stringWithFormat:@"我创建的（%ld）", create]
@@ -198,13 +215,13 @@
         weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", processing],
                                           [NSString stringWithFormat:@"已完成的（%ld）", done]
                                           ];
+
     }];
-    
 }
 
 - (void)loadTasksLabels {
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_projects_tasks_labelsWithRole:_role  projectId:nil andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_projects_tasks_labelsWithRole:_role projectId:_project_id andBlock:^(id data, NSError *error) {
         if (data != nil) {
             weakSelf.screenView.labels = data[@"data"];
         }
@@ -303,6 +320,8 @@
         _project_id = ((Project *)_myProjectList[index]).id.stringValue;
     }
     [self assignmentWithlistView:curView];
+    [self resetTaskCount];
+    [self loadTasksLabels];
 
     [curView refreshToQueryData];
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
