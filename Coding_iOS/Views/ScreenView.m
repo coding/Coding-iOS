@@ -13,7 +13,7 @@
 
 #define KMainLeftWith  45
 
-@interface ScreenView ()<UITableViewDataSource, UITableViewDelegate>
+@interface ScreenView ()<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) NSInteger selectNum;  //选中数据
 @property (nonatomic, strong) UISearchBar *searchBar;
@@ -99,6 +99,7 @@
         self.label = _labels[indexPath.row - _tastArray.count][@"name"];
     }
     [self clickDis];
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -107,6 +108,13 @@
     } else {
         return 44;
     }
+}
+
+#pragma mark UISearchBarDelegate
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    [self clickDis];
 }
 
 #pragma mark - 自定义委托
@@ -139,6 +147,8 @@
     searchBar.barTintColor = [UIColor colorWithRGBHex:0xf0f2f5];
     searchBar.cornerRadius = 4;
     searchBar.masksToBounds = YES;
+    searchBar.returnKeyType = UIReturnKeySearch;
+    searchBar.delegate = self;
     [mainView addSubview:searchBar];
     searchBar.sd_layout.leftSpaceToView(mainView, 15).topSpaceToView(mainView, 35).rightSpaceToView(mainView, 15).heightIs(31);
     _searchBar = searchBar;
@@ -202,7 +212,7 @@
 - (void)show {
     _mainView.x = kScreen_Width - KMainLeftWith;
     self.hidden = NO;
-    [UIView animateWithDuration:.5 animations:^{
+    [UIView animateWithDuration:.3 animations:^{
         self.alpha = 1;
         _mainView.x = KMainLeftWith;
     }];
@@ -210,7 +220,7 @@
 }
 
 - (void)hide {
-    [UIView animateWithDuration:.5 animations:^{
+    [UIView animateWithDuration:.3 animations:^{
         self.alpha = 0;
         _mainView.x += (kScreen_Width - KMainLeftWith);
     } completion:^(BOOL finished) {
@@ -219,6 +229,7 @@
 }
 
 - (void)handlePan:(UIPanGestureRecognizer*) recognizer {
+    [_searchBar resignFirstResponder];
     CGPoint translation = [recognizer translationInView:_mainView];
     if (_mainView.x + translation.x > KMainLeftWith) {
         _mainView.x += translation.x;
@@ -226,6 +237,12 @@
     } else {
         _mainView.x = KMainLeftWith;
     }
+    
+    CGFloat alpha = .5;
+    alpha -= (_mainView.x / kScreen_Width * alpha);
+    
+    self.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:alpha];
+    
     
     if (recognizer.state == UIGestureRecognizerStateEnded) {
          [self hide];
