@@ -793,7 +793,7 @@
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_projects_tasks_labelsWithRole:_role  projectId:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
         if (data != nil) {
-            weakSelf.screenView.labels = data[@"data"];
+            weakSelf.screenView.labels = data;
         }
     }];
 }

@@ -1485,8 +1485,22 @@
     }
     
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:urlStr withParams:@{@"role": roleArray[role]} withMethodType:Get andBlock:^(id data, NSError *error) {
+        NSArray *dataArray = data[@"data"];
+        NSMutableDictionary *pinyinDict = @{}.mutableCopy;
+        for (NSDictionary *dict in dataArray) {
+            NSString *pinyinName = [dict[@"name"] transformToPinyin];
+            [pinyinDict setObject:dict forKey:pinyinName];
+        }
+        
+        NSArray *nameSortArray = [[pinyinDict allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        
+        NSMutableArray *newPinyinData = @[].mutableCopy;
+        for (NSString *pinyinName in nameSortArray) {
+            [newPinyinData addObject:pinyinDict[pinyinName]];
+        }
+        
         if (data) {
-            block(data, nil);
+            block(newPinyinData, nil);
         }else{
             block(nil, error);
         }
