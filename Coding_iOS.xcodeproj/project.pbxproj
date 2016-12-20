@@ -712,6 +712,10 @@
 		4ED618211C3BD79B0017946C /* task_activity_icon_remove_watcher@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED618201C3BD79B0017946C /* task_activity_icon_remove_watcher@2x.png */; };
 		4ED618241C3CB1AF0017946C /* taskWatchers@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED618221C3CB1AF0017946C /* taskWatchers@2x.png */; };
 		4ED618251C3CB1AF0017946C /* taskWatchers@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED618231C3CB1AF0017946C /* taskWatchers@3x.png */; };
+		4ED628CC1E08DF970065F373 /* EANetworkDiagno.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E5684411E08C9800070EF1B /* EANetworkDiagno.framework */; };
+		4ED628CD1E08DF970065F373 /* EANetworkDiagno.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4E5684411E08C9800070EF1B /* EANetworkDiagno.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		4ED628D21E08EC5A0065F373 /* ObjectiveGit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4ED628D11E08EC5A0065F373 /* ObjectiveGit.framework */; };
+		4ED628D31E08EC5A0065F373 /* ObjectiveGit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4ED628D11E08EC5A0065F373 /* ObjectiveGit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4ED6731E1A8DD38C00DF2D1A /* ReportIllegalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */; };
 		4ED673221A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED673211A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.m */; };
 		4ED673261A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4ED673251A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png */; };
@@ -1213,6 +1217,21 @@
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4ED628CE1E08DF970065F373 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4ED628CD1E08DF970065F373 /* EANetworkDiagno.framework in Embed Frameworks */,
+				4ED628D31E08EC5A0065F373 /* ObjectiveGit.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0A03E6D11ABD0F690034BB8E /* LocationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationHelper.h; sourceTree = "<group>"; };
 		0A03E6D21ABD0F690034BB8E /* LocationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationHelper.m; sourceTree = "<group>"; };
@@ -1608,6 +1627,7 @@
 		4E54C24D1D90E05400A61023 /* tipIcon_ProjectTopicCommentVote@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tipIcon_ProjectTopicCommentVote@2x.png"; sourceTree = "<group>"; };
 		4E554D6C1C9804F40008686A /* Close2FAViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Close2FAViewController.h; sourceTree = "<group>"; };
 		4E554D6D1C9804F40008686A /* Close2FAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Close2FAViewController.m; sourceTree = "<group>"; };
+		4E5684411E08C9800070EF1B /* EANetworkDiagno.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = EANetworkDiagno.framework; sourceTree = "<group>"; };
 		4E59D3291D3E106D008C914B /* tweetsBtn_Nav@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweetsBtn_Nav@2x.png"; sourceTree = "<group>"; };
 		4E59D32A1D3E106D008C914B /* tweetsBtn_Nav@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweetsBtn_Nav@3x.png"; sourceTree = "<group>"; };
 		4E59D32D1D3E1920008C914B /* ProjectTweetSendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTweetSendViewController.h; sourceTree = "<group>"; };
@@ -2260,6 +2280,7 @@
 		4ED618201C3BD79B0017946C /* task_activity_icon_remove_watcher@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_remove_watcher@2x.png"; sourceTree = "<group>"; };
 		4ED618221C3CB1AF0017946C /* taskWatchers@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskWatchers@2x.png"; sourceTree = "<group>"; };
 		4ED618231C3CB1AF0017946C /* taskWatchers@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskWatchers@3x.png"; sourceTree = "<group>"; };
+		4ED628D11E08EC5A0065F373 /* ObjectiveGit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectiveGit.framework; path = EANetworkDiagno.framework/Frameworks/ObjectiveGit.framework; sourceTree = "<group>"; };
 		4ED6731C1A8DD38C00DF2D1A /* ReportIllegalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportIllegalViewController.h; sourceTree = "<group>"; };
 		4ED6731D1A8DD38C00DF2D1A /* ReportIllegalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportIllegalViewController.m; sourceTree = "<group>"; };
 		4ED673201A8E0ECC00DF2D1A /* SVWebViewControllerActivityReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVWebViewControllerActivityReport.h; sourceTree = "<group>"; };
@@ -3005,12 +3026,14 @@
 				0AB591AD1AB6D51C0076C454 /* MapKit.framework in Frameworks */,
 				0A6E6BBF1AB180CB004C0107 /* CoreLocation.framework in Frameworks */,
 				4EDD8F5C1A36F52700E9E232 /* libsqlite3.0.dylib in Frameworks */,
+				4ED628D21E08EC5A0065F373 /* ObjectiveGit.framework in Frameworks */,
 				4EDD8F5A1A36F4FA00E9E232 /* Security.framework in Frameworks */,
 				4EDD8F581A36F4CA00E9E232 /* CoreTelephony.framework in Frameworks */,
 				4EDD8F561A36F4BD00E9E232 /* SystemConfiguration.framework in Frameworks */,
 				4EDD8F541A36F4AC00E9E232 /* CFNetwork.framework in Frameworks */,
 				4E96E7C81A1B46740037C098 /* QuickLook.framework in Frameworks */,
 				8E03D4A419F696970092F8C8 /* libz.dylib in Frameworks */,
+				4ED628CC1E08DF970065F373 /* EANetworkDiagno.framework in Frameworks */,
 				4EB5A9431BF1DB4600C23AC3 /* libWeiboSDK.a in Frameworks */,
 				8EF5E74519C68CC7009346D5 /* libicucore.dylib in Frameworks */,
 				4EB5A9421BF1DB4600C23AC3 /* libSocialSinaSSO.a in Frameworks */,
@@ -3419,6 +3442,15 @@
 				4ED20A771AFC7C8B00C63498 /* EasePageViewController.m */,
 			);
 			path = RKSwipeBetweenViewControllers;
+			sourceTree = "<group>";
+		};
+		4E5684401E08C9800070EF1B /* EAFramework */ = {
+			isa = PBXGroup;
+			children = (
+				4ED628D11E08EC5A0065F373 /* ObjectiveGit.framework */,
+				4E5684411E08C9800070EF1B /* EANetworkDiagno.framework */,
+			);
+			path = EAFramework;
 			sourceTree = "<group>";
 		};
 		4E5D12FB1C0C5EE600985AEB /* RRFPSBar */ = {
@@ -5371,6 +5403,7 @@
 		8EA6CFFC19E240C40076D59C /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				4E5684401E08C9800070EF1B /* EAFramework */,
 				4ECE8AEA1A3946C10021E29C /* Manager */,
 				8EA6CFFD19E240C40076D59C /* Common */,
 				8EA6D01019E240C40076D59C /* ObjcRuntime */,
@@ -5912,6 +5945,7 @@
 				8E47700E198770E700997D05 /* Resources */,
 				B52B540CD39100358CEE8516 /* [CP] Embed Pods Frameworks */,
 				B7C390DEFD2073480C56FD88 /* [CP] Copy Pods Resources */,
+				4ED628CE1E08DF970065F373 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -7320,6 +7354,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Coding_iOS/Util/EAFramework",
+					"$(PROJECT_DIR)/Coding_iOS/Util/EAFramework/EANetworkDiagno.framework/Frameworks",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -7331,7 +7367,8 @@
 					"Pods/evernote-cloud-sdk-ios/**",
 				);
 				INFOPLIST_FILE = "Coding_iOS/Coding_iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/XGPush",
@@ -7360,6 +7397,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Coding_iOS/Util/EAFramework",
+					"$(PROJECT_DIR)/Coding_iOS/Util/EAFramework/EANetworkDiagno.framework/Frameworks",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -7371,7 +7410,8 @@
 					"Pods/evernote-cloud-sdk-ios/**",
 				);
 				INFOPLIST_FILE = "Coding_iOS/Coding_iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/XGPush",

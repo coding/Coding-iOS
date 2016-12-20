@@ -1,0 +1,6 @@
+framework module EANetworkDiagno {
+  umbrella header "EANetworkDiagno.h"
+
+  export *
+  module * { export * }
+}

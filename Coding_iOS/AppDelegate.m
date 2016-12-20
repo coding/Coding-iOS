@@ -38,6 +38,7 @@
 #import <evernote-cloud-sdk-ios/ENSDK/ENSDK.h>
 #import "UMSocialSinaSSOHandler.h"
 #import "Coding_NetAPIManager.h"
+#import <EANetworkDiagno/EANetworkDiagno.h>
 
 #import "Tweet.h"
 #import "sys/utsname.h"
@@ -203,6 +204,11 @@
 #pragma clang diagnostic pop
         }
     }
+    EADeviceToServerLog *eaM = [EADeviceToServerLog shareManager];
+    eaM.globalKey = [Login curLoginUser].global_key;
+    eaM.userAgentStr = [NSString userAgentStr];
+    eaM.minDutation = 0;
+    [eaM tryToStart];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
