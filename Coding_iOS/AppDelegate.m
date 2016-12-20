@@ -207,7 +207,6 @@
     EADeviceToServerLog *eaM = [EADeviceToServerLog shareManager];
     eaM.globalKey = [Login curLoginUser].global_key;
     eaM.userAgentStr = [NSString userAgentStr];
-    eaM.minDutation = 0;
     [eaM tryToStart];
 }
 
