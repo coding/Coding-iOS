@@ -40,7 +40,6 @@
     ScreenView *screenView = [[ScreenView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height)];
     screenView.hidden = YES;
     [kKeyWindow addSubview:screenView];
-    
     return screenView;
 }
 
