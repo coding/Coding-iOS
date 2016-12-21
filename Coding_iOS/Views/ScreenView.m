@@ -87,6 +87,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.keyword = nil;
+    _searchBar.text = nil;
     _selectNum = indexPath.row;
     [tableView reloadData];
     if (indexPath.row < _tastArray.count) {
