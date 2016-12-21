@@ -10,7 +10,6 @@
 		09A058801E0AA97000C1CA3F /* ActivenessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A0587F1E0AA97000C1CA3F /* ActivenessModel.m */; };
 		09A058891E0AA9AE00C1CA3F /* ActivityMonScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A058821E0AA9AE00C1CA3F /* ActivityMonScrollView.m */; };
 		09A0588A1E0AA9AE00C1CA3F /* ActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A058841E0AA9AE00C1CA3F /* ActivityView.m */; };
-		09A0588B1E0AA9AE00C1CA3F /* EaseUserHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A058861E0AA9AE00C1CA3F /* EaseUserHeaderView.m */; };
 		09A0588C1E0AA9AE00C1CA3F /* UserActiveStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A058881E0AA9AE00C1CA3F /* UserActiveStatusView.m */; };
 		09A0588F1E0AA9D600C1CA3F /* UserActiveGraphCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A0588E1E0AA9D600C1CA3F /* UserActiveGraphCell.m */; };
 		09A058921E0AA9FC00C1CA3F /* EaseUserInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A058911E0AA9FB00C1CA3F /* EaseUserInfoCell.m */; };
@@ -18,6 +17,7 @@
 		09A058981E0AAA5300C1CA3F /* ScreenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A058971E0AAA5300C1CA3F /* ScreenView.m */; };
 		09A0589B1E0AAA7200C1CA3F /* ScreenCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A0589A1E0AAA7200C1CA3F /* ScreenCell.m */; };
 		09A0589E1E0AAA8800C1CA3F /* TaskSelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A0589D1E0AAA8800C1CA3F /* TaskSelectionCell.m */; };
+		09A058A11E0AAACA00C1CA3F /* TagsScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 09A058A01E0AAACA00C1CA3F /* TagsScrollView.m */; };
 		0A03E6D31ABD0F690034BB8E /* LocationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A03E6D21ABD0F690034BB8E /* LocationHelper.m */; };
 		0A0519E21ABA918100551B61 /* TweetSendDetailLoctionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A0519E01ABA918100551B61 /* TweetSendDetailLoctionCell.m */; };
 		0A0519E31ABA918100551B61 /* TweetSendDetailLoctionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A0519E11ABA918100551B61 /* TweetSendDetailLoctionCell.xib */; };
@@ -1250,8 +1250,6 @@
 		09A058821E0AA9AE00C1CA3F /* ActivityMonScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityMonScrollView.m; sourceTree = "<group>"; };
 		09A058831E0AA9AE00C1CA3F /* ActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityView.h; sourceTree = "<group>"; };
 		09A058841E0AA9AE00C1CA3F /* ActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityView.m; sourceTree = "<group>"; };
-		09A058851E0AA9AE00C1CA3F /* EaseUserHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EaseUserHeaderView.h; sourceTree = "<group>"; };
-		09A058861E0AA9AE00C1CA3F /* EaseUserHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EaseUserHeaderView.m; sourceTree = "<group>"; };
 		09A058871E0AA9AE00C1CA3F /* UserActiveStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserActiveStatusView.h; sourceTree = "<group>"; };
 		09A058881E0AA9AE00C1CA3F /* UserActiveStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserActiveStatusView.m; sourceTree = "<group>"; };
 		09A0588D1E0AA9D600C1CA3F /* UserActiveGraphCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserActiveGraphCell.h; sourceTree = "<group>"; };
@@ -1266,6 +1264,8 @@
 		09A0589A1E0AAA7200C1CA3F /* ScreenCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenCell.m; sourceTree = "<group>"; };
 		09A0589C1E0AAA8800C1CA3F /* TaskSelectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskSelectionCell.h; sourceTree = "<group>"; };
 		09A0589D1E0AAA8800C1CA3F /* TaskSelectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskSelectionCell.m; sourceTree = "<group>"; };
+		09A0589F1E0AAACA00C1CA3F /* TagsScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsScrollView.h; sourceTree = "<group>"; };
+		09A058A01E0AAACA00C1CA3F /* TagsScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsScrollView.m; sourceTree = "<group>"; };
 		0A03E6D11ABD0F690034BB8E /* LocationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationHelper.h; sourceTree = "<group>"; };
 		0A03E6D21ABD0F690034BB8E /* LocationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationHelper.m; sourceTree = "<group>"; };
 		0A0519DF1ABA918100551B61 /* TweetSendDetailLoctionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSendDetailLoctionCell.h; sourceTree = "<group>"; };
@@ -5592,6 +5592,8 @@
 				3A38784B1AE36EF00078D5DE /* TopicListView.m */,
 				3A3878471AE36ED70078D5DE /* TopicListButton.h */,
 				3A3878481AE36ED70078D5DE /* TopicListButton.m */,
+				09A0589F1E0AAACA00C1CA3F /* TagsScrollView.h */,
+				09A058A01E0AAACA00C1CA3F /* TagsScrollView.m */,
 				4E6FB0561B58DB0A00B0A17B /* ProjectTagsView.h */,
 				4E6FB0571B58DB0A00B0A17B /* ProjectTagsView.m */,
 				4E2906A01A403B7D008A5B97 /* FileDownloadView.h */,
@@ -5630,8 +5632,6 @@
 				09A058821E0AA9AE00C1CA3F /* ActivityMonScrollView.m */,
 				09A058831E0AA9AE00C1CA3F /* ActivityView.h */,
 				09A058841E0AA9AE00C1CA3F /* ActivityView.m */,
-				09A058851E0AA9AE00C1CA3F /* EaseUserHeaderView.h */,
-				09A058861E0AA9AE00C1CA3F /* EaseUserHeaderView.m */,
 				09A058871E0AA9AE00C1CA3F /* UserActiveStatusView.h */,
 				09A058881E0AA9AE00C1CA3F /* UserActiveStatusView.m */,
 				09A058931E0AAA2F00C1CA3F /* TaskSelectionView.h */,
@@ -7004,7 +7004,6 @@
 				4ECE8AE91A3943E80021E29C /* UIViewController+Swizzle.m in Sources */,
 				D09AA5BA1BFDBA4B008CA9EB /* PublicSearchModel.m in Sources */,
 				8EA6D1F919E240C40076D59C /* MJPhotoLoadingView.m in Sources */,
-				09A0588B1E0AA9AE00C1CA3F /* EaseUserHeaderView.m in Sources */,
 				4E753D441B8AFDEC003A00B9 /* FileEditViewController.m in Sources */,
 				8EA6D14419E240C40076D59C /* TopicDetailViewController.m in Sources */,
 				4EA7F1641A6D192B00A046BD /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -7303,6 +7302,7 @@
 				4EAE06AB1B7B23EA00179F4B /* FileActivitiesViewController.m in Sources */,
 				4E715A321BB1278200A5D24B /* LocalFolderCell.m in Sources */,
 				4E217F171A70EDC700F6DF88 /* SVWebViewControllerActivity.m in Sources */,
+				09A058A11E0AAACA00C1CA3F /* TagsScrollView.m in Sources */,
 				4E996BE81ABBCD2D00C704F1 /* TaskDescriptionCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
