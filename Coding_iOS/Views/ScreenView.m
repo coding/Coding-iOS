@@ -108,6 +108,10 @@
     return 50;
 }
 
+-  (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self.searchBar resignFirstResponder];
+}
+
 #pragma mark UISearchBarDelegate
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -158,7 +162,7 @@
     resetButton.backgroundColor = [UIColor whiteColor];
     [resetButton addTarget:self action:@selector(resetButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [mainView addSubview:resetButton];
-    resetButton.sd_layout.leftSpaceToView(mainView, 0).bottomSpaceToView(mainView, 0).rightSpaceToView(mainView, 0).heightIs(44);
+    resetButton.sd_layout.leftSpaceToView(mainView, 0).bottomSpaceToView(mainView, 0).rightSpaceToView(mainView, 0).heightIs(48.5);
     
     UILabel *line = [[UILabel alloc] init];
     line.backgroundColor = [UIColor colorWithRGBHex:0xdddddd];
@@ -199,6 +203,7 @@
     [self hide];
     _keyword = _status = _label = nil;
     _selectNum = -1;
+    _searchBar.text = nil;
     [_tableView reloadData];
     if (_selectBlock) {
         _selectBlock(_keyword, _status, _label);
@@ -208,7 +213,9 @@
 #pragma mark - get/set方法
 
 - (void)show {
-    _searchBar.text = _keyword;
+    if (![_searchBar.text isEqualToString:_keyword]) {
+        _searchBar.text = _keyword;
+    }
     _mainView.x = kScreen_Width - KMainLeftWith;
      self.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:.5];
     
@@ -221,9 +228,6 @@
 }
 
 - (void)hide {
-    if (_searchBar.text.length == 0) {
-        self.keyword = nil;
-    }
     [self.searchBar resignFirstResponder];
 
     [UIView animateWithDuration:.3 animations:^{
