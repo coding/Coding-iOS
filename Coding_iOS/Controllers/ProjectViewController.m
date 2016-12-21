@@ -183,6 +183,11 @@
     [self loadTasksLabels];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [_myFliterMenu dismissMenu];
+}
+
 - (void)refreshToQueryData{
     UIView *curView = [self getCurContentView];
     if (curView && [curView respondsToSelector:@selector(refreshToQueryData)]) {

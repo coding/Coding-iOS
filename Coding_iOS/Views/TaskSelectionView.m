@@ -101,7 +101,7 @@
     _tableview.contentInset=UIEdgeInsetsMake(15, 0,0,0);
     
     
-    int contentHeight=320;
+    int contentHeight=100;
     if ((kScreen_Height-64)>contentHeight) {
         UIView *contentView=[[UIView alloc] initWithFrame:CGRectMake(0,64+contentHeight , kScreen_Width, kScreen_Height-64-contentHeight)];
         contentView.backgroundColor=[UIColor clearColor];

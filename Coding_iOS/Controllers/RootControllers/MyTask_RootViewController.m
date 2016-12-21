@@ -158,6 +158,11 @@
 
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [_myFliterMenu dismissMenu];
+}
+
 
 - (void)resetCurView{
     if (!_myProjects.isLoading) {
