@@ -771,8 +771,8 @@
             NSInteger creatorProcessing = [data[@"data"][@"creatorProcessing"] integerValue];
          
              weakSelf.myFliterMenu.items = @[[NSString stringWithFormat:@"所有任务（%ld）", ownerDone + ownerProcessing],
-                                             [NSString stringWithFormat:@"我关注的（%ld）", ownerDone + ownerProcessing],
-                                             [NSString stringWithFormat:@"我创建的（%ld）", ownerDone + ownerProcessing]
+                                             [NSString stringWithFormat:@"我关注的（%ld）", watcherDone + watcherProcessing],
+                                             [NSString stringWithFormat:@"我创建的（%ld）", creatorDone + creatorProcessing]
                                              ];
              if (_role == TaskRoleTypeAll) {
                  weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", ownerProcessing],
