@@ -314,7 +314,6 @@
 		4E5F39021AC951060010515D /* TaskCommentCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5F39011AC951060010515D /* TaskCommentCCell.m */; };
 		4E5F39051ACA958C0010515D /* TopicCommentCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E5F39041ACA958C0010515D /* TopicCommentCCell.m */; };
 		4E5F39071ACBFDCD0010515D /* keyboard_photo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E5F39061ACBFDCD0010515D /* keyboard_photo@2x.png */; };
-		4E6182301E0ADDD300B4D383 /* EANetworkDiagno.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E61822F1E0ADDD300B4D383 /* EANetworkDiagno.framework */; };
 		4E62410B1B74D65400E1533C /* search_tweet_like@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E62410A1B74D65400E1533C /* search_tweet_like@2x.png */; };
 		4E63189C1BDA198000EFED97 /* MRListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E63189B1BDA198000EFED97 /* MRListViewController.m */; };
 		4E6318A21BDA261100EFED97 /* MRListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E6318A11BDA261100EFED97 /* MRListView.m */; };
@@ -1691,7 +1690,6 @@
 		4E5F39031ACA958C0010515D /* TopicCommentCCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicCommentCCell.h; sourceTree = "<group>"; };
 		4E5F39041ACA958C0010515D /* TopicCommentCCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicCommentCCell.m; sourceTree = "<group>"; };
 		4E5F39061ACBFDCD0010515D /* keyboard_photo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_photo@2x.png"; sourceTree = "<group>"; };
-		4E61822F1E0ADDD300B4D383 /* EANetworkDiagno.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EANetworkDiagno.framework; path = "/Users/wangyuanchuang/Projects/Coding-iOS/Coding_iOS/Util/EAFramework/EANetworkDiagno.framework"; sourceTree = "<absolute>"; };
 		4E62410A1B74D65400E1533C /* search_tweet_like@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "search_tweet_like@2x.png"; sourceTree = "<group>"; };
 		4E63189A1BDA198000EFED97 /* MRListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRListViewController.h; sourceTree = "<group>"; };
 		4E63189B1BDA198000EFED97 /* MRListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRListViewController.m; sourceTree = "<group>"; };
@@ -3054,7 +3052,6 @@
 				0A6E6BBF1AB180CB004C0107 /* CoreLocation.framework in Frameworks */,
 				4EDD8F5C1A36F52700E9E232 /* libsqlite3.0.dylib in Frameworks */,
 				4EDD8F5A1A36F4FA00E9E232 /* Security.framework in Frameworks */,
-				4E6182301E0ADDD300B4D383 /* EANetworkDiagno.framework in Frameworks */,
 				4EDD8F581A36F4CA00E9E232 /* CoreTelephony.framework in Frameworks */,
 				4EDD8F561A36F4BD00E9E232 /* SystemConfiguration.framework in Frameworks */,
 				4EDD8F541A36F4AC00E9E232 /* CFNetwork.framework in Frameworks */,

@@ -51,7 +51,7 @@
 -(void)buildUI{
     _mySearchBar = ({
         CategorySearchBar *searchBar = [[CategorySearchBar alloc] initWithFrame:CGRectMake(20, 7, kScreen_Width-75, 31)];
-        [searchBar setPlaceholder:@"项目、任务、冒泡等"];
+        [searchBar setPlaceholder:@" 搜索"];
         searchBar;
     });
     if (!_searchDisplayVC) {
