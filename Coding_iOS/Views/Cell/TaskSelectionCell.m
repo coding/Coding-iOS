@@ -38,10 +38,10 @@
     
     [self.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     self.backgroundColor=[UIColor clearColor];
-    _titleLab=[[UILabel alloc] initWithFrame:CGRectMake(20, 0, 200, 50)];
+    _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 200, 50)];
     _titleLab.font=[UIFont systemFontOfSize:15];
     [self.contentView addSubview:_titleLab];
-    _titleLab.sd_layout.leftSpaceToView(self.contentView, 20).topSpaceToView(self.contentView, 0).bottomSpaceToView(self.contentView, 0).widthIs(200);
+    _titleLab.sd_layout.leftSpaceToView(self.contentView, 20).topSpaceToView(self.contentView, 15).bottomSpaceToView(self.contentView, 15).widthIs(200);
     
     _selImageView = [[UIImageView alloc] init];
     _selImageView.image = [UIImage imageNamed:@"a1-select"];

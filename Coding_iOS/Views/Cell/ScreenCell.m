@@ -55,7 +55,7 @@
     _titleLab=[[UILabel alloc] init];
     _titleLab.font=[UIFont systemFontOfSize:15];
     [self.contentView addSubview:_titleLab];
-    _titleLab.sd_layout.leftSpaceToView(_tagButton, 17).centerYEqualToView(self.contentView).heightIs(21).rightSpaceToView(_selImageView, 15);
+    _titleLab.sd_layout.leftSpaceToView(_tagButton, 17).rightSpaceToView(_selImageView, 15).topSpaceToView(self.contentView, 15).bottomSpaceToView(self.contentView, 15);
 
 }
 

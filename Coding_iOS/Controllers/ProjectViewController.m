@@ -327,6 +327,8 @@
                 });
                 ((ProjectTasksView *)curView).selctUserBlock = ^(NSString *owner) {
                     weakSelf.userId = owner;
+                    [weakSelf resetTaskCount];
+                    [weakSelf loadTasksLabels];
                 };
             }
                 break;
@@ -759,7 +761,58 @@
 
 - (void)resetTaskCount {
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_project_tasks_countWithProjectId:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
+    
+    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:_userId role:TaskRoleTypeAll project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
+        NSInteger ownerDone = [data[@"data"][@"finished"] integerValue];
+        NSInteger ownerProcessing = [data[@"data"][@"processing"] integerValue];
+        
+        weakSelf.myFliterMenu.items = @[[NSString stringWithFormat:@"所有任务（%ld）", ownerDone + ownerProcessing],
+                                        weakSelf.myFliterMenu.items[1],
+                                        weakSelf.myFliterMenu.items[2]
+                                        ];
+        if (_role == TaskRoleTypeAll) {
+            weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", ownerProcessing],
+                                              [NSString stringWithFormat:@"已完成的（%ld）", ownerDone]
+                                              ];
+        }
+
+    }];
+    
+    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:_userId role:TaskRoleTypeWatcher project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
+        NSInteger watcherDone = [data[@"data"][@"finished"] integerValue];
+        NSInteger watcherProcessing = [data[@"data"][@"processing"] integerValue];
+        
+        weakSelf.myFliterMenu.items = @[weakSelf.myFliterMenu.items[0],
+                                        [NSString stringWithFormat:@"我关注的（%ld）", watcherDone + watcherProcessing],
+                                        weakSelf.myFliterMenu.items[2]
+                                        ];
+        if (_role == TaskRoleTypeWatcher) {
+            weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", watcherProcessing],
+                                              [NSString stringWithFormat:@"已完成的（%ld）", watcherDone]
+                                              ];
+        }
+
+    }];
+
+    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:_userId role:TaskRoleTypeCreator project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
+        NSInteger creatorDone = [data[@"data"][@"finished"] integerValue];
+        NSInteger creatorProcessing = [data[@"data"][@"processing"] integerValue];
+        
+        weakSelf.myFliterMenu.items = @[weakSelf.myFliterMenu.items[0],
+                                        weakSelf.myFliterMenu.items[1],
+                                        [NSString stringWithFormat:@"我创建的（%ld）", creatorDone + creatorProcessing]
+                                        ];
+        if (_role == TaskRoleTypeCreator) {
+            weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", creatorProcessing],
+                                              [NSString stringWithFormat:@"已完成的（%ld）", creatorDone]
+                                              ];
+        }
+
+
+    }];
+
+    return;
+    [[Coding_NetAPIManager sharedManager] request_project_user_tasks_countsWithProjectId:_myProject.id.stringValue memberId:_userId andBlock:^(id data, NSError *error) {
         NSInteger ownerDone = [data[@"data"][@"ownerDone"] integerValue];
         NSInteger ownerProcessing = [data[@"data"][@"ownerProcessing"] integerValue];
         
@@ -793,7 +846,7 @@
 
 - (void)loadTasksLabels {
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_projects_tasks_labelsWithRole:_role  projectId:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_projects_tasks_labelsWithRole:_role projectId:_myProject.id.stringValue projectName:_myProject.name memberId:_userId andBlock:^(id data, NSError *error) {
         if (data != nil) {
             weakSelf.screenView.labels = data;
         }

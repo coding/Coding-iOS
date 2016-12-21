@@ -1473,10 +1473,17 @@
 }
 
 - (void)request_projects_tasks_labelsWithRole:(TaskRoleType)role projectId:(NSString *)projectId andBlock:(void (^)(id data, NSError *error))block {
+    NSString *roleStr;
+    NSDictionary *param;
     NSArray *roleArray = @[@"owner", @"watcher", @"creator"];
-    if (role >= roleArray.count) {
-        return;
+    if (role < roleArray.count) {
+        roleStr = roleArray[role];
     }
+    
+    if (roleStr != nil) {
+        param = @{@"role": roleStr};
+    }
+
     NSString *urlStr;
     if (projectId == nil) {
         urlStr = @"api/projects/tasks/labels";
@@ -1484,7 +1491,7 @@
         urlStr = [NSString stringWithFormat:@"api/project/%@/tasks/labels", projectId];
     }
     
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:urlStr withParams:@{@"role": roleArray[role]} withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:urlStr withParams:param withMethodType:Get andBlock:^(id data, NSError *error) {
         NSArray *dataArray = data[@"data"];
         NSMutableDictionary *pinyinDict = @{}.mutableCopy;
         for (NSDictionary *dict in dataArray) {
@@ -1567,6 +1574,112 @@
         }
     }];
 }
+
+- (void)request_project_task_countWithProjectId:(NSString *)projectId andBlock:(void (^)(id data, NSError *error))block {
+    
+    NSString *urlStr;
+    if (projectId == nil) {
+        urlStr = @"api/tasks/count";
+    } else {
+        urlStr = [NSString stringWithFormat:@"api/project/%@/task/count", projectId];
+    }
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:urlStr withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_project_user_tasks_countsWithProjectId:(NSString *)projectId memberId:(NSString *)memberId andBlock:(void (^)(id data, NSError *error))block {
+    
+    NSString *urlStr;
+    if (memberId == nil) {
+        urlStr = @"api/tasks/search";
+    } else {
+        urlStr = [NSString stringWithFormat:@"api/project/%@/user/%@/tasks/counts", projectId, memberId];
+    }
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:urlStr withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_tasks_searchWithUserId:(NSString *)userId role:(TaskRoleType )role project_id:(NSString *)project_id andBlock:(void (^)(id data, NSError *error))block {
+    NSMutableDictionary *param = @{@"page": @(1), @"pageSize": @(1)}.mutableCopy;
+    if (userId != nil) {
+        [param setValue:userId forKey:@"owner"];
+    }
+    if (project_id != nil) {
+        [param setValue:project_id forKey:@"project_id"];
+    }
+    
+    NSArray *roleArray = @[@"owner", @"watcher", @"creator"];
+    if (role < roleArray.count) {
+        [param setValue:[Login curLoginUser].id.stringValue forKey:roleArray[role]];
+        
+    }
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/tasks/search" withParams:param withMethodType:Get andBlock:^(id data, NSError *error) {
+        
+        if (data) {
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_projects_tasks_labelsWithRole:(TaskRoleType)role projectId:(NSString *)projectId projectName:(NSString *)projectName memberId:(NSString *)memberId andBlock:(void (^)(id data, NSError *error))block {
+    NSString *roleStr;
+    NSArray *roleArray = @[@"owner", @"watcher", @"creator"];
+    if (role < roleArray.count) {
+        roleStr = roleArray[role];
+    }
+    NSString *urlStr;
+    NSDictionary *param;
+    if (projectId != nil && memberId != nil) {
+         urlStr = [NSString stringWithFormat:@"api/project/%@/user/%@/tasks/labels", projectId, memberId];
+        param = @{@"role": roleStr};
+    } else {
+        if (role == TaskRoleTypeWatcher || role == TaskRoleTypeCreator) {
+            urlStr = [NSString stringWithFormat:@"api/project/%@/tasks/labels", projectId];
+            param = @{@"role": roleStr};
+        } else {
+            urlStr = [NSString stringWithFormat:@"api/user/%@/project/%@/task/label?withCount=true", [Login curLoginUser].global_key, projectName];
+        }
+    }
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:urlStr withParams:param withMethodType:Get andBlock:^(id data, NSError *error) {
+        NSArray *dataArray = data[@"data"];
+        NSMutableDictionary *pinyinDict = @{}.mutableCopy;
+        for (NSDictionary *dict in dataArray) {
+            NSString *pinyinName = [dict[@"name"] transformToPinyin];
+            [pinyinDict setObject:dict forKey:pinyinName];
+        }
+        
+        NSArray *nameSortArray = [[pinyinDict allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+        
+        NSMutableArray *newPinyinData = @[].mutableCopy;
+        for (NSString *pinyinName in nameSortArray) {
+            [newPinyinData addObject:pinyinDict[pinyinName]];
+        }
+        
+        if (data) {
+            block(newPinyinData, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+    
+}
+
 
 #pragma mark User
 - (void)request_AddUser:(User *)user ToProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
