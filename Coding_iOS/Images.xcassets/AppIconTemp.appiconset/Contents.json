@@ -11,57 +11,54 @@
       "scale" : "3x"
     },
     {
-      "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "春节特别版1.png",
+      "size" : "29x29",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "春节特别版5.png",
+      "filename" : "54.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "春节特别版9.png",
+      "filename" : "87.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "春节特别版8-1.png",
+      "filename" : "80.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "春节特别版12-1.png",
+      "filename" : "120-1.png",
       "scale" : "3x"
     },
     {
-      "size" : "57x57",
       "idiom" : "iphone",
-      "filename" : "春节特别版4.png",
+      "size" : "57x57",
       "scale" : "1x"
     },
     {
+      "idiom" : "iphone",
       "size" : "57x57",
-      "idiom" : "iphone",
-      "filename" : "春节特别版11.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "春节特别版12.png",
+      "filename" : "120.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "春节特别版15.png",
+      "filename" : "180.png",
       "scale" : "3x"
     },
     {
@@ -75,63 +72,53 @@
       "scale" : "2x"
     },
     {
+      "idiom" : "ipad",
       "size" : "29x29",
-      "idiom" : "ipad",
-      "filename" : "春节特别版1-1.png",
       "scale" : "1x"
     },
     {
+      "idiom" : "ipad",
       "size" : "29x29",
-      "idiom" : "ipad",
-      "filename" : "春节特别版5-1.png",
       "scale" : "2x"
     },
     {
+      "idiom" : "ipad",
       "size" : "40x40",
-      "idiom" : "ipad",
-      "filename" : "春节特别版2.png",
       "scale" : "1x"
     },
     {
+      "idiom" : "ipad",
       "size" : "40x40",
-      "idiom" : "ipad",
-      "filename" : "春节特别版8.png",
       "scale" : "2x"
     },
     {
+      "idiom" : "ipad",
       "size" : "50x50",
-      "idiom" : "ipad",
-      "filename" : "春节特别版3.png",
       "scale" : "1x"
     },
     {
+      "idiom" : "ipad",
       "size" : "50x50",
-      "idiom" : "ipad",
-      "filename" : "春节特别版10.png",
       "scale" : "2x"
     },
     {
-      "size" : "72x72",
       "idiom" : "ipad",
-      "filename" : "春节特别版6.png",
+      "size" : "72x72",
       "scale" : "1x"
     },
     {
-      "size" : "72x72",
       "idiom" : "ipad",
-      "filename" : "春节特别版13.png",
+      "size" : "72x72",
       "scale" : "2x"
     },
     {
-      "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "春节特别版7.png",
+      "size" : "76x76",
       "scale" : "1x"
     },
     {
-      "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "春节特别版14.png",
+      "size" : "76x76",
       "scale" : "2x"
     },
     {
