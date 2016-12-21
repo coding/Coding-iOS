@@ -75,11 +75,7 @@
     } else {
         ScreenCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ScreenCell forIndexPath:indexPath];
         cell.color = _labels[indexPath.row - _tastArray.count][@"color"];
-        NSString *count = _labels[indexPath.row - _tastArray.count][@"count"];
-        if (count == nil) {
-            count = _labels[indexPath.row - _tastArray.count][@"all"];
-        }
-        cell.title = [NSString stringWithFormat:@"%@（%@/%@）", _labels[indexPath.row - _tastArray.count][@"name"], _labels[indexPath.row - _tastArray.count][@"processing"], count];
+        cell.title = _labels[indexPath.row - _tastArray.count][@"name"];
         cell.isSel = indexPath.row == _selectNum;
 
         return cell;
