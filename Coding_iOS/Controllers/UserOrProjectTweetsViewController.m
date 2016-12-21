@@ -191,18 +191,14 @@
 }
 
 - (void)sendRequest{
-    if (_curTweets.list.count <= 0) {
-        [self.view beginLoading];
-    }
-    if (_curTweets.tweetType == TweetTypeUserSingle && _curTweets.curUser.name.length <= 0) {
+       if (_curTweets.tweetType == TweetTypeUserSingle && _curTweets.curUser.name.length <= 0) {
         [self refreshCurUser];
         return;
     }
     
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Tweets_WithObj:_curTweets andBlock:^(id data, NSError *error) {
-        [weakSelf.refreshControl endRefreshing];
-        [weakSelf.view endLoading];
+       
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
         if (data) {
             [weakSelf.curTweets configWithTweets:data];

@@ -132,9 +132,7 @@
 - (void)requestTopicsMore:(BOOL)loadMore{
     _willLoadMore = loadMore;
     _curPage = _willLoadMore? _curPage + 1: 0;
-    if (_dataList.count <= 0) {
-        [self.view beginLoading];
-    }
+   
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_JoinedTopicsWithUserGK:_curUser.global_key page:weakSelf.curPage block:^(id data, BOOL hasMoreData, NSError *error) {
         [weakSelf.refreshControl endRefreshing];
