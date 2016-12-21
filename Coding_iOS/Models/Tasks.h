@@ -20,6 +20,14 @@ typedef NS_ENUM(NSInteger, TaskEntranceType){
     TaskEntranceTypeMine,
 };
 
+typedef NS_ENUM(NSInteger, TaskRoleType)
+{
+    TaskRoleTypeOwner = 0, //执行者
+    TaskRoleTypeWatcher, //关注者
+    TaskRoleTypeCreator,  //创建者
+    TaskRoleTypeAll,   //所有任务
+};
+
 @interface Tasks : NSObject
 
 @property (readwrite, nonatomic, strong) NSNumber *page, *pageSize, *totalPage, *totalRow;

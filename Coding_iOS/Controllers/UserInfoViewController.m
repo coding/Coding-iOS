@@ -28,18 +28,21 @@
 #import "UserInfoTextCell.h"
 #import "UserInfoIconCell.h"
 #import "TitleDisclosureCell.h"
+#import "EaseUserInfoCell.h"
+#import "UserActiveGraphCell.h"
 
 #import "StartImagesManager.h"
-#import "EaseUserHeaderView.h"
 #import <APParallaxHeader/UIScrollView+APParallaxHeader.h>
 
 #import "CSMyTopicVC.h"
 #import "PointRecordsViewController.h"
 
+
 @interface UserInfoViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
-@property (strong, nonatomic) EaseUserHeaderView *headerView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
+@property (nonatomic, strong) EaseUserInfoCell *userInfoCell;
+@property (nonatomic, strong) ActivenessModel *activenessModel;
 
 @end
 
@@ -57,28 +60,45 @@
         [tableView registerClass:[UserInfoTextCell class] forCellReuseIdentifier:kCellIdentifier_UserInfoTextCell];
         [tableView registerClass:[UserInfoIconCell class] forCellReuseIdentifier:kCellIdentifier_UserInfoIconCell];
         [tableView registerClass:[TitleDisclosureCell class] forCellReuseIdentifier:kCellIdentifier_TitleDisclosure];
+        [tableView registerClass:[UserActiveGraphCell class] forCellReuseIdentifier:kCellIdentifier_UserActiveGraphCell];
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
         tableView;
     });
+    
+    _userInfoCell = [[EaseUserInfoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentifier_EaseUserInfoCell];
     __weak typeof(self) weakSelf = self;
-    _headerView = [EaseUserHeaderView userHeaderViewWithUser:_curUser image:[StartImagesManager shareManager].curImage.image];
-    _headerView.userIconClicked = ^(){
-        [weakSelf userIconClicked];
+    _userInfoCell.userIconClicked = ^(){
+        [weakSelf userIconClicked]; //用户头像点击
     };
-    _headerView.fansCountBtnClicked = ^(){
-        [weakSelf fansCountBtnClicked];
+    _userInfoCell.fansCountBtnClicked = ^(){
+        [weakSelf fansCountBtnClicked]; //粉丝
     };
-    _headerView.followsCountBtnClicked = ^(){
-        [weakSelf followsCountBtnClicked];
+    _userInfoCell.followsCountBtnClicked = ^(){
+        [weakSelf followsCountBtnClicked]; //关注
     };
-    _headerView.followBtnClicked = ^(){
-        [weakSelf followBtnClicked];
+    _userInfoCell.followBtnClicked = ^(){
+        [weakSelf followBtnClicked]; //加关注
     };
-    [_myTableView addParallaxWithView:_headerView andHeight:CGRectGetHeight(_headerView.frame)];
-    _myTableView.tableFooterView = [self footerV];
+    _userInfoCell.editButtonClicked = ^() {
+        [weakSelf goToSettingInfo];
+    };
+    _userInfoCell.messageBtnClicked = ^(){
+        [weakSelf messageBtnClicked]; //发消息
+    };
+    
+    _userInfoCell.detailInfoBtnClicked = ^(){
+        [weakSelf goToDetailInfo]; //详情
+    };
+    
+    
+    [[Coding_NetAPIManager sharedManager] request_Users_activenessWithGlobalKey:_curUser.global_key andBlock:^(ActivenessModel *data, NSError *error) {
+        weakSelf.activenessModel = data;
+        [weakSelf.myTableView reloadData];
+    }];
+    
     
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
@@ -95,7 +115,7 @@
         [weakSelf.refreshControl endRefreshing];
         if (data) {
             weakSelf.curUser = data;
-            weakSelf.headerView.curUser = data;
+            weakSelf.userInfoCell.user = data;
             weakSelf.title = weakSelf.curUser.name;
             [weakSelf.myTableView reloadData];
         }
@@ -112,38 +132,23 @@
 
 #pragma mark Table M
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+    return 3;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return section == 0? 4: 3;
+    return section <= 1? 1: 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 0) {
-        if (indexPath.row < 3) {
-            UserInfoTextCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserInfoTextCell forIndexPath:indexPath];
-            switch (indexPath.row) {
-                case 0:
-                    [cell setTitle:@"所在地" value:_curUser.location];
-                    break;
-                case 1:
-                    [cell setTitle:@"座右铭" value:_curUser.slogan];
-                    break;
-                default:
-                    [cell setTitle:@"个性标签" value:_curUser.tags_str];
-                    break;
-            }
-            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-            return cell;
-        }else{
-            TitleDisclosureCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleDisclosure forIndexPath:indexPath];
-            cell.titleLabel.font = [UIFont systemFontOfSize:15];
-            cell.backgroundColor = [UIColor whiteColor];
-            [cell setTitleStr:@"详细信息"];
-            [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-            return cell;
-        }
+        EaseUserInfoCell *cell = self.userInfoCell;
+        cell.user = _curUser;
+        return cell;
+    } else if (indexPath.section == 1) {
+        UserActiveGraphCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserActiveGraphCell forIndexPath:indexPath];
+        cell.activenessModel = _activenessModel;
+        return cell;
+
     }else{
         UserInfoIconCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserInfoIconCell forIndexPath:indexPath];
         if (indexPath.row == 0) {
@@ -159,7 +164,11 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44.0;
+    if (indexPath.section == 0) {
+        return [tableView cellHeightForIndexPath:indexPath model:_curUser keyPath:@"user" cellClass:[EaseUserInfoCell class] contentViewWidth:kScreen_Width];
+
+    }
+    return indexPath.section == 1 ? [UserActiveGraphCell cellHeight] : 44;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
@@ -177,9 +186,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0 && indexPath.row == 3) {
-        [self goToDetailInfo];
-    }else if (indexPath.section == 1){
+    if (indexPath.section == 2){
         if (indexPath.row == 0) {
             [self goToProjects];
         }else if(indexPath.row == 1){
@@ -229,12 +236,17 @@
     [[Coding_NetAPIManager sharedManager] request_FollowedOrNot_WithObj:_curUser andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.curUser.followed = [NSNumber numberWithBool:!_curUser.followed.boolValue];
-            weakSelf.headerView.curUser = weakSelf.curUser;
+            weakSelf.userInfoCell.user = weakSelf.curUser;
             if (weakSelf.followChanged) {
                 weakSelf.followChanged(weakSelf.curUser);
             }
         }
     }];
+}
+
+- (void)goToSettingInfo{
+    SettingMineInfoViewController *vc = [[SettingMineInfoViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)goToTweets{

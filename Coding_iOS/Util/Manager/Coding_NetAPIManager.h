@@ -39,6 +39,7 @@
 #import "Shop.h"
 #import "ShopOrderModel.h"
 #import "ProjectCount.h"
+#import "ActivenessModel.h"
 
 @class CSTopic, Team;
 
@@ -93,6 +94,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_EditAliasOfMember:(ProjectMember *)curMember inProject:(Project *)curPro andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_EditTypeOfMember:(ProjectMember *)curMember inProject:(Project *)curPro andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectServiceInfo:(Project *)curPro andBlock:(void (^)(id data, NSError *error))block;
+
 
 #pragma mark Team
 - (void)request_JoinedTeamsBlock:(void (^)(id data, NSError *error))block;
@@ -162,6 +164,16 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_DoCommentToTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteComment:(TaskComment *)comment ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ChangeWatcher:(User *)watcher ofTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_projects_tasks_labelsWithRole:(TaskRoleType)role projectId:(NSString *)projectId andBlock:(void (^)(id data, NSError *error))block; //任务标签
+- (void)request_tasks_searchWithUserId:(NSString *)userId role:(TaskRoleType )role project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_project_tasks_countWithProjectId:(NSString *)projectId andBlock:(void (^)(id data, NSError *error))block;
+
+//项目内
+- (void)request_project_task_countWithProjectId:(NSString *)projectId andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_project_user_tasks_countsWithProjectId:(NSString *)projectId memberId:(NSString *)memberId andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_tasks_searchWithUserId:(NSString *)userId role:(TaskRoleType )role project_id:(NSString *)project_id andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_projects_tasks_labelsWithRole:(TaskRoleType)role projectId:(NSString *)projectId projectName:(NSString *)projectName memberId:(NSString *)memberId owner_user_name:(NSString *)owner_user_name andBlock:(void (^)(id data, NSError *error))block;
+
 
 #pragma mark - User
 - (void)request_AddUser:(User *)user ToProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
@@ -257,6 +269,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 
 - (void)request_Users_WithTopicID:(NSInteger)topicID andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_JoinedUsers_WithTopicID:(NSInteger)topicID page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_Users_activenessWithGlobalKey:(NSString *)globalKey andBlock:(void (^)(ActivenessModel *data, NSError *error))block;
 
 #pragma mark - 2FA
 - (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block;

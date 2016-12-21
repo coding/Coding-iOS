@@ -60,6 +60,7 @@ PODS:
   - ReactiveCocoa/UI (2.3.1):
     - ReactiveCocoa/Core
   - RegexKitLite-NoWarning (1.1.0)
+  - SDAutoLayout (2.1.0)
   - SDCAlertView (2.5.2):
     - RBBAnimation (~> 0.3)
     - SDCAutoLayout (~> 2.0)
@@ -89,6 +90,7 @@ DEPENDENCIES:
   - PPiAwesomeButton (= 1.5.2)
   - ReactiveCocoa (= 2.3.1)
   - RegexKitLite-NoWarning (= 1.1.0)
+  - SDAutoLayout (= 2.1.0)
   - SDCAlertView (= 2.5.2)
   - SSKeychain (= 1.2.3)
   - TMCache (= 2.1.0)
@@ -118,6 +120,7 @@ SPEC CHECKSUMS:
   RBBAnimation: 4b2d66f6d993febce63cd564da934985313b9c59
   ReactiveCocoa: 3fe9b233ca6db810e86681b5749488564c1179a1
   RegexKitLite-NoWarning: 365d208f8187997e33d9de8baeddfc00728596d8
+  SDAutoLayout: 8e701d7e6a3ec4fb5571800378e8bb6b6645522d
   SDCAlertView: f9706c18f456ea87909f8f199704cd28e582ff27
   SDCAutoLayout: e6885bb39ab8e2ec2ff84d158f38035f025f7420
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
@@ -128,6 +131,6 @@ SPEC CHECKSUMS:
   UMengAnalytics: 092c24aef47b6ac3c76ad51543f91156a8d7b645
   UMengSocial: 85882abe5b20aa38ad558ece71360e16b5d50909
 
-PODFILE CHECKSUM: fd1294dd2dbba221dbc20a52f3d029195e886e25
+PODFILE CHECKSUM: a94c62469770048a6401eeda5b117afbd57e75f0
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.1.0.rc.3

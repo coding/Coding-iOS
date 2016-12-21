@@ -17,7 +17,8 @@
 #import "SVPullToRefresh.h"
 #import "WebViewController.h"
 #import "ProjectTweetSendViewController.h"
-#import "EaseUserHeaderView.h"
+#import "UserActiveGraphCell.h"
+
 
 @interface UserOrProjectTweetsViewController ()
 @property (nonatomic, strong, readwrite) UITableView *myTableView;
@@ -191,18 +192,14 @@
 }
 
 - (void)sendRequest{
-    if (_curTweets.list.count <= 0) {
-        [self.view beginLoading];
-    }
-    if (_curTweets.tweetType == TweetTypeUserSingle && _curTweets.curUser.name.length <= 0) {
+       if (_curTweets.tweetType == TweetTypeUserSingle && _curTweets.curUser.name.length <= 0) {
         [self refreshCurUser];
         return;
     }
     
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Tweets_WithObj:_curTweets andBlock:^(id data, NSError *error) {
-        [weakSelf.refreshControl endRefreshing];
-        [weakSelf.view endLoading];
+       
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
         if (data) {
             [weakSelf.curTweets configWithTweets:data];
@@ -218,7 +215,7 @@
 - (CGFloat)blankPageOffsetY{//MeDisplayViewController
     CGFloat offsetY = 0;
     if ([self isMemberOfClass:NSClassFromString(@"MeDisplayViewController")]) {
-        offsetY = [(EaseUserHeaderView *)[self valueForKey:@"eaV"] originalHeight] + 60;
+        offsetY = ((UITableViewCell *)[self valueForKey:@"userInfoCell"]).frame.size.height + [UserActiveGraphCell cellHeight] + 100;
     }
     return offsetY;
 }

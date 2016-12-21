@@ -37,6 +37,9 @@
 #import "CommitFilesViewController.h"
 
 #import "FunctionTipsManager.h"
+#import "TaskSelectionView.h"
+#import "ScreenView.h"
+
 
 @interface ProjectViewController ()
 
@@ -44,6 +47,20 @@
 
 //项目成员
 @property (strong, nonatomic) ProjectMemberListViewController *proMemberVC;
+@property (strong, nonatomic) UIButton *titleBtn;
+
+@property (nonatomic, strong) TaskSelectionView *myFliterMenu;
+@property (nonatomic, strong) ScreenView *screenView;
+
+
+@property (nonatomic, strong) NSString *keyword;
+@property (nonatomic, strong) NSString *status; //任务状态，进行中的为1，已完成的为2
+@property (nonatomic, strong) NSString *label; //任务标签
+@property (nonatomic, strong) NSString *userId;
+@property (nonatomic, assign) TaskRoleType role;
+
+@property (nonatomic, strong)  UIBarButtonItem *screenBar;
+
 
 @end
 
@@ -91,6 +108,68 @@
             [self refreshWithNewIndex:_curIndex];
         }
     }
+    [self setupTitleBtn];
+    
+    UIView *curView = [self getCurContentView];
+    if ([curView isKindOfClass:[ProjectTasksView class]]) {
+        ProjectTasksView *tasksView = (ProjectTasksView *)curView;
+        [self assignmentWithlistView:tasksView];
+        [tasksView refresh];
+    }
+    
+    _role = TaskRoleTypeAll;
+    //初始化过滤目录
+    _myFliterMenu = [[TaskSelectionView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64) items:@[@"所有任务（0）", @"我关注的（0）", @"我创建的（0）"]];
+    __weak typeof(self) weakSelf = self;
+    _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
+        _role = pageIndex;
+        if (pageIndex == 0) {
+            _role = TaskRoleTypeAll;
+        }
+
+        NSString *title = weakSelf.myFliterMenu.items[pageIndex];
+        [weakSelf.titleBtn setTitle:[title substringToIndex:4] forState:UIControlStateNormal];
+        
+        UIView *curView = [weakSelf getCurContentView];
+        if (![curView isKindOfClass:[ProjectTasksView class]]) {
+            return;
+        }
+        ProjectTasksView *tasksView = (ProjectTasksView *)curView;
+        [weakSelf assignmentWithlistView:tasksView];
+        [tasksView refresh];
+        [weakSelf resetTaskCount];
+        [weakSelf loadTasksLabels];
+
+    };
+    _myFliterMenu.closeBlock=^(){
+        [weakSelf.myFliterMenu dismissMenu];
+    };
+    
+    _screenView = [ScreenView creat];
+    weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（0）"],
+                                      [NSString stringWithFormat:@"已完成的（0）"]
+                                      ];
+
+    _screenView.selectBlock = ^(NSString *keyword, NSString *status, NSString *label) {
+        [((UIButton *)weakSelf.screenBar.customView) setImage:[UIImage imageNamed:@"a1-hasScreen"] forState:UIControlStateNormal];
+        weakSelf.keyword = keyword;
+        weakSelf.status = status;
+        weakSelf.label = label;
+        if (keyword == nil && status == nil && label == nil) {
+           [((UIButton *)weakSelf.screenBar.customView) setImage:[UIImage imageNamed:@"a1-screen"] forState:UIControlStateNormal];
+            
+        }
+        UIView *curView = [weakSelf getCurContentView];
+        if (![curView isKindOfClass:[ProjectTasksView class]]) {
+            return;
+        }
+        ProjectTasksView *tasksView = (ProjectTasksView *)curView;
+        [weakSelf assignmentWithlistView:tasksView];
+        [tasksView refresh];
+        
+    };
+
+
 }
 - (void)didReceiveMemoryWarning
 {
@@ -100,6 +179,13 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self refreshToQueryData];
+    [self resetTaskCount];
+    [self loadTasksLabels];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [_myFliterMenu dismissMenu];
 }
 
 - (void)refreshToQueryData{
@@ -134,7 +220,7 @@
 }
 
 - (void)configNavBtnWithMyProject{
-    self.title = _myProject.name;
+  //  self.title = _myProject.name;
 }
 
 - (void)configRightBarButtonItemWithViewType:(ProjectViewType)viewType{
@@ -155,7 +241,14 @@
         [button addTarget:self action:@selector(navRightBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         navRightBtn = [[UIBarButtonItem alloc] initWithCustomView:button];
     }
-    [self.navigationItem setRightBarButtonItem:navRightBtn animated:YES];
+    
+    if (ProjectViewTypeTasks == viewType) {
+        UIBarButtonItem *screenBar = [self HDCustomNavButtonWithTitle:nil imageName:@"a1-screen" target:self action:@selector(screenItemClicked:)];
+        self.navigationItem.rightBarButtonItems = @[navRightBtn, screenBar];
+        _screenBar = screenBar;
+    } else {
+        [self.navigationItem setRightBarButtonItem:navRightBtn animated:YES];
+    }
 }
 
 - (ProjectViewType)viewTypeFromIndex:(NSInteger)index{
@@ -234,6 +327,11 @@
                         [weakSelf.navigationController pushViewController:vc animated:YES];
                     } defaultIndex:0];
                 });
+                ((ProjectTasksView *)curView).selctUserBlock = ^(NSString *owner) {
+                    weakSelf.userId = owner;
+                    [weakSelf resetTaskCount];
+                    [weakSelf loadTasksLabels];
+                };
             }
                 break;
             case ProjectViewTypeTopics:{
@@ -510,6 +608,8 @@
 
 #pragma mark Mine M
 - (void)navRightBtnClicked{
+    [_myFliterMenu dismissMenu];
+
     ProjectViewType curViewType = [self viewTypeFromIndex:_curIndex];
     switch (curViewType) {
         case ProjectViewTypeTasks:
@@ -582,6 +682,140 @@
         default:
             break;
     }
+}
+
+- (UIBarButtonItem *)HDCustomNavButtonWithTitle:(NSString *)title imageName:(NSString *)imageName target:(id)targe action:(SEL)action {
+    UIButton *itemButtom = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImage *image = [UIImage imageNamed:imageName];
+    [itemButtom setImage:image forState:UIControlStateNormal];
+    itemButtom.titleLabel.font = [UIFont systemFontOfSize: 16];
+    [itemButtom setTitle:title forState:UIControlStateNormal];
+    [itemButtom setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, -5)];
+    UIColor *color = [UINavigationBar appearance].titleTextAttributes[NSForegroundColorAttributeName];
+    if (color == nil) {
+        color = [UIColor blackColor];
+    }
+    [itemButtom setTitleColor:color forState:UIControlStateNormal];
+    itemButtom.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [itemButtom addTarget:targe action:action
+         forControlEvents:UIControlEventTouchUpInside];
+    if (title == nil && imageName != nil) {
+        [itemButtom setFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
+    } else {
+        [itemButtom setFrame:CGRectMake(0, 0, 80, 40)];
+    }
+    
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc]
+                                      initWithCustomView:itemButtom];
+    return barButtonItem;
+}
+
+- (void)screenItemClicked:(UIBarButtonItem *)sender {
+    [_myFliterMenu dismissMenu];
+    [_screenView showOrHide];
+}
+
+- (void)setupTitleBtn{
+    if (!_titleBtn) {
+        _titleBtn = [UIButton new];
+        [_titleBtn setTitleColor:kColorNavTitle forState:UIControlStateNormal];
+        [_titleBtn.titleLabel setFont:[UIFont systemFontOfSize:kNavTitleFontSize]];
+        [_titleBtn addTarget:self action:@selector(fliterClicked:) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.titleView = _titleBtn;
+        [self setTitleBtnStr:@"所有任务"];
+    }
+}
+
+- (void)setTitleBtnStr:(NSString *)titleStr{
+    if (_titleBtn) {
+        CGFloat titleWidth = [titleStr getWidthWithFont:_titleBtn.titleLabel.font constrainedToSize:CGSizeMake(kScreen_Width, 30)];
+        CGFloat imageWidth = 12;
+        CGFloat btnWidth = titleWidth +imageWidth;
+        _titleBtn.frame = CGRectMake((kScreen_Width-btnWidth)/2, (44-30)/2, btnWidth, 30);
+        _titleBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -imageWidth, 0, imageWidth);
+        _titleBtn.imageEdgeInsets = UIEdgeInsetsMake(0, titleWidth, 0, -titleWidth);
+        [_titleBtn setTitle:titleStr forState:UIControlStateNormal];
+        [_titleBtn setImage:[UIImage imageNamed:@"btn_fliter_down"] forState:UIControlStateNormal];
+    }
+}
+
+-(void)fliterClicked:(id)sender{
+    if (_myFliterMenu.showStatus) {
+        [_myFliterMenu dismissMenu];
+    }else {
+        [_myFliterMenu showMenuAtView:kKeyWindow];
+    }
+    
+}
+
+- (void)assignmentWithlistView:(ProjectTasksView *)listView {
+    listView.keyword = self.keyword;
+    listView.status = self.status;
+    listView.label = self.label;
+    listView.userId = self.userId;
+    listView.role = self.role;
+    listView.project_id = self.myProject.id.stringValue;
+}
+
+- (void)resetTaskCount {
+    __weak typeof(self) weakSelf = self;
+    
+    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:_userId role:TaskRoleTypeAll project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
+        NSInteger ownerDone, ownerProcessing;
+       
+        
+        if (_userId == nil) {
+            ownerDone = [data[@"data"][@"done"] integerValue];
+            ownerProcessing = [data[@"data"][@"processing"] integerValue];
+        } else {
+            ownerDone = [data[@"data"][@"finished"] integerValue];
+            ownerProcessing = [data[@"data"][@"processing"] integerValue];
+        }
+        
+        weakSelf.myFliterMenu.items = @[[NSString stringWithFormat:@"所有任务（%ld）", ownerDone + ownerProcessing],
+                                        weakSelf.myFliterMenu.items[1],
+                                        weakSelf.myFliterMenu.items[2]
+                                        ];
+        if (_role == TaskRoleTypeAll) {
+            weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", ownerProcessing],
+                                              [NSString stringWithFormat:@"已完成的（%ld）", ownerDone]
+                                              ];
+        }
+
+    }];
+    
+    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:_userId role:TaskRoleTypeWatcher project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
+        NSInteger watcherDone = [data[@"data"][@"watcherDone"] integerValue];
+        NSInteger watcherProcessing = [data[@"data"][@"watcherProcessing"] integerValue];
+        NSInteger creatorDone = [data[@"data"][@"creatorDone"] integerValue];
+        NSInteger creatorProcessing = [data[@"data"][@"creatorProcessing"] integerValue];
+        
+        weakSelf.myFliterMenu.items = @[weakSelf.myFliterMenu.items[0],
+                                        [NSString stringWithFormat:@"我关注的（%ld）", watcherDone + watcherProcessing],
+                                        [NSString stringWithFormat:@"我创建的（%ld）", creatorDone + creatorProcessing]
+                                        ];
+        if (_role == TaskRoleTypeWatcher) {
+            weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", watcherProcessing],
+                                              [NSString stringWithFormat:@"已完成的（%ld）", watcherDone]
+                                              ];
+        }
+        
+        if (_role == TaskRoleTypeCreator) {
+            weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", creatorProcessing],
+                                              [NSString stringWithFormat:@"已完成的（%ld）", creatorDone]
+                                              ];
+        }
+
+    }];
+}
+
+- (void)loadTasksLabels {
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_projects_tasks_labelsWithRole:_role projectId:_myProject.id.stringValue projectName:_myProject.name memberId:_userId owner_user_name:_myProject.owner_user_name andBlock:^(id data, NSError *error) {
+        if (data != nil) {
+            weakSelf.screenView.labels = data;
+        }
+    }];
 }
 
 

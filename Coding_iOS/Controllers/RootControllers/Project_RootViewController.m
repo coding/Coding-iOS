@@ -230,9 +230,10 @@
         [self closeMenu];
     }
 }
+
 -(void)fliterClicked:(id)sender{
     [self closeMenu];
-    if (_myFliterMenu.showStatus) {
+    if (_myFliterMenu.showStatus == YES) {
         [_myFliterMenu dismissMenu];
     }else {
         _myFliterMenu.selectNum = _selectNum >= 3? _selectNum + 1: _selectNum;
