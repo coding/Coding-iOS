@@ -496,9 +496,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [cell setImageStr:@"mrpr_icon_commit" andTitle:@"提交记录"];
         }else if(indexPath.row == 1){
             [cell setImageStr:@"mrpr_icon_fileChange" andTitle:@"文件改动"];
-            if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_LineNote_FileChange]) {
-                [cell addTipIcon];
-            }
         } else {
             [cell setImageStr:@"PR_TaskResource" andTitle:@"关联资源"];
             if(self.resourceReference.itemList.count > 0) {
@@ -543,9 +540,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 [tmpReviewers addObject:self.curReviewersInfo.volunteer_reviewers[i]];
             }
             [cell initCellWithReviewers:tmpReviewers];
-            if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_LineNote_FileChange]) {
-                [cell addTipHeadIcon:@"PointLikeHead"];
-            }
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
             return cell;
         }
@@ -656,12 +650,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             vc.curMRPRInfo = _curMRPRInfo;
             vc.curProject = _curProject;
             [self.navigationController pushViewController:vc animated:YES];
-            if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_LineNote_FileChange]) {
-                [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_LineNote_FileChange];
-                [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_LineNote_MRPR];
-                NProjectItemCell *cell = (NProjectItemCell *)[tableView cellForRowAtIndexPath:indexPath];
-                [cell removeTip];
-            }
         } else {
             TaskResourceReferenceViewController *vc = [TaskResourceReferenceViewController new];
             vc.resourceReference = self.resourceReference;

@@ -94,7 +94,7 @@
         return;
     }
     NSString *global_key = [Login curLoginUser].global_key;
-    NSString *tipKey = [NSString stringWithFormat:@"%@_%@_%@", kFunctionTipStr_Prefix, global_key, link];
+    NSString *tipKey = [NSString stringWithFormat:@"%@_%@_%@", kFunctionTipStr_StartLinkPrefix, global_key, link];
     if (![[FunctionTipsManager shareManager] needToTip:tipKey]) {
         return;
     }

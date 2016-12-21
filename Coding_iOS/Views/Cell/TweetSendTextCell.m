@@ -121,11 +121,6 @@
             
             UIButton *atButton = [self toolButtonWithToolBarFrame:keyboardToolBar.frame index:3 imageStr:@"keyboard_at" andSelecter:@selector(atButtonClicked:)];
             [keyboardToolBar addSubview:atButton];
-            
-            
-            if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_TweetTopic]) {
-                [topicButton addBadgePoint:4 withPointPosition:CGPointMake(27, 7)];
-            }
         }
         
         [_footerToolBar addSubview:keyboardToolBar];
@@ -198,13 +193,6 @@
 
 - (void)topicButtonClicked:(id)sender{
     [MobClick event:kUmeng_Event_Request_ActionOfLocal label:@"冒泡_添加_话题"];
-
-    if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_TweetTopic]) {
-        [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_TweetTopic];
-        UIButton *btnTopic = (UIButton *)sender;
-        [btnTopic removeBadgePoint];
-    }
-    
     @weakify(self);
     [CSTopicCreateVC showATSomeoneWithBlock:^(NSString *topicName) {
         @strongify(self);
