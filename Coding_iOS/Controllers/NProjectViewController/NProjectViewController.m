@@ -284,15 +284,6 @@
 
 - (NSString *)p_TipStrForIndexPath:(NSIndexPath *)indexPath{
     NSString *tipStr = nil;
-    if (indexPath.section == 1) {
-        if (!_myProject.is_public.boolValue && indexPath.row == 3) {
-            tipStr = kFunctionTipStr_File_3V;
-        }
-    }else if (indexPath.section == 2){
-        if (indexPath.row == 1) {
-            tipStr = kFunctionTipStr_LineNote_MRPR;
-        }
-    }
     return tipStr;
 }
 

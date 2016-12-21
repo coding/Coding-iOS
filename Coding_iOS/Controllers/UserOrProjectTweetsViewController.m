@@ -82,6 +82,7 @@
     __weak typeof(self) weakSelf = self;
     _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTweet];
     _myMsgInputView.delegate = self;
+    _myMsgInputView.curProject = _curTweets.curPro;
     
     [_myTableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf refreshMore];
@@ -330,6 +331,7 @@
     curTweet.project = _curTweets.curPro;
     TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
     vc.curTweet = curTweet;
+    vc.curProject = _curTweets.curPro;
     __weak typeof(self) weakSelf = self;
     vc.deleteTweetBlock = ^(Tweet *toDeleteTweet){
         [weakSelf.curTweets.list removeObject:toDeleteTweet];

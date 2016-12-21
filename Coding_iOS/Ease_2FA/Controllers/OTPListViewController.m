@@ -95,6 +95,9 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     [super viewDidLoad];
     self.title = @"身份验证器";
     self.authURLs = [[self class] loadKeychainAuthURLs];
+    if (self.authURLs.count <= 0) {
+        [self beginButtonClicked:nil];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{

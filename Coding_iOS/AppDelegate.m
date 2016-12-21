@@ -28,6 +28,8 @@
 #import "PasswordViewController.h"
 #import "IntroductionViewController.h"
 #import "TweetSendViewController.h"
+#import "ProjectToChooseListViewController.h"
+#import "OTPListViewController.h"
 
 #import "FunctionIntroManager.h"
 #import <UMengSocial/UMSocial.h>
@@ -35,6 +37,8 @@
 #import <UMengSocial/UMSocialQQHandler.h>
 #import <evernote-cloud-sdk-ios/ENSDK/ENSDK.h>
 #import "UMSocialSinaSSOHandler.h"
+#import "Coding_NetAPIManager.h"
+#import <EANetworkDiagno/EANetworkDiagno.h>
 
 #import "Tweet.h"
 #import "sys/utsname.h"
@@ -63,14 +67,10 @@
 
 #pragma mark UserAgent
 - (void)registerUserAgent{
-    struct utsname systemInfo;
-    uname(&systemInfo);
-    NSString *deviceString = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
-    NSString *userAgent = [NSString stringWithFormat:@"%@/%@ (%@; iOS %@; Scale/%0.2f)", [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleExecutableKey] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleIdentifierKey], (__bridge id)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey) ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleVersionKey], deviceString, [[UIDevice currentDevice] systemVersion], ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] ? [[UIScreen mainScreen] scale] : 1.0f)];
+    NSString *userAgent = [NSString userAgentStr];
     NSDictionary *dictionary = @{@"UserAgent" : userAgent};//User-Agent
     [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
 }
-
 
 #pragma lifeCycle
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -113,7 +113,6 @@
 //    [[RRFPSBar sharedInstance] setShowsAverage:YES];
 //    [[RRFPSBar sharedInstance] setHidden:NO];
 #endif
-    
     return YES;
 }
 
@@ -205,6 +204,10 @@
 #pragma clang diagnostic pop
         }
     }
+    EADeviceToServerLog *eaM = [EADeviceToServerLog shareManager];
+    eaM.globalKey = [Login curLoginUser].global_key;
+    eaM.userAgentStr = [NSString userAgentStr];
+    [eaM tryToStart];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -423,4 +426,34 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+#pragma mark 3D Touch
+- (void)application:(UIApplication *)application performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void(^)(BOOL succeeded))completionHandler{
+    if ([shortcutItem.type isEqualToString:@"shortcut_2FA"]){
+        OTPListViewController *vc = [OTPListViewController new];
+        [BaseViewController presentVC:vc];
+    }else if (![Login isLogin]) {
+        UIViewController *presentingVC = [BaseViewController presentingVC];
+        if (![presentingVC isKindOfClass:[LoginViewController class]]) {
+            LoginViewController *vc = [[LoginViewController alloc] init];
+            vc.showDismissButton = YES;
+            UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
+            [presentingVC presentViewController:nav animated:YES completion:nil];
+        }
+    }else if ([shortcutItem.type isEqualToString:@"shortcut_task"]) {
+        ProjectToChooseListViewController *chooseVC = [[ProjectToChooseListViewController alloc] init];
+        [BaseViewController goToVC:chooseVC];
+    }else if ([shortcutItem.type isEqualToString:@"shortcut_tweet"]){
+        TweetSendViewController *vc = [[TweetSendViewController alloc] init];
+        vc.sendNextTweet = ^(Tweet *nextTweet){
+            [nextTweet saveSendData];//发送前保存草稿
+            [[Coding_NetAPIManager sharedManager] request_Tweet_DoTweet_WithObj:nextTweet andBlock:^(id data, NSError *error) {
+                if (data) {
+                    [Tweet deleteSendData];//发送成功后删除草稿
+                }
+            }];
+        };
+        [BaseViewController presentVC:vc];
+    }
+    completionHandler(YES);
+}
 @end

@@ -239,9 +239,6 @@
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
         [button setImage:[UIImage imageNamed:@"timeBtn_Nav"] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(navRightBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-        if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_CommitList]) {
-            [button addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(20, 0)];
-        }
         navRightBtn = [[UIBarButtonItem alloc] initWithCustomView:button];
     }
     
@@ -675,10 +672,6 @@
             break;
         case ProjectViewTypeCodes:
         {
-            if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_CommitList]) {
-                [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_CommitList];
-                [self configRightBarButtonItemWithViewType:ProjectViewTypeCodes];
-            }
             //代码提交记录
             ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
             vc.curProject = self.myProject;

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface BaseNavigationController : UINavigationController
-
+- (void)hideNavBottomLine;
+- (void)showNavBottomLine;
 @end

@@ -30,9 +30,18 @@
     }
 }
 
-- (void)hideBorderInView:(UIView *)view{
+- (void)hideNavBottomLine{
+    [self hideBorderInView:self.navigationBar];
+    if (_navLineV) {
+        _navLineV.hidden = YES;
+    }
+}
 
-    
+- (void)showNavBottomLine{
+    _navLineV.hidden = NO;
+}
+
+- (void)hideBorderInView:(UIView *)view{
     if ([view isKindOfClass:[UIImageView class]]
         && view.frame.size.height <= 1) {
         view.hidden = YES;

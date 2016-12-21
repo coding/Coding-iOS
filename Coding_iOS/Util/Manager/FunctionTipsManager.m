@@ -32,21 +32,7 @@ static NSString *kFunctionTipStr_Version = @"version";
         if (![[_tipsDict valueForKey:@"version"] isEqualToString:kVersionBuild_Coding]) {
             _tipsDict = [@{kFunctionTipStr_Version: kVersionBuild_Coding,
                            //Function Need To Tip
-                           kFunctionTipStr_File_3V: @(YES),
-//                           kFunctionTipStr_MR: @(YES),
-//                           kFunctionTipStr_PR: @(YES),
-//                           kFunctionTipStr_ReadMe: @(YES),
-//                           kFunctionTipStr_CommitList: @(YES),
-//                           kFunctionTipStr_Search: @(YES),
-//                           kFunctionTipStr_HotTopic: @(YES),
-//                           kFunctionTipStr_TweetTopic: @(YES),
-//                           kFunctionTipStr_VoiceMessage: @(YES),
-//                           kFunctionTipStr_File_2V: @(YES),
-//                           kFunctionTipStr_File_2V_Activity: @(YES),
-//                           kFunctionTipStr_File_2V_Version: @(YES),
-//                           kFunctionTipStr_LineNote_MRPR: @(YES),
-//                           kFunctionTipStr_LineNote_FileChange: @(YES),
-//                           kFunctionTipStr_Me_Points: @(YES),
+//                           kFunctionTipStr_File_3V: @(YES),
                            } mutableCopy];
             [_tipsDict writeToFile:[self p_cacheFilePath] atomically:YES];
         }
@@ -64,7 +50,7 @@ static NSString *kFunctionTipStr_Version = @"version";
 - (BOOL)needToTip:(NSString *)functionStr{
     NSNumber *needToTip = [_tipsDict valueForKey:functionStr];
     if (!needToTip) {
-        return [functionStr hasPrefix:kFunctionTipStr_Prefix];
+        return [functionStr hasPrefix:kFunctionTipStr_StartLinkPrefix];
     }else{
         return needToTip.boolValue;
     }

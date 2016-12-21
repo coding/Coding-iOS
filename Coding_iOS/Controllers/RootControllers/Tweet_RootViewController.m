@@ -148,14 +148,7 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    
-    UIButton *leftItemView = (UIButton *)self.parentViewController.navigationItem.leftBarButtonItem.customView;
-    if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Search]) {
-        [leftItemView addBadgePoint:4 withPointPosition:CGPointMake(25, 0)];
-    }
-    
     [self refreshFirst];
-
     //    键盘
     if (_myMsgInputView) {
         [_myMsgInputView prepareToShow];
