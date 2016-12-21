@@ -1612,6 +1612,8 @@
 }
 
 - (void)request_tasks_searchWithUserId:(NSString *)userId role:(TaskRoleType )role project_id:(NSString *)project_id andBlock:(void (^)(id data, NSError *error))block {
+    
+    /*
     NSMutableDictionary *param = @{@"page": @(1), @"pageSize": @(1)}.mutableCopy;
     if (userId != nil) {
         [param setValue:userId forKey:@"owner"];
@@ -1625,8 +1627,25 @@
         [param setValue:[Login curLoginUser].id.stringValue forKey:roleArray[role]];
         
     }
+     */
+    NSString *urlStr;
+    NSDictionary *param;
+    if (userId == nil) { //无成员时
+        if (role == TaskRoleTypeWatcher || role == TaskRoleTypeCreator) { //创建和关注
+            urlStr = [NSString stringWithFormat:@"api/project/%@/tasks/counts", project_id];
+        } else { //全部任务
+            urlStr = [NSString stringWithFormat:@"api/project/%@/task/count", project_id];
+        }
+    } else { //有成员时
+        if (role == TaskRoleTypeWatcher || role == TaskRoleTypeCreator) { //创建和关注
+            urlStr = [NSString stringWithFormat:@"api/project/%@/user/%@/tasks/counts", project_id, userId];
+        } else {
+            urlStr = @"api/tasks/search";
+            param = @{@"owner": userId, @"project_id": project_id};
+        }
+    }
     
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/tasks/search" withParams:param withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:urlStr withParams:param withMethodType:Get andBlock:^(id data, NSError *error) {
         
         if (data) {
             block(data, nil);
@@ -1636,23 +1655,22 @@
     }];
 }
 
-- (void)request_projects_tasks_labelsWithRole:(TaskRoleType)role projectId:(NSString *)projectId projectName:(NSString *)projectName memberId:(NSString *)memberId andBlock:(void (^)(id data, NSError *error))block {
-    NSString *roleStr;
+- (void)request_projects_tasks_labelsWithRole:(TaskRoleType)role projectId:(NSString *)projectId projectName:(NSString *)projectName memberId:(NSString *)memberId owner_user_name:(NSString *)owner_user_name andBlock:(void (^)(id data, NSError *error))block {
+    NSDictionary *param;
     NSArray *roleArray = @[@"owner", @"watcher", @"creator"];
     if (role < roleArray.count) {
-        roleStr = roleArray[role];
+        param = @{@"role": roleArray[role]};
     }
     NSString *urlStr;
-    NSDictionary *param;
-    if (projectId != nil && memberId != nil) {
+    if (projectId != nil && memberId != nil) { //有成员
          urlStr = [NSString stringWithFormat:@"api/project/%@/user/%@/tasks/labels", projectId, memberId];
-        param = @{@"role": roleStr};
+        
     } else {
         if (role == TaskRoleTypeWatcher || role == TaskRoleTypeCreator) {
             urlStr = [NSString stringWithFormat:@"api/project/%@/tasks/labels", projectId];
-            param = @{@"role": roleStr};
+
         } else {
-            urlStr = [NSString stringWithFormat:@"api/user/%@/project/%@/task/label?withCount=true", [Login curLoginUser].global_key, projectName];
+            urlStr = [NSString stringWithFormat:@"api/user/%@/project/%@/task/label?withCount=true", owner_user_name, projectName];
         }
     }
     

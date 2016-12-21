@@ -763,8 +763,16 @@
     __weak typeof(self) weakSelf = self;
     
     [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:_userId role:TaskRoleTypeAll project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
-        NSInteger ownerDone = [data[@"data"][@"finished"] integerValue];
-        NSInteger ownerProcessing = [data[@"data"][@"processing"] integerValue];
+        NSInteger ownerDone, ownerProcessing;
+       
+        
+        if (_userId == nil) {
+            ownerDone = [data[@"data"][@"done"] integerValue];
+            ownerProcessing = [data[@"data"][@"processing"] integerValue];
+        } else {
+            ownerDone = [data[@"data"][@"finished"] integerValue];
+            ownerProcessing = [data[@"data"][@"processing"] integerValue];
+        }
         
         weakSelf.myFliterMenu.items = @[[NSString stringWithFormat:@"所有任务（%ld）", ownerDone + ownerProcessing],
                                         weakSelf.myFliterMenu.items[1],
@@ -779,74 +787,33 @@
     }];
     
     [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:_userId role:TaskRoleTypeWatcher project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
-        NSInteger watcherDone = [data[@"data"][@"finished"] integerValue];
-        NSInteger watcherProcessing = [data[@"data"][@"processing"] integerValue];
+        NSInteger watcherDone = [data[@"data"][@"watcherDone"] integerValue];
+        NSInteger watcherProcessing = [data[@"data"][@"watcherProcessing"] integerValue];
+        NSInteger creatorDone = [data[@"data"][@"creatorDone"] integerValue];
+        NSInteger creatorProcessing = [data[@"data"][@"creatorProcessing"] integerValue];
         
         weakSelf.myFliterMenu.items = @[weakSelf.myFliterMenu.items[0],
                                         [NSString stringWithFormat:@"我关注的（%ld）", watcherDone + watcherProcessing],
-                                        weakSelf.myFliterMenu.items[2]
+                                        [NSString stringWithFormat:@"我创建的（%ld）", creatorDone + creatorProcessing]
                                         ];
         if (_role == TaskRoleTypeWatcher) {
             weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", watcherProcessing],
                                               [NSString stringWithFormat:@"已完成的（%ld）", watcherDone]
                                               ];
         }
-
-    }];
-
-    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:_userId role:TaskRoleTypeCreator project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
-        NSInteger creatorDone = [data[@"data"][@"finished"] integerValue];
-        NSInteger creatorProcessing = [data[@"data"][@"processing"] integerValue];
         
-        weakSelf.myFliterMenu.items = @[weakSelf.myFliterMenu.items[0],
-                                        weakSelf.myFliterMenu.items[1],
-                                        [NSString stringWithFormat:@"我创建的（%ld）", creatorDone + creatorProcessing]
-                                        ];
         if (_role == TaskRoleTypeCreator) {
             weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", creatorProcessing],
                                               [NSString stringWithFormat:@"已完成的（%ld）", creatorDone]
                                               ];
         }
 
-
     }];
-
-    return;
-    [[Coding_NetAPIManager sharedManager] request_project_user_tasks_countsWithProjectId:_myProject.id.stringValue memberId:_userId andBlock:^(id data, NSError *error) {
-        NSInteger ownerDone = [data[@"data"][@"ownerDone"] integerValue];
-        NSInteger ownerProcessing = [data[@"data"][@"ownerProcessing"] integerValue];
-        
-        NSInteger watcherDone = [data[@"data"][@"watcherDone"] integerValue];
-        NSInteger watcherProcessing = [data[@"data"][@"watcherProcessing"] integerValue];
-        
-        NSInteger creatorDone = [data[@"data"][@"creatorDone"] integerValue];
-        NSInteger creatorProcessing = [data[@"data"][@"creatorProcessing"] integerValue];
-        
-        
-        weakSelf.myFliterMenu.items = @[[NSString stringWithFormat:@"所有任务（%ld）", ownerDone + ownerProcessing],
-                                        [NSString stringWithFormat:@"我关注的（%ld）", watcherDone + watcherProcessing],
-                                        [NSString stringWithFormat:@"我创建的（%ld）", creatorDone + creatorProcessing]
-                                        ];
-        if (weakSelf.role == TaskRoleTypeWatcher) {
-            ownerProcessing = watcherProcessing;
-            ownerDone = watcherDone;
-        }
-        
-        if (weakSelf.role == TaskRoleTypeCreator) {
-            ownerProcessing = creatorProcessing;
-            ownerDone = creatorDone;
-        }
-        
-        weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", ownerProcessing],
-                                          [NSString stringWithFormat:@"已完成的（%ld）", ownerDone]
-                                          ];
-    }];
-    
 }
 
 - (void)loadTasksLabels {
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_projects_tasks_labelsWithRole:_role projectId:_myProject.id.stringValue projectName:_myProject.name memberId:_userId andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_projects_tasks_labelsWithRole:_role projectId:_myProject.id.stringValue projectName:_myProject.name memberId:_userId owner_user_name:_myProject.owner_user_name andBlock:^(id data, NSError *error) {
         if (data != nil) {
             weakSelf.screenView.labels = data;
         }

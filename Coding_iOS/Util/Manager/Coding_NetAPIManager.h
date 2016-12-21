@@ -172,7 +172,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_project_task_countWithProjectId:(NSString *)projectId andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_project_user_tasks_countsWithProjectId:(NSString *)projectId memberId:(NSString *)memberId andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_tasks_searchWithUserId:(NSString *)userId role:(TaskRoleType )role project_id:(NSString *)project_id andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_projects_tasks_labelsWithRole:(TaskRoleType)role projectId:(NSString *)projectId projectName:(NSString *)projectName memberId:(NSString *)memberId andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_projects_tasks_labelsWithRole:(TaskRoleType)role projectId:(NSString *)projectId projectName:(NSString *)projectName memberId:(NSString *)memberId owner_user_name:(NSString *)owner_user_name andBlock:(void (^)(id data, NSError *error))block;
 
 
 #pragma mark - User

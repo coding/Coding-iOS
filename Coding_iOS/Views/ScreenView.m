@@ -75,7 +75,7 @@
     } else {
         ScreenCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ScreenCell forIndexPath:indexPath];
         cell.color = _labels[indexPath.row - _tastArray.count][@"color"];
-        cell.title = _labels[indexPath.row - _tastArray.count][@"name"];
+        cell.title = [NSString stringWithFormat:@"%@（%@/%@）", _labels[indexPath.row - _tastArray.count][@"name"], _labels[indexPath.row - _tastArray.count][@"processing"], _labels[indexPath.row - _tastArray.count][@"count"]];
         cell.isSel = indexPath.row == _selectNum;
 
         return cell;
@@ -206,6 +206,8 @@
 - (void)show {
     _searchBar.text = _keyword;
     _mainView.x = kScreen_Width - KMainLeftWith;
+     self.backgroundColor = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:.5];
+    
     self.hidden = NO;
     [UIView animateWithDuration:.3 animations:^{
         self.alpha = 1;
