@@ -760,53 +760,86 @@
 - (void)resetTaskCount {
     __weak typeof(self) weakSelf = self;
     
-    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:_userId role:TaskRoleTypeAll project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
-        NSInteger ownerDone, ownerProcessing;
-       
+    if (_userId != nil) {
         
-        if (_userId == nil) {
+        [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:_userId role:TaskRoleTypeAll project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
+            NSInteger ownerDone = [data[@"data"][@"memberDone"] integerValue];
+            NSInteger ownerProcessing = [data[@"data"][@"memberProcessing"] integerValue];
+            NSInteger watcherDone = [data[@"data"][@"watcherDone"] integerValue];
+            NSInteger watcherProcessing = [data[@"data"][@"watcherProcessing"] integerValue];
+            NSInteger creatorDone = [data[@"data"][@"creatorDone"] integerValue];
+            NSInteger creatorProcessing = [data[@"data"][@"creatorProcessing"] integerValue];
+         
+             weakSelf.myFliterMenu.items = @[[NSString stringWithFormat:@"所有任务（%ld）", ownerDone + ownerProcessing],
+                                             [NSString stringWithFormat:@"我关注的（%ld）", ownerDone + ownerProcessing],
+                                             [NSString stringWithFormat:@"我创建的（%ld）", ownerDone + ownerProcessing]
+                                             ];
+             if (_role == TaskRoleTypeAll) {
+                 weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", ownerProcessing],
+                                                   [NSString stringWithFormat:@"已完成的（%ld）", ownerDone]
+                                                   ];
+             }
+        
+            if (_role == TaskRoleTypeWatcher) {
+                weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", watcherProcessing],
+                                                  [NSString stringWithFormat:@"已完成的（%ld）", watcherDone]
+                                                  ];
+            }
+            
+            if (_role == TaskRoleTypeCreator) {
+                weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", creatorProcessing],
+                                                  [NSString stringWithFormat:@"已完成的（%ld）", creatorDone]
+                                                  ];
+            }
+
+         
+         }];
+
+    } else {
+        [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:nil role:TaskRoleTypeAll project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
+            NSInteger ownerDone, ownerProcessing;
+            
+            
             ownerDone = [data[@"data"][@"done"] integerValue];
             ownerProcessing = [data[@"data"][@"processing"] integerValue];
-        } else {
-            ownerDone = [data[@"data"][@"finished"] integerValue];
-            ownerProcessing = [data[@"data"][@"processing"] integerValue];
-        }
+            
+            weakSelf.myFliterMenu.items = @[[NSString stringWithFormat:@"所有任务（%ld）", ownerDone + ownerProcessing],
+                                            weakSelf.myFliterMenu.items[1],
+                                            weakSelf.myFliterMenu.items[2]
+                                            ];
+            if (_role == TaskRoleTypeAll) {
+                weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", ownerProcessing],
+                                                  [NSString stringWithFormat:@"已完成的（%ld）", ownerDone]
+                                                  ];
+            }
+            
+        }];
         
-        weakSelf.myFliterMenu.items = @[[NSString stringWithFormat:@"所有任务（%ld）", ownerDone + ownerProcessing],
-                                        weakSelf.myFliterMenu.items[1],
-                                        weakSelf.myFliterMenu.items[2]
-                                        ];
-        if (_role == TaskRoleTypeAll) {
-            weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", ownerProcessing],
-                                              [NSString stringWithFormat:@"已完成的（%ld）", ownerDone]
-                                              ];
-        }
+        [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:nil role:TaskRoleTypeWatcher project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
+            NSInteger watcherDone = [data[@"data"][@"watcherDone"] integerValue];
+            NSInteger watcherProcessing = [data[@"data"][@"watcherProcessing"] integerValue];
+            NSInteger creatorDone = [data[@"data"][@"creatorDone"] integerValue];
+            NSInteger creatorProcessing = [data[@"data"][@"creatorProcessing"] integerValue];
+            
+            weakSelf.myFliterMenu.items = @[weakSelf.myFliterMenu.items[0],
+                                            [NSString stringWithFormat:@"我关注的（%ld）", watcherDone + watcherProcessing],
+                                            [NSString stringWithFormat:@"我创建的（%ld）", creatorDone + creatorProcessing]
+                                            ];
+            if (_role == TaskRoleTypeWatcher) {
+                weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", watcherProcessing],
+                                                  [NSString stringWithFormat:@"已完成的（%ld）", watcherDone]
+                                                  ];
+            }
+            
+            if (_role == TaskRoleTypeCreator) {
+                weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", creatorProcessing],
+                                                  [NSString stringWithFormat:@"已完成的（%ld）", creatorDone]
+                                                  ];
+            }
+            
+        }];
 
-    }];
-    
-    [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:_userId role:TaskRoleTypeWatcher project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {
-        NSInteger watcherDone = [data[@"data"][@"watcherDone"] integerValue];
-        NSInteger watcherProcessing = [data[@"data"][@"watcherProcessing"] integerValue];
-        NSInteger creatorDone = [data[@"data"][@"creatorDone"] integerValue];
-        NSInteger creatorProcessing = [data[@"data"][@"creatorProcessing"] integerValue];
-        
-        weakSelf.myFliterMenu.items = @[weakSelf.myFliterMenu.items[0],
-                                        [NSString stringWithFormat:@"我关注的（%ld）", watcherDone + watcherProcessing],
-                                        [NSString stringWithFormat:@"我创建的（%ld）", creatorDone + creatorProcessing]
-                                        ];
-        if (_role == TaskRoleTypeWatcher) {
-            weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", watcherProcessing],
-                                              [NSString stringWithFormat:@"已完成的（%ld）", watcherDone]
-                                              ];
-        }
-        
-        if (_role == TaskRoleTypeCreator) {
-            weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", creatorProcessing],
-                                              [NSString stringWithFormat:@"已完成的（%ld）", creatorDone]
-                                              ];
-        }
-
-    }];
+    }
 }
 
 - (void)loadTasksLabels {

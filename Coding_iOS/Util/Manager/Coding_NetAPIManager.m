@@ -1613,21 +1613,6 @@
 
 - (void)request_tasks_searchWithUserId:(NSString *)userId role:(TaskRoleType )role project_id:(NSString *)project_id andBlock:(void (^)(id data, NSError *error))block {
     
-    /*
-    NSMutableDictionary *param = @{@"page": @(1), @"pageSize": @(1)}.mutableCopy;
-    if (userId != nil) {
-        [param setValue:userId forKey:@"owner"];
-    }
-    if (project_id != nil) {
-        [param setValue:project_id forKey:@"project_id"];
-    }
-    
-    NSArray *roleArray = @[@"owner", @"watcher", @"creator"];
-    if (role < roleArray.count) {
-        [param setValue:[Login curLoginUser].id.stringValue forKey:roleArray[role]];
-        
-    }
-     */
     NSString *urlStr;
     NSDictionary *param;
     if (userId == nil) { //无成员时
@@ -1637,12 +1622,8 @@
             urlStr = [NSString stringWithFormat:@"api/project/%@/task/count", project_id];
         }
     } else { //有成员时
-        if (role == TaskRoleTypeWatcher || role == TaskRoleTypeCreator) { //创建和关注
-            urlStr = [NSString stringWithFormat:@"api/project/%@/user/%@/tasks/counts", project_id, userId];
-        } else {
-            urlStr = @"api/tasks/search";
-            param = @{@"owner": userId, @"project_id": project_id};
-        }
+        urlStr = [NSString stringWithFormat:@"api/project/%@/user/%@/tasks/counts", project_id, userId];
+
     }
     
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:urlStr withParams:param withMethodType:Get andBlock:^(id data, NSError *error) {
