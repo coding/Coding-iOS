@@ -91,6 +91,8 @@
 
 - (void)setTasks:(Tasks *)tasks{
     if (_myTasks != tasks) {
+        self.userId = tasks.owner.id.stringValue;
+        self.project_id = tasks.project.id.stringValue;
         self.myTasks = tasks;
         [_myTableView reloadData];
         [_myTableView.infiniteScrollingView stopAnimating];

@@ -106,7 +106,7 @@
         if (_role == TaskRoleTypeOwner) {
             _role = TaskRoleTypeAll;
         }
-        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks project_id:_project_id keyword:_keyword status:_status label:_label userId:_userId role:_role block:_block tabBarHeight:0];
+        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks project_id:_project_id keyword:_keyword status:_status label:_label userId:curTasks.owner.id.stringValue role:_role block:_block tabBarHeight:0];
     }
     [listView setSubScrollsToTop:(index == carousel.currentItemIndex)];
     return listView;
@@ -124,7 +124,7 @@
     if (_mySegmentControl) {
         _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
-    NSInteger index = carousel.scrollOffset;
+    NSInteger index = carousel.currentItemIndex;
     NSString *userId = nil;
     if (index != 0) {
         userId = ((ProjectMember *)_myMemberList[index]).user_id.stringValue;

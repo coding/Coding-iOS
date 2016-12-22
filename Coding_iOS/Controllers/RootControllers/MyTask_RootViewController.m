@@ -294,7 +294,7 @@
         [listView setTasks:curTasks];
     }else{
         __weak typeof(self) weakSelf = self;
-        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks project_id:_project_id keyword:_keyword status:_status label:_label userId:nil role:_role block:^(ProjectTaskListView *taskListView, Task *task) {
+        listView = [[ProjectTaskListView alloc] initWithFrame:carousel.bounds tasks:curTasks project_id:curTasks.project.id.stringValue keyword:_keyword status:_status label:_label userId:nil role:_role block:^(ProjectTaskListView *taskListView, Task *task) {
             EditTaskViewController *vc = [[EditTaskViewController alloc] init];
             vc.myTask = task;
             vc.taskChangedBlock = ^(){
@@ -320,7 +320,7 @@
         _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
     ProjectTaskListView *curView = (ProjectTaskListView *)carousel.currentItemView;
-    NSInteger index = carousel.scrollOffset;
+    NSInteger index = carousel.currentItemIndex;
     if (index == 0) {
         _project_id = nil;
     } else {
