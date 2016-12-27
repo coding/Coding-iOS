@@ -82,7 +82,7 @@
     });
     
     UIBarButtonItem *addBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)];
-     UIBarButtonItem *screenBar = [self HDCustomNavButtonWithTitle:nil imageName:@"a1-screen" target:self action:@selector(screenItemClicked:)];
+     UIBarButtonItem *screenBar = [self HDCustomNavButtonWithTitle:nil imageName:@"task_filter_nav_unchecked" target:self action:@selector(screenItemClicked:)];
     self.navigationItem.rightBarButtonItems = @[addBar, screenBar];
     
     
@@ -109,12 +109,12 @@
                                       [NSString stringWithFormat:@"已完成的（0）"]
                                       ];
     _screenView.selectBlock = ^(NSString *keyword, NSString *status, NSString *label) {
-        [((UIButton *)screenBar.customView) setImage:[UIImage imageNamed:@"a1-hasScreen"] forState:UIControlStateNormal];
+        [((UIButton *)screenBar.customView) setImage:[UIImage imageNamed:@"task_filter_nav_checked"] forState:UIControlStateNormal];
         weakSelf.keyword = keyword;
         weakSelf.status = status;
         weakSelf.label = label;
         if (keyword == nil && status == nil && label == nil) {
-            [((UIButton *)screenBar.customView) setImage:[UIImage imageNamed:@"a1-screen"] forState:UIControlStateNormal];
+            [((UIButton *)screenBar.customView) setImage:[UIImage imageNamed:@"task_filter_nav_unchecked"] forState:UIControlStateNormal];
 
         }
         ProjectTaskListView *listView = (ProjectTaskListView *)weakSelf.myCarousel.currentItemView;

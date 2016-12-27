@@ -44,7 +44,7 @@
     _titleLab.sd_layout.leftSpaceToView(self.contentView, 20).topSpaceToView(self.contentView, 15).bottomSpaceToView(self.contentView, 15).widthIs(200);
     
     _selImageView = [[UIImageView alloc] init];
-    _selImageView.image = [UIImage imageNamed:@"a1-select"];
+    _selImageView.image = [UIImage imageNamed:@"task_filter_checkIcon"];
     [self.contentView addSubview:_selImageView];
     _selImageView.hidden = YES;
     _selImageView.sd_layout.rightSpaceToView(self.contentView, 20).centerYEqualToView(self.contentView).widthIs(20).heightIs(21);

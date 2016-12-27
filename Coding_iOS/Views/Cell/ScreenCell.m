@@ -41,13 +41,13 @@
     self.backgroundColor=[UIColor clearColor];
     
     _tagButton = [[UIButton alloc] init];
-    UIImage *image = [[UIImage imageNamed:@"a1-tag"] imageWithRenderingMode:(UIImageRenderingModeAlwaysTemplate)];
+    UIImage *image = [[UIImage imageNamed:@"task_filter_tag"] imageWithRenderingMode:(UIImageRenderingModeAlwaysTemplate)];
     [_tagButton setImage:image forState:UIControlStateNormal];
     [self.contentView addSubview:_tagButton];
     _tagButton.sd_layout.leftSpaceToView(self.contentView, 20).centerYEqualToView(self.contentView).widthIs(15).heightIs(15);
 
     _selImageView = [[UIImageView alloc] init];
-    _selImageView.image = [UIImage imageNamed:@"a1-select"];
+    _selImageView.image = [UIImage imageNamed:@"task_filter_checkIcon"];
     [self.contentView addSubview:_selImageView];
     _selImageView.hidden = YES;
     _selImageView.sd_layout.rightSpaceToView(self.contentView, 20).centerYEqualToView(self.contentView).widthIs(20).heightIs(21);

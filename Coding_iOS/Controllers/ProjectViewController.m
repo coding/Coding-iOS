@@ -150,12 +150,12 @@
                                           ];
         
         _screenView.selectBlock = ^(NSString *keyword, NSString *status, NSString *label) {
-            [((UIButton *)weakSelf.screenBar.customView) setImage:[UIImage imageNamed:@"a1-hasScreen"] forState:UIControlStateNormal];
+            [((UIButton *)weakSelf.screenBar.customView) setImage:[UIImage imageNamed:@"task_filter_nav_checked"] forState:UIControlStateNormal];
             weakSelf.keyword = keyword;
             weakSelf.status = status;
             weakSelf.label = label;
             if (keyword == nil && status == nil && label == nil) {
-                [((UIButton *)weakSelf.screenBar.customView) setImage:[UIImage imageNamed:@"a1-screen"] forState:UIControlStateNormal];
+                [((UIButton *)weakSelf.screenBar.customView) setImage:[UIImage imageNamed:@"task_filter_nav_unchecked"] forState:UIControlStateNormal];
                 
             }
             UIView *curView = [weakSelf getCurContentView];
@@ -243,7 +243,7 @@
     }
     
     if (ProjectViewTypeTasks == viewType) {
-        UIBarButtonItem *screenBar = [self HDCustomNavButtonWithTitle:nil imageName:@"a1-screen" target:self action:@selector(screenItemClicked:)];
+        UIBarButtonItem *screenBar = [self HDCustomNavButtonWithTitle:nil imageName:@"task_filter_nav_unchecked" target:self action:@selector(screenItemClicked:)];
         self.navigationItem.rightBarButtonItems = @[navRightBtn, screenBar];
         _screenBar = screenBar;
     } else {
