@@ -7488,7 +7488,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 34E37865A7DAAE68AEF68258 /* Pods-Coding_iOS.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconTemp;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Coding_iOS/Coding_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -7533,7 +7533,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2FD5D8DD0689696D28A6D49E /* Pods-Coding_iOS.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconTemp;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Coding_iOS/Coding_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
