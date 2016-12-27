@@ -2,6 +2,9 @@
 ### Coding_iOS客户端项目介绍 
 *编译环境：Xcode-Version 8.0 (8A218a)*
 #### 让项目跑起来先
+
+项目里用到了 [CocoaPods](http://cocoapods.org/) 和 [Carthage](https://github.com/Carthage/Carthage)，如果没有安装的话，需要先自行安装。
+
 Clone 代码后，初次执行前，需要双击运行根目录下的`bootstrap`脚本。这个过程涉及到下载依赖，可能会有点久，需耐心等待。
 
 **Tip：由于用到了 submodule，所以必需要把 git 仓库 clone 到本地，而不是只点击‘下载’按钮下载 zip 文件！！！**

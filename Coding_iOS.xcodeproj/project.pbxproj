@@ -6075,7 +6075,7 @@
 				TargetAttributes = {
 					8E47700F198770E700997D05 = {
 						DevelopmentTeam = QN5Z87S3LH;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -7522,8 +7522,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingForiOS;
 				PRODUCT_NAME = Coding_iOS;
-				PROVISIONING_PROFILE = "be6f231e-a327-4eda-b2f8-e10bd66906aa";
-				PROVISIONING_PROFILE_SPECIFIER = CodingForiOS_Dev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -7537,7 +7537,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Coding_iOS/Coding_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = QN5Z87S3LH;
 				ENABLE_BITCODE = NO;
@@ -7567,8 +7567,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingForiOS;
 				PRODUCT_NAME = Coding_iOS;
-				PROVISIONING_PROFILE = "8e2cf693-fbb5-4c88-8e37-9092e436e66d";
-				PROVISIONING_PROFILE_SPECIFIER = CodingForiOS_Pro;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
