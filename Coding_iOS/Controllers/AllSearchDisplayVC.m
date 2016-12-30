@@ -252,7 +252,7 @@
 
 
     }else{
-        _historyHeight = 240;
+        _historyHeight = kScreen_Height - 236 - 64;
         //set history list
         [_searchHistoryView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(@0);
@@ -261,9 +261,14 @@
             make.height.mas_equalTo(_historyHeight);
         }];
         _searchHistoryView.contentSize = CGSizeMake(kScreen_Width, _historyHeight);
-        CGFloat tipVWidth = 180;
+        CGFloat designScale = (kScreen_Width/ 375);
+        CGFloat tipVWidth = 210 * designScale;
+        CGFloat imageWidth = 24 * designScale;
+        CGFloat paddingWidth = MAX(0, (tipVWidth - 4* imageWidth)/ 3);
+        CGFloat fontSize = 13 * designScale;
+
         UIView *tipV = [UIView new];
-        UILabel *titleL = [UILabel labelWithSystemFontSize:14 textColorHexString:@"0x999999"];
+        UILabel *titleL = [UILabel labelWithSystemFontSize:15 * designScale textColorHexString:@"0x999999"];
         titleL.text = @"搜索更多内容";
         UIView *lineV = [UIView new];
         lineV.backgroundColor = kColorDDD;
@@ -279,17 +284,15 @@
             make.height.mas_equalTo(1);
         }];
         NSArray *imageArray = @[@"project", @"task", @"topic", @"tweet", @"file", @"user", @"mr", @"pr"];
-        CGFloat imageWidth = 20;
-        CGFloat paddingWidth = (tipVWidth - 4* 20)/ 3;
         for (int index = 0; index < self.titlesArray.count && index < imageArray.count; index++) {
             UIImageView *imageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"search_icon_%@", imageArray[index]]]];
-            UILabel *label = [UILabel labelWithSystemFontSize:11 textColorHexString:@"0x999999"];
+            UILabel *label = [UILabel labelWithSystemFontSize:fontSize textColorHexString:@"0x999999"];
             label.text = self.titlesArray[index];
             [tipV addSubview:imageV];
             [tipV addSubview:label];
             [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(imageWidth, imageWidth));
-                make.top.equalTo(lineV.mas_bottom).offset(20 + 65 * (index / 4));
+                make.top.equalTo(lineV.mas_bottom).offset(20 + (imageWidth + 45) * (index / 4));
                 make.left.equalTo(tipV).offset((paddingWidth + imageWidth) * (index % 4));
             }];
             [label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -303,8 +306,6 @@
             make.left.equalTo(_searchHistoryView).offset((kScreen_Width - tipVWidth)/ 2);
             make.size.mas_equalTo(CGSizeMake(tipVWidth, _historyHeight));
         }];
-//        tipV.backgroundColor = [UIColor yellowColor];
-        
     }
 }
 

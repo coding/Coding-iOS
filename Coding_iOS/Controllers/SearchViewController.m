@@ -50,7 +50,7 @@
 //基础化UI布局
 -(void)buildUI{
     _mySearchBar = ({
-        CategorySearchBar *searchBar = [[CategorySearchBar alloc] initWithFrame:CGRectMake(20, 7, kScreen_Width-75, 31)];
+        CategorySearchBar *searchBar = [[CategorySearchBar alloc] initWithFrame:CGRectMake(20, 7, kScreen_Width-(80 * kScreen_Width / 375), 31)];
         [searchBar setPlaceholder:@" 搜索"];
         searchBar;
     });
@@ -58,7 +58,7 @@
         _searchDisplayVC = ({
             AllSearchDisplayVC *searchVC = [[AllSearchDisplayVC alloc] initWithSearchBar:_mySearchBar contentsController:self];
             //uisearchbar 需要重新调整下大小
-            searchVC.searchBar.frame = CGRectMake(20, 7, kScreen_Width-75, 31);
+            searchVC.searchBar.frame = CGRectMake(20, 7, kScreen_Width-(80 * kScreen_Width / 375), 31);
             searchVC.displaysSearchBarInNavigationBar = NO;
             searchVC.parentVC = self;
             searchVC.delegate = self;
