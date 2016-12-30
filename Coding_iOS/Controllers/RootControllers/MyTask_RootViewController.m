@@ -236,21 +236,10 @@
 }
 
 - (void)configSegmentControlWithData:(Projects *)freshProjects {
-
-    BOOL dataHasChanged = NO;
-    for (Project *freshPro in freshProjects.list) {
-        BOOL hasFreshPro = NO;
-        for (Project *oldPro in self.myProjectList) {
-            if (freshPro.id.integerValue == oldPro.id.integerValue) {
-                hasFreshPro = YES;
-                break;
-            }
-        }
-        if (!hasFreshPro) {
-            dataHasChanged = YES;
-            break;
-        }
-    }
+    NSMutableSet *oldProSet = [[NSSet alloc] initWithArray:[self.myProjectList valueForKey:@"id"]].mutableCopy;
+    NSMutableSet *freshProSet = [[NSSet alloc] initWithArray:[freshProjects.list valueForKey:@"id"]].mutableCopy;
+    [oldProSet removeObject:@(-1)];//代表「全部项目」的 id 号
+    BOOL dataHasChanged = ![oldProSet isEqualToSet:freshProSet];
     
     if (dataHasChanged) {
         self.myProjectList = [[NSMutableArray alloc] initWithObjects:[Project project_All], nil];
