@@ -437,20 +437,27 @@
             UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
             [presentingVC presentViewController:nav animated:YES completion:nil];
         }
-    }else if ([shortcutItem.type isEqualToString:@"shortcut_task"]) {
-        ProjectToChooseListViewController *chooseVC = [[ProjectToChooseListViewController alloc] init];
-        [BaseViewController goToVC:chooseVC];
-    }else if ([shortcutItem.type isEqualToString:@"shortcut_tweet"]){
-        TweetSendViewController *vc = [[TweetSendViewController alloc] init];
-        vc.sendNextTweet = ^(Tweet *nextTweet){
-            [nextTweet saveSendData];//发送前保存草稿
-            [[Coding_NetAPIManager sharedManager] request_Tweet_DoTweet_WithObj:nextTweet andBlock:^(id data, NSError *error) {
-                if (data) {
-                    [Tweet deleteSendData];//发送成功后删除草稿
-                }
-            }];
-        };
-        [BaseViewController presentVC:vc];
+    }else{
+        if ([kKeyWindow.rootViewController isKindOfClass:[RootTabViewController class]]) {
+            RootTabViewController *vc = (RootTabViewController *)kKeyWindow.rootViewController;
+            vc.selectedIndex = ([shortcutItem.type isEqualToString:@"shortcut_task"]? 1:
+                                2);
+        }
+        if ([shortcutItem.type isEqualToString:@"shortcut_task"]) {
+            ProjectToChooseListViewController *chooseVC = [[ProjectToChooseListViewController alloc] init];
+            [BaseViewController goToVC:chooseVC];
+        }else if ([shortcutItem.type isEqualToString:@"shortcut_tweet"]){
+            TweetSendViewController *vc = [[TweetSendViewController alloc] init];
+            vc.sendNextTweet = ^(Tweet *nextTweet){
+                [nextTweet saveSendData];//发送前保存草稿
+                [[Coding_NetAPIManager sharedManager] request_Tweet_DoTweet_WithObj:nextTweet andBlock:^(id data, NSError *error) {
+                    if (data) {
+                        [Tweet deleteSendData];//发送成功后删除草稿
+                    }
+                }];
+            };
+            [BaseViewController presentVC:vc];
+        }
     }
     completionHandler(YES);
 }
