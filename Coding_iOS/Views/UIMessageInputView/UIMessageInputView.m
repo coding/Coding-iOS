@@ -998,9 +998,8 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 
 - (void)emojiKeyBoardView:(AGEmojiKeyboardView *)emojiKeyBoardView didUseEmoji:(NSString *)emoji {
 
-    NSString *emotion_monkey = [emoji emotionMonkeyName];
+    NSString *emotion_monkey = [emoji emotionSpecailName];
     if (emotion_monkey) {
-        emotion_monkey = [NSString stringWithFormat:@" :%@: ", emotion_monkey];
         if (_delegate && [_delegate respondsToSelector:@selector(messageInputView:sendBigEmotion:)]) {
             [self.delegate messageInputView:self sendBigEmotion:emotion_monkey];
         }

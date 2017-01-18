@@ -240,9 +240,8 @@
 - (void)emojiKeyBoardView:(AGEmojiKeyboardView *)emojiKeyBoardView didUseEmoji:(NSString *)emoji {
     NSRange selectedRange = self.tweetContentView.selectedRange;
     
-    NSString *emotion_monkey = [emoji emotionMonkeyName];
+    NSString *emotion_monkey = [emoji emotionSpecailName];
     if (emotion_monkey) {
-        emotion_monkey = [NSString stringWithFormat:@" :%@: ", emotion_monkey];
         self.tweetContentView.text = [self.tweetContentView.text stringByReplacingCharactersInRange:selectedRange withString:emotion_monkey];
         self.tweetContentView.selectedRange = NSMakeRange(selectedRange.location +emotion_monkey.length, 0);
         [self textViewDidChange:self.tweetContentView];

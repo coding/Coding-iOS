@@ -32,7 +32,7 @@
 - (CGFloat)getWidthWithFont:(UIFont *)font constrainedToSize:(CGSize)size;
 -(BOOL)containsEmoji;
 
-- (NSString *)emotionMonkeyName;
+- (NSString *)emotionSpecailName;
 
 + (NSString *)sizeDisplayWithByte:(CGFloat)sizeOfByte;
 

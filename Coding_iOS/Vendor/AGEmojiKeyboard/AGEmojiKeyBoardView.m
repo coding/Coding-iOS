@@ -41,8 +41,8 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 
 - (NSString *)categoryNameAtIndex:(NSUInteger)index {
     //    NSArray *categoryList = @[segmentRecentName, @"People", @"Objects", @"Nature", @"Places", @"Symbols"];
-    NSArray *categoryList = @[@"emoji", @"big_monkey", @"big_monkey_gif"];
-    return categoryList[index];
+    NSArray *categoryList = @[@"emoji", @"big_monkey", @"big_monkey_gif", @"emoji_code"];
+    return index < categoryList.count? categoryList[index]: categoryList.lastObject;
 }
 
 - (AGEmojiKeyboardViewCategoryImage)defaultSelectedCategory {
@@ -64,8 +64,8 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         array = [NSMutableArray array];
-        for (AGEmojiKeyboardViewCategoryImage i = AGEmojiKeyboardViewCategoryImageEmoji;
-             i <= AGEmojiKeyboardViewCategoryImageMonkey_Gif;
+        for (int i = 0;
+             i < self.emojis.allKeys.count;
              ++i) {
             [array addObject:[self.dataSource emojiKeyboardView:self imageForSelectedCategory:i]];
         }
@@ -78,8 +78,8 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         array = [NSMutableArray array];
-        for (AGEmojiKeyboardViewCategoryImage i = AGEmojiKeyboardViewCategoryImageEmoji;
-             i <= AGEmojiKeyboardViewCategoryImageMonkey_Gif;
+        for (int i = 0;
+             i < self.emojis.allKeys.count;
              ++i) {
             [array addObject:[self.dataSource emojiKeyboardView:self imageForNonSelectedCategory:i]];
         }

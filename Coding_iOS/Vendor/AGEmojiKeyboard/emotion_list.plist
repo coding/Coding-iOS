@@ -141,5 +141,23 @@
 		<string>coding_emoji_gif_05</string>
 		<string>coding_emoji_gif_08</string>
 	</array>
+	<key>emoji_code</key>
+	<array>
+		<string>🎂</string>
+		<string>🕙</string>
+		<string>🍺</string>
+		<string>🔍</string>
+		<string>📱</string>
+		<string>🏠</string>
+		<string>🚗</string>
+		<string>🎁</string>
+		<string>⚽</string>
+		<string>🆘</string>
+		<string>💤</string>
+		<string>🎤</string>
+		<string>☔</string>
+		<string>📖</string>
+		<string>🙏</string>
+	</array>
 </dict>
 </plist>
