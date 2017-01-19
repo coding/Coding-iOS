@@ -28,7 +28,7 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     UITextField *searchField = self.eaTextField;
-    searchField.leftView.frame = CGRectMake(0, 0, 20, 13);
+    searchField.leftView.frame = CGRectMake(8, (CGRectGetHeight(searchField.bounds) - 13)/2, 20, 13);
     searchField.leftView.contentMode = UIViewContentModeLeft;
 }
 @end
