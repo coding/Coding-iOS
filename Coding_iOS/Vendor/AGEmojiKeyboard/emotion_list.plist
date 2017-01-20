@@ -85,6 +85,37 @@
 		<string>📖</string>
 		<string>🙏</string>
 	</array>
+	<key>emoji_code</key>
+	<array>
+		<string>1️⃣</string>
+		<string>2️⃣</string>
+		<string>3️⃣</string>
+		<string>4️⃣</string>
+		<string>5️⃣</string>
+		<string>6️⃣</string>
+		<string>7️⃣</string>
+		<string>8️⃣</string>
+		<string>9️⃣</string>
+		<string>0️⃣</string>
+		<string>👉</string>
+		<string>👀</string>
+		<string>📝</string>
+		<string>🐒</string>
+		<string>🐵</string>
+		<string>🙈</string>
+		<string>👍</string>
+		<string>👎</string>
+		<string>🍗</string>
+		<string>↩️</string>
+		<string>💩</string>
+		<string>❓</string>
+		<string>🍌</string>
+		<string>👻</string>
+		<string>😱</string>
+		<string>📭</string>
+		<string>📢</string>
+		<string>↩️</string>
+	</array>
 	<key>big_monkey</key>
 	<array>
 		<string>coding_emoji_01</string>
@@ -140,37 +171,6 @@
 		<string>coding_emoji_gif_06</string>
 		<string>coding_emoji_gif_05</string>
 		<string>coding_emoji_gif_08</string>
-	</array>
-	<key>emoji_code</key>
-	<array>
-        <string>1️⃣</string>
-		<string>2️⃣</string>
-		<string>3️⃣</string>
-		<string>4️⃣</string>
-		<string>5️⃣</string>
-		<string>6️⃣</string>
-		<string>7️⃣</string>
-		<string>8️⃣</string>
-		<string>9️⃣</string>
-		<string>0️⃣</string>
-		<string>👉</string>
-		<string>👀</string>
-		<string>📝</string>
-		<string>🐒</string>
-		<string>🐵</string>
-		<string>🙈</string>
-		<string>👍</string>
-		<string>👎</string>
-		<string>🍗</string>
-		<string>↩️</string>
-		<string>💩</string>
-		<string>❓</string>
-		<string>🍌</string>
-		<string>👻</string>
-		<string>😱</string>
-		<string>📭</string>
-		<string>📢</string>
-		<string>↩️</string>
 	</array>
 </dict>
 </plist>

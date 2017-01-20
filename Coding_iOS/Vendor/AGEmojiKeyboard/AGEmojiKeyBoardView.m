@@ -41,7 +41,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 
 - (NSString *)categoryNameAtIndex:(NSUInteger)index {
     //    NSArray *categoryList = @[segmentRecentName, @"People", @"Objects", @"Nature", @"Places", @"Symbols"];
-    NSArray *categoryList = @[@"emoji", @"big_monkey", @"big_monkey_gif", @"emoji_code"];
+    NSArray *categoryList = @[@"emoji", @"emoji_code", @"big_monkey", @"big_monkey_gif"];
     return index < categoryList.count? categoryList[index]: categoryList.lastObject;
 }
 
@@ -118,8 +118,8 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
         __weak typeof(self) weakSelf = self;
         if (!showBigEmotion) {
             self.easeTabBar = [[UIEaseTabBar alloc] initWithFrame:CGRectMake(0, (self_Height - easeTabBar_Height), CGRectGetWidth(self.bounds), easeTabBar_Height)
-                                                   selectedImages:[self.imagesForSelectedSegments objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 1)]]
-                                                 unSelectedImages:[self.imagesForNonSelectedSegments objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 1)]]];
+                                                   selectedImages:[self.imagesForSelectedSegments objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]]
+                                                 unSelectedImages:[self.imagesForNonSelectedSegments objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]]];
         }else{
             self.easeTabBar = [[UIEaseTabBar alloc] initWithFrame:CGRectMake(0, (self_Height - easeTabBar_Height), CGRectGetWidth(self.bounds), easeTabBar_Height)
                                                    selectedImages:self.imagesForSelectedSegments
