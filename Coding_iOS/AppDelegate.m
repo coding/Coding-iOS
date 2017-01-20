@@ -60,7 +60,6 @@
         UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
                                                                                      categories:[NSSet setWithObject:categorys]];
         [[UIApplication sharedApplication] registerUserNotificationSettings:userSettings];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
 #endif
     }
 }
@@ -157,7 +156,7 @@
     @weakify(self);
     void (^successCallback)(void) = ^(void){
         //如果变成需要注册状态
-        if(![XGPush isUnRegisterStatus] && [Login isLogin]){
+        if([XGPush isUnRegisterStatus] && [Login isLogin]){
             @strongify(self);
             [self registerPush];
         }
@@ -225,6 +224,15 @@
     DebugLog(@"didReceiveRemoteNotification-userInfo:-----\n%@", userInfo);
     [XGPush handleReceiveNotification:userInfo];
     [BaseViewController handleNotificationInfo:userInfo applicationState:[application applicationState]];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+    DebugLog(@"%@", error);
+}
+
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings{
+    DebugLog(@"%@", notificationSettings);
+    [application registerForRemoteNotifications];
 }
 
 #pragma mark - Methods Private
