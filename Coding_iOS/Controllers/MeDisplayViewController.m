@@ -193,14 +193,6 @@
     return 3;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if (section < 2) {
-        return nil;
-    }
-    return self.sectionHeaderView;
-
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section < 2) {
         return 0.0;
@@ -208,12 +200,23 @@
     return 44.0;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section < 2) {
+        return [UIView new];
+    }
+    return self.sectionHeaderView;
+
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     if (section < 2) {
         return 20;
     }
-
     return 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    return [UIView new];
 }
 
 
