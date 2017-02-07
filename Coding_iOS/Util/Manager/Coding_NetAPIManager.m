@@ -1495,7 +1495,9 @@
         NSArray *dataArray = data[@"data"];
         NSMutableDictionary *pinyinDict = @{}.mutableCopy;
         for (NSDictionary *dict in dataArray) {
-            NSString *pinyinName = [dict[@"name"] transformToPinyin];
+            NSString *pinyinName = dict[@"name"];
+            pinyinName = [pinyinName stringByReplacingOccurrencesOfString:@"呵" withString:@"HE"];//一个多音字的..唉
+            pinyinName = [pinyinName transformToPinyin];
             [pinyinDict setObject:dict forKey:pinyinName];
         }
         
