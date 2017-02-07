@@ -460,6 +460,13 @@
                 [nextTweet saveSendData];//发送前保存草稿
                 [[Coding_NetAPIManager sharedManager] request_Tweet_DoTweet_WithObj:nextTweet andBlock:^(id data, NSError *error) {
                     if (data) {
+                        if ([[BaseViewController presentingVC] respondsToSelector:NSSelectorFromString(@"refresh")]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+                            [[BaseViewController presentingVC] performSelector:NSSelectorFromString(@"refresh")];
+#pragma clang diagnostic pop
+ 
+                        }
                         [Tweet deleteSendData];//发送成功后删除草稿
                     }
                 }];
