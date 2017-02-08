@@ -14,6 +14,7 @@
 #import "ODRefreshControl.h"
 #import "FileCommentCell.h"
 #import "FileActivityCell.h"
+#import "AddCommentCell.h"
 
 #import "UIView+PressMenu.h"
 
@@ -25,7 +26,7 @@
 @property (strong, nonatomic) NSMutableArray *activityList;
 
 @property (strong, nonatomic) UITableView *myTableView;
-@property (nonatomic, strong) EaseToolBar *myToolBar;
+//@property (nonatomic, strong) EaseToolBar *myToolBar;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 
 @property (assign, nonatomic) BOOL isLoading;
@@ -52,6 +53,7 @@
         [tableView registerClass:[FileCommentCell class] forCellReuseIdentifier:kCellIdentifier_FileCommentCell];
         [tableView registerClass:[FileCommentCell class] forCellReuseIdentifier:kCellIdentifier_FileCommentCell_Media];
         [tableView registerClass:[FileActivityCell class] forCellReuseIdentifier:kCellIdentifier_FileActivityCell];
+        [tableView registerClass:[AddCommentCell class] forCellReuseIdentifier:kCellIdentifier_AddCommentCell];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -63,27 +65,25 @@
     _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     
-    _myToolBar = ({
-        EaseToolBarItem *item = [EaseToolBarItem easeToolBarItemWithTitle:@" 发表评论..." image:@"button_file_comment" disableImage:nil];
-        
-        NSDictionary *attributes = @{NSFontAttributeName : [UIFont systemFontOfSize:15],
-                                     NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0xB5B5B5"]};
-        [item setAttributes:attributes forUIControlState:UIControlStateNormal];
-        
-        EaseToolBar *toolBar = [EaseToolBar easeToolBarWithItems:@[item]];
-        toolBar.delegate = self;
-        [self.view addSubview:toolBar];
-        [toolBar mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.view.mas_bottom);
-            make.size.mas_equalTo(toolBar.frame.size);
-        }];
-        toolBar;
-    });
-    
-    
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(self.myToolBar.frame), 0.0);
-    self.myTableView.contentInset = contentInsets;
-    self.myTableView.scrollIndicatorInsets = contentInsets;
+//    _myToolBar = ({
+//        EaseToolBarItem *item = [EaseToolBarItem easeToolBarItemWithTitle:@" 发表评论..." image:@"button_file_comment" disableImage:nil];
+//        
+//        NSDictionary *attributes = @{NSFontAttributeName : [UIFont systemFontOfSize:15],
+//                                     NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0xB5B5B5"]};
+//        [item setAttributes:attributes forUIControlState:UIControlStateNormal];
+//        
+//        EaseToolBar *toolBar = [EaseToolBar easeToolBarWithItems:@[item]];
+//        toolBar.delegate = self;
+//        [self.view addSubview:toolBar];
+//        [toolBar mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.bottom.equalTo(self.view.mas_bottom);
+//            make.size.mas_equalTo(toolBar.frame.size);
+//        }];
+//        toolBar;
+//    });    
+//    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(self.myToolBar.frame), 0.0);
+//    self.myTableView.contentInset = contentInsets;
+//    self.myTableView.scrollIndicatorInsets = contentInsets;
     
     [self refresh];
 }
@@ -117,76 +117,103 @@
 }
 
 #pragma mark Table M
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 2;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 20.0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView *view = [UIView new];
+    view.backgroundColor = kColorTableSectionBg;
+    return view;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _activityList.count;
+    return section == 0? _activityList.count: 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    ProjectActivity *curActivity = [self.activityList objectAtIndex:indexPath.row];
-    if ([curActivity.target_type isEqualToString:@"ProjectFileComment"]) {
-        FileComment *curComment = curActivity.projectFileComment;
-        curComment.created_at = curActivity.created_at;
-        FileCommentCell *cell;
-        if (curComment.htmlMedia.imageItems.count > 0) {
-            cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_FileCommentCell_Media forIndexPath:indexPath];
+    if (indexPath.section == 0) {
+        ProjectActivity *curActivity = [self.activityList objectAtIndex:indexPath.row];
+        if ([curActivity.target_type isEqualToString:@"ProjectFileComment"]) {
+            FileComment *curComment = curActivity.projectFileComment;
+            curComment.created_at = curActivity.created_at;
+            FileCommentCell *cell;
+            if (curComment.htmlMedia.imageItems.count > 0) {
+                cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_FileCommentCell_Media forIndexPath:indexPath];
+            }else{
+                cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_FileCommentCell forIndexPath:indexPath];
+            }
+            cell.curComment = (TaskComment *)curComment;
+            cell.contentLabel.delegate = self;
+            cell.backgroundColor = kColorTableBG;
+            [cell configTop:(indexPath.row == 0) andBottom:(indexPath.row == _activityList.count - 1)];
+            return cell;
         }else{
-            cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_FileCommentCell forIndexPath:indexPath];
+            FileActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_FileActivityCell forIndexPath:indexPath];
+            cell.curActivity = curActivity;
+            cell.backgroundColor = kColorTableBG;
+            [cell configTop:(indexPath.row == 0) andBottom:(indexPath.row == _activityList.count - 1)];
+            return cell;
         }
-        cell.curComment = (TaskComment *)curComment;
-        cell.contentLabel.delegate = self;
-        cell.backgroundColor = kColorTableBG;
-        [cell configTop:(indexPath.row == 0) andBottom:(indexPath.row == _activityList.count - 1)];
-        return cell;
     }else{
-        FileActivityCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_FileActivityCell forIndexPath:indexPath];
-        cell.curActivity = curActivity;
-        cell.backgroundColor = kColorTableBG;
-        [cell configTop:(indexPath.row == 0) andBottom:(indexPath.row == _activityList.count - 1)];
+        AddCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_AddCommentCell forIndexPath:indexPath];
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
         return cell;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     CGFloat cellHeight = 0;
-    ProjectActivity *curActivity = [self.activityList objectAtIndex:indexPath.row];
-    if ([curActivity.target_type isEqualToString:@"ProjectFileComment"]) {
-        cellHeight = [FileCommentCell cellHeightWithObj:curActivity.projectFileComment];
+    if (indexPath.section == 0) {
+        ProjectActivity *curActivity = [self.activityList objectAtIndex:indexPath.row];
+        if ([curActivity.target_type isEqualToString:@"ProjectFileComment"]) {
+            cellHeight = [FileCommentCell cellHeightWithObj:curActivity.projectFileComment];
+        }else{
+            cellHeight = [FileActivityCell cellHeightWithObj:curActivity];
+        }
     }else{
-        cellHeight = [FileActivityCell cellHeightWithObj:curActivity];
+        cellHeight = [AddCommentCell cellHeight];
     }
     return cellHeight;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    ProjectActivity *curActivity = [self.activityList objectAtIndex:indexPath.row];
-    if (![curActivity.target_type isEqualToString:@"ProjectFileComment"]) {
-        return;
-    }
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    if ([cell.contentView isMenuVCVisible]) {
-        [cell.contentView removePressMenu];
-        return;
-    }
-    NSArray *menuTitles;
-    if ([curActivity.projectFileComment.owner.global_key isEqualToString:[Login curLoginUser].global_key]) {
-        menuTitles = @[@"拷贝文字", @"删除"];
-    }else{
-        menuTitles = @[@"拷贝文字", @"回复"];
-    }
-    __weak typeof(self) weakSelf = self;
-    [cell.contentView showMenuTitles:menuTitles menuClickedBlock:^(NSInteger index, NSString *title) {
-        if ([title hasPrefix:@"拷贝"]) {
-            [[UIPasteboard generalPasteboard] setString:curActivity.projectFileComment.content];
-        }else if ([title isEqualToString:@"删除"]){
-            [weakSelf deleteCommentOfActivity:curActivity];
-        }else if ([title isEqualToString:@"回复"]){
-            [weakSelf goToAddCommentVCToActivity:curActivity];
+    if (indexPath.section == 0) {
+        ProjectActivity *curActivity = [self.activityList objectAtIndex:indexPath.row];
+        if (![curActivity.target_type isEqualToString:@"ProjectFileComment"]) {
+            return;
         }
-    }];
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        if ([cell.contentView isMenuVCVisible]) {
+            [cell.contentView removePressMenu];
+            return;
+        }
+        NSArray *menuTitles;
+        if ([curActivity.projectFileComment.owner.global_key isEqualToString:[Login curLoginUser].global_key]) {
+            menuTitles = @[@"拷贝文字", @"删除"];
+        }else{
+            menuTitles = @[@"拷贝文字", @"回复"];
+        }
+        __weak typeof(self) weakSelf = self;
+        [cell.contentView showMenuTitles:menuTitles menuClickedBlock:^(NSInteger index, NSString *title) {
+            if ([title hasPrefix:@"拷贝"]) {
+                [[UIPasteboard generalPasteboard] setString:curActivity.projectFileComment.content];
+            }else if ([title isEqualToString:@"删除"]){
+                [weakSelf deleteCommentOfActivity:curActivity];
+            }else if ([title isEqualToString:@"回复"]){
+                [weakSelf goToAddCommentVCToActivity:curActivity];
+            }
+        }];
+    }else{
+        [self goToAddCommentVCToActivity:nil];
+    }
 }
-
 
 #pragma mark Comment
 - (void)goToAddCommentVCToActivity:(ProjectActivity *)curActivity{

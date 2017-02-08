@@ -30,7 +30,7 @@
     pros.curUser = user;
     
     pros.page = [NSNumber numberWithInteger:1];
-    pros.pageSize = [NSNumber numberWithInteger:9999];
+    pros.pageSize = @(99999999);
     return pros;
 }
 
