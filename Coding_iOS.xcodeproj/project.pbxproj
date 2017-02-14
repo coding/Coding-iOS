@@ -6077,7 +6077,7 @@
 				ORGANIZATIONNAME = Coding;
 				TargetAttributes = {
 					8E47700F198770E700997D05 = {
-						DevelopmentTeam = QN5Z87S3LH;
+						DevelopmentTeam = 5RH7B26754;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -7498,7 +7498,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = QN5Z87S3LH;
+				DEVELOPMENT_TEAM = 5RH7B26754;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7524,7 +7524,7 @@
 					"$(PROJECT_DIR)/Coding_iOS/Util/Audio/opencore-amr-iOS/lib",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMSocial_Sdk_4.3.0_Extra/SinaSSO",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingForiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = zjut.sam.coding.CodingForiOS;
 				PRODUCT_NAME = Coding_iOS;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -7543,7 +7543,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = QN5Z87S3LH;
+				DEVELOPMENT_TEAM = 5RH7B26754;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7569,7 +7569,7 @@
 					"$(PROJECT_DIR)/Coding_iOS/Util/Audio/opencore-amr-iOS/lib",
 					"$(PROJECT_DIR)/Coding_iOS/Vendor/UMSocial_Sdk_4.3.0_Extra/SinaSSO",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.coding.CodingForiOS;
+				PRODUCT_BUNDLE_IDENTIFIER = zjut.sam.coding.CodingForiOS;
 				PRODUCT_NAME = Coding_iOS;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
