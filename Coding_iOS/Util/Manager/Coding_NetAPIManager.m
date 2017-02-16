@@ -1176,6 +1176,7 @@
     NSString *refAndPath = [NSString handelRef:codeTree.ref path:codeTree.path];
     NSString *treePath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/tree/%@", project.owner_user_name, project.name, refAndPath];
     NSString *treeinfoPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/treeinfo/%@", project.owner_user_name, project.name, refAndPath];
+    NSString *treeListPath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/treelist/%@", project.owner_user_name, project.name, codeTree.ref];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:treePath withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             id resultData = [data valueForKeyPath:@"data"];
@@ -1183,14 +1184,19 @@
             
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:treeinfoPath withParams:nil withMethodType:Get andBlock:^(id infoData, NSError *infoError) {
                 if (infoData) {
-                    [MobClick event:kUmeng_Event_Request_Get label:@"代码目录"];
-
                     infoData = [infoData valueForKey:@"data"];
                     infoData = [infoData valueForKey:@"infos"];
                     NSMutableArray *infoArray = [NSObject arrayFromJSON:infoData ofObjects:@"CodeTree_CommitInfo"];
                     [rCodeTree configWithCommitInfos:infoArray];
-                    
-                    block(rCodeTree, nil);
+                    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:treeListPath withParams:nil withMethodType:Get andBlock:^(id listData, NSError *listError) {
+                        if (listData) {
+                            [MobClick event:kUmeng_Event_Request_Get label:@"代码目录"];
+                            rCodeTree.treeList = listData[@"data"];
+                            block(rCodeTree, nil);
+                        }else{
+                            block(nil, listError);
+                        }
+                    }];
                 }else{
                     block(nil, infoError);
                 }
@@ -1254,6 +1260,37 @@
             resultData = [resultData valueForKey:@"commits"];
             Commits *resultA = [NSObject objectOfClass:@"Commits" fromJSON:resultData];
             block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_UploadAssets:(NSArray *)assets inCodeTree:(CodeTree *)codeTree withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block progerssBlock:(void (^)(CGFloat progressValue))progressBlock{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/upload/%@", project.owner_user_name, project.name, [NSString handelRef:codeTree.ref path:codeTree.path]];
+    NSMutableDictionary *params = @{}.mutableCopy;
+    params[@"message"] = @"Add files via upload";
+    params[@"lastCommitSha"] = codeTree.headCommit.commitId;
+
+    [[CodingNetAPIClient sharedJsonClient] uploadAssets:assets path:path name:@"files" params:params successBlock:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [MobClick event:kUmeng_Event_Request_Get label:@"代码文件_上传图片"];
+        
+        block(responseObject, nil);
+    } failureBlock:^(AFHTTPRequestOperation *operation, NSError *error) {
+        block(nil, error);
+    } progerssBlock:^(CGFloat progressValue) {
+        progressBlock(progressValue);
+    }];
+}
+
+- (void)request_CreateCodeFile:(CodeFile *)codeFile withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
+    NSString *filePath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/new/%@", project.owner_user_name, project.name, [NSString handelRef:codeFile.ref path:codeFile.path]];
+
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:filePath withParams:[codeFile toCreateParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"代码文件_创建文本文件"];
+            
+            block(data, nil);//{"code":0}
         }else{
             block(nil, error);
         }

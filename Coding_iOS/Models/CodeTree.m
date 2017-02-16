@@ -58,14 +58,6 @@
 }
 @end
 
-@implementation CodeTree_LastCommit
-
-@end
-
-@implementation CodeTree_Committer
-
-@end
-
 @implementation CodeTree_File
 - (NSString *)mode{
     if (!_mode) {

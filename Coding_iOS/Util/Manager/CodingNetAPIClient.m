@@ -262,6 +262,44 @@ static dispatch_once_t onceToken;
     [operation start];
 }
 
+- (void)uploadAssets:(NSArray *)assets
+                path:(NSString *)path
+                name:(NSString *)name
+              params:(NSDictionary *)params
+        successBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+        failureBlock:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+       progerssBlock:(void (^)(CGFloat progressValue))progress{
+    AFHTTPRequestOperation *operation = [self POST:path parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        for (ALAsset *asset in assets) {
+            NSString *fileName = asset.defaultRepresentation.url.queryParams[@"id"] ?: [[NSDate date] stringWithFormat:@"yyyyMMddHHmmss"];
+            fileName = [fileName stringByAppendingString:@".jpg"];
+            NSData *data = [[UIImage fullScreenImageALAsset:asset] dataForCodingUpload];
+            [formData appendPartWithFileData:data name:name fileName:fileName mimeType:@"image/jpeg"];
+        }
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        DebugLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
+        id error = [self handleResponse:responseObject];
+        if (error && failure) {
+            failure(operation, error);
+        }else{
+            success(operation, responseObject);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        DebugLog(@"Error: %@ ***** %@", operation.responseString, error);
+        if (failure) {
+            failure(operation, error);
+        }
+    }];
+    
+    [operation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+        CGFloat progressValue = (float)totalBytesWritten/(float)totalBytesExpectedToWrite;
+        if (progress) {
+            progress(progressValue);
+        }
+    }];
+    [operation start];
+}
+
 - (void)uploadVoice:(NSString *)file
            withPath:(NSString *)path
          withParams:(NSDictionary*)params

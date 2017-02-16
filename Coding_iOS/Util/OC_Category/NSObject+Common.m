@@ -15,7 +15,6 @@
 #import "JDStatusBarNotification.h"
 #import "Login.h"
 #import "AppDelegate.h"
-#import "MBProgressHUD+Add.h"
 #import "CodingNetAPIClient.h"
 #import <SDCAlertView/SDCAlertController.h>
 #import "Coding_NetAPIManager.h"
@@ -70,7 +69,7 @@
         [hud hide:YES afterDelay:1.0];
     }
 }
-+ (instancetype)showHUDQueryStr:(NSString *)titleStr{
++ (MBProgressHUD *)showHUDQueryStr:(NSString *)titleStr{
     titleStr = titleStr.length > 0? titleStr: @"正在获取数据...";
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:kKeyWindow animated:YES];
     hud.tag = kHUDQueryViewTag;

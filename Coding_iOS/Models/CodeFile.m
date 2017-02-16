@@ -27,6 +27,14 @@
     codeFile.file = file;
     return codeFile;
 }
++ (CodeFile *)codeFileToCommitWithRef:(NSString *)ref andPath:(NSString *)path name:(NSString *)name data:(NSString *)data message:(NSString *)message headCommit:(Commit *)headCommit{
+    CodeFile *codeFile = [self codeFileWithRef:ref andPath:path];
+    codeFile.editName = name;
+    codeFile.editData = data;
+    codeFile.editMessage = message;
+    codeFile.headCommit = headCommit;
+    return codeFile;
+}
 - (NSString *)path{
     if (!_path) {
         _path = @"";
@@ -45,6 +53,12 @@
     }
     return _editData;
 }
+- (NSString *)editName{
+    if (!_editName) {
+        _editName = _file.name.copy;
+    }
+    return _editName;
+}
 - (NSString *)editMessage{
     if (!_editMessage) {
         _editMessage = [NSString stringWithFormat:@"update %@", _path];
@@ -53,6 +67,14 @@
 }
 - (NSDictionary *)toEditParams{
     NSMutableDictionary *params = @{}.mutableCopy;
+    params[@"content"] = self.editData;
+    params[@"message"] = self.editMessage;
+    params[@"lastCommitSha"] = self.headCommit.commitId;
+    return params;
+}
+- (NSDictionary *)toCreateParams{
+    NSMutableDictionary *params = @{}.mutableCopy;
+    params[@"title"] = self.editName;
     params[@"content"] = self.editData;
     params[@"message"] = self.editMessage;
     params[@"lastCommitSha"] = self.headCommit.commitId;

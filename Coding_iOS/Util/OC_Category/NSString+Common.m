@@ -375,6 +375,11 @@
     NSPredicate *gkTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", gkRegex];
     return [gkTest evaluateWithObject:self];
 }
+- (BOOL)isFileName{
+    NSString *phoneRegex = @"[a-zA-Z0-9\\u4e00-\\u9fa5\\./_-]+$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
+    return [phoneTest evaluateWithObject:self];
+}
 
 
 - (NSRange)rangeByTrimmingLeftCharactersInSet:(NSCharacterSet *)characterSet{
