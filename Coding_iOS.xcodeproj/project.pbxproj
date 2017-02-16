@@ -585,6 +585,8 @@
 		4EAAD05B1E544006008AA957 /* icon_triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAAD0591E544006008AA957 /* icon_triangle@2x.png */; };
 		4EAAD05C1E544006008AA957 /* icon_triangle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAAD05A1E544006008AA957 /* icon_triangle@3x.png */; };
 		4EAAD05F1E545516008AA957 /* ProjectCodeListSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EAAD05E1E545516008AA957 /* ProjectCodeListSearchCell.m */; };
+		4EAAD0821E55AC6E008AA957 /* icon_code_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAAD0801E55AC6E008AA957 /* icon_code_image@2x.png */; };
+		4EAAD0831E55AC6E008AA957 /* icon_code_image@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAAD0811E55AC6E008AA957 /* icon_code_image@3x.png */; };
 		4EABD2541AD3CA7E005E515F /* UIMessageInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EABD2531AD3CA7E005E515F /* UIMessageInputView.m */; };
 		4EABD2571AD3CAAC005E515F /* UIMessageInputView_Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EABD2561AD3CAAC005E515F /* UIMessageInputView_Add.m */; };
 		4EABD25A1AD3CB4A005E515F /* UIMessageInputView_CCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4EABD2591AD3CB4A005E515F /* UIMessageInputView_CCell.m */; };
@@ -2124,6 +2126,8 @@
 		4EAAD05A1E544006008AA957 /* icon_triangle@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_triangle@3x.png"; sourceTree = "<group>"; };
 		4EAAD05D1E545516008AA957 /* ProjectCodeListSearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectCodeListSearchCell.h; sourceTree = "<group>"; };
 		4EAAD05E1E545516008AA957 /* ProjectCodeListSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectCodeListSearchCell.m; sourceTree = "<group>"; };
+		4EAAD0801E55AC6E008AA957 /* icon_code_image@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_code_image@2x.png"; sourceTree = "<group>"; };
+		4EAAD0811E55AC6E008AA957 /* icon_code_image@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_code_image@3x.png"; sourceTree = "<group>"; };
 		4EABD2521AD3CA7E005E515F /* UIMessageInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIMessageInputView.h; sourceTree = "<group>"; };
 		4EABD2531AD3CA7E005E515F /* UIMessageInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIMessageInputView.m; sourceTree = "<group>"; };
 		4EABD2551AD3CAAC005E515F /* UIMessageInputView_Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIMessageInputView_Add.h; sourceTree = "<group>"; };
@@ -4175,6 +4179,8 @@
 				4EAAD04E1E542B2D008AA957 /* icon_code_file@3x.png */,
 				4EAAD04F1E542B2D008AA957 /* icon_code_git_link@2x.png */,
 				4EAAD0501E542B2D008AA957 /* icon_code_git_link@3x.png */,
+				4EAAD0801E55AC6E008AA957 /* icon_code_image@2x.png */,
+				4EAAD0811E55AC6E008AA957 /* icon_code_image@3x.png */,
 			);
 			path = icon_code;
 			sourceTree = "<group>";
@@ -6435,6 +6441,7 @@
 				4E90F89C1AF709C100B44F03 /* code.html in Resources */,
 				4E6383FE1B33C18700D98648 /* task_activity_icon_update@2x.png in Resources */,
 				4E0849831A918A7F00BD27F6 /* coding_emoji_41@2x.png in Resources */,
+				4EAAD0821E55AC6E008AA957 /* icon_code_image@2x.png in Resources */,
 				4ED4B4921D82646100EED8C6 /* user_info_topic@3x.png in Resources */,
 				4EB119F91D953AE200A36341 /* intro_page2_ip5@2x.png in Resources */,
 				4ED618211C3BD79B0017946C /* task_activity_icon_remove_watcher@2x.png in Resources */,
@@ -6729,6 +6736,7 @@
 				4E80E92E1DFFF06E00DE1BC6 /* shortcut_2FA@3x.png in Resources */,
 				13FB5D371CA17A6400EE127C /* PR_add@3x.png in Resources */,
 				D0C447D01C02DB6700DC1C4B /* pop_Tweet@3x.png in Resources */,
+				4EAAD0831E55AC6E008AA957 /* icon_code_image@3x.png in Resources */,
 				4E6B07111BA3D9B5007D6027 /* intro_page1_ip4@2x.png in Resources */,
 				4E095A7C1B6B1E40008DC439 /* calendar_0x9AAFC2@2x.png in Resources */,
 				4EF17EDE1B3C3112003CDD2D /* intro_tip_1@2x.png in Resources */,
