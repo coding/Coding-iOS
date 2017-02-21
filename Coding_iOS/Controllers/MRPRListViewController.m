@@ -75,6 +75,13 @@
     [self refresh];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (_myFliterMenu.isShowing) {
+        [_myFliterMenu dismissMenu];
+    }
+}
+
 #pragma mark Fliter
 
 - (void)setSelectedIndex:(NSInteger)selectedIndex{
@@ -95,13 +102,13 @@
 }
 
 - (NSArray *)titleList{
-    NSArray *titleList = (_isMR? @[@"全部 MR",
+    NSArray *titleList = (_isMR? @[@"全部",
                                    @"可合并",
                                    @"不可自动合并",
                                    @"已拒绝",
                                    @"已合并",
                                    ]:
-                          @[@"全部 PR",
+                          @[@"全部",
                             @"未处理",
                             @"已处理",
                             ]);
@@ -118,6 +125,9 @@
     }
     
     NSString *titleStr = [self titleList][_selectedIndex];
+    if ([titleStr isEqualToString:@"全部"]) {
+        titleStr = [titleStr stringByAppendingString:_isMR? @" MR": @"PR"];
+    }
     CGFloat titleWidth = [titleStr getWidthWithFont:_titleBtn.titleLabel.font constrainedToSize:CGSizeMake(kScreen_Width, 30)];
     CGFloat imageWidth = 12;
     CGFloat btnWidth = titleWidth +imageWidth;

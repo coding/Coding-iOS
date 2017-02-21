@@ -31,10 +31,10 @@
         _timeIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"time_clock_icon"]];
         _commentIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"topic_comment_icon"]];
         _arrowIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mrpr_icon_arrow"]];
-        _fromL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x0x4E90BF"];
-        [_fromL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x4E90BF"] cornerRadius:2.0];
-        _toL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x0x4E90BF"];
-        [_toL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x4E90BF"] cornerRadius:2.0];
+        _fromL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x76808E"];
+        [_fromL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x76808E"] cornerRadius:2.0];
+        _toL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x76808E"];
+        [_toL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x76808E"] cornerRadius:2.0];
         
         for (UIView *tempV in @[_statusIcon, _titleL, _numL, _authorL, _timeL, _commentCountL, _timeIcon, _commentIcon, _arrowIcon, _fromL, _toL]) {
             [self.contentView addSubview:tempV];
@@ -50,7 +50,7 @@
             make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
         }];
         [_fromL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_titleL.mas_bottom).offset(10);
+            make.top.equalTo(_titleL.mas_bottom).offset(5);
             make.height.mas_equalTo(20);
             make.left.equalTo(_titleL);
         }];

@@ -111,9 +111,9 @@
 
         if (!_fromL) {
             _fromL = [UILabel new];
-            [_fromL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x4E90BF"] cornerRadius:2.0];
+            [_fromL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x76808E"] cornerRadius:2.0];
             _fromL.font = [UIFont systemFontOfSize:12];
-            _fromL.textColor = [UIColor colorWithHexString:@"0x4E90BF"];
+            _fromL.textColor = [UIColor colorWithHexString:@"0x76808E"];
             [self.contentView addSubview:_fromL];
         }
         
@@ -125,9 +125,9 @@
         
         if (!_toL) {
             _toL = [UILabel new];
-            [_toL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x4E90BF"] cornerRadius:2.0];
+            [_toL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x76808E"] cornerRadius:2.0];
             _toL.font = [UIFont systemFontOfSize:12];
-            _toL.textColor = [UIColor colorWithHexString:@"0x4E90BF"];
+            _toL.textColor = [UIColor colorWithHexString:@"0x76808E"];
             [self.contentView addSubview:_toL];
         }
         
