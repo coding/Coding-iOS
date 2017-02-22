@@ -22,7 +22,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.backgroundColor = kColorTableBG;
         if (!_imgView) {
             _imgView = [UIImageView new];
@@ -65,6 +65,18 @@
                 make.centerY.equalTo(self.contentView);
             }];
         }
+        UIView *rightSideV = [UIView new];
+        [self.contentView addSubview:rightSideV];
+        [rightSideV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.right.bottom.equalTo(self.contentView);
+            make.width.equalTo(self.contentView).multipliedBy(1.0/4);
+        }];
+        __weak typeof(self) weakSelf = self;
+        [rightSideV bk_whenTapped:^{
+            if (weakSelf.rightSideClickedBlock) {
+                weakSelf.rightSideClickedBlock();
+            }
+        }];
     }
     return self;
 }
@@ -128,7 +140,6 @@
 -(void) cantReviewer {
     self.rightLabel.hidden = YES;
     self.likeImgView.hidden = YES;
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.accessoryType = UITableViewCellAccessoryNone;
 }
 

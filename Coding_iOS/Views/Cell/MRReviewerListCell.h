@@ -12,6 +12,7 @@
 
 @interface MRReviewerListCell : UITableViewCell
 @property (readwrite, nonatomic, strong) NSMutableArray *reviewers;
+@property (copy, nonatomic) void(^lastItemClickedBlock)();
 
 - (void)initCellWithReviewers:(NSArray *)reviewers;
 
