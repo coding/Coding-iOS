@@ -10,14 +10,14 @@
 #import "MRPR.h"
 
 typedef NS_ENUM(NSInteger, MRPRSType) {
-    MRPRSTypeMRAll = 0,
+    MRPRSTypeMRDefault = 0,
     MRPRSTypeMRCanMerge,
     MRPRSTypeMRCannotMerge,
     MRPRSTypeMRRefused,
     MRPRSTypeMRAccepted,
-    MRPRSTypePRAll,
     MRPRSTypePROpen,
-    MRPRSTypePRClosed
+    MRPRSTypePRClosed,
+    MRPRSTypePRAll,
 };
 
 @interface MRPRS : NSObject

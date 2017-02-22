@@ -68,11 +68,12 @@
             weakSelf.selectedIndex = selectIndex;
         }
     };
+    
+    [self refresh];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self refresh];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -102,15 +103,15 @@
 }
 
 - (NSArray *)titleList{
-    NSArray *titleList = (_isMR? @[@"全部",
+    NSArray *titleList = (_isMR? @[@"默认",
                                    @"可合并",
                                    @"不可自动合并",
                                    @"已拒绝",
                                    @"已合并",
                                    ]:
-                          @[@"全部",
-                            @"未处理",
+                          @[@"未处理",
                             @"已处理",
+                            @"全部",
                             ]);
     return titleList;
 }
@@ -125,9 +126,6 @@
     }
     
     NSString *titleStr = [self titleList][_selectedIndex];
-    if ([titleStr isEqualToString:@"全部"]) {
-        titleStr = [titleStr stringByAppendingString:_isMR? @" MR": @"PR"];
-    }
     CGFloat titleWidth = [titleStr getWidthWithFont:_titleBtn.titleLabel.font constrainedToSize:CGSizeMake(kScreen_Width, 30)];
     CGFloat imageWidth = 12;
     CGFloat btnWidth = titleWidth +imageWidth;
@@ -153,7 +151,7 @@
     MRPRS *curMRPRS = [_dataDict objectForKey:@(_selectedIndex)];
     if (!curMRPRS) {
         
-        curMRPRS = [[MRPRS alloc] initWithType:_isMR? _selectedIndex: _selectedIndex + MRPRSTypePRAll userGK:_curProject.owner_user_name projectName:_curProject.name];
+        curMRPRS = [[MRPRS alloc] initWithType:_isMR? _selectedIndex: _selectedIndex + MRPRSTypePROpen userGK:_curProject.owner_user_name projectName:_curProject.name];
         [_dataDict setObject:curMRPRS forKey:@(_selectedIndex)];
     }
     return curMRPRS;

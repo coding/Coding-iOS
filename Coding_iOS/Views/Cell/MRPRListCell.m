@@ -94,7 +94,7 @@
     _titleL.text = _curMRPR.title;
     _numL.text = [NSString stringWithFormat:@"#%@", _curMRPR.iid.stringValue ?: @""];
     _authorL.text = _curMRPR.author.name;
-    _timeL.text = [_curMRPR.created_at stringTimesAgo];
+    _timeL.text = [_curMRPR.created_at stringDisplay_HHmm];
     _commentCountL.text = _curMRPR.comment_count.stringValue;
     _commentCountL.hidden = _commentIcon.hidden = (_curMRPR.comment_count == nil);
     

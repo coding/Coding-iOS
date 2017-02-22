@@ -133,7 +133,11 @@
     
     _timeL.attributedText = [self attributeTail];
     _statusL.text =  _curMRPRInfo.mrpr.statusDisplay;
-    
+    _statusL.textColor = [UIColor colorWithHexString:(_curMRPRInfo.mrpr.status == MRPRStatusCanMerge? @"0x666666":
+                                                      _curMRPRInfo.mrpr.status == MRPRStatusCannotMerge? @"0xB89FDA":
+                                                      _curMRPRInfo.mrpr.status == MRPRStatusAccepted? @"0x32BE77":
+                                                      _curMRPRInfo.mrpr.status == MRPRStatusRefused? @"0xF56061":
+                                                      @"0xF56061")];
     NSString *fromStr, *toStr;
     if (_curMRPRInfo.mrpr.isMR) {
         fromStr = [NSString stringWithFormat:@"  %@  ", _curMRPRInfo.mrpr.srcBranch];

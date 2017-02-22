@@ -45,16 +45,12 @@
 }
 - (NSString *)toPath{
     NSString *typeStr;
-    if (_type < MRPRSTypePRAll) {
-        if (_type == MRPRSTypeMRAll) {
-            typeStr = @"merges/all";
-        }else{
-            typeStr = @"merges/filter";
-        }
+    if (_type < MRPRSTypePROpen) {
+        typeStr = @"merges/filter";
     }else{
-        typeStr = (_type == MRPRSTypePRAll? @"pulls/all":
-                   _type == MRPRSTypePROpen? @"pulls/open":
+        typeStr = (_type == MRPRSTypePROpen? @"pulls/open":
                    _type == MRPRSTypePRClosed? @"pulls/closed":
+                   _type == MRPRSTypePRAll? @"pulls/all":
                    @"");
     }
     return [NSString stringWithFormat:@"api/user/%@/project/%@/git/%@", _user_gk, _project_name, typeStr];

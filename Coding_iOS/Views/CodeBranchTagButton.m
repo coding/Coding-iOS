@@ -90,9 +90,10 @@
 - (UITableView *)myTableView{
     if (!_myTableView) {
         _myTableView = ({
-            UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+            UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+            tableView.backgroundColor = [UIColor whiteColor];
             [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:kCellIdentifier_BranchTag];
-            tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+            tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             tableView.dataSource = self;
             tableView.delegate = self;
             tableView;
@@ -135,6 +136,11 @@
     [self.myContentView addSubview:self.mySegmentedControl];
     
     self.mySegmentedControl.frame = CGRectMake(12, (kCodeBranchTagButton_NavHeight - 30)/2, kScreen_Width - 2*12, 30);
+    {
+        UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(0, kCodeBranchTagButton_NavHeight, kScreen_Width, 1.0/[UIScreen mainScreen].scale)];
+        lineV.backgroundColor = kColorDDD;
+        [self.myContentView addSubview:lineV];
+    }
     self.myContentView.frame = CGRectMake(0, 0, kScreen_Width, 0);
     self.myTableView.frame = CGRectMake(0, kCodeBranchTagButton_NavHeight, kScreen_Width, 0);
     
@@ -151,7 +157,7 @@
         [self loadUIElement];
     }
     CGPoint origin = [self convertPoint:CGPointMake(0, CGRectGetHeight(self.bounds)) toView:self.showingContainerView];
-    CGFloat contentHeight = self.isShowing? 0: kCodeBranchTagButton_ContentHeight;
+    CGFloat contentHeight = self.isShowing? 0: CGRectGetHeight(self.showingContainerView.bounds) - origin.y;
     if (self.isShowing) {//隐藏
         self.enabled = NO;
         [UIView animateWithDuration:0.3 animations:^{
@@ -255,26 +261,30 @@
     return [self.dataList count];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0.5;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 0.5;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_BranchTag forIndexPath:indexPath];
-    cell.textLabel.textColor = [UIColor blackColor];
     cell.textLabel.font = [UIFont systemFontOfSize:15];
-    
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.tintColor = kColorBrandGreen;
+
     CodeBranchOrTag *curBranchOrTag = [self.dataList objectAtIndex:indexPath.row];
     cell.textLabel.text = curBranchOrTag.name;
     
     if ([curBranchOrTag.name isEqualToString:self.titleStr]) {
-        cell.backgroundColor = [UIColor colorWithHexString:@"0xf3f3f3"];
+        cell.textLabel.textColor = kColorBrandGreen;
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }else{
-        cell.backgroundColor = [UIColor whiteColor];
+        cell.textLabel.textColor = [UIColor blackColor];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+
+    static NSInteger lineTag = 11011;
+    if (![cell.contentView viewWithTag:lineTag]) {
+        CGFloat lineH = 1.0/[UIScreen mainScreen].scale;
+        UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(15, 44 - lineH, kScreen_Width, lineH)];
+        lineV.tag = lineTag;
+        lineV.backgroundColor = kColorDDD;
+        [cell.contentView addSubview:lineV];
     }
     return cell;
 }
