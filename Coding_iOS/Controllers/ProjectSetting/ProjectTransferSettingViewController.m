@@ -35,6 +35,8 @@
     }
     
     [self.tableView setSeparatorColor:[UIColor colorWithRGBHex:0xe5e5e5]];
+    self.tableView.backgroundColor = kColorTableSectionBg;
+
     [_userIconView doCircleFrame];
     [_transferBtn successStyle];
     _transferBtn.enabled = NO;

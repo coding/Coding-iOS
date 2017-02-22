@@ -23,7 +23,6 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
 @property (nonatomic, strong) Project *myProject;
 @property (nonatomic, assign) NSInteger curIndex;
 @property (nonatomic, assign, readonly) ProjectViewType curType;
-@property (strong, nonatomic) NSString *codeRef;
 
 + (ProjectViewController *)codeVCWithCodeRef:(NSString *)codeRef andProject:(Project *)project;
 

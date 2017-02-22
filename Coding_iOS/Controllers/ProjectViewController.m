@@ -61,6 +61,7 @@
 
 @property (nonatomic, strong)  UIBarButtonItem *screenBar;
 
+@property (strong, nonatomic) CodeTree *myCodeTree;
 
 @end
 
@@ -68,7 +69,7 @@
 
 + (ProjectViewController *)codeVCWithCodeRef:(NSString *)codeRef andProject:(Project *)project{
     ProjectViewController *vc = [self new];
-    vc.codeRef = codeRef;
+    vc.myCodeTree = [CodeTree codeTreeWithRef:codeRef andPath:@""];
     vc.myProject = project;
     if (vc.myProject.is_public.boolValue) {
         vc.curIndex = 2;
@@ -77,6 +78,14 @@
     }
     return vc;
 }
+
+- (CodeTree *)myCodeTree{
+    if (!_myCodeTree) {
+        _myCodeTree = [CodeTree codeTreeWithRef:@"master" andPath:@""];
+    }
+    return _myCodeTree;
+}
+
 - (instancetype)init
 {
     self = [super init];
@@ -85,9 +94,11 @@
     }
     return self;
 }
+
 - (UIView *)getCurContentView{
     return [_projectContentDict objectForKey:[NSNumber numberWithInteger:_curIndex]];
 }
+
 - (void)saveCurContentView:(UIView *)curContentView{
     if (curContentView) {
         [_projectContentDict setObject:curContentView forKey:[NSNumber numberWithInteger:_curIndex]];
@@ -188,18 +199,14 @@
 
 - (void)refreshToQueryData{
     UIView *curView = [self getCurContentView];
-    if (curView && [curView respondsToSelector:@selector(refreshToQueryData)]) {
-        [curView performSelector:@selector(refreshToQueryData)];
+    if (!curView) {
+        return;
     }
     
-    
-    if ([curView isKindOfClass:[ProjectTasksView class]]) {
-        ProjectTasksView *tasksView = (ProjectTasksView *)curView;
-        [tasksView refreshToQueryData];
-    }else{
-        if (curView && [curView respondsToSelector:@selector(reloadData)]) {
-            [curView performSelector:@selector(reloadData)];
-        }
+    if ([curView respondsToSelector:@selector(refreshToQueryData)]) {
+        [curView performSelector:@selector(refreshToQueryData)];
+    }else if ([curView respondsToSelector:@selector(reloadData)]){
+        [curView performSelector:@selector(reloadData)];
     }
 }
 
@@ -237,7 +244,7 @@
                        action:@selector(navRightBtnClicked)];
     }else if (viewType == ProjectViewTypeCodes){
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-        [button setImage:[UIImage imageNamed:@"timeBtn_Nav"] forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"moreBtn_Nav"] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(navRightBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         navRightBtn = [[UIBarButtonItem alloc] initWithCustomView:button];
     }
@@ -356,14 +363,13 @@
                 break;
             case ProjectViewTypeCodes:{
                 curView = ({
-                    ProjectCodeListView *codeListView = [[ProjectCodeListView alloc] initWithFrame:self.view.bounds project:_myProject andCodeTree:[CodeTree codeTreeWithRef:_codeRef andPath:@""]];
+                    ProjectCodeListView *codeListView = [[ProjectCodeListView alloc] initWithFrame:self.view.bounds project:_myProject andCodeTree:_myCodeTree];
                     codeListView.codeTreeFileOfRefBlock = ^(CodeTree_File *curCodeTreeFile, NSString *ref){
                         [weakSelf goToVCWith:curCodeTreeFile andRef:ref];
                     };
-                    codeListView.refChangedBlock = ^(NSString *ref){
-                        weakSelf.codeRef = ref;
+                    codeListView.codeTreeChangedBlock = ^(CodeTree *tree){
+                        weakSelf.myCodeTree = tree;
                     };
-                    [codeListView addBranchTagButton];
                     codeListView;
                 });
             }
@@ -426,6 +432,13 @@
         CodeFile *nextCodeFile = [CodeFile codeFileWithRef:ref andPath:codeTreeFile.path];
         CodeViewController *vc = [CodeViewController codeVCWithProject:_myProject andCodeFile:nextCodeFile];
         [self.navigationController pushViewController:vc animated:YES];
+    }else if ([codeTreeFile.mode isEqualToString:@"git_link"]){
+        UIViewController *vc = [BaseViewController analyseVCFromLinkStr:codeTreeFile.info.submoduleLink];
+        if (vc) {
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            [NSObject showHudTipStr:@"有些文件还不支持查看呢_(:з」∠)_"];
+        }
     }else{
         [NSObject showHudTipStr:@"有些文件还不支持查看呢_(:з」∠)_"];
     }
@@ -672,17 +685,32 @@
             break;
         case ProjectViewTypeCodes:
         {
-            //代码提交记录
-            ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
-            vc.curProject = self.myProject;
-            vc.curCommits = [Commits commitsWithRef:self.codeRef? self.codeRef: @"master" Path:@""];
-            [self.navigationController pushViewController:vc animated:YES];
+            __weak typeof(self) weakSelf = self;
+            [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"上传图片", @"创建文本文件", @"查看提交记录"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                if (index == 0) {
+                    [(ProjectCodeListView *)[weakSelf getCurContentView] uploadImageClicked];
+                }else if (index == 1){
+                    [(ProjectCodeListView *)[weakSelf getCurContentView] createFileClicked];
+                }else if (index == 2){
+                    [weakSelf goToCommitsVC];
+                }
+            }] showInView:self.view];
         }
             break;
         default:
             break;
     }
 }
+
+- (void)goToCommitsVC{
+    //代码提交记录
+    ProjectCommitsViewController *vc = [ProjectCommitsViewController new];
+    vc.curProject = self.myProject;
+    vc.curCommits = [Commits commitsWithRef:self.myCodeTree.ref Path:@""];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+
 
 - (UIBarButtonItem *)HDCustomNavButtonWithTitle:(NSString *)title imageName:(NSString *)imageName target:(id)targe action:(SEL)action {
     UIButton *itemButtom = [UIButton buttonWithType:UIButtonTypeCustom];

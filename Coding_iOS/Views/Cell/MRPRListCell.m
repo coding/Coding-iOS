@@ -6,13 +6,13 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#define kMRPRListCell_UserWidth 33.0
-
 #import "MRPRListCell.h"
 
 @interface MRPRListCell ()
-@property (strong, nonatomic) UIImageView *imgView;
-@property (strong, nonatomic) UILabel *titleLabel, *subTitleLabel;
+@property (strong, nonatomic) UIImageView *statusIcon;
+@property (strong, nonatomic) UILabel *titleL, *numL, *authorL, *timeL, *commentCountL;
+@property (strong, nonatomic) UIImageView *timeIcon, *commentIcon, *arrowIcon;
+@property (strong, nonatomic) UILabel *fromL, *toL;
 @end
 
 @implementation MRPRListCell
@@ -21,39 +21,66 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.backgroundColor = kColorTableBG;
-        if (!_imgView) {
-            _imgView = [UIImageView new];
-            _imgView.layer.masksToBounds = YES;
-            _imgView.layer.cornerRadius = kMRPRListCell_UserWidth/2;
-            _imgView.layer.borderWidth = 0.5;
-            _imgView.layer.borderColor = kColorDDD.CGColor;
-            [self.contentView addSubview:_imgView];
-            [_imgView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake(kMRPRListCell_UserWidth, kMRPRListCell_UserWidth));
-                make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
-                make.centerY.equalTo(self.contentView);
-            }];
+        _statusIcon = [UIImageView new];
+        _titleL = [UILabel labelWithSystemFontSize:14 textColorHexString:@"0x222222"];
+        _numL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x222222"];
+        _authorL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x999999"];
+        _timeL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x999999"];
+        _commentCountL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x999999"];
+        _timeIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"time_clock_icon"]];
+        _commentIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"topic_comment_icon"]];
+        _arrowIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mrpr_icon_arrow"]];
+        _fromL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x0x4E90BF"];
+        [_fromL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x4E90BF"] cornerRadius:2.0];
+        _toL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x0x4E90BF"];
+        [_toL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x4E90BF"] cornerRadius:2.0];
+        
+        for (UIView *tempV in @[_statusIcon, _titleL, _numL, _authorL, _timeL, _commentCountL, _timeIcon, _commentIcon, _arrowIcon, _fromL, _toL]) {
+            [self.contentView addSubview:tempV];
         }
-        if (!_titleLabel) {
-            _titleLabel = [UILabel new];
-            [self.contentView addSubview:_titleLabel];
-            [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(_imgView.mas_right).offset(12);
-                make.right.equalTo(self.contentView);
-                make.top.equalTo(self.contentView).offset(13);
-                make.height.mas_equalTo(20);
-            }];
-        }
-        if (!_subTitleLabel) {
-            _subTitleLabel = [UILabel new];
-            [self.contentView addSubview:_subTitleLabel];
-            [_subTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.right.height.equalTo(_titleLabel);
-                make.bottom.equalTo(self.contentView.mas_bottom).offset(-13);
-            }];
-        }
+        [_statusIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
+            make.top.equalTo(self.contentView).offset(10);
+            make.size.mas_equalTo(CGSizeMake(24, 24));
+        }];
+        [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_statusIcon);
+            make.left.equalTo(_statusIcon.mas_right).offset(kPaddingLeftWidth);
+            make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+        }];
+        [_fromL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_titleL.mas_bottom).offset(10);
+            make.height.mas_equalTo(20);
+            make.left.equalTo(_titleL);
+        }];
+        [_arrowIcon mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_fromL.mas_right).offset(10);
+            make.right.equalTo(_toL.mas_left).offset(-10);
+            make.centerY.equalTo(_fromL);
+        }];
+        [_toL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_fromL);
+            make.height.mas_equalTo(20);
+        }];
+        [_numL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_fromL.mas_bottom).offset(10);
+            make.left.equalTo(_titleL);
+        }];
+        [@[_authorL, _timeIcon, _timeL, _commentIcon, _commentCountL] mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_numL);
+        }];
+        [_authorL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_numL.mas_right).offset(10);
+            make.right.equalTo(_timeIcon.mas_left).offset(-10);
+        }];
+        [_timeL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_timeIcon.mas_right).offset(5);
+            make.right.equalTo(_commentIcon.mas_left).offset(-10);
+        }];
+        [_commentCountL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_commentIcon.mas_right).offset(5);
+        }];
     }
     return self;
 }
@@ -63,39 +90,28 @@
     if (!_curMRPR) {
         return;
     }
-    [_imgView sd_setImageWithURL:[_curMRPR.author.avatar urlImageWithCodePathResize:2*kMRPRListCell_UserWidth] placeholderImage:kPlaceholderMonkeyRoundWidth(2*kMRPRListCell_UserWidth)];
-    _titleLabel.attributedText = [self attributeTitle];
-    _subTitleLabel.attributedText = [self attributeTail];
-}
-
-- (NSAttributedString *)attributeTitle{
-    NSString *iidStr = [NSString stringWithFormat:@"#%@", _curMRPR.iid.stringValue? _curMRPR.iid.stringValue: @""];
-    NSString *titleStr = _curMRPR.title? _curMRPR.title: @"";
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", iidStr, titleStr]];
-    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
-                                NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x4E90BF"]}
-                        range:NSMakeRange(0, iidStr.length)];
-    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:14],
-                                NSForegroundColorAttributeName : kColor222}
-                        range:NSMakeRange(iidStr.length + 1, titleStr.length)];
-    return attrString;
-}
-
-- (NSAttributedString *)attributeTail{
-    NSString *nameStr = _curMRPR.author.name? _curMRPR.author.name: @"";
-    NSString *timeStr = _curMRPR.created_at? [_curMRPR.created_at stringDisplay_HHmm]: @"";
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", nameStr, timeStr]];
-    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                NSForegroundColorAttributeName : kColor222}
-                        range:NSMakeRange(0, nameStr.length)];
-    [attrString addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                NSForegroundColorAttributeName : kColor999}
-                        range:NSMakeRange(nameStr.length + 1, timeStr.length)];
-    return attrString;
+    _statusIcon.image = [UIImage imageNamed:[NSString stringWithFormat:@"mrpr_icon_status_%@", [_curMRPR.merge_status lowercaseString]]];
+    _titleL.text = _curMRPR.title;
+    _numL.text = [NSString stringWithFormat:@"#%@", _curMRPR.iid.stringValue ?: @""];
+    _authorL.text = _curMRPR.author.name;
+    _timeL.text = [_curMRPR.created_at stringTimesAgo];
+    _commentCountL.text = _curMRPR.comment_count.stringValue;
+    _commentCountL.hidden = _commentIcon.hidden = (_curMRPR.comment_count == nil);
+    
+    NSString *fromStr, *toStr;
+    if (_curMRPR.isMR) {
+        fromStr = [NSString stringWithFormat:@"  %@  ", _curMRPR.srcBranch];
+        toStr = [NSString stringWithFormat:@"  %@  ", _curMRPR.desBranch];
+    }else{
+        fromStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPR.src_owner_name ?: @"已删除项目", _curMRPR.srcBranch];
+        toStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPR.des_owner_name ?: @"已删除项目", _curMRPR.desBranch];
+    }
+    _fromL.text = fromStr;
+    _toL.text = toStr;
 }
 
 
 + (CGFloat)cellHeight{
-    return 70.0;
+    return 90.0;
 }
 @end

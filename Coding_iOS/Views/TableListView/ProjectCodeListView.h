@@ -10,11 +10,14 @@
 #import "CodeTree.h"
 #import "Projects.h"
 
-@interface ProjectCodeListView : UIView<UITableViewDataSource, UITableViewDelegate>
+@interface ProjectCodeListView : UIView
 @property (copy, nonatomic) void (^codeTreeFileOfRefBlock)(CodeTree_File *, NSString *);
-@property (copy, nonatomic) void (^refChangedBlock)(NSString *);
+@property (copy, nonatomic) void (^codeTreeChangedBlock)(CodeTree *);
 
 - (id)initWithFrame:(CGRect)frame project:(Project *)project andCodeTree:(CodeTree *)codeTree;
-- (void)addBranchTagButton;
+- (void)refreshToQueryData;
+
+- (void)createFileClicked;
+- (void)uploadImageClicked;
 
 @end

@@ -22,7 +22,8 @@
     
     self.tableView.tableFooterView = [UIView new];
     [self.tableView setSeparatorColor:[UIColor colorWithRGBHex:0xe5e5e5]];
-    
+    self.tableView.backgroundColor = kColorTableSectionBg;
+
     // 添加右上角按钮
 //    UIButton *submitButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
 //    [submitButton addTarget:self action:@selector(showHelpView) forControlEvents:UIControlEventTouchUpInside];

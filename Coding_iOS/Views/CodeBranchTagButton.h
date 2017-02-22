@@ -14,7 +14,9 @@
 @property (strong, nonatomic) Project *curProject;
 @property (nonatomic, strong) NSArray *branchList, *tagList;
 @property (nonatomic, strong, readonly) NSArray *dataList;
+@property (weak, nonatomic) UIView *showingContainerView;
 @property (nonatomic,copy) void(^selectedBranchTagBlock)(NSString *branchTag);
 
 + (instancetype)buttonWithProject:(Project *)project andTitleStr:(NSString *)titleStr;
+- (void)dismissShowingList;
 @end
