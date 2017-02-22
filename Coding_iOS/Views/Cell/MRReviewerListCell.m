@@ -136,7 +136,7 @@
         return;
     }
     int imageCount = self.contentView.size.width / 40 - 2;
-    BOOL isLastV = (index == _reviewerList.count -1) || (index == imageCount -1);
+    BOOL isLastV = (index == _reviewerList.count) || (index == imageCount -1);
     if (isLastV && _lastItemClickedBlock) {
         _lastItemClickedBlock();
     }
