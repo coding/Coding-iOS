@@ -185,6 +185,9 @@
 }
 
 - (void)analyseResult:(AVMetadataMachineReadableCodeObject *)result{
+    if (![result isKindOfClass:[AVMetadataMachineReadableCodeObject class]]) {
+        return;
+    }
     NSString *resultStr = result.stringValue;
     if (resultStr.length <= 0) {
         return;
