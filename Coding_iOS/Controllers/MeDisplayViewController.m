@@ -148,7 +148,7 @@
             weakSelf.myTableView.showsInfiniteScrolling = hasMoreData;
         }
         
-        CGFloat offsetY = _userInfoCell.frame.size.height + [UserActiveGraphCell cellHeight] + 100;
+        CGFloat offsetY = _userInfoCell.frame.size.height + [UserActiveGraphCell cellHeight] + 80;
         [weakSelf.view configBlankPage:EaseBlankPageTypeMyJoinedTopic hasData:weakSelf.dataList.count > 0 hasError:error != nil offsetY:offsetY reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
@@ -211,8 +211,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     if (section < 2) {
         return 20;
+    }else{
+        if (_dataIndex == 0) {
+            return 0;
+        }else{
+            return _dataList.count == 0? self.view.height - self.sectionHeaderView.height: 0;
+        }
     }
-    return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{

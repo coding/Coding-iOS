@@ -240,7 +240,7 @@
         }else{
             [weakSelf.refreshControl endRefreshing];
             [weakSelf.view endLoading];
-            [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:([weakSelf totalDataRow] > 0) hasError:YES reloadButtonBlock:^(id sender) {
+            [weakSelf.view configBlankPage:EaseBlankPageTypeFile hasData:([weakSelf totalDataRow] > 0) hasError:YES reloadButtonBlock:^(id sender) {
                 [weakSelf refreshRootFolders];
             }];
         }
@@ -271,7 +271,7 @@
 
             [weakSelf.myTableView reloadData];
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:([weakSelf totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypeFile hasData:([weakSelf totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refreshRootFolders];
         }];
     }];
@@ -321,7 +321,7 @@
                     [weakSelf.rootFolders.list insertObject:data atIndex:1];
                 }
                 [weakSelf.myTableView reloadData];
-                [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:([weakSelf totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+                [weakSelf.view configBlankPage:EaseBlankPageTypeFile hasData:([weakSelf totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
                     [weakSelf refreshRootFolders];
                 }];
                 [NSObject showHudTipStr:@"创建文件夹成功"];
@@ -432,7 +432,7 @@
     for (NSString *fileName in needToUploads) {
         [self uploadFileWithFileName:fileName];
     }
-    [self.view configBlankPage:EaseBlankPageTypeView hasData:([self totalDataRow] > 0) hasError:NO reloadButtonBlock:^(id sender) {
+    [self.view configBlankPage:EaseBlankPageTypeFile hasData:([self totalDataRow] > 0) hasError:NO reloadButtonBlock:^(id sender) {
         [self refreshRootFolders];
     }];
     
@@ -475,7 +475,7 @@
     [self.myFiles.list insertObject:curFile atIndex:0];
     self.curFolder.count = @(self.curFolder.count.integerValue +1);
     [self configuploadFiles];
-    [self.view configBlankPage:EaseBlankPageTypeView hasData:([self totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+    [self.view configBlankPage:EaseBlankPageTypeFile hasData:([self totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
         [self refreshRootFolders];
     }];
     if (self.navigationItem.rightBarButtonItem == nil) {
@@ -644,7 +644,7 @@
             [weakSelf.curFolder.sub_folders removeObject:originalFolder];
             weakSelf.curFolder.count = [NSNumber numberWithInt:weakSelf.curFolder.count.intValue-1];
             [weakSelf.myTableView reloadData];
-            [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:([weakSelf totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+            [weakSelf.view configBlankPage:EaseBlankPageTypeFile hasData:([weakSelf totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
                 [weakSelf refreshRootFolders];
             }];
         }
