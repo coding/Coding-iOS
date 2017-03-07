@@ -133,6 +133,18 @@
 #define kColorBrandGreen [UIColor colorWithHexString:@"0x3BBD79"]
 #define kColorBrandRed [UIColor colorWithHexString:@"0xFF5846"]
 
+#pragma mark New Color
+#define kColorDark3 [UIColor colorWithHexString:@"0x323A45"]
+#define kColorDark4 [UIColor colorWithHexString:@"0x425063"]
+#define kColorDark7 [UIColor colorWithHexString:@"0x76808E"]
+#define kColorDarkA [UIColor colorWithHexString:@"0xA9B3BE"]
+#define kColorDarkD [UIColor colorWithHexString:@"0xD8DDE4"]
+#define kColorDarkF [UIColor colorWithHexString:@"0xF2F4F6"]
+#define kColorWhite [UIColor colorWithHexString:@"0xFFFFFF"]
+#define kColorActionGreen [UIColor colorWithHexString:@"0x2EBE76"]
+#define kColorActionRed [UIColor colorWithHexString:@"0xF56061"]
+#define kColorActionYellow [UIColor colorWithHexString:@"0xF3C232"]
+
 #define kPlaceholderMonkeyRoundWidth(_width_) [UIImage imageNamed:[NSString stringWithFormat:@"placeholder_monkey_round_%.0f", _width_]]
 #define kPlaceholderMonkeyRoundView(_view_) [UIImage imageNamed:[NSString stringWithFormat:@"placeholder_monkey_round_%.0f", CGRectGetWidth(_view_.frame)]]
 
