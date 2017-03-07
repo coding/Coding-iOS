@@ -214,8 +214,8 @@
         curMember = [_myMemberArray objectAtIndex:indexPath.row];
     }
     __weak typeof(self) weakSelf = self;
-    cell.curMember = curMember;
     cell.type = _type;
+    cell.curMember = curMember;
     if (_type == ProMemTypeProject) {
         [cell setRightUtilityButtons:[self rightButtonsWithObj:curMember] WithButtonWidth:[MemberCell cellHeight]];//编辑按钮
         cell.delegate = self;
