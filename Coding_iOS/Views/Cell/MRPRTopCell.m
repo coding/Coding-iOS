@@ -63,9 +63,9 @@
         
         if (!_fromL) {
             _fromL = [UILabel new];
-            [_fromL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x4E90BF"] cornerRadius:2.0];
+            [_fromL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x76808E"] cornerRadius:2.0];
             _fromL.font = kMRPRTopCell_FontFromTo;
-            _fromL.textColor = [UIColor colorWithHexString:@"0x4E90BF"];
+            _fromL.textColor = [UIColor colorWithHexString:@"0x76808E"];
             [self.contentView addSubview:_fromL];
         }
         if (!_arrowIcon) {
@@ -75,9 +75,9 @@
         }
         if (!_toL) {
             _toL = [UILabel new];
-            [_toL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x4E90BF"] cornerRadius:2.0];
+            [_toL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x76808E"] cornerRadius:2.0];
             _toL.font = kMRPRTopCell_FontFromTo;
-            _toL.textColor = [UIColor colorWithHexString:@"0x4E90BF"];
+            _toL.textColor = [UIColor colorWithHexString:@"0x76808E"];
             [self.contentView addSubview:_toL];
         }
         
@@ -133,7 +133,11 @@
     
     _timeL.attributedText = [self attributeTail];
     _statusL.text =  _curMRPRInfo.mrpr.statusDisplay;
-    
+    _statusL.textColor = [UIColor colorWithHexString:(_curMRPRInfo.mrpr.status == MRPRStatusCanMerge? @"0x666666":
+                                                      _curMRPRInfo.mrpr.status == MRPRStatusCannotMerge? @"0xB89FDA":
+                                                      _curMRPRInfo.mrpr.status == MRPRStatusAccepted? @"0x32BE77":
+                                                      _curMRPRInfo.mrpr.status == MRPRStatusRefused? @"0xF56061":
+                                                      @"0xF56061")];
     NSString *fromStr, *toStr;
     if (_curMRPRInfo.mrpr.isMR) {
         fromStr = [NSString stringWithFormat:@"  %@  ", _curMRPRInfo.mrpr.srcBranch];

@@ -122,6 +122,9 @@
         if (data) {
             weakSelf.notificationDict = [NSMutableDictionary dictionaryWithDictionary:data];
             [weakSelf.myTableView reloadData];
+            [weakSelf.myTableView configBlankPage:EaseBlankPageTypeMessageList hasData:(weakSelf.myPriMsgs.list.count > 0) hasError:(error != nil) offsetY:(3 * [ToMessageCell cellHeight]) reloadButtonBlock:^(id sender) {
+                [weakSelf refresh];
+            }];
         }
     }];
     [[UnReadManager shareManager] updateUnRead];
@@ -150,6 +153,9 @@
             [weakSelf.myPriMsgs configWithObj:data];
             [weakSelf.myTableView reloadData];
             weakSelf.myTableView.showsInfiniteScrolling = weakSelf.myPriMsgs.canLoadMore;
+            [weakSelf.myTableView configBlankPage:EaseBlankPageTypeMessageList hasData:(weakSelf.myPriMsgs.list.count > 0) hasError:(error != nil) offsetY:(3 * [ToMessageCell cellHeight]) reloadButtonBlock:^(id sender) {
+                [weakSelf refresh];
+            }];
         }
     }];
 }
@@ -244,6 +250,9 @@
         if (data) {
             [weakSelf.myPriMsgs.list removeObject:data];
             [weakSelf.myTableView reloadData];
+            [weakSelf.myTableView configBlankPage:EaseBlankPageTypeMessageList hasData:(weakSelf.myPriMsgs.list.count > 0) hasError:(error != nil) offsetY:(3 * [ToMessageCell cellHeight]) reloadButtonBlock:^(id sender) {
+                [weakSelf refresh];
+            }];
         }
     }];
 }

@@ -155,7 +155,7 @@
 
 - (void)rightNavBtnClicked{
     NSMutableArray *actionTitles = @[@"编辑代码", @"查看提交记录", @"退出代码查看"].mutableCopy;
-    if (!self.myCodeFile.can_edit) {
+    if (!self.myCodeFile.can_edit || [self.myCodeFile.file.mode isEqualToString:@"image"]) {
         [actionTitles removeObjectAtIndex:0];
     }
     __weak typeof(self) weakSelf = self;
@@ -165,7 +165,7 @@
 }
 
 - (void)actionSheetClicked:(UIActionSheet *)sheet index:(NSInteger)index{
-    if (!self.myCodeFile.can_edit) {
+    if (!self.myCodeFile.can_edit || [self.myCodeFile.file.mode isEqualToString:@"image"]) {
         index++;
     }
     if (index == 0) {

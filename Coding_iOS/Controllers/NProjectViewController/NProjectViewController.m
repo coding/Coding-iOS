@@ -27,11 +27,10 @@
 #import "ForkTreeViewController.h"
 
 #import "CodeViewController.h"
-#import "PRListViewController.h"
-#import "MRListViewController.h"
 #import "EaseGitButtonsView.h"
 #import "UserOrProjectTweetsViewController.h"
 #import "FunctionTipsManager.h"
+#import "MRPRListViewController.h"
 
 @interface NProjectViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
@@ -101,7 +100,7 @@
     [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_myProject andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.myProject = data;
-            weakSelf.navigationItem.rightBarButtonItem = weakSelf.myProject.is_public.boolValue? nil: [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetsBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(tweetsBtnClicked)];
+            weakSelf.navigationItem.rightBarButtonItem = weakSelf.myProject.is_public.boolValue? nil: [UIBarButtonItem itemWithBtnTitle:@"公告" target:self action:@selector(tweetsBtnClicked)];
             [self refreshGitButtonsView];
             [weakSelf.myTableView reloadData];
         }
@@ -315,15 +314,10 @@
 }
 
 - (void)goTo_MR_PR{
-    if (_myProject.is_public.boolValue) {
-        PRListViewController *vc = [[PRListViewController alloc] init];
-        vc.curProject = self.myProject;
-        [self.navigationController pushViewController:vc animated:YES];
-    }else{
-        MRListViewController *vc = [[MRListViewController alloc] init];
-        vc.curProject = self.myProject;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+    MRPRListViewController *vc = [[MRPRListViewController alloc] init];
+    vc.curProject = self.myProject;
+    vc.isMR = !_myProject.is_public.boolValue;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark Git_Btn

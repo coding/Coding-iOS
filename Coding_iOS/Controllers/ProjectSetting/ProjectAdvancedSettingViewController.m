@@ -32,6 +32,8 @@
     
     self.tableView.tableFooterView = [UIView new];
     [self.tableView setSeparatorColor:[UIColor colorWithRGBHex:0xe5e5e5]];
+    self.tableView.backgroundColor = kColorTableSectionBg;
+
 }
 
 - (void)didReceiveMemoryWarning {

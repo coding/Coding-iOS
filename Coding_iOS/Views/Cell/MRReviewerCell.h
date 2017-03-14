@@ -12,6 +12,8 @@
 
 @interface MRReviewerCell: UITableViewCell
 
+@property (copy, nonatomic) void(^rightSideClickedBlock)();
+
 - (void)setImageStr:(NSString *)imgStr
             isowner:(BOOL)ower
           hasLikeMr:(NSNumber *)hasLikeMr;

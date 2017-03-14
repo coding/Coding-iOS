@@ -98,7 +98,7 @@
     
     NSArray *monArray = @[@"Dec", @"Jan", @"Feb", @"Mar", @"Apr", @"May", @"Jun", @"Jul", @"Aug", @"Sep", @"Oct", @"Nov"];
     for (NSInteger i = _startMon; i < _startMon + KMon; i++) {
-        NSString *mon = monArray[i % KMon];
+        NSString *mon = monArray[(i + 1) % KMon];//UI 元素的位置是下个月开始的位置，所以月份也显示成下个月
         UILabel *label = _monLabelArray[i - _startMon];
         label.text = mon;
     }

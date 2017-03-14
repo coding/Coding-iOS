@@ -528,6 +528,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             if (self.curMRPRInfo.mrpr.status == MRPRStatusAccepted || self.curMRPRInfo.mrpr.status == MRPRStatusRefused || self.curMRPRInfo.mrpr.status == MRPRStatusRefused) {
                 [cell cantReviewer];
             }
+            cell.rightSideClickedBlock = ^(){
+                [weakSelf jiaYi];
+            };
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
             return cell;
         }else {
@@ -540,6 +543,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 [tmpReviewers addObject:self.curReviewersInfo.volunteer_reviewers[i]];
             }
             [cell initCellWithReviewers:tmpReviewers];
+            cell.lastItemClickedBlock = ^(){
+                [weakSelf goToReviewerList];
+            };
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:50];
             return cell;
         }
@@ -567,6 +573,39 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     }
 }
 
+- (void)jiaYi{
+    if (self.curMRPRInfo.mrpr.status == MRPRStatusAccepted || self.curMRPRInfo.mrpr.status == MRPRStatusRefused || self.curMRPRInfo.mrpr.status == MRPRStatusRefused) {
+        return;
+    }
+    if([self CurrentUserIsOwer]) {
+        NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"AddReviewerViewController" owner:nil options:nil];
+        AddReviewerViewController *appview=[apparray firstObject];
+        appview.currentProject = self.curProject;
+        appview.curMRPR = self.curMRPR;
+        [self.navigationController pushViewController:appview animated:YES];
+    } else {
+        __weak typeof(self) weakSelf = self;
+        if ([self.isLike isEqual:@0]) {
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.reviewGoodPath withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
+                weakSelf.isLike = @1;
+                [weakSelf refresh];
+            }];
+        } else {
+            [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.reviewGoodPath withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+                weakSelf.isLike = @0;
+                [weakSelf refresh];
+            }];
+        }
+    }
+}
+- (void)goToReviewerList{
+    NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
+    ReviewerListController *appview=[apparray firstObject];
+    appview.currentProject = self.curProject;
+    appview.curMRPR = self.curMRPR;
+    appview.isPublisher = [self currentUserCanAddMember];
+    [self.navigationController pushViewController:appview animated:YES];
+}
 
 - (BOOL)CurrentUserIsOwer{
     User *currentUser = [Login curLoginUser];
@@ -657,38 +696,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [self.navigationController pushViewController:vc animated:YES];
         }
     } else if (indexPath.section == 2){//Disclosure
-        if (indexPath.row == 0) {
-            if (self.curMRPRInfo.mrpr.status == MRPRStatusAccepted || self.curMRPRInfo.mrpr.status == MRPRStatusRefused || self.curMRPRInfo.mrpr.status == MRPRStatusRefused) {
-                return;
-            }
-            if([self CurrentUserIsOwer]) {
-                NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"AddReviewerViewController" owner:nil options:nil];
-                AddReviewerViewController *appview=[apparray firstObject];
-                appview.currentProject = self.curProject;
-                appview.curMRPR = self.curMRPR;
-                [self.navigationController pushViewController:appview animated:YES];
-            } else {
-                __weak typeof(self) weakSelf = self;
-                if ([self.isLike isEqual:@0]) {
-                    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.reviewGoodPath withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
-                        weakSelf.isLike = @1;
-                        [weakSelf refresh];
-                    }];
-                } else {
-                    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.reviewGoodPath withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
-                         weakSelf.isLike = @0;
-                        [weakSelf refresh];
-                    }];
-                }
-            }
-        } else {
-            NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
-            ReviewerListController *appview=[apparray firstObject];
-            appview.currentProject = self.curProject;
-            appview.curMRPR = self.curMRPR;
-            appview.isPublisher = [self currentUserCanAddMember];
-            [self.navigationController pushViewController:appview animated:YES];
-        }
     } else if (self.activityList.count > 0 && indexPath.section == 3){//Comment
         ProjectLineNote *curCommentItem = self.activityList[indexPath.row];
         if ([curCommentItem.action isEqual:@"mergeChanges"]) {

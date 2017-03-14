@@ -54,7 +54,7 @@
             weakSelf.teamList = data;
             [weakSelf.myTableView reloadData];
         }
-        [weakSelf.myTableView configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.teamList.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.myTableView configBlankPage:EaseBlankPageTypeTeam hasData:(weakSelf.teamList.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
     }];
