@@ -15,7 +15,8 @@ Clone 代码后，初次执行前，需要双击运行根目录下的`bootstrap`
 
 
 
-####下面介绍一下文件的大概目录先：
+#### 下面介绍一下文件的大概目录先：
+```
     .
     ├── Coding_iOS
     │   ├── Models：数据类
@@ -57,15 +58,15 @@ Clone 代码后，初次执行前，需要双击运行根目录下的`bootstrap`
     │       ├── XTSegmentControl
     │       └── iCarousel
     └── Pods：项目使用了[CocoaPods](http://code4app.com/article/cocoapods-install-usage)这个类库管理工具
+```
 
 
-
-####再说下项目的启动流程：
+#### 再说下项目的启动流程：
 在AppDelegate的启动方法中，先设置了一下Appearance的样式，然后根据用户的登录状态选择是去加载登录页面LoginViewController，还是登录后的RootTabViewController页面。
 
 RootTabViewController继承自第三方库[RDVTabBarController](https://github.com/robbdimitrov/RDVTabBarController)。在RootTabViewController里面依次加载了Project_RootViewController、MyTask_RootViewController、Tweet_RootViewController、Message_RootViewController、Me_RootViewController五个RootViewController，后续的页面跳转都是基于这几个RootViewController引过去的。
 
-####项目里面还有些需要注意的点
+#### 项目里面还有些需要注意的点
  - Coding_NetAPIManager：基本上app的所有请求接口都放在了这里。网络请求使用的是[AFNetworking](https://github.com/AFNetworking/AFNetworking)库，与服务器之间的数据交互格式用的都是json（与[Coding](https://coding.net)使用的api一致）。
   
  - 关于推送：刚开始是用的[友盟推送](http://www.umeng.com/)，后来又改用了[腾讯信鸽](http://xg.qq.com/)，因为要兼顾旧版本app的推送，所以服务器是同时保留了两套推送。但是为了确保新版本的app不同时收到双份相同的推送消息，所以当前代码里还存留了友盟的sdk，用于解除推送token与友盟Alias的绑定。
@@ -78,7 +79,7 @@ RootTabViewController继承自第三方库[RDVTabBarController](https://github.c
  
  - 关于如何正确显示冒泡的内容：api返回的数据里面，冒泡内容都是html格式，需要做一下预处理；其实私信、讨论里面的内容也是html。解析html的类名是HtmlMediaItem，它是先用[hpple](https://github.com/topfunky/hpple)对html进行了解析，然后把对应的media元素和对应的位置做一个存储，显示的时候便可以根据需要来显示了。
 
-####最后说下[CocoaPods](http://cocoapods.org/)里面用到的第三方类库
+#### 最后说下[CocoaPods](http://cocoapods.org/)里面用到的第三方类库
  - [SDWebImage](https://github.com/rs/SDWebImage)：图片加载
  - [TTTAttributedLabel](https://github.com/TTTAttributedLabel/TTTAttributedLabel)：富文本的label，可点击链接
  - [RegexKitLite](https://github.com/wezm/RegexKitLite)：正则表达式
@@ -90,7 +91,7 @@ RootTabViewController继承自第三方库[RDVTabBarController](https://github.c
  - [BlocksKit](https://github.com/zwaldowski/BlocksKit)：block工具包。将很多需要用delegate实现的方法整合成了block的形式
  - [ReactiveCocoa](https://github.com/ReactiveCocoa/ReactiveCocoa)：基于响应式编程思想的oc实践（是个好东西呢）
  
-####License
+#### License
 Coding is available under the MIT license. See the LICENSE file for more info.
 
 
