@@ -11,6 +11,8 @@
 #define kTagBadgePointView  1001
 #define kTagLineView 1007
 #import <objc/runtime.h>
+#import "YLImageView.h"
+#import "YLGIFImage.h"
 
 #import "Login.h"
 #import "User.h"
@@ -423,23 +425,32 @@ static char LoadingViewKey, BlankPageViewKey;
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        _loopView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading_loop"]];
-        _monkeyView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading_monkey"]];
-        [_loopView setCenter:self.center];
-        [_monkeyView setCenter:self.center];
-        [self addSubview:_loopView];
+        _monkeyView = [YLImageView new];
+        _monkeyView.image = [YLGIFImage imageNamed:@"loading_monkey@2x.gif"];
         [self addSubview:_monkeyView];
-        [_loopView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self);
-        }];
         [_monkeyView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self);
+            make.centerX.equalTo(self);
+            make.centerY.equalTo(self).offset(-30);
+            make.size.mas_equalTo(CGSizeMake(100, 100));
         }];
-        
-        _loopAngle = 0.0;
-        _monkeyAlpha = 1.0;
-        _angleStep = 360/3;
-        _alphaStep = 1.0/3.0;
+
+//        _loopView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading_loop"]];
+//        _monkeyView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading_monkey"]];
+//        [_loopView setCenter:self.center];
+//        [_monkeyView setCenter:self.center];
+//        [self addSubview:_loopView];
+//        [self addSubview:_monkeyView];
+//        [_loopView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.center.equalTo(self);
+//        }];
+//        [_monkeyView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.center.equalTo(self);
+//        }];
+//        
+//        _loopAngle = 0.0;
+//        _monkeyAlpha = 1.0;
+//        _angleStep = 360/3;
+//        _alphaStep = 1.0/3.0;
     }
     return self;
 }
@@ -450,7 +461,7 @@ static char LoadingViewKey, BlankPageViewKey;
         return;
     }
     _isLoading = YES;
-    [self loadingAnimation];
+//    [self loadingAnimation];
 }
 
 - (void)stopAnimating{
