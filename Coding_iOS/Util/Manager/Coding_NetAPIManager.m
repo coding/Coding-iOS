@@ -1559,7 +1559,7 @@
     if (userId != nil) {
         [param setValue:userId forKey:@"owner"];
     }
-    if (project_id != nil) {
+    if (project_id != nil && project_id.integerValue >= 0) {
         [param setValue:project_id forKey:@"project_id"];
     }
     if (keyword != nil) {

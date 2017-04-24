@@ -155,7 +155,7 @@
     [_locationButton setWidth:MIN(kScreen_Width - 30,
                                   35+ [titleStr getWidthWithFont:_locationButton.titleLabel.font constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)])];
     
-    [_locationButton setTitleColor:[UIColor colorWithHexString:locationStr.length > 0? @"0x3bbd79": @"0x999999"] forState:UIControlStateNormal];
+    [_locationButton setTitleColor:[UIColor colorWithHexString:locationStr.length > 0? @"0x2EBE76": @"0x999999"] forState:UIControlStateNormal];
     [_locationButton setImage:[UIImage imageNamed:locationStr.length > 0? @"icon_locationed": @"icon_not_locationed"] forState:UIControlStateNormal];
     [_locationButton setTitle:titleStr forState:UIControlStateNormal];
     return _locationButton;

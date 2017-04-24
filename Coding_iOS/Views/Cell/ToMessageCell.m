@@ -16,7 +16,7 @@
     if (self) {
         // Initialization code
         self.textLabel.font = [UIFont systemFontOfSize:17];
-        self.textLabel.textColor = kColor222;
+        self.textLabel.textColor = kColorDark3;
     }
     return self;
 }

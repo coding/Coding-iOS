@@ -173,7 +173,7 @@
         _addTagButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         _addTagButton.titleLabel.font = [UIFont systemFontOfSize:15];
         [_addTagButton setTitleColor:kColorBrandGreen forState:UIControlStateNormal];
-        [_addTagButton setTitleColor:[UIColor colorWithHexString:@"0x3bbd79" andAlpha:0.5] forState:UIControlStateHighlighted];
+        [_addTagButton setTitleColor:[UIColor colorWithHexString:@"0x2EBE76" andAlpha:0.5] forState:UIControlStateHighlighted];
         
         [_addTagButton setSize:CGSizeMake(kScreen_Width - 2*kPaddingLeftWidth, kProjectTagsViewLabel_Height_Content)];
         [_addTagButton setTitle:buttonTitle forState:UIControlStateNormal];

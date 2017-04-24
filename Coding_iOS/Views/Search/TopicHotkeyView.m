@@ -8,7 +8,7 @@
 
 #import "TopicHotkeyView.h"
 
-#define kFirst_Hotkey_Color         @"0x3bbd79"
+#define kFirst_Hotkey_Color         @"0x2EBE76"
 #define kOther_Hotkey_Text_Color    @"0x222222"
 #define kOther_HotKey_Border_Color  @"0xb5b5b5"
 

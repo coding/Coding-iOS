@@ -31,5 +31,10 @@
     }];
     return [self.subviews.firstObject.subviews filteredArrayUsingPredicate:predicate].lastObject;
 }
-
+- (void)setPlaceholderColor:(UIColor *)color{
+    [[self valueForKey:@"_searchField"] setValue:kColorDarkA forKeyPath:@"_placeholderLabel.textColor"];
+}
+- (void)setSearchIcon:(UIImage *)image{
+    [self setImage:image forSearchBarIcon:UISearchBarIconSearch state:UIControlStateNormal];
+}
 @end

@@ -32,7 +32,7 @@
 
 - (void)setEnabled:(BOOL)enabled{
     [super setEnabled:enabled];
-    UIColor *foreColor = [UIColor colorWithHexString:enabled? @"0x3BBD79": @"0xCCCCCC"];
+    UIColor *foreColor = [UIColor colorWithHexString:enabled? @"0x2EBE76": @"0xCCCCCC"];
     [self setTitleColor:foreColor forState:UIControlStateNormal];
     if (enabled) {
         [self setTitle:@"发送验证码" forState:UIControlStateNormal];

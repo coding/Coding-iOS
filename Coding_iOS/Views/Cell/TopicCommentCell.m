@@ -133,7 +133,7 @@
 }
 
 - (void)setVoteCount:(NSNumber *)voteCount isVoted:(BOOL)isVoted{
-    [_voteBtn setBackgroundColor:[UIColor colorWithHexString:isVoted? @"0x3BBD79": @"0xFFFFFF"]];
+    [_voteBtn setBackgroundColor:[UIColor colorWithHexString:isVoted? @"0x2EBE76": @"0xFFFFFF"]];
     [_voteBtn setTitleColor:[UIColor colorWithHexString:isVoted? @"0xFFFFFF": @"0x666666"] forState:UIControlStateNormal];
     [_voteBtn setTitle:[NSString stringWithFormat:@"+%@", voteCount] forState:UIControlStateNormal];
 }

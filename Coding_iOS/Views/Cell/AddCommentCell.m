@@ -32,7 +32,7 @@
             [self.contentView addSubview:_contentL];
         }
         [_iconView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(20, 20));
+            make.size.mas_equalTo(CGSizeMake(22, 22));
             make.centerY.equalTo(self.contentView);
             make.centerX.equalTo(self.contentView).offset(-50);
         }];

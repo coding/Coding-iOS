@@ -152,7 +152,7 @@
         layer.fillColor = [UIColor colorWithWhite:1.f alpha:0.8f].CGColor;
     }
     
-    CGColorRef lineColor = kColorDDD.CGColor;
+    CGColorRef lineColor = kColorD8DDE4.CGColor;
     CGColorRef sectionLineColor = lineColor;
     
     if (indexPath.row == 0 && indexPath.row == [self numberOfRowsInSection:indexPath.section]-1) {

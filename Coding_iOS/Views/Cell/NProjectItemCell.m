@@ -26,7 +26,7 @@
             _imgView = [UIImageView new];
             [self.contentView addSubview:_imgView];
             [_imgView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake(20, 20));
+                make.size.mas_equalTo(CGSizeMake(22, 22));
                 make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
                 make.centerY.equalTo(self.contentView);
             }];
@@ -98,7 +98,7 @@
 }
 
 + (CGFloat)cellHeight{
-    return 44.0;
+    return 50.0;
 }
 
 @end

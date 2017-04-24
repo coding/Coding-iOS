@@ -31,7 +31,7 @@
     if (self) {
         // Initialization code
         if (!_projectIconView) {
-            _projectIconView = [[UIImageView alloc] initWithFrame:CGRectMake(12, 12, kIconSize, kIconSize)];
+            _projectIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, kPaddingLeftWidth, kIconSize, kIconSize)];
             _projectIconView.layer.masksToBounds = YES;
             _projectIconView.layer.cornerRadius = 2.0;
             [self.contentView addSubview:_projectIconView];
@@ -39,19 +39,19 @@
         
         if (!_projectTitleLabel) {
             _projectTitleLabel = [UILabel new];
-            _projectTitleLabel.textColor = kColor222;
+            _projectTitleLabel.textColor = kColorDark3;
             _projectTitleLabel.font = [UIFont systemFontOfSize:17];
             [self.contentView addSubview:_projectTitleLabel];
         }
         if (!_ownerTitleLabel) {
             _ownerTitleLabel = [UILabel new];
-            _ownerTitleLabel.textColor = kColor999;
+            _ownerTitleLabel.textColor = kColorDark7;
             _ownerTitleLabel.font = [UIFont systemFontOfSize:15];
             [self.contentView addSubview:_ownerTitleLabel];
         }
         if (!_describeLabel) {
             _describeLabel = [UILabel new];
-            _describeLabel.textColor = kColor666;
+            _describeLabel.textColor = kColorDark7;
             _describeLabel.font = [UIFont systemFontOfSize:14];
             _describeLabel.numberOfLines=1;
             [self.contentView addSubview:_describeLabel];
@@ -115,7 +115,7 @@
         make.top.equalTo(_projectIconView.mas_top);
         make.height.equalTo(@(20));
         make.left.equalTo(_privateIconView.mas_right).offset(_privateIconView.hidden?0:8);
-        make.right.lessThanOrEqualTo(self.mas_right).offset(-12);
+        make.right.lessThanOrEqualTo(self.mas_right).offset(-kPaddingLeftWidth);
     }];
     
     [_ownerTitleLabel mas_updateConstraints:^(MASConstraintMaker *make) {

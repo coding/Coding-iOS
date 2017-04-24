@@ -83,7 +83,7 @@
     }else{
         _badgeTextFont = [UIFont systemFontOfSize:11];
     }
-    _badgePositionAdjustment = UIOffsetMake(-4, 2);
+    _badgePositionAdjustment = UIOffsetMake(-6, 2);
 //    _badgePositionAdjustment = UIOffsetMake(右移量, 下移量);
 }
 

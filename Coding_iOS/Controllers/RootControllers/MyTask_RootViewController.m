@@ -81,10 +81,10 @@
         icarousel;
     });
     
-    UIBarButtonItem *addBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)];
-     UIBarButtonItem *screenBar = [self HDCustomNavButtonWithTitle:nil imageName:@"task_filter_nav_unchecked" target:self action:@selector(screenItemClicked:)];
+    //    UIBarButtonItem *addBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(addItemClicked:)];
+    UIBarButtonItem *addBar = [self HDCustomNavButtonWithTitle:nil imageName:@"addBtn_Nav" target:self action:@selector(addItemClicked:)];
+    UIBarButtonItem *screenBar = [self HDCustomNavButtonWithTitle:nil imageName:@"task_filter_nav_unchecked" target:self action:@selector(screenItemClicked:)];
     self.navigationItem.rightBarButtonItems = @[addBar, screenBar];
-    
     
     //初始化过滤目录
     _myFliterMenu = [[TaskSelectionView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64) items:@[@"我的任务（0）", @"我关注的（0）", @"我创建的（0）"]];

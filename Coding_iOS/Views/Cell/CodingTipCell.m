@@ -122,7 +122,7 @@ static CGFloat target_height = 45.0;
 //    NSString *username_first = pinyin.length > 0? [[pinyin substringToIndex:1] uppercaseString]: @"C";
 //    _ownerL.text = username_first;
     //owner姓名
-    [self.ownerNameBtn setTitleColor:[UIColor colorWithHexString:curTip.user_item.type != HtmlMediaItemType_CustomLink? @"0x3bbd79": @"0x222222"] forState:UIControlStateNormal];
+    [self.ownerNameBtn setTitleColor:[UIColor colorWithHexString:curTip.user_item.type != HtmlMediaItemType_CustomLink? @"0x2EBE76": @"0x222222"] forState:UIControlStateNormal];
     [self.ownerNameBtn setUserTitle:userName font:[UIFont systemFontOfSize:17] maxWidth:(kCodingTipCell_WidthContent -80)];
     //时间
 //    _timeLabel.text = _curTip.target_type;

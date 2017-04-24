@@ -82,6 +82,8 @@ static NSString *const kValueKey = @"kValueKey";
                 searchBar.delegate = self;
                 [searchBar sizeToFit];
                 [searchBar setPlaceholder:@"项目名称/创建人"];
+                [searchBar setPlaceholderColor:kColorDarkA];
+                [searchBar setSearchIcon:[UIImage imageNamed:@"icon_search_searchbar"]];
                 searchBar;
             });
             _myTableView.tableHeaderView = _mySearchBar;
