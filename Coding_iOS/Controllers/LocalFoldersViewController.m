@@ -58,7 +58,7 @@
 
 - (void)refresh{
     BOOL hasData = [self findLocalFile];
-    [self.view configBlankPage:EaseBlankPageTypeView hasData:hasData hasError:NO reloadButtonBlock:nil];
+    [self.view configBlankPage:EaseBlankPageTypeFile hasData:hasData hasError:NO reloadButtonBlock:nil];
     if (!hasData) {
         [self.myRefreshControl endRefreshing];
         return;

@@ -616,6 +616,13 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"您还没有发表过冒泡呢～";
             }
                 break;
+            case EaseBlankPageTypeTweetAction://冒泡列表（自己的）。有发冒泡的按钮
+            {
+                imageName = @"blankpage_image_Tweet";
+                tipStr = @"您还没有发表过冒泡呢～";
+                buttonTitle = @"冒个泡吧";
+            }
+                break;
             case EaseBlankPageTypeTweetOther://冒泡列表（别人的）
             {
                 imageName = @"blankpage_image_Tweet";

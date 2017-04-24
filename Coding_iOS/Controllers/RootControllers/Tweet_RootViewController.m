@@ -239,9 +239,13 @@
                     }
                     [self.myTableView reloadData];
                 }
-                [weakSelf.view configBlankPage:EaseBlankPageTypeTweet hasData:(curTweets.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+                [weakSelf.view configBlankPage:EaseBlankPageTypeTweetAction hasData:(curTweets.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
                     [weakSelf sendRequest];
                 }];
+                //空白页按钮事件
+                weakSelf.view.blankPageView.clickButtonBlock=^(EaseBlankPageType curType) {
+                    [weakSelf sendTweet];
+                };
             }
 
         }];
@@ -260,9 +264,13 @@
             if (outTweetsIndex == weakSelf.curIndex) {
                 [weakSelf.myTableView reloadData];
             }
-            [weakSelf.view configBlankPage:EaseBlankPageTypeTweet hasData:(curTweets.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+            [weakSelf.view configBlankPage:EaseBlankPageTypeTweetAction hasData:(curTweets.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
                 [weakSelf sendRequest];
             }];
+            //空白页按钮事件
+            weakSelf.view.blankPageView.clickButtonBlock=^(EaseBlankPageType curType) {
+                [weakSelf sendTweet];
+            };
         }
     }];
 }
@@ -305,9 +313,14 @@
         [self refresh];
     }
     if (!curTweets.isLoading) {
-        [self.view configBlankPage:EaseBlankPageTypeTweet hasData:(curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
-            [self sendRequest];
+        __weak typeof(self) weakSelf = self;
+        [self.view configBlankPage:EaseBlankPageTypeTweetAction hasData:(curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+            [weakSelf sendRequest];
         }];
+        //空白页按钮事件
+        self.view.blankPageView.clickButtonBlock=^(EaseBlankPageType curType) {
+            [weakSelf sendTweet];
+        };
     }
 }
 
@@ -345,9 +358,13 @@
             [weakSelf.myTableView reloadData];
             weakSelf.myTableView.showsInfiniteScrolling = curTweets.canLoadMore;
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeTweet hasData:(curTweets.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypeTweetAction hasData:(curTweets.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf sendRequest];
         }];
+        //空白页按钮事件
+        weakSelf.view.blankPageView.clickButtonBlock=^(EaseBlankPageType curType) {
+            [weakSelf sendTweet];
+        };
     }];
 }
 
@@ -462,9 +479,13 @@
         Tweets *curTweets = [weakSelf.tweetsDict objectForKey:[NSNumber numberWithInteger:weakSelf.curIndex]];
         [curTweets.list removeObject:toDeleteTweet];
         [weakSelf.myTableView reloadData];
-        [weakSelf.view configBlankPage:EaseBlankPageTypeTweet hasData:(curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypeTweetAction hasData:(curTweets.list.count > 0) hasError:NO reloadButtonBlock:^(id sender) {
             [weakSelf sendRequest];
         }];
+        //空白页按钮事件
+        weakSelf.view.blankPageView.clickButtonBlock=^(EaseBlankPageType curType) {
+            [weakSelf sendTweet];
+        };
     };
     [self.navigationController pushViewController:vc animated:YES];
 }
