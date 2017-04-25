@@ -10,7 +10,7 @@
 #import "MenuButton.h"
 #import <POP.h>
 
-#define MenuButtonHeight 110
+#define MenuButtonHeight 135
 #define MenuButtonVerticalPadding 10
 #define MenuButtonHorizontalMargin 10
 #define MenuButtonAnimationTime 0.1
@@ -268,7 +268,7 @@
                         atIndex:(NSInteger)index
                          onPage:(NSInteger)page {
     
-    CGFloat insetY = kScreen_Height * 0.1 + 64;
+    CGFloat insetY = kScreen_Height * 0.12;
 //    NSUInteger rowCount = itemCount / perRowItemCount + (itemCount % perColumItemCount > 0 ? 1 : 0);
 //    CGFloat insetY = (CGRectGetHeight(self.bounds) - (itemHeight + paddingY) * rowCount) / 2.0;
     
