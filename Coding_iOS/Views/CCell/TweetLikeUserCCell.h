@@ -15,4 +15,5 @@
 
 - (void)configWithUser:(User *)user rewarded:(BOOL)rewarded;
 
++(CGSize)ccellSize;
 @end

@@ -52,7 +52,7 @@
     self.layer.cornerRadius = 2.0;
     self.titleLabel.font = [UIFont systemFontOfSize:17];
 //    [self setTitleColor:kColor222 forState:UIControlStateNormal];
-    [self setTitleColor:kColorBrandGreen forState:UIControlStateNormal];
+    [self setTitleColor:kColorDark3 forState:UIControlStateNormal];
     [self setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor]] forState:UIControlStateNormal];
     [self setBackgroundImage:[UIImage imageWithColor:[UIColor lightGrayColor]] forState:UIControlStateHighlighted];
 }
@@ -129,7 +129,7 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = frame;
     button.titleLabel.font = [UIFont systemFontOfSize:12];
-    [button setTitleColor:kColor999 forState:UIControlStateNormal];
+    [button setTitleColor:kColorDark7 forState:UIControlStateNormal];
     if (alignmentLeft) {
         button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         button.imageEdgeInsets = UIEdgeInsetsMake(0, 5, 0, -5);

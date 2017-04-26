@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kTweetCell_LikeUserCCell_Height 25.0
+#define kTweetCell_LikeUserCCell_Height 30.0
 
 #import "TweetLikeUserCCell.h"
 
@@ -49,5 +49,10 @@
 }
 - (void)layoutSubviews{
     [super layoutSubviews];
+}
+
++(CGSize)ccellSize{
+    CGSize itemSize = CGSizeMake(kTweetCell_LikeUserCCell_Height, kTweetCell_LikeUserCCell_Height);
+    return itemSize;
 }
 @end
