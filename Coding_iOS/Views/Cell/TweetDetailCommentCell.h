@@ -17,7 +17,7 @@
 @property (strong, nonatomic) Comment *toComment;
 @property (nonatomic, copy) void (^commentToCommentBlock)(Comment *, id);
 @property (strong, nonatomic) UITTTAttributedLabel *contentLabel;
-@property (strong, nonatomic) UITapImageView *ownerIconView;
+//@property (strong, nonatomic) UITapImageView *ownerIconView;
 
 + (CGFloat)cellHeightWithObj:(id)obj;
 

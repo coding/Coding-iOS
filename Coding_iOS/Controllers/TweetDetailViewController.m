@@ -279,9 +279,9 @@
         cell.commentToCommentBlock = ^(Comment *toComment, id sender){
             [self doCommentToComment:toComment sender:sender];
         };
-        [cell.ownerIconView addTapBlock:^(id obj) {
-            [self goToUserInfo:curComment.owner];
-        }];
+//        [cell.ownerIconView addTapBlock:^(id obj) {
+//            [self goToUserInfo:curComment.owner];
+//        }];
         cell.contentLabel.delegate = self;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
