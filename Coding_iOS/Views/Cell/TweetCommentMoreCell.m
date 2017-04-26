@@ -29,7 +29,7 @@
             [self.contentView addSubview:_commentIconView];
         }
         if (!_contentLabel) {
-            _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 10, 245, 20)];
+            _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(_commentIconView.maxXOfFrame + 5, 10, 200, 20)];
             _contentLabel.backgroundColor = [UIColor clearColor];
             _contentLabel.font = kTweet_CommentFont;
             _contentLabel.textColor = kColorDark4;

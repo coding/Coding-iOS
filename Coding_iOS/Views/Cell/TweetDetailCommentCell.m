@@ -38,7 +38,7 @@
         if (!_userNameLabel) {
             _userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 150, 15)];
             _userNameLabel.backgroundColor = [UIColor clearColor];
-            _userNameLabel.font = [UIFont boldSystemFontOfSize:12];
+            _userNameLabel.font = [UIFont systemFontOfSize:12];
             _userNameLabel.textColor = kColorDark7;
             [self.contentView addSubview:_userNameLabel];
         }

@@ -1228,6 +1228,7 @@
 		B1C871511EADF48B003DACF0 /* cell_arrow_left@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1C8714F1EADF48B003DACF0 /* cell_arrow_left@3x.png */; };
 		B1C871541EADF4D4003DACF0 /* UITableViewCell+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C871531EADF4D4003DACF0 /* UITableViewCell+Common.m */; };
 		B1C871561EAE003A003DACF0 /* project_item_topic@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1C871551EAE003A003DACF0 /* project_item_topic@3x.png */; };
+		B1C871581EB0884A003DACF0 /* little_phone_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1C871571EB0884A003DACF0 /* little_phone_icon@3x.png */; };
 		B93D904B1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D904A1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m */; };
 		B94C1B691AC945D30000C271 /* NewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B94C1B681AC945D30000C271 /* NewProjectViewController.m */; };
 		B94C1B6B1AC945FB0000C271 /* NewProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */; };
@@ -3127,6 +3128,7 @@
 		B1C871521EADF4D4003DACF0 /* UITableViewCell+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+Common.h"; sourceTree = "<group>"; };
 		B1C871531EADF4D4003DACF0 /* UITableViewCell+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+Common.m"; sourceTree = "<group>"; };
 		B1C871551EAE003A003DACF0 /* project_item_topic@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_item_topic@3x.png"; sourceTree = "<group>"; };
+		B1C871571EB0884A003DACF0 /* little_phone_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "little_phone_icon@3x.png"; sourceTree = "<group>"; };
 		B93D90491ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectDeleteAlertControllerVisualStyle.h; sourceTree = "<group>"; };
 		B93D904A1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectDeleteAlertControllerVisualStyle.m; sourceTree = "<group>"; };
 		B94C1B671AC945D30000C271 /* NewProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewProjectViewController.h; sourceTree = "<group>"; };
@@ -5451,6 +5453,7 @@
 				4EAE068F1B784E9200179F4B /* store_icon@2x.png */,
 				4EAE06911B7880BA00179F4B /* me_info_arrow_left@2x.png */,
 				4EAC8B691BA01F190060B0FC /* little_phone_icon@2x.png */,
+				B1C871571EB0884A003DACF0 /* little_phone_icon@3x.png */,
 				4E5D13161C0EF48200985AEB /* button_close@2x.png */,
 				4E5D13171C0EF48200985AEB /* button_close@3x.png */,
 				4EC4800D1C2A909D005F1772 /* register_step_ed@2x.png */,
@@ -6904,6 +6907,7 @@
 				4E2BF3D01B96CDF800A5A0A8 /* share_btn_copylink@2x.png in Resources */,
 				4EF17ED41B3C3112003CDD2D /* intro_icon_2@3x.png in Resources */,
 				7E8E597F1B6F91C40083CA02 /* bubble_left_play_0@2x.png in Resources */,
+				B1C871581EB0884A003DACF0 /* little_phone_icon@3x.png in Resources */,
 				4E96E7E11A1B537E0037C098 /* icon_file_ppt@2x.png in Resources */,
 				4E2F6A6E1C43CA4B00A25502 /* member_type_75@2x.png in Resources */,
 				D0C448141C02F76600DC1C4B /* icon_search_searchbar@2x.png in Resources */,

@@ -121,7 +121,7 @@
             [self.contentView addSubview:self.locaitonBtn];
         }
         if (!self.fromPhoneIconView) {
-            self.fromPhoneIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 11, 11)];
+            self.fromPhoneIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 12, 12)];
             self.fromPhoneIconView.image = [UIImage imageNamed:@"little_phone_icon"];
             [self.contentView addSubview:self.fromPhoneIconView];
         }
