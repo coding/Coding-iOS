@@ -29,7 +29,7 @@
     if (self) {
         self.backgroundColor = kColorTableBG;
         _padding_top = 0;
-        _padding_bottom = 40;
+        _padding_bottom = 44;
         _image_width = kScreen_Width;
         _ratio = 0.4;
         CGFloat viewHeight = _padding_top + _padding_bottom + _image_width * _ratio;
@@ -85,7 +85,7 @@
     }
     if (!_myPageControl) {
         _myPageControl = ({
-            SMPageControl *pageControl = [[SMPageControl alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 30, _mySlideView.bottom + (40 - 10)/2, 30, 10)];
+            SMPageControl *pageControl = [[SMPageControl alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 30, _mySlideView.bottom + (_padding_bottom - 10)/2, 30, 10)];
             pageControl.userInteractionEnabled = NO;
             pageControl.backgroundColor = [UIColor clearColor];
             pageControl.pageIndicatorImage = [UIImage imageNamed:@"banner__page_unselected"];
