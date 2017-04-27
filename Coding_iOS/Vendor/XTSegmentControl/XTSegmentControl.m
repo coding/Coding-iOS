@@ -12,9 +12,9 @@
 
 #define XTSegmentControlItemFont (15)
 
-#define XTSegmentControlHspace (0)
+#define XTSegmentControlHspace ([self p_Hspace])
 
-#define XTSegmentControlLineHeight (2)
+#define XTSegmentControlLineHeight ([self p_LineHeight])
 
 #define XTSegmentControlAnimationTime (0.3)
 
@@ -90,7 +90,8 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
             default:
             {
                 _titleLabel = ({
-                    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(XTSegmentControlHspace, 0, CGRectGetWidth(self.bounds) - 2 * XTSegmentControlHspace, CGRectGetHeight(self.bounds))];
+//                    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(XTSegmentControlHspace, 0, CGRectGetWidth(self.bounds) - 2 * XTSegmentControlHspace, CGRectGetHeight(self.bounds))];
+                    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds))];
                     label.font = [UIFont systemFontOfSize:XTSegmentControlItemFont];
                     label.textAlignment = NSTextAlignmentCenter;
                     label.text = title;
@@ -98,7 +99,6 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
                     label.backgroundColor = [UIColor clearColor];
                     label;
                 });
-                
                 
                 [self addSubview:_titleLabel];
             }
@@ -373,11 +373,12 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 {
     if (!_lineView) {
         CGRect rect = [_itemFrames[0] CGRectValue];
-        _lineView = [[UIView alloc] initWithFrame:CGRectMake(
-                                                             CGRectGetMinX(rect),
-                                                             CGRectGetHeight(rect) - XTSegmentControlLineHeight,
-                                                             CGRectGetWidth(rect) - 2 * XTSegmentControlHspace,
-                                                             XTSegmentControlLineHeight)];
+        
+        CGRect lineRect = CGRectMake(CGRectGetMinX(rect) + XTSegmentControlHspace,
+                                     CGRectGetHeight(rect) - XTSegmentControlLineHeight,
+                                     CGRectGetWidth(rect) - 2 * XTSegmentControlHspace,
+                                     XTSegmentControlLineHeight);
+        _lineView = [[UIView alloc] initWithFrame:lineRect];
         _lineView.backgroundColor = kColorBrandGreen;
         [_contentView addSubview:_lineView];
        
@@ -385,6 +386,24 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         bottomLineView.backgroundColor = kColorDDD;
         [self addSubview:bottomLineView];
     }
+}
+
+- (CGFloat)p_Hspace{
+    CGFloat value = 0;
+    XTSegmentControlItem *item = _items.firstObject;
+    if (item.type == XTSegmentControlItemTypeIconUrl) {
+        value = 15;
+    }
+    return value;
+}
+
+- (CGFloat)p_LineHeight{
+    CGFloat value = 2;
+    XTSegmentControlItem *item = _items.firstObject;
+    if (item.type == XTSegmentControlItemTypeIconUrl) {
+        value = 2;
+    }
+    return value;
 }
 
 - (void)setTitle:(NSString *)title withIndex:(NSInteger)index
