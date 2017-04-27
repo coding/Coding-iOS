@@ -8,7 +8,7 @@
 
 #define kProjectTaskListViewCell_LeftPading 93.0
 #define kProjectTaskListViewCell_RightPading 10.0
-#define kProjectTaskListViewCell_CheckBoxWidth 20.0
+#define kProjectTaskListViewCell_CheckBoxWidth 17.0
 #define kProjectTaskListViewCell_UserIconWidth 33.0
 #define kProjectTaskListViewCell_UpDownPading 10.0
 #define kProjectTaskListViewCell_MaxContentHeight 20.0
@@ -357,20 +357,20 @@
     NSInteger leftDayCount = [deadline_date leftDayCount];
     switch (leftDayCount) {
         case 0:
-            textColorStr = @"0xF5A523";
+            textColorStr = @"0xF68435";
             deadlineStr = @"今天";
             break;
         case 1:
-            textColorStr = @"0x95B763";
+            textColorStr = @"0xA1CF64";
             deadlineStr = @"明天";
             break;
         default:
-            textColorStr = leftDayCount > 0? @"0x9AAFC2": @"0xF24B4B";
+            textColorStr = leftDayCount > 0? @"0x59A2FF": @"0xF56061";
             deadlineStr = [deadline_date stringWithFormat:@"MM/dd"];
             break;
     }
     if (done) {
-        textColorStr = @"0xB5B5B5";
+        textColorStr = @"0xA9B3BE";
     }
 
     UIColor *textColor = [UIColor colorWithHexString:textColorStr];
