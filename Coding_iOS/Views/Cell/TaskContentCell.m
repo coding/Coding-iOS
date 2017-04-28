@@ -126,7 +126,6 @@
 //            make.height.mas_equalTo(0.5);
 //            make.bottom.equalTo(self.contentView);
 //        }];
-        self.taskContentView.backgroundColor = [UIColor randomColor];
     }
     return self;
 }
