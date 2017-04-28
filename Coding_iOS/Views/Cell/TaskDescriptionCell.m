@@ -22,7 +22,7 @@
         
         if (!_button) {
             _button = [[UIButton alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([[self class] cellHeight] - 36)/2, kScreen_Width - 2*kPaddingLeftWidth, 36)];
-            _button.titleLabel.font = [UIFont systemFontOfSize:16];
+            _button.titleLabel.font = [UIFont systemFontOfSize:14];
             _button.backgroundColor = kColorTableSectionBg;
             _button.layer.masksToBounds = YES;
             _button.layer.cornerRadius = 2.0;

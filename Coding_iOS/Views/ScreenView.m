@@ -163,7 +163,7 @@
     resetButton.sd_layout.leftSpaceToView(mainView, 0).bottomSpaceToView(mainView, 0).rightSpaceToView(mainView, 0).heightIs(48.5);
     
     UILabel *line = [[UILabel alloc] init];
-    line.backgroundColor = [UIColor colorWithRGBHex:0xdddddd];
+    line.backgroundColor = kColorDDD;
     [mainView addSubview:line];
     line.sd_layout.leftSpaceToView(mainView, 0).rightSpaceToView(mainView, 0).bottomSpaceToView(resetButton, 0).heightIs(.5);
 

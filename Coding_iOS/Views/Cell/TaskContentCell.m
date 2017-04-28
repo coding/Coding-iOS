@@ -8,7 +8,7 @@
 #define kTaskContentCell_ContentHeightMin kScaleFrom_iPhone5_Desgin(90.0)
 #define kTextView_Pading 8.0
 #define kTaskContentCell_ContentWidth (kScreen_Width-kPaddingLeftWidth-kPaddingLeftWidth + 2*kTextView_Pading)
-#define kTaskContentCell_ContentFont [UIFont systemFontOfSize:18]
+#define kTaskContentCell_ContentFont [UIFont systemFontOfSize:15]
 
 
 #import "TaskContentCell.h"
@@ -77,7 +77,7 @@
         if (!_deleteBtn) {
             _deleteBtn = ({
                 UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                button.titleLabel.font = [UIFont systemFontOfSize:13];
+                button.titleLabel.font = [UIFont systemFontOfSize:12];
                 [button setTitleColor:kColorDark7 forState:UIControlStateNormal];
                 [button setTitle:@"删除" forState:UIControlStateNormal];
                 [button addTarget:self action:@selector(deleteBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
