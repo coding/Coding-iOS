@@ -25,7 +25,7 @@
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         if (!_iconView) {
-            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([LeftImage_LRTextCell cellHeight] - 28) / 2, 28, 28)];
+            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([LeftImage_LRTextCell cellHeight] - 33) / 2, 33, 33)];
             _iconView.contentMode = UIViewContentModeCenter;
             [self.contentView addSubview:_iconView];
         }
