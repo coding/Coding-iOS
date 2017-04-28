@@ -127,13 +127,13 @@
                                              kProjectTaskListViewCell_CheckBoxWidth));
         }];
         [_userIconView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.checkView.mas_right).offset(10);
+            make.left.equalTo(self.checkView.mas_right).offset(15);
             make.centerY.equalTo(self.contentView);
             make.size.mas_equalTo(CGSizeMake(kProjectTaskListViewCell_UserIconWidth,
                                              kProjectTaskListViewCell_UserIconWidth));
         }];
         [_taskPriorityView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.contentView).offset(10);
+            make.top.equalTo(self.contentView).offset(15);
             make.left.equalTo(self.userIconView.mas_right).offset(10);
             make.size.mas_equalTo(CGSizeMake(17, 17));
         }];
@@ -150,12 +150,12 @@
             make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
         }];
         [_numLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.contentView).offset(-10);
+            make.bottom.equalTo(self.contentView).offset(-15);
             make.left.equalTo(self.userIconView.mas_right).offset(10);
             make.height.mas_equalTo(15);
         }];
         [_userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.numLabel.mas_right).offset(5);
+            make.left.equalTo(self.numLabel.mas_right).offset(10);
             make.centerY.equalTo(self.numLabel);
             make.height.mas_equalTo(15);
         }];
@@ -229,9 +229,9 @@
     if ([obj isKindOfClass:[Task class]]) {
         Task *task = (Task *)obj;
         if (task.deadline_date || task.labels.count > 0) {
-            cellHeight = 95;
+            cellHeight = 105;
         }else{
-            cellHeight = 60;
+            cellHeight = 70;
         }
     }
     return cellHeight;

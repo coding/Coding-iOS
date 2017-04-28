@@ -32,7 +32,7 @@
         }
     }else{
         [self.imgView sd_setImageWithURL:nil];
-        [self.imgView setImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0xdadada"]]];
+        [self.imgView setImage:[UIImage imageWithColor:[UIColor colorWithHexString:@"0xD8DDE4"]]];
         if (!_likesLabel) {
             _likesLabel = [[UILabel alloc] initWithFrame:_imgView.bounds];
             _likesLabel.backgroundColor = [UIColor clearColor];

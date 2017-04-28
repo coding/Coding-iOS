@@ -128,6 +128,8 @@ static NSString *const kValueKey = @"kValueKey";
         _mySearchBar = ({
             MainSearchBar *searchBar = [MainSearchBar new];
             [searchBar setPlaceholder:@"搜索"];
+            [searchBar setPlaceholderColor:kColorDarkA];
+            [searchBar setSearchIcon:[UIImage imageNamed:@"icon_search_searchbar"]];
             searchBar.delegate = self;
             [searchBar sizeToFit];
             [searchBar.scanBtn addTarget:self action:@selector(scanBtnClicked) forControlEvents:UIControlEventTouchUpInside];

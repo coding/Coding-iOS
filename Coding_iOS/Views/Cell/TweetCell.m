@@ -111,7 +111,7 @@
             [self.contentView addSubview:self.likeBtn];
         }
         if (!self.rewardBtn) {
-            CGRect frame = CGRectMake(kPaddingLeftWidth + kTweetCell_LikeComment_Width + 5, 0, kTweetCell_LikeComment_Width, kTweetCell_LikeComment_Height);
+            CGRect frame = CGRectMake(kPaddingLeftWidth + kTweetCell_LikeComment_Width + 10, 0, kTweetCell_LikeComment_Width, kTweetCell_LikeComment_Height);
             self.rewardBtn = [UIButton tweetBtnWithFrame:frame alignmentLeft:YES];
             [self.rewardBtn addTarget:self action:@selector(rewardBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:self.rewardBtn];
