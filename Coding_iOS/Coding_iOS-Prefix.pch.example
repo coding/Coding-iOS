@@ -128,9 +128,11 @@
 #define kColor222 [UIColor colorWithHexString:@"0x222222"]
 #define kColor666 [UIColor colorWithHexString:@"0x666666"]
 #define kColor999 [UIColor colorWithHexString:@"0x999999"]
-#define kColorDDD [UIColor colorWithHexString:@"0xDDDDDD"]
+//#define kColorDDD [UIColor colorWithHexString:@"0xDDDDDD"]
+//#define kColorCCC [UIColor colorWithHexString:@"0xCCCCCC"]
+#define kColorDDD kColorD8DDE4
+#define kColorCCC kColorD8DDE4
 #define kColorD8DDE4 [UIColor colorWithHexString:@"0xD8DDE4"]
-#define kColorCCC [UIColor colorWithHexString:@"0xCCCCCC"]
 #define kColorBrandGreen [UIColor colorWithHexString:@"0x2EBE76"]
 #define kColorBrandRed [UIColor colorWithHexString:@"0xF56061"]
 
