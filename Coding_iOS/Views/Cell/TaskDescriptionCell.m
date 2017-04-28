@@ -21,7 +21,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         if (!_button) {
-            _button = [[UIButton alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([[self class] cellHeight] - 40)/2, kScreen_Width - 2*kPaddingLeftWidth, 40)];
+            _button = [[UIButton alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([[self class] cellHeight] - 36)/2, kScreen_Width - 2*kPaddingLeftWidth, 36)];
             _button.titleLabel.font = [UIFont systemFontOfSize:16];
             _button.backgroundColor = kColorTableSectionBg;
             _button.layer.masksToBounds = YES;
@@ -39,7 +39,7 @@
 
 - (void)setTitleStr:(NSString *)title andSpecail:(BOOL)isSpecail{
     [_button setTitle:title forState:UIControlStateNormal];
-    [_button setTitleColor:[UIColor colorWithHexString:isSpecail? @"0x2EBE76": @"0x222222"] forState:UIControlStateNormal];
+    [_button setTitleColor:isSpecail? kColorBrandGreen: kColorDark4 forState:UIControlStateNormal];
 }
 
 - (void)buttonClicked:(id)sender{
@@ -49,6 +49,6 @@
 }
 
 + (CGFloat)cellHeight{
-    return 70.0;
+    return 66.0;
 }
 @end

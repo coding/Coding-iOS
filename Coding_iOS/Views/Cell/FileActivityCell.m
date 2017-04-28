@@ -28,10 +28,10 @@
     
     attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];
     [attrContent addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:13],
-                                 NSForegroundColorAttributeName : kColor222}
+                                 NSForegroundColorAttributeName : kColorDark3}
                          range:NSMakeRange(0, userName.length)];
     [attrContent addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13],
-                                 NSForegroundColorAttributeName : kColor999}
+                                 NSForegroundColorAttributeName : kColorDark7}
                          range:NSMakeRange(userName.length + 1, contentStr.length)];
     
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];

@@ -45,7 +45,7 @@
         }
         if (!_ownerTitleLabel) {
             _ownerTitleLabel = [UILabel new];
-            _ownerTitleLabel.textColor = kColorDark7;
+            _ownerTitleLabel.textColor = kColorDarkA;
             _ownerTitleLabel.font = [UIFont systemFontOfSize:15];
             [self.contentView addSubview:_ownerTitleLabel];
         }
