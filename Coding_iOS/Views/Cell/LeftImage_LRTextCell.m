@@ -26,7 +26,6 @@
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         if (!_iconView) {
             _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([LeftImage_LRTextCell cellHeight] - 33) / 2, 33, 33)];
-            _iconView.contentMode = UIViewContentModeCenter;
             [self.contentView addSubview:_iconView];
         }
         if (!_leftLabel) {
@@ -139,6 +138,12 @@
                 break;
             default:
                 break;
+        }
+        if ((_type == LeftImage_LRTextCellTypeTaskProject && task.project.icon.length > 0) ||
+            (_type == LeftImage_LRTextCellTypeTaskOwner && task.owner.avatar.length > 0)) {
+            _iconView.contentMode = UIViewContentModeScaleAspectFill;
+        }else{
+            _iconView.contentMode = UIViewContentModeCenter;
         }
     }
 }
