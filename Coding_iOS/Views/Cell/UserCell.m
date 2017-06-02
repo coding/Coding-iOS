@@ -13,6 +13,7 @@
 @property (strong, nonatomic) UILabel *userNameLabel;
 @property (strong, nonatomic) UIButton *rightBtn;
 @property (strong, nonatomic) UIActivityIndicatorView *sendingStatus;
+@property (strong, nonatomic) UIImageView *vipV;
 
 @end
 
@@ -39,6 +40,13 @@
             [_rightBtn addTarget:self action:@selector(rightBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:_rightBtn];
         }
+        if (!_vipV) {
+            _vipV = [UIImageView new];
+            [self.contentView addSubview:_vipV];
+            [_vipV mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.bottom.equalTo(_userIconView);
+            }];
+        }
     }
     return self;
 }
@@ -49,8 +57,10 @@
     if (!_curUser) {
         [_userIconView setImage:[UIImage imageNamed:@"add_user_icon"]];
         _userNameLabel.text = @"添加好友";
+        _vipV.image = nil;
     }else{
         [_userIconView sd_setImageWithURL:[_curUser.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
+        _vipV.image = [UIImage imageNamed:[NSString stringWithFormat:@"vip_%@_40", _curUser.vip]];
         _userNameLabel.text = _curUser.name;
     }
     
