@@ -14,6 +14,7 @@
 
 @interface EaseUserInfoCell ()
 @property (nonatomic, strong) UIButton *headIconButton;
+@property (strong, nonatomic) UIImageView *vipV;
 @property (nonatomic, strong) UIButton *fansButton; //粉丝
 @property (nonatomic, strong) UIButton *followsButton; //关注
 @property (nonatomic, strong) UIButton *addFollowsButton; //添加关注
@@ -114,6 +115,12 @@
     _headIconButton.masksToBounds = YES;
     [_headIconButton addTarget:self action:@selector(userIconButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_headIconButton];
+    
+    _vipV = [UIImageView new];
+    [self.contentView addSubview:_vipV];
+    [_vipV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.bottom.equalTo(_headIconButton);
+    }];
     
     _fansButton = [[UIButton alloc] init];
     _fansButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -223,6 +230,8 @@
     }
     
     [_headIconButton sd_setBackgroundImageWithURL:[user.avatar urlImageWithCodePathResize:2* _headIconButton.width] forState:UIControlStateNormal placeholderImage:kPlaceholderMonkeyRoundWidth(54.0)];
+    _vipV.image = [UIImage imageNamed:[NSString stringWithFormat:@"vip_%@_75", _user.vip]];
+
     [_fansButton setTitle:[NSString stringWithFormat:@"粉丝  %@", user.fans_count.stringValue] forState:UIControlStateNormal];
     [_fansButton.titleLabel colorTextWithColor:[UIColor colorWithRGBHex:0x76808e] range:NSMakeRange(0, 2)];
     [_fansButton.titleLabel fontTextWithFont:[UIFont systemFontOfSize:12] range:NSMakeRange(0, 2)];

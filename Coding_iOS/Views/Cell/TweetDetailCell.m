@@ -33,6 +33,7 @@
 @property (strong, nonatomic) NSArray *like_reward_users;
 
 @property (strong, nonatomic) UITapImageView *ownerImgView;
+@property (strong, nonatomic) UIImageView *vipV;
 @property (strong, nonatomic) UIButton *ownerNameBtn;
 @property (strong, nonatomic) UILabel *timeLabel, *fromLabel;
 @property (strong, nonatomic) UIButton *likeBtn, *commentBtn, *deleteBtn, *rewardBtn;
@@ -161,7 +162,13 @@
             [_activityIndicator setCenter:CGPointMake(CGRectGetMidX(self.webContentView.frame), kTweetDetailCell_PadingTop+CGRectGetHeight(_activityIndicator.bounds)/2)];
             [self.contentView addSubview:_activityIndicator];
         }
-
+        if (!_vipV) {
+            _vipV = [UIImageView new];
+            [self.contentView addSubview:_vipV];
+            [_vipV mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.bottom.equalTo(_ownerImgView);
+            }];
+        }
     }
     return self;
 }
@@ -181,6 +188,8 @@
     [self.ownerImgView setImageWithUrl:[_tweet.owner.avatar urlImageWithCodePathResizeToView:_ownerImgView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerImgView) tapBlock:^(id obj) {
         [weakSelf userBtnClicked];
     }];
+    _vipV.image = [UIImage imageNamed:[NSString stringWithFormat:@"vip_%@_45", _tweet.owner.vip]];
+
     //owner姓名
 //    [self.ownerNameBtn setUserTitle:_tweet.owner.name];
     [self.ownerNameBtn setUserTitle:_tweet.owner.name font:self.ownerNameBtn.titleLabel.font maxWidth:(kScreen_Width- kTweetDetailCell_PadingLeft - 85)];

@@ -43,6 +43,7 @@
 
 @property (strong, nonatomic) UIView *topView;
 @property (strong, nonatomic) UITapImageView *ownerImgView;
+@property (strong, nonatomic) UIImageView *vipV;
 @property (strong, nonatomic) UIButton *ownerNameBtn;
 @property (strong, nonatomic) UITTTAttributedLabel *contentLabel;
 @property (strong, nonatomic) UILabel *timeLabel, *fromLabel;
@@ -206,6 +207,13 @@
             _commentOrLikeSplitlineView.image = [UIImage imageNamed:@"splitlineImg"];
             [self.contentView addSubview:_commentOrLikeSplitlineView];
         }
+        if (!_vipV) {
+            _vipV = [UIImageView new];
+            [self.contentView addSubview:_vipV];
+            [_vipV mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.bottom.equalTo(_ownerImgView);
+            }];
+        }
     }
     return self;
 }
@@ -227,6 +235,7 @@
     [self.ownerImgView setImageWithUrl:[_tweet.owner.avatar urlImageWithCodePathResizeToView:_ownerImgView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerImgView) tapBlock:^(id obj) {
         [weakSelf userBtnClicked];
     }];
+    _vipV.image = [UIImage imageNamed:[NSString stringWithFormat:@"vip_%@_45", _tweet.owner.vip]];
     //owner姓名
     [self.ownerNameBtn setUserTitle:_tweet.owner.name font:[UIFont systemFontOfSize:17] maxWidth:(kTweetCell_ContentWidth-85)];
     //发出冒泡的时间
