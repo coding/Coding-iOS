@@ -114,7 +114,11 @@
                     [_actionStr appendFormat:@"「%@」", _project_topic.parent.title];
                 }
             }else if ([_target_type isEqualToString:@"ProjectFile"]){
-                [_actionStr appendString:[_type isEqualToString:@"dir"]? @"文件夹": @"文件"];
+                if ([_action isEqualToString:@"rename"]) {
+                    [_actionStr appendString:@"修改了文件名称"];
+                }else{
+                    [_actionStr appendString:[_type isEqualToString:@"dir"]? @"文件夹": @"文件"];
+                }
             }else if ([_target_type isEqualToString:@"ProjectFileComment"]){
                 [_actionStr appendFormat:@"文件「%@」的评论", _projectFile.title];
             }else if ([_target_type isEqualToString:@"Depot"]){
@@ -176,7 +180,11 @@
                 [_contentStr saveAppendString:_project_topic.title];
             }
         }else if ([_target_type isEqualToString:@"ProjectFile"]){
-            [_contentStr saveAppendString:_file.name];
+            if ([_action isEqualToString:@"rename"]) {
+                [_contentStr appendFormat:@"%@ -> %@", _old_name, _file.name];
+            }else{
+                [_contentStr saveAppendString:_file.name];
+            }
         }else if ([_target_type isEqualToString:@"ProjectFileComment"]){
             [_contentStr saveAppendString:_projectFileComment.content];
         }else if ([_target_type isEqualToString:@"Depot"]){

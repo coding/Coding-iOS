@@ -17,6 +17,9 @@
 
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *videoPreviewLayer;
 @property (strong, nonatomic) CIDetector *detector;
+
+@property (assign, nonatomic, readwrite) BOOL isScaning;
+
 @end
 
 @implementation ZXScanCodeViewController
@@ -136,6 +139,7 @@
         make.height.mas_equalTo(30);
     }];
     [_scanRectView addSubview:_lineView];
+    _isScaning = YES;
     [_videoPreviewLayer.session startRunning];
     [self scanLineStartAction];
 }
@@ -185,6 +189,9 @@
 }
 
 - (void)analyseResult:(AVMetadataMachineReadableCodeObject *)result{
+    if (!_isScaning) {
+        return;
+    }
     if (![result isKindOfClass:[AVMetadataMachineReadableCodeObject class]]) {
         return;
     }
@@ -232,6 +239,9 @@
 }
 
 - (void)handleImageInfo:(NSDictionary *)info{
+    if (!_isScaning) {
+        return;
+    }
     //停止扫描
     [self stopScan];
     
@@ -260,14 +270,13 @@
 }
 
 #pragma mark public
-- (BOOL)isScaning{
-    return _videoPreviewLayer.session.isRunning;
-}
 - (void)startScan{
+    _isScaning = YES;
     [self.videoPreviewLayer.session startRunning];
     [self scanLineStartAction];
 }
 - (void)stopScan{
+    _isScaning = NO;
     [self.videoPreviewLayer.session stopRunning];
     [self scanLineStopAction];
 }
