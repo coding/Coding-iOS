@@ -1206,6 +1206,16 @@
 		B14689C31EE100B200B01371 /* vip_4_75@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B31EE100B200B01371 /* vip_4_75@3x.png */; };
 		B19D4EE11F690F5E00C598F3 /* file_activity_icon_rename@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19D4EDF1F690F5E00C598F3 /* file_activity_icon_rename@2x.png */; };
 		B19D4EE21F690F5E00C598F3 /* file_activity_icon_rename@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19D4EE01F690F5E00C598F3 /* file_activity_icon_rename@3x.png */; };
+		B19D4EEA1F6FAA6000C598F3 /* AboutPointViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B19D4EE81F6FAA6000C598F3 /* AboutPointViewController.m */; };
+		B19D4EEB1F6FAA6000C598F3 /* AboutPointViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B19D4EE91F6FAA6000C598F3 /* AboutPointViewController.xib */; };
+		B19D4EEE1F6FCEAC00C598F3 /* CodingSkill.m in Sources */ = {isa = PBXBuildFile; fileRef = B19D4EED1F6FCEAC00C598F3 /* CodingSkill.m */; };
+		B19D4EF21F710EF900C598F3 /* ShopSwitchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B19D4EF01F710EF900C598F3 /* ShopSwitchCell.m */; };
+		B19D4EF31F710EF900C598F3 /* ShopSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B19D4EF11F710EF900C598F3 /* ShopSwitchCell.xib */; };
+		B19D4EF61F7210C300C598F3 /* user_info_shop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19D4EF41F7210C300C598F3 /* user_info_shop@2x.png */; };
+		B19D4EF71F7210C300C598F3 /* user_info_shop@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19D4EF51F7210C300C598F3 /* user_info_shop@3x.png */; };
+		B19D4EFB1F7247BA00C598F3 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B19D4EF91F7247BA00C598F3 /* AlipaySDK.bundle */; };
+		B19D4EFC1F7247BA00C598F3 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B19D4EFA1F7247BA00C598F3 /* AlipaySDK.framework */; };
+		B19D4EFE1F724CDC00C598F3 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B19D4EFD1F724CDC00C598F3 /* CoreMotion.framework */; };
 		B1C871131EADAEE1003DACF0 /* loading_monkey@2x.gif in Resources */ = {isa = PBXBuildFile; fileRef = B1C871121EADAEE1003DACF0 /* loading_monkey@2x.gif */; };
 		B1C871181EADF0B1003DACF0 /* messageAT@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1C871141EADF0B1003DACF0 /* messageAT@3x.png */; };
 		B1C871191EADF0B1003DACF0 /* messageComment@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1C871151EADF0B1003DACF0 /* messageComment@3x.png */; };
@@ -3168,6 +3178,20 @@
 		B14689B31EE100B200B01371 /* vip_4_75@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_4_75@3x.png"; sourceTree = "<group>"; };
 		B19D4EDF1F690F5E00C598F3 /* file_activity_icon_rename@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_rename@2x.png"; sourceTree = "<group>"; };
 		B19D4EE01F690F5E00C598F3 /* file_activity_icon_rename@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_rename@3x.png"; sourceTree = "<group>"; };
+		B19D4EE71F6FAA6000C598F3 /* AboutPointViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutPointViewController.h; sourceTree = "<group>"; };
+		B19D4EE81F6FAA6000C598F3 /* AboutPointViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutPointViewController.m; sourceTree = "<group>"; };
+		B19D4EE91F6FAA6000C598F3 /* AboutPointViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutPointViewController.xib; sourceTree = "<group>"; };
+		B19D4EEC1F6FCEAC00C598F3 /* CodingSkill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodingSkill.h; sourceTree = "<group>"; };
+		B19D4EED1F6FCEAC00C598F3 /* CodingSkill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodingSkill.m; sourceTree = "<group>"; };
+		B19D4EEF1F710EF900C598F3 /* ShopSwitchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopSwitchCell.h; sourceTree = "<group>"; };
+		B19D4EF01F710EF900C598F3 /* ShopSwitchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopSwitchCell.m; sourceTree = "<group>"; };
+		B19D4EF11F710EF900C598F3 /* ShopSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopSwitchCell.xib; sourceTree = "<group>"; };
+		B19D4EF41F7210C300C598F3 /* user_info_shop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_shop@2x.png"; sourceTree = "<group>"; };
+		B19D4EF51F7210C300C598F3 /* user_info_shop@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_info_shop@3x.png"; sourceTree = "<group>"; };
+		B19D4EF91F7247BA00C598F3 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
+		B19D4EFA1F7247BA00C598F3 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		B19D4EFD1F724CDC00C598F3 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		B1B2BDAE1F78A59F00645EAD /* route.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = route.h; path = ../../../../../../Desktop/route.h; sourceTree = "<group>"; };
 		B1C871121EADAEE1003DACF0 /* loading_monkey@2x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "loading_monkey@2x.gif"; sourceTree = "<group>"; };
 		B1C871141EADF0B1003DACF0 /* messageAT@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messageAT@3x.png"; sourceTree = "<group>"; };
 		B1C871151EADF0B1003DACF0 /* messageComment@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messageComment@3x.png"; sourceTree = "<group>"; };
@@ -3372,6 +3396,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B19D4EFE1F724CDC00C598F3 /* CoreMotion.framework in Frameworks */,
 				4EFF5A771E0AE54800683D03 /* libresolv.9.tbd in Frameworks */,
 				4EDBECEB1B709EB3003E87C3 /* AVFoundation.framework in Frameworks */,
 				0AB591AD1AB6D51C0076C454 /* MapKit.framework in Frameworks */,
@@ -3380,6 +3405,7 @@
 				4EDD8F5A1A36F4FA00E9E232 /* Security.framework in Frameworks */,
 				4EDD8F581A36F4CA00E9E232 /* CoreTelephony.framework in Frameworks */,
 				4EDD8F561A36F4BD00E9E232 /* SystemConfiguration.framework in Frameworks */,
+				B19D4EFC1F7247BA00C598F3 /* AlipaySDK.framework in Frameworks */,
 				4EDD8F541A36F4AC00E9E232 /* CFNetwork.framework in Frameworks */,
 				4E96E7C81A1B46740037C098 /* QuickLook.framework in Frameworks */,
 				8E03D4A419F696970092F8C8 /* libz.dylib in Frameworks */,
@@ -3811,6 +3837,7 @@
 				4E3068381E0B781A00AEE0CE /* LDSimplePing.h */,
 				4E3068391E0B781A00AEE0CE /* LDSimplePing.m */,
 				4E30683A1E0B781A00AEE0CE /* Route.h */,
+				B1B2BDAE1F78A59F00645EAD /* route.h */,
 			);
 			path = LDNetDiagnoService;
 			sourceTree = "<group>";
@@ -4376,6 +4403,8 @@
 		4E996BF91ABBF56A00C704F1 /* userInfo */ = {
 			isa = PBXGroup;
 			children = (
+				B19D4EF41F7210C300C598F3 /* user_info_shop@2x.png */,
+				B19D4EF51F7210C300C598F3 /* user_info_shop@3x.png */,
 				B1C871481EADF217003DACF0 /* user_info_company@2x.png */,
 				B1C871491EADF217003DACF0 /* user_info_company@3x.png */,
 				4E996BFA1ABBF56A00C704F1 /* n_btn_followed_both@2x.png */,
@@ -5005,6 +5034,7 @@
 		8E477012198770E700997D05 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B19D4EFD1F724CDC00C598F3 /* CoreMotion.framework */,
 				4EFF5A761E0AE54800683D03 /* libresolv.9.tbd */,
 				4EDBECEA1B709EB3003E87C3 /* AVFoundation.framework */,
 				4EF818231B09D8D8005F974B /* WebP.framework */,
@@ -5402,6 +5432,9 @@
 				4E24B2671B43D33F004D7989 /* ProjectToChooseListViewController.m */,
 				4E0022871B721516005308DE /* PointRecordsViewController.h */,
 				4E0022881B721516005308DE /* PointRecordsViewController.m */,
+				B19D4EE71F6FAA6000C598F3 /* AboutPointViewController.h */,
+				B19D4EE81F6FAA6000C598F3 /* AboutPointViewController.m */,
+				B19D4EE91F6FAA6000C598F3 /* AboutPointViewController.xib */,
 				4EAE06A91B7B23EA00179F4B /* FileActivitiesViewController.h */,
 				4EAE06AA1B7B23EA00179F4B /* FileActivitiesViewController.m */,
 				4EAE06AC1B7B241A00179F4B /* FileVersionsViewController.h */,
@@ -5907,6 +5940,8 @@
 				4E6CBE5B1D8FC7A500644086 /* ProjectServiceInfo.m */,
 				4ED4B4951D82939700EED8C6 /* Team.h */,
 				4ED4B4961D82939700EED8C6 /* Team.m */,
+				B19D4EEC1F6FCEAC00C598F3 /* CodingSkill.h */,
+				B19D4EED1F6FCEAC00C598F3 /* CodingSkill.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -5983,6 +6018,7 @@
 		8EA6D03E19E240C40076D59C /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				B19D4EF81F7247BA00C598F3 /* AlipaySDK */,
 				D031F5D81BFAD6690008E964 /* FRDLivelyButton */,
 				4E5D12FB1C0C5EE600985AEB /* RRFPSBar */,
 				4EE956521B9C1C500009EDA9 /* UMSocial_Sdk_4.3.0_Extra */,
@@ -6399,6 +6435,9 @@
 				09A0589A1E0AAA7200C1CA3F /* ScreenCell.m */,
 				09A0589C1E0AAA8800C1CA3F /* TaskSelectionCell.h */,
 				09A0589D1E0AAA8800C1CA3F /* TaskSelectionCell.m */,
+				B19D4EEF1F710EF900C598F3 /* ShopSwitchCell.h */,
+				B19D4EF01F710EF900C598F3 /* ShopSwitchCell.m */,
+				B19D4EF11F710EF900C598F3 /* ShopSwitchCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -6454,6 +6493,15 @@
 				B14689B31EE100B200B01371 /* vip_4_75@3x.png */,
 			);
 			path = vip;
+			sourceTree = "<group>";
+		};
+		B19D4EF81F7247BA00C598F3 /* AlipaySDK */ = {
+			isa = PBXGroup;
+			children = (
+				B19D4EF91F7247BA00C598F3 /* AlipaySDK.bundle */,
+				B19D4EFA1F7247BA00C598F3 /* AlipaySDK.framework */,
+			);
+			path = AlipaySDK;
 			sourceTree = "<group>";
 		};
 		B94C1B661AC945C60000C271 /* NewProject */ = {
@@ -6626,6 +6674,7 @@
 				8EA6D15019E240C40076D59C /* commentOrLikeBeginImg@2x.png in Resources */,
 				4EB52F5F1C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@3x.png in Resources */,
 				13FB5D481CA17A6400EE127C /* PR_mergeChanges@3x.png in Resources */,
+				B19D4EF61F7210C300C598F3 /* user_info_shop@2x.png in Resources */,
 				134E1B9B1CA41217002A3E0D /* ReviewCell.xib in Resources */,
 				8EA6D15E19E240C40076D59C /* login_suffix@2x.png in Resources */,
 				4EB52F101C74691B00B5EBEA /* password_look@3x.png in Resources */,
@@ -6875,6 +6924,7 @@
 				4ED4B4861D82646100EED8C6 /* user_info_about@3x.png in Resources */,
 				B1C871801EB18599003DACF0 /* calendar_0xA1CF64@3x.png in Resources */,
 				4ED4B4871D82646100EED8C6 /* user_info_file@2x.png in Resources */,
+				B19D4EF31F710EF900C598F3 /* ShopSwitchCell.xib in Resources */,
 				B1C871501EADF48B003DACF0 /* cell_arrow_left@2x.png in Resources */,
 				4E2F6A711C43CA4B00A25502 /* member_type_90@3x.png in Resources */,
 				4EF17ECB1B3C3112003CDD2D /* intro_dot_selected@2x.png in Resources */,
@@ -6981,6 +7031,7 @@
 				4EE548291AE9166B00A92306 /* icon_project_cell_pin@2x.png in Resources */,
 				D0C447C01C02DB5400DC1C4B /* pop_2FA@2x.png in Resources */,
 				4EBD0C661A1F2011004B4284 /* nav_project_file@2x.png in Resources */,
+				B19D4EF71F7210C300C598F3 /* user_info_shop@3x.png in Resources */,
 				D0C447C31C02DB5400DC1C4B /* pop_Task@2x.png in Resources */,
 				8EA6D17E19E240C40076D59C /* section_btn_close@2x.png in Resources */,
 				4EBD7FB11CE482A400B3AF49 /* country_code.plist in Resources */,
@@ -7148,6 +7199,7 @@
 				8E97CE611A0A3424006F9AD7 /* keyboard_add_photo@2x.png in Resources */,
 				4EAECBC61C44CB860096CA74 /* member_cell_edit_type@2x.png in Resources */,
 				4E93F23B1B84356500017916 /* file_menu_icon_edit@2x.png in Resources */,
+				B19D4EEB1F6FAA6000C598F3 /* AboutPointViewController.xib in Resources */,
 				8E1C3DF619E7F4CA00EF3032 /* address.json in Resources */,
 				4E80E9391E01218300DE1BC6 /* reward_tip_logo@3x.png in Resources */,
 				4E09DCAA1C15662E001C9392 /* share_Nav@3x.png in Resources */,
@@ -7265,6 +7317,7 @@
 				B9A00D7F1ACA3A05008BA008 /* ProjectSetting.storyboard in Resources */,
 				8EA6D19219E240C40076D59C /* timeline_icon_unread@2x.png in Resources */,
 				4E54C24B1D8FE19100A61023 /* user_info_edit@2x.png in Resources */,
+				B19D4EFB1F7247BA00C598F3 /* AlipaySDK.bundle in Resources */,
 				4E095A6D1B69F920008DC439 /* banner__page_selected@2x.png in Resources */,
 				4EB52F5D1C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@3x.png in Resources */,
 				4E86FEE51BB556D6005E53F3 /* tipIcon_ProjectFileComment@2x.png in Resources */,
@@ -7709,6 +7762,7 @@
 				8EF643D319FF7E2900F7EEB0 /* ValueListCell.m in Sources */,
 				4EB52F3F1C7C464400B5EBEA /* TaskResourceReferenceViewController.m in Sources */,
 				4E217F0C1A70EDC700F6DF88 /* SVModalWebViewController.m in Sources */,
+				B19D4EF21F710EF900C598F3 /* ShopSwitchCell.m in Sources */,
 				4E19E7071BCE03CD00C66DC6 /* UIActionSheet+Front.m in Sources */,
 				4EF17E5F1B3AB10F003CDD2D /* IntroductionViewController.m in Sources */,
 				4EA7F1601A6D192B00A046BD /* SDWebImagePrefetcher.m in Sources */,
@@ -7843,6 +7897,7 @@
 				4E6D718A1A75F00E005AD988 /* YLImageView.m in Sources */,
 				4E095A591B690494008DC439 /* CodingBanner.m in Sources */,
 				9233997B1C00C55600F29E04 /* ShopOrderModel.m in Sources */,
+				B19D4EEE1F6FCEAC00C598F3 /* CodingSkill.m in Sources */,
 				923399721C00A9EF00F29E04 /* DashesLineView.m in Sources */,
 				8EA6D1C119E240C40076D59C /* Tweets.m in Sources */,
 				4E8D5D5F1B45295D00B70936 /* OTPAuthURL.m in Sources */,
@@ -7977,6 +8032,7 @@
 				4E6CBE4B1D8E71DC00644086 /* TopicAnswerCell.m in Sources */,
 				4E969CD01AF0EB87005C0CCE /* NSTimer+Common.m in Sources */,
 				8EF643B019FF7E2900F7EEB0 /* CodingTipCell.m in Sources */,
+				B19D4EEA1F6FAA6000C598F3 /* AboutPointViewController.m in Sources */,
 				4E6FB0581B58DB0A00B0A17B /* ProjectTagsView.m in Sources */,
 				8EA6D1BA19E240C40076D59C /* Projects.m in Sources */,
 				4E996BDF1ABA7CE100C704F1 /* UserInfoDetailUserCell.m in Sources */,
@@ -8108,6 +8164,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Coding_iOS/Vendor/AlipaySDK",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8120,7 +8177,7 @@
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
 				INFOPLIST_FILE = "Coding_iOS/Coding_iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -8153,6 +8210,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Coding_iOS/Vendor/AlipaySDK",
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8165,7 +8223,7 @@
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
 				INFOPLIST_FILE = "Coding_iOS/Coding_iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

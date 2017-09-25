@@ -31,6 +31,9 @@
 #import "TeamListViewController.h"
 #import "MeDisplayViewController.h"
 
+#import "FunctionTipsManager.h"
+#import "ShopViewController.h"
+
 @interface Me_RootViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
@@ -100,7 +103,7 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = (section ==0? 2:
-                     section == 1? 1:
+                     section == 1? 2:
                      4);
     return row;
 }
@@ -128,11 +131,21 @@
         }
     }else{
         UserInfoIconCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserInfoIconCell forIndexPath:indexPath];
-        (indexPath.section == 1? [cell setTitle:@"我的码币" icon:@"user_info_point"]:
+        (indexPath.section == 1? (indexPath.row == 0? [cell setTitle:@"我的码币" icon:@"user_info_point"]:
+                                  [cell setTitle:@"商城" icon:@"user_info_shop"]):
          indexPath.row == 0? [cell setTitle:@"本地文件" icon:@"user_info_file"]:
          indexPath.row == 1? [cell setTitle:@"帮助与反馈" icon:@"user_info_help"]:
          indexPath.row == 2? [cell setTitle:@"设置" icon:@"user_info_setup"]:
          [cell setTitle:@"关于我们" icon:@"user_info_about"]);
+        if (indexPath.section == 1 && indexPath.row == 1 && [[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Me_Shop]) {
+//            cell.accessoryType = UITableViewCellAccessoryNone;
+            CGFloat pointX = kScreen_Width - 40;
+            CGFloat pointY = [UserInfoIconCell cellHeight]/2;
+            [cell.contentView addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(pointX, pointY)];
+        }else{
+//            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            [cell.contentView removeBadgeTips];
+        }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }
@@ -168,7 +181,11 @@
             [self goToMeDisplay];
         }
     }else if (indexPath.section == 1){//我的码币
-        [self goToPoint];
+        if (indexPath.row == 0) {
+            [self goToPoint];
+        }else{
+            [self goToShop];
+        }
     }else{
         if (indexPath.row == 0) {//本地文件
             [self goToLocalFolders];
@@ -197,6 +214,15 @@
 - (void)goToPoint{
     PointRecordsViewController *vc = [PointRecordsViewController new];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToShop{
+    if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Me_Shop]) {
+        [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_Me_Shop];
+        [self.myTableView reloadData];
+    }
+    ShopViewController *shopvc = [ShopViewController new];
+    [self.navigationController pushViewController:shopvc animated:YES];
 }
 
 - (void)goToSetting{

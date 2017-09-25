@@ -44,7 +44,7 @@
         self.backgroundColor = kColorBrandGreen;
         _contentLabel.textColor = [UIColor whiteColor];
     }else{
-        self.backgroundColor = kColorTableSectionBg;
+        self.backgroundColor = [UIColor whiteColor];
         _contentLabel.textColor = [UIColor blackColor];
     }
 }

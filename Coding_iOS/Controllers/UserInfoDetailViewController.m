@@ -45,7 +45,7 @@
 #pragma mark TableM
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 5;
+    return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -61,7 +61,7 @@
             row = 4;
             break;
         case 3:
-            row = 2;
+            row = 4;
             break;
         default:
             row = 1;
@@ -76,9 +76,10 @@
         [cell setName:_curUser.name icon:_curUser.avatar];
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
-    }else if (indexPath.section == 4){
+    }else if (indexPath.section == 4 || indexPath.section == 5){
         UserInfoDetailTagCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserInfoDetailTagCell forIndexPath:indexPath];
-        [cell setTagStr:_curUser.tags_str];
+        [cell setTitleStr:indexPath.section == 4? @"开发技能": @"个性标签"];
+        [cell setTagStr:indexPath.section == 4? _curUser.skills_str: _curUser.tags_str];
         cell.accessoryType = UITableViewCellAccessoryNone;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
@@ -127,9 +128,13 @@
                 break;
             default:
                 if (indexPath.row == 0) {
+                    [cell setTitleStr:@"学历" valueStr:_curUser.degree_str];
+                }else if (indexPath.row == 1){
+                    [cell setTitleStr:@"学校" valueStr:_curUser.school];
+                }else if (indexPath.row == 2){
                     [cell setTitleStr:@"公司" valueStr:_curUser.company];
                 }else{
-                    [cell setTitleStr:@"职位" valueStr:_curUser.job_str];
+                    [cell setTitleStr:@"工作" valueStr:_curUser.job_str];
                 }
                 break;
         }
@@ -141,8 +146,8 @@
     CGFloat cellHeight;
     if (indexPath.section == 0) {
         cellHeight = [UserInfoDetailUserCell cellHeight];
-    }else if (indexPath.section == 4){
-        cellHeight = [UserInfoDetailTagCell cellHeightWithObj:_curUser.tags_str];
+    }else if (indexPath.section == 4 || indexPath.section == 5){
+        cellHeight = [UserInfoDetailTagCell cellHeightWithObj:indexPath.section == 4? _curUser.skills_str: _curUser.tags_str];
     }else{
         cellHeight = 44;
     }

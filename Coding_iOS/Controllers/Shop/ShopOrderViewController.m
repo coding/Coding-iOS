@@ -49,11 +49,7 @@
     [[Coding_NetAPIManager sharedManager] request_shop_OrderListWithOrder:_myOrder andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
-            
             [weakSelf carouselCurrentItemIndexDidChange:weakCarosel];
-//            weakSelf.myOrder.orderType = ShopOrderAll;
-//            ShopOrderListView *listView = (ShopOrderListView *)[weakSelf.myCarousel itemViewAtIndex:weakSelf.myOrder.orderType];
-//            [listView reloadData];
         }
     }];
 }
@@ -90,7 +86,7 @@
 - (NSArray*)titlesArray
 {
     if (nil == _titlesArray) {
-        _titlesArray = @[@"全部订单", @"未发货", @"已发货",];
+        _titlesArray = @[@"全部订单", @"待付款", @"未发货", @"已发货",];
     }
     return _titlesArray;
 }
@@ -135,6 +131,9 @@
     }else if (_myOrder.orderType == ShopOrderUnSend)
     {
         _orderEmptyType = EaseBlankPageTypeShopUnSendOrders;
+    }else if (_myOrder.orderType == ShopOrderUnSend)
+    {
+        _orderEmptyType = EaseBlankPageTypeShopUnPayOrders;
     }else
         _orderEmptyType = EaseBlankPageTypeShopOrders;
     
@@ -144,7 +143,6 @@
     if (_mySegmentControl) {
         _mySegmentControl.currentIndex = carousel.currentItemIndex;
     }
-    
     
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         [obj setSubScrollsToTop:(obj == carousel.currentItemView)];

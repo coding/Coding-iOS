@@ -24,4 +24,6 @@
 - (void)colorTextWithColor:(UIColor *)color range:(NSRange)range;
 - (void)fontTextWithFont:(UIFont *)font range:(NSRange)range;
 
+- (void)ea_setText:(NSString*)text lineSpacing:(CGFloat)lineSpacing;
+
 @end

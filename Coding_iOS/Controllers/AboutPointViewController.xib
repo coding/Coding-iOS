@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AboutPointViewController">
+            <connections>
+                <outlet property="aboutL" destination="DW9-r9-Zd3" id="K97-9v-bHg"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSx-j8-GSA">
+                    <rect key="frame" x="-0.5" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hbv-LB-ftj">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="596.5"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DW9-r9-Zd3">
+                                    <rect key="frame" x="15" y="30" width="345" height="551.5"/>
+                                    <mutableString key="text">什么是码币
+
+码币是 Coding 平台推出的线上虚拟货币，可通过在 Coding 上进行冒泡，完善个人信息等操作免费获取，也可以使用人民币进行兑换，可用于购买Coding 商城的礼品以及购买项目升级代金券。
+
+可以用码币做什么
+
+1. 你可以利用码币购买 Shop 页面所列 Coding 定制等商品：如洋葱猴抱枕、Coding 毛巾、T恤、短裤、Coding 定制拖鞋等。
+2. 购买 Coding 推出的项目升级业务，拥有更多资源，提供更多个性化的服务。
+
+如何获取码币
+
+1. 使用人民币 兑换 （请通过点击账户码币页面的 “购买码币”，以充值的形式购买码币。码币与人民币的兑换标准是 1 码币= 50 元人民币（0.1 码币起购买）,支持支付宝及微信付款）
+2. 冒泡 被管理员推荐上广场 奖励 0.01mb
+3. 邀请好友注册 Coding 并绑定手机号奖励0.02mb
+4. 过生日赠送 0.1mb
+5. 完善个人信息奖励 0.1mb
+6. 完成手机验证奖励 0.1mb
+7. 开启两步验证 励 0.1mb
+8. App 首次登录奖励 0.1mb
+9. 我们不定期发布的其他形式的码币悬赏活动（请关注 Coding 冒泡，Coding 微博 及 Coding 微信公众号），数量不等
+10. 转发 Coding 微博，每周抽 1 名转发用户赠送 0.5mb 给 Coding 博客 投稿 奖励 1-2mb</mutableString>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" red="0.25882352941176467" green="0.31372549019607843" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="DW9-r9-Zd3" firstAttribute="leading" secondItem="Hbv-LB-ftj" secondAttribute="leading" constant="15" id="4bg-Bb-749"/>
+                                <constraint firstItem="DW9-r9-Zd3" firstAttribute="top" secondItem="Hbv-LB-ftj" secondAttribute="top" constant="30" id="4y6-n3-388"/>
+                                <constraint firstAttribute="bottom" secondItem="DW9-r9-Zd3" secondAttribute="bottom" constant="15" id="D1t-Tj-3NY"/>
+                                <constraint firstAttribute="trailing" secondItem="DW9-r9-Zd3" secondAttribute="trailing" constant="15" id="xPP-ne-Q4b"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="Hbv-LB-ftj" secondAttribute="trailing" id="DZm-FK-Y1a"/>
+                        <constraint firstAttribute="bottom" secondItem="Hbv-LB-ftj" secondAttribute="bottom" constant="20" id="Epx-N1-TQ5"/>
+                        <constraint firstItem="Hbv-LB-ftj" firstAttribute="centerX" secondItem="nSx-j8-GSA" secondAttribute="centerX" id="Gms-Xf-VPi"/>
+                        <constraint firstItem="Hbv-LB-ftj" firstAttribute="leading" secondItem="nSx-j8-GSA" secondAttribute="leading" id="ZUU-sP-EfU"/>
+                        <constraint firstItem="Hbv-LB-ftj" firstAttribute="top" secondItem="nSx-j8-GSA" secondAttribute="top" id="lhm-gS-JKa"/>
+                    </constraints>
+                </scrollView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="nSx-j8-GSA" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="38I-1L-vtV"/>
+                <constraint firstItem="nSx-j8-GSA" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="T2B-4f-vD5"/>
+                <constraint firstItem="nSx-j8-GSA" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="gVx-HX-1ps"/>
+                <constraint firstItem="Hbv-LB-ftj" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="ncH-OZ-3AR"/>
+                <constraint firstItem="nSx-j8-GSA" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="pXG-fe-Fln"/>
+            </constraints>
+            <point key="canvasLocation" x="-120" y="39"/>
+        </view>
+    </objects>
+</document>

@@ -15,8 +15,9 @@
 #import "LocationViewController.h"
 #import "ShopMutileValueCell.h"
 #import "ActionSheetStringPicker.h"
+#import "ShopSwitchCell.h"
 
-#define kCellIdentifier_ShopOrderTextFieldCell @"ShopOrderTextFieldCell.h"
+#import <AlipaySDK/AlipaySDK.h>
 
 @interface ExchangeGoodsViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 {
@@ -24,10 +25,12 @@
 
 @property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
 @property (strong, nonatomic) UIButton *shopOrderBtn;
+@property (strong, nonatomic) UILabel *priceL;
 
 @property (strong, nonatomic) NSString *receiverName, *receiverAddress, *receiverPhone, *remark;
 @property (strong, nonatomic) NSArray *locations;
 @property (strong, nonatomic) ShopGoodsOption *option;
+
 @end
 
 @implementation ExchangeGoodsViewController
@@ -60,9 +63,9 @@
         [NSObject showHudTipStr:@"联系电话非常重要"];
         return;
     }
-    // alert
-    [self showPwdAlertView];
-        
+    [self exchangeActionClicked];
+//    // alert
+//    [self showPwdAlertView];
 }
 
 #pragma mark-
@@ -81,12 +84,13 @@
         tableView.dataSource = self;
         [tableView registerClass:[ShopOrderTextFieldCell class] forCellReuseIdentifier:kCellIdentifier_ShopOrderTextFieldCell];
         [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_ShopMutileValueCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ShopMutileValueCell];
+        [tableView registerNib:[UINib nibWithNibName:kCellIdentifier_ShopSwitchCell bundle:nil] forCellReuseIdentifier:kCellIdentifier_ShopSwitchCell];
         tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         tableView.separatorColor = [UIColor colorWithHexString:@"0xFFDDDDDD"];
         tableView.separatorInset = UIEdgeInsetsMake(0, 12, 0, 12);
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, 49, 0));
         }];
         tableView;
     });
@@ -97,26 +101,44 @@
     [headView addSubview:goodInfoView];
     headView.backgroundColor = [UIColor whiteColor];
     _myTableView.tableHeaderView = headView;
+//    _myTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 0)];
     
-    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(_myTableView.frame), 136/2)];
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 49)];
+    bottomView.backgroundColor = [UIColor whiteColor];
     _shopOrderBtn = ({
         UIButton *orderBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [orderBtn setBackgroundImage:[UIImage imageWithColor:kColorBrandGreen] forState:UIControlStateNormal];
+        [orderBtn setBackgroundImage:[UIImage imageWithColor:kColorBrandOrange] forState:UIControlStateNormal];
         [orderBtn addTarget:self action:@selector(orderCommitAction:) forControlEvents:UIControlEventTouchUpInside];
         [orderBtn setTitle:@"提交订单" forState:UIControlStateNormal];
         [orderBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        orderBtn.layer.masksToBounds = YES;
-        orderBtn.layer.cornerRadius = 44/2;
-        [footView addSubview:orderBtn];
+        orderBtn.titleLabel.font = [UIFont systemFontOfSize:17];
+        [bottomView addSubview:orderBtn];
         [orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.equalTo(@44);
-            make.left.equalTo(footView.mas_left).offset(16);
-            make.right.equalTo(footView.mas_right).offset(-16);
-            make.centerX.centerY.equalTo(footView);
+            make.top.right.bottom.equalTo(bottomView);
+            make.width.mas_equalTo(120);
         }];
         orderBtn;
     });
-    _myTableView.tableFooterView = footView;
+    _priceL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:kColorDark3];
+    [bottomView addSubview:_priceL];
+    [bottomView addLineUp:YES andDown:NO];
+    [self.view addSubview:bottomView];
+    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view);
+        make.height.mas_equalTo(49);
+    }];
+    [_priceL mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(bottomView);
+        make.centerX.equalTo(bottomView).offset(-60);
+    }];
+    [self p_updatePriceUI];
+}
+
+- (void)p_updatePriceUI{
+    NSString *priceStr = [NSString stringWithFormat:@"￥%@", _shopGoods.curPrice];
+    _priceL.text = [NSString stringWithFormat:@"实付款：%@", priceStr];
+    [_priceL addAttrDict:@{NSForegroundColorAttributeName: kColorBrandOrange,
+                           NSFontAttributeName: [UIFont systemFontOfSize:18]} toStr:priceStr];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -126,108 +148,138 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return _shopGoods.hasAvailablePoints? 2: 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger row = self.shopGoods.options.count > 0? 6: 5;
+    NSInteger row = section == 0? self.shopGoods.options.count > 0? 6: 5: 1;
     return row;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 1 || indexPath.row == 5) {
-        ShopMutileValueCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ShopMutileValueCell forIndexPath:indexPath];
-        if (indexPath.row == 1) {
-            cell.titleL.text = @"所在地 *";
-            cell.valueF.text = [[self.locations valueForKey:@"name"] componentsJoinedByString:@" - "];
-        }else{
-            cell.titleL.text = @"选项";
-            cell.valueF.text = self.option.name;
+    if (indexPath.section == 0) {
+        if (indexPath.row == 1 || indexPath.row == 5) {
+            ShopMutileValueCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ShopMutileValueCell forIndexPath:indexPath];
+            if (indexPath.row == 1) {
+                cell.titleL.text = @"所在地 *";
+                cell.valueF.text = [[self.locations valueForKey:@"name"] componentsJoinedByString:@" - "];
+            }else{
+                cell.titleL.text = @"选项";
+                cell.valueF.text = self.option.name;
+            }
+            return cell;
         }
-        return cell;
-    }
-    else{
-        ShopOrderTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ShopOrderTextFieldCell forIndexPath:indexPath];
-        
-        switch (indexPath.row) {
-            case 0:
-            {
-                cell.nameLabel.text = @"收货人 *";
-                cell.textField.placeholder  = @"小王";
-                cell.textField.text = self.receiverName;
-                RAC(self, receiverName) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
-                break;
+        else{
+            ShopOrderTextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ShopOrderTextFieldCell forIndexPath:indexPath];
+            
+            switch (indexPath.row) {
+                case 0:
+                {
+                    cell.nameLabel.text = @"收货人 *";
+                    cell.textField.placeholder  = @"小王";
+                    cell.textField.text = self.receiverName;
+                    RAC(self, receiverName) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
+                    break;
+                }
+                case 2:
+                {
+                    cell.nameLabel.text = @"详细地址 *";
+                    cell.textField.placeholder  = @"街道地址";
+                    cell.textField.text = self.receiverAddress;
+                    RAC(self, receiverAddress) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
+                    break;
+                }
+                case 3:
+                {
+                    cell.nameLabel.text = @"联系电话 *";
+                    cell.textField.placeholder  = @"电话";
+                    cell.textField.text = self.receiverPhone;
+                    RAC(self, receiverPhone) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
+                    break;
+                }
+                case 4:
+                {
+                    cell.nameLabel.text = @"备注";
+                    cell.textField.placeholder  = @"备注信息如:衣服码数XXL";
+                    cell.textField.text = self.remark;
+                    RAC(self, remark) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
+                    break;
+                }
+                default:
+                    break;
             }
-            case 2:
-            {
-                cell.nameLabel.text = @"详细地址 *";
-                cell.textField.placeholder  = @"街道地址";
-                cell.textField.text = self.receiverAddress;
-                RAC(self, receiverAddress) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
-                break;
-            }
-            case 3:
-            {
-                cell.nameLabel.text = @"联系电话 *";
-                cell.textField.placeholder  = @"电话";
-                cell.textField.text = self.receiverPhone;
-                RAC(self, receiverPhone) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
-                break;
-            }
-            case 4:
-            {
-                cell.nameLabel.text = @"备注";
-                cell.textField.placeholder  = @"备注信息如:衣服码数XXL";
-                cell.textField.text = self.remark;
-                RAC(self, remark) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
-                break;
-            }
-            default:
-                break;
+            return cell;
         }
+    }else{
+        ShopSwitchCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ShopSwitchCell forIndexPath:indexPath];
+        cell.shopGoods = _shopGoods;
+        __weak typeof(self) weakSelf = self;
+        cell.updateBlock = ^{
+            [weakSelf p_updatePriceUI];
+        };
         return cell;
     }
 }
 
 #pragma mark - UITableViewDelegate
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    return @"填写并核对订单信息";
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        UIView *headerV = [UIView new];
+        UILabel *headerL = [UILabel labelWithFont:[UIFont systemFontOfSize:14] textColor:kColorDark7];
+        headerL.text = @"填写并核对订单信息";
+        [headerV addSubview:headerL];
+        [headerL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.offset(15);
+            make.bottom.offset(-10);
+        }];
+        return headerV;
+    }
+    return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 1 || indexPath.row == 5) {
-        return [ShopMutileValueCell cellHeight];
+    if (indexPath.section == 0) {
+        if (indexPath.row == 1 || indexPath.row == 5) {
+            return [ShopMutileValueCell cellHeight];
+        }else{
+            return [ShopOrderTextFieldCell cellHeight];
+        }
     }else{
-        return [ShopOrderTextFieldCell cellHeight];
+        return 50;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 42;
+    return section == 0? 50: 1.0/[UIScreen mainScreen].scale;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 20;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 1) {
-        [self goToLocationVC];
-    }else if (indexPath.row == 5){
-        NSArray *rows = [self.shopGoods.options valueForKey:@"name"];
-        NSInteger index = self.option? [self.shopGoods.options indexOfObject:self.option]: 0;
-        __weak typeof(self) weakSelf = self;
-        [ActionSheetStringPicker showPickerWithTitle:nil rows:@[rows] initialSelection:@[@(index)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
-            NSInteger newIndex = [(NSNumber *)selectedIndex.firstObject integerValue];
-            if (weakSelf.shopGoods.options.count > newIndex) {
-                weakSelf.option = weakSelf.shopGoods.options[newIndex];
-                [weakSelf.myTableView reloadData];
-            }
-        } cancelBlock:nil origin:self.view];
+    if (indexPath.section == 0) {
+        if (indexPath.row == 1) {
+            [self goToLocationVC];
+        }else if (indexPath.row == 5){
+            NSArray *rows = [self.shopGoods.options valueForKey:@"name"];
+            NSInteger index = self.option? [self.shopGoods.options indexOfObject:self.option]: 0;
+            __weak typeof(self) weakSelf = self;
+            [ActionSheetStringPicker showPickerWithTitle:nil rows:@[rows] initialSelection:@[@(index)] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
+                NSInteger newIndex = [(NSNumber *)selectedIndex.firstObject integerValue];
+                if (weakSelf.shopGoods.options.count > newIndex) {
+                    weakSelf.option = weakSelf.shopGoods.options[newIndex];
+                    [weakSelf.myTableView reloadData];
+                }
+            } cancelBlock:nil origin:self.view];
+        }
     }
 }
 
@@ -325,6 +377,70 @@
             [weakSelf.view endLoading];
         }
     }];
+}
+
+- (void)exchangeActionClicked{
+    NSMutableDictionary *mparms = @{}.mutableCopy;
+    mparms[@"receiverName"] = _receiverName;
+    if (_locations.count >= 2) {
+        mparms[@"province"] = _locations[0][@"id"];
+        mparms[@"city"] = _locations[1][@"id"];
+        mparms[@"district"] = _locations.count >= 3? _locations[2][@"id"]: nil;
+    }else{
+        mparms[@"province"] =
+        mparms[@"city"] =
+        mparms[@"district"] = nil;
+    }
+    if (self.option.id) {
+        mparms[@"option_id"] = self.option.id;
+    }
+    mparms[@"receiverAddress"] = _receiverAddress;
+    mparms[@"receiverPhone"] = _receiverPhone;
+    mparms[@"remark"] = _remark;
+    mparms[@"giftId"] = _shopGoods.id;
+    mparms[@"payment_amount"] = _shopGoods.curPrice;
+    mparms[@"point_discount"] = _shopGoods.curPointWillUse;
+//    mparms[@"pay_method"] = @"Alipay";
+//    mparms[@"password"] = [pwd sha1Str];
+    [NSObject showHUDQueryStr:@"正在创建订单..."];
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_shop_orderWithParms:mparms andBlock:^(ShopOrder *shopOrder, NSError *error) {
+        if (shopOrder) {
+            if (weakSelf.shopGoods.needToPay) {//支付
+                [[Coding_NetAPIManager sharedManager] request_shop_payOrder:shopOrder.orderNo method:@"Alipay" andBlock:^(NSDictionary *payDict, NSError *error) {
+                    [NSObject hideHUDQuery];;
+                    if (payDict) {
+                        if ([payDict[@"payMethod"] isEqualToString:@"Alipay"]) {
+                            [weakSelf aliPayOrder:payDict[@"url"]];
+                        }
+                    }
+                }];
+            }else{//码币兑换，直接成功
+                [NSObject showHudTipStr:@"恭喜你，提交订单成功!"];
+                [weakSelf goToAfterPay];
+            }
+        }else{
+            [NSObject hideHUDQuery];;
+        }
+    }];
+}
+
+- (void)aliPayOrder:(NSString *)orderStr{
+    __weak typeof(self) weakSelf = self;
+    [[AlipaySDK defaultService] payOrder:orderStr fromScheme:kCodingAppScheme callback:^(NSDictionary *resultDic) {
+        [weakSelf handleAliResult:resultDic];
+    }];
+}
+
+- (void)handleAliResult:(NSDictionary *)resultDic{
+    BOOL isPaySuccess = ([resultDic[@"resultStatus"] integerValue] == 9000);
+    [NSObject showHudTipStr:isPaySuccess? @"支付成功": @"支付失败"];
+    [self goToAfterPay];
+}
+
+- (void)goToAfterPay{
+    ShopOrderViewController *orderViewController = [[ShopOrderViewController alloc] init];
+    [self.navigationController pushViewController:orderViewController animated:YES];
 }
 
 - (void)dealloc

@@ -207,7 +207,7 @@
     
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_Tweets_WithObj:_curTweets andBlock:^(id data, NSError *error) {
-       
+        [weakSelf.refreshControl endRefreshing];
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
         if (data) {
             [weakSelf.curTweets configWithTweets:data];

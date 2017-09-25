@@ -40,7 +40,7 @@
     if (responseA && [responseA count] > 0) {
         
         self.canLoadMore = (responseA.count >= _pageSize.intValue);
-        if (_page.intValue == 1) {
+        if (!_willLoadMore) {
             _dateSource = [NSMutableArray arrayWithArray:responseA];
         }else
         {
@@ -57,6 +57,19 @@
         case ShopOrderAll:
             return _dateSource;
             break;
+        case ShopOrderUnPay:
+        {
+            NSMutableArray *array  = [NSMutableArray arrayWithCapacity:10];
+            [_dateSource enumerateObjectsUsingBlock:^(ShopOrder *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (obj.status.intValue == 3) {
+                    if (obj) {
+                        [array addObject:obj];
+                    }
+                }
+            }];
+            return array;
+            break;
+        }
         case ShopOrderSend:
         {
             NSMutableArray *array  = [NSMutableArray arrayWithCapacity:10];

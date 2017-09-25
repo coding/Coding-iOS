@@ -256,7 +256,7 @@
 - (void)customizeInterface {
     //设置Nav的背景色和title色
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
-    [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[NSObject baseURLStrIsProduction]? kColorNavBG: kColorBrandGreen] forBarMetrics:UIBarMetricsDefault];
+    [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[NSObject baseURLStrIsProduction]? kColorNavBG: kColorActionYellow] forBarMetrics:UIBarMetricsDefault];
     [navigationBarAppearance setTintColor:kColorBrandGreen];//返回按钮的箭头颜色
     NSDictionary *textAttributes = @{
                                      NSFontAttributeName: [UIFont systemFontOfSize:kNavTitleFontSize],

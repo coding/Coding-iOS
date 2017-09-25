@@ -25,6 +25,7 @@
             [self.contentView addSubview:_titleL];
             _titleL.font = [UIFont systemFontOfSize:16];
             _titleL.textColor = [UIColor blackColor];
+            _titleL.text = @"个性标签";
         }
         if (!_valueL) {
             _valueL = [[UILabel alloc] init];
@@ -48,8 +49,11 @@
     return self;
 }
 
+- (void)setTitleStr:(NSString *)titleStr{
+    _titleL.text = titleStr;
+}
+
 - (void)setTagStr:(NSString *)tagStr{
-    _titleL.text = @"个性标签";
     _valueL.text = tagStr;
     [_valueL sizeToFit];
 }

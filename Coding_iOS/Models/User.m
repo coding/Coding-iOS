@@ -7,9 +7,20 @@
 //
 
 #import "User.h"
+#import "CodingSkill.h"
+
 
 @implementation User
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        _propertyArrayMap = [NSDictionary dictionaryWithObjectsAndKeys:
+                             @"CodingSkill", @"skills", nil];
+    }
+    return self;
+}
 
 -(id)copyWithZone:(NSZone*)zone {
     User *user = [[[self class] allocWithZone:zone] init];
@@ -46,6 +57,7 @@
     user.created_at = [_created_at copy];
     user.updated_at = [_updated_at copy];
     user.email_validation = [_email_validation copy];
+    user.school = [_school copy];
     return user;
 }
 
@@ -119,6 +131,25 @@
         return @"未添加";
     }
 }
+- (NSString *)skills_str{
+    if (_skills.count > 0) {
+        return [[_skills valueForKey:@"skill_str"] componentsJoinedByString:@"，"];
+    }else{
+        return @"未填写";
+    }
+}
+- (NSString *)school{
+    return _school.length > 0? _school: @"未填写";
+}
+- (NSString *)degree_str{
+    NSArray *degreeList = [User degreeList];
+    NSInteger degreeIndex = _degree.integerValue - 1;
+    if (degreeIndex >= 0 && degreeIndex < degreeList.count) {
+        return degreeList[degreeIndex];
+    }else{
+        return @"未填写";
+    }
+}
 - (NSString *)slogan{
     if (_slogan && _slogan.length > 0) {
         return _slogan;
@@ -160,7 +191,10 @@
              @"slogan" : _slogan? _slogan: @"",
              @"company" : _company? _company: @"",
              @"job" : _job? _job: [NSNumber numberWithInteger:0],
-             @"tags" : _tags? _tags: @""};
+             @"tags" : _tags? _tags: @"",
+             @"school": _school,
+             @"degree": _degree,
+             };
 }
 - (NSString *)toDeleteConversationPath{
     return [NSString stringWithFormat:@"api/message/conversations/%@", self.id.stringValue];
@@ -185,5 +219,9 @@
         tipStr = @"新密码不得长于64位";
     }
     return tipStr;
+}
+
++ (NSArray *)degreeList{
+    return @[@"高中及以下", @"大专", @"本科", @"硕士及以上"];
 }
 @end

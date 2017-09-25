@@ -12,10 +12,12 @@
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "Coding_NetAPIManager.h"
 
-@interface ShopOrderListView ()<UITableViewDataSource,UITableViewDelegate>
-{
-    NSArray      *_dataSource;
-}
+#import <AlipaySDK/AlipaySDK.h>
+
+@interface ShopOrderListView ()<UITableViewDataSource,UITableViewDelegate, UIScrollViewDelegate>
+
+@property (strong, nonatomic) NSArray *dataSource;
+
 @property (nonatomic, strong) UITableView *myTableView;
 @property (nonatomic, strong) ShopOderCell *currentOrderCell;
 
@@ -38,7 +40,7 @@
             tableView.estimatedRowHeight = 690/2;
             [tableView registerClass:[ShopOderCell class] forCellReuseIdentifier:@"ShopOderCell"];
             tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-            tableView.separatorColor = [UIColor colorWithHexString:@"0xC8C8C8"];
+            tableView.separatorColor = kColorDDD;
             [self addSubview:tableView];
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self);
@@ -92,9 +94,11 @@
 
 - (void)refresh
 {
-    [self.myRefreshControl endRefreshing];
-    
-//    [self loadData];
+    if (_myOrder.isLoading) {
+        return;
+    }
+    _myOrder.willLoadMore = NO;
+    [self sendRequest];
 }
 
 - (void)refreshMore
@@ -104,59 +108,24 @@
         return;
     }
     _myOrder.willLoadMore = YES;
+    _myOrder.page = @(_myOrder.page.intValue +1);
     [self sendRequest];
 }
 
 - (void)sendRequest
 {
-//    __weak typeof(self) weakSelf = self;
-//    [[Coding_NetAPIManager sharedManager] request_Comments_WithProjectTpoic:self. andBlock:^(id data, NSError *error) {
-//        [weakSelf.refreshControl endRefreshing];
-//        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
-//        if (data) {
-//            [weakSelf.curTopic configWithComments:data];
-//            weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curTopic.canLoadMore;
-//        }
-//        [weakSelf.myTableView reloadData];
-//    }];
-    
     __weak typeof(self) weakSelf = self;
-    _myOrder.page = @(_myOrder.page.intValue +1);
     [[Coding_NetAPIManager sharedManager] request_shop_OrderListWithOrder:_myOrder andBlock:^(id data, NSError *error) {
         [weakSelf.myRefreshControl endRefreshing];
         [weakSelf endLoading];
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
-        if (data) {
-            _dataSource = [_myOrder getDataSourceByOrderType];
-            [weakSelf.myTableView reloadData];
-        }
-//        [weakSelf configBlankPage:EaseBlankPageTypeTopic hasData:(weakSelf.myOrder.dateSource.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-//            [weakSelf refresh];
-//        }];
-
     }];
-
 }
 
-//- (void)loadData
-//{
-//    __weak typeof(self) weakSelf = self;
-//    
-//    [[Coding_NetAPIManager sharedManager] request_shop_OrderListWithOrder:_myOrder andBlock:^(id data, NSError *error) {
-//        [weakSelf.myRefreshControl endRefreshing];
-//        [weakSelf endLoading];
-//        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
-//        if (data) {
-//            _dataSource = [_myOrder getDataSourceByOrderType];
-//            [weakSelf.myTableView reloadData];
-//        }
-//        [weakSelf configBlankPage:EaseBlankPageTypeTopic hasData:(weakSelf.myOrder.dateSource.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
-//            [weakSelf refresh];
-//        }];
-//
-//    }];
-//}
-
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{//sendRequest 中刷新，会跳帧
+    self.dataSource = [self.myOrder getDataSourceByOrderType];
+    [self.myTableView reloadData];
+}
 
 #pragma mark Table M
 
@@ -195,14 +164,60 @@
     
     ShopOrder *item = [_dataSource objectAtIndex:indexPath.section];
     ShopOderCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ShopOderCell" forIndexPath:indexPath];
+    __weak typeof(self) weakSelf = self;
+    cell.deleteActionBlock = ^{
+        [weakSelf deleteOrder:item];
+    };
+    cell.payActionBlock = ^{
+        [weakSelf payOrder:item];
+    };
     [cell configViewWithModel:item];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    ShopOrder *item = [_dataSource objectAtIndex:indexPath.row];
-    
+}
+
+- (void)deleteOrder:(ShopOrder *)order{
+    __weak typeof(self) weakSelf = self;
+    [NSObject showHUDQueryStr:@"正在取消订单"];
+    [[Coding_NetAPIManager sharedManager] request_shop_deleteOrder:order.orderNo andBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            [NSObject showHudTipStr:@"订单已取消"];
+            [weakSelf.myOrder.dateSource removeObject:order];
+            [weakSelf reloadData];
+        }
+    }];
+}
+
+- (void)payOrder:(ShopOrder *)order{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_shop_payOrder:order.orderNo method:@"Alipay" andBlock:^(NSDictionary *payDict, NSError *error) {
+        [NSObject hideHUDQuery];;
+        if (payDict) {
+            if ([payDict[@"payMethod"] isEqualToString:@"Alipay"]) {
+                [weakSelf aliPayOrder:payDict[@"url"]];
+            }
+        }
+    }];
+}
+
+- (void)aliPayOrder:(NSString *)orderStr{
+    __weak typeof(self) weakSelf = self;
+    [[AlipaySDK defaultService] payOrder:orderStr fromScheme:kCodingAppScheme callback:^(NSDictionary *resultDic) {
+        [weakSelf handleAliResult:resultDic];
+    }];
+}
+
+- (void)handleAliResult:(NSDictionary *)resultDic{
+    BOOL isPaySuccess = ([resultDic[@"resultStatus"] integerValue] == 9000);
+    [NSObject showHudTipStr:isPaySuccess? @"支付成功": @"支付失败"];
+
+    if (isPaySuccess) {
+        [self refresh];
+    }
 }
 
 - (void)dealloc

@@ -21,15 +21,15 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_nameLabel) {
             _nameLabel = [UILabel new];
-            _nameLabel.textColor = [UIColor colorWithHexString:@"0x000000"];
+            _nameLabel.textColor = kColor222;
             _nameLabel.font = [UIFont systemFontOfSize:15];
             [self.contentView addSubview:_nameLabel];
         }
         
         if (!_textField) {
             _textField = [UITextField new];
-            _textField.textColor = [UIColor colorWithHexString:@"0x000000"];
-            _textField.font = [UIFont systemFontOfSize:14];
+            _textField.textColor = kColor222;
+            _textField.font = [UIFont systemFontOfSize:15];
             [self.contentView addSubview:_textField];
         }
         
@@ -50,7 +50,7 @@
 }
 
 + (CGFloat)cellHeight{
-    return 596/4.0/2.0;
+    return 85;
 }
 
 @end

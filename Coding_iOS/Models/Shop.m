@@ -97,7 +97,7 @@
 
 - (NSArray *)getExchangeGiftData
 {
-    NSMutableArray *mutaleArray = [NSMutableArray arrayWithCapacity:10];
+    NSMutableArray *mutaleArray = [NSMutableArray new];
     [_shopGoodsArray enumerateObjectsUsingBlock:^(ShopGoods *obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.exchangeable) {
             [mutaleArray addObject:obj];

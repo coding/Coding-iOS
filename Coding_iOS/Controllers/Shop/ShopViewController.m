@@ -103,10 +103,10 @@
 #pragma mark---------------------- ShopListViewDelegate --------------------
 - (void)didSelectGoodItem:(ShopGoods *)model
 {
-    if (!model.exchangeable) {
-        [NSObject showHudTipStr:@"您的码币余额不足，不能兑换该商品"];
-        return;
-    }
+//    if (!model.exchangeable) {
+//        [NSObject showHudTipStr:@"您的码币余额不足，不能兑换该商品"];
+//        return;
+//    }
     ExchangeGoodsViewController *exChangeViewController = [[ExchangeGoodsViewController alloc] init];
     exChangeViewController.shopGoods = model;
     [self.navigationController pushViewController:exChangeViewController animated:YES];
@@ -164,11 +164,12 @@
 //        weakSelf.shopObject.shopBannerArray = data;
 //    }];
     
-    [[Coding_NetAPIManager sharedManager] request_shop_userPointWithShop:_shopObject andBlock:^(id data, NSError *error) {
-        if (data) {
-            [weakSelf loadGiftsList];
-        }
-    }];
+//    [[Coding_NetAPIManager sharedManager] request_shop_userPointWithShop:_shopObject andBlock:^(id data, NSError *error) {
+//        if (data) {
+//            [weakSelf loadGiftsList];
+//        }
+//    }];
+    [self loadGiftsList];
 }
 
 - (void)loadGiftsList
@@ -302,13 +303,15 @@
 - (void)setUpCollectionView
 {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    CGFloat itemW = (kScreen_Width - 12 * 3) / 2;
-    CGFloat itemH = itemW * (175.0/284.0) + 10 +21 +5 +13 +5;
+//    CGFloat itemW = (kScreen_Width - 12 * 3) / 2;
+//    CGFloat itemH = itemW * (175.0/284.0) + 10 +21 +5 +13 +5;
+    CGFloat itemW = kScreen_Width;
+    CGFloat itemH = 110;
     
     layout.itemSize = CGSizeMake(itemW, itemH);
-    layout.sectionInset = UIEdgeInsetsMake(20, 12, 20, 12);
-    layout.minimumInteritemSpacing = 5;
-    layout.minimumLineSpacing = 20;
+    layout.sectionInset = UIEdgeInsetsMake(20, 0, 20, 0);
+    layout.minimumInteritemSpacing = 0;
+    layout.minimumLineSpacing = 0;
     
     _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:layout];
     _collectionView.backgroundColor = [UIColor clearColor];
@@ -317,6 +320,7 @@
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     _collectionView.layer.masksToBounds = NO;
+    _collectionView.alwaysBounceVertical = YES;
     [self addSubview:_collectionView];
     
      _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:_collectionView];
@@ -356,6 +360,9 @@
     return cell;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
+    [cell addLineUp:NO andDown:YES andColor:kColorDDD andLeftSpace:kPaddingLeftWidth];
+}
 
 #pragma mark - UICollectionViewDelegate
 

@@ -12,6 +12,7 @@
 typedef NS_ENUM(NSInteger, ShopOrderType)
 {
     ShopOrderAll = 0,
+    ShopOrderUnPay,
     ShopOrderUnSend,
     ShopOrderSend,
 };

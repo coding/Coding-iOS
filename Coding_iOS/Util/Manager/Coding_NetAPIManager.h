@@ -310,6 +310,10 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_shop_check_passwordWithpwd:(NSString *)pwd andBlock:(void (^)(id data, NSError *error))block;
 
 - (void)request_shop_exchangeWithParms:(NSDictionary *)parms andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_shop_orderWithParms:(NSDictionary *)parms andBlock:(void (^)(ShopOrder *shopOrder, NSError *error))block;
+- (void)request_shop_payOrder:(NSString *)orderId method:(NSString *)method andBlock:(void (^)(NSDictionary *payDict, NSError *error))block;
+- (void)request_shop_deleteOrder:(NSString *)orderId andBlock:(void (^)(id data, NSError *error))block;
+
 - (void)request_LocationListWithParams:(NSDictionary *)params block:(void (^)(id data, NSError *error))block;
 
 @end
