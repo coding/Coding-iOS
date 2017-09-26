@@ -398,7 +398,7 @@
     mparms[@"receiverPhone"] = _receiverPhone;
     mparms[@"remark"] = _remark;
     mparms[@"giftId"] = _shopGoods.id;
-    mparms[@"payment_amount"] = _shopGoods.curPrice;
+//    mparms[@"payment_amount"] = _shopGoods.curPrice;
     mparms[@"point_discount"] = _shopGoods.curPointWillUse;
 //    mparms[@"pay_method"] = @"Alipay";
 //    mparms[@"password"] = [pwd sha1Str];
@@ -416,6 +416,7 @@
                     }
                 }];
             }else{//码币兑换，直接成功
+                [NSObject hideHUDQuery];;
                 [NSObject showHudTipStr:@"恭喜你，提交订单成功!"];
                 [weakSelf goToAfterPay];
             }
@@ -433,14 +434,17 @@
 }
 
 - (void)handleAliResult:(NSDictionary *)resultDic{
+    DebugLog(@"handleAliResult: %@", resultDic);
     BOOL isPaySuccess = ([resultDic[@"resultStatus"] integerValue] == 9000);
     [NSObject showHudTipStr:isPaySuccess? @"支付成功": @"支付失败"];
     [self goToAfterPay];
 }
 
 - (void)goToAfterPay{
+    UINavigationController *nav = self.navigationController;
+    [nav popViewControllerAnimated:NO];
     ShopOrderViewController *orderViewController = [[ShopOrderViewController alloc] init];
-    [self.navigationController pushViewController:orderViewController animated:YES];
+    [nav pushViewController:orderViewController animated:YES];
 }
 
 - (void)dealloc

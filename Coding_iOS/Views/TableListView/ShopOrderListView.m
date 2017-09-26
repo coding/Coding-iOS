@@ -119,13 +119,22 @@
         [weakSelf.myRefreshControl endRefreshing];
         [weakSelf endLoading];
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
+        
+        weakSelf.dataSource = [weakSelf.myOrder getDataSourceByOrderType];
+        if (weakSelf.myTableView.contentOffset.y < 0) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [weakSelf.myTableView reloadData];
+            });
+        }else{
+            [weakSelf.myTableView reloadData];
+        }
     }];
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{//sendRequest 中刷新，会跳帧
-    self.dataSource = [self.myOrder getDataSourceByOrderType];
-    [self.myTableView reloadData];
-}
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{//sendRequest 中刷新，会跳帧
+//    self.dataSource = [self.myOrder getDataSourceByOrderType];
+//    [self.myTableView reloadData];
+//}
 
 #pragma mark Table M
 
@@ -193,6 +202,7 @@
 }
 
 - (void)payOrder:(ShopOrder *)order{
+    [NSObject showHUDQueryStr:@"请稍等..."];
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_shop_payOrder:order.orderNo method:@"Alipay" andBlock:^(NSDictionary *payDict, NSError *error) {
         [NSObject hideHUDQuery];;
@@ -212,9 +222,9 @@
 }
 
 - (void)handleAliResult:(NSDictionary *)resultDic{
+    DebugLog(@"handleAliResult: %@", resultDic);
     BOOL isPaySuccess = ([resultDic[@"resultStatus"] integerValue] == 9000);
     [NSObject showHudTipStr:isPaySuccess? @"支付成功": @"支付失败"];
-
     if (isPaySuccess) {
         [self refresh];
     }

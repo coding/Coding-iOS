@@ -474,11 +474,7 @@
     _sendStatusLabel.text = (status == 1 || status == 2? @"已发货": @"未发货");
     _deleteButton.hidden = _payButton.hidden = (status != 3);
     [_superView mas_updateConstraints:^(MASConstraintMaker *make) {
-        if (status == 3) {
-            make.bottom.equalTo(_payButton.mas_bottom).offset(10);
-        }else{
-            make.bottom.equalTo(_addressLabel.mas_bottom).offset(14);
-        }
+        make.bottom.equalTo(_addressLabel.mas_bottom).offset(status == 3? (14 + 50): 14);
     }];
     CGFloat height = [self systemLayoutSizeFittingSize:UILayoutFittingExpandedSize].height;
     self.frame = CGRectMake(0, 0, kScreen_Width, height);
