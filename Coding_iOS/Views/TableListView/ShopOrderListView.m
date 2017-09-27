@@ -190,15 +190,19 @@
 
 - (void)deleteOrder:(ShopOrder *)order{
     __weak typeof(self) weakSelf = self;
-    [NSObject showHUDQueryStr:@"正在取消订单"];
-    [[Coding_NetAPIManager sharedManager] request_shop_deleteOrder:order.orderNo andBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [NSObject showHudTipStr:@"订单已取消"];
-            [weakSelf.myOrder.dateSource removeObject:order];
-            [weakSelf reloadData];
+    [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要取消此订单吗？" buttonTitles:nil destructiveTitle:@"确定取消" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [NSObject showHUDQueryStr:@"正在取消订单"];
+            [[Coding_NetAPIManager sharedManager] request_shop_deleteOrder:order.orderNo andBlock:^(id data, NSError *error) {
+                [NSObject hideHUDQuery];
+                if (data) {
+                    [NSObject showHudTipStr:@"订单已取消"];
+                    [weakSelf.myOrder.dateSource removeObject:order];
+                    [weakSelf reloadData];
+                }
+            }];
         }
-    }];
+    }] showInView:self];
 }
 
 - (void)payOrder:(ShopOrder *)order{
