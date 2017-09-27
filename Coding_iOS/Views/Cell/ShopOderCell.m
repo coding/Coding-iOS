@@ -463,7 +463,7 @@
             _sendTimeLabel.text = [date stringWithFormat:@"yyyy年MM月dd日 HH:mm"];
         }
     }
-    _pointLabel.text = [NSString stringWithFormat:@"%.2f 码币", order.pointsCost.floatValue];
+    _pointLabel.text = [NSString stringWithFormat:@"%.2f 码币", order.pointDiscount.floatValue];
     _moneyLabel.text = [NSString stringWithFormat:@"￥%.2f", order.paymentAmount.floatValue];
     if ([order.expressNo isEmpty]) {
         _expressLabel.text  = @"暂无";

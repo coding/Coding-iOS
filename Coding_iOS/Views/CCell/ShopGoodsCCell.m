@@ -105,7 +105,12 @@
     NSString *points_cost = [NSString stringWithFormat:@"  %@ 码币", model.points_cost];
     [_codingCoinView setTitle:points_cost forState:UIControlStateNormal];
     
-    _priceLabel.text = [NSString stringWithFormat:@"￥%d", (int)(model.points_cost.floatValue * 50)];
+    CGFloat price = model.points_cost.floatValue * 50;
+    if (price - ((int)price) < .1) {
+        _priceLabel.text = [NSString stringWithFormat:@"￥%.0f", price];
+    }else{
+        _priceLabel.text = [NSString stringWithFormat:@"￥%.1f", price];
+    }
     _countLabel.text = [NSString stringWithFormat:@"销量：%@", model.count];
     
     [self showExchangeIcon:model.exchangeable];
