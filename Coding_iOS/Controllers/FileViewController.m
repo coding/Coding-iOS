@@ -114,7 +114,7 @@
             [self loadWebView:fileUrl];
         }else if ([QLPreviewController canPreviewItem:fileUrl]) {
             [self showDiskFile:fileUrl];
-        }else {
+        }else if (!_downloadView || _downloadView.hidden) {
             [self showDownloadView];
         }
     }
