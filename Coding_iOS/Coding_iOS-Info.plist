@@ -36,7 +36,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>4.5.201706021500</string>
+	<string>4.5.201709282000</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -87,10 +87,10 @@
 	<string>我们需要通过您的地理位置信息获取您周边的相关数据</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>我们需要您的同意才能使用麦克风</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>我们需要您的同意才能读取您的照片</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>我们需要您的同意才能存储图片</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>我们需要您的同意才能读取您的照片</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>

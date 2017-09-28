@@ -100,7 +100,6 @@
 		3A3878491AE36ED70078D5DE /* TopicListButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3878481AE36ED70078D5DE /* TopicListButton.m */; };
 		3A38784C1AE36EF00078D5DE /* TopicListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A38784B1AE36EF00078D5DE /* TopicListView.m */; };
 		3A38784F1AE557700078D5DE /* TopicPreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A38784E1AE557700078D5DE /* TopicPreviewCell.m */; };
-		4127E2D4A3B12C8C8BE5E69A /* libPods-Coding_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4941C1866223FC6EAF6D77E6 /* libPods-Coding_iOS.a */; };
 		4E0022831B72095E005308DE /* PointRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0022821B72095E005308DE /* PointRecord.m */; };
 		4E0022861B720966005308DE /* PointRecords.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0022851B720966005308DE /* PointRecords.m */; };
 		4E0022891B721516005308DE /* PointRecordsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E0022881B721516005308DE /* PointRecordsViewController.m */; };
@@ -878,6 +877,7 @@
 		7EB02FF31B6D111300D2166C /* AudioRecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FF01B6D111300D2166C /* AudioRecordView.m */; };
 		7EB02FF61B6DAF3800D2166C /* AudioVolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FF51B6DAF3800D2166C /* AudioVolumeView.m */; };
 		7EB02FFC1B6E001300D2166C /* VoiceMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EB02FFB1B6E001300D2166C /* VoiceMedia.m */; };
+		7FD0104CFC28ED5705E0D5E8 /* libPods-Coding_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 645969FE6A8616A74543C249 /* libPods-Coding_iOS.a */; };
 		8B35164F1B6CE9460049BC45 /* icon_arrow_searchHistory@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B35164A1B6CE9460049BC45 /* icon_arrow_searchHistory@2x.png */; };
 		8B3516501B6CE9460049BC45 /* icon_topic_hotTop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B35164B1B6CE9460049BC45 /* icon_topic_hotTop@2x.png */; };
 		8B3516511B6CE9460049BC45 /* search_tweet_colck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B35164C1B6CE9460049BC45 /* search_tweet_colck@2x.png */; };
@@ -1540,7 +1540,6 @@
 		3A38784B1AE36EF00078D5DE /* TopicListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicListView.m; sourceTree = "<group>"; };
 		3A38784D1AE557700078D5DE /* TopicPreviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicPreviewCell.h; sourceTree = "<group>"; };
 		3A38784E1AE557700078D5DE /* TopicPreviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicPreviewCell.m; sourceTree = "<group>"; };
-		4941C1866223FC6EAF6D77E6 /* libPods-Coding_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Coding_iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E0022811B72095E005308DE /* PointRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointRecord.h; sourceTree = "<group>"; };
 		4E0022821B72095E005308DE /* PointRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointRecord.m; sourceTree = "<group>"; };
 		4E0022841B720966005308DE /* PointRecords.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointRecords.h; sourceTree = "<group>"; };
@@ -2639,6 +2638,7 @@
 		4EFE8DAE1B3960E6004B7559 /* logo_coding_top@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_coding_top@2x.png"; sourceTree = "<group>"; };
 		4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		4EFF5A761E0AE54800683D03 /* libresolv.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.9.tbd; path = usr/lib/libresolv.9.tbd; sourceTree = SDKROOT; };
+		645969FE6A8616A74543C249 /* libPods-Coding_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Coding_iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E335D9A1B6F5E94003D0F3D /* keyboard_arrow_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_arrow_down@2x.png"; sourceTree = "<group>"; };
 		7E335D9B1B6F5E94003D0F3D /* keyboard_voice_record@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_voice_record@2x.png"; sourceTree = "<group>"; };
 		7E335D9C1B6F5E94003D0F3D /* keyboard_voice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_voice@2x.png"; sourceTree = "<group>"; };
@@ -3419,7 +3419,7 @@
 				8E477018198770E700997D05 /* UIKit.framework in Frameworks */,
 				8E477014198770E700997D05 /* Foundation.framework in Frameworks */,
 				4EF818241B09D8D8005F974B /* WebP.framework in Frameworks */,
-				4127E2D4A3B12C8C8BE5E69A /* libPods-Coding_iOS.a in Frameworks */,
+				7FD0104CFC28ED5705E0D5E8 /* libPods-Coding_iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5054,7 +5054,7 @@
 				8E477017198770E700997D05 /* UIKit.framework */,
 				8E477019198770E700997D05 /* CoreData.framework */,
 				8E477031198770E700997D05 /* XCTest.framework */,
-				4941C1866223FC6EAF6D77E6 /* libPods-Coding_iOS.a */,
+				645969FE6A8616A74543C249 /* libPods-Coding_iOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -7418,6 +7418,7 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			showEnvVarsInLog = 0;
 		};
 		B52B540CD39100358CEE8516 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -7461,7 +7462,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
