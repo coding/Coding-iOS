@@ -196,7 +196,12 @@
                     cell.nameLabel.text = @"联系电话 *";
                     cell.textField.placeholder  = @"电话";
                     cell.textField.text = self.receiverPhone;
-                    RAC(self, receiverPhone) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
+                    __weak typeof(self) weakSelf = self;
+                    [[cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal] subscribeNext:^(NSString *x) {
+                        weakSelf.receiverPhone = x;
+                    }];
+//                    诡异的崩溃
+//                    RAC(self, receiverPhone) = [cell.textField.rac_textSignal takeUntil:cell.rac_prepareForReuseSignal];
                     break;
                 }
                 case 4:
