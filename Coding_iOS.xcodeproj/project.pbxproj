@@ -1184,8 +1184,6 @@
 		927AFF511BFF6DAD00AAE593 /* shop_exchange_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927AFF491BFF6DAD00AAE593 /* shop_exchange_icon@3x.png */; };
 		927AFF521BFF6DAD00AAE593 /* shop_nar_history_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927AFF4A1BFF6DAD00AAE593 /* shop_nar_history_icon@2x.png */; };
 		927AFF531BFF6DAD00AAE593 /* shop_nar_history_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927AFF4B1BFF6DAD00AAE593 /* shop_nar_history_icon@3x.png */; };
-		927AFF541BFF6DAD00AAE593 /* shop_unexchange_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927AFF4C1BFF6DAD00AAE593 /* shop_unexchange_icon@2x.png */; };
-		927AFF551BFF6DAD00AAE593 /* shop_unexchange_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 927AFF4D1BFF6DAD00AAE593 /* shop_unexchange_icon@3x.png */; };
 		927AFF581BFF755200AAE593 /* ExchangeGoodsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 927AFF571BFF755200AAE593 /* ExchangeGoodsViewController.m */; };
 		927AFF5B1BFF772A00AAE593 /* ShopOrderTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 927AFF5A1BFF772A00AAE593 /* ShopOrderTextFieldCell.m */; };
 		B14689B41EE100B200B01371 /* vip_3_30@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689A41EE100B200B01371 /* vip_3_30@2x.png */; };
@@ -3154,8 +3152,6 @@
 		927AFF491BFF6DAD00AAE593 /* shop_exchange_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop_exchange_icon@3x.png"; sourceTree = "<group>"; };
 		927AFF4A1BFF6DAD00AAE593 /* shop_nar_history_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop_nar_history_icon@2x.png"; sourceTree = "<group>"; };
 		927AFF4B1BFF6DAD00AAE593 /* shop_nar_history_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop_nar_history_icon@3x.png"; sourceTree = "<group>"; };
-		927AFF4C1BFF6DAD00AAE593 /* shop_unexchange_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop_unexchange_icon@2x.png"; sourceTree = "<group>"; };
-		927AFF4D1BFF6DAD00AAE593 /* shop_unexchange_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "shop_unexchange_icon@3x.png"; sourceTree = "<group>"; };
 		927AFF561BFF755200AAE593 /* ExchangeGoodsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExchangeGoodsViewController.h; sourceTree = "<group>"; };
 		927AFF571BFF755200AAE593 /* ExchangeGoodsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExchangeGoodsViewController.m; sourceTree = "<group>"; };
 		927AFF591BFF772A00AAE593 /* ShopOrderTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopOrderTextFieldCell.h; sourceTree = "<group>"; };
@@ -6466,8 +6462,6 @@
 				927AFF491BFF6DAD00AAE593 /* shop_exchange_icon@3x.png */,
 				927AFF4A1BFF6DAD00AAE593 /* shop_nar_history_icon@2x.png */,
 				927AFF4B1BFF6DAD00AAE593 /* shop_nar_history_icon@3x.png */,
-				927AFF4C1BFF6DAD00AAE593 /* shop_unexchange_icon@2x.png */,
-				927AFF4D1BFF6DAD00AAE593 /* shop_unexchange_icon@3x.png */,
 			);
 			path = shop;
 			sourceTree = "<group>";
@@ -7070,7 +7064,6 @@
 				4E0849851A918A7F00BD27F6 /* coding_emoji_43@2x.png in Resources */,
 				4E5D130E1C0ECB3400985AEB /* tweet_btn_liked@3x.png in Resources */,
 				4E96E7DE1A1B537E0037C098 /* icon_file_music@2x.png in Resources */,
-				927AFF541BFF6DAD00AAE593 /* shop_unexchange_icon@2x.png in Resources */,
 				8EA6D1A119E240C40076D59C /* tipIcon_UserFollow@2x.png in Resources */,
 				4EAAD0581E542B2D008AA957 /* icon_code_git_link@3x.png in Resources */,
 				4E2F6A6D1C43CA4B00A25502 /* member_type_100@3x.png in Resources */,
@@ -7358,7 +7351,6 @@
 				4E2BF3D51B96CDF800A5A0A8 /* share_btn_wxsession@2x.png in Resources */,
 				4E3DB53D1BFDD0F40062BA52 /* task_activity_icon_MergeRequestBean@2x.png in Resources */,
 				4E96E7E31A1B537E0037C098 /* icon_file_txt@2x.png in Resources */,
-				927AFF551BFF6DAD00AAE593 /* shop_unexchange_icon@3x.png in Resources */,
 				B1C871381EADF155003DACF0 /* project_item_member@3x.png in Resources */,
 				8EA6D19419E240C40076D59C /* timeline_line_unread@2x.png in Resources */,
 				4E94C4F11B4B75DB00EB668A /* tip_2FA@2x.png in Resources */,

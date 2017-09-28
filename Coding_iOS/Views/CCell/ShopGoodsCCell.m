@@ -20,8 +20,6 @@
         self.clipsToBounds = YES;
         self.backgroundColor = [UIColor whiteColor];
         [self setUpContentView];
-        
-        _exchangeIconView.hidden = YES;
     }
     return self;
 }
@@ -53,10 +51,14 @@
     [superView addSubview:_codingCoinView];
     
     _exchangeIconView = [UIImageView new];
+    _exchangeIconView.contentMode = UIViewContentModeScaleAspectFill;
+    _exchangeIconView.clipsToBounds = YES;
     _exchangeIconView.backgroundColor = [UIColor clearColor];
+    _exchangeIconView.image = [UIImage imageNamed:@"shop_exchange_icon"];
+
     [superView addSubview:_exchangeIconView];
     
-    _priceLabel = [UILabel labelWithFont:[UIFont systemFontOfSize:18] textColor:kColorDark3];
+    _priceLabel = [UILabel labelWithFont:[UIFont systemFontOfSize:18] textColor:kColorBrandOrange];
     [superView addSubview:_priceLabel];
     
     _countLabel = [UILabel labelWithFont:[UIFont systemFontOfSize:12] textColor:kColorDark7];
@@ -83,7 +85,7 @@
     
     [_exchangeIconView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(superView).offset(-kPaddingLeftWidth);
-        make.bottom.equalTo(superView).offset(-kPaddingLeftWidth);
+        make.centerY.equalTo(_countLabel);
     }];
     
     [_priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -120,14 +122,16 @@
 
 - (void)showExchangeIcon:(BOOL)_isCanExchangeIcon
 {
-    if (_isCanExchangeIcon) {
-        UIImage *image = [UIImage imageNamed:@"shop_exchange_icon"];
-        _exchangeIconView.image = image;
-    }else
-    {
-        UIImage *image = [UIImage imageNamed:@"shop_unexchange_icon"];
-        _exchangeIconView.image =image;
-    }
+    _exchangeIconView.hidden = !_isCanExchangeIcon;
+    
+//    if (_isCanExchangeIcon) {
+//        UIImage *image = [UIImage imageNamed:@"shop_exchange_icon"];
+//        _exchangeIconView.image = image;
+//    }else
+//    {
+//        UIImage *image = [UIImage imageNamed:@"shop_unexchange_icon"];
+//        _exchangeIconView.image =image;
+//    }
 }
 
 
