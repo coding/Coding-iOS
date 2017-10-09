@@ -37,6 +37,9 @@
             UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, 49, 0);//外部 segment bar 的高度
             tableView.contentInset = insets;
             tableView.scrollIndicatorInsets = insets;
+            tableView.estimatedRowHeight = 0;
+            tableView.estimatedSectionHeaderHeight = 0;
+            tableView.estimatedSectionFooterHeight = 0;
             tableView;
         });
         

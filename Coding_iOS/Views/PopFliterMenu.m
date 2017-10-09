@@ -93,6 +93,9 @@
         [tableview registerClass:[UITableViewCell class] forCellReuseIdentifier:@"UITableViewCell"];
         tableview.tableFooterView=[UIView new];
         tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
+        tableview.estimatedRowHeight = 0;
+        tableview.estimatedSectionHeaderHeight = 0;
+        tableview.estimatedSectionFooterHeight = 0;
         tableview;
     });
     [self addSubview:_tableview];

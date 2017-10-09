@@ -37,7 +37,7 @@
             tableView.backgroundColor = kColorTableSectionBg;
             tableView.delegate = self;
             tableView.dataSource = self;
-            tableView.estimatedRowHeight = 690/2;
+//            tableView.estimatedRowHeight = 690/2;
             [tableView registerClass:[ShopOderCell class] forCellReuseIdentifier:@"ShopOderCell"];
             tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
             tableView.separatorColor = kColorDDD;
@@ -45,6 +45,9 @@
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self);
             }];
+            tableView.estimatedRowHeight = 0;
+            tableView.estimatedSectionHeaderHeight = 0;
+            tableView.estimatedSectionFooterHeight = 0;
             tableView;
         });
         

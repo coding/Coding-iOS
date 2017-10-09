@@ -67,6 +67,9 @@
         UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
         tableView.contentInset = insets;
         tableView.scrollIndicatorInsets = insets;
+        tableView.estimatedRowHeight = 0;
+        tableView.estimatedSectionHeaderHeight = 0;
+        tableView.estimatedSectionFooterHeight = 0;
         tableView;
     });
     

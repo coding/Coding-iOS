@@ -55,6 +55,9 @@
             make.edges.equalTo(self.view);
         }];
         tableView.allowsMultipleSelectionDuringEditing = YES;
+        tableView.estimatedRowHeight = 0;
+        tableView.estimatedSectionHeaderHeight = 0;
+        tableView.estimatedSectionFooterHeight = 0;
         tableView;
     });
     
