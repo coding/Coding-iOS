@@ -138,10 +138,12 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (!_isRequest) {
-        _isRequest = YES;
-        [self requestgiftsList];
-    }
+    [self requestgiftsList];
+
+//    if (!_isRequest) {
+//        _isRequest = YES;
+//        [self requestgiftsList];
+//    }
 }
 
 #pragma mark-
@@ -157,9 +159,10 @@
 }
 
 - (void)requestgiftsList {
-    
-    [self.view beginLoading];
-    __weak typeof(self) weakSelf = self;
+    if (_shopObject.dateSource.count == 0) {
+        [self.view beginLoading];
+    }
+//    __weak typeof(self) weakSelf = self;
 //    [[Coding_NetAPIManager sharedManager] request_shop_bannersWithBlock:^(id data, NSError *error) {
 //        weakSelf.shopObject.shopBannerArray = data;
 //    }];
@@ -179,7 +182,12 @@
         [weakSelf.view endLoading];
         if (data) {
             ShopListView *listView = (ShopListView *)[weakSelf.myCarousel currentItemView];
-            listView.dataSource = weakSelf.shopObject.dateSource;
+            if (weakSelf.myCarousel.currentItemIndex == 0) {
+                listView.dataSource = weakSelf.shopObject.dateSource;
+            }else if(weakSelf.myCarousel.currentItemIndex == 1)
+            {
+                listView.dataSource = [weakSelf.shopObject getExchangeGiftData];
+            }
         }else
             [NSObject showHudTipStr:@"Error"];
     }];
