@@ -17,7 +17,7 @@ PODS:
     - BlocksKit/DynamicDelegate
   - evernote-cloud-sdk-ios (2.0.2)
   - FLEX (2.1.1)
-  - FontAwesome+iOS (0.1.4)
+  - FontAwesome+iOS (0.0.1)
   - hpple (0.2.0)
   - iVersion (1.11.4)
   - JazzHands (2.0.0)
@@ -26,7 +26,7 @@ PODS:
   - MBProgressHUD (0.9)
   - MMMarkdown (0.3)
   - NYXImagesKit (2.3)
-  - pop (1.0.9)
+  - pop (1.0.10)
   - POP+MCAnimate (2.0.1):
     - pop (~> 1.0)
     - POP+MCAnimate/Animations (= 2.0.1)
@@ -78,6 +78,7 @@ DEPENDENCIES:
   - BlocksKit (= 2.2.5)
   - evernote-cloud-sdk-ios (= 2.0.2)
   - FLEX (~> 2.0)
+  - FontAwesome+iOS (from `https://github.com/alexdrone/ios-fontawesome`)
   - hpple (= 0.2.0)
   - iVersion (= 1.11.4)
   - JazzHands (= 2.0.0)
@@ -87,7 +88,7 @@ DEPENDENCIES:
   - MMMarkdown (= 0.3)
   - NYXImagesKit (= 2.3)
   - POP+MCAnimate (= 2.0.1)
-  - PPiAwesomeButton (= 1.5.2)
+  - PPiAwesomeButton
   - ReactiveCocoa (= 2.3.1)
   - RegexKitLite-NoWarning (= 1.1.0)
   - SDAutoLayout (= 2.1.0)
@@ -100,12 +101,21 @@ DEPENDENCIES:
   - UMengAnalytics (= 3.5.10)
   - UMengSocial (= 4.2.3)
 
+EXTERNAL SOURCES:
+  FontAwesome+iOS:
+    :git: https://github.com/alexdrone/ios-fontawesome
+
+CHECKOUT OPTIONS:
+  FontAwesome+iOS:
+    :commit: 3ef4db504ffde636c1f8a5320f1e5b6183f6102c
+    :git: https://github.com/alexdrone/ios-fontawesome
+
 SPEC CHECKSUMS:
   APParallaxHeader: 854bc48a2487ca12c702f8a236fec0d89cdac5c3
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
   evernote-cloud-sdk-ios: 7a6e5402b837ea79ef0179caff5ffe7b4f235615
   FLEX: 27b768fcae23a313a1eb115076d429180ca9b472
-  FontAwesome+iOS: 9070b682a9255ca0fdc34bcfb129ad0ba2b73b87
+  FontAwesome+iOS: c6d3bbd2856b9633028d316d56133d45fb6a6cb0
   hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
   iVersion: 2b6ffe708672cb494ba3cab150a94800c2892e81
   JazzHands: 00002e9b1284e7fc1ac6555012e81b8942477242
@@ -114,7 +124,7 @@ SPEC CHECKSUMS:
   MBProgressHUD: d8e7ea388dc1549a42e0d219067cf5f2c898fb66
   MMMarkdown: 13af1af50e5f476f1097797f43ea2bd76c83067a
   NYXImagesKit: 8163e3335a40eaa173ca5bbbf81fafb57d3947eb
-  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
+  pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
   POP+MCAnimate: a99e209148c602512de487f1160a44bf78572024
   PPiAwesomeButton: 16f7279582fd36f65186b24b83ef876217363eb5
   RBBAnimation: 4b2d66f6d993febce63cd564da934985313b9c59
@@ -131,6 +141,6 @@ SPEC CHECKSUMS:
   UMengAnalytics: 092c24aef47b6ac3c76ad51543f91156a8d7b645
   UMengSocial: 85882abe5b20aa38ad558ece71360e16b5d50909
 
-PODFILE CHECKSUM: a94c62469770048a6401eeda5b117afbd57e75f0
+PODFILE CHECKSUM: 07a4f7debe58bcff1823b63f3147364a00a32151
 
 COCOAPODS: 1.2.1
