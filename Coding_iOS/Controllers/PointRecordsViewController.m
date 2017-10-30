@@ -87,7 +87,7 @@
 }
 
 - (void)sendRequest{
-    if (_curRecords.list.count <= 0) {
+    if (_curRecords.list.count <= 0 && !_curRecords.points_left) {
         [self.view beginLoading];
     }
     __weak typeof(self) weakSelf = self;
@@ -100,7 +100,7 @@
             [weakSelf.myTableView reloadData];
             weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curRecords.canLoadMore;
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.curRecords.list.count > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.curRecords.list.count > 0 || weakSelf.curRecords.points_left) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
     }];
@@ -108,7 +108,7 @@
 
 #pragma mark Table M
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _curRecords.list.count <= 0? 0:2;
+    return _curRecords.list.count <= 0? 1:2;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return section == 0? 2: self.curRecords.list.count;
@@ -117,9 +117,8 @@
     
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            PointRecord *record = [_curRecords.list firstObject];
             PointTopCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_PointTopCell forIndexPath:indexPath];
-            cell.pointLeftStr = [NSString stringWithFormat:@"%.2f", record.points_left.floatValue];
+            cell.pointLeftStr = _curRecords.points_left? [NSString stringWithFormat:@"%.2f", _curRecords.points_left.floatValue]: @"--";
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0 hasSectionLine:NO];
             return cell;
         }else{

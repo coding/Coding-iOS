@@ -22,6 +22,12 @@
     }
     return self;
 }
+- (NSNumber *)points_left{
+    if (!_points_left && _list.count > 0) {
+        _points_left = [(PointRecord *)_list.firstObject points_left];
+    }
+    return _points_left;
+}
 - (NSString *)toPath{
     return @"api/point/records";
 }

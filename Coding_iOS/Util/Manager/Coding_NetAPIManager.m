@@ -2412,7 +2412,16 @@
 
             data = [data valueForKey:@"data"];
             PointRecords *resultA = [NSObject objectOfClass:@"PointRecords" fromJSON:data];
-            block(resultA, nil);
+            if (!records.points_left) {
+                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/point/points" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+                    if (data) {
+                        records.points_left = data[@"data"][@"points_left"];
+                    }
+                    block(resultA, nil);
+                }];
+            }else{
+                block(resultA, nil);
+            }
         }else{
             block(nil, error);
         }

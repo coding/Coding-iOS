@@ -15,6 +15,8 @@
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 @property (readwrite, nonatomic, strong) NSMutableArray *list;
 
+@property (strong, nonatomic) NSNumber *points_left;
+
 - (NSString *)toPath;
 - (NSDictionary *)toParams;
 - (void)configWithObj:(PointRecords *)records;
