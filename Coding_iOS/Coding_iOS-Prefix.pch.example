@@ -121,7 +121,8 @@
 
 #define kDefaultLastId [NSNumber numberWithInteger:99999999]
 
-#define kColorNavBG [UIColor colorWithHexString:@"0xF8F8F8"]
+//#define kColorNavBG [UIColor colorWithHexString:@"0xF8F8F8"]
+#define kColorNavBG [UIColor colorWithHexString:@"0xFFFFFF" andAlpha:1.0]
 #define kColorNavTitle [UIColor colorWithHexString:@"0x323A45"]
 #define kColorTableBG [UIColor colorWithHexString:@"0xFFFFFF"]
 #define kColorTableSectionBg [UIColor colorWithHexString:@"0xF2F4F6"]
@@ -135,6 +136,7 @@
 #define kColorD8DDE4 [UIColor colorWithHexString:@"0xD8DDE4"]
 #define kColorBrandGreen [UIColor colorWithHexString:@"0x2EBE76"]
 #define kColorBrandRed [UIColor colorWithHexString:@"0xF56061"]
+#define kColorBrandOrange [UIColor colorWithHexString:@"0xF68435"]
 
 #pragma mark New Color
 #define kColorDark3 [UIColor colorWithHexString:@"0x323A45"]
