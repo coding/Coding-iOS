@@ -212,6 +212,19 @@
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
 }
+
+#pragma mark Universal Links
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray * __nullable restorableObjects))restorationHandler{
+    if ([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]) {
+        [BaseViewController presentLinkStr:userActivity.webpageURL.absoluteString];
+    }else{
+        [[UIApplication sharedApplication] openURL:userActivity.webpageURL];
+    }
+    return YES;
+}
+
+
 #pragma mark - XGPush Message
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {

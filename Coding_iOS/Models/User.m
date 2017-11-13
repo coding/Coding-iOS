@@ -192,8 +192,8 @@
              @"company" : _company? _company: @"",
              @"job" : _job? _job: [NSNumber numberWithInteger:0],
              @"tags" : _tags? _tags: @"",
-             @"school": _school,
-             @"degree": _degree,
+             @"school": _school ?: @"",
+             @"degree": _degree ?: @"",
              };
 }
 - (NSString *)toDeleteConversationPath{

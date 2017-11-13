@@ -12,7 +12,7 @@
 @implementation HelpViewController
 
 + (instancetype)vcWithHelpStr{
-    NSString *curUrlStr = @"/help/doc/mobile/index.html";
+    NSString *curUrlStr = @"/help/doc/mobile";
     NSURL *curUrl = [NSURL URLWithString:curUrlStr relativeToURL:[NSURL URLWithString:[NSObject baseURLStr]]];
     return [[self alloc] initWithURL:curUrl];
 }
