@@ -448,6 +448,13 @@
     [self goToAfterPay];
 }
 
+- (void)handlePayURL:(NSURL *)url{
+    __weak typeof(self) weakSelf = self;
+    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+        [weakSelf handleAliResult:resultDic];
+    }];
+}
+
 - (void)goToAfterPay{
     UINavigationController *nav = self.navigationController;
     [nav popViewControllerAnimated:NO];

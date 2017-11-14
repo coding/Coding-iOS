@@ -149,6 +149,11 @@
     }];
 }
 
+- (void)handlePayURL:(NSURL *)url{
+    ShopOrderListView *listView = (ShopOrderListView *)_myCarousel.currentItemView;
+    [listView handlePayURL:url];
+}
+
 - (void)dealloc
 {
     _myCarousel.dataSource  = nil;

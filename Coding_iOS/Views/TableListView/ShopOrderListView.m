@@ -237,6 +237,13 @@
     }
 }
 
+- (void)handlePayURL:(NSURL *)url{
+    __weak typeof(self) weakSelf = self;
+    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+        [weakSelf handleAliResult:resultDic];
+    }];
+}
+
 - (void)dealloc
 {
     _currentOrderCell = nil;

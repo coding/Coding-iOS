@@ -287,7 +287,9 @@
     DebugLog(@"path: %@, params: %@", [url path], [url queryParams]);
     if ([url.absoluteString hasPrefix:kCodingAppScheme]) {
         NSDictionary *queryParams = [url queryParams];
-        if (queryParams[@"email"] && queryParams[@"key"]) {//重置密码
+        if ([url.host isEqualToString:@"safepay"]) {//支付宝支付
+            [self p_handlePayURL:url];
+        }else if (queryParams[@"email"] && queryParams[@"key"]) {//重置密码
             [self showPasswordWithURL:url];
         }else if ([queryParams[@"type"] isEqualToString:@"tweet"]){//发冒泡
             if ([Login isLogin]) {
@@ -303,6 +305,13 @@
         return [[ENSession sharedSession] handleOpenURL:url];
     }else{
         return  [UMSocialSnsService handleOpenURL:url];
+    }
+}
+
+- (void)p_handlePayURL:(NSURL *)url{
+    UIViewController *vc = [BaseViewController presentingVC];
+    if ([vc respondsToSelector:@selector(handlePayURL:)]) {
+        [vc performSelector:@selector(handlePayURL:) withObject:url];
     }
 }
 
