@@ -195,13 +195,15 @@
 }
 
 - (void)queryToRefreshResourceReference{
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_TaskResourceReference:_myTask andBlock:^(id data, NSError *error) {
-        if (data) {
-            _myTask.resourceReference = data;
-            [weakSelf.myTableView reloadData];
-        }
-    }];
+    if (_myCopyTask.handleType == TaskHandleTypeEdit) {
+        __weak typeof(self) weakSelf = self;
+        [[Coding_NetAPIManager sharedManager] request_TaskResourceReference:_myTask andBlock:^(id data, NSError *error) {
+            if (data) {
+                _myTask.resourceReference = data;
+                [weakSelf.myTableView reloadData];
+            }
+        }];
+    }
 }
 #pragma mark Mine M
 - (void)doneBtnClicked{
