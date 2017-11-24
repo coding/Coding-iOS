@@ -217,7 +217,11 @@
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray * __nullable restorableObjects))restorationHandler{
     if ([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]) {
-        [BaseViewController presentLinkStr:userActivity.webpageURL.absoluteString];
+        UIViewController *vc = [BaseViewController analyseVCFromLinkStr:userActivity.webpageURL.absoluteString];
+        if (vc) {
+            [BaseViewController presentVC:vc];
+        }
+//        [BaseViewController presentLinkStr:userActivity.webpageURL.absoluteString];
     }else{
         [[UIApplication sharedApplication] openURL:userActivity.webpageURL];
     }

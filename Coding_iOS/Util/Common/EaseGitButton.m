@@ -26,7 +26,7 @@
     if(self){
         self.layer.masksToBounds = YES;
         self.layer.cornerRadius = 2.0;
-        self.layer.borderWidth = 0.5;
+        self.layer.borderWidth = 1.0;
         
         CGFloat splitX = floor(CGRectGetWidth(frame) *11/18);
         CGFloat frameHeight = CGRectGetHeight(frame);
@@ -37,8 +37,8 @@
             fontSize = 14;
         }
         
-        _lineView = [[UIView alloc] initWithFrame:CGRectMake(splitX, 0, 1, frameHeight)];
-        _lineView.backgroundColor = kColorTableSectionBg;
+        _lineView = [[UIView alloc] initWithFrame:CGRectMake(splitX, (frameHeight - 12)/ 2, 1, 12)];
+        _lineView.backgroundColor = kColorDarkA;
         [self addSubview:_lineView];
         
         _leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, splitX, frameHeight)];
@@ -101,17 +101,17 @@
 
 + (EaseGitButton *)gitButtonWithFrame:(CGRect)frame type:(EaseGitButtonType)type{
     EaseGitButton *button;
-    UIColor *normalBGColor = kColorDDD;
     switch (type) {
         case EaseGitButtonTypeStar:
-            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" 收藏" checkedTitle:@" 已收藏" normalIcon:@"git_icon_star_old" checkedIcon:@"git_icon_stared" normalBGColor:normalBGColor checkedBGColor:kColorBrandGreen normalBorderColor:nil checkedBorderColor:nil userNum:0 checked:NO];
+            
+            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" 收藏" checkedTitle:@" 已收藏" normalIcon:@"git_icon_star" checkedIcon:@"git_icon_stared" normalBGColor:kColorWhite checkedBGColor:kColorDark4 normalBorderColor:kColorD8DDE4 checkedBorderColor:nil userNum:0 checked:NO];
             break;
         case EaseGitButtonTypeWatch:
-            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" 关注" checkedTitle:@" 已关注" normalIcon:@"git_icon_watch_old" checkedIcon:@"git_icon_watched" normalBGColor:normalBGColor checkedBGColor:[UIColor colorWithHexString:@"0x4E90BF"] normalBorderColor:nil checkedBorderColor:nil userNum:0 checked:NO];
+            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" 关注" checkedTitle:@" 已关注" normalIcon:@"git_icon_watch" checkedIcon:@"git_icon_watched" normalBGColor:kColorWhite checkedBGColor:[UIColor colorWithHexString:@"0x4F95E8"] normalBorderColor:kColorD8DDE4 checkedBorderColor:nil userNum:0 checked:NO];
             break;
         case EaseGitButtonTypeFork:
         default:
-            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" Fork" checkedTitle:@" Fork" normalIcon:@"git_icon_fork_old" checkedIcon:nil normalBGColor:normalBGColor checkedBGColor:normalBGColor normalBorderColor:nil checkedBorderColor:nil userNum:0 checked:NO];
+            button = [EaseGitButton gitButtonWithFrame:frame normalTitle:@" Fork" checkedTitle:@" Fork" normalIcon:@"git_icon_fork" checkedIcon:nil normalBGColor:kColorD8DDE4 checkedBGColor:kColorD8DDE4 normalBorderColor:nil checkedBorderColor:nil userNum:0 checked:NO];
             break;
     }
     button.type = type;
@@ -133,9 +133,9 @@
         self.layer.borderColor = _normalBorderColor.CGColor;
         
     }
-    UIColor *titleColor = [UIColor colorWithHexString:!_checked? @"0x222222": @"0xffffff"];
+    UIColor *titleColor = [UIColor colorWithHexString:!_checked? @"0x425063": @"0xffffff"];
     if (self.type == EaseGitButtonTypeFork) {
-        titleColor = kColor222;
+        titleColor = kColorDark4;
     }
     [_leftButton setTitleColor:titleColor forState:UIControlStateNormal];
     [_rightButton setTitleColor:titleColor forState:UIControlStateNormal];

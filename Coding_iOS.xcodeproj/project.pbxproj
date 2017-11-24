@@ -1382,9 +1382,6 @@
 		D0C448151C02F76600DC1C4B /* icon_search_searchbar@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C448131C02F76600DC1C4B /* icon_search_searchbar@3x.png */; };
 		D0C448181C03187100DC1C4B /* TaskSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C448171C03187100DC1C4B /* TaskSearchCell.m */; };
 		D0C4481B1C034C3F00DC1C4B /* TopicSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C4481A1C034C3F00DC1C4B /* TopicSearchCell.m */; };
-		D0FE4DB81C103FA0006E5A76 /* git_icon_fork_old@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0FE4DB51C103FA0006E5A76 /* git_icon_fork_old@2x.png */; };
-		D0FE4DB91C103FA0006E5A76 /* git_icon_star_old@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0FE4DB61C103FA0006E5A76 /* git_icon_star_old@2x.png */; };
-		D0FE4DBA1C103FA0006E5A76 /* git_icon_watch_old@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0FE4DB71C103FA0006E5A76 /* git_icon_watch_old@2x.png */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
 /* End PBXBuildFile section */
 
@@ -3380,9 +3377,6 @@
 		D0C448171C03187100DC1C4B /* TaskSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskSearchCell.m; sourceTree = "<group>"; };
 		D0C448191C034C3F00DC1C4B /* TopicSearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicSearchCell.h; sourceTree = "<group>"; };
 		D0C4481A1C034C3F00DC1C4B /* TopicSearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicSearchCell.m; sourceTree = "<group>"; };
-		D0FE4DB51C103FA0006E5A76 /* git_icon_fork_old@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "git_icon_fork_old@2x.png"; sourceTree = "<group>"; };
-		D0FE4DB61C103FA0006E5A76 /* git_icon_star_old@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "git_icon_star_old@2x.png"; sourceTree = "<group>"; };
-		D0FE4DB71C103FA0006E5A76 /* git_icon_watch_old@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "git_icon_watch_old@2x.png"; sourceTree = "<group>"; };
 		E7A0469E1A47279E00528C12 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Helper.h; sourceTree = "<group>"; };
 		E7A0469F1A47279E00528C12 /* Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Helper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -3669,9 +3663,6 @@
 		4E1A228C1AB19D1F00CFC14F /* git_btn_icons */ = {
 			isa = PBXGroup;
 			children = (
-				D0FE4DB51C103FA0006E5A76 /* git_icon_fork_old@2x.png */,
-				D0FE4DB61C103FA0006E5A76 /* git_icon_star_old@2x.png */,
-				D0FE4DB71C103FA0006E5A76 /* git_icon_watch_old@2x.png */,
 				D09E6AC51BF84AF9009D37F8 /* git_icon_fork@2x.png */,
 				D09E6AC31BF84AE5009D37F8 /* git_icon_watch@2x.png */,
 				D09E6AC11BF84AC5009D37F8 /* git_icon_star@2x.png */,
@@ -6647,7 +6638,6 @@
 				1319D1081CA7FE6E00729F82 /* PR_create@2x.png in Resources */,
 				4ED4B4941D82646100EED8C6 /* user_info_tweet@3x.png in Resources */,
 				4E6383AB1B3262D300D98648 /* taskPriority2_small@2x.png in Resources */,
-				D0FE4DB91C103FA0006E5A76 /* git_icon_star_old@2x.png in Resources */,
 				D0C447CC1C02DB6700DC1C4B /* pop_2FA@3x.png in Resources */,
 				4E59D3311D409C8C008C914B /* topic_add_watcher_btn@2x.png in Resources */,
 				7E8E59831B6F91C40083CA02 /* bubble_right_play_1@2x.png in Resources */,
@@ -6888,7 +6878,6 @@
 				8ED2AAFA19F60D5200607A1D /* loading_loop@2x.png in Resources */,
 				4E6B07131BA3D9B5007D6027 /* intro_page1_ip6@2x.png in Resources */,
 				13FB5D411CA17A6400EE127C /* PR_refuse@2x.png in Resources */,
-				D0FE4DBA1C103FA0006E5A76 /* git_icon_watch_old@2x.png in Resources */,
 				8B3516501B6CE9460049BC45 /* icon_topic_hotTop@2x.png in Resources */,
 				4E2BF3D31B96CDF800A5A0A8 /* share_btn_qzone@2x.png in Resources */,
 				4EE1A23D1B5F3834004284F1 /* project_tag_btn@2x.png in Resources */,
@@ -7186,7 +7175,6 @@
 				4E9423DE1E69401B0095F1CD /* blankpage_image_File@2x.png in Resources */,
 				B1C8718F1EB1E608003DACF0 /* icon_add_comment@3x.png in Resources */,
 				4EACB4431A2C45300097ABB3 /* button_file_download_enable@2x.png in Resources */,
-				D0FE4DB81C103FA0006E5A76 /* git_icon_fork_old@2x.png in Resources */,
 				8E97CE691A0A3424006F9AD7 /* keyboard_page_selected@2x.png in Resources */,
 				B1C8716C1EB182C7003DACF0 /* taskPriority3@3x.png in Resources */,
 				B1C871B31EB2D9F0003DACF0 /* file_activity_icon_delete_history@3x.png in Resources */,
