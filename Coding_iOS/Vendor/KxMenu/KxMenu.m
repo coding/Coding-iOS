@@ -538,6 +538,8 @@ typedef enum {
         }
         
         if (itemNum < _menuItems.count - 1) {
+            [itemView addLineUp:NO andDown:YES andColor:[KxMenu lineColor]];
+            itemView.clipsToBounds = YES;
             itemY += 2;
         }
         itemY += maxItemHeight;
@@ -922,7 +924,8 @@ static UIFont *gTitleFont;
 + (UIColor *) overlayColor
 {
     if (!gOverlayColor) {
-        gOverlayColor = [UIColor colorWithWhite:0 alpha:0.5];
+        gOverlayColor = [UIColor colorWithHexString:@"272C33" andAlpha:.5];
+//        [UIColor colorWithWhite:0 alpha:0.5];
     }
     return gOverlayColor;
 }

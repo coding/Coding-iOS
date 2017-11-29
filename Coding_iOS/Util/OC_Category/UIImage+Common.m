@@ -103,7 +103,7 @@
     return img;
 }
 
-+ (UIImage *)imageWithFileType:(NSString *)fileType{
++(NSString *)p_iconNameWithFileType:(NSString *)fileType{
     fileType = [fileType lowercaseString];
     NSString *iconName;
     //XXX(s)
@@ -165,7 +165,15 @@
     else{
         iconName = @"icon_file_unknown";
     }
-    return [UIImage imageNamed:iconName];
+    return iconName;
+}
+
++ (UIImage *)imageWithFileType:(NSString *)fileType{
+    return [UIImage imageNamed:[self p_iconNameWithFileType:fileType]];
+}
+
++ (UIImage *)big_imageWithFileType:(NSString *)fileType{
+    return [UIImage imageNamed:[NSString stringWithFormat:@"%@_big", [self p_iconNameWithFileType:fileType]]];
 }
 
 - (NSData *)dataSmallerThan:(NSUInteger)dataLength{

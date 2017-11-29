@@ -30,7 +30,7 @@
     self = [super init];
     if (self) {
         self.frame = CGRectMake(0, 0, kScreen_Width, kEaseToolBar_Height);
-        self.backgroundColor = kColorTableSectionBg;
+        self.backgroundColor = kColorWhite;
         self.buttonItems = buttonItems;
     }
     return self;
@@ -42,7 +42,7 @@
         }
         _buttonItems = buttonItems;
     }
-    [self addLineUp:YES andDown:NO andColor:[UIColor lightGrayColor]];
+    [self addLineUp:YES andDown:NO andColor:kColorD8DDE4];
     if (_buttonItems.count > 0) {
         NSInteger num = _buttonItems.count;
         CGFloat itemWidth = CGRectGetWidth(self.frame)/num;
@@ -54,9 +54,9 @@
             [item addTarget:self action:@selector(itemButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:item];
             if (i < num-1) {//item之间的分隔线
-                UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake((i+1)*itemWidth, (itemHeight - 25.0)/2, 0.5, 25)];
+                UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake((i+1)*itemWidth, 0, 0.5, itemHeight)];
                 lineView.tag = kEaseToolBar_SplitLineViewTag;
-                lineView.backgroundColor = [UIColor colorWithHexString:@"0xd1d1d1"];
+                lineView.backgroundColor = [UIColor colorWithHexString:@"0xD8DDE4"];
                 [self addSubview:lineView];
             }
         }
@@ -93,8 +93,8 @@
         [self setIconImage:[UIImage imageNamed:_imageName]];
         [self setButtonText:_title];
         
-        [self setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:15],
-                              NSForegroundColorAttributeName:[UIColor colorWithHexString:@"0x888888"]} forUIControlState:UIControlStateNormal];
+        [self setAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15],
+                              NSForegroundColorAttributeName:[UIColor colorWithHexString:@"0x323A45"]} forUIControlState:UIControlStateNormal];
         [self setIconPosition:IconPositionLeft];
         [self setTextAlignment:NSTextAlignmentCenter];
         [self setControlState:UIControlStateNormal];
@@ -102,11 +102,18 @@
     }
     return self;
 }
+
+- (void)setTitle:(NSString *)title{
+    if (title) {
+        title = [NSString stringWithFormat:@" %@", title];
+    }
+    _title = title;
+}
 - (void)setEnabled:(BOOL)enabled{
     [super setEnabled:enabled];
     NSString *imageName = enabled? _imageName:(_disableImageName? _disableImageName: _imageName);
-    NSDictionary *attributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:15],
-                                 NSForegroundColorAttributeName:enabled? [UIColor colorWithHexString:@"0x888888"] : [UIColor colorWithHexString:@"0xc2c2c2"]};
+    NSDictionary *attributes = @{NSFontAttributeName:[UIFont systemFontOfSize:15],
+                                 NSForegroundColorAttributeName:enabled? [UIColor colorWithHexString:@"0x323A45"] : [UIColor colorWithHexString:@"0xA9B3BE"]};
     [self setIconImage:[UIImage imageNamed:imageName]];
     [self setAttributes:attributes forUIControlState:UIControlStateNormal];
 }

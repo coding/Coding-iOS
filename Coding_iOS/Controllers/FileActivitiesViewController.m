@@ -113,7 +113,7 @@
             self.activityList = data;
             [self.myTableView reloadData];
         }
-        [self.view configBlankPage:EaseBlankPageTypeView hasData:self.activityList.count > 0 hasError:error != nil reloadButtonBlock:^(id sender) {
+        [self.view configBlankPage:EaseBlankPageTypeView hasData:YES hasError:error != nil reloadButtonBlock:^(id sender) {
             [self refresh];
         }];
     }];
