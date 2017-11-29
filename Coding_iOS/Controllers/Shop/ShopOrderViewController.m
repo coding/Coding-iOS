@@ -37,6 +37,12 @@
     _myOrder.orderType = ShopOrderAll;
     
     [self setUpView];
+//    [self loadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
     [self loadData];
 }
 
@@ -44,8 +50,9 @@
 {
     __weak typeof(self) weakSelf = self;
     __weak typeof(iCarousel) *weakCarosel = _myCarousel;
-
-    [self.view beginLoading];
+    if (_myOrder.dateSource.count == 0) {
+        [self.view beginLoading];
+    }
     [[Coding_NetAPIManager sharedManager] request_shop_OrderListWithOrder:_myOrder andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
         if (data) {
@@ -147,11 +154,6 @@
     [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
         [obj setSubScrollsToTop:(obj == carousel.currentItemView)];
     }];
-}
-
-- (void)handlePayURL:(NSURL *)url{
-    ShopOrderListView *listView = (ShopOrderListView *)_myCarousel.currentItemView;
-    [listView handlePayURL:url];
 }
 
 - (void)dealloc

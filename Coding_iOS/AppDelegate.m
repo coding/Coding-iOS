@@ -304,12 +304,14 @@
         }else{//一般模式解析网页
             [BaseViewController presentLinkStr:url.absoluteString];
         }
-        return YES;
+    }else if ([url.scheme isEqualToString:kSocial_WX_ID] && [url.host isEqualToString:@"pay"]){//微信支付
+        [self p_handlePayURL:url];
     }else if ([url.absoluteString hasPrefix:@"en-:"]){
         return [[ENSession sharedSession] handleOpenURL:url];
     }else{
         return  [UMSocialSnsService handleOpenURL:url];
     }
+    return YES;
 }
 
 - (void)p_handlePayURL:(NSURL *)url{

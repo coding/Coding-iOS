@@ -11,6 +11,7 @@
 #import "ODRefreshControl.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "Coding_NetAPIManager.h"
+#import "EAPayViewController.h"
 
 #import <AlipaySDK/AlipaySDK.h>
 
@@ -209,39 +210,9 @@
 }
 
 - (void)payOrder:(ShopOrder *)order{
-    [NSObject showHUDQueryStr:@"请稍等..."];
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_shop_payOrder:order.orderNo method:@"Alipay" andBlock:^(NSDictionary *payDict, NSError *error) {
-        [NSObject hideHUDQuery];;
-        if (payDict) {
-            if ([payDict[@"payMethod"] isEqualToString:@"Alipay"]) {
-                [weakSelf aliPayOrder:payDict[@"url"]];
-            }
-        }
-    }];
-}
-
-- (void)aliPayOrder:(NSString *)orderStr{
-    __weak typeof(self) weakSelf = self;
-    [[AlipaySDK defaultService] payOrder:orderStr fromScheme:kCodingAppScheme callback:^(NSDictionary *resultDic) {
-        [weakSelf handleAliResult:resultDic];
-    }];
-}
-
-- (void)handleAliResult:(NSDictionary *)resultDic{
-    DebugLog(@"handleAliResult: %@", resultDic);
-    BOOL isPaySuccess = ([resultDic[@"resultStatus"] integerValue] == 9000);
-    [NSObject showHudTipStr:isPaySuccess? @"支付成功": @"支付失败"];
-    if (isPaySuccess) {
-        [self refresh];
-    }
-}
-
-- (void)handlePayURL:(NSURL *)url{
-    __weak typeof(self) weakSelf = self;
-    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-        [weakSelf handleAliResult:resultDic];
-    }];
+    EAPayViewController *vc = [EAPayViewController new];
+    vc.shopOrder = order;
+    [BaseViewController goToVC:vc];
 }
 
 - (void)dealloc

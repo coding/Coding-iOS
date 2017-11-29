@@ -16,8 +16,7 @@
 #import "ShopMutileValueCell.h"
 #import "ActionSheetStringPicker.h"
 #import "ShopSwitchCell.h"
-
-#import <AlipaySDK/AlipaySDK.h>
+#import "EAPayViewController.h"
 
 @interface ExchangeGoodsViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 {
@@ -413,53 +412,27 @@
     [NSObject showHUDQueryStr:@"正在创建订单..."];
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_shop_orderWithParms:mparms andBlock:^(ShopOrder *shopOrder, NSError *error) {
+        [NSObject hideHUDQuery];;
         if (shopOrder) {
-            if (weakSelf.shopGoods.needToPay) {//支付
-                [[Coding_NetAPIManager sharedManager] request_shop_payOrder:shopOrder.orderNo method:@"Alipay" andBlock:^(NSDictionary *payDict, NSError *error) {
-                    [NSObject hideHUDQuery];;
-                    if (payDict) {
-                        if ([payDict[@"payMethod"] isEqualToString:@"Alipay"]) {
-                            [weakSelf aliPayOrder:payDict[@"url"]];
-                        }
-                    }
-                }];
-            }else{//码币兑换，直接成功
-                [NSObject hideHUDQuery];;
-                [NSObject showHudTipStr:@"恭喜你，提交订单成功!"];
-                [weakSelf goToAfterPay];
-            }
-        }else{
-            [NSObject hideHUDQuery];;
+            [weakSelf goToOrder:shopOrder];
         }
     }];
 }
 
-- (void)aliPayOrder:(NSString *)orderStr{
-    __weak typeof(self) weakSelf = self;
-    [[AlipaySDK defaultService] payOrder:orderStr fromScheme:kCodingAppScheme callback:^(NSDictionary *resultDic) {
-        [weakSelf handleAliResult:resultDic];
-    }];
-}
-
-- (void)handleAliResult:(NSDictionary *)resultDic{
-    DebugLog(@"handleAliResult: %@", resultDic);
-    BOOL isPaySuccess = ([resultDic[@"resultStatus"] integerValue] == 9000);
-    [NSObject showHudTipStr:isPaySuccess? @"支付成功": @"支付失败"];
-    [self goToAfterPay];
-}
-
-- (void)handlePayURL:(NSURL *)url{
-    __weak typeof(self) weakSelf = self;
-    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-        [weakSelf handleAliResult:resultDic];
-    }];
-}
-
-- (void)goToAfterPay{
+- (void)goToOrder:(ShopOrder *)shopOrder{
     UINavigationController *nav = self.navigationController;
     [nav popViewControllerAnimated:NO];
     ShopOrderViewController *orderViewController = [[ShopOrderViewController alloc] init];
-    [nav pushViewController:orderViewController animated:YES];
+    if (self.shopGoods.needToPay) {//支付
+        EAPayViewController *vc = [EAPayViewController new];
+        vc.shopOrder = shopOrder;
+        [nav pushViewController:orderViewController animated:NO];
+        [nav pushViewController:vc animated:YES];
+    }else{//码币兑换，直接成功
+        [NSObject hideHUDQuery];;
+        [NSObject showHudTipStr:@"恭喜你，提交订单成功!"];
+        [nav pushViewController:orderViewController animated:YES];
+    }
 }
 
 - (void)dealloc

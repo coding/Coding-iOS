@@ -1226,6 +1226,13 @@
 		B1BCB8881FCD006C0098B87B /* icon_file_ai_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BCB87B1FCD006C0098B87B /* icon_file_ai_big@2x.png */; };
 		B1BCB8891FCD006C0098B87B /* icon_file_ppt_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BCB87C1FCD006C0098B87B /* icon_file_ppt_big@2x.png */; };
 		B1BCB88B1FCD0A6D0098B87B /* icon_file_xls_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BCB88A1FCD0A6D0098B87B /* icon_file_xls_big@2x.png */; };
+		B1BCB88F1FCE61D60098B87B /* EAPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1BCB88D1FCE61D60098B87B /* EAPayViewController.m */; };
+		B1BCB8901FCE61D60098B87B /* EAPayViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1BCB88E1FCE61D60098B87B /* EAPayViewController.xib */; };
+		B1BCB8931FCE662A0098B87B /* NSLayoutConstraintLine.m in Sources */ = {isa = PBXBuildFile; fileRef = B1BCB8911FCE662A0098B87B /* NSLayoutConstraintLine.m */; };
+		B1BCB8991FCE93830098B87B /* alipay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BCB8951FCE93830098B87B /* alipay@2x.png */; };
+		B1BCB89A1FCE93830098B87B /* alipay@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BCB8961FCE93830098B87B /* alipay@3x.png */; };
+		B1BCB89B1FCE93830098B87B /* wechat@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BCB8971FCE93830098B87B /* wechat@2x.png */; };
+		B1BCB89C1FCE93830098B87B /* wechat@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BCB8981FCE93830098B87B /* wechat@3x.png */; };
 		B1C871131EADAEE1003DACF0 /* loading_monkey@2x.gif in Resources */ = {isa = PBXBuildFile; fileRef = B1C871121EADAEE1003DACF0 /* loading_monkey@2x.gif */; };
 		B1C871181EADF0B1003DACF0 /* messageAT@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1C871141EADF0B1003DACF0 /* messageAT@3x.png */; };
 		B1C871191EADF0B1003DACF0 /* messageComment@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1C871151EADF0B1003DACF0 /* messageComment@3x.png */; };
@@ -3209,6 +3216,15 @@
 		B1BCB87B1FCD006C0098B87B /* icon_file_ai_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_ai_big@2x.png"; sourceTree = "<group>"; };
 		B1BCB87C1FCD006C0098B87B /* icon_file_ppt_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_ppt_big@2x.png"; sourceTree = "<group>"; };
 		B1BCB88A1FCD0A6D0098B87B /* icon_file_xls_big@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_file_xls_big@2x.png"; sourceTree = "<group>"; };
+		B1BCB88C1FCE61D60098B87B /* EAPayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAPayViewController.h; sourceTree = "<group>"; };
+		B1BCB88D1FCE61D60098B87B /* EAPayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EAPayViewController.m; sourceTree = "<group>"; };
+		B1BCB88E1FCE61D60098B87B /* EAPayViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EAPayViewController.xib; sourceTree = "<group>"; };
+		B1BCB8911FCE662A0098B87B /* NSLayoutConstraintLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSLayoutConstraintLine.m; sourceTree = "<group>"; };
+		B1BCB8921FCE662A0098B87B /* NSLayoutConstraintLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSLayoutConstraintLine.h; sourceTree = "<group>"; };
+		B1BCB8951FCE93830098B87B /* alipay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alipay@2x.png"; sourceTree = "<group>"; };
+		B1BCB8961FCE93830098B87B /* alipay@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alipay@3x.png"; sourceTree = "<group>"; };
+		B1BCB8971FCE93830098B87B /* wechat@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wechat@2x.png"; sourceTree = "<group>"; };
+		B1BCB8981FCE93830098B87B /* wechat@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wechat@3x.png"; sourceTree = "<group>"; };
 		B1C871121EADAEE1003DACF0 /* loading_monkey@2x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "loading_monkey@2x.gif"; sourceTree = "<group>"; };
 		B1C871141EADF0B1003DACF0 /* messageAT@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messageAT@3x.png"; sourceTree = "<group>"; };
 		B1C871151EADF0B1003DACF0 /* messageComment@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messageComment@3x.png"; sourceTree = "<group>"; };
@@ -5501,6 +5517,9 @@
 				4E6CBE501D8E962300644086 /* TopicAnswerDetailViewController.m */,
 				4E9E3B731DCC2DB10005FD79 /* HtmlMediaViewController.h */,
 				4E9E3B741DCC2DB10005FD79 /* HtmlMediaViewController.m */,
+				B1BCB88C1FCE61D60098B87B /* EAPayViewController.h */,
+				B1BCB88D1FCE61D60098B87B /* EAPayViewController.m */,
+				B1BCB88E1FCE61D60098B87B /* EAPayViewController.xib */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -5552,6 +5571,7 @@
 		8EA6CF5D19E240C40076D59C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B1BCB8941FCE93830098B87B /* pay */,
 				B14689A31EE100B200B01371 /* vip */,
 				4EAAD0481E542B2D008AA957 /* icon_code */,
 				4EAAD0181E540551008AA957 /* mrpr_icon_status */,
@@ -6187,6 +6207,8 @@
 				09A058941E0AAA2F00C1CA3F /* TaskSelectionView.m */,
 				09A058961E0AAA5300C1CA3F /* ScreenView.h */,
 				09A058971E0AAA5300C1CA3F /* ScreenView.m */,
+				B1BCB8921FCE662A0098B87B /* NSLayoutConstraintLine.h */,
+				B1BCB8911FCE662A0098B87B /* NSLayoutConstraintLine.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -6523,6 +6545,17 @@
 				B19D4EFA1F7247BA00C598F3 /* AlipaySDK.framework */,
 			);
 			path = AlipaySDK;
+			sourceTree = "<group>";
+		};
+		B1BCB8941FCE93830098B87B /* pay */ = {
+			isa = PBXGroup;
+			children = (
+				B1BCB8951FCE93830098B87B /* alipay@2x.png */,
+				B1BCB8961FCE93830098B87B /* alipay@3x.png */,
+				B1BCB8971FCE93830098B87B /* wechat@2x.png */,
+				B1BCB8981FCE93830098B87B /* wechat@3x.png */,
+			);
+			path = pay;
 			sourceTree = "<group>";
 		};
 		B94C1B661AC945C60000C271 /* NewProject */ = {
@@ -6950,6 +6983,7 @@
 				4E6383AD1B3262D300D98648 /* taskPriority3_small@2x.png in Resources */,
 				8E97CEA91A0C7E26006F9AD7 /* coding_emoji_18@2x.png in Resources */,
 				4ED4B4861D82646100EED8C6 /* user_info_about@3x.png in Resources */,
+				B1BCB8901FCE61D60098B87B /* EAPayViewController.xib in Resources */,
 				B1C871801EB18599003DACF0 /* calendar_0xA1CF64@3x.png in Resources */,
 				4ED4B4871D82646100EED8C6 /* user_info_file@2x.png in Resources */,
 				B19D4EF31F710EF900C598F3 /* ShopSwitchCell.xib in Resources */,
@@ -7097,6 +7131,7 @@
 				4E9423E71E69401B0095F1CD /* blankpage_image_Project@3x.png in Resources */,
 				8E97CE641A0A3424006F9AD7 /* keyboard_emotion@2x.png in Resources */,
 				4EAE06A81B7B1AE100179F4B /* button_file_history@2x.png in Resources */,
+				B1BCB89B1FCE93830098B87B /* wechat@2x.png in Resources */,
 				4E0849851A918A7F00BD27F6 /* coding_emoji_43@2x.png in Resources */,
 				4E5D130E1C0ECB3400985AEB /* tweet_btn_liked@3x.png in Resources */,
 				4E96E7DE1A1B537E0037C098 /* icon_file_music@2x.png in Resources */,
@@ -7126,6 +7161,7 @@
 				4EF17ED81B3C3112003CDD2D /* intro_icon_4@3x.png in Resources */,
 				4EAE06921B7880BA00179F4B /* me_info_arrow_left@2x.png in Resources */,
 				4E5F39071ACBFDCD0010515D /* keyboard_photo@2x.png in Resources */,
+				B1BCB89C1FCE93830098B87B /* wechat@3x.png in Resources */,
 				4E0022A91B7362EF005308DE /* intro_page0_ip6@2x.png in Resources */,
 				4E76D4DE1A5A7B4A0094A35E /* text_clear_btn@2x.png in Resources */,
 				D0C447A91C02A3C700DC1C4B /* task_normal@2x.png in Resources */,
@@ -7383,6 +7419,7 @@
 				8E97CEAA1A0C7E26006F9AD7 /* coding_emoji_19@2x.png in Resources */,
 				13FB5D521CA17A6400EE127C /* PR_review_undo@3x.png in Resources */,
 				B1C871681EB182C7003DACF0 /* taskPriority1@3x.png in Resources */,
+				B1BCB89A1FCE93830098B87B /* alipay@3x.png in Resources */,
 				4E90F89D1AF709C100B44F03 /* markdown.html in Resources */,
 				134116F11CB529E1005E6550 /* PR_more@3x.png in Resources */,
 				4E2BF3D51B96CDF800A5A0A8 /* share_btn_wxsession@2x.png in Resources */,
@@ -7394,6 +7431,7 @@
 				B1C871281EADF0FF003DACF0 /* back_T_Nav@2x.png in Resources */,
 				B1C871631EB182C7003DACF0 /* checkbox_checked@3x.png in Resources */,
 				8E97CE9C1A0C7E26006F9AD7 /* coding_emoji_05@2x.png in Resources */,
+				B1BCB8991FCE93830098B87B /* alipay@2x.png in Resources */,
 				4E095A171D9534CB00E63D9E /* intro_page_unselected@2x.png in Resources */,
 				4E6383A61B3262D300D98648 /* taskPriority0@2x.png in Resources */,
 				4E0EF6EC1BF42E4B00F2FCC8 /* task_activity_icon_update_label@2x.png in Resources */,
@@ -7782,6 +7820,7 @@
 				4E87656A1A22E5B40090CFB9 /* SWUtilityButtonView.m in Sources */,
 				7EB02FFC1B6E001300D2166C /* VoiceMedia.m in Sources */,
 				8EABE3C819F10D2400A17784 /* TaskComment.m in Sources */,
+				B1BCB88F1FCE61D60098B87B /* EAPayViewController.m in Sources */,
 				8E97CE471A0A2DF8006F9AD7 /* AGEmojiKeyBoardView.m in Sources */,
 				4E53EB521AFA03990034FE1C /* RKSwipeBetweenViewControllers.m in Sources */,
 				8EA6D12C19E240C40076D59C /* EditTopicViewController.m in Sources */,
@@ -7867,6 +7906,7 @@
 				4E3068461E0B781A00AEE0CE /* NSData+gzip.m in Sources */,
 				4E8D5D5C1B45295D00B70936 /* NSString+OTPURLArguments.m in Sources */,
 				D066BB3A1BF30EB9005AB5D6 /* ProjectSquareViewController.m in Sources */,
+				B1BCB8931FCE662A0098B87B /* NSLayoutConstraintLine.m in Sources */,
 				8E6F1C951A03BD6000BF79C8 /* ProjectMemberActivityListViewController.m in Sources */,
 				8EA6D13619E240C40076D59C /* BaseViewController.m in Sources */,
 				4E5F39051ACA958C0010515D /* TopicCommentCCell.m in Sources */,

@@ -17,7 +17,5 @@
 
 - (void)reloadData;
 
-- (void)handlePayURL:(NSURL *)url;
-
 @end
 
