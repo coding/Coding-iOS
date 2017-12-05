@@ -172,7 +172,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
             bottomV.backgroundColor = self.backgroundColor;
             [self addSubview:bottomV];
             [bottomV mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo(18);
+                make.height.mas_equalTo(18 + kKeyboardView_Height);//补个底色背景
                 make.top.equalTo(self.mas_bottom);
                 make.left.right.equalTo(self);
             }];
@@ -706,7 +706,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }else{
         self.inputState = UIMessageInputViewStateAdd;
         [_inputTextView resignFirstResponder];
-        endY = kScreen_Height - kKeyboardView_Height;
+        endY = kScreen_Height - kKeyboardView_Height - (kDevice_Is_iPhoneX? 18: 0);
     }
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         [_addKeyboardView setY:endY];
@@ -726,7 +726,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }else{
         self.inputState = UIMessageInputViewStateEmotion;
         [_inputTextView resignFirstResponder];
-        endY = kScreen_Height - kKeyboardView_Height;
+        endY = kScreen_Height - kKeyboardView_Height - (kDevice_Is_iPhoneX? 18: 0);
     }
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         [_emojiKeyboardView setY:endY];
@@ -762,7 +762,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     } else {
         self.inputState = UIMessageInputViewStateVoice;
         [_inputTextView resignFirstResponder];
-        endY = kScreen_Height - kKeyboardView_Height;
+        endY = kScreen_Height - kKeyboardView_Height - (kDevice_Is_iPhoneX? 18: 0);
     }
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         [_voiceKeyboardView setY:endY];
