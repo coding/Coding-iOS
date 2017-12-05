@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MBProgressHUD/MBProgressHUD.h>
+#import <SDCAlertView/SDCAlertController.h>
 
 @interface NSObject (Common)
 

@@ -199,7 +199,7 @@
                     weakSelf.phoneCode = valueStr;
                 };
                 cell.phoneCodeBtnClckedBlock = ^(PhoneCodeButton *btn){
-                    [weakSelf phoneCodeBtnClicked:btn];
+                    [weakSelf phoneCodeBtnClicked:btn withCaptcha:nil];
                 };
             }
         }else{
@@ -219,7 +219,7 @@
 }
 
 #pragma mark Btn Clicked
-- (void)phoneCodeBtnClicked:(PhoneCodeButton *)sender{
+- (void)phoneCodeBtnClicked:(PhoneCodeButton *)sender withCaptcha:(NSString *)captcha{
     if (![_userStr isPhoneNo]) {
         [NSObject showHudTipStr:@"手机号码格式有误"];
         return;

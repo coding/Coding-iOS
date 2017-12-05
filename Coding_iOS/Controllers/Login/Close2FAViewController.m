@@ -109,7 +109,7 @@
             weakSelf.phoneCode = valueStr;
         };
         cell.phoneCodeBtnClckedBlock = ^(PhoneCodeButton *btn){
-            [weakSelf phoneCodeBtnClicked:btn];
+            [weakSelf phoneCodeBtnClicked:btn withCaptcha:nil];
         };
     }
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kLoginPaddingLeftWidth];
@@ -117,7 +117,7 @@
 }
 
 #pragma mark Btn Clicked
-- (void)phoneCodeBtnClicked:(PhoneCodeButton *)sender{
+- (void)phoneCodeBtnClicked:(PhoneCodeButton *)sender withCaptcha:(NSString *)captcha{
     if (![_phone isPhoneNo]) {
         [NSObject showHudTipStr:@"手机号码格式有误"];
         return;

@@ -98,7 +98,7 @@
             weakSelf.code = valueStr;
         };
         cell.phoneCodeBtnClckedBlock = ^(PhoneCodeButton *btn){
-            [weakSelf phoneCodeBtnClicked:btn];
+            [weakSelf phoneCodeBtnClicked:btn withCaptcha:nil];
         };
     }else{
         [cell setPlaceholder:_verifyType == VerifyTypePassword? @" 输入密码": @" 输入两步验证码" value:_verifyStr];
@@ -128,7 +128,7 @@
 }
 
 #pragma mark CodeBtn
-- (void)phoneCodeBtnClicked:(PhoneCodeButton *)sender{
+- (void)phoneCodeBtnClicked:(PhoneCodeButton *)sender withCaptcha:(NSString *)captcha{
     if (![_phone isPhoneNo]) {
         [NSObject showHudTipStr:@"手机号码格式有误"];
         return;

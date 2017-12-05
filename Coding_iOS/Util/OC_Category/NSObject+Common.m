@@ -16,7 +16,6 @@
 #import "Login.h"
 #import "AppDelegate.h"
 #import "CodingNetAPIClient.h"
-#import <SDCAlertView/SDCAlertController.h>
 #import "Coding_NetAPIManager.h"
 
 @implementation NSObject (Common)
