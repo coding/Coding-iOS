@@ -14,6 +14,7 @@
     
     UILabel     *_priceLabel;
     UILabel     *_titleLabel;
+    UILabel     *_countLabel;
     
     UIButton    *_codingCoinView;
     UIImageView *_exchangeIconView;

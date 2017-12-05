@@ -41,6 +41,9 @@
                 make.edges.equalTo(self);
             }];
             tableView.tableFooterView = [UIView new];
+            tableView.estimatedRowHeight = 0;
+            tableView.estimatedSectionHeaderHeight = 0;
+            tableView.estimatedSectionFooterHeight = 0;
             tableView;
         });
         _type = type;

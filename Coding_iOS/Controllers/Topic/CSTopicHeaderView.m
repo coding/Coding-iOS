@@ -95,6 +95,15 @@
             
             [iconView sd_setImageWithURL:[user.avatar urlImageWithCodePathResizeToView:iconView] placeholderImage:[UIImage imageNamed:@"placeholder_monkey_round_48"]];
             
+            {
+                UIImageView *vipV = [UIImageView new];
+                [self addSubview:vipV];
+                [vipV mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.right.bottom.equalTo(iconView);
+                }];
+                vipV.image = [UIImage imageNamed:[NSString stringWithFormat:@"vip_%@_40", user.vip]];
+            }
+            
             [_avatalist addObject:iconView];
         }
     }

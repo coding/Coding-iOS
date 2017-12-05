@@ -6,11 +6,11 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#define kProjectTagsView_Padding_Icon 22.0
+#define kProjectTagsView_Padding_Icon 28.0
 #define kProjectTagsView_Height_PerLine 30.0
 
 #define kProjectTagsViewLabel_Font [UIFont systemFontOfSize:12]
-#define kProjectTagsViewLabel_Height_Content 22.0
+#define kProjectTagsViewLabel_Height_Content 24.0
 #define kProjectTagsViewLabel_MinWidth 44.0
 #define kProjectTagsViewLabel_Padding_Content 10.0
 #define kProjectTagsViewLabel_Padding_Space 5.0
@@ -145,7 +145,7 @@
     if (!_addTagButton) {
         _addTagButton = [UIButton new];
         _addTagButton.layer.cornerRadius = 2;
-        _addTagButton.layer.borderColor = kColorDDD.CGColor;
+        _addTagButton.layer.borderColor = kColorDark7.CGColor;
         @weakify(self);
         [_addTagButton bk_addEventHandler:^(id sender) {
             @strongify(self);
@@ -157,10 +157,10 @@
     }
     NSString *buttonTitle = @"添加标签";
     if (hasTags) {
-        _addTagButton.layer.borderWidth = 0.5f;
+        _addTagButton.layer.borderWidth = 1.0f;
         _addTagButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         _addTagButton.titleLabel.font = kProjectTagsViewLabel_Font;
-        [_addTagButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [_addTagButton setTitleColor:kColorDark7 forState:UIControlStateNormal];
         [_addTagButton setTitleColor:[UIColor colorWithWhite:0 alpha:0.5] forState:UIControlStateHighlighted];
 
         CGFloat textWidth = [buttonTitle getWidthWithFont:kProjectTagsViewLabel_Font constrainedToSize:CGSizeMake(CGFLOAT_MAX, kProjectTagsViewLabel_Height_Content)];

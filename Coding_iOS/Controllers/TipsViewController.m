@@ -69,6 +69,9 @@
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
+        tableView.estimatedRowHeight = 0;
+        tableView.estimatedSectionHeaderHeight = 0;
+        tableView.estimatedSectionFooterHeight = 0;
         tableView;
     });
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
@@ -172,14 +175,14 @@
     if ([KxMenu isShowingInView:self.view]) {
         [KxMenu dismissMenu:YES];
     }else{
-        [KxMenu setTitleFont:[UIFont systemFontOfSize:14]];
+        [KxMenu setTitleFont:[UIFont systemFontOfSize:15]];
         [KxMenu setTintColor:[UIColor whiteColor]];
         [KxMenu setLineColor:kColorDDD];
         NSArray *menuItems = @[
                                [KxMenuItem menuItem:_myCodingTips.onlyUnread? @"查看全部": @"查看未读" image:[UIImage imageNamed:@"tips_menu_icon_status"] target:self action:@selector(p_changeTipStatus)],
                                [KxMenuItem menuItem:@"全部标注已读" image:[UIImage imageNamed:@"tips_menu_icon_mkread"] target:self action:@selector(p_markReadAll)],
                                ];
-        [menuItems setValue:kColor222 forKey:@"foreColor"];
+        [menuItems setValue:kColorDark4 forKey:@"foreColor"];
         CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 0, 0, 0);
         [KxMenu showMenuInView:self.view
                       fromRect:senderFrame

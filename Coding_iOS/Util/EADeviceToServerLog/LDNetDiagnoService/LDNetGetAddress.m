@@ -19,7 +19,7 @@
 #import <netinet/in.h>
 
 #if TARGET_IPHONE_SIMULATOR
-#include <net/route.h>
+#include "net_route.h"
 #else
 #include "Route.h"
 #endif /*the very same from google-code*/

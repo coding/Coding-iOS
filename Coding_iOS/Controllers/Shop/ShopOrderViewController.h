@@ -10,4 +10,6 @@
 
 @interface ShopOrderViewController : BaseViewController
 
+- (void)handlePayURL:(NSURL *)url;
+
 @end

@@ -2412,7 +2412,16 @@
 
             data = [data valueForKey:@"data"];
             PointRecords *resultA = [NSObject objectOfClass:@"PointRecords" fromJSON:data];
-            block(resultA, nil);
+            if (!records.points_left) {
+                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/point/points" withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+                    if (data) {
+                        records.points_left = data[@"data"][@"points_left"];
+                    }
+                    block(resultA, nil);
+                }];
+            }else{
+                block(resultA, nil);
+            }
         }else{
             block(nil, error);
         }
@@ -3263,7 +3272,28 @@
             block(nil, error);
         }
     }];
+}
 
+- (void)request_shop_orderWithParms:(NSDictionary *)parms andBlock:(void (^)(ShopOrder *shopOrder, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/gifts/orders" withParams:parms withMethodType:Post andBlock:^(id data, NSError *error) {
+        block([NSObject objectOfClass:@"ShopOrder" fromJSON:data[@"data"]], error);
+    }];
+}
+
+- (void)request_shop_payOrder:(NSString *)orderId method:(NSString *)method andBlock:(void (^)(NSDictionary *payDict, NSError *error))block{
+    NSDictionary *parms = @{@"pay_method": method};
+    NSString *path = [NSString stringWithFormat:@"api/gifts/pay/%@", orderId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:parms withMethodType:Post andBlock:^(id data, NSError *error) {
+        block(data[@"data"], error);
+    }];
+}
+
+
+- (void)request_shop_deleteOrder:(NSString *)orderId andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/gifts/orders/%@", orderId];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
+        block(data, error);
+    }];
 }
 
 - (void)request_LocationListWithParams:(NSDictionary *)params block:(void (^)(id data, NSError *error))block{

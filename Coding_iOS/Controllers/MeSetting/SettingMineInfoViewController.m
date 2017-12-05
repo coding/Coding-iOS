@@ -51,6 +51,9 @@
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
+        tableView.estimatedRowHeight = 0;
+        tableView.estimatedSectionHeaderHeight = 0;
+        tableView.estimatedSectionFooterHeight = 0;
         tableView;
     });
     _curJobManager = [[JobManager alloc] init];
@@ -81,7 +84,7 @@
 #pragma mark TableM
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -91,7 +94,7 @@
             row = 6;
             break;
         case 1:
-            row = 2;
+            row = 4;
             break;
         default:
             row = 1;
@@ -106,9 +109,10 @@
         cell.curUser = _curUser;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
-    }else if (indexPath.section == 2){
+    }else if (indexPath.section == 2 || indexPath.section == 3){
         UserInfoDetailTagCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserInfoDetailTagCell forIndexPath:indexPath];
-        [cell setTagStr:_curUser.tags_str];
+        [cell setTitleStr:indexPath.section == 2? @"开发技能": @"个性标签"];
+        [cell setTagStr:indexPath.section == 2? _curUser.skills_str: _curUser.tags_str];
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else{
@@ -145,9 +149,13 @@
                 break;
             case 1:{
                 if (indexPath.row == 0) {
+                    [cell setTitleStr:@"学历" valueStr:_curUser.degree_str];
+                }else if (indexPath.row == 1){
+                    [cell setTitleStr:@"学校" valueStr:_curUser.school];
+                }else if (indexPath.row == 2){
                     [cell setTitleStr:@"公司" valueStr:_curUser.company];
                 }else{
-                    [cell setTitleStr:@"职位" valueStr:_curUser.job_str];
+                    [cell setTitleStr:@"工作" valueStr:_curUser.job_str];
                 }
             }
                 break;
@@ -163,8 +171,8 @@
     CGFloat cellHeight;
     if (indexPath.section == 0 && indexPath.row == 0) {
         cellHeight = [TitleRImageMoreCell cellHeight];
-    }else if (indexPath.section == 2){
-        cellHeight = [UserInfoDetailTagCell cellHeightWithObj:_curUser.tags_str];
+    }else if (indexPath.section == 2 || indexPath.section == 3){
+        cellHeight = [UserInfoDetailTagCell cellHeightWithObj:indexPath.section == 2? _curUser.skills_str: _curUser.tags_str];
     }else{
         cellHeight = [TitleValueMoreCell cellHeight];
     }
@@ -311,7 +319,44 @@
             break;
         case 1:{
             switch (indexPath.row) {
-                case 0:{//公司
+                case 0:{
+                    //学历
+                    NSArray *list = [User degreeList];
+                    NSNumber *index = @(MIN(list.count, MAX(0, _curUser.degree.integerValue - 1)));
+                    [ActionSheetStringPicker showPickerWithTitle:nil rows:@[list] initialSelection:@[index] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
+                        NSNumber *preValue = weakSelf.curUser.degree;
+                        weakSelf.curUser.degree = @([selectedIndex.firstObject integerValue] + 1);
+                        [weakSelf.myTableView reloadData];
+                        [[Coding_NetAPIManager sharedManager] request_UpdateUserInfo_WithObj:weakSelf.curUser andBlock:^(id data, NSError *error) {
+                            if (data) {
+                                weakSelf.curUser = data;
+                            }else{
+                                weakSelf.curUser.degree = preValue;
+                            }
+                            [weakSelf.myTableView reloadData];
+                        }];
+                    } cancelBlock:nil origin:self.view];
+                }
+                    break;
+                case 1:{
+                    //学校
+                    SettingTextViewController *vc = [SettingTextViewController settingTextVCWithTitle:@"学校" textValue:_curUser.school  doneBlock:^(NSString *textValue) {
+                        NSString *preValue = weakSelf.curUser.school;
+                        weakSelf.curUser.school = textValue;
+                        [weakSelf.myTableView reloadData];
+                        [[Coding_NetAPIManager sharedManager] request_UpdateUserInfo_WithObj:weakSelf.curUser andBlock:^(id data, NSError *error) {
+                            if (data) {
+                                weakSelf.curUser = data;
+                            }else{
+                                weakSelf.curUser.school = preValue;
+                            }
+                            [weakSelf.myTableView reloadData];
+                        }];
+                    }];
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
+                    break;
+                case 2:{//公司
                     SettingTextViewController *vc = [SettingTextViewController settingTextVCWithTitle:@"公司" textValue:_curUser.company  doneBlock:^(NSString *textValue) {
                         NSString *preValue = weakSelf.curUser.company;
                         weakSelf.curUser.company = textValue;
@@ -355,6 +400,8 @@
                     break;
             }
         }
+            break;
+        case 2://开发技能
             break;
         default:{//个性标签
             NSArray *selectedTags = nil;

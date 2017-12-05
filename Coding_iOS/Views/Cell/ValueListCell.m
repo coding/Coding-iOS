@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kValueListCell_ImageWidth 21.0
+#define kValueListCell_ImageWidth 22.0
 #define kValueListCell_CheckMarkWidth 22.0
 #define kValueListCell_LeftPading 20.0
 

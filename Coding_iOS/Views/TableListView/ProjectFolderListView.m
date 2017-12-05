@@ -37,6 +37,9 @@
             [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self);
             }];
+            tableView.estimatedRowHeight = 0;
+            tableView.estimatedSectionHeaderHeight = 0;
+            tableView.estimatedSectionFooterHeight = 0;
             tableView;
         });
         
@@ -115,10 +118,10 @@
         ProjectFolder *folder = (ProjectFolder *)obj;
         if (![folder isDefaultFolder] && ![folder isShareFolder]) {
             if (folder.sub_folders.count <= 0) {
-                [rightUtilityButtons sw_addUtilityButtonWithColor:kColorDDD icon:[UIImage imageNamed:@"icon_file_cell_move"]];
+                [rightUtilityButtons sw_addUtilityButtonWithColor:kColorD8DDE4 icon:[UIImage imageNamed:@"icon_file_cell_move"]];
             }
-            [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xe6e6e6"] icon:[UIImage imageNamed:@"icon_file_cell_rename"]];
-            [rightUtilityButtons sw_addUtilityButtonWithColor:kColorBrandRed icon:[UIImage imageNamed:@"icon_file_cell_delete"]];
+            [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xF2F4F6"] icon:[UIImage imageNamed:@"icon_file_cell_rename"]];
+            [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xF66262"] icon:[UIImage imageNamed:@"icon_file_cell_delete"]];
         }
     }
     return rightUtilityButtons;

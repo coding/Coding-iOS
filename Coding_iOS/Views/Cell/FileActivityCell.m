@@ -23,15 +23,19 @@
         contentStr = [NSString stringWithFormat:@"%@ 历史版本 V%@ - %@", curActivity.action_msg, curActivity.version, [curActivity.created_at stringDisplay_HHmm]];
 
     }else{
-        contentStr = [NSString stringWithFormat:@"%@ 文件 - %@", curActivity.action_msg, [curActivity.created_at stringDisplay_HHmm]];
+        if ([curActivity.action isEqualToString:@"rename"]) {
+            contentStr = [NSString stringWithFormat:@"修改了文件名称 - %@", [curActivity.created_at stringDisplay_HHmm]];
+        }else{
+            contentStr = [NSString stringWithFormat:@"%@ 文件 - %@", curActivity.action_msg, [curActivity.created_at stringDisplay_HHmm]];
+        }
     }
     
     attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];
     [attrContent addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:13],
-                                 NSForegroundColorAttributeName : kColor222}
+                                 NSForegroundColorAttributeName : kColorDark3}
                          range:NSMakeRange(0, userName.length)];
     [attrContent addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13],
-                                 NSForegroundColorAttributeName : kColor999}
+                                 NSForegroundColorAttributeName : kColorDark7}
                          range:NSMakeRange(userName.length + 1, contentStr.length)];
     
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];

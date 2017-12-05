@@ -9,7 +9,7 @@
 #import "MeRootUserCell.h"
 
 @interface MeRootUserCell ()
-@property (strong, nonatomic) UIImageView *userV;
+@property (strong, nonatomic) UIImageView *userV, *vipV;
 @property (strong, nonatomic) UILabel *userL, *gkL;
 @end
 
@@ -48,7 +48,14 @@
             make.left.right.equalTo(_userL);
             make.height.mas_equalTo(20);
         }];
-        
+        if (!_vipV) {
+            _vipV = [UIImageView new];
+            [self.contentView addSubview:_vipV];
+            [_vipV mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.bottom.equalTo(_userV);
+                make.size.mas_equalTo(CGSizeMake(18, 18));
+            }];
+        }
     }
     return self;
 }
@@ -59,6 +66,7 @@
     [_userV sd_setImageWithURL:[_curUser.avatar urlImageWithCodePathResize:50* 2]];
     _userL.text = _curUser.name;
     _gkL.text = [NSString stringWithFormat:@"个性后缀：%@", _curUser.global_key];
+    _vipV.image = [UIImage imageNamed:[NSString stringWithFormat:@"vip_%@_45", _curUser.vip]];
 }
 
 + (CGFloat)cellHeight{

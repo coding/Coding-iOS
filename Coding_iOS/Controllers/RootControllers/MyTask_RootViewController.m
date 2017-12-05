@@ -165,6 +165,9 @@
 
 
 - (void)resetCurView{
+    if (!_mySegmentControl) {
+        [self configSegmentControlWithData:nil];
+    }
     if (!_myProjects.isLoading) {
         __weak typeof(self) weakSelf = self;
         [[Coding_NetAPIManager sharedManager] request_ProjectsHaveTasks_WithObj:_myProjects andBlock:^(id data, NSError *error) {
@@ -241,7 +244,7 @@
     [oldProSet removeObject:@(-1)];//代表「全部项目」的 id 号
     BOOL dataHasChanged = ![oldProSet isEqualToSet:freshProSet];
     
-    if (dataHasChanged) {
+    if (dataHasChanged || !_mySegmentControl) {
         self.myProjectList = [[NSMutableArray alloc] initWithObjects:[Project project_All], nil];
         [self.myProjectList addObjectsFromArray:freshProjects.list];
         

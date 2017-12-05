@@ -11,12 +11,12 @@
 #define kTweetDetailCell_LikeComment_Height 27.0
 #define kTweetDetailCell_LikeComment_Width 50.0
 #define kTweetDetailCell_ContentWidth (kScreen_Width - 2*kPaddingLeftWidth)
-#define kTweetDetailCell_PadingTop 55.0
+#define kTweetDetailCell_PadingTop 70.0
 #define kTweetDetailCell_PadingBottom 10.0
 #define kTweetDetailCell_LikeUserCCell_Height 25.0
-#define kTweetDetailCell_LikeUserCCell_Pading 10.0
+#define kTweetDetailCell_LikeUserCCell_Pading 5.0
 
-#define kTweetDetailCell_MaxCollectionNum (kDevice_Is_iPhone6Plus? 12: kDevice_Is_iPhone6? 11: 9)
+#define kTweetDetailCell_MaxCollectionNum (kDevice_Is_iPhone6Plus? 11: kDevice_Is_iPhone6? 10: 9)
 
 
 
@@ -33,6 +33,7 @@
 @property (strong, nonatomic) NSArray *like_reward_users;
 
 @property (strong, nonatomic) UITapImageView *ownerImgView;
+@property (strong, nonatomic) UIImageView *vipV;
 @property (strong, nonatomic) UIButton *ownerNameBtn;
 @property (strong, nonatomic) UILabel *timeLabel, *fromLabel;
 @property (strong, nonatomic) UIButton *likeBtn, *commentBtn, *deleteBtn, *rewardBtn;
@@ -54,13 +55,13 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         //        self.backgroundColor = [UIColor colorWithHexString:@"0xf3f3f3"];
         if (!self.ownerImgView) {
-            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, 38, 38)];
+            self.ownerImgView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 10, 45, 45)];
             [self.ownerImgView doCircleFrame];
             [self.contentView addSubview:self.ownerImgView];
         }
         if (!self.ownerNameBtn) {
             self.ownerNameBtn = [UIButton buttonWithUserStyle];
-            self.ownerNameBtn.frame = CGRectMake(kTweetDetailCell_PadingLeft, CGRectGetMinY(self.ownerImgView.frame), kScreen_Width/2, 20);
+            self.ownerNameBtn.frame = CGRectMake(CGRectGetMaxX(_ownerImgView.frame) + 15, CGRectGetMinY(self.ownerImgView.frame), kScreen_Width/2, 24);
             [self.ownerNameBtn addTarget:self action:@selector(userBtnClicked) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:self.ownerNameBtn];
         }
@@ -70,11 +71,11 @@
 //            [self.contentView addSubview:self.timeClockIconView];
 //        }
         if (!self.timeLabel) {
-            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.ownerNameBtn.frame), CGRectGetMaxY(self.ownerImgView.frame) - 12, kScreen_Width/2, 12)];
+            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.ownerNameBtn.frame), CGRectGetMaxY(self.ownerImgView.frame) - 17, kScreen_Width/2, 17)];
 //            self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 70, 18, 70, 12)];
             self.timeLabel.font = kTweet_TimtFont;
 //            self.timeLabel.textAlignment = NSTextAlignmentRight;
-            self.timeLabel.textColor = kColor999;
+            self.timeLabel.textColor = kColorDark7;
             [self.contentView addSubview:self.timeLabel];
         }
 
@@ -121,14 +122,14 @@
             [self.contentView addSubview:self.locaitonBtn];
         }
         if (!self.fromPhoneIconView) {
-            self.fromPhoneIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 11, 11)];
+            self.fromPhoneIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 12, 12)];
             self.fromPhoneIconView.image = [UIImage imageNamed:@"little_phone_icon"];
             [self.contentView addSubview:self.fromPhoneIconView];
         }
         if (!self.fromLabel) {
             self.fromLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.fromPhoneIconView.frame) + 5, 0, kScreen_Width/2, 15)];
             self.fromLabel.font = kTweet_TimtFont;
-            self.fromLabel.textColor = kColor999;
+            self.fromLabel.textColor = kColorDark7;
             [self.contentView addSubview:self.fromLabel];
         }
         if (!self.likeUsersView) {
@@ -161,7 +162,13 @@
             [_activityIndicator setCenter:CGPointMake(CGRectGetMidX(self.webContentView.frame), kTweetDetailCell_PadingTop+CGRectGetHeight(_activityIndicator.bounds)/2)];
             [self.contentView addSubview:_activityIndicator];
         }
-
+        if (!_vipV) {
+            _vipV = [UIImageView new];
+            [self.contentView addSubview:_vipV];
+            [_vipV mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.bottom.equalTo(_ownerImgView);
+            }];
+        }
     }
     return self;
 }
@@ -181,6 +188,8 @@
     [self.ownerImgView setImageWithUrl:[_tweet.owner.avatar urlImageWithCodePathResizeToView:_ownerImgView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerImgView) tapBlock:^(id obj) {
         [weakSelf userBtnClicked];
     }];
+    _vipV.image = [UIImage imageNamed:[NSString stringWithFormat:@"vip_%@_45", _tweet.owner.vip]];
+
     //owner姓名
 //    [self.ownerNameBtn setUserTitle:_tweet.owner.name];
     [self.ownerNameBtn setUserTitle:_tweet.owner.name font:self.ownerNameBtn.titleLabel.font maxWidth:(kScreen_Width- kTweetDetailCell_PadingLeft - 85)];
@@ -291,7 +300,7 @@
 + (CGFloat)likeUsersHeightWithTweet:(Tweet *)tweet{
     CGFloat likeUsersHeight = 0;
     if ([tweet hasLikesOrRewards]) {
-        likeUsersHeight = 35;
+        likeUsersHeight = [TweetLikeUserCCell ccellSize].height + 15 + 5;
         //        +30*(ceilf([tweet.like_users count]/kTweet_LikeUsersLineCount)-1);
     }
     return likeUsersHeight;
@@ -435,14 +444,12 @@
     return ccell;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGSize itemSize;
-    itemSize = CGSizeMake(kTweetDetailCell_LikeUserCCell_Height, kTweetDetailCell_LikeUserCCell_Height);
+    CGSize itemSize = [TweetLikeUserCCell ccellSize];
     return itemSize;
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     UIEdgeInsets insetForSection;
-
-        insetForSection = UIEdgeInsetsMake(kTweetDetailCell_LikeUserCCell_Pading, kPaddingLeftWidth, kTweetDetailCell_LikeUserCCell_Pading, kPaddingLeftWidth);
+    insetForSection = UIEdgeInsetsMake(15, kPaddingLeftWidth, 5, kPaddingLeftWidth);
     return insetForSection;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{

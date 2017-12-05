@@ -29,7 +29,7 @@
     if (self) {
         self.backgroundColor = kColorTableBG;
         _padding_top = 0;
-        _padding_bottom = 40;
+        _padding_bottom = 44;
         _image_width = kScreen_Width;
         _ratio = 0.4;
         CGFloat viewHeight = _padding_top + _padding_bottom + _image_width * _ratio;
@@ -85,7 +85,7 @@
     }
     if (!_myPageControl) {
         _myPageControl = ({
-            SMPageControl *pageControl = [[SMPageControl alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 30, _mySlideView.bottom + (40 - 10)/2, 30, 10)];
+            SMPageControl *pageControl = [[SMPageControl alloc] initWithFrame:CGRectMake(kScreen_Width - kPaddingLeftWidth - 30, _mySlideView.bottom + (_padding_bottom - 10)/2, 30, 10)];
             pageControl.userInteractionEnabled = NO;
             pageControl.backgroundColor = [UIColor clearColor];
             pageControl.pageIndicatorImage = [UIImage imageNamed:@"banner__page_unselected"];
@@ -100,7 +100,7 @@
 
     if (!_typeLabel) {
         _typeLabel = ({
-            UILabel *label = [UILabel labelWithFont:[UIFont systemFontOfSize:10] textColor:kColor666];
+            UILabel *label = [UILabel labelWithFont:[UIFont systemFontOfSize:10] textColor:kColorDark7];
             [label setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
             [label setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
             [label doBorderWidth:0.5 color:nil cornerRadius:2.0];
@@ -113,7 +113,7 @@
     }
     
     if (!_titleLabel) {
-        _titleLabel =  [UILabel labelWithFont:[UIFont systemFontOfSize:12] textColor:kColor222];
+        _titleLabel =  [UILabel labelWithFont:[UIFont systemFontOfSize:12] textColor:kColorDark4];
         _titleLabel.text = [(CodingBanner *)_curBannerList.firstObject title];
         [self addSubview:_titleLabel];
     }
@@ -123,8 +123,8 @@
         make.height.mas_equalTo(18);
     }];
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(_typeLabel.mas_right).offset(5);
-        make.right.equalTo(_myPageControl.mas_left).offset(-5);
+        make.left.equalTo(_typeLabel.mas_right).offset(10);
+        make.right.equalTo(_myPageControl.mas_left).offset(-10);
         make.centerY.equalTo(_myPageControl);
     }];
     [self reloadData];

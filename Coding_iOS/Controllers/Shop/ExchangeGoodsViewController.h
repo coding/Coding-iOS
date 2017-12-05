@@ -13,4 +13,6 @@
 
 @property(nonatomic , strong)ShopGoods *shopGoods;
 
+- (void)handlePayURL:(NSURL *)url;
+
 @end

@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 
 @interface UserInfoDetailTagCell : UITableViewCell
+- (void)setTitleStr:(NSString *)titleStr;
 - (void)setTagStr:(NSString *)tagStr;
 + (CGFloat)cellHeightWithObj:(id)obj;
 @end

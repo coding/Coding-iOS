@@ -75,6 +75,9 @@
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
+        tableView.estimatedRowHeight = 0;
+        tableView.estimatedSectionHeaderHeight = 0;
+        tableView.estimatedSectionFooterHeight = 0;
         tableView;
     });
     if (_myMsgInputView) {
@@ -192,13 +195,15 @@
 }
 
 - (void)queryToRefreshResourceReference{
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_TaskResourceReference:_myTask andBlock:^(id data, NSError *error) {
-        if (data) {
-            _myTask.resourceReference = data;
-            [weakSelf.myTableView reloadData];
-        }
-    }];
+    if (_myCopyTask.handleType == TaskHandleTypeEdit) {
+        __weak typeof(self) weakSelf = self;
+        [[Coding_NetAPIManager sharedManager] request_TaskResourceReference:_myTask andBlock:^(id data, NSError *error) {
+            if (data) {
+                _myTask.resourceReference = data;
+                [weakSelf.myTableView reloadData];
+            }
+        }];
+    }
 }
 #pragma mark Mine M
 - (void)doneBtnClicked{

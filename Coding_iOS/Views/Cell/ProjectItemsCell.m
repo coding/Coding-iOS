@@ -86,8 +86,7 @@
     UIButton *item = [[UIButton alloc] initWithFrame:frame];
     
     CGFloat iconWidth = kScaleFrom_iPhone5_Desgin(46);
-    
-    UIImage *itemImg = [UIImage imageWithIcon:iconStr backgroundColor:[UIColor clearColor] iconColor:[UIColor whiteColor] iconScale:1.0 andSize:CGSizeMake(iconWidth/2.8, iconWidth/2.8)];
+    UIImage *itemImg = [UIImage imageWithIcon:iconStr backgroundColor:[UIColor clearColor] iconColor:[UIColor whiteColor] andSize:CGSizeMake(iconWidth/2.8, iconWidth/2.8)];
     UIImageView *itemImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, iconWidth, iconWidth)];
     itemImgView.tag = kProjectItemsCell_ItemIconTag;
     itemImgView.contentMode = UIViewContentModeCenter;

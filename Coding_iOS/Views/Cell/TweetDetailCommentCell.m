@@ -12,7 +12,11 @@
 #import "Login.h"
 
 @interface TweetDetailCommentCell ()
-@property (strong, nonatomic) UILabel *timeLabel;
+//@property (strong, nonatomic) UILabel *timeLabel;
+
+@property (strong, nonatomic) UILabel *userNameLabel, *timeLabel;
+@property (strong, nonatomic) UIImageView *timeClockIconView;
+
 @end
 
 @implementation TweetDetailCommentCell
@@ -22,28 +26,34 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        CGFloat curBottomY = 10;
-        if (!_ownerIconView) {
-            _ownerIconView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, curBottomY, 33, 33)];
-            [_ownerIconView doCircleFrame];
-            [self.contentView addSubview:_ownerIconView];
-        }
-        CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
         if (!_contentLabel) {
-            _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth + 40, curBottomY, curWidth, 30)];
+            _contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 15, kScreen_Width - 2*kPaddingLeftWidth, 30)];
             _contentLabel.numberOfLines = 0;
-            _contentLabel.textColor = kColor222;
+            _contentLabel.textColor = kColorDark4;
             _contentLabel.font = kTweetDetailCommentCell_FontContent;
             _contentLabel.linkAttributes = kLinkAttributes;
             _contentLabel.activeLinkAttributes = kLinkAttributesActive;
             [self.contentView addSubview:_contentLabel];
         }
-        CGFloat commentBtnWidth = 40;
+        if (!_userNameLabel) {
+            _userNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 0, 150, 15)];
+            _userNameLabel.backgroundColor = [UIColor clearColor];
+            _userNameLabel.font = [UIFont systemFontOfSize:12];
+            _userNameLabel.textColor = kColorDark7;
+            [self.contentView addSubview:_userNameLabel];
+        }
         if (!_timeLabel) {
-            _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPaddingLeftWidth +40, 0, curWidth- commentBtnWidth, 20)];
-            _timeLabel.textColor = kColor999;
+            _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(75, 0, 80, 15)];
+            _timeLabel.backgroundColor = [UIColor clearColor];
             _timeLabel.font = [UIFont systemFontOfSize:12];
+            _timeLabel.textColor = kColorDark7;
             [self.contentView addSubview:_timeLabel];
+        }
+        if (!_timeClockIconView) {
+            _timeClockIconView = [[UIImageView alloc] initWithFrame:CGRectMake(60, 0, 15, 15)];
+            _timeClockIconView.contentMode = UIViewContentModeCenter;
+            _timeClockIconView.image = [UIImage imageNamed:@"time_clock_icon"];
+            [self.contentView addSubview:_timeClockIconView];
         }
     }
     return self;
@@ -62,10 +72,8 @@
     if (!_toComment) {
         return;
     }
-    CGFloat curBottomY = 10;
-    CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
-    [_ownerIconView sd_setImageWithURL:[_toComment.owner.avatar urlImageWithCodePathResizeToView:_ownerIconView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerIconView)];
-    
+    CGFloat curBottomY = 15;
+    CGFloat curWidth = kScreen_Width - 2*kPaddingLeftWidth;
     [_contentLabel setWidth:curWidth];
     _contentLabel.text = _toComment.content;
     [_contentLabel sizeToFit];
@@ -76,9 +84,23 @@
         }
     }
     
-    curBottomY += [_toComment.content getHeightWithFont:kTweetDetailCommentCell_FontContent constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 5;
-    [_timeLabel setY:curBottomY];
-    _timeLabel.text = [NSString stringWithFormat:@"%@ 发布于 %@", _toComment.owner.name, [_toComment.created_at stringDisplay_HHmm]];
+    curBottomY += [_toComment.content getHeightWithFont:kTweetDetailCommentCell_FontContent constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 10;
+    
+    
+    _userNameLabel.text = _toComment.owner.name;
+    _timeLabel.text = [_toComment.created_at stringDisplay_HHmm];
+    [_userNameLabel setY:curBottomY];
+    [_userNameLabel sizeToFit];
+    
+    CGRect frame = _timeClockIconView.frame;
+    frame.origin.y = curBottomY;
+    frame.origin.x = 10 + CGRectGetMaxX(_userNameLabel.frame);
+    _timeClockIconView.frame = frame;
+    
+    frame.origin.x += 5 + CGRectGetWidth(_timeClockIconView.frame);
+    frame.size = _timeLabel.frame.size;
+    _timeLabel.frame = frame;
+    [_timeLabel sizeToFit];
 }
 
 - (void)commentBtnClicked:(id)sender{
@@ -92,8 +114,8 @@
     CGFloat cellHeight = 0;
     if ([obj isKindOfClass:[Comment class]]) {
         Comment *toComment = (Comment *)obj;
-        CGFloat curWidth = kScreen_Width - 40 - 2*kPaddingLeftWidth;
-        cellHeight += 10 +[toComment.content getHeightWithFont:kTweetDetailCommentCell_FontContent constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 5 +20 +10;
+        CGFloat curWidth = kScreen_Width - 2*kPaddingLeftWidth;
+        cellHeight += 15 +[toComment.content getHeightWithFont:kTweetDetailCommentCell_FontContent constrainedToSize:CGSizeMake(curWidth, CGFLOAT_MAX)] + 10 +15 +15;
     }
     return cellHeight;
 }

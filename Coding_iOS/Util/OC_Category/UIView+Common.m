@@ -710,6 +710,12 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"还没有订单记录～";
             }
                 break;
+            case EaseBlankPageTypeShopUnPayOrders:
+            {
+                imageName = @"blankpage_image_ShopOrder";
+                tipStr = @"没有待支付的订单记录～";
+            }
+                break;
             case EaseBlankPageTypeShopSendOrders:
             {
                 imageName = @"blankpage_image_ShopOrder";

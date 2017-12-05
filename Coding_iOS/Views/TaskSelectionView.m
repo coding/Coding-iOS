@@ -95,6 +95,9 @@
         [tableview registerClass:[TaskSelectionCell class] forCellReuseIdentifier:kCellIdentifier_TaskSelectionCell];
         tableview.tableFooterView=[UIView new];
         tableview.separatorStyle=UITableViewCellSeparatorStyleNone;
+        tableview.estimatedRowHeight = 0;
+        tableview.estimatedSectionHeaderHeight = 0;
+        tableview.estimatedSectionFooterHeight = 0;
         tableview;
     });
     [self addSubview:_tableview];

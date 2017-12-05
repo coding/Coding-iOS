@@ -68,6 +68,9 @@
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
+        tableView.estimatedRowHeight = 0;
+        tableView.estimatedSectionHeaderHeight = 0;
+        tableView.estimatedSectionFooterHeight = 0;
         tableView;
     });
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
@@ -279,9 +282,9 @@
         cell.commentToCommentBlock = ^(Comment *toComment, id sender){
             [self doCommentToComment:toComment sender:sender];
         };
-        [cell.ownerIconView addTapBlock:^(id obj) {
-            [self goToUserInfo:curComment.owner];
-        }];
+//        [cell.ownerIconView addTapBlock:^(id obj) {
+//            [self goToUserInfo:curComment.owner];
+//        }];
         cell.contentLabel.delegate = self;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;

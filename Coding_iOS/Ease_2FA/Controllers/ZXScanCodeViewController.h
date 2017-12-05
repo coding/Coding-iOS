@@ -11,7 +11,9 @@
 
 @interface ZXScanCodeViewController : BaseViewController
 @property (strong, nonatomic, readonly) AVCaptureVideoPreviewLayer *videoPreviewLayer;
-- (BOOL)isScaning;
+
+@property (assign, nonatomic, readonly) BOOL isScaning;
+
 - (void)startScan;
 - (void)stopScan;
 

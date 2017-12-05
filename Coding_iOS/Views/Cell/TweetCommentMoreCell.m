@@ -23,15 +23,16 @@
     if (self) {
         // Initialization code
         if (!_commentIconView) {
-            _commentIconView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 13, 13)];
+            _commentIconView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 20, 20)];
             _commentIconView.image = [UIImage imageNamed:@"tweet_more_comment_icon"];
+            _commentIconView.contentMode = UIViewContentModeCenter;
             [self.contentView addSubview:_commentIconView];
         }
         if (!_contentLabel) {
-            _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 5, 245, 20)];
+            _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(_commentIconView.maxXOfFrame + 5, 10, 200, 20)];
             _contentLabel.backgroundColor = [UIColor clearColor];
             _contentLabel.font = kTweet_CommentFont;
-            _contentLabel.textColor = kColor222;
+            _contentLabel.textColor = kColorDark4;
             [self.contentView addSubview:_contentLabel];
         }
         if (!_splitLineView) {
@@ -53,6 +54,6 @@
     self.contentLabel.text = [NSString stringWithFormat:@"查看全部%d条评论", _commentNum.intValue];
 }
 +(CGFloat)cellHeight{
-    return 12+10*2;
+    return 20 + 10*2;
 }
 @end

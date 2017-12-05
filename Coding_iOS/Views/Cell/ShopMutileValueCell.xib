@@ -1,9 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1605" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -21,7 +25,7 @@
                             <constraint firstAttribute="height" constant="20" id="cnK-aT-xHu"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DU9-Qc-4hg">
@@ -32,7 +36,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="9kB-Cs-zdn"/>
                                 </constraints>
-                                <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -44,7 +48,7 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="hzO-N8-3gb" firstAttribute="centerY" secondItem="DU9-Qc-4hg" secondAttribute="centerY" id="Bod-8u-rwY"/>
                             <constraint firstAttribute="trailing" secondItem="hzO-N8-3gb" secondAttribute="trailing" constant="15" id="GoS-mX-1WD"/>
@@ -55,7 +59,7 @@
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                <color key="value" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="value" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                 <real key="value" value="0.5"/>
@@ -67,12 +71,12 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="yZm-gB-sVo" secondAttribute="trailing" constant="4" id="0XA-wV-RFQ"/>
+                    <constraint firstAttribute="trailing" secondItem="yZm-gB-sVo" secondAttribute="trailing" constant="12" id="0XA-wV-RFQ"/>
                     <constraint firstAttribute="bottomMargin" secondItem="DU9-Qc-4hg" secondAttribute="bottom" constant="5" id="DOI-Ao-FMU"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="DU9-Qc-4hg" secondAttribute="trailing" constant="4" id="GBD-sb-huc"/>
-                    <constraint firstItem="DU9-Qc-4hg" firstAttribute="leading" secondItem="aUs-Fo-8GQ" secondAttribute="leadingMargin" constant="4" id="cCb-zO-HBa"/>
+                    <constraint firstAttribute="trailing" secondItem="DU9-Qc-4hg" secondAttribute="trailing" constant="12" id="GBD-sb-huc"/>
+                    <constraint firstItem="DU9-Qc-4hg" firstAttribute="leading" secondItem="aUs-Fo-8GQ" secondAttribute="leading" constant="12" id="cCb-zO-HBa"/>
                     <constraint firstItem="yZm-gB-sVo" firstAttribute="top" secondItem="aUs-Fo-8GQ" secondAttribute="topMargin" constant="5" id="xUn-Hx-Eu6"/>
-                    <constraint firstItem="yZm-gB-sVo" firstAttribute="leading" secondItem="aUs-Fo-8GQ" secondAttribute="leadingMargin" constant="4" id="zbU-Pg-S8B"/>
+                    <constraint firstItem="yZm-gB-sVo" firstAttribute="leading" secondItem="aUs-Fo-8GQ" secondAttribute="leading" constant="12" id="zbU-Pg-S8B"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

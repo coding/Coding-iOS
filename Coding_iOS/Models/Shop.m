@@ -72,7 +72,7 @@
     
     if (responseA && [responseA count] > 0) {
         [responseA enumerateObjectsUsingBlock:^(ShopGoods *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (_points_left.doubleValue >= obj.points_cost.doubleValue) {
+            if (obj.available_points.doubleValue >= obj.points_cost.doubleValue) {
                 obj.exchangeable = YES;
             }
         }];
@@ -97,7 +97,7 @@
 
 - (NSArray *)getExchangeGiftData
 {
-    NSMutableArray *mutaleArray = [NSMutableArray arrayWithCapacity:10];
+    NSMutableArray *mutaleArray = [NSMutableArray new];
     [_shopGoodsArray enumerateObjectsUsingBlock:^(ShopGoods *obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.exchangeable) {
             [mutaleArray addObject:obj];

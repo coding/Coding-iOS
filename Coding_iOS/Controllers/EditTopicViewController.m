@@ -258,6 +258,9 @@
             tableView.dataSource = self;
             tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
             [tableView registerClass:[TopicPreviewCell class] forCellReuseIdentifier:kCellIdentifier_TopicPreviewCell];
+            tableView.estimatedRowHeight = 0;
+            tableView.estimatedSectionHeaderHeight = 0;
+            tableView.estimatedSectionFooterHeight = 0;
             tableView;
         });
         

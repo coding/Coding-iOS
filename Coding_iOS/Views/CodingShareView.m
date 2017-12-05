@@ -407,6 +407,11 @@
     }else{
         text = @"#Coding# 软件开发，云端协作";
     }
+    NSInteger maxLength = 100;
+    if (text.length > maxLength) {
+        NSInteger location = maxLength - 3;
+        text = [text stringByReplacingCharactersInRange:NSMakeRange(location, text.length - location) withString:@"..."];
+    }
     return text;
 }
 - (NSString *)p_imageUrlSquare:(BOOL)needSquare{

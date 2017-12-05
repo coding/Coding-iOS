@@ -308,7 +308,7 @@ static Tweet *_tweetForSend = nil;
     if (_project) {
         shareLinkStr = [NSString stringWithFormat:@"%@u/%@/p/%@?pp=%@", [NSObject baseURLStr], _project.owner_user_name, _project.name, _id.stringValue];
     }else{
-        shareLinkStr = [NSString stringWithFormat:@"%@u/%@/pp/%@", kBaseUrlStr_Phone, _owner.global_key, _id];
+        shareLinkStr = [NSString stringWithFormat:@"%@u/%@/pp/%@", [NSObject baseURLStr], _owner.global_key, _id];
     }
     return shareLinkStr;
 }

@@ -114,7 +114,7 @@
             [self loadWebView:fileUrl];
         }else if ([QLPreviewController canPreviewItem:fileUrl]) {
             [self showDiskFile:fileUrl];
-        }else {
+        }else if (!_downloadView || _downloadView.hidden) {
             [self showDownloadView];
         }
     }
@@ -241,7 +241,7 @@
         if ([KxMenu isShowingInView:self.view]) {
             [KxMenu dismissMenu:YES];
         }else{
-            [KxMenu setTitleFont:[UIFont systemFontOfSize:14]];
+            [KxMenu setTitleFont:[UIFont systemFontOfSize:15]];
             [KxMenu setTintColor:[UIColor whiteColor]];
             [KxMenu setLineColor:kColorDDD];
             
@@ -260,7 +260,7 @@
             if (self.fileUrl) {
                 [menuItems addObject:[KxMenuItem menuItem:@"其它应用打开" image:[UIImage imageNamed:@"file_menu_icon_open"] target:self action:@selector(openByOtherApp)]];
             }
-            [menuItems setValue:kColor222 forKey:@"foreColor"];
+            [menuItems setValue:kColorDark4 forKey:@"foreColor"];
             CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 0, 0, 0);
             [KxMenu showMenuInView:self.view
                           fromRect:senderFrame
@@ -304,7 +304,7 @@
     __weak typeof(self) weakSelf = self;
     UIActionSheet *actionSheet;
     if (_curFile.share) {
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"该链接适用于所有人，无需登录" buttonTitles:@[@"拷贝链接", @"关闭共享"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"该链接适用于所有人，无需登录" buttonTitles:@[@"拷贝链接"] destructiveTitle:@"关闭共享" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0) {
                 [weakSelf doCopyShareUrl];
             }else if (index == 1) {

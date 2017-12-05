@@ -212,6 +212,23 @@
     // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
 }
+
+#pragma mark Universal Links
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray * __nullable restorableObjects))restorationHandler{
+    if ([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]) {
+        UIViewController *vc = [BaseViewController analyseVCFromLinkStr:userActivity.webpageURL.absoluteString];
+        if (vc) {
+            [BaseViewController presentVC:vc];
+        }
+//        [BaseViewController presentLinkStr:userActivity.webpageURL.absoluteString];
+    }else{
+        [[UIApplication sharedApplication] openURL:userActivity.webpageURL];
+    }
+    return YES;
+}
+
+
 #pragma mark - XGPush Message
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
@@ -256,7 +273,7 @@
 - (void)customizeInterface {
     //设置Nav的背景色和title色
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
-    [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[NSObject baseURLStrIsProduction]? kColorNavBG: kColorBrandGreen] forBarMetrics:UIBarMetricsDefault];
+    [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[NSObject baseURLStrIsProduction]? kColorNavBG: kColorActionYellow] forBarMetrics:UIBarMetricsDefault];
     [navigationBarAppearance setTintColor:kColorBrandGreen];//返回按钮的箭头颜色
     NSDictionary *textAttributes = @{
                                      NSFontAttributeName: [UIFont systemFontOfSize:kNavTitleFontSize],
@@ -274,7 +291,9 @@
     DebugLog(@"path: %@, params: %@", [url path], [url queryParams]);
     if ([url.absoluteString hasPrefix:kCodingAppScheme]) {
         NSDictionary *queryParams = [url queryParams];
-        if (queryParams[@"email"] && queryParams[@"key"]) {//重置密码
+        if ([url.host isEqualToString:@"safepay"]) {//支付宝支付
+            [self p_handlePayURL:url];
+        }else if (queryParams[@"email"] && queryParams[@"key"]) {//重置密码
             [self showPasswordWithURL:url];
         }else if ([queryParams[@"type"] isEqualToString:@"tweet"]){//发冒泡
             if ([Login isLogin]) {
@@ -290,6 +309,13 @@
         return [[ENSession sharedSession] handleOpenURL:url];
     }else{
         return  [UMSocialSnsService handleOpenURL:url];
+    }
+}
+
+- (void)p_handlePayURL:(NSURL *)url{
+    UIViewController *vc = [BaseViewController presentingVC];
+    if ([vc respondsToSelector:@selector(handlePayURL:)]) {
+        [vc performSelector:@selector(handlePayURL:) withObject:url];
     }
 }
 

@@ -19,6 +19,7 @@
     if (self) {
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        self.clipsToBounds = YES;
         if (!_iconView) {
             _iconView = [UIImageView new];
             [self.contentView addSubview:_iconView];
@@ -45,6 +46,6 @@
     return self;
 }
 + (CGFloat)cellHeight{
-    return 50.0;
+    return 0.0;
 }
 @end

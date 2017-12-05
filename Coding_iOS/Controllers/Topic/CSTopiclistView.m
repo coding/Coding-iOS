@@ -68,6 +68,9 @@
 //                tableView.contentInset = insets;
 //                tableView.scrollIndicatorInsets = insets;
 //            }
+            tableView.estimatedRowHeight = 0;
+            tableView.estimatedSectionHeaderHeight = 0;
+            tableView.estimatedSectionFooterHeight = 0;
             tableView;
         });
         

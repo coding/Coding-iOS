@@ -6,6 +6,8 @@
 //  Copyright © 2015年 Coding. All rights reserved.
 //
 
+#define kCellIdentifier_ShopOrderTextFieldCell @"ShopOrderTextFieldCell"
+
 #import <UIKit/UIKit.h>
 
 @interface ShopOrderTextFieldCell : UITableViewCell

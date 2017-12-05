@@ -59,6 +59,9 @@
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
         }];
+        tableView.estimatedRowHeight = 0;
+        tableView.estimatedSectionHeaderHeight = 0;
+        tableView.estimatedSectionFooterHeight = 0;
         tableView;
     });
     
@@ -110,7 +113,7 @@
             self.activityList = data;
             [self.myTableView reloadData];
         }
-        [self.view configBlankPage:EaseBlankPageTypeView hasData:self.activityList.count > 0 hasError:error != nil reloadButtonBlock:^(id sender) {
+        [self.view configBlankPage:EaseBlankPageTypeView hasData:YES hasError:error != nil reloadButtonBlock:^(id sender) {
             [self refresh];
         }];
     }];

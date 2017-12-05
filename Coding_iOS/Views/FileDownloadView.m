@@ -101,7 +101,7 @@
         }];
         [_progressView hidePopUpViewAnimated:NO];
     }else{
-        _iconView.image = [UIImage imageWithFileType:self.fileType];
+        _iconView.image = [UIImage big_imageWithFileType:self.fileType];
         [_progressView showPopUpViewAnimated:NO];
     }
     Coding_DownloadTask *cDownloadTask = [self cDownloadTask];
@@ -137,7 +137,7 @@
         if (!_sizeLabel) {
             _sizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             _sizeLabel.textAlignment = NSTextAlignmentCenter;
-            _sizeLabel.textColor = kColor666;
+            _sizeLabel.textColor = kColorDark4;
             _sizeLabel.font = [UIFont systemFontOfSize:14];
             _sizeLabel.text = @"正在下载中...";
             [_toolBarView addSubview:_sizeLabel];
@@ -151,7 +151,7 @@
             _progressView.popUpViewCornerRadius = 12.0;
             _progressView.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:12];
             [_progressView setTrackTintColor:kColorNavBG];
-            _progressView.popUpViewAnimatedColors = @[kColorBrandGreen];
+            _progressView.popUpViewAnimatedColors = @[kColorDark4];
             _progressView.hidden = YES;
             [_progressView hidePopUpViewAnimated:NO];
             [_toolBarView addSubview:self.progressView];
@@ -164,33 +164,34 @@
         }
         if (!_stateButton) {
             _stateButton = [UIButton new];
-            [_stateButton setTitleColor:kColorBrandGreen forState:UIControlStateNormal];
+            _stateButton.titleLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightMedium];
+            [_stateButton setTitleColor:kColorDark4 forState:UIControlStateNormal];
             [_stateButton addTarget:self action:@selector(clickedByUser) forControlEvents:UIControlEventTouchUpInside];
             [_toolBarView addSubview:_stateButton];
         }
     }else{
-        buttonHeight = 45;
+        buttonHeight = 50;
         if (!_iconView) {
             _iconView = [[UIImageView alloc] initWithFrame:CGRectZero];
             _iconView.contentMode = UIViewContentModeScaleAspectFill;
-            _iconView.layer.masksToBounds = YES;
-            _iconView.layer.cornerRadius = 2.0;
-            _iconView.layer.borderWidth = 0.5;
-            _iconView.layer.borderColor = kColorDDD.CGColor;
+//            _iconView.layer.masksToBounds = YES;
+//            _iconView.layer.cornerRadius = 2.0;
+//            _iconView.layer.borderWidth = 0.5;
+//            _iconView.layer.borderColor = kColorDDD.CGColor;
             [self addSubview:_iconView];
         }
         if (!_nameLabel) {
             _nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             _nameLabel.textAlignment = NSTextAlignmentCenter;
-            _nameLabel.textColor = kColor222;
-            _nameLabel.font = [UIFont systemFontOfSize:16];
+            _nameLabel.textColor = kColorDark4;
+            _nameLabel.font = [UIFont systemFontOfSize:15];
             [self addSubview:_nameLabel];
         }
         if (!_sizeLabel) {
             _sizeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             _sizeLabel.textAlignment = NSTextAlignmentCenter;
-            _sizeLabel.textColor = kColor999;
-            _sizeLabel.font = [UIFont systemFontOfSize:12];
+            _sizeLabel.textColor = kColorDark7;
+            _sizeLabel.font = [UIFont systemFontOfSize:14];
             [self addSubview:_sizeLabel];
         }
         if (!_progressView) {
@@ -198,20 +199,26 @@
             _progressView.popUpViewCornerRadius = 12.0;
             _progressView.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:12];
             [_progressView setTrackTintColor:[UIColor colorWithHexString:@"0xe6e6e6"]];
-            _progressView.popUpViewAnimatedColors = @[kColorBrandGreen];
+            _progressView.popUpViewAnimatedColors = @[kColorDark4];
             _progressView.hidden = YES;
             [_progressView hidePopUpViewAnimated:NO];
             [self addSubview:self.progressView];
         }
         if (!_stateButton) {
-            _stateButton = [[UIButton alloc] init];
-            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载原文件" andFrame:CGRectMake(0, 0, buttonHeight, buttonHeight) target:self action:@selector(clickedByUser)];
+            _stateButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, buttonHeight, buttonHeight)];
+            _stateButton.titleLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightMedium];
+            [_stateButton setTitleColor:kColorWhite forState:UIControlStateNormal];
+            [_stateButton setBackgroundColor:kColorDark4];
+            [_stateButton doBorderWidth:0 color:nil cornerRadius:4.0];
+            [_stateButton addTarget:self action:@selector(clickedByUser) forControlEvents:UIControlEventTouchUpInside];
+            [_stateButton setTitle:@"下载原文件" forState:UIControlStateNormal];
+//            _stateButton = [UIButton buttonWithStyle:StrapPrimaryStyle andTitle:@"下载原文件" andFrame:CGRectMake(0, 0, buttonHeight, buttonHeight) target:self action:@selector(clickedByUser)];
             [self addSubview:_stateButton];
         }
         
         [_iconView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(45, 45));
-            make.bottom.equalTo(_nameLabel.mas_top).offset(-50);
+            make.size.mas_equalTo(CGSizeMake(90, 90));
+            make.bottom.equalTo(_nameLabel.mas_top).offset(-20);
         }];
         
         [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -220,7 +227,7 @@
         
         [_sizeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(20);
-            make.top.equalTo(_nameLabel.mas_bottom).offset(20);
+            make.top.equalTo(_nameLabel.mas_bottom).offset(10);
         }];
         
         [_progressView mas_makeConstraints:^(MASConstraintMaker *make) {//上下居中基准
@@ -367,11 +374,11 @@
 
         [self.progressView setHidden:!(state == DownloadStateDownloading || state == DownloadStatePausing)];
         [_stateButton setTitle:stateTitle forState:UIControlStateNormal];
-        if (state == DownloadStateDownloaded) {
-            [_stateButton defaultStyle];
-        }else{
-            [_stateButton primaryStyle];
-        }
+//        if (state == DownloadStateDownloaded) {
+//            [_stateButton defaultStyle];
+//        }else{
+//            [_stateButton primaryStyle];
+//        }
     }
     
     if (state == DownloadStateDownloaded && self.completionBlock && !self.hidden) {
