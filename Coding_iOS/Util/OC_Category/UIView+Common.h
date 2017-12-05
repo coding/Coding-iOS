@@ -129,7 +129,7 @@ typedef NS_ENUM(NSInteger, BadgePositionType) {
 @property (strong, nonatomic) UIButton *reloadButton, *actionButton;
 @property (assign, nonatomic) EaseBlankPageType curType;
 @property (copy, nonatomic) void(^reloadButtonBlock)(id sender);
-@property (copy, nonatomic) void(^loadAndShowStatusBlock)();
+@property (copy, nonatomic) void(^loadAndShowStatusBlock)(void);
 @property (copy, nonatomic) void(^clickButtonBlock)(EaseBlankPageType curType);
 - (void)configWithType:(EaseBlankPageType)blankPageType hasData:(BOOL)hasData hasError:(BOOL)hasError offsetY:(CGFloat)offsetY reloadButtonBlock:(void(^)(id sender))block;
 @end

@@ -20,7 +20,7 @@ typedef NS_ENUM(NSInteger, AddUserType) {
 
 @property (assign, nonatomic) AddUserType type;
 @property (strong, nonatomic) Project *curProject;
-@property (copy, nonatomic) void(^popSelfBlock)();
+@property (copy, nonatomic) void(^popSelfBlock)(void);
 @property (strong, nonatomic) NSMutableArray *queryingArray, *addedArray;
 @property (strong, nonatomic) NSArray *searchedArray;
 - (void)configAddedArrayWithMembers:(NSArray *)memberArray;

@@ -18,7 +18,7 @@
 #import <netdb.h>
 #import <sys/socket.h>
 #import <arpa/inet.h>
-#import <ObjectiveGit/ObjectiveGit.h>//https://github.com/libgit2/objective-git
+//#import <ObjectiveGit/ObjectiveGit.h>//https://github.com/libgit2/objective-git
 #import "EADeviceToServerLog.h"
 #import "EANetTraceRoute.h"
 #import "LDNetGetAddress.h"
@@ -390,16 +390,16 @@
     NSMutableDictionary *dictGits = @{kEALogKey_StartTime: [self p_curTime]}.mutableCopy;
     dictGits[@"url"] = repoURL.absoluteString;
     NSError* error = nil;
-    GTRepository *repo = [GTRepository cloneFromURL:repoURL toWorkingDirectory:localURL options:@{GTRepositoryCloneOptionsCheckout: @NO} error:&error transferProgressBlock:^(const git_transfer_progress *progress, BOOL *stop) {
-        DebugLog(@"received_objects_count: %d", progress->received_objects);
-    } checkoutProgressBlock:^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {//{Checkout: @NO}，所以这里不会执行
-        DebugLog(@"checkout_progress:%.2f", (float)completedSteps/totalSteps);
-    }];
-    
-    dictGits[kEALogKey_FinishTime] = [self p_curTime];
-    dictGits[@"result"] = repo? @YES: @NO;
-    dictGits[kEALogKey_LogInfo] = error.description ?: @"";
-    block(@{@"git": dictGits});
+//    GTRepository *repo = [GTRepository cloneFromURL:repoURL toWorkingDirectory:localURL options:@{GTRepositoryCloneOptionsCheckout: @NO} error:&error transferProgressBlock:^(const git_transfer_progress *progress, BOOL *stop) {
+//        DebugLog(@"received_objects_count: %d", progress->received_objects);
+//    } checkoutProgressBlock:^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {//{Checkout: @NO}，所以这里不会执行
+//        DebugLog(@"checkout_progress:%.2f", (float)completedSteps/totalSteps);
+//    }];
+//    
+//    dictGits[kEALogKey_FinishTime] = [self p_curTime];
+//    dictGits[@"result"] = repo? @YES: @NO;
+//    dictGits[kEALogKey_LogInfo] = error.description ?: @"";
+//    block(@{@"git": dictGits});
 }
 
 @end

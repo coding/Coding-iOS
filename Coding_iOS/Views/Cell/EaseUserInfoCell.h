@@ -13,13 +13,13 @@
 @interface EaseUserInfoCell : UITableViewCell
 @property (nonatomic, strong) User *user;
 
-@property (nonatomic, copy) void (^userIconClicked)();
-@property (nonatomic, copy) void (^fansCountBtnClicked)();
-@property (nonatomic, copy) void (^followsCountBtnClicked)();
-@property (nonatomic, copy) void (^followBtnClicked)();
-@property (nonatomic, copy) void (^editButtonClicked)();
-@property (nonatomic, copy) void (^messageBtnClicked)();
-@property (nonatomic, copy) void (^detailInfoBtnClicked)();
+@property (nonatomic, copy) void (^userIconClicked)(void);
+@property (nonatomic, copy) void (^fansCountBtnClicked)(void);
+@property (nonatomic, copy) void (^followsCountBtnClicked)(void);
+@property (nonatomic, copy) void (^followBtnClicked)(void);
+@property (nonatomic, copy) void (^editButtonClicked)(void);
+@property (nonatomic, copy) void (^messageBtnClicked)(void);
+@property (nonatomic, copy) void (^detailInfoBtnClicked)(void);
 
 
 @end

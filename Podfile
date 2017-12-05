@@ -1,6 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '7.0'
-
+inhibit_all_warnings!
 target "Coding_iOS" do
     
 pod 'TTTAttributedLabel', '1.10.1'
@@ -25,10 +25,10 @@ pod 'TMCache', '2.1.0'
 pod 'iVersion', '1.11.4'
 pod 'JazzHands', '2.0.0'
 pod 'SSKeychain', '1.2.3'
-pod 'UMengSocial', '4.2.3'
+pod 'UMengSocial'
 #pod 'evernote-cloud-sdk-ios', :git => 'https://github.com/evernote/evernote-cloud-sdk-ios.git', :branch => 'ios7'
 pod 'evernote-cloud-sdk-ios', '2.0.2'
-pod 'UMengAnalytics', '3.5.10'
+pod 'UMengAnalytics'
 pod 'FLEX', '~> 2.0', :configurations => ['Debug']
 
 end

@@ -130,7 +130,7 @@ typedef NS_ENUM(NSInteger, AGEmojiKeyboardViewCategoryImage) {
 @property (nonatomic) UIButton *sendButton;
 
 @property (copy, nonatomic) void(^selectedIndexChangedBlock)(UIEaseTabBar *);
-@property (copy, nonatomic) void(^sendButtonClickedBlock)();
+@property (copy, nonatomic) void(^sendButtonClickedBlock)(void);
 - (instancetype)initWithFrame:(CGRect)frame selectedImages:(NSArray *)selectedImages unSelectedImages:(NSArray *)unSelectedImages;
 @end
 

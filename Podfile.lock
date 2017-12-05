@@ -70,8 +70,8 @@ PODS:
   - TPKeyboardAvoiding (1.2.4)
   - TTTAttributedLabel (1.10.1)
   - UIImage+BlurredFrame (0.0.4)
-  - UMengAnalytics (3.5.10)
-  - UMengSocial (4.2.3)
+  - UMengAnalytics (4.2.4)
+  - UMengSocial (5.0)
 
 DEPENDENCIES:
   - APParallaxHeader (= 0.1.6)
@@ -88,7 +88,7 @@ DEPENDENCIES:
   - MMMarkdown (= 0.3)
   - NYXImagesKit (= 2.3)
   - POP+MCAnimate (= 2.0.1)
-  - PPiAwesomeButton
+  - PPiAwesomeButton (= 1.5.2)
   - ReactiveCocoa (= 2.3.1)
   - RegexKitLite-NoWarning (= 1.1.0)
   - SDAutoLayout (= 2.1.0)
@@ -98,8 +98,8 @@ DEPENDENCIES:
   - TPKeyboardAvoiding (= 1.2.4)
   - TTTAttributedLabel (= 1.10.1)
   - UIImage+BlurredFrame (= 0.0.4)
-  - UMengAnalytics (= 3.5.10)
-  - UMengSocial (= 4.2.3)
+  - UMengAnalytics
+  - UMengSocial
 
 EXTERNAL SOURCES:
   FontAwesome+iOS:
@@ -138,9 +138,9 @@ SPEC CHECKSUMS:
   TPKeyboardAvoiding: 0a40dfbb0af7c8bdae1dd457496dccfd217d85f6
   TTTAttributedLabel: c8f3801a6463b9c9b82b0c84c465fdda9751892a
   UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
-  UMengAnalytics: 092c24aef47b6ac3c76ad51543f91156a8d7b645
-  UMengSocial: 85882abe5b20aa38ad558ece71360e16b5d50909
+  UMengAnalytics: ef8d45f94c0e5771dc364cf6a5731d9d3b101da2
+  UMengSocial: 48b67179c492a8cf7803fbb0438b8f55432e2fc1
 
-PODFILE CHECKSUM: 07a4f7debe58bcff1823b63f3147364a00a32151
+PODFILE CHECKSUM: cabcf7dec84aef796888dd1f865438f36a1ce635
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.4.0.beta.2

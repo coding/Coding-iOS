@@ -14,6 +14,6 @@
 @interface ShopSwitchCell : UITableViewCell
 
 @property (strong, nonatomic)ShopGoods *shopGoods;
-@property (copy, nonatomic) void(^updateBlock)();
+@property (copy, nonatomic) void(^updateBlock)(void);
 
 @end

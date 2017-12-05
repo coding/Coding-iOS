@@ -12,7 +12,7 @@
 
 @interface MeRootServiceCell : UITableViewCell
 @property (strong, nonatomic) UserServiceInfo *curServiceInfo;
-@property (copy, nonatomic) void (^leftBlock)();
-@property (copy, nonatomic) void (^rightBlock)();
+@property (copy, nonatomic) void (^leftBlock)(void);
+@property (copy, nonatomic) void (^rightBlock)(void);
 + (CGFloat)cellHeight;
 @end
