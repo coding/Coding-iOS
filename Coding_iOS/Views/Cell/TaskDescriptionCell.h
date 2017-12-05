@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 
 @interface TaskDescriptionCell : UITableViewCell
-@property (copy, nonatomic) void(^buttonClickedBlock)();
+@property (copy, nonatomic) void(^buttonClickedBlock)(void);
 - (void)setTitleStr:(NSString *)title andSpecail:(BOOL)isSpecail;
 
 + (CGFloat)cellHeight;

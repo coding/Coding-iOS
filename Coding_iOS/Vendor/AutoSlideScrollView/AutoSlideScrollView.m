@@ -25,7 +25,7 @@
 
 @implementation AutoSlideScrollView
 
-- (void)setTotalPagesCount:(NSInteger (^)())totalPagesCount
+- (void)setTotalPagesCount:(NSInteger (^)(void))totalPagesCount
 {
     _totalPagesCount = totalPagesCount;
     [self reloadData];

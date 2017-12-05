@@ -16,8 +16,8 @@
 @property (strong, nonatomic) ProjectTopic *curTopic;
 @property (assign, nonatomic) BOOL isLabel;
 
-@property (nonatomic, copy) void (^cellHeightChangedBlock)();
-@property (nonatomic, copy) void (^addLabelBlock)();
+@property (nonatomic, copy) void (^cellHeightChangedBlock)(void);
+@property (nonatomic, copy) void (^addLabelBlock)(void);
 @property (nonatomic, copy) void (^delLabelBlock)();
 @property (nonatomic, copy) void (^clickedLinkStrBlock)(NSString *linkStr);
 

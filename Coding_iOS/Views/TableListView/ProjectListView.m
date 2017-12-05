@@ -27,8 +27,8 @@
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 @property (strong, nonatomic) NSMutableArray *dataList;
 @property (strong, nonatomic) UISearchBar *mySearchBar;
-@property (copy, nonatomic) void(^searchBlock)();
-@property (copy, nonatomic) void(^scanBlock)();
+@property (copy, nonatomic) void(^searchBlock)(void);
+@property (copy, nonatomic) void(^scanBlock)(void);
 @end
 @implementation ProjectListView
 static NSString *const kTitleKey = @"kTitleKey";

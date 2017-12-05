@@ -2118,7 +2118,7 @@
         return;
     }
     //判断图片是否全部上传完毕，是的话就发送该冒泡 block
-    BOOL (^whetherAllImagesUploadedAndSendTweetBlock)() = ^{
+    BOOL (^whetherAllImagesUploadedAndSendTweetBlock)(void) = ^{
         if (tweet.isAllImagesDoneSucess) {
             sendTweetBlock();
         }

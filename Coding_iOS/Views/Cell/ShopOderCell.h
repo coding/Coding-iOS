@@ -17,7 +17,7 @@
 
 - (void)configViewWithModel:(BaseModel *)model;
 
-@property (copy, nonatomic) void(^deleteActionBlock)();
-@property (copy, nonatomic) void(^payActionBlock)();
+@property (copy, nonatomic) void(^deleteActionBlock)(void);
+@property (copy, nonatomic) void(^payActionBlock)(void);
 
 @end

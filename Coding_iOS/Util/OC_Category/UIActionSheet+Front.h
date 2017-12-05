@@ -12,4 +12,4 @@
 
 @end
 
-void swizzleAllActionSheet();
+void swizzleAllActionSheet(void);

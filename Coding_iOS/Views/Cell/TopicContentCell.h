@@ -15,10 +15,10 @@
 @property (strong, nonatomic) ProjectTopic *curTopic;
 
 @property (nonatomic, copy) void (^commentTopicBlock)(ProjectTopic *, id);
-@property (nonatomic, copy) void (^cellHeightChangedBlock)();
+@property (nonatomic, copy) void (^cellHeightChangedBlock)(void);
 @property (nonatomic, copy) void (^loadRequestBlock)(NSURLRequest *curRequest);
 @property (nonatomic, copy) void (^deleteTopicBlock)(ProjectTopic *);
-@property (nonatomic, copy) void (^addLabelBlock)();
+@property (nonatomic, copy) void (^addLabelBlock)(void);
 
 + (CGFloat)cellHeightWithObj:(id)obj;
 @end

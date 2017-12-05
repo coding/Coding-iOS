@@ -11,7 +11,7 @@
 @interface PopFliterMenu : UIView
 @property (assign) BOOL showStatus;
 @property (nonatomic , copy) void (^clickBlock)(NSInteger selectNum);
-@property (nonatomic , copy) void (^closeBlock)();
+@property (nonatomic , copy) void (^closeBlock)(void);
 @property (nonatomic,assign) NSInteger selectNum;  //选中数据
 - (instancetype)initWithFrame:(CGRect)frame items:(NSArray *)items;
 //将菜单显示到某个视图上

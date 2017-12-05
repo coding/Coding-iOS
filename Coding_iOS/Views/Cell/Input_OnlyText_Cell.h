@@ -27,7 +27,7 @@
 @property (nonatomic,copy) void(^editDidBeginBlock)(NSString *);
 @property (nonatomic,copy) void(^editDidEndBlock)(NSString *);
 @property (nonatomic,copy) void(^phoneCodeBtnClckedBlock)(PhoneCodeButton *);
-@property (nonatomic,copy) void(^countryCodeBtnClickedBlock)();
+@property (nonatomic,copy) void(^countryCodeBtnClickedBlock)(void);
 
 - (void)setPlaceholder:(NSString *)phStr value:(NSString *)valueStr;
 + (NSString *)randomCellIdentifierOfPhoneCodeType;

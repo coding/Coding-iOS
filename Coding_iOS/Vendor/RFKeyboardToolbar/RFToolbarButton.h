@@ -10,7 +10,7 @@
 /**
  *  The block used for each button.
  */
-typedef void (^eventHandlerBlock)();
+typedef void (^eventHandlerBlock)(void);
 
 @interface RFToolbarButton : UIButton
 

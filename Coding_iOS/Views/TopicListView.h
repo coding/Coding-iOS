@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 typedef void(^TopicListViewBlock)(NSInteger index);
-typedef void(^TopicListViewHideBlock)();
+typedef void(^TopicListViewHideBlock)(void);
 
 @interface TopicListView : UIView
 

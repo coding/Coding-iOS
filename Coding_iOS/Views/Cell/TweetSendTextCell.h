@@ -19,8 +19,8 @@
 - (void)setLocationStr:(NSString *)locationStr;
 
 @property (nonatomic,copy) void(^textValueChangedBlock)(NSString*);
-@property (nonatomic,copy) void(^photoBtnBlock)();
-@property (nonatomic,copy) void(^locationBtnBlock)();
-@property (nonatomic,copy) void(^topicBtnBlock)();
+@property (nonatomic,copy) void(^photoBtnBlock)(void);
+@property (nonatomic,copy) void(^locationBtnBlock)(void);
+@property (nonatomic,copy) void(^topicBtnBlock)(void);
 + (CGFloat)cellHeight;
 @end

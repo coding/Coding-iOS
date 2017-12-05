@@ -242,7 +242,7 @@ NSString *const FillColorAnimation = @"fillColor";
     } [CATransaction commit];
 }
 
-- (void)hideAnimated:(BOOL)animated completionBlock:(void (^)())block
+- (void)hideAnimated:(BOOL)animated completionBlock:(void (^)(void))block
 {
     [CATransaction begin]; {
         [CATransaction setCompletionBlock:^{
