@@ -230,7 +230,8 @@
     CGRect keyboardEndFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     [UIView animateWithDuration:animationDuration delay:0.0f options:[UIView animationOptionsForCurve:animationCurve] animations:^{
         CGFloat keyboardY =  keyboardEndFrame.origin.y;
-        [self.footerToolBar setY:keyboardY- CGRectGetHeight(self.footerToolBar.frame)];
+        CGFloat footerToolBarY = keyboardY- CGRectGetHeight(self.footerToolBar.frame) - ((kDevice_Is_iPhoneX && keyboardY+1 > kScreen_Height)? 18: 0);
+        [self.footerToolBar setY:footerToolBarY];
     } completion:^(BOOL finished) {
     }];
 }

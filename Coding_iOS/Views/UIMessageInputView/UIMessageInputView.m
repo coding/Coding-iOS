@@ -67,10 +67,11 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 
 
 - (void)setFrame:(CGRect)frame{
-    CGFloat oldheightToBottom = kScreen_Height - CGRectGetMinY(self.frame);
-    CGFloat newheightToBottom = kScreen_Height - CGRectGetMinY(frame);
+    CGFloat diffOffsetY = kDevice_Is_iPhoneX? 18: 0;
+    CGFloat oldheightToBottom = kScreen_Height - CGRectGetMinY(self.frame) + diffOffsetY;
+    CGFloat newheightToBottom = kScreen_Height - CGRectGetMinY(frame) + diffOffsetY;
     [super setFrame:frame];
-    if (fabs(oldheightToBottom - newheightToBottom) > 0.1) {
+    if (fabs(oldheightToBottom - newheightToBottom) > 1.0) {
         DebugLog(@"heightToBottom-----:%.2f", newheightToBottom);
         if (oldheightToBottom > newheightToBottom) {//降下去的时候保存
             [self saveInputStr];
@@ -80,6 +81,13 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
             [self.delegate messageInputView:self heightToBottomChenged:newheightToBottom];
         }
     }
+}
+
+- (void)p_setY:(CGFloat)y{
+    if (kDevice_Is_iPhoneX && ABS(kScreen_Height - CGRectGetHeight(self.frame) - y) < 1.0) {
+        y -= 18;
+    }
+    [self setY:y];
 }
 
 - (void)setInputState:(UIMessageInputViewState)inputState{
@@ -159,6 +167,16 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         _curProject = nil;
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];
         [self addGestureRecognizer:panGesture];
+        if (kDevice_Is_iPhoneX) {
+            UIView *bottomV = [UIView new];
+            bottomV.backgroundColor = self.backgroundColor;
+            [self addSubview:bottomV];
+            [bottomV mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(18);
+                make.top.equalTo(self.mas_bottom);
+                make.left.right.equalTo(self);
+            }];
+        }
     }
     return self;
 }
@@ -286,7 +304,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     if ([self superview] == kKeyWindow) {
         return;
     }
-    [self setY:kScreen_Height];
+    [self p_setY:kScreen_Height];
     [kKeyWindow addSubview:self];
     [kKeyWindow addSubview:_emojiKeyboardView];
     [kKeyWindow addSubview:_addKeyboardView];
@@ -295,7 +313,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     
     if (_isAlwaysShow && ![self isCustomFirstResponder]) {
         [UIView animateWithDuration:0.25 animations:^{
-            [self setY:kScreen_Height - CGRectGetHeight(self.frame)];
+            [self p_setY:kScreen_Height - CGRectGetHeight(self.frame)];
         }];
     }
 }
@@ -305,7 +323,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }
     [self isAndResignFirstResponder];
     [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-        [self setY:kScreen_Height];
+        [self p_setY:kScreen_Height];
     } completion:^(BOOL finished) {
         [_emojiKeyboardView removeFromSuperview];
         [_addKeyboardView removeFromSuperview];
@@ -330,9 +348,9 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
             [_addKeyboardView setY:kScreen_Height];
             [_voiceKeyboardView setY:kScreen_Height];
             if (self.isAlwaysShow) {
-                [self setY:kScreen_Height- CGRectGetHeight(self.frame)];
+                [self p_setY:kScreen_Height- CGRectGetHeight(self.frame)];
             }else{
-                [self setY:kScreen_Height];
+                [self p_setY:kScreen_Height];
             }
         } completion:^(BOOL finished) {
             self.inputState = UIMessageInputViewStateSystem;
@@ -694,8 +712,8 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         [_addKeyboardView setY:endY];
         [_emojiKeyboardView setY:kScreen_Height];
         [_voiceKeyboardView setY:kScreen_Height];
-        if (ABS(kScreen_Height - endY) > 0.1) {
-            [self setY:endY- CGRectGetHeight(self.frame)];
+        if (ABS(kScreen_Height - endY) > 1.0) {
+            [self p_setY:endY- CGRectGetHeight(self.frame)];
         }
     } completion:^(BOOL finished) {
     }];
@@ -714,8 +732,8 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         [_emojiKeyboardView setY:endY];
         [_addKeyboardView setY:kScreen_Height];
         [_voiceKeyboardView setY:kScreen_Height];
-        if (ABS(kScreen_Height - endY) > 0.1) {
-            [self setY:endY- CGRectGetHeight(self.frame)];
+        if (ABS(kScreen_Height - endY) > 1.0) {
+            [self p_setY:endY- CGRectGetHeight(self.frame)];
         }
     } completion:^(BOOL finished) {
     }];
@@ -750,8 +768,8 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         [_voiceKeyboardView setY:endY];
         [_emojiKeyboardView setY:kScreen_Height];
         [_addKeyboardView setY:kScreen_Height];
-        if (ABS(kScreen_Height - endY) > 0.1) {
-            [self setY:endY- CGRectGetHeight(self.frame)];
+        if (ABS(kScreen_Height - endY) > 1.0) {
+            [self p_setY:endY- CGRectGetHeight(self.frame)];
         }
     } completion:^(BOOL finished) {
     }];
@@ -944,9 +962,9 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     if (self.inputState == UIMessageInputViewStateSystem) {
         [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
             if (_isAlwaysShow) {
-                [self setY:kScreen_Height- CGRectGetHeight(self.frame)];
+                [self p_setY:kScreen_Height- CGRectGetHeight(self.frame)];
             }else{
-                [self setY:kScreen_Height];
+                [self p_setY:kScreen_Height];
             }
         } completion:^(BOOL finished) {
         }];
@@ -963,24 +981,13 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         CGRect keyboardEndFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
         CGFloat keyboardY =  keyboardEndFrame.origin.y;
 
-        CGFloat selfOriginY = keyboardY == kScreen_Height? self.isAlwaysShow? kScreen_Height - CGRectGetHeight(self.frame): kScreen_Height : keyboardY - CGRectGetHeight(self.frame);
-//        if (keyboardY == kScreen_Height) {
-//            if (self.isAlwaysShow) {
-//                selfOriginY = kScreen_Height- CGRectGetHeight(self.frame);
-//            }else{
-//                selfOriginY = kScreen_Height;
-//            }
-//        }else{
-//            selfOriginY = keyboardY-CGRectGetHeight(self.frame);
-//        }
+        CGFloat selfOriginY = keyboardY+1 > kScreen_Height? self.isAlwaysShow? kScreen_Height - CGRectGetHeight(self.frame): kScreen_Height : keyboardY - CGRectGetHeight(self.frame);
         if (selfOriginY == self.frame.origin.y) {
             return;
         }
-        
-        
         __weak typeof(self) weakSelf = self;
         void (^endFrameBlock)() = ^(){
-            [weakSelf setY:selfOriginY];
+            [weakSelf p_setY:selfOriginY];
         };
         if ([aNotification name] == UIKeyboardWillChangeFrameNotification) {
             NSTimeInterval animationDuration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
