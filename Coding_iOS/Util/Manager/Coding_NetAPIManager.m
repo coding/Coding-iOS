@@ -2393,10 +2393,13 @@
     }];
 }
 
-- (void)request_GeneratePhoneCodeToResetPhone:(NSString *)phone phoneCountryCode:(NSString *)phoneCountryCode block:(void (^)(id data, NSError *error))block{
+- (void)request_GeneratePhoneCodeToResetPhone:(NSString *)phone phoneCountryCode:(NSString *)phoneCountryCode withCaptcha:(NSString *)captcha block:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/account/phone/change/code";
-    NSDictionary *params = @{@"phone": phone,
-                             @"phoneCountryCode": phoneCountryCode};
+    NSMutableDictionary *params = @{@"phone": phone,
+                             @"phoneCountryCode": phoneCountryCode}.mutableCopy;
+    if (captcha.length > 0) {
+        params[@"j_captcha"] = captcha;
+    }
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"生成手机验证码_绑定手机号"];
@@ -2954,8 +2957,12 @@
 }
 
 #pragma mark - 2FA
-- (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block{
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/twofa/close/code" withParams:@{@"phone": phone, @"from": @"mart"} withMethodType:Post andBlock:^(id data, NSError *error) {
+- (void)post_Close2FAGeneratePhoneCode:(NSString *)phone withCaptcha:(NSString *)captcha block:(void (^)(id data, NSError *error))block{
+    NSMutableDictionary *params = @{@"phone": phone, @"from": @"mart"}.mutableCopy;
+    if (captcha.length > 0) {
+        params[@"j_captcha"] = captcha;
+    }
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/twofa/close/code" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
 }

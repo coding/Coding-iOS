@@ -355,7 +355,7 @@
     NSString *path = @"api/request_valid";
     NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/getCaptcha?type=%@", [NSObject baseURLStr], params[@"type"]]];
     //UI
-    SDCAlertController *alertV = [SDCAlertController alertControllerWithTitle:@"提示" message:@"亲，您操作这么快，不会是机器人吧？\n来，输个验证码先？" preferredStyle:SDCAlertControllerStyleAlert];
+    SDCAlertController *alertV = [SDCAlertController alertControllerWithTitle:@"提示" message:@"请输入图片验证码" preferredStyle:SDCAlertControllerStyleAlert];
     UITextField *textF = [UITextField new];
     textF.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
     textF.backgroundColor = [UIColor whiteColor];
@@ -389,7 +389,7 @@
     }];
     __weak typeof(alertV) weakAlertV = alertV;
     [alertV addAction:[SDCAlertAction actionWithTitle:@"取消" style:SDCAlertActionStyleCancel handler:nil]];
-    [alertV addAction:[SDCAlertAction actionWithTitle:@"还真不是" style:SDCAlertActionStyleDefault handler:nil]];
+    [alertV addAction:[SDCAlertAction actionWithTitle:@"确定" style:SDCAlertActionStyleDefault handler:nil]];
     alertV.shouldDismissBlock =  ^BOOL (SDCAlertAction *action){
         BOOL shouldDismiss = [action.title isEqualToString:@"取消"];
         if (!shouldDismiss) {

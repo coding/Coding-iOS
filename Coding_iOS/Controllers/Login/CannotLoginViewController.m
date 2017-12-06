@@ -225,15 +225,73 @@
         return;
     }
     sender.enabled = NO;
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/password/forget" withParams:@{@"account": _userStr, @"phoneCountryCode": @"+86"} withMethodType:Post andBlock:^(id data, NSError *error) {
+    NSMutableDictionary *params = @{@"account": _userStr,
+                                    @"phoneCountryCode": @"+86"}.mutableCopy;
+    if (captcha.length > 0) {
+        params[@"j_captcha"] = captcha;
+    }
+    __weak typeof(self) weakSelf = self;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/password/forget" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
             [NSObject showHudTipStr:@"验证码发送成功"];
             [sender startUpTimer];
         }else{
             [sender invalidateTimer];
+            if (error && error.userInfo[@"msg"] && [[error.userInfo[@"msg"] allKeys] containsObject:@"j_captcha_error"]) {
+                [weakSelf p_showCaptchaAlert:sender];
+            }
         }
     }];
 }
+
+- (void)p_showCaptchaAlert:(PhoneCodeButton *)sender{
+    SDCAlertController *alertV = [SDCAlertController alertControllerWithTitle:@"提示" message:@"请输入图片验证码" preferredStyle:SDCAlertControllerStyleAlert];
+    UITextField *textF = [UITextField new];
+    textF.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
+    textF.backgroundColor = [UIColor whiteColor];
+    [textF doBorderWidth:0.5 color:nil cornerRadius:2.0];
+    UIImageView *imageV = [UIImageView new];
+    imageV.backgroundColor = [UIColor lightGrayColor];
+    imageV.contentMode = UIViewContentModeScaleAspectFit;
+    imageV.clipsToBounds = YES;
+    imageV.userInteractionEnabled = YES;
+    [textF doBorderWidth:0.5 color:nil cornerRadius:2.0];
+    NSURL *imageURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@api/getCaptcha", [NSObject baseURLStr]]];
+    [imageV sd_setImageWithURL:imageURL placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies)];
+    
+    [alertV.contentView addSubview:textF];
+    [alertV.contentView addSubview:imageV];
+    [textF mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(alertV.contentView).offset(15);
+        make.height.mas_equalTo(25);
+        make.bottom.equalTo(alertV.contentView).offset(-10);
+    }];
+    [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(alertV.contentView).offset(-15);
+        make.left.equalTo(textF.mas_right).offset(10);
+        make.width.mas_equalTo(60);
+        make.height.mas_equalTo(25);
+        make.centerY.equalTo(textF);
+    }];
+    //Action
+    __weak typeof(imageV) weakImageV = imageV;
+    [imageV bk_whenTapped:^{
+        [weakImageV sd_setImageWithURL:imageURL placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies)];
+    }];
+    __weak typeof(self) weakSelf = self;
+    [alertV addAction:[SDCAlertAction actionWithTitle:@"取消" style:SDCAlertActionStyleCancel handler:nil]];
+    [alertV addAction:[SDCAlertAction actionWithTitle:@"确定" style:SDCAlertActionStyleDefault handler:nil]];
+    alertV.shouldDismissBlock =  ^BOOL (SDCAlertAction *action){
+        if (![action.title isEqualToString:@"取消"]) {
+            [weakSelf phoneCodeBtnClicked:sender withCaptcha:textF.text];
+        }
+        return YES;
+    };
+    [alertV presentWithCompletion:^{
+        [textF becomeFirstResponder];
+    }];
+}
+
 
 - (void)footerBtnClicked:(id)sender{
     if (_stepIndex == 0) {

@@ -227,7 +227,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_UserJobArrayWithBlock:(void (^)(id data, NSError *error))block;
 - (void)request_UserTagArrayWithBlock:(void (^)(id data, NSError *error))block;
 - (void)request_UpdateUserInfo_WithObj:(User *)curUser andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_GeneratePhoneCodeToResetPhone:(NSString *)phone phoneCountryCode:(NSString *)phoneCountryCode block:(void (^)(id data, NSError *error))block;
+- (void)request_GeneratePhoneCodeToResetPhone:(NSString *)phone phoneCountryCode:(NSString *)phoneCountryCode withCaptcha:(NSString *)captcha block:(void (^)(id data, NSError *error))block;
 - (void)request_PointRecords:(PointRecords *)records andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_RewardToTweet:(NSString *)tweet_id encodedPassword:(NSString *)encodedPassword andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ServiceInfoBlock:(void (^)(id data, NSError *error))block;
@@ -273,7 +273,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_Users_activenessWithGlobalKey:(NSString *)globalKey andBlock:(void (^)(ActivenessModel *data, NSError *error))block;
 
 #pragma mark - 2FA
-- (void)post_Close2FAGeneratePhoneCode:(NSString *)phone block:(void (^)(id data, NSError *error))block;
+- (void)post_Close2FAGeneratePhoneCode:(NSString *)phone withCaptcha:(NSString *)captcha block:(void (^)(id data, NSError *error))block;
 - (void)post_Close2FAWithPhone:(NSString *)phone code:(NSString *)code block:(void (^)(id data, NSError *error))block;
 - (void)get_is2FAOpenBlock:(void (^)(BOOL data, NSError *error))block;
 
