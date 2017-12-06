@@ -124,7 +124,8 @@
     }
     
     //    UMENG 统计
-    [MobClick startWithAppkey:kUmeng_AppKey reportPolicy:BATCH channelId:nil];
+    UMConfigInstance.appKey = kUmeng_AppKey;
+    [MobClick startWithConfigure:UMConfigInstance];
     
     //    UMENG Social Account
     [UMSocialData setAppKey:kUmeng_AppKey];

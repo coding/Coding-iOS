@@ -32,7 +32,7 @@
 #import "UITTTAttributedLabel.h"
 #import "NSObject+ObjectMap.h"
 #import "ImageSizeManager.h"
-#import "MobClick.h"
+#import <UMMobClick/MobClick.h>
 #import <BlocksKit/BlocksKit+UIKit.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <ReactiveCocoa/RACEXTScope.h>
