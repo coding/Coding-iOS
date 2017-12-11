@@ -162,7 +162,7 @@
     AddMDCommentViewController *vc = [AddMDCommentViewController new];
     vc.curProject = _curProject;
     
-    NSString *requestPath = [[self.linkUrlStr componentsSeparatedByString:@"/git"] firstObject];
+    NSString *requestPath = [[self.linkUrlStr componentsSeparatedByString:@"/git/"] firstObject];
     requestPath = [requestPath stringByAppendingString:@"/git/line_notes"];
     vc.requestPath = requestPath;
     
@@ -191,7 +191,7 @@
 }
 
 - (void)doDeleteCommentWithParams:(NSMutableDictionary *)params{
-    NSString *requestPath = [[self.linkUrlStr componentsSeparatedByString:@"/git"] firstObject];
+    NSString *requestPath = [[self.linkUrlStr componentsSeparatedByString:@"/git/"] firstObject];
     requestPath = [requestPath stringByAppendingFormat:@"/git/line_notes/%@", params[@"clicked_line_note_id"]];
     [[Coding_NetAPIManager sharedManager] request_DeleteLineNoteWithPath:requestPath andBlock:^(id data, NSError *error) {
         [self refresh];
