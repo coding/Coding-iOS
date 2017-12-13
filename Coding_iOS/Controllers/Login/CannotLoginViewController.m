@@ -87,7 +87,11 @@
     
     UIAlertAction *cancelA = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction *confirmA = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        [NSObject changeBaseURLStrTo:alertCtrl.textFields[0].text];
+        NSString *newBaseURLStr = alertCtrl.textFields[0].text;
+        if ([newBaseURLStr.uppercaseString isEqualToString:@"S"]) {
+            newBaseURLStr = @"http://coding.codingprod.net/";
+        }
+        [NSObject changeBaseURLStrTo:newBaseURLStr];
     }];
     [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"Coding 服务器地址";
