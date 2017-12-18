@@ -39,6 +39,7 @@
 #import "UMSocialSinaSSOHandler.h"
 #import "Coding_NetAPIManager.h"
 #import "EADeviceToServerLog.h"
+#import <UMSocialCore/UMSocialCore.h>
 
 #import "Tweet.h"
 #import "sys/utsname.h"
@@ -149,6 +150,14 @@
             }
         }
     }];
+    
+    //UMSocialManager 第三方登录
+    [[UMSocialManager defaultManager] openLog:YES];
+    [[UMSocialManager defaultManager] setUmSocialAppkey:kUmeng_AppKey];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:kSocial_WX_ID appSecret:kSocial_WX_Secret redirectURL:nil];
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:kSocial_QQ_ID  appSecret:kSocial_QQ_Secret redirectURL:nil];
+//    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:kWeiBo_Key  appSecret:kWeiBo_Secret redirectURL:kSocial_Sina_RedirectURL];
+
     
     //    信鸽推送
     [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];

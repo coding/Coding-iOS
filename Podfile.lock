@@ -71,7 +71,25 @@ PODS:
   - TTTAttributedLabel (1.10.1)
   - UIImage+BlurredFrame (0.0.4)
   - UMengAnalytics (4.2.4)
-  - UMengSocial (4.2.3)
+  - UMengSocial (5.0)
+  - UMengUShare/Core (6.4.5):
+    - UMengUShare/Network
+  - UMengUShare/Network (6.4.5)
+  - UMengUShare/Social/QQ (6.4.5):
+    - UMengUShare/Core
+    - UMengUShare/Social/ReducedQQ
+  - UMengUShare/Social/ReducedQQ (6.4.5):
+    - UMengUShare/Core
+  - UMengUShare/Social/ReducedSina (6.4.5):
+    - UMengUShare/Core
+  - UMengUShare/Social/ReducedWeChat (6.4.5):
+    - UMengUShare/Core
+  - UMengUShare/Social/Sina (6.4.5):
+    - UMengUShare/Core
+    - UMengUShare/Social/ReducedSina
+  - UMengUShare/Social/WeChat (6.4.5):
+    - UMengUShare/Core
+    - UMengUShare/Social/ReducedWeChat
 
 DEPENDENCIES:
   - APParallaxHeader (= 0.1.6)
@@ -99,7 +117,10 @@ DEPENDENCIES:
   - TTTAttributedLabel (= 1.10.1)
   - UIImage+BlurredFrame (= 0.0.4)
   - UMengAnalytics (= 4.2.4)
-  - UMengSocial (= 4.2.3)
+  - UMengSocial (= 5.0)
+  - UMengUShare/Social/QQ (= 6.4.5)
+  - UMengUShare/Social/Sina (= 6.4.5)
+  - UMengUShare/Social/WeChat (= 6.4.5)
 
 EXTERNAL SOURCES:
   FontAwesome+iOS:
@@ -139,8 +160,9 @@ SPEC CHECKSUMS:
   TTTAttributedLabel: c8f3801a6463b9c9b82b0c84c465fdda9751892a
   UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
   UMengAnalytics: ef8d45f94c0e5771dc364cf6a5731d9d3b101da2
-  UMengSocial: 85882abe5b20aa38ad558ece71360e16b5d50909
+  UMengSocial: 48b67179c492a8cf7803fbb0438b8f55432e2fc1
+  UMengUShare: a5711c54e640b04e3048e931d2b88d50f9cfa55c
 
-PODFILE CHECKSUM: bccb3cf1bbfa428d630f1f695c3027bc9f28b95b
+PODFILE CHECKSUM: 4567723669771222ca041cd90cfe34d3de487cdf
 
 COCOAPODS: 1.3.1
