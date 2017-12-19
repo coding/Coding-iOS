@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.9</string>
+	<string>4.9.5</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -37,7 +37,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>4.9.201712061200</string>
+	<string>4.9.5.201712061200</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>

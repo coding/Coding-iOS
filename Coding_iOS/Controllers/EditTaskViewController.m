@@ -23,6 +23,9 @@
 #import "ProjectToChooseListViewController.h"
 #import "EditLabelViewController.h"
 #import "TaskResourceReferenceViewController.h"
+#import "NProjectViewController.h"
+#import "FunctionTipsManager.h"
+#import "MartFunctionTipView.h"
 
 @interface EditTaskViewController ()<TTTAttributedLabelDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
@@ -54,10 +57,7 @@
         _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTask];
         _myMsgInputView.isAlwaysShow = YES;
         _myMsgInputView.delegate = self;
-        
-        [self queryToRefreshTaskDetail];
     }
-    [self configTitle];
     
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -110,7 +110,22 @@
     if (_myCopyTask.handleType > TaskHandleTypeEdit) {
         self.title = @"创建任务";
     }else{
-        self.title = _myTask.project.name;
+        UILabel *titleL = [UILabel labelWithFont:[UIFont systemFontOfSize:kNavTitleFontSize] textColor:kColorNavTitle];
+        titleL.text = _myTask.project.name;
+        titleL.userInteractionEnabled = YES;
+        __weak typeof(self) weakSelf = self;
+        [titleL bk_whenTapped:^{
+            NProjectViewController *vc = [[NProjectViewController alloc] init];
+            vc.myProject = weakSelf.myTask.project;
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }];
+        [titleL sizeToFit];
+        self.navigationItem.titleView = titleL;
+        if ([[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_TaskTitleViewTap]) {
+            [MartFunctionTipView showText:@"点击标题可跳转到项目首页哦" direction:AMPopTipDirectionDown  bubbleOffset:0 inView:self.view fromFrame:CGRectMake(kScreen_Width/ 2, 0, 0, 0) dismissHandler:^{
+                [[FunctionTipsManager shareManager] markTiped:kFunctionTipStr_TaskTitleViewTap];
+            }];
+        }
     }
 }
 
@@ -131,6 +146,12 @@
         [_myMsgInputView prepareToShow];
     }
     [self.myTableView reloadData];
+    
+    if (_myCopyTask.handleType == TaskHandleTypeEdit && !_myCopyTask.activityList) {
+        [self queryToRefreshTaskDetail];
+    }else{
+        [self configTitle];
+    }
 }
 
 - (void)didReceiveMemoryWarning
