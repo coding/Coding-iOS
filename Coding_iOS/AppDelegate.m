@@ -33,7 +33,6 @@
 
 #import "FunctionIntroManager.h"
 #import <evernote-cloud-sdk-ios/ENSDK/ENSDK.h>
-//#import "UMSocialSinaSSOHandler.h"
 #import "Coding_NetAPIManager.h"
 #import "EADeviceToServerLog.h"
 #import <UMSocialCore/UMSocialCore.h>
