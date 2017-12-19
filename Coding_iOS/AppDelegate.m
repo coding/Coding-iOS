@@ -32,11 +32,8 @@
 #import "OTPListViewController.h"
 
 #import "FunctionIntroManager.h"
-#import <UMengSocial/UMSocial.h>
-#import <UMengSocial/UMSocialWechatHandler.h>
-#import <UMengSocial/UMSocialQQHandler.h>
 #import <evernote-cloud-sdk-ios/ENSDK/ENSDK.h>
-#import "UMSocialSinaSSOHandler.h"
+//#import "UMSocialSinaSSOHandler.h"
 #import "Coding_NetAPIManager.h"
 #import "EADeviceToServerLog.h"
 #import <UMSocialCore/UMSocialCore.h>
@@ -128,36 +125,14 @@
     UMConfigInstance.appKey = kUmeng_AppKey;
     [MobClick startWithConfigure:UMConfigInstance];
     
-    //    UMENG Social Account
-    [UMSocialData setAppKey:kUmeng_AppKey];
-    [UMSocialWechatHandler setWXAppId:kSocial_WX_ID appSecret:kSocial_WX_Secret url:[NSObject baseURLStr]];
-    [UMSocialQQHandler setQQWithAppId:kSocial_QQ_ID appKey:kSocial_QQ_Secret url:[NSObject baseURLStr]];
-    [ENSession setSharedSessionConsumerKey:kSocial_EN_Key consumerSecret:kSocial_EN_Secret optionalHost:nil];
-    [UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:kSocial_Sina_RedirectURL];
-
-    //    UMENG Social Config
-    [UMSocialConfig setFollowWeiboUids:@{UMShareToSina : kSocial_Sina_OfficailAccount}];//设置默认关注官方账号
-    [UMSocialConfig setFinishToastIsHidden:YES position:UMSocialiToastPositionCenter];
-    [UMSocialConfig setNavigationBarConfig:^(UINavigationBar *bar, UIButton *closeButton, UIButton *backButton, UIButton *postButton, UIButton *refreshButton, UINavigationItem *navigationItem) {
-        if (bar) {
-            [bar setBackgroundImage:[UIImage imageWithColor:kColorNavBG] forBarMetrics:UIBarMetricsDefault];
-        }
-        if (navigationItem) {
-            if ([[navigationItem titleView] isKindOfClass:[UILabel class]]) {
-                UILabel *titleL = (UILabel *)[navigationItem titleView];
-                titleL.font = [UIFont boldSystemFontOfSize:kNavTitleFontSize];
-                titleL.textColor = [UIColor whiteColor];
-            }
-        }
-    }];
-    
     //UMSocialManager 第三方登录
     [[UMSocialManager defaultManager] openLog:YES];
+    [UMSocialGlobal shareInstance].isUsingHttpsWhenShareContent = NO;
     [[UMSocialManager defaultManager] setUmSocialAppkey:kUmeng_AppKey];
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:kSocial_WX_ID appSecret:kSocial_WX_Secret redirectURL:nil];
     [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:kSocial_QQ_ID  appSecret:kSocial_QQ_Secret redirectURL:nil];
-//    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:kWeiBo_Key  appSecret:kWeiBo_Secret redirectURL:kSocial_Sina_RedirectURL];
-
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:kSocial_Sina_ID  appSecret:kSocial_Sina_Secret redirectURL:kSocial_Sina_RedirectURL];
+    [ENSession setSharedSessionConsumerKey:kSocial_EN_Key consumerSecret:kSocial_EN_Secret optionalHost:nil];
     
     //    信鸽推送
     [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
@@ -319,7 +294,7 @@
     }else if ([url.absoluteString hasPrefix:@"en-:"]){
         return [[ENSession sharedSession] handleOpenURL:url];
     }else{
-        return  [UMSocialSnsService handleOpenURL:url];
+        return [[UMSocialManager defaultManager] handleOpenURL:url sourceApplication:sourceApplication annotation:annotation];
     }
     return YES;
 }

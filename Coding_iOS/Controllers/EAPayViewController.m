@@ -9,8 +9,8 @@
 #import "EAPayViewController.h"
 
 #import <AlipaySDK/AlipaySDK.h>
-#import <UMengSocial/WXApi.h>
-#import <UMengSocial/WXApiObject.h>
+#import <UMengUShare/WXApi.h>
+#import <UMengUShare/WXApiObject.h>
 
 #import "Coding_NetAPIManager.h"
 
