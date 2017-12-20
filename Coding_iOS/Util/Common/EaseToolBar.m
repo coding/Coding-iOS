@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 Coding. All rights reserved.
 //
 
-#define kEaseToolBar_Height 49.0
+#define kEaseToolBar_Height (49.0 + kSafeArea_Bottom)
 #define kEaseToolBar_SplitLineViewTag 100
 
 #import "EaseToolBar.h"
@@ -46,7 +46,7 @@
     if (_buttonItems.count > 0) {
         NSInteger num = _buttonItems.count;
         CGFloat itemWidth = CGRectGetWidth(self.frame)/num;
-        CGFloat itemHeight = CGRectGetHeight(self.frame);
+        CGFloat itemHeight = CGRectGetHeight(self.frame) - kSafeArea_Bottom;
         
         for (int i = 0; i < num; i++) {
             UIControl *item = _buttonItems[i];

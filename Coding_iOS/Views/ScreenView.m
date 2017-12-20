@@ -150,7 +150,7 @@
     searchBar.returnKeyType = UIReturnKeySearch;
     searchBar.delegate = self;
     [mainView addSubview:searchBar];
-    searchBar.sd_layout.leftSpaceToView(mainView, 15).topSpaceToView(mainView, 35).rightSpaceToView(mainView, 15).heightIs(31);
+    searchBar.sd_layout.leftSpaceToView(mainView, 15).topSpaceToView(mainView, 15 + kSafeArea_Top).rightSpaceToView(mainView, 15).heightIs(31);
     _searchBar = searchBar;
     
     UIButton *resetButton = [[UIButton alloc] init];
@@ -160,7 +160,7 @@
     resetButton.backgroundColor = [UIColor whiteColor];
     [resetButton addTarget:self action:@selector(resetButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [mainView addSubview:resetButton];
-    resetButton.sd_layout.leftSpaceToView(mainView, 0).bottomSpaceToView(mainView, 0).rightSpaceToView(mainView, 0).heightIs(48.5);
+    resetButton.sd_layout.leftSpaceToView(mainView, 0).bottomSpaceToView(mainView, kSafeArea_Bottom).rightSpaceToView(mainView, 0).heightIs(48.5);
     
     UILabel *line = [[UILabel alloc] init];
     line.backgroundColor = kColorDDD;

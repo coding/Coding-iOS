@@ -80,7 +80,7 @@
     });
     __weak typeof(_myCarousel) weakCarousel = _myCarousel;
     //初始化过滤目录
-    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64) items:nil];
+    _myFliterMenu = [[PopFliterMenu alloc] initWithFrame:CGRectMake(0, 44 + kSafeArea_Top, kScreen_Width, kScreen_Height - (44 + kSafeArea_Top)) items:nil];
     __weak typeof(self) weakSelf = self;
     _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
         [weakSelf mobClickFliterMenuIndex:pageIndex];
@@ -104,7 +104,7 @@
                            [MenuItem itemWithTitle:@"两步验证" iconName:@"pop_2FA" index:5],
                            ];
     if (!_myPopMenu) {
-        _myPopMenu = [[PopMenu alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height-64) items:menuItems];
+        _myPopMenu = [[PopMenu alloc] initWithFrame:CGRectMake(0, 44 + kSafeArea_Top, kScreen_Width, kScreen_Height-(44 + kSafeArea_Top)) items:menuItems];
         _myPopMenu.perRowItemCount = 3;
         _myPopMenu.menuAnimationType = kPopMenuAnimationTypeSina;
     }
@@ -199,9 +199,9 @@
         [_titleBtn setTitleColor:kColorNavTitle forState:UIControlStateNormal];
         [_titleBtn.titleLabel setFont:[UIFont systemFontOfSize:kNavTitleFontSize]];
         [_titleBtn addTarget:self action:@selector(fliterClicked:) forControlEvents:UIControlEventTouchUpInside];
-        self.navigationItem.titleView = _titleBtn;
         [self setTitleBtnStr:@"全部项目"];
     }
+    self.navigationItem.titleView = _titleBtn;
 }
 
 - (void)setTitleBtnStr:(NSString *)titleStr{
@@ -209,7 +209,7 @@
         CGFloat titleWidth = [titleStr getWidthWithFont:_titleBtn.titleLabel.font constrainedToSize:CGSizeMake(kScreen_Width, 30)];
         CGFloat imageWidth = 12;
         CGFloat btnWidth = titleWidth +imageWidth;
-        _titleBtn.frame = CGRectMake((kScreen_Width-btnWidth)/2, (44-30)/2, btnWidth, 30);
+        _titleBtn.frame = CGRectMake(0, 0, btnWidth, 30);
         _titleBtn.titleEdgeInsets = UIEdgeInsetsMake(0, -imageWidth, 0, imageWidth);
         _titleBtn.imageEdgeInsets = UIEdgeInsetsMake(0, titleWidth, 0, -titleWidth);
         [_titleBtn setTitle:titleStr forState:UIControlStateNormal];

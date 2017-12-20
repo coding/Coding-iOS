@@ -36,7 +36,7 @@
             _gitButtons = [[NSMutableArray alloc] initWithCapacity:gitBtnNum];
             
             for (int i = 0; i < gitBtnNum; i++) {
-                EaseGitButton *gitBtn = [EaseGitButton gitButtonWithFrame:CGRectMake(kPaddingLeftWidth + i *(btnWidth +whiteSpace),(EaseGitButtonsView_Height - 36)/2, btnWidth, 36) type:i];
+                EaseGitButton *gitBtn = [EaseGitButton gitButtonWithFrame:CGRectMake(kPaddingLeftWidth + i *(btnWidth +whiteSpace),(EaseGitButtonsView_Height - kSafeArea_Bottom - 36)/2, btnWidth, 36) type:i];
                 __weak typeof(gitBtn) weakGitBtn = gitBtn;
                 gitBtn.buttonClickedBlock = ^(EaseGitButton *button, EaseGitButtonPosition position){
                     if (position == EaseGitButtonPositionLeft) {

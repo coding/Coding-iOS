@@ -112,15 +112,11 @@
                                                         [tabBarItemImages objectAtIndex:index]]];
         [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
         [item setTitle:[tabBarItemTitles objectAtIndex:index]];
-        if (kDevice_Is_iPhoneX) {
-            item.badgePositionAdjustment = UIOffsetMake(0, 18);
-        }
+        item.badgePositionAdjustment = UIOffsetMake(0, kSafeArea_Bottom / 2);
         index++;
     }
-    if (kDevice_Is_iPhoneX) {
-        [self.tabBar setHeight:83];
-        [self.tabBar setContentEdgeInsets:UIEdgeInsetsMake(18, 0, 0, 0)];
-    }
+    [self.tabBar setHeight:49 + kSafeArea_Bottom];
+    [self.tabBar setContentEdgeInsets:UIEdgeInsetsMake(kSafeArea_Bottom / 2, 0, 0, 0)];
     self.tabBar.backgroundView.backgroundColor = kColorNavBG;
     [self.tabBar addLineUp:YES andDown:NO andColor:kColorCCC];
 }

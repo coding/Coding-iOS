@@ -95,7 +95,7 @@
 - (UIButton *)buttonFor2FA{
     if (!_buttonFor2FA) {
         _buttonFor2FA = ({
-            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 100, 20, 90, 50)];
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 100, kSafeArea_Top, 90, 50)];
             [button.titleLabel setFont:[UIFont systemFontOfSize:13]];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateHighlighted];
@@ -352,7 +352,7 @@
 #pragma mark BottomView
 - (void)configBottomView{
     if (!_bottomView) {
-        _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height - 55, kScreen_Width, 55)];
+        _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height - 55 - kSafeArea_Bottom, kScreen_Width, 55)];
         _bottomView.backgroundColor = [UIColor clearColor];
         UIButton *registerBtn = ({
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];

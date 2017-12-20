@@ -59,18 +59,20 @@
     if(!_searchBar) {
         
         _searchBar = ({
-            
             UISearchBar *searchBar = [[UISearchBar alloc] init];
             searchBar.delegate = self;
             [searchBar sizeToFit];
             [searchBar setPlaceholder:@"搜索冒泡、用户名、话题"];
-            [searchBar setTintColor:[UIColor whiteColor]];
+            [searchBar setTintColor:kColorBrandGreen];
             [searchBar setTranslucent:NO];
             [searchBar insertBGColor:kColorNavBG];
+            UIView *bgV = [[UIView alloc] initWithFrame:CGRectMake(0, -kSafeArea_Top, kScreen_Width, kSafeArea_Top)];
+            bgV.backgroundColor = kColorNavBG;
+            [searchBar addSubview:bgV];
             searchBar;
         });
         [self.navigationController.view addSubview:_searchBar];
-        [_searchBar setY:20];
+        [_searchBar setY:kSafeArea_Top];
     }
     
     if (!_searchDisplayVC) {

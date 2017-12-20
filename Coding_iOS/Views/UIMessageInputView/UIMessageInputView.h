@@ -43,6 +43,7 @@ typedef NS_ENUM(NSInteger, UIMessageInputViewState) {
 - (BOOL)notAndBecomeFirstResponder;
 - (BOOL)isAndResignFirstResponder;
 - (BOOL)isCustomFirstResponder;
+- (CGFloat)heightWithSafeArea;
 @end
 
 @protocol UIMessageInputViewDelegate <NSObject>

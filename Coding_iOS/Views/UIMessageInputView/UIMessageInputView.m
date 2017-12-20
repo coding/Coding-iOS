@@ -67,9 +67,8 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 
 
 - (void)setFrame:(CGRect)frame{
-    CGFloat diffOffsetY = kDevice_Is_iPhoneX? 18: 0;
-    CGFloat oldheightToBottom = kScreen_Height - CGRectGetMinY(self.frame) + diffOffsetY;
-    CGFloat newheightToBottom = kScreen_Height - CGRectGetMinY(frame) + diffOffsetY;
+    CGFloat oldheightToBottom = kScreen_Height - CGRectGetMinY(self.frame);
+    CGFloat newheightToBottom = kScreen_Height - CGRectGetMinY(frame);
     [super setFrame:frame];
     if (fabs(oldheightToBottom - newheightToBottom) > 1.0) {
         DebugLog(@"heightToBottom-----:%.2f", newheightToBottom);
@@ -84,8 +83,8 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 }
 
 - (void)p_setY:(CGFloat)y{
-    if (kDevice_Is_iPhoneX && ABS(kScreen_Height - CGRectGetHeight(self.frame) - y) < 1.0) {
-        y -= 18;
+    if (ABS(kScreen_Height - CGRectGetHeight(self.frame) - y) < 1.0) {
+        y -= kSafeArea_Bottom;
     }
     [self setY:y];
 }
@@ -167,16 +166,15 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
         _curProject = nil;
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];
         [self addGestureRecognizer:panGesture];
-        if (kDevice_Is_iPhoneX) {
-            UIView *bottomV = [UIView new];
-            bottomV.backgroundColor = self.backgroundColor;
-            [self addSubview:bottomV];
-            [bottomV mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo(18 + kKeyboardView_Height);//补个底色背景
-                make.top.equalTo(self.mas_bottom);
-                make.left.right.equalTo(self);
-            }];
-        }
+        //补个底色背景
+        UIView *bottomV = [UIView new];
+        bottomV.backgroundColor = self.backgroundColor;
+        [self addSubview:bottomV];
+        [bottomV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(kSafeArea_Bottom + kKeyboardView_Height);
+            make.top.equalTo(self.mas_bottom);
+            make.left.right.equalTo(self);
+        }];
     }
     return self;
 }
@@ -368,6 +366,10 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 
 - (BOOL)isCustomFirstResponder{
     return ([_inputTextView isFirstResponder] || self.inputState == UIMessageInputViewStateAdd || self.inputState == UIMessageInputViewStateEmotion || self.inputState == UIMessageInputViewStateVoice);
+}
+
+- (CGFloat)heightWithSafeArea{
+    return CGRectGetHeight(self.frame) + kSafeArea_Bottom;
 }
 
 + (instancetype)messageInputViewWithType:(UIMessageInputViewContentType)type{
@@ -706,7 +708,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }else{
         self.inputState = UIMessageInputViewStateAdd;
         [_inputTextView resignFirstResponder];
-        endY = kScreen_Height - kKeyboardView_Height - (kDevice_Is_iPhoneX? 18: 0);
+        endY = kScreen_Height - kKeyboardView_Height - kSafeArea_Bottom;
     }
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         [_addKeyboardView setY:endY];
@@ -726,7 +728,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }else{
         self.inputState = UIMessageInputViewStateEmotion;
         [_inputTextView resignFirstResponder];
-        endY = kScreen_Height - kKeyboardView_Height - (kDevice_Is_iPhoneX? 18: 0);
+        endY = kScreen_Height - kKeyboardView_Height - kSafeArea_Bottom;
     }
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         [_emojiKeyboardView setY:endY];
@@ -762,7 +764,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     } else {
         self.inputState = UIMessageInputViewStateVoice;
         [_inputTextView resignFirstResponder];
-        endY = kScreen_Height - kKeyboardView_Height - (kDevice_Is_iPhoneX? 18: 0);
+        endY = kScreen_Height - kKeyboardView_Height - kSafeArea_Bottom;
     }
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         [_voiceKeyboardView setY:endY];

@@ -129,7 +129,7 @@
         
         _role = TaskRoleTypeAll;
         //初始化过滤目录
-        _myFliterMenu = [[TaskSelectionView alloc] initWithFrame:CGRectMake(0, 64, kScreen_Width, kScreen_Height - 64) items:@[@"所有任务（0）", @"我关注的（0）", @"我创建的（0）"]];
+        _myFliterMenu = [[TaskSelectionView alloc] initWithFrame:CGRectMake(0, 44 + kSafeArea_Top, kScreen_Width, kScreen_Height - (44 + kSafeArea_Top)) items:@[@"所有任务（0）", @"我关注的（0）", @"我创建的（0）"]];
         __weak typeof(self) weakSelf = self;
         _myFliterMenu.clickBlock = ^(NSInteger pageIndex){
             _role = pageIndex;

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#define EaseGitButtonsView_Height 56.0
+#define EaseGitButtonsView_Height (56.0 + kSafeArea_Bottom)
 #import "EaseGitButton.h"
 
 #import <UIKit/UIKit.h>

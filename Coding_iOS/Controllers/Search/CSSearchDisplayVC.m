@@ -99,8 +99,8 @@
             _contentView = ({
             
                 UIView *view = [[UIView alloc] init];
-                view.frame = CGRectMake(0.0f, 60.0f, kScreen_Width, kScreen_Height - 60.0f);
-                view.backgroundColor = [UIColor clearColor];
+                view.frame = CGRectMake(0.0f, 44 + kSafeArea_Top, kScreen_Width, kScreen_Height - (44 + kSafeArea_Top));
+                view.backgroundColor = kColorNavBG;
                 view.userInteractionEnabled = YES;
                 
                 UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didClickedContentView:)];

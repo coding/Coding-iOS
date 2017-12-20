@@ -160,7 +160,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
             [_beginButton mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(kScreen_Width-kPaddingLeftWidth*2, 45));
                 make.centerX.equalTo(self.view);
-                make.bottom.equalTo(self.view).offset(-20);
+                make.bottom.equalTo(self.view).offset(-20- kSafeArea_Bottom);
             }];
         }
         CGSize tipImageSize = tipImage.size;

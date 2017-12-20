@@ -118,7 +118,7 @@
 
     CGFloat scaleFactor = 1.0;
     CGFloat desginHeight = 667.0;//iPhone6 的设计尺寸
-    if (!kDevice_Is_iPhone6 && !kDevice_Is_iPhone6Plus) {
+    if (!kDevice_Is_iPhone6 && !kDevice_Is_iPhone6Plus && !kDevice_Is_iPhoneX) {
         scaleFactor = kScreen_Height/desginHeight;
     }
 
@@ -156,7 +156,7 @@
     CGFloat buttonWidth = kScreen_Width * 0.4;
     CGFloat buttonHeight = kScaleFrom_iPhone5_Desgin(38);
     CGFloat paddingToCenter = kScaleFrom_iPhone5_Desgin(10);
-    CGFloat paddingToBottom = kScaleFrom_iPhone5_Desgin(20);
+    CGFloat paddingToBottom = kScaleFrom_iPhone5_Desgin(20) + kSafeArea_Bottom;
     
     self.registerBtn = ({
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];

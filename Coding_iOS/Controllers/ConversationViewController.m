@@ -158,7 +158,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
     static BOOL keyboard_is_down = YES;
     static CGPoint keyboard_down_ContentOffset;
     static CGFloat keyboard_down_InputViewHeight;
-    if (heightToBottom > CGRectGetHeight(inputView.frame)) {
+    if (heightToBottom > [inputView heightWithSafeArea]) {
         if (keyboard_is_down) {
             keyboard_down_ContentOffset = self.myTableView.contentOffset;
             keyboard_down_InputViewHeight = CGRectGetHeight(inputView.frame);
