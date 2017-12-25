@@ -100,7 +100,11 @@
         [selectedObject addObject:(curData)[curSelectedIndex.integerValue]];
         
         if (self.selectedIndex.count > 1) {
-            curData = [self.data.lastObject objectForKey:(curData)[curSelectedIndex.integerValue]];
+            if ([self.data.lastObject isKindOfClass:[NSDictionary class]]) {
+                curData = [self.data.lastObject objectForKey:(curData)[curSelectedIndex.integerValue]];
+            }else{
+                curData = self.data.lastObject;
+            }
             curSelectedIndex = self.selectedIndex.lastObject;
             [selectedObject addObject:(curData)[curSelectedIndex.integerValue]];
         }
@@ -151,7 +155,11 @@
         curComponentData = (self.data)[(NSUInteger) component];
     }else{
         NSNumber *curSelectedIndex = self.selectedIndex.firstObject;
-        curComponentData = [self.data.lastObject objectForKey:[self.data.firstObject objectAtIndex:curSelectedIndex.intValue]];
+        if ([self.data.lastObject isKindOfClass:[NSDictionary class]]) {
+            curComponentData = [self.data.lastObject objectForKey:[self.data.firstObject objectAtIndex:curSelectedIndex.intValue]];
+        }else{
+            curComponentData = self.data.lastObject;
+        }
     }
     return curComponentData.count;
 }
@@ -162,7 +170,11 @@
         curComponentData = (self.data)[(NSUInteger) component];
     }else{
         NSNumber *curSelectedIndex = self.selectedIndex.firstObject;
-        curComponentData = [self.data.lastObject objectForKey:[self.data.firstObject objectAtIndex:curSelectedIndex.intValue]];
+        if ([self.data.lastObject isKindOfClass:[NSDictionary class]]) {
+            curComponentData = [self.data.lastObject objectForKey:[self.data.firstObject objectAtIndex:curSelectedIndex.intValue]];
+        }else{
+            curComponentData = self.data.lastObject;
+        }
     }
     id obj = (curComponentData)[(NSUInteger) row];
 

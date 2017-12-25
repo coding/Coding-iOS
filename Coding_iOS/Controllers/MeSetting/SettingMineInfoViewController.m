@@ -21,6 +21,7 @@
 #import "Helper.h"
 #import "UserInfoDetailTagCell.h"
 #import "JDStatusBarNotification.h"
+#import "SettingSkillsViewController.h"
 
 @interface SettingMineInfoViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
@@ -401,7 +402,22 @@
             }
         }
             break;
-        case 2://开发技能
+        case 2:{//开发技能
+            SettingSkillsViewController *vc = [SettingSkillsViewController settingSkillsVCWithDoneBlock:^(NSArray *selectedSkills) {
+                NSArray *preSkills = weakSelf.curUser.skills;
+                weakSelf.curUser.skills = selectedSkills;
+                [weakSelf.myTableView reloadData];
+                [[Coding_NetAPIManager sharedManager] request_UpdateUserInfo_WithObj:weakSelf.curUser andBlock:^(id data, NSError *error) {
+                    if (data) {
+                        weakSelf.curUser = data;
+                    }else{
+                        weakSelf.curUser.skills = preSkills;
+                    }
+                    [weakSelf.myTableView reloadData];
+                }];
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
             break;
         default:{//个性标签
             NSArray *selectedTags = nil;

@@ -23,6 +23,8 @@
 #import "Ease_2FA.h"
 #import "Login2FATipCell.h"
 
+#import <UMSocialCore/UMSocialCore.h>
+
 @interface LoginViewController ()
 @property (nonatomic, strong) Login *myLogin;
 
@@ -31,7 +33,7 @@
 
 
 @property (assign, nonatomic) BOOL captchaNeeded;
-@property (strong, nonatomic) UIButton *loginBtn, *buttonFor2FA, *cannotLoginBtn;
+@property (strong, nonatomic) UIButton *loginBtn, *buttonFor2FA, *underLoginBtn;
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) UIImageView *iconUserView, *bgBlurredView;
 @property (strong, nonatomic) EaseInputTipsView *inputTipsView;
@@ -191,7 +193,7 @@
 - (void)showdismissButton:(BOOL)willShow{
     self.dismissButton.hidden = !willShow;
     if (!self.dismissButton && willShow) {
-        self.dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 50, 50)];
+        self.dismissButton = [[UIButton alloc] initWithFrame:CGRectMake(0, kSafeArea_Top, 50, 50)];
         [self.dismissButton setImage:[UIImage imageNamed:@"dismissBtn_Nav"] forState:UIControlStateNormal];
         [self.dismissButton addTarget:self action:@selector(dismissButtonClicked) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.dismissButton];
@@ -329,22 +331,24 @@
                                                             }
                                                         }
                                                     }];
-    _cannotLoginBtn = ({
+    _underLoginBtn = ({
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
         [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
         [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor colorWithWhite:0.5 alpha:0.5] forState:UIControlStateHighlighted];
         
-        [button setTitle:@"找回密码" forState:UIControlStateNormal];
+        [button setTitle:@"  使用微信登录" forState:UIControlStateNormal];
+        [button setImage:[UIImage imageNamed:@"login_wechat"] forState:UIControlStateNormal];
+
         [footerV addSubview:button];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(100, 30));
+            make.size.mas_equalTo(CGSizeMake(120, 30));
             make.centerX.equalTo(footerV);
             make.top.equalTo(_loginBtn.mas_bottom).offset(20);
         }];
         button;
     });
-    [_cannotLoginBtn addTarget:self action:@selector(cannotLoginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [_underLoginBtn addTarget:self action:@selector(underLoginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     
     return footerV;
 }
@@ -354,22 +358,50 @@
     if (!_bottomView) {
         _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, kScreen_Height - 55 - kSafeArea_Bottom, kScreen_Width, 55)];
         _bottomView.backgroundColor = [UIColor clearColor];
+        
+        UIButton *cannotLoginBtn = ({
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+            [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
+            [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
+            [button setTitleColor:[UIColor colorWithWhite:0.5 alpha:0.5] forState:UIControlStateHighlighted];
+            
+            [button setTitle:@"找回密码" forState:UIControlStateNormal];
+            [_bottomView addSubview:button];
+            [button mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(90, 30));
+                make.top.equalTo(_bottomView);
+                make.right.equalTo(_bottomView.mas_centerX);
+            }];
+            button;
+        });
+        [cannotLoginBtn addTarget:self action:@selector(cannotLoginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+
         UIButton *registerBtn = ({
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
             [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
             [button setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateNormal];
             [button setTitleColor:[UIColor colorWithWhite:0.5 alpha:0.5] forState:UIControlStateHighlighted];
             
-            [button setTitle:@"去注册" forState:UIControlStateNormal];
+            [button setTitle:@"注册账号" forState:UIControlStateNormal];
             [_bottomView addSubview:button];
             [button mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake(100, 30));
-                make.centerX.equalTo(_bottomView);
+                make.size.mas_equalTo(CGSizeMake(90, 30));
                 make.top.equalTo(_bottomView);
+                make.left.equalTo(_bottomView.mas_centerX);
             }];
             button;
         });
         [registerBtn addTarget:self action:@selector(goRegisterVC:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIView *lineV = [UIView new];
+        lineV.backgroundColor = [UIColor whiteColor];
+        [_bottomView addSubview:lineV];
+        [lineV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(_bottomView);
+            make.centerY.equalTo(cannotLoginBtn);
+            make.size.mas_equalTo(CGSizeMake(1.0, 15));
+        }];
+        
         [self.view addSubview:_bottomView];
     }
 }
@@ -460,15 +492,7 @@
 }
 
 - (IBAction)cannotLoginBtnClicked:(id)sender {
-    UIViewController *vc;
-    if (_is2FAUI) {
-        vc = [Close2FAViewController vcWithPhone:self.myLogin.email sucessBlock:^(UIViewController *vc) {
-            self.is2FAUI = NO;
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        }];
-    }else{
-        vc = [CannotLoginViewController vcWithMethodType:0 stepIndex:0 userStr:(([self.myLogin.email isPhoneNo] || [self.myLogin.email isEmail])? self.myLogin.email: nil)];
-    }
+    UIViewController *vc = [CannotLoginViewController vcWithMethodType:0 stepIndex:0 userStr:(([self.myLogin.email isPhoneNo] || [self.myLogin.email isEmail])? self.myLogin.email: nil)];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -502,8 +526,13 @@
     }else{
         [self.dismissButton setImage:[UIImage imageNamed:@"backBtn_Nav"] forState:UIControlStateNormal];
     }
-    [_cannotLoginBtn setTitle:_is2FAUI? @"关闭两步验证": @"找回密码" forState:UIControlStateNormal];
-
+    if (_is2FAUI) {
+        [_underLoginBtn setTitle:@"关闭两步验证" forState:UIControlStateNormal];
+        [_underLoginBtn setImage:nil forState:UIControlStateNormal];
+    }else{
+        [_underLoginBtn setTitle:@"  使用微信登录" forState:UIControlStateNormal];
+        [_underLoginBtn setImage:[UIImage imageNamed:@"login_wechat"] forState:UIControlStateNormal];
+    }
     [self.myTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:_is2FAUI? UITableViewRowAnimationLeft: UITableViewRowAnimationRight];
 }
 
@@ -521,4 +550,50 @@
     OTPListViewController *vc = [OTPListViewController new];
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+#pragma mark thridPlatform
+- (void)underLoginBtnClicked:(UIButton *)sender {
+    if (_is2FAUI) {
+        Close2FAViewController *vc = [Close2FAViewController vcWithPhone:self.myLogin.email sucessBlock:^(UIViewController *vc) {
+            self.is2FAUI = NO;
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+//        NSInteger tag = sender.tag;
+//        UMSocialPlatformType platformType = (tag == 0? UMSocialPlatformType_Sina:
+//                                             tag == 1? UMSocialPlatformType_WechatSession:
+//                                             tag == 2? UMSocialPlatformType_QQ:
+//                                             UMSocialPlatformType_UnKnown);
+        UMSocialPlatformType platformType = UMSocialPlatformType_WechatSession;
+        if (platformType != UMSocialPlatformType_UnKnown) {
+            __weak typeof(self) weakSelf = self;
+            [[UMSocialManager defaultManager] getUserInfoWithPlatform:platformType currentViewController:self completion:^(id result, NSError *error) {
+                UMSocialUserInfoResponse *resp = result;
+                if (!error && resp.name) {
+                    [weakSelf p_thridPlatformLogin:resp];
+                }else if (error){
+                    [NSObject showHudTipStr:@"授权失败"];
+                    DebugLog(@"%@", error);
+                }
+            }];
+        }
+    }
+}
+
+- (void)p_thridPlatformLogin:(UMSocialUserInfoResponse *)socialUser{
+    DebugLog(@"%@", socialUser);
+//    __weak typeof(self) weakSelf = self;
+//    [EANetworkApi loginWithThridPlatformSocialUser:[self p_stringFromSocialUser:socialUser] comBlock:^(EAResponse *response, EAUserModel *responseM) {
+//        if (!response.isSucc) {
+//            if ([response.errorMsgDict.allKeys containsObject:@"social_user_not_binded"]) {//第三方账号未绑定，请注册绑定
+//                EARegisterViewController *vc = [EARegisterViewController ea_vcInStoryboardName:@"Login"];
+//                vc.socialUser = socialUser;
+//                [weakSelf.navigationController pushViewController:vc animated:YES];
+//            }
+//        }
+//    }].autoLoadingB(YES, @"正在登录...", nil).send();
+}
+
+
 @end
