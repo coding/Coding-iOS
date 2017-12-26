@@ -89,7 +89,7 @@
         tableView.separatorInset = UIEdgeInsetsMake(0, 12, 0, 12);
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, 49, 0));
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, 49 + kSafeArea_Bottom, 0));
         }];
         tableView.estimatedRowHeight = 0;
         tableView.estimatedSectionHeaderHeight = 0;
@@ -103,9 +103,8 @@
     [headView addSubview:goodInfoView];
     headView.backgroundColor = [UIColor whiteColor];
     _myTableView.tableHeaderView = headView;
-//    _myTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 0)];
-    
-    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 49)];
+
+    UIView *bottomView = [UIView new];
     bottomView.backgroundColor = [UIColor whiteColor];
     _shopOrderBtn = ({
         UIButton *orderBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -116,7 +115,8 @@
         orderBtn.titleLabel.font = [UIFont systemFontOfSize:17];
         [bottomView addSubview:orderBtn];
         [orderBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.right.bottom.equalTo(bottomView);
+            make.top.right.equalTo(bottomView);
+            make.bottom.equalTo(bottomView).offset(-kSafeArea_Bottom);
             make.width.mas_equalTo(120);
         }];
         orderBtn;
@@ -127,10 +127,10 @@
     [self.view addSubview:bottomView];
     [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.equalTo(self.view);
-        make.height.mas_equalTo(49);
+        make.height.mas_equalTo(49 + kSafeArea_Bottom);
     }];
     [_priceL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(bottomView);
+        make.centerY.equalTo(bottomView).offset(-kSafeArea_Bottom/ 2);;
         make.centerX.equalTo(bottomView).offset(-60);
     }];
     [self p_updatePriceUI];
