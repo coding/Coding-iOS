@@ -41,6 +41,8 @@
 #import "ProjectCount.h"
 #import "ActivenessModel.h"
 
+#import <UMSocialCore/UMSocialCore.h>
+
 @class CSTopic, Team;
 
 typedef NS_ENUM(NSUInteger, VerifyType){
@@ -66,6 +68,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 #pragma mark - Login
 - (void)request_Login_With2FA:(NSString *)otpCode andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Login_WithPath:(NSString *)path Params:(id)params andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_Login_With_UMSocialResponse:(UMSocialResponse *)resp andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Register_V2_WithParams:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_CaptchaNeededWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_SetPasswordToPath:(NSString *)path params:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block;

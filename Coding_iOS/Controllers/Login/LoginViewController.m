@@ -560,17 +560,12 @@
         }];
         [self.navigationController pushViewController:vc animated:YES];
     }else{
-//        NSInteger tag = sender.tag;
-//        UMSocialPlatformType platformType = (tag == 0? UMSocialPlatformType_Sina:
-//                                             tag == 1? UMSocialPlatformType_WechatSession:
-//                                             tag == 2? UMSocialPlatformType_QQ:
-//                                             UMSocialPlatformType_UnKnown);
         UMSocialPlatformType platformType = UMSocialPlatformType_WechatSession;
         if (platformType != UMSocialPlatformType_UnKnown) {
             __weak typeof(self) weakSelf = self;
             [[UMSocialManager defaultManager] getUserInfoWithPlatform:platformType currentViewController:self completion:^(id result, NSError *error) {
-                UMSocialUserInfoResponse *resp = result;
-                if (!error && resp.name) {
+                UMSocialResponse *resp = result;
+                if (!error) {
                     [weakSelf p_thridPlatformLogin:resp];
                 }else if (error){
                     [NSObject showHudTipStr:@"授权失败"];
@@ -581,19 +576,20 @@
     }
 }
 
-- (void)p_thridPlatformLogin:(UMSocialUserInfoResponse *)socialUser{
-    DebugLog(@"%@", socialUser);
-//    __weak typeof(self) weakSelf = self;
-//    [EANetworkApi loginWithThridPlatformSocialUser:[self p_stringFromSocialUser:socialUser] comBlock:^(EAResponse *response, EAUserModel *responseM) {
-//        if (!response.isSucc) {
-//            if ([response.errorMsgDict.allKeys containsObject:@"social_user_not_binded"]) {//第三方账号未绑定，请注册绑定
-//                EARegisterViewController *vc = [EARegisterViewController ea_vcInStoryboardName:@"Login"];
-//                vc.socialUser = socialUser;
-//                [weakSelf.navigationController pushViewController:vc animated:YES];
-//            }
-//        }
-//    }].autoLoadingB(YES, @"正在登录...", nil).send();
+- (void)p_thridPlatformLogin:(UMSocialResponse *)resp{
+    DebugLog(@"%@", resp.originalResponse);
+    
+    __weak typeof(self) weakSelf = self;
+    [NSObject showHUDQueryStr:@"正在登录..."];
+    [[Coding_NetAPIManager sharedManager] request_Login_With_UMSocialResponse:resp andBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+            [((AppDelegate *)[UIApplication sharedApplication].delegate) setupTabViewController];
+            [weakSelf doSomethingAfterLogin];
+        }else{
+            [NSObject showError:error];
+        }
+    }];
 }
-
 
 @end

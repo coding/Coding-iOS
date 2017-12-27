@@ -116,6 +116,27 @@
     }];
 }
 
+- (void)request_Login_With_UMSocialResponse:(UMSocialResponse *)resp andBlock:(void (^)(id data, NSError *error))block{
+    NSMutableDictionary *params = @{}.mutableCopy;
+    params[@"account"] = resp.unionId;
+    params[@"oauth_access_token"] = resp.accessToken;
+    params[@"response"] = [NSString stringWithFormat:@"{\"access_token\":\"%@\",\"openid\":\"%@\"}", resp.accessToken, resp.openid];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/oauth/wechat/mobile/login" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        id resultData = [data valueForKeyPath:@"data"];
+        if (resultData) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"登录_第三方登录"];
+            
+            User *curLoginUser = [NSObject objectOfClass:@"User" fromJSON:resultData];
+            if (curLoginUser) {
+                [Login doLogin:resultData];
+            }
+            block(curLoginUser, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_Register_V2_WithParams:(NSDictionary *)params andBlock:(void (^)(id data, NSError *error))block{
     NSString *path = @"api/v2/account/register";
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
