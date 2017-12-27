@@ -208,6 +208,13 @@
     return @"FriendsPath";
 }
 
+- (BOOL)isUserInfoCompleted{
+    if (!_sex || _birthday.length <= 0 || _location.length <= 0 || !_job || !_degree || _school.length <= 0 || !_is_phone_validated.boolValue || !_email_validation.boolValue || _skills.count <= 0) {
+        return NO;
+    }
+    return YES;
+}
+
 - (NSString *)changePasswordTips{
     NSString *tipStr = nil;
     if (!self.curPassword || self.curPassword.length <= 0){

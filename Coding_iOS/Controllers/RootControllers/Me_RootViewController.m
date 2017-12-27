@@ -40,16 +40,18 @@
 
 @property (strong, nonatomic) User *curUser;
 @property (strong, nonatomic) UserServiceInfo *curServiceInfo;
+
+@property (assign, nonatomic) BOOL isHeaderClosed;
 @end
 
 @implementation Me_RootViewController
 - (void)viewDidLoad{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-        self.title = @"我";
-        _curUser = [Login curLoginUser]? [Login curLoginUser]: [User userWithGlobalKey:@""];
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addUserBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(goToAddUser)] animated:NO];
-    
+    self.title = @"我";
+    _curUser = [Login curLoginUser]? [Login curLoginUser]: [User userWithGlobalKey:@""];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addUserBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(goToAddUser)] animated:NO];
+
     //    添加myTableView
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -75,6 +77,7 @@
     
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+    [self configHeader];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -91,6 +94,7 @@
                 if (dataS) {
                     weakSelf.curServiceInfo = dataS;
                 }
+                [weakSelf configHeader];
                 [weakSelf.myTableView reloadData];
                 [weakSelf.refreshControl endRefreshing];
             }];
@@ -98,6 +102,44 @@
             [weakSelf.refreshControl endRefreshing];
         }
     }];
+}
+
+- (void)configHeader{
+    BOOL isHeaderNeedToShow = !_isHeaderClosed && !_curUser.isUserInfoCompleted && _curUser.vip.integerValue < 2;
+    UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, !isHeaderNeedToShow? 1: 44)];
+    headerV.backgroundColor = !isHeaderNeedToShow? [UIColor clearColor]: [UIColor colorWithHexString:@"0xF7F4D6"];
+    if (isHeaderNeedToShow) {
+        __weak typeof(self) weakSelf = self;
+        UIButton *closeBtn = [UIButton new];
+        [closeBtn setImage:[UIImage imageNamed:@"button_tip_close"] forState:UIControlStateNormal];
+        [closeBtn bk_addEventHandler:^(id sender) {
+            weakSelf.isHeaderClosed = YES;
+            [weakSelf configHeader];
+        } forControlEvents:UIControlEventTouchUpInside];
+        [headerV addSubview:closeBtn];
+        [closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.right.equalTo(headerV);
+            make.width.equalTo(closeBtn.mas_height);
+        }];
+        UILabel *tipL = [UILabel labelWithFont:[UIFont systemFontOfSize:14] textColor:[UIColor colorWithHexString:@"0x836E33"]];
+        tipL.adjustsFontSizeToFitWidth = YES;
+        tipL.minimumScaleFactor = .5;
+        tipL.userInteractionEnabled = YES;
+        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"完善个人信息，即可升级成为银牌会员。去完善"];
+        [attrStr addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:[attrStr.string rangeOfString:@"去完善"]];
+        tipL.attributedText = attrStr;
+        [tipL bk_whenTapped:^{
+            SettingMineInfoViewController *vc = [SettingMineInfoViewController new];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }];
+        [headerV addSubview:tipL];
+        [tipL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(headerV);
+            make.left.equalTo(headerV).offset(15);
+            make.right.equalTo(closeBtn.mas_left);
+        }];
+    }
+    self.myTableView.tableHeaderView = headerV;
 }
 
 #pragma mark Table M

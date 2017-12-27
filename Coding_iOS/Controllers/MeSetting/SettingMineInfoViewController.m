@@ -22,12 +22,15 @@
 #import "UserInfoDetailTagCell.h"
 #import "JDStatusBarNotification.h"
 #import "SettingSkillsViewController.h"
+#import "SettingAccountViewController.h"
 
 @interface SettingMineInfoViewController ()
 @property (strong, nonatomic) UITableView *myTableView;
 @property (strong, nonatomic) User *curUser;
 @property (strong, nonatomic) JobManager *curJobManager;
 @property (strong, nonatomic) TagsManager *curTagsManager;
+
+@property (assign, nonatomic) BOOL isHeaderClosed;
 @end
 
 @implementation SettingMineInfoViewController
@@ -36,7 +39,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"个人信息";
-    self.curUser =[Login curLoginUser];
     
     //    添加myTableView
     _myTableView = ({
@@ -72,6 +74,17 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.curUser =[Login curLoginUser];
+}
+
+- (void)setCurUser:(User *)curUser{
+    _curUser = curUser;
+    
+    [self configHeader];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -80,6 +93,44 @@
     self.curJobManager = nil;
     self.curTagsManager = nil;
     self.view = nil;
+}
+
+- (void)configHeader{
+    BOOL isHeaderNeedToShow = !_isHeaderClosed && (!_curUser.is_phone_validated.boolValue || !_curUser.email_validation.boolValue) && _curUser.vip.integerValue < 2;
+    UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, !isHeaderNeedToShow? 1: 44)];
+    headerV.backgroundColor = !isHeaderNeedToShow? [UIColor clearColor]: [UIColor colorWithHexString:@"0xF2DADA"];
+    if (isHeaderNeedToShow) {
+        __weak typeof(self) weakSelf = self;
+        UIButton *closeBtn = [UIButton new];
+        [closeBtn setImage:[UIImage imageNamed:@"button_red_close"] forState:UIControlStateNormal];
+        [closeBtn bk_addEventHandler:^(id sender) {
+            weakSelf.isHeaderClosed = YES;
+            [weakSelf configHeader];
+        } forControlEvents:UIControlEventTouchUpInside];
+        [headerV addSubview:closeBtn];
+        [closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.right.equalTo(headerV);
+            make.width.equalTo(closeBtn.mas_height);
+        }];
+        UILabel *tipL = [UILabel labelWithFont:[UIFont systemFontOfSize:14] textColor:[UIColor colorWithHexString:@"0xA64C4B"]];
+        tipL.adjustsFontSizeToFitWidth = YES;
+        tipL.minimumScaleFactor = .5;
+        tipL.userInteractionEnabled = YES;
+        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"验证手机或邮箱后完善资料才能升级，去验证"];
+        [attrStr addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:[attrStr.string rangeOfString:@"去验证"]];
+        tipL.attributedText = attrStr;
+        [tipL bk_whenTapped:^{
+            SettingAccountViewController *vc = [SettingAccountViewController new];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }];
+        [headerV addSubview:tipL];
+        [tipL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(headerV);
+            make.left.equalTo(headerV).offset(15);
+            make.right.equalTo(closeBtn.mas_left);
+        }];
+    }
+    self.myTableView.tableHeaderView = headerV;
 }
 
 #pragma mark TableM
@@ -379,10 +430,10 @@
                     NSNumber *index = [_curJobManager indexOfJobName:_curUser.job_str];
                     [ActionSheetStringPicker showPickerWithTitle:nil rows:@[jobNameArray] initialSelection:@[index] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
                         NSString *preValue = weakSelf.curUser.job_str;
-                        NSString *preValueKey = weakSelf.curUser.job;
+                        NSNumber *preValueKey = weakSelf.curUser.job;
 
                         NSNumber *jobIndex = selectedIndex.firstObject;
-                        NSString *job = [NSString stringWithFormat:@"%d", jobIndex.intValue +1];
+                        NSNumber *job = @(jobIndex.intValue +1);
                         NSString *job_str = selectedValue.firstObject;
                         _curUser.job = job;
                         _curUser.job_str = job_str;
