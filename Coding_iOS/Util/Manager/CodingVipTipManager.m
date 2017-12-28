@@ -108,7 +108,7 @@
     //初始状态
     _bgView.backgroundColor = [UIColor clearColor];
     _contentView.alpha = 0;
-    UIView *spV = [BaseViewController presentingVC].view;
+    UIView *spV = [BaseViewController presentingVC].navigationController.view;
     _bgView.frame = spV.bounds;
     [spV addSubview:_bgView];
     [UIView animateWithDuration:0.3 animations:^{

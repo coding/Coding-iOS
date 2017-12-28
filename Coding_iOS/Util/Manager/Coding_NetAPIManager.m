@@ -2308,9 +2308,9 @@
             id resultData = [data valueForKeyPath:@"data"];
             User *user = [NSObject objectOfClass:@"User" fromJSON:resultData];
             if (user.id.intValue == [Login curLoginUser].id.intValue) {
-                if (user.vip.integerValue == 2 && user.isUserInfoCompleted) {
+                if (user.vip.integerValue == 2) {
                     User *loginU = [Login curLoginUser];
-                    if (loginU.vip.integerValue < 2 && !loginU.isUserInfoCompleted) {
+                    if (loginU.vip.integerValue < 2) {
                         [CodingVipTipManager showTip];
                     }
                 }
@@ -2411,9 +2411,9 @@
             id resultData = [data valueForKeyPath:@"data"];
             User *user = [NSObject objectOfClass:@"User" fromJSON:resultData];
             if (user) {
-                if (user.vip.integerValue == 2 && user.isUserInfoCompleted) {
+                if (user.vip.integerValue == 2) {
                     User *loginU = [Login curLoginUser];
-                    if (loginU.vip.integerValue < 2 && !loginU.isUserInfoCompleted) {
+                    if (loginU.vip.integerValue < 2) {
                         [CodingVipTipManager showTip];
                     }
                 }
