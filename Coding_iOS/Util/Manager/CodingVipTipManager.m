@@ -44,6 +44,7 @@
         
         _logoImgV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:_imageName]];
         _titleL = [UILabel labelWithFont:[UIFont systemFontOfSize:17] textColor:[UIColor colorWithHexString:@"0x222222"]];
+        _titleL.textAlignment = NSTextAlignmentCenter;
         _closeBtn = ({
             UIButton *button = [UIButton new];
             button.backgroundColor = kColorDark3;
