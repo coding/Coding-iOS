@@ -586,8 +586,12 @@
         if (data) {
             [((AppDelegate *)[UIApplication sharedApplication].delegate) setupTabViewController];
             [weakSelf doSomethingAfterLogin];
-        }else{
-            [NSObject showError:error];
+        }else if (error){
+            if (error.userInfo[@"msg"][@"oauth_account_not_bound"]) {
+                kTipAlert(@"抱歉，你还未绑定微信，请前往 Coding 主站完成微信绑定操作");
+            }else{
+                [NSObject showError:error];
+            }
         }
     }];
 }

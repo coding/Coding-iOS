@@ -53,7 +53,7 @@
 
 - (void)setupContent{
     User *curUser = [Login curLoginUser];
-    self.skills = curUser.skills.mutableCopy;
+    self.skills = curUser.skills.mutableCopy ?: @[].mutableCopy;
     [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(doneBtnClicked:)] animated:YES];
     
     __weak typeof(self) weakSelf = self;

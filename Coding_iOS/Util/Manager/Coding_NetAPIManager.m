@@ -121,7 +121,7 @@
     params[@"account"] = resp.unionId;
     params[@"oauth_access_token"] = resp.accessToken;
     params[@"response"] = [NSString stringWithFormat:@"{\"access_token\":\"%@\",\"openid\":\"%@\"}", resp.accessToken, resp.openid];
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/oauth/wechat/mobile/login" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/oauth/wechat/mobile/login" withParams:params withMethodType:Post autoShowError:NO andBlock:^(id data, NSError *error) {
         id resultData = [data valueForKeyPath:@"data"];
         if (resultData) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"登录_第三方登录"];
