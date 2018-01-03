@@ -438,12 +438,11 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
                 return;
             }
             QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
-            imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
+            imagePickerController.mediaType = QBImagePickerMediaTypeImage;
             imagePickerController.delegate = self;
             imagePickerController.allowsMultipleSelection = YES;
             imagePickerController.maximumNumberOfSelection = 6;
-            UINavigationController *navigationController = [[BaseNavigationController alloc] initWithRootViewController:imagePickerController];
-            [self presentViewController:navigationController animated:YES completion:NULL];
+            [self presentViewController:imagePickerController animated:YES completion:NULL];
         }
             break;
         case 1:
@@ -480,16 +479,9 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
 }
 
 #pragma mark QBImagePickerControllerDelegate
-- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didSelectAssets:(NSArray *)assets{
-    for (ALAsset *assetItem in assets) {
-        @weakify(self);
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            UIImage *highQualityImage = [UIImage fullScreenImageALAsset:assetItem];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                @strongify(self);
-                [self sendPrivateMessage:highQualityImage];
-            });
-        });
+- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets{
+    for (PHAsset *assetItem in assets) {
+        [self sendPrivateMessage:assetItem.loadImage];
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }

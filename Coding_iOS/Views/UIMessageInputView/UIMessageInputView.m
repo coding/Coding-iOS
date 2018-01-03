@@ -670,26 +670,17 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     //        显示大图
     int count = (int)_mediaList.count;
     NSMutableArray *photos = [NSMutableArray arrayWithCapacity:count];
-    
-    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
     for (int i = 0; i<count; i++) {
         UIMessageInputView_Media *mediaItem = [_mediaList objectAtIndex:i];
         MJPhoto *photo = [[MJPhoto alloc] init];
-        
-        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-        dispatch_queue_t queue = dispatch_queue_create("MJPhotoBrowserForAsset", DISPATCH_QUEUE_SERIAL);
-        dispatch_async(queue, ^{
-            [assetsLibrary assetForURL:mediaItem.assetURL resultBlock:^(ALAsset *asset) {
-                mediaItem.curAsset = asset;
-                photo.image = [UIImage imageWithCGImage:asset.defaultRepresentation.fullScreenImage];
-                dispatch_semaphore_signal(semaphore);
-            } failureBlock:^(NSError *error) {
-                mediaItem.curAsset = nil;
-                photo.url = [NSURL URLWithString:mediaItem.urlStr]; // 图片路径
-                dispatch_semaphore_signal(semaphore);
-            }];
-        });
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        PHAsset *asset = [PHAsset assetWithLocalIdentifier:mediaItem.assetID];
+        if (asset) {
+            mediaItem.curAsset = asset;
+            photo.image = asset.loadImage;
+        }else{
+            mediaItem.curAsset = nil;
+            photo.url = [NSURL URLWithString:mediaItem.urlStr]; // 图片路径
+        }
         [photos addObject:photo];
     }
     // 2.显示相册
@@ -747,12 +738,11 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
     }
     [self isAndResignFirstResponder];
     QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
-    imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
+    imagePickerController.mediaType = QBImagePickerMediaTypeImage;
     imagePickerController.delegate = self;
     imagePickerController.allowsMultipleSelection = YES;
     imagePickerController.maximumNumberOfSelection = 6;
-    UINavigationController *navigationController = [[BaseNavigationController alloc] initWithRootViewController:imagePickerController];
-    [[BaseViewController presentingVC] presentViewController:navigationController animated:YES completion:^{
+    [[BaseViewController presentingVC] presentViewController:imagePickerController animated:YES completion:^{
     }];
 }
 
@@ -782,10 +772,10 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 }
 
 #pragma mark QBImagePickerControllerDelegate
-- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didSelectAssets:(NSArray *)assets{
+- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets{
     
     _uploadMediaList = [[NSMutableArray alloc] initWithCapacity:assets.count];
-    for (ALAsset *asset in assets) {
+    for (PHAsset *asset in assets) {
         [_uploadMediaList addObject:[UIMessageInputView_Media mediaWithAsset:asset urlStr:nil]];
     }
     [self doUploadMediaList];
@@ -815,7 +805,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
 
 - (void)doUploadMedia:(UIMessageInputView_Media *)media withIndex:(NSInteger)index{
     //保存到app内
-    NSString* originalFileName = [[media.curAsset defaultRepresentation] filename];
+    NSString* originalFileName = media.curAsset.fileName;;
     NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@", self.curProject.id.stringValue, @"0", originalFileName];
     
     if ([Coding_FileManager writeUploadDataWithName:fileName andAsset:media.curAsset]) {

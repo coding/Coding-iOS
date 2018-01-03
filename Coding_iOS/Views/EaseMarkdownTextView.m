@@ -295,7 +295,7 @@
     }else{
         //保存到app内
         NSString *dateMarkStr = [[NSDate date] stringWithFormat:@"yyyyMMdd_HHmmss"];
-        NSString *originalFileName = [NSString stringWithFormat:@"%@.jpg", dateMarkStr];
+        NSString *originalFileName = [NSString stringWithFormat:@"%@.JPG", dateMarkStr];
         
         NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@", self.curProject.id.stringValue, @"0", originalFileName];
         if ([Coding_FileManager writeUploadDataWithName:fileName andImage:image]) {

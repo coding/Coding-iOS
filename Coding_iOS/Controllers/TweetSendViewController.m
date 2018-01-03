@@ -39,7 +39,7 @@
     curTweet.callback = callback;
     curTweet.tweetContent = content;
     if (image) {
-        curTweet.tweetImages = @[[TweetImage tweetImageWithAssetURL:nil andImage:image]].mutableCopy;
+        curTweet.tweetImages = @[[TweetImage tweetImageWithAssetLocalIdentifier:nil andImage:image]].mutableCopy;
     }
     TweetSendViewController *vc = [TweetSendViewController new];
     vc.curTweet = curTweet;
@@ -155,7 +155,7 @@
             [self showActionForPhoto];
         };
         cell.deleteTweetImageBlock = ^(TweetImage *toDelete){
-            [weakSelf.curTweet deleteATweetImage:toDelete];
+            [weakSelf.curTweet deleteTweetImage:toDelete];
             [weakSelf.myTableView reloadData];
         };
         return cell;
@@ -206,24 +206,33 @@
             return;
         }
         QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
-        [imagePickerController.selectedAssetURLs removeAllObjects];
-        [imagePickerController.selectedAssetURLs addObjectsFromArray:self.curTweet.selectedAssetURLs];
-        imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
+        [imagePickerController.selectedAssets removeAllObjects];
+        PHFetchResult *fetchResult = [PHAsset fetchAssetsWithLocalIdentifiers:self.curTweet.selectedAssetLocalIdentifiers options:nil];
+        [fetchResult enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [imagePickerController.selectedAssets addObject:obj];
+        }];
+        imagePickerController.mediaType = QBImagePickerMediaTypeImage;
         imagePickerController.delegate = self;
         imagePickerController.allowsMultipleSelection = YES;
         imagePickerController.maximumNumberOfSelection = 9;
-        UINavigationController *navigationController = [[BaseNavigationController alloc] initWithRootViewController:imagePickerController];
-        [self presentViewController:navigationController animated:YES completion:NULL];
+        [self presentViewController:imagePickerController animated:YES completion:NULL];
+
     }
 }
 
 #pragma mark UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
     UIImage *pickerImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
-    [assetsLibrary writeImageToSavedPhotosAlbum:[pickerImage CGImage] orientation:(ALAssetOrientation)pickerImage.imageOrientation completionBlock:^(NSURL *assetURL, NSError *error) {
-        [self.curTweet addASelectedAssetURL:assetURL];
-        [self.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+    PHPhotoLibrary *photoLibrary = [PHPhotoLibrary sharedPhotoLibrary];
+    __block NSString *localId;
+    [photoLibrary performChanges:^{
+        PHAssetChangeRequest *assetChangeRequest = [PHAssetChangeRequest creationRequestForAssetFromImage:pickerImage];
+        localId = assetChangeRequest.placeholderForCreatedAsset.localIdentifier;
+    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        if (success) {
+            [self.curTweet addSelectedAssetLocalIdentifier:localId];
+            [self.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+        }
     }];
     [picker dismissViewControllerAnimated:YES completion:^{}];
 }
@@ -233,14 +242,15 @@
 }
 
 #pragma mark QBImagePickerControllerDelegate
-- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didSelectAssets:(NSArray *)assets{
-    NSMutableArray *selectedAssetURLs = [NSMutableArray new];
-    [imagePickerController.selectedAssetURLs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [selectedAssetURLs addObject:obj];
+
+- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets{
+    NSMutableArray *selectedAssetLocalIdentifiers = [NSMutableArray new];
+    [imagePickerController.selectedAssets enumerateObjectsUsingBlock:^(PHAsset *obj, NSUInteger idx, BOOL *stop) {
+        [selectedAssetLocalIdentifiers addObject:obj.localIdentifier];
     }];
     @weakify(self);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        self.curTweet.selectedAssetURLs = selectedAssetURLs;
+        self.curTweet.selectedAssetLocalIdentifiers = selectedAssetLocalIdentifiers;
         dispatch_async(dispatch_get_main_queue(), ^{
             @strongify(self);
             [self.myTableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];

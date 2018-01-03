@@ -16,9 +16,9 @@ typedef NS_ENUM(NSInteger, UIMessageInputView_MediaState) {
 };
 
 @interface UIMessageInputView_Media : NSObject
-@property (strong, nonatomic) ALAsset *curAsset;
-@property (strong, nonatomic) NSURL *assetURL;
+@property (strong, nonatomic) PHAsset *curAsset;
+@property (strong, nonatomic) NSString *assetID;
 @property (strong, nonatomic) NSString *urlStr;
 @property (assign, nonatomic) UIMessageInputView_MediaState state;
-+ (id)mediaWithAsset:(ALAsset *)asset urlStr:(NSString *)urlStr;
++ (id)mediaWithAsset:(PHAsset *)asset urlStr:(NSString *)urlStr;
 @end

@@ -39,7 +39,7 @@
 
 
 //upload
-+ (BOOL)writeUploadDataWithName:(NSString *)fileName andAsset:(ALAsset *)asset;
++ (BOOL)writeUploadDataWithName:(NSString *)fileName andAsset:(PHAsset *)asset;
 + (BOOL)writeUploadDataWithName:(NSString *)fileName andImage:(UIImage *)image;
 + (BOOL)deleteUploadDataWithName:(NSString *)fileName;
 

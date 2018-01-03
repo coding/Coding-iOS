@@ -44,30 +44,11 @@
     
     if (_media != curMedia) {
         _media = curMedia;
-        
-        ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
-        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
-        dispatch_queue_t queue = dispatch_queue_create("UIMessageInputView_CCellForAsset", DISPATCH_QUEUE_SERIAL);
-        dispatch_async(queue, ^{
-            [assetsLibrary assetForURL:_media.assetURL resultBlock:^(ALAsset *asset) {
-                _media.curAsset = asset;
-                dispatch_semaphore_signal(semaphore);
-            } failureBlock:^(NSError *error) {
-                _media.curAsset = nil;
-                dispatch_semaphore_signal(semaphore);
-            }];
-        });
-        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
-        
-        CGImageRef imageRef = nil;
-        if (totalCount < 3) {
-            imageRef = _media.curAsset.defaultRepresentation.fullScreenImage;
+        PHAsset *asset = [PHAsset assetWithLocalIdentifier:_media.assetID];
+        if (asset) {
+            _media.curAsset = asset;
+            self.imgView.image = asset.loadImage;
         }else{
-            imageRef = _media.curAsset.thumbnail;
-        }
-        if (imageRef) {
-            self.imgView.image = [UIImage imageWithCGImage:imageRef];
-        } else {
             [self.imgView sd_setImageWithURL:[_media.urlStr urlImageWithCodePathResizeToView:self.contentView] placeholderImage:kPlaceholderCodingSquareWidth(55.0) options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies];
         }
     }

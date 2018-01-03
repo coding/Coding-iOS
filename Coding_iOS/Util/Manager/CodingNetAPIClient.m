@@ -280,10 +280,9 @@ static dispatch_once_t onceToken;
         failureBlock:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
        progerssBlock:(void (^)(CGFloat progressValue))progress{
     AFHTTPRequestOperation *operation = [self POST:path parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        for (ALAsset *asset in assets) {
-            NSString *fileName = asset.defaultRepresentation.url.queryParams[@"id"] ?: [[NSDate date] stringWithFormat:@"yyyyMMddHHmmss"];
-            fileName = [fileName stringByAppendingString:@".jpg"];
-            NSData *data = [[UIImage fullScreenImageALAsset:asset] dataForCodingUpload];
+        for (PHAsset *asset in assets) {
+            NSString *fileName = asset.fileName;;
+            NSData *data = [asset.loadImage dataForCodingUpload];
             [formData appendPartWithFileData:data name:name fileName:fileName mimeType:@"image/jpeg"];
         }
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {

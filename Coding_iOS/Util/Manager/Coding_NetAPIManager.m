@@ -2167,7 +2167,7 @@
                         whetherAllImagesUploadedAndSendTweetBlock();
                     }
                 } progerssBlock:^(CGFloat progressValue) {
-                    DebugLog(@"progressValue %@ : %.2f", imageItem.assetURL.query, progressValue);
+                    DebugLog(@"progressValue %@ : %.2f", imageItem.assetLocalIdentifier, progressValue);
                 }];
             }
         }

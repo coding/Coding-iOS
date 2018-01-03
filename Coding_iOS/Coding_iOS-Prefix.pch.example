@@ -40,6 +40,7 @@
 #import <Masonry/Masonry.h>
 #import "UIView+SDAutoLayout.h"
 #import "UITableView+SDAutoTableViewCellHeight.h"
+#import "PHAsset+Common.h"
 
 #import "BaseNavigationController.h"
 #import "BaseViewController.h"

@@ -198,8 +198,8 @@ static Tweet *_tweetForSend = nil;
         TweetImage *tImg = [self.tweetImages objectAtIndex:i];
         if (tImg.image) {
             NSString *imgNameStr = [NSString stringWithFormat:@"%@_%d.jpg", dataPath, i];
-            if (tImg.assetURL.absoluteString) {
-                [tweetImagesDict setObject:tImg.assetURL.absoluteString forKey:imgNameStr];
+            if (tImg.assetLocalIdentifier) {
+                [tweetImagesDict setObject:tImg.assetLocalIdentifier forKey:imgNameStr];
             }
             [NSObject saveImage:tImg.image imageName:imgNameStr inFolder:dataPath];
         }
@@ -221,14 +221,14 @@ static Tweet *_tweetForSend = nil;
         self.locationData = [NSObject objectOfClass:@"TweetSendLocationResponse" fromJSON:[contentDict objectForKey:@"locationData"]];
     }
     _tweetImages = [NSMutableArray new];
-    _selectedAssetURLs = [NSMutableArray new];
+    _selectedAssetLocalIdentifiers = [NSMutableArray new];
     [tweetImagesDict enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
         NSURL *assetURL = [NSURL URLWithString:obj];
         NSData *imageData = [NSObject loadImageDataWithName:key inFolder:dataPath];
         if (imageData) {
-            TweetImage *tImg = [TweetImage tweetImageWithAssetURL:assetURL andImage:[UIImage imageWithData:imageData]];
+            TweetImage *tImg = [TweetImage tweetImageWithAssetLocalIdentifier:obj andImage:[UIImage imageWithData:imageData]];
             [self.tweetImages addObject:tImg];
-            [self.selectedAssetURLs addObject:assetURL];
+            [self.selectedAssetLocalIdentifiers addObject:assetURL];
         }
     }];
 }
@@ -313,117 +313,93 @@ static Tweet *_tweetForSend = nil;
     return shareLinkStr;
 }
 
-#pragma mark ALAsset
-- (void)setSelectedAssetURLs:(NSMutableArray *)selectedAssetURLs{
+#pragma mark PHAsset
+- (void)setSelectedAssetLocalIdentifiers:(NSMutableArray *)selectedAssetLocalIdentifiers{
     NSMutableArray *needToAdd = [NSMutableArray new];
     NSMutableArray *needToDelete = [NSMutableArray new];
-    [self.selectedAssetURLs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if (![selectedAssetURLs containsObject:obj]) {
+    [self.selectedAssetLocalIdentifiers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if (![selectedAssetLocalIdentifiers containsObject:obj]) {
             [needToDelete addObject:obj];
         }
     }];
     [needToDelete enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [self deleteASelectedAssetURL:obj];
+        [self deleteSelectedAssetLocalIdentifier:obj];
     }];
-    [selectedAssetURLs enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if (![self.selectedAssetURLs containsObject:obj]) {
+    [selectedAssetLocalIdentifiers enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if (![self.selectedAssetLocalIdentifiers containsObject:obj]) {
             [needToAdd addObject:obj];
         }
     }];
     [needToAdd enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [self addASelectedAssetURL:obj];
+        [self addSelectedAssetLocalIdentifier:obj];
     }];
 }
 
 - (BOOL)isProjectTweet{
     return self.project_id != nil || _project != nil;
 }
-- (void)addASelectedAssetURL:(NSURL *)assetURL{
-    if (!_selectedAssetURLs) {
-        _selectedAssetURLs = [NSMutableArray new];
+
+- (void)addSelectedAssetLocalIdentifier:(NSString *)localIdentifier{
+    if (!_selectedAssetLocalIdentifiers) {
+        _selectedAssetLocalIdentifiers = [NSMutableArray new];
     }
     if (!_tweetImages) {
         _tweetImages = [NSMutableArray new];
     }
     
-    [_selectedAssetURLs addObject:assetURL];
-
+    [_selectedAssetLocalIdentifiers addObject:localIdentifier];
+    
     NSMutableArray *tweetImages = [self mutableArrayValueForKey:@"tweetImages"];//为了kvo
-    TweetImage *tweetImg = [TweetImage tweetImageWithAssetURL:assetURL];
+    TweetImage *tweetImg = [TweetImage tweetImageWithAssetLocalIdentifier:localIdentifier];
     [tweetImages addObject:tweetImg];
 }
 
-- (void)deleteASelectedAssetURL:(NSURL *)assetURL{
-    [self.selectedAssetURLs removeObject:assetURL];
+- (void)deleteSelectedAssetLocalIdentifier:(NSString *)localIdentifier{
+    [self.selectedAssetLocalIdentifiers removeObject:localIdentifier];
     NSMutableArray *tweetImages = [self mutableArrayValueForKey:@"tweetImages"];//为了kvo
     [tweetImages enumerateObjectsUsingBlock:^(TweetImage *obj, NSUInteger idx, BOOL *stop) {
-        if (obj.assetURL == assetURL) {
+        if (obj.assetLocalIdentifier == localIdentifier) {
             [tweetImages removeObject:obj];
             *stop = YES;
         }
     }];
 }
-
-- (void)deleteATweetImage:(TweetImage *)tweetImage{
+- (void)deleteTweetImage:(TweetImage *)tweetImage{
     NSMutableArray *tweetImages = [self mutableArrayValueForKey:@"tweetImages"];//为了kvo
     [tweetImages removeObject:tweetImage];
-    if (tweetImage.assetURL) {
-        [self.selectedAssetURLs removeObject:tweetImage.assetURL];
+    if (tweetImage.assetLocalIdentifier) {
+        [self.selectedAssetLocalIdentifiers removeObject:tweetImage.assetLocalIdentifier];
     }
 }
 
 @end
 
 @implementation TweetImage
-+ (instancetype)tweetImageWithAssetURL:(NSURL *)assetURL{
+
++ (instancetype)tweetImageWithAssetLocalIdentifier:(NSString *)localIdentifier{
+    if (!localIdentifier) {
+        return nil;
+    }
+    PHAsset *asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[localIdentifier] options:nil].firstObject;
+    if (!asset) {
+        return nil;
+    }
     TweetImage *tweetImg = [[TweetImage alloc] init];
     tweetImg.uploadState = TweetImageUploadStateInit;
-    tweetImg.assetURL = assetURL;
-    
-    void (^selectAsset)(ALAsset *) = ^(ALAsset *asset){
-        if (asset) {
-            UIImage *highQualityImage = [UIImage fullScreenImageALAsset:asset];
-            UIImage *thumbnailImage = [UIImage imageWithCGImage:[asset thumbnail]];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                tweetImg.image = highQualityImage;
-                tweetImg.thumbnailImage = thumbnailImage;
-            });
-        }
-    };
-    
-    ALAssetsLibrary *assetsLibrary = [[ALAssetsLibrary alloc] init];
-    @weakify(assetsLibrary);
-    [assetsLibrary assetForURL:assetURL resultBlock:^(ALAsset *asset) {
-        if (asset) {
-            selectAsset(asset);
-        }else{
-            @strongify(assetsLibrary);
-            [assetsLibrary enumerateGroupsWithTypes:ALAssetsGroupPhotoStream usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
-                [group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stopG) {
-                    if([result.defaultRepresentation.url isEqual:assetURL]) {
-                        selectAsset(result);
-                        *stop = YES;
-                        *stopG = YES;
-                    }
-                }];
-            } failureBlock:^(NSError *error) {
-                [NSObject showHudTipStr:@"读取图片失败"];
-            }];
-        }
-    }failureBlock:^(NSError *error) {
-        [NSObject showHudTipStr:@"读取图片失败"];
-    }];
+    tweetImg.assetLocalIdentifier = localIdentifier;
+    tweetImg.image = [PHAsset loadImageWithLocalIdentifier:localIdentifier];
+    tweetImg.thumbnailImage = [tweetImg.image scaledToSize:CGSizeMake(kScaleFrom_iPhone5_Desgin(70), kScaleFrom_iPhone5_Desgin(70)) highQuality:YES];
     return tweetImg;
-
 }
 
-+ (instancetype)tweetImageWithAssetURL:(NSURL *)assetURL andImage:(UIImage *)image{
++ (instancetype)tweetImageWithAssetLocalIdentifier:(NSString *)localIdentifier andImage:(UIImage *)image{
     TweetImage *tweetImg = [[TweetImage alloc] init];
     tweetImg.uploadState = TweetImageUploadStateInit;
-    tweetImg.assetURL = assetURL;
+    tweetImg.assetLocalIdentifier = localIdentifier;
     tweetImg.image = image;
     tweetImg.thumbnailImage = [image scaledToSize:CGSizeMake(kScaleFrom_iPhone5_Desgin(70), kScaleFrom_iPhone5_Desgin(70)) highQuality:YES];
     return tweetImg;
 }
+
 
 @end

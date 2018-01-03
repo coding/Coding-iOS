@@ -340,12 +340,11 @@
         return;
     }
     QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
-    imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
+    imagePickerController.mediaType = QBImagePickerMediaTypeImage;
     imagePickerController.delegate = self;
     imagePickerController.allowsMultipleSelection = YES;
     imagePickerController.maximumNumberOfSelection = 6;
-    UINavigationController *navigationController = [[BaseNavigationController alloc] initWithRootViewController:imagePickerController];
-    [self presentViewController:navigationController animated:YES completion:NULL];
+    [self presentViewController:imagePickerController animated:YES completion:NULL];
 }
 
 - (NSArray *)selectedFiles{
@@ -420,11 +419,12 @@
 }
 
 #pragma mark QBImagePickerControllerDelegate
-- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didSelectAssets:(NSArray *)assets{
+- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets{
     NSMutableArray *needToUploads = [NSMutableArray arrayWithCapacity:assets.count];
-    for (ALAsset *assetItem in assets) {
+    for (PHAsset *assetItem in assets) {
         //保存到app内
-        NSString* originalFileName = [[assetItem defaultRepresentation] filename];
+        NSString* originalFileName = assetItem.fileName;
+        
         NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@", self.curProject.id.stringValue, self.curFolder.file_id.stringValue, originalFileName];
         if ([Coding_FileManager writeUploadDataWithName:fileName andAsset:assetItem]) {
             [needToUploads addObject:fileName];

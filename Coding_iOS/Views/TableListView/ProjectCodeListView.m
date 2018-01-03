@@ -284,16 +284,15 @@
 
 - (void)uploadImageClicked{
     QBImagePickerController *imagePickerController = [[QBImagePickerController alloc] init];
-    imagePickerController.filterType = QBImagePickerControllerFilterTypePhotos;
+    imagePickerController.mediaType = QBImagePickerMediaTypeImage;
     imagePickerController.delegate = self;
     imagePickerController.allowsMultipleSelection = YES;
     imagePickerController.maximumNumberOfSelection = 6;
-    UINavigationController *navigationController = [[BaseNavigationController alloc] initWithRootViewController:imagePickerController];
-    [[BaseViewController presentingVC] presentViewController:navigationController animated:YES completion:NULL];
+    [[BaseViewController presentingVC] presentViewController:imagePickerController animated:YES completion:NULL];
 }
 
 #pragma mark QBImagePickerControllerDelegate
-- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didSelectAssets:(NSArray *)assets{
+- (void)qb_imagePickerController:(QBImagePickerController *)imagePickerController didFinishPickingAssets:(NSArray *)assets{
     __weak typeof(self) weakSelf = self;
     MBProgressHUD *hud = [NSObject showHUDQueryStr:@"正在上传..."];
     hud.mode = MBProgressHUDModeDeterminateHorizontalBar;
