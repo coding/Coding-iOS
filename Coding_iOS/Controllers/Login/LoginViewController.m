@@ -577,8 +577,8 @@
 }
 
 - (void)p_thridPlatformLogin:(UMSocialResponse *)resp{
-    DebugLog(@"%@", resp.originalResponse);
-    
+    [self.view endEditing:YES];
+
     __weak typeof(self) weakSelf = self;
     [NSObject showHUDQueryStr:@"正在登录..."];
     [[Coding_NetAPIManager sharedManager] request_Login_With_UMSocialResponse:resp andBlock:^(id data, NSError *error) {

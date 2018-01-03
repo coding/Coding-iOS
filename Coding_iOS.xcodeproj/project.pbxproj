@@ -6562,9 +6562,9 @@
 		B12B64561FFB61AD00ACFDCC /* QBImagePickerController */ = {
 			isa = PBXGroup;
 			children = (
+				B12B64591FFB61AD00ACFDCC /* QBImagePicker */,
 				B12B64571FFB61AD00ACFDCC /* LICENSE */,
 				B12B64581FFB61AD00ACFDCC /* README.md */,
-				B12B64591FFB61AD00ACFDCC /* QBImagePicker */,
 			);
 			path = QBImagePickerController;
 			sourceTree = "<group>";
