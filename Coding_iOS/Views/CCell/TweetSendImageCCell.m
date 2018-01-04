@@ -50,7 +50,23 @@
             [_deleteBtn addTarget:self action:@selector(deleteBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:_deleteBtn];
         }
+        if (!_activityIndicator) {
+            _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+            _activityIndicator.hidesWhenStopped = YES;
+            [self.contentView addSubview:_activityIndicator];
+            [_activityIndicator mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.center.equalTo(self.contentView);
+            }];
+        }
         RAC(self.imgView, image) = [RACObserve(self.curTweetImg, thumbnailImage) takeUntil:self.rac_prepareForReuseSignal];
+        __weak typeof(self) weakSelf = self;
+        [[RACObserve(self.curTweetImg, downloadState) takeUntil:self.rac_prepareForReuseSignal] subscribeNext:^(NSNumber *x) {
+            if (x.integerValue == TweetImageDownloadStateIng) {
+                [weakSelf.activityIndicator startAnimating];
+            }else{
+                [weakSelf.activityIndicator stopAnimating];
+            }
+        }];
         _deleteBtn.hidden = NO;
     }else{
         _imgView.image = [UIImage imageNamed:@"addPictureBgImage"];

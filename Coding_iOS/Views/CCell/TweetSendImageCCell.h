@@ -12,6 +12,7 @@
 #import "Tweets.h"
 
 @interface TweetSendImageCCell : UICollectionViewCell
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (strong, nonatomic) UIImageView *imgView;
 @property (strong, nonatomic) UIButton *deleteBtn;
 @property (strong, nonatomic) TweetImage *curTweetImg;

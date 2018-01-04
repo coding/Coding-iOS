@@ -196,11 +196,11 @@ static Tweet *_tweetForSend = nil;
     NSMutableDictionary *tweetImagesDict = [NSMutableDictionary new];
     for (int i = 0; i < [self.tweetImages count]; i++) {
         TweetImage *tImg = [self.tweetImages objectAtIndex:i];
-        if (tImg.image) {
-            NSString *imgNameStr = [NSString stringWithFormat:@"%@_%d.jpg", dataPath, i];
-            if (tImg.assetLocalIdentifier) {
-                [tweetImagesDict setObject:tImg.assetLocalIdentifier forKey:imgNameStr];
-            }
+        NSString *imgNameStr = [NSString stringWithFormat:@"%@_%d.jpg", dataPath, i];
+        if (tImg.assetLocalIdentifier) {
+            [tweetImagesDict setObject:tImg.assetLocalIdentifier forKey:imgNameStr];
+        }
+        if (tImg.downloadState == TweetImageDownloadStateSuccess) {
             [NSObject saveImage:tImg.image imageName:imgNameStr inFolder:dataPath];
         }
     }
@@ -223,13 +223,15 @@ static Tweet *_tweetForSend = nil;
     _tweetImages = [NSMutableArray new];
     _selectedAssetLocalIdentifiers = [NSMutableArray new];
     [tweetImagesDict enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *obj, BOOL *stop) {
-        NSURL *assetURL = [NSURL URLWithString:obj];
         NSData *imageData = [NSObject loadImageDataWithName:key inFolder:dataPath];
+        TweetImage *tImg;
         if (imageData) {
-            TweetImage *tImg = [TweetImage tweetImageWithAssetLocalIdentifier:obj andImage:[UIImage imageWithData:imageData]];
-            [self.tweetImages addObject:tImg];
-            [self.selectedAssetLocalIdentifiers addObject:assetURL];
+            tImg = [TweetImage tweetImageWithAssetLocalIdentifier:obj andImage:[UIImage imageWithData:imageData]];
+        }else{
+            tImg = [TweetImage tweetImageWithAssetLocalIdentifier:obj];
         }
+        [self.tweetImages addObject:tImg];
+        [self.selectedAssetLocalIdentifiers addObject:obj];
     }];
 }
 
@@ -380,26 +382,35 @@ static Tweet *_tweetForSend = nil;
     if (!localIdentifier) {
         return nil;
     }
-    PHAsset *asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[localIdentifier] options:nil].firstObject;
+    PHAsset *asset = [PHAsset assetWithLocalIdentifier:localIdentifier];
     if (!asset) {
         return nil;
     }
     TweetImage *tweetImg = [[TweetImage alloc] init];
     tweetImg.uploadState = TweetImageUploadStateInit;
     tweetImg.assetLocalIdentifier = localIdentifier;
-    tweetImg.image = [PHAsset loadImageWithLocalIdentifier:localIdentifier];
-    tweetImg.thumbnailImage = [tweetImg.image scaledToSize:CGSizeMake(kScaleFrom_iPhone5_Desgin(70), kScaleFrom_iPhone5_Desgin(70)) highQuality:YES];
+    tweetImg.thumbnailImage = asset.loadThumbnailImage;
+    tweetImg.downloadState = TweetImageDownloadStateIng;
+    [asset loadImageWithProgressHandler:nil resultHandler:^(UIImage *result, NSDictionary *info) {
+        DebugLog(@"\n----------\nresultHandler: %@", info);
+        tweetImg.image = result;
+        tweetImg.downloadState = result? TweetImageDownloadStateSuccess: TweetImageDownloadStateFail;
+    }];
     return tweetImg;
 }
 
 + (instancetype)tweetImageWithAssetLocalIdentifier:(NSString *)localIdentifier andImage:(UIImage *)image{
     TweetImage *tweetImg = [[TweetImage alloc] init];
     tweetImg.uploadState = TweetImageUploadStateInit;
+    tweetImg.downloadState = TweetImageUploadStateSuccess;
     tweetImg.assetLocalIdentifier = localIdentifier;
     tweetImg.image = image;
     tweetImg.thumbnailImage = [image scaledToSize:CGSizeMake(kScaleFrom_iPhone5_Desgin(70), kScaleFrom_iPhone5_Desgin(70)) highQuality:YES];
     return tweetImg;
 }
 
+- (UIImage *)image{
+    return _image ?: _thumbnailImage;
+}
 
 @end

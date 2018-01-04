@@ -95,10 +95,19 @@ typedef NS_ENUM(NSInteger, TweetImageUploadState)
     TweetImageUploadStateFail
 };
 
+typedef NS_ENUM(NSInteger, TweetImageDownloadState)
+{
+    TweetImageDownloadStateInit = 0,
+    TweetImageDownloadStateIng,
+    TweetImageDownloadStateSuccess,
+    TweetImageDownloadStateFail
+};
+
 @interface TweetImage : NSObject
 @property (readwrite, nonatomic, strong) UIImage *image, *thumbnailImage;
 @property (strong, nonatomic) NSString *assetLocalIdentifier;
 @property (assign, nonatomic) TweetImageUploadState uploadState;
+@property (assign, nonatomic) TweetImageDownloadState downloadState;
 @property (readwrite, nonatomic, strong) NSString *imageStr;
 + (instancetype)tweetImageWithAssetLocalIdentifier:(NSString *)localIdentifier;
 + (instancetype)tweetImageWithAssetLocalIdentifier:(NSString *)localIdentifier andImage:(UIImage *)image;

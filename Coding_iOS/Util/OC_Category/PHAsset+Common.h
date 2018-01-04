@@ -13,8 +13,10 @@
 + (PHAsset *)assetWithLocalIdentifier:(NSString *)localIdentifier;
 + (UIImage *)loadImageWithLocalIdentifier:(NSString *)localIdentifier;
 
+- (UIImage *)loadThumbnailImage;
 - (UIImage *)loadImage;
 - (NSData *)loadImageData;
 - (NSString *)fileName;
 
+- (void)loadImageWithProgressHandler:(PHAssetImageProgressHandler)progressHandler resultHandler:(void (^)(UIImage *result, NSDictionary *info))resultHandler;
 @end

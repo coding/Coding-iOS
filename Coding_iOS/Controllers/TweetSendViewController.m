@@ -322,6 +322,12 @@
 }
 
 - (void)sendTweet{
+    for (TweetImage *tImg in _curTweet.tweetImages) {
+        if (tImg.downloadState == TweetImageDownloadStateIng) {
+            [NSObject showHudTipStr:@"iCloud 图片尚未下载完毕"];
+            return;
+        }
+    }
     _curTweet.tweetContent = [_curTweet.tweetContent aliasedString];
     if (_sendNextTweet) {
         _sendNextTweet(_curTweet);
