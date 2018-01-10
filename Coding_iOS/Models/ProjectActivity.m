@@ -85,6 +85,14 @@
                 }
             }else if ([_action isEqualToString:@"update_description"]) {
                 [_actionStr appendFormat:@"更新了任务「%@」的描述", _task.title];
+            }else if ([_action isEqualToString:@"update_label"]) {
+                [_actionStr appendFormat:@"更新了任务「%@」的标签", _task.title];
+            }else if ([_action isEqualToString:@"add_watcher"]){
+                [_actionStr saveAppendString:_action_msg];
+                [self addActionUser:_watcher];
+            }else if ([_action isEqualToString:@"remove_watcher"]){
+                [_actionStr saveAppendString:_action_msg];
+                [self addActionUser:_watcher];
             }else{
                 [_actionStr saveAppendString:_action_msg];
                 if (_origin_task.owner) {
@@ -166,6 +174,12 @@
                 [_contentStr appendFormat:@"「%@」", [NSDate convertStr_yyyy_MM_ddToDisplay:_task.deadline]];
             }else if ([_action isEqualToString:@"update_description"]) {
                 [_contentStr saveAppendString:_task.description_mine];
+            }else if ([_action isEqualToString:@"update_label"]) {
+                if (_labels.count > 0) {
+                    [_contentStr appendFormat:@"%@", [[_labels valueForKey:@"name"] componentsJoinedByString:@","]];
+                }else{
+                    [_contentStr appendFormat:@"移除了任务的所有标签"];
+                }
             }else{
                 [_contentStr saveAppendString:_task.title];
             }
