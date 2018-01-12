@@ -15,7 +15,7 @@
 @property (strong, nonatomic) NSDate *created_at;
 @property (readwrite, nonatomic, strong) User *owner;
 
-@property (strong, nonatomic, readonly) NSString *diskFileName;
+@property (strong, nonatomic, readonly) NSString *diskFileName, *storage_key_for_disk;
 
 - (NSString *)downloadPath;
 

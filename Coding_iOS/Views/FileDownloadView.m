@@ -67,7 +67,7 @@
     return [self.curData valueForKey:@"fileType"];
 }
 - (NSString *)storage_key{
-    return [self.curData valueForKey:@"storage_key"];
+    return [self.curData valueForKey:@"storage_key_for_disk"];
 }
 - (NSString *)name{
     if (_version) {
