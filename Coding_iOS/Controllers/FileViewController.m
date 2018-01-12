@@ -101,7 +101,7 @@
     self.title = [self titleStr];
     [self setupNavigationItem];
 
-    NSURL *fileUrl = [self hasBeenDownload];
+    NSURL *fileUrl = [self diskFileUrl];
     if (!fileUrl) {
         [self showDownloadView];
     }else{
@@ -359,7 +359,7 @@
 
 - (void)deleteCurFile{
     UIActionSheet *actionSheet;
-    NSURL *fileUrl = [_curFile hasBeenDownload];
+    NSURL *fileUrl = [_curFile diskFileUrl];
     Coding_DownloadTask *cDownloadTask = [_curFile cDownloadTask];
 
     if (fileUrl) {
@@ -405,7 +405,7 @@
         [Coding_FileManager cancelCDownloadTaskForKey:file.storage_key];
     }
     //    删除本地文件
-    NSURL *fileUrl = [file hasBeenDownload];
+    NSURL *fileUrl = [file diskFileUrl];
     NSString *filePath = fileUrl.path;
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:filePath]) {
@@ -509,12 +509,12 @@
     }
 }
 #pragma mark Data Value
-- (NSURL *)hasBeenDownload{
+- (NSURL *)diskFileUrl{
     NSURL *fileUrl;
     if (self.curVersion) {
-        fileUrl = [self.curVersion hasBeenDownload];
+        fileUrl = [self.curVersion diskFileUrl];
     }else{
-        fileUrl = [self.curFile hasBeenDownload];
+        fileUrl = [self.curFile diskFileUrl];
     }
     return fileUrl;
 }

@@ -78,7 +78,7 @@
 
 - (DownloadState)downloadState{
     DownloadState state = DownloadStateDefault;
-    if ([self hasBeenDownload]) {
+    if ([self diskFileUrl]) {
         state = DownloadStateDownloaded;
     }else{
         Coding_DownloadTask *cDownloadTask = [self cDownloadTask];
@@ -121,8 +121,8 @@
 - (Coding_DownloadTask *)cDownloadTask{
     return [Coding_FileManager cDownloadTaskForKey:_storage_key];
 }
-- (NSURL *)hasBeenDownload{
-    return [Coding_FileManager diskDownloadUrlForKey:self.storage_key_for_disk];
+- (NSURL *)diskFileUrl{
+    return [Coding_FileManager diskDownloadUrlForKey:self.storage_key] ?: [Coding_FileManager diskDownloadUrlForKey:self.storage_key_for_disk];
 }
 
 - (NSString *)toDeletePath{

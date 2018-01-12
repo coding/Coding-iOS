@@ -25,5 +25,5 @@
 //download
 - (DownloadState)downloadState;
 - (Coding_DownloadTask *)cDownloadTask;
-- (NSURL *)hasBeenDownload;
+- (NSURL *)diskFileUrl;
 @end

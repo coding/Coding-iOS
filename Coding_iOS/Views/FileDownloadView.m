@@ -66,8 +66,8 @@
 - (NSString *)fileType{
     return [self.curData valueForKey:@"fileType"];
 }
-- (NSString *)storage_key{
-    return [self.curData valueForKey:@"storage_key_for_disk"];
+- (NSURL *)diskFileUrl{
+    return [self.curData valueForKey:@"diskFileUrl"];
 }
 - (NSString *)name{
     if (_version) {
@@ -281,7 +281,7 @@
 
 - (void)clickedByUser{
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
-    NSURL *fileUrl = [Coding_FileManager diskDownloadUrlForKey:self.storage_key];
+    NSURL *fileUrl = self.diskFileUrl;
     if (fileUrl) {//已经下载到本地了
         if (_otherMethodOpenBlock) {
             _otherMethodOpenBlock();

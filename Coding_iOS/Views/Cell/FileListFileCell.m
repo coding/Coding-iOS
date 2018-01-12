@@ -142,7 +142,7 @@
 
 - (void)clickedByUser{
     Coding_FileManager *manager = [Coding_FileManager sharedManager];
-    NSURL *fileUrl = [Coding_FileManager diskDownloadUrlForKey:_file.storage_key_for_disk];
+    NSURL *fileUrl = _file.diskFileUrl;
     if (fileUrl) {//已经下载到本地了
         if (_showDiskFileBlock) {
             _showDiskFileBlock(fileUrl, _file);

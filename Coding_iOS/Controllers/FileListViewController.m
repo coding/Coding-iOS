@@ -366,7 +366,7 @@
         
         Coding_FileManager *manager = [Coding_FileManager sharedManager];
         for (ProjectFile *file in selectedFiles) {
-            if ([file hasBeenDownload]) {//已下载
+            if ([file diskFileUrl]) {//已下载
                 downloadedCount++;
                 DebugLog(@"%@: 已在队列", file.name);
             }else if ([file cDownloadTask]) {//正在下载
@@ -693,7 +693,7 @@
     __weak typeof(self) weakSelf = self;
     __weak typeof(file) weakFile = file;
 
-    NSURL *fileUrl = [file hasBeenDownload];
+    NSURL *fileUrl = [file diskFileUrl];
     Coding_DownloadTask *cDownloadTask = [file cDownloadTask];
     UIActionSheet *actionSheet;
     
@@ -740,7 +740,7 @@
         [Coding_FileManager cancelCDownloadTaskForKey:file.storage_key];
     }
     //    删除本地文件
-    NSURL *fileUrl = [file hasBeenDownload];
+    NSURL *fileUrl = [file diskFileUrl];
     NSString *filePath = fileUrl.path;
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:filePath]) {

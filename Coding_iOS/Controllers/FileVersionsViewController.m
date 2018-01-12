@@ -187,7 +187,7 @@
 - (void)deleteFileVersion:(FileVersion *)curVersion{
     __weak typeof(self) weakSelf = self;
     
-    NSURL *fileUrl = [Coding_FileManager diskDownloadUrlForKey:curVersion.storage_key_for_disk];
+    NSURL *fileUrl = curVersion.diskFileUrl;
     Coding_DownloadTask *cDownloadTask = [Coding_FileManager cDownloadTaskForKey:curVersion.storage_key];
     UIActionSheet *actionSheet;
     
@@ -234,7 +234,7 @@
         [Coding_FileManager cancelCDownloadTaskForKey:curVersion.storage_key];
     }
     //    删除本地文件
-    NSURL *fileUrl = [Coding_FileManager diskDownloadUrlForKey:curVersion.storage_key_for_disk];
+    NSURL *fileUrl = curVersion.diskFileUrl;
     NSString *filePath = fileUrl.path;
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:filePath]) {
