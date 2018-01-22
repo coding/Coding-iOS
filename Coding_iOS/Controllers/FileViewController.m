@@ -343,7 +343,7 @@
 - (void)doCloseShareUrl{
     NSString *hashStr = [[_curFile.share.url componentsSeparatedByString:@"/"] lastObject];
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_CloseShareHash:hashStr andBlock:^(id data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_CloseFileShareHash:hashStr andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.curFile.share = nil;
             [NSObject showHudTipStr:@"共享链接已关闭"];

@@ -13,8 +13,8 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
 {
     ProjectViewTypeActivities = 0,
     ProjectViewTypeTasks,
-    ProjectViewTypeTopics,
     ProjectViewTypeFiles,
+    ProjectViewTypeTopics,
     ProjectViewTypeCodes,
     ProjectViewTypeMembers
 };

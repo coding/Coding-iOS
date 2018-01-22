@@ -147,6 +147,7 @@
 #define kColorBrandOrange [UIColor colorWithHexString:@"0xF68435"]
 
 #pragma mark New Color
+#define kColorDark2 [UIColor colorWithHexString:@"0x272C33"]
 #define kColorDark3 [UIColor colorWithHexString:@"0x323A45"]
 #define kColorDark4 [UIColor colorWithHexString:@"0x425063"]
 #define kColorDark7 [UIColor colorWithHexString:@"0x76808E"]

@@ -32,6 +32,13 @@
     }
 }
 
+- (void)setContent:(NSString *)content{
+    if (_content != content) {
+        _htmlMedia = [HtmlMedia htmlMediaWithString:content showType:MediaShowTypeNone];
+        _content = _htmlMedia.contentDisplay;
+    }
+}
+
 - (NSString *)ref_type{
     if ([_ref_type isEqualToString:@"tag"]) {
         return @"标签";
@@ -113,47 +120,60 @@
             [self addActionUser:_user];
             [_actionStr appendFormat:@"将项目「%@」%@", _project.full_name, _action_msg];
             [self addActionUser:_target_user];
+        }else if ([_target_type isEqualToString:@"Project"] && [_action isEqualToString:@"transferToTeam"]){
+            [self addActionUser:_user];
+            [_actionStr appendFormat:@"转让了项目"];
         }else{
             [self addActionUser:_user];
-            [_actionStr saveAppendString:_action_msg];
-            if ([_target_type isEqualToString:@"ProjectTopic"]){
-                [_actionStr appendString:@"讨论"];
-                if ([_action isEqualToString:@"comment"]) {
-                    [_actionStr appendFormat:@"「%@」", _project_topic.parent.title];
-                }
-            }else if ([_target_type isEqualToString:@"ProjectFile"]){
-                if ([_action isEqualToString:@"rename"]) {
-                    [_actionStr appendString:@"修改了文件名称"];
-                }else{
-                    [_actionStr appendString:[_type isEqualToString:@"dir"]? @"文件夹": @"文件"];
-                }
-            }else if ([_target_type isEqualToString:@"ProjectFileComment"]){
-                [_actionStr appendFormat:@"文件「%@」的评论", _projectFile.title];
-            }else if ([_target_type isEqualToString:@"Depot"]){
-                if ([_action isEqualToString:@"push"]) {
-                    [_actionStr appendFormat:@"项目 %@ 「%@」", self.ref_type, _ref];
-                }else if ([_action isEqualToString:@"fork"]){
-                    [_actionStr appendFormat:@"项目「%@」到 「%@」", _source_depot.name, _depot.name];
-                }
+            if ([_target_type isEqualToString:@"ProjectTweet"]){
+                NSString *action_msg = ([_action isEqualToString:@"create"]? @"发布了":
+                                        [_action isEqualToString:@"update"]? @"更新了":
+                                        [_action isEqualToString:@"delete"]? @"删除了":
+                                        _action);
+                [_actionStr appendFormat:@"%@项目公告", action_msg];
             }else{
-                [_actionStr appendString:@"项目"];
-                if ([_target_type isEqualToString:@"Project"]){
-                }else if ([_target_type isEqualToString:@"QcTask"]){
-                    [_actionStr appendFormat:@"「%@」的质量分析任务", _project.full_name];
-                }else if ([_target_type isEqualToString:@"ProjectStar"]){
-                    [_actionStr appendFormat:@"「%@」", _project.full_name];
-                }else if ([_target_type isEqualToString:@"ProjectWatcher"]){
-                    [_actionStr appendFormat:@"「%@」", _project.full_name];
-                }else if ([_target_type isEqualToString:@"PullRequestBean"]){
-                    [_actionStr appendFormat:@"「%@」中的 Pull Request", _depot.name];
-                }else if ([_target_type isEqualToString:@"PullRequestComment"]){
-                    [_actionStr appendFormat:@"「%@」中的 Pull Request 「%@」", _depot.name, _pull_request_title];
-                }else if ([_target_type isEqualToString:@"MergeRequestBean"]){
-                    [_actionStr appendFormat:@"「%@」中的 Merge Request", _depot.name];
-                }else if ([_target_type isEqualToString:@"MergeRequestComment"]){
-                    [_actionStr appendFormat:@"「%@」中的 Merge Request 「%@」", _depot.name, _merge_request_title];
-                }else if ([_target_type isEqualToString:@"CommitLineNote"]){
-                    [_actionStr appendFormat:@"「%@」的 %@「%@」", _project.full_name, _line_note.noteable_type, _line_note.noteable_title];
+                [_actionStr saveAppendString:_action_msg];
+                if ([_target_type isEqualToString:@"ProjectTopic"]){
+                    [_actionStr appendString:@"讨论"];
+                    if ([_action isEqualToString:@"comment"]) {
+                        [_actionStr appendFormat:@"「%@」", _project_topic.parent.title];
+                    }
+                }else if ([_target_type isEqualToString:@"ProjectFile"]){
+                    if ([_action isEqualToString:@"rename"]) {
+                        [_actionStr appendString:@"修改了文件名称"];
+                    }else{
+                        [_actionStr appendString:[_type isEqualToString:@"dir"]? @"文件夹": @"文件"];
+                    }
+                }else if ([_target_type isEqualToString:@"ProjectFileComment"]){
+                    [_actionStr appendFormat:@"文件「%@」的评论", _projectFile.title];
+                }else if ([_target_type isEqualToString:@"Depot"]){
+                    if ([_action isEqualToString:@"push"]) {
+                        [_actionStr appendFormat:@"项目 %@ 「%@」", self.ref_type, _ref];
+                    }else if ([_action isEqualToString:@"fork"]){
+                        [_actionStr appendFormat:@"项目「%@」到 「%@」", _source_depot.name, _depot.name];
+                    }
+                }else if ([_target_type isEqualToString:@"Wiki"]){
+                    [_actionStr appendString:@"wiki"];
+                }else{
+                    [_actionStr appendString:@"项目"];
+                    if ([_target_type isEqualToString:@"Project"]){
+                    }else if ([_target_type isEqualToString:@"QcTask"]){
+                        [_actionStr appendFormat:@"「%@」的质量分析任务", _project.full_name];
+                    }else if ([_target_type isEqualToString:@"ProjectStar"]){
+                        [_actionStr appendFormat:@"「%@」", _project.full_name];
+                    }else if ([_target_type isEqualToString:@"ProjectWatcher"]){
+                        [_actionStr appendFormat:@"「%@」", _project.full_name];
+                    }else if ([_target_type isEqualToString:@"PullRequestBean"]){
+                        [_actionStr appendFormat:@"「%@」中的 Pull Request", _depot.name];
+                    }else if ([_target_type isEqualToString:@"PullRequestComment"]){
+                        [_actionStr appendFormat:@"「%@」中的 Pull Request 「%@」", _depot.name, _pull_request_title];
+                    }else if ([_target_type isEqualToString:@"MergeRequestBean"]){
+                        [_actionStr appendFormat:@"「%@」中的 Merge Request", _depot.name];
+                    }else if ([_target_type isEqualToString:@"MergeRequestComment"]){
+                        [_actionStr appendFormat:@"「%@」中的 Merge Request 「%@」", _depot.name, _merge_request_title];
+                    }else if ([_target_type isEqualToString:@"CommitLineNote"]){
+                        [_actionStr appendFormat:@"「%@」的 %@「%@」", _project.full_name, _line_note.noteable_type, _line_note.noteable_title];
+                    }
                 }
             }
         }
@@ -235,6 +255,10 @@
                 [_contentStr saveAppendString:_comment_content];
             }else if ([_target_type isEqualToString:@"CommitLineNote"]){
                 [_contentStr appendFormat:@"%@", _line_note.content];
+            }else if ([_target_type isEqualToString:@"Wiki"]){
+                [_contentStr appendFormat:@"%@", _wiki_title];
+            }else if ([_target_type isEqualToString:@"ProjectTweet"]){
+                [_contentStr saveAppendString:_content];
             }else{
                 [_contentStr appendString:@"**未知**"];
             }

@@ -94,9 +94,11 @@
         self.myCodeFile = [CodeFile codeFileWithMDStr:data];
         [self refreshCodeViewData];
     }
-    [self.view configBlankPage:EaseBlankPageTypeView hasData:(data != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
+    BOOL hasError = (error != nil && error.code != 1204);//depot_has_no_commit
+    [self.view configBlankPage:EaseBlankPageTypeCode hasData:(data != nil) hasError:hasError reloadButtonBlock:^(id sender) {
         [self sendRequest];
     }];
+    self.webContentView.hidden = hasError;
     [self configRightNavBtn];
 }
 

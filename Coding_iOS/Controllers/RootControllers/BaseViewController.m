@@ -24,6 +24,7 @@
 #import "WebViewController.h"
 #import "RootTabViewController.h"
 #import "Message_RootViewController.h"
+#import "WikiViewController.h"
 
 #import "ProjectCommitsViewController.h"
 #import "PRDetailViewController.h"
@@ -174,6 +175,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *codeRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/git/blob/([^/]+)[/]?([^?]*)";//代码(含团队项目)
     NSString *twoFARegexStr = @"/app_intercept/show_2fa";//两步验证
     NSString *projectRegexStr = @"/[ut]/([^/]+)/p/([^/]+)";//项目(含团队项目)
+    NSString *wikiRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/wiki/(\\d+)";//Wiki
     NSArray *matchedCaptures = nil;
     if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:ppRegexStr]).count > 0){
         //冒泡
@@ -193,6 +195,15 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             vc.curTweet = [Tweet tweetWithGlobalKey:user_global_key andPPID:pp_id];
             analyseVC = vc;
         }
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:wikiRegexStr]).count > 0){
+        WikiViewController *vc = [WikiViewController new];
+        Project *curPro = [Project new];
+        curPro.owner_user_name = matchedCaptures[1];
+        curPro.name = matchedCaptures[2];
+        NSString *iid = matchedCaptures[3];
+        vc.myProject = curPro;
+        [vc setWikiIid:@(iid.integerValue) version:nil];
+        analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:pp_projectRegexStr]).count > 0){
         //项目内冒泡
         NSString *owner_user_global_key = matchedCaptures[1];

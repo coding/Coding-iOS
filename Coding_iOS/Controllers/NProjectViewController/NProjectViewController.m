@@ -31,6 +31,7 @@
 #import "UserOrProjectTweetsViewController.h"
 #import "FunctionTipsManager.h"
 #import "MRPRListViewController.h"
+#import "WikiViewController.h"
 
 @interface NProjectViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
@@ -199,14 +200,14 @@
                     if (_myProject.is_public.boolValue) {
                         [cell setImageStr:@"project_item_code" andTitle:@"代码"];
                     }else{
-                        [cell setImageStr:@"project_item_topic" andTitle:@"讨论"];
+                        [cell setImageStr:@"project_item_file" andTitle:@"文件"];
                     }
                     break;
                 case 3:
                     if (_myProject.is_public.boolValue) {
                         [cell setImageStr:@"project_item_member" andTitle:@"成员"];
                     }else{
-                        [cell setImageStr:@"project_item_file" andTitle:@"文件"];
+                        [cell setImageStr:@"project_item_wiki" andTitle:@"Wiki"];
                     }
                     break;
                 case 4:
@@ -299,10 +300,16 @@
             }
         }];
     }
-    ProjectViewController *vc = [[ProjectViewController alloc] init];
-    vc.myProject = self.myProject;
-    vc.curIndex = index;
-    [self.navigationController pushViewController:vc animated:YES];
+    if (index == 3 && _myProject.is_public && !_myProject.is_public.boolValue) {
+        WikiViewController *vc = [WikiViewController new];
+        vc.myProject = self.myProject;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        ProjectViewController *vc = [[ProjectViewController alloc] init];
+        vc.myProject = self.myProject;
+        vc.curIndex = index;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 - (void)gotoPro:(Project *)project{
     NProjectViewController *vc = [[NProjectViewController alloc] init];

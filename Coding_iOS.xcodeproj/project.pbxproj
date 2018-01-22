@@ -1236,6 +1236,25 @@
 		B14689C11EE100B200B01371 /* vip_4_45@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B11EE100B200B01371 /* vip_4_45@3x.png */; };
 		B14689C21EE100B200B01371 /* vip_4_75@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B21EE100B200B01371 /* vip_4_75@2x.png */; };
 		B14689C31EE100B200B01371 /* vip_4_75@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B31EE100B200B01371 /* vip_4_75@3x.png */; };
+		B1890C142015D71E00F52ABA /* wiki.html in Resources */ = {isa = PBXBuildFile; fileRef = B1890C132015D71E00F52ABA /* wiki.html */; };
+		B1890C292015D82600F52ABA /* wiki_menu_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1890C1E2015D82600F52ABA /* wiki_menu_0@2x.png */; };
+		B1890C2A2015D82600F52ABA /* wiki_menu_2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1890C1F2015D82600F52ABA /* wiki_menu_2@3x.png */; };
+		B1890C2B2015D82600F52ABA /* wiki_menu_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1890C202015D82600F52ABA /* wiki_menu_2@2x.png */; };
+		B1890C2C2015D82600F52ABA /* wiki_menu_0@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1890C212015D82600F52ABA /* wiki_menu_0@3x.png */; };
+		B1890C2D2015D82600F52ABA /* wiki_revert@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1890C222015D82600F52ABA /* wiki_revert@3x.png */; };
+		B1890C2E2015D82600F52ABA /* wiki_revert@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1890C232015D82600F52ABA /* wiki_revert@2x.png */; };
+		B1890C2F2015D82600F52ABA /* wiki_menu_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1890C242015D82600F52ABA /* wiki_menu_1@2x.png */; };
+		B1890C302015D82600F52ABA /* wiki_menu_1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1890C252015D82600F52ABA /* wiki_menu_1@3x.png */; };
+		B1890C312015D82600F52ABA /* wiki_menu_icon_share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1890C272015D82600F52ABA /* wiki_menu_icon_share@2x.png */; };
+		B1890C322015D82600F52ABA /* wiki_menu_icon_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1890C282015D82600F52ABA /* wiki_menu_icon_delete@2x.png */; };
+		B1890C352015D87900F52ABA /* EAWiki.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C342015D87800F52ABA /* EAWiki.m */; };
+		B1890C382015D89A00F52ABA /* WikiMenuListView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C362015D89A00F52ABA /* WikiMenuListView.m */; };
+		B1890C3D2015D8C900F52ABA /* WikiMenuListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C3A2015D8C800F52ABA /* WikiMenuListCell.m */; };
+		B1890C3E2015D8C900F52ABA /* WikiHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C3B2015D8C800F52ABA /* WikiHistoryCell.m */; };
+		B1890C412015D8F700F52ABA /* WikiHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C402015D8F700F52ABA /* WikiHeaderView.m */; };
+		B1890C482015D92600F52ABA /* WikiEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C432015D92500F52ABA /* WikiEditViewController.m */; };
+		B1890C492015D92600F52ABA /* WikiHistoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C442015D92500F52ABA /* WikiHistoryListViewController.m */; };
+		B1890C4A2015D92600F52ABA /* WikiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C472015D92600F52ABA /* WikiViewController.m */; };
 		B19D4EE11F690F5E00C598F3 /* file_activity_icon_rename@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19D4EDF1F690F5E00C598F3 /* file_activity_icon_rename@2x.png */; };
 		B19D4EE21F690F5E00C598F3 /* file_activity_icon_rename@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19D4EE01F690F5E00C598F3 /* file_activity_icon_rename@3x.png */; };
 		B19D4EEA1F6FAA6000C598F3 /* AboutPointViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B19D4EE81F6FAA6000C598F3 /* AboutPointViewController.m */; };
@@ -3262,6 +3281,33 @@
 		B14689B11EE100B200B01371 /* vip_4_45@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_4_45@3x.png"; sourceTree = "<group>"; };
 		B14689B21EE100B200B01371 /* vip_4_75@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_4_75@2x.png"; sourceTree = "<group>"; };
 		B14689B31EE100B200B01371 /* vip_4_75@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_4_75@3x.png"; sourceTree = "<group>"; };
+		B1890C132015D71E00F52ABA /* wiki.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = wiki.html; sourceTree = "<group>"; };
+		B1890C1E2015D82600F52ABA /* wiki_menu_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wiki_menu_0@2x.png"; sourceTree = "<group>"; };
+		B1890C1F2015D82600F52ABA /* wiki_menu_2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wiki_menu_2@3x.png"; sourceTree = "<group>"; };
+		B1890C202015D82600F52ABA /* wiki_menu_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wiki_menu_2@2x.png"; sourceTree = "<group>"; };
+		B1890C212015D82600F52ABA /* wiki_menu_0@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wiki_menu_0@3x.png"; sourceTree = "<group>"; };
+		B1890C222015D82600F52ABA /* wiki_revert@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wiki_revert@3x.png"; sourceTree = "<group>"; };
+		B1890C232015D82600F52ABA /* wiki_revert@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wiki_revert@2x.png"; sourceTree = "<group>"; };
+		B1890C242015D82600F52ABA /* wiki_menu_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wiki_menu_1@2x.png"; sourceTree = "<group>"; };
+		B1890C252015D82600F52ABA /* wiki_menu_1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wiki_menu_1@3x.png"; sourceTree = "<group>"; };
+		B1890C272015D82600F52ABA /* wiki_menu_icon_share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wiki_menu_icon_share@2x.png"; sourceTree = "<group>"; };
+		B1890C282015D82600F52ABA /* wiki_menu_icon_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wiki_menu_icon_delete@2x.png"; sourceTree = "<group>"; };
+		B1890C332015D87800F52ABA /* EAWiki.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAWiki.h; sourceTree = "<group>"; };
+		B1890C342015D87800F52ABA /* EAWiki.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAWiki.m; sourceTree = "<group>"; };
+		B1890C362015D89A00F52ABA /* WikiMenuListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiMenuListView.m; sourceTree = "<group>"; };
+		B1890C372015D89A00F52ABA /* WikiMenuListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiMenuListView.h; sourceTree = "<group>"; };
+		B1890C392015D8C800F52ABA /* WikiMenuListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiMenuListCell.h; sourceTree = "<group>"; };
+		B1890C3A2015D8C800F52ABA /* WikiMenuListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiMenuListCell.m; sourceTree = "<group>"; };
+		B1890C3B2015D8C800F52ABA /* WikiHistoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiHistoryCell.m; sourceTree = "<group>"; };
+		B1890C3C2015D8C800F52ABA /* WikiHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiHistoryCell.h; sourceTree = "<group>"; };
+		B1890C3F2015D8F700F52ABA /* WikiHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiHeaderView.h; sourceTree = "<group>"; };
+		B1890C402015D8F700F52ABA /* WikiHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiHeaderView.m; sourceTree = "<group>"; };
+		B1890C422015D92500F52ABA /* WikiHistoryListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiHistoryListViewController.h; sourceTree = "<group>"; };
+		B1890C432015D92500F52ABA /* WikiEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiEditViewController.m; sourceTree = "<group>"; };
+		B1890C442015D92500F52ABA /* WikiHistoryListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiHistoryListViewController.m; sourceTree = "<group>"; };
+		B1890C452015D92600F52ABA /* WikiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiViewController.h; sourceTree = "<group>"; };
+		B1890C462015D92600F52ABA /* WikiEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiEditViewController.h; sourceTree = "<group>"; };
+		B1890C472015D92600F52ABA /* WikiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiViewController.m; sourceTree = "<group>"; };
 		B19D4EDF1F690F5E00C598F3 /* file_activity_icon_rename@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_rename@2x.png"; sourceTree = "<group>"; };
 		B19D4EE01F690F5E00C598F3 /* file_activity_icon_rename@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_rename@3x.png"; sourceTree = "<group>"; };
 		B19D4EE71F6FAA6000C598F3 /* AboutPointViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutPointViewController.h; sourceTree = "<group>"; };
@@ -4894,6 +4940,7 @@
 		4EE083DD1ADB739300CA342E /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				B1890C132015D71E00F52ABA /* wiki.html */,
 				4E90F8971AF709C100B44F03 /* bubble.html */,
 				4E90F8981AF709C100B44F03 /* code.html */,
 				4E90F8991AF709C100B44F03 /* markdown.html */,
@@ -4929,6 +4976,8 @@
 				926C043D1C01A212004937D8 /* ShopOrderListView.m */,
 				4E80E93A1E02353900DE1BC6 /* CodingSearchDisplayView.h */,
 				4E80E93B1E02353900DE1BC6 /* CodingSearchDisplayView.m */,
+				B1890C372015D89A00F52ABA /* WikiMenuListView.h */,
+				B1890C362015D89A00F52ABA /* WikiMenuListView.m */,
 			);
 			path = TableListView;
 			sourceTree = "<group>";
@@ -5548,6 +5597,12 @@
 				B1BCB88C1FCE61D60098B87B /* EAPayViewController.h */,
 				B1BCB88D1FCE61D60098B87B /* EAPayViewController.m */,
 				B1BCB88E1FCE61D60098B87B /* EAPayViewController.xib */,
+				B1890C462015D92600F52ABA /* WikiEditViewController.h */,
+				B1890C432015D92500F52ABA /* WikiEditViewController.m */,
+				B1890C422015D92500F52ABA /* WikiHistoryListViewController.h */,
+				B1890C442015D92500F52ABA /* WikiHistoryListViewController.m */,
+				B1890C452015D92600F52ABA /* WikiViewController.h */,
+				B1890C472015D92600F52ABA /* WikiViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -5599,6 +5654,8 @@
 		8EA6CF5D19E240C40076D59C /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B1890C1D2015D82600F52ABA /* wiki */,
+				B1890C262015D82600F52ABA /* wiki_menu_icon */,
 				B1280CF2200EFEA400DEDF78 /* PR_Activity */,
 				B12B640B1FECB58F00ACFDCC /* login */,
 				B1BCB8941FCE93830098B87B /* pay */,
@@ -6023,6 +6080,8 @@
 				4ED4B4961D82939700EED8C6 /* Team.m */,
 				B19D4EEC1F6FCEAC00C598F3 /* CodingSkill.h */,
 				B19D4EED1F6FCEAC00C598F3 /* CodingSkill.m */,
+				B1890C332015D87800F52ABA /* EAWiki.h */,
+				B1890C342015D87800F52ABA /* EAWiki.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -6250,6 +6309,8 @@
 				B1BCB8911FCE662A0098B87B /* NSLayoutConstraintLine.m */,
 				B12B63F71FE8FF0300ACFDCC /* MartFunctionTipView.h */,
 				B12B63F81FE8FF0300ACFDCC /* MartFunctionTipView.m */,
+				B1890C3F2015D8F700F52ABA /* WikiHeaderView.h */,
+				B1890C402015D8F700F52ABA /* WikiHeaderView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -6526,6 +6587,10 @@
 				B19D4EEF1F710EF900C598F3 /* ShopSwitchCell.h */,
 				B19D4EF01F710EF900C598F3 /* ShopSwitchCell.m */,
 				B19D4EF11F710EF900C598F3 /* ShopSwitchCell.xib */,
+				B1890C3C2015D8C800F52ABA /* WikiHistoryCell.h */,
+				B1890C3B2015D8C800F52ABA /* WikiHistoryCell.m */,
+				B1890C392015D8C800F52ABA /* WikiMenuListCell.h */,
+				B1890C3A2015D8C800F52ABA /* WikiMenuListCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -6670,6 +6735,30 @@
 				B14689B31EE100B200B01371 /* vip_4_75@3x.png */,
 			);
 			path = vip;
+			sourceTree = "<group>";
+		};
+		B1890C1D2015D82600F52ABA /* wiki */ = {
+			isa = PBXGroup;
+			children = (
+				B1890C1E2015D82600F52ABA /* wiki_menu_0@2x.png */,
+				B1890C1F2015D82600F52ABA /* wiki_menu_2@3x.png */,
+				B1890C202015D82600F52ABA /* wiki_menu_2@2x.png */,
+				B1890C212015D82600F52ABA /* wiki_menu_0@3x.png */,
+				B1890C222015D82600F52ABA /* wiki_revert@3x.png */,
+				B1890C232015D82600F52ABA /* wiki_revert@2x.png */,
+				B1890C242015D82600F52ABA /* wiki_menu_1@2x.png */,
+				B1890C252015D82600F52ABA /* wiki_menu_1@3x.png */,
+			);
+			path = wiki;
+			sourceTree = "<group>";
+		};
+		B1890C262015D82600F52ABA /* wiki_menu_icon */ = {
+			isa = PBXGroup;
+			children = (
+				B1890C272015D82600F52ABA /* wiki_menu_icon_share@2x.png */,
+				B1890C282015D82600F52ABA /* wiki_menu_icon_delete@2x.png */,
+			);
+			path = wiki_menu_icon;
 			sourceTree = "<group>";
 		};
 		B19D4EF81F7247BA00C598F3 /* AlipaySDK */ = {
@@ -6825,6 +6914,7 @@
 				B1C871A01EB2D9E6003DACF0 /* task_activity_icon_add_watcher@3x.png in Resources */,
 				8EA6D19919E240C40076D59C /* tipIcon_ProjectTopic@2x.png in Resources */,
 				4ED673261A8E127100DF2D1A /* SVWebViewControllerActivityReport@2x.png in Resources */,
+				B1890C312015D82600F52ABA /* wiki_menu_icon_share@2x.png in Resources */,
 				4EB119FB1D953AE200A36341 /* intro_page2_ip6+@3x.png in Resources */,
 				8EA6D14A19E240C40076D59C /* InfoPlist.strings in Resources */,
 				4E6383C31B3265DC00D98648 /* mrpr_icon_accepted@2x.png in Resources */,
@@ -6876,6 +6966,7 @@
 				8EA6D15E19E240C40076D59C /* login_suffix@2x.png in Resources */,
 				4EB52F101C74691B00B5EBEA /* password_look@3x.png in Resources */,
 				8E97CE721A0B8C6C006F9AD7 /* emotion_list.plist in Resources */,
+				B1890C302015D82600F52ABA /* wiki_menu_1@3x.png in Resources */,
 				4EC461B21B39360F00D08970 /* file_changeType_ADD@2x.png in Resources */,
 				4E6CBE541D8EA9D100644086 /* icon_best_answer@2x.png in Resources */,
 				4E4D6ACC1B2571B100FD2E49 /* git_icon_watched@2x.png in Resources */,
@@ -7098,6 +7189,7 @@
 				4E6B07131BA3D9B5007D6027 /* intro_page1_ip6@2x.png in Resources */,
 				13FB5D411CA17A6400EE127C /* PR_refuse@2x.png in Resources */,
 				8B3516501B6CE9460049BC45 /* icon_topic_hotTop@2x.png in Resources */,
+				B1890C2D2015D82600F52ABA /* wiki_revert@3x.png in Resources */,
 				4E2BF3D31B96CDF800A5A0A8 /* share_btn_qzone@2x.png in Resources */,
 				4EE1A23D1B5F3834004284F1 /* project_tag_btn@2x.png in Resources */,
 				4E5C06E81AC2B34800F427C5 /* tipIcon_BranchMember@2x.png in Resources */,
@@ -7165,6 +7257,7 @@
 				4EFE8DAF1B3960E6004B7559 /* logo_coding_top@2x.png in Resources */,
 				4E4972E01BB535B400F3AC15 /* tipIcon_ProjectTweetComment@2x.png in Resources */,
 				4E66EE261A28226000DA1B3E /* button_file_createFolder_enable@2x.png in Resources */,
+				B1890C2B2015D82600F52ABA /* wiki_menu_2@2x.png in Resources */,
 				B12B64181FF0E4CB00ACFDCC /* skill_delete@2x.png in Resources */,
 				B1C871831EB18599003DACF0 /* calendar_0xF56061@2x.png in Resources */,
 				D0C447A81C02A3C700DC1C4B /* project_selected@2x.png in Resources */,
@@ -7206,6 +7299,7 @@
 				B12B64271FF33E0100ACFDCC /* button_red_close@2x.png in Resources */,
 				4E9423F51E69401B0095F1CD /* blankpage_image_Wiki@3x.png in Resources */,
 				4EE1A23E1B5F3834004284F1 /* project_tag_icon@2x.png in Resources */,
+				B1890C2C2015D82600F52ABA /* wiki_menu_0@3x.png in Resources */,
 				133DAA651CC13A30004D8501 /* PR_update_title@3x.png in Resources */,
 				B1C871AC1EB2D9E6003DACF0 /* task_activity_icon_update@3x.png in Resources */,
 				8EA6D19319E240C40076D59C /* timeline_line_read@2x.png in Resources */,
@@ -7343,6 +7437,7 @@
 				8E97CE9B1A0C7E26006F9AD7 /* coding_emoji_04@2x.png in Resources */,
 				8EA6D16D19E240C40076D59C /* nav_tweet_hot@2x.png in Resources */,
 				4E6383D81B32665700D98648 /* project_item_topic@2x.png in Resources */,
+				B1890C2F2015D82600F52ABA /* wiki_menu_1@2x.png in Resources */,
 				B1C871B41EB2D9F0003DACF0 /* file_activity_icon_move_file@3x.png in Resources */,
 				4E96E7DC1A1B537E0037C098 /* icon_file_md@2x.png in Resources */,
 				D0C447AB1C02A3C700DC1C4B /* tweet_normal@2x.png in Resources */,
@@ -7421,6 +7516,7 @@
 				D0C447C51C02DB5400DC1C4B /* pop_User@2x.png in Resources */,
 				8E97CE611A0A3424006F9AD7 /* keyboard_add_photo@2x.png in Resources */,
 				4EAECBC61C44CB860096CA74 /* member_cell_edit_type@2x.png in Resources */,
+				B1890C322015D82600F52ABA /* wiki_menu_icon_delete@2x.png in Resources */,
 				4E93F23B1B84356500017916 /* file_menu_icon_edit@2x.png in Resources */,
 				B19D4EEB1F6FAA6000C598F3 /* AboutPointViewController.xib in Resources */,
 				8E1C3DF619E7F4CA00EF3032 /* address.json in Resources */,
@@ -7435,6 +7531,7 @@
 				D0C448141C02F76600DC1C4B /* icon_search_searchbar@2x.png in Resources */,
 				4EC480111C2A909D005F1772 /* register_step_ed@2x.png in Resources */,
 				D0C447E01C02DB8900DC1C4B /* project_normal@3x.png in Resources */,
+				B1890C142015D71E00F52ABA /* wiki.html in Resources */,
 				D0C447A51C02A3C700DC1C4B /* privatemessage_normal@2x.png in Resources */,
 				8EA6D19819E240C40076D59C /* tipIcon_ProjectMember@2x.png in Resources */,
 				B19D4EE11F690F5E00C598F3 /* file_activity_icon_rename@2x.png in Resources */,
@@ -7559,6 +7656,7 @@
 				B1BCB87E1FCD006C0098B87B /* icon_file_zip_big@2x.png in Resources */,
 				B1C8711A1EADF0B1003DACF0 /* messageProjectFollows@3x.png in Resources */,
 				4E4972E21BB5395B00F3AC15 /* tipIcon_CommitLineNote@2x.png in Resources */,
+				B1890C2E2015D82600F52ABA /* wiki_revert@2x.png in Resources */,
 				4E80E94F1E02911E00DE1BC6 /* search_icon_tweet@3x.png in Resources */,
 				B1C871651EB182C7003DACF0 /* taskPriority0_small@3x.png in Resources */,
 				8E97CEAF1A0C7E26006F9AD7 /* coding_emoji_24@2x.png in Resources */,
@@ -7600,6 +7698,7 @@
 				4E095A171D9534CB00E63D9E /* intro_page_unselected@2x.png in Resources */,
 				4E6383A61B3262D300D98648 /* taskPriority0@2x.png in Resources */,
 				4E0EF6EC1BF42E4B00F2FCC8 /* task_activity_icon_update_label@2x.png in Resources */,
+				B1890C2A2015D82600F52ABA /* wiki_menu_2@3x.png in Resources */,
 				4E9423EE1E69401B0095F1CD /* blankpage_image_Tip@2x.png in Resources */,
 				8E97CE621A0A3424006F9AD7 /* keyboard_add_camera@2x.png in Resources */,
 				D0C447E91C02DBC200DC1C4B /* btn_fliter_down@3x.png in Resources */,
@@ -7616,6 +7715,7 @@
 				4EAAD09D1E5D8558008AA957 /* mrpr_icon_arrow@2x.png in Resources */,
 				B14689B91EE100B200B01371 /* vip_3_45@3x.png in Resources */,
 				8EA6D18219E240C40076D59C /* splitlineImg@2x.png in Resources */,
+				B1890C292015D82600F52ABA /* wiki_menu_0@2x.png in Resources */,
 				4E80E9501E02911E00DE1BC6 /* search_icon_topic@2x.png in Resources */,
 				4E2BF3BC1B957D4F00A5A0A8 /* file_activity_icon_delete_history@2x.png in Resources */,
 				B1BCB8811FCD006C0098B87B /* icon_file_unknown_big@2x.png in Resources */,
@@ -7757,6 +7857,7 @@
 				13DA65E81CBE668E00810CB7 /* PRDetailViewController.m in Sources */,
 				8EF643CD19FF7E2900F7EEB0 /* TweetCommentMoreCell.m in Sources */,
 				8E59F1001A01133C009A905F /* CodeTree.m in Sources */,
+				B1890C3D2015D8C900F52ABA /* WikiMenuListCell.m in Sources */,
 				4E93F2331B84243D00017916 /* KxMenu.m in Sources */,
 				D0C447B91C02C63000DC1C4B /* UserSearchCell.m in Sources */,
 				4E83AE7B1CF30F1A006BA3BB /* SettingEmailViewController.m in Sources */,
@@ -7853,6 +7954,7 @@
 				B12B64781FFB61AD00ACFDCC /* QBAlbumCell.m in Sources */,
 				4EAE06B71B7B330900179F4B /* FileActivityCell.m in Sources */,
 				4E6BA2E31A1EE6AF005FD721 /* UIAlertView+AFNetworking.m in Sources */,
+				B1890C492015D92600F52ABA /* WikiHistoryListViewController.m in Sources */,
 				4E4D6AAF1B2047DE00FD2E49 /* CommitCommentCell.m in Sources */,
 				D066BB401BF623DD005AB5D6 /* ProjectAboutOthersListCell.m in Sources */,
 				4EA7F15F1A6D192B00A046BD /* SDWebImageManager.m in Sources */,
@@ -7884,6 +7986,7 @@
 				09A0588F1E0AA9D600C1CA3F /* UserActiveGraphCell.m in Sources */,
 				4EB0C2001A807ED00042FC4F /* NSURL+Common.m in Sources */,
 				4E6BA2E71A1EE6AF005FD721 /* UIRefreshControl+AFNetworking.m in Sources */,
+				B1890C3E2015D8C900F52ABA /* WikiHistoryCell.m in Sources */,
 				4EE1A22D1B5D02CA004284F1 /* ProjectCodeListView.m in Sources */,
 				4EF374191BB1255E00DDA662 /* LocalFilesViewController.m in Sources */,
 				8EF643BF19FF7E2900F7EEB0 /* SettingTextCell.m in Sources */,
@@ -7910,6 +8013,7 @@
 				8EA6D13019E240C40076D59C /* LikersViewController.m in Sources */,
 				8EF643C719FF7E2900F7EEB0 /* TitleValueMoreCell.m in Sources */,
 				4E0BD8821B6C7F0A0061CAA6 /* CSSearchModel.m in Sources */,
+				B1890C412015D8F700F52ABA /* WikiHeaderView.m in Sources */,
 				8EF643C119FF7E2900F7EEB0 /* TaskCommentCell.m in Sources */,
 				8E97CE481A0A2DF8006F9AD7 /* AGEmojiPageView.m in Sources */,
 				4E9113A31A1C426000AC9431 /* ASProgressPopUpView.m in Sources */,
@@ -7958,6 +8062,7 @@
 				8EF643B119FF7E2900F7EEB0 /* ConversationCell.m in Sources */,
 				4ED4B49A1D8295EA00EED8C6 /* TeamListViewController.m in Sources */,
 				8EF643D019FF7E2900F7EEB0 /* TweetSendImagesCell.m in Sources */,
+				B1890C482015D92600F52ABA /* WikiEditViewController.m in Sources */,
 				4ECF704C1B1876CB000280FF /* MRPRListCell.m in Sources */,
 				3A38784F1AE557700078D5DE /* TopicPreviewCell.m in Sources */,
 				8ED0D87519FBA6EA00FBA818 /* NSString+Emojize.m in Sources */,
@@ -8018,6 +8123,8 @@
 				4EA7F1601A6D192B00A046BD /* SDWebImagePrefetcher.m in Sources */,
 				4E4D6A941B1D851E00FD2E49 /* FileChanges.m in Sources */,
 				4E6BA2E81A1EE6AF005FD721 /* UIWebView+AFNetworking.m in Sources */,
+				B1890C352015D87900F52ABA /* EAWiki.m in Sources */,
+				B1890C382015D89A00F52ABA /* WikiMenuListView.m in Sources */,
 				4E0B9A341BAC1CD100D57D54 /* ForkTreeViewController.m in Sources */,
 				4E4D6A7F1B1C6D1E00FD2E49 /* CommitContentCell.m in Sources */,
 				8EA6D13519E240C40076D59C /* ProjectViewController.m in Sources */,
@@ -8080,6 +8187,7 @@
 				4ED6181B1C3A72AE0017946C /* ShopMutileValueCell.m in Sources */,
 				4E217F151A70EDC700F6DF88 /* SVWebViewControllerActivitySafari.m in Sources */,
 				4E8D5D5A1B45295D00B70936 /* HOTPGenerator.m in Sources */,
+				B1890C4A2015D92600F52ABA /* WikiViewController.m in Sources */,
 				8EA6D14519E240C40076D59C /* TweetDetailViewController.m in Sources */,
 				4ED4B4971D82939700EED8C6 /* Team.m in Sources */,
 				8EA6D13119E240C40076D59C /* LoginViewController.m in Sources */,

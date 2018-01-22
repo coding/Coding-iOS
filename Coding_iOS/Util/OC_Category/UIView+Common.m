@@ -772,6 +772,21 @@ static char LoadingViewKey, BlankPageViewKey;
                 tipStr = @"还没有新消息～";
             }
                 break;
+            case EaseBlankPageTypeViewPurchase:{
+                imageName = @"blankpage_image_ShopOrder";
+                tipStr = @"还没有订购记录～";
+            }
+                break;
+            case EaseBlankPageTypeCode:
+            {
+                tipStr = @"当前项目还没有提交过代码呢～";
+            }
+                break;
+            case EaseBlankPageTypeWiki:
+            {
+                tipStr = @"当前项目还没有创建 Wiki～";
+            }
+                break;
             default://其它页面（这里没有提到的页面，都属于其它）
             {
                 tipStr = @"这里什么都没有～";

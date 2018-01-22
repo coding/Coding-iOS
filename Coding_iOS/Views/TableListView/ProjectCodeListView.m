@@ -128,7 +128,7 @@
         if (codeTreeError != nil && codeTreeError.code == 1024) {
             hasError = YES;
         }
-        [weakSelf configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.myCodeTree.files.count > 0) hasError:hasError reloadButtonBlock:^(id sender) {
+        [weakSelf configBlankPage:EaseBlankPageTypeCode hasData:(weakSelf.myCodeTree.files.count > 0) hasError:hasError reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
     }];

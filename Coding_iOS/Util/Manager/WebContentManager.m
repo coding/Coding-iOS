@@ -13,6 +13,7 @@
 @property (strong, nonatomic) NSString *topic_pattern_htmlStr;
 @property (strong, nonatomic) NSString *code_pattern_htmlStr;
 @property (strong, nonatomic) NSString *markdown_pattern_htmlStr;
+@property (strong, nonatomic) NSString *wiki_pattern_htmlStr;
 @property (strong, nonatomic) NSString *diff_pattern_htmlStr;
 
 @end
@@ -45,6 +46,11 @@
         shared_manager.markdown_pattern_htmlStr = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
         if (error) {
             DebugLog(@"markdown_pattern_htmlStr fail: %@", error.description);
+        }
+        path = [[NSBundle mainBundle] pathForResource:@"wiki" ofType:@"html"];
+        shared_manager.wiki_pattern_htmlStr = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+        if (error) {
+            DebugLog(@"wiki_pattern_htmlStr fail: %@", error.description);
         }
         path = [[NSBundle mainBundle] pathForResource:@"diff-ios" ofType:@"html"];
         shared_manager.diff_pattern_htmlStr = [[NSString alloc] initWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
@@ -97,6 +103,14 @@
     return patternedStr;
 }
 
+- (NSString *)wikiPatternedWithContent:(NSString *)content{
+    if (!content) {
+        return @"";
+    }
+    NSString *patternedStr = [self.wiki_pattern_htmlStr stringByReplacingOccurrencesOfString:@"${webview_content}" withString:content];
+    return patternedStr;
+}
+
 - (NSString *)diffPatternedWithContent:(NSString *)content andComments:(NSString *)comments{
     if (!content) {
         return @"";
@@ -117,6 +131,9 @@
 }
 + (NSString *)markdownPatternedWithContent:(NSString *)content{
     return [[self sharedManager] markdownPatternedWithContent:content];
+}
++ (NSString *)wikiPatternedWithContent:(NSString *)content{
+    return [[self sharedManager] wikiPatternedWithContent:content];
 }
 + (NSString *)diffPatternedWithContent:(NSString *)content andComments:(NSString *)comments{
     return [[self sharedManager] diffPatternedWithContent:content andComments:comments];

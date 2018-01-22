@@ -44,7 +44,7 @@
 
 #import <UMSocialCore/UMSocialCore.h>
 
-@class CSTopic, Team;
+@class CSTopic, Team, EAWiki;
 
 typedef NS_ENUM(NSUInteger, VerifyType){
     VerifyTypeUnknow = 0,
@@ -143,7 +143,10 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_RemarkFileVersion:(FileVersion *)curVersion withStr:(NSString *)remarkStr andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DeleteFileVersion:(FileVersion *)curVersion andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_OpenShareOfFile:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_CloseShareHash:(NSString *)hashStr andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_CloseFileShareHash:(NSString *)hashStr andBlock:(void (^)(id data, NSError *error))block;
+
+- (void)request_OpenShareOfWiki:(EAWiki *)wiki andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_CloseWikiShareHash:(NSString *)hashStr andBlock:(void (^)(id data, NSError *error))block;
 
 #pragma mark - Code
 - (void)request_CodeTree:(CodeTree *)codeTree withPro:(Project *)project codeTreeBlock:(void (^)(id codeTreeData, NSError *codeTreeError))block;
@@ -153,6 +156,14 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_Commits:(Commits *)curCommits withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_UploadAssets:(NSArray *)assets inCodeTree:(CodeTree *)codeTree withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block progerssBlock:(void (^)(CGFloat progressValue))progressBlock;
 - (void)request_CreateCodeFile:(CodeFile *)codeFile withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+
+#pragma mark Wiki
+- (void)request_WikiListWithPro:(Project *)pro andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_WikiDetailWithPro:(Project *)pro iid:(NSNumber *)iid version:(NSNumber *)version andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_DeleteWikiWithPro:(Project *)pro iid:(NSNumber *)iid andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ModifyWiki:(EAWiki *)wiki pro:(Project *)pro andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_WikiHistoryWithWiki:(EAWiki *)wiki pro:(Project *)pro andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_RevertWiki:(NSNumber *)wikiIid toVersion:(NSNumber *)version pro:(Project *)pro andBlock:(void (^)(id data, NSError *error))block;
 
 #pragma mark - Task
 - (void)request_AddTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;

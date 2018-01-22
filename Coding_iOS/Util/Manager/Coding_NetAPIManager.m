@@ -20,6 +20,7 @@
 #import "TeamMember.h"
 #import "ProjectServiceInfo.h"
 #import "CodingVipTipManager.h"
+#import "EAWiki.h"
 
 @implementation Coding_NetAPIManager
 + (instancetype)sharedManager {
@@ -1180,12 +1181,39 @@
         }
     }];
 }
-- (void)request_CloseShareHash:(NSString *)hashStr andBlock:(void (^)(id data, NSError *error))block{
+- (void)request_CloseFileShareHash:(NSString *)hashStr andBlock:(void (^)(id data, NSError *error))block{
     NSString *path = [NSString stringWithFormat:@"api/share/%@", hashStr];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"文件_关闭共享"];
+            
+            block(data, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
 
+- (void)request_OpenShareOfWiki:(EAWiki *)wiki andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = @"api/share/create";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:[wiki toShareParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"Wiki_开启共享"];
+            
+            NSString *share_url = [[data valueForKey:@"data"] valueForKey:@"url"];
+            block(share_url, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_CloseWikiShareHash:(NSString *)hashStr andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/share/%@", hashStr];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"Wiki_关闭共享"];
+            
             block(data, nil);
         }else{
             block(nil, error);
@@ -1316,6 +1344,90 @@
         }else{
             block(nil, error);
         }
+    }];
+}
+
+#pragma mark Wiki
+- (void)request_WikiListWithPro:(Project *)pro andBlock:(void (^)(id data, NSError *error))block{
+    
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/wikis", pro.owner_user_name, pro.name];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"Wiki_列表"];
+            
+            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"EAWiki"];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)request_WikiDetailWithPro:(Project *)pro iid:(NSNumber *)iid version:(NSNumber *)version andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/wiki/%@", pro.owner_user_name, pro.name, iid];
+    NSMutableDictionary *params = @{}.mutableCopy;
+    params[@"version"] = version;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"Wiki_详情"];
+            
+            data = [NSObject objectOfClass:@"EAWiki" fromJSON:data[@"data"]];
+        }
+        block(data, error);
+    }];
+}
+- (void)request_DeleteWikiWithPro:(Project *)pro iid:(NSNumber *)iid andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/wiki/%@", pro.owner_user_name, pro.name, iid];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"Wiki_删除"];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)request_ModifyWiki:(EAWiki *)wiki pro:(Project *)pro andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/wiki", pro.owner_user_name, pro.name];
+    NSMutableDictionary *params = @{}.mutableCopy;
+    params[@"iid"] = wiki.iid;
+    params[@"parentIid"] = wiki.parentIid;
+    params[@"order"] = wiki.order;
+    params[@"msg"] = @"Modified By App";
+    params[@"title"] = wiki.mdTitle;
+    params[@"content"] = wiki.mdContent;
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"Wiki_修改"];
+            
+            data = [NSObject objectOfClass:@"EAWiki" fromJSON:data[@"data"]];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)request_WikiHistoryWithWiki:(EAWiki *)wiki pro:(Project *)pro andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/wiki/%@/histories", pro.owner_user_name, pro.name, wiki.iid];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"Wiki_历史版本"];
+            
+            data = [NSObject arrayFromJSON:data[@"data"] ofObjects:@"EAWiki"];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)request_RevertWiki:(NSNumber *)wikiIid toVersion:(NSNumber *)version pro:(Project *)pro andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/wiki/%@/history", pro.owner_user_name, pro.name, wikiIid];
+    NSMutableDictionary *params = @{}.mutableCopy;
+    params[@"version"] = version;
+    
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"Wiki_恢复"];
+            
+            data = [NSObject objectOfClass:@"EAWiki" fromJSON:data[@"data"]];
+        }
+        block(data, error);
     }];
 }
 

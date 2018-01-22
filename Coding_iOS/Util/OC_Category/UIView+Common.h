@@ -50,6 +50,9 @@ typedef NS_ENUM(NSInteger, EaseBlankPageType)
     EaseBlankPageTypeTeam,
     EaseBlankPageTypeFile,
     EaseBlankPageTypeMessageList,
+    EaseBlankPageTypeViewPurchase,
+    EaseBlankPageTypeCode,
+    EaseBlankPageTypeWiki,
 };
 
 typedef NS_ENUM(NSInteger, BadgePositionType) {
