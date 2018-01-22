@@ -715,13 +715,13 @@
     }];
 }
 
-- (void)request_MRPRPreInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(MRPRBaseInfo *data, NSError *error))block{
+- (void)request_MRPRPreInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(MRPRPreInfo *data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curMRPR toPrePath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_Get label:@"MRPR_详情页面"];
             
             id resultData = [data valueForKeyPath:@"data"];
-            MRPRBaseInfo *resultA = [NSObject objectOfClass:@"MRPRPreInfo" fromJSON:resultData];
+            MRPRPreInfo *resultA = [NSObject objectOfClass:@"MRPRPreInfo" fromJSON:resultData];
             block(resultA, nil);
         }else{
             block(nil, error);

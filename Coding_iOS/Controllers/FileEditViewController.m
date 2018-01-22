@@ -207,7 +207,9 @@
     if ([self fileIsMD]) {
         edit_content = [edit_content aliasedString];
     }
+    [NSObject showHUDQueryStr:@"正在保存..."];
     [[Coding_NetAPIManager sharedManager] request_EditFile:_curFile withContent:edit_content andBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
         if (data) {
             if (self.completeBlock) {
                 self.completeBlock(data);

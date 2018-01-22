@@ -24,7 +24,7 @@
         if (!_contentL) {
             _contentL = [UILabel new];
             _contentL.font = [UIFont systemFontOfSize:15];
-            _contentL.textColor = kColor222;
+            _contentL.textColor = kColorDark3;
             [self.contentView addSubview:_contentL];
             [_contentL mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(10, kPaddingLeftWidth, 10, kPaddingLeftWidth));

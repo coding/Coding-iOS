@@ -41,7 +41,11 @@
             if ([error.userInfo objectForKey:@"NSLocalizedDescription"]) {
                 tipStr = [error.userInfo objectForKey:@"NSLocalizedDescription"];
             }else{
-                [tipStr appendFormat:@"ErrorCode%ld", (long)error.code];
+                if (error.code == 3840) {//Json 解析失败
+                    [tipStr appendFormat:@"服务器返回数据格式有误"];
+                }else{
+                    [tipStr appendFormat:@"错误代码 %ld", (long)error.code];
+                }
             }
         }
         return tipStr;

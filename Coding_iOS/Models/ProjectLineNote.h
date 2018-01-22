@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
+#import "ProjectTag.h"
+
+@class ProjectLineNoteComment;
 
 @interface ProjectLineNote : NSObject
 @property (strong, nonatomic) User *author;
@@ -26,4 +29,15 @@
 @property (readwrite, strong, nonatomic) NSNumber *position;
 @property (strong, nonatomic) NSDate *created_at;
 @property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;
+
+@property (strong, nonatomic) ProjectLineNoteComment *comment;
+
+@end
+
+
+@interface ProjectLineNoteComment : NSObject
+
+@property (strong, nonatomic) User *reviewer, *watcher;
+@property (strong, nonatomic) ProjectTag *label;
+
 @end

@@ -126,14 +126,26 @@
         contentStr = [NSString stringWithFormat:@"编辑合并请求 - %@", [curActivity.created_at stringDisplay_HHmm]];
     } else if ([curActivity.action isEqualToString:@"update_title"]) {
         contentStr = [NSString stringWithFormat:@"编辑了标题 - %@", [curActivity.created_at stringDisplay_HHmm]];
+    } else if ([curActivity.action isEqualToString:@"add_reviewer"]) {
+        contentStr = [NSString stringWithFormat:@"添加了评审者 %@ - %@", curActivity.comment.reviewer.name, [curActivity.created_at stringDisplay_HHmm]];
+    } else if ([curActivity.action isEqualToString:@"del_reviewer"]) {
+        contentStr = [NSString stringWithFormat:@"移除了评审者 %@ - %@", curActivity.comment.reviewer.name, [curActivity.created_at stringDisplay_HHmm]];
+    } else if ([curActivity.action isEqualToString:@"add_watcher"]) {
+        contentStr = [NSString stringWithFormat:@"添加了关注者 %@ - %@", curActivity.comment.watcher.name, [curActivity.created_at stringDisplay_HHmm]];
+    } else if ([curActivity.action isEqualToString:@"del_watcher"]) {
+        contentStr = [NSString stringWithFormat:@"移除了关注者 %@ - %@", curActivity.comment.watcher.name, [curActivity.created_at stringDisplay_HHmm]];
+    } else if ([curActivity.action isEqualToString:@"add_label"]) {
+        contentStr = [NSString stringWithFormat:@"添加了标签 %@ - %@", curActivity.comment.label.name, [curActivity.created_at stringDisplay_HHmm]];
+    } else if ([curActivity.action isEqualToString:@"del_label"]) {
+        contentStr = [NSString stringWithFormat:@"移除了标签 %@ - %@", curActivity.comment.label.name, [curActivity.created_at stringDisplay_HHmm]];
     }
     contentStr = contentStr? contentStr: @"...";
     attrContent = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", userName, contentStr]];
     [attrContent addAttributes:@{NSFontAttributeName : [UIFont boldSystemFontOfSize:13],
-                                 NSForegroundColorAttributeName : kColor222}
+                                 NSForegroundColorAttributeName : kColorDark3}
                          range:NSMakeRange(0, userName.length)];
     [attrContent addAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:13],
-                                 NSForegroundColorAttributeName : kColor999}
+                                 NSForegroundColorAttributeName : kColorDark7}
                          range:NSMakeRange(userName.length + 1, contentStr.length)];
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.minimumLineHeight = 18;

@@ -119,7 +119,7 @@
                 break;
             }
         }
-        addSkill.level = selectedIndex.lastObject;
+        addSkill.level = @([selectedIndex.lastObject integerValue] + 1);
         [weakSelf.skills addObject:addSkill];
         [weakSelf.tagsView reloadData];
     } cancelBlock:nil origin:self.view];

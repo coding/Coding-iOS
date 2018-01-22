@@ -146,24 +146,17 @@
     CGSize bgImgViewSize;
     CGSize textSize;
     
-    if (_curPriMsg.content.length > 0) {
-        textSize = [_curPriMsg.content getSizeWithFont:kMessageCell_FontContent constrainedToSize:CGSizeMake(kMessageCell_ContentWidth, CGFLOAT_MAX)];
-    }else{
-        textSize = CGSizeZero;
-    }
-    
     [_contentLabel setWidth:kMessageCell_ContentWidth];
     _contentLabel.text = _curPriMsg.content;
     [_contentLabel sizeToFit];
     
+    textSize = _curPriMsg.content.length > 0? _contentLabel.size: CGSizeZero;
+
     for (HtmlMediaItem *item in _curPriMsg.htmlMedia.mediaItems) {
         if (item.displayStr.length > 0 && item.href.length > 0) {
             [self.contentLabel addLinkToTransitInformation:[NSDictionary dictionaryWithObject:item forKey:@"value"] withRange:item.range];
         }
     }
-    
-    textSize.height = CGRectGetHeight(_contentLabel.frame);
-    
     
     if (mediaViewHeight > 0) {
         //        有图片

@@ -23,35 +23,40 @@
         // Initialization code
         self.backgroundColor = kColorTableBG;
         _statusIcon = [UIImageView new];
-        _titleL = [UILabel labelWithSystemFontSize:14 textColorHexString:@"0x222222"];
-        _numL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x222222"];
-        _authorL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x999999"];
-        _timeL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x999999"];
-        _commentCountL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x999999"];
+        _titleL = [UILabel labelWithSystemFontSize:15 textColorHexString:@"0x323A45"];
+        _numL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x76808E"];
+        _authorL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x76808E"];
+        _timeL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x76808E"];
+        _commentCountL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x76808E"];
         _timeIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"time_clock_icon"]];
         _commentIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"topic_comment_icon"]];
         _arrowIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mrpr_icon_arrow"]];
         _fromL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x76808E"];
-        [_fromL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x76808E"] cornerRadius:2.0];
+        _fromL.backgroundColor = [UIColor colorWithHexString:@"0xF2F4F6"];
+        _fromL.cornerRadius = 2;
+        _fromL.masksToBounds = YES;
         _toL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x76808E"];
-        [_toL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x76808E"] cornerRadius:2.0];
-        
+        _toL.backgroundColor = [UIColor colorWithHexString:@"0xD8DDE4"];
+        _toL.cornerRadius = 2;
+        _toL.masksToBounds = YES;
+
         for (UIView *tempV in @[_statusIcon, _titleL, _numL, _authorL, _timeL, _commentCountL, _timeIcon, _commentIcon, _arrowIcon, _fromL, _toL]) {
             [self.contentView addSubview:tempV];
         }
         [_statusIcon mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
-            make.top.equalTo(self.contentView).offset(10);
+            make.top.equalTo(self.contentView).offset(15);
             make.size.mas_equalTo(CGSizeMake(24, 24));
         }];
         [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_statusIcon);
             make.left.equalTo(_statusIcon.mas_right).offset(kPaddingLeftWidth);
             make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+            make.height.mas_equalTo(21);
         }];
         [_fromL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_titleL.mas_bottom).offset(5);
-            make.height.mas_equalTo(20);
+            make.height.mas_equalTo(22);
             make.left.equalTo(_titleL);
         }];
         [_arrowIcon mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -61,11 +66,12 @@
         }];
         [_toL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(_fromL);
-            make.height.mas_equalTo(20);
+            make.height.mas_equalTo(22);
         }];
         [_numL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_fromL.mas_bottom).offset(10);
             make.left.equalTo(_titleL);
+            make.height.mas_equalTo(17);
         }];
         [@[_authorL, _timeIcon, _timeL, _commentIcon, _commentCountL] mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(_numL);
@@ -112,6 +118,6 @@
 
 
 + (CGFloat)cellHeight{
-    return 90.0;
+    return 110.0;
 }
 @end

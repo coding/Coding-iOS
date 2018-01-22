@@ -134,7 +134,7 @@ static NSString *const kValueKey = @"kValueKey";
     User* cellReviewer = self.allUsers[indexPath.row];
     cell.tintColor =  kColorBrandGreen;
     [cell initCellWithUsers:cellReviewer];
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:70];
     NSInteger index = indexPath.row;
     NSNumber* userState = self.selectUsers[index];
    // cell.selectionStyle = UITableViewCellSelectionStyleNone;

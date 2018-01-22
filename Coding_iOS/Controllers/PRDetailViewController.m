@@ -5,7 +5,7 @@
 //  Created by Ease on 15/6/1.
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
-#define kMRPRDetailViewController_BottomViewHeight 49.0
+#define kMRPRDetailViewController_BottomViewHeight 56.0
 #import "PRDetailViewController.h"
 #import "Coding_NetAPIManager.h"
 #import "FunctionTipsManager.h"
@@ -99,7 +99,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             NSArray *buttonArray;
             if (canAction && canCancel) {//三个按钮
                 buttonArray = @[[self buttonWithType:MRPRActionAccept],
-                                [self buttonWithType:MRPRActionRefuse],
+//                                [self buttonWithType:MRPRActionRefuse],
                                 [self buttonWithType:MRPRActionCancel]];
             }else if (canAction && !canCancel){//两个按钮
                 buttonArray = @[[self buttonWithType:MRPRActionAccept],
@@ -110,7 +110,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
                 buttonArray = nil;
             }
             if (buttonArray.count > 0) {
-                CGFloat buttonHeight = 29;
+                CGFloat buttonHeight = 36;
                 CGFloat padding = 15;
                 CGFloat buttonWidth = ((kScreen_Width - 2*kPaddingLeftWidth) - padding* (buttonArray.count -1))/buttonArray.count;
                 CGFloat buttonY = (kMRPRDetailViewController_BottomViewHeight - buttonHeight)/2;
@@ -170,24 +170,22 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     curButton.layer.cornerRadius = 2.0;
     curButton.tag = actionType;
     [curButton addTarget:self action:@selector(actionMRPR:) forControlEvents:UIControlEventTouchUpInside];
-    [curButton.titleLabel setFont:[UIFont systemFontOfSize:13]];
-    
+    [curButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
     NSString *title, *colorStr;
     if (actionType == MRPRActionAccept) {
         title = @"合并";
-        colorStr = @"0x4E90BF";
+        colorStr = @"0x425063";
         if (_curMRPRInfo.mrpr.status == MRPRStatusCannotMerge) {
             curButton.alpha = 0.5;
         }
-    }else if (actionType == MRPRActionRefuse){
+    } else if (actionType == MRPRActionRefuse){
         title = @"拒绝";
-        colorStr = @"0xE15957";
-    }else if (actionType == MRPRActionCancel){
+        colorStr = @"0xF56061";
+    } else if (actionType == MRPRActionCancel){
         title = @"取消";
-        colorStr = @"0xF8F8F8";
-        [curButton doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0xB5B5B5"] cornerRadius:2.0];
+        colorStr = @"0xD8DDE4";
     }
-    [curButton setTitleColor:[UIColor colorWithHexString:(actionType == MRPRActionCancel? @"0x222222": @"0xffffff")] forState:UIControlStateNormal];
+    [curButton setTitleColor:[UIColor colorWithHexString:(actionType == MRPRActionCancel? @"0x323A45": @"0xFFFFFF")] forState:UIControlStateNormal];
     [curButton setTitle:title forState:UIControlStateNormal];
     [curButton setBackgroundColor:[UIColor colorWithHexString:colorStr]];
     return curButton;
@@ -248,7 +246,7 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 }
 #pragma mark TableM Footer Header
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 20.0;
+    return 15.0;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.5;

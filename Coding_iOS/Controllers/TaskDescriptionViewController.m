@@ -176,8 +176,10 @@
     NSString *mdStr = self.editView.text;
     
     if (_curTask.handleType == TaskHandleTypeEdit) {//编辑任务
+        [NSObject showHUDQueryStr:@"正在保存..."];
         @weakify(self);
         [[Coding_NetAPIManager sharedManager] request_EditTask:_curTask withDescriptionStr:mdStr andBlock:^(id data, NSError *error) {
+            [NSObject hideHUDQuery];
             @strongify(self);
             if (data) {
                 if (self.savedNewTDBlock) {

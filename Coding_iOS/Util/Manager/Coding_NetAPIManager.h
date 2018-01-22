@@ -40,6 +40,7 @@
 #import "ShopOrderModel.h"
 #import "ProjectCount.h"
 #import "ActivenessModel.h"
+#import "MRPRPreInfo.h"
 
 #import <UMSocialCore/UMSocialCore.h>
 
@@ -108,7 +109,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 #pragma mark - MRPR
 - (void)request_MRPRS_WithObj:(MRPRS *)curMRPRS andBlock:(void (^)(MRPRS *data, NSError *error))block;
 - (void)request_MRPRBaseInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(MRPRBaseInfo *data, NSError *error))block;
-- (void)request_MRPRPreInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(MRPRBaseInfo *data, NSError *error))block;
+- (void)request_MRPRPreInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(MRPRPreInfo *data, NSError *error))block;
 - (void)request_MRReviewerInfo_WithObj:(MRPR *)curMRPR andBlock:(void (^)(ReviewersInfo *data, NSError *error))block;
 - (void)request_MRPRCommits_WithObj:(MRPR *)curMRPR andBlock:(void (^)(NSArray *data, NSError *error))block;
 - (void)request_MRPRFileChanges_WithObj:(MRPR *)curMRPR andBlock:(void (^)(FileChanges *data, NSError *error))block;

@@ -109,7 +109,7 @@ static NSString *const kValueKey = @"kValueKey";
     } else {
         [cell initCellWithVolunteerReviewers:cellReviewer.reviewer likeValue:cellReviewer.value];
     }
-    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
+    [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:70];
     return cell;
 }
 

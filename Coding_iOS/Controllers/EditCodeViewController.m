@@ -176,7 +176,9 @@
         [NSObject showHudTipStr:@"文件无改动"];
         return;
     }
+    [NSObject showHUDQueryStr:@"正在保存..."];
     [[Coding_NetAPIManager sharedManager] request_EditCodeFile:_myCodeFile withPro:_myProject andBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
         if (data) {
             if (self.savedSucessBlock) {
                 self.savedSucessBlock();

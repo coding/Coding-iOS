@@ -26,8 +26,8 @@
         }
         if (!_contentL) {
             _contentL = [UILabel new];
-            _contentL.font = [UIFont systemFontOfSize:15];
-            _contentL.textColor = kColor222;
+            _contentL.font = [UIFont systemFontOfSize:14];
+            _contentL.textColor = kColorDark7;
             _contentL.text = @"添加评论";
             [self.contentView addSubview:_contentL];
         }
