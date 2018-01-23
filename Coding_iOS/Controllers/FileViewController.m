@@ -440,18 +440,18 @@
 }
 
 - (void)saveCurImg{
-    SEL selectorToCall = @selector(imageWasSavedSuccessfully:didFinishSavingWithError:contextInfo:);
-    
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:self.fileUrl]];
-    if (!image) {
-        [NSObject showHudTipStr:@"提取图片失败"];
-        return;
-    }
-    UIImageWriteToSavedPhotosAlbum(image, self, selectorToCall, NULL);
+    __weak typeof(self) weakSelf = self;
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        [[PHAssetCreationRequest creationRequestForAsset] addResourceWithType:PHAssetResourceTypePhoto fileURL:weakSelf.fileUrl options:nil];
+    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf saveImageHappenedError:error];
+        });
+    }];
 }
 
-- (void) imageWasSavedSuccessfully:(UIImage *)paramImage didFinishSavingWithError:(NSError *)paramError contextInfo:(void *)paramContextInfo{
-    if (paramError == nil){
+- (void)saveImageHappenedError:(NSError *)error{
+    if (error == nil){
         [NSObject showHudTipStr:@"成功保存到相册"];
     } else {
         [NSObject showHudTipStr:@"保存失败"];

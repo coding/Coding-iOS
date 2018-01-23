@@ -55,16 +55,21 @@
     [self addSubview:_saveImageBtn];
 }
 
-- (void)saveImage
-{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        MJPhoto *photo = _photos[_currentPhotoIndex];
-        UIImageWriteToSavedPhotosAlbum(photo.image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
-    });
+- (void)saveImage{
+    MJPhoto *curP = _photos[_currentPhotoIndex];
+    NSString *dataP = [SDWebImageManager.sharedManager.imageCache defaultCachePathForKey:curP.url.absoluteString];
+    NSData *imageD = [NSData dataWithContentsOfFile:dataP];
+    __weak typeof(self) weakSelf = self;
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        [[PHAssetCreationRequest creationRequestForAsset] addResourceWithType:PHAssetResourceTypePhoto data:imageD options:nil];
+    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf saveImageHappenedError:error];
+        });
+    }];
 }
 
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo
-{
+- (void)saveImageHappenedError:(NSError *)error{
     if (error) {
         [MBProgressHUD showSuccess:@"保存失败" toView:nil];
     } else {
