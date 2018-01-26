@@ -70,7 +70,7 @@
     if ([_curPriMsg isVoice]) {
         [textMsg setString:@"[语音]"];
         if (_curPriMsg.played.intValue == 0) {
-            _msg.textColor = kColorBrandGreen;
+            _msg.textColor = kColorBrandBlue;
         }
     }
     _msg.text = textMsg;

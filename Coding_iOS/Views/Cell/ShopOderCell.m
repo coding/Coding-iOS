@@ -81,7 +81,7 @@
         make.top.offset(44);
         make.left.equalTo(_orderNumLabel);
         make.right.equalTo(_superView);
-        make.height.mas_equalTo(1.0/[UIScreen mainScreen].scale);
+        make.height.mas_equalTo(kLine_MinHeight);
     }];
     
     UIView *_goodsInfoView = [[UIView alloc] init];
@@ -110,7 +110,7 @@
     _countLabel.font = FONT(15);
     _countLabel.backgroundColor = [UIColor clearColor];
     _countLabel.text  = @"ⅹ1";
-    _countLabel.textColor = kColorBrandGreen;
+    _countLabel.textColor = kColorBrandBlue;
     [_goodsInfoView addSubview:_countLabel];
     
     _codingCoinView = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -150,7 +150,7 @@
         make.top.equalTo(_goodsInfoView.mas_bottom).offset(88);
         make.left.equalTo(_orderNumLabel);
         make.right.equalTo(_superView);
-        make.height.mas_equalTo(1.0/[UIScreen mainScreen].scale);
+        make.height.mas_equalTo(kLine_MinHeight);
     }];
     
     // 码币抵扣
@@ -397,7 +397,7 @@
         make.top.equalTo(_addressLabel.mas_bottom).offset(15);
         make.left.equalTo(_orderNumLabel);
         make.right.equalTo(_superView);
-        make.height.mas_equalTo(1.0/[UIScreen mainScreen].scale);
+        make.height.mas_equalTo(kLine_MinHeight);
     }];
 
     __weak typeof(self) weakSelf = self;

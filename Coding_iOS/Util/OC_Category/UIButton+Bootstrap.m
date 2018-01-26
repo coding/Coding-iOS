@@ -20,8 +20,8 @@
 
 -(void)defaultStyle{
     [self bootstrapStyle];
-    [self setTitleColor:kColorBrandGreen forState:UIControlStateNormal];
-    [self setTitleColor:kColorBrandGreen forState:UIControlStateHighlighted];
+    [self setTitleColor:kColorBrandBlue forState:UIControlStateNormal];
+    [self setTitleColor:kColorBrandBlue forState:UIControlStateHighlighted];
     self.backgroundColor = [UIColor whiteColor];
     self.layer.borderColor = [[UIColor colorWithRed:204/255.0 green:204/255.0 blue:204/255.0 alpha:1] CGColor];
     [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithRed:235/255.0 green:235/255.0 blue:235/255.0 alpha:1]] forState:UIControlStateHighlighted];
@@ -29,21 +29,21 @@
 
 -(void)primaryStyle{
     [self bootstrapStyle];
-    self.backgroundColor = kColorBrandGreen;
-    self.layer.borderColor = [kColorBrandGreen CGColor];
+    self.backgroundColor = kColorBrandBlue;
+    self.layer.borderColor = [kColorBrandBlue CGColor];
     [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithHexString:@"0x28a464"]] forState:UIControlStateHighlighted];
 }
 
 -(void)successStyle{
-    [self bootstrapStyle];
-    self.layer.borderColor = [[UIColor clearColor] CGColor];
-    [self setBackgroundImage:[self buttonImageFromColor:kColorBrandGreen] forState:UIControlStateNormal];
-    [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithHexString:@"0x3bbc79" andAlpha:0.5]] forState:UIControlStateDisabled];
-    [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithHexString:@"0x32a067"]] forState:UIControlStateHighlighted];
+    [self setAdjustsImageWhenHighlighted:NO];
+    [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.titleLabel setFont:[UIFont systemFontOfSize:MIN(17, self.titleLabel.font.pointSize) weight:UIFontWeightMedium]];
+    [self setBackgroundImage:[self buttonImageFromColor:kColorBrandBlue] forState:UIControlStateNormal];
+    [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithHexString:@"0x0060FF" andAlpha:0.5]] forState:UIControlStateDisabled];
+    [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithHexString:@"0x0060FF"]] forState:UIControlStateHighlighted];
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateDisabled];
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-
 }
 
 -(void)infoStyle{
@@ -104,7 +104,7 @@
     UIButton *btn = [[UIButton alloc] initWithFrame:rect];
     [btn setTitle:title forState:UIControlStateNormal];
     [btn addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
-    const  SEL selArray[] = {@selector(bootstrapStyle), @selector(defaultManager), @selector(primaryStyle), @selector(successStyle), @selector(infoStyle), @selector(warningStyle), @selector(dangerStyle)};
+    const  SEL selArray[] = {@selector(bootstrapStyle), @selector(defaultManager), @selector(primaryStyle), @selector(successStyle), @selector(infoStyle), @selector(warningStyle), @selector(dangerStyle), @selector(blueStyle)};
     if ([btn respondsToSelector:selArray[style]]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"

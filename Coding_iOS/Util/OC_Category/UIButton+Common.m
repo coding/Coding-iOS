@@ -32,7 +32,7 @@
     return btn;
 }
 + (UIButton *)buttonWithTitle_ForNav:(NSString *)title{
-    return [UIButton buttonWithTitle:title titleColor:kColorBrandGreen];
+    return [UIButton buttonWithTitle:title titleColor:kColorBrandBlue];
 }
 + (UIButton *)buttonWithUserStyle{
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];

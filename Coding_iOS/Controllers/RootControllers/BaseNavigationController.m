@@ -24,7 +24,7 @@
     [self hideBorderInView:self.navigationBar];
     //添新
     if (!_navLineV) {
-        _navLineV = [[UIView alloc]initWithFrame:CGRectMake(0, 44, kScreen_Width, 1.0/ [UIScreen mainScreen].scale)];
+        _navLineV = [[UIView alloc]initWithFrame:CGRectMake(0, 44, kScreen_Width, kLine_MinHeight)];
         _navLineV.backgroundColor = kColorD8DDE4;
         [self.navigationBar addSubview:_navLineV];
     }

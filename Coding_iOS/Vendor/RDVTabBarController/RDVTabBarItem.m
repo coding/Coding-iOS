@@ -73,7 +73,7 @@
                                    };
     _selectedTitleAttributes = @{
                                  NSFontAttributeName: [UIFont systemFontOfSize:10],
-                                 NSForegroundColorAttributeName: kColorBrandGreen,
+                                 NSForegroundColorAttributeName: kColorBrandBlue,
                                  };
     
     _badgeBackgroundColor = [UIColor colorWithHexString:@"0xf75388"];

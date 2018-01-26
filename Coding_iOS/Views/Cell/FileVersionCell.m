@@ -63,7 +63,7 @@
             _progressView.delegate = self;
             _progressView.font = [UIFont fontWithName:@"Futura-CondensedExtraBold" size:12];
             [_progressView setTrackTintColor:[UIColor colorWithHexString:@"0xe6e6e6"]];
-            _progressView.popUpViewAnimatedColors = @[kColorBrandGreen];
+            _progressView.popUpViewAnimatedColors = @[kColorBrandBlue];
             _progressView.hidden = YES;
             [self.contentView addSubview:self.progressView];
         }

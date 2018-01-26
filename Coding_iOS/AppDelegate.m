@@ -239,7 +239,7 @@
 #pragma mark - Methods Private
 - (void)setupLoginViewController{
     LoginViewController *loginVC = [[LoginViewController alloc] init];
-    [self.window setRootViewController:[[BaseNavigationController alloc] initWithRootViewController:loginVC]];
+    [self.window setRootViewController:[[UINavigationController alloc] initWithRootViewController:loginVC]];
 }
 
 - (void)setupIntroductionViewController{
@@ -258,15 +258,17 @@
     //设置Nav的背景色和title色
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
     [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[NSObject baseURLStrIsProduction]? kColorNavBG: kColorActionYellow] forBarMetrics:UIBarMetricsDefault];
-    [navigationBarAppearance setTintColor:kColorBrandGreen];//返回按钮的箭头颜色
+    [navigationBarAppearance setTintColor:kColorBrandBlue];//返回按钮的箭头颜色
     NSDictionary *textAttributes = @{
                                      NSFontAttributeName: [UIFont systemFontOfSize:kNavTitleFontSize],
                                      NSForegroundColorAttributeName: kColorNavTitle,
                                      };
     [navigationBarAppearance setTitleTextAttributes:textAttributes];
-    
-    [[UITextField appearance] setTintColor:kColorBrandGreen];//设置UITextField的光标颜色
-    [[UITextView appearance] setTintColor:kColorBrandGreen];//设置UITextView的光标颜色
+    navigationBarAppearance.backIndicatorImage = [UIImage imageNamed:@"back_green_Nav"];
+    navigationBarAppearance.backIndicatorTransitionMaskImage = [UIImage imageNamed:@"back_green_Nav"];
+
+    [[UITextField appearance] setTintColor:kColorBrandBlue];//设置UITextField的光标颜色
+    [[UITextView appearance] setTintColor:kColorBrandBlue];//设置UITextView的光标颜色
     [[UISearchBar appearance] setBackgroundImage:[UIImage imageWithColor:kColorTableSectionBg] forBarPosition:0 barMetrics:UIBarMetricsDefault];
 }
 
@@ -454,7 +456,7 @@
         if (![presentingVC isKindOfClass:[LoginViewController class]]) {
             LoginViewController *vc = [[LoginViewController alloc] init];
             vc.showDismissButton = YES;
-            UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
             [presentingVC presentViewController:nav animated:YES completion:nil];
         }
     }else{

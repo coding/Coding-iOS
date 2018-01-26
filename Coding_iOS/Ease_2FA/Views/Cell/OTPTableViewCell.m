@@ -61,7 +61,7 @@
     if (!_passwordLabel) {
         _passwordLabel = [UILabel new];
         _passwordLabel.font = [UIFont systemFontOfSize:50];
-        _passwordLabel.textColor = kColorBrandGreen;
+        _passwordLabel.textColor = kColorBrandBlue;
         [self.contentView addSubview:_passwordLabel];
         [_passwordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.contentView);

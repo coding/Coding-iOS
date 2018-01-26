@@ -95,7 +95,7 @@
                        @"TweetComment" : @"0xFB8638",
                        @"TweetLike" : @"0xFF5847",
                        @"User" : @"0x496AB3",
-                       @"UserFollow" : @"0x2EBE76",
+                       @"UserFollow" : @"0x0060FF",
                        @"ProjectTopicCommentVote": @"",
                        };
     });

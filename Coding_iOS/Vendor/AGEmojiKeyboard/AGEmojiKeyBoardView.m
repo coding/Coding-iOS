@@ -483,7 +483,7 @@ NSString *const RecentUsedEmojiCharactersKey = @"RecentUsedEmojiCharactersKey";
 }
 - (void)configSendButton{
     self.sendButton = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.frame) -self.buttonWidth, 0, self.buttonWidth, CGRectGetHeight(self.frame))];
-    [self.sendButton setBackgroundColor:kColorBrandGreen];
+    [self.sendButton setBackgroundColor:kColorBrandBlue];
     self.sendButton.titleLabel.font = [UIFont systemFontOfSize:17];
     [self.sendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.sendButton setTitle:@"发送" forState:UIControlStateNormal];

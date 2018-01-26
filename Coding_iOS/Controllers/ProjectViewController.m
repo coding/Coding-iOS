@@ -161,13 +161,13 @@
                                           ];
         
         _screenView.selectBlock = ^(NSString *keyword, NSString *status, NSString *label) {
-            [((UIButton *)weakSelf.screenBar.customView) setImage:[UIImage imageNamed:@"task_filter_nav_checked"] forState:UIControlStateNormal];
             weakSelf.keyword = keyword;
             weakSelf.status = status;
             weakSelf.label = label;
             if (keyword == nil && status == nil && label == nil) {
-                [((UIButton *)weakSelf.screenBar.customView) setImage:[UIImage imageNamed:@"task_filter_nav_unchecked"] forState:UIControlStateNormal];
-                
+                weakSelf.screenBar.image = [[UIImage imageNamed:@"task_filter_nav_unchecked"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            }else{
+                weakSelf.screenBar.image = [[UIImage imageNamed:@"task_filter_nav_checked"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             }
             UIView *curView = [weakSelf getCurContentView];
             if (![curView isKindOfClass:[ProjectTasksView class]]) {
@@ -250,7 +250,7 @@
     }
     
     if (ProjectViewTypeTasks == viewType) {
-        UIBarButtonItem *screenBar = [self HDCustomNavButtonWithTitle:nil imageName:@"task_filter_nav_unchecked" target:self action:@selector(screenItemClicked:)];
+        UIBarButtonItem *screenBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"task_filter_nav_unchecked"] style:UIBarButtonItemStylePlain target:self action:@selector(screenItemClicked:)];
         self.navigationItem.rightBarButtonItems = @[navRightBtn, screenBar];
         _screenBar = screenBar;
     } else {
@@ -660,34 +660,6 @@
     vc.curProject = self.myProject;
     vc.curCommits = [Commits commitsWithRef:self.myCodeTree.ref Path:@""];
     [self.navigationController pushViewController:vc animated:YES];
-}
-
-
-
-- (UIBarButtonItem *)HDCustomNavButtonWithTitle:(NSString *)title imageName:(NSString *)imageName target:(id)targe action:(SEL)action {
-    UIButton *itemButtom = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *image = [UIImage imageNamed:imageName];
-    [itemButtom setImage:image forState:UIControlStateNormal];
-    itemButtom.titleLabel.font = [UIFont systemFontOfSize: 16];
-    [itemButtom setTitle:title forState:UIControlStateNormal];
-    [itemButtom setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, -5)];
-    UIColor *color = [UINavigationBar appearance].titleTextAttributes[NSForegroundColorAttributeName];
-    if (color == nil) {
-        color = [UIColor blackColor];
-    }
-    [itemButtom setTitleColor:color forState:UIControlStateNormal];
-    itemButtom.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [itemButtom addTarget:targe action:action
-         forControlEvents:UIControlEventTouchUpInside];
-    if (title == nil && imageName != nil) {
-        [itemButtom setFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
-    } else {
-        [itemButtom setFrame:CGRectMake(0, 0, 80, 40)];
-    }
-    
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc]
-                                      initWithCustomView:itemButtom];
-    return barButtonItem;
 }
 
 - (void)screenItemClicked:(UIBarButtonItem *)sender {

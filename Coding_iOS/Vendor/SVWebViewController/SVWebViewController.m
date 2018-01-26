@@ -194,7 +194,7 @@
         UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, toolbarWidth, 44.0f)];
         toolbar.items = items;
         toolbar.barStyle = self.navigationController.navigationBar.barStyle;
-        toolbar.tintColor = kColorBrandGreen;
+        toolbar.tintColor = kColorBrandBlue;
         self.navigationItem.rightBarButtonItems = items.reverseObjectEnumerator.allObjects;
     }
     
@@ -212,7 +212,7 @@
                           nil];
         
         self.navigationController.toolbar.barStyle = self.navigationController.navigationBar.barStyle;
-        self.navigationController.toolbar.tintColor = kColorBrandGreen;
+        self.navigationController.toolbar.tintColor = kColorBrandBlue;
         self.toolbarItems = items;
     }
 }

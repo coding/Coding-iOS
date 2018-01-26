@@ -103,7 +103,7 @@
             }
         }
         if (!_detailBtn) {
-            _detailBtn = [UIButton buttonWithTitle:@"查看详情" titleColor:kColorBrandGreen];
+            _detailBtn = [UIButton buttonWithTitle:@"查看详情" titleColor:kColorBrandBlue];
             _detailBtn.titleLabel.font = [UIFont systemFontOfSize:12];
             [_detailBtn addTarget:self action:@selector(goToDetail) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:_detailBtn];
@@ -133,7 +133,7 @@
 }
 
 - (void)setVoteCount:(NSNumber *)voteCount isVoted:(BOOL)isVoted{
-    [_voteBtn setBackgroundColor:[UIColor colorWithHexString:isVoted? @"0x2EBE76": @"0xFFFFFF"]];
+    [_voteBtn setBackgroundColor:[UIColor colorWithHexString:isVoted? @"0x0060FF": @"0xFFFFFF"]];
     [_voteBtn setTitleColor:[UIColor colorWithHexString:isVoted? @"0xFFFFFF": @"0x666666"] forState:UIControlStateNormal];
     [_voteBtn setTitle:[NSString stringWithFormat:@"+%@", voteCount] forState:UIControlStateNormal];
 }

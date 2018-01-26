@@ -58,7 +58,7 @@
 }
 
 - (void)setIsSel:(BOOL)isSel {
-    _titleLab.textColor=isSel?kColorBrandGreen:kColor222;
+    _titleLab.textColor=isSel?kColorBrandBlue:kColor222;
     _selImageView.hidden = !isSel;
 
 }

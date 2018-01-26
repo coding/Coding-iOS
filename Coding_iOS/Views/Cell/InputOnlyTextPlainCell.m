@@ -22,13 +22,19 @@
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_textField) {
-            _textField = [[UITextField alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 7.0, kScreen_Width-kPaddingLeftWidth*2, 30)];
+            _textField = [UITextField new];
             _textField.backgroundColor = [UIColor clearColor];
             _textField.borderStyle = UITextBorderStyleNone;
             _textField.font = [UIFont systemFontOfSize:16];
             [_textField addTarget:self action:@selector(textValueChanged:) forControlEvents:UIControlEventEditingChanged];
             _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
             [self.contentView addSubview:_textField];
+            [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.offset(kPaddingLeftWidth);
+                make.right.offset(-kPaddingLeftWidth);
+                make.centerY.equalTo(self.contentView);
+                make.height.mas_equalTo(30);
+            }];
         }
     }
     return self;

@@ -26,6 +26,11 @@
     return [NSString stringWithFormat:@"%@_%ld", kCellIdentifier_Input_OnlyText_Cell_PhoneCode_Prefix, random()];
 }
 
+- (void)setIsBottomLineShow:(BOOL)isBottomLineShow{
+    _isBottomLineShow = isBottomLineShow;
+    _lineView.hidden = !_isBottomLineShow;
+}
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -34,16 +39,16 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_textField) {
             _textField = [UITextField new];
-            [_textField setFont:[UIFont systemFontOfSize:17]];
+            [_textField setFont:[UIFont systemFontOfSize:15]];
             [_textField addTarget:self action:@selector(editDidBegin:) forControlEvents:UIControlEventEditingDidBegin];
             [_textField addTarget:self action:@selector(textValueChanged:) forControlEvents:UIControlEventEditingChanged];
             [_textField addTarget:self action:@selector(editDidEnd:) forControlEvents:UIControlEventEditingDidEnd];
             [self.contentView addSubview:_textField];
             [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo(20);
+                make.height.mas_equalTo(21);
                 make.left.equalTo(self.contentView).offset(kLoginPaddingLeftWidth);
                 make.right.equalTo(self.contentView).offset(-kLoginPaddingLeftWidth);
-                make.centerY.equalTo(self.contentView);
+                make.bottom.offset(-15);
             }];
         }
         
@@ -59,6 +64,11 @@
                     [weakSelf refreshCaptchaImage];
                 }];
                 [self.contentView addSubview:_captchaView];
+                [_captchaView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.size.mas_equalTo(CGSizeMake(60, 25));
+                    make.right.offset(-kPaddingLeftWidth);
+                    make.bottom.offset(-15);
+                }];
             }
             if (!_activityIndicator) {
                 _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -82,12 +92,17 @@
                 _verify_codeBtn = [[PhoneCodeButton alloc] initWithFrame:CGRectMake(kScreen_Width - 80 - kLoginPaddingLeftWidth, (44-25)/2, 80, 25)];
                 [_verify_codeBtn addTarget:self action:@selector(phoneCodeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
                 [self.contentView addSubview:_verify_codeBtn];
+                [_verify_codeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.size.mas_equalTo(CGSizeMake(80, 25));
+                    make.right.offset(-kPaddingLeftWidth);
+                    make.bottom.offset(-15);
+                }];
             }
         }else if ([reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Phone]){
             _countryCodeL = ({
                 UILabel *label = [UILabel new];
-                label.font = [UIFont systemFontOfSize:17];
-                label.textColor = kColorBrandGreen;
+                label.font = [UIFont systemFontOfSize:15];
+                label.textColor = kColorBrandBlue;
                 [self.contentView addSubview:label];
                 [label mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
@@ -131,7 +146,8 @@
 }
 
 - (void)prepareForReuse{
-    self.isForLoginVC = NO;
+    [super prepareForReuse];
+    
     if (![self.reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Password]) {
         self.textField.secureTextEntry = NO;
     }
@@ -145,7 +161,7 @@
 }
 
 - (void)setPlaceholder:(NSString *)phStr value:(NSString *)valueStr{
-    self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:phStr? phStr: @"" attributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:_isForLoginVC? @"0xffffff": @"0x999999" andAlpha:_isForLoginVC? 0.5: 1.0]}];
+    self.textField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:phStr? phStr: @"" attributes:@{NSForegroundColorAttributeName: kColorDarkA}];
     self.textField.text = valueStr;
 }
 
@@ -170,36 +186,20 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    if (_isForLoginVC) {
-        if (!_clearBtn) {
-            _clearBtn = [UIButton new];
-            _clearBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-            [_clearBtn setImage:[UIImage imageNamed:@"text_clear_btn"] forState:UIControlStateNormal];
-            [_clearBtn addTarget:self action:@selector(clearBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [self.contentView addSubview:_clearBtn];
-            [_clearBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake(30, 30));
-                make.right.equalTo(self.contentView).offset(-kLoginPaddingLeftWidth);
-                make.centerY.equalTo(self.contentView);
-            }];
-        }
-        if (!_lineView) {
-            _lineView = [UIView new];
-            _lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
-            [self.contentView addSubview:_lineView];
-            [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo(0.5);
-                make.left.equalTo(self.contentView).offset(kLoginPaddingLeftWidth);
-                make.right.equalTo(self.contentView).offset(-kLoginPaddingLeftWidth);
-                make.bottom.equalTo(self.contentView);
-            }];
-        }
+    if (!_lineView && _isBottomLineShow) {
+        _lineView = [UIView new];
+        _lineView.backgroundColor = kColorDarkA;
+        [self.contentView addSubview:_lineView];
+        [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.height.mas_equalTo(kLine_MinHeight);
+            make.left.equalTo(self.contentView).offset(kLoginPaddingLeftWidth);
+            make.right.equalTo(self.contentView).offset(-kLoginPaddingLeftWidth);
+            make.bottom.equalTo(self.contentView);
+        }];
     }
-    
-    self.backgroundColor = _isForLoginVC? [UIColor clearColor]: [UIColor whiteColor];
-    self.textField.clearButtonMode = _isForLoginVC? UITextFieldViewModeNever: UITextFieldViewModeWhileEditing;
-    self.textField.textColor = _isForLoginVC? [UIColor whiteColor]: kColor222;
-    self.lineView.hidden = !_isForLoginVC;
+    self.backgroundColor = [UIColor whiteColor];
+    self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    self.textField.textColor = kColorDark2;
     self.clearBtn.hidden = YES;
 
     UIView *rightElement;
@@ -221,7 +221,6 @@
     
     [_textField mas_updateConstraints:^(MASConstraintMaker *make) {
         CGFloat offset = rightElement? (CGRectGetMinX(rightElement.frame) - kScreen_Width - 10): -kLoginPaddingLeftWidth;
-        offset -= self.isForLoginVC? 30: 0;
         make.right.equalTo(self.contentView).offset(offset);
     }];
 }
@@ -246,8 +245,7 @@
 
 #pragma mark TextField
 - (void)editDidBegin:(id)sender {
-    self.lineView.backgroundColor = [UIColor whiteColor];
-    self.clearBtn.hidden = _isForLoginVC? self.textField.text.length <= 0: YES;
+    self.lineView.backgroundColor = kColorBrandBlue;
     
     if (self.editDidBeginBlock) {
         self.editDidBeginBlock(self.textField.text);
@@ -255,17 +253,14 @@
 }
 
 - (void)editDidEnd:(id)sender {
-   self.lineView.backgroundColor = [UIColor colorWithHexString:@"0xffffff" andAlpha:0.5];
+   self.lineView.backgroundColor = kColorDarkA;
     self.clearBtn.hidden = YES;
-    
     if (self.editDidEndBlock) {
         self.editDidEndBlock(self.textField.text);
     }
 }
 
 - (void)textValueChanged:(id)sender {
-    self.clearBtn.hidden = _isForLoginVC? self.textField.text.length <= 0: YES;
-    
     if (self.textValueChangedBlock) {
         self.textValueChangedBlock(self.textField.text);
     }

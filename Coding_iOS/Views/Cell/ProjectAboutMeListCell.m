@@ -174,9 +174,9 @@
 
 - (NSArray *)rightButtons{
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:_project.pin.boolValue? kColorTableSectionBg: kColorBrandGreen
+    [rightUtilityButtons sw_addUtilityButtonWithColor:_project.pin.boolValue? kColorTableSectionBg: kColorBrandBlue
                                                 title:_project.pin.boolValue?@"取消常用":@"设置常用"
-                                           titleColor:_project.pin.boolValue? kColorBrandGreen: [UIColor whiteColor]];
+                                           titleColor:_project.pin.boolValue? kColorBrandBlue: [UIColor whiteColor]];
     return rightUtilityButtons;
 }
 

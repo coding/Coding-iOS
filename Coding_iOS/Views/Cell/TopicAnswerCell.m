@@ -44,7 +44,7 @@
             [topLineV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.right.equalTo(self.contentView);
                 make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
-                make.height.mas_equalTo(1.0/[UIScreen mainScreen].scale);
+                make.height.mas_equalTo(kLine_MinHeight);
             }];
         }
     }

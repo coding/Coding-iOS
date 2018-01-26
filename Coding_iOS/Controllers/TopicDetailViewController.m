@@ -263,11 +263,11 @@
 
 #pragma mark Table header footer
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return section == 0? 1.0/[UIScreen mainScreen].scale: _curTopic.watchers.count > 0? 142: 88;
+    return section == 0? kLine_MinHeight: _curTopic.watchers.count > 0? 142: 88;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return section == 0? 10: 1.0/[UIScreen mainScreen].scale;
+    return section == 0? 10: kLine_MinHeight;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
@@ -547,7 +547,7 @@
             _tipL = [UILabel new];
             _tipL.textColor = kColor999;
             _tipL.font = [UIFont systemFontOfSize:12];
-            [_tipL setAttrStrWithStr:@"尚未添加任何关注者，去添加" diffColorStr:@"去添加" diffColor:kColorBrandGreen];
+            [_tipL setAttrStrWithStr:@"尚未添加任何关注者，去添加" diffColorStr:@"去添加" diffColor:kColorBrandBlue];
             _tipL.userInteractionEnabled = YES;
             [_tipL bk_whenTapped:^{
                 if (weakSelf.goToUserBlock) {
@@ -594,7 +594,7 @@
         if (!_deleteBtn) {
             _deleteBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             [_deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
-            [_deleteBtn setTitleColor:kColorBrandGreen forState:UIControlStateNormal];
+            [_deleteBtn setTitleColor:kColorBrandBlue forState:UIControlStateNormal];
             [_deleteBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
             _deleteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12];
             [_deleteBtn bk_addEventHandler:^(id sender) {

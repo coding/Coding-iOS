@@ -58,7 +58,7 @@
             make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(50, 60, 5, 20));
         }];
         [_tipLabel setBackgroundColor:[UIColor colorWithHexString:@"0xF0F0F0"]];
-        [_tipLabel setTextColor:kColorBrandGreen];
+        [_tipLabel setTextColor:kColorBrandBlue];
         _tipLabel.font = [UIFont fontWithName:@"Helvetica" size:12];
     }
     return self;

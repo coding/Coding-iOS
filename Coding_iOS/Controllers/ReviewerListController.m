@@ -43,13 +43,7 @@ static NSString *const kValueKey = @"kValueKey";
 
 -(void)viewWillAppear:(BOOL)animated {
     if(self.isPublisher) {
-        UIImage* backImage = [UIImage imageNamed:@"addBtn_Nav"];
-        CGRect backframe = CGRectMake(0,0,19,19);
-        UIButton* addReviewerButton= [[UIButton alloc] initWithFrame:backframe];
-        [addReviewerButton setBackgroundImage:backImage forState:UIControlStateNormal];
-        [addReviewerButton addTarget:self action:@selector(selectRightAction:) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem* leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addReviewerButton];
-        self.navigationItem.rightBarButtonItem = leftBarButtonItem;
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(selectRightAction:)];
     }
     self.delReviewerPath = [NSString stringWithFormat:@"/api/user/%@/project/%@/git/merge/%@/del_reviewer",_curMRPR.des_owner_name, _curMRPR.des_project_name,self.curMRPR.iid];
     [self updateData];

@@ -267,7 +267,7 @@
         case MRPRStatusAccepted:
             imageStr = @"mrpr_icon_accepted";
             contentStr = @"合并";
-            lineColorStr = @"0x2EBE76";
+            lineColorStr = @"0x0060FF";
             break;
         case MRPRStatusRefused:
             imageStr = @"mrpr_icon_refaused";

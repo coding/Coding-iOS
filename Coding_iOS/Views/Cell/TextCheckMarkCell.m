@@ -18,7 +18,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.tintColor = kColorBrandGreen;
+        self.tintColor = kColorBrandBlue;
         self.backgroundColor = kColorTableBG;
 
         if (!_contentL) {

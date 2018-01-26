@@ -132,7 +132,7 @@ static NSString *const kValueKey = @"kValueKey";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ReviewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_ReviewCell forIndexPath:indexPath];
     User* cellReviewer = self.allUsers[indexPath.row];
-    cell.tintColor =  kColorBrandGreen;
+    cell.tintColor =  kColorBrandBlue;
     [cell initCellWithUsers:cellReviewer];
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:70];
     NSInteger index = indexPath.row;

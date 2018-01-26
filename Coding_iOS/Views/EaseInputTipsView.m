@@ -25,7 +25,7 @@
 }
 
 - (instancetype)initWithTipsType:(EaseInputTipsViewType)type{
-    CGFloat padingWith = type == EaseInputTipsViewTypeLogin? kLoginPaddingLeftWidth: 0.0;
+    CGFloat padingWith = 0.0;
     self = [super initWithFrame:CGRectMake(padingWith, 0, kScreen_Width-2*padingWith, 120)];
     if (self) {
         [self addRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(2, 2)];
@@ -64,7 +64,7 @@
 }
 
 - (void)setValueStr:(NSString *)valueStr{
-    _valueStr = valueStr;
+    _valueStr = [valueStr lowercaseString];
     if (_valueStr.length <= 0) {
         self.dataList = nil;
     }else if ([_valueStr rangeOfString:@"@"].location == NSNotFound) {
@@ -143,7 +143,7 @@
     }
     
     UILabel *label = (UILabel *)[cell.contentView viewWithTag:labelTag];
-    label.textColor =  [UIColor colorWithHexString:_type == EaseInputTipsViewTypeLogin? @"0x222222": @"0x666666"];
+    label.textColor = kColorDark7;
     label.text = [_dataList objectAtIndex:indexPath.row];
     return cell;
 }

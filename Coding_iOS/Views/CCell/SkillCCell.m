@@ -23,7 +23,7 @@
         return;
     }
     if (!_contentLabel) {
-        self.contentView.backgroundColor = kColorBrandGreen;
+        self.contentView.backgroundColor = kColorBrandBlue;
         self.contentView.layer.cornerRadius = 2.0;
         self.layer.cornerRadius = 2.0;
         _contentLabel = [UILabel labelWithFont:[UIFont systemFontOfSize:14] textColor:kColorWhite];

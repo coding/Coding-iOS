@@ -20,7 +20,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_valueL) {
             _valueL = [UILabel new];
-            _valueL.textColor = kColorBrandGreen;
+            _valueL.textColor = kColorBrandBlue;
             _valueL.font = [UIFont systemFontOfSize:50];
             _valueL.textAlignment = NSTextAlignmentCenter;
             [self.contentView addSubview:_valueL];

@@ -34,7 +34,7 @@
             make.left.equalTo(self.contentView).offset(left);
             make.right.equalTo(self.contentView);
             make.top.mas_equalTo(kWikiMenuListCell_PerWikiHeight - 1);
-            make.height.mas_equalTo(1.0/[UIScreen mainScreen].scale);
+            make.height.mas_equalTo(kLine_MinHeight);
         }];
     }
 }
@@ -55,7 +55,7 @@
         make.left.equalTo(self.contentView).offset(left);
     }];
     _titleL.text = _curWiki.title;
-    _titleL.textColor = (_selectedWiki.iid && [_curWiki.iid isEqualToNumber:_selectedWiki.iid])? kColorBrandGreen: kColorDark3;
+    _titleL.textColor = (_selectedWiki.iid && [_curWiki.iid isEqualToNumber:_selectedWiki.iid])? kColorBrandBlue: kColorDark3;
 }
 
 - (void)setupExpandBtn{

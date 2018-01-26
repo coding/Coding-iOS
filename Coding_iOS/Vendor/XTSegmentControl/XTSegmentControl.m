@@ -118,7 +118,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         case XTSegmentControlItemTypeTitleAndIcon:
         {
             if (_titleLabel) {
-                [_titleLabel setTextColor:(selected ? kColorBrandGreen:kColor222)];
+                [_titleLabel setTextColor:(selected ? kColorBrandBlue:kColor222)];
             }
             if (_titleIconView) {
                 [_titleIconView setImage:[UIImage imageNamed: selected ? @"tag_list_down" : @"tag_list_up"]];
@@ -128,7 +128,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         default:
         {
             if (_titleLabel) {
-                [_titleLabel setTextColor:(selected ? kColorBrandGreen:kColor222)];
+                [_titleLabel setTextColor:(selected ? kColorBrandBlue:kColor222)];
             }
         }
             break;
@@ -379,7 +379,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
                                      CGRectGetWidth(rect) - 2 * XTSegmentControlHspace,
                                      XTSegmentControlLineHeight);
         _lineView = [[UIView alloc] initWithFrame:lineRect];
-        _lineView.backgroundColor = kColorBrandGreen;
+        _lineView.backgroundColor = kColorBrandBlue;
         _lineView.layer.cornerRadius = 1.5;
         _lineView.layer.masksToBounds = YES;
         [_contentView addSubview:_lineView];

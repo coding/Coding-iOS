@@ -63,7 +63,7 @@
             searchBar.delegate = self;
             [searchBar sizeToFit];
             [searchBar setPlaceholder:@"搜索冒泡、用户名、话题"];
-            [searchBar setTintColor:kColorBrandGreen];
+            [searchBar setTintColor:kColorBrandBlue];
             [searchBar setTranslucent:NO];
             [searchBar insertBGColor:kColorNavBG];
             UIView *bgV = [[UIView alloc] initWithFrame:CGRectMake(0, -kSafeArea_Top, kScreen_Width, kSafeArea_Top)];

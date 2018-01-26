@@ -110,7 +110,7 @@
     UIButton *button = [UIButton new];
     [button addTarget:self action:@selector(dismissIntroView) forControlEvents:UIControlEventTouchUpInside];
     button.titleLabel.font = [UIFont boldSystemFontOfSize:20];
-    button.backgroundColor = kColorBrandGreen;
+    button.backgroundColor = kColorBrandBlue;
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setTitleColor:[UIColor lightTextColor] forState:UIControlStateHighlighted];
     [button setTitle:@"立即体验" forState:UIControlStateNormal];

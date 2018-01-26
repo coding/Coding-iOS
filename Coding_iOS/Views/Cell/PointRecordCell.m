@@ -31,7 +31,7 @@
             [self.contentView addSubview:_pointsLeftL];
         }
         if (!_pointsChangeL) {
-            _pointsChangeL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:kColorBrandGreen];
+            _pointsChangeL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:kColorBrandBlue];
             [self.contentView addSubview:_pointsChangeL];
         }
         [_usageL mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -65,7 +65,7 @@
     _usageL.text = _curRecord.usage;
     _timeL.text = [_curRecord.created_at stringWithFormat:@"yyyy-MM-dd HH:mm:ss"];
     _pointsLeftL.text = [NSString stringWithFormat:@"余额:%.2f", _curRecord.points_left.floatValue];
-    _pointsChangeL.textColor = [UIColor colorWithHexString:_curRecord.action.intValue == 1? @"0x2EBE76": @"0xFB8638"];
+    _pointsChangeL.textColor = [UIColor colorWithHexString:_curRecord.action.intValue == 1? @"0x0060FF": @"0xFB8638"];
     _pointsChangeL.text = [NSString stringWithFormat:@"%@%.2f", _curRecord.action.intValue == 1? @"+": @"-", _curRecord.points_change.floatValue];
 }
 + (CGFloat)cellHeight{

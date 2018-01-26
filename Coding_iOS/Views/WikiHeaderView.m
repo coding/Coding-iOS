@@ -46,7 +46,7 @@
         UIView *lineV = [UIView lineViewWithPointYY:0];
         [self addSubview:lineV];
         [lineV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(1.0/[UIScreen mainScreen].scale);
+            make.height.mas_equalTo(kLine_MinHeight);
             make.right.left.equalTo(_titleL);
             make.bottom.equalTo(self);
         }];

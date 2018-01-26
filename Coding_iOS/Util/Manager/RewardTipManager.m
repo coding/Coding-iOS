@@ -119,12 +119,12 @@
         [hLineV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(_closeBtn.mas_top);
             make.left.right.equalTo(_contentView);
-            make.height.mas_equalTo(1.0/[UIScreen mainScreen].scale);
+            make.height.mas_equalTo(kLine_MinHeight);
         }];
         [vLineV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(_contentView);
             make.top.bottom.equalTo(_closeBtn);
-            make.width.mas_equalTo(1.0/[UIScreen mainScreen].scale);
+            make.width.mas_equalTo(kLine_MinHeight);
         }];
         //关联事件
         [_bgView bk_whenTapped:^{

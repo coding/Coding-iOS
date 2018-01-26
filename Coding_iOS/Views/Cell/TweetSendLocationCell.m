@@ -53,7 +53,7 @@
     if (locationStr.length > 0) {
         [self.iconImageView setImage:[UIImage imageNamed:@"icon_locationed"]];
         self.locationL.text = locationStr;
-        self.locationL.textColor = kColorBrandGreen;
+        self.locationL.textColor = kColorBrandBlue;
     }else{
         [self.iconImageView setImage:[UIImage imageNamed:@"icon_not_locationed"]];
         self.locationL.text = @"所在位置";

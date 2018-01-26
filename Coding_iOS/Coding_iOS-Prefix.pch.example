@@ -41,6 +41,7 @@
 #import "UIView+SDAutoLayout.h"
 #import "UITableView+SDAutoTableViewCellHeight.h"
 #import "PHAsset+Common.h"
+#import "UINavigationBar+Common.h"
 
 #import "BaseNavigationController.h"
 #import "BaseViewController.h"
@@ -114,6 +115,7 @@
 
 #define kSafeArea_Top (kDevice_Is_iPhoneX? 44: 20)
 #define kSafeArea_Bottom (kDevice_Is_iPhoneX? 34: 0)
+#define kLine_MinHeight (1.0/ [UIScreen mainScreen].scale)
 
 #define kScreen_Bounds [UIScreen mainScreen].bounds
 #define kScreen_Height [UIScreen mainScreen].bounds.size.height
@@ -143,6 +145,7 @@
 #define kColorCCC kColorD8DDE4
 #define kColorD8DDE4 [UIColor colorWithHexString:@"0xD8DDE4"]
 #define kColorBrandGreen [UIColor colorWithHexString:@"0x2EBE76"]
+#define kColorBrandBlue [UIColor colorWithHexString:@"0x0060FF"]
 #define kColorBrandRed [UIColor colorWithHexString:@"0xF56061"]
 #define kColorBrandOrange [UIColor colorWithHexString:@"0xF68435"]
 
@@ -156,6 +159,7 @@
 #define kColorDarkF [UIColor colorWithHexString:@"0xF2F4F6"]
 #define kColorWhite [UIColor colorWithHexString:@"0xFFFFFF"]
 #define kColorActionGreen [UIColor colorWithHexString:@"0x2EBE76"]
+#define kColorActionBlue [UIColor colorWithHexString:@"0x0060FF"]
 #define kColorActionRed [UIColor colorWithHexString:@"0xF56061"]
 #define kColorActionYellow [UIColor colorWithHexString:@"0xF3C033"]
 

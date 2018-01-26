@@ -65,7 +65,7 @@
             }
         }
         if (!_detailBtn) {
-            _detailBtn = [UIButton buttonWithTitle:@"查看详情" titleColor:kColorBrandGreen];
+            _detailBtn = [UIButton buttonWithTitle:@"查看详情" titleColor:kColorBrandBlue];
             _detailBtn.titleLabel.font = [UIFont systemFontOfSize:12];
             [_detailBtn addTarget:self action:@selector(goToDetail) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:_detailBtn];

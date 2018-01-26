@@ -725,14 +725,14 @@
             cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
             cell.detailTextLabel.textColor = kColor999;
         }
-        cell.tintColor = kColorBrandGreen;
+        cell.tintColor = kColorBrandBlue;
         //如果为自定义数据
         if([self.locationArray[indexPath.row][@"cellType"] isEqualToString:@"defualt"])
         {
             switch (indexPath.row) {
                 case 0:
                     cell.textLabel.text = self.locationArray[indexPath.row][@"title"];
-                    cell.textLabel.textColor = kColorBrandGreen;
+                    cell.textLabel.textColor = kColorBrandBlue;
                     if ([self.locationArray[indexPath.row][@"checkmark"] isEqualToString:@"YES"]) {
                         cell.accessoryType = UITableViewCellAccessoryCheckmark;
                     }else {

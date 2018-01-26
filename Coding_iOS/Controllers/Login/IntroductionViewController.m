@@ -152,7 +152,7 @@
 
 - (void)configureButtonsAndPageControl{
 //    Button
-    UIColor *darkColor = kColorBrandGreen;
+    UIColor *darkColor = kColorBrandBlue;
     CGFloat buttonWidth = kScreen_Width * 0.4;
     CGFloat buttonHeight = kScaleFrom_iPhone5_Desgin(38);
     CGFloat paddingToCenter = kScaleFrom_iPhone5_Desgin(10);
@@ -283,14 +283,14 @@
 #pragma mark Action
 - (void)registerBtnClicked{
     RegisterViewController *vc = [RegisterViewController vcWithMethodType:RegisterMethodPhone registerObj:nil];
-    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)loginBtnClicked{
     LoginViewController *vc = [[LoginViewController alloc] init];
     vc.showDismissButton = YES;
-    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:nav animated:YES completion:nil];
 }
 

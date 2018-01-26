@@ -29,7 +29,7 @@
         [tableView registerClass:[CountryCodeCell class] forCellReuseIdentifier:kCellIdentifier_CountryCodeCell];
         tableView.sectionIndexBackgroundColor = [UIColor clearColor];
         tableView.sectionIndexTrackingBackgroundColor = [UIColor clearColor];
-        tableView.sectionIndexColor = kColor666;
+        tableView.sectionIndexColor = kColorDark2;
         [self.view addSubview:tableView];
         [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -98,19 +98,19 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 20;
+    return 30;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *headerV = [UIView new];
     headerV.backgroundColor = self.myTableView.backgroundColor;
     UILabel *titleL = [UILabel new];
-    titleL.font = [UIFont systemFontOfSize:12];
-    titleL.textColor = kColor999;
+    titleL.font = [UIFont systemFontOfSize:14];
+    titleL.textColor = kColorDark2;
     titleL.text = [_keyList[section+ 1] isEqualToString:@"#"]? @"常用": _keyList[section+ 1];
     [headerV addSubview:titleL];
     [titleL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(headerV).insets(UIEdgeInsetsMake(4, 15, 4, 15));
+        make.edges.equalTo(headerV).insets(UIEdgeInsetsMake(0, 15, 0, 15));
     }];
     return headerV;
 }

@@ -48,7 +48,7 @@
         [self setSize:CGSizeZero];
         return;
     }
-    UIColor *tagColor = self.curTag.color.length > 1? [UIColor colorWithHexString:[self.curTag.color stringByReplacingOccurrencesOfString:@"#" withString:@"0x"]]: kColorBrandGreen;
+    UIColor *tagColor = self.curTag.color.length > 1? [UIColor colorWithHexString:[self.curTag.color stringByReplacingOccurrencesOfString:@"#" withString:@"0x"]]: kColorBrandBlue;
     self.layer.backgroundColor = tagColor.CGColor;
     self.textColor = [tagColor isDark]? [UIColor whiteColor]: [UIColor blackColor];
     

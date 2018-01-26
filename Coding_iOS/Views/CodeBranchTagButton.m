@@ -109,7 +109,7 @@
     if (!_mySegmentedControl) {
         _mySegmentedControl = ({
             UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"分支", @"标签"]];
-            segmentedControl.tintColor = kColorBrandGreen;
+            segmentedControl.tintColor = kColorBrandBlue;
             [segmentedControl setTitleTextAttributes:@{
                                                        NSFontAttributeName: [UIFont systemFontOfSize:13],
                                                        NSForegroundColorAttributeName: [UIColor whiteColor]
@@ -117,7 +117,7 @@
                                             forState:UIControlStateSelected];
             [segmentedControl setTitleTextAttributes:@{
                                                        NSFontAttributeName: [UIFont systemFontOfSize:13],
-                                                       NSForegroundColorAttributeName: kColorBrandGreen
+                                                       NSForegroundColorAttributeName: kColorBrandBlue
                                                        } forState:UIControlStateNormal];
             [segmentedControl addTarget:self action:@selector(segmentedControlSelected:) forControlEvents:UIControlEventValueChanged];
             segmentedControl;
@@ -140,7 +140,7 @@
     
     self.mySegmentedControl.frame = CGRectMake(12, (kCodeBranchTagButton_NavHeight - 30)/2, kScreen_Width - 2*12, 30);
     {
-        UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(0, kCodeBranchTagButton_NavHeight, kScreen_Width, 1.0/[UIScreen mainScreen].scale)];
+        UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(0, kCodeBranchTagButton_NavHeight, kScreen_Width, kLine_MinHeight)];
         lineV.backgroundColor = kColorDDD;
         [self.myContentView addSubview:lineV];
     }
@@ -268,13 +268,13 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_BranchTag forIndexPath:indexPath];
     cell.textLabel.font = [UIFont systemFontOfSize:15];
     cell.backgroundColor = [UIColor whiteColor];
-    cell.tintColor = kColorBrandGreen;
+    cell.tintColor = kColorBrandBlue;
 
     CodeBranchOrTag *curBranchOrTag = [self.dataList objectAtIndex:indexPath.row];
     cell.textLabel.text = curBranchOrTag.name;
     
     if ([curBranchOrTag.name isEqualToString:self.titleStr]) {
-        cell.textLabel.textColor = kColorBrandGreen;
+        cell.textLabel.textColor = kColorBrandBlue;
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }else{
         cell.textLabel.textColor = [UIColor blackColor];
@@ -283,7 +283,7 @@
 
     static NSInteger lineTag = 11011;
     if (![cell.contentView viewWithTag:lineTag]) {
-        CGFloat lineH = 1.0/[UIScreen mainScreen].scale;
+        CGFloat lineH = kLine_MinHeight;
         UIView *lineV = [[UIView alloc] initWithFrame:CGRectMake(15, 44 - lineH, kScreen_Width, lineH)];
         lineV.tag = lineTag;
         lineV.backgroundColor = kColorDDD;

@@ -21,7 +21,7 @@
 
 @property (strong, nonatomic, readonly) PhoneCodeButton *verify_codeBtn;
 
-@property (assign, nonatomic) BOOL isForLoginVC;
+@property (assign, nonatomic) BOOL isBottomLineShow;
 
 @property (nonatomic,copy) void(^textValueChangedBlock)(NSString *);
 @property (nonatomic,copy) void(^editDidBeginBlock)(NSString *);

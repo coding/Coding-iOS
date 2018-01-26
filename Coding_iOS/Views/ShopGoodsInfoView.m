@@ -63,7 +63,7 @@
     _countLabel.font = FONT(15);
     _countLabel.backgroundColor = [UIColor clearColor];
     _countLabel.text  = @"ⅹ1";
-    _countLabel.textColor = kColorBrandGreen;
+    _countLabel.textColor = kColorBrandBlue;
     [superView addSubview:_countLabel];
     
     _codingCoinView = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -124,7 +124,7 @@
     bottomLineView.backgroundColor = kColorDDD;
     [superView addSubview:bottomLineView];
     [bottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(1.0/[UIScreen mainScreen].scale);
+        make.height.mas_equalTo(kLine_MinHeight);
         make.left.right.bottom.equalTo(superView);
     }];
     

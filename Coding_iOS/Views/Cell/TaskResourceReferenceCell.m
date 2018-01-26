@@ -28,7 +28,7 @@
         if (!_codeL) {
             _codeL = ({
                 UILabel *label = [UILabel new];
-                label.textColor = kColorBrandGreen;
+                label.textColor = kColorBrandBlue;
                 label.font = [UIFont systemFontOfSize:15];
                 label;
             });

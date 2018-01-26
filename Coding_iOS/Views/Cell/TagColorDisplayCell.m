@@ -14,7 +14,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.tintColor = kColorBrandGreen;
+        self.tintColor = kColorBrandBlue;
         if (!_colorView) {
             _colorView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 12, 20, 20)];
             _colorView.layer.masksToBounds = YES;

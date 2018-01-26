@@ -93,7 +93,7 @@
             make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(7, 33 + 15* 2 - 9, 7, 15));
         }];
         if (!_detailBtn) {
-            _detailBtn = [UIButton buttonWithTitle:@"查看详情" titleColor:kColorBrandGreen];
+            _detailBtn = [UIButton buttonWithTitle:@"查看详情" titleColor:kColorBrandBlue];
             _detailBtn.titleLabel.font = [UIFont systemFontOfSize:12];
             [_detailBtn addTarget:self action:@selector(goToDetail) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:_detailBtn];

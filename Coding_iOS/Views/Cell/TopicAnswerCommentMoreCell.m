@@ -19,7 +19,7 @@
     if (self) {
         // Initialization code
         if (!_contentLabel) {
-            _contentLabel = [UILabel labelWithFont:[UIFont systemFontOfSize:14] textColor:kColorBrandGreen];
+            _contentLabel = [UILabel labelWithFont:[UIFont systemFontOfSize:14] textColor:kColorBrandBlue];
             [self.contentView addSubview:_contentLabel];
         }
         [_contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {

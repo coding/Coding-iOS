@@ -39,7 +39,7 @@
 
 - (void)setTitleStr:(NSString *)title andSpecail:(BOOL)isSpecail{
     [_button setTitle:title forState:UIControlStateNormal];
-    [_button setTitleColor:isSpecail? kColorBrandGreen: kColorDark4 forState:UIControlStateNormal];
+    [_button setTitleColor:isSpecail? kColorBrandBlue: kColorDark4 forState:UIControlStateNormal];
 }
 
 - (void)buttonClicked:(id)sender{

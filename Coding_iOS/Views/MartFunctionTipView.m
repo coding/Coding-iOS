@@ -102,7 +102,7 @@
     popTip.padding = 10;
     popTip.dismissHandler = dismissHandler;
 //    popTip.popoverColor = [UIColor colorWithHexString:@"0x262728" andAlpha:0.8];
-    popTip.popoverColor = kColorBrandGreen;
+    popTip.popoverColor = kColorBrandBlue;
     popTip.bubbleOffset = bubbleOffset;
     [popTip showText:text direction:direction maxWidth:kScreen_Width - 30 inView:view fromFrame:frame duration:0];
     return popTip;

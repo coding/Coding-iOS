@@ -49,7 +49,7 @@
             make.centerY.equalTo(_versionL);
         }];
         [lineV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(1.0/[UIScreen mainScreen].scale);
+            make.height.mas_equalTo(kLine_MinHeight);
             make.top.equalTo(self.contentView).offset(44);
             make.left.equalTo(_versionL);
             make.right.equalTo(self.contentView);

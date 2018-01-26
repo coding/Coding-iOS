@@ -1255,6 +1255,7 @@
 		B1890C482015D92600F52ABA /* WikiEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C432015D92500F52ABA /* WikiEditViewController.m */; };
 		B1890C492015D92600F52ABA /* WikiHistoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C442015D92500F52ABA /* WikiHistoryListViewController.m */; };
 		B1890C4A2015D92600F52ABA /* WikiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C472015D92600F52ABA /* WikiViewController.m */; };
+		B1890C4D2019B29900F52ABA /* UINavigationBar+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C4B2019B29800F52ABA /* UINavigationBar+Common.m */; };
 		B19D4EE11F690F5E00C598F3 /* file_activity_icon_rename@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19D4EDF1F690F5E00C598F3 /* file_activity_icon_rename@2x.png */; };
 		B19D4EE21F690F5E00C598F3 /* file_activity_icon_rename@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19D4EE01F690F5E00C598F3 /* file_activity_icon_rename@3x.png */; };
 		B19D4EEA1F6FAA6000C598F3 /* AboutPointViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B19D4EE81F6FAA6000C598F3 /* AboutPointViewController.m */; };
@@ -3308,6 +3309,8 @@
 		B1890C452015D92600F52ABA /* WikiViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiViewController.h; sourceTree = "<group>"; };
 		B1890C462015D92600F52ABA /* WikiEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WikiEditViewController.h; sourceTree = "<group>"; };
 		B1890C472015D92600F52ABA /* WikiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiViewController.m; sourceTree = "<group>"; };
+		B1890C4B2019B29800F52ABA /* UINavigationBar+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Common.m"; sourceTree = "<group>"; };
+		B1890C4C2019B29800F52ABA /* UINavigationBar+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Common.h"; sourceTree = "<group>"; };
 		B19D4EDF1F690F5E00C598F3 /* file_activity_icon_rename@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_rename@2x.png"; sourceTree = "<group>"; };
 		B19D4EE01F690F5E00C598F3 /* file_activity_icon_rename@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_rename@3x.png"; sourceTree = "<group>"; };
 		B19D4EE71F6FAA6000C598F3 /* AboutPointViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutPointViewController.h; sourceTree = "<group>"; };
@@ -4861,6 +4864,8 @@
 				4E2527191C327FAE0032A7F4 /* UIViewController+BackButtonHandler.m */,
 				B12B64801FFC73A900ACFDCC /* PHAsset+Common.h */,
 				B12B64811FFC73A900ACFDCC /* PHAsset+Common.m */,
+				B1890C4C2019B29800F52ABA /* UINavigationBar+Common.h */,
+				B1890C4B2019B29800F52ABA /* UINavigationBar+Common.m */,
 			);
 			path = OC_Category;
 			sourceTree = "<group>";
@@ -7963,6 +7968,7 @@
 				09A058891E0AA9AE00C1CA3F /* ActivityMonScrollView.m in Sources */,
 				8E1C3DEF19E7D58A00EF3032 /* ActionSheetStringPicker.m in Sources */,
 				8EF643B919FF7E2900F7EEB0 /* LeftImage_LRTextCell.m in Sources */,
+				B1890C4D2019B29900F52ABA /* UINavigationBar+Common.m in Sources */,
 				926C043E1C01A212004937D8 /* ShopOrderListView.m in Sources */,
 				8E1C3DF119E7D58A00EF3032 /* SWActionSheet.m in Sources */,
 				4E1A22821AB1729700CFC14F /* ProjectInfoCell.m in Sources */,

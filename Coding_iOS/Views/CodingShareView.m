@@ -82,7 +82,7 @@
                     button.titleLabel.font = [UIFont systemFontOfSize:15];
                     [button setTitle:@"取消" forState:UIControlStateNormal];
                     [button setTitleColor:[UIColor colorWithHexString:@"0x808080"] forState:UIControlStateNormal];
-                    [button setTitleColor:kColorBrandGreen forState:UIControlStateHighlighted];
+                    [button setTitleColor:kColorBrandBlue forState:UIControlStateHighlighted];
                     [button addTarget:self action:@selector(p_dismiss) forControlEvents:UIControlEventTouchUpInside];
                     button;
                 });

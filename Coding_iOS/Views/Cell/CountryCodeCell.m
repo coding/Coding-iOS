@@ -22,7 +22,7 @@
         _leftL = ({
             UILabel *label = [UILabel new];
             label.font = [UIFont systemFontOfSize:15];
-            label.textColor = kColor222;
+            label.textColor = kColorDark2;
             [self.contentView addSubview:label];
             [label mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
@@ -33,7 +33,7 @@
         _rightL = ({
             UILabel *label = [UILabel new];
             label.font = [UIFont systemFontOfSize:15];
-            label.textColor = kColor999;
+            label.textColor = [UIColor colorWithHexString:@"0x136BFB"];
             [self.contentView addSubview:label];
             [label mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);

@@ -262,7 +262,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return section == 0? 50: 1.0/[UIScreen mainScreen].scale;
+    return section == 0? 50: kLine_MinHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{

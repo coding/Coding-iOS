@@ -9,6 +9,7 @@
 #import "Login2FATipCell.h"
 
 @implementation Login2FATipCell
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -17,19 +18,16 @@
         self.backgroundColor = [UIColor clearColor];
         self.userInteractionEnabled = NO;
         if (!_tipLabel) {
-            _tipLabel = [UILabel new];
-            _tipLabel.layer.masksToBounds = YES;
-            _tipLabel.layer.cornerRadius = 2.0;
-            
-            _tipLabel.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.2];
-            _tipLabel.font = [UIFont systemFontOfSize:16];
+            _tipLabel = [UILabel labelWithFont:[UIFont systemFontOfSize:14] textColor:kColorDark2];
             _tipLabel.minimumScaleFactor = 0.5;
             _tipLabel.adjustsFontSizeToFitWidth = YES;
-            
-            _tipLabel.textColor = [UIColor whiteColor];
+            _tipLabel.text = @"您的账户开启了两步验证，请输入动态验证码登录";
             [self.contentView addSubview:_tipLabel];
             [_tipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(10, kLoginPaddingLeftWidth, 0, kLoginPaddingLeftWidth));
+                make.left.offset(kLoginPaddingLeftWidth);
+                make.right.offset(-kPaddingLeftWidth);
+                make.top.offset(10);
+                make.height.mas_equalTo(20);
             }];
         }
     }
