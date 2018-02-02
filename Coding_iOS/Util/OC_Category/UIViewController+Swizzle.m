@@ -44,13 +44,12 @@
     if ([[UIBarButtonItem appearance] respondsToSelector:@selector(setTitleTextAttributes:forState:)]){
         textAttributes = @{
                            NSFontAttributeName: [UIFont systemFontOfSize:kBackButtonFontSize],
-                           NSForegroundColorAttributeName: kColorBrandBlue,
+                           NSForegroundColorAttributeName: kColorLightBlue,
                            };
         
         [[UIBarButtonItem appearance] setTitleTextAttributes:textAttributes forState:UIControlStateNormal];
         
-        [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:kBackButtonFontSize]} forState:UIControlStateDisabled];
-        [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:kBackButtonFontSize]} forState:UIControlStateHighlighted];
+        [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:kBackButtonFontSize]} forState:UIControlStateDisabled | UIControlStateHighlighted];
     }
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
     temporaryBarButtonItem.title = @"";

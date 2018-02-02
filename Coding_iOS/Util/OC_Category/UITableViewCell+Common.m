@@ -11,6 +11,7 @@
 
 @implementation UITableViewCell (Common)
 - (void)customSetAccessoryType:(UITableViewCellAccessoryType)type{
+    self.tintColor = kColorLightBlue;
     NSInteger accessoryTag = 1234;
     if (type == UITableViewCellAccessoryDisclosureIndicator) {
         if (self.accessoryView.tag != accessoryTag) {

@@ -60,9 +60,10 @@
 }
 
 - (void)setIsSel:(BOOL)isSel {
-    _titleLab.textColor=isSel?kColorBrandBlue:kColor222;
-    _selImageView.hidden = !isSel;
-    
+    _titleLab.textColor=isSel?kColorLightBlue:kColor222;
+//    _selImageView.hidden = !isSel;
+    _selImageView.hidden = YES;
+    self.accessoryType = isSel? UITableViewCellAccessoryCheckmark: UITableViewCellAccessoryNone;
 }
 
 - (void)setTitle:(NSString *)title {

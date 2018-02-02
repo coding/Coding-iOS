@@ -31,6 +31,7 @@
 #import "OTPListViewController.h"
 #import "WebViewController.h"
 #import "ProjectToChooseListViewController.h"
+#import "EATerminalViewController.h"
 
 @interface Project_RootViewController ()
 @property (strong, nonatomic) NSMutableDictionary *myProjectsDict;
@@ -143,6 +144,26 @@
     [self setupNavBtn];
     self.icarouselScrollEnabled = NO;
     [[StartImagesManager shareManager] handleStartLink];//如果 start_image 有对应的 link 的话，需要进入到相应的 web 页面
+    [self setupTerminalButton];
+}
+
+- (void)setupTerminalButton{
+    UIButton *terminalB = [UIButton new];
+    terminalB.backgroundColor = [UIColor clearColor];
+    [terminalB setImage:[UIImage imageNamed:@"button_terminal"] forState:UIControlStateNormal];
+    
+    __weak typeof(self) weakSelf = self;
+    [terminalB bk_addEventHandler:^(id sender) {
+        EATerminalViewController *vc = [EATerminalViewController terminalVC];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+    } forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:terminalB];
+    [terminalB mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.offset(0);
+        make.bottom.offset(-weakSelf.rdv_tabBarController.tabBar.height);
+        make.size.mas_equalTo(CGSizeMake(80, 80));
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated{

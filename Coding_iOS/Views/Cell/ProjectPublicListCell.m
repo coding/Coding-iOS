@@ -187,7 +187,7 @@
     _forkL.text = _project.fork_count.stringValue;
 
     NSString *titleStr=[NSString stringWithFormat:@"%@ 最后更新于 %@",_project.owner_user_name,[_project.updated_at stringDisplay_HHmm]];
-    _ownerTitleLabel.attributedText = [NSString getAttributeFromText:titleStr emphasize:_project.owner_user_name emphasizeColor:kColorBrandBlue];
+    _ownerTitleLabel.attributedText = [NSString getAttributeFromText:titleStr emphasize:_project.owner_user_name emphasizeColor:kColorLinkBlue];
 
     
     //hasSWButtons

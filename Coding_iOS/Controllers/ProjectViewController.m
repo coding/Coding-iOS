@@ -167,7 +167,7 @@
             if (keyword == nil && status == nil && label == nil) {
                 weakSelf.screenBar.image = [[UIImage imageNamed:@"task_filter_nav_unchecked"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             }else{
-                weakSelf.screenBar.image = [[UIImage imageNamed:@"task_filter_nav_checked"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                weakSelf.screenBar.image = [[UIImage imageNamed:@"task_filter_nav_checked"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
             }
             UIView *curView = [weakSelf getCurContentView];
             if (![curView isKindOfClass:[ProjectTasksView class]]) {

@@ -243,8 +243,9 @@
 }
 
 - (void)setupIntroductionViewController{
-    IntroductionViewController *introductionVC = [[IntroductionViewController alloc] init];
-    [self.window setRootViewController:introductionVC];
+    [self setupLoginViewController];//猥琐换
+//    IntroductionViewController *introductionVC = [[IntroductionViewController alloc] init];
+//    [self.window setRootViewController:introductionVC];
 }
 
 - (void)setupTabViewController{
@@ -258,7 +259,7 @@
     //设置Nav的背景色和title色
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
     [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[NSObject baseURLStrIsProduction]? kColorNavBG: kColorActionYellow] forBarMetrics:UIBarMetricsDefault];
-    [navigationBarAppearance setTintColor:kColorBrandBlue];//返回按钮的箭头颜色
+    [navigationBarAppearance setTintColor:kColorLightBlue];//返回按钮的箭头颜色
     NSDictionary *textAttributes = @{
                                      NSFontAttributeName: [UIFont systemFontOfSize:kNavTitleFontSize],
                                      NSForegroundColorAttributeName: kColorNavTitle,
@@ -267,8 +268,8 @@
     navigationBarAppearance.backIndicatorImage = [UIImage imageNamed:@"back_green_Nav"];
     navigationBarAppearance.backIndicatorTransitionMaskImage = [UIImage imageNamed:@"back_green_Nav"];
 
-    [[UITextField appearance] setTintColor:kColorBrandBlue];//设置UITextField的光标颜色
-    [[UITextView appearance] setTintColor:kColorBrandBlue];//设置UITextView的光标颜色
+    [[UITextField appearance] setTintColor:kColorLightBlue];//设置UITextField的光标颜色
+    [[UITextView appearance] setTintColor:kColorLightBlue];//设置UITextView的光标颜色
     [[UISearchBar appearance] setBackgroundImage:[UIImage imageWithColor:kColorTableSectionBg] forBarPosition:0 barMetrics:UIBarMetricsDefault];
 }
 

@@ -114,7 +114,7 @@
         if (keyword == nil && status == nil && label == nil) {
             screenBar.image = [[UIImage imageNamed:@"task_filter_nav_unchecked"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         }else{
-            screenBar.image = [[UIImage imageNamed:@"task_filter_nav_checked"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            screenBar.image = [[UIImage imageNamed:@"task_filter_nav_checked"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         }
         ProjectTaskListView *listView = (ProjectTaskListView *)weakSelf.myCarousel.currentItemView;
         [weakSelf assignmentWithlistView:listView];

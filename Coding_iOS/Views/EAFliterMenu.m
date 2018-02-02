@@ -117,10 +117,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCell" forIndexPath:indexPath];
     cell.backgroundColor=[UIColor clearColor];
-    cell.tintColor = kColorBrandBlue;
     
     [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    UILabel *titleL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:indexPath.row == _selectIndex? kColorBrandBlue: kColor222];
+    UILabel *titleL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:indexPath.row == _selectIndex? kColorLightBlue: kColor222];
     titleL.text = _items[indexPath.row];
     [cell.contentView addSubview:titleL];
     [titleL mas_makeConstraints:^(MASConstraintMaker *make) {

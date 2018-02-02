@@ -268,7 +268,6 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_BranchTag forIndexPath:indexPath];
     cell.textLabel.font = [UIFont systemFontOfSize:15];
     cell.backgroundColor = [UIColor whiteColor];
-    cell.tintColor = kColorBrandBlue;
 
     CodeBranchOrTag *curBranchOrTag = [self.dataList objectAtIndex:indexPath.row];
     cell.textLabel.text = curBranchOrTag.name;

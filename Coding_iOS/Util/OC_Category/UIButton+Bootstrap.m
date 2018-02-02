@@ -40,7 +40,7 @@
     [self.titleLabel setFont:[UIFont systemFontOfSize:MIN(17, self.titleLabel.font.pointSize) weight:UIFontWeightMedium]];
     [self setBackgroundImage:[self buttonImageFromColor:kColorBrandBlue] forState:UIControlStateNormal];
     [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithHexString:@"0x0060FF" andAlpha:0.5]] forState:UIControlStateDisabled];
-    [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithHexString:@"0x0060FF"]] forState:UIControlStateHighlighted];
+    [self setBackgroundImage:[self buttonImageFromColor:[UIColor colorWithHexString:@"0x0060FF" andAlpha:.8]] forState:UIControlStateHighlighted];
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self setTitleColor:[UIColor colorWithWhite:1.0 alpha:0.5] forState:UIControlStateDisabled];
     [self setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];

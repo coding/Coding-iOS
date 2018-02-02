@@ -725,7 +725,6 @@
             cell.detailTextLabel.font = [UIFont systemFontOfSize:12.0];
             cell.detailTextLabel.textColor = kColor999;
         }
-        cell.tintColor = kColorBrandBlue;
         //如果为自定义数据
         if([self.locationArray[indexPath.row][@"cellType"] isEqualToString:@"defualt"])
         {
