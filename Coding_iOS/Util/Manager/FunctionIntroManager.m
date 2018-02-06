@@ -7,8 +7,9 @@
 //
 
 #define kIntroPageKey @"intro_page_version"
-#define kIntroPageNum 2
+#define kIntroPageNum 1
 #define kIntroShowSkipButton (NO)
+#define kIntroShowUseImmediatelyButton (YES)
 
 #import "FunctionIntroManager.h"
 #import "EAIntroView.h"
@@ -34,7 +35,7 @@
     NSString *preVersion = [defaults stringForKey:kIntroPageKey];
     BOOL needToShow = ![preVersion isEqualToString:kVersionBuild_Coding];
     needToShow = (needToShow && kIntroPageNum > 0);
-//    needToShow = NO;//不显示了
+//    needToShow = YES;//For Test
     return needToShow;
 }
 
@@ -80,7 +81,7 @@
         _introView.scrollView.bounces = YES;
         _introView.skipButton = nil;
         _introView.delegate = self;
-        if (pages.count <= 1 && kDevice_Is_iPhone4) {
+        if (pages.count <= 1) {
             _introView.pageControl.hidden = YES;
         }else{
             _introView.pageControl = [self p_pageControl];
@@ -156,13 +157,15 @@
             }];
         }
     }else{
-        UIButton *button = [self p_useImmediatelyButton];
-        [imageView addSubview:button];
-        [button mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.size.mas_equalTo(CGSizeMake(200, (kDevice_Is_iPhone4 || kDevice_Is_iPhone5)? 50: 55));
-            make.centerX.equalTo(imageView);
-            make.bottom.equalTo(imageView).offset(-kSafeArea_Bottom + (kDevice_Is_iPhone4? -50: kDevice_Is_iPhone5? -90: kDevice_Is_iPhone6? -110: -120));
-        }];
+        if (kIntroShowUseImmediatelyButton) {
+            UIButton *button = [self p_useImmediatelyButton];
+            [imageView addSubview:button];
+            [button mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.size.mas_equalTo(CGSizeMake(200, (kDevice_Is_iPhone4 || kDevice_Is_iPhone5)? 50: 55));
+                make.centerX.equalTo(imageView);
+                make.bottom.equalTo(imageView).offset(kDevice_Is_iPhone4? -40: kDevice_Is_iPhone5? -65: kDevice_Is_iPhone6? -70: kDevice_Is_iPhone6Plus? -90: -120);
+            }];
+        }
     }
     EAIntroPage *page = [EAIntroPage pageWithCustomView:imageView];
     return page;
