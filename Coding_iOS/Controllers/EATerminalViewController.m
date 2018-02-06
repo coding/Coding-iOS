@@ -42,15 +42,6 @@
     [super viewWillAppear:animated];
     [self.navigationController setToolbarHidden:YES animated:animated];
 }
-//- (void)viewDidAppear:(BOOL)animated{
-//    [super viewDidAppear:animated];
-//    self.myToolWindow.hidden = NO;
-//}
-//
-//- (void)viewWillDisappear:(BOOL)animated{
-//    [super viewWillDisappear:animated];
-//    self.myToolWindow.hidden = YES;
-//}
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -66,7 +57,6 @@
         _myToolWindow = ({
             UIWindow *toolWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, 44)];
             toolWindow.backgroundColor = [UIColor clearColor];
-//            toolWindow.userInteractionEnabled = NO;
             toolWindow.windowLevel = UIWindowLevelStatusBar;
             toolWindow.hidden = NO;
             toolWindow;
@@ -161,11 +151,16 @@
 
 #define kEATerminalButton_SelectMark @""
 
+@interface EATerminalButton ()
+@property (assign, nonatomic) BOOL isSmall;
+@end
+
 @implementation EATerminalButton
 
 
 + (instancetype)terminalButtonWithName:(NSString *)name{
     EATerminalButton *button = [EATerminalButton new];
+    button.isSmall = NO;
     button.titleLabel.font = [UIFont systemFontOfSize:15];
     [button setTitleColor:kColorDark2 forState:UIControlStateNormal];
     
@@ -176,6 +171,7 @@
 
 + (instancetype)smallTerminalButtonWithName:(NSString *)name choosed:(BOOL)isChoosed{
     EATerminalButton *button = [EATerminalButton new];
+    button.isSmall = YES;
     button.titleLabel.font = [UIFont systemFontOfSize:12];
     [button setTitleColor:kColorDark2 forState:UIControlStateNormal];
     
@@ -185,17 +181,39 @@
     return button;
 }
 
++ (NSDictionary *)p_buttonImageDict{
+    return @{@"->": @"terminal_tail",
+             @"...": @"terminal_more",
+             @"U": @"▲",
+             @"D": @"▼",
+             @"L": @"◀",
+             @"R": @"▶",
+             };
+}
 
 - (void)setName:(NSString *)name{
     _name = name;
-    [self setTitle:_name forState:UIControlStateNormal];
+    NSString *imageName = [self.class p_buttonImageDict][name];
+    UIImage *buttonImage = [UIImage imageNamed:imageName];
+    if (buttonImage) {
+        [self setImage:buttonImage forState:UIControlStateNormal];
+        [self setTitle:nil forState:UIControlStateNormal];
+    }else if (imageName){
+        self.titleLabel.font = [UIFont systemFontOfSize:_isSmall? 12: 18];
+        [self setImage:nil forState:UIControlStateNormal];
+        [self setTitle:imageName forState:UIControlStateNormal];
+    }else{
+        self.titleLabel.font = [UIFont systemFontOfSize:_isSmall? 12: 15];
+        [self setImage:nil forState:UIControlStateNormal];
+        [self setTitle:_name forState:UIControlStateNormal];
+    }
 }
 
 - (void)setIsChoosed:(BOOL)isChoosed{
     _isChoosed = isChoosed;
     if ([_name isEqualToString:kEATerminalButton_SelectMark]) {
         self.backgroundColor = [UIColor clearColor];
-        [self setImage:[UIImage imageNamed:_isChoosed? @"checkbox_checked": @"checkbox_unchecked"] forState:UIControlStateNormal];
+        [self setImage:[UIImage imageNamed:_isChoosed? @"terminal_box_selected": @"terminal_box_unselected"] forState:UIControlStateNormal];
     }else{
         self.backgroundColor = _isChoosed? [UIColor colorWithHexString:@"0xA7B0BD"]: kColorWhite;
     }
@@ -238,6 +256,14 @@
             }
         }
         self.frame = CGRectMake(0, 0, paddingW * 2 - lineW + (lineW + buttonW)* [buttonA.firstObject count], paddingW * 2 - lineW + (lineW + buttonH)* buttonA.count);
+        
+        UIImageView *arrowV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"terminal_triangle"]];
+        [self addSubview:arrowV];
+        [arrowV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(15, 8));
+            make.top.equalTo(self.mas_bottom);
+            make.right.offset(-(paddingW + (buttonW - 15)/ 2));
+        }];
     }
     return self;
 }
@@ -266,9 +292,11 @@
     CGFloat buttonH = 31;
     CGFloat lineW = 2;
     CGFloat paddingW = 4;
-    for (EATerminalButton *button in self.subviews) {
-        NSInteger buttonRow = (NSInteger)((button.y - paddingW) / (buttonH + lineW));
-        button.isChoosed = (buttonRow == choosedIndex);
+    for (UIView *subV in self.subviews) {
+        if ([subV isKindOfClass:[EATerminalButton class]]) {
+            NSInteger buttonRow = (NSInteger)((subV.y - paddingW) / (buttonH + lineW));
+            ((EATerminalButton *)subV).isChoosed = (buttonRow == choosedIndex);
+        }
     }
     if (_choosedIndexBlock) {
         _choosedIndexBlock(self.choosedList);
