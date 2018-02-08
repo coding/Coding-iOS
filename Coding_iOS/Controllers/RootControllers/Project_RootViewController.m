@@ -144,7 +144,7 @@
     [self setupNavBtn];
     self.icarouselScrollEnabled = NO;
     [[StartImagesManager shareManager] handleStartLink];//如果 start_image 有对应的 link 的话，需要进入到相应的 web 页面
-    [self setupTerminalButton];
+//    [self setupTerminalButton];
 }
 
 - (void)setupTerminalButton{
