@@ -98,7 +98,7 @@
     [self.window makeKeyAndVisible];
     [FunctionIntroManager showIntroPage];
 
-    EaseStartView *startView = [EaseStartView startView];
+    EaseStartView *startView = [EaseStartView new];
     @weakify(self);
     [startView startAnimationWithCompletionBlock:^(EaseStartView *easeStartView) {
         @strongify(self);

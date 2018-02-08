@@ -19,6 +19,8 @@
 - (void)handleStartLink;
 
 - (void)refreshImagesPlist;
+- (void)refreshImagesBlock:(void(^)(NSArray<StartImage *> *images, NSError *error))bk;
+
 - (void)startDownloadImages;
 
 @end
