@@ -68,26 +68,6 @@
     _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     
-//    _myToolBar = ({
-//        EaseToolBarItem *item = [EaseToolBarItem easeToolBarItemWithTitle:@" 发表评论..." image:@"button_file_comment" disableImage:nil];
-//        
-//        NSDictionary *attributes = @{NSFontAttributeName : [UIFont systemFontOfSize:15],
-//                                     NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0xB5B5B5"]};
-//        [item setAttributes:attributes forUIControlState:UIControlStateNormal];
-//        
-//        EaseToolBar *toolBar = [EaseToolBar easeToolBarWithItems:@[item]];
-//        toolBar.delegate = self;
-//        [self.view addSubview:toolBar];
-//        [toolBar mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.bottom.equalTo(self.view.mas_bottom);
-//            make.size.mas_equalTo(toolBar.frame.size);
-//        }];
-//        toolBar;
-//    });    
-//    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(self.myToolBar.frame), 0.0);
-//    self.myTableView.contentInset = contentInsets;
-//    self.myTableView.scrollIndicatorInsets = contentInsets;
-    
     [self refresh];
 }
 

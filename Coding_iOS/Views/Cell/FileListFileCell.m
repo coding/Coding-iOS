@@ -78,7 +78,10 @@
             [self.contentView addSubview:self.progressView];
         }
         if (!_stateButton) {
-            _stateButton = [[UIButton alloc] initWithFrame:CGRectMake((kScreen_Width - 55), ([FileListFileCell cellHeight] - 25)/2, 45, 25)];
+            _stateButton = [[UIButton alloc] initWithFrame:CGRectMake((kScreen_Width - 60), ([FileListFileCell cellHeight] - 30)/2, 50, 30)];
+            [_stateButton doBorderWidth:1.0 color:kColorD8DDE4 cornerRadius:3];
+            _stateButton.titleLabel.font = [UIFont systemFontOfSize:14];
+            [_stateButton setTitleColor:kColorDark7 forState:UIControlStateNormal];
             [_stateButton addTarget:self action:@selector(clickedByUser) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:_stateButton];
         }
@@ -87,28 +90,33 @@
 }
 
 - (void)changeToState:(DownloadState)state{
-    NSString *stateImageName;
+    NSString *stateTitleStr;
     switch (state) {
         case DownloadStateDefault:
-            stateImageName = @"icon_file_state_download";
+            stateTitleStr = @"下载";
             break;
         case DownloadStateDownloading:
-            stateImageName = @"icon_file_state_pause";
+            stateTitleStr = @"暂停";
             break;
         case DownloadStatePausing:
-            stateImageName = @"icon_file_state_goon";
+            stateTitleStr = @"继续";
             break;
         case DownloadStateDownloaded:
-            stateImageName = @"icon_file_state_look";
+            stateTitleStr = @"查看";
             break;
         default:
-            stateImageName = @"icon_file_state_download";
+            stateTitleStr = @"下载";
             break;
     }
-    [self.contentView setBackgroundColor:(state == DownloadStateDownloaded)? [UIColor colorWithHexString:@"0x81BCFF" andAlpha:.1]:[UIColor whiteColor]];
+    [self setBackgroundColor:(state == DownloadStateDownloaded)? [UIColor colorWithHexString:@"0x81BCFF" andAlpha:.1]:[UIColor whiteColor]];
+    //addLineforPlainCell: 重置了 backgroundView，要改 layer 才行
+    CALayer *bgLayer = self.backgroundView.layer.sublayers.firstObject;
+    if (bgLayer && [bgLayer isKindOfClass:[CAShapeLayer class]]) {
+        ((CAShapeLayer *)bgLayer).fillColor = self.backgroundColor.CGColor;
+    }
     [self.progressView setHidden:!(state == DownloadStateDownloading || state == DownloadStatePausing)];
     
-    [_stateButton setImage:[UIImage imageNamed:stateImageName] forState:UIControlStateNormal];
+    [_stateButton setTitle:stateTitleStr forState:UIControlStateNormal];
 }
 
 - (void)layoutSubviews{

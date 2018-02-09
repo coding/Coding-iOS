@@ -282,7 +282,8 @@
 - (void)addtitleBtnClick
 {
     EditLabelViewController *vc = [[EditLabelViewController alloc] init];
-    vc.curProject = _curProTopic.project;
+//    vc.curProject = _curProTopic.project;
+    vc.curProject = _curProTopic.project ?: ({Project *p = [Project new]; p.id = _curProTopic.project_id; p;});
     vc.orignalTags = _curProTopic.mdLabels;
     @weakify(self);
     vc.tagsSelectedBlock = ^(EditLabelViewController *vc, NSMutableArray *selectedTags){
