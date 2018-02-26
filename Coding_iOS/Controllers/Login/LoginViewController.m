@@ -342,6 +342,8 @@
     });
     [_underLoginBtn addTarget:self action:@selector(underLoginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     
+    _underLoginBtn.hidden = ![self p_canOpenWeiXin];
+    
     UIButton *cannotLoginBtn = ({
         UIButton *button = [UIButton new];
         [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
@@ -584,6 +586,15 @@
             }
         }
     }];
+}
+
+#pragma mark - app url
+- (BOOL)p_canOpenWeiXin{
+    return [self p_canOpen:@"weixin://"];
+}
+
+- (BOOL)p_canOpen:(NSString*)url{
+    return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:url]];
 }
 
 @end
