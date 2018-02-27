@@ -148,6 +148,8 @@
 #define kColorBrandBlue [UIColor colorWithHexString:@"0x0060FF"]
 #define kColorBrandRed [UIColor colorWithHexString:@"0xF56061"]
 #define kColorBrandOrange [UIColor colorWithHexString:@"0xF68435"]
+#define kColorLightBlue [UIColor colorWithHexString:@"0x136BFB"]
+#define kColorLinkBlue [UIColor colorWithHexString:@"0x2D59A2"]
 
 #pragma mark New Color
 #define kColorDark2 [UIColor colorWithHexString:@"0x272C33"]
