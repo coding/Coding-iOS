@@ -29,6 +29,8 @@
 @property (strong, nonatomic) UISearchBar *mySearchBar;
 @property (copy, nonatomic) void(^searchBlock)();
 @property (copy, nonatomic) void(^scanBlock)();
+
+@property (assign, nonatomic) BOOL isHeaderClosed, isNewerVersionAvailable;
 @end
 @implementation ProjectListView
 static NSString *const kTitleKey = @"kTitleKey";
@@ -122,6 +124,7 @@ static NSString *const kValueKey = @"kValueKey";
         }];
     }
     [_myTableView reloadData];
+    [self p_checkIfNewVersionTip];
 }
 
 - (void)setSearchBlock:(void(^)())searchBlock andScanBlock:(void(^)())scanBlock{
@@ -156,14 +159,22 @@ static NSString *const kValueKey = @"kValueKey";
     }
     [_dataList removeAllObjects];
     if (_myProjects.type < ProjectsTypeToChoose) {
-        NSArray *pinList = _myProjects.pinList, *noPinList = _myProjects.noPinList;
-        if (pinList.count > 0) {
-            [_dataList addObject:@{kTitleKey : @"常用项目",
-                                   kValueKey : pinList}];
-        }
-        if (noPinList.count > 0) {
-            [_dataList addObject:@{kTitleKey : @"一般项目",
-                                   kValueKey : noPinList}];
+//        NSArray *pinList = _myProjects.pinList, *noPinList = _myProjects.noPinList;
+//        if (pinList.count > 0) {
+//            [_dataList addObject:@{kTitleKey : @"常用项目",
+//                                   kValueKey : pinList}];
+//        }
+//        if (noPinList.count > 0) {
+//            [_dataList addObject:@{kTitleKey : @"一般项目",
+//                                   kValueKey : noPinList}];
+//        }
+        NSMutableArray *list = _myProjects.list.mutableCopy;
+        if (list.count > 0) {
+            [list sortUsingComparator:^NSComparisonResult(Project *obj1, Project *obj2) {
+                return (obj1.pin.integerValue < obj2.pin.integerValue);
+            }];
+            [_dataList addObject:@{kTitleKey : @"全部项目",
+                                   kValueKey : list}];
         }
     }else{
         NSMutableArray *list = [self updateFilteredContentForSearchString:self.mySearchBar.text];
@@ -188,6 +199,50 @@ static NSString *const kValueKey = @"kValueKey";
     }
     return nil;
 }
+
+- (void)setIsNewerVersionAvailable:(BOOL)isNewerVersionAvailable{
+    _isNewerVersionAvailable = isNewerVersionAvailable;
+    [self.myTableView reloadData];
+}
+
+- (void)setIsHeaderClosed:(BOOL)isHeaderClosed{
+    _isHeaderClosed = isHeaderClosed;
+    [self.myTableView reloadData];
+}
+
+- (void)p_checkIfNewVersionTip{
+    if ([self p_needToCheckIfNewVersion]) {
+        NSString *appStoreCountry = [(NSLocale *)[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+        if ([appStoreCountry isEqualToString:@"150"]){
+            appStoreCountry = @"eu";
+        }else if ([[appStoreCountry stringByReplacingOccurrencesOfString:@"[A-Za-z]{2}" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, 2)] length]){
+            appStoreCountry = @"us";
+        }
+        __weak typeof(self) weakSelf = self;
+        NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/%@/lookup?id=%@", appStoreCountry, @(923676989)]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+            if (!error && data) {
+                NSDictionary *result = [[NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:&error][@"results"] lastObject];
+                NSString *latestVersion = result[@"version"];
+                NSString *minimumSupportedOSVersion = result[@"minimumOsVersion"];
+                if (latestVersion && minimumSupportedOSVersion) {
+                    BOOL osVersionSupported = ([[UIDevice currentDevice].systemVersion compare:minimumSupportedOSVersion options:NSNumericSearch] != NSOrderedAscending);
+                    BOOL isNewerVersionAvailable = ([kVersion_Coding compare:latestVersion options:NSNumericSearch] == NSOrderedAscending);
+                    weakSelf.isNewerVersionAvailable = (osVersionSupported && isNewerVersionAvailable);
+                }
+            }
+        }];
+        [task resume];
+    }
+}
+
+- (BOOL)p_needToCheckIfNewVersion{
+    return (!_isHeaderClosed && (_useNewStyle && _myProjects.type == ProjectsTypeAll) && !self.isNewerVersionAvailable);
+}
+
+- (BOOL)p_needToShowVersionTip{
+    return (!_isHeaderClosed && (_useNewStyle && _myProjects.type == ProjectsTypeAll) && self.isNewerVersionAvailable);
+}
+
 - (void)refreshUI{
     [_myTableView reloadData];
     [self refreshFirst];
@@ -198,6 +253,8 @@ static NSString *const kValueKey = @"kValueKey";
 - (void)refresh{
     if (!_myProjects.isLoading) {
         [self sendRequest];
+        
+        [self p_checkIfNewVersionTip];
     }
 }
 - (void)refreshFirst{
@@ -240,6 +297,8 @@ static NSString *const kValueKey = @"kValueKey";
                     blankPageType = EaseBlankPageTypeProject_ALL;
                     break;
                 case ProjectsTypeCreated:
+                case ProjectsTypeCreatedPrivate:
+                case ProjectsTypeCreatedPublic:
                     blankPageType = EaseBlankPageTypeProject_CREATE;
                     break;
                 case ProjectsTypeJoined:
@@ -275,6 +334,53 @@ static NSString *const kValueKey = @"kValueKey";
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return [_dataList count];
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return [self p_needToShowVersionTip]? 40: 0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if ([self p_needToShowVersionTip]) {
+        UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 40)];
+        headerV.backgroundColor = [UIColor colorWithHexString:@"0xECF9FF"];
+        __weak typeof(self) weakSelf = self;
+        UIButton *closeBtn = [UIButton new];
+        [closeBtn setImage:[UIImage imageNamed:@"button_tip_close"] forState:UIControlStateNormal];
+        [closeBtn bk_addEventHandler:^(id sender) {
+            weakSelf.isHeaderClosed = YES;
+        } forControlEvents:UIControlEventTouchUpInside];
+        [headerV addSubview:closeBtn];
+        [closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.right.equalTo(headerV);
+            make.width.equalTo(closeBtn.mas_height);
+        }];
+        UIImageView *noticeV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button_tip_notice"]];
+        noticeV.contentMode = UIViewContentModeCenter;
+        [headerV addSubview:noticeV];
+        [noticeV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.left.equalTo(headerV);
+            make.width.equalTo(noticeV.mas_height);
+        }];
+        UILabel *tipL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:[UIColor colorWithHexString:@"0x136BFB"]];
+        tipL.adjustsFontSizeToFitWidth = YES;
+        tipL.minimumScaleFactor = .5;
+        tipL.userInteractionEnabled = YES;
+        tipL.text = @"立即升级最新 Coding 客户端";
+        [tipL bk_whenTapped:^{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppUrl]];
+        }];
+        [headerV addSubview:tipL];
+        [tipL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(headerV);
+            make.left.equalTo(noticeV.mas_right);
+            make.right.equalTo(closeBtn.mas_left);
+        }];
+        return headerV;
+    }else{
+        return nil;
+    }
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [[self valueForSection:section] count];
 }

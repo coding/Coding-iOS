@@ -104,10 +104,14 @@
     }];
 }
 
+- (BOOL)p_isHeaderNeedToShow{
+    
+    return (!_isHeaderClosed && (_curUser.canUpgradeByCompleteUserInfo || _curUser.willExpired));
+}
 - (void)configHeader{
-    BOOL isHeaderNeedToShow = !_isHeaderClosed && !_curUser.isUserInfoCompleted && _curUser.vip.integerValue < 2;
-    UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, !isHeaderNeedToShow? 1: 44)];
-    headerV.backgroundColor = !isHeaderNeedToShow? [UIColor clearColor]: [UIColor colorWithHexString:@"0xF7F4D6"];
+    BOOL isHeaderNeedToShow = [self p_isHeaderNeedToShow];
+    UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, !isHeaderNeedToShow? 1: 40)];
+    headerV.backgroundColor = !isHeaderNeedToShow? [UIColor clearColor]: [UIColor colorWithHexString:@"0xECF9FF"];
     if (isHeaderNeedToShow) {
         __weak typeof(self) weakSelf = self;
         UIButton *closeBtn = [UIButton new];
@@ -121,25 +125,35 @@
             make.top.bottom.right.equalTo(headerV);
             make.width.equalTo(closeBtn.mas_height);
         }];
-        UILabel *tipL = [UILabel labelWithFont:[UIFont systemFontOfSize:14] textColor:[UIColor colorWithHexString:@"0x836E33"]];
+        UIImageView *noticeV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button_tip_notice"]];
+        noticeV.contentMode = UIViewContentModeCenter;
+        [headerV addSubview:noticeV];
+        [noticeV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.bottom.left.equalTo(headerV);
+            make.width.equalTo(noticeV.mas_height);
+        }];
+        UILabel *tipL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:[UIColor colorWithHexString:@"0x136BFB"]];
         tipL.adjustsFontSizeToFitWidth = YES;
         tipL.minimumScaleFactor = .5;
         tipL.userInteractionEnabled = YES;
-        NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:@"完善个人信息，即可升级成为银牌会员。去完善"];
-        [attrStr addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:[attrStr.string rangeOfString:@"去完善"]];
-        tipL.attributedText = attrStr;
+        tipL.text = _curUser.canUpgradeByCompleteUserInfo? @"完善个人信息，即可升级银牌会员": [NSString stringWithFormat:@"会员过期将自动降级到%@", _curUser.isUserInfoCompleted? @"银牌会员": @"普通会员"];
         [tipL bk_whenTapped:^{
-            SettingMineInfoViewController *vc = [SettingMineInfoViewController new];
-            [weakSelf.navigationController pushViewController:vc animated:YES];
+            if (weakSelf.curUser.canUpgradeByCompleteUserInfo) {
+                SettingMineInfoViewController *vc = [SettingMineInfoViewController new];
+                [weakSelf.navigationController pushViewController:vc animated:YES];
+            }else{
+                kTipAlert(@"请前往 Coding 网页版进行升级操作");
+            }
         }];
         [headerV addSubview:tipL];
         [tipL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(headerV);
-            make.left.equalTo(headerV).offset(15);
+            make.left.equalTo(noticeV.mas_right);
             make.right.equalTo(closeBtn.mas_left);
         }];
     }
     self.myTableView.tableHeaderView = headerV;
+    [self.myTableView reloadData];
 }
 
 #pragma mark Table M
@@ -166,10 +180,10 @@
             cell.curServiceInfo = _curServiceInfo;
             ESWeak(self, weakSelf);
             cell.leftBlock = ^(){
-                [weakSelf goToProjects];
+                [weakSelf goToProjectsForPrivate:YES];
             };
             cell.rightBlock = ^(){
-                [weakSelf goToTeams];
+                [weakSelf goToProjectsForPrivate:NO];
             };
             [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
             return cell;
@@ -182,15 +196,28 @@
          indexPath.row == 1? [cell setTitle:@"帮助与反馈" icon:@"user_info_help"]:
          indexPath.row == 2? [cell setTitle:@"设置" icon:@"user_info_setup"]:
          [cell setTitle:@"关于我们" icon:@"user_info_about"]);
-        if (indexPath.section == 1 && indexPath.row == 1 && [[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Me_Shop]) {
-//            cell.accessoryType = UITableViewCellAccessoryNone;
-            CGFloat pointX = kScreen_Width - 40;
-            CGFloat pointY = [UserInfoIconCell cellHeight]/2;
-            [cell.contentView addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(pointX, pointY)];
-        }else{
-//            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            [cell.contentView removeBadgeTips];
+        
+        NSInteger pointTag = 101;
+        [cell.contentView removeViewWithTag:pointTag];
+        if (indexPath.section == 1 && indexPath.row == 0) {
+            UILabel *pointL = [UILabel labelWithFont:[UIFont systemFontOfSize:13] textColor:kColorLightBlue];
+            pointL.text = [NSString stringWithFormat:@"%@ 码币", _curServiceInfo.point_left ?: @"--"];
+            pointL.tag = pointTag;
+            [cell.contentView addSubview:pointL];
+            [pointL mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(cell.contentView);
+                make.right.offset(-kPaddingLeftWidth);
+            }];
         }
+//        if (indexPath.section == 1 && indexPath.row == 1 && [[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Me_Shop]) {
+////            cell.accessoryType = UITableViewCellAccessoryNone;
+//            CGFloat pointX = kScreen_Width - 40;
+//            CGFloat pointY = [UserInfoIconCell cellHeight]/2;
+//            [cell.contentView addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(pointX, pointY)];
+//        }else{
+////            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//            [cell.contentView removeBadgeTips];
+//        }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }
@@ -210,7 +237,7 @@
     return kLine_MinHeight;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 15;
+    return (section == 0 && [self p_isHeaderNeedToShow])? kLine_MinHeight: 15;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -284,16 +311,24 @@
     [self.navigationController pushViewController:[AboutViewController new] animated:YES];
 }
 
-- (void)goToProjects{
+- (void)goToProjectsForPrivate:(BOOL)isForPrivateProjects{
     ProjectListViewController *vc = [[ProjectListViewController alloc] init];
     vc.curUser = _curUser;
     vc.isFromMeRoot = YES;
+    vc.isForPrivateProjects = isForPrivateProjects;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)goToTeams{
-    [self.navigationController pushViewController:[TeamListViewController new] animated:YES];
-}
+//- (void)goToProjects{
+//    ProjectListViewController *vc = [[ProjectListViewController alloc] init];
+//    vc.curUser = _curUser;
+//    vc.isFromMeRoot = YES;
+//    [self.navigationController pushViewController:vc animated:YES];
+//}
+//
+//- (void)goToTeams{
+//    [self.navigationController pushViewController:[TeamListViewController new] animated:YES];
+//}
 
 - (void)goToMeDisplay{
     MeDisplayViewController *vc = [MeDisplayViewController new];

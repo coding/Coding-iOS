@@ -89,7 +89,7 @@
     
     //hasSWButtons
     [self setRightUtilityButtons:hasSWButtons? [self rightButtons]: nil
-                 WithButtonWidth:[[self class] cellHeight]];
+                 WithButtonWidth:135];
     
     //hasBadgeTip
     if (hasBadgeTip) {

@@ -89,6 +89,8 @@
         NSString *newBaseURLStr = alertCtrl.textFields[0].text;
         if ([newBaseURLStr.uppercaseString isEqualToString:@"S"]) {
             newBaseURLStr = @"http://coding.codingprod.net/";
+        }else if ([newBaseURLStr.uppercaseString isEqualToString:@"T"]){
+            newBaseURLStr = @"http://coding.t.codingprod.net/";
         }
         [NSObject changeBaseURLStrTo:newBaseURLStr];
     }];

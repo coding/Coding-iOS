@@ -11,5 +11,5 @@
 
 @interface ProjectListViewController : Project_RootViewController
 @property (strong, nonatomic) User *curUser;
-@property (assign, nonatomic) BOOL isFromMeRoot;
+@property (assign, nonatomic) BOOL isFromMeRoot, isForPrivateProjects;
 @end

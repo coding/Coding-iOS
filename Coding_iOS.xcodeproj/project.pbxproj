@@ -1388,6 +1388,8 @@
 		B1C871BB1EB338FD003DACF0 /* project_tag_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1C871B81EB338FD003DACF0 /* project_tag_btn@3x.png */; };
 		B1C871BC1EB338FD003DACF0 /* project_tag_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1C871B91EB338FD003DACF0 /* project_tag_icon@3x.png */; };
 		B1C871BE1EB33B37003DACF0 /* task_icon_arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1C871BD1EB33B37003DACF0 /* task_icon_arrow@3x.png */; };
+		B1CB8DD22047F1D200872197 /* button_tip_notice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1CB8DD02047F1D000872197 /* button_tip_notice@2x.png */; };
+		B1CB8DD32047F1D200872197 /* button_tip_notice@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1CB8DD12047F1D100872197 /* button_tip_notice@3x.png */; };
 		B93D904B1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D904A1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m */; };
 		B94C1B691AC945D30000C271 /* NewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B94C1B681AC945D30000C271 /* NewProjectViewController.m */; };
 		B94C1B6B1AC945FB0000C271 /* NewProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */; };
@@ -3464,6 +3466,8 @@
 		B1C871B81EB338FD003DACF0 /* project_tag_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_tag_btn@3x.png"; sourceTree = "<group>"; };
 		B1C871B91EB338FD003DACF0 /* project_tag_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_tag_icon@3x.png"; sourceTree = "<group>"; };
 		B1C871BD1EB33B37003DACF0 /* task_icon_arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_icon_arrow@3x.png"; sourceTree = "<group>"; };
+		B1CB8DD02047F1D000872197 /* button_tip_notice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_tip_notice@2x.png"; sourceTree = "<group>"; };
+		B1CB8DD12047F1D100872197 /* button_tip_notice@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_tip_notice@3x.png"; sourceTree = "<group>"; };
 		B93D90491ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectDeleteAlertControllerVisualStyle.h; sourceTree = "<group>"; };
 		B93D904A1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectDeleteAlertControllerVisualStyle.m; sourceTree = "<group>"; };
 		B94C1B671AC945D30000C271 /* NewProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewProjectViewController.h; sourceTree = "<group>"; };
@@ -5842,6 +5846,8 @@
 				B12B64201FF33DFE00ACFDCC /* button_red_close@3x.png */,
 				B12B64251FF33E0000ACFDCC /* button_tip_close@2x.png */,
 				B12B64221FF33DFF00ACFDCC /* button_tip_close@3x.png */,
+				B1CB8DD02047F1D000872197 /* button_tip_notice@2x.png */,
+				B1CB8DD12047F1D100872197 /* button_tip_notice@3x.png */,
 				B12B64231FF33DFF00ACFDCC /* upgrade_success@2x.png */,
 				B12B64241FF33E0000ACFDCC /* upgrade_success@3x.png */,
 				B11DC7BE20245727004E76A9 /* button_terminal@2x.png */,
@@ -7212,8 +7218,10 @@
 				4E996C041ABBF56A00C704F1 /* n_btn_followed_yes@2x.png in Resources */,
 				4EAE06901B784E9200179F4B /* store_icon@2x.png in Resources */,
 				B14689C31EE100B200B01371 /* vip_4_75@3x.png in Resources */,
+				B1CB8DD22047F1D200872197 /* button_tip_notice@2x.png in Resources */,
 				4EF818161B049C89005F974B /* addPictureBgImage@2x.png in Resources */,
 				13FB5D501CA17A6400EE127C /* PRReviewer@3x.png in Resources */,
+				B1CB8DD32047F1D200872197 /* button_tip_notice@3x.png in Resources */,
 				4EB52F0F1C74691B00B5EBEA /* password_look@2x.png in Resources */,
 				4ED673281A8E12F900DF2D1A /* SVWebViewControllerActivityReport-iPad@2x.png in Resources */,
 				13FB5D4B1CA17A6400EE127C /* PointLikeHead@3x.png in Resources */,
@@ -7847,7 +7855,6 @@
 				"${PODS_ROOT}/UMengUShare/UShareSDK/SocialLibraries/QQ/QQSDK/TencentOpenApi_IOS_Bundle.bundle",
 				"${PODS_ROOT}/UMengUShare/UShareSDK/SocialLibraries/Sina/SinaSDK/WeiboSDK.bundle",
 				"${PODS_ROOT}/evernote-cloud-sdk-ios/ENSDKResources.bundle",
-				"${PODS_ROOT}/iVersion/iVersion/iVersion.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (

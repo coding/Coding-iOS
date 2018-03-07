@@ -172,6 +172,15 @@
     return _pinyinName;
 }
 
+- (NSString *)vipName{
+    NSDictionary *vipDict = @{@1: @"普通会员",
+                              @2: @"白银会员",
+                              @3: @"黄金会员",
+                              @4: @"钻石会员",
+                              };
+    return vipDict[_vip];
+}
+
 - (NSString *)toUpdateInfoPath{
     return @"api/user/updateInfo";
 }
@@ -214,6 +223,16 @@
     }
     return YES;
 }
+
+- (BOOL)canUpgradeByCompleteUserInfo{
+    return (!self.isUserInfoCompleted && self.vip.integerValue < 2);
+}
+
+- (BOOL)willExpired{
+    NSTimeInterval timeInterval = [self.vip_expired_at timeIntervalSinceDate:[NSDate date]];
+    return (self.vip.integerValue >= 3 && (timeInterval < 3 * 24 * 60 * 60 && timeInterval >= 0));
+}
+
 
 - (NSString *)changePasswordTips{
     NSString *tipStr = nil;

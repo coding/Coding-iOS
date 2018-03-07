@@ -1286,6 +1286,19 @@
     }];
 }
 
+- (void)request_DeleteCodeFile:(CodeFile *)codeFile withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
+    NSString *filePath = [NSString stringWithFormat:@"api/user/%@/project/%@/git/delete/%@", project.owner_user_name, project.name, [NSString handelRef:codeFile.ref path:codeFile.path]];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:filePath withParams:[codeFile toDeleteParams] withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"代码文件_删除"];
+            
+            block(data, nil);//{"code":0}
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_CodeBranchOrTagWithPath:(NSString *)path withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block{
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toBranchOrTagPath:path] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {

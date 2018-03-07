@@ -9,5 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface UserServiceInfo : NSObject
-@property (strong, nonatomic) NSNumber *balance, *point_left, *private, *public, *team, *total_memory, *used_memory;
+@property (strong, nonatomic) NSNumber *balance, *point_left, *private, *public, *team;
+//, *total_memory, *used_memory;
+
+@property (strong, nonatomic) NSString *private_project_quota, *public_project_quota;
 @end

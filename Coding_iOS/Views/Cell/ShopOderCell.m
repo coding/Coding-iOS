@@ -120,6 +120,8 @@
     [_codingCoinView.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     [_goodsInfoView addSubview:_codingCoinView];
     
+    _priceLabel = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:kColorBrandOrange];
+    [_goodsInfoView addSubview:_priceLabel];
     
     [_coverView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.height.mas_equalTo(80);
@@ -141,6 +143,11 @@
     [_codingCoinView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_coverView);
         make.left.equalTo(_titleLabel);
+    }];
+    
+    [_priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_titleLabel);
+        make.bottom.equalTo(_coverView);
     }];
     
     UIView *lineView2 = [UIView new];
@@ -443,11 +450,17 @@
 
 - (void)configViewWithModel:(ShopOrder *)order
 {
-    _titleLabel.text = order.giftName;
+//    _titleLabel.text = order.giftName;
+    _titleLabel.text = [order.giftName componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"¥￥"]].firstObject;
     [_coverView sd_setImageWithURL:[order.giftImage urlImageWithCodePathResize:90 * 2]];
     NSString *points_cost = [NSString stringWithFormat:@"  %@ 码币",[order.pointsCost stringValue]];
     [_codingCoinView setTitle:points_cost forState:UIControlStateNormal];
-    
+    CGFloat price = order.pointsCost.floatValue * 50;
+    if (price - ((int)price) < .1) {
+        _priceLabel.text = [NSString stringWithFormat:@"￥%.0f", price];
+    }else{
+        _priceLabel.text = [NSString stringWithFormat:@"￥%.1f", price];
+    }
     _orderNumLabel.text = [NSString stringWithFormat:@"订单编号：%@", order.orderNo];
     NSString *remarkStr = order.remark ?: @"";
     if (order.optionName.length > 0) {

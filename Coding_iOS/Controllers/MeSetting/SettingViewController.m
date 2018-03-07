@@ -68,7 +68,15 @@
 
     }else{
         cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValueMore forIndexPath:indexPath];
-        [(TitleValueMoreCell *)cell setTitleStr:@"清除缓存" valueStr:[self p_diskCacheSizeStr]];
+        [(TitleValueMoreCell *)cell setTitleStr:@"清除缓存" valueStr:@"--"];
+        __weak typeof(self) weakSelf = self;
+        __weak typeof(cell) weakCell = cell;
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSString *diskCacheSizeStr = [weakSelf p_diskCacheSizeStr];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                ((UILabel *)[weakCell valueForKey:@"valueLabel"]).text = diskCacheSizeStr;
+            });
+        });
     }
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
     return cell;

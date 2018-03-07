@@ -46,7 +46,7 @@
 }
 
 - (Projects *)projectsWithIndex:(NSUInteger)index{
-    return [Projects projectsWithType:_isFromMeRoot? ProjectsTypeCreated:(index + ProjectsTypeTaProject) andUser:self.curUser];
+    return [Projects projectsWithType:_isFromMeRoot? _isForPrivateProjects? ProjectsTypeCreatedPrivate: ProjectsTypeCreatedPublic:(index + ProjectsTypeTaProject) andUser:self.curUser];
 }
 
 @end

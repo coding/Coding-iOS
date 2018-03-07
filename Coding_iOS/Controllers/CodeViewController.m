@@ -161,7 +161,7 @@
         [actionTitles removeObjectAtIndex:0];
     }
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:actionTitles destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:actionTitles destructiveTitle:@"删除文件" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         [weakSelf actionSheetClicked:sheet index:index];
     }] showInView:self.view];
 }
@@ -176,7 +176,22 @@
         [self goToCommitsVC];
     }else if (index == 2){
         [self popOut];
+    }else if (index == 3){
+        [self deleteBtnClicked];
     }
+}
+
+- (void)deleteBtnClicked{
+    [NSObject showHUDQueryStr:@"正在删除..."];
+    [[Coding_NetAPIManager sharedManager] request_DeleteCodeFile:_myCodeFile withPro:_myProject andBlock:^(id data, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (data) {
+//            if (self.savedSucessBlock) {
+//                self.savedSucessBlock();
+//            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }];
 }
 
 - (void)goToEditVC{

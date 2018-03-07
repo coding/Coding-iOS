@@ -23,6 +23,7 @@
 + (CodeFile *)codeFileToCommitWithRef:(NSString *)ref andPath:(NSString *)path name:(NSString *)name data:(NSString *)data message:(NSString *)message headCommit:(Commit *)headCommit;
 
 - (NSDictionary *)toEditParams;
+- (NSDictionary *)toDeleteParams;
 - (NSDictionary *)toCreateParams;
 @end
 

@@ -72,6 +72,14 @@
     params[@"lastCommitSha"] = self.headCommit.commitId;
     return params;
 }
+
+- (NSDictionary *)toDeleteParams{
+    NSMutableDictionary *params = @{}.mutableCopy;
+    params[@"message"] = [NSString stringWithFormat:@"delete: %@", self.file.name];
+    params[@"lastCommitSha"] = self.headCommit.commitId;
+    return params;
+}
+
 - (NSDictionary *)toCreateParams{
     NSMutableDictionary *params = @{}.mutableCopy;
     params[@"title"] = self.editName;

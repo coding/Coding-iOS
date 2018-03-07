@@ -10,7 +10,7 @@
 
 @interface MeRootUserCell ()
 @property (strong, nonatomic) UIImageView *userV, *vipV;
-@property (strong, nonatomic) UILabel *userL, *gkL;
+@property (strong, nonatomic) UILabel *userL, *vipL, *expirationL;
 @end
 
 @implementation MeRootUserCell
@@ -24,18 +24,36 @@
             [_userV doBorderWidth:0.5 color:nil cornerRadius:25];
             [self.contentView addSubview:_userV];
         }
+        if (!_vipV) {
+            _vipV = [UIImageView new];
+            [self.contentView addSubview:_vipV];
+        }
         if (!_userL) {
             _userL = [UILabel labelWithSystemFontSize:16 textColorHexString:@"0x1E2D42"];
             [self.contentView addSubview:_userL];
         }
-        if (!_gkL) {
-            _gkL = [UILabel labelWithFont:[UIFont systemFontOfSize:13] textColor:[UIColor colorWithHexString:@"0x1E2D42" andAlpha:0.6]];
-            [self.contentView addSubview:_gkL];
+        if (!_vipL) {
+            _vipL = [UILabel labelWithFont:[UIFont systemFontOfSize:12] textColor:kColorDark7];
+            _vipL.textAlignment = NSTextAlignmentCenter;
+            _vipL.backgroundColor = kColorD8DDE4;
+            _vipL.cornerRadius = 2;
+            _vipL.masksToBounds = YES;
+            [self.contentView addSubview:_vipL];
+        }
+        if (!_expirationL) {
+            _expirationL = [UILabel labelWithFont:[UIFont systemFontOfSize:13] textColor:kColorDark7];
+            _expirationL.minimumScaleFactor = .5;
+            _expirationL.adjustsFontSizeToFitWidth = YES;
+            [self.contentView addSubview:_expirationL];
         }
         [_userV mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
             make.size.mas_equalTo(CGSizeMake(50, 50));
             make.centerY.equalTo(self.contentView);
+        }];
+        [_vipV mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.bottom.equalTo(_userV);
+            make.size.mas_equalTo(CGSizeMake(18, 18));
         }];
         [_userL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(_userV);
@@ -43,19 +61,17 @@
             make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
             make.height.mas_equalTo(20);
         }];
-        [_gkL mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_vipL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(60, 20));
+            make.left.equalTo(_userL);
             make.top.equalTo(_userL.mas_bottom).offset(10);
-            make.left.right.equalTo(_userL);
-            make.height.mas_equalTo(20);
         }];
-        if (!_vipV) {
-            _vipV = [UIImageView new];
-            [self.contentView addSubview:_vipV];
-            [_vipV mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.right.bottom.equalTo(_userV);
-                make.size.mas_equalTo(CGSizeMake(18, 18));
-            }];
-        }
+        [_expirationL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(_vipL);
+            make.left.equalTo(_vipL.mas_right).offset(8);
+            make.right.equalTo(_userL);
+        }];
+
     }
     return self;
 }
@@ -65,8 +81,15 @@
     
     [_userV sd_setImageWithURL:[_curUser.avatar urlImageWithCodePathResize:50* 2]];
     _userL.text = _curUser.name;
-    _gkL.text = [NSString stringWithFormat:@"个性后缀：%@", _curUser.global_key];
     _vipV.image = [UIImage imageNamed:[NSString stringWithFormat:@"vip_%@_45", _curUser.vip]];
+    _vipL.text = _curUser.vipName;
+    NSString *expirationStr = [_curUser.vip_expired_at string_yyyy_MM_dd];
+    
+    if (_curUser.vip.integerValue > 2) {
+        [_expirationL setAttrStrWithStr:[NSString stringWithFormat:@"到期时间：%@",expirationStr] diffColorStr:expirationStr diffColor:_curUser.willExpired? [UIColor colorWithHexString:@"0xF23524"]: kColorDark7];
+    }else{
+        _expirationL.hidden = YES;
+    }
 }
 
 + (CGFloat)cellHeight{

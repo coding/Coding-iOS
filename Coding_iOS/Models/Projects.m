@@ -45,6 +45,8 @@
             typeStr = @"joined";
             break;
         case  ProjectsTypeCreated:
+        case ProjectsTypeCreatedPrivate:
+        case ProjectsTypeCreatedPublic:
             typeStr = @"created";
             break;
         case  ProjectsTypeTaProject:
@@ -102,6 +104,8 @@
     NSArray *projectList = responsePros.list;
     if (self.type == ProjectsTypeToChoose) {
         projectList = [projectList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"is_public == %d", NO]];
+    }else if (self.type == ProjectsTypeCreatedPrivate || self.type == ProjectsTypeCreatedPublic){
+        projectList = [projectList filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"is_public == %d", (self.type == ProjectsTypeCreatedPublic)]];
     }
     if (!projectList) {
         return;

@@ -73,6 +73,8 @@
     [_codingCoinView.titleLabel setFont:[UIFont systemFontOfSize:14.0]];
     [superView addSubview:_codingCoinView];
     
+    _priceLabel = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:kColorBrandOrange];
+    [superView addSubview:_priceLabel];
 
     [_coverView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(superView).offset(15);
@@ -96,6 +98,11 @@
         make.centerY.equalTo(_coverView);
 //        make.top.equalTo(_titleLabel.mas_bottom).offset(10);
         make.left.equalTo(_titleLabel.mas_left);
+    }];
+    
+    [_priceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(_titleLabel);
+        make.bottom.equalTo(_coverView);
     }];
     
     DashesLineView *lineView = [[DashesLineView alloc] init];
@@ -132,13 +139,16 @@
 
 - (void)configViewWithModel:(ShopGoods *)model
 {
-    _titleLabel.text = model.name;
+    _titleLabel.text = [model.name componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"¥￥"]].firstObject;
     NSString *points_cost = [NSString stringWithFormat:@"  %@ 码币",[model.points_cost stringValue]];
     [_codingCoinView setTitle:points_cost forState:UIControlStateNormal];
-    
-    
+    CGFloat price = model.points_cost.floatValue * 50;
+    if (price - ((int)price) < .1) {
+        _priceLabel.text = [NSString stringWithFormat:@"￥%.0f", price];
+    }else{
+        _priceLabel.text = [NSString stringWithFormat:@"￥%.1f", price];
+    }
     [_coverView sd_setImageWithURL:[model.image urlImageWithCodePathResize:90* 2] placeholderImage:nil];
-    
     HtmlMedia *mHtml = [[HtmlMedia alloc] initWithString:model.description_mine showType:MediaShowTypeNone];
     [_descLabel ea_setText:mHtml.contentDisplay lineSpacing:5];
 //    _descLabel.text = mHtml.contentDisplay;
