@@ -182,13 +182,22 @@
 }
 
 - (void)deleteBtnClicked{
+    __weak typeof(self) weakSelf = self;
+    [[UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确定要删除文件 %@ 吗？", _myCodeFile.file.name] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (index == 0) {
+            [weakSelf sendDeleteRequst];
+        }
+    }] showInView:self.view];
+}
+
+- (void)sendDeleteRequst{
     [NSObject showHUDQueryStr:@"正在删除..."];
     [[Coding_NetAPIManager sharedManager] request_DeleteCodeFile:_myCodeFile withPro:_myProject andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];
         if (data) {
-//            if (self.savedSucessBlock) {
-//                self.savedSucessBlock();
-//            }
+            //            if (self.savedSucessBlock) {
+            //                self.savedSucessBlock();
+            //            }
             [self.navigationController popViewControllerAnimated:YES];
         }
     }];
