@@ -559,6 +559,7 @@
         }
         if (!_addBtn) {
             _addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            _addBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
             [_addBtn setImage:[UIImage imageNamed:@"topic_add_watcher_btn"] forState:UIControlStateNormal];
             [_addBtn bk_addEventHandler:^(id sender) {
                 if (weakSelf.goToUserBlock) {
@@ -584,6 +585,7 @@
         }
         if (!_commentBtn) {
             _commentBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            _commentBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
             [_commentBtn setImage:[UIImage imageNamed:@"tweet_comment_btn"] forState:UIControlStateNormal];
             [_commentBtn bk_addEventHandler:^(id sender) {
                 if (weakSelf.commentBlock) {

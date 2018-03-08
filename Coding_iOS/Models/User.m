@@ -174,8 +174,8 @@
 
 - (NSString *)vipName{
     NSDictionary *vipDict = @{@1: @"普通会员",
-                              @2: @"白银会员",
-                              @3: @"黄金会员",
+                              @2: @"银牌会员",
+                              @3: @"金牌会员",
                               @4: @"钻石会员",
                               };
     return vipDict[_vip];
@@ -230,7 +230,7 @@
 
 - (BOOL)willExpired{
     NSTimeInterval timeInterval = [self.vip_expired_at timeIntervalSinceDate:[NSDate date]];
-    return (self.vip.integerValue >= 3 && (timeInterval < 3 * 24 * 60 * 60 && timeInterval >= 0));
+    return (self.vip.integerValue >= 3 && (timeInterval < 3 * 24 * 60 * 60));
 }
 
 

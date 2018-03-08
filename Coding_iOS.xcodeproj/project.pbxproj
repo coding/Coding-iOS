@@ -1227,6 +1227,8 @@
 		B14689C21EE100B200B01371 /* vip_4_75@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B21EE100B200B01371 /* vip_4_75@2x.png */; };
 		B14689C31EE100B200B01371 /* vip_4_75@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B31EE100B200B01371 /* vip_4_75@3x.png */; };
 		B1816063202063440022B4C6 /* EATerminalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1816062202063440022B4C6 /* EATerminalViewController.m */; };
+		B184166920513CA100207666 /* topic_add_watcher_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B184166720513CA000207666 /* topic_add_watcher_btn@3x.png */; };
+		B184166A20513CA100207666 /* tweet_comment_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B184166820513CA000207666 /* tweet_comment_btn@3x.png */; };
 		B1890C142015D71E00F52ABA /* wiki.html in Resources */ = {isa = PBXBuildFile; fileRef = B1890C132015D71E00F52ABA /* wiki.html */; };
 		B1890C292015D82600F52ABA /* wiki_menu_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1890C1E2015D82600F52ABA /* wiki_menu_0@2x.png */; };
 		B1890C2A2015D82600F52ABA /* wiki_menu_2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1890C1F2015D82600F52ABA /* wiki_menu_2@3x.png */; };
@@ -3289,6 +3291,8 @@
 		B14689B31EE100B200B01371 /* vip_4_75@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_4_75@3x.png"; sourceTree = "<group>"; };
 		B1816061202063440022B4C6 /* EATerminalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EATerminalViewController.h; sourceTree = "<group>"; };
 		B1816062202063440022B4C6 /* EATerminalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EATerminalViewController.m; sourceTree = "<group>"; };
+		B184166720513CA000207666 /* topic_add_watcher_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topic_add_watcher_btn@3x.png"; sourceTree = "<group>"; };
+		B184166820513CA000207666 /* tweet_comment_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweet_comment_btn@3x.png"; sourceTree = "<group>"; };
 		B1890C132015D71E00F52ABA /* wiki.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = wiki.html; sourceTree = "<group>"; };
 		B1890C1E2015D82600F52ABA /* wiki_menu_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wiki_menu_0@2x.png"; sourceTree = "<group>"; };
 		B1890C1F2015D82600F52ABA /* wiki_menu_2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wiki_menu_2@3x.png"; sourceTree = "<group>"; };
@@ -5737,6 +5741,8 @@
 				4E1A228C1AB19D1F00CFC14F /* git_btn_icons */,
 				7E8E59781B6F91C40083CA02 /* bubble */,
 				8EA6CF5F19E240C40076D59C /* btn_delete_tweetimage@2x.png */,
+				B184166720513CA000207666 /* topic_add_watcher_btn@3x.png */,
+				B184166820513CA000207666 /* tweet_comment_btn@3x.png */,
 				B1C871871EB1E608003DACF0 /* btn_setFrequent@3x.png */,
 				B1C871881EB1E608003DACF0 /* cell_checkmark@3x.png */,
 				B1C871891EB1E608003DACF0 /* icon_add_comment@3x.png */,
@@ -7521,6 +7527,7 @@
 				B1AB5CB8202D7D500075A669 /* button_file_download_unable@3x.png in Resources */,
 				4E80E95C1E02911E00DE1BC6 /* search_icon_task@2x.png in Resources */,
 				D0C4480D1C02DCAC00DC1C4B /* moreBtn_Nav@3x.png in Resources */,
+				B184166A20513CA100207666 /* tweet_comment_btn@3x.png in Resources */,
 				B14689B41EE100B200B01371 /* vip_3_30@2x.png in Resources */,
 				B1280D01200EFEA400DEDF78 /* PR_del_label@3x.png in Resources */,
 				4E9423EC1E69401B0095F1CD /* blankpage_image_Team@2x.png in Resources */,
@@ -7717,6 +7724,7 @@
 				4E6383EA1B32791600D98648 /* checkbox_unchecked@2x.png in Resources */,
 				B1BCB8801FCD006C0098B87B /* icon_file_psd_big@2x.png in Resources */,
 				8EA6D19119E240C40076D59C /* timeline_icon_read@2x.png in Resources */,
+				B184166920513CA100207666 /* topic_add_watcher_btn@3x.png in Resources */,
 				8E97CEB21A0C7E26006F9AD7 /* coding_emoji_27@2x.png in Resources */,
 				B12B64751FFB61AD00ACFDCC /* QBImagePicker.strings in Resources */,
 				B1BCB87E1FCD006C0098B87B /* icon_file_zip_big@2x.png in Resources */,
