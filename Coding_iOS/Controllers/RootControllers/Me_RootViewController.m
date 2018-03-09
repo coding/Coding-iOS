@@ -136,7 +136,8 @@
         tipL.adjustsFontSizeToFitWidth = YES;
         tipL.minimumScaleFactor = .5;
         tipL.userInteractionEnabled = YES;
-        tipL.text = _curUser.canUpgradeByCompleteUserInfo? @"完善个人信息，即可升级银牌会员": [NSString stringWithFormat:@"会员过期将自动降级到%@", _curUser.isUserInfoCompleted? @"银牌会员": @"普通会员"];
+//        tipL.text = _curUser.canUpgradeByCompleteUserInfo? @"完善个人信息，即可升级银牌会员": [NSString stringWithFormat:@"会员过期将自动降级到%@", _curUser.isUserInfoCompleted? @"银牌会员": @"普通会员"];
+        tipL.text = _curUser.canUpgradeByCompleteUserInfo? @"完善个人信息，即可升级银牌会员": @"会员过期后将会自动降级";
         [tipL bk_whenTapped:^{
             if (weakSelf.curUser.canUpgradeByCompleteUserInfo) {
                 SettingMineInfoViewController *vc = [SettingMineInfoViewController new];

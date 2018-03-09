@@ -225,7 +225,8 @@
 }
 
 - (BOOL)canUpgradeByCompleteUserInfo{
-    return (!self.isUserInfoCompleted && self.vip.integerValue < 2);
+    return NO;//
+//    return (!self.isUserInfoCompleted && self.vip.integerValue < 2);
 }
 
 - (BOOL)willExpired{

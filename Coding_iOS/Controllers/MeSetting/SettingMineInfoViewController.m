@@ -96,7 +96,7 @@
 }
 
 - (void)configHeader{
-    BOOL isHeaderNeedToShow = !_isHeaderClosed && (!_curUser.is_phone_validated.boolValue || !_curUser.email_validation.boolValue) && _curUser.vip.integerValue < 2;
+    BOOL isHeaderNeedToShow = !_isHeaderClosed && (!_curUser.is_phone_validated.boolValue || !_curUser.email_validation.boolValue) && _curUser.canUpgradeByCompleteUserInfo;
     UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, !isHeaderNeedToShow? 1: 44)];
     headerV.backgroundColor = !isHeaderNeedToShow? [UIColor clearColor]: [UIColor colorWithHexString:@"0xF2DADA"];
     if (isHeaderNeedToShow) {
