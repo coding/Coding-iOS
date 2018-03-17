@@ -102,8 +102,8 @@ static dispatch_once_t onceToken;
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 DebugLog(@"\n===========response===========\n%@:\n%@\n%@", aPath, error, operation.responseString);
-                !autoShowError || [NSObject showError:error];
                 id responseObject = [NSObject loadResponseWithPath:localPath];
+                !autoShowError || (error.code == NSURLErrorNotConnectedToInternet && responseObject != nil) || [NSObject showError:error];
                 block(responseObject, error);
             }];
             break;}
