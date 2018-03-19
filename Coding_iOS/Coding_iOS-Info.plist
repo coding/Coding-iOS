@@ -83,15 +83,15 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>我们需要您的同意才能使用相机</string>
+	<string>需要扫描二维码或拍照，是否允许打开相机？</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>我们需要通过您的地理位置信息获取您周边的相关数据</string>
+	<string>需要通过定位获取您周边的地理位置信息，是否允许获取你的定位？</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>我们需要您的同意才能使用麦克风</string>
+	<string>需要录制音频，是否允许打开麦克风？</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>我们需要您的同意才能存储图片</string>
+	<string>需要存储图片到相册，是够允许向相册添加照片？</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>我们需要您的同意才能读取您的照片</string>
+	<string>需要添加照片，是否允许访问相册？</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome.ttf</string>
