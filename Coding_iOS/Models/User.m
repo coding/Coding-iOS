@@ -175,7 +175,7 @@
 - (NSString *)vipName{
     NSDictionary *vipDict = @{@1: @"普通会员",
                               @2: @"银牌会员",
-                              @3: @"金牌会员",
+                              @3: @"黄金会员",
                               @4: @"钻石会员",
                               };
     return vipDict[_vip];
