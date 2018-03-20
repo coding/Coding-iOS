@@ -202,7 +202,7 @@
         [cell.contentView removeViewWithTag:pointTag];
         if (indexPath.section == 1 && indexPath.row == 0) {
             UILabel *pointL = [UILabel labelWithFont:[UIFont systemFontOfSize:13] textColor:kColorLightBlue];
-            pointL.text = [NSString stringWithFormat:@"%@ 码币", _curServiceInfo.point_left ?: @"--"];
+            pointL.text = _curServiceInfo.point_left? [NSString stringWithFormat:@"%.2f 码币", _curServiceInfo.point_left.floatValue]: @"-- 码币";
             pointL.tag = pointTag;
             [cell.contentView addSubview:pointL];
             [pointL mas_makeConstraints:^(MASConstraintMaker *make) {
