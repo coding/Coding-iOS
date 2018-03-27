@@ -41,6 +41,8 @@
 #import "ProjectCount.h"
 #import "ActivenessModel.h"
 #import "MRPRPreInfo.h"
+#import "EACodeBranches.h"
+#import "EACodeReleases.h"
 
 #import <UMSocialCore/UMSocialCore.h>
 
@@ -157,6 +159,13 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_Commits:(Commits *)curCommits withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_UploadAssets:(NSArray *)assets inCodeTree:(CodeTree *)codeTree withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block progerssBlock:(void (^)(CGFloat progressValue))progressBlock;
 - (void)request_CreateCodeFile:(CodeFile *)codeFile withPro:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+
+- (void)request_CodeBranches_WithObj:(EACodeBranches *)curObj andBlock:(void (^)(EACodeBranches *data, NSError *error))block;
+- (void)request_DeleteCodeBranch:(CodeBranchOrTag *)curB inProject:(Project *)curP andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_CodeReleases_WithObj:(EACodeReleases *)curObj andBlock:(void (^)(EACodeReleases *data, NSError *error))block;
+- (void)request_CodeRelease_WithObj:(EACodeRelease *)curObj andBlock:(void (^)(EACodeRelease *data, NSError *error))block;
+- (void)request_DeleteCodeRelease:(EACodeRelease *)curObj andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ModifyCodeRelease:(EACodeRelease *)curObj andBlock:(void (^)(EACodeRelease *data, NSError *error))block;
 
 #pragma mark Wiki
 - (void)request_WikiListWithPro:(Project *)pro andBlock:(void (^)(id data, NSError *error))block;

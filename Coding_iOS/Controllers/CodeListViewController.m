@@ -25,6 +25,7 @@
     [self configRightNavBtn];
     
     _listView = [[ProjectCodeListView alloc] initWithFrame:self.view.bounds project:_myProject andCodeTree:_myCodeTree];
+    _listView.hideBranchTagButton = _hideBranchTagButton;
     __weak typeof(self) weakSelf = self;
     _listView.codeTreeFileOfRefBlock = ^(CodeTree_File *curCodeTreeFile, NSString *ref){
         [weakSelf goToVCWith:curCodeTreeFile andRef:ref];
@@ -67,6 +68,7 @@
         CodeListViewController *vc = [[CodeListViewController alloc] init];
         vc.myProject = _myProject;
         vc.myCodeTree = nextCodeTree;
+        vc.hideBranchTagButton = self.hideBranchTagButton;
         [self.navigationController pushViewController:vc animated:YES];
     }else if ([@[@"file", @"image", @"sym_link", @"executable"] containsObject:codeTreeFile.mode]){//文件
         CodeFile *nextCodeFile = [CodeFile codeFileWithRef:ref andPath:codeTreeFile.path];

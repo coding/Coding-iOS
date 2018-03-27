@@ -10,4 +10,15 @@
 
 @implementation CodeBranchOrTag
 
+
+
+@end
+
+
+@implementation CodeBranchOrTagCommit
+
+@end
+
+@implementation CodeBranchOrTagMetric
+
 @end

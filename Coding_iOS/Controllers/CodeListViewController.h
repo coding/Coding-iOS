@@ -13,4 +13,7 @@
 @interface CodeListViewController : BaseViewController
 @property (strong, nonatomic) Project *myProject;
 @property (strong, nonatomic) CodeTree *myCodeTree;
+
+@property (assign, nonatomic) BOOL hideBranchTagButton;
+
 @end

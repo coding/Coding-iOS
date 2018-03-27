@@ -32,6 +32,8 @@
 #import "FunctionTipsManager.h"
 #import "MRPRListViewController.h"
 #import "WikiViewController.h"
+#import "EACodeBranchListViewController.h"
+#import "EACodeReleaseListViewController.h"
 
 @interface NProjectViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
@@ -123,43 +125,51 @@
     return 3;
 }
 
-//footer
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    if (section < 2) {
-        UIView *footerView = [UIView new];
-        footerView.backgroundColor = kColorTableSectionBg;
-        return footerView;
-    }else{
-        return nil;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    CGFloat footerHeight = section < 2? 20: 0.5;
-    return footerHeight;
-}
-
+//header
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0.5;
+    return section == 0? kLine_MinHeight: section == 1? 15.0: _myProject.is_public.boolValue? 15.0: 50.0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if (section > 0) {
-        UIView *headerView = [UIView new];
-        headerView.backgroundColor = kColorTableSectionBg;
-        return headerView;
-    }else{
-        return nil;
+    UIView *headerView = [UIView new];
+    headerView.backgroundColor = kColorTableSectionBg;
+    if (section == 2 && !_myProject.is_public.boolValue) {
+        UILabel *leftL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:kColorDark3];
+        leftL.text = @"代码";
+        UILabel *rightL = [UILabel labelWithFont:[UIFont systemFontOfSize:14] textColor:kColorLightBlue];
+        rightL.text = @"查看 README";
+        __weak typeof(self) weakSelf = self;
+        rightL.userInteractionEnabled = YES;
+        [rightL bk_whenTapped:^{
+            [weakSelf goToReadme];
+        }];
+        [headerView addSubview:leftL];
+        [headerView addSubview:rightL];
+        [leftL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.offset(20);
+            make.left.offset(kPaddingLeftWidth);
+        }];
+        [rightL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(leftL);
+            make.right.offset(-kPaddingLeftWidth);
+        }];
     }
+    return headerView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return section == 2? 15: kLine_MinHeight;
 }
 
 //data
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = 0;
-    if (section == 0 || section == 2) {
+    if (section == 0) {
         row = 2;
     }else if (section == 1){
         row = _myProject.is_public.boolValue? _myProject.current_user_role_id.integerValue <= 70? 3: 4: 6;
+    }else if (section == 2){
+        row = _myProject.is_public.boolValue? 2: 4;
     }
     return row;
 }
@@ -219,13 +229,22 @@
                     break;
             }
         }else if (indexPath.section == 2){
-            switch (indexPath.row) {
-                case 0:
+            if (_myProject.is_public.boolValue) {
+                if (indexPath.row == 0) {
                     [cell setImageStr:@"project_item_readme" andTitle:@"README"];
-                    break;
-                default:
-                    [cell setImageStr:@"project_item_mr_pr" andTitle:_myProject.is_public.boolValue? @"Pull Request": @"Merge Request"];
-                    break;
+                }else{
+                    [cell setImageStr:@"project_item_mr_pr" andTitle:@"Pull Request"];
+                }
+            }else{
+                if (indexPath.row == 0) {
+                    [cell setImageStr:@"project_item_code" andTitle:@"代码浏览"];
+                }else if (indexPath.row == 1){
+                    [cell setImageStr:@"project_item_branch" andTitle:@"分支管理"];
+                }else if (indexPath.row == 2){
+                    [cell setImageStr:@"project_item_tag" andTitle:@"发布管理"];
+                }else{
+                    [cell setImageStr:@"project_item_mr_pr" andTitle:@"合并请求"];
+                }
             }
         }
         FunctionTipsManager *ftm = [FunctionTipsManager shareManager];
@@ -244,7 +263,8 @@
     if (indexPath.section == 0) {
         cellHeight = indexPath.row == 0? [ProjectInfoCell cellHeight]: [ProjectDescriptionCell cellHeightWithObj:_myProject];
     }else if (indexPath.section == 1){
-        if (!_myProject.is_public.boolValue && _myProject.current_user_role_id.integerValue <= 75 && indexPath.row == 4) {//私有项目的受限成员，不能查看代码
+//        if (!_myProject.is_public.boolValue && _myProject.current_user_role_id.integerValue <= 75 && indexPath.row == 4) {//私有项目的受限成员，不能查看代码
+        if (indexPath.row == 4) {// section = 1 中的代码入口封掉
             cellHeight = 0;
         }else{
             cellHeight = [NProjectItemCell cellHeight];
@@ -270,13 +290,28 @@
     }else if (indexPath.section == 1){
         [self goToIndex:indexPath.row];
     }else if (indexPath.section == 2){
-        if (indexPath.row == 0) {
-            [self goToReadme];
-        }else if (indexPath.row == 1){
-            [self goTo_MR_PR];
+        if (_myProject.is_public.boolValue) {
+            if (indexPath.row == 0) {
+                [self goToReadme];
+            }else if (indexPath.row == 1){
+                [self goTo_MR_PR];
+            }
+        }else{
+            if (indexPath.row == 0) {
+                [self goToIndex:ProjectViewTypeCodes];//私有公有 type 和 index 的对应关系有差异
+            }else if (indexPath.row == 1){
+                EACodeBranchListViewController *vc = [EACodeBranchListViewController new];
+                vc.myProject = self.myProject;
+                [self.navigationController pushViewController:vc animated:YES];
+            }else if (indexPath.row == 2){
+                EACodeReleaseListViewController *vc = [EACodeReleaseListViewController new];
+                vc.myProject = self.myProject;
+                [self.navigationController pushViewController:vc animated:YES];
+            }else{
+                [self goTo_MR_PR];
+            }
         }
     }
-    
     FunctionTipsManager *ftm = [FunctionTipsManager shareManager];
     NSString *tipStr = [self p_TipStrForIndexPath:indexPath];
     if (tipStr && [ftm needToTip:tipStr]) {

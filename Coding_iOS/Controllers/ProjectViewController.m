@@ -226,7 +226,7 @@
 
 - (void)configNavBtnWithMyProject{
     if (self.curType != ProjectViewTypeTasks) {
-        self.title = _myProject.name;
+        self.title = (self.curType == ProjectViewTypeCodes && _hideBranchTagButton)? _myCodeTree.ref: _myProject.name;
     }
 }
 
@@ -370,6 +370,7 @@
                     codeListView.codeTreeChangedBlock = ^(CodeTree *tree){
                         weakSelf.myCodeTree = tree;
                     };
+                    codeListView.hideBranchTagButton = self.hideBranchTagButton;
                     codeListView;
                 });
             }
@@ -427,6 +428,7 @@
         CodeListViewController *vc = [[CodeListViewController alloc] init];
         vc.myProject = _myProject;
         vc.myCodeTree = nextCodeTree;
+        vc.hideBranchTagButton = self.hideBranchTagButton;
         [self.navigationController pushViewController:vc animated:YES];
     }else if ([@[@"file", @"image", @"sym_link", @"executable"] containsObject:codeTreeFile.mode]){//文件
         CodeFile *nextCodeFile = [CodeFile codeFileWithRef:ref andPath:codeTreeFile.path];

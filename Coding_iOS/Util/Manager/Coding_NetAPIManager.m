@@ -1360,6 +1360,112 @@
     }];
 }
 
+- (void)request_CodeBranches_WithObj:(EACodeBranches *)curObj andBlock:(void (^)(EACodeBranches *data, NSError *error))block{
+    curObj.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curObj toPath] withParams:[curObj toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        curObj.isLoading = NO;
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"分支管理_列表"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            EACodeBranches *resultA = [NSObject objectOfClass:@"EACodeBranches" fromJSON:resultData];
+            if (resultA.list.count > 0) {
+                NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/branch_metrics", curObj.curPro.owner_user_name, curObj.curPro.name];
+                NSString *targetsStr = [[resultA.list valueForKeyPath:@"last_commit.commitId"] componentsJoinedByString:@","];
+                NSDictionary *params = @{@"base": curObj.curBaseStr ?: resultA.curBaseStr,
+                                         @"targets": targetsStr
+                                         };
+                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id dataM, NSError *errorM) {
+                    if (dataM) {
+                        dataM = dataM[@"data"];
+                        for (CodeBranchOrTag *curB in resultA.list) {
+                            curB.branch_metric = [NSObject objectOfClass:@"CodeBranchOrTagMetric" fromJSON:dataM[curB.last_commit.commitId]];
+                        }
+                        block(resultA, nil);
+                    }else{
+                        block(nil, errorM);
+                    }
+                }];
+            }else{
+                block(resultA, nil);
+            }
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_DeleteCodeBranch:(CodeBranchOrTag *)curB inProject:(Project *)curP andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/branches/delete", curP.owner_user_name, curP.name];
+    NSDictionary *params = @{@"branch_name": curB.name};
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"分支管理_删除"];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)request_CodeReleases_WithObj:(EACodeReleases *)curObj andBlock:(void (^)(EACodeReleases *data, NSError *error))block{
+    curObj.isLoading = YES;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curObj toPath] withParams:[curObj toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        curObj.isLoading = NO;
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"发布管理_列表"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            EACodeReleases *resultA = [NSObject objectOfClass:@"EACodeReleases" fromJSON:resultData];
+            if (curObj.curPro) {
+                [resultA.list setValue:curObj.curPro forKey:@"project"];
+            }
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_CodeRelease_WithObj:(EACodeRelease *)curObj andBlock:(void (^)(EACodeRelease *data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/releases/tag/%@", curObj.project.owner_user_name, curObj.project.name, curObj.tag_name];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"发布管理_详情"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            EACodeRelease *resultA = [NSObject objectOfClass:@"EACodeRelease" fromJSON:resultData];
+            resultA.project = curObj.project;
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_DeleteCodeRelease:(EACodeRelease *)curObj andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/releases/delete/%@", curObj.project.owner_user_name, curObj.project.name, curObj.tag_name];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"发布管理_删除"];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)request_ModifyCodeRelease:(EACodeRelease *)curObj andBlock:(void (^)(EACodeRelease *data, NSError *error))block{
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:curObj.editPath withParams:curObj.editParams withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"发布管理_删除"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            EACodeRelease *resultA = [NSObject objectOfClass:@"EACodeRelease" fromJSON:resultData];
+            resultA.project = curObj.project;
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
 #pragma mark Wiki
 - (void)request_WikiListWithPro:(Project *)pro andBlock:(void (^)(id data, NSError *error))block{
     

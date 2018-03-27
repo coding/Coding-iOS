@@ -240,7 +240,7 @@
 
 - (void)setSelectNum:(NSInteger)selectNum{
     _selectNum = selectNum;
-    [self setTitleBtnStr:_segmentItems[_selectNum]];
+    [self setTitleBtnStr:_segmentItems[MIN(_selectNum, _segmentItems.count - 1)]];
 }
 
 -(void)addItemClicked:(id)sender{
@@ -322,7 +322,13 @@
 }
 
 - (Projects *)projectsWithIndex:(NSUInteger)index{
-    return [Projects projectsWithType:index andUser:nil];
+    ProjectsType type = (index == 0? ProjectsTypeAll:
+                         index == 1? ProjectsTypeCreated:
+                         index == 2? ProjectsTypeJoined:
+                         index == 3? ProjectsTypeWatched:
+                         index == 4? ProjectsTypeStared:
+                         ProjectsTypeAll);
+    return [Projects projectsWithType:type andUser:nil];
 }
 
 - (void)carouselDidScroll:(iCarousel *)carousel{

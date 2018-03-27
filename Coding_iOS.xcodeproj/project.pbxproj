@@ -1228,6 +1228,30 @@
 		B177F5C82060E6B1006709C2 /* topic-ios.html in Resources */ = {isa = PBXBuildFile; fileRef = B177F5C32060E6B1006709C2 /* topic-ios.html */; };
 		B177F5C92060E6B1006709C2 /* code.html in Resources */ = {isa = PBXBuildFile; fileRef = B177F5C42060E6B1006709C2 /* code.html */; };
 		B1816063202063440022B4C6 /* EATerminalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1816062202063440022B4C6 /* EATerminalViewController.m */; };
+		B1817EB62063899400E9BAD1 /* EACodeBranchListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1817EB52063899400E9BAD1 /* EACodeBranchListViewController.m */; };
+		B1817EB9206389F500E9BAD1 /* EACodeReleaseListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1817EB8206389F500E9BAD1 /* EACodeReleaseListViewController.m */; };
+		B1817EBC2063936100E9BAD1 /* EACodeBranches.m in Sources */ = {isa = PBXBuildFile; fileRef = B1817EBB2063936100E9BAD1 /* EACodeBranches.m */; };
+		B1817EBF2063951000E9BAD1 /* EABasePageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B1817EBE2063951000E9BAD1 /* EABasePageModel.m */; };
+		B1817EC4206397E000E9BAD1 /* EACodeRelease.m in Sources */ = {isa = PBXBuildFile; fileRef = B1817EC3206397E000E9BAD1 /* EACodeRelease.m */; };
+		B1817EC7206397F500E9BAD1 /* EACodeReleases.m in Sources */ = {isa = PBXBuildFile; fileRef = B1817EC6206397F500E9BAD1 /* EACodeReleases.m */; };
+		B1817ECA20639E9500E9BAD1 /* EACodeReleaseListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1817EC920639E9500E9BAD1 /* EACodeReleaseListCell.m */; };
+		B1817ECD20639F0A00E9BAD1 /* EACodeBranchListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1817ECC20639F0A00E9BAD1 /* EACodeBranchListCell.m */; };
+		B1817EE42064F92C00E9BAD1 /* EACodeReleaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1817EE32064F92C00E9BAD1 /* EACodeReleaseViewController.m */; };
+		B1817EE72064FC6100E9BAD1 /* EACodeReleaseTopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1817EE62064FC6100E9BAD1 /* EACodeReleaseTopCell.m */; };
+		B1817EEA2064FC7300E9BAD1 /* EACodeReleaseBodyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1817EE92064FC7300E9BAD1 /* EACodeReleaseBodyCell.m */; };
+		B1817EED2064FD9400E9BAD1 /* EACodeReleaseAttachmentsOrReferencesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1817EEC2064FD9400E9BAD1 /* EACodeReleaseAttachmentsOrReferencesCell.m */; };
+		B1817EEF2068C7A100E9BAD1 /* EACodeBranchListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1817EEE2068C7A100E9BAD1 /* EACodeBranchListCell.xib */; };
+		B1817EF12068F4B400E9BAD1 /* EACodeReleaseListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1817EF02068F4B400E9BAD1 /* EACodeReleaseListCell.xib */; };
+		B1817EF62069186E00E9BAD1 /* project_item_tag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1817EF22069186C00E9BAD1 /* project_item_tag@2x.png */; };
+		B1817EF72069186E00E9BAD1 /* project_item_branch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1817EF32069186C00E9BAD1 /* project_item_branch@2x.png */; };
+		B1817EF82069186E00E9BAD1 /* project_item_branch@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1817EF42069186D00E9BAD1 /* project_item_branch@3x.png */; };
+		B1817EF92069186E00E9BAD1 /* project_item_tag@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1817EF52069186E00E9BAD1 /* project_item_tag@3x.png */; };
+		B1817EFC206918D200E9BAD1 /* icon_branch_protected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1817EFA206918D100E9BAD1 /* icon_branch_protected@3x.png */; };
+		B1817EFD206918D200E9BAD1 /* icon_branch_protected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1817EFB206918D200E9BAD1 /* icon_branch_protected@2x.png */; };
+		B1817F002069197D00E9BAD1 /* icon_release_tag@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1817EFE2069197C00E9BAD1 /* icon_release_tag@3x.png */; };
+		B1817F012069197D00E9BAD1 /* icon_release_tag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1817EFF2069197C00E9BAD1 /* icon_release_tag@2x.png */; };
+		B1817F0320691B2700E9BAD1 /* EACodeReleaseTopCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1817F0220691B2700E9BAD1 /* EACodeReleaseTopCell.xib */; };
+		B1817F062069F67700E9BAD1 /* EAEditCodeReleaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1817F052069F67700E9BAD1 /* EAEditCodeReleaseViewController.m */; };
 		B184166920513CA100207666 /* topic_add_watcher_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B184166720513CA000207666 /* topic_add_watcher_btn@3x.png */; };
 		B184166A20513CA100207666 /* tweet_comment_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B184166820513CA000207666 /* tweet_comment_btn@3x.png */; };
 		B1890C292015D82600F52ABA /* wiki_menu_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1890C1E2015D82600F52ABA /* wiki_menu_0@2x.png */; };
@@ -3292,6 +3316,43 @@
 		B177F5C42060E6B1006709C2 /* code.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = code.html; sourceTree = "<group>"; };
 		B1816061202063440022B4C6 /* EATerminalViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EATerminalViewController.h; sourceTree = "<group>"; };
 		B1816062202063440022B4C6 /* EATerminalViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EATerminalViewController.m; sourceTree = "<group>"; };
+		B1817EB42063899400E9BAD1 /* EACodeBranchListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EACodeBranchListViewController.h; sourceTree = "<group>"; };
+		B1817EB52063899400E9BAD1 /* EACodeBranchListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EACodeBranchListViewController.m; sourceTree = "<group>"; };
+		B1817EB7206389F500E9BAD1 /* EACodeReleaseListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EACodeReleaseListViewController.h; sourceTree = "<group>"; };
+		B1817EB8206389F500E9BAD1 /* EACodeReleaseListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EACodeReleaseListViewController.m; sourceTree = "<group>"; };
+		B1817EBA2063936100E9BAD1 /* EACodeBranches.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EACodeBranches.h; sourceTree = "<group>"; };
+		B1817EBB2063936100E9BAD1 /* EACodeBranches.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EACodeBranches.m; sourceTree = "<group>"; };
+		B1817EBD2063951000E9BAD1 /* EABasePageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EABasePageModel.h; sourceTree = "<group>"; };
+		B1817EBE2063951000E9BAD1 /* EABasePageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EABasePageModel.m; sourceTree = "<group>"; };
+		B1817EC2206397E000E9BAD1 /* EACodeRelease.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EACodeRelease.h; sourceTree = "<group>"; };
+		B1817EC3206397E000E9BAD1 /* EACodeRelease.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EACodeRelease.m; sourceTree = "<group>"; };
+		B1817EC5206397F500E9BAD1 /* EACodeReleases.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EACodeReleases.h; sourceTree = "<group>"; };
+		B1817EC6206397F500E9BAD1 /* EACodeReleases.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EACodeReleases.m; sourceTree = "<group>"; };
+		B1817EC820639E9500E9BAD1 /* EACodeReleaseListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EACodeReleaseListCell.h; sourceTree = "<group>"; };
+		B1817EC920639E9500E9BAD1 /* EACodeReleaseListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EACodeReleaseListCell.m; sourceTree = "<group>"; };
+		B1817ECB20639F0A00E9BAD1 /* EACodeBranchListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EACodeBranchListCell.h; sourceTree = "<group>"; };
+		B1817ECC20639F0A00E9BAD1 /* EACodeBranchListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EACodeBranchListCell.m; sourceTree = "<group>"; };
+		B1817EE22064F92C00E9BAD1 /* EACodeReleaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EACodeReleaseViewController.h; sourceTree = "<group>"; };
+		B1817EE32064F92C00E9BAD1 /* EACodeReleaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EACodeReleaseViewController.m; sourceTree = "<group>"; };
+		B1817EE52064FC6100E9BAD1 /* EACodeReleaseTopCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EACodeReleaseTopCell.h; sourceTree = "<group>"; };
+		B1817EE62064FC6100E9BAD1 /* EACodeReleaseTopCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EACodeReleaseTopCell.m; sourceTree = "<group>"; };
+		B1817EE82064FC7300E9BAD1 /* EACodeReleaseBodyCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EACodeReleaseBodyCell.h; sourceTree = "<group>"; };
+		B1817EE92064FC7300E9BAD1 /* EACodeReleaseBodyCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EACodeReleaseBodyCell.m; sourceTree = "<group>"; };
+		B1817EEB2064FD9400E9BAD1 /* EACodeReleaseAttachmentsOrReferencesCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EACodeReleaseAttachmentsOrReferencesCell.h; sourceTree = "<group>"; };
+		B1817EEC2064FD9400E9BAD1 /* EACodeReleaseAttachmentsOrReferencesCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EACodeReleaseAttachmentsOrReferencesCell.m; sourceTree = "<group>"; };
+		B1817EEE2068C7A100E9BAD1 /* EACodeBranchListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EACodeBranchListCell.xib; sourceTree = "<group>"; };
+		B1817EF02068F4B400E9BAD1 /* EACodeReleaseListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EACodeReleaseListCell.xib; sourceTree = "<group>"; };
+		B1817EF22069186C00E9BAD1 /* project_item_tag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_item_tag@2x.png"; sourceTree = "<group>"; };
+		B1817EF32069186C00E9BAD1 /* project_item_branch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_item_branch@2x.png"; sourceTree = "<group>"; };
+		B1817EF42069186D00E9BAD1 /* project_item_branch@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_item_branch@3x.png"; sourceTree = "<group>"; };
+		B1817EF52069186E00E9BAD1 /* project_item_tag@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_item_tag@3x.png"; sourceTree = "<group>"; };
+		B1817EFA206918D100E9BAD1 /* icon_branch_protected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_branch_protected@3x.png"; sourceTree = "<group>"; };
+		B1817EFB206918D200E9BAD1 /* icon_branch_protected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_branch_protected@2x.png"; sourceTree = "<group>"; };
+		B1817EFE2069197C00E9BAD1 /* icon_release_tag@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_release_tag@3x.png"; sourceTree = "<group>"; };
+		B1817EFF2069197C00E9BAD1 /* icon_release_tag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_release_tag@2x.png"; sourceTree = "<group>"; };
+		B1817F0220691B2700E9BAD1 /* EACodeReleaseTopCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EACodeReleaseTopCell.xib; sourceTree = "<group>"; };
+		B1817F042069F67700E9BAD1 /* EAEditCodeReleaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EAEditCodeReleaseViewController.h; sourceTree = "<group>"; };
+		B1817F052069F67700E9BAD1 /* EAEditCodeReleaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EAEditCodeReleaseViewController.m; sourceTree = "<group>"; };
 		B184166720513CA000207666 /* topic_add_watcher_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topic_add_watcher_btn@3x.png"; sourceTree = "<group>"; };
 		B184166820513CA000207666 /* tweet_comment_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweet_comment_btn@3x.png"; sourceTree = "<group>"; };
 		B1890C1E2015D82600F52ABA /* wiki_menu_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wiki_menu_0@2x.png"; sourceTree = "<group>"; };
@@ -4146,6 +4207,10 @@
 				4E6383CF1B32665700D98648 /* project_item_task@2x.png */,
 				4E6383D01B32665700D98648 /* project_item_topic@2x.png */,
 				B1C871551EAE003A003DACF0 /* project_item_topic@3x.png */,
+				B1817EF32069186C00E9BAD1 /* project_item_branch@2x.png */,
+				B1817EF42069186D00E9BAD1 /* project_item_branch@3x.png */,
+				B1817EF22069186C00E9BAD1 /* project_item_tag@2x.png */,
+				B1817EF52069186E00E9BAD1 /* project_item_tag@3x.png */,
 			);
 			path = nproject_item;
 			sourceTree = "<group>";
@@ -5625,6 +5690,14 @@
 				B1890C472015D92600F52ABA /* WikiViewController.m */,
 				B1816061202063440022B4C6 /* EATerminalViewController.h */,
 				B1816062202063440022B4C6 /* EATerminalViewController.m */,
+				B1817EB42063899400E9BAD1 /* EACodeBranchListViewController.h */,
+				B1817EB52063899400E9BAD1 /* EACodeBranchListViewController.m */,
+				B1817EB7206389F500E9BAD1 /* EACodeReleaseListViewController.h */,
+				B1817EB8206389F500E9BAD1 /* EACodeReleaseListViewController.m */,
+				B1817EE22064F92C00E9BAD1 /* EACodeReleaseViewController.h */,
+				B1817EE32064F92C00E9BAD1 /* EACodeReleaseViewController.m */,
+				B1817F042069F67700E9BAD1 /* EAEditCodeReleaseViewController.h */,
+				B1817F052069F67700E9BAD1 /* EAEditCodeReleaseViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -5848,6 +5921,10 @@
 				B11DC7BF20245728004E76A9 /* button_terminal@3x.png */,
 				B10341272024633800853447 /* logo_coding@2x.png */,
 				B10341282024633900853447 /* logo_coding@3x.png */,
+				B1817EFB206918D200E9BAD1 /* icon_branch_protected@2x.png */,
+				B1817EFA206918D100E9BAD1 /* icon_branch_protected@3x.png */,
+				B1817EFF2069197C00E9BAD1 /* icon_release_tag@2x.png */,
+				B1817EFE2069197C00E9BAD1 /* icon_release_tag@3x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -6055,6 +6132,14 @@
 				4E49693F1DCB0BCE0065028E /* FileShare.m */,
 				4E38CF601A7B7C99005536C0 /* CodeBranchOrTag.h */,
 				4E38CF611A7B7C99005536C0 /* CodeBranchOrTag.m */,
+				B1817EBD2063951000E9BAD1 /* EABasePageModel.h */,
+				B1817EBE2063951000E9BAD1 /* EABasePageModel.m */,
+				B1817EBA2063936100E9BAD1 /* EACodeBranches.h */,
+				B1817EBB2063936100E9BAD1 /* EACodeBranches.m */,
+				B1817EC2206397E000E9BAD1 /* EACodeRelease.h */,
+				B1817EC3206397E000E9BAD1 /* EACodeRelease.m */,
+				B1817EC5206397F500E9BAD1 /* EACodeReleases.h */,
+				B1817EC6206397F500E9BAD1 /* EACodeReleases.m */,
 				0A6E6BAB1AB08540004C0107 /* TweetSendLocation.h */,
 				0A6E6BAC1AB08540004C0107 /* TweetSendLocation.m */,
 				4ECF70441B18557E000280FF /* MRPRS.h */,
@@ -6620,6 +6705,19 @@
 				B1890C3B2015D8C800F52ABA /* WikiHistoryCell.m */,
 				B1890C392015D8C800F52ABA /* WikiMenuListCell.h */,
 				B1890C3A2015D8C800F52ABA /* WikiMenuListCell.m */,
+				B1817ECB20639F0A00E9BAD1 /* EACodeBranchListCell.h */,
+				B1817ECC20639F0A00E9BAD1 /* EACodeBranchListCell.m */,
+				B1817EEE2068C7A100E9BAD1 /* EACodeBranchListCell.xib */,
+				B1817EC820639E9500E9BAD1 /* EACodeReleaseListCell.h */,
+				B1817EC920639E9500E9BAD1 /* EACodeReleaseListCell.m */,
+				B1817EF02068F4B400E9BAD1 /* EACodeReleaseListCell.xib */,
+				B1817EE52064FC6100E9BAD1 /* EACodeReleaseTopCell.h */,
+				B1817EE62064FC6100E9BAD1 /* EACodeReleaseTopCell.m */,
+				B1817F0220691B2700E9BAD1 /* EACodeReleaseTopCell.xib */,
+				B1817EE82064FC7300E9BAD1 /* EACodeReleaseBodyCell.h */,
+				B1817EE92064FC7300E9BAD1 /* EACodeReleaseBodyCell.m */,
+				B1817EEB2064FD9400E9BAD1 /* EACodeReleaseAttachmentsOrReferencesCell.h */,
+				B1817EEC2064FD9400E9BAD1 /* EACodeReleaseAttachmentsOrReferencesCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -7033,6 +7131,7 @@
 				B1C871A91EB2D9E6003DACF0 /* task_activity_icon_update_description@3x.png in Resources */,
 				B14689BF1EE100B200B01371 /* vip_4_40@3x.png in Resources */,
 				8E97CE681A0A3424006F9AD7 /* keyboard_keyboard@2x.png in Resources */,
+				B1817F012069197D00E9BAD1 /* icon_release_tag@2x.png in Resources */,
 				8EA6D17919E240C40076D59C /* placeholder_monkey_round_48@2x.png in Resources */,
 				4EAAD0A51E5D8D90008AA957 /* PR_plus@2x.png in Resources */,
 				8EA6D1A819E240C40076D59C /* xtsegment_bordor_left@2x.png in Resources */,
@@ -7058,7 +7157,9 @@
 				4EB52F3C1C7C45E700B5EBEA /* taskResourceReference@3x.png in Resources */,
 				4EB52F1D1C76BA3B00B5EBEA /* tag_button_add@2x.png in Resources */,
 				4E59D32C1D3E106D008C914B /* tweetsBtn_Nav@3x.png in Resources */,
+				B1817EFD206918D200E9BAD1 /* icon_branch_protected@2x.png in Resources */,
 				4ED4B4851D82646100EED8C6 /* user_info_about@2x.png in Resources */,
+				B1817EFC206918D200E9BAD1 /* icon_branch_protected@3x.png in Resources */,
 				4EF17ED71B3C3112003CDD2D /* intro_icon_4@2x.png in Resources */,
 				4E6384031B33C8E900D98648 /* task_activity_icon_create@2x.png in Resources */,
 				4EACB4401A2C448F0097ABB3 /* button_file_download_unable@2x.png in Resources */,
@@ -7084,6 +7185,7 @@
 				4E8C51B01AC1081500B4C51F /* icon_recommended@2x.png in Resources */,
 				4E96E7DA1A1B537E0037C098 /* icon_file_doc@2x.png in Resources */,
 				4E09DCA61C156387001C9392 /* hot_topic_Nav@3x.png in Resources */,
+				B1817EF12068F4B400E9BAD1 /* EACodeReleaseListCell.xib in Resources */,
 				4ED4B4901D82646100EED8C6 /* user_info_setup@3x.png in Resources */,
 				4E4972DF1BB535B400F3AC15 /* tipIcon_ProjectTweet@2x.png in Resources */,
 				4E09DCA91C15662E001C9392 /* share_Nav@2x.png in Resources */,
@@ -7299,6 +7401,7 @@
 				8EA6D16919E240C40076D59C /* nav_project_task@2x.png in Resources */,
 				B1C871851EB18599003DACF0 /* calendar_0xF68435@2x.png in Resources */,
 				4E2BF3D11B96CDF800A5A0A8 /* share_btn_evernote@2x.png in Resources */,
+				B1817EF72069186E00E9BAD1 /* project_item_branch@2x.png in Resources */,
 				13FB5D3A1CA17A6400EE127C /* PR_push@2x.png in Resources */,
 				B14689C11EE100B200B01371 /* vip_4_45@3x.png in Resources */,
 				4E54C24E1D90E05400A61023 /* tipIcon_ProjectTopicCommentVote@2x.png in Resources */,
@@ -7307,6 +7410,7 @@
 				B1C871861EB18599003DACF0 /* calendar_0xF68435@3x.png in Resources */,
 				4EAE06C01B7B51AF00179F4B /* file_activity_icon_create@2x.png in Resources */,
 				8EA6D18F19E240C40076D59C /* tasks_all@2x.png in Resources */,
+				B1817F0320691B2700E9BAD1 /* EACodeReleaseTopCell.xib in Resources */,
 				13FB5D451CA17A6400EE127C /* merge-request coding@2x.png in Resources */,
 				B1280CEE200EFDC600DEDF78 /* file_changeType_ADD@3x.png in Resources */,
 				B1C871821EB18599003DACF0 /* calendar_0xA9B3BE@3x.png in Resources */,
@@ -7494,6 +7598,7 @@
 				4EA679191A14BFA0001A0324 /* icon_file_folder_default@2x.png in Resources */,
 				4EAAD0561E542B2D008AA957 /* icon_code_file@3x.png in Resources */,
 				4E6383D61B32665700D98648 /* project_item_readme@2x.png in Resources */,
+				B1817EEF2068C7A100E9BAD1 /* EACodeBranchListCell.xib in Resources */,
 				D0C447F81C02DCA200DC1C4B /* info_Nav@2x.png in Resources */,
 				4EF17ECE1B3C3112003CDD2D /* intro_dot_unselected@3x.png in Resources */,
 				B1C871B51EB2D9F0003DACF0 /* file_activity_icon_update_file@3x.png in Resources */,
@@ -7548,6 +7653,7 @@
 				4E80E9571E02911E00DE1BC6 /* search_icon_user@3x.png in Resources */,
 				4EF17ED21B3C3112003CDD2D /* intro_icon_1@3x.png in Resources */,
 				4E9423DC1E69401B0095F1CD /* blankpage_image_Default@2x.png in Resources */,
+				B1817EF62069186E00E9BAD1 /* project_item_tag@2x.png in Resources */,
 				13FB5D4F1CA17A6400EE127C /* PRReviewer@2x.png in Resources */,
 				B12B640F1FECB59000ACFDCC /* login_wechat@2x.png in Resources */,
 				B1C871A31EB2D9E6003DACF0 /* task_activity_icon_finish@3x.png in Resources */,
@@ -7596,6 +7702,7 @@
 				4E80E9391E01218300DE1BC6 /* reward_tip_logo@3x.png in Resources */,
 				4E09DCAA1C15662E001C9392 /* share_Nav@3x.png in Resources */,
 				4E2BF3D01B96CDF800A5A0A8 /* share_btn_copylink@2x.png in Resources */,
+				B1817EF82069186E00E9BAD1 /* project_item_branch@3x.png in Resources */,
 				4EF17ED41B3C3112003CDD2D /* intro_icon_2@3x.png in Resources */,
 				7E8E597F1B6F91C40083CA02 /* bubble_left_play_0@2x.png in Resources */,
 				B1C871581EB0884A003DACF0 /* little_phone_icon@3x.png in Resources */,
@@ -7661,6 +7768,7 @@
 				B1C871911EB1E608003DACF0 /* nav_page_unselected@3x.png in Resources */,
 				8E97CE4A1A0A2E11006F9AD7 /* EmojisList.plist in Resources */,
 				8BDF9AB51B7474990093BF2C /* keyboard_topic@2x.png in Resources */,
+				B1817EF92069186E00E9BAD1 /* project_item_tag@3x.png in Resources */,
 				4EBFBD181AA85B8500E4B10E /* add_user_icon@2x.png in Resources */,
 				8E97CEA21A0C7E26006F9AD7 /* coding_emoji_11@2x.png in Resources */,
 				4E2DB3471BA6AEB4002F27C4 /* coding_emoji_gif_02@2x.png in Resources */,
@@ -7713,6 +7821,7 @@
 				4EFE8DAD1B394A0D004B7559 /* file_changeType_RENAME@2x.png in Resources */,
 				4E9423EF1E69401B0095F1CD /* blankpage_image_Tip@3x.png in Resources */,
 				B9A00D7F1ACA3A05008BA008 /* ProjectSetting.storyboard in Resources */,
+				B1817F002069197D00E9BAD1 /* icon_release_tag@3x.png in Resources */,
 				8EA6D19219E240C40076D59C /* timeline_icon_unread@2x.png in Resources */,
 				4E54C24B1D8FE19100A61023 /* user_info_edit@2x.png in Resources */,
 				B19D4EFB1F7247BA00C598F3 /* AlipaySDK.bundle in Resources */,
@@ -7995,6 +8104,7 @@
 				8EA6D1FC19E240C40076D59C /* MJPhotoView.m in Sources */,
 				8E59F10A1A021053009A905F /* CodeListViewController.m in Sources */,
 				4ECF702C1B1704C5000280FF /* NProjectItemCell.m in Sources */,
+				B1817EC7206397F500E9BAD1 /* EACodeReleases.m in Sources */,
 				4ED4B4AF1D82B28B00EED8C6 /* TeamMembersViewController.m in Sources */,
 				8E1C3DEC19E7D58A00EF3032 /* ActionSheetDatePicker.m in Sources */,
 				8EF643B619FF7E2900F7EEB0 /* Input_OnlyText_Cell.m in Sources */,
@@ -8179,6 +8289,7 @@
 				4E87656A1A22E5B40090CFB9 /* SWUtilityButtonView.m in Sources */,
 				7EB02FFC1B6E001300D2166C /* VoiceMedia.m in Sources */,
 				8EABE3C819F10D2400A17784 /* TaskComment.m in Sources */,
+				B1817EE72064FC6100E9BAD1 /* EACodeReleaseTopCell.m in Sources */,
 				B1BCB88F1FCE61D60098B87B /* EAPayViewController.m in Sources */,
 				8E97CE471A0A2DF8006F9AD7 /* AGEmojiKeyBoardView.m in Sources */,
 				4E53EB521AFA03990034FE1C /* RKSwipeBetweenViewControllers.m in Sources */,
@@ -8186,6 +8297,7 @@
 				4E94C4FE1B4D2B9300EB668A /* GlowImageView.m in Sources */,
 				4E24B2681B43D33F004D7989 /* ProjectToChooseListViewController.m in Sources */,
 				4EA7F15B1A6D192B00A046BD /* SDWebImageCompat.m in Sources */,
+				B1817EEA2064FC7300E9BAD1 /* EACodeReleaseBodyCell.m in Sources */,
 				8EA6D13A19E240C40076D59C /* Project_RootViewController.m in Sources */,
 				4ECF70401B180740000280FF /* EaseGitButtonsView.m in Sources */,
 				8EF83F8A19E92AA500E86DE7 /* SettingTagsViewController.m in Sources */,
@@ -8200,6 +8312,7 @@
 				4E6BA2E81A1EE6AF005FD721 /* UIWebView+AFNetworking.m in Sources */,
 				B1890C352015D87900F52ABA /* EAWiki.m in Sources */,
 				B1890C382015D89A00F52ABA /* WikiMenuListView.m in Sources */,
+				B1817EC4206397E000E9BAD1 /* EACodeRelease.m in Sources */,
 				4E0B9A341BAC1CD100D57D54 /* ForkTreeViewController.m in Sources */,
 				4E4D6A7F1B1C6D1E00FD2E49 /* CommitContentCell.m in Sources */,
 				8EA6D13519E240C40076D59C /* ProjectViewController.m in Sources */,
@@ -8218,7 +8331,9 @@
 				B12B64061FE900D400ACFDCC /* AMPopTip+Animation.m in Sources */,
 				8EF643C219FF7E2900F7EEB0 /* TaskCommentTopCell.m in Sources */,
 				4E4D6A611B1C65C100FD2E49 /* MRPRCommitsViewController.m in Sources */,
+				B1817EBF2063951000E9BAD1 /* EABasePageModel.m in Sources */,
 				B1C871541EADF4D4003DACF0 /* UITableViewCell+Common.m in Sources */,
+				B1817ECA20639E9500E9BAD1 /* EACodeReleaseListCell.m in Sources */,
 				4E0BD86B1B6C7E3D0061CAA6 /* CSLikesVC.m in Sources */,
 				8EA6D14919E240C40076D59C /* UserOrProjectTweetsViewController.m in Sources */,
 				4E4D6AA01B1D89D400FD2E49 /* CommitDetail.m in Sources */,
@@ -8254,6 +8369,7 @@
 				D0C448181C03187100DC1C4B /* TaskSearchCell.m in Sources */,
 				4E6BA2D91A1EE6AF005FD721 /* AFURLConnectionOperation.m in Sources */,
 				8EA6D1BB19E240C40076D59C /* ProjectTopic.m in Sources */,
+				B1817EB62063899400E9BAD1 /* EACodeBranchListViewController.m in Sources */,
 				4ED4B4A01D82962100EED8C6 /* TeamProjectsViewController.m in Sources */,
 				8EA6D13219E240C40076D59C /* RegisterViewController.m in Sources */,
 				923399661C00441700F29E04 /* ShopBanner.m in Sources */,
@@ -8269,6 +8385,7 @@
 				4E3068461E0B781A00AEE0CE /* NSData+gzip.m in Sources */,
 				4E8D5D5C1B45295D00B70936 /* NSString+OTPURLArguments.m in Sources */,
 				D066BB3A1BF30EB9005AB5D6 /* ProjectSquareViewController.m in Sources */,
+				B1817EBC2063936100E9BAD1 /* EACodeBranches.m in Sources */,
 				B1BCB8931FCE662A0098B87B /* NSLayoutConstraintLine.m in Sources */,
 				8E6F1C951A03BD6000BF79C8 /* ProjectMemberActivityListViewController.m in Sources */,
 				8EA6D13619E240C40076D59C /* BaseViewController.m in Sources */,
@@ -8322,6 +8439,7 @@
 				4EF3741C1BB1258600DDA662 /* LocalFileViewController.m in Sources */,
 				3A3878401AE295970078D5DE /* ResetLabelCell.m in Sources */,
 				4EA679201A15AB9F001A0324 /* FileListViewController.m in Sources */,
+				B1817ECD20639F0A00E9BAD1 /* EACodeBranchListCell.m in Sources */,
 				8EA6D14119E240C40076D59C /* ValueListViewController.m in Sources */,
 				4EB52F151C7599FC00B5EBEA /* ActivateViewController.m in Sources */,
 				4EAAD0141E5306F3008AA957 /* MRPRListViewController.m in Sources */,
@@ -8374,6 +8492,7 @@
 				4E5C06EE1AC4405300F427C5 /* PasswordViewController.m in Sources */,
 				927AFF441BFF61FF00AAE593 /* BaseCollectionCell.m in Sources */,
 				4E217F0E1A70EDC700F6DF88 /* SVWebViewController.m in Sources */,
+				B1817EE42064F92C00E9BAD1 /* EACodeReleaseViewController.m in Sources */,
 				4E6BA2DE1A1EE6AF005FD721 /* AFSecurityPolicy.m in Sources */,
 				4EA7F1631A6D192B00A046BD /* UIImage+MultiFormat.m in Sources */,
 				8EF643AE19FF7E2900F7EEB0 /* TweetMediaItemSingleCCell.m in Sources */,
@@ -8389,6 +8508,7 @@
 				4E4D6AA61B1DBA3A00FD2E49 /* MRPRDisclosureCell.m in Sources */,
 				8E1C3E0819E8DFE300EF3032 /* AboutViewController.m in Sources */,
 				B12B647F1FFB61AD00ACFDCC /* QBAssetCell.m in Sources */,
+				B1817EB9206389F500E9BAD1 /* EACodeReleaseListViewController.m in Sources */,
 				4E87DDFD1D813B1E00D1B5B1 /* MeRootUserCell.m in Sources */,
 				9233996C1C00524A00F29E04 /* ShopGoods.m in Sources */,
 				B12B64081FE900D400ACFDCC /* AMPopTip+Entrance.m in Sources */,
@@ -8398,6 +8518,7 @@
 				4EF8181F1B05C9D8005F974B /* ProjectLineNoteActivity.m in Sources */,
 				8EF643A919FF7E2900F7EEB0 /* MessageMediaItemCCell.m in Sources */,
 				4ECF70461B18557E000280FF /* MRPRS.m in Sources */,
+				B1817F062069F67700E9BAD1 /* EAEditCodeReleaseViewController.m in Sources */,
 				4ECE8AE41A3943E80021E29C /* UIImage+Common.m in Sources */,
 				8EF643D619FF7E9F00F7EEB0 /* ProjectTopicCell.m in Sources */,
 				4E4D6A8B1B1C6E3100FD2E49 /* TextCheckMarkCell.m in Sources */,
@@ -8414,6 +8535,7 @@
 				4E0BD8801B6C7F0A0061CAA6 /* CSSearchCell.m in Sources */,
 				4E996BCA1ABA754600C704F1 /* JDStatusBarView.m in Sources */,
 				4E4D6A881B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m in Sources */,
+				B1817EED2064FD9400E9BAD1 /* EACodeReleaseAttachmentsOrReferencesCell.m in Sources */,
 				4E94C5001B4D2B9300EB668A /* MenuItem.m in Sources */,
 				8EF643AD19FF7E2900F7EEB0 /* TweetMediaItemCCell.m in Sources */,
 				3A3878461AE296240078D5DE /* EditLabelHeadCell.m in Sources */,

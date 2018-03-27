@@ -14,6 +14,8 @@
 @property (copy, nonatomic) void (^codeTreeFileOfRefBlock)(CodeTree_File *, NSString *);
 @property (copy, nonatomic) void (^codeTreeChangedBlock)(CodeTree *);
 
+@property (assign, nonatomic) BOOL hideBranchTagButton;
+
 - (id)initWithFrame:(CGRect)frame project:(Project *)project andCodeTree:(CodeTree *)codeTree;
 - (void)refreshToQueryData;
 

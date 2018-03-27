@@ -144,7 +144,7 @@
 #pragma mark Table
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 44.0;
+    return ([self isSearching] || !self.hideBranchTagButton)? 44.0: 0.0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -157,7 +157,7 @@
         [headerL doBorderWidth:.5 color:kColorDDD cornerRadius:0];
         return headerL;
     }else{
-        return self.branchTagButton;
+        return self.hideBranchTagButton? [UIView new]: self.branchTagButton;
     }
 }
 
