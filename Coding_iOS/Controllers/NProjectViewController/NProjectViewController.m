@@ -34,6 +34,8 @@
 #import "WikiViewController.h"
 #import "EACodeBranchListViewController.h"
 #import "EACodeReleaseListViewController.h"
+#import "EALocalCodeListViewController.h"
+
 
 @interface NProjectViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView *myTableView;
@@ -169,7 +171,7 @@
     }else if (section == 1){
         row = _myProject.is_public.boolValue? _myProject.current_user_role_id.integerValue <= 70? 3: 4: 6;
     }else if (section == 2){
-        row = _myProject.is_public.boolValue? 2: 4;
+        row = _myProject.is_public.boolValue? 3: 5;
     }
     return row;
 }
@@ -232,8 +234,10 @@
             if (_myProject.is_public.boolValue) {
                 if (indexPath.row == 0) {
                     [cell setImageStr:@"project_item_readme" andTitle:@"README"];
-                }else{
+                }else if (indexPath.row == 1){
                     [cell setImageStr:@"project_item_mr_pr" andTitle:@"Pull Request"];
+                }else{
+                    [cell setImageStr:@"project_item_code" andTitle:@"本地阅读"];
                 }
             }else{
                 if (indexPath.row == 0) {
@@ -242,8 +246,10 @@
                     [cell setImageStr:@"project_item_branch" andTitle:@"分支管理"];
                 }else if (indexPath.row == 2){
                     [cell setImageStr:@"project_item_tag" andTitle:@"发布管理"];
-                }else{
+                }else if (indexPath.row == 3){
                     [cell setImageStr:@"project_item_mr_pr" andTitle:@"合并请求"];
+                }else{
+                    [cell setImageStr:@"project_item_code" andTitle:@"本地阅读"];
                 }
             }
         }
@@ -295,6 +301,8 @@
                 [self goToReadme];
             }else if (indexPath.row == 1){
                 [self goTo_MR_PR];
+            }else{
+                [self goToLocalRepo];
             }
         }else{
             if (indexPath.row == 0) {
@@ -307,8 +315,10 @@
                 EACodeReleaseListViewController *vc = [EACodeReleaseListViewController new];
                 vc.myProject = self.myProject;
                 [self.navigationController pushViewController:vc animated:YES];
-            }else{
+            }else if (indexPath.row == 3){
                 [self goTo_MR_PR];
+            }else{
+                [self goToLocalRepo];
             }
         }
     }
@@ -364,6 +374,38 @@
     vc.curProject = self.myProject;
     vc.isMR = !_myProject.is_public.boolValue;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToLocalRepo{
+    if (_myProject.isLocalRepoExist) {
+        EALocalCodeListViewController *vc = [EALocalCodeListViewController new];
+        vc.curPro = _myProject;
+        vc.curRepo = _myProject.localRepo;
+        vc.curURL = _myProject.localURL;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        __weak typeof(self) weakSelf = self;
+        [[UIActionSheet bk_actionSheetCustomWithTitle:@"本地阅读需要先 clone 代码，过程可能比较耗时，且不可中断，是否确认要 clone 代码？" buttonTitles:@[@"Clone"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [weakSelf cloneRepo];
+            }
+        }] showInView:self.view];
+    }
+}
+
+- (void)cloneRepo{
+    __weak typeof(self) weakSelf = self;
+    MBProgressHUD *hud = [NSObject showHUDQueryStr:@"正在 clone..."];
+    [_myProject gitCloneBlock:^(GTRepository *repo, NSError *error) {
+        [NSObject hideHUDQuery];
+        if (error) {
+            [NSObject showError:error];
+        }else{
+            [weakSelf goToLocalRepo];
+        }
+    } progressBlock:^(const git_transfer_progress *progress, BOOL *stop) {
+        hud.detailsLabelText = [NSString stringWithFormat:@"%d / %d", progress->received_objects, progress->total_objects];
+    }];
 }
 
 #pragma mark Git_Btn

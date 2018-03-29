@@ -38,8 +38,10 @@
                 }
             }
         }else{
-            if ([error.userInfo objectForKey:@"NSLocalizedDescription"]) {
-                tipStr = [error.userInfo objectForKey:@"NSLocalizedDescription"];
+            if (error.userInfo[NSUnderlyingErrorKey]) {
+                tipStr = [self tipFromError:error.userInfo[NSUnderlyingErrorKey]].mutableCopy;
+            }else if (error.userInfo[NSLocalizedDescriptionKey]) {
+                tipStr = error.userInfo[NSLocalizedDescriptionKey];
             }else{
                 if (error.code == 3840) {//Json 解析失败
                     [tipStr appendFormat:@"服务器返回数据格式有误"];

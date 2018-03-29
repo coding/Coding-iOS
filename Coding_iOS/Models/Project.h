@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <ObjectiveGit/ObjectiveGit.h>//https://github.com/libgit2/objective-git
 
 @interface Project : NSObject
 @property (readwrite, nonatomic, strong) NSString *icon, *name, *owner_user_name, *backend_project_path, *full_name, *description_mine, *path, *parent_depot_path, *current_user_role,*project_path;
@@ -38,4 +39,15 @@
 - (NSString *)localMembersPath;
 
 - (NSString *)toBranchOrTagPath:(NSString *)path;
+
+#pragma mark Git
+
+- (NSURL *)remoteURL;
+- (NSURL *)localURL;
+- (BOOL)isLocalRepoExist;
+- (BOOL)deleteLocalRepo;
+- (GTRepository *)localRepo;
+- (void)gitCloneBlock:(void(^)(GTRepository *repo, NSError *error))handleBlock progressBlock:(void (^)(const git_transfer_progress *progress, BOOL *stop))progressBlock;
+- (void)gitPullBlock:(void(^)(BOOL result, NSString *tipStr))handleBlock progressBlock:(void (^)(const git_transfer_progress *progress, BOOL *stop))progressBlock;
+
 @end

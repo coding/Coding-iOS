@@ -27,4 +27,9 @@
 + (User *)userWithGlobaykeyOrEmail:(NSString *)textStr;
 + (NSMutableDictionary *)readLoginDataList;
 +(BOOL)isLoginUserGlobalKey:(NSString *)global_key;
+
+// Git Clone 需要用 http 的方式校验
++ (void)setPassword:(NSString *)password;
++ (NSString *)curPassword;
+
 @end

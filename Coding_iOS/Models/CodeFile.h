@@ -21,6 +21,7 @@
 + (CodeFile *)codeFileWithRef:(NSString *)ref andPath:(NSString *)path;
 + (CodeFile *)codeFileWithMDStr:(NSString *)md_html;
 + (CodeFile *)codeFileToCommitWithRef:(NSString *)ref andPath:(NSString *)path name:(NSString *)name data:(NSString *)data message:(NSString *)message headCommit:(Commit *)headCommit;
++ (CodeFile *)codeFileWithLocalURL:(NSURL *)localURL;
 
 - (NSDictionary *)toEditParams;
 - (NSDictionary *)toDeleteParams;

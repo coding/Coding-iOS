@@ -11,4 +11,7 @@
 
 @interface NProjectViewController : BaseViewController
 @property (nonatomic, strong) Project *myProject;
+
+- (void)cloneRepo;
+
 @end

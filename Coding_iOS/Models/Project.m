@@ -8,6 +8,8 @@
 
 #import "Project.h"
 #import "Login.h"
+#import "NProjectViewController.h"
+#import "EALocalCodeListViewController.h"
 
 @implementation Project
 - (instancetype)init
@@ -167,4 +169,121 @@
 //        return @"未填写";
 //    }
 //}
+
+- (NSURL *)remoteURL{
+    NSURL *remoteURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://git.coding.net/%@/%@.git", self.owner_user_name, self.name]];
+    return remoteURL;
+}
+- (NSURL *)localURL{
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    NSURL *appDocsDir = [fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].lastObject;
+    NSURL *localURL = [NSURL URLWithString:[NSString stringWithFormat:@"repositories/%@/%@", self.owner_user_name, self.name] relativeToURL:appDocsDir];
+    return localURL;
+}
+- (BOOL)isLocalRepoExist{
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    return [fileManager fileExistsAtPath:self.localURL.path];
+}
+- (BOOL)deleteLocalRepo{
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    return [fileManager removeItemAtURL:self.localURL error:nil];
+}
+- (GTRepository *)localRepo{
+    NSError *error = nil;
+    GTRepository *repo = [GTRepository repositoryWithURL:self.localURL error:&error];
+    return repo;
+}
+- (void)gitCloneBlock:(void(^)(GTRepository *repo, NSError *error))handleBlock progressBlock:(void (^)(const git_transfer_progress *progress, BOOL *stop))progressBlock{
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSError *error = nil;
+        GTCheckoutOptions *checkoutOptions = [GTCheckoutOptions checkoutOptionsWithStrategy:GTCheckoutStrategyForce];
+        NSMutableDictionary *cloneOptions = @{GTRepositoryCloneOptionsCheckoutOptions: checkoutOptions}.mutableCopy;
+        if (weakSelf.is_public && !weakSelf.is_public.boolValue) {//私有项目
+            cloneOptions[GTRepositoryCloneOptionsCredentialProvider] = [weakSelf.class p_credentialProvider];
+        }
+        GTRepository *repo = [GTRepository cloneFromURL:weakSelf.remoteURL toWorkingDirectory:weakSelf.localURL options:cloneOptions error:&error transferProgressBlock:progressBlock];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (handleBlock) {
+                handleBlock(repo, error);
+            }
+        });
+    });
+}
+- (void)gitPullBlock:(void(^)(BOOL result, NSString *tipStr))handleBlock progressBlock:(void (^)(const git_transfer_progress *progress, BOOL *stop))progressBlock{
+    if (!self.isLocalRepoExist) {
+        handleBlock(NO, @"本地仓库未找到");
+    }else{
+        GTRepository *repo = [GTRepository repositoryWithURL:self.localURL error:nil];
+        if (!repo) {
+            handleBlock(NO, @"本地仓库未找到");
+        }else{
+            GTConfiguration *configuration = [repo configurationWithError:nil];
+            GTRemote *remote = configuration.remotes.firstObject;
+            BOOL success = NO;
+            GTBranch *masterBranch = [repo lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:&success error:nil];
+            if (!remote || !masterBranch) {
+                handleBlock(NO, @"仓库信息不完整");
+            }else{
+                __weak typeof(self) weakSelf = self;
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    NSMutableDictionary *options = @{GTRepositoryRemoteOptionsDownloadTags: @(GTRemoteDownloadTagsAuto)}.mutableCopy;
+                    if (weakSelf.is_public && !weakSelf.is_public.boolValue) {//私有项目
+                        options[GTRepositoryRemoteOptionsCredentialProvider] = [weakSelf.class p_credentialProvider];
+                    }
+                    NSError *error = nil;
+                    BOOL result = [repo pullBranch:masterBranch fromRemote:remote withOptions:options error:&error progress:progressBlock];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (handleBlock) {
+                            handleBlock(result, error.localizedDescription);
+                        }
+                    });
+                });
+            }
+        }
+    }
+}
+
++ (GTCredentialProvider *)p_credentialProvider{
+    __block NSInteger credTimes = 0;
+    GTCredentialProvider *provider = [GTCredentialProvider providerWithBlock:^GTCredential *(GTCredentialType type, NSString *URL, NSString *credUserName) {
+        GTCredential *cred = nil;
+        if (type & GTCredentialTypeUserPassPlaintext) {
+            if (credTimes < 10) {//用户名密码错了不知道提示，居然不知道停的。。
+                NSString *userName = [Login curLoginUser].global_key ?: @"";
+                NSString *password = [Login curPassword] ?: @"";
+                cred = [GTCredential credentialWithUserName:userName password:password error:nil];
+            }else{
+                [self p_handleCredentialFailure];
+            }
+        }
+        credTimes++;
+        return cred;
+    }];
+    return provider;
+}
+
++ (void)p_handleCredentialFailure{
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"身份验证失败！" message:@"HTTP/S 协议需要用户的密码" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelA = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *confirmA = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        NSString *textStr = alertCtrl.textFields[0].text;
+        [Login setPassword:textStr];
+        //下面这段，貌似没必要。。用户自己去再次点击也可以
+        UIViewController *vc = [BaseViewController presentingVC];
+        if ([vc isKindOfClass:[NProjectViewController class]]) {
+            [(NProjectViewController *)vc cloneRepo];
+        }else if ([vc isKindOfClass:[EALocalCodeListViewController class]]){
+            [(EALocalCodeListViewController *)vc pullRepo];
+        }
+    }];
+    [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"请输入密码";
+        textField.secureTextEntry = YES;
+    }];
+    [alertCtrl addAction:cancelA];
+    [alertCtrl addAction:confirmA];
+    [[BaseViewController presentingVC] presentViewController:alertCtrl animated:YES completion:nil];
+}
+
 @end

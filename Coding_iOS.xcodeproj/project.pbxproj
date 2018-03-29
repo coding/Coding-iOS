@@ -1273,6 +1273,10 @@
 		B1890C492015D92600F52ABA /* WikiHistoryListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C442015D92500F52ABA /* WikiHistoryListViewController.m */; };
 		B1890C4A2015D92600F52ABA /* WikiViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C472015D92600F52ABA /* WikiViewController.m */; };
 		B1890C4D2019B29900F52ABA /* UINavigationBar+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = B1890C4B2019B29800F52ABA /* UINavigationBar+Common.m */; };
+		B1944144206BB87F00147158 /* EALocalCodeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1944143206BB87F00147158 /* EALocalCodeListViewController.m */; };
+		B1944147206BB89100147158 /* EALocalCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1944146206BB89100147158 /* EALocalCodeViewController.m */; };
+		B194414A206BB8BB00147158 /* EALocalCodeListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1944149206BB8BB00147158 /* EALocalCodeListCell.m */; };
+		B1944154206CBE8C00147158 /* code_lang.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1944153206CBE8C00147158 /* code_lang.plist */; };
 		B19D4EE11F690F5E00C598F3 /* file_activity_icon_rename@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19D4EDF1F690F5E00C598F3 /* file_activity_icon_rename@2x.png */; };
 		B19D4EE21F690F5E00C598F3 /* file_activity_icon_rename@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B19D4EE01F690F5E00C598F3 /* file_activity_icon_rename@3x.png */; };
 		B19D4EEA1F6FAA6000C598F3 /* AboutPointViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B19D4EE81F6FAA6000C598F3 /* AboutPointViewController.m */; };
@@ -3383,6 +3387,13 @@
 		B1890C472015D92600F52ABA /* WikiViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WikiViewController.m; sourceTree = "<group>"; };
 		B1890C4B2019B29800F52ABA /* UINavigationBar+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Common.m"; sourceTree = "<group>"; };
 		B1890C4C2019B29800F52ABA /* UINavigationBar+Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Common.h"; sourceTree = "<group>"; };
+		B1944142206BB87F00147158 /* EALocalCodeListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EALocalCodeListViewController.h; sourceTree = "<group>"; };
+		B1944143206BB87F00147158 /* EALocalCodeListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EALocalCodeListViewController.m; sourceTree = "<group>"; };
+		B1944145206BB89100147158 /* EALocalCodeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EALocalCodeViewController.h; sourceTree = "<group>"; };
+		B1944146206BB89100147158 /* EALocalCodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EALocalCodeViewController.m; sourceTree = "<group>"; };
+		B1944148206BB8BB00147158 /* EALocalCodeListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EALocalCodeListCell.h; sourceTree = "<group>"; };
+		B1944149206BB8BB00147158 /* EALocalCodeListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EALocalCodeListCell.m; sourceTree = "<group>"; };
+		B1944153206CBE8C00147158 /* code_lang.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = code_lang.plist; sourceTree = "<group>"; };
 		B19D4EDF1F690F5E00C598F3 /* file_activity_icon_rename@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_rename@2x.png"; sourceTree = "<group>"; };
 		B19D4EE01F690F5E00C598F3 /* file_activity_icon_rename@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "file_activity_icon_rename@3x.png"; sourceTree = "<group>"; };
 		B19D4EE71F6FAA6000C598F3 /* AboutPointViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutPointViewController.h; sourceTree = "<group>"; };
@@ -5698,6 +5709,10 @@
 				B1817EE32064F92C00E9BAD1 /* EACodeReleaseViewController.m */,
 				B1817F042069F67700E9BAD1 /* EAEditCodeReleaseViewController.h */,
 				B1817F052069F67700E9BAD1 /* EAEditCodeReleaseViewController.m */,
+				B1944142206BB87F00147158 /* EALocalCodeListViewController.h */,
+				B1944143206BB87F00147158 /* EALocalCodeListViewController.m */,
+				B1944145206BB89100147158 /* EALocalCodeViewController.h */,
+				B1944146206BB89100147158 /* EALocalCodeViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -6207,6 +6222,7 @@
 				4EE083DB1ADB736800CA342E /* service_terms.html */,
 				4ECEF9F61D1BB7FB002A27D3 /* diff-ios.html */,
 				4EBD7FB01CE482A400B3AF49 /* country_code.plist */,
+				B1944153206CBE8C00147158 /* code_lang.plist */,
 				8E1C3DF519E7F4CA00EF3032 /* address.json */,
 			);
 			path = Resources;
@@ -6718,6 +6734,8 @@
 				B1817EE92064FC7300E9BAD1 /* EACodeReleaseBodyCell.m */,
 				B1817EEB2064FD9400E9BAD1 /* EACodeReleaseAttachmentsOrReferencesCell.h */,
 				B1817EEC2064FD9400E9BAD1 /* EACodeReleaseAttachmentsOrReferencesCell.m */,
+				B1944148206BB8BB00147158 /* EALocalCodeListCell.h */,
+				B1944149206BB8BB00147158 /* EALocalCodeListCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -7212,6 +7230,7 @@
 				927AFF4F1BFF6DAD00AAE593 /* shop_coding_coin_icon@3x.png in Resources */,
 				4EF17EDA1B3C3112003CDD2D /* intro_icon_5@3x.png in Resources */,
 				B1C871BC1EB338FD003DACF0 /* project_tag_icon@3x.png in Resources */,
+				B1944154206CBE8C00147158 /* code_lang.plist in Resources */,
 				B10341292024633900853447 /* logo_coding@2x.png in Resources */,
 				4ED4B48D1D82646100EED8C6 /* user_info_project@2x.png in Resources */,
 				B1AB5CBB202D7D500075A669 /* button_file_createFolder_unable@3x.png in Resources */,
@@ -8040,6 +8059,7 @@
 				8EF643CD19FF7E2900F7EEB0 /* TweetCommentMoreCell.m in Sources */,
 				8E59F1001A01133C009A905F /* CodeTree.m in Sources */,
 				B1890C3D2015D8C900F52ABA /* WikiMenuListCell.m in Sources */,
+				B1944147206BB89100147158 /* EALocalCodeViewController.m in Sources */,
 				4E93F2331B84243D00017916 /* KxMenu.m in Sources */,
 				D0C447B91C02C63000DC1C4B /* UserSearchCell.m in Sources */,
 				4E83AE7B1CF30F1A006BA3BB /* SettingEmailViewController.m in Sources */,
@@ -8155,6 +8175,7 @@
 				4E5C06EB1AC4009100F427C5 /* CannotLoginViewController.m in Sources */,
 				927AFF381BFF1CC200AAE593 /* ShopViewController.m in Sources */,
 				1309BA021CA2EF370034C7A3 /* Reviewer.m in Sources */,
+				B1944144206BB87F00147158 /* EALocalCodeListViewController.m in Sources */,
 				B12B640A1FE900D400ACFDCC /* AMPopTip+Exit.m in Sources */,
 				8EA6D12819E240C40076D59C /* AppDelegate.m in Sources */,
 				7EB02FE51B6D0F3E00D2166C /* AudioAmrUtil.m in Sources */,
@@ -8301,6 +8322,7 @@
 				8EA6D13A19E240C40076D59C /* Project_RootViewController.m in Sources */,
 				4ECF70401B180740000280FF /* EaseGitButtonsView.m in Sources */,
 				8EF83F8A19E92AA500E86DE7 /* SettingTagsViewController.m in Sources */,
+				B194414A206BB8BB00147158 /* EALocalCodeListCell.m in Sources */,
 				8EF643D319FF7E2900F7EEB0 /* ValueListCell.m in Sources */,
 				4EB52F3F1C7C464400B5EBEA /* TaskResourceReferenceViewController.m in Sources */,
 				4E217F0C1A70EDC700F6DF88 /* SVModalWebViewController.m in Sources */,

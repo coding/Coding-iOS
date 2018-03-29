@@ -390,10 +390,8 @@
     NSMutableDictionary *dictGits = @{kEALogKey_StartTime: [self p_curTime]}.mutableCopy;
     dictGits[@"url"] = repoURL.absoluteString;
     NSError* error = nil;
-    GTRepository *repo = [GTRepository cloneFromURL:repoURL toWorkingDirectory:localURL options:@{GTRepositoryCloneOptionsCheckout: @NO} error:&error transferProgressBlock:^(const git_transfer_progress *progress, BOOL *stop) {
+    GTRepository *repo = [GTRepository cloneFromURL:repoURL toWorkingDirectory:localURL options:@{GTRepositoryCloneOptionsPerformCheckout: @NO} error:&error transferProgressBlock:^(const git_transfer_progress *progress, BOOL *stop) {
         DebugLog(@"received_objects_count: %d", progress->received_objects);
-    } checkoutProgressBlock:^(NSString *path, NSUInteger completedSteps, NSUInteger totalSteps) {//{Checkout: @NO}，所以这里不会执行
-        DebugLog(@"checkout_progress:%.2f", (float)completedSteps/totalSteps);
     }];
     
     dictGits[kEALogKey_FinishTime] = [self p_curTime];

@@ -35,6 +35,18 @@
     codeFile.headCommit = headCommit;
     return codeFile;
 }
+
++ (CodeFile *)codeFileWithLocalURL:(NSURL *)localURL{
+    CodeFile *codeFile = [self new];
+    CodeFile_RealFile *file = [CodeFile_RealFile new];
+    file.mode = @"file";
+    NSStringEncoding enc;
+    file.data = [NSString stringWithContentsOfURL:localURL usedEncoding:&enc error:nil];
+    file.lang = localURL.ea_lang ?: @"";
+    codeFile.file = file;
+    return codeFile;
+}
+
 - (NSString *)path{
     if (!_path) {
         _path = @"";
