@@ -69,8 +69,6 @@
 		13FB5D3B1CA17A6400EE127C /* PR_push@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D1A1CA17A6400EE127C /* PR_push@3x.png */; };
 		13FB5D3C1CA17A6400EE127C /* PR_update_content@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D1B1CA17A6400EE127C /* PR_update_content@2x.png */; };
 		13FB5D3D1CA17A6400EE127C /* PR_update_content@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D1C1CA17A6400EE127C /* PR_update_content@3x.png */; };
-		13FB5D3F1CA17A6400EE127C /* EPointLikeHead@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D1E1CA17A6400EE127C /* EPointLikeHead@2x.png */; };
-		13FB5D401CA17A6400EE127C /* EPointLikeHead@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D1F1CA17A6400EE127C /* EPointLikeHead@3x.png */; };
 		13FB5D411CA17A6400EE127C /* PR_refuse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D201CA17A6400EE127C /* PR_refuse@2x.png */; };
 		13FB5D421CA17A6400EE127C /* PR_refuse@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D211CA17A6400EE127C /* PR_refuse@3x.png */; };
 		13FB5D431CA17A6400EE127C /* PR_grant_undo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D221CA17A6400EE127C /* PR_grant_undo@2x.png */; };
@@ -1615,8 +1613,6 @@
 		13FB5D1A1CA17A6400EE127C /* PR_push@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PR_push@3x.png"; sourceTree = "<group>"; };
 		13FB5D1B1CA17A6400EE127C /* PR_update_content@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PR_update_content@2x.png"; sourceTree = "<group>"; };
 		13FB5D1C1CA17A6400EE127C /* PR_update_content@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PR_update_content@3x.png"; sourceTree = "<group>"; };
-		13FB5D1E1CA17A6400EE127C /* EPointLikeHead@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EPointLikeHead@2x.png"; sourceTree = "<group>"; };
-		13FB5D1F1CA17A6400EE127C /* EPointLikeHead@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EPointLikeHead@3x.png"; sourceTree = "<group>"; };
 		13FB5D201CA17A6400EE127C /* PR_refuse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PR_refuse@2x.png"; sourceTree = "<group>"; };
 		13FB5D211CA17A6400EE127C /* PR_refuse@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PR_refuse@3x.png"; sourceTree = "<group>"; };
 		13FB5D221CA17A6400EE127C /* PR_grant_undo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PR_grant_undo@2x.png"; sourceTree = "<group>"; };
@@ -3767,8 +3763,6 @@
 				13FB5D1A1CA17A6400EE127C /* PR_push@3x.png */,
 				13FB5D1B1CA17A6400EE127C /* PR_update_content@2x.png */,
 				13FB5D1C1CA17A6400EE127C /* PR_update_content@3x.png */,
-				13FB5D1E1CA17A6400EE127C /* EPointLikeHead@2x.png */,
-				13FB5D1F1CA17A6400EE127C /* EPointLikeHead@3x.png */,
 				13FB5D201CA17A6400EE127C /* PR_refuse@2x.png */,
 				13FB5D211CA17A6400EE127C /* PR_refuse@3x.png */,
 				13FB5D221CA17A6400EE127C /* PR_grant_undo@2x.png */,
@@ -7561,7 +7555,6 @@
 				4E2DB33F1BA6A2FE002F27C4 /* keyboard_emotion_monkey_gif@2x.png in Resources */,
 				8E97CEB41A0C7E26006F9AD7 /* coding_emoji_29@2x.png in Resources */,
 				4EAE06C11B7B51AF00179F4B /* file_activity_icon_move_file@2x.png in Resources */,
-				13FB5D3F1CA17A6400EE127C /* EPointLikeHead@2x.png in Resources */,
 				D0C448081C02DCAC00DC1C4B /* addBtn_Nav@3x.png in Resources */,
 				B14689BB1EE100B200B01371 /* vip_3_75@3x.png in Resources */,
 				D0C4480C1C02DCAC00DC1C4B /* info_Nav@3x.png in Resources */,
@@ -7862,7 +7855,6 @@
 				4E80E94F1E02911E00DE1BC6 /* search_icon_tweet@3x.png in Resources */,
 				B1C871651EB182C7003DACF0 /* taskPriority0_small@3x.png in Resources */,
 				8E97CEAF1A0C7E26006F9AD7 /* coding_emoji_24@2x.png in Resources */,
-				13FB5D401CA17A6400EE127C /* EPointLikeHead@3x.png in Resources */,
 				13FB5D4A1CA17A6400EE127C /* PointLikeHead@2x.png in Resources */,
 				8E97CEA11A0C7E26006F9AD7 /* coding_emoji_10@2x.png in Resources */,
 				D0C447A31C02A3C700DC1C4B /* me_normal@2x.png in Resources */,

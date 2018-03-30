@@ -125,9 +125,9 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
 
 - (void)configBottomView{
     BOOL canCancel = [self.curPreMRPRInfo.mrpr.author.global_key isEqualToString:[Login curLoginUser].global_key];
-    BOOL canAction = self.curPreMRPRInfo.can_edit.boolValue ||(canCancel && self.curPreMRPRInfo.mrpr.granted.boolValue);//有权限 || （作者身份 && 被授权）
-    BOOL canAuthorization  = self.curPreMRPRInfo.can_edit.boolValue &&!canCancel &&!self.curPreMRPRInfo.author_can_edit.boolValue && !self.curPreMRPRInfo.mrpr.granted.boolValue;
-    BOOL canCancelAuthorization = self.curPreMRPRInfo.can_edit.boolValue &&!canCancel &&!self.curPreMRPRInfo.author_can_edit.boolValue && self.curPreMRPRInfo.mrpr.granted.boolValue;
+    BOOL canAction = (self.curPreMRPRInfo.can_merge.boolValue || self.curPreMRPRInfo.can_edit.boolValue) ||(canCancel && self.curPreMRPRInfo.mrpr.granted.boolValue);//有权限 || （作者身份 && 被授权）
+    BOOL canAuthorization  = NO;//NO 不是说不可以，只是说不要这按钮了
+    BOOL canCancelAuthorization = NO;//NO 不是说不可以，只是说不要这按钮了
     BOOL hasBottomView = self.curMRPRInfo.mrpr.status <= MRPRStatusCannotMerge && (canAction || canCancel);
     if(self.curMRPRInfo == nil || self.curPreMRPRInfo == nil) {
         hasBottomView = NO ;
@@ -405,10 +405,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     [[Coding_NetAPIManager sharedManager] request_MRPRAuthorization:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.curPreMRPRInfo.mrpr.granted = @1;
-//            weakSelf.bottomView = nil;
-            [weakSelf refresh];
-            [weakSelf.myTableView reloadData];
-            [weakSelf configBottomView];
         }
     }];
 }
@@ -418,10 +414,6 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
     [[Coding_NetAPIManager sharedManager] request_MRPRCancelAuthorization:_curMRPRInfo.mrpr andBlock:^(id data, NSError *error) {
         if (data) {
             weakSelf.curPreMRPRInfo.mrpr.granted = @0;
-//            weakSelf.bottomView = nil;
-            [weakSelf refresh];
-            [weakSelf.myTableView reloadData];
-            [weakSelf configBottomView];
         }
     }];
 }
@@ -586,15 +578,22 @@ typedef NS_ENUM(NSInteger, MRPRAction) {
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.reviewGoodPath withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
                 weakSelf.isLike = @1;
                 [weakSelf refresh];
+                if (weakSelf.curPreMRPRInfo.can_grant.boolValue) {
+                    [weakSelf cancelAuthorizationMRPR];
+                }
             }];
         } else {
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:self.reviewGoodPath withParams:nil withMethodType:Post andBlock:^(id data, NSError *error) {
                 weakSelf.isLike = @0;
                 [weakSelf refresh];
+                if (weakSelf.curPreMRPRInfo.can_grant.boolValue) {
+                    [weakSelf authorizationMRPR];
+                }
             }];
         }
     }
 }
+
 - (void)goToReviewerList{
     NSArray  *apparray= [[NSBundle mainBundle]loadNibNamed:@"ReviewerListController" owner:nil options:nil];
     ReviewerListController *appview=[apparray firstObject];

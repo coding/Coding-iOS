@@ -13,7 +13,6 @@
 @property (strong, nonatomic) UIImageView *imgView;
 @property (strong, nonatomic) UILabel *titleLabel;
 @property (strong, nonatomic) UILabel *rightLabel;
-@property (strong, nonatomic) UIImageView *likeImgView;
 @end
 
 @implementation MRReviewerCell
@@ -48,21 +47,10 @@
             self.rightLabel = [UILabel new];
             self.rightLabel.text = @"添加";
             self.rightLabel.font = [UIFont systemFontOfSize:15];
-            //[self.rightLabel setTextColor:kColor999];
             [self.contentView addSubview:self.rightLabel];
             [self.rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                //make.left.equalTo(_imgView.mas_right).offset(15);
-                make.right.equalTo(self.contentView).offset(0);
+                make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
                 make.centerY.height.equalTo(self.contentView);
-            }];
-        }
-        if (!self.likeImgView) {
-            self.likeImgView = [UIImageView new];
-            [self.contentView addSubview:self.likeImgView];
-            [self.likeImgView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake(20, 20));
-                make.right.equalTo(self.contentView).offset(-40);
-                make.centerY.equalTo(self.contentView);
             }];
         }
         UIView *rightSideV = [UIView new];
@@ -82,6 +70,7 @@
 }
 
 - (void)prepareForReuse{
+    [super prepareForReuse];
     [self removeTip];
 }
 
@@ -113,33 +102,22 @@
     self.imgView.image = [UIImage imageNamed:imgStr];
     self.titleLabel.text = @"评审者";
     if(!ower) {
-        [self.rightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            //make.left.equalTo(_imgView.mas_right).offset(15);
-            make.right.equalTo(self.contentView).offset(-20);
-            make.centerY.height.equalTo(self.contentView);
-        }];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if([hasLikeMr isEqual:@1]) {
-            self.rightLabel.text = @"+1";
-            [self.rightLabel setTextColor:kColorBrandBlue];
-            [self.likeImgView setHidden:NO];
-            self.likeImgView.image = [UIImage imageNamed:@"EPointLikeHead"];
+            self.rightLabel.text = @"允许合并";
         } else {
-            [self.rightLabel setTextColor:kColorBrandBlue];
-            self.rightLabel.text = @"撤销 +1";
-            [self.likeImgView setHidden:YES];
+            self.rightLabel.text = @"撤销允许合并";
         }
+        [self.rightLabel setTextColor:kColorLightBlue];
     } else {
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.rightLabel.text = @"添加";
         [self.rightLabel setTextColor:kColor999];
-        [self.likeImgView setHidden:YES];
     }
 }
 
 -(void) cantReviewer {
     self.rightLabel.hidden = YES;
-    self.likeImgView.hidden = YES;
     self.accessoryType = UITableViewCellAccessoryNone;
 }
 
