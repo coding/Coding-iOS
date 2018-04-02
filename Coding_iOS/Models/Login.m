@@ -14,7 +14,7 @@
 #define kLoginPreUserEmail @"pre_user_email"
 #define kLoginUserDict @"user_dict"
 #define kLoginDataListPath @"login_data_list_path.plist"
-#define kLoginPassword [NSString stringWithFormat:@"password|%@", [self curLoginUser].global_key]
+#define kLoginPasswordKey(_key_) [NSString stringWithFormat:@"password|%@", _key_]
 
 static User *curLoginUser;
 
@@ -40,6 +40,7 @@ static User *curLoginUser;
     if (self.j_captcha.length > 0) {
         params[@"j_captcha"] = self.j_captcha;
     }
+    [Login p_setPassword:self.password forAccount:self.email];//保存一下密码
     return params;
 }
 
@@ -197,16 +198,23 @@ static User *curLoginUser;
 // Git Clone 需要用 http 的方式校验
 + (void)setPassword:(NSString *)password{
     if ([self curLoginUser].global_key) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:password forKey:kLoginPassword];
-        [defaults synchronize];
+        [self p_setPassword:password forAccount:[self curLoginUser].global_key];
     }
 }
 
++ (void)p_setPassword:(NSString *)password forAccount:(NSString *)account{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:password forKey:kLoginPasswordKey(account)];
+    [defaults synchronize];
+}
+
 + (NSString *)curPassword{
-    if ([self curLoginUser].global_key) {
+    if ([self isLogin]) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        return [defaults objectForKey:kLoginPassword];
+        User *curU = [self curLoginUser];
+        return ([defaults objectForKey:kLoginPasswordKey(curU.global_key)] ?:
+                [defaults objectForKey:kLoginPasswordKey(curU.email)] ?:
+                [defaults objectForKey:kLoginPasswordKey(curU.phone)]);
     }else{
         return nil;
     }

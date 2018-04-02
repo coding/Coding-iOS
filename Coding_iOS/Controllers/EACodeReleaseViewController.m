@@ -63,7 +63,7 @@
 
 #pragma Data
 - (void)refresh{
-    if (_curRelease.title.length <= 0) {
+    if (!_curRelease.author) {
         [self.view beginLoading];
     }
     __weak typeof(self) weakSelf = self;
@@ -77,7 +77,7 @@
             weakSelf.curRelease = data;
             [weakSelf.myTableView reloadData];
         }
-        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:weakSelf.curRelease.title.length > 0 hasError:(error != nil) reloadButtonBlock:^(id sender) {
+        [weakSelf.view configBlankPage:EaseBlankPageTypeView hasData:(weakSelf.curRelease.author != nil) hasError:(error != nil) reloadButtonBlock:^(id sender) {
             [weakSelf refresh];
         }];
     }];
@@ -85,7 +85,7 @@
 
 #pragma mark TableM
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _curRelease.title.length > 0? 4: 0;
+    return _curRelease.author != nil? 4: 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

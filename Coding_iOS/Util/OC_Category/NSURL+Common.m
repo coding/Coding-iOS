@@ -61,18 +61,6 @@
     return [[self.class p_sufToLangDict][fileSuffix] firstObject] ?: @"";
 }
 
-+ (NSArray *)p_textItemTypeList{
-    static NSArray *textItemTypeList = nil;
-    if (!textItemTypeList) {
-        textItemTypeList = @[
-                             @"public.plain-text",
-                             @"public.html",
-                             @"public.data",
-                             ];
-    }
-    return textItemTypeList;
-}
-
 + (NSDictionary *)p_sufToLangDict{
     static NSDictionary *sufToLangDict = nil;
     if (!sufToLangDict) {

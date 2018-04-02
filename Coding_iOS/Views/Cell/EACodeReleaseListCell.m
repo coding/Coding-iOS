@@ -31,7 +31,7 @@
 - (void)setCurCodeRelease:(EACodeRelease *)curCodeRelease{
     _curCodeRelease = curCodeRelease;
     
-    _titleL.text = _curCodeRelease.title;
+    _titleL.text = _curCodeRelease.title.length > 0? _curCodeRelease.title: _curCodeRelease.tag_name;
     _tag_nameL.text = _curCodeRelease.tag_name;
     _authorL.text = _curCodeRelease.author.name;
     _created_atL.text = [_curCodeRelease.created_at stringTimesAgo];

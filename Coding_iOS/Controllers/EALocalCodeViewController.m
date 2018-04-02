@@ -80,8 +80,12 @@
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
-    if (error.code != NSURLErrorCancelled) {
-        [_activityIndicator stopAnimating];
+    [_activityIndicator stopAnimating];
+    if (error.code == NSURLErrorCancelled) {
+        NSLog(@"Canceled request: %@", webView.request.URL);
+    }else if ([error.domain isEqualToString:@"WebKitErrorDomain"] && (error.code == 102 || error.code == 204)) {
+        NSLog(@"ignore: %@", error);
+    }else {
         [NSObject showError:error];
     }
 }
