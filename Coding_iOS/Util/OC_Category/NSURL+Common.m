@@ -81,6 +81,7 @@
              @"com.apple.ink.inktext",
              @"com.apple.applescript.text",
              @"com.apple.txn.text-​multimedia-data",
+             @"public.unix-executable",//私加的
              ];
 }
 + (NSArray *)ea_imageUTIList{

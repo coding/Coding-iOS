@@ -4317,5 +4317,21 @@
 	<array>
 		<string>sh</string>
 	</array>
+	<key>lock</key>
+	<array>
+		<string>objectivec</string>
+	</array>
+	<key>resolved</key>
+	<array>
+		<string>objectivec</string>
+	</array>
+	<key>entitlements</key>
+	<array>
+		<string>objectivec</string>
+	</array>
+	<key>example</key>
+	<array>
+		<string>objectivec</string>
+	</array>
 </dict>
 </plist>

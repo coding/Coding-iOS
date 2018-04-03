@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -27,8 +27,9 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JXm-iH-UBl" customClass="UIButton">
                         <rect key="frame" x="15" y="163.5" width="35.5" height="20"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_release_tag.png" translatesAutoresizingMaskIntoConstraints="NO" id="hu4-3c-W86">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_release_tag_blue.png" translatesAutoresizingMaskIntoConstraints="NO" id="hu4-3c-W86">
                                 <rect key="frame" x="0.0" y="3.5" width="12" height="12"/>
+                                <color key="tintColor" red="0.074509803921568626" green="0.41960784313725491" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="12" id="48E-GM-QXr"/>
                                     <constraint firstAttribute="width" constant="12" id="EgX-4Z-pMF"/>
@@ -140,6 +141,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="icon_release_tag.png" width="12" height="12"/>
+        <image name="icon_release_tag_blue.png" width="12" height="12"/>
     </resources>
 </document>

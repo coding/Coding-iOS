@@ -124,12 +124,12 @@
 
 #pragma mark Table M
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return 4;
 }
 
 //header
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return section == 0? kLine_MinHeight: section == 1? 15.0: _myProject.is_public.boolValue? 15.0: 50.0;
+    return section == 0? kLine_MinHeight: (section == 2 && !_myProject.is_public.boolValue)? 50: 15;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -160,7 +160,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return section == 2? 15: kLine_MinHeight;
+    return section == 3? 44: kLine_MinHeight;
 }
 
 //data
@@ -171,7 +171,9 @@
     }else if (section == 1){
         row = _myProject.is_public.boolValue? _myProject.current_user_role_id.integerValue <= 70? 3: 4: 6;
     }else if (section == 2){
-        row = _myProject.is_public.boolValue? 3: 5;
+        row = _myProject.is_public.boolValue? 2: 4;
+    }else{
+        row = 1;
     }
     return row;
 }
@@ -236,8 +238,6 @@
                     [cell setImageStr:@"project_item_readme" andTitle:@"README"];
                 }else if (indexPath.row == 1){
                     [cell setImageStr:@"project_item_mr_pr" andTitle:@"Pull Request"];
-                }else{
-                    [cell setImageStr:@"project_item_code" andTitle:@"本地阅读"];
                 }
             }else{
                 if (indexPath.row == 0) {
@@ -248,10 +248,10 @@
                     [cell setImageStr:@"project_item_tag" andTitle:@"发布管理"];
                 }else if (indexPath.row == 3){
                     [cell setImageStr:@"project_item_mr_pr" andTitle:@"合并请求"];
-                }else{
-                    [cell setImageStr:@"project_item_code" andTitle:@"本地阅读"];
                 }
             }
+        }else if (indexPath.section == 3){
+            [cell setImageStr:@"project_item_code" andTitle:@"本地阅读"];
         }
         FunctionTipsManager *ftm = [FunctionTipsManager shareManager];
         NSString *tipStr = [self p_TipStrForIndexPath:indexPath];
@@ -301,8 +301,6 @@
                 [self goToReadme];
             }else if (indexPath.row == 1){
                 [self goTo_MR_PR];
-            }else{
-                [self goToLocalRepo];
             }
         }else{
             if (indexPath.row == 0) {
@@ -317,10 +315,10 @@
                 [self.navigationController pushViewController:vc animated:YES];
             }else if (indexPath.row == 3){
                 [self goTo_MR_PR];
-            }else{
-                [self goToLocalRepo];
             }
         }
+    }else if (indexPath.section == 3){
+        [self goToLocalRepo];
     }
     FunctionTipsManager *ftm = [FunctionTipsManager shareManager];
     NSString *tipStr = [self p_TipStrForIndexPath:indexPath];

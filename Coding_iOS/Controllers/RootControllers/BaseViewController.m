@@ -32,6 +32,7 @@
 #import "FileViewController.h"
 #import "CSTopicDetailVC.h"
 #import "CodeViewController.h"
+#import "EACodeReleaseViewController.h"
 #import "Ease_2FA.h"
 
 #import "UnReadManager.h"
@@ -176,6 +177,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *twoFARegexStr = @"/app_intercept/show_2fa";//两步验证
     NSString *projectRegexStr = @"/[ut]/([^/]+)/p/([^/]+)";//项目(含团队项目)
     NSString *wikiRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/wiki/(\\d+)";//Wiki
+    NSString *releaseRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/git/releases/([^/]+)[/]?([^?]*)";//Release
     NSArray *matchedCaptures = nil;
     if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:ppRegexStr]).count > 0){
         //冒泡
@@ -203,6 +205,16 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         NSString *iid = matchedCaptures[3];
         vc.myProject = curPro;
         [vc setWikiIid:@(iid.integerValue) version:nil];
+        analyseVC = vc;
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:releaseRegexStr]).count > 0){
+        EACodeReleaseViewController *vc = [EACodeReleaseViewController new];
+        Project *curPro = [Project new];
+        curPro.owner_user_name = matchedCaptures[1];
+        curPro.name = matchedCaptures[2];
+        EACodeRelease *curR = [EACodeRelease new];
+        curR.project = curPro;
+        curR.tag_name = matchedCaptures[3];
+        vc.curRelease = curR;
         analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:pp_projectRegexStr]).count > 0){
         //项目内冒泡

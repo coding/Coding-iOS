@@ -83,7 +83,7 @@
     [iconV mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.offset(10);
         make.centerY.equalTo(itemV);
-        make.size.mas_equalTo(CGSizeMake(20, 20));
+        make.size.mas_equalTo(CGSizeMake(18, 18));
     }];
     [nameL mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(iconV.mas_right).offset(5);
@@ -98,17 +98,17 @@
     [sizeL setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisHorizontal];
     if (_type == EACodeReleaseAttachmentsOrReferencesCellTypeAttachments) {
         if (index < 2) {
-            iconV.image = [UIImage imageWithColor:kColorBrandBlue];
+            iconV.image = [UIImage imageNamed:@"code_release_resource_Zip"];
             nameL.text = index == 0? @"Source code (zip)": @"Source code (tar.gz)";
         }else{
             EACodeReleaseAttachment *item = _curR.attachments[index - 2];
-            iconV.image = [UIImage imageWithColor:kColorBrandRed];
+            iconV.image = [UIImage imageNamed:@"code_release_resource_Default"];
             nameL.text = item.name;
             sizeL.text = [NSString sizeDisplayWithByte:item.size.floatValue];
         }
     }else{
         ResourceReferenceItem *item = _curR.resource_references[index];
-        iconV.image = [UIImage imageWithColor:kColorBrandGreen];
+        iconV.image = [UIImage imageNamed:[NSString stringWithFormat:@"code_release_resource_%@", item.target_type]] ?: [UIImage imageNamed:@"code_release_resource_Default"];
         nameL.text = [NSString stringWithFormat:@"#%@ %@", item.code, item.title];
     }
     [self.contentView addSubview:itemV];
