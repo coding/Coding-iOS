@@ -265,7 +265,7 @@
         params[@"j_captcha"] = captcha;
     }
     __weak typeof(self) weakSelf = self;
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/password/forget" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/password/forget" withParams:params withMethodType:Post autoShowError:captcha.length > 0 andBlock:^(id data, NSError *error) {
         if (data) {
             [NSObject showHudTipStr:@"验证码发送成功"];
             [sender startUpTimer];

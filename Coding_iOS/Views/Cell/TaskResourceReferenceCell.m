@@ -66,7 +66,7 @@
     if (!_item) {
         return;
     }
-    [_imgView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"task_resource_reference_%@", _item.target_type]]];
+    [_imgView setImage:[UIImage imageNamed:[NSString stringWithFormat:@"task_resource_reference_%@", _item.target_type]] ?: [UIImage imageNamed:@"task_resource_reference_ProjectFile"]];
     _codeL.text = [NSString stringWithFormat:@"# %@ ", _item.code.stringValue];
     _titleL.text = _item.title;
 }
