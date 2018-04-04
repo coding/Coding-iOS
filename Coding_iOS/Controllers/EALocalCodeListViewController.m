@@ -25,7 +25,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = _curURL.lastPathComponent;
     _myTableView = ({
         UITableView *tableView = [UITableView new];
         tableView.backgroundColor = [UIColor clearColor];
@@ -50,7 +49,7 @@
         searchBar;
     });
     _myTableView.tableHeaderView = _mySearchBar;
-    [self setupNavBtn];
+    [self setupNavBtnAndTitle];
     [self setupData];
 }
 
@@ -79,11 +78,13 @@
 }
 
 #pragma mark Nav
-- (void)setupNavBtn{
+- (void)setupNavBtnAndTitle{
     if ([_curURL.absoluteString isEqualToString:_curPro.localURL.absoluteString]) {//根目录
+        NSArray<GTBranch *> *branchList = [_curPro.localRepo localBranchesWithError:nil];
+        self.title = branchList.count > 0? branchList.firstObject.shortName: _curURL.lastPathComponent;
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(navBtnClicked)];
     }else{
-        self.navigationItem.rightBarButtonItem = nil;
+        self.title = _curURL.lastPathComponent;
     }
 }
 

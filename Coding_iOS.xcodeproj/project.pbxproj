@@ -1204,6 +1204,8 @@
 		B12B647E1FFB61AD00ACFDCC /* QBSlomoIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = B12B64711FFB61AD00ACFDCC /* QBSlomoIconView.m */; };
 		B12B647F1FFB61AD00ACFDCC /* QBAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B12B64721FFB61AD00ACFDCC /* QBAssetCell.m */; };
 		B12B64821FFC73A900ACFDCC /* PHAsset+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = B12B64811FFC73A900ACFDCC /* PHAsset+Common.m */; };
+		B131E2112074D2EE00D84FAA /* project_item_reading@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B131E20F2074D2ED00D84FAA /* project_item_reading@3x.png */; };
+		B131E2122074D2EE00D84FAA /* project_item_reading@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B131E2102074D2EE00D84FAA /* project_item_reading@2x.png */; };
 		B14689B41EE100B200B01371 /* vip_3_30@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689A41EE100B200B01371 /* vip_3_30@2x.png */; };
 		B14689B51EE100B200B01371 /* vip_3_30@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689A51EE100B200B01371 /* vip_3_30@3x.png */; };
 		B14689B61EE100B200B01371 /* vip_3_40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689A61EE100B200B01371 /* vip_3_40@2x.png */; };
@@ -3307,6 +3309,8 @@
 		B12B64721FFB61AD00ACFDCC /* QBAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QBAssetCell.m; sourceTree = "<group>"; };
 		B12B64801FFC73A900ACFDCC /* PHAsset+Common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PHAsset+Common.h"; sourceTree = "<group>"; };
 		B12B64811FFC73A900ACFDCC /* PHAsset+Common.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "PHAsset+Common.m"; sourceTree = "<group>"; };
+		B131E20F2074D2ED00D84FAA /* project_item_reading@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_item_reading@3x.png"; sourceTree = "<group>"; };
+		B131E2102074D2EE00D84FAA /* project_item_reading@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_item_reading@2x.png"; sourceTree = "<group>"; };
 		B14689A41EE100B200B01371 /* vip_3_30@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_3_30@2x.png"; sourceTree = "<group>"; };
 		B14689A51EE100B200B01371 /* vip_3_30@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_3_30@3x.png"; sourceTree = "<group>"; };
 		B14689A61EE100B200B01371 /* vip_3_40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_3_40@2x.png"; sourceTree = "<group>"; };
@@ -4222,6 +4226,8 @@
 		4E6383C81B32665700D98648 /* nproject_item */ = {
 			isa = PBXGroup;
 			children = (
+				B131E2102074D2EE00D84FAA /* project_item_reading@2x.png */,
+				B131E20F2074D2ED00D84FAA /* project_item_reading@3x.png */,
 				B1C8712C1EADF155003DACF0 /* project_item_activity@3x.png */,
 				B1C8712D1EADF155003DACF0 /* project_item_code@3x.png */,
 				B1C8712E1EADF155003DACF0 /* project_item_file@3x.png */,
@@ -7401,6 +7407,7 @@
 				4E07D30E1A4A9F45009EDDF2 /* btn_file_reDo@2x.png in Resources */,
 				B14689BC1EE100B200B01371 /* vip_4_30@2x.png in Resources */,
 				B1C8714D1EADF3AC003DACF0 /* mrpr_icon_fileChange@3x.png in Resources */,
+				B131E2112074D2EE00D84FAA /* project_item_reading@3x.png in Resources */,
 				4EAAD0511E542B2D008AA957 /* icon_code_executable@2x.png in Resources */,
 				B1C8714B1EADF217003DACF0 /* user_info_company@3x.png in Resources */,
 				B12B64291FF33E0100ACFDCC /* upgrade_success@2x.png in Resources */,
@@ -7450,6 +7457,7 @@
 				B1BCB88B1FCD0A6D0098B87B /* icon_file_xls_big@2x.png in Resources */,
 				4ED4B4921D82646100EED8C6 /* user_info_topic@3x.png in Resources */,
 				4ED618211C3BD79B0017946C /* task_activity_icon_remove_watcher@2x.png in Resources */,
+				B131E2122074D2EE00D84FAA /* project_item_reading@2x.png in Resources */,
 				927AFF521BFF6DAD00AAE593 /* shop_nar_history_icon@2x.png in Resources */,
 				4E6383AD1B3262D300D98648 /* taskPriority3_small@2x.png in Resources */,
 				8E97CEA91A0C7E26006F9AD7 /* coding_emoji_18@2x.png in Resources */,

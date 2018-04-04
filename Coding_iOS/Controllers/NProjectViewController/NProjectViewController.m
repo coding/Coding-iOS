@@ -251,7 +251,7 @@
                 }
             }
         }else if (indexPath.section == 3){
-            [cell setImageStr:@"project_item_code" andTitle:@"本地阅读"];
+            [cell setImageStr:@"project_item_reading" andTitle:@"本地阅读"];
         }
         FunctionTipsManager *ftm = [FunctionTipsManager shareManager];
         NSString *tipStr = [self p_TipStrForIndexPath:indexPath];
