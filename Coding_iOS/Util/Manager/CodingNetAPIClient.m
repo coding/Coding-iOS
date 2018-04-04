@@ -239,7 +239,7 @@ static dispatch_once_t onceToken;
       progerssBlock:(void (^)(CGFloat progressValue))progress{
     
     NSData *data = [image dataForCodingUpload];
-    NSString *fileName = [NSString stringWithFormat:@"%@_%@.jpg", [Login curLoginUser].global_key, [[NSDate date] stringWithFormat:@"yyyyMMddHHmmss"]];
+    NSString *fileName = [NSString stringWithFormat:@"%@_%@.jpg", [Login curLoginUser].global_key, [NSUUID UUID].UUIDString];
     DebugLog(@"\nuploadImageSize\n%@ : %.0f", fileName, (float)data.length/1024);
     
     __weak typeof(self) weakSelf = self;
