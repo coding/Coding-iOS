@@ -95,16 +95,20 @@
         self.captchaNeeded = NO;
         [self.myTableView reloadData];
     }else{
-        __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_CaptchaNeededWithPath:@"api/captcha/register" andBlock:^(id data, NSError *error) {
-            if (data) {
-                NSNumber *captchaNeededResult = (NSNumber *)data;
-                if (captchaNeededResult) {
-                    weakSelf.captchaNeeded = captchaNeededResult.boolValue;
-                }
-                [weakSelf.myTableView reloadData];
-            }
-        }];
+        //写死，APP 不需要
+        self.captchaNeeded = NO;
+        [self.myTableView reloadData];
+
+//        __weak typeof(self) weakSelf = self;
+//        [[Coding_NetAPIManager sharedManager] request_CaptchaNeededWithPath:@"api/captcha/register" andBlock:^(id data, NSError *error) {
+//            if (data) {
+//                NSNumber *captchaNeededResult = (NSNumber *)data;
+//                if (captchaNeededResult) {
+//                    weakSelf.captchaNeeded = captchaNeededResult.boolValue;
+//                }
+//                [weakSelf.myTableView reloadData];
+//            }
+//        }];
     }
 }
 
