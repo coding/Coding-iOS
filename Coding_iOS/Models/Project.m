@@ -220,24 +220,33 @@
         }else{
             GTConfiguration *configuration = [repo configurationWithError:nil];
             GTRemote *remote = configuration.remotes.firstObject;
-            BOOL success = NO;
-            GTBranch *masterBranch = [repo lookUpBranchWithName:@"master" type:GTBranchTypeLocal success:&success error:nil];
-            if (!remote || !masterBranch) {
+            if (!remote) {
                 handleBlock(NO, @"仓库信息不完整");
             }else{
                 __weak typeof(self) weakSelf = self;
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    NSMutableDictionary *options = @{GTRepositoryRemoteOptionsDownloadTags: @(GTRemoteDownloadTagsAuto)}.mutableCopy;
-                    if (weakSelf.is_public && !weakSelf.is_public.boolValue) {//私有项目
-                        options[GTRepositoryRemoteOptionsCredentialProvider] = [weakSelf.class p_credentialProvider];
-                    }
                     NSError *error = nil;
-                    BOOL result = [repo pullBranch:masterBranch fromRemote:remote withOptions:options error:&error progress:progressBlock];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        if (handleBlock) {
-                            handleBlock(result, error.localizedDescription);
+                    NSArray<GTBranch *> *branchList = [repo localBranchesWithError:&error];
+                    if (branchList.count > 0) {
+                        GTBranch *curBranch = branchList.firstObject;
+                        NSMutableDictionary *options = @{GTRepositoryRemoteOptionsDownloadTags: @(GTRemoteDownloadTagsAuto)}.mutableCopy;
+                        if (weakSelf.is_public && !weakSelf.is_public.boolValue) {//私有项目
+                            options[GTRepositoryRemoteOptionsCredentialProvider] = [weakSelf.class p_credentialProvider];
                         }
-                    });
+                        NSError *error = nil;
+                        BOOL result = [repo pullBranch:curBranch fromRemote:remote withOptions:options error:&error progress:progressBlock];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (handleBlock) {
+                                handleBlock(result, error.localizedDescription);
+                            }
+                        });
+                    }else{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (handleBlock) {
+                                handleBlock(NO, @"本地分支为空，请删除后，重新 clone 代码");
+                            }
+                        });
+                    }
                 });
             }
         }

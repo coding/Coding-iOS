@@ -40,7 +40,7 @@ static User *curLoginUser;
     if (self.j_captcha.length > 0) {
         params[@"j_captcha"] = self.j_captcha;
     }
-    [Login p_setPassword:self.password forAccount:self.email];//保存一下密码
+    [Login p_setPassword:self.password forAccount:self.email.lowercaseString];//保存一下密码
     return params;
 }
 
