@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface ResourceReference : NSObject
-@property (strong, nonatomic) NSMutableArray *Task, *MergeRequestBean, *ProjectTopic, *ProjectFile, *Release, *itemList;
+@property (strong, nonatomic) NSMutableArray *Task, *MergeRequestBean, *ProjectTopic, *ProjectFile, *Release, *Wiki, *itemList;
 @property (readwrite, nonatomic, strong) NSDictionary *propertyArrayMap;
 
 @end
