@@ -273,6 +273,8 @@
             [sender invalidateTimer];
             if (error && error.userInfo[@"msg"] && [[error.userInfo[@"msg"] allKeys] containsObject:@"j_captcha_error"]) {
                 [weakSelf p_showCaptchaAlert:sender];
+            }else if (captcha.length <= 0){
+                [NSObject showError:error];
             }
         }
     }];

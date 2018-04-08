@@ -2668,6 +2668,8 @@
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post autoShowError:captcha.length > 0 andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"生成手机验证码_绑定手机号"];
+        }else if (captcha.length <= 0 && error && error.userInfo[@"msg"] && ![[error.userInfo[@"msg"] allKeys] containsObject:@"j_captcha_error"]) {
+            [NSObject showError:error];
         }
         block(data, error);
     }];
@@ -3228,6 +3230,9 @@
         params[@"j_captcha"] = captcha;
     }
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/twofa/close/code" withParams:params withMethodType:Post autoShowError:captcha.length > 0 andBlock:^(id data, NSError *error) {
+        if (captcha.length <= 0 && error && error.userInfo[@"msg"] && ![[error.userInfo[@"msg"] allKeys] containsObject:@"j_captcha_error"]) {
+            [NSObject showError:error];
+        }
         block(data, error);
     }];
 }
