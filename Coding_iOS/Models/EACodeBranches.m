@@ -20,7 +20,18 @@
 }
 
 - (NSString *)curBaseStr{
-    return [(CodeBranchOrTag *)self.list.firstObject last_commit].commitId;
+    CodeBranchOrTag *defaultB = nil;
+    for (CodeBranchOrTag *itemB in self.list) {
+        if (itemB.is_default_branch.boolValue) {
+            defaultB = itemB;
+            break;
+        }
+    }
+    if (!defaultB) {
+        defaultB = self.list.firstObject;
+    }
+    return defaultB.last_commit.commitId;
+//    return [(CodeBranchOrTag *)self.list.firstObject last_commit].commitId;
 }
 
 //https://coding.net/api/user/ease/project/CodingTest/git/branches/filter?page=1&q=
