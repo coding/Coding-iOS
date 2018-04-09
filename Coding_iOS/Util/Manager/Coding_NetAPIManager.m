@@ -1362,34 +1362,54 @@
 
 - (void)request_CodeBranches_WithObj:(EACodeBranches *)curObj andBlock:(void (^)(EACodeBranches *data, NSError *error))block{
     curObj.isLoading = YES;
+    //拿 branch 列表
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[curObj toPath] withParams:[curObj toParams] withMethodType:Get andBlock:^(id data, NSError *error) {
-        curObj.isLoading = NO;
         if (data) {
             [MobClick event:kUmeng_Event_Request_Get label:@"分支管理_列表"];
             
             id resultData = [data valueForKeyPath:@"data"];
             EACodeBranches *resultA = [NSObject objectOfClass:@"EACodeBranches" fromJSON:resultData];
             if (resultA.list.count > 0) {
-                NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/branch_metrics", curObj.curPro.owner_user_name, curObj.curPro.name];
-                NSString *targetsStr = [[resultA.list valueForKeyPath:@"last_commit.commitId"] componentsJoinedByString:@","];
-                NSDictionary *params = @{@"base": curObj.curBaseStr ?: resultA.curBaseStr,
-                                         @"targets": targetsStr
-                                         };
-                [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id dataM, NSError *errorM) {
-                    if (dataM) {
-                        dataM = dataM[@"data"];
-                        for (CodeBranchOrTag *curB in resultA.list) {
-                            curB.branch_metric = [NSObject objectOfClass:@"CodeBranchOrTagMetric" fromJSON:dataM[curB.last_commit.commitId]];
+                //拿 branch 对应的 metrics
+                void (^metricsQueryBlock)() = ^(){
+                    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/git/branch_metrics", curObj.curPro.owner_user_name, curObj.curPro.name];
+                    NSString *targetsStr = [[resultA.list valueForKeyPath:@"last_commit.commitId"] componentsJoinedByString:@","];
+                    NSDictionary *params = @{@"base": curObj.defaultBranch.last_commit.commitId ?: @"",
+                                             @"targets": targetsStr
+                                             };
+                    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Get andBlock:^(id dataM, NSError *errorM) {
+                        if (dataM) {
+                            dataM = dataM[@"data"];
+                            for (CodeBranchOrTag *curB in resultA.list) {
+                                curB.branch_metric = [NSObject objectOfClass:@"CodeBranchOrTagMetric" fromJSON:dataM[curB.last_commit.commitId]];
+                            }
+                            block(resultA, nil);
+                        }else{
+                            block(nil, errorM);
                         }
-                        block(resultA, nil);
-                    }else{
-                        block(nil, errorM);
-                    }
-                }];
+                        curObj.isLoading = NO;
+                    }];
+                };
+                curObj.defaultBranch = curObj.defaultBranch ?: resultA.defaultBranch;
+                if (!curObj.defaultBranch) {//请求 default 分支
+                    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[NSString stringWithFormat:@"api/user/%@/project/%@/git/branches/default", curObj.curPro.owner_user_name, curObj.curPro.name] withParams:nil withMethodType:Get andBlock:^(id dataD, NSError *errorD) {
+                        if (dataD) {
+                            curObj.defaultBranch = [NSObject objectOfClass:@"CodeBranchOrTag" fromJSON:dataD[@"data"]];
+                            metricsQueryBlock();
+                        }else{
+                            curObj.isLoading = NO;
+                            block(nil, errorD);
+                        }
+                    }];
+                }else{
+                    metricsQueryBlock();
+                }
             }else{
+                curObj.isLoading = NO;
                 block(resultA, nil);
             }
         }else{
+            curObj.isLoading = NO;
             block(nil, error);
         }
     }];

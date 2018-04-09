@@ -15,7 +15,7 @@
 @property (strong, nonatomic) NSString *queryStr;
 @property (strong, nonatomic) Project *curPro;
 
-@property (strong, nonatomic, readonly) NSString *curBaseStr;
+@property (strong, nonatomic) CodeBranchOrTag *defaultBranch;
 
 - (NSString *)toPath;
 - (NSDictionary *)toParams;

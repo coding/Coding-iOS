@@ -19,19 +19,16 @@
     return self;
 }
 
-- (NSString *)curBaseStr{
-    CodeBranchOrTag *defaultB = nil;
-    for (CodeBranchOrTag *itemB in self.list) {
-        if (itemB.is_default_branch.boolValue) {
-            defaultB = itemB;
-            break;
+- (CodeBranchOrTag *)defaultBranch{
+    if (!_defaultBranch) {
+        for (CodeBranchOrTag *itemB in self.list) {
+            if (itemB.is_default_branch.boolValue) {
+                _defaultBranch = itemB;
+                break;
+            }
         }
     }
-    if (!defaultB) {
-        defaultB = self.list.firstObject;
-    }
-    return defaultB.last_commit.commitId;
-//    return [(CodeBranchOrTag *)self.list.firstObject last_commit].commitId;
+    return _defaultBranch;
 }
 
 //https://coding.net/api/user/ease/project/CodingTest/git/branches/filter?page=1&q=
