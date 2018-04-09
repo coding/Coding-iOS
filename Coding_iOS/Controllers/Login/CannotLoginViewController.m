@@ -82,7 +82,7 @@
         [NSObject showHudTipStr:@"需要 8.0 以上系统才能切换服务器地址"];
         return;
     }
-    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"更改服务器 URL" message:@"空白值可切换回生产环境\n（地址末尾务必加上「/」）" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"更改服务器 URL" message:@"空白值可切换回生产环境\n" preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction *cancelA = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction *confirmA = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
