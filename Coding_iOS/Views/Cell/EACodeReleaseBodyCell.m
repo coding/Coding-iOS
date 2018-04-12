@@ -53,9 +53,7 @@
     [self.webContentView setHeight:_curR.contentHeight];
     if (!_webContentView.isLoading) {
         [_activityIndicator startAnimating];
-        if (_curR.markdownBody) {
-            [self.webContentView loadHTMLString:[WebContentManager markdownPatternedWithContent:_curR.markdownBody] baseURL:nil];
-        }
+        [self.webContentView loadHTMLString:[WebContentManager markdownPatternedWithContent:_curR.markdownBody] baseURL:nil];
     }
 }
 
