@@ -23,7 +23,7 @@
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) ODRefreshControl *myRefreshControl;
 
-@property (strong, nonatomic) NSNumber *iid, *version;
+@property (strong, nonatomic, readwrite) NSNumber *iid, *version;
 @property (strong, nonatomic) EAWiki *curWiki;
 @property (strong, nonatomic) NSArray *wikiList;
 

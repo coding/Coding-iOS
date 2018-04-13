@@ -10,7 +10,7 @@
 #import "Coding_FileManager.h"
 
 @interface ProjectFile ()
-@property (strong, nonatomic) NSString *project_name, *project_owner_name;
+@property (strong, nonatomic, readwrite) NSString *project_name, *project_owner_name;
 @property (strong, nonatomic, readwrite) NSString *diskFileName;
 @end
 

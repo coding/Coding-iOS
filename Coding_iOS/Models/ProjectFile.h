@@ -27,6 +27,7 @@ typedef NS_ENUM(NSInteger, DownloadState){
 @property (readwrite, nonatomic, strong) User *owner;
 @property (readwrite, nonatomic, strong) FileShare *share, *share_ea;
 @property (strong, nonatomic, readonly) NSString *diskFileName, *storage_key_for_disk;
+@property (strong, nonatomic, readonly) NSString *project_name, *project_owner_name;
 
 + (ProjectFile *)fileWithFileId:(NSNumber *)fileId andProjectId:(NSNumber *)project_id;
 - (instancetype)initWithFileId:(NSNumber *)fileId inProject:(NSString *)project_name ofUser:(NSString *)project_owner_name;

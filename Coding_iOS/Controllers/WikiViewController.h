@@ -12,6 +12,7 @@
 
 @interface WikiViewController : BaseViewController
 @property (nonatomic, strong) Project *myProject;
+@property (strong, nonatomic, readonly) NSNumber *iid, *version;
 - (void)setWikiIid:(NSNumber *)iid version:(NSNumber *)version;
 @end
 

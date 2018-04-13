@@ -59,6 +59,10 @@
     return vc;
 }
 
+- (Tweet_RootViewControllerType)type{
+    return _curIndex;
+}
+
 - (instancetype)init
 {
     self = [super init];
