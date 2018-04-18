@@ -201,11 +201,11 @@
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray * __nullable restorableObjects))restorationHandler{
     if ([userActivity.activityType isEqualToString:NSUserActivityTypeBrowsingWeb]) {
-        UIViewController *vc = [BaseViewController analyseVCFromLinkStr:userActivity.webpageURL.absoluteString];
-        if (vc) {
-            [BaseViewController presentVC:vc];
-        }
-//        [BaseViewController presentLinkStr:userActivity.webpageURL.absoluteString];
+//        UIViewController *vc = [BaseViewController analyseVCFromLinkStr:userActivity.webpageURL.absoluteString];
+//        if (vc) {
+//            [BaseViewController presentVC:vc];
+//        }
+        [BaseViewController presentLinkStr:userActivity.webpageURL.absoluteString];//支持的链接就 native 打开，不支持的就用 web 打开
     }else{
         [[UIApplication sharedApplication] openURL:userActivity.webpageURL];
     }
