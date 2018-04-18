@@ -7062,7 +7062,6 @@
 				8E47700C198770E700997D05 /* Sources */,
 				8E47700D198770E700997D05 /* Frameworks */,
 				8E47700E198770E700997D05 /* Resources */,
-				B52B540CD39100358CEE8516 /* [CP] Embed Pods Frameworks */,
 				B7C390DEFD2073480C56FD88 /* [CP] Copy Pods Resources */,
 				4E3068251E0B77DF00AEE0CE /* Embed Frameworks */,
 				4E9EC23F1E0B78F00098C761 /* ShellScript */,
@@ -8028,21 +8027,6 @@
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 			showEnvVarsInLog = 0;
 		};
-		B52B540CD39100358CEE8516 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS/Pods-Coding_iOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		B7C390DEFD2073480C56FD88 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
@@ -8058,7 +8042,11 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/UMSocialSDKPromptResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TencentOpenApi_IOS_Bundle.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeiboSDK.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ENSDKResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;

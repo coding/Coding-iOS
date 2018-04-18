@@ -17,7 +17,7 @@ PODS:
     - BlocksKit/DynamicDelegate
   - evernote-cloud-sdk-ios (2.0.2)
   - FLEX (2.1.1)
-  - FontAwesome+iOS (0.0.1)
+  - "FontAwesome+iOS (0.0.1)"
   - hpple (0.2.0)
   - JazzHands (2.0.0)
   - MarqueeLabel (2.5.0)
@@ -26,30 +26,30 @@ PODS:
   - MMMarkdown (0.3)
   - NYXImagesKit (2.3)
   - pop (1.0.10)
-  - POP+MCAnimate (2.0.1):
+  - "POP+MCAnimate (2.0.1)":
     - pop (~> 1.0)
-    - POP+MCAnimate/Animations (= 2.0.1)
-    - POP+MCAnimate/Group (= 2.0.1)
-    - POP+MCAnimate/Internal (= 2.0.1)
-    - POP+MCAnimate/Shorthand (= 2.0.1)
-    - POP+MCAnimate/Velocity (= 2.0.1)
-  - POP+MCAnimate/Animations (2.0.1):
+    - "POP+MCAnimate/Animations (= 2.0.1)"
+    - "POP+MCAnimate/Group (= 2.0.1)"
+    - "POP+MCAnimate/Internal (= 2.0.1)"
+    - "POP+MCAnimate/Shorthand (= 2.0.1)"
+    - "POP+MCAnimate/Velocity (= 2.0.1)"
+  - "POP+MCAnimate/Animations (2.0.1)":
     - pop (~> 1.0)
-    - POP+MCAnimate/Group
-    - POP+MCAnimate/Internal
-    - POP+MCAnimate/Shorthand
-    - POP+MCAnimate/Velocity
-  - POP+MCAnimate/Group (2.0.1):
+    - "POP+MCAnimate/Group"
+    - "POP+MCAnimate/Internal"
+    - "POP+MCAnimate/Shorthand"
+    - "POP+MCAnimate/Velocity"
+  - "POP+MCAnimate/Group (2.0.1)":
     - pop (~> 1.0)
-  - POP+MCAnimate/Internal (2.0.1):
+  - "POP+MCAnimate/Internal (2.0.1)":
     - pop (~> 1.0)
-  - POP+MCAnimate/Shorthand (2.0.1):
+  - "POP+MCAnimate/Shorthand (2.0.1)":
     - pop (~> 1.0)
-  - POP+MCAnimate/Velocity (2.0.1):
+  - "POP+MCAnimate/Velocity (2.0.1)":
     - pop (~> 1.0)
-    - POP+MCAnimate/Internal
+    - "POP+MCAnimate/Internal"
   - PPiAwesomeButton (1.5.2):
-    - FontAwesome+iOS
+    - "FontAwesome+iOS"
   - RBBAnimation (0.4.0)
   - ReactiveCocoa (2.3.1):
     - ReactiveCocoa/UI (= 2.3.1)
@@ -68,7 +68,7 @@ PODS:
   - TMCache (2.1.0)
   - TPKeyboardAvoiding (1.2.4)
   - TTTAttributedLabel (1.10.1)
-  - UIImage+BlurredFrame (0.0.4)
+  - "UIImage+BlurredFrame (0.0.4)"
   - UMengAnalytics (4.2.4)
   - UMengUShare/Core (6.4.5):
     - UMengUShare/Network
@@ -94,7 +94,7 @@ DEPENDENCIES:
   - BlocksKit (= 2.2.5)
   - evernote-cloud-sdk-ios (= 2.0.2)
   - FLEX (~> 2.0)
-  - FontAwesome+iOS (from `https://github.com/alexdrone/ios-fontawesome`)
+  - "FontAwesome+iOS (from `https://github.com/alexdrone/ios-fontawesome`)"
   - hpple (= 0.2.0)
   - JazzHands (= 2.0.0)
   - MarqueeLabel (= 2.5.0)
@@ -102,7 +102,7 @@ DEPENDENCIES:
   - MBProgressHUD (= 0.9)
   - MMMarkdown (= 0.3)
   - NYXImagesKit (= 2.3)
-  - POP+MCAnimate (= 2.0.1)
+  - "POP+MCAnimate (= 2.0.1)"
   - PPiAwesomeButton (= 1.5.2)
   - ReactiveCocoa (= 2.3.1)
   - RegexKitLite-NoWarning (= 1.1.0)
@@ -112,18 +112,48 @@ DEPENDENCIES:
   - TMCache (= 2.1.0)
   - TPKeyboardAvoiding (= 1.2.4)
   - TTTAttributedLabel (= 1.10.1)
-  - UIImage+BlurredFrame (= 0.0.4)
+  - "UIImage+BlurredFrame (= 0.0.4)"
   - UMengAnalytics (= 4.2.4)
   - UMengUShare/Social/QQ (= 6.4.5)
   - UMengUShare/Social/Sina (= 6.4.5)
   - UMengUShare/Social/WeChat (= 6.4.5)
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - APParallaxHeader
+    - BlocksKit
+    - evernote-cloud-sdk-ios
+    - FLEX
+    - hpple
+    - JazzHands
+    - MarqueeLabel
+    - Masonry
+    - MBProgressHUD
+    - MMMarkdown
+    - NYXImagesKit
+    - pop
+    - "POP+MCAnimate"
+    - PPiAwesomeButton
+    - RBBAnimation
+    - ReactiveCocoa
+    - RegexKitLite-NoWarning
+    - SDAutoLayout
+    - SDCAlertView
+    - SDCAutoLayout
+    - SSKeychain
+    - TMCache
+    - TPKeyboardAvoiding
+    - TTTAttributedLabel
+    - "UIImage+BlurredFrame"
+    - UMengAnalytics
+    - UMengUShare
+
 EXTERNAL SOURCES:
-  FontAwesome+iOS:
+  "FontAwesome+iOS":
     :git: https://github.com/alexdrone/ios-fontawesome
 
 CHECKOUT OPTIONS:
-  FontAwesome+iOS:
+  "FontAwesome+iOS":
     :commit: 3ef4db504ffde636c1f8a5320f1e5b6183f6102c
     :git: https://github.com/alexdrone/ios-fontawesome
 
@@ -132,7 +162,7 @@ SPEC CHECKSUMS:
   BlocksKit: 7f422b971407001178d181a43b99014ea2591fe6
   evernote-cloud-sdk-ios: 7a6e5402b837ea79ef0179caff5ffe7b4f235615
   FLEX: 27b768fcae23a313a1eb115076d429180ca9b472
-  FontAwesome+iOS: c6d3bbd2856b9633028d316d56133d45fb6a6cb0
+  "FontAwesome+iOS": c6d3bbd2856b9633028d316d56133d45fb6a6cb0
   hpple: 3b765f96fc2cd56ad1a49aef6f7be5cb2aa64b57
   JazzHands: 00002e9b1284e7fc1ac6555012e81b8942477242
   MarqueeLabel: 6b8ff6915c0536c5099ac30992b7d72f9807df20
@@ -141,7 +171,7 @@ SPEC CHECKSUMS:
   MMMarkdown: 13af1af50e5f476f1097797f43ea2bd76c83067a
   NYXImagesKit: 8163e3335a40eaa173ca5bbbf81fafb57d3947eb
   pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
-  POP+MCAnimate: a99e209148c602512de487f1160a44bf78572024
+  "POP+MCAnimate": a99e209148c602512de487f1160a44bf78572024
   PPiAwesomeButton: 16f7279582fd36f65186b24b83ef876217363eb5
   RBBAnimation: 4b2d66f6d993febce63cd564da934985313b9c59
   ReactiveCocoa: 3fe9b233ca6db810e86681b5749488564c1179a1
@@ -153,10 +183,10 @@ SPEC CHECKSUMS:
   TMCache: 95ebcc9b3c7e90fb5fd8fc3036cba3aa781c9bed
   TPKeyboardAvoiding: 0a40dfbb0af7c8bdae1dd457496dccfd217d85f6
   TTTAttributedLabel: c8f3801a6463b9c9b82b0c84c465fdda9751892a
-  UIImage+BlurredFrame: ad2f7195c6947ea3117c7d202f75a51958d5061a
+  "UIImage+BlurredFrame": ad2f7195c6947ea3117c7d202f75a51958d5061a
   UMengAnalytics: ef8d45f94c0e5771dc364cf6a5731d9d3b101da2
   UMengUShare: a5711c54e640b04e3048e931d2b88d50f9cfa55c
 
 PODFILE CHECKSUM: 4e7599df566b810cb65e8505f699da5ada302db4
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.5.0
