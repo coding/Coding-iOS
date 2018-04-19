@@ -66,7 +66,7 @@
     infoLabel.font = [UIFont systemFontOfSize:12];
     infoLabel.textColor = kColor666;
     infoLabel.textAlignment = NSTextAlignmentCenter;
-    infoLabel.text = [NSString stringWithFormat:@"官网：https://coding.net \nE-mail：link@coding.net \n微博：Coding \n微信：扣钉Coding"];
+    infoLabel.text = [NSString stringWithFormat:@"官网：https://coding.net \nE-mail：support@coding.net \n微博：Coding \n微信：扣钉Coding\nQQ 群：617404718"];
     [self.view addSubview:infoLabel];
     
     [logoView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -89,7 +89,7 @@
     [infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.view.mas_bottom).offset(-infoLabelBottom);
         make.left.right.mas_equalTo(self.view);
-        make.height.mas_equalTo(5*infoLabel.font.pointSize);
+        make.height.mas_equalTo(6*infoLabel.font.pointSize);
     }];
 
     UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
