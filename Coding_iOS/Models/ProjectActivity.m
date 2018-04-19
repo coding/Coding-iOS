@@ -138,6 +138,15 @@
                     if ([_action isEqualToString:@"comment"]) {
                         [_actionStr appendFormat:@"「%@」", _project_topic.parent.title];
                     }
+                }else if ([_target_type isEqualToString:@"BranchMember"]){
+                    if ([@[@"add", @"remove"] containsObject:_action]) {
+                        [_actionStr appendString:@"分支管理员"];
+                    }else{//deny_push/allow_push
+                        [self addActionUser:self.target_user];
+                        [_actionStr appendString:@"直接 Push 保护分支"];
+                    }
+                }else if ([_target_type isEqualToString:@"ProtectedBranch"]){
+//                    enable_protected_branch/allow_force_push/disable_protected_branch
                 }else if ([_target_type isEqualToString:@"ProjectFile"]){
                     if ([_action isEqualToString:@"rename"]) {
                         [_actionStr appendString:@"修改了文件名称"];
@@ -259,6 +268,14 @@
                 [_contentStr appendFormat:@"%@", _wiki_title];
             }else if ([_target_type isEqualToString:@"ProjectTweet"]){
                 [_contentStr saveAppendString:_content];
+            }else if ([_target_type isEqualToString:@"BranchMember"]){
+                if ([@[@"add", @"remove"] containsObject:_action]) {
+                    [_contentStr saveAppendString:self.target_user.name];
+                }else{//deny_push/allow_push
+                    [_contentStr saveAppendString:self.ref_name];
+                }
+            }else if ([_target_type isEqualToString:@"ProtectedBranch"]){
+                [_contentStr saveAppendString:self.ref_name];
             }else{
                 [_contentStr appendString:@"**未知**"];
             }

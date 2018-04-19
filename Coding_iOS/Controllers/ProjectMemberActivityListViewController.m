@@ -167,6 +167,16 @@
             }else{
                 linkPath = proAct.wiki_path;
             }
+        }else if ([target_type isEqualToString:@"BranchMember"]){
+            if ([@[@"add", @"remove"] containsObject:proAct.action]) {
+                linkPath = [NSString stringWithFormat:@"/u/%@", proAct.target_user.global_key];
+            }else{//deny_push/allow_push
+                ProjectViewController *vc = [ProjectViewController codeVCWithCodeRef:proAct.ref_name andProject:project];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }else if ([target_type isEqualToString:@"ProtectedBranch"]){
+            ProjectViewController *vc = [ProjectViewController codeVCWithCodeRef:proAct.ref_name andProject:project];
+            [self.navigationController pushViewController:vc animated:YES];
         }else{
             if ([target_type isEqualToString:@"Project"]){//转让项目之类的
                 //            }else if ([target_type isEqualToString:@"MergeRequestComment"]){//过期类型，已用CommitLineNote替代
