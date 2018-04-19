@@ -413,6 +413,11 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
     [[Coding_NetAPIManager sharedManager] request_SendPrivateMessage:nextMsg andBlock:^(id data, NSError *error) {
         if (data) {
             [weakSelf.myPriMsgs sendSuccessMessage:data andOldMessage:nextMsg];
+        }else if (error.userInfo[@"msg"][@"message_need_captcha"]){
+            NSDictionary *params = @{@"type": @2,
+                                     @"receiver_global_key": nextMsg.friend.global_key ?: @"",
+                                     };
+            [NSObject showCaptchaViewParams:params.mutableCopy];
         }
         [weakSelf dataChangedWithError:NO scrollToBottom:YES animated:YES];
     } progerssBlock:^(CGFloat progressValue) {
