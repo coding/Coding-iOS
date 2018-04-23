@@ -7,9 +7,9 @@
 //
 
 #define kProjectActivityListCell_IconHeight 33.0
-#define kProjectActivityListCell_TimeIconWidth 13.0
+#define kProjectActivityListCell_TimeIconWidth 7.0
 #define kProjectActivityListCell_TimeLineWidth 2.0
-#define kProjectActivityListCell_LeftPading 85
+#define kProjectActivityListCell_LeftPading 75
 #define kProjectActivityListCell_RightPading kPaddingLeftWidth
 #define kProjectActivityListCell_UpDownPading kScaleFrom_iPhone5_Desgin(10)
 #define kProjectActivityListCell_TextPading 5.0
@@ -48,15 +48,11 @@
     if (self) {
         // Initialization code
         if (!_userIconView) {
-            _userIconView = [[UITapImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, kProjectActivityListCell_UpDownPading, kProjectActivityListCell_IconHeight, kProjectActivityListCell_IconHeight)];
+            _userIconView = [[UITapImageView alloc] initWithFrame:CGRectMake(32, kProjectActivityListCell_UpDownPading, kProjectActivityListCell_IconHeight, kProjectActivityListCell_IconHeight)];
             [_userIconView doCircleFrame];
             [self.contentView addSubview:_userIconView];
         }
-        CGFloat imgRightX = CGRectGetMaxX(_userIconView.frame);
-        CGFloat timeLineCenterX = imgRightX + (kProjectActivityListCell_LeftPading-imgRightX)/2;
-        
-        ;
-                                         
+        CGFloat timeLineCenterX = kPaddingLeftWidth;
         if (!_timeLineView) {
             _timeLineView = [[UIImageView alloc] initWithFrame:CGRectMake(timeLineCenterX - kProjectActivityListCell_TimeLineWidth/2, 0, kProjectActivityListCell_TimeLineWidth, 1)];
             //        _timeLineView.contentMode = UIViewContentModeScaleToFill;
