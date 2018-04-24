@@ -49,7 +49,7 @@
             [self.contentView addSubview:_proTitleL];
         }
         if (!_proInfoL) {
-            _proInfoL = [[UITTTAttributedLabel alloc] init];
+            _proInfoL = [[UITTTAttributedLabel alloc] initWithFrame:CGRectZero];
             _proInfoL.delegate = self;
             _proInfoL.linkAttributes = kLinkAttributes;
             _proInfoL.activeLinkAttributes = kLinkAttributesActive;

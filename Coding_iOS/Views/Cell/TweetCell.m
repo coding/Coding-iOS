@@ -98,7 +98,8 @@
             self.contentLabel.font = kTweet_ContentFont;
             self.contentLabel.textColor = kColorDark3;
             self.contentLabel.numberOfLines = 0;
-            
+            self.contentLabel.lineHeightMultiple = 1.2;
+
             self.contentLabel.linkAttributes = kLinkAttributes;
             self.contentLabel.activeLinkAttributes = kLinkAttributesActive;
             self.contentLabel.delegate = self;
@@ -377,9 +378,23 @@
 
 + (CGFloat)contentLabelHeightWithTweet:(Tweet *)tweet{
     CGFloat height = 0;
+//    if (tweet.content.length > 0) {
+//        height += MIN(kTweet_ContentMaxHeight, [tweet.content getHeightWithFont:kTweet_ContentFont constrainedToSize:CGSizeMake(kTweetCell_ContentWidth, CGFLOAT_MAX)]);
+//        height += 15;
+//    }
+    static UITTTAttributedLabel *p_contentLabel = nil;
     if (tweet.content.length > 0) {
-        height += MIN(kTweet_ContentMaxHeight, [tweet.content getHeightWithFont:kTweet_ContentFont constrainedToSize:CGSizeMake(kTweetCell_ContentWidth, CGFLOAT_MAX)]);
-        height += 15;
+        if (!p_contentLabel) {
+            p_contentLabel = [[UITTTAttributedLabel alloc] initWithFrame:CGRectMake(kTweetCell_PadingLeft, kTweetCell_PadingTop, kTweetCell_ContentWidth, 20)];
+            p_contentLabel.font = kTweet_ContentFont;
+            p_contentLabel.textColor = kColorDark3;
+            p_contentLabel.numberOfLines = 0;
+            p_contentLabel.lineHeightMultiple = 1.2;
+            p_contentLabel.linkAttributes = kLinkAttributes;
+            p_contentLabel.activeLinkAttributes = kLinkAttributesActive;
+        }
+        [p_contentLabel setLongString:tweet.content withFitWidth:kTweetCell_ContentWidth maxHeight:kTweet_ContentMaxHeight];
+        height += p_contentLabel.height + 15;
     }
     return height;
 }

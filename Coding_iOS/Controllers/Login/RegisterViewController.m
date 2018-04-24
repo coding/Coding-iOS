@@ -253,7 +253,7 @@
                                                      }];
     //label
     UITTTAttributedLabel *lineLabel = ({
-        UITTTAttributedLabel *label = [[UITTTAttributedLabel alloc] init];
+        UITTTAttributedLabel *label = [[UITTTAttributedLabel alloc] initWithFrame:CGRectZero];
         label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont systemFontOfSize:14];
         label.textColor = kColorDark2;

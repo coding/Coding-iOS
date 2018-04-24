@@ -67,7 +67,7 @@ PODS:
   - SSKeychain (1.2.3)
   - TMCache (2.1.0)
   - TPKeyboardAvoiding (1.2.4)
-  - TTTAttributedLabel (1.10.1)
+  - TTTAttributedLabel (2.0.0)
   - "UIImage+BlurredFrame (0.0.4)"
   - UMengAnalytics (4.2.4)
   - UMengUShare/Core (6.4.5):
@@ -111,7 +111,7 @@ DEPENDENCIES:
   - SSKeychain (= 1.2.3)
   - TMCache (= 2.1.0)
   - TPKeyboardAvoiding (= 1.2.4)
-  - TTTAttributedLabel (= 1.10.1)
+  - TTTAttributedLabel (= 2.0.0)
   - "UIImage+BlurredFrame (= 0.0.4)"
   - UMengAnalytics (= 4.2.4)
   - UMengUShare/Social/QQ (= 6.4.5)
@@ -182,11 +182,11 @@ SPEC CHECKSUMS:
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
   TMCache: 95ebcc9b3c7e90fb5fd8fc3036cba3aa781c9bed
   TPKeyboardAvoiding: 0a40dfbb0af7c8bdae1dd457496dccfd217d85f6
-  TTTAttributedLabel: c8f3801a6463b9c9b82b0c84c465fdda9751892a
+  TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   "UIImage+BlurredFrame": ad2f7195c6947ea3117c7d202f75a51958d5061a
   UMengAnalytics: ef8d45f94c0e5771dc364cf6a5731d9d3b101da2
   UMengUShare: a5711c54e640b04e3048e931d2b88d50f9cfa55c
 
-PODFILE CHECKSUM: 4e7599df566b810cb65e8505f699da5ada302db4
+PODFILE CHECKSUM: 36e1606f3eaec7aedeba960c5747dba1ea4490d1
 
 COCOAPODS: 1.5.0

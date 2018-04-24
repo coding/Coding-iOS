@@ -15,15 +15,12 @@
 
 - (void) setLongString:(NSString *)str withFitWidth:(CGFloat)width maxHeight:(CGFloat)maxHeight{
     self.numberOfLines = 0;
-    CGSize resultSize = [str getSizeWithFont:self.font constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)];
-    CGFloat resultHeight = resultSize.height;
-    if (maxHeight > 0 && resultHeight > maxHeight) {
-        resultHeight = maxHeight;
-    }
-    CGRect frame = self.frame;
-    frame.size.height = resultHeight;
-    [self setFrame:frame];
     self.text = str;
+    CGSize resultSize = [self sizeThatFits:CGSizeMake(width, maxHeight)];
+    if (maxHeight > 0 && resultSize.height > maxHeight) {
+        resultSize.height = maxHeight;
+    }
+    self.size = resultSize;
 }
 
 - (void) setLongString:(NSString *)str withVariableWidth:(CGFloat)maxWidth{

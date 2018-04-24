@@ -3,7 +3,7 @@ platform :ios, '9.0'
 
 target "Coding_iOS" do
     
-pod 'TTTAttributedLabel', '1.10.1'
+pod 'TTTAttributedLabel', '2.0.0'
 pod 'RegexKitLite-NoWarning', '1.1.0'
 pod 'hpple', '0.2.0'
 pod 'MBProgressHUD', '0.9'
