@@ -1224,6 +1224,7 @@
 		B14689C31EE100B200B01371 /* vip_4_75@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B31EE100B200B01371 /* vip_4_75@3x.png */; };
 		B16EEF08208DDBB6005ABFD5 /* timeline_icon_read@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16EEF06208DDBB5005ABFD5 /* timeline_icon_read@3x.png */; };
 		B16EEF09208DDBB6005ABFD5 /* timeline_icon_unread@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16EEF07208DDBB6005ABFD5 /* timeline_icon_unread@3x.png */; };
+		B16EEF13209080D7005ABFD5 /* TaskBoardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16EEF12209080D7005ABFD5 /* TaskBoardsViewController.m */; };
 		B177F5C52060E6B1006709C2 /* wiki.html in Resources */ = {isa = PBXBuildFile; fileRef = B177F5C02060E6B1006709C2 /* wiki.html */; };
 		B177F5C62060E6B1006709C2 /* bubble.html in Resources */ = {isa = PBXBuildFile; fileRef = B177F5C12060E6B1006709C2 /* bubble.html */; };
 		B177F5C72060E6B1006709C2 /* markdown.html in Resources */ = {isa = PBXBuildFile; fileRef = B177F5C22060E6B1006709C2 /* markdown.html */; };
@@ -3331,6 +3332,8 @@
 		B14689B31EE100B200B01371 /* vip_4_75@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_4_75@3x.png"; sourceTree = "<group>"; };
 		B16EEF06208DDBB5005ABFD5 /* timeline_icon_read@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_icon_read@3x.png"; sourceTree = "<group>"; };
 		B16EEF07208DDBB6005ABFD5 /* timeline_icon_unread@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_icon_unread@3x.png"; sourceTree = "<group>"; };
+		B16EEF11209080D7005ABFD5 /* TaskBoardsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskBoardsViewController.h; sourceTree = "<group>"; };
+		B16EEF12209080D7005ABFD5 /* TaskBoardsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskBoardsViewController.m; sourceTree = "<group>"; };
 		B177F5C02060E6B1006709C2 /* wiki.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = wiki.html; sourceTree = "<group>"; };
 		B177F5C12060E6B1006709C2 /* bubble.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = bubble.html; sourceTree = "<group>"; };
 		B177F5C22060E6B1006709C2 /* markdown.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = markdown.html; sourceTree = "<group>"; };
@@ -5745,6 +5748,8 @@
 				B1944143206BB87F00147158 /* EALocalCodeListViewController.m */,
 				B1944145206BB89100147158 /* EALocalCodeViewController.h */,
 				B1944146206BB89100147158 /* EALocalCodeViewController.m */,
+				B16EEF11209080D7005ABFD5 /* TaskBoardsViewController.h */,
+				B16EEF12209080D7005ABFD5 /* TaskBoardsViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -8114,6 +8119,7 @@
 				7EB02FF61B6DAF3800D2166C /* AudioVolumeView.m in Sources */,
 				4E8D5D6E1B45400100B70936 /* ZXScanCodeViewController.m in Sources */,
 				4E3068431E0B781A00AEE0CE /* LDNetTimer.m in Sources */,
+				B16EEF13209080D7005ABFD5 /* TaskBoardsViewController.m in Sources */,
 				4ECD72EF1AAD7EC300D69AE1 /* Tweet.m in Sources */,
 				13DA65E81CBE668E00810CB7 /* PRDetailViewController.m in Sources */,
 				8EF643CD19FF7E2900F7EEB0 /* TweetCommentMoreCell.m in Sources */,

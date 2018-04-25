@@ -21,8 +21,7 @@ typedef NS_ENUM(NSInteger, ProjectViewType)
 
 @interface ProjectViewController : BaseViewController
 @property (nonatomic, strong) Project *myProject;
-@property (nonatomic, assign) NSInteger curIndex;
-@property (nonatomic, assign, readonly) ProjectViewType curType;
+@property (nonatomic, assign) ProjectViewType curType;
 
 @property (assign, nonatomic) BOOL hideBranchTagButton;
 + (ProjectViewController *)codeVCWithCodeRef:(NSString *)codeRef andProject:(Project *)project;

@@ -71,11 +71,7 @@
     ProjectViewController *vc = [self new];
     vc.myCodeTree = [CodeTree codeTreeWithRef:codeRef andPath:@""];
     vc.myProject = project;
-    if (vc.myProject.is_public.boolValue) {
-        vc.curIndex = 2;
-    }else{
-        vc.curIndex = 4;
-    }
+    vc.curType = ProjectViewTypeCodes;
     return vc;
 }
 
@@ -90,18 +86,18 @@
 {
     self = [super init];
     if (self) {
-        _curIndex = 0;
+        _curType = ProjectViewTypeActivities;
     }
     return self;
 }
 
 - (UIView *)getCurContentView{
-    return [_projectContentDict objectForKey:[NSNumber numberWithInteger:_curIndex]];
+    return [_projectContentDict objectForKey:[NSNumber numberWithInteger:_curType]];
 }
 
 - (void)saveCurContentView:(UIView *)curContentView{
     if (curContentView) {
-        [_projectContentDict setObject:curContentView forKey:[NSNumber numberWithInteger:_curIndex]];
+        [_projectContentDict setObject:curContentView forKey:[NSNumber numberWithInteger:_curType]];
     }
 }
 
@@ -116,7 +112,7 @@
             [self requestForMyProject];
         }else{
             [self configNavBtnWithMyProject];
-            [self refreshWithNewIndex:_curIndex];
+            [self refreshWithNewIndex:_curType];
         }
     }
     UIView *curView = [self getCurContentView];
@@ -219,7 +215,7 @@
         if (data) {
             weakSelf.myProject = data;
             [weakSelf configNavBtnWithMyProject];
-            [weakSelf refreshWithNewIndex:_curIndex];
+            [weakSelf refreshWithNewIndex:_curType];
         }
     }];
 }
@@ -259,39 +255,15 @@
 }
 
 - (ProjectViewType)viewTypeFromIndex:(NSInteger)index{
-    ProjectViewType type = 0;
-    if (_myProject.is_public) {
-        if (_myProject.is_public.boolValue) {
-            switch (index) {
-                case 0:
-                    type = ProjectViewTypeActivities;
-                    break;
-                case 1:
-                    type = ProjectViewTypeTopics;
-                    break;
-                case 2:
-                    type = ProjectViewTypeCodes;
-                    break;
-                case 3:
-                    type = ProjectViewTypeMembers;
-                    break;
-                default:
-                    type = ProjectViewTypeActivities;
-                    break;
-            }
-        }else{
-            type = index;
-        }
-    }
-    return type;
+    return index;
 }
 
 - (ProjectViewType)curType{
-    return [self viewTypeFromIndex:_curIndex];
+    return [self viewTypeFromIndex:_curType];
 }
 
 - (void)refreshWithNewIndex:(NSInteger)newIndex{
-    ProjectViewType curViewType = [self viewTypeFromIndex:_curIndex];
+    ProjectViewType curViewType = [self viewTypeFromIndex:_curType];
     ProjectViewType newViewType = [self viewTypeFromIndex:newIndex];
     
 //    配置navBtn
@@ -303,7 +275,7 @@
         curView.hidden = YES;
     }
 //    配置将要显示的视图
-    _curIndex = newIndex;
+    _curType = newIndex;
     curView = [self getCurContentView];
     __weak typeof(self) weakSelf = self;
     if (curView == nil) {
@@ -587,7 +559,7 @@
 - (void)navRightBtnClicked{
     [_myFliterMenu dismissMenu];
 
-    ProjectViewType curViewType = [self viewTypeFromIndex:_curIndex];
+    ProjectViewType curViewType = [self viewTypeFromIndex:_curType];
     switch (curViewType) {
         case ProjectViewTypeTasks:
         {
