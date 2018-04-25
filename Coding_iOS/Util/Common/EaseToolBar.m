@@ -86,6 +86,9 @@
 - (instancetype)initWithTitle:(NSString *)title image:(NSString *)imageName disableImage:(NSString *)disableImageName{
     self = [super init];
     if (self) {
+        if ((imageName || disableImageName) && ![title hasPrefix:@"  "]) {
+            title = [NSString stringWithFormat:@"  %@", title];
+        }
         self.title = title;
         self.imageName = imageName;
         self.disableImageName = disableImageName;
@@ -101,13 +104,6 @@
         self.enabled = YES;
     }
     return self;
-}
-
-- (void)setTitle:(NSString *)title{
-    if (title) {
-        title = [NSString stringWithFormat:@" %@", title];
-    }
-    _title = title;
 }
 - (void)setEnabled:(BOOL)enabled{
     [super setEnabled:enabled];

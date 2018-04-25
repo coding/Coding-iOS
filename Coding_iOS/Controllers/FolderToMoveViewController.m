@@ -58,8 +58,8 @@
     //添加底部ToolBar
     if (!_myToolBar) {
         //添加底部ToolBar
-        EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 新建文件夹" image:@"button_file_createFolder_enable" disableImage:@"button_file_createFolder_unable"];
-        EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 移动到这里" image:@"button_file_move_enable" disableImage:@"button_file_move_unable"];
+        EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@"新建文件夹" image:@"button_file_createFolder_enable" disableImage:@"button_file_createFolder_unable"];
+        EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@"移动到这里" image:@"button_file_move_enable" disableImage:@"button_file_move_unable"];
         item1.enabled = [self canCreatNewFolder];
         item2.enabled = [self canMovedHere];
         

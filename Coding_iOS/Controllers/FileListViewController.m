@@ -149,8 +149,8 @@
 - (void)configToolBar{
     //添加底部ToolBar
     if (!_myToolBar) {
-        EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 新建文件夹" image:@"button_file_createFolder_enable" disableImage:@"button_file_createFolder_unable"];
-        EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 上传文件" image:@"button_file_upload_enable" disableImage:nil];
+        EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@"新建文件夹" image:@"button_file_createFolder_enable" disableImage:@"button_file_createFolder_unable"];
+        EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@"上传文件" image:@"button_file_upload_enable" disableImage:nil];
         _myToolBar = [EaseToolBar easeToolBarWithItems:@[item1, item2]];
         _myToolBar.delegate = self;
         [self.view addSubview:_myToolBar];
@@ -161,9 +161,9 @@
     }
     
     if (!_myEditToolBar) {
-        EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 下载" image:@"button_file_download_enable" disableImage:@"button_file_createFolder_unable"];
-        EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 移动" image:@"button_file_move_enable" disableImage:nil];
-        EaseToolBarItem *item3 = [EaseToolBarItem easeToolBarItemWithTitle:@" 删除" image:@"button_file_denete_enable" disableImage:nil];
+        EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@"下载" image:@"button_file_download_enable" disableImage:@"button_file_createFolder_unable"];
+        EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@"移动" image:@"button_file_move_enable" disableImage:nil];
+        EaseToolBarItem *item3 = [EaseToolBarItem easeToolBarItemWithTitle:@"删除" image:@"button_file_denete_enable" disableImage:nil];
         _myEditToolBar = [EaseToolBar easeToolBarWithItems:@[item1, item2, item3]];
         _myEditToolBar.delegate = self;
         [self.view addSubview:_myEditToolBar];

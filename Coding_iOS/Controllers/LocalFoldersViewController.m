@@ -236,7 +236,7 @@
 - (void)configToolBar{
     //添加底部ToolBar
     if (!_myEditToolBar) {
-        EaseToolBarItem *item = [EaseToolBarItem easeToolBarItemWithTitle:@" 删除" image:@"button_file_denete_enable" disableImage:nil];
+        EaseToolBarItem *item = [EaseToolBarItem easeToolBarItemWithTitle:@"删除" image:@"button_file_denete_enable" disableImage:nil];
         _myEditToolBar = [EaseToolBar easeToolBarWithItems:@[item]];
         _myEditToolBar.delegate = self;
         [self.view addSubview:_myEditToolBar];

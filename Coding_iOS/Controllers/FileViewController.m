@@ -63,8 +63,8 @@
 
 - (EaseToolBar *)myToolBar{
     if (!_myToolBar) {
-        EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@" 文件动态" image:@"button_file_activity" disableImage:nil];
-        EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@" 历史版本" image:@"button_file_history" disableImage:nil];
+        EaseToolBarItem *item1 = [EaseToolBarItem easeToolBarItemWithTitle:@"文件动态" image:@"button_file_activity" disableImage:nil];
+        EaseToolBarItem *item2 = [EaseToolBarItem easeToolBarItemWithTitle:@"历史版本" image:@"button_file_history" disableImage:nil];
         _myToolBar = [EaseToolBar easeToolBarWithItems:@[item1, item2]];
         _myToolBar.delegate = self;
         [self.view addSubview:_myToolBar];
