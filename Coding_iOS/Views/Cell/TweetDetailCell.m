@@ -240,7 +240,7 @@
     [self.rewardBtn setTitle:_tweet.rewards.stringValue forState:UIControlStateNormal];
     [self.commentBtn setTitle:_tweet.comments.stringValue forState:UIControlStateNormal];
 
-    BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key];
+    BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key] || tweet.project.current_user_role_id.integerValue >= 90;
     if (isMineTweet) {
         [self.deleteBtn setY:curBottomY];
         self.deleteBtn.hidden = NO;

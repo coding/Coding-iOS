@@ -109,7 +109,7 @@
         _editView.textContainerInset = UIEdgeInsetsMake(15, kPaddingLeftWidth - 5, 8, kPaddingLeftWidth - 5);
         _editView.placeholder = @"任务描述";
         
-        _editView.text = nil;
+        _editView.text = _curTweet.raw;
         [self.view addSubview:_editView];
         [_editView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.view);
@@ -170,19 +170,35 @@
 #pragma mark nav_btn
 
 - (void)sendBtnClicked{
-    [NSObject showHUDQueryStr:@"正在发布..."];
-    @weakify(self);
-    [[Coding_NetAPIManager sharedManager] request_Tweet_DoProjectTweet_WithPro:self.curPro.id content:self.editView.text andBlock:^(id data, NSError *error) {
-        [NSObject hideHUDQuery];
-        if (data) {
-            [NSObject showHudTipStr:@"发布成功"];
-            @strongify(self);
-            if (self.sentBlock) {
-                self.sentBlock(data);
+    if (_curTweet && _curTweet.isProjectTweet) {
+        [NSObject showHUDQueryStr:@"正在修改..."];
+        @weakify(self);
+        [[Coding_NetAPIManager sharedManager] request_Tweet_EditProjectTweet:self.curTweet content:self.editView.text andBlock:^(id data, NSError *error) {
+            [NSObject hideHUDQuery];
+            if (data) {
+                [NSObject showHudTipStr:@"修改成功"];
+                @strongify(self);
+                if (self.sentBlock) {
+                    self.sentBlock(data);
+                }
+                [self.navigationController popViewControllerAnimated:YES];
             }
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-    }];
+        }];
+    }else{
+        [NSObject showHUDQueryStr:@"正在发布..."];
+        @weakify(self);
+        [[Coding_NetAPIManager sharedManager] request_Tweet_DoProjectTweet_WithPro:self.curPro.id content:self.editView.text andBlock:^(id data, NSError *error) {
+            [NSObject hideHUDQuery];
+            if (data) {
+                [NSObject showHudTipStr:@"发布成功"];
+                @strongify(self);
+                if (self.sentBlock) {
+                    self.sentBlock(data);
+                }
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+    }
 }
 
 #pragma mark UIWebViewDelegate

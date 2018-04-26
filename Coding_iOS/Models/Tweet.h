@@ -16,7 +16,7 @@
 @class TweetImage;
 
 @interface Tweet : NSObject
-@property (readwrite, nonatomic, strong) NSString *content, *device, *location, *coord, *address;
+@property (readwrite, nonatomic, strong) NSString *content, *device, *location, *coord, *address, *raw;
 @property (readwrite, nonatomic, strong) NSNumber *liked, *rewarded, *activity_id, *id, *comments, *likes, *rewards;
 @property (readwrite, nonatomic, strong) NSDate *created_at, *sort_time;
 @property (readwrite, nonatomic, strong) User *owner;

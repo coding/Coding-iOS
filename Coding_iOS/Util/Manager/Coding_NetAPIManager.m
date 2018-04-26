@@ -2456,6 +2456,22 @@
     }];
 }
 
+- (void)request_Tweet_EditProjectTweet:(Tweet *)tweet content:(NSString *)content andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/project/%@/tweet/%@", tweet.project_id, tweet.id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"raw": content} withMethodType:Put andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"冒泡_修改_项目内冒泡"];
+            
+            id resultData = [data valueForKeyPath:@"data"];
+            Tweet *result = [NSObject objectOfClass:@"Tweet" fromJSON:resultData];
+            block(result, nil);
+        }else{
+            [NSObject showStatusBarError:error];
+            block(nil, error);
+        }
+    }];
+}
+
 - (void)request_Tweet_Likers_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block{
     tweet.isLoading = YES;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[tweet toLikersPath] withParams:[tweet toLikersParams] withMethodType:Get andBlock:^(id data, NSError *error) {
@@ -2530,7 +2546,7 @@
 }
 
 - (void)request_Tweet_Detail_WithObj:(Tweet *)tweet andBlock:(void (^)(id data, NSError *error))block{
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[tweet toDetailPath] withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[tweet toDetailPath] withParams:@{@"withRaw": @YES} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_Get label:@"冒泡_详情"];
 

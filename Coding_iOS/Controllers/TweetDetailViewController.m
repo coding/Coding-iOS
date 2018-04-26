@@ -21,6 +21,7 @@
 #import "ReportIllegalViewController.h"
 #import "TweetSendLocationDetailViewController.h"
 #import "CodingShareView.h"
+#import "ProjectTweetSendViewController.h"
 
 @interface TweetDetailViewController ()
 @property (nonatomic, strong) UITableView *myTableView;
@@ -86,16 +87,7 @@
     self.myTableView.contentInset = contentInsets;
     self.myTableView.scrollIndicatorInsets = contentInsets;
     
-    if (!_curTweet.content
-        || (_curTweet.likes.integerValue > 0 && _curTweet.like_users.count == 0)) {
-        [self refreshTweet];
-    }else{
-        _myMsgInputView.commentOfId = _curTweet.id;
-
-        if (_curTweet.comments.integerValue > _curTweet.comment_list.count) {
-            [self refreshComments];//加载等多评论
-        }
-    }
+    [self refreshTweet];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -124,21 +116,19 @@
 
 - (void)rightNavBtnClicked{
     if (self.curTweet.id && [self.curTweet.id isKindOfClass:[NSNumber class]]) {
-        [_myMsgInputView isAndResignFirstResponder];
-        
-//        if (_curTweet.project_id != nil) {
-//            [NSObject showHudTipStr:@"项目内冒泡，不能分享"];
-//            return;
-//        }
-        [CodingShareView showShareViewWithObj:_curTweet];
-
-//        @weakify(self);
-//        [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"举报"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-//            if (index == 0) {
-//                @strongify(self);
-//                [self goToReport];
-//            }
-//        }] showInView:self.view];
+        if (_curTweet.isProjectTweet) {
+            ProjectTweetSendViewController *vc = [ProjectTweetSendViewController new];
+            vc.curPro = _curProject;
+            vc.curTweet = _curTweet;
+            __weak typeof(self) weakSelf = self;
+            vc.sentBlock = ^(Tweet *tweet){
+                [weakSelf refreshTweet];
+            };
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            [_myMsgInputView isAndResignFirstResponder];
+            [CodingShareView showShareViewWithObj:_curTweet];
+        }
     }
 }
 
@@ -176,7 +166,7 @@
 #pragma mark refresh
 - (void)refreshTweet{
     __weak typeof(self) weakSelf = self;
-    if (_curTweet.project && !_curTweet.project_id) {
+    if (_curTweet.isProjectTweet && !_curTweet.project.current_user_role_id) {
         [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_curTweet.project andBlock:^(id data, NSError *error) {
             if (data) {
                 weakSelf.curTweet.project = data;
@@ -201,6 +191,11 @@
                 weakSelf.myMsgInputView.toUser = nil;
                 [weakSelf.myTableView reloadData];
                 [weakSelf refreshComments];
+                if (weakSelf.curTweet.isProjectTweet &&
+                    (weakSelf.curTweet.project.current_user_role_id.integerValue >= 90 ||
+                     [Login isLoginUserGlobalKey:weakSelf.curTweet.owner.global_key])) {
+                    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(rightNavBtnClicked)] animated:YES];
+                }
             }else{
                 [weakSelf.refreshControl endRefreshing];
             }

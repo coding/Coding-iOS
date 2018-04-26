@@ -228,7 +228,7 @@
     self.likeBtn.hidden = self.rewardBtn.hidden = [_tweet isProjectTweet];
     
     _like_reward_users = [_tweet like_reward_users];
-    BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key];
+    BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key] || tweet.project.current_user_role_id.integerValue >= 90;
 
     self.topView.hidden = !_needTopView;
     //owner头像

@@ -90,6 +90,10 @@
     [_myTableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf refreshMore];
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self refresh];
 }
 

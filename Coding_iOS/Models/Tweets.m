@@ -90,6 +90,9 @@
 }
 
 - (void)configWithTweets:(NSArray *)responseA{
+    if (self.curPro) {
+        [responseA setValue:self.curPro forKey:@"project"];
+    }
     if (responseA && [responseA count] > 0) {
         self.canLoadMore = (_tweetType != TweetTypePublicHot);
         Tweet *lastTweet = [responseA lastObject];
