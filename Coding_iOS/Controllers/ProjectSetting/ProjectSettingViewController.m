@@ -26,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.title = @"项目设置";
     // Private Icon
     if ([self.project.is_public isEqual:@YES]) {
         self.privateImageView.hidden = YES;

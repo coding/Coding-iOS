@@ -95,10 +95,7 @@
         _proInfoL.text = _curProject.owner_user_name;
     }
     _recommendedView.hidden = !(_curProject.recommended.integerValue > 0);
-    // 如果是自己所属的项目才显示箭头
-    if ([self.curProject.owner_id isEqual:[Login curLoginUser].id]) {
-        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
+    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }
 
 - (void)layoutSubviews{

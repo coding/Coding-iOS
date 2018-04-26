@@ -1222,6 +1222,7 @@
 		B14689C11EE100B200B01371 /* vip_4_45@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B11EE100B200B01371 /* vip_4_45@3x.png */; };
 		B14689C21EE100B200B01371 /* vip_4_75@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B21EE100B200B01371 /* vip_4_75@2x.png */; };
 		B14689C31EE100B200B01371 /* vip_4_75@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B31EE100B200B01371 /* vip_4_75@3x.png */; };
+		B152ED4E2090B223004A6E8A /* ProjectSettingEntranceController.m in Sources */ = {isa = PBXBuildFile; fileRef = B152ED4D2090B223004A6E8A /* ProjectSettingEntranceController.m */; };
 		B16EEF08208DDBB6005ABFD5 /* timeline_icon_read@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16EEF06208DDBB5005ABFD5 /* timeline_icon_read@3x.png */; };
 		B16EEF09208DDBB6005ABFD5 /* timeline_icon_unread@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16EEF07208DDBB6005ABFD5 /* timeline_icon_unread@3x.png */; };
 		B16EEF13209080D7005ABFD5 /* TaskBoardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16EEF12209080D7005ABFD5 /* TaskBoardsViewController.m */; };
@@ -3330,6 +3331,8 @@
 		B14689B11EE100B200B01371 /* vip_4_45@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_4_45@3x.png"; sourceTree = "<group>"; };
 		B14689B21EE100B200B01371 /* vip_4_75@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_4_75@2x.png"; sourceTree = "<group>"; };
 		B14689B31EE100B200B01371 /* vip_4_75@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_4_75@3x.png"; sourceTree = "<group>"; };
+		B152ED4C2090B223004A6E8A /* ProjectSettingEntranceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectSettingEntranceController.h; sourceTree = "<group>"; };
+		B152ED4D2090B223004A6E8A /* ProjectSettingEntranceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectSettingEntranceController.m; sourceTree = "<group>"; };
 		B16EEF06208DDBB5005ABFD5 /* timeline_icon_read@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_icon_read@3x.png"; sourceTree = "<group>"; };
 		B16EEF07208DDBB6005ABFD5 /* timeline_icon_unread@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_icon_unread@3x.png"; sourceTree = "<group>"; };
 		B16EEF11209080D7005ABFD5 /* TaskBoardsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskBoardsViewController.h; sourceTree = "<group>"; };
@@ -7032,6 +7035,8 @@
 			isa = PBXGroup;
 			children = (
 				B9A00D7E1ACA3A05008BA008 /* ProjectSetting.storyboard */,
+				B152ED4C2090B223004A6E8A /* ProjectSettingEntranceController.h */,
+				B152ED4D2090B223004A6E8A /* ProjectSettingEntranceController.m */,
 				B9A00D801ACA3A17008BA008 /* ProjectSettingViewController.h */,
 				B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */,
 				B9A00D831ACA3A55008BA008 /* ProjectAdvancedSettingViewController.h */,
@@ -8232,6 +8237,7 @@
 				09A058891E0AA9AE00C1CA3F /* ActivityMonScrollView.m in Sources */,
 				8E1C3DEF19E7D58A00EF3032 /* ActionSheetStringPicker.m in Sources */,
 				8EF643B919FF7E2900F7EEB0 /* LeftImage_LRTextCell.m in Sources */,
+				B152ED4E2090B223004A6E8A /* ProjectSettingEntranceController.m in Sources */,
 				B1890C4D2019B29900F52ABA /* UINavigationBar+Common.m in Sources */,
 				926C043E1C01A212004937D8 /* ShopOrderListView.m in Sources */,
 				8E1C3DF119E7D58A00EF3032 /* SWActionSheet.m in Sources */,

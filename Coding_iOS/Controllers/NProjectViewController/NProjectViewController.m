@@ -272,13 +272,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0 && indexPath.row == 0) {
-        // 如果是自己的项目才能进入设置
-        if ([self.myProject.owner_id isEqual:[Login curLoginUser].id]) {
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProjectSetting" bundle:nil];
-            UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ProjectSettingVC"];
-            [vc setValue:self.myProject forKey:@"project"];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProjectSetting" bundle:nil];
+        UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"Entrance"];
+        [vc setValue:self.myProject forKey:@"project"];
+        [self.navigationController pushViewController:vc animated:YES];
     }else if (_myProject.is_public.boolValue){
         if (indexPath.section == 1) {
             if (indexPath.row == 0) {
@@ -381,26 +378,6 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)goToIndex:(NSInteger)index{
-//    if (index == 0) {
-//        __weak typeof(self) weakSelf = self;
-//        [[Coding_NetAPIManager sharedManager] request_Project_UpdateVisit_WithObj:_myProject andBlock:^(id data, NSError *error) {
-//            if (data) {
-//                weakSelf.myProject.un_read_activities_count = [NSNumber numberWithInteger:0];
-//            }
-//        }];
-//    }
-////    if (index == 3 && _myProject.is_public && !_myProject.is_public.boolValue) {
-////        WikiViewController *vc = [WikiViewController new];
-////        vc.myProject = self.myProject;
-////        [self.navigationController pushViewController:vc animated:YES];
-////    }else{
-//        ProjectViewController *vc = [[ProjectViewController alloc] init];
-//        vc.myProject = self.myProject;
-//        vc.curIndex = index;
-//        [self.navigationController pushViewController:vc animated:YES];
-////    }
-}
 - (void)gotoPro:(Project *)project{
     NProjectViewController *vc = [[NProjectViewController alloc] init];
     vc.myProject = project;
