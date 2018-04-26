@@ -109,13 +109,14 @@
             _leftBtn.hidden = YES;//说是不要私信按钮了
         }else{
             //        自己
-            if (_curMember.type.intValue == 100) {//项目创建者不能「退出」
-                _leftBtn.hidden = YES;
-            }else{//「退出」按钮
-                [_leftBtn setImage:[UIImage imageNamed:@"btn_project_quit"] forState:UIControlStateNormal];
-                [_leftBtn setTitle:@"- 退出项目" forState:UIControlStateNormal];
-                _leftBtn.hidden = NO;
-            }
+            _leftBtn.hidden = YES;//说是也不要退出按钮了
+//            if (_curMember.type.intValue == 100) {//项目创建者不能「退出」
+//                _leftBtn.hidden = YES;
+//            }else{//「退出」按钮
+//                [_leftBtn setImage:[UIImage imageNamed:@"btn_project_quit"] forState:UIControlStateNormal];
+//                [_leftBtn setTitle:@"- 退出项目" forState:UIControlStateNormal];
+//                _leftBtn.hidden = NO;
+//            }
         }
     }else{
         _leftBtn.hidden = YES;
