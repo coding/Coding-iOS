@@ -1223,6 +1223,7 @@
 		B14689C21EE100B200B01371 /* vip_4_75@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B21EE100B200B01371 /* vip_4_75@2x.png */; };
 		B14689C31EE100B200B01371 /* vip_4_75@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B31EE100B200B01371 /* vip_4_75@3x.png */; };
 		B152ED4E2090B223004A6E8A /* ProjectSettingEntranceController.m in Sources */ = {isa = PBXBuildFile; fileRef = B152ED4D2090B223004A6E8A /* ProjectSettingEntranceController.m */; };
+		B152ED542091B7CB004A6E8A /* ProjectArchiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B152ED532091B7CB004A6E8A /* ProjectArchiveViewController.m */; };
 		B16EEF08208DDBB6005ABFD5 /* timeline_icon_read@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16EEF06208DDBB5005ABFD5 /* timeline_icon_read@3x.png */; };
 		B16EEF09208DDBB6005ABFD5 /* timeline_icon_unread@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16EEF07208DDBB6005ABFD5 /* timeline_icon_unread@3x.png */; };
 		B16EEF13209080D7005ABFD5 /* TaskBoardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16EEF12209080D7005ABFD5 /* TaskBoardsViewController.m */; };
@@ -3333,6 +3334,8 @@
 		B14689B31EE100B200B01371 /* vip_4_75@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_4_75@3x.png"; sourceTree = "<group>"; };
 		B152ED4C2090B223004A6E8A /* ProjectSettingEntranceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectSettingEntranceController.h; sourceTree = "<group>"; };
 		B152ED4D2090B223004A6E8A /* ProjectSettingEntranceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectSettingEntranceController.m; sourceTree = "<group>"; };
+		B152ED522091B7CB004A6E8A /* ProjectArchiveViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectArchiveViewController.h; sourceTree = "<group>"; };
+		B152ED532091B7CB004A6E8A /* ProjectArchiveViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectArchiveViewController.m; sourceTree = "<group>"; };
 		B16EEF06208DDBB5005ABFD5 /* timeline_icon_read@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_icon_read@3x.png"; sourceTree = "<group>"; };
 		B16EEF07208DDBB6005ABFD5 /* timeline_icon_unread@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_icon_unread@3x.png"; sourceTree = "<group>"; };
 		B16EEF11209080D7005ABFD5 /* TaskBoardsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskBoardsViewController.h; sourceTree = "<group>"; };
@@ -7035,6 +7038,8 @@
 			isa = PBXGroup;
 			children = (
 				B9A00D7E1ACA3A05008BA008 /* ProjectSetting.storyboard */,
+				B152ED522091B7CB004A6E8A /* ProjectArchiveViewController.h */,
+				B152ED532091B7CB004A6E8A /* ProjectArchiveViewController.m */,
 				B152ED4C2090B223004A6E8A /* ProjectSettingEntranceController.h */,
 				B152ED4D2090B223004A6E8A /* ProjectSettingEntranceController.m */,
 				B9A00D801ACA3A17008BA008 /* ProjectSettingViewController.h */,
@@ -8529,6 +8534,7 @@
 				B12B64151FF0DE4800ACFDCC /* SkillCCell.m in Sources */,
 				4E94C4FF1B4D2B9300EB668A /* MenuButton.m in Sources */,
 				B12B64091FE900D400ACFDCC /* AMPopTip+Draw.m in Sources */,
+				B152ED542091B7CB004A6E8A /* ProjectArchiveViewController.m in Sources */,
 				4ED4B49D1D8295F600EED8C6 /* TeamViewController.m in Sources */,
 				4EF3741C1BB1258600DDA662 /* LocalFileViewController.m in Sources */,
 				3A3878401AE295970078D5DE /* ResetLabelCell.m in Sources */,

@@ -475,6 +475,21 @@
         }
     }];
 }
+- (void)request_ArchiveProject_WithObj:(Project *)project passCode:(NSString *)passCode type:(VerifyType)type andBlock:(void (^)(Project *data, NSError *error))block{
+    NSDictionary *params = @{@"two_factor_code": (type == VerifyTypePassword? [passCode sha1Str]: passCode)};;
+    [NSObject showStatusBarQueryStr:@"正在归档项目"];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:[project toArchivePath] withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"归档项目"];
+            
+            [NSObject showStatusBarSuccessStr:@"归档项目成功"];
+            block(data, nil);
+        }else{
+            [NSObject showStatusBarError:error];
+            block(nil, error);
+        }
+    }];
+}
 
 - (void)request_TransferProject:(Project *)project toUser:(User *)user passCode:(NSString *)passCode type:(VerifyType)type andBlock:(void (^)(Project *data, NSError *error))block{
     if (project.id.stringValue.length <= 0 || user.global_key.length <= 0|| passCode.length <= 0) {

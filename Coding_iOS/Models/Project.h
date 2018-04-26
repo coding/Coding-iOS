@@ -30,6 +30,8 @@
 
 - (NSString *)toDeletePath;
 
+- (NSString *)toArchivePath;
+
 - (NSString *)toMembersPath;
 - (NSDictionary *)toMembersParams;
 

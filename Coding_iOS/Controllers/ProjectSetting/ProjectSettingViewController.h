@@ -15,13 +15,12 @@
 
 @property (nonatomic, strong) Project *project;
 
-@property (strong, nonatomic) IBOutlet UILabel *projectNameLabel;
+@property (weak, nonatomic) IBOutlet UITextField *projectNameF;
 @property (strong, nonatomic) IBOutlet UIImageView *projectImageView;
 @property (strong, nonatomic) IBOutlet UIPlaceHolderTextView *descTextView;
 
 @property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *lines;
 @property (strong, nonatomic) IBOutlet UIImageView *privateImageView;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *privateIconLeftConstraint;
 
 
 @end

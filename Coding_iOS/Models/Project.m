@@ -134,6 +134,10 @@
     return [NSString stringWithFormat:@"api/user/%@/project/%@",self.owner_user_name, self.name];
 }
 
+- (NSString *)toArchivePath{
+    return [NSString stringWithFormat:@"api/project/%@/archive", self.id];
+}
+
 - (NSString *)toMembersPath{
     if ([_id isKindOfClass:[NSNumber class]]) {
         return [NSString stringWithFormat:@"api/project/%d/members", self.id.intValue];

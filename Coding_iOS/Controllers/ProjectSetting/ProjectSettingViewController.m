@@ -12,12 +12,15 @@
 #import "Coding_NetAPIManager.h"
 #import "MBProgressHUD+Add.h"
 #import "JDStatusBarNotification.h"
+#import "Coding_NetAPIManager.h"
 
 @interface ProjectSettingViewController ()<UITextViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic, strong) UIBarButtonItem *submitButtonItem;
 @property (nonatomic, strong) UIImage *projectIconImage;
 @property (nonatomic, strong) MBProgressHUD *uploadHUD;
+
+@property (weak, nonatomic) IBOutlet UIView *tableHeaderV;
 
 @end
 
@@ -30,7 +33,6 @@
     // Private Icon
     if ([self.project.is_public isEqual:@YES]) {
         self.privateImageView.hidden = YES;
-        self.privateIconLeftConstraint.constant = -5;
     }
     
     // sep
@@ -43,8 +45,8 @@
     [self.tableView setSeparatorColor:[UIColor colorWithRGBHex:0xe5e5e5]];
     self.tableView.backgroundColor = kColorTableSectionBg;
 
-    self.projectNameLabel.text = self.project.name;
-    
+    self.projectNameF.text = self.project.name;
+
     //
     self.descTextView.placeholder = @"填写项目描述...";
     self.descTextView.text = self.project.description_mine;
@@ -57,19 +59,31 @@
     [self.projectImageView addGestureRecognizer:tapProjectImageViewGR];
     
     // 添加 “完成” 按钮
-    self.submitButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(submit)];
-    self.submitButtonItem.enabled = NO;
-    self.navigationItem.rightBarButtonItem = self.submitButtonItem;
-    
+    if ([self p_canEditPro]) {
+        self.submitButtonItem = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(submit)];
+        self.submitButtonItem.enabled = NO;
+        self.navigationItem.rightBarButtonItem = self.submitButtonItem;
+
+        RAC(self, navigationItem.rightBarButtonItem.enabled) = [RACSignal combineLatest:@[self.projectNameF.rac_textSignal, self.descTextView.rac_textSignal] reduce:^id (NSString *name, NSString *desc){
+            BOOL hasChange = ![name isEqualToString:self.project.name] || ![desc isEqualToString:self.project.description_mine];
+            return @(hasChange);
+        }];
+    }
+
     //HUD
     self.uploadHUD = [[MBProgressHUD alloc] initWithView:self.view];
     self.uploadHUD.mode = MBProgressHUDModeDeterminate;
     [self.view addSubview:self.uploadHUD];
+    
+    if ([self p_isOwner]) {
+        self.tableHeaderV.height = 0;
+    }
 }
 
 -(void)submit{
+    self.project.name = [self.projectNameF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     self.project.description_mine = [self.descTextView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    
+
     self.submitButtonItem.enabled = NO;
     
     // 更新项目
@@ -79,7 +93,6 @@
         }
         self.submitButtonItem.enabled = YES;
     }];
-    
 }
 
 -(void)selectProjectImage{
@@ -158,8 +171,36 @@
 
 #pragma mark UITableView
 
+- (BOOL)p_canEditPro{
+    return _project.current_user_role_id.integerValue >= 90;
+}
+
+- (BOOL)p_isOwner{
+    return [self.project.owner_id isEqual:[Login curLoginUser].id];
+}
+
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     return [UIView new];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        return [self p_isOwner]? 15: 0;
+    }else if (section == 1){
+        return [self p_isOwner]? 15: 0;
+    }else{
+        return [self p_isOwner]? 0: 15;
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (section == 0) {
+        return [self p_canEditPro]? 2: 0;
+    }else if (section == 1){
+        return [self p_isOwner]? 3: 0;
+    }else{
+        return [self p_isOwner]? 0: 1;
+    }
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -170,6 +211,29 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     UIViewController *vc = segue.destinationViewController;
     [vc setValue:self.project forKey:@"project"];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 2) {
+        __weak typeof(self) weakSelf = self;
+        [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定退出项目？" buttonTitles:nil destructiveTitle:@"确认退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            if (index == 0) {
+                [weakSelf quitPro];
+            }
+        }] showInView:self.view];
+    }
+}
+
+- (void)quitPro{
+    ProjectMember *tempM = [ProjectMember new];
+    tempM.user_id = [Login curLoginUser].id;
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_ProjectMember_Quit:tempM andBlock:^(id data, NSError *error) {
+        if (data) {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+    }];
 }
 
 #pragma mark - Orientations
