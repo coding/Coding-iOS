@@ -229,7 +229,7 @@
                                @"本地阅读")];
         }else{
             [cell setImageStr:(indexPath.section == 2? (indexPath.row == 0? @"project_item_task":
-                                                        @"project_item_task"):
+                                                        @"project_item_taskboard"):
                                indexPath.section == 3? (indexPath.row == 0? @"project_item_topic":
                                                         @"project_item_file"):
                                indexPath.section == 4? (indexPath.row == 0? @"project_item_code":

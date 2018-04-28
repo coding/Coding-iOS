@@ -42,7 +42,7 @@
         icarousel.bounceDistance = 0.2;
         [self.view addSubview:icarousel];
         [icarousel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self.view);
+            make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(0, 0, 49, 0));
         }];
         icarousel;
     });
@@ -103,6 +103,8 @@
         [_myCarousel reloadData];
         [self configPageControl];
         [self configNavItem];
+        self.view.backgroundColor = _myBoardTLs.count == 1? kColorTableBG: kColorTableSectionBg;
+        self.myPageControl.hidden = (_myBoardTLs.count == 1);
     }else{
         [(EABoardTaskListView *)_myCarousel.currentItemView refresh];
     }
@@ -126,8 +128,8 @@
             [self.view addSubview:pageControl];
             [pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.equalTo(self.view);
-                make.height.mas_equalTo(25);
-                make.bottom.offset(-25);
+                make.height.mas_equalTo(10);
+                make.bottom.offset(-(50 - 10)/ 2);
             }];
             pageControl;
         });

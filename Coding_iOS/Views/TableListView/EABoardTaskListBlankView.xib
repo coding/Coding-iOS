@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -225,6 +226,13 @@
                         <color key="titleColor" red="0.12549019610000001" green="0.1764705882" blue="0.25098039220000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="taskboard_blankpage.png" translatesAutoresizingMaskIntoConstraints="NO" id="KIs-tE-kGI">
+                    <rect key="frame" x="107" y="102" width="160" height="160"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="KIs-tE-kGI" secondAttribute="height" id="3L0-9Y-05X"/>
+                        <constraint firstAttribute="width" constant="160" id="dWp-22-dnz"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
@@ -235,7 +243,9 @@
                 <constraint firstItem="YPm-Sk-SaL" firstAttribute="centerX" secondItem="v0f-w3-SBd" secondAttribute="centerX" id="Niu-SP-G3h"/>
                 <constraint firstItem="eTU-T7-ZrU" firstAttribute="trailing" secondItem="Arl-eI-S0s" secondAttribute="trailing" id="dTk-fR-E0o"/>
                 <constraint firstItem="2nf-Fh-S3x" firstAttribute="centerX" secondItem="v0f-w3-SBd" secondAttribute="centerX" id="ggU-gj-NOM"/>
+                <constraint firstItem="KIs-tE-kGI" firstAttribute="centerX" secondItem="v0f-w3-SBd" secondAttribute="centerX" id="hue-vF-9Ed"/>
                 <constraint firstItem="YPm-Sk-SaL" firstAttribute="top" secondItem="2nf-Fh-S3x" secondAttribute="bottom" constant="10" id="nTY-06-ouK"/>
+                <constraint firstItem="Arl-eI-S0s" firstAttribute="top" secondItem="KIs-tE-kGI" secondAttribute="bottom" constant="25" id="wCI-dN-89E"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="eTU-T7-ZrU"/>
             <connections>
@@ -245,4 +255,7 @@
             <point key="canvasLocation" x="-213.5" y="-103.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="taskboard_blankpage.png" width="160" height="160"/>
+    </resources>
 </document>
