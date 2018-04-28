@@ -12,6 +12,21 @@
 #import "EALocalCodeListViewController.h"
 
 @implementation Project
+
+- (BOOL)hasEverHandledBoard{
+    NSNumber *hasEverHandledBoard = [[NSUserDefaults standardUserDefaults] objectForKey:self.p_hasEverHandledBoardKey];
+    return hasEverHandledBoard? hasEverHandledBoard.boolValue : NO;
+}
+
+- (void)setHasEverHandledBoard:(BOOL)hasEverHandledBoard{
+    [[NSUserDefaults standardUserDefaults] setObject:@(hasEverHandledBoard) forKey:self.p_hasEverHandledBoardKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)p_hasEverHandledBoardKey{
+    return [NSString stringWithFormat:@"%@/%@/hasEverHandledBoardKey", self.owner_user_name, self.name];
+}
+
 - (instancetype)init
 {
     self = [super init];

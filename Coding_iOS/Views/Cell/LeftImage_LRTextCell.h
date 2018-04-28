@@ -12,6 +12,7 @@
 typedef NS_ENUM(NSInteger, LeftImage_LRTextCellType) {
     LeftImage_LRTextCellTypeTaskProject = 0,
     LeftImage_LRTextCellTypeTaskOwner,
+    LeftImage_LRTextCellTypeTaskBoardList,
     LeftImage_LRTextCellTypeTaskPriority,
     LeftImage_LRTextCellTypeTaskDeadline,
     LeftImage_LRTextCellTypeTaskWatchers,

@@ -13,9 +13,11 @@
 #import "TaskComment.h"
 #import "ProjectTag.h"
 #import "ResourceReference.h"
+#import "EABoardTaskList.h"
 
 @class Project;
 @class Task_Description;
+@class EABoardTaskList;
 
 typedef NS_ENUM(NSInteger, TaskHandleType) {
     TaskHandleTypeEdit = 0,
@@ -37,8 +39,10 @@ typedef NS_ENUM(NSInteger, TaskHandleType) {
 @property (readwrite, nonatomic, strong) NSString *nextCommentStr;
 @property (strong, nonatomic) Task_Description *task_description;
 @property (strong, nonatomic) ResourceReference *resourceReference;
+@property (strong, nonatomic) EABoardTaskList *task_board_list;
 
 + (Task *)taskWithProject:(Project *)project andUser:(User *)user;
++ (Task *)taskWithBoardTaskList:(EABoardTaskList *)boardTL andUser:(User *)user;
 + (Task *)taskWithBackend_project_path:(NSString *)backend_project_path andId:(NSString *)taskId;
 + (Task *)taskWithTask:(Task *)task;
 - (BOOL)isSameToTask:(Task *)task;

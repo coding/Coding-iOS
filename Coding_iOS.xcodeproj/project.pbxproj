@@ -1224,6 +1224,12 @@
 		B14689C31EE100B200B01371 /* vip_4_75@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B31EE100B200B01371 /* vip_4_75@3x.png */; };
 		B152ED4E2090B223004A6E8A /* ProjectSettingEntranceController.m in Sources */ = {isa = PBXBuildFile; fileRef = B152ED4D2090B223004A6E8A /* ProjectSettingEntranceController.m */; };
 		B152ED542091B7CB004A6E8A /* ProjectArchiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B152ED532091B7CB004A6E8A /* ProjectArchiveViewController.m */; };
+		B152ED5A2092BF46004A6E8A /* EABoardTaskList.m in Sources */ = {isa = PBXBuildFile; fileRef = B152ED592092BF46004A6E8A /* EABoardTaskList.m */; };
+		B152ED5D2092D51E004A6E8A /* EATaskBoardListTaskCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B152ED5C2092D51E004A6E8A /* EATaskBoardListTaskCell.m */; };
+		B152ED602093018A004A6E8A /* EABoardTaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = B152ED5F2093018A004A6E8A /* EABoardTaskListView.m */; };
+		B152ED6320935524004A6E8A /* EABoardTaskListBlankView.m in Sources */ = {isa = PBXBuildFile; fileRef = B152ED6220935524004A6E8A /* EABoardTaskListBlankView.m */; };
+		B152ED6520935594004A6E8A /* EABoardTaskListBlankView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B152ED6420935594004A6E8A /* EABoardTaskListBlankView.xib */; };
+		B152ED68209420CD004A6E8A /* RATaskBoardListListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B152ED67209420CD004A6E8A /* RATaskBoardListListViewController.m */; };
 		B16EEF08208DDBB6005ABFD5 /* timeline_icon_read@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16EEF06208DDBB5005ABFD5 /* timeline_icon_read@3x.png */; };
 		B16EEF09208DDBB6005ABFD5 /* timeline_icon_unread@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16EEF07208DDBB6005ABFD5 /* timeline_icon_unread@3x.png */; };
 		B16EEF13209080D7005ABFD5 /* TaskBoardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16EEF12209080D7005ABFD5 /* TaskBoardsViewController.m */; };
@@ -3336,6 +3342,17 @@
 		B152ED4D2090B223004A6E8A /* ProjectSettingEntranceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectSettingEntranceController.m; sourceTree = "<group>"; };
 		B152ED522091B7CB004A6E8A /* ProjectArchiveViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectArchiveViewController.h; sourceTree = "<group>"; };
 		B152ED532091B7CB004A6E8A /* ProjectArchiveViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectArchiveViewController.m; sourceTree = "<group>"; };
+		B152ED582092BF46004A6E8A /* EABoardTaskList.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EABoardTaskList.h; sourceTree = "<group>"; };
+		B152ED592092BF46004A6E8A /* EABoardTaskList.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EABoardTaskList.m; sourceTree = "<group>"; };
+		B152ED5B2092D51E004A6E8A /* EATaskBoardListTaskCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EATaskBoardListTaskCell.h; sourceTree = "<group>"; };
+		B152ED5C2092D51E004A6E8A /* EATaskBoardListTaskCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EATaskBoardListTaskCell.m; sourceTree = "<group>"; };
+		B152ED5E2093018A004A6E8A /* EABoardTaskListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EABoardTaskListView.h; sourceTree = "<group>"; };
+		B152ED5F2093018A004A6E8A /* EABoardTaskListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EABoardTaskListView.m; sourceTree = "<group>"; };
+		B152ED6120935524004A6E8A /* EABoardTaskListBlankView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EABoardTaskListBlankView.h; sourceTree = "<group>"; };
+		B152ED6220935524004A6E8A /* EABoardTaskListBlankView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EABoardTaskListBlankView.m; sourceTree = "<group>"; };
+		B152ED6420935594004A6E8A /* EABoardTaskListBlankView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EABoardTaskListBlankView.xib; sourceTree = "<group>"; };
+		B152ED66209420CD004A6E8A /* RATaskBoardListListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RATaskBoardListListViewController.h; sourceTree = "<group>"; };
+		B152ED67209420CD004A6E8A /* RATaskBoardListListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RATaskBoardListListViewController.m; sourceTree = "<group>"; };
 		B16EEF06208DDBB5005ABFD5 /* timeline_icon_read@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_icon_read@3x.png"; sourceTree = "<group>"; };
 		B16EEF07208DDBB6005ABFD5 /* timeline_icon_unread@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_icon_unread@3x.png"; sourceTree = "<group>"; };
 		B16EEF11209080D7005ABFD5 /* TaskBoardsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskBoardsViewController.h; sourceTree = "<group>"; };
@@ -5115,6 +5132,11 @@
 				4E80E93B1E02353900DE1BC6 /* CodingSearchDisplayView.m */,
 				B1890C372015D89A00F52ABA /* WikiMenuListView.h */,
 				B1890C362015D89A00F52ABA /* WikiMenuListView.m */,
+				B152ED5E2093018A004A6E8A /* EABoardTaskListView.h */,
+				B152ED5F2093018A004A6E8A /* EABoardTaskListView.m */,
+				B152ED6120935524004A6E8A /* EABoardTaskListBlankView.h */,
+				B152ED6220935524004A6E8A /* EABoardTaskListBlankView.m */,
+				B152ED6420935594004A6E8A /* EABoardTaskListBlankView.xib */,
 			);
 			path = TableListView;
 			sourceTree = "<group>";
@@ -5756,6 +5778,8 @@
 				B1944146206BB89100147158 /* EALocalCodeViewController.m */,
 				B16EEF11209080D7005ABFD5 /* TaskBoardsViewController.h */,
 				B16EEF12209080D7005ABFD5 /* TaskBoardsViewController.m */,
+				B152ED66209420CD004A6E8A /* RATaskBoardListListViewController.h */,
+				B152ED67209420CD004A6E8A /* RATaskBoardListListViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -6259,6 +6283,8 @@
 				B19D4EED1F6FCEAC00C598F3 /* CodingSkill.m */,
 				B1890C332015D87800F52ABA /* EAWiki.h */,
 				B1890C342015D87800F52ABA /* EAWiki.m */,
+				B152ED582092BF46004A6E8A /* EABoardTaskList.h */,
+				B152ED592092BF46004A6E8A /* EABoardTaskList.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -6784,6 +6810,8 @@
 				B1817EEC2064FD9400E9BAD1 /* EACodeReleaseAttachmentsOrReferencesCell.m */,
 				B1944148206BB8BB00147158 /* EALocalCodeListCell.h */,
 				B1944149206BB8BB00147158 /* EALocalCodeListCell.m */,
+				B152ED5B2092D51E004A6E8A /* EATaskBoardListTaskCell.h */,
+				B152ED5C2092D51E004A6E8A /* EATaskBoardListTaskCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -7595,6 +7623,7 @@
 				4EB52F121C74691B00B5EBEA /* password_unlook@3x.png in Resources */,
 				B16EEF09208DDBB6005ABFD5 /* timeline_icon_unread@3x.png in Resources */,
 				D0C447CD1C02DB6700DC1C4B /* pop_Message@3x.png in Resources */,
+				B152ED6520935594004A6E8A /* EABoardTaskListBlankView.xib in Resources */,
 				4E63840B1B33F9B400D98648 /* comment_bg@2x.png in Resources */,
 				4EB52F2E1C77138A00B5EBEA /* button_scan@2x.png in Resources */,
 				B1AB5CA0202953E50075A669 /* terminal_triangle@3x.png in Resources */,
@@ -8308,6 +8337,7 @@
 				4E72F82D1B144778001B6CE6 /* NSMutableString+Common.m in Sources */,
 				4E25271A1C327FAE0032A7F4 /* UIViewController+BackButtonHandler.m in Sources */,
 				4EBD7FB41CE4833D00B3AF49 /* CountryCodeCell.m in Sources */,
+				B152ED68209420CD004A6E8A /* RATaskBoardListListViewController.m in Sources */,
 				13C8FE7F1CA79B90001E30FA /* DynamicActivityCell.m in Sources */,
 				4E4D6A791B1C6C7800FD2E49 /* MRPRDetailCell.m in Sources */,
 				8EF643CA19FF7E2900F7EEB0 /* TopicContentCell.m in Sources */,
@@ -8422,6 +8452,7 @@
 				B12B647A1FFB61AD00ACFDCC /* QBAlbumsViewController.m in Sources */,
 				0AB591AC1AB6D2F60076C454 /* TweetSendLocaitonMapViewController.m in Sources */,
 				4EA7F1611A6D192B00A046BD /* UIButton+WebCache.m in Sources */,
+				B152ED6320935524004A6E8A /* EABoardTaskListBlankView.m in Sources */,
 				8EE72BE419E3F2E8002C11D9 /* SDWebImageManager+MJ.m in Sources */,
 				3A38784C1AE36EF00078D5DE /* TopicListView.m in Sources */,
 				8E1C3DEA19E7D58A00EF3032 /* AbstractActionSheetPicker.m in Sources */,
@@ -8473,6 +8504,7 @@
 				8EA6D13219E240C40076D59C /* RegisterViewController.m in Sources */,
 				923399661C00441700F29E04 /* ShopBanner.m in Sources */,
 				8EF643C519FF7E2900F7EEB0 /* TitleRImageMoreCell.m in Sources */,
+				B152ED602093018A004A6E8A /* EABoardTaskListView.m in Sources */,
 				4E4969401DCB0BCE0065028E /* FileShare.m in Sources */,
 				4ED6181B1C3A72AE0017946C /* ShopMutileValueCell.m in Sources */,
 				4E217F151A70EDC700F6DF88 /* SVWebViewControllerActivitySafari.m in Sources */,
@@ -8664,6 +8696,7 @@
 				927AFF411BFF613500AAE593 /* BaseModel.m in Sources */,
 				09A058951E0AAA2F00C1CA3F /* TaskSelectionView.m in Sources */,
 				8EF643BD19FF7E2900F7EEB0 /* ProjectListCell.m in Sources */,
+				B152ED5A2092BF46004A6E8A /* EABoardTaskList.m in Sources */,
 				4E0BD86F1B6C7E3D0061CAA6 /* CSTopicDetailVC.m in Sources */,
 				8EF643C819FF7E2900F7EEB0 /* ToMessageCell.m in Sources */,
 				4E217F111A70EDC700F6DF88 /* SVWebViewControllerActivityChrome.m in Sources */,
@@ -8680,6 +8713,7 @@
 				4E3068401E0B781A00AEE0CE /* LDNetDiagnoService.m in Sources */,
 				4E2F6A571C437D1D00A25502 /* EditCodeViewController.m in Sources */,
 				8EF83F9419EB78CC00E86DE7 /* SettingTextViewController.m in Sources */,
+				B152ED5D2092D51E004A6E8A /* EATaskBoardListTaskCell.m in Sources */,
 				4ED618181C3A6CA50017946C /* LocationCell.m in Sources */,
 				B12B64761FFB61AD00ACFDCC /* QBVideoIconView.m in Sources */,
 				8EA6D1B019E240C40076D59C /* Comment.m in Sources */,

@@ -2006,6 +2006,86 @@
     
 }
 
+#pragma mark - TaskBoard
+- (void)request_BoardTaskListsInPro:(Project *)pro andBlock:(void (^)(NSArray<EABoardTaskList *> *data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/tasks/board/list", pro.owner_user_name, pro.name];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"pageSize": @999} withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_Get label:@"看板列表"];
+            
+            NSArray<EABoardTaskList *> *resultA = [NSObject arrayFromJSON:data[@"data"][@"list"] ofObjects:@"EABoardTaskList"];
+            if (resultA) {
+                if (resultA.count > 2) {
+                    pro.hasEverHandledBoard = YES;
+                }
+                pro.board_id = resultA.firstObject.board_id;
+                [resultA setValue:pro forKey:@"curPro"];//辅助属性
+            }
+            block(resultA, nil);
+        }else{
+            block(nil, error);
+        }
+    }];
+}
+
+- (void)request_AddBoardTaskListsInPro:(Project *)pro withTitle:(NSString *)title andBlock:(void (^)(EABoardTaskList *data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/tasks/board/%@/list", pro.owner_user_name, pro.name, pro.board_id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"title": title ?: @""} withMethodType:Post andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"看板列表_添加"];
+            
+            data = [NSObject objectOfClass:@"EABoardTaskList" fromJSON:data[@"data"]];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)request_DeleteBoardTaskList:(EABoardTaskList *)boardTL andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/tasks/board/%@/list/%@", boardTL.curPro.owner_user_name, boardTL.curPro.name, boardTL.board_id, boardTL.id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Delete andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"看板列表_删除"];
+        }
+        block(data, error);
+    }];
+
+}
+
+- (void)request_RenameBoardTaskList:(EABoardTaskList *)boardTL withTitle:(NSString *)title andBlock:(void (^)(EABoardTaskList *data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/tasks/board/%@/list/%@", boardTL.curPro.owner_user_name, boardTL.curPro.name, boardTL.board_id, boardTL.id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"title": title ?: @""} withMethodType:Put andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"看板列表_修改"];
+            
+            data = [NSObject objectOfClass:@"EABoardTaskList" fromJSON:data[@"data"]];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)request_TaskInBoardTaskList:(EABoardTaskList *)boardTL andBlock:(void (^)(EABoardTaskList *data, NSError *error))block{//这里返回的 data 主要是 list 和 page 数据，而没有 EABoardTaskList 的相关业务属性
+    boardTL.isLoading = YES;
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/tasks/board/%@/list/%@/tasks", boardTL.curPro.owner_user_name, boardTL.curPro.name, boardTL.board_id, boardTL.id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:boardTL.toParams withMethodType:Get andBlock:^(id data, NSError *error) {
+        boardTL.isLoading = NO;
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"看板列表_任务列表"];
+            
+            data = [NSObject objectOfClass:@"EABoardTaskList" fromJSON:data[@"data"]];
+        }
+        block(data, error);
+    }];
+}
+
+- (void)request_PutTask:(Task *)task toBoardTaskList:(EABoardTaskList *)boardTL andBlock:(void (^)(id data, NSError *error))block{
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/tasks/board/%@/list/%@/task/%@", task.project.owner_user_name, task.project.name, boardTL.board_id, boardTL.id, task.id];
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:nil withMethodType:Put andBlock:^(id data, NSError *error) {
+        if (data) {
+            [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"任务_修改看板列表"];
+        }
+        block(data, error);
+    }];
+}
 
 #pragma mark User
 - (void)request_AddUser:(User *)user ToProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block{

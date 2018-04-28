@@ -66,6 +66,11 @@
     curTask.task_description = [Task_Description defaultDescription];
     return curTask;
 }
++ (Task *)taskWithBoardTaskList:(EABoardTaskList *)boardTL andUser:(User *)user{
+    Task *curTask = [self taskWithProject:boardTL.curPro andUser:user];
+    curTask.task_board_list = boardTL;
+    return curTask;
+}
 + (Task *)taskWithTask:(Task *)task{
     Task *curTask = [[Task alloc] init];
     [curTask copyDataFrom:task];
@@ -84,6 +89,7 @@
     }
     return ([self.content isEqualToString:task.content]
             && [self.owner.global_key isEqualToString:task.owner.global_key]
+            && ((!self.task_board_list && !task.task_board_list) || [self.task_board_list.id isEqualToNumber:task.task_board_list.id])
             && self.priority.intValue == task.priority.intValue
             && self.status.intValue == task.status.intValue
             && ((!self.deadline && !task.deadline) || [self.deadline isEqualToString:task.deadline])
@@ -121,6 +127,7 @@
     self.needRefreshDetail = task.needRefreshDetail;
     self.deadline = task.deadline;
     self.number = task.number;
+    self.task_board_list = task.task_board_list;
     
     self.has_description = task.has_description;
     self.task_description = task.task_description;
@@ -169,6 +176,7 @@
     }else if (oldTask.deadline && !self.deadline){
         [params setObject:@"" forKey:@"deadline"];
     }
+    params[@"task_board_list"] = _task_board_list.id ?: @"";
     return params;
 }
 
@@ -196,6 +204,9 @@
     }
     if (self.watchers.count > 0) {
         params[@"watchers"] = [self.watchers valueForKey:@"id"];
+    }
+    if (_task_board_list) {
+        params[@"task_board_list"] = _task_board_list.id;
     }
     return params;
 }

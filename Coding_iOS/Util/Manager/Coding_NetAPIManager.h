@@ -43,6 +43,7 @@
 #import "MRPRPreInfo.h"
 #import "EACodeBranches.h"
 #import "EACodeReleases.h"
+#import "EABoardTaskList.h"
 
 #import <UMSocialCore/UMSocialCore.h>
 
@@ -194,13 +195,19 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_projects_tasks_labelsWithRole:(TaskRoleType)role projectId:(NSString *)projectId andBlock:(void (^)(id data, NSError *error))block; //任务标签
 - (void)request_tasks_searchWithUserId:(NSString *)userId role:(TaskRoleType )role project_id:(NSString *)project_id keyword:(NSString *)keyword status:(NSString *)status label:(NSString *)label page:(NSInteger)page andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_project_tasks_countWithProjectId:(NSString *)projectId andBlock:(void (^)(id data, NSError *error))block;
-
 //项目内
 - (void)request_project_task_countWithProjectId:(NSString *)projectId andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_project_user_tasks_countsWithProjectId:(NSString *)projectId memberId:(NSString *)memberId andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_tasks_searchWithUserId:(NSString *)userId role:(TaskRoleType )role project_id:(NSString *)project_id andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_projects_tasks_labelsWithRole:(TaskRoleType)role projectId:(NSString *)projectId projectName:(NSString *)projectName memberId:(NSString *)memberId owner_user_name:(NSString *)owner_user_name andBlock:(void (^)(id data, NSError *error))block;
 
+#pragma mark - TaskBoard
+- (void)request_BoardTaskListsInPro:(Project *)pro andBlock:(void (^)(NSArray<EABoardTaskList *> *data, NSError *error))block;
+- (void)request_AddBoardTaskListsInPro:(Project *)pro withTitle:(NSString *)title andBlock:(void (^)(EABoardTaskList *data, NSError *error))block;
+- (void)request_DeleteBoardTaskList:(EABoardTaskList *)boardTL andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_RenameBoardTaskList:(EABoardTaskList *)boardTL withTitle:(NSString *)title andBlock:(void (^)(EABoardTaskList *data, NSError *error))block;
+- (void)request_TaskInBoardTaskList:(EABoardTaskList *)boardTL andBlock:(void (^)(EABoardTaskList *data, NSError *error))block;//这里返回的 data 主要是 list 和 page 数据，而没有 EABoardTaskList 的相关业务属性
+- (void)request_PutTask:(Task *)task toBoardTaskList:(EABoardTaskList *)boardTL andBlock:(void (^)(id data, NSError *error))block;
 
 #pragma mark - User
 - (void)request_AddUser:(User *)user ToProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;

@@ -17,6 +17,9 @@
 @property (strong, nonatomic) User *owner;
 @property (strong, nonatomic) NSDate *created_at,*updated_at;
 
+@property (strong, nonatomic) NSNumber *board_id;//目前一个项目，只有一个看板。。从看板列表接口得到
+@property (assign, nonatomic) BOOL hasEverHandledBoard;
+
 + (Project *)project_All;
 + (Project *)project_FeedBack;
 

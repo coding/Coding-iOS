@@ -26,6 +26,7 @@
 #import "NProjectViewController.h"
 #import "FunctionTipsManager.h"
 #import "MartFunctionTipView.h"
+#import "RATaskBoardListListViewController.h"
 
 @interface EditTaskViewController ()<TTTAttributedLabelDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
@@ -91,10 +92,11 @@
     RAC(self.navigationItem.rightBarButtonItem, enabled) =
     [RACSignal combineLatest:@[RACObserve(self, myCopyTask.content),
                                RACObserve(self, myCopyTask.owner),
+                               RACObserve(self, myCopyTask.task_board_list),
                                RACObserve(self, myCopyTask.priority),
                                RACObserve(self, myCopyTask.status),
                                RACObserve(self, myCopyTask.deadline),
-                               RACObserve(self, myCopyTask.task_description.markdown)] reduce:^id (NSString *content, User *owner, NSNumber *priority, NSNumber *status, NSString *deadline){
+                               RACObserve(self, myCopyTask.task_description.markdown)] reduce:^id (NSString *content, EABoardTaskList *task_board_list, User *owner, NSNumber *priority, NSNumber *status, NSString *deadline){
                                    @strongify(self);
                                    BOOL enabled = ![self.myCopyTask isSameToTask:self.myTask];
                                    if (self.myCopyTask.handleType > TaskHandleTypeEdit) {
@@ -338,6 +340,7 @@
     }else if (section == 1){
         TaskHandleType handleType = self.myCopyTask.handleType;
         row = handleType == TaskHandleTypeEdit? 5: handleType == TaskHandleTypeAddWithProject? 4: 5;
+        row += 1;//加一个看板项
     }else if (section == 2 && _myTask.resourceReference.itemList.count > 0){
         row = 1;
     }else{
@@ -513,6 +516,34 @@
                 _self.myCopyTask.owner = member.user;//更换新的执行人
                 [_self.myTableView reloadData];
             } cellBtnBlock:nil];
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if (cellType == LeftImage_LRTextCellTypeTaskBoardList) {
+            if (_myCopyTask.project == nil) {
+                [NSObject showHudTipStr:@"需要选定所属项目先~"];
+                return;
+            }
+            RATaskBoardListListViewController *vc = [RATaskBoardListListViewController new];
+            vc.curPro = _myCopyTask.project;
+            vc.selectedBoardTL = _myCopyTask.task_board_list;
+            vc.needToShowDoneBoardTL = (_myCopyTask.handleType == TaskHandleTypeEdit);
+            vc.selectedBlock = ^(EABoardTaskList *selectedBoardTL) {
+                ESStrongSelf;
+                if (_self.myCopyTask.handleType == TaskHandleTypeEdit) {//看板只能单项修改
+                    [NSObject showStatusBarQueryStr:@"正在修改看板列表"];
+                    [[Coding_NetAPIManager sharedManager] request_PutTask:_self.myCopyTask toBoardTaskList:selectedBoardTL andBlock:^(id data, NSError *error) {
+                        if (data) {
+                            [NSObject showStatusBarSuccessStr:@"看板列表已修改"];
+                            _self.myCopyTask.task_board_list = _self.myTask.task_board_list = selectedBoardTL;
+                            [_self.myTableView reloadData];
+                        }else{
+                            [NSObject showStatusBarError:error];
+                        }
+                    }];
+                }else{
+                    _self.myCopyTask.task_board_list = selectedBoardTL;
+                    [_self.myTableView reloadData];
+                }
+            };
             [self.navigationController pushViewController:vc animated:YES];
         }else if (cellType == LeftImage_LRTextCellTypeTaskPriority){
             ValueListViewController *vc = [[ValueListViewController alloc] init];

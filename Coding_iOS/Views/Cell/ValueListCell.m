@@ -27,8 +27,8 @@
         if (!_titleLabel) {
             _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kValueListCell_LeftPading, 7, (kScreen_Width - 120), 30)];
             _titleLabel.backgroundColor = [UIColor clearColor];
-            _titleLabel.font = [UIFont systemFontOfSize:16];
-            _titleLabel.textColor = [UIColor blackColor];
+            _titleLabel.font = [UIFont systemFontOfSize:15];
+            _titleLabel.textColor = kColorDark2;
             [self.contentView addSubview:_titleLabel];
         }
     }

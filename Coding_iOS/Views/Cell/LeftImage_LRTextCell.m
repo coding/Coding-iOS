@@ -83,6 +83,18 @@
                 }
             }
                 break;
+            case LeftImage_LRTextCellTypeTaskBoardList:
+            {
+                [_iconView doNotCircleFrame];
+                [_iconView setImage:[UIImage imageNamed:@"taskBoardList"]];
+                _leftLabel.text = @"看板列表";
+                if (task.task_board_list) {
+                    _rightLabel.text = task.task_board_list.title;
+                }else{
+                    _rightLabel.text = @"未指定";
+                }
+            }
+                break;
             case LeftImage_LRTextCellTypeTaskPriority:
             {
                 [_iconView doNotCircleFrame];

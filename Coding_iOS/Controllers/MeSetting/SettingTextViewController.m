@@ -86,12 +86,12 @@
     if (self.doneBlock) {
         self.doneBlock(_myTextValue);
     }
-    if (self.settingType == SettingTypeOnlyText) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }else{
+    if (self.navigationController.viewControllers.count <= 1) {
         [self.view endEditing:YES];
         [self dismissViewControllerAnimated:YES completion:^{
         }];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 - (void)dismissSelf{

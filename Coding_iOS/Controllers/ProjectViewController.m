@@ -231,20 +231,15 @@
     if ((viewType == ProjectViewTypeMembers && _myProject.current_user_role_id.integerValue >= 90)
         || viewType == ProjectViewTypeTasks
         || viewType == ProjectViewTypeTopics
-        || viewType == ProjectViewTypeFiles) {
+        || viewType == ProjectViewTypeFiles
+        || viewType == ProjectViewTypeCodes) {
         navRightBtn = [[UIBarButtonItem alloc]
                        initWithImage:[UIImage
-                                      imageNamed:(viewType == ProjectViewTypeCodes ? @"timeBtn_Nav" : @"addBtn_Nav")]
+                                      imageNamed:(viewType == ProjectViewTypeCodes ? @"moreBtn_Nav" : @"addBtn_Nav")]
                        style:UIBarButtonItemStylePlain
                        target:self
                        action:@selector(navRightBtnClicked)];
-    }else if (viewType == ProjectViewTypeCodes){
-        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-        [button setImage:[UIImage imageNamed:@"moreBtn_Nav"] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(navRightBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-        navRightBtn = [[UIBarButtonItem alloc] initWithCustomView:button];
-    }
-    
+    }    
     if (ProjectViewTypeTasks == viewType) {
         UIBarButtonItem *screenBar = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"task_filter_nav_unchecked"] style:UIBarButtonItemStylePlain target:self action:@selector(screenItemClicked:)];
         self.navigationItem.rightBarButtonItems = @[navRightBtn, screenBar];
