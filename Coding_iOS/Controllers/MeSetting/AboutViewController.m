@@ -50,7 +50,7 @@
     logoLabel.font = [UIFont boldSystemFontOfSize:17];
     logoLabel.textColor = kColor222;
     logoLabel.textAlignment = NSTextAlignmentCenter;
-    logoLabel.text = @"Coding-让开发更简单";
+    logoLabel.text = @"CODING-让开发更简单";
     [self.view addSubview:logoLabel];
     
     UILabel *versionLabel = [[UILabel alloc] init];

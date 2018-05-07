@@ -95,7 +95,7 @@
         [NSObject changeBaseURLStrTo:newBaseURLStr];
     }];
     [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = @"Coding 服务器地址";
+        textField.placeholder = @"CODING 服务器地址";
         textField.text = [NSObject baseURLStr];
     }];
     [alertCtrl addAction:cancelA];

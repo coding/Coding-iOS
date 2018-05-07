@@ -196,7 +196,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         snsNameDict = @{
-                        @"coding": @"Coding好友",
+                        @"coding": @"CODING 好友",
                         @"copylink": @"复制链接",
                         @"evernote": @"印象笔记",
                         @"sina": @"新浪微博",
@@ -406,9 +406,9 @@
     if ([_objToShare isKindOfClass:[Tweet class]]) {
         title = [NSString stringWithFormat:@"%@ 的冒泡", [(Tweet *)_objToShare owner].name];
     }else if ([_objToShare isKindOfClass:[UIWebView class]]){
-        title = @"Coding 链接";
+        title = @"CODING 链接";
     }else{
-        title = @"Coding - 让开发更简单";
+        title = @"CODING - 让开发更简单";
     }
     return title;
 }
