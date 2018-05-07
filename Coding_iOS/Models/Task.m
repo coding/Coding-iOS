@@ -89,7 +89,7 @@
     }
     return ([self.content isEqualToString:task.content]
             && [self.owner.global_key isEqualToString:task.owner.global_key]
-            && ((!self.task_board_list && !task.task_board_list) || [self.task_board_list.id isEqualToNumber:task.task_board_list.id])
+            && ((!self.task_board_list && !task.task_board_list) || (task.task_board_list.id && [self.task_board_list.id isEqualToNumber:task.task_board_list.id]))
             && self.priority.intValue == task.priority.intValue
             && self.status.intValue == task.status.intValue
             && ((!self.deadline && !task.deadline) || [self.deadline isEqualToString:task.deadline])

@@ -31,6 +31,7 @@
             _titleLabel.textColor = kColorDark2;
             [self.contentView addSubview:_titleLabel];
         }
+        self.clipsToBounds = YES;
     }
     return self;
 }
