@@ -222,7 +222,7 @@
 
 - (void)configNavBtnWithMyProject{
     if (self.curType != ProjectViewTypeTasks) {
-        self.title = (self.curType == ProjectViewTypeCodes && _hideBranchTagButton)? _myCodeTree.ref: _myProject.name;
+        self.title = (self.curType == ProjectViewTypeCodes && _hideBranchTagButton)? _myCodeTree.ref: (self.curType == ProjectViewTypeMembers)? @"成员管理": _myProject.name;
     }
 }
 
