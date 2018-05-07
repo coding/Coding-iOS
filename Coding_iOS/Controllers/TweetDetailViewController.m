@@ -245,7 +245,7 @@
                 return ;
             }
             ESWeakSelf;
-            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此冒泡" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:self.curTweet.isProjectTweet? @"删除此公告": @"删除此冒泡" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
                 ESStrongSelf
                 if (index == 0) {
                     [_self deleteTweet:_self.curTweet];
