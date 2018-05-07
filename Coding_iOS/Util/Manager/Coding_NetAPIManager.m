@@ -2008,12 +2008,14 @@
 
 #pragma mark - TaskBoard
 - (void)request_BoardTaskListsInPro:(Project *)pro andBlock:(void (^)(NSArray<EABoardTaskList *> *data, NSError *error))block{
-    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/tasks/board/list", pro.owner_user_name, pro.name];
+//    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/tasks/board/list", pro.owner_user_name, pro.name];
+    NSString *path = [NSString stringWithFormat:@"api/user/%@/project/%@/tasks/board", pro.owner_user_name, pro.name];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:@{@"pageSize": @999} withMethodType:Get andBlock:^(id data, NSError *error) {
         if (data) {
             [MobClick event:kUmeng_Event_Request_Get label:@"看板列表"];
             
-            NSArray<EABoardTaskList *> *resultA = [NSObject arrayFromJSON:data[@"data"][@"list"] ofObjects:@"EABoardTaskList"];
+//            NSArray<EABoardTaskList *> *resultA = [NSObject arrayFromJSON:data[@"data"][@"list"] ofObjects:@"EABoardTaskList"];
+            NSArray<EABoardTaskList *> *resultA = [NSObject arrayFromJSON:data[@"data"][@"board_lists"] ofObjects:@"EABoardTaskList"];
             if (resultA) {
                 if (resultA.count > 2) {
                     pro.hasEverHandledBoard = YES;
