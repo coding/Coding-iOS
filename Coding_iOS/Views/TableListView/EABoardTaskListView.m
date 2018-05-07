@@ -275,15 +275,14 @@
             _boardTLsChangedBlock();
         }
     }
-    __weak typeof(self) weakSelf = self;
     SettingTextViewController *vc = [SettingTextViewController settingTextVCWithTitle:@"创建任务列表" textValue:nil doneBlock:^(NSString *textValue) {
         [NSObject showHUDQueryStr:@"正在添加..."];
-        [[Coding_NetAPIManager sharedManager] request_AddBoardTaskListsInPro:weakSelf.myBoardTL.curPro withTitle:textValue andBlock:^(EABoardTaskList *data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_AddBoardTaskListsInPro:self.myBoardTL.curPro withTitle:textValue andBlock:^(EABoardTaskList *data, NSError *error) {
             [NSObject hideHUDQuery];
             if (data) {
                 [NSObject showHudTipStr:@"已添加"];
-                if (weakSelf.boardTLsChangedBlock) {
-                    weakSelf.boardTLsChangedBlock();
+                if (self.boardTLsChangedBlock) {
+                    self.boardTLsChangedBlock();
                 }
             }
         }];
