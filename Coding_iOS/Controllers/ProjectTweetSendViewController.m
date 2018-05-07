@@ -107,7 +107,7 @@
         _editView.textColor = kColor666;
         _editView.font = [UIFont systemFontOfSize:16];
         _editView.textContainerInset = UIEdgeInsetsMake(15, kPaddingLeftWidth - 5, 8, kPaddingLeftWidth - 5);
-        _editView.placeholder = @"任务描述";
+        _editView.placeholder = @"公告内容";
         
         _editView.text = _curTweet.raw;
         [self.view addSubview:_editView];
