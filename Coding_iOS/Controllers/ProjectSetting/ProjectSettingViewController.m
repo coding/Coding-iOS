@@ -228,6 +228,7 @@
 - (void)quitPro{
     ProjectMember *tempM = [ProjectMember new];
     tempM.user_id = [Login curLoginUser].id;
+    tempM.project_id = _project.id;
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_ProjectMember_Quit:tempM andBlock:^(id data, NSError *error) {
         if (data) {
