@@ -31,7 +31,7 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wUe-8b-rsH">
                                     <rect key="frame" x="0.0" y="5" width="10" height="10"/>
-                                    <color key="backgroundColor" red="0.96078431369999995" green="0.37647058820000001" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" red="0.25490196078431371" green="0.74117647058823533" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="10" id="f0I-3f-0FP"/>
                                         <constraint firstAttribute="width" constant="10" id="tj8-wA-86P"/>
@@ -62,7 +62,7 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jiW-oC-7B8">
                                     <rect key="frame" x="0.0" y="5" width="10" height="10"/>
-                                    <color key="backgroundColor" red="0.96078431369999995" green="0.37647058820000001" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" red="0.94901960784313721" green="0.74901960784313726" blue="0.23137254901960785" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="10" id="P4V-u4-i1z"/>
                                         <constraint firstAttribute="width" constant="10" id="XlI-Qa-xPG"/>
@@ -93,7 +93,7 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JCm-xk-19V">
                                     <rect key="frame" x="0.0" y="5" width="10" height="10"/>
-                                    <color key="backgroundColor" red="0.96078431369999995" green="0.37647058820000001" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" red="0.23137254901960785" green="0.51372549019607838" blue="0.75294117647058822" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="10" id="9bW-gh-IqE"/>
                                         <constraint firstAttribute="width" constant="10" id="OLx-mr-eeH"/>
@@ -124,7 +124,7 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5tN-Ts-jUn">
                                     <rect key="frame" x="0.0" y="5" width="10" height="10"/>
-                                    <color key="backgroundColor" red="0.96078431369999995" green="0.37647058820000001" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" red="0.83921568627450982" green="0.35686274509803922" blue="0.36078431372549019" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="10" id="VSG-EC-bW4"/>
                                         <constraint firstAttribute="height" constant="10" id="wZE-v8-vbe"/>
@@ -155,7 +155,7 @@
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q6s-lo-Dr7">
                                     <rect key="frame" x="0.0" y="5" width="10" height="10"/>
-                                    <color key="backgroundColor" red="0.96078431369999995" green="0.37647058820000001" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" red="0.14117647058823529" green="0.70980392156862748" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="10" id="5bG-TR-cT4"/>
                                         <constraint firstAttribute="height" constant="10" id="kSf-lv-7eB"/>
