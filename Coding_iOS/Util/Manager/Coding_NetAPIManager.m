@@ -1865,8 +1865,8 @@
         [param setValue:[Login curLoginUser].id.stringValue forKey:roleArray[role]];
 
     }
-    
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/tasks/search" withParams:param withMethodType:Get andBlock:^(id data, NSError *error) {
+    NSString *path = keyword.length > 0? @"api/tasks/search": @"api/tasks/list";
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:param withMethodType:Get andBlock:^(id data, NSError *error) {
         
         Tasks *pros = [NSObject objectOfClass:@"Tasks" fromJSON:data[@"data"]];
         pros.list = [NSObject arrayFromJSON:data[@"data"][@"list"] ofObjects:@"Task"];
@@ -1920,23 +1920,23 @@
     }];
 }
 
-- (void)request_project_user_tasks_countsWithProjectId:(NSString *)projectId memberId:(NSString *)memberId andBlock:(void (^)(id data, NSError *error))block {
-    
-    NSString *urlStr;
-    if (memberId == nil) {
-        urlStr = @"api/tasks/search";
-    } else {
-        urlStr = [NSString stringWithFormat:@"api/project/%@/user/%@/tasks/counts", projectId, memberId];
-    }
-    
-    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:urlStr withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
-        if (data) {
-            block(data, nil);
-        }else{
-            block(nil, error);
-        }
-    }];
-}
+//- (void)request_project_user_tasks_countsWithProjectId:(NSString *)projectId memberId:(NSString *)memberId andBlock:(void (^)(id data, NSError *error))block {
+//
+//    NSString *urlStr;
+//    if (memberId == nil) {
+//        urlStr = @"api/tasks/search";
+//    } else {
+//        urlStr = [NSString stringWithFormat:@"api/project/%@/user/%@/tasks/counts", projectId, memberId];
+//    }
+//
+//    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:urlStr withParams:nil withMethodType:Get andBlock:^(id data, NSError *error) {
+//        if (data) {
+//            block(data, nil);
+//        }else{
+//            block(nil, error);
+//        }
+//    }];
+//}
 
 - (void)request_tasks_searchWithUserId:(NSString *)userId role:(TaskRoleType )role project_id:(NSString *)project_id andBlock:(void (^)(id data, NSError *error))block {
     
