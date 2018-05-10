@@ -53,9 +53,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    _curUser = [Login curLoginUser];
     [self.myTableView reloadData];
+}
 
+- (User *)curUser{
+    return [Login curLoginUser];
 }
 
 - (void)setupHeaderV{
@@ -74,7 +76,7 @@
         [weakSelf goToSettingInfo]; //编辑
     };
     
-    [[Coding_NetAPIManager sharedManager] request_Users_activenessWithGlobalKey:_curUser.global_key andBlock:^(ActivenessModel *data, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_Users_activenessWithGlobalKey:self.curUser.global_key andBlock:^(ActivenessModel *data, NSError *error) {
         weakSelf.activenessModel = data;
         [weakSelf.myTableView reloadData];
     }];
@@ -102,10 +104,10 @@
 
 - (void)refresh{
     if (_dataIndex == 0) {
-        _curUser = [Login curLoginUser];
+        self.curUser = [Login curLoginUser];
         [self.myTableView reloadData];
         __weak typeof(self) weakSelf = self;
-        [[Coding_NetAPIManager sharedManager] request_Users_activenessWithGlobalKey:_curUser.global_key andBlock:^(ActivenessModel *data, NSError *error) {
+        [[Coding_NetAPIManager sharedManager] request_Users_activenessWithGlobalKey:self.curUser.global_key andBlock:^(ActivenessModel *data, NSError *error) {
             weakSelf.activenessModel = data;
             [weakSelf.myTableView reloadData];
         }];
@@ -134,7 +136,7 @@
     _curPage = _willLoadMore? _curPage + 1: 0;
    
     __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_JoinedTopicsWithUserGK:_curUser.global_key page:weakSelf.curPage block:^(id data, BOOL hasMoreData, NSError *error) {
+    [[Coding_NetAPIManager sharedManager] request_JoinedTopicsWithUserGK:self.curUser.global_key page:weakSelf.curPage block:^(id data, BOOL hasMoreData, NSError *error) {
         [weakSelf.refreshControl endRefreshing];
         [weakSelf.view endLoading];
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
@@ -159,19 +161,19 @@
 #pragma mark headerV
 - (void)fansCountBtnClicked{
     UsersViewController *vc = [[UsersViewController alloc] init];
-    vc.curUsers = [Users usersWithOwner:_curUser Type:UsersTypeFollowers];
+    vc.curUsers = [Users usersWithOwner:self.curUser Type:UsersTypeFollowers];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)followsCountBtnClicked{
     UsersViewController *vc = [[UsersViewController alloc] init];
-    vc.curUsers = [Users usersWithOwner:_curUser Type:UsersTypeFriends_Attentive];
+    vc.curUsers = [Users usersWithOwner:self.curUser Type:UsersTypeFriends_Attentive];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)userIconClicked{
     //        显示大图
     MJPhoto *photo = [[MJPhoto alloc] init];
-    photo.url = [_curUser.avatar urlWithCodePath];
+    photo.url = [self.curUser.avatar urlWithCodePath];
     
     MJPhotoBrowser *browser = [[MJPhotoBrowser alloc] init];
     browser.currentPhotoIndex = 0;
@@ -239,7 +241,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         EaseUserInfoCell *cell = self.userInfoCell;
-        cell.user = _curUser;
+        cell.user = self.curUser;
         return cell;
     } else if (indexPath.section == 1) {
         UserActiveGraphCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserActiveGraphCell forIndexPath:indexPath];
@@ -259,7 +261,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        return [tableView cellHeightForIndexPath:indexPath model:_curUser keyPath:@"user" cellClass:[EaseUserInfoCell class] contentViewWidth:kScreen_Width];
+        return [tableView cellHeightForIndexPath:indexPath model:self.curUser keyPath:@"user" cellClass:[EaseUserInfoCell class] contentViewWidth:kScreen_Width];
         
     } else if (indexPath.section == 1) {
         return [UserActiveGraphCell cellHeight];
