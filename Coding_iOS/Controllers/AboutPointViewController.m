@@ -29,7 +29,7 @@
     [paragraphStyle setAlignment:_aboutL.textAlignment];
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [_aboutL.text length])];
     //标题
-    NSArray *titleList = @[@"什么是码币", @"可以用码币做什么", @"如何获取码币"];
+    NSArray *titleList = @[@"什么是码币", @"码币的用途", @"如何获取码币"];
     for (NSString *title in titleList) {
         NSRange textR = [_aboutL.text rangeOfString:title];
         if (textR.location != NSNotFound) {
