@@ -55,7 +55,7 @@
         if (!_contentLabel) {
             _contentLabel = [UILabel new];
             _contentLabel.textColor = kColorDark3;
-            _contentLabel.font = [UIFont systemFontOfSize:14];
+            _contentLabel.font = [UIFont systemFontOfSize:15];
             [_innerContentView addSubview:_contentLabel];
         }
         if (!_timeLabel) {
@@ -83,7 +83,7 @@
             make.size.mas_equalTo(CGSizeMake(17, 17));
         }];
         [_contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_innerContentView).offset(10);
+            make.top.equalTo(_innerContentView).offset(15);
             make.left.equalTo(self.taskPriorityView.mas_right).offset(10);
             make.right.equalTo(_innerContentView).offset(-10);
             make.height.mas_equalTo(20);
@@ -180,7 +180,7 @@
 }
 
 + (CGFloat)cellHeightWithObj:(Task *)obj{
-    CGFloat cellHeight = 50;
+    CGFloat cellHeight = 60;
     if (obj.deadline_date) {
         cellHeight += 22;
     }
