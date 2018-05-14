@@ -80,6 +80,9 @@
                 [self addActionUser:_user];
                 [_actionStr appendFormat:@"%@项目成员", _action_msg];
             }
+        }else if ([_target_type isEqualToString:@"Release"]){
+            [self addActionUser:_user];
+            [_actionStr appendFormat:@"%@版本", _action_msg];
         }else if ([_target_type isEqualToString:@"Task"]){
             [self addActionUser:_user];
             if ([_action isEqualToString:@"update_priority"]) {
@@ -284,6 +287,8 @@
                 [_contentStr saveAppendString:self.ref_name];
             }else if ([_target_type isEqualToString:@"Milestone"]){
                 [_contentStr saveAppendString:_milestone.name];
+            }else if ([_target_type isEqualToString:@"Release"]){
+                [_contentStr saveAppendString:_release_title.length> 0 ? _release_title: _release_tag_name];
             }else{
                 [_contentStr appendString:@"**未知**"];
             }
