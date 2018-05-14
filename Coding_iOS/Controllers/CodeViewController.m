@@ -161,7 +161,7 @@
         [actionTitles removeObjectAtIndex:0];
     }
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:actionTitles destructiveTitle:@"删除文件" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:actionTitles destructiveTitle:self.myCodeFile.can_edit? @"删除文件": nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
         [weakSelf actionSheetClicked:sheet index:index];
     }] showInView:self.view];
 }
@@ -176,7 +176,7 @@
         [self goToCommitsVC];
     }else if (index == 2){
         [self popOut];
-    }else if (index == 3){
+    }else if (index == 3 && self.myCodeFile.can_edit){
         [self deleteBtnClicked];
     }
 }
