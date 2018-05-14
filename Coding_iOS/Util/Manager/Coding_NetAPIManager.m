@@ -548,15 +548,6 @@
             resultData = [resultData objectForKey:@"list"];
 
             NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectMember"];
-            [resultA sortUsingComparator:^NSComparisonResult(ProjectMember *obj1, ProjectMember *obj2) {
-                if ([obj1.user_id isEqualToNumber:[Login curLoginUser].id]) {
-                    return NSOrderedAscending;
-                }else if ([obj2.user_id isEqualToNumber:[Login curLoginUser].id]){
-                    return NSOrderedDescending;
-                }else{
-                    return obj1.type.intValue < obj2.type.intValue;
-                }
-            }];
             block(resultA, nil);
         }else{
             block(nil, error);

@@ -35,13 +35,28 @@
 @implementation ProjectMemberListViewController
 
 - (void)setMyMemberArray:(NSMutableArray *)myMemberArray{
+    [myMemberArray sortUsingComparator:^NSComparisonResult(ProjectMember *obj1, ProjectMember *obj2) {
+        return [[self p_sortWeightOfMember:obj2] compare:[self p_sortWeightOfMember:obj1]];
+    }];
     _myMemberArray = myMemberArray;
-    ProjectMember *mem = [_myMemberArray firstObject];
-    if ([mem.user_id isEqualToNumber:[Login curLoginUser].id]) {
-        _selfRoleType = mem.type;
-    }else{
-        _selfRoleType = @80;//普通成员
+
+    for (ProjectMember *mem in _myMemberArray) {
+        if ([mem.user_id isEqualToNumber:[Login curLoginUser].id]) {
+            _selfRoleType = mem.type;
+            break;
+        }
     }
+}
+
+- (NSNumber *)p_sortWeightOfMember:(ProjectMember *)mem{
+    CGFloat maxMemCount = 9999;
+    NSNumber *weight = nil;
+    BOOL isLoginUser = [mem.user_id isEqualToNumber:[Login curLoginUser].id];
+    BOOL isAddedToWatcher = (_type == ProMemTypeTaskWatchers? [self.curTask hasWatcher:mem.user]:
+                             _type == ProMemTypeTopicWatchers? [self.curTopic hasWatcher:mem.user]:
+                             NO);
+    weight = @(mem.type.integerValue + (isLoginUser? maxMemCount: 0) + (isAddedToWatcher? maxMemCount * 2: 0));
+    return weight;
 }
 
 - (void)willHiden{
@@ -102,16 +117,6 @@
 
         if (resultData) {
             NSMutableArray *resultA = [NSObject arrayFromJSON:resultData ofObjects:@"ProjectMember"];
-            __block NSUInteger mineIndex = 0;
-            [resultA enumerateObjectsUsingBlock:^(ProjectMember *obj, NSUInteger idx, BOOL *stop) {
-                if (obj.user_id.integerValue == [Login curLoginUser].id.integerValue) {
-                    mineIndex = idx;
-                    *stop = YES;
-                }
-            }];
-            if (mineIndex > 0) {
-                [resultA exchangeObjectAtIndex:mineIndex withObjectAtIndex:0];
-            }
             weakSelf.myMemberArray = resultA;
             [weakSelf.myTableView reloadData];
         }else{
