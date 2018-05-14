@@ -14,6 +14,7 @@
 #import "FileComment.h"
 #import "ProjectFile.h"
 #import "ProjectTag.h"
+#import "EAMilestone.h"
 
 @class Task;
 @class ProjectTopic;
@@ -36,6 +37,7 @@
 @property (strong, nonatomic) Commit *commit;
 @property (strong, nonatomic) FileComment *projectFileComment;
 @property (strong, nonatomic) ProjectFile *projectFile;
+@property (strong, nonatomic) EAMilestone *milestone;
 
 @property (readwrite, strong, nonatomic) NSString *content;
 @property (readwrite, nonatomic, strong) HtmlMedia *htmlMedia;

@@ -100,6 +100,8 @@
             }else if ([_action isEqualToString:@"remove_watcher"]){
                 [_actionStr saveAppendString:_action_msg];
                 [self addActionUser:_watcher];
+            }else if ([_action isEqualToString:@"add_milestone"] || [_action isEqualToString:@"remove_milestone"]){
+                [_actionStr appendFormat:@"在任务「%@」中%@", _task.title, _action_msg];
             }else{
                 [_actionStr saveAppendString:_action_msg];
                 if (_origin_task.owner) {
@@ -163,6 +165,8 @@
                     }
                 }else if ([_target_type isEqualToString:@"Wiki"]){
                     [_actionStr appendString:@"wiki"];
+                }else if ([_target_type isEqualToString:@"Milestone"]){
+
                 }else{
                     [_actionStr appendString:@"项目"];
                     if ([_target_type isEqualToString:@"Project"]){
@@ -209,6 +213,8 @@
                 }else{
                     [_contentStr appendFormat:@"移除了任务的所有标签"];
                 }
+            }else if ([_action isEqualToString:@"add_milestone"] || [_action isEqualToString:@"remove_milestone"]){
+                [_contentStr saveAppendString:_milestone.name];
             }else{
                 [_contentStr saveAppendString:_task.title];
             }
@@ -276,6 +282,8 @@
                 }
             }else if ([_target_type isEqualToString:@"ProtectedBranch"]){
                 [_contentStr saveAppendString:self.ref_name];
+            }else if ([_target_type isEqualToString:@"Milestone"]){
+                [_contentStr saveAppendString:_milestone.name];
             }else{
                 [_contentStr appendString:@"**未知**"];
             }

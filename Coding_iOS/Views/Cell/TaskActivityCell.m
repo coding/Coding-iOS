@@ -136,6 +136,8 @@
             contentStr = [NSString stringWithFormat:@"%@「%@」 - %@", curActivity.action_msg, curActivity.watcher.name, [curActivity.created_at stringDisplay_HHmm]];
         }else if ([curActivity.action isEqualToString:@"remove_watcher"]){
             contentStr = [NSString stringWithFormat:@"%@「%@」 - %@", curActivity.action_msg, curActivity.watcher.name, [curActivity.created_at stringDisplay_HHmm]];
+        }else if ([curActivity.action isEqualToString:@"add_milestone"] || [curActivity.action isEqualToString:@"remove_milestone"]){
+            contentStr = [NSString stringWithFormat:@"%@「%@」 - %@", curActivity.action_msg, curActivity.milestone.name, [curActivity.created_at stringDisplay_HHmm]];
         }
     }else if ([curActivity.target_type isEqualToString:@"MergeRequestBean"]){
         contentStr = [NSString stringWithFormat:@"%@ 合并请求「%@」 - %@", curActivity.action_msg, curActivity.merge_request_title, [curActivity.created_at stringDisplay_HHmm]];
