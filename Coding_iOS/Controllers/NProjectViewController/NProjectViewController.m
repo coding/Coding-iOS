@@ -271,11 +271,13 @@
 //selected
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0 && indexPath.row == 0) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProjectSetting" bundle:nil];
-        UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"Entrance"];
-        [vc setValue:self.myProject forKey:@"project"];
-        [self.navigationController pushViewController:vc animated:YES];
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ProjectSetting" bundle:nil];
+            UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"Entrance"];
+            [vc setValue:self.myProject forKey:@"project"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }else if (_myProject.is_public.boolValue){
         if (indexPath.section == 1) {
             if (indexPath.row == 0) {
