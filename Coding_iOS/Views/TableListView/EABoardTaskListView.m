@@ -203,7 +203,7 @@
             }];
             if (_myBoardTL.canEdit) {
                 UIButton *editBtn = [UIButton new];
-                [editBtn setImage:[UIImage imageNamed:@"moreBtn_Nav"] forState:UIControlStateNormal];
+                [editBtn setImage:[UIImage imageNamed:@"editBoardList"] forState:UIControlStateNormal];
                 [editBtn addTarget:self action:@selector(editBtnClicked) forControlEvents:UIControlEventTouchUpInside];
                 [headerV addSubview:editBtn];
                 [editBtn mas_makeConstraints:^(MASConstraintMaker *make) {
