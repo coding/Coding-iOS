@@ -142,7 +142,8 @@
 }
 - (BOOL)swipeableTableViewCell:(SWTableViewCell *)cell canSwipeToState:(SWCellState)state{
     NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
-    return (indexPath.row != 0);
+    CodeBranchOrTag *curB = self.myCodeBranches.list[indexPath.row];
+    return !curB.is_default_branch.boolValue;
 }
 
 - (void)deleteBranch:(CodeBranchOrTag *)curB{
