@@ -48,7 +48,7 @@ static Team *curLoginTeam;
 }
 
 - (NSString *)goToLoginTipWithCaptcha:(BOOL)needCaptcha{
-    if (_company.length <= 0) {
+    if (kTarget_Enterprise && _company.length <= 0) {
         return @"请填写企业域名";
     }
     if (!_email || _email.length <= 0) {
@@ -92,13 +92,16 @@ static Team *curLoginTeam;
         [Login setXGAccountWithCurUser];
         
         [self saveLoginData:loginData];
-        if (![self curLoginCompany]) {
-            [[Coding_NetAPIManager sharedManager] request_UpdateCompanyInfoBlock:^(id data, NSError *error) {
-            }];
-        }
-        if (!curLoginUser.isAdministrator) {
-            [[Coding_NetAPIManager sharedManager] request_UpdateIsAdministratorBlock:^(id data, NSError *error) {
-            }];
+        
+        if (kTarget_Enterprise) {
+            if (![self curLoginCompany]) {
+                [[Coding_NetAPIManager sharedManager] request_UpdateCompanyInfoBlock:^(id data, NSError *error) {
+                }];
+            }
+            if (!curLoginUser.isAdministrator) {
+                [[Coding_NetAPIManager sharedManager] request_UpdateIsAdministratorBlock:^(id data, NSError *error) {
+                }];
+            }
         }
     }else{
         [Login doLogout];
