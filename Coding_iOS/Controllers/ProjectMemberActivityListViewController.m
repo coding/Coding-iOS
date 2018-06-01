@@ -10,7 +10,7 @@
 #import "UserInfoViewController.h"
 #import "EditTaskViewController.h"
 #import "TopicDetailViewController.h"
-#import "FileListViewController.h"
+#import "NFileListViewController.h"
 #import "FileViewController.h"
 #import "MRDetailViewController.h"
 
@@ -64,9 +64,15 @@
 
 #pragma mark toVC
 - (void)goToUserInfo:(User *)user{
-    UserInfoViewController *vc = [[UserInfoViewController alloc] init];
-    vc.curUser = user;
-    [self.navigationController pushViewController:vc animated:YES];
+    if (kTarget_Enterprise) {
+        UserInfoDetailViewController *vc = [UserInfoDetailViewController new];
+        vc.curUser = user;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+        vc.curUser = user;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)goToVCWithItem:(HtmlMediaItem *)clickedItem activity:(ProjectActivity *)proAct isContent:(BOOL)isContent inProject:(Project *)project{
@@ -81,23 +87,44 @@
             NSArray *pathArray = [proAct.project.full_name componentsSeparatedByString:@"/"];
             linkPath = pathArray.count >= 2? [NSString stringWithFormat:@"/u/%@/p/%@/task/%@", pathArray[0], pathArray[1], proAct.task.id]: nil;
         }else if ([target_type isEqualToString:@"ProjectFile"]){
+//            BOOL isFile = [proAct.type isEqualToString:@"file"];
+//            NSArray *pathArray = [proAct.file.path componentsSeparatedByString:@"/"];
+//            if (!isFile && pathArray.count >= 7){
+//                //文件夹
+//                ProjectFolder *folder;
+//                NSString *folderIdStr = pathArray[6];
+//                if (![folderIdStr isEqualToString:@"default"] && [folderIdStr isPureInt]) {
+//                    NSNumber *folderId = [NSNumber numberWithInteger:folderIdStr.integerValue];
+//                    folder = [ProjectFolder folderWithId:folderId];
+//                    folder.name = proAct.file.name;
+//                }else{
+//                    folder = [ProjectFolder defaultFolder];
+//                }
+//                FileListViewController *vc = [[FileListViewController alloc] init];
+//                vc.curProject = project;
+//                vc.curFolder = folder;
+//                vc.rootFolders = nil;
+//                [self.navigationController pushViewController:vc animated:YES];
+//            }else{
+//                if (isFile) {
+//                    linkPath = proAct.file.path;
+//                }
+//                tipStr = isFile? @"文件不存在" :@"文件夹不存在";
+//            }
             BOOL isFile = [proAct.type isEqualToString:@"file"];
             NSArray *pathArray = [proAct.file.path componentsSeparatedByString:@"/"];
-            if (!isFile && pathArray.count >= 7){
+            if (!isFile && pathArray.count >= (kTarget_Enterprise? 5: 7)){
                 //文件夹
-                ProjectFolder *folder;
-                NSString *folderIdStr = pathArray[6];
+                ProjectFile *folder = nil;
+                NSString *folderIdStr = pathArray.lastObject;
                 if (![folderIdStr isEqualToString:@"default"] && [folderIdStr isPureInt]) {
                     NSNumber *folderId = [NSNumber numberWithInteger:folderIdStr.integerValue];
-                    folder = [ProjectFolder folderWithId:folderId];
+                    folder = [[ProjectFile alloc] initWithFileId:folderId inProject:project.name ofUser:project.owner_user_name];
                     folder.name = proAct.file.name;
-                }else{
-                    folder = [ProjectFolder defaultFolder];
                 }
-                FileListViewController *vc = [[FileListViewController alloc] init];
+                NFileListViewController *vc = [[NFileListViewController alloc] init];
                 vc.curProject = project;
                 vc.curFolder = folder;
-                vc.rootFolders = nil;
                 [self.navigationController pushViewController:vc animated:YES];
             }else{
                 if (isFile) {
@@ -185,11 +212,11 @@
             }
         }else{
             if ([target_type isEqualToString:@"Project"]){//转让项目之类的
-                //            }else if ([target_type isEqualToString:@"MergeRequestComment"]){//过期类型，已用CommitLineNote替代
-                //            }else if ([target_type isEqualToString:@"PullRequestComment"]){//过期类型，已用CommitLineNote替代
-                //            }else if ([target_type isEqualToString:@"ProjectStar"]){//不用解析
-                //            }else if ([target_type isEqualToString:@"ProjectWatcher"]){//不用解析
-                //            }else if ([target_type isEqualToString:@"QcTask"]){//还不能解析
+//            }else if ([target_type isEqualToString:@"MergeRequestComment"]){//过期类型，已用CommitLineNote替代
+//            }else if ([target_type isEqualToString:@"PullRequestComment"]){//过期类型，已用CommitLineNote替代
+//            }else if ([target_type isEqualToString:@"ProjectStar"]){//不用解析
+//            }else if ([target_type isEqualToString:@"ProjectWatcher"]){//不用解析
+//            }else if ([target_type isEqualToString:@"QcTask"]){//还不能解析
             }else{
                 tipStr = @"还不能查看详细信息呢~";
             }

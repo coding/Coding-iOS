@@ -174,7 +174,8 @@
 - (void)saveBtnClicked{
     _contentStr = [_contentStr aliasedString];
     [_requestParams setObject:_contentStr forKey:@"content"];
-    
+    _requestParams[@"isLineNote"] = @(_isLineNote);
+
     [NSObject showHUDQueryStr:@"正在保存..."];
     [[Coding_NetAPIManager sharedManager] request_PostCommentWithPath:_requestPath params:_requestParams andBlock:^(id data, NSError *error) {
         [NSObject hideHUDQuery];

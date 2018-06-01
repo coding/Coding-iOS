@@ -10,9 +10,10 @@
 
 #import <UIKit/UIKit.h>
 #import "User.h"
+#import "Team.h"
 
 @interface TitleRImageMoreCell : UITableViewCell
 @property (strong, nonatomic) User *curUser;
-
+@property (strong, nonatomic) Team *curTeam;
 + (CGFloat)cellHeight;
 @end

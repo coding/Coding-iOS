@@ -18,6 +18,7 @@
 @class Coding_DownloadTask;
 @class Coding_UploadTask;
 @class ProjectFile;
+@class Coding_UploadParams;
 @protocol Coding_FileManagerDelegate;
 
 @interface Coding_FileManager : NSObject
@@ -48,6 +49,8 @@
 + (void)cancelCUploadTaskForFile:(NSString *)diskFileName hasError:(BOOL)hasError;
 + (NSArray *)uploadFilesInProject:(NSString *)project_id andFolder:(NSString *)folder_id;
 
+- (void)addUploadTaskWithFileName:(NSString *)fileName isQuick:(BOOL)isQuick resultBlock:(void (^)(Coding_UploadTask *uploadTask))block;
+
 - (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName projectIsPublic:(BOOL)is_public;
 @end
 
@@ -65,4 +68,17 @@
 @property (strong, nonatomic) NSString *fileName;
 + (Coding_UploadTask *)cUploadTaskWithTask:(NSURLSessionUploadTask *)task progress:(NSProgress *)progress fileName:(NSString *)fileName;
 - (void)cancel;
+@end
+
+
+@interface Coding_UploadParams : NSObject
+@property (strong, nonatomic) NSString *fileName, *authToken, *time, *uptoken, *fullName;
+@property (strong, nonatomic) NSNumber *projectId, *fileSize, *userId, *dir;
+@property (assign, nonatomic) BOOL isQuick;
+
++ (instancetype)instanceWithFileName:(NSString *)fileName;
+- (void)configWithFileName:(NSString *)fileName;
+- (NSDictionary *)toTokenParams;
+- (NSURL *)filePathUrl;
+- (NSDictionary *)toUploadParams;
 @end

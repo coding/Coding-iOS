@@ -34,6 +34,230 @@
 #import "FunctionTipsManager.h"
 #import "ShopViewController.h"
 
+#import "MeRootCompanyCell.h"
+#import "TeamViewController.h"
+
+
+#ifdef Target_Enterprise
+
+@interface Me_RootViewController ()<UITableViewDataSource, UITableViewDelegate>
+@property (strong, nonatomic) UITableView *myTableView;
+@property (nonatomic, strong) ODRefreshControl *refreshControl;
+
+@property (strong, nonatomic) User *curUser;
+@property (strong, nonatomic) Team *curTeam;
+@end
+
+@implementation Me_RootViewController
+
+- (void)tabBarItemClicked{
+    [super tabBarItemClicked];
+    if (_myTableView.contentOffset.y > 0) {
+        [_myTableView setContentOffset:CGPointZero animated:YES];
+    }else if (!self.refreshControl.isAnimating){
+        [self.refreshControl beginRefreshing];
+        [self.myTableView setContentOffset:CGPointMake(0, -44)];
+        [self refresh];
+    }
+}
+
+- (void)viewDidLoad{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    self.title = @"我";
+    _curUser = [Login curLoginUser] ?: [User userWithGlobalKey:@""];
+    _curTeam = [Login curLoginCompany] ?: [Team teamWithGK:[NSObject baseCompany]];
+    //        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addUserBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(goToAddUser)] animated:NO];
+    
+    //    添加myTableView
+    _myTableView = ({
+        UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+        tableView.backgroundColor = kColorTableSectionBg;
+        tableView.dataSource = self;
+        tableView.delegate = self;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [tableView registerClass:[UserInfoIconCell class] forCellReuseIdentifier:kCellIdentifier_UserInfoIconCell];
+        [tableView registerClass:[MeRootUserCell class] forCellReuseIdentifier:kCellIdentifier_MeRootUserCell];
+        [tableView registerClass:[MeRootCompanyCell class] forCellReuseIdentifier:kCellIdentifier_MeRootCompanyCell];
+        [self.view addSubview:tableView];
+        [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.view);
+        }];
+        UIEdgeInsets insets = UIEdgeInsetsMake(0, 0, CGRectGetHeight(self.rdv_tabBarController.tabBar.frame), 0);
+        tableView.contentInset = insets;
+        tableView.scrollIndicatorInsets = insets;
+        tableView;
+    });
+    
+    _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
+    [_refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self refresh];
+}
+
+- (void)refresh{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_UserInfo_WithObj:_curUser andBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.curUser = data;
+            [[Coding_NetAPIManager sharedManager] request_UpdateIsAdministratorBlock:^(id dataI, NSError *errorI) {
+                if (dataI) {
+                    weakSelf.curUser.isAdministrator = dataI;
+                    [[Coding_NetAPIManager sharedManager] request_UpdateCompanyInfoBlock:^(id dataC, NSError *errorC) {
+                        if (dataC) {
+                            weakSelf.curTeam = dataC;
+                        }
+                        [weakSelf.myTableView reloadData];
+                        [weakSelf.refreshControl endRefreshing];
+                    }];
+                }else{
+                    [weakSelf.myTableView reloadData];
+                    [weakSelf.refreshControl endRefreshing];
+                }
+            }];
+        }else{
+            [weakSelf.refreshControl endRefreshing];
+        }
+    }];
+}
+
+#pragma mark Table M
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 4;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSInteger row = (section ==0? 1:
+                     section == 1? _curUser.isAdministrator.boolValue? 1: 0:
+                     section == 2? 1:
+                     3);
+    return row;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        MeRootUserCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MeRootUserCell forIndexPath:indexPath];
+        cell.curUser = _curUser;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
+        return cell;
+    }else if (indexPath.section == 1){
+        MeRootCompanyCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_MeRootCompanyCell forIndexPath:indexPath];
+        cell.curCompany = _curTeam;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:0];
+        return cell;
+    }else{
+        UserInfoIconCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_UserInfoIconCell forIndexPath:indexPath];
+        (indexPath.section == 2? [cell setTitle:@"本地文件" icon:@"user_info_file"]:
+         indexPath.row == 0? [cell setTitle:@"帮助中心" icon:@"user_info_help"]:
+         indexPath.row == 1? [cell setTitle:@"设置" icon:@"user_info_setup"]:
+         [cell setTitle:@"关于我们" icon:@"user_info_about"]);
+        cell.clipsToBounds = YES;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+        return cell;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    CGFloat cellHeight = 0;
+    if (indexPath.section == 0) {
+        cellHeight = [MeRootUserCell cellHeight];
+    }else if (indexPath.section == 1){
+        cellHeight = [MeRootCompanyCell cellHeight];
+    }else{
+        cellHeight = [UserInfoIconCell cellHeight];
+        //        cellHeight = (indexPath.section == 3 && indexPath.row == 0)? 0: [UserInfoIconCell cellHeight];
+    }
+    return cellHeight;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 1.0/[UIScreen mainScreen].scale;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return section == 0 || (section == 1 && !_curUser.isAdministrator.boolValue)? 1.0/[UIScreen mainScreen].scale: 15;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 15)];
+    headerView.backgroundColor = kColorTableSectionBg;
+    return headerView;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0) {
+        [self goToMeDisplay];
+    }else if (indexPath.section == 1){
+        if (_curUser.isAdministrator.boolValue) {
+            TeamViewController *vc = [TeamViewController new];
+            vc.curTeam = _curTeam;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }else if (indexPath.section == 2){
+        [self goToLocalFolders];
+    }else{
+        if (indexPath.row == 0) {
+            [self goToHelp];
+        }else if (indexPath.row == 1){
+            [self goToSetting];
+        }else{
+            [self goToAbout];
+        }
+    }
+}
+
+#pragma mark GoTo
+- (void)goToAddUser{
+    AddUserViewController *vc = [[AddUserViewController alloc] init];
+    vc.type = AddUserTypeFollow;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToLocalFolders{
+    LocalFoldersViewController *vc = [LocalFoldersViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToPoint{
+    PointRecordsViewController *vc = [PointRecordsViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToSetting{
+    SettingViewController *vc = [[SettingViewController alloc] init];
+    vc.myUser = self.curUser;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToHelp{
+    [self.navigationController pushViewController:[HelpViewController vcWithHelpStr] animated:YES];
+}
+
+- (void)goToAbout{
+    [self.navigationController pushViewController:[AboutViewController new] animated:YES];
+}
+
+- (void)goToProjects{
+    ProjectListViewController *vc = [[ProjectListViewController alloc] init];
+    vc.curUser = _curUser;
+    vc.isFromMeRoot = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)goToTeams{
+    [self.navigationController pushViewController:[TeamListViewController new] animated:YES];
+}
+
+- (void)goToMeDisplay{
+    SettingMineInfoViewController *vc = [[SettingMineInfoViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+@end
+
+#else
+
 @interface Me_RootViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) UITableView *myTableView;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
@@ -51,7 +275,7 @@
     self.title = @"我";
     _curUser = [Login curLoginUser]? [Login curLoginUser]: [User userWithGlobalKey:@""];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"addUserBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(goToAddUser)] animated:NO];
-
+    
     //    添加myTableView
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -136,7 +360,7 @@
         tipL.adjustsFontSizeToFitWidth = YES;
         tipL.minimumScaleFactor = .5;
         tipL.userInteractionEnabled = YES;
-//        tipL.text = _curUser.canUpgradeByCompleteUserInfo? @"完善个人信息，即可升级银牌会员": [NSString stringWithFormat:@"会员过期将自动降级到%@", _curUser.isUserInfoCompleted? @"银牌会员": @"普通会员"];
+        //        tipL.text = _curUser.canUpgradeByCompleteUserInfo? @"完善个人信息，即可升级银牌会员": [NSString stringWithFormat:@"会员过期将自动降级到%@", _curUser.isUserInfoCompleted? @"银牌会员": @"普通会员"];
         tipL.text = _curUser.canUpgradeByCompleteUserInfo? @"完善个人信息，即可升级银牌会员": @"会员过期后将会自动降级";
         [tipL bk_whenTapped:^{
             if (weakSelf.curUser.canUpgradeByCompleteUserInfo) {
@@ -210,15 +434,15 @@
                 make.right.offset(-kPaddingLeftWidth);
             }];
         }
-//        if (indexPath.section == 1 && indexPath.row == 1 && [[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Me_Shop]) {
-////            cell.accessoryType = UITableViewCellAccessoryNone;
-//            CGFloat pointX = kScreen_Width - 40;
-//            CGFloat pointY = [UserInfoIconCell cellHeight]/2;
-//            [cell.contentView addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(pointX, pointY)];
-//        }else{
-////            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-//            [cell.contentView removeBadgeTips];
-//        }
+        //        if (indexPath.section == 1 && indexPath.row == 1 && [[FunctionTipsManager shareManager] needToTip:kFunctionTipStr_Me_Shop]) {
+        ////            cell.accessoryType = UITableViewCellAccessoryNone;
+        //            CGFloat pointX = kScreen_Width - 40;
+        //            CGFloat pointY = [UserInfoIconCell cellHeight]/2;
+        //            [cell.contentView addBadgeTip:kBadgeTipStr withCenterPosition:CGPointMake(pointX, pointY)];
+        //        }else{
+        ////            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        //            [cell.contentView removeBadgeTips];
+        //        }
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }
@@ -338,3 +562,7 @@
 }
 
 @end
+
+#endif
+
+

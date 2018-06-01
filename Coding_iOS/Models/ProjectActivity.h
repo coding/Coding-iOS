@@ -20,7 +20,7 @@
 @class ProjectTopic;
 
 @interface ProjectActivity : NSObject
-@property (readwrite, nonatomic, strong) NSNumber *id;
+@property (readwrite, nonatomic, strong) NSNumber *id, *wiki_iid;
 @property (readwrite, nonatomic, strong) NSString *target_type, *action, *action_msg, *type, *ref, *ref_type, *ref_path, *pull_request_title, *merge_request_title, *comment_content, *merge_request_path, *pull_request_path, *version, *wiki_title, *wiki_path, *old_name, *ref_name;
 @property (strong, nonatomic) NSString *release_title, *release_tag_name, *release_path;
 @property (readwrite, nonatomic, strong) User *user, *target_user, *watcher;

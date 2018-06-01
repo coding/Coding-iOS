@@ -77,15 +77,15 @@
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
     [_refreshControl addTarget:self action:@selector(refreshTweet) forControlEvents:UIControlEventValueChanged];
     
-    //评论
-    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTweet];
-    _myMsgInputView.isAlwaysShow = YES;
-    _myMsgInputView.delegate = self;
-    _myMsgInputView.curProject = _curProject;
-
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myMsgInputView.frame), 0.0);
-    self.myTableView.contentInset = contentInsets;
-    self.myTableView.scrollIndicatorInsets = contentInsets;
+//    //评论
+//    _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTweet];
+//    _myMsgInputView.isAlwaysShow = YES;
+//    _myMsgInputView.delegate = self;
+//    _myMsgInputView.curProject = _curProject;
+//
+//    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myMsgInputView.frame), 0.0);
+//    self.myTableView.contentInset = contentInsets;
+//    self.myTableView.scrollIndicatorInsets = contentInsets;
     
     [self refreshTweet];
 }
@@ -108,10 +108,20 @@
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)setCurTweet:(Tweet *)curTweet{
+    _curTweet = curTweet;
+    if ([_curTweet isProjectTweet]) {
+        _myMsgInputView = nil;
+    }else{
+        //评论
+        _myMsgInputView = [UIMessageInputView messageInputViewWithType:UIMessageInputViewContentTypeTweet];
+        _myMsgInputView.isAlwaysShow = YES;
+        _myMsgInputView.delegate = self;
+        _myMsgInputView.curProject = _curProject;
+    }
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(_myMsgInputView.frame), 0.0);
+    self.myTableView.contentInset = contentInsets;
+    self.myTableView.scrollIndicatorInsets = contentInsets;
 }
 
 - (void)rightNavBtnClicked{
@@ -194,7 +204,7 @@
                 if (weakSelf.curTweet.isProjectTweet &&
                     (weakSelf.curTweet.project.current_user_role_id.integerValue >= 90 ||
                      [Login isLoginUserGlobalKey:weakSelf.curTweet.owner.global_key])) {
-                    [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(rightNavBtnClicked)] animated:YES];
+                        [self.navigationItem setRightBarButtonItem:[UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(rightNavBtnClicked)] animated:YES];
                 }
             }else{
                 [weakSelf.refreshControl endRefreshing];
@@ -222,7 +232,8 @@
 #pragma mark TableM
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger row = 0;
-    if (_curTweet && _curTweet.comment_list) {
+//    if (_curTweet && _curTweet.comment_list) {
+    if (_curTweet && _curTweet.comment_list && ![_curTweet isProjectTweet]) {
         row = 1+ [_curTweet.comment_list count];
     }else{
         row = 1;
@@ -427,9 +438,15 @@
 
 #pragma mark to VC
 - (void)goToUserInfo:(User *)curUser{
-    UserInfoViewController *vc = [[UserInfoViewController alloc] init];
-    vc.curUser = curUser;
-    [self.navigationController pushViewController:vc animated:YES];
+    if (kTarget_Enterprise) {
+        UserInfoDetailViewController *vc = [UserInfoDetailViewController new];
+        vc.curUser = curUser;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+        vc.curUser = curUser;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark loadCellRequest

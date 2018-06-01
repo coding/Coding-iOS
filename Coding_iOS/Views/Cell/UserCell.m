@@ -63,8 +63,9 @@
         _vipV.image = [UIImage imageNamed:[NSString stringWithFormat:@"vip_%@_40", _curUser.vip]];
         _userNameLabel.text = _curUser.name;
     }
+    _vipV.hidden = kTarget_Enterprise;
     
-    if (_usersType == UsersTypeFriends_Message || _usersType == UsersTypeFriends_At || _usersType == UsersTypeFriends_Transpond) {
+    if (_usersType == UsersTypeFriends_Message || _usersType == UsersTypeFriends_At || _usersType == UsersTypeFriends_Transpond || _usersType == UsersType_CompanyMember) {
         _rightBtn.hidden = YES;
     }else if (_usersType == UsersTypeAddToProject){
         NSString *imageName = _isInProject? @"btn_project_added":@"btn_project_add";

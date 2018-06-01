@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -29,14 +29,14 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gEV-Jy-c1F">
-                                                    <rect key="frame" x="15" y="12" width="55" height="55"/>
+                                                    <rect key="frame" x="15" y="15" width="55" height="55"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="55" id="6ef-an-Ix1"/>
                                                         <constraint firstAttribute="width" constant="55" id="zTt-I0-XFj"/>
                                                     </constraints>
                                                 </imageView>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="项目名称" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OKO-zA-KVd">
-                                                    <rect key="frame" x="82" y="29" width="255" height="21"/>
+                                                    <rect key="frame" x="82" y="32" width="247" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="3dW-nd-EPV"/>
                                                     </constraints>
@@ -88,20 +88,20 @@
                                         <rect key="frame" x="0.0" y="244" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Vxv-hb-Gy3" id="539-D8-tG7">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="341" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="项目类型" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mqK-Pz-sv5">
-                                                    <rect key="frame" x="13" y="13" width="68" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="项目类型" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mqK-Pz-sv5">
+                                                    <rect key="frame" x="13" y="11.5" width="61.5" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="2xj-0d-iFd"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" red="0.13333333333333333" green="0.13333333333333333" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" red="0.1333333333" green="0.1333333333" blue="0.1333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="私有" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tDj-1q-N6c">
-                                                    <rect key="frame" x="309" y="13" width="31" height="18"/>
+                                                    <rect key="frame" x="308" y="16" width="31" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="18" id="GWe-qm-ajx"/>
                                                     </constraints>
@@ -113,8 +113,8 @@
                                             <constraints>
                                                 <constraint firstAttribute="trailingMargin" secondItem="tDj-1q-N6c" secondAttribute="trailing" constant="-6" id="4SN-QN-MeM"/>
                                                 <constraint firstItem="tDj-1q-N6c" firstAttribute="top" secondItem="539-D8-tG7" secondAttribute="topMargin" constant="5" id="9Ui-Rp-t5T"/>
-                                                <constraint firstItem="mqK-Pz-sv5" firstAttribute="top" secondItem="539-D8-tG7" secondAttribute="topMargin" constant="5" id="EG1-rI-FwX"/>
                                                 <constraint firstItem="mqK-Pz-sv5" firstAttribute="leading" secondItem="539-D8-tG7" secondAttribute="leading" constant="13" id="PNM-bi-NAr"/>
+                                                <constraint firstItem="mqK-Pz-sv5" firstAttribute="centerY" secondItem="539-D8-tG7" secondAttribute="centerY" id="fZW-hu-sbm"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -125,8 +125,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="启用 README.md 文件初始化项目" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ii-Mr-f2e">
-                                                    <rect key="frame" x="13" y="13" width="244" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="启用 README.md 文件初始化项目" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ii-Mr-f2e">
+                                                    <rect key="frame" x="13" y="11.5" width="232.5" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="S7q-iU-gps"/>
                                                     </constraints>
@@ -135,12 +135,12 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Lzc-jE-1JM">
-                                                    <rect key="frame" x="311" y="8" width="51" height="31"/>
+                                                    <rect key="frame" x="303" y="6.5" width="51" height="31"/>
                                                 </switch>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Lzc-jE-1JM" firstAttribute="trailing" secondItem="92L-4e-VEo" secondAttribute="trailingMargin" constant="-7" id="8PO-NP-w1y"/>
-                                                <constraint firstItem="7ii-Mr-f2e" firstAttribute="top" secondItem="92L-4e-VEo" secondAttribute="topMargin" constant="5" id="cPK-gc-NYD"/>
+                                                <constraint firstItem="7ii-Mr-f2e" firstAttribute="centerY" secondItem="92L-4e-VEo" secondAttribute="centerY" id="X4z-Cq-ORx"/>
                                                 <constraint firstItem="7ii-Mr-f2e" firstAttribute="leading" secondItem="92L-4e-VEo" secondAttribute="leading" constant="13" id="d1S-nD-iK1"/>
                                                 <constraint firstItem="Lzc-jE-1JM" firstAttribute="centerY" secondItem="7ii-Mr-f2e" secondAttribute="centerY" id="ucK-x1-Ple"/>
                                             </constraints>
@@ -164,7 +164,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f41-ib-nma" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="167" y="337"/>
+            <point key="canvasLocation" x="47.5" y="336.5"/>
         </scene>
         <!--项目类型-->
         <scene sceneID="gFz-UQ-GPk">
@@ -197,9 +197,4 @@
             <point key="canvasLocation" x="534.39999999999998" y="337.01333333333332"/>
         </scene>
     </scenes>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
-    </simulatedMetricsContainer>
 </document>

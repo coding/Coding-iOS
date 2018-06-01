@@ -33,6 +33,7 @@
 -(BOOL)containsEmoji;
 
 - (NSString *)emotionSpecailName;
+- (NSString *)emotionMonkeyName;
 
 + (NSString *)sizeDisplayWithByte:(CGFloat)sizeOfByte;
 

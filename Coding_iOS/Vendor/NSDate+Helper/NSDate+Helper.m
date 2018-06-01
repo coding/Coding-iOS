@@ -43,6 +43,8 @@ static NSString *kNSDateHelperFormatSQLTime             = @"HH:mm:ss";
 static NSString *kNSDateHelperFormatSQLDateWithTime     = @"yyyy-MM-dd HH:mm:ss";
 
 @implementation NSDate (Helper)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 
 static NSCalendar *_calendar = nil;
 static NSDateFormatter *_displayFormatter = nil;
@@ -329,5 +331,5 @@ static NSDateFormatter *_displayFormatter = nil;
 + (NSString *)dbFormatString {
 	return [NSDate timestampFormatString];
 }
-
+#pragma clang diagnostic pop
 @end

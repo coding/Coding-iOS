@@ -413,7 +413,7 @@ static NSMutableDictionary *_inputStrDict, *_inputMediaDict;
             hasAddBtn = YES;
             hasPhotoBtn = NO;
             showBigEmotion = YES;
-            hasVoiceBtn = YES;
+            hasVoiceBtn = [NSObject isPrivateCloud].boolValue? NO: YES;
         }
             break;
         case UIMessageInputViewContentTypeTopic:

@@ -22,12 +22,13 @@ typedef NS_ENUM(NSInteger, DownloadState){
 
 @interface ProjectFile : NSObject
 @property (readwrite, nonatomic, strong) NSDate *created_at, *updated_at;
-@property (readwrite, nonatomic, strong) NSNumber *id,*file_id, *owner_id, *parent_id, *type, *current_user_role_id, *size, *project_id, *number;
-@property (readwrite, nonatomic, strong) NSString *name, *fileType, *owner_preview, *preview, *storage_key, *storage_type, *title, *path;
+@property (readwrite, nonatomic, strong) NSNumber *id, *file_id, *owner_id, *parent_id, *type, *current_user_role_id, *size, *project_id, *number, *count;
+@property (readwrite, nonatomic, strong) NSString *name, *owner_name, *fileType, *owner_preview, *preview, *storage_key, *storage_type, *title, *path;
 @property (readwrite, nonatomic, strong) User *owner;
 @property (readwrite, nonatomic, strong) FileShare *share, *share_ea;
 @property (strong, nonatomic, readonly) NSString *diskFileName, *storage_key_for_disk;
-@property (strong, nonatomic, readonly) NSString *project_name, *project_owner_name;
+@property (strong, nonatomic) NSString *next_name;
+@property (strong, nonatomic) NSString *project_name, *project_owner_name;
 
 + (ProjectFile *)fileWithFileId:(NSNumber *)fileId andProjectId:(NSNumber *)project_id;
 - (instancetype)initWithFileId:(NSNumber *)fileId inProject:(NSString *)project_name ofUser:(NSString *)project_owner_name;
@@ -52,4 +53,7 @@ typedef NS_ENUM(NSInteger, DownloadState){
 - (NSString *)toHistoryListPath;
 
 - (NSDictionary *)toShareParams;
+
+- (NSString *)toFolderFilesPath;
+- (NSDictionary *)toFolderFilesParams;
 @end

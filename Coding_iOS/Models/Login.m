@@ -9,14 +9,17 @@
 #import "Login.h"
 #import "XGPush.h"
 #import "AppDelegate.h"
+#import "Coding_NetAPIManager.h"
 
 #define kLoginStatus @"login_status"
 #define kLoginPreUserEmail @"pre_user_email"
 #define kLoginUserDict @"user_dict"
 #define kLoginDataListPath @"login_data_list_path.plist"
+#define kLoginTeamKey @"login_team_key"
 #define kLoginPasswordKey(_key_) [NSString stringWithFormat:@"password|%@", _key_]
 
 static User *curLoginUser;
+static Team *curLoginTeam;
 
 @implementation Login
 - (instancetype)init
@@ -45,6 +48,9 @@ static User *curLoginUser;
 }
 
 - (NSString *)goToLoginTipWithCaptcha:(BOOL)needCaptcha{
+    if (_company.length <= 0) {
+        return @"请填写企业域名";
+    }
     if (!_email || _email.length <= 0) {
         return @"请填写「手机号码/电子邮箱/个性后缀」";
     }
@@ -86,8 +92,38 @@ static User *curLoginUser;
         [Login setXGAccountWithCurUser];
         
         [self saveLoginData:loginData];
+        if (![self curLoginCompany]) {
+            [[Coding_NetAPIManager sharedManager] request_UpdateCompanyInfoBlock:^(id data, NSError *error) {
+            }];
+        }
+        if (!curLoginUser.isAdministrator) {
+            [[Coding_NetAPIManager sharedManager] request_UpdateIsAdministratorBlock:^(id data, NSError *error) {
+            }];
+        }
     }else{
         [Login doLogout];
+    }
+}
+
++ (void) doLoginCompany:(NSDictionary *)loginCompanyData{
+    if (loginCompanyData) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:loginCompanyData forKey:kLoginTeamKey];
+        curLoginTeam = [NSObject objectOfClass:@"Team" fromJSON:loginCompanyData];
+        [defaults synchronize];
+    }
+}
+
++ (void) updateLoginIsAdministrator:(NSNumber *)isAdministrator{
+    if (!isAdministrator) {
+        return;
+    }
+    if (!curLoginUser.isAdministrator || [curLoginUser.isAdministrator isEqualToNumber:isAdministrator]) {
+        curLoginUser.isAdministrator = isAdministrator;
+        
+        NSMutableDictionary *loginData = [[[NSUserDefaults standardUserDefaults] objectForKey:kLoginUserDict] mutableCopy];
+        loginData[@"isAdministrator"] = isAdministrator;
+        [self doLogin:loginData];
     }
 }
 
@@ -188,11 +224,26 @@ static User *curLoginUser;
     return curLoginUser;
 }
 
++ (Team *)curLoginCompany{
+    if (!curLoginTeam) {
+        NSDictionary *loginCompanyData = [[NSUserDefaults standardUserDefaults] objectForKey:kLoginTeamKey];
+        curLoginTeam = loginCompanyData? [NSObject objectOfClass:@"Team" fromJSON:loginCompanyData]: nil;
+    }
+    return [curLoginTeam.global_key.lowercaseString isEqualToString:[NSObject baseCompany].lowercaseString]? curLoginTeam: nil;
+}
+
 +(BOOL)isLoginUserGlobalKey:(NSString *)global_key{
     if (global_key.length <= 0) {
         return NO;
     }
     return [[self curLoginUser].global_key isEqualToString:global_key];
+}
++ (BOOL)canEditPro:(Project *)pro{
+    if ([Login isLogin]) {
+        return (pro.current_user_role_id.integerValue >= 90 ||
+                [self curLoginUser].isAdministrator.boolValue);
+    }
+    return NO;
 }
 
 // Git Clone 需要用 http 的方式校验

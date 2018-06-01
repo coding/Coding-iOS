@@ -59,6 +59,9 @@
         case UsersTypeFriends_Message:
             self.title = @"我的好友";
             break;
+        case UsersType_CompanyMember:
+            self.title = @"企业成员";
+            break;
         case UsersTypeFriends_At:
         case UsersTypeFriends_Transpond:{
             self.title = @"我的好友";
@@ -172,6 +175,9 @@
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
         if (data) {
             [weakSelf.curUsers configWithObj:data];
+            if (weakSelf.curUsers.type == UsersType_CompanyMember) {//发私信，移除自己
+                [weakSelf.curUsers removeLoginUserFromList];
+            }
             weakSelf.groupedDict = [weakSelf.curUsers dictGroupedByPinyin];
             
             [weakSelf.myTableView reloadData];
@@ -330,6 +336,10 @@
             vc.type = AddUserTypeFollow;
             [self.navigationController pushViewController:vc animated:YES];
         }
+    }else if (_curUsers.type == UsersType_CompanyMember){
+        ConversationViewController *vc = [[ConversationViewController alloc] init];
+        vc.myPriMsgs = [PrivateMessages priMsgsWithUser:user];
+        [self.navigationController pushViewController:vc animated:YES];
     }else if (_curUsers.type == UsersTypeFriends_At){
         [self dismissViewControllerAnimated:YES completion:^{
             if (weakSelf.selectUserBlock) {
@@ -358,16 +368,21 @@
         }];
         [alertView show];
     }else{
-        UserInfoViewController *vc = [[UserInfoViewController alloc] init];
-        vc.curUser = user;
-        vc.followChanged = ^(User *curUser){
-            user.followed = curUser.followed;
-            [weakSelf.myTableView reloadData];
-        };
-        [self.navigationController pushViewController:vc animated:YES];
+        if (kTarget_Enterprise) {
+            UserInfoDetailViewController *vc = [UserInfoDetailViewController new];
+            vc.curUser = user;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+            vc.curUser = user;
+            vc.followChanged = ^(User *curUser){
+                user.followed = curUser.followed;
+                [weakSelf.myTableView reloadData];
+            };
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }
 }
-
 
 #pragma mark UISearchBarDelegate
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{

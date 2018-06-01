@@ -39,6 +39,13 @@ static char imageURLKey;
 }
 
 - (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock {
+    if (!(options & SDWebImageHandleCookies)) {
+        options |= SDWebImageHandleCookies;
+    }
+    if (!(options & SDWebImageRetryFailed)) {
+        options |= SDWebImageRetryFailed;
+    }
+
     [self sd_cancelCurrentImageLoad];
     objc_setAssociatedObject(self, &imageURLKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 

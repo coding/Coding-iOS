@@ -123,19 +123,34 @@
             [[Coding_NetAPIManager sharedManager] request_NewProject_WithObj:project image:self.projectIconImage andBlock:^(NSString *data, NSError *error) {
                 weakSelf.submitButtonItem.enabled = YES;
                 if (data.length > 0) {
-                    
-                    NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
-                    NSArray *matchedCaptures = [data captureComponentsMatchedByRegex:projectRegexStr];
-                    if (matchedCaptures.count >= 3) {
-                        NSString *user_global_key = matchedCaptures[1];
-                        NSString *project_name = matchedCaptures[2];
-                        Project *curPro = [[Project alloc] init];
-                        curPro.owner_user_name = user_global_key;
-                        curPro.name = project_name;
-                        //标记已读
-                        [[Coding_NetAPIManager sharedManager] request_Project_UpdateVisit_WithObj:curPro andBlock:^(id dataTemp, NSError *errorTemp) {
-                        }];
-                        [weakSelf gotoPro:curPro];
+                    if (kTarget_Enterprise) {
+                        NSString *projectRegexStr = @"/p/([^/]+)";
+                        NSArray *matchedCaptures = [data captureComponentsMatchedByRegex:projectRegexStr];
+                        if (matchedCaptures.count >= 2) {
+                            NSString *user_global_key = [NSObject baseCompany];
+                            NSString *project_name = matchedCaptures[1];
+                            Project *curPro = [[Project alloc] init];
+                            curPro.owner_user_name = user_global_key;
+                            curPro.name = project_name;
+                            //标记已读
+                            [[Coding_NetAPIManager sharedManager] request_Project_UpdateVisit_WithObj:curPro andBlock:^(id dataTemp, NSError *errorTemp) {
+                            }];
+                            [weakSelf gotoPro:curPro];
+                        }
+                    }else{
+                        NSString *projectRegexStr = @"/u/([^/]+)/p/([^/]+)";
+                        NSArray *matchedCaptures = [data captureComponentsMatchedByRegex:projectRegexStr];
+                        if (matchedCaptures.count >= 3) {
+                            NSString *user_global_key = matchedCaptures[1];
+                            NSString *project_name = matchedCaptures[2];
+                            Project *curPro = [[Project alloc] init];
+                            curPro.owner_user_name = user_global_key;
+                            curPro.name = project_name;
+                            //标记已读
+                            [[Coding_NetAPIManager sharedManager] request_Project_UpdateVisit_WithObj:curPro andBlock:^(id dataTemp, NSError *errorTemp) {
+                            }];
+                            [weakSelf gotoPro:curPro];
+                        }
                     }
                 }
             }];
@@ -227,6 +242,15 @@
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    CGFloat rowH = 44;
+    if (indexPath.section == 0) {
+        rowH = (indexPath.row == 0? 120: 80);
+    }else if (indexPath.section == 1 && indexPath.row == 0 && kTarget_Enterprise){
+        rowH = 0;
+    }
+    return rowH;
+}
 #pragma mark NewProjectTypeViewController Delegate
 
 -(void)newProjectType:(NewProjectTypeViewController *)newProjectVC didSelectType:(NewProjectType)type{

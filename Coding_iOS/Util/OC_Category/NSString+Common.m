@@ -19,7 +19,9 @@
     uname(&systemInfo);
     NSString *deviceString = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
     NSString *userAgent = [NSString stringWithFormat:@"%@/%@ (%@; iOS %@; Scale/%0.2f)", [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleExecutableKey] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleIdentifierKey], (__bridge id)CFBundleGetValueForInfoDictionaryKey(CFBundleGetMainBundle(), kCFBundleVersionKey) ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleVersionKey], deviceString, [[UIDevice currentDevice] systemVersion], ([[UIScreen mainScreen] respondsToSelector:@selector(scale)] ? [[UIScreen mainScreen] scale] : 1.0f)];
-    return userAgent;//Coding_iOS/4.0.8.201611041630 (x86_64; iOS 10.1; Scale/2.00)
+    return userAgent;
+    //Coding_iOS/4.0.8.201611041630 (x86_64; iOS 10.1; Scale/2.00)
+    //Coding_Enterprise_iOS/4.0.8.201611041630 (x86_64; iOS 10.1; Scale/2.00)
 }
 
 - (NSString *)URLEncoding
@@ -298,6 +300,11 @@
 - (NSString *)emotionSpecailName{
     return [NSString emotion_specail_dict][self];
 }
+
+- (NSString *)emotionMonkeyName{
+    return [self emotionSpecailName];
+}
+
 
 + (NSString *)sizeDisplayWithByte:(CGFloat)sizeOfByte{
     NSString *sizeDisplayStr;

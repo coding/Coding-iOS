@@ -20,4 +20,11 @@
     }
     return self;
 }
+
+- (void)setList:(NSMutableArray *)list{
+    _list = list.mutableCopy;
+    _folderList = [list filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:[NSString stringWithFormat:@"type == 0"]]].mutableCopy ?: @[].mutableCopy;
+    _fileList = [list filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:[NSString stringWithFormat:@"type != 0"]]].mutableCopy ?: @[].mutableCopy;
+    
+}
 @end

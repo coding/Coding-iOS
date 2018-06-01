@@ -10,7 +10,6 @@
 #import "Coding_FileManager.h"
 
 @interface ProjectFile ()
-@property (strong, nonatomic, readwrite) NSString *project_name, *project_owner_name;
 @property (strong, nonatomic, readwrite) NSString *diskFileName;
 @end
 
@@ -37,7 +36,7 @@
     file.type = [_type copy];
     file.parent_id = [_parent_id copy];
     file.owner_id = [_owner_id copy];
-    file.file_id = [_file_id copy];
+    file.file_id = [self.file_id copy];
     file.created_at = [_created_at copy];
     file.updated_at = [_updated_at copy];
     file.id=[_id copy];
@@ -55,7 +54,7 @@
 - (instancetype)initWithFileId:(NSNumber *)fileId inProject:(NSString *)project_name ofUser:(NSString *)project_owner_name{
     self = [super init];
     if (self) {
-        _file_id = fileId;
+        self.file_id = fileId;
         _project_id = nil;
         _project_name = project_name;
         _project_owner_name = project_owner_name;
@@ -70,6 +69,14 @@
         project_id = [[[[owner_preview componentsSeparatedByString:@"project/"] lastObject] componentsSeparatedByString:@"/"] firstObject];
         _project_id = @(project_id.integerValue);
     }
+}
+
+- (NSNumber *)file_id{
+    return _file_id ?: _id;
+}
+
+- (void)setCount:(NSNumber *)count{
+    _count = @(MAX(0, count.integerValue));
 }
 
 - (BOOL)isEmpty{
@@ -95,8 +102,12 @@
     return state;
 }
 
+- (NSString *)owner_name{
+    return _owner_name ?: _owner.name;
+}
+
 - (NSString *)downloadPath{
-    NSString *path = [NSString stringWithFormat:@"%@api/project/%@/files/%@/download", [NSObject baseURLStr], _project_id.stringValue, _file_id.stringValue];
+    NSString *path = [NSString stringWithFormat:@"%@api/project/%@/files/%@/download", [NSObject baseURLStr], _project_id.stringValue, self.file_id.stringValue];
     return path;
 }
 
@@ -110,11 +121,11 @@
 - (NSString *)storage_key_for_disk{
     NSArray *fileNameCom = [_name componentsSeparatedByString:@"."];
     NSMutableArray *storage_keyCom = [_storage_key componentsSeparatedByString:@"."].mutableCopy;
-    if (fileNameCom.count > 1 && storage_keyCom.count > 0 && ![fileNameCom.lastObject isEqualToString:storage_keyCom.lastObject]) {
+    if (fileNameCom.count > 1 && storage_keyCom.count > 0 && ![fileNameCom.lastObject isEqualToString:storage_keyCom.lastObject]) {//_storage_key 后缀名与 fileNameCom 后缀名不同的情况
         [storage_keyCom addObject:fileNameCom.lastObject];
         return [storage_keyCom componentsJoinedByString:@"."];
     }else{
-        return _storage_key;
+        return [_storage_key componentsSeparatedByString:@"/"].lastObject;//'group0/M00/00/01/fwAAAVsHsvqAOY8rABzvMF5h1Ck652.JPG'..诡异的前半截数据
     }
 }
 
@@ -129,10 +140,10 @@
     return [NSString stringWithFormat:@"api/project/%@/file/delete", _project_id.stringValue];
 }
 - (NSDictionary *)toDeleteParams{
-    return @{@"fileIds" : @[_file_id.stringValue]};
+    return @{@"fileIds" : @[self.file_id.stringValue]};
 }
 - (NSDictionary *)toMoveToParams{
-    return @{@"fileId" : @[_file_id.stringValue]};
+    return @{@"fileId" : @[self.file_id.stringValue]};
 }
 
 - (NSString *)toDetailPath{
@@ -146,20 +157,32 @@
 }
 
 - (NSString *)toActivityListPath{
-    return [NSString stringWithFormat:@"api/project/%@/file/%@/activities", _project_id.stringValue, _file_id.stringValue];
+    return [NSString stringWithFormat:@"api/project/%@/file/%@/activities", _project_id.stringValue, self.file_id.stringValue];
 }
 
 - (NSString *)toHistoryListPath{
-    return [NSString stringWithFormat:@"api/project/%@/files/%@/histories", _project_id.stringValue, _file_id.stringValue];
+    return [NSString stringWithFormat:@"api/project/%@/files/%@/histories", _project_id.stringValue, self.file_id.stringValue];
 }
 
 - (NSDictionary *)toShareParams{
     return @{
              @"projectId": _project_id,
-             @"resourceId": _file_id,
+             @"resourceId": self.file_id,
              @"resourceType": @0,
              @"accessType": @0
              };
+}
+
+
+
+- (NSString *)toFolderFilesPath{
+    return [NSString stringWithFormat:@"api/user/%@/project/%@/folder/%@/all", _project_owner_name, _project_name, self.file_id];
+}
+- (NSDictionary *)toFolderFilesParams{
+    return @{@"height": @"90",
+             @"width": @"90",
+             @"page" : @"1",
+             @"pageSize": @"500"};
 }
 @end
 

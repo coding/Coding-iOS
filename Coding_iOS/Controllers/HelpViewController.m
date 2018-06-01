@@ -12,7 +12,12 @@
 @implementation HelpViewController
 
 + (instancetype)vcWithHelpStr{
-    NSString *curUrlStr = @"/help/doc/mobile";
+    NSString *curUrlStr;
+    if (kTarget_Enterprise) {
+        curUrlStr = @"https://coding.net/help/doc/mobile";
+    }else{
+        curUrlStr = @"/help/doc/mobile";
+    }
     NSURL *curUrl = [NSURL URLWithString:curUrlStr relativeToURL:[NSURL URLWithString:[NSObject baseURLStr]]];
     return [[self alloc] initWithURL:curUrl];
 }
@@ -23,8 +28,9 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"反馈" style:UIBarButtonItemStylePlain target:self action:@selector(goToFeedBack)] animated:YES];
+    if (!kTarget_Enterprise) {
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"反馈" style:UIBarButtonItemStylePlain target:self action:@selector(goToFeedBack)] animated:YES];
+    }
 }
 
 - (void)goToFeedBack{

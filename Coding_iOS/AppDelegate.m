@@ -30,6 +30,7 @@
 #import "TweetSendViewController.h"
 #import "ProjectToChooseListViewController.h"
 #import "OTPListViewController.h"
+#import "WikiEditViewController.h"
 
 #import "FunctionIntroManager.h"
 #import <evernote-cloud-sdk-ios/ENSDK/ENSDK.h>
@@ -66,11 +67,19 @@
     NSString *userAgent = [NSString userAgentStr];
     NSDictionary *dictionary = @{@"UserAgent" : userAgent};//User-Agent
     [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
+    
+    
+//    @available(iOS 10.0, *);
+    
+//    [UIColor colorNamed:@""]
 }
 
 #pragma lifeCycle
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+    if (kTarget_Enterprise) {//这是很早之前为测试弄的吧
+        [NSObject preCookieHandle];//cookie 设置
+    }
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
@@ -98,12 +107,16 @@
     [self.window makeKeyAndVisible];
     [FunctionIntroManager showIntroPage];
 
-    EaseStartView *startView = [EaseStartView new];
-    @weakify(self);
-    [startView startAnimationWithCompletionBlock:^(EaseStartView *easeStartView) {
-        @strongify(self);
+    if (kTarget_Enterprise) {
         [self completionStartAnimationWithOptions:launchOptions];
-    }];
+    }else{
+        EaseStartView *startView = [EaseStartView new];
+        @weakify(self);
+        [startView startAnimationWithCompletionBlock:^(EaseStartView *easeStartView) {
+            @strongify(self);
+            [self completionStartAnimationWithOptions:launchOptions];
+        }];
+    }
     
 #if DEBUG
 //    [[RRFPSBar sharedInstance] setShowsAverage:YES];
@@ -124,14 +137,16 @@
     UMConfigInstance.appKey = kUmeng_AppKey;
     [MobClick startWithConfigure:UMConfigInstance];
     
-    //UMSocialManager 第三方登录
-    [[UMSocialManager defaultManager] openLog:YES];
-    [UMSocialGlobal shareInstance].isUsingHttpsWhenShareContent = NO;
-    [[UMSocialManager defaultManager] setUmSocialAppkey:kUmeng_AppKey];
-    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:kSocial_WX_ID appSecret:kSocial_WX_Secret redirectURL:nil];
-    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:kSocial_QQ_ID  appSecret:kSocial_QQ_Secret redirectURL:nil];
-    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:kSocial_Sina_ID  appSecret:kSocial_Sina_Secret redirectURL:kSocial_Sina_RedirectURL];
-    [ENSession setSharedSessionConsumerKey:kSocial_EN_Key consumerSecret:kSocial_EN_Secret optionalHost:nil];
+    if (!kTarget_Enterprise) {
+        //UMSocialManager & 第三方登录
+        [[UMSocialManager defaultManager] openLog:YES];
+        [UMSocialGlobal shareInstance].isUsingHttpsWhenShareContent = NO;
+        [[UMSocialManager defaultManager] setUmSocialAppkey:kUmeng_AppKey];
+        [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:kSocial_WX_ID appSecret:kSocial_WX_Secret redirectURL:nil];
+        [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:kSocial_QQ_ID  appSecret:kSocial_QQ_Secret redirectURL:nil];
+        [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina appKey:kSocial_Sina_ID  appSecret:kSocial_Sina_Secret redirectURL:kSocial_Sina_RedirectURL];
+        [ENSession setSharedSessionConsumerKey:kSocial_EN_Key consumerSecret:kSocial_EN_Secret optionalHost:nil];
+    }
     
     //    信鸽推送
     [XGPush startApp:kXGPush_Id appKey:kXGPush_Key];
@@ -157,6 +172,9 @@
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    if ([[BaseViewController presentingVC] isKindOfClass:[WikiEditViewController class]]) {
+        [(WikiEditViewController *)[BaseViewController presentingVC] saveWikiDraft];
+    }
     [[ImageSizeManager shareManager] save];
     [[Tweet tweetForSend] saveSendData];
 }
@@ -187,7 +205,7 @@
 #pragma clang diagnostic pop
         }
     }
-    //    Coding 报告
+    //    CODING 报告
     [[EADeviceToServerLog shareManager] tryToStart];
 }
 
@@ -197,6 +215,9 @@
     [self saveContext];
 }
 
+#ifndef Target_Enterprise
+
+// Universal Links - 个人版支持的东西
 #pragma mark Universal Links
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray * __nullable restorableObjects))restorationHandler{
@@ -212,6 +233,7 @@
     return YES;
 }
 
+#endif
 
 #pragma mark - XGPush Message
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
@@ -238,14 +260,29 @@
 
 #pragma mark - Methods Private
 - (void)setupLoginViewController{
+#ifdef Target_Enterprise
+    
+    IntroductionViewController *introductionVC = [[IntroductionViewController alloc] init];
+    [self.window setRootViewController:introductionVC];
+    [introductionVC presentLoginUI];
+
+#else
+    
     LoginViewController *loginVC = [[LoginViewController alloc] init];
     [self.window setRootViewController:[[UINavigationController alloc] initWithRootViewController:loginVC]];
+    
+#endif
 }
 
 - (void)setupIntroductionViewController{
-    [self setupLoginViewController];//猥琐换
-//    IntroductionViewController *introductionVC = [[IntroductionViewController alloc] init];
-//    [self.window setRootViewController:introductionVC];
+    if (kTarget_Enterprise) {
+        IntroductionViewController *introductionVC = [[IntroductionViewController alloc] init];
+        [self.window setRootViewController:introductionVC];
+    }else{
+        [self setupLoginViewController];//猥琐换
+//        IntroductionViewController *introductionVC = [[IntroductionViewController alloc] init];
+//        [self.window setRootViewController:introductionVC];
+    }
 }
 
 - (void)setupTabViewController{
@@ -256,6 +293,15 @@
 }
 
 - (void)customizeInterface {
+    {//UIBarButtonItem 颜色&字体
+        NSDictionary *textAttributes = @{
+                                         NSFontAttributeName: [UIFont systemFontOfSize:kBackButtonFontSize],
+                                         NSForegroundColorAttributeName: kColorLightBlue,
+                                         };
+        [[UIBarButtonItem appearance] setTitleTextAttributes:textAttributes forState:UIControlStateNormal];
+        [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:kBackButtonFontSize]} forState:UIControlStateDisabled];
+        [[UIBarButtonItem appearance] setTitleTextAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:kBackButtonFontSize]} forState:UIControlStateHighlighted];
+    }
     //设置Nav的背景色和title色
     UINavigationBar *navigationBarAppearance = [UINavigationBar appearance];
     [navigationBarAppearance setBackgroundImage:[UIImage imageWithColor:[NSObject baseURLStrIsProduction]? kColorNavBG: kColorActionYellow] forBarMetrics:UIBarMetricsDefault];
@@ -457,7 +503,7 @@
         if (![presentingVC isKindOfClass:[LoginViewController class]]) {
             LoginViewController *vc = [[LoginViewController alloc] init];
             vc.showDismissButton = YES;
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:vc];
             [presentingVC presentViewController:nav animated:YES completion:nil];
         }
     }else{

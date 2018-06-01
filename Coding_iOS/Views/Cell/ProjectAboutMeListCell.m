@@ -53,7 +53,7 @@
             _describeLabel = [UILabel new];
             _describeLabel.textColor = kColorDark7;
             _describeLabel.font = [UIFont systemFontOfSize:14];
-            _describeLabel.numberOfLines=1;
+            _describeLabel.numberOfLines = kTarget_Enterprise? 0: 1;
             [self.contentView addSubview:_describeLabel];
         }
 
@@ -124,13 +124,21 @@
         make.bottom.equalTo(_projectIconView.mas_bottom);
     }];
     
-    [_describeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.privateIconView);
-        make.height.equalTo(@(38));
-        make.width.equalTo(@(kScreen_Width-kLeftOffset-kIconSize-20));
-        make.top.equalTo(_projectTitleLabel.mas_bottom);
-    }];
-
+    if (kTarget_Enterprise) {
+        _privateIconView.hidden = _ownerTitleLabel.hidden = YES;
+        [_describeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(self.projectTitleLabel);
+            make.bottom.lessThanOrEqualTo(self.projectIconView);
+            make.top.equalTo(self.projectTitleLabel.mas_bottom).offset(5);
+        }];
+    }else{
+        [_describeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.privateIconView);
+            make.height.equalTo(@(38));
+            make.width.equalTo(@(kScreen_Width-kLeftOffset-kIconSize-20));
+            make.top.equalTo(_projectTitleLabel.mas_bottom);
+        }];
+    }
 
     //Title & UserName & description
     if (_openKeywords) {

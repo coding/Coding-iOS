@@ -7,18 +7,14 @@
 //
 
 #import "BaseViewController.h"
-#import "ProjectFolder.h"
-#import "ProjectFolders.h"
 #import "ProjectFile.h"
+#import "Project.h"
 
 @interface FolderToMoveViewController : BaseViewController
-
-@property (strong, nonatomic) ProjectFolders *rootFolders;
 @property (strong, nonatomic) Project *curProject;
-@property (strong, nonatomic) ProjectFolder *curFolder, *fromFolder;
+@property (strong, nonatomic) ProjectFile *curFolder, *fromFolder;
 @property (strong, nonatomic) NSArray *toMovedIdList;
 @property (assign, nonatomic) BOOL isMoveFolder;
-
-@property (copy, nonatomic) void(^moveToFolderBlock)(ProjectFolder *curFolder, NSArray *toMovedIdList);
+@property (copy, nonatomic) void(^moveToFolderBlock)(ProjectFile *curFolder, NSArray *toMovedIdList);
 
 @end

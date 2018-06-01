@@ -67,7 +67,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         for (OTPAuthURL *authURL in authURLs) {
             NSString *cur_issure = authURL.issuer;
             NSString *cur_global_key = [[authURL.name componentsSeparatedByString:@"@"] firstObject];
-            if ([cur_issure isEqualToString:@"Coding"] &&
+            if ([cur_issure.uppercaseString isEqualToString:@"CODING"] &&
                 [cur_global_key isEqualToString:global_key]) {
                 otpCode = authURL.otpCode;
                 break;
@@ -151,7 +151,7 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
             _tipLabel.numberOfLines = 0;
             _tipLabel.textAlignment = NSTextAlignmentCenter;
             _tipLabel.textColor = kColor222;
-            _tipLabel.text = @"启用两步验证后，登录 Coding 账户或进行敏感操作时都将需要输入密码和本客户端生成的验证码。";
+            _tipLabel.text = @"启用两步验证后，登录 CODING 账户或进行敏感操作时都将需要输入密码和本客户端生成的验证码。";
             [self.view addSubview:_tipLabel];
         }
         if (!_beginButton) {

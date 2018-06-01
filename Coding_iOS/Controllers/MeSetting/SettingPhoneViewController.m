@@ -218,7 +218,7 @@
     __weak typeof(self) weakSelf = self;
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/account/phone/change" withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
         if (data) {
-            if (![Login curLoginUser].is_phone_validated.boolValue) {//之前没有绑定过手机号的，奖励码币
+            if (![Login curLoginUser].is_phone_validated.boolValue && !kTarget_Enterprise) {//之前没有绑定过手机号的，奖励码币
                 [RewardTipManager showTipWithTitle:@"成功完成手机验证 !" rewardPoint:@"0.1 MB"];
             }else{
                 [NSObject showHudTipStr:@"手机号码绑定成功"];

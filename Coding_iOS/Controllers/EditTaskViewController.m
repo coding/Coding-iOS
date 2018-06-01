@@ -391,7 +391,7 @@
             TaskDescriptionCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TaskDescriptionCell forIndexPath:indexPath];
             NSString *titleStr;
             if (_myCopyTask.handleType > TaskHandleTypeEdit) {
-                titleStr = @"添加描述";
+                titleStr = _myCopyTask.has_description.boolValue? @"查看描述": @"添加描述";
             }else{
                 titleStr = _myCopyTask.has_description.boolValue? @"查看描述": @"补充描述";
             }

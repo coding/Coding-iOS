@@ -225,10 +225,10 @@
         return;
     }
     
-    self.likeBtn.hidden = self.rewardBtn.hidden = [_tweet isProjectTweet];
-    
+    self.likeBtn.hidden = self.rewardBtn.hidden = self.commentBtn.hidden = [_tweet isProjectTweet];
+
     _like_reward_users = [_tweet like_reward_users];
-    BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key] || tweet.project.current_user_role_id.integerValue >= 90;
+    BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key] || _tweet.project.current_user_role_id.integerValue >= 90;
 
     self.topView.hidden = !_needTopView;
     //owner头像
@@ -236,7 +236,10 @@
     [self.ownerImgView setImageWithUrl:[_tweet.owner.avatar urlImageWithCodePathResizeToView:_ownerImgView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerImgView) tapBlock:^(id obj) {
         [weakSelf userBtnClicked];
     }];
+
     _vipV.image = [UIImage imageNamed:[NSString stringWithFormat:@"vip_%@_45", _tweet.owner.vip]];
+    _vipV.hidden = kTarget_Enterprise;
+
     //owner姓名
     [self.ownerNameBtn setUserTitle:_tweet.owner.name font:[UIFont systemFontOfSize:17] maxWidth:(kTweetCell_ContentWidth-85)];
     //发出冒泡的时间
@@ -312,8 +315,10 @@
     [self.rewardBtn setTitle:_tweet.rewards.stringValue forState:UIControlStateNormal];
     [self.commentBtn setTitle:_tweet.comments.stringValue forState:UIControlStateNormal];
     
-    [self.deleteBtn setY:curBottomY];
-    self.deleteBtn.hidden = !isMineTweet;
+    CGFloat deleteBtnX = kScreen_Width - kPaddingLeftWidth - kTweetCell_LikeComment_Width - ([_tweet isProjectTweet]? 0: kTweetCell_LikeComment_Width + 5);
+    [self.deleteBtn setOrigin:CGPointMake(deleteBtnX, curBottomY)];
+    
+    self.deleteBtn.hidden = !(isMineTweet && !_tweet.isProjectTweet);
     
     curBottomY += kTweetCell_LikeComment_Height;
     curBottomY += [TweetCell likeCommentBtn_BottomPadingWithTweet:_tweet];
@@ -358,6 +363,9 @@
             self.commentListView.hidden = YES;
         }
     }
+    if ([_tweet isProjectTweet]) {
+        _commentListView.hidden = _commentOrLikeSplitlineView.hidden = _likeUsersView.hidden = _commentOrLikeBeginImgView.hidden = YES;
+    }
 }
 
 + (CGFloat)cellHeightWithObj:(id)obj needTopView:(BOOL)needTopView{
@@ -368,11 +376,13 @@
     cellHeight += [self contentLabelHeightWithTweet:tweet];
     cellHeight += [self contentMediaHeightWithTweet:tweet];
     cellHeight += [self locationAndDeviceHeightWithTweet:tweet];
-    cellHeight += 5+ kTweetCell_LikeComment_Height;
+    if (!tweet.isProjectTweet) {
+        cellHeight += 5+ kTweetCell_LikeComment_Height;
+        cellHeight += 15;
+    }
     cellHeight += [TweetCell likeCommentBtn_BottomPadingWithTweet:tweet];
     cellHeight += [TweetCell likeUsersHeightWithTweet:tweet];
     cellHeight += [TweetCell commentListViewHeightWithTweet:tweet];
-    cellHeight += 15;
     return ceilf(cellHeight);
 }
 

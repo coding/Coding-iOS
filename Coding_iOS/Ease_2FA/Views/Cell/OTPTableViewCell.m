@@ -131,7 +131,8 @@
     if (!_back_passwordLabel) {
         _back_passwordLabel = [UILabel new];
         _back_passwordLabel.font = [UIFont systemFontOfSize:50];
-        _back_passwordLabel.textColor = [UIColor colorWithHexString:@"0xE15957"];
+//        _back_passwordLabel.textColor = [UIColor colorWithHexString:@"0xE15957"];
+        _back_passwordLabel.textColor = kColorDark3;
         [self.contentView addSubview:_back_passwordLabel];
         [_back_passwordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.passwordLabel);

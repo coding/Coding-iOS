@@ -39,7 +39,7 @@
 #import "KxMenu.h"
 #import <QuartzCore/QuartzCore.h>
 
-const CGFloat kArrowSize = 8.f;
+const CGFloat kArrowSize = 5.f;
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -326,8 +326,12 @@ typedef enum {
     [self addSubview:_contentView];
     
     [self setupFrameInView:view fromRect:rect];
-        
-    KxMenuOverlay *overlay = [[KxMenuOverlay alloc] initWithFrame:view.bounds];
+    
+    CGRect overlayFrame = view.bounds;
+    overlayFrame.origin.y = [KxMenu yOffset];
+    overlayFrame.size.height -= [KxMenu yOffset];
+    KxMenuOverlay *overlay = [[KxMenuOverlay alloc] initWithFrame:overlayFrame];
+
     [overlay addSubview:self];
     [view addSubview:overlay];
     
@@ -371,6 +375,7 @@ typedef enum {
                                  if ([self.superview isKindOfClass:[KxMenuOverlay class]])
                                      [self.superview removeFromSuperview];
                                  [self removeFromSuperview];
+                                 [KxMenu setYOffset:0];//yOffset 每次视图消失后，需要还原为 0
                              }];
             
         } else {
@@ -378,6 +383,7 @@ typedef enum {
             if ([self.superview isKindOfClass:[KxMenuOverlay class]])
                 [self.superview removeFromSuperview];
             [self removeFromSuperview];
+            [KxMenu setYOffset:0];//yOffset 每次视图消失后，需要还原为 0
         }
     }
 }
@@ -666,13 +672,13 @@ typedef enum {
     UIBezierPath *arrowPath = [UIBezierPath bezierPath];
     
     // fix the issue with gap of arrow's base if on the edge
-    const CGFloat kEmbedFix = 3.f;
-    
+    const CGFloat kEmbedFix = 0.f;
+
     if (_arrowDirection == KxMenuViewArrowDirectionUp) {
         
         const CGFloat arrowXM = _arrowPosition;
-        const CGFloat arrowX0 = arrowXM - kArrowSize;
-        const CGFloat arrowX1 = arrowXM + kArrowSize;
+        const CGFloat arrowX0 = arrowXM - kArrowSize - 1;
+        const CGFloat arrowX1 = arrowXM + kArrowSize + 1;
         const CGFloat arrowY0 = Y0;
         const CGFloat arrowY1 = Y0 + kArrowSize + kEmbedFix;
         
@@ -744,7 +750,7 @@ typedef enum {
     const CGRect bodyFrame = {X0, Y0, X1 - X0, Y1 - Y0};
     
     UIBezierPath *borderPath = [UIBezierPath bezierPathWithRoundedRect:bodyFrame
-                                                          cornerRadius:2];
+                                                          cornerRadius:4];
         
     const CGFloat locations[] = {0, 1};
     const CGFloat components[] = {
@@ -790,6 +796,7 @@ typedef enum {
 static KxMenu *gMenu;
 static UIColor *gTintColor, *gLineColor, *gOverlayColor;
 static UIFont *gTitleFont;
+static CGFloat gYOffset = 0.0;
 
 @implementation KxMenu {
     
@@ -946,6 +953,15 @@ static UIFont *gTitleFont;
 {
     if (titleFont != gTitleFont) {
         gTitleFont = titleFont;
+    }
+}
+
++ (CGFloat) yOffset{
+    return gYOffset;
+}
++ (void) setYOffset:(CGFloat) yOffset{
+    if (yOffset != gYOffset){
+        gYOffset = yOffset;
     }
 }
 

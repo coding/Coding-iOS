@@ -21,11 +21,11 @@
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         if (!_iconView) {
-            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, 11, 22, 22)];
+            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([UserInfoIconCell cellHeight] - 22)/ 2, 22, 22)];
             [self.contentView addSubview:_iconView];
         }
         if (!_titleL) {
-            _titleL = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_iconView.frame) + kPaddingLeftWidth, 12, kScreen_Width/2, 20)];
+            _titleL = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(_iconView.frame) + kPaddingLeftWidth, ([UserInfoIconCell cellHeight] - 20)/ 2, kScreen_Width/2, 20)];
             _titleL.textAlignment = NSTextAlignmentLeft;
             _titleL.font = [UIFont systemFontOfSize:15];
             _titleL.textColor = kColor222;
@@ -41,7 +41,7 @@
 }
 
 + (CGFloat)cellHeight{
-    return 44;
+    return 50;
 }
 #pragma mark Tip
 - (void)prepareForReuse{

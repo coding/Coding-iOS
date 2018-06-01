@@ -51,12 +51,9 @@
     if (!_folder) {
         return;
     }
-    if ([_folder isDefaultFolder]) {
-        _iconView.image = [UIImage imageNamed:@"icon_file_folder_default"];
-    }else{
-        _iconView.image = [UIImage imageNamed:@"icon_file_folder_normal"];
-    }
-    _nameLabel.text = [NSString stringWithFormat:@"%@（%ld）", _folder.name, (long)(_folder.count.integerValue)];
+    _iconView.image = [UIImage imageNamed:@"icon_file_folder_normal"];
+    //    _nameLabel.text = [NSString stringWithFormat:@"%@（%ld）", _folder.name, (long)(_folder.count.integerValue)];
+    _nameLabel.text = _folder.name;//count 字段 api 里去掉了
     _infoLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _folder.owner_name, [_folder.updated_at stringDisplay_HHmm]];
 }
 

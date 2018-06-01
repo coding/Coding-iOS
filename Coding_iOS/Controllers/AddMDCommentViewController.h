@@ -15,5 +15,6 @@
 @property (strong, nonatomic) NSMutableDictionary *requestParams;
 @property (strong, nonatomic) NSString *contentStr;
 @property (strong, nonatomic) Project *curProject;
+@property (assign, nonatomic) BOOL isLineNote;//这个字段单纯是为友盟统计的，没啥特别的作用
 
 @end

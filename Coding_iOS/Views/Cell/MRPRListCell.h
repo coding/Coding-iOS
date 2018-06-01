@@ -14,5 +14,5 @@
 @interface MRPRListCell : UITableViewCell
 @property (strong, nonatomic) MRPR *curMRPR;
 
-+ (CGFloat)cellHeight;
++ (CGFloat)cellHeightWithObj:(id)obj;
 @end

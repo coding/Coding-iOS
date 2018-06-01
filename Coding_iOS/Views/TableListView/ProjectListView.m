@@ -78,7 +78,7 @@ static NSString *const kValueKey = @"kValueKey";
             tableView.estimatedSectionFooterHeight = 0;
             tableView;
         });
-        if (projects.type < ProjectsTypeToChoose || projects.type == ProjectsTypeAllPublic) {
+        if ((projects.type < ProjectsTypeToChoose && !kTarget_Enterprise) || projects.type == ProjectsTypeAllPublic) {
             _mySearchBar = nil;
             _myTableView.tableHeaderView = nil;
         }else{
@@ -86,7 +86,7 @@ static NSString *const kValueKey = @"kValueKey";
                 UISearchBar *searchBar = [[UISearchBar alloc] init];
                 searchBar.delegate = self;
                 [searchBar sizeToFit];
-                [searchBar setPlaceholder:@"项目名称/创建人"];
+                [searchBar setPlaceholder:kTarget_Enterprise? @"项目名称/描述": @"项目名称/创建人"];
                 [searchBar setPlaceholderColor:kColorDarkA];
                 [searchBar setSearchIcon:[UIImage imageNamed:@"icon_search_searchbar"]];
                 searchBar;
@@ -158,33 +158,42 @@ static NSString *const kValueKey = @"kValueKey";
         _dataList = [[NSMutableArray alloc] initWithCapacity:2];
     }
     [_dataList removeAllObjects];
-    if (_myProjects.type < ProjectsTypeToChoose) {
-//        NSArray *pinList = _myProjects.pinList, *noPinList = _myProjects.noPinList;
-//        if (pinList.count > 0) {
-//            [_dataList addObject:@{kTitleKey : @"常用项目",
-//                                   kValueKey : pinList}];
+//    if (_myProjects.type < ProjectsTypeToChoose) {
+////        NSArray *pinList = _myProjects.pinList, *noPinList = _myProjects.noPinList;
+////        if (pinList.count > 0) {
+////            [_dataList addObject:@{kTitleKey : @"常用项目",
+////                                   kValueKey : pinList}];
+////        }
+////        if (noPinList.count > 0) {
+////            [_dataList addObject:@{kTitleKey : @"一般项目",
+////                                   kValueKey : noPinList}];
+////        }
+//        NSMutableArray *list = _myProjects.list.mutableCopy;
+//        if (list.count > 0) {
+//            [list sortUsingComparator:^NSComparisonResult(Project *obj1, Project *obj2) {
+//                return (obj1.pin.integerValue < obj2.pin.integerValue);
+//            }];
+//            [_dataList addObject:@{kTitleKey : @"全部项目",
+//                                   kValueKey : list}];
 //        }
-//        if (noPinList.count > 0) {
+//    }else{
+//        NSMutableArray *list = [self updateFilteredContentForSearchString:self.mySearchBar.text];
+//        if (list.count > 0) {
+//            [list sortUsingComparator:^NSComparisonResult(Project *obj1, Project *obj2) {
+//                return (obj1.pin.integerValue < obj2.pin.integerValue);
+//            }];
 //            [_dataList addObject:@{kTitleKey : @"一般项目",
-//                                   kValueKey : noPinList}];
+//                                   kValueKey : list}];
 //        }
-        NSMutableArray *list = _myProjects.list.mutableCopy;
-        if (list.count > 0) {
-            [list sortUsingComparator:^NSComparisonResult(Project *obj1, Project *obj2) {
-                return (obj1.pin.integerValue < obj2.pin.integerValue);
-            }];
-            [_dataList addObject:@{kTitleKey : @"全部项目",
-                                   kValueKey : list}];
-        }
-    }else{
-        NSMutableArray *list = [self updateFilteredContentForSearchString:self.mySearchBar.text];
-        if (list.count > 0) {
-            [list sortUsingComparator:^NSComparisonResult(Project *obj1, Project *obj2) {
-                return (obj1.pin.integerValue < obj2.pin.integerValue);
-            }];
-            [_dataList addObject:@{kTitleKey : @"一般项目",
-                                   kValueKey : list}];
-        }
+//    }
+//    特么真搞不清上面那一坨是干嘛的了
+    NSMutableArray *list = [self updateFilteredContentForSearchString:self.mySearchBar.text];
+    if (list.count > 0) {
+        [list sortUsingComparator:^NSComparisonResult(Project *obj1, Project *obj2) {
+            return (obj1.pin.integerValue < obj2.pin.integerValue);
+        }];
+        [_dataList addObject:@{kTitleKey : @"项目",
+                               kValueKey : list}];
     }
 }
 - (NSString *)titleForSection:(NSUInteger)section{
@@ -219,7 +228,7 @@ static NSString *const kValueKey = @"kValueKey";
             appStoreCountry = @"us";
         }
         __weak typeof(self) weakSelf = self;
-        NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/%@/lookup?id=%@", appStoreCountry, @(923676989)]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/%@/lookup?id=%@", appStoreCountry, self.p_appID]] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
             if (!error && data) {
                 NSDictionary *result = [[NSJSONSerialization JSONObjectWithData:data options:(NSJSONReadingOptions)0 error:&error][@"results"] lastObject];
                 NSString *latestVersion = result[@"version"];
@@ -233,6 +242,10 @@ static NSString *const kValueKey = @"kValueKey";
         }];
         [task resume];
     }
+}
+
+- (NSString *)p_appID{
+    return kTarget_Enterprise? @"1191398741": @"923676989";
 }
 
 - (BOOL)p_needToCheckIfNewVersion{
@@ -365,7 +378,7 @@ static NSString *const kValueKey = @"kValueKey";
         tipL.adjustsFontSizeToFitWidth = YES;
         tipL.minimumScaleFactor = .5;
         tipL.userInteractionEnabled = YES;
-        tipL.text = @"立即升级最新 Coding 客户端";
+        tipL.text = kTarget_Enterprise? @"立即升级最新 CODING 企业版客户端": @"立即升级最新 Coding 客户端";
         [tipL bk_whenTapped:^{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppUrl]];
         }];
@@ -501,6 +514,10 @@ static NSString *const kValueKey = @"kValueKey";
     // strip out all the leading and trailing spaces
     NSString *strippedStr = [searchString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     
+    if (strippedStr.length <= 0) {
+        return searchResults;
+    }
+    
     // break up the search terms (separated by spaces)
     NSArray *searchItems = nil;
     if (strippedStr.length > 0)
@@ -528,7 +545,7 @@ static NSString *const kValueKey = @"kValueKey";
         [searchItemsPredicate addObject:finalPredicate];
         
         //        owner_user_name field matching
-        lhs = [NSExpression expressionForKeyPath:@"owner_user_name"];
+        lhs = [NSExpression expressionForKeyPath:kTarget_Enterprise? @"description_mine": @"owner_user_name"];
         rhs = [NSExpression expressionForConstantValue:searchString];
         finalPredicate = [NSComparisonPredicate
                           predicateWithLeftExpression:lhs

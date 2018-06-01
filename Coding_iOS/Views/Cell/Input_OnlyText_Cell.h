@@ -10,6 +10,7 @@
 #define kCellIdentifier_Input_OnlyText_Cell_Captcha @"Input_OnlyText_Cell_Captcha"
 #define kCellIdentifier_Input_OnlyText_Cell_Password @"Input_OnlyText_Cell_Password"
 #define kCellIdentifier_Input_OnlyText_Cell_Phone @"Input_OnlyText_Cell_Phone"
+#define kCellIdentifier_Input_OnlyText_Cell_Company @"Input_OnlyText_Cell_Company"
 
 #import <UIKit/UIKit.h>
 #import "UITapImageView.h"
@@ -20,6 +21,7 @@
 @property (strong, nonatomic) UILabel *countryCodeL;
 
 @property (strong, nonatomic, readonly) PhoneCodeButton *verify_codeBtn;
+@property (strong, nonatomic, readonly) UILabel *companySuffixL;
 
 @property (assign, nonatomic) BOOL isBottomLineShow;
 

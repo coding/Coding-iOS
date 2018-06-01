@@ -19,12 +19,14 @@
 #import "Coding_NetAPIManager.h"
 #import "UserInfoViewController.h"
 #import "AddUserViewController.h"
-#import "ProjectFolderListView.h"
+//#import "ProjectFolderListView.h"
+#import "NProjectFileListView.h"
 #import "ProjectCodeListView.h"
 #import "CodeListViewController.h"
 #import "CodeViewController.h"
 #import "ProjectMemberActivityListViewController.h"
-#import "FileListViewController.h"
+//#import "FileListViewController.h"
+#import "NFileListViewController.h"
 #import "SettingTextViewController.h"
 #import "FolderToMoveViewController.h"
 #import "FileViewController.h"
@@ -231,7 +233,6 @@
     if ((viewType == ProjectViewTypeMembers && _myProject.current_user_role_id.integerValue >= 90)
         || viewType == ProjectViewTypeTasks
         || viewType == ProjectViewTypeTopics
-        || viewType == ProjectViewTypeFiles
         || viewType == ProjectViewTypeCodes) {
         navRightBtn = [[UIBarButtonItem alloc]
                        initWithImage:[UIImage
@@ -317,13 +318,18 @@
             }
                 break;
             case ProjectViewTypeFiles:{
+//                curView = ({
+//                    ProjectFolderListView *folderListView = [[ProjectFolderListView alloc] initWithFrame:self.view.bounds project:_myProject];
+//                    folderListView.containerVC = self;
+//                    folderListView.folderInProjectBlock = ^(ProjectFolders *rootFolders, ProjectFolder *clickedFolder, Project *inProject){
+//                        DebugLog(@"folderInProjectBlock-----: %@- %@", clickedFolder.name, inProject.name);
+//                        [weakSelf goToVCWithRootFolder:rootFolders folder:clickedFolder inProject:inProject];
+//                    };
+//                    folderListView;
+//                });
                 curView = ({
-                    ProjectFolderListView *folderListView = [[ProjectFolderListView alloc] initWithFrame:self.view.bounds project:_myProject];
+                    NProjectFileListView *folderListView = [[NProjectFileListView alloc] initWithFrame:self.view.bounds project:_myProject folder:nil];
                     folderListView.containerVC = self;
-                    folderListView.folderInProjectBlock = ^(ProjectFolders *rootFolders, ProjectFolder *clickedFolder, Project *inProject){
-                        DebugLog(@"folderInProjectBlock-----: %@- %@", clickedFolder.name, inProject.name);
-                        [weakSelf goToVCWithRootFolder:rootFolders folder:clickedFolder inProject:inProject];
-                    };
                     folderListView;
                 });
             }
@@ -376,9 +382,15 @@
 
 #pragma mark toVC
 - (void)goToUserInfo:(User *)user{
-    UserInfoViewController *vc = [[UserInfoViewController alloc] init];
-    vc.curUser = user;
-    [self.navigationController pushViewController:vc animated:YES];
+    if (kTarget_Enterprise) {
+        UserInfoDetailViewController *vc = [UserInfoDetailViewController new];
+        vc.curUser = user;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+        vc.curUser = user;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 - (void)goToActivityListOfUser:(User *)user{
@@ -413,13 +425,13 @@
     }
 }
 
-- (void)goToVCWithRootFolder:(ProjectFolders *)rootFolders folder:(ProjectFolder *)folder inProject:(Project *)project{
-    FileListViewController *vc = [[FileListViewController alloc] init];
-    vc.rootFolders = rootFolders;
-    vc.curFolder = folder;
-    vc.curProject = project;
-    [self.navigationController pushViewController:vc animated:YES];
-}
+//- (void)goToVCWithRootFolder:(ProjectFolders *)rootFolders folder:(ProjectFolder *)folder inProject:(Project *)project{
+//    FileListViewController *vc = [[FileListViewController alloc] init];
+//    vc.rootFolders = rootFolders;
+//    vc.curFolder = folder;
+//    vc.curProject = project;
+//    [self.navigationController pushViewController:vc animated:YES];
+//}
 - (void)goToVCWithItem:(HtmlMediaItem *)clickedItem activity:(ProjectActivity *)proAct isContent:(BOOL)isContent inProject:(Project *)project{
     if (isContent) {//cell上面第二个Label
         NSString *target_type = proAct.target_type;
@@ -432,23 +444,44 @@
             NSArray *pathArray = [proAct.project.full_name componentsSeparatedByString:@"/"];
             linkPath = pathArray.count >= 2? [NSString stringWithFormat:@"/u/%@/p/%@/task/%@", pathArray[0], pathArray[1], proAct.task.id]: nil;
         }else if ([target_type isEqualToString:@"ProjectFile"]){
+//            BOOL isFile = [proAct.type isEqualToString:@"file"];
+//            NSArray *pathArray = [proAct.file.path componentsSeparatedByString:@"/"];
+//            if (!isFile && pathArray.count >= 7){
+//                //文件夹
+//                ProjectFolder *folder;
+//                NSString *folderIdStr = pathArray[6];
+//                if (![folderIdStr isEqualToString:@"default"] && [folderIdStr isPureInt]) {
+//                    NSNumber *folderId = [NSNumber numberWithInteger:folderIdStr.integerValue];
+//                    folder = [ProjectFolder folderWithId:folderId];
+//                    folder.name = proAct.file.name;
+//                }else{
+//                    folder = [ProjectFolder defaultFolder];
+//                }
+//                FileListViewController *vc = [[FileListViewController alloc] init];
+//                vc.curProject = project;
+//                vc.curFolder = folder;
+//                vc.rootFolders = nil;
+//                [self.navigationController pushViewController:vc animated:YES];
+//            }else{
+//                if (isFile) {
+//                    linkPath = proAct.file.path;
+//                }
+//                tipStr = isFile? @"文件不存在" :@"文件夹不存在";
+//            }
             BOOL isFile = [proAct.type isEqualToString:@"file"];
             NSArray *pathArray = [proAct.file.path componentsSeparatedByString:@"/"];
-            if (!isFile && pathArray.count >= 7){
+            if (!isFile && pathArray.count >= (kTarget_Enterprise? 5: 7)){
                 //文件夹
-                ProjectFolder *folder;
-                NSString *folderIdStr = pathArray[6];
+                ProjectFile *folder = nil;
+                NSString *folderIdStr = pathArray.lastObject;
                 if (![folderIdStr isEqualToString:@"default"] && [folderIdStr isPureInt]) {
                     NSNumber *folderId = [NSNumber numberWithInteger:folderIdStr.integerValue];
-                    folder = [ProjectFolder folderWithId:folderId];
+                    folder = [[ProjectFile alloc] initWithFileId:folderId inProject:project.name ofUser:project.owner_user_name];
                     folder.name = proAct.file.name;
-                }else{
-                    folder = [ProjectFolder defaultFolder];
                 }
-                FileListViewController *vc = [[FileListViewController alloc] init];
+                NFileListViewController *vc = [[NFileListViewController alloc] init];
                 vc.curProject = project;
                 vc.curFolder = folder;
-                vc.rootFolders = nil;
                 [self.navigationController pushViewController:vc animated:YES];
             }else{
                 if (isFile) {
@@ -589,7 +622,7 @@
             __weak typeof(self) weakSelf = self;
             AddUserViewController *vc = [[AddUserViewController alloc] init];
             vc.curProject = self.myProject;
-            vc.type = AddUserTypeProjectRoot;
+            vc.type = kTarget_Enterprise? AddUserTypeProjectCompany: AddUserTypeProjectRoot;
             if (_proMemberVC && _proMemberVC.myMemberArray) {
                 [vc configAddedArrayWithMembers:_proMemberVC.myMemberArray];
             }
@@ -601,25 +634,25 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
             break;
-        case ProjectViewTypeFiles:
-        {
-            //新建文件夹
-            __weak typeof(self) weakSelf = self;
-            [SettingTextViewController showSettingFolderNameVCFromVC:self withTitle:@"新建文件夹" textValue:nil type:SettingTypeNewFolderName doneBlock:^(NSString *textValue) {
-                DebugLog(@"%@", textValue);
-                [[Coding_NetAPIManager sharedManager] request_CreatFolder:textValue inFolder:nil inProject:weakSelf.myProject andBlock:^(id data, NSError *error) {
-                    if (data) {
-                        [NSObject showHudTipStr:@"创建文件夹成功"];
-                        ProjectFolderListView *folderListView = (ProjectFolderListView *)[weakSelf getCurContentView];
-                        if (folderListView && [folderListView isKindOfClass:[ProjectFolderListView class]]) {
-                            [folderListView refreshToQueryData];
-                        }
-                    }
-                }];
-            }];
-
-        }
-            break;
+//        case ProjectViewTypeFiles:
+//        {
+//            //新建文件夹
+//            __weak typeof(self) weakSelf = self;
+//            [SettingTextViewController showSettingFolderNameVCFromVC:self withTitle:@"新建文件夹" textValue:nil type:SettingTypeNewFolderName doneBlock:^(NSString *textValue) {
+//                DebugLog(@"%@", textValue);
+//                [[Coding_NetAPIManager sharedManager] request_CreatFolder:textValue inFolder:nil inProject:weakSelf.myProject andBlock:^(id data, NSError *error) {
+//                    if (data) {
+//                        [NSObject showHudTipStr:@"创建文件夹成功"];
+//                        ProjectFolderListView *folderListView = (ProjectFolderListView *)[weakSelf getCurContentView];
+//                        if (folderListView && [folderListView isKindOfClass:[ProjectFolderListView class]]) {
+//                            [folderListView refreshToQueryData];
+//                        }
+//                    }
+//                }];
+//            }];
+//
+//        }
+//            break;
         case ProjectViewTypeCodes:
         {
             __weak typeof(self) weakSelf = self;
@@ -707,15 +740,15 @@
             NSInteger watcherProcessing = [data[@"data"][@"watcherProcessing"] integerValue];
             NSInteger creatorDone = [data[@"data"][@"creatorDone"] integerValue];
             NSInteger creatorProcessing = [data[@"data"][@"creatorProcessing"] integerValue];
-             weakSelf.myFliterMenu.items = @[[NSString stringWithFormat:@"所有任务（%ld）", ownerDone + ownerProcessing],
-                                             [NSString stringWithFormat:@"我关注的（%ld）", watcherDone + watcherProcessing],
-                                             [NSString stringWithFormat:@"我创建的（%ld）", creatorDone + creatorProcessing]
-                                             ];
-             if (_role == TaskRoleTypeAll) {
-                 weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", ownerProcessing],
-                                                   [NSString stringWithFormat:@"已完成的（%ld）", ownerDone]
-                                                   ];
-             }
+            weakSelf.myFliterMenu.items = @[[NSString stringWithFormat:@"所有任务（%ld）", ownerDone + ownerProcessing],
+                                            [NSString stringWithFormat:@"我关注的（%ld）", watcherDone + watcherProcessing],
+                                            [NSString stringWithFormat:@"我创建的（%ld）", creatorDone + creatorProcessing]
+                                            ];
+            if (_role == TaskRoleTypeAll) {
+                weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", ownerProcessing],
+                                                  [NSString stringWithFormat:@"已完成的（%ld）", ownerDone]
+                                                  ];
+            }
             if (_role == TaskRoleTypeWatcher) {
                 weakSelf.screenView.tastArray = @[[NSString stringWithFormat:@"进行中的（%ld）", watcherProcessing],
                                                   [NSString stringWithFormat:@"已完成的（%ld）", watcherDone]
@@ -726,7 +759,7 @@
                                                   [NSString stringWithFormat:@"已完成的（%ld）", creatorDone]
                                                   ];
             }
-         }];
+        }];
 
     } else {
         [[Coding_NetAPIManager sharedManager] request_tasks_searchWithUserId:nil role:TaskRoleTypeAll project_id:_myProject.id.stringValue andBlock:^(id data, NSError *error) {

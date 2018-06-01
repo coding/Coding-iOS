@@ -100,6 +100,7 @@
         self.text = text;
         return;
     }
+    self.numberOfLines = 0;
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text];
     [attributedString addAttribute:NSFontAttributeName value:self.font range:NSMakeRange(0, [text length])];
     

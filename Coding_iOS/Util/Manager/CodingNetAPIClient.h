@@ -28,6 +28,11 @@ typedef NS_ENUM(NSInteger, IllegalContentType) {
 + (id)sharedJsonClient;
 + (id)changeJsonClient;
 
++ (id)changeSharedJsonClient;
++ (id)e_JsonClient;
++ (id)changeE_JsonClient;
+
+
 - (void)requestJsonDataWithPath:(NSString *)aPath
                      withParams:(NSDictionary*)params
                  withMethodType:(NetworkMethod)method

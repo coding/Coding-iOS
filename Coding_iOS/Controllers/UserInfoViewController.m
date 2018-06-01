@@ -16,7 +16,6 @@
 #import "AddUserViewController.h"
 #import "SettingViewController.h"
 #import "SettingMineInfoViewController.h"
-#import "UserInfoDetailViewController.h"
 #import "ProjectListViewController.h"
 #import "LocalFoldersViewController.h"
 

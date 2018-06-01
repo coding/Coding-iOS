@@ -8,7 +8,8 @@
 #import "NSDate+convenience.h"
 
 @implementation NSDate (Convenience)
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 -(int)year {
     NSCalendar *gregorian = [[NSCalendar alloc]
                              initWithCalendarIdentifier:NSGregorianCalendar];
@@ -153,4 +154,5 @@
     endOfWeek = [gregorian dateFromComponents: componentsStripped];
     return endOfWeek;
 }
+#pragma clang diagnostic pop
 @end

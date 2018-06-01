@@ -64,7 +64,7 @@
         _target_type_ColorName = @"0x379FD3";
     }
     _target_type_imageName = [NSString stringWithFormat:@"tipIcon_%@", _target_type];
-    _content = _htmlMedia.contentDisplay;
+    _content = [_htmlMedia.contentDisplay stringByReplacingOccurrencesOfString:@"团队" withString:@"企业"];
 }
 
 + (NSDictionary *)p_color_dict{

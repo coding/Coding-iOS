@@ -267,9 +267,15 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
         preMsg = [_myPriMsgs.dataList objectAtIndex:curIndex+1];
     }
     cell.tapUserIconBlock = ^(User *sender){
-        UserInfoViewController *vc = [[UserInfoViewController alloc] init];
-        vc.curUser = sender;
-        [self.navigationController pushViewController:vc animated:YES];
+        if (kTarget_Enterprise) {
+            UserInfoDetailViewController *vc = [[UserInfoDetailViewController alloc] init];
+            vc.curUser = sender;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+            vc.curUser = sender;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     };
     ESWeakSelf;
     cell.resendMessageBlock = ^(PrivateMessage *curMessage){

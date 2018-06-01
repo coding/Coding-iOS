@@ -78,7 +78,9 @@
     _progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     _progressView.progressBarView.backgroundColor = kColorLightBlue;
 
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(shareItemClicked)] animated:YES];
+    if (!kTarget_Enterprise) {//企业版不支持分享
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(shareItemClicked)] animated:YES];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated{

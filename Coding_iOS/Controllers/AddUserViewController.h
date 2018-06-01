@@ -14,6 +14,7 @@ typedef NS_ENUM(NSInteger, AddUserType) {
     AddUserTypeProjectRoot = 0,
     AddUserTypeProjectFollows,//我的关注
     AddUserTypeProjectFans,//我的粉丝
+    AddUserTypeProjectCompany,//企业成员
     AddUserTypeFollow//添加好友
 };
 @interface AddUserViewController : BaseViewController<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>

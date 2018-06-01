@@ -20,6 +20,8 @@
 @property (readwrite, nonatomic, strong) NSNumber *id, *sex, *follow, *followed, *fans_count, *follows_count, *tweets_count, *status, *points_left, *email_validation, *is_phone_validated, *vip, *degree, *job;
 @property (readwrite, nonatomic, strong) NSDate *created_at, *last_logined_at, *last_activity_at, *updated_at, *vip_expired_at;
 
+@property (strong, nonatomic) NSNumber *isAdministrator;
+
 @property (strong, nonatomic) NSArray *skills;
 
 @property (strong, nonatomic, readonly) NSString *skills_str, *degree_str, *vipName;

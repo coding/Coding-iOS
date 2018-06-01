@@ -12,6 +12,9 @@
 #import "YLImageView.h"
 
 @interface FileDownloadView ()
+@property (strong, nonatomic) ProjectFile *file;
+@property (strong, nonatomic) FileVersion *version;
+
 @property (strong, nonatomic) UIImageView *iconView;
 @property (strong, nonatomic) ASProgressPopUpView *progressView;
 @property (strong, nonatomic) UIButton *stateButton;
@@ -32,19 +35,9 @@
     return self;
 }
 
-- (void)setFile:(ProjectFile *)file{
+- (void)setFile:(ProjectFile *)file version:(FileVersion *)version{
     _file = file;
-    if (!_file) {
-        return;
-    }
-    [self loadLayoutWithCurFile];
-    [self reloadData];
-}
-- (void)setVersion:(FileVersion *)version{
     _version = version;
-    if (!_version) {
-        return;
-    }
     [self loadLayoutWithCurFile];
     [self reloadData];
 }
@@ -320,6 +313,46 @@
                 }
             }];
             
+            self.progress = cDownloadTask.progress;
+            _progressView.progress = 0.0;
+            _progressView.hidden = NO;
+            [self changeToState:DownloadStateDownloading];
+        }
+    }
+}
+
+- (void)startDownload{
+    Coding_FileManager *manager = [Coding_FileManager sharedManager];
+    NSURL *fileUrl = self.diskFileUrl;
+    if (fileUrl) {//已经下载到本地了
+    }else{//要下载
+        NSURLSessionDownloadTask *downloadTask;
+        if (self.cDownloadTask) {//暂停或者重新开始
+            downloadTask = self.cDownloadTask.task;
+            switch (downloadTask.state) {
+                case NSURLSessionTaskStateSuspended:
+                    [downloadTask resume];
+                    [self changeToState:DownloadStateDownloading];
+                    break;
+                default:
+                    break;
+            }
+        }else{//新建下载
+            if (!self.project_id) {
+                [NSObject showHudTipStr:@"下载失败~"];
+                return;
+            }
+            __weak typeof(self) weakSelf = self;
+            Coding_DownloadTask *cDownloadTask = [manager addDownloadTaskForObj:self.curData completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+                if (error) {
+                    [weakSelf changeToState:DownloadStateDefault];
+                    [NSObject showError:error];
+                    DebugLog(@"ERROR:%@", error.description);
+                }else{
+                    [weakSelf changeToState:DownloadStateDownloaded];
+                    DebugLog(@"File downloaded to: %@", filePath);
+                }
+            }];
             self.progress = cDownloadTask.progress;
             _progressView.progress = 0.0;
             _progressView.hidden = NO;

@@ -115,7 +115,7 @@
 
 - (void)sendMsgBtnClicked:(id)sender{
     UsersViewController *vc = [[UsersViewController alloc] init];
-    vc.curUsers = [Users usersWithOwner:[Login curLoginUser] Type:UsersTypeFriends_Message];
+    vc.curUsers = [Users usersWithOwner:[Login curLoginUser] Type:kTarget_Enterprise? UsersType_CompanyMember: UsersTypeFriends_Message];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

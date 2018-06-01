@@ -105,7 +105,12 @@
 - (void)refreshCodeViewData{
     if ([_myCodeFile.file.mode isEqualToString:@"image"]) {
 //        NSURL *imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@u/%@/p/%@/git/raw/%@", [NSObject baseURLStr], _myProject.owner_user_name, _myProject.name, [NSString handelRef:_myCodeFile.ref path:_myCodeFile.file.path]]];
-        NSURL *imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@u/%@/p/%@/git/raw/%@/%@", [NSObject baseURLStr], _myProject.owner_user_name, _myProject.name, _myCodeFile.ref, _myCodeFile.file.path]];
+        NSURL *imageUrl;
+        if (kTarget_Enterprise) {//企业版不需要 owner_user_name
+            imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@p/%@/git/raw/%@/%@", [NSObject baseURLStr], _myProject.name, _myCodeFile.ref, _myCodeFile.file.path]];
+        }else{
+            imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@u/%@/p/%@/git/raw/%@/%@", [NSObject baseURLStr], _myProject.owner_user_name, _myProject.name, _myCodeFile.ref, _myCodeFile.file.path]];
+        }
         DebugLog(@"imageUrl: %@", imageUrl);
         [self.webContentView loadRequest:[NSURLRequest requestWithURL:imageUrl]];
     }else if ([@[@"file", @"sym_link", @"executable"] containsObject:_myCodeFile.file.mode]){
@@ -118,7 +123,12 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     DebugLog(@"strLink=[%@]",request.URL.absoluteString);
     if ([_myCodeFile.file.mode isEqualToString:@"image"]) {
-        NSString *imageStr = [NSString stringWithFormat:@"%@u/%@/p/%@/git/raw/%@/%@", [NSObject baseURLStr], _myProject.owner_user_name, _myProject.name, _myCodeFile.ref, _myCodeFile.file.path];
+        NSString *imageStr;
+        if (kTarget_Enterprise) {
+            imageStr = [NSString stringWithFormat:@"%@p/%@/git/raw/%@/%@", [NSObject baseURLStr], _myProject.name, _myCodeFile.ref, _myCodeFile.file.path];
+        }else{
+            imageStr = [NSString stringWithFormat:@"%@u/%@/p/%@/git/raw/%@/%@", [NSObject baseURLStr], _myProject.owner_user_name, _myProject.name, _myCodeFile.ref, _myCodeFile.file.path];
+        }
         if ([imageStr isEqualToString:request.URL.absoluteString]) {
             return YES;
         }

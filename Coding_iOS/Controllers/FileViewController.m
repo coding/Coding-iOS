@@ -35,6 +35,7 @@
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) EaseToolBar *myToolBar;
 
+@property (strong, nonatomic) NSProgress *progress;
 @end
 
 @implementation FileViewController
@@ -49,14 +50,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = [self titleStr];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.title = [self titleStr];
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     if ([self.curFile isEmpty]) {
         [self requestFileData];
-    }else{
+    }else if (!self.view.loadingView || self.view.loadingView.hidden){
         [self configContent];
     }
 }
@@ -81,7 +82,7 @@
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_FileDetail:self.curFile andBlock:^(id data, NSError *error) {
         [weakSelf.view endLoading];
-
+        
         if (data) {
             weakSelf.curFile = data;
             [weakSelf configContent];
@@ -100,17 +101,18 @@
 - (void)configContent{
     self.title = [self titleStr];
     [self setupNavigationItem];
-
+    
     NSURL *fileUrl = [self diskFileUrl];
     if (!fileUrl) {
-        [self showDownloadView];
+        if ([self p_isTextContent]){
+            [self p_startDownload];
+        }else{
+            [self showDownloadView];
+        }
     }else{
         self.fileUrl = fileUrl;
         [self setupDocumentControllerWithURL:fileUrl];
-        if ([self.fileType isEqualToString:@"md"]
-            || [self.fileType isEqualToString:@"html"]
-            || [self.fileType isEqualToString:@"txt"]
-            || [self.fileType isEqualToString:@"plist"]){
+        if ([self p_isTextContent]){
             [self loadWebView:fileUrl];
         }else if ([QLPreviewController canPreviewItem:fileUrl]) {
             [self showDiskFile:fileUrl];
@@ -201,18 +203,19 @@
             make.bottom.equalTo(self.view).offset(-[self toolBarHeight]);
         }];
     }
-    
-    self.downloadView.file = self.curFile;
-    self.downloadView.version = self.curVersion;
-    [self.downloadView reloadData];
-    
     __weak typeof(self) weakSelf = self;
-    self.downloadView.completionBlock = ^(){
-        [weakSelf configContent];
-    };
+    if ([self.downloadView downloadState] == DownloadStateDownloaded) {
+        self.downloadView.completionBlock = nil;
+    }else{
+        self.downloadView.completionBlock = ^(){
+            [weakSelf configContent];
+        };
+    }
     self.downloadView.otherMethodOpenBlock = ^(){
         [weakSelf openByOtherApp];
     };
+    [self.downloadView setFile:self.curFile version:self.curVersion];
+    [self.downloadView reloadData];
     self.downloadView.hidden = NO;
 }
 
@@ -246,10 +249,10 @@
             [KxMenu setLineColor:kColorDDD];
             
             NSMutableArray *menuItems = [@[
-                                          [KxMenuItem menuItem:@"共享链接" image:[UIImage imageNamed:@"file_menu_icon_share"] target:self action:@selector(goToShareFileLink)],
-                                          [KxMenuItem menuItem:@"文件信息" image:[UIImage imageNamed:@"file_menu_icon_info"] target:self action:@selector(goToFileInfo)],
-                                          [KxMenuItem menuItem:@"删除文件" image:[UIImage imageNamed:@"file_menu_icon_delete"] target:self action:@selector(deleteCurFile)],
-                                          ] mutableCopy];
+                                           [KxMenuItem menuItem:@"共享链接" image:[UIImage imageNamed:@"file_menu_icon_share"] target:self action:@selector(goToShareFileLink)],
+                                           [KxMenuItem menuItem:@"文件信息" image:[UIImage imageNamed:@"file_menu_icon_info"] target:self action:@selector(goToFileInfo)],
+                                           [KxMenuItem menuItem:@"删除文件" image:[UIImage imageNamed:@"file_menu_icon_delete"] target:self action:@selector(deleteCurFile)],
+                                           ] mutableCopy];
             if ([self fileCanEdit]) {
                 [menuItems insertObject:[KxMenuItem menuItem:@"编辑文件" image:[UIImage imageNamed:@"file_menu_icon_edit"] target:self action:@selector(goToEditFile)]
                                 atIndex:0];
@@ -261,7 +264,7 @@
                 [menuItems addObject:[KxMenuItem menuItem:@"其它应用打开" image:[UIImage imageNamed:@"file_menu_icon_open"] target:self action:@selector(openByOtherApp)]];
             }
             [menuItems setValue:kColorDark4 forKey:@"foreColor"];
-            CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 0, 0, 0);
+            CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 5, 0, 0);
             [KxMenu showMenuInView:self.view
                           fromRect:senderFrame
                          menuItems:menuItems];
@@ -288,6 +291,8 @@
 }
 
 - (void)goToEditFile{
+    [MobClick event:kUmeng_Event_File label:@"文件_点击编辑"];
+    
     __weak typeof(self) weakSelf = self;
     FileEditViewController *vc = [FileEditViewController new];
     vc.curFile = _curFile;
@@ -361,7 +366,7 @@
     UIActionSheet *actionSheet;
     NSURL *fileUrl = [_curFile diskFileUrl];
     Coding_DownloadTask *cDownloadTask = [_curFile cDownloadTask];
-
+    
     if (fileUrl) {
         actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"只是删除本地文件还是连同服务器文件一起删除？" buttonTitles:@[@"仅删除本地文件"] destructiveTitle:@"一起删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             switch (index) {
@@ -501,14 +506,27 @@
 #pragma mark EaseToolBarDelegate
 - (void)easeToolBar:(EaseToolBar *)toolBar didClickedIndex:(NSInteger)index{
     if (index == 0) {
+        [MobClick event:kUmeng_Event_File label:@"文件_点击文件动态"];
+        
         FileActivitiesViewController *vc = [FileActivitiesViewController vcWithFile:_curFile];
         [self.navigationController pushViewController:vc animated:YES];
     }else if (index == 1){
+        [MobClick event:kUmeng_Event_File label:@"文件_点击历史版本"];
+        
         FileVersionsViewController *vc = [FileVersionsViewController vcWithFile:_curFile];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
 #pragma mark Data Value
+- (BOOL)p_isTextContent{
+    if ([self.fileType isEqualToString:@"md"]
+        || [self.fileType isEqualToString:@"html"]
+        || [self.fileType isEqualToString:@"txt"]
+        || [self.fileType isEqualToString:@"plist"]){
+        return YES;
+    }
+    return NO;
+}
 - (NSURL *)diskFileUrl{
     NSURL *fileUrl;
     if (self.curVersion) {
@@ -554,6 +572,50 @@
         return NO;
     }
 }
+#pragma mark download TextContent
+- (void)p_startDownload{
+    NSURL *fileUrl = _curVersion.diskFileUrl ?: _curFile.diskFileUrl;
+    Coding_DownloadTask *cDownloadTask = _curVersion? _curVersion.cDownloadTask : _curFile.cDownloadTask;
+    if (!fileUrl) {
+        if (cDownloadTask) {//重新开始
+            if (cDownloadTask.task.state == NSURLSessionTaskStateSuspended) {
+                [cDownloadTask.task resume];
+            }
+        }else{//新建下载
+            if (!(_curVersion.project_id ?: _curFile.project_id)) {
+                [NSObject showHudTipStr:@"下载失败~"];
+            }else{
+                __weak typeof(self) weakSelf = self;
+                cDownloadTask = [[Coding_FileManager sharedManager] addDownloadTaskForObj:_curVersion ?: _curFile completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+                    [weakSelf.view endLoading];
+                    if (error) {
+                        [NSObject showError:error];
+                        DebugLog(@"ERROR:%@", error.description);
+                    }else{
+                        DebugLog(@"File downloaded to: %@", filePath);
+                    }
+                }];
+            }
+        }
+        self.progress = cDownloadTask.progress;
+    }
+}
+
+- (void)setProgress:(NSProgress *)progress{
+    _progress = progress;
+    __weak typeof(self) weakSelf = self;
+    if (_progress && _progress.fractionCompleted < 0.999) {
+        [self.view beginLoading];
+        [[RACObserve(self, progress.fractionCompleted) takeUntil:self.rac_willDeallocSignal] subscribeNext:^(NSNumber *fractionCompleted) {
+            if (fractionCompleted.doubleValue > 0.999) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [weakSelf configContent];
+                });
+            }
+        }];
+    }
+}
+
 @end
 
 

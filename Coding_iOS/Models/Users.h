@@ -12,6 +12,7 @@
 typedef NS_ENUM(NSInteger, UsersType) {
     UsersTypeFollowers = 0,
     UsersTypeFriends_Attentive,
+    UsersType_CompanyMember,
     UsersTypeFriends_Message,
     UsersTypeFriends_At,
     UsersTypeFriends_Transpond,
@@ -36,6 +37,7 @@ typedef NS_ENUM(NSInteger, UsersType) {
 - (NSString *)toPath;
 - (NSDictionary *)toParams;
 - (void)configWithObj:(Users *)resultA;
+- (void)removeLoginUserFromList;
 
 - (NSDictionary *)dictGroupedByPinyin;
 

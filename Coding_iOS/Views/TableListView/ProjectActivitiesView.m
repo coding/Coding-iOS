@@ -66,7 +66,8 @@
         if (_myProject.is_public.boolValue) {
             _titlesArray = @[@"全部", @"讨论", @"代码", @"其他"];
         }else{
-            _titlesArray = @[@"全部", @"任务", @"讨论", @"文件", @"代码", @"其他"];
+            _titlesArray = @[@"全部", @"任务", @"文件", @"代码", @"其他"];
+//            _titlesArray = @[@"全部", @"任务", @"讨论", @"文件", @"代码", @"其他"];
         }
     }
     return _titlesArray;
@@ -96,7 +97,8 @@
                 break;
         }
     }else{
-        index = index;
+//        index = index;
+        index = index < ProjectActivityTypeTopic? index: index + 1;
     }
     ProjectActivities *curProActs = [_myProActivitiesDict objectForKey:[NSNumber numberWithUnsignedInteger:index]];
     if (!curProActs) {

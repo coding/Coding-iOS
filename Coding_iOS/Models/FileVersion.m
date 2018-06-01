@@ -16,7 +16,7 @@
 @implementation FileVersion
 - (NSString *)diskFileName{
     if (!_diskFileName) {
-        _diskFileName = [NSString stringWithFormat:@"%@|||%@|||%@|%@", _name, _project_id.stringValue, _storage_type, self.storage_key_for_disk];
+        _diskFileName = [NSString stringWithFormat:@"%@|||%@|||%@|%@", _name, _project_id.stringValue, self.storage_type, self.storage_key_for_disk];
     }
     return _diskFileName;
 }
@@ -24,11 +24,11 @@
 - (NSString *)storage_key_for_disk{
     NSArray *fileNameCom = [_name componentsSeparatedByString:@"."];
     NSMutableArray *storage_keyCom = [_storage_key componentsSeparatedByString:@"."].mutableCopy;
-    if (fileNameCom.count > 1 && storage_keyCom.count > 0 && ![fileNameCom.lastObject isEqualToString:storage_keyCom.lastObject]) {
+    if (fileNameCom.count > 1 && storage_keyCom.count > 0 && ![fileNameCom.lastObject isEqualToString:storage_keyCom.lastObject]) {//_storage_key 后缀名与 fileNameCom 后缀名不同的情况
         [storage_keyCom addObject:fileNameCom.lastObject];
         return [storage_keyCom componentsJoinedByString:@"."];
     }else{
-        return _storage_key;
+        return [_storage_key componentsSeparatedByString:@"/"].lastObject;//'group0/M00/00/01/fwAAAVsHsvqAOY8rABzvMF5h1Ck652.JPG'..诡异的前半截数据
     }
 }
 

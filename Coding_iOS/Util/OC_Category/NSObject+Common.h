@@ -29,6 +29,18 @@
 + (BOOL)baseURLStrIsProduction;
 + (void)changeBaseURLStrTo:(NSString *)baseURLStr;
 
++ (NSString *)e_URLStr;
+
++ (NSString *)baseCompanySuffixStr;
++ (void)changeBaseCompanySuffixStrTo:(NSString *)companySuffixStr;
++ (NSString *)baseCompany;
++ (void)changeBaseCompanyTo:(NSString *)company;
+
++ (NSNumber *)isPrivateCloud;
++ (void)setupIsPrivateCloud:(NSNumber *)isPrivateCloud;
++ (NSString *)privateCloud;
++ (void)changePrivateCloudTo:(NSString *)privateCloud;
+
 #pragma mark File M
 //获取fileName的完整地址
 + (NSString* )pathInCacheDirectory:(NSString *)fileName;
@@ -50,5 +62,9 @@
 #pragma mark NetError
 -(id)handleResponse:(id)responseJSON;
 -(id)handleResponse:(id)responseJSON autoShowError:(BOOL)autoShowError;
+
+#pragma Other
++ (void)logCookies;
++ (void)preCookieHandle;
 
 @end

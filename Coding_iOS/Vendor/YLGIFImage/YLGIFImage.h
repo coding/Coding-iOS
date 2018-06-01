@@ -29,7 +29,7 @@
 /**
  Number of loops the image can do before it stops
  */
-@property (nonatomic, readonly) NSUInteger loopCount;
+@property (nonatomic, readwrite) NSUInteger loopCount;//easeeeeeeeee 由 readonly 权限改为 readwrite
 
 - (UIImage*)getFrameWithIndex:(NSUInteger)idx;
 

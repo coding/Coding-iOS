@@ -161,7 +161,8 @@
 - (void)goToAddCommentWithParams:(NSMutableDictionary *)params{
     AddMDCommentViewController *vc = [AddMDCommentViewController new];
     vc.curProject = _curProject;
-    
+    vc.isLineNote = YES;
+
     NSString *requestPath = [[self.linkUrlStr componentsSeparatedByString:@"/git/"] firstObject];
     requestPath = [requestPath stringByAppendingString:@"/git/line_notes"];
     vc.requestPath = requestPath;

@@ -638,7 +638,7 @@ static char LoadingViewKey, BlankPageViewKey;
             case EaseBlankPageTypeProject://项目列表（自己的）
             {
                 imageName = @"blankpage_image_Project";
-                titleStr = @"欢迎来到 Coding";
+                titleStr = @"欢迎来到 CODING";
                 tipStr = @"协作从项目开始，赶快创建项目吧";
             }
                 break;
@@ -736,7 +736,7 @@ static char LoadingViewKey, BlankPageViewKey;
             case EaseBlankPageTypeProject_CREATE:
             case EaseBlankPageTypeProject_JOIN:{
                 imageName = @"blankpage_image_Project";
-                titleStr = @"欢迎来到 Coding";
+                titleStr = @"欢迎来到 CODING";
                 tipStr = @"协作从项目开始，赶快创建项目吧";
                 buttonTitle=@"创建项目";
             }

@@ -201,12 +201,14 @@
                                     @"company" : _company? _company: @"",
                                     @"job" : _job? _job: [NSNumber numberWithInteger:0],
                                     @"tags" : _tags? _tags: @"",
-                                    @"school": _school ?: @"",
-                                    @"degree": _degree ?: @"",
                                     }.mutableCopy;
-    for (int index = 0; index < _skills.count; index++) {
-        CodingSkill *curSkill = _skills[index];
-        params[[NSString stringWithFormat:@"skills[%d]", index]] = [NSString stringWithFormat:@"%@:%@", curSkill.skillId, curSkill.level];
+    if (!kTarget_Enterprise) {
+        params[@"school"] = _school ?: @"";
+        params[@"degree"] = _degree ?: @"";
+        for (int index = 0; index < _skills.count; index++) {
+            CodingSkill *curSkill = _skills[index];
+            params[[NSString stringWithFormat:@"skills[%d]", index]] = [NSString stringWithFormat:@"%@:%@", curSkill.skillId, curSkill.level];
+        }
     }
     return params;
 }

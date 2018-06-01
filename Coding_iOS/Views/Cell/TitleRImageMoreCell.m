@@ -39,13 +39,16 @@
     return self;
 }
 
-- (void)layoutSubviews{
-    [super layoutSubviews];
-    if (!_curUser) {
-        return;
-    }
+- (void)setCurUser:(User *)curUser{
+    _curUser = curUser;
     self.titleLabel.text = @"头像";
     [self.userIconView sd_setImageWithURL:[_curUser.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
+}
+
+- (void)setCurTeam:(Team *)curTeam{
+    _curTeam = curTeam;
+    self.titleLabel.text = @"企业头像";
+    [self.userIconView sd_setImageWithURL:[_curTeam.avatar urlImageWithCodePathResizeToView:_userIconView] placeholderImage:kPlaceholderMonkeyRoundView(_userIconView)];
 }
 
 + (CGFloat)cellHeight{

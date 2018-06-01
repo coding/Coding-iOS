@@ -230,7 +230,8 @@
         }else{
             [cell setImageStr:(indexPath.section == 2? (indexPath.row == 0? @"project_item_task":
                                                         @"project_item_taskboard"):
-                               indexPath.section == 3? (indexPath.row == 0? @"project_item_topic":
+//                               indexPath.section == 3? (indexPath.row == 0? @"project_item_topic":
+                               indexPath.section == 3? (indexPath.row == 0? @"project_item_wiki":
                                                         @"project_item_file"):
                                indexPath.section == 4? (indexPath.row == 0? @"project_item_code":
                                                         indexPath.row == 1? @"project_item_branch":
@@ -239,7 +240,8 @@
                                @"project_item_reading")
                      andTitle:(indexPath.section == 2? (indexPath.row == 0? @"任务列表":
                                                         @"任务看板"):
-                               indexPath.section == 3? (indexPath.row == 0? @"讨论":
+//                               indexPath.section == 3? (indexPath.row == 0? @"讨论":
+                               indexPath.section == 3? (indexPath.row == 0? @"Wiki":
                                                         @"文件"):
                                indexPath.section == 4? (indexPath.row == 0? @"代码浏览":
                                                         indexPath.row == 1? @"分支管理":
@@ -309,7 +311,8 @@
             }
         }else if (indexPath.section == 3){
             if (indexPath.row == 0) {
-                [self goToProjectType:ProjectViewTypeTopics];
+//                [self goToProjectType:ProjectViewTypeTopics];
+                [self goToWiki];
             }else{
                 [self goToProjectType:ProjectViewTypeFiles];
             }

@@ -102,16 +102,18 @@
     [_myTableView setEditing:isEditing animated:YES];
     NSArray *rightBarButtonItems;
     if (isEditing) {
-        UIBarButtonItem *item1 = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(changeEditState)];
-        UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        spaceItem.width = 20;
-        UIBarButtonItem *item2 = [UIBarButtonItem itemWithBtnTitle:@"反选" target:self action:@selector(reverseSelect)];
-        rightBarButtonItems = @[item1, spaceItem, item2];
+//        UIBarButtonItem *item1 = [UIBarButtonItem itemWithBtnTitle:@"完成" target:self action:@selector(changeEditState)];
+//        UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+//        spaceItem.width = 20;
+//        UIBarButtonItem *item2 = [UIBarButtonItem itemWithBtnTitle:@"反选" target:self action:@selector(reverseSelect)];
+//        rightBarButtonItems = @[item1, spaceItem, item2];
+        UIBarButtonItem *item1 = [UIBarButtonItem itemWithBtnTitle:@"取消" target:self action:@selector(changeEditState)];
+        rightBarButtonItems = @[item1];
     }else{
         UIBarButtonItem *item1 = [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(changeEditState)];
         rightBarButtonItems = @[item1];
     }
-    [self.navigationItem setRightBarButtonItems:rightBarButtonItems animated:YES];
+    [self.navigationItem setRightBarButtonItems:_fileList.count > 0? rightBarButtonItems: nil animated:YES];
     [self configToolBar];
     [self.myTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.3];
 }

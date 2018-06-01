@@ -7,7 +7,9 @@
 //
 
 #import "BaseViewController.h"
-#import "user.h"
+#import "User.h"
+
+#import "UserInfoDetailViewController.h"
 
 @interface UserInfoViewController : BaseViewController
 @property (strong, nonatomic) User *curUser;

@@ -9,10 +9,11 @@
 #define kCellIdentifier_FileListFolder @"FileListFolderCell"
 
 #import <UIKit/UIKit.h>
-#import "ProjectFolder.h"
+#import "ProjectFile.h"
 #import "SWTableViewCell.h"
 
 @interface FileListFolderCell : SWTableViewCell
-@property (strong, nonatomic) ProjectFolder *folder;
+@property (strong, nonatomic) ProjectFile *folder;
 + (CGFloat)cellHeight;
 @end
+

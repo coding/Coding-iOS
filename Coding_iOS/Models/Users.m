@@ -7,6 +7,7 @@
 //
 
 #import "Users.h"
+#import "Login.h"
 
 @implementation Users
 - (instancetype)init
@@ -52,6 +53,8 @@
         path = [NSString stringWithFormat:@"api/user/%@/project/%@/stargazers", _project_owner_name, _project_name];
     }else if (_type == UsersTypeProjectWatch){
         path = [NSString stringWithFormat:@"api/user/%@/project/%@/watchers", _project_owner_name, _project_name];
+    }else if (_type == UsersType_CompanyMember){
+        path = [NSString stringWithFormat:@"api/team/%@/members", [NSObject baseCompany]];
     }
     return path;
 }
@@ -76,6 +79,19 @@
     }else if ([resultA isKindOfClass:[NSArray class]]){
         self.list = [(NSArray *)resultA mutableCopy];
         self.canLoadMore = NO;
+    }
+}
+
+- (void)removeLoginUserFromList{
+    __block User *loginUser = nil;
+    [self.list enumerateObjectsUsingBlock:^(User * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.global_key isEqualToString:[Login curLoginUser].global_key] ||
+            [obj.id isEqualToNumber:[Login curLoginUser].id]) {
+            loginUser = obj;
+        }
+    }];
+    if (loginUser) {
+        [self.list removeObject:loginUser];
     }
 }
 

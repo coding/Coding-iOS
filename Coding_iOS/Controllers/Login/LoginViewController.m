@@ -25,6 +25,462 @@
 
 #import <UMSocialCore/UMSocialCore.h>
 
+#ifdef Target_Enterprise
+
+typedef NS_ENUM(NSUInteger, LoginStep) {
+    LoginStepCompany = 0,
+    LoginStepPassword,
+    LoginStep2FA,
+};
+
+@interface LoginViewController ()
+@property (strong, nonatomic) TPKeyboardAvoidingTableView *myTableView;
+@property (strong, nonatomic) UIButton *backBtn, *rightNavBtn, *nextBtn, *cannotLoginBtn;
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+
+@property (assign, nonatomic) LoginStep step;
+@property (nonatomic, strong) Login *myLogin;
+@property (strong, nonatomic) NSString *otpCode;
+@property (assign, nonatomic) BOOL captchaNeeded;
+@property (assign, nonatomic, readonly) BOOL isPrivateCloud;
+@end
+
+
+@implementation LoginViewController
+
+#pragma mark Life
+- (void)viewDidLoad{
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    self.title = @"登录";
+    if (_step == LoginStepCompany) {
+        self.myLogin.company = self.isPrivateCloud? [NSObject privateCloud]: ([Login curLoginCompany].global_key ?: [NSObject baseCompany]);
+        [self addChangeBaseURLGesture];
+    }else if (_step == LoginStepPassword){
+        self.myLogin.email = [Login preUserEmail];
+        [self refreshCaptchaNeeded];
+    }else if (_step == LoginStep2FA){
+        self.otpCode = [OTPListViewController otpCodeWithGK:self.myLogin.email];
+        if (self.otpCode) {//发送登录请求
+            [self loginBtnClicked];
+        }
+    }
+    self.myTableView.tableHeaderView = [self customHeaderView];
+    self.myTableView.tableFooterView=[self customFooterView];
+    [self.navigationController addFullscreenPopGesture];
+    [self setupNavBtn];
+    
+#if DEBUG
+    if (self.isPrivateCloud) {
+        self.myLogin.email = @"ce-admin";
+        self.myLogin.company = @"http://pd.codingprod.net";
+        self.myLogin.password = @"123123";
+    }
+#endif
+}
+
+
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.myTableView reloadData];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.view endEditing:YES];
+}
+
+- (void)setupNavBtn{
+    if (_step > LoginStepCompany || self.showDismissButton) {
+        [self backBtn];
+    }
+    [self rightNavBtn];
+}
+
+- (void)refreshCaptchaNeeded{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_CaptchaNeededWithPath:@"api/captcha/login" andBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.captchaNeeded = ((NSNumber *)data).boolValue;
+        }
+    }];
+}
+
+#pragma mark Get Set
+- (Login *)myLogin{
+    if (!_myLogin) {
+        _myLogin = [Login new];
+    }
+    return _myLogin;
+}
+
+- (BOOL)isPrivateCloud{
+    return [NSObject isPrivateCloud].boolValue;
+}
+
+- (void)setCaptchaNeeded:(BOOL)captchaNeeded{
+    _captchaNeeded = captchaNeeded;
+    if (!captchaNeeded) {
+        self.myLogin.j_captcha = nil;
+    }
+    [self.myTableView reloadData];
+}
+
+- (TPKeyboardAvoidingTableView *)myTableView{
+    if (!_myTableView) {
+        _myTableView = ({
+            TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+            [tableView registerClass:[Login2FATipCell class] forCellReuseIdentifier:kCellIdentifier_Login2FATipCell];
+            [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Text];
+            [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Captcha];
+            [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Company];
+            tableView.backgroundColor = [UIColor whiteColor];
+            tableView.dataSource = self;
+            tableView.delegate = self;
+            tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+            [self.view addSubview:tableView];
+            [tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.edges.equalTo(self.view);
+            }];
+            tableView;
+        });
+    }
+    return _myTableView;
+}
+
+- (UIButton *)backBtn{
+    if (!_backBtn) {
+        _backBtn = ({
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, kSafeArea_Top, 44, 44)];
+            [button setImage:[UIImage imageNamed:@"back_green_Nav"] forState:UIControlStateNormal];
+            [button addTarget:self action:@selector(backBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+            [self.view addSubview:button];
+            button;
+        });
+    }
+    return _backBtn;
+}
+
+- (UIButton *)rightNavBtn{
+    if (!_rightNavBtn) {
+        if (!_rightNavBtn) {
+            _rightNavBtn = ({
+                UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 130, kSafeArea_Top, 120, 50)];
+                button.backgroundColor = [UIColor whiteColor];
+                [button.titleLabel setFont:[UIFont systemFontOfSize:15]];
+                [button setTitleColor:[UIColor colorWithHexString:@"0x32BE77"] forState:UIControlStateNormal];
+                [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
+                [button addTarget:self action:@selector(rightNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+                [self.view addSubview:button];
+                button;
+            });
+        }
+        if (_step == LoginStep2FA) {
+            [_rightNavBtn setTitle:@"关闭两步验证" forState:UIControlStateNormal];
+            [_rightNavBtn setImage:nil forState:UIControlStateNormal];
+            _rightNavBtn.hidden = [NSObject isPrivateCloud].boolValue;
+        }else{
+            [_rightNavBtn setTitle:@"  两步验证" forState:UIControlStateNormal];
+            [_rightNavBtn setImage:[UIImage imageNamed:@"twoFABtn_Nav"] forState:UIControlStateNormal];
+        }
+    }
+    return _rightNavBtn;
+}
+
+- (UIActivityIndicatorView *)activityIndicator{
+    if (!_activityIndicator) {
+        _activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle: UIActivityIndicatorViewStyleWhite];
+        _activityIndicator.hidesWhenStopped = YES;
+        [_nextBtn addSubview:_activityIndicator];
+    }
+    [_activityIndicator setCenter:CGPointMake(_nextBtn.width/2 - 40, _nextBtn.height/2)];
+    return _activityIndicator;
+}
+
+#pragma mark - Table Header Footer
+- (UIView *)customHeaderView{
+    UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 44 + (_step == LoginStepPassword? 100: 60))];
+    UILabel *headerL = [UILabel labelWithSystemFontSize:28 textColorHexString:@"0x272C33"];
+    if (_step == LoginStepPassword) {
+        [headerL ea_setText:[NSString stringWithFormat:@"登录到\n%@", [NSURL URLWithString:[NSObject baseURLStr]].host] lineSpacing:5];
+    }else{
+        headerL.text = (_step == LoginStepCompany? (self.isPrivateCloud? @"私有部署账号登录":
+                                                    @"企业账号登录"):
+                        @"两步验证");
+    }
+    [headerV addSubview:headerL];
+    [headerL mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(headerV).offset(20);
+        make.bottom.equalTo(headerV);
+        make.height.mas_equalTo(_step == LoginStepPassword? 80: 40);
+    }];
+    return headerV;
+}
+
+- (UIView *)customFooterView{
+    UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 100)];
+    _nextBtn = ({
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kLoginPaddingLeftWidth, (_step == LoginStepPassword? 50: 25), kScreen_Width-kLoginPaddingLeftWidth*2, 50)];
+        button.backgroundColor = kColorDark4;
+        button.titleLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightMedium];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [button setTitle:(_step == LoginStepCompany? @"下一步": @"登录") forState:UIControlStateNormal];
+        button.layer.masksToBounds = YES;
+        button.layer.cornerRadius = 2.0;
+        [button addTarget:self action:@selector(loginBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+        [footerV addSubview:button];
+        button;
+    });
+    [RACObserve(self, nextBtn.enabled) subscribeNext:^(NSNumber *x) {
+        [self.nextBtn setTitleColor:[UIColor colorWithWhite:1.0 alpha:x.boolValue? 1.0: .5] forState:UIControlStateNormal];
+    }];
+    RAC(self, nextBtn.alpha) = [RACObserve(self, nextBtn.enabled) map:^id(NSNumber *value) {
+        return @(value.boolValue? 1.0: .99);
+    }];
+    if (_step == LoginStepCompany) {
+        RAC(self, nextBtn.enabled) = [RACObserve(self, myLogin.company) map:^id(NSString *value) {
+            return @(value.length > 0);
+        }];
+    }else if (_step == LoginStepPassword){
+        _cannotLoginBtn = ({
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 120, 10, 100, 30)];
+            button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+            [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
+            [button setTitleColor:kColorBrandGreen forState:UIControlStateNormal];
+            [button setTitle:@"忘记密码？" forState:UIControlStateNormal];
+            [button addTarget:self action:@selector(cannotLoginBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+            [footerV addSubview:button];
+            button;
+        });
+        RAC(self, nextBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, myLogin.email),
+                                                                RACObserve(self, myLogin.password),
+                                                                RACObserve(self, myLogin.j_captcha),
+                                                                RACObserve(self, captchaNeeded)]
+                                                       reduce:^id(NSString *email,
+                                                                  NSString *password,
+                                                                  NSString *j_captcha,
+                                                                  NSNumber *captchaNeeded){
+                                                           return @(email.length > 0 && password.length > 0 && (j_captcha.length > 0 || !captchaNeeded.boolValue));
+                                                       }];
+    }else if (_step == LoginStep2FA){
+        RAC(self, nextBtn.enabled) = [RACObserve(self, otpCode) map:^id(NSString *value) {
+            return @(value.length > 0);
+        }];
+    }
+    return footerV;
+}
+
+#pragma mark - Table Data
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return (_step == LoginStepCompany? 1:
+            _step == LoginStepPassword? (_captchaNeeded? 3: 2):
+            _step == LoginStep2FA? 2:
+            0);
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSInteger row = indexPath.row;
+    if (_step == LoginStep2FA && row == 0) {
+        Login2FATipCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Login2FATipCell forIndexPath:indexPath];
+        cell.tipLabel.text = @"您的账户开启了两步验证，请输入动态验证码登录";
+        return cell;
+    }else{
+        NSString *identifier = (_step == LoginStepCompany? (self.isPrivateCloud? kCellIdentifier_Input_OnlyText_Cell_Text:
+                                                            kCellIdentifier_Input_OnlyText_Cell_Company):
+                                _step == LoginStepPassword? (row < 2? kCellIdentifier_Input_OnlyText_Cell_Text:
+                                                             kCellIdentifier_Input_OnlyText_Cell_Captcha):
+                                kCellIdentifier_Input_OnlyText_Cell_Text);
+        Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+        cell.isBottomLineShow = YES;
+        __weak typeof(self) weakSelf = self;
+        if (_step == LoginStepCompany) {
+            [cell setPlaceholder:self.isPrivateCloud? @" 请输入私有部署域名": @" 请输入企业域名前缀" value:self.myLogin.company];
+            if (!self.isPrivateCloud) {
+                cell.companySuffixL.text = [NSString stringWithFormat:@".%@", [NSObject baseCompanySuffixStr]];
+            }else{
+                cell.textField.keyboardType = UIKeyboardTypeURL;
+            }
+            cell.textValueChangedBlock = ^(NSString *valueStr){
+                weakSelf.myLogin.company = valueStr;
+            };
+        }else if (_step == LoginStepPassword){
+            if (row == 0) {
+                cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
+                [cell setPlaceholder:@" 邮箱或用户名" value:self.myLogin.email];
+                cell.textValueChangedBlock = ^(NSString *valueStr){
+                    weakSelf.myLogin.email = valueStr;
+                };
+            }else if (row == 1){
+                [cell setPlaceholder:@" 密码" value:self.myLogin.password];
+                cell.textField.secureTextEntry = YES;
+                cell.textValueChangedBlock = ^(NSString *valueStr){
+                    weakSelf.myLogin.password = valueStr;
+                };
+            }else{
+                [cell setPlaceholder:@" 验证码" value:self.myLogin.j_captcha];
+                cell.textValueChangedBlock = ^(NSString *valueStr){
+                    weakSelf.myLogin.j_captcha = valueStr;
+                };
+            }
+        }else if (_step == LoginStep2FA){
+            cell.textField.keyboardType = UIKeyboardTypeNumberPad;
+            [cell setPlaceholder:@" 动态验证码" value:self.otpCode];
+            cell.textValueChangedBlock = ^(NSString *valueStr){
+                weakSelf.otpCode = valueStr;
+            };
+        }
+        return cell;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 65.0;
+}
+
+#pragma mark Btn Clicked
+
+- (void)backBtnClicked{
+    if (self.navigationController.viewControllers.count > 1) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+- (void)rightNavBtnClicked{
+    if (_step == LoginStep2FA) {
+        __weak typeof(self) weakSelf = self;
+        UIViewController *vc = [Close2FAViewController vcWithPhone:self.myLogin.email sucessBlock:^(UIViewController *vc) {
+            [weakSelf.navigationController popToViewController:weakSelf.navigationController.viewControllers[1] animated:YES];
+        }];
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        OTPListViewController *vc = [OTPListViewController new];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (void)cannotLoginBtnClicked{
+    UIViewController *vc = [CannotLoginViewController vcWithMethodType:CannotLoginMethodEamil stepIndex:1 userStr:[self.myLogin.email isEmail]? self.myLogin.email: nil];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)loginBtnClicked{
+    [self.view endEditing:YES];
+    [self.activityIndicator startAnimating];
+    _nextBtn.enabled = NO;
+    __weak typeof(self) weakSelf = self;
+    void (^endLoadingBlock)() = ^(){
+        [weakSelf.activityIndicator stopAnimating];
+        weakSelf.nextBtn.enabled = YES;
+    };
+    if (_step == LoginStepCompany) {
+        [NSObject changeBaseCompanyTo:self.myLogin.company];
+        [[Coding_NetAPIManager sharedManager] request_CompanyExist:[NSObject baseCompany] andBlock:^(id data, NSError *error) {
+            endLoadingBlock();
+            if (error) {
+                if (error.code == 1){//企业不存在
+                    [NSObject showHudTipStr:weakSelf.isPrivateCloud? @"请正确填写私有部署域名": @"请正确填写企业域名"];
+                }else{
+                    [NSObject showError:error];
+                }
+            }else{
+                [weakSelf goToNextStep];
+            }
+        }];
+    }else if (_step == LoginStepPassword){
+        [[Coding_NetAPIManager sharedManager] request_Login_WithPath:[self.myLogin toPath] Params:[self.myLogin toParams] andBlock:^(id data, NSError *error) {
+            endLoadingBlock();
+            if (data) {
+                [Login setPreUserEmail:weakSelf.myLogin.email];//记住登录账号
+                [((AppDelegate *)[UIApplication sharedApplication].delegate) setupTabViewController];
+            }else{
+                NSString *global_key = error.userInfo[@"msg"][@"two_factor_auth_code_not_empty"];
+                if (global_key.length > 0) {
+                    weakSelf.myLogin.email = global_key;
+                    [weakSelf goToNextStep];
+                }else if (error.userInfo[@"msg"][@"user_need_activate"]){
+                    [NSObject showError:error];
+                    ActivateViewController *vc = [ActivateViewController new];
+                    [self.navigationController pushViewController:vc animated:YES];
+                }else{
+                    [NSObject showError:error];
+                    [weakSelf refreshCaptchaNeeded];
+                }
+            }
+        }];
+    }else if (_step == LoginStep2FA){
+        [[Coding_NetAPIManager sharedManager] request_Login_With2FA:self.otpCode andBlock:^(id data, NSError *error) {
+            endLoadingBlock();
+            if (data) {
+                [Login setPreUserEmail:self.myLogin.email];//记住登录账号
+                [((AppDelegate *)[UIApplication sharedApplication].delegate) setupTabViewController];
+            }else{
+                NSString *status_expired = error.userInfo[@"msg"][@"user_login_status_expired"];
+                if (status_expired.length > 0) {//登录状态过期了，返回上个页面重新密码登录
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }
+            }
+        }];
+    }else{
+        endLoadingBlock();
+    }
+}
+
+- (void)goToNextStep{
+    LoginViewController *vc = [LoginViewController new];
+    vc.myLogin = _myLogin;
+    vc.step = _step + 1;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark 切换服务器手势 - 不停地 tap
+
+- (void)addChangeBaseURLGesture{
+    @weakify(self);
+    UITapGestureRecognizer *tapGR = [UITapGestureRecognizer bk_recognizerWithHandler:^(UIGestureRecognizer *sender, UIGestureRecognizerState state, CGPoint location) {
+        @strongify(self);
+        if (state == UIGestureRecognizerStateRecognized) {
+            [self changeBaseURLTip];
+        }
+    }];
+    tapGR.numberOfTapsRequired = 10.0;
+    [self.view addGestureRecognizer:tapGR];
+}
+
+- (void)changeBaseURLTip{
+    if ([UIDevice currentDevice].systemVersion.integerValue < 8) {
+        [NSObject showHudTipStr:@"需要 8.0 以上系统才能切换服务器地址"];
+        return;
+    }
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"更改服务器 URL" message:@"空白值可切换回生产环境\n" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *cancelA = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    __weak typeof(self) weakSelf = self;
+    UIAlertAction *confirmA = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        NSString *newBaseCompanySuffixStr = alertCtrl.textFields[0].text;
+        if ([newBaseCompanySuffixStr.uppercaseString isEqualToString:@"S"]) {
+            newBaseCompanySuffixStr = @"coding.codingprod.net";
+        }
+        [NSObject changeBaseCompanySuffixStrTo:newBaseCompanySuffixStr];
+        [weakSelf.myTableView reloadData];
+    }];
+    [alertCtrl addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"CODING 服务器地址";
+        textField.text = [NSObject baseCompanySuffixStr];
+    }];
+    [alertCtrl addAction:cancelA];
+    [alertCtrl addAction:confirmA];
+    [self presentViewController:alertCtrl animated:YES completion:nil];
+}
+
+@end
+
+#else
+
+
 @interface LoginViewController ()
 @property (nonatomic, strong) Login *myLogin;
 
@@ -58,21 +514,21 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
+    
     self.myLogin = [[Login alloc] init];
     self.myLogin.email = [Login preUserEmail];
     _captchaNeeded = NO;
     self.view.backgroundColor = kColorWhite;
     [self.navigationController.navigationBar setupClearBGStyle];
-
+    
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         [tableView registerClass:[Login2FATipCell class] forCellReuseIdentifier:kCellIdentifier_Login2FATipCell];
         [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Text];
         [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Captcha];
-
-//        tableView.backgroundView = self.bgBlurredView;
+        
+        //        tableView.backgroundView = self.bgBlurredView;
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -93,7 +549,7 @@
     [self buttonFor2FA];
     
     [self refreshCaptchaNeeded];
-//    [self refreshIconUserImage];
+    //    [self refreshIconUserImage];
 }
 
 - (UIButton *)buttonFor2FA{
@@ -175,7 +631,7 @@
             tipsView.selectedStringBlock = ^(NSString *valueStr){
                 [weakSelf.view endEditing:YES];
                 weakSelf.myLogin.email = valueStr;
-//                [weakSelf refreshIconUserImage];
+                //                [weakSelf refreshIconUserImage];
                 [weakSelf.myTableView reloadData];
             };
             UITableViewCell *cell = [_myTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -223,7 +679,7 @@
     }
     
     Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:(indexPath.row > 1? kCellIdentifier_Input_OnlyText_Cell_Captcha: kCellIdentifier_Input_OnlyText_Cell_Text) forIndexPath:indexPath];
-//    cell.isForLoginVC = YES;
+    //    cell.isForLoginVC = YES;
     cell.isBottomLineShow = YES;
     __weak typeof(self) weakSelf = self;
     if (self.is2FAUI) {
@@ -240,7 +696,7 @@
                 weakSelf.inputTipsView.valueStr = valueStr;
                 weakSelf.inputTipsView.active = YES;
                 weakSelf.myLogin.email = valueStr;
-//                [weakSelf refreshIconUserImage];
+                //                [weakSelf refreshIconUserImage];
             };
             cell.editDidBeginBlock = ^(NSString *valueStr){
                 weakSelf.inputTipsView.valueStr = valueStr;
@@ -331,7 +787,7 @@
         button.tintColor = kColorDark2;
         [button setTitle:@"  微信登录" forState:UIControlStateNormal];
         [button setImage:[UIImage imageNamed:@"login_wechat"] forState:UIControlStateNormal];
-
+        
         [footerV addSubview:button];
         [button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(100, 30));
@@ -359,7 +815,7 @@
         button;
     });
     [cannotLoginBtn addTarget:self action:@selector(cannotLoginBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-
+    
     return footerV;
 }
 
@@ -367,7 +823,7 @@
 - (void)configBottomView{
     if (!_bottomView) {
         _bottomView = [UIView new];
-
+        
         UIButton *registerBtn = ({
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
             [button.titleLabel setFont:[UIFont systemFontOfSize:15]];
@@ -467,7 +923,7 @@
             }
         }];
         [alertView show];
-
+        
     }
 }
 - (void)sendActivateEmail{
@@ -570,7 +1026,7 @@
 
 - (void)p_thridPlatformLogin:(UMSocialResponse *)resp{
     [self.view endEditing:YES];
-
+    
     __weak typeof(self) weakSelf = self;
     [NSObject showHUDQueryStr:@"正在登录..."];
     [[Coding_NetAPIManager sharedManager] request_Login_With_UMSocialResponse:resp andBlock:^(id data, NSError *error) {
@@ -598,3 +1054,6 @@
 }
 
 @end
+
+#endif
+

@@ -14,7 +14,9 @@
 @implementation CodingNetAPIClient
 
 static CodingNetAPIClient *_sharedClient = nil;
+static CodingNetAPIClient *_eClient = nil;
 static dispatch_once_t onceToken;
+static dispatch_once_t e_Token;
 
 + (CodingNetAPIClient *)sharedJsonClient {
     dispatch_once(&onceToken, ^{
@@ -26,6 +28,23 @@ static dispatch_once_t onceToken;
 + (id)changeJsonClient{
     _sharedClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:[NSObject baseURLStr]]];
     return _sharedClient;
+}
+
++ (id)changeSharedJsonClient{
+    _sharedClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:[NSObject baseURLStr]]];
+    return _sharedClient;
+}
+
++ (CodingNetAPIClient *)e_JsonClient {
+    dispatch_once(&e_Token, ^{
+        _eClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:[NSObject e_URLStr]]];
+    });
+    return _eClient;
+}
+
++ (id)changeE_JsonClient{
+    _eClient = [[CodingNetAPIClient alloc] initWithBaseURL:[NSURL URLWithString:[NSObject e_URLStr]]];
+    return _eClient;
 }
 
 - (id)initWithBaseURL:(NSURL *)url {

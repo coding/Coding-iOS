@@ -298,7 +298,7 @@
     if (handleStatus) {//弹出提示给用户选择
         UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"已发送" message:@"是否需要返回原来应用？"];
         [alertV bk_setCancelButtonWithTitle:@"返回原应用" handler:nil];
-        [alertV bk_addButtonWithTitle:@"留在 Coding" handler:nil];
+        [alertV bk_addButtonWithTitle:@"留在 CODING" handler:nil];
         alertV.bk_didDismissBlock = ^(UIAlertView *alertView, NSInteger buttonIndex){
             if (buttonIndex == 0) {//
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:schemeStr]];

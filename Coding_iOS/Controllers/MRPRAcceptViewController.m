@@ -157,7 +157,8 @@ _curMRPR.author.name,
         make.right.offset(-kPaddingLeftWidth);
         make.centerY.equalTo(footerV);
         make.height.mas_equalTo(44);
-    }];    return footerV;
+    }];
+    return footerV;
 }
 
 - (void)mergeBtnClicked:(id)sender{

@@ -7,8 +7,6 @@
 //
 #import <QuickLook/QuickLook.h>
 #import "BaseViewController.h"
-#import "ProjectFolder.h"
-#import "ProjectFolders.h"
 #import "ProjectFile.h"
 #import "FileVersion.h"
 

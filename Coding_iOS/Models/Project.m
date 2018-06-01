@@ -78,6 +78,9 @@
     return person;
 }
 
+- (NSString *)owner_user_name{
+    return _owner_user_name ?: [NSObject baseCompany];
+}
 
 - (void)setFull_name:(NSString *)full_name{
     _full_name = full_name;
@@ -106,7 +109,7 @@
 }
 
 -(NSString *)toProjectPath{
-    return @"api/project";
+    return kTarget_Enterprise? [NSString stringWithFormat:@"api/team/%@/project", [NSObject baseCompany]]: @"api/project";
 }
 
 -(NSDictionary *)toCreateParams{
@@ -117,20 +120,34 @@
     }else{
         type = @"2";
     }
-    
-    return @{@"name":self.name,
-             @"description":self.description_mine,
-             @"type":type,
-             @"gitEnabled":@"true",
-             @"gitReadmeEnabled": _gitReadmeEnabled.boolValue? @"true": @"false",
-             @"gitIgnore":@"no",
-             @"gitLicense":@"no",
-             //             @"importFrom":@"no",
-             @"vcsType":@"git"};
+    if (kTarget_Enterprise) {
+        return @{@"name":self.name,
+                 @"description":self.description_mine,
+                 @"type":type,
+                 @"gitEnabled":@"true",
+                 @"gitReadmeEnabled": _gitReadmeEnabled.boolValue? @"true": @"false",
+                 @"gitIgnore":@"no",
+                 @"gitLicense":@"no",
+                 //             @"importFrom":@"no",
+                 @"vcsType":@"git",
+                 @"teamGK": [NSObject baseCompany],
+                 @"joinTeam": @"true",
+                 };
+    }else{
+        return @{@"name":self.name,
+                 @"description":self.description_mine,
+                 @"type":type,
+                 @"gitEnabled":@"true",
+                 @"gitReadmeEnabled": _gitReadmeEnabled.boolValue? @"true": @"false",
+                 @"gitIgnore":@"no",
+                 @"gitLicense":@"no",
+                 //             @"importFrom":@"no",
+                 @"vcsType":@"git"};
+    }
 }
 
 -(NSString *)toUpdatePath{
-    return [self toProjectPath];
+    return @"api/project";
 }
 
 -(NSDictionary *)toUpdateParams{
@@ -146,11 +163,19 @@
 }
 
 -(NSString *)toDeletePath{
-    return [NSString stringWithFormat:@"api/user/%@/project/%@",self.owner_user_name, self.name];
+    if (kTarget_Enterprise) {
+        return [NSString stringWithFormat:@"api/team/%@/project/%@/delete", [Login curLoginCompany].global_key, _id];
+    }else{
+        return [NSString stringWithFormat:@"api/user/%@/project/%@",self.owner_user_name, self.name];
+    }
 }
 
 - (NSString *)toArchivePath{
-    return [NSString stringWithFormat:@"api/project/%@/archive", self.id];
+    if (kTarget_Enterprise) {
+        return [NSString stringWithFormat:@"api/team/%@/project/%@/archive", [Login curLoginCompany].global_key, self.id];
+    }else{
+        return [NSString stringWithFormat:@"api/project/%@/archive", self.id];
+    }
 }
 
 - (NSString *)toMembersPath{
@@ -190,7 +215,12 @@
 //}
 
 - (NSURL *)remoteURL{
-    NSURL *remoteURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://git.coding.net/%@/%@.git", self.owner_user_name, self.name]];
+    NSURL *remoteURL;
+    if (kTarget_Enterprise) {
+        remoteURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@/%@.git", [NSObject e_URLStr], self.owner_user_name, self.name]];
+    }else{
+        remoteURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://git.coding.net/%@/%@.git", self.owner_user_name, self.name]];
+    }
     return remoteURL;
 }
 - (NSURL *)localURL{

@@ -183,7 +183,7 @@
                                [KxMenuItem menuItem:@"全部标注已读" image:[UIImage imageNamed:@"tips_menu_icon_mkread"] target:self action:@selector(p_markReadAll)],
                                ];
         [menuItems setValue:kColorDark4 forKey:@"foreColor"];
-        CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 0, 0, 0);
+        CGRect senderFrame = CGRectMake(kScreen_Width - (kDevice_Is_iPhone6Plus? 30: 26), 5, 0, 0);
         [KxMenu showMenuInView:self.view
                       fromRect:senderFrame
                      menuItems:menuItems];
@@ -227,7 +227,12 @@
     NSString *linkStr = item.href;
     UIViewController *vc = [BaseViewController analyseVCFromLinkStr:linkStr];
     if (vc) {
-        [self.navigationController pushViewController:vc animated:YES];
+        if ([vc isKindOfClass:NSClassFromString(@"TeamViewController")] &&
+            ![Login curLoginUser].isAdministrator.boolValue) {
+            [NSObject showHudTipStr:@"无权访问企业账户"];
+        }else{
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }else{
         //网页
         WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];

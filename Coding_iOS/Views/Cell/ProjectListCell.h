@@ -11,9 +11,12 @@
 #import <UIKit/UIKit.h>
 #import "Projects.h"
 #import "SWTableViewCell.h"
+#import "ProjectRole.h"
 
 @interface ProjectListCell : SWTableViewCell
+@property (assign, nonatomic) BOOL hasDeleteBtn;
 - (void)setProject:(Project *)project hasSWButtons:(BOOL)hasSWButtons hasBadgeTip:(BOOL)hasBadgeTip hasIndicator:(BOOL)hasIndicator;
+- (void)setProjectRole:(ProjectRole *)curRole;
 
 + (CGFloat)cellHeight;
 

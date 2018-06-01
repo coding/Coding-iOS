@@ -112,10 +112,17 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    //用 cell 去拿数据，特么很迷啊。。
     ReviewCell *currentCell = [tableView cellForRowAtIndexPath:indexPath];
-    UserInfoViewController *vc = [[UserInfoViewController alloc] init];
-    vc.curUser = currentCell.user;
-    [self.navigationController pushViewController:vc animated:YES];
+    if (kTarget_Enterprise) {
+        UserInfoDetailViewController *vc = [UserInfoDetailViewController new];
+        vc.curUser = currentCell.user;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+        vc.curUser = currentCell.user;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark SWTableViewCellDelegate

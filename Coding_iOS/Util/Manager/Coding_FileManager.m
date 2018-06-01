@@ -7,6 +7,8 @@
 //
 
 #import "Coding_FileManager.h"
+#import "Login.h"
+#import "CodingNetAPIClient.h"
 
 @interface Coding_FileManager ()<DirectoryWatcherDelegate>
 
@@ -64,14 +66,21 @@
 
 + (NSString *)downloadPath{
     NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *downloadPath = [documentPath stringByAppendingPathComponent:@"Coding_Download"];
+    NSString *pathComponent = kTarget_Enterprise? [NSString stringWithFormat:@"%@_Coding_Download", [self p_loginPrefix]]: @"Coding_Download";
+    NSString *downloadPath = [documentPath stringByAppendingPathComponent:pathComponent];
     return downloadPath;
 }
 
 + (NSString *)uploadPath{
     NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *uploadPath = [documentPath stringByAppendingPathComponent:@"Coding_Upload"];
+    NSString *pathComponent = kTarget_Enterprise? [NSString stringWithFormat:@"%@_Coding_Upload", [self p_loginPrefix]]: @"Coding_Upload";
+    NSString *uploadPath = [documentPath stringByAppendingPathComponent:pathComponent];
     return uploadPath;
+}
+
++ (NSString *)p_loginPrefix{
+    NSString *loginPrefix = [NSString stringWithFormat:@"%@_%@", [NSObject baseCompany], [Login curLoginUser].global_key ?: @""];
+    return loginPrefix;
 }
 
 + (BOOL)createFolder:(NSString *)path{
@@ -178,6 +187,8 @@
             [Coding_FileManager cancelCDownloadTaskForKey:storage_key];
         }else{
             [Coding_FileManager cancelCDownloadTaskForResponse:response];
+            
+            [MobClick event:kUmeng_Event_File label:@"文件_下载成功"];
         }
         if (completionHandler) {
             completionHandler(response, filePath, error);
@@ -216,11 +227,90 @@
     NSString *filePath = [[self uploadPath] stringByAppendingPathComponent:fileName];
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:filePath]) {
-        return [fm removeItemAtPath:fileName error:nil];
+        return [fm removeItemAtPath:filePath error:nil];
     }else{
         return YES;
     }
 }
+
+
+- (void)addUploadTaskWithFileName:(NSString *)fileName isQuick:(BOOL)isQuick resultBlock:(void (^)(Coding_UploadTask *uploadTask))block{
+    Coding_UploadParams *base_params = [Coding_UploadParams instanceWithFileName:fileName];
+    if (!base_params) {
+        block(nil);
+        return;
+    }
+    __weak typeof(self) weakSelf = self;
+    [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/upload_token" withParams:[base_params toTokenParams] withMethodType:Get andBlock:^(id data, NSError *error) {
+        if (data) {
+            Coding_UploadParams *params = [NSObject objectOfClass:@"Coding_UploadParams" fromJSON:data[@"data"]];
+            [params configWithFileName:fileName];
+            params.isQuick = isQuick;
+            block([weakSelf p_addUploadTaskWithParams:params]);
+        }
+    }];
+}
+
+- (Coding_UploadTask *)p_addUploadTaskWithParams:(Coding_UploadParams *)params{
+    NSString *fileName = params.fullName;
+    NSString *name = params.fileName;
+    NSURL *filePathUrl = [params filePathUrl];
+    
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"POST" URLString:@"https://up.qbox.me/" parameters:[params toUploadParams] constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileURL:filePathUrl name:@"file" fileName:name mimeType:@"image/jpeg, image/png, image/gif" error:nil];
+    } error:nil];
+    
+    [MobClick event:kUmeng_Event_Request_ActionOfServer label:@"上传文件"];
+    
+    NSProgress *progress = nil;
+    NSURLSessionUploadTask *uploadTask = [self.af_manager uploadTaskWithStreamedRequest:request progress:&progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        Coding_FileManager *manager = [Coding_FileManager sharedManager];
+        if (!error) {
+            error = [manager handleResponse:responseObject];
+        }
+        response = response? response: [[NSURLResponse alloc] init];
+        if (error){
+            [NSObject showError:error];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUploadCompled object:manager userInfo:@{@"response" : response,
+                                                                                                                            @"error" : error}];
+        }else if (responseObject) {
+            [MobClick event:kUmeng_Event_File label:@"文件_上传成功"];
+            
+            responseObject = [responseObject valueForKey:@"data"];
+            
+            if ([responseObject isKindOfClass:[NSString class]]) {
+                //处理completionHandler
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUploadCompled object:manager userInfo:@{@"response" : response,
+                                                                                                                                @"data" : responseObject}];
+            }else{
+                ProjectFile *curFile = [NSObject objectOfClass:@"ProjectFile" fromJSON:responseObject];
+                NSString *block_fileName = [NSString stringWithFormat:@"%@|||%@|||%@", curFile.project_id.stringValue, curFile.parent_id.stringValue, curFile.name];
+                NSString *block_filePath = [[[manager class] uploadPath] stringByAppendingPathComponent:block_fileName];
+                
+                //移动文件到已下载
+                NSString *diskFilePath = [[[manager class] downloadPath] stringByAppendingPathComponent:curFile.diskFileName];
+                [[NSFileManager defaultManager] moveItemAtPath:block_filePath toPath:diskFilePath error:nil];
+                [manager directoryDidChange:manager.docUploadWatcher];
+                [manager directoryDidChange:manager.docDownloadWatcher];
+                DebugLog(@"upload_fileName------\n%@", block_fileName);
+                
+                //移除任务
+                [Coding_FileManager cancelCUploadTaskForFile:block_fileName hasError:(error != nil)];
+                
+                //处理completionHandler
+                [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUploadCompled object:manager userInfo:@{@"response" : response,
+                                                                                                                                @"data" : curFile}];
+            }
+        }
+    }];
+    
+    [uploadTask resume];
+    Coding_UploadTask *cUploadTask = [Coding_UploadTask cUploadTaskWithTask:uploadTask progress:progress fileName:fileName];
+    [self.uploadDict setObject:cUploadTask forKey:fileName];
+    
+    return cUploadTask;
+}
+
 - (Coding_UploadTask *)addUploadTaskWithFileName:(NSString *)fileName projectIsPublic:(BOOL)is_public{
     if (!fileName) {
         return nil;
@@ -402,6 +492,61 @@
         (self.task.state == NSURLSessionTaskStateRunning || self.task.state == NSURLSessionTaskStateSuspended)) {
         [self.task cancel];
     }
+}
+
+@end
+
+@implementation Coding_UploadParams
+
++ (instancetype)instanceWithFileName:(NSString *)fileName{
+    if ([fileName componentsSeparatedByString:@"|||"].count != 3 ||
+        ![[NSFileManager defaultManager] fileExistsAtPath:[[Coding_FileManager uploadPath] stringByAppendingPathComponent:fileName]]) {
+        return nil;
+    }
+    Coding_UploadParams *params = [self new];
+    [params configWithFileName:fileName];
+    return params;
+}
+
+- (void)configWithFileName:(NSString *)fileName{
+    NSArray *fileInfos = [fileName componentsSeparatedByString:@"|||"];
+    if (fileInfos.count == 3) {
+        NSString *filePath = [[Coding_FileManager uploadPath] stringByAppendingPathComponent:fileName];
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if ([fileManager fileExistsAtPath:filePath]) {
+            _fullName = fileName;
+            _projectId = fileInfos[0];
+            _dir = fileInfos[1];
+            _fileName = fileInfos[2];
+            _fileSize = @([fileManager attributesOfItemAtPath:filePath error:nil].fileSize);
+        }
+    }
+}
+
+- (NSDictionary *)toTokenParams{
+    return @{@"projectId": _projectId ?: @"",
+             @"fileName": _fileName ?: @"",
+             @"fileSize": _fileSize ?: @""};
+}
+
+- (NSURL *)filePathUrl{
+    NSString *filePath = [[Coding_FileManager uploadPath] stringByAppendingPathComponent:_fullName];
+    NSURL *filePathUrl = [NSURL fileURLWithPath:filePath];
+    return filePathUrl;
+}
+
+- (NSDictionary *)toUploadParams{
+    NSMutableDictionary *params = @{}.mutableCopy;
+    //    params[@"key"] = _fileName;
+    params[@"key"] = [NSString stringWithFormat:@"%@.%@", [NSUUID UUID].UUIDString, [_fileName componentsSeparatedByString:@"."].lastObject] ;
+    params[@"x:dir"] = _dir;
+    params[@"x:projectId"] = _projectId;
+    params[@"token"] = _uptoken;
+    params[@"x:time"] = _time;
+    params[@"x:authToken"] = _authToken;
+    params[@"x:userId"] = [Login curLoginUser].id;
+    params[@"x:folderType"] = params[@"folderType"] = _isQuick? @1: @0;
+    return params;
 }
 
 @end

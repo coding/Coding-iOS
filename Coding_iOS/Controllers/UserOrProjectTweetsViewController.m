@@ -207,24 +207,25 @@
 }
 
 - (void)sendRequest{
-       if (_curTweets.tweetType == TweetTypeUserSingle && _curTweets.curUser.name.length <= 0) {
+    if (_curTweets.tweetType == TweetTypeUserSingle && _curTweets.curUser.name.length <= 0) {
         [self refreshCurUser];
-        return;
-    }
-    
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_Tweets_WithObj:_curTweets andBlock:^(id data, NSError *error) {
-        [weakSelf.refreshControl endRefreshing];
-        [weakSelf.myTableView.infiniteScrollingView stopAnimating];
-        if (data) {
-            [weakSelf.curTweets configWithTweets:data];
-            [weakSelf.myTableView reloadData];
-            weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curTweets.canLoadMore;
-        }
-        [weakSelf.view configBlankPage:[weakSelf blankType] hasData:(weakSelf.curTweets.list.count > 0) hasError:(error != nil) offsetY:[weakSelf blankPageOffsetY] reloadButtonBlock:^(id sender) {
-            [weakSelf sendRequest];
+    }else if (_curTweets.tweetType == TweetTypeProject && ![_curTweets.curPro.id isKindOfClass:[NSNumber class]]){
+        [self refreshCurPro];
+    }else{
+        __weak typeof(self) weakSelf = self;
+        [[Coding_NetAPIManager sharedManager] request_Tweets_WithObj:_curTweets andBlock:^(id data, NSError *error) {
+            [weakSelf.refreshControl endRefreshing];
+            [weakSelf.myTableView.infiniteScrollingView stopAnimating];
+            if (data) {
+                [weakSelf.curTweets configWithTweets:data];
+                [weakSelf.myTableView reloadData];
+                weakSelf.myTableView.showsInfiniteScrolling = weakSelf.curTweets.canLoadMore;
+            }
+            [weakSelf.view configBlankPage:[weakSelf blankType] hasData:(weakSelf.curTweets.list.count > 0) hasError:(error != nil) offsetY:[weakSelf blankPageOffsetY] reloadButtonBlock:^(id sender) {
+                [weakSelf sendRequest];
+            }];
         }];
-    }];
+    }
 }
 
 - (CGFloat)blankPageOffsetY{//MeDisplayViewController
@@ -251,6 +252,21 @@
     }];
 }
 
+- (void)refreshCurPro{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_ProjectDetail_WithObj:_curTweets.curPro andBlock:^(id data, NSError *error) {
+        if (data) {
+            weakSelf.curTweets.curPro = data;
+            weakSelf.title = weakSelf.curTweets.curPro.name;
+            [weakSelf sendRequest];
+        }else{
+            [weakSelf.view endLoading];
+            [weakSelf.view configBlankPage:[weakSelf blankType] hasData:(weakSelf.curTweets.list.count > 0) hasError:YES offsetY:[weakSelf blankPageOffsetY] reloadButtonBlock:^(id sender) {
+                [weakSelf sendRequest];
+            }];
+        }
+    }];
+}
 
 #pragma mark TableM
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -297,9 +313,15 @@
         [weakSelf.myTableView reloadData];
     };
     cell.userBtnClickedBlock = ^(User *curUser){
-        UserInfoViewController *vc = [[UserInfoViewController alloc] init];
-        vc.curUser = curUser;
-        [self.navigationController pushViewController:vc animated:YES];
+        if (kTarget_Enterprise) {
+            UserInfoDetailViewController *vc = [UserInfoDetailViewController new];
+            vc.curUser = curUser;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+            vc.curUser = curUser;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     };
     cell.moreLikersBtnClickedBlock = ^(Tweet *curTweet){
         LikersViewController *vc = [[LikersViewController alloc] init];
@@ -338,6 +360,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
     Tweet *toTweet = [_curTweets.list objectAtIndex:indexPath.row];
     [self goToDetailWithTweet:toTweet];
 }

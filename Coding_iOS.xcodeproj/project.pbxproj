@@ -1028,7 +1028,6 @@
 		8EA6D1A119E240C40076D59C /* tipIcon_UserFollow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CFBC19E240C40076D59C /* tipIcon_UserFollow@2x.png */; };
 		8EA6D1A319E240C40076D59C /* tweet_comment_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CFBE19E240C40076D59C /* tweet_comment_btn@2x.png */; };
 		8EA6D1A819E240C40076D59C /* xtsegment_bordor_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CFC319E240C40076D59C /* xtsegment_bordor_left@2x.png */; };
-		8EA6D1AA19E240C40076D59C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CFC519E240C40076D59C /* Images.xcassets */; };
 		8EA6D1AB19E240C40076D59C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CFC619E240C40076D59C /* main.m */; };
 		8EA6D1AE19E240C40076D59C /* CodingTip.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CFCD19E240C40076D59C /* CodingTip.m */; };
 		8EA6D1AF19E240C40076D59C /* CodingTips.m in Sources */ = {isa = PBXBuildFile; fileRef = 8EA6CFCF19E240C40076D59C /* CodingTips.m */; };
@@ -1244,6 +1243,9 @@
 		B152ED94209453F3004A6E8A /* taskboard_add_page_unselected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B152ED8C209453F2004A6E8A /* taskboard_add_page_unselected@3x.png */; };
 		B152ED95209453F3004A6E8A /* taskboard_normal_page_unselected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B152ED8D209453F2004A6E8A /* taskboard_normal_page_unselected@3x.png */; };
 		B152ED96209453F3004A6E8A /* taskboard_normal_page_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B152ED8E209453F2004A6E8A /* taskboard_normal_page_unselected@2x.png */; };
+		B16E6CA020C0FDB50076026D /* logo_coding_top@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16E6C9F20C0FDB50076026D /* logo_coding_top@3x.png */; };
+		B16E6CA120C0FDB50076026D /* logo_coding_top@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16E6C9F20C0FDB50076026D /* logo_coding_top@3x.png */; };
+		B16E6CA320C102B60076026D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CFC519E240C40076D59C /* Images.xcassets */; };
 		B16EEF08208DDBB6005ABFD5 /* timeline_icon_read@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16EEF06208DDBB5005ABFD5 /* timeline_icon_read@3x.png */; };
 		B16EEF09208DDBB6005ABFD5 /* timeline_icon_unread@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16EEF07208DDBB6005ABFD5 /* timeline_icon_unread@3x.png */; };
 		B16EEF13209080D7005ABFD5 /* TaskBoardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B16EEF12209080D7005ABFD5 /* TaskBoardsViewController.m */; };
@@ -1378,6 +1380,31 @@
 		B1BFC4C520B2B250009427FC /* task_activity_icon_add_milestone@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BFC4C120B2B24E009427FC /* task_activity_icon_add_milestone@3x.png */; };
 		B1BFC4C620B2B250009427FC /* task_activity_icon_remove_milestone@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BFC4C220B2B24F009427FC /* task_activity_icon_remove_milestone@3x.png */; };
 		B1BFC4C720B2B250009427FC /* task_activity_icon_remove_milestone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1BFC4C320B2B250009427FC /* task_activity_icon_remove_milestone@2x.png */; };
+		B1C60C7A20BFA2150073D3CA /* NProjectFileListView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C7920BFA2150073D3CA /* NProjectFileListView.m */; };
+		B1C60C7B20BFA2150073D3CA /* NProjectFileListView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C7920BFA2150073D3CA /* NProjectFileListView.m */; };
+		B1C60C7E20BFCDBE0073D3CA /* EditMemberTypeProjectListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C7D20BFCDBD0073D3CA /* EditMemberTypeProjectListViewController.m */; };
+		B1C60C7F20BFCDBE0073D3CA /* EditMemberTypeProjectListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C7D20BFCDBD0073D3CA /* EditMemberTypeProjectListViewController.m */; };
+		B1C60C8220BFCEFD0073D3CA /* NFileListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C8020BFCEFD0073D3CA /* NFileListViewController.m */; };
+		B1C60C8320BFCEFD0073D3CA /* NFileListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C8020BFCEFD0073D3CA /* NFileListViewController.m */; };
+		B1C60C8620BFE8220073D3CA /* NewProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */; };
+		B1C60C8E20BFF7950073D3CA /* ProjectTypeExplanationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1C60C8B20BFF7940073D3CA /* ProjectTypeExplanationViewController.xib */; };
+		B1C60C8F20BFF7950073D3CA /* ProjectTypeExplanationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1C60C8B20BFF7940073D3CA /* ProjectTypeExplanationViewController.xib */; };
+		B1C60C9020BFF7950073D3CA /* ProjectTypeExplanationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C8D20BFF7950073D3CA /* ProjectTypeExplanationViewController.m */; };
+		B1C60C9120BFF7950073D3CA /* ProjectTypeExplanationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C8D20BFF7950073D3CA /* ProjectTypeExplanationViewController.m */; };
+		B1C60C9820C004C80073D3CA /* TeamPurchaseTopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C9320C004C70073D3CA /* TeamPurchaseTopCell.m */; };
+		B1C60C9920C004C80073D3CA /* TeamPurchaseTopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C9320C004C70073D3CA /* TeamPurchaseTopCell.m */; };
+		B1C60C9A20C004C80073D3CA /* TeamPurchaseBillingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C9420C004C70073D3CA /* TeamPurchaseBillingCell.m */; };
+		B1C60C9B20C004C80073D3CA /* TeamPurchaseBillingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C9420C004C70073D3CA /* TeamPurchaseBillingCell.m */; };
+		B1C60C9C20C004C80073D3CA /* TeamPurchaseOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C9620C004C80073D3CA /* TeamPurchaseOrderCell.m */; };
+		B1C60C9D20C004C80073D3CA /* TeamPurchaseOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60C9620C004C80073D3CA /* TeamPurchaseOrderCell.m */; };
+		B1C60CA420C0DDF60073D3CA /* TeamSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60CA020C0DDF40073D3CA /* TeamSettingViewController.m */; };
+		B1C60CA520C0DDF60073D3CA /* TeamSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60CA020C0DDF40073D3CA /* TeamSettingViewController.m */; };
+		B1C60CA620C0DDF60073D3CA /* TeamPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60CA120C0DDF40073D3CA /* TeamPurchaseViewController.m */; };
+		B1C60CA720C0DDF60073D3CA /* TeamPurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60CA120C0DDF40073D3CA /* TeamPurchaseViewController.m */; };
+		B1C60CA820C0DDF60073D3CA /* TeamSupportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60CA320C0DDF50073D3CA /* TeamSupportViewController.m */; };
+		B1C60CA920C0DDF60073D3CA /* TeamSupportViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C60CA320C0DDF50073D3CA /* TeamSupportViewController.m */; };
+		B1C60CAB20C0FC750073D3CA /* Launch Screen_E.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1C60CAA20C0FC750073D3CA /* Launch Screen_E.xib */; };
+		B1C60CAC20C0FC750073D3CA /* Launch Screen_E.xib in Resources */ = {isa = PBXBuildFile; fileRef = B1C60CAA20C0FC750073D3CA /* Launch Screen_E.xib */; };
 		B1C871131EADAEE1003DACF0 /* loading_monkey@2x.gif in Resources */ = {isa = PBXBuildFile; fileRef = B1C871121EADAEE1003DACF0 /* loading_monkey@2x.gif */; };
 		B1C871181EADF0B1003DACF0 /* messageAT@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1C871141EADF0B1003DACF0 /* messageAT@3x.png */; };
 		B1C871191EADF0B1003DACF0 /* messageComment@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B1C871151EADF0B1003DACF0 /* messageComment@3x.png */; };
@@ -2407,7 +2434,6 @@
 		B1D5EFA020BC06CB00983FB6 /* icon_user_monkey@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E07D3121A4D3CA6009EDDF2 /* icon_user_monkey@2x.png */; };
 		B1D5EFA120BC06CB00983FB6 /* placeholder_coding_square_80@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CF8D19E240C40076D59C /* placeholder_coding_square_80@2x.png */; };
 		B1D5EFA220BC06CB00983FB6 /* mrpr_icon_status_cannotmerge@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EAAD01D1E540551008AA957 /* mrpr_icon_status_cannotmerge@2x.png */; };
-		B1D5EFA320BC06CB00983FB6 /* NewProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */; };
 		B1D5EFA420BC06CB00983FB6 /* loading_loop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8ED2AAF819F60D5200607A1D /* loading_loop@2x.png */; };
 		B1D5EFA520BC06CB00983FB6 /* code_release_resource_Task@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B17CC31C20731FF10077C956 /* code_release_resource_Task@3x.png */; };
 		B1D5EFA620BC06CB00983FB6 /* PR_refuse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 13FB5D201CA17A6400EE127C /* PR_refuse@2x.png */; };
@@ -3007,12 +3033,23 @@
 		B1D5F1F920BC06CB00983FB6 /* taskPriority3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E6383A11B3262D300D98648 /* taskPriority3@2x.png */; };
 		B1D5F1FA20BC06CB00983FB6 /* search_icon_file@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E80E9421E02911E00DE1BC6 /* search_icon_file@2x.png */; };
 		B1D5F1FB20BC06CB00983FB6 /* nav_page_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4E53EB581AFB090E0034FE1C /* nav_page_unselected@2x.png */; };
-		B1D5F20420BC099C00983FB6 /* Coding_iOS-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CF1719E240C40076D59C /* Coding_iOS-Info.plist */; };
-		B1D5F20720BCF5F800983FB6 /* CodingEnterprise_iOS-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1D5F20620BCF5F800983FB6 /* CodingEnterprise_iOS-Info.plist */; };
 		B1D5F20A20BCF6A900983FB6 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */; };
+		B1D5F20E20BD3BF400983FB6 /* UINavigationController+FullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F20D20BD3BF300983FB6 /* UINavigationController+FullscreenPopGesture.m */; };
+		B1D5F20F20BD3BF400983FB6 /* UINavigationController+FullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F20D20BD3BF300983FB6 /* UINavigationController+FullscreenPopGesture.m */; };
+		B1D5F21620BD485D00983FB6 /* TeamPurchaseOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F21220BD485B00983FB6 /* TeamPurchaseOrder.m */; };
+		B1D5F21720BD485D00983FB6 /* TeamPurchaseOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F21220BD485B00983FB6 /* TeamPurchaseOrder.m */; };
+		B1D5F21820BD485D00983FB6 /* TeamPurchaseBilling.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F21320BD485B00983FB6 /* TeamPurchaseBilling.m */; };
+		B1D5F21920BD485D00983FB6 /* TeamPurchaseBilling.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F21320BD485B00983FB6 /* TeamPurchaseBilling.m */; };
+		B1D5F21A20BD485D00983FB6 /* TeamPurchaseBillingDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F21520BD485C00983FB6 /* TeamPurchaseBillingDetail.m */; };
+		B1D5F21B20BD485D00983FB6 /* TeamPurchaseBillingDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F21520BD485C00983FB6 /* TeamPurchaseBillingDetail.m */; };
+		B1D5F21E20BD50D000983FB6 /* ProjectRole.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F21D20BD50D000983FB6 /* ProjectRole.m */; };
+		B1D5F21F20BD50D000983FB6 /* ProjectRole.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F21D20BD50D000983FB6 /* ProjectRole.m */; };
+		B1D5F22220BEA37600983FB6 /* MeRootCompanyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F22120BEA37500983FB6 /* MeRootCompanyCell.m */; };
+		B1D5F22320BEA37600983FB6 /* MeRootCompanyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F22120BEA37500983FB6 /* MeRootCompanyCell.m */; };
+		B1D5F23220BEADD200983FB6 /* TeamSupportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F23020BEADD100983FB6 /* TeamSupportCell.m */; };
+		B1D5F23320BEADD200983FB6 /* TeamSupportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5F23020BEADD100983FB6 /* TeamSupportCell.m */; };
 		B93D904B1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D904A1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m */; };
 		B94C1B691AC945D30000C271 /* NewProjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B94C1B681AC945D30000C271 /* NewProjectViewController.m */; };
-		B94C1B6B1AC945FB0000C271 /* NewProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */; };
 		B94C1B6E1AC98CCE0000C271 /* NewProjectTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B94C1B6D1AC98CCE0000C271 /* NewProjectTypeViewController.m */; };
 		B9A00D7F1ACA3A05008BA008 /* ProjectSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9A00D7E1ACA3A05008BA008 /* ProjectSetting.storyboard */; };
 		B9A00D821ACA3A17008BA008 /* ProjectSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */; };
@@ -3093,6 +3130,7 @@
 		D0C448181C03187100DC1C4B /* TaskSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C448171C03187100DC1C4B /* TaskSearchCell.m */; };
 		D0C4481B1C034C3F00DC1C4B /* TopicSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C4481A1C034C3F00DC1C4B /* TopicSearchCell.m */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
+		EAE4EF658EEBED1AFC748FD9 /* libPods-Coding_iOS-CodingEnterprise_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 325848BC965CB1B329E42C60 /* libPods-Coding_iOS-CodingEnterprise_iOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -3236,6 +3274,8 @@
 		13FB5D571CA194D600EE127C /* MRReviewerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRReviewerCell.h; path = Cell/MRReviewerCell.h; sourceTree = "<group>"; };
 		13FB5D581CA194D600EE127C /* MRReviewerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRReviewerCell.m; path = Cell/MRReviewerCell.m; sourceTree = "<group>"; };
 		2FD5D8DD0689696D28A6D49E /* Pods-Coding_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Coding_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Coding_iOS/Pods-Coding_iOS.release.xcconfig"; sourceTree = "<group>"; };
+		325848BC965CB1B329E42C60 /* libPods-Coding_iOS-CodingEnterprise_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Coding_iOS-CodingEnterprise_iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		344214A4A1281EB0C9B3DE71 /* Pods-Coding_iOS-CodingEnterprise_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Coding_iOS-CodingEnterprise_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Coding_iOS-CodingEnterprise_iOS/Pods-Coding_iOS-CodingEnterprise_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		34E37865A7DAAE68AEF68258 /* Pods-Coding_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Coding_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Coding_iOS/Pods-Coding_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		3A3878351AE293D50078D5DE /* EditLabelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditLabelViewController.h; sourceTree = "<group>"; };
 		3A3878361AE293D50078D5DE /* EditLabelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditLabelViewController.m; sourceTree = "<group>"; };
@@ -4942,6 +4982,8 @@
 		B152ED8C209453F2004A6E8A /* taskboard_add_page_unselected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskboard_add_page_unselected@3x.png"; sourceTree = "<group>"; };
 		B152ED8D209453F2004A6E8A /* taskboard_normal_page_unselected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskboard_normal_page_unselected@3x.png"; sourceTree = "<group>"; };
 		B152ED8E209453F2004A6E8A /* taskboard_normal_page_unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskboard_normal_page_unselected@2x.png"; sourceTree = "<group>"; };
+		B16E6C9F20C0FDB50076026D /* logo_coding_top@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_coding_top@3x.png"; sourceTree = "<group>"; };
+		B16E6CA220C0FFFF0076026D /* CodingEnterprise_iOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = CodingEnterprise_iOS.entitlements; sourceTree = "<group>"; };
 		B16EEF06208DDBB5005ABFD5 /* timeline_icon_read@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_icon_read@3x.png"; sourceTree = "<group>"; };
 		B16EEF07208DDBB6005ABFD5 /* timeline_icon_unread@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timeline_icon_unread@3x.png"; sourceTree = "<group>"; };
 		B16EEF11209080D7005ABFD5 /* TaskBoardsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskBoardsViewController.h; sourceTree = "<group>"; };
@@ -5110,6 +5152,28 @@
 		B1BFC4C120B2B24E009427FC /* task_activity_icon_add_milestone@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_add_milestone@3x.png"; sourceTree = "<group>"; };
 		B1BFC4C220B2B24F009427FC /* task_activity_icon_remove_milestone@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_remove_milestone@3x.png"; sourceTree = "<group>"; };
 		B1BFC4C320B2B250009427FC /* task_activity_icon_remove_milestone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_activity_icon_remove_milestone@2x.png"; sourceTree = "<group>"; };
+		B1C60C7820BFA2150073D3CA /* NProjectFileListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NProjectFileListView.h; sourceTree = "<group>"; };
+		B1C60C7920BFA2150073D3CA /* NProjectFileListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NProjectFileListView.m; sourceTree = "<group>"; };
+		B1C60C7C20BFCDBD0073D3CA /* EditMemberTypeProjectListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditMemberTypeProjectListViewController.h; sourceTree = "<group>"; };
+		B1C60C7D20BFCDBD0073D3CA /* EditMemberTypeProjectListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditMemberTypeProjectListViewController.m; sourceTree = "<group>"; };
+		B1C60C8020BFCEFD0073D3CA /* NFileListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NFileListViewController.m; sourceTree = "<group>"; };
+		B1C60C8120BFCEFD0073D3CA /* NFileListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NFileListViewController.h; sourceTree = "<group>"; };
+		B1C60C8B20BFF7940073D3CA /* ProjectTypeExplanationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectTypeExplanationViewController.xib; sourceTree = "<group>"; };
+		B1C60C8C20BFF7950073D3CA /* ProjectTypeExplanationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectTypeExplanationViewController.h; sourceTree = "<group>"; };
+		B1C60C8D20BFF7950073D3CA /* ProjectTypeExplanationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectTypeExplanationViewController.m; sourceTree = "<group>"; };
+		B1C60C9220C004C70073D3CA /* TeamPurchaseBillingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamPurchaseBillingCell.h; sourceTree = "<group>"; };
+		B1C60C9320C004C70073D3CA /* TeamPurchaseTopCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamPurchaseTopCell.m; sourceTree = "<group>"; };
+		B1C60C9420C004C70073D3CA /* TeamPurchaseBillingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamPurchaseBillingCell.m; sourceTree = "<group>"; };
+		B1C60C9520C004C80073D3CA /* TeamPurchaseOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamPurchaseOrderCell.h; sourceTree = "<group>"; };
+		B1C60C9620C004C80073D3CA /* TeamPurchaseOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamPurchaseOrderCell.m; sourceTree = "<group>"; };
+		B1C60C9720C004C80073D3CA /* TeamPurchaseTopCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamPurchaseTopCell.h; sourceTree = "<group>"; };
+		B1C60C9E20C0DDF30073D3CA /* TeamSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamSettingViewController.h; sourceTree = "<group>"; };
+		B1C60C9F20C0DDF40073D3CA /* TeamPurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamPurchaseViewController.h; sourceTree = "<group>"; };
+		B1C60CA020C0DDF40073D3CA /* TeamSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamSettingViewController.m; sourceTree = "<group>"; };
+		B1C60CA120C0DDF40073D3CA /* TeamPurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamPurchaseViewController.m; sourceTree = "<group>"; };
+		B1C60CA220C0DDF50073D3CA /* TeamSupportViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamSupportViewController.h; sourceTree = "<group>"; };
+		B1C60CA320C0DDF50073D3CA /* TeamSupportViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamSupportViewController.m; sourceTree = "<group>"; };
+		B1C60CAA20C0FC750073D3CA /* Launch Screen_E.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen_E.xib"; sourceTree = "<group>"; };
 		B1C871121EADAEE1003DACF0 /* loading_monkey@2x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "loading_monkey@2x.gif"; sourceTree = "<group>"; };
 		B1C871141EADF0B1003DACF0 /* messageAT@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messageAT@3x.png"; sourceTree = "<group>"; };
 		B1C871151EADF0B1003DACF0 /* messageComment@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messageComment@3x.png"; sourceTree = "<group>"; };
@@ -5202,6 +5266,20 @@
 		B1D5F20220BC06CB00983FB6 /* CodingEnterprise_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodingEnterprise_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1D5F20620BCF5F800983FB6 /* CodingEnterprise_iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CodingEnterprise_iOS-Info.plist"; sourceTree = "<group>"; };
 		B1D5F20B20BCF72300983FB6 /* CodingEnterprise_iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CodingEnterprise_iOS-Prefix.pch"; sourceTree = "<group>"; };
+		B1D5F20C20BD3BF300983FB6 /* UINavigationController+FullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FullscreenPopGesture.h"; sourceTree = "<group>"; };
+		B1D5F20D20BD3BF300983FB6 /* UINavigationController+FullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FullscreenPopGesture.m"; sourceTree = "<group>"; };
+		B1D5F21020BD485A00983FB6 /* TeamPurchaseOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamPurchaseOrder.h; sourceTree = "<group>"; };
+		B1D5F21120BD485A00983FB6 /* TeamPurchaseBillingDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamPurchaseBillingDetail.h; sourceTree = "<group>"; };
+		B1D5F21220BD485B00983FB6 /* TeamPurchaseOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamPurchaseOrder.m; sourceTree = "<group>"; };
+		B1D5F21320BD485B00983FB6 /* TeamPurchaseBilling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamPurchaseBilling.m; sourceTree = "<group>"; };
+		B1D5F21420BD485C00983FB6 /* TeamPurchaseBilling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamPurchaseBilling.h; sourceTree = "<group>"; };
+		B1D5F21520BD485C00983FB6 /* TeamPurchaseBillingDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamPurchaseBillingDetail.m; sourceTree = "<group>"; };
+		B1D5F21C20BD50D000983FB6 /* ProjectRole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectRole.h; sourceTree = "<group>"; };
+		B1D5F21D20BD50D000983FB6 /* ProjectRole.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectRole.m; sourceTree = "<group>"; };
+		B1D5F22020BEA37500983FB6 /* MeRootCompanyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeRootCompanyCell.h; sourceTree = "<group>"; };
+		B1D5F22120BEA37500983FB6 /* MeRootCompanyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeRootCompanyCell.m; sourceTree = "<group>"; };
+		B1D5F23020BEADD100983FB6 /* TeamSupportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamSupportCell.m; sourceTree = "<group>"; };
+		B1D5F23120BEADD200983FB6 /* TeamSupportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamSupportCell.h; sourceTree = "<group>"; };
 		B93D90491ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectDeleteAlertControllerVisualStyle.h; sourceTree = "<group>"; };
 		B93D904A1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectDeleteAlertControllerVisualStyle.m; sourceTree = "<group>"; };
 		B94C1B671AC945D30000C271 /* NewProjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewProjectViewController.h; sourceTree = "<group>"; };
@@ -5214,6 +5292,7 @@
 		B9A00D811ACA3A17008BA008 /* ProjectSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectSettingViewController.m; sourceTree = "<group>"; };
 		B9A00D831ACA3A55008BA008 /* ProjectAdvancedSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectAdvancedSettingViewController.h; sourceTree = "<group>"; };
 		B9A00D841ACA3A55008BA008 /* ProjectAdvancedSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectAdvancedSettingViewController.m; sourceTree = "<group>"; };
+		BA1AE837BA26B375F43A9343 /* Pods-Coding_iOS-CodingEnterprise_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Coding_iOS-CodingEnterprise_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Coding_iOS-CodingEnterprise_iOS/Pods-Coding_iOS-CodingEnterprise_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		D000E0481BFC45CF00A33C2B /* CategorySearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySearchBar.h; sourceTree = "<group>"; };
 		D000E0491BFC45CF00A33C2B /* CategorySearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySearchBar.m; sourceTree = "<group>"; };
 		D02BE0AD1C0434DB008374C0 /* PRMRSearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PRMRSearchCell.h; sourceTree = "<group>"; };
@@ -5375,6 +5454,7 @@
 				B1D5EE7220BC06CB00983FB6 /* Foundation.framework in Frameworks */,
 				B1D5EE7320BC06CB00983FB6 /* WebP.framework in Frameworks */,
 				B1D5EE7420BC06CB00983FB6 /* libPods-Coding_iOS.a in Frameworks */,
+				EAE4EF658EEBED1AFC748FD9 /* libPods-Coding_iOS-CodingEnterprise_iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6666,6 +6746,8 @@
 				D09AA5BF1BFDEDD1008CA9EB /* NSString+Attribute.m */,
 				4E2527181C327FAE0032A7F4 /* UIViewController+BackButtonHandler.h */,
 				4E2527191C327FAE0032A7F4 /* UIViewController+BackButtonHandler.m */,
+				B1D5F20C20BD3BF300983FB6 /* UINavigationController+FullscreenPopGesture.h */,
+				B1D5F20D20BD3BF300983FB6 /* UINavigationController+FullscreenPopGesture.m */,
 				B12B64801FFC73A900ACFDCC /* PHAsset+Common.h */,
 				B12B64811FFC73A900ACFDCC /* PHAsset+Common.m */,
 				B1890C4C2019B29800F52ABA /* UINavigationBar+Common.h */,
@@ -6757,6 +6839,8 @@
 				4EE1A21E1B5D02CA004284F1 /* ProjectCodeListView.m */,
 				4EE1A21F1B5D02CA004284F1 /* ProjectFolderListView.h */,
 				4EE1A2201B5D02CA004284F1 /* ProjectFolderListView.m */,
+				B1C60C7820BFA2150073D3CA /* NProjectFileListView.h */,
+				B1C60C7920BFA2150073D3CA /* NProjectFileListView.m */,
 				4EE1A2211B5D02CA004284F1 /* ProjectListView.h */,
 				4EE1A2221B5D02CA004284F1 /* ProjectListView.m */,
 				4EE1A2231B5D02CA004284F1 /* ProjectTaskListView.h */,
@@ -7008,6 +7092,7 @@
 				8E477019198770E700997D05 /* CoreData.framework */,
 				8E477031198770E700997D05 /* XCTest.framework */,
 				645969FE6A8616A74543C249 /* libPods-Coding_iOS.a */,
+				325848BC965CB1B329E42C60 /* libPods-Coding_iOS-CodingEnterprise_iOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -7225,10 +7310,12 @@
 			isa = PBXGroup;
 			children = (
 				4EBED55A1D93C9F700E3684E /* Coding_iOS.entitlements */,
+				B16E6CA220C0FFFF0076026D /* CodingEnterprise_iOS.entitlements */,
 				8EA6CFC619E240C40076D59C /* main.m */,
 				8EA6CF1519E240C40076D59C /* AppDelegate.h */,
 				8EA6CF1619E240C40076D59C /* AppDelegate.m */,
 				4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */,
+				B1C60CAA20C0FC750073D3CA /* Launch Screen_E.xib */,
 				8EA6CF1719E240C40076D59C /* Coding_iOS-Info.plist */,
 				B1D5F20620BCF5F800983FB6 /* CodingEnterprise_iOS-Info.plist */,
 				4E8C51AE1AC0177600B4C51F /* Coding_iOS-Prefix.pch */,
@@ -7426,6 +7513,19 @@
 				B16EEF12209080D7005ABFD5 /* TaskBoardsViewController.m */,
 				B152ED66209420CD004A6E8A /* RATaskBoardListListViewController.h */,
 				B152ED67209420CD004A6E8A /* RATaskBoardListListViewController.m */,
+				B1C60C7C20BFCDBD0073D3CA /* EditMemberTypeProjectListViewController.h */,
+				B1C60C7D20BFCDBD0073D3CA /* EditMemberTypeProjectListViewController.m */,
+				B1C60C8120BFCEFD0073D3CA /* NFileListViewController.h */,
+				B1C60C8020BFCEFD0073D3CA /* NFileListViewController.m */,
+				B1C60C8C20BFF7950073D3CA /* ProjectTypeExplanationViewController.h */,
+				B1C60C8D20BFF7950073D3CA /* ProjectTypeExplanationViewController.m */,
+				B1C60C8B20BFF7940073D3CA /* ProjectTypeExplanationViewController.xib */,
+				B1C60C9F20C0DDF40073D3CA /* TeamPurchaseViewController.h */,
+				B1C60CA120C0DDF40073D3CA /* TeamPurchaseViewController.m */,
+				B1C60C9E20C0DDF30073D3CA /* TeamSettingViewController.h */,
+				B1C60CA020C0DDF40073D3CA /* TeamSettingViewController.m */,
+				B1C60CA220C0DDF50073D3CA /* TeamSupportViewController.h */,
+				B1C60CA320C0DDF50073D3CA /* TeamSupportViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -7581,6 +7681,7 @@
 				4E07D30C1A4A9F45009EDDF2 /* btn_file_reDo@2x.png */,
 				4E07D3121A4D3CA6009EDDF2 /* icon_user_monkey@2x.png */,
 				4EFE8DAE1B3960E6004B7559 /* logo_coding_top@2x.png */,
+				B16E6C9F20C0FDB50076026D /* logo_coding_top@3x.png */,
 				4E76D4DD1A5A7B4A0094A35E /* text_clear_btn@2x.png */,
 				4E03AC991A5BDDF9002B000B /* STARTIMAGE.jpg */,
 				4E6B07151BA4045E007D6027 /* MIDAUTUMNIMAGE.jpg */,
@@ -7928,6 +8029,12 @@
 				4E6CBE5B1D8FC7A500644086 /* ProjectServiceInfo.m */,
 				4ED4B4951D82939700EED8C6 /* Team.h */,
 				4ED4B4961D82939700EED8C6 /* Team.m */,
+				B1D5F21420BD485C00983FB6 /* TeamPurchaseBilling.h */,
+				B1D5F21320BD485B00983FB6 /* TeamPurchaseBilling.m */,
+				B1D5F21120BD485A00983FB6 /* TeamPurchaseBillingDetail.h */,
+				B1D5F21520BD485C00983FB6 /* TeamPurchaseBillingDetail.m */,
+				B1D5F21020BD485A00983FB6 /* TeamPurchaseOrder.h */,
+				B1D5F21220BD485B00983FB6 /* TeamPurchaseOrder.m */,
 				B19D4EEC1F6FCEAC00C598F3 /* CodingSkill.h */,
 				B19D4EED1F6FCEAC00C598F3 /* CodingSkill.m */,
 				B1890C332015D87800F52ABA /* EAWiki.h */,
@@ -7936,6 +8043,8 @@
 				B152ED592092BF46004A6E8A /* EABoardTaskList.m */,
 				B1ACFE0B20A975E2000BC41E /* EAMilestone.h */,
 				B1ACFE0C20A975E2000BC41E /* EAMilestone.m */,
+				B1D5F21C20BD50D000983FB6 /* ProjectRole.h */,
+				B1D5F21D20BD50D000983FB6 /* ProjectRole.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -8463,6 +8572,16 @@
 				B1944149206BB8BB00147158 /* EALocalCodeListCell.m */,
 				B152ED5B2092D51E004A6E8A /* EATaskBoardListTaskCell.h */,
 				B152ED5C2092D51E004A6E8A /* EATaskBoardListTaskCell.m */,
+				B1D5F22020BEA37500983FB6 /* MeRootCompanyCell.h */,
+				B1D5F22120BEA37500983FB6 /* MeRootCompanyCell.m */,
+				B1C60C9220C004C70073D3CA /* TeamPurchaseBillingCell.h */,
+				B1C60C9420C004C70073D3CA /* TeamPurchaseBillingCell.m */,
+				B1C60C9520C004C80073D3CA /* TeamPurchaseOrderCell.h */,
+				B1C60C9620C004C80073D3CA /* TeamPurchaseOrderCell.m */,
+				B1C60C9720C004C80073D3CA /* TeamPurchaseTopCell.h */,
+				B1C60C9320C004C70073D3CA /* TeamPurchaseTopCell.m */,
+				B1D5F23120BEADD200983FB6 /* TeamSupportCell.h */,
+				B1D5F23020BEADD100983FB6 /* TeamSupportCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -8753,6 +8872,8 @@
 			children = (
 				34E37865A7DAAE68AEF68258 /* Pods-Coding_iOS.debug.xcconfig */,
 				2FD5D8DD0689696D28A6D49E /* Pods-Coding_iOS.release.xcconfig */,
+				344214A4A1281EB0C9B3DE71 /* Pods-Coding_iOS-CodingEnterprise_iOS.debug.xcconfig */,
+				BA1AE837BA26B375F43A9343 /* Pods-Coding_iOS-CodingEnterprise_iOS.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -8837,6 +8958,11 @@
 					};
 					B1D5EBF120BC06CB00983FB6 = {
 						DevelopmentTeam = QN5Z87S3LH;
+						SystemCapabilities = {
+							com.apple.SafariKeychain = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -8927,6 +9053,7 @@
 				4EB52F5F1C7C5C4F00B5EBEA /* task_resource_reference_ProjectFile@3x.png in Resources */,
 				13FB5D481CA17A6400EE127C /* PR_mergeChanges@3x.png in Resources */,
 				B19D4EF61F7210C300C598F3 /* user_info_shop@2x.png in Resources */,
+				B16E6CA020C0FDB50076026D /* logo_coding_top@3x.png in Resources */,
 				134E1B9B1CA41217002A3E0D /* ReviewCell.xib in Resources */,
 				8EA6D15E19E240C40076D59C /* login_suffix@2x.png in Resources */,
 				4EB52F101C74691B00B5EBEA /* password_look@3x.png in Resources */,
@@ -8942,6 +9069,7 @@
 				8E97CE681A0A3424006F9AD7 /* keyboard_keyboard@2x.png in Resources */,
 				B1817F012069197D00E9BAD1 /* icon_release_tag@2x.png in Resources */,
 				8EA6D17919E240C40076D59C /* placeholder_monkey_round_48@2x.png in Resources */,
+				B1C60C8620BFE8220073D3CA /* NewProject.storyboard in Resources */,
 				4EAAD0A51E5D8D90008AA957 /* PR_plus@2x.png in Resources */,
 				8EA6D1A819E240C40076D59C /* xtsegment_bordor_left@2x.png in Resources */,
 				4EB52F5C1C7C5C4F00B5EBEA /* task_resource_reference_MergeRequestBean@2x.png in Resources */,
@@ -9165,11 +9293,9 @@
 				B1AB5CA3202953E50075A669 /* terminal_box_selected@2x.png in Resources */,
 				D09E6AC41BF84AE5009D37F8 /* git_icon_watch@2x.png in Resources */,
 				B1BCB87F1FCD006C0098B87B /* icon_file_pdf_big@2x.png in Resources */,
-				B1D5F20420BC099C00983FB6 /* Coding_iOS-Info.plist in Resources */,
 				4E07D3151A4D3CA6009EDDF2 /* icon_user_monkey@2x.png in Resources */,
 				8EA6D17519E240C40076D59C /* placeholder_coding_square_80@2x.png in Resources */,
 				4EAAD0251E540551008AA957 /* mrpr_icon_status_cannotmerge@2x.png in Resources */,
-				B94C1B6B1AC945FB0000C271 /* NewProject.storyboard in Resources */,
 				8ED2AAFA19F60D5200607A1D /* loading_loop@2x.png in Resources */,
 				B17CC32220731FF10077C956 /* code_release_resource_Task@3x.png in Resources */,
 				13FB5D411CA17A6400EE127C /* PR_refuse@2x.png in Resources */,
@@ -9271,6 +9397,7 @@
 				B1280D09200EFEA400DEDF78 /* PR_del_reviewer@2x.png in Resources */,
 				B1C871A51EB2D9E6003DACF0 /* task_activity_icon_reassign@3x.png in Resources */,
 				8EA6D17319E240C40076D59C /* placeholder_coding_square_150@2x.png in Resources */,
+				B1C60C8E20BFF7950073D3CA /* ProjectTypeExplanationViewController.xib in Resources */,
 				4EAECBC41C44CB860096CA74 /* member_cell_edit_remove@2x.png in Resources */,
 				4E095A181D9534CB00E63D9E /* intro_page_unselected@3x.png in Resources */,
 				134116F41CB54AF8005E6550 /* PR_TaskResource@2x.png in Resources */,
@@ -9456,6 +9583,7 @@
 				8EA6D17419E240C40076D59C /* placeholder_coding_square_55@2x.png in Resources */,
 				D0C447CE1C02DB6700DC1C4B /* pop_Project@3x.png in Resources */,
 				B1BFC4C620B2B250009427FC /* task_activity_icon_remove_milestone@3x.png in Resources */,
+				B16E6CA320C102B60076026D /* Images.xcassets in Resources */,
 				B1AB5CB8202D7D500075A669 /* button_file_download_unable@3x.png in Resources */,
 				4E80E95C1E02911E00DE1BC6 /* search_icon_task@2x.png in Resources */,
 				B17CC32120731FF10077C956 /* code_release_resource_Task@2x.png in Resources */,
@@ -9560,7 +9688,6 @@
 				B1AB5CB1202D7D500075A669 /* button_file_createFolder_enable@3x.png in Resources */,
 				13FB5D471CA17A6400EE127C /* PR_mergeChanges@2x.png in Resources */,
 				8E97CEAB1A0C7E26006F9AD7 /* coding_emoji_20@2x.png in Resources */,
-				8EA6D1AA19E240C40076D59C /* Images.xcassets in Resources */,
 				4E63840F1B34124000D98648 /* task_icon_arrow@2x.png in Resources */,
 				4E6383C71B3265DC00D98648 /* mrpr_icon_refaused@2x.png in Resources */,
 				8ED2AAFB19F60D5200607A1D /* loading_monkey@2x.png in Resources */,
@@ -9591,6 +9718,7 @@
 				4E9423E81E69401B0095F1CD /* blankpage_image_ShopOrder@2x.png in Resources */,
 				4E0849821A918A7F00BD27F6 /* coding_emoji_40@2x.png in Resources */,
 				4E9423DD1E69401B0095F1CD /* blankpage_image_Default@3x.png in Resources */,
+				B1C60CAB20C0FC750073D3CA /* Launch Screen_E.xib in Resources */,
 				4EAECBC21C44CB860096CA74 /* member_cell_edit_alias@2x.png in Resources */,
 				4E6383BA1B32640900D98648 /* messageRight_bg_img@2x.png in Resources */,
 				B152ED7C20945378004A6E8A /* project_item_taskboard@2x.png in Resources */,
@@ -10078,7 +10206,6 @@
 				B1D5EFA020BC06CB00983FB6 /* icon_user_monkey@2x.png in Resources */,
 				B1D5EFA120BC06CB00983FB6 /* placeholder_coding_square_80@2x.png in Resources */,
 				B1D5EFA220BC06CB00983FB6 /* mrpr_icon_status_cannotmerge@2x.png in Resources */,
-				B1D5EFA320BC06CB00983FB6 /* NewProject.storyboard in Resources */,
 				B1D5EFA420BC06CB00983FB6 /* loading_loop@2x.png in Resources */,
 				B1D5EFA520BC06CB00983FB6 /* code_release_resource_Task@3x.png in Resources */,
 				B1D5EFA620BC06CB00983FB6 /* PR_refuse@2x.png in Resources */,
@@ -10093,6 +10220,7 @@
 				B1D5EFAF20BC06CB00983FB6 /* btn_file_cancel@2x.png in Resources */,
 				B1D5EFB020BC06CB00983FB6 /* task_activity_icon_restore@3x.png in Resources */,
 				B1D5EFB120BC06CB00983FB6 /* user_info_file@3x.png in Resources */,
+				B1C60C8F20BFF7950073D3CA /* ProjectTypeExplanationViewController.xib in Resources */,
 				B1D5EFB220BC06CB00983FB6 /* shop_coding_coin_icon@2x.png in Resources */,
 				B1D5EFB320BC06CB00983FB6 /* shortcut_task@3x.png in Resources */,
 				B1D5EFB420BC06CB00983FB6 /* intro_dot_unselected@2x.png in Resources */,
@@ -10140,6 +10268,7 @@
 				B1D5EFDE20BC06CB00983FB6 /* tasks_all@2x.png in Resources */,
 				B1D5EFDF20BC06CB00983FB6 /* EACodeReleaseTopCell.xib in Resources */,
 				B1D5EFE020BC06CB00983FB6 /* merge-request coding@2x.png in Resources */,
+				B1C60CAC20C0FC750073D3CA /* Launch Screen_E.xib in Resources */,
 				B1D5EFE120BC06CB00983FB6 /* file_changeType_ADD@3x.png in Resources */,
 				B1D5EFE220BC06CB00983FB6 /* calendar_0xA9B3BE@3x.png in Resources */,
 				B1D5EFE320BC06CB00983FB6 /* messageLeft_bg_highlight_img@2x.png in Resources */,
@@ -10164,6 +10293,7 @@
 				B1D5EFF620BC06CB00983FB6 /* project_item_mr_pr@3x.png in Resources */,
 				B1D5EFF720BC06CB00983FB6 /* button_tip_close@2x.png in Resources */,
 				B1D5EFF820BC06CB00983FB6 /* task_activity_icon_reassign@2x.png in Resources */,
+				B16E6CA120C0FDB50076026D /* logo_coding_top@3x.png in Resources */,
 				B1D5EFF920BC06CB00983FB6 /* task_resource_reference_ProjectFile@2x.png in Resources */,
 				B1D5EFFA20BC06CB00983FB6 /* messageAT@2x.png in Resources */,
 				B1D5EFFB20BC06CB00983FB6 /* tweet_selected@2x.png in Resources */,
@@ -10571,7 +10701,6 @@
 				B1D5F18C20BC06CB00983FB6 /* project_item_mr_pr@2x.png in Resources */,
 				B1D5F18D20BC06CB00983FB6 /* user_info_point@2x.png in Resources */,
 				B1D5F18E20BC06CB00983FB6 /* btn_fliter_down@2x.png in Resources */,
-				B1D5F20720BCF5F800983FB6 /* CodingEnterprise_iOS-Info.plist in Resources */,
 				B1D5F18F20BC06CB00983FB6 /* nav_project_activity@2x.png in Resources */,
 				B1D5F19020BC06CB00983FB6 /* file_changeType_RENAME@2x.png in Resources */,
 				B1D5F19120BC06CB00983FB6 /* blankpage_image_Tip@3x.png in Resources */,
@@ -10712,7 +10841,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Coding_iOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Coding_iOS-CodingEnterprise_iOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -10725,7 +10854,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS/Pods-Coding_iOS-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS-CodingEnterprise_iOS/Pods-Coding_iOS-CodingEnterprise_iOS-resources.sh",
 				"${PODS_ROOT}/FontAwesome+iOS/Resources/FontAwesome.ttf",
 				"${PODS_ROOT}/UMengUShare/UShareSDK/UMSocialSDK/UMSocialSDKPromptResources.bundle",
 				"${PODS_ROOT}/UMengUShare/UShareSDK/SocialLibraries/QQ/QQSDK/TencentOpenApi_IOS_Bundle.bundle",
@@ -10742,7 +10871,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS/Pods-Coding_iOS-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS-CodingEnterprise_iOS/Pods-Coding_iOS-CodingEnterprise_iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B1D5F1FE20BC06CB00983FB6 /* ShellScript */ = {
@@ -10867,6 +10996,7 @@
 				09A0588A1E0AA9AE00C1CA3F /* ActivityView.m in Sources */,
 				8EA6D1B519E240C40076D59C /* ListGroupItem.m in Sources */,
 				4E80E93C1E02353900DE1BC6 /* CodingSearchDisplayView.m in Sources */,
+				B1D5F21E20BD50D000983FB6 /* ProjectRole.m in Sources */,
 				8EA6D13919E240C40076D59C /* MyTask_RootViewController.m in Sources */,
 				8E1C3E0A19E8DFE300EF3032 /* SettingAccountViewController.m in Sources */,
 				4E8765681A22E5B40090CFB9 /* SWTableViewCell.m in Sources */,
@@ -10891,6 +11021,7 @@
 				4E2ECEAD1BD4D51000CB6EC9 /* ProjectTransferSettingViewController.m in Sources */,
 				4EABD2571AD3CAAC005E515F /* UIMessageInputView_Add.m in Sources */,
 				7EB02FCE1B6CF5D500D2166C /* UIMessageInputView_Voice.m in Sources */,
+				B1C60C8220BFCEFD0073D3CA /* NFileListViewController.m in Sources */,
 				8E59F0E21A0098BA009A905F /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				4E0022831B72095E005308DE /* PointRecord.m in Sources */,
 				927AFF3E1BFF608700AAE593 /* ShopGoodsCCell.m in Sources */,
@@ -11024,6 +11155,7 @@
 				8EF643CA19FF7E2900F7EEB0 /* TopicContentCell.m in Sources */,
 				4E0B9A371BAD377600D57D54 /* ForkTreeCell.m in Sources */,
 				B12B64071FE900D400ACFDCC /* AMPopTip.m in Sources */,
+				B1D5F20E20BD3BF400983FB6 /* UINavigationController+FullscreenPopGesture.m in Sources */,
 				4E4D6A6A1B1C688200FD2E49 /* MRPRAcceptViewController.m in Sources */,
 				4ECE8AE81A3943E80021E29C /* UIView+Common.m in Sources */,
 				4EA7F15E1A6D192B00A046BD /* SDWebImageDownloaderOperation.m in Sources */,
@@ -11072,6 +11204,7 @@
 				4EBD7FAF1CE4827A00B3AF49 /* CountryCodeListViewController.m in Sources */,
 				D09AA5B71BFDA38D008CA9EB /* AllSearchDisplayVC.m in Sources */,
 				0A27A05D1AB5A13B00067833 /* TweetSendLocationDetailViewController.m in Sources */,
+				B1D5F22220BEA37600983FB6 /* MeRootCompanyCell.m in Sources */,
 				B1816063202063440022B4C6 /* EATerminalViewController.m in Sources */,
 				0AB591B01AB6D6BE0076C454 /* TweetSendMapAnnotation.m in Sources */,
 				4ECF70491B185BCC000280FF /* MRPR.m in Sources */,
@@ -11079,6 +11212,7 @@
 				4E095A5C1B6907AA008DC439 /* CodingBannersView.m in Sources */,
 				4E8D5D661B45306900B70936 /* OTPListViewController.m in Sources */,
 				4EA7F1651A6D192B00A046BD /* UIImageView+WebCache.m in Sources */,
+				B1D5F21820BD485D00983FB6 /* TeamPurchaseBilling.m in Sources */,
 				8EF643B819FF7E2900F7EEB0 /* InputOnlyTextPlainCell.m in Sources */,
 				4E095A681B6909F9008DC439 /* NSTimer+Addition.m in Sources */,
 				4E6BA2DB1A1EE6AF005FD721 /* AFURLSessionManager.m in Sources */,
@@ -11089,6 +11223,7 @@
 				8EA6D1F919E240C40076D59C /* MJPhotoLoadingView.m in Sources */,
 				4E753D441B8AFDEC003A00B9 /* FileEditViewController.m in Sources */,
 				8EA6D14419E240C40076D59C /* TopicDetailViewController.m in Sources */,
+				B1C60CA420C0DDF60073D3CA /* TeamSettingViewController.m in Sources */,
 				4EA7F1641A6D192B00A046BD /* UIImageView+HighlightedWebCache.m in Sources */,
 				E7A046A01A47279E00528C12 /* Helper.m in Sources */,
 				4E00228C1B721955005308DE /* PointTopCell.m in Sources */,
@@ -11111,6 +11246,7 @@
 				4ECF70401B180740000280FF /* EaseGitButtonsView.m in Sources */,
 				8EF83F8A19E92AA500E86DE7 /* SettingTagsViewController.m in Sources */,
 				B194414A206BB8BB00147158 /* EALocalCodeListCell.m in Sources */,
+				B1D5F23220BEADD200983FB6 /* TeamSupportCell.m in Sources */,
 				8EF643D319FF7E2900F7EEB0 /* ValueListCell.m in Sources */,
 				4EB52F3F1C7C464400B5EBEA /* TaskResourceReferenceViewController.m in Sources */,
 				4E217F0C1A70EDC700F6DF88 /* SVModalWebViewController.m in Sources */,
@@ -11140,6 +11276,7 @@
 				8EA6D1AF19E240C40076D59C /* CodingTips.m in Sources */,
 				4E4D6A5B1B1C5DDF00FD2E49 /* MRPRCommentCCell.m in Sources */,
 				B12B64061FE900D400ACFDCC /* AMPopTip+Animation.m in Sources */,
+				B1C60C9020BFF7950073D3CA /* ProjectTypeExplanationViewController.m in Sources */,
 				8EF643C219FF7E2900F7EEB0 /* TaskCommentTopCell.m in Sources */,
 				4E4D6A611B1C65C100FD2E49 /* MRPRCommitsViewController.m in Sources */,
 				B1817EBF2063951000E9BAD1 /* EABasePageModel.m in Sources */,
@@ -11151,6 +11288,7 @@
 				4ECE8AD71A3943E80021E29C /* DownMenuCell.m in Sources */,
 				4E6C41201A846AC30098DC17 /* RFToolbarButton.m in Sources */,
 				3A3878491AE36ED70078D5DE /* TopicListButton.m in Sources */,
+				B1C60CA820C0DDF60073D3CA /* TeamSupportViewController.m in Sources */,
 				4ECE8B011A3946C10021E29C /* ImageSizeManager.m in Sources */,
 				8EA6D1B319E240C40076D59C /* File.m in Sources */,
 				923399751C00ABDE00F29E04 /* ShopOrderViewController.m in Sources */,
@@ -11217,6 +11355,7 @@
 				4EA7F15D1A6D192B00A046BD /* SDWebImageDownloader.m in Sources */,
 				8EA6D1B419E240C40076D59C /* HtmlMedia.m in Sources */,
 				3A3878451AE296240078D5DE /* EditLabelCell.m in Sources */,
+				B1C60CA620C0DDF60073D3CA /* TeamPurchaseViewController.m in Sources */,
 				4ECE8ADE1A3943E80021E29C /* NSString+Common.m in Sources */,
 				4ECE8B081A3947300021E29C /* BasicPreviewItem.m in Sources */,
 				4E2247FC1D82C98800551EA4 /* MeDisplayViewController.m in Sources */,
@@ -11230,6 +11369,7 @@
 				4EAE06A41B7AE4EF00179F4B /* FileComment.m in Sources */,
 				8EA6D13C19E240C40076D59C /* Tweet_RootViewController.m in Sources */,
 				B93D904B1ACBA3110057A6EE /* ProjectDeleteAlertControllerVisualStyle.m in Sources */,
+				B1D5F21620BD485D00983FB6 /* TeamPurchaseOrder.m in Sources */,
 				4E1A22851AB172C400CFC14F /* ProjectItemsCell.m in Sources */,
 				4ECE8B051A3946C10021E29C /* WebContentManager.m in Sources */,
 				4E94C4F41B4D007600EB668A /* Login2FATipCell.m in Sources */,
@@ -11278,6 +11418,7 @@
 				4E0022921B721973005308DE /* PointRecordCell.m in Sources */,
 				4E5A66951B268D160007A0AD /* UIView+PressMenu.m in Sources */,
 				8EA6D1C019E240C40076D59C /* Tasks.m in Sources */,
+				B1C60C9820C004C80073D3CA /* TeamPurchaseTopCell.m in Sources */,
 				8EE72BE819E3F4A8002C11D9 /* MBProgressHUD+Add.m in Sources */,
 				8E59F10D1A02188D009A905F /* CodeViewController.m in Sources */,
 				4E59D32F1D3E1920008C914B /* ProjectTweetSendViewController.m in Sources */,
@@ -11288,6 +11429,7 @@
 				D066BB3D1BF38844005AB5D6 /* ProjectAboutMeListCell.m in Sources */,
 				4EAAD0171E53EFF2008AA957 /* EAFliterMenu.m in Sources */,
 				8BDF9AA61B7456060093BF2C /* HotTopicBannerView.m in Sources */,
+				B1D5F21A20BD485D00983FB6 /* TeamPurchaseBillingDetail.m in Sources */,
 				8EA6D12E19E240C40076D59C /* EditTaskViewController.m in Sources */,
 				4EB52F2B1C76ED7000B5EBEA /* TagColorDisplayCell.m in Sources */,
 				8EA6D1BC19E240C40076D59C /* ProjectTopics.m in Sources */,
@@ -11303,6 +11445,7 @@
 				4E0BD8721B6C7E3D0061CAA6 /* CSTopicModel.m in Sources */,
 				4E4D6AA31B1DB63A00FD2E49 /* FileLineChange.m in Sources */,
 				4E5C06EE1AC4405300F427C5 /* PasswordViewController.m in Sources */,
+				B1C60C7E20BFCDBE0073D3CA /* EditMemberTypeProjectListViewController.m in Sources */,
 				927AFF441BFF61FF00AAE593 /* BaseCollectionCell.m in Sources */,
 				4E217F0E1A70EDC700F6DF88 /* SVWebViewController.m in Sources */,
 				B1817EE42064F92C00E9BAD1 /* EACodeReleaseViewController.m in Sources */,
@@ -11347,6 +11490,7 @@
 				8E59F1031A0120F1009A905F /* CodeFile.m in Sources */,
 				B1ACFE0D20A975E2000BC41E /* EAMilestone.m in Sources */,
 				4E0BD8801B6C7F0A0061CAA6 /* CSSearchCell.m in Sources */,
+				B1C60C9A20C004C80073D3CA /* TeamPurchaseBillingCell.m in Sources */,
 				4E996BCA1ABA754600C704F1 /* JDStatusBarView.m in Sources */,
 				4E4D6A881B1C6E1B00FD2E49 /* MRPRAcceptEditCell.m in Sources */,
 				B1817EED2064FD9400E9BAD1 /* EACodeReleaseAttachmentsOrReferencesCell.m in Sources */,
@@ -11361,6 +11505,7 @@
 				8E59F0F41A00F3B9009A905F /* ProjectCodeListCell.m in Sources */,
 				4E87DE031D813BBE00D1B5B1 /* UserServiceInfo.m in Sources */,
 				0A6E6BAA1AAF4B24004C0107 /* TweetSendLocationViewController.m in Sources */,
+				B1C60C7A20BFA2150073D3CA /* NProjectFileListView.m in Sources */,
 				8E59F0F71A00F3E2009A905F /* ProjectFolderListCell.m in Sources */,
 				8EA6D1C319E240C40076D59C /* User.m in Sources */,
 				8EA6D1FB19E240C40076D59C /* MJPhotoToolbar.m in Sources */,
@@ -11370,6 +11515,7 @@
 				7EB02FF31B6D111300D2166C /* AudioRecordView.m in Sources */,
 				4EB52F281C76ED4A00B5EBEA /* TagColorEditCell.m in Sources */,
 				B12B64771FFB61AD00ACFDCC /* QBVideoIndicatorView.m in Sources */,
+				B1C60C9C20C004C80073D3CA /* TeamPurchaseOrderCell.m in Sources */,
 				4E93F2441B85C4C300017916 /* FileInfoViewController.m in Sources */,
 				4E4D6A9A1B1D893500FD2E49 /* CommitInfo.m in Sources */,
 				4E38CF5F1A7A28AF005536C0 /* CodeBranchTagButton.m in Sources */,
@@ -11488,6 +11634,7 @@
 				B1D5EC2920BC06CB00983FB6 /* ActivityView.m in Sources */,
 				B1D5EC2A20BC06CB00983FB6 /* ListGroupItem.m in Sources */,
 				B1D5EC2B20BC06CB00983FB6 /* CodingSearchDisplayView.m in Sources */,
+				B1D5F21F20BD50D000983FB6 /* ProjectRole.m in Sources */,
 				B1D5EC2C20BC06CB00983FB6 /* MyTask_RootViewController.m in Sources */,
 				B1D5EC2D20BC06CB00983FB6 /* SettingAccountViewController.m in Sources */,
 				B1D5EC2E20BC06CB00983FB6 /* SWTableViewCell.m in Sources */,
@@ -11512,6 +11659,7 @@
 				B1D5EC4120BC06CB00983FB6 /* ProjectTransferSettingViewController.m in Sources */,
 				B1D5EC4220BC06CB00983FB6 /* UIMessageInputView_Add.m in Sources */,
 				B1D5EC4320BC06CB00983FB6 /* UIMessageInputView_Voice.m in Sources */,
+				B1C60C8320BFCEFD0073D3CA /* NFileListViewController.m in Sources */,
 				B1D5EC4420BC06CB00983FB6 /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				B1D5EC4520BC06CB00983FB6 /* PointRecord.m in Sources */,
 				B1D5EC4620BC06CB00983FB6 /* ShopGoodsCCell.m in Sources */,
@@ -11645,6 +11793,7 @@
 				B1D5ECC620BC06CB00983FB6 /* TopicContentCell.m in Sources */,
 				B1D5ECC720BC06CB00983FB6 /* ForkTreeCell.m in Sources */,
 				B1D5ECC820BC06CB00983FB6 /* AMPopTip.m in Sources */,
+				B1D5F20F20BD3BF400983FB6 /* UINavigationController+FullscreenPopGesture.m in Sources */,
 				B1D5ECC920BC06CB00983FB6 /* MRPRAcceptViewController.m in Sources */,
 				B1D5ECCA20BC06CB00983FB6 /* UIView+Common.m in Sources */,
 				B1D5ECCB20BC06CB00983FB6 /* SDWebImageDownloaderOperation.m in Sources */,
@@ -11693,6 +11842,7 @@
 				B1D5ECF620BC06CB00983FB6 /* CountryCodeListViewController.m in Sources */,
 				B1D5ECF720BC06CB00983FB6 /* AllSearchDisplayVC.m in Sources */,
 				B1D5ECF820BC06CB00983FB6 /* TweetSendLocationDetailViewController.m in Sources */,
+				B1D5F22320BEA37600983FB6 /* MeRootCompanyCell.m in Sources */,
 				B1D5ECF920BC06CB00983FB6 /* EATerminalViewController.m in Sources */,
 				B1D5ECFA20BC06CB00983FB6 /* TweetSendMapAnnotation.m in Sources */,
 				B1D5ECFB20BC06CB00983FB6 /* MRPR.m in Sources */,
@@ -11700,6 +11850,7 @@
 				B1D5ECFD20BC06CB00983FB6 /* CodingBannersView.m in Sources */,
 				B1D5ECFE20BC06CB00983FB6 /* OTPListViewController.m in Sources */,
 				B1D5ECFF20BC06CB00983FB6 /* UIImageView+WebCache.m in Sources */,
+				B1D5F21920BD485D00983FB6 /* TeamPurchaseBilling.m in Sources */,
 				B1D5ED0020BC06CB00983FB6 /* InputOnlyTextPlainCell.m in Sources */,
 				B1D5ED0120BC06CB00983FB6 /* NSTimer+Addition.m in Sources */,
 				B1D5ED0220BC06CB00983FB6 /* AFURLSessionManager.m in Sources */,
@@ -11710,6 +11861,7 @@
 				B1D5ED0720BC06CB00983FB6 /* MJPhotoLoadingView.m in Sources */,
 				B1D5ED0820BC06CB00983FB6 /* FileEditViewController.m in Sources */,
 				B1D5ED0920BC06CB00983FB6 /* TopicDetailViewController.m in Sources */,
+				B1C60CA520C0DDF60073D3CA /* TeamSettingViewController.m in Sources */,
 				B1D5ED0A20BC06CB00983FB6 /* UIImageView+HighlightedWebCache.m in Sources */,
 				B1D5ED0B20BC06CB00983FB6 /* Helper.m in Sources */,
 				B1D5ED0C20BC06CB00983FB6 /* PointTopCell.m in Sources */,
@@ -11732,6 +11884,7 @@
 				B1D5ED1D20BC06CB00983FB6 /* EaseGitButtonsView.m in Sources */,
 				B1D5ED1E20BC06CB00983FB6 /* SettingTagsViewController.m in Sources */,
 				B1D5ED1F20BC06CB00983FB6 /* EALocalCodeListCell.m in Sources */,
+				B1D5F23320BEADD200983FB6 /* TeamSupportCell.m in Sources */,
 				B1D5ED2020BC06CB00983FB6 /* ValueListCell.m in Sources */,
 				B1D5ED2120BC06CB00983FB6 /* TaskResourceReferenceViewController.m in Sources */,
 				B1D5ED2220BC06CB00983FB6 /* SVModalWebViewController.m in Sources */,
@@ -11761,6 +11914,7 @@
 				B1D5ED3A20BC06CB00983FB6 /* CodingTips.m in Sources */,
 				B1D5ED3B20BC06CB00983FB6 /* MRPRCommentCCell.m in Sources */,
 				B1D5ED3C20BC06CB00983FB6 /* AMPopTip+Animation.m in Sources */,
+				B1C60C9120BFF7950073D3CA /* ProjectTypeExplanationViewController.m in Sources */,
 				B1D5ED3D20BC06CB00983FB6 /* TaskCommentTopCell.m in Sources */,
 				B1D5ED3E20BC06CB00983FB6 /* MRPRCommitsViewController.m in Sources */,
 				B1D5ED3F20BC06CB00983FB6 /* EABasePageModel.m in Sources */,
@@ -11772,6 +11926,7 @@
 				B1D5ED4520BC06CB00983FB6 /* DownMenuCell.m in Sources */,
 				B1D5ED4620BC06CB00983FB6 /* RFToolbarButton.m in Sources */,
 				B1D5ED4720BC06CB00983FB6 /* TopicListButton.m in Sources */,
+				B1C60CA920C0DDF60073D3CA /* TeamSupportViewController.m in Sources */,
 				B1D5ED4820BC06CB00983FB6 /* ImageSizeManager.m in Sources */,
 				B1D5ED4920BC06CB00983FB6 /* File.m in Sources */,
 				B1D5ED4A20BC06CB00983FB6 /* ShopOrderViewController.m in Sources */,
@@ -11838,6 +11993,7 @@
 				B1D5ED8720BC06CB00983FB6 /* SDWebImageDownloader.m in Sources */,
 				B1D5ED8820BC06CB00983FB6 /* HtmlMedia.m in Sources */,
 				B1D5ED8920BC06CB00983FB6 /* EditLabelCell.m in Sources */,
+				B1C60CA720C0DDF60073D3CA /* TeamPurchaseViewController.m in Sources */,
 				B1D5ED8A20BC06CB00983FB6 /* NSString+Common.m in Sources */,
 				B1D5ED8B20BC06CB00983FB6 /* BasicPreviewItem.m in Sources */,
 				B1D5ED8C20BC06CB00983FB6 /* MeDisplayViewController.m in Sources */,
@@ -11851,6 +12007,7 @@
 				B1D5ED9420BC06CB00983FB6 /* FileComment.m in Sources */,
 				B1D5ED9520BC06CB00983FB6 /* Tweet_RootViewController.m in Sources */,
 				B1D5ED9620BC06CB00983FB6 /* ProjectDeleteAlertControllerVisualStyle.m in Sources */,
+				B1D5F21720BD485D00983FB6 /* TeamPurchaseOrder.m in Sources */,
 				B1D5ED9720BC06CB00983FB6 /* ProjectItemsCell.m in Sources */,
 				B1D5ED9820BC06CB00983FB6 /* WebContentManager.m in Sources */,
 				B1D5ED9920BC06CB00983FB6 /* Login2FATipCell.m in Sources */,
@@ -11899,6 +12056,7 @@
 				B1D5EDC420BC06CB00983FB6 /* PointRecordCell.m in Sources */,
 				B1D5EDC520BC06CB00983FB6 /* UIView+PressMenu.m in Sources */,
 				B1D5EDC620BC06CB00983FB6 /* Tasks.m in Sources */,
+				B1C60C9920C004C80073D3CA /* TeamPurchaseTopCell.m in Sources */,
 				B1D5EDC720BC06CB00983FB6 /* MBProgressHUD+Add.m in Sources */,
 				B1D5EDC820BC06CB00983FB6 /* CodeViewController.m in Sources */,
 				B1D5EDC920BC06CB00983FB6 /* ProjectTweetSendViewController.m in Sources */,
@@ -11909,6 +12067,7 @@
 				B1D5EDCE20BC06CB00983FB6 /* ProjectAboutMeListCell.m in Sources */,
 				B1D5EDCF20BC06CB00983FB6 /* EAFliterMenu.m in Sources */,
 				B1D5EDD020BC06CB00983FB6 /* HotTopicBannerView.m in Sources */,
+				B1D5F21B20BD485D00983FB6 /* TeamPurchaseBillingDetail.m in Sources */,
 				B1D5EDD120BC06CB00983FB6 /* EditTaskViewController.m in Sources */,
 				B1D5EDD220BC06CB00983FB6 /* TagColorDisplayCell.m in Sources */,
 				B1D5EDD320BC06CB00983FB6 /* ProjectTopics.m in Sources */,
@@ -11924,6 +12083,7 @@
 				B1D5EDDD20BC06CB00983FB6 /* CSTopicModel.m in Sources */,
 				B1D5EDDE20BC06CB00983FB6 /* FileLineChange.m in Sources */,
 				B1D5EDDF20BC06CB00983FB6 /* PasswordViewController.m in Sources */,
+				B1C60C7F20BFCDBE0073D3CA /* EditMemberTypeProjectListViewController.m in Sources */,
 				B1D5EDE020BC06CB00983FB6 /* BaseCollectionCell.m in Sources */,
 				B1D5EDE120BC06CB00983FB6 /* SVWebViewController.m in Sources */,
 				B1D5EDE220BC06CB00983FB6 /* EACodeReleaseViewController.m in Sources */,
@@ -11968,6 +12128,7 @@
 				B1D5EE0920BC06CB00983FB6 /* CodeFile.m in Sources */,
 				B1D5EE0A20BC06CB00983FB6 /* EAMilestone.m in Sources */,
 				B1D5EE0B20BC06CB00983FB6 /* CSSearchCell.m in Sources */,
+				B1C60C9B20C004C80073D3CA /* TeamPurchaseBillingCell.m in Sources */,
 				B1D5EE0C20BC06CB00983FB6 /* JDStatusBarView.m in Sources */,
 				B1D5EE0D20BC06CB00983FB6 /* MRPRAcceptEditCell.m in Sources */,
 				B1D5EE0E20BC06CB00983FB6 /* EACodeReleaseAttachmentsOrReferencesCell.m in Sources */,
@@ -11982,6 +12143,7 @@
 				B1D5EE1720BC06CB00983FB6 /* ProjectCodeListCell.m in Sources */,
 				B1D5EE1820BC06CB00983FB6 /* UserServiceInfo.m in Sources */,
 				B1D5EE1920BC06CB00983FB6 /* TweetSendLocationViewController.m in Sources */,
+				B1C60C7B20BFA2150073D3CA /* NProjectFileListView.m in Sources */,
 				B1D5EE1A20BC06CB00983FB6 /* ProjectFolderListCell.m in Sources */,
 				B1D5EE1B20BC06CB00983FB6 /* User.m in Sources */,
 				B1D5EE1C20BC06CB00983FB6 /* MJPhotoToolbar.m in Sources */,
@@ -11991,6 +12153,7 @@
 				B1D5EE2020BC06CB00983FB6 /* AudioRecordView.m in Sources */,
 				B1D5EE2120BC06CB00983FB6 /* TagColorEditCell.m in Sources */,
 				B1D5EE2220BC06CB00983FB6 /* QBVideoIndicatorView.m in Sources */,
+				B1C60C9D20C004C80073D3CA /* TeamPurchaseOrderCell.m in Sources */,
 				B1D5EE2320BC06CB00983FB6 /* FileInfoViewController.m in Sources */,
 				B1D5EE2420BC06CB00983FB6 /* CommitInfo.m in Sources */,
 				B1D5EE2520BC06CB00983FB6 /* CodeBranchTagButton.m in Sources */,
@@ -12250,10 +12413,10 @@
 		};
 		B1D5F20020BC06CB00983FB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 34E37865A7DAAE68AEF68258 /* Pods-Coding_iOS.debug.xcconfig */;
+			baseConfigurationReference = 344214A4A1281EB0C9B3DE71 /* Pods-Coding_iOS-CodingEnterprise_iOS.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Coding_iOS/Coding_iOS.entitlements;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_E;
+				CODE_SIGN_ENTITLEMENTS = Coding_iOS/CodingEnterprise_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -12294,10 +12457,10 @@
 		};
 		B1D5F20120BC06CB00983FB6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2FD5D8DD0689696D28A6D49E /* Pods-Coding_iOS.release.xcconfig */;
+			baseConfigurationReference = BA1AE837BA26B375F43A9343 /* Pods-Coding_iOS-CodingEnterprise_iOS.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Coding_iOS/Coding_iOS.entitlements;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_E;
+				CODE_SIGN_ENTITLEMENTS = Coding_iOS/CodingEnterprise_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";

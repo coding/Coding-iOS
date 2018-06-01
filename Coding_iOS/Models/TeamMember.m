@@ -10,4 +10,17 @@
 
 @implementation TeamMember
 
+- (NSString *)editAlias{
+    if (!_editAlias) {
+        _editAlias = _alias ?: @"";
+    }
+    return _editAlias;
+}
+- (NSNumber *)editRole{
+    if (!_editRole) {
+        _editRole = _role;
+    }
+    return _editRole;
+}
+
 @end

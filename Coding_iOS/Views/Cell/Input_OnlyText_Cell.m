@@ -45,10 +45,12 @@
             [_textField addTarget:self action:@selector(editDidEnd:) forControlEvents:UIControlEventEditingDidEnd];
             [self.contentView addSubview:_textField];
             [_textField mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo(21);
+                make.height.mas_equalTo(20);
                 make.left.equalTo(self.contentView).offset(kLoginPaddingLeftWidth);
                 make.right.equalTo(self.contentView).offset(-kLoginPaddingLeftWidth);
-                make.bottom.offset(-15);
+                
+                make.bottom.mas_greaterThanOrEqualTo(self.contentView).offset(-15).priority(MASLayoutPriorityRequired);
+                make.centerY.equalTo(self.contentView).priority(MASLayoutPriorityDefaultLow);
             }];
         }
         
@@ -66,8 +68,8 @@
                 [self.contentView addSubview:_captchaView];
                 [_captchaView mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.size.mas_equalTo(CGSizeMake(60, 25));
-                    make.right.offset(-kPaddingLeftWidth);
-                    make.bottom.offset(-15);
+                    make.centerY.equalTo(self.textField);
+                    make.right.equalTo(self.contentView).offset(-kLoginPaddingLeftWidth);
                 }];
             }
             if (!_activityIndicator) {
@@ -94,9 +96,28 @@
                 [self.contentView addSubview:_verify_codeBtn];
                 [_verify_codeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.size.mas_equalTo(CGSizeMake(80, 25));
-                    make.right.offset(-kPaddingLeftWidth);
-                    make.bottom.offset(-15);
+                    make.centerY.equalTo(self.textField);
+                    make.right.equalTo(self.contentView).offset(-kLoginPaddingLeftWidth);
                 }];
+            }
+        }else if ([reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Company]){
+            if (!_companySuffixL) {
+                _companySuffixL = [UILabel labelWithFont:[UIFont systemFontOfSize:17] textColor:kColor222];
+                [self.contentView addSubview:_companySuffixL];
+                [_companySuffixL mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.equalTo(self.textField);
+                    make.right.equalTo(self.contentView).offset(-kPaddingLeftWidth);
+                }];
+                {
+                    UIView *splitLineV = [UIView new];
+                    splitLineV.backgroundColor = kColorDDD;
+                    [self.contentView addSubview:splitLineV];
+                    [splitLineV mas_makeConstraints:^(MASConstraintMaker *make) {
+                        make.centerY.equalTo(self.textField);
+                        make.size.mas_equalTo(CGSizeMake(1.0/[UIScreen mainScreen].scale, 20));
+                        make.right.equalTo(self.companySuffixL.mas_left).offset(-10);
+                    }];
+                }
             }
         }else if ([reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Phone]){
             _countryCodeL = ({
@@ -106,7 +127,7 @@
                 [self.contentView addSubview:label];
                 [label mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.left.equalTo(self.contentView).offset(kPaddingLeftWidth);
-                    make.centerY.equalTo(self.contentView);
+                    make.centerY.equalTo(self.textField);
                 }];
                 label;
             });
@@ -137,8 +158,10 @@
             [_textField mas_remakeConstraints:^(MASConstraintMaker *make) {
                 make.height.mas_equalTo(20);
                 make.right.equalTo(self.contentView).offset(-kLoginPaddingLeftWidth);
-                make.centerY.equalTo(self.contentView);
                 make.left.equalTo(lineV.mas_right).offset(8.0);
+                
+                make.bottom.mas_greaterThanOrEqualTo(self.contentView).offset(-15).priority(MASLayoutPriorityRequired);
+                make.centerY.equalTo(self.contentView).priority(MASLayoutPriorityDefaultLow);
             }];
         }
     }
@@ -147,7 +170,7 @@
 
 - (void)prepareForReuse{
     [super prepareForReuse];
-    
+    self.isBottomLineShow = NO;
     if (![self.reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Password]) {
         self.textField.secureTextEntry = NO;
     }
@@ -188,7 +211,11 @@
     
     if (!_lineView && _isBottomLineShow) {
         _lineView = [UIView new];
-        _lineView.backgroundColor = kColorDarkA;
+        if (kTarget_Enterprise) {
+            _lineView.backgroundColor = [UIColor colorWithHexString:@"0xD8DDE4"];
+        }else{
+            _lineView.backgroundColor = kColorDarkA;
+        }
         [self.contentView addSubview:_lineView];
         [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(kLine_MinHeight);
@@ -212,17 +239,21 @@
         rightElement = _passwordBtn;
     }else if ([self.reuseIdentifier hasPrefix:kCellIdentifier_Input_OnlyText_Cell_PhoneCode_Prefix]){
         rightElement = _verify_codeBtn;
+    }else if ([self.reuseIdentifier isEqualToString:kCellIdentifier_Input_OnlyText_Cell_Company]){
+        rightElement = _companySuffixL;
     }
-    
+
     [_clearBtn mas_updateConstraints:^(MASConstraintMaker *make) {
         CGFloat offset = rightElement? (CGRectGetMinX(rightElement.frame) - kScreen_Width - 10): -kLoginPaddingLeftWidth;
         make.right.equalTo(self.contentView).offset(offset);
     }];
-    
-    [_textField mas_updateConstraints:^(MASConstraintMaker *make) {
-        CGFloat offset = rightElement? (CGRectGetMinX(rightElement.frame) - kScreen_Width - 10): -kLoginPaddingLeftWidth;
-        make.right.equalTo(self.contentView).offset(offset);
-    }];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{//layout 的时候，rightElement 的 frame 还没有固定
+        [_textField mas_updateConstraints:^(MASConstraintMaker *make) {
+            CGFloat offset = rightElement? (CGRectGetMinX(rightElement.frame) - kScreen_Width - 10): -kLoginPaddingLeftWidth;
+            make.right.equalTo(self.contentView).offset(offset);
+        }];
+    });
+
 }
 
 #pragma password
@@ -245,7 +276,11 @@
 
 #pragma mark TextField
 - (void)editDidBegin:(id)sender {
-    self.lineView.backgroundColor = kColorBrandBlue;
+    if (kTarget_Enterprise) {
+        self.lineView.backgroundColor = [UIColor colorWithHexString:@"0x323A45"];
+    }else{
+        self.lineView.backgroundColor = kColorBrandBlue;
+    }
     
     if (self.editDidBeginBlock) {
         self.editDidBeginBlock(self.textField.text);
@@ -253,7 +288,11 @@
 }
 
 - (void)editDidEnd:(id)sender {
-   self.lineView.backgroundColor = kColorDarkA;
+    if (kTarget_Enterprise) {
+        self.lineView.backgroundColor = [UIColor colorWithHexString:@"0xD8DDE4"];
+    }else{
+        self.lineView.backgroundColor = kColorDarkA;
+    }
     self.clearBtn.hidden = YES;
     if (self.editDidEndBlock) {
         self.editDidEndBlock(self.textField.text);

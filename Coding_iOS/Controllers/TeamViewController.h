@@ -12,3 +12,9 @@
 @interface TeamViewController : BaseViewController
 @property (strong, nonatomic) Team *curTeam;
 @end
+
+@interface EATeamHeaderView : UIView
+@property (strong, nonatomic) UIImageView *bgV;
+
+@property (strong, nonatomic) Team *curTeam;
+@end

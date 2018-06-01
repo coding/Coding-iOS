@@ -8,7 +8,7 @@
 
 #define kMRPRActionView_Height 35.0
 #define kMRPRTopCell_FontTitle [UIFont boldSystemFontOfSize:15]
-#define kMRPRTopCell_FontFromTo [UIFont boldSystemFontOfSize:12]
+#define kMRPRTopCell_FontFromTo [UIFont systemFontOfSize:12]
 
 #import "MRPRTopCell.h"
 

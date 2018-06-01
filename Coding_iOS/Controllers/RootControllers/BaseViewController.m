@@ -46,7 +46,8 @@
 #import "MRPRListViewController.h"
 #import "ProjectSettingViewController.h"
 #import "CodeListViewController.h"
-#import "FileListViewController.h"
+#import "NFileListViewController.h"
+#import "TeamViewController.h"
 
 #import "UnReadManager.h"
 
@@ -112,145 +113,6 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     [self p_setupUserActivity];
 }
 
-- (void)p_setupUserActivity{
-    NSString *webStr = nil;
-    
-//    主 Tab
-    if ([self isKindOfClass:Project_RootViewController.class]) {//Project
-        webStr = @"/user/projects";
-    }else if ([self isKindOfClass:MyTask_RootViewController.class]){//Task
-        webStr = [NSString stringWithFormat:@"/user/tasks?owner=%@&status=1", [Login curLoginUser].id];
-    }else if ([self isKindOfClass:Tweet_RootViewController.class]){//Tweet
-        Tweet_RootViewControllerType type = ((Tweet_RootViewController *)self).type;
-        webStr = [NSString stringWithFormat:@"/pp%@", (type == Tweet_RootViewControllerTypeHot? @"/hot":
-                                                        type == Tweet_RootViewControllerTypeFriend? @"/friends":
-                                                        @"")];
-    }else if ([self isKindOfClass:Message_RootViewController.class]){//Message
-        webStr = @"/user/messages/basic";
-    }else if ([self isKindOfClass:Me_RootViewController.class]){//User
-        webStr = @"/user/account";
-
-//        Project
-    }else if ([self isKindOfClass:NProjectViewController.class]){
-        Project *curPro = ((NProjectViewController *)self).myProject;
-        webStr = [NSString stringWithFormat:@"/u/%@/p/%@", curPro.owner_user_name, curPro.name];
-    }else if ([self isKindOfClass:ProjectViewController.class]){
-        Project *curPro = ((ProjectViewController *)self).myProject;
-        ProjectViewType type = ((ProjectViewController *)self).curType;
-        NSString *sufStr = (type == ProjectViewTypeTasks? @"/tasks":
-                            type == ProjectViewTypeFiles? @"/attachment":
-                            type == ProjectViewTypeTopics? @"/topics":
-                            type == ProjectViewTypeCodes? @"/git":
-                            type == ProjectViewTypeMembers? @"/setting/member":
-                            type == ProjectViewTypeActivities? @"":@"");
-        webStr = [NSString stringWithFormat:@"/u/%@/p/%@%@", curPro.owner_user_name, curPro.name, sufStr];
-    }else if ([self isKindOfClass:EACodeBranchListViewController.class]){
-        Project *curPro = ((EACodeBranchListViewController *)self).myProject;
-        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/git/branches", curPro.owner_user_name, curPro.name];
-    }else if ([self isKindOfClass:EACodeReleaseListViewController.class]){
-        Project *curPro = ((EACodeReleaseListViewController *)self).myProject;
-        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/git/releases", curPro.owner_user_name, curPro.name];
-    }else if ([self isKindOfClass:MRPRListViewController.class]){
-        Project *curPro = ((MRPRListViewController *)self).curProject;
-        BOOL isMR = ((MRPRListViewController *)self).isMR;
-        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/git/%@", curPro.owner_user_name, curPro.name, isMR? @"merges": @"pulls/open"];
-    }else if ([self isKindOfClass:UserOrProjectTweetsViewController.class]){
-        Tweets *curTweets = ((UserOrProjectTweetsViewController *)self).curTweets;
-        if (curTweets.tweetType == TweetTypeProject) {
-            webStr = [NSString stringWithFormat:@"/u/%@/p/%@/setting/notice", curTweets.curPro.owner_user_name, curTweets.curPro.name];
-        }else if (curTweets.tweetType == TweetTypeUserSingle){
-            webStr = [NSString stringWithFormat:@"/u/%@/bubble", curTweets.curUser.global_key];
-        }
-    }else if ([self isKindOfClass:ProjectSettingViewController.class]){
-        Project *curPro = ((ProjectSettingViewController *)self).project;
-        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/setting", curPro.owner_user_name, curPro.name];
-        
-//        Task
-    }else if ([self isKindOfClass:EditTaskViewController.class]){
-        Task *curTask = ((EditTaskViewController *)self).myTask;
-        NSString *project_path = curTask.backend_project_path.copy;
-        project_path = [[project_path stringByReplacingOccurrencesOfString:@"/user/" withString:@"/u/"] stringByReplacingOccurrencesOfString:@"/project/" withString:@"/p/"];
-        webStr = [NSString stringWithFormat:@"%@/task/%@", project_path, curTask.id];
-        
-//        Tweet
-    }else if ([self isKindOfClass:TweetDetailViewController.class]){
-        Tweet *curTweet = ((TweetDetailViewController *)self).curTweet;
-        if (curTweet.isProjectTweet) {
-            webStr = [NSString stringWithFormat:@"/u/%@/p/%@/setting/notice/%@", curTweet.project.owner_user_name, curTweet.project.name, curTweet.id];
-        }else{
-            webStr = [NSString stringWithFormat:@"/u/%@/pp/%@", curTweet.user_global_key ?: curTweet.owner.global_key, curTweet.id];
-        }
-        
-//        Message
-    }else if ([self isKindOfClass:ConversationViewController.class]){
-        PrivateMessages *curPriMs = ((ConversationViewController *)self).myPriMsgs;
-        webStr = [NSString stringWithFormat:@"/user/messages/history/%@", curPriMs.curFriend.global_key];
-        
-//        User
-    }else if ([self isKindOfClass:UserInfoViewController.class]){
-        User *curU = ((UserInfoViewController *)self).curUser;
-        webStr = [NSString stringWithFormat:@"/u/%@", curU.global_key];
-        
-//        Topic/File/MR/Code/Wiki/Release
-    }else if ([self isKindOfClass:TopicDetailViewController.class]){
-        ProjectTopic *curTopic = ((TopicDetailViewController *)self).curTopic;
-        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/topic/%@", curTopic.project.owner_user_name, curTopic.project.name, curTopic.id];
-    }else if ([self isKindOfClass:FileViewController.class]){
-        ProjectFile *curFile = ((FileViewController *)self).curFile;
-        if (curFile.project_owner_name && curFile.project_name) {
-            webStr = curFile.owner_preview;
-        }else if (curFile.owner_preview){
-            webStr = [NSString stringWithFormat:@"/u/%@/p/%@/attachment/default/preview/%@", curFile.project_owner_name, curFile.project_name, curFile.file_id];
-        }
-    }else if ([self isKindOfClass:MRDetailViewController.class] || [self isKindOfClass:PRDetailViewController.class]){
-        MRPR *curMRPR = [self valueForKey:@"curMRPR"];
-        webStr = curMRPR.path;
-    }else if ([self isKindOfClass:CodeViewController.class]){
-        Project *curPro = ((CodeViewController *) self).myProject;
-        CodeFile *curCF = ((CodeViewController *) self).myCodeFile;
-        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/git/blob/%@/%@", curPro.owner_user_name, curPro.name, curCF.ref, curCF.path];
-    }else if ([self isKindOfClass:WikiViewController.class]){
-        WikiViewController *vc = (WikiViewController *)self;
-        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/wiki", vc.myProject.owner_user_name, vc.myProject.name];
-        if (vc.iid) {
-            webStr = [webStr stringByAppendingFormat:@"/%@", vc.iid];
-            if (vc.version.integerValue > 0) {
-                webStr = [webStr stringByAppendingFormat:@"?version=%@", vc.version];
-            }
-        }
-    }else if ([self isKindOfClass:EACodeReleaseViewController.class]){
-        EACodeRelease *curR = ((EACodeReleaseViewController *)self).curRelease;
-        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/git/releases/%@", curR.project.owner_user_name, curR.project.name, curR.tag_name];
-        
-//        CodeList/FileList/Webview
-    }else if ([self isKindOfClass:CodeListViewController.class]){
-        Project *curPro = ((CodeListViewController *) self).myProject;
-        CodeTree *curCT = ((CodeListViewController *) self).myCodeTree;
-        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/git/tree/%@/%@", curPro.owner_user_name, curPro.name, curCT.ref, curCT.path];
-    }else if ([self isKindOfClass:FileListViewController.class]){
-        Project *curPro = ((FileListViewController *) self).curProject;
-        ProjectFolder *curPF = ((FileListViewController *) self).curFolder;
-        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/attachment/%@", curPro.owner_user_name, curPro.name, curPF.file_id];
-    }else if ([self isKindOfClass:WebViewController.class]){
-        webStr = ((WebViewController *)self).request.URL.absoluteString;
-    }
-    
-    if (webStr) {
-        NSURL *webURL = nil;
-        if (![webStr hasPrefix:@"http"]) {
-            webURL = [NSURL URLWithString:webStr relativeToURL:[NSURL URLWithString:[NSObject baseURLStr]]];
-        }else{
-            webURL = [NSURL URLWithString:webStr];
-        }
-        if (!_userActivity) {
-            _userActivity = [[NSUserActivity alloc]initWithActivityType:@"com.alex.handoffdemo"];
-            _userActivity.title = @"CODING";
-        }
-        [_userActivity setWebpageURL:webURL];
-        [_userActivity becomeCurrent];
-    }
-}
-
 - (void)tabBarItemClicked{
     DebugLog(@"\ntabBarItemClicked : %@", NSStringFromClass([self class]));
 }
@@ -302,6 +164,627 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
 
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr{
     return [self analyseVCFromLinkStr:linkStr analyseMethod:AnalyseMethodTypeForceCreate isNewVC:nil];
+}
+
++ (void)presentLinkStr:(NSString *)linkStr{
+    if (!linkStr || linkStr.length == 0) {
+        return;
+    }
+    BOOL isNewVC = YES;
+    UIViewController *vc = [self analyseVCFromLinkStr:linkStr analyseMethod:AnalyseMethodTypeLazyCreate isNewVC:&isNewVC];
+    if (vc && isNewVC) {
+        [self presentVC:vc];
+    }else if (!vc){
+        if (![linkStr hasPrefix:kCodingAppScheme]) {
+            //网页
+            WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
+            [self presentVC:webVc];
+        }
+    }
+}
+
++ (UIViewController *)presentingVC{
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+    if (window.windowLevel != UIWindowLevelNormal)
+    {
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(UIWindow * tmpWin in windows)
+        {
+            if (tmpWin.windowLevel == UIWindowLevelNormal)
+            {
+                window = tmpWin;
+                break;
+            }
+        }
+    }
+    UIViewController *result = window.rootViewController;
+    while (result.presentedViewController) {
+        result = result.presentedViewController;
+    }
+    if ([result isKindOfClass:[RootTabViewController class]]) {
+        result = [(RootTabViewController *)result selectedViewController];
+    }
+    if ([result isKindOfClass:[UINavigationController class]]) {
+        result = [(UINavigationController *)result topViewController];
+    }
+    return result;
+}
+
++ (void)presentVC:(UIViewController *)viewController{
+    if (!viewController) {
+        return;
+    }
+    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:viewController];
+    if (!viewController.navigationItem.leftBarButtonItem) {
+        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:viewController action:@selector(dismissModalVC)];
+    }
+    [[self presentingVC] presentViewController:nav animated:YES completion:nil];
+}
++ (void)goToVC:(UIViewController *)viewController{
+    if (!viewController) {
+        return;
+    }
+    UINavigationController *nav = [self presentingVC].navigationController;
+    if (nav) {
+        [nav pushViewController:viewController animated:YES];
+    }
+}
+
+#pragma mark Login
+- (void)loginOutToLoginVC{
+    [Login doLogout];
+    [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
+}
+
+
+#pragma mark (URL - ViewController) 特么，放在这里放瞎了
+
+#ifdef Target_Enterprise
+
+- (void)p_setupUserActivity{
+    NSString *webStr = nil;
+    
+    //    主 Tab
+    if ([self isKindOfClass:Project_RootViewController.class]) {//Project
+        webStr = @"/user/projects";
+    }else if ([self isKindOfClass:MyTask_RootViewController.class]){//Task
+        webStr = [NSString stringWithFormat:@"/user/tasks?owner=%@&status=1", [Login curLoginUser].id];
+    }else if ([self isKindOfClass:Message_RootViewController.class]){//Message
+        webStr = @"/user/messages/basic";
+    }else if ([self isKindOfClass:Me_RootViewController.class]){//User
+        webStr = @"/user/account/setting/basic";
+        
+        //        Project
+    }else if ([self isKindOfClass:NProjectViewController.class]){
+        Project *curPro = ((NProjectViewController *)self).myProject;
+        webStr = [NSString stringWithFormat:@"/p/%@", curPro.name];
+    }else if ([self isKindOfClass:ProjectViewController.class]){
+        Project *curPro = ((ProjectViewController *)self).myProject;
+        ProjectViewType type = ((ProjectViewController *)self).curType;
+        NSString *sufStr = (type == ProjectViewTypeTasks? @"/tasks":
+                            type == ProjectViewTypeFiles? @"/attachment":
+                            type == ProjectViewTypeCodes? @"/git":
+                            type == ProjectViewTypeMembers? @"/setting/member":
+                            type == ProjectViewTypeActivities? @"":@"");
+        webStr = [NSString stringWithFormat:@"/p/%@%@", curPro.name, sufStr];
+    }else if ([self isKindOfClass:EACodeBranchListViewController.class]){
+        Project *curPro = ((EACodeBranchListViewController *)self).myProject;
+        webStr = [NSString stringWithFormat:@"/p/%@/git/branches", curPro.name];
+    }else if ([self isKindOfClass:EACodeReleaseListViewController.class]){
+        Project *curPro = ((EACodeReleaseListViewController *)self).myProject;
+        webStr = [NSString stringWithFormat:@"/p/%@/git/releases", curPro.name];
+    }else if ([self isKindOfClass:MRPRListViewController.class]){
+        Project *curPro = ((MRPRListViewController *)self).curProject;
+        BOOL isMR = ((MRPRListViewController *)self).isMR;
+        webStr = [NSString stringWithFormat:@"/p/%@/git/%@", curPro.name, isMR? @"merges": @"pulls/open"];
+    }else if ([self isKindOfClass:UserOrProjectTweetsViewController.class]){
+        Tweets *curTweets = ((UserOrProjectTweetsViewController *)self).curTweets;
+        if (curTweets.tweetType == TweetTypeProject) {
+            webStr = [NSString stringWithFormat:@"/p/%@/setting/notice", curTweets.curPro.name];
+        }else if (curTweets.tweetType == TweetTypeUserSingle){
+            webStr = [NSString stringWithFormat:@"/u/%@/bubble", curTweets.curUser.global_key];
+        }
+    }else if ([self isKindOfClass:ProjectSettingViewController.class]){
+        Project *curPro = ((ProjectSettingViewController *)self).project;
+        webStr = [NSString stringWithFormat:@"/p/%@/setting", curPro.name];
+        
+        //        Task
+    }else if ([self isKindOfClass:EditTaskViewController.class]){
+        Task *curTask = ((EditTaskViewController *)self).myTask;
+        NSString *project_name = [curTask.backend_project_path componentsSeparatedByString:@"/"].lastObject;
+        webStr = [NSString stringWithFormat:@"/p/%@/task/%@", project_name, curTask.id];
+        
+        //        Tweet
+    }else if ([self isKindOfClass:TweetDetailViewController.class]){
+        Tweet *curTweet = ((TweetDetailViewController *)self).curTweet;
+        if (curTweet.isProjectTweet) {
+            webStr = [NSString stringWithFormat:@"/p/%@/setting/notice/%@", curTweet.project.name, curTweet.id];
+        }else{
+            webStr = [NSString stringWithFormat:@"/u/%@/pp/%@", curTweet.user_global_key ?: curTweet.owner.global_key, curTweet.id];
+        }
+        
+        //        Message
+    }else if ([self isKindOfClass:ConversationViewController.class]){
+        PrivateMessages *curPriMs = ((ConversationViewController *)self).myPriMsgs;
+        webStr = [NSString stringWithFormat:@"/user/messages/history/%@", curPriMs.curFriend.global_key];
+        
+        //        User
+    }else if ([self isKindOfClass:UserInfoViewController.class]){
+        User *curU = ((UserInfoViewController *)self).curUser;
+        webStr = [NSString stringWithFormat:@"/u/%@", curU.global_key];
+        
+        //        Topic/File/MR/Code/Wiki/Release
+    }else if ([self isKindOfClass:FileViewController.class]){
+        ProjectFile *curFile = ((FileViewController *)self).curFile;
+        if (curFile.project_owner_name && curFile.project_name) {
+            webStr = curFile.owner_preview;
+        }else if (curFile.owner_preview){
+            webStr = [NSString stringWithFormat:@"/p/%@/attachment/default/preview/%@", curFile.project_name, curFile.file_id];
+        }
+    }else if ([self isKindOfClass:MRDetailViewController.class] || [self isKindOfClass:PRDetailViewController.class]){
+        MRPR *curMRPR = [self valueForKey:@"curMRPR"];
+        webStr = curMRPR.path;
+    }else if ([self isKindOfClass:CodeViewController.class]){
+        Project *curPro = ((CodeViewController *) self).myProject;
+        CodeFile *curCF = ((CodeViewController *) self).myCodeFile;
+        webStr = [NSString stringWithFormat:@"/p/%@/git/blob/%@/%@", curPro.name, curCF.ref, curCF.path];
+    }else if ([self isKindOfClass:WikiViewController.class]){
+        WikiViewController *vc = (WikiViewController *)self;
+        webStr = [NSString stringWithFormat:@"/p/%@/wiki", vc.myProject.name];
+        if (vc.iid) {
+            webStr = [webStr stringByAppendingFormat:@"/%@", vc.iid];
+            if (vc.version.integerValue > 0) {
+                webStr = [webStr stringByAppendingFormat:@"?version=%@", vc.version];
+            }
+        }
+    }else if ([self isKindOfClass:EACodeReleaseViewController.class]){
+        EACodeRelease *curR = ((EACodeReleaseViewController *)self).curRelease;
+        webStr = [NSString stringWithFormat:@"/p/%@/git/releases/%@", curR.project.name, curR.tag_name];
+        
+        //        CodeList/FileList/Webview
+    }else if ([self isKindOfClass:CodeListViewController.class]){
+        Project *curPro = ((CodeListViewController *) self).myProject;
+        CodeTree *curCT = ((CodeListViewController *) self).myCodeTree;
+        webStr = [NSString stringWithFormat:@"/p/%@/git/tree/%@/%@", curPro.name, curCT.ref, curCT.path];
+    }else if ([self isKindOfClass:NFileListViewController.class]){
+        Project *curPro = ((NFileListViewController *) self).curProject;
+        ProjectFile *curPF = ((NFileListViewController *) self).curFolder;
+        webStr = [NSString stringWithFormat:@"/p/%@/attachment/%@", curPro.name, curPF.file_id];
+    }else if ([self isKindOfClass:WebViewController.class]){
+        webStr = ((WebViewController *)self).request.URL.absoluteString;
+    }
+    
+    if (webStr) {
+        NSURL *webURL = nil;
+        if (![webStr hasPrefix:@"http"]) {
+            webURL = [NSURL URLWithString:webStr relativeToURL:[NSURL URLWithString:[NSObject baseURLStr]]];
+        }else{
+            webURL = [NSURL URLWithString:webStr];
+        }
+        if (!_userActivity) {
+            _userActivity = [[NSUserActivity alloc]initWithActivityType:@"com.alex.handoffdemo"];
+            _userActivity.title = @"CODING_ENTERPRISE";
+        }
+        [_userActivity setWebpageURL:webURL];
+        [_userActivity becomeCurrent];
+    }
+}
+
++ (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr analyseMethod:(AnalyseMethodType)methodType isNewVC:(BOOL *)isNewVC{
+    DebugLog(@"\n analyseVCFromLinkStr : %@", linkStr);
+    
+    NSString *lowerLinkStr = linkStr.lowercaseString;
+    if (!linkStr || linkStr.length <= 0) {
+        return nil;
+    }else if (!([linkStr hasPrefix:@"/"] ||
+                [lowerLinkStr hasPrefix:kCodingAppScheme] ||
+                [lowerLinkStr hasPrefix:kBaseUrlStr_Phone] ||
+                [lowerLinkStr hasPrefix:[NSObject baseURLStr].lowercaseString] ||
+                [lowerLinkStr hasPrefix:@"https://coding.net"])){//兼容一下先
+        return nil;
+    }
+    NSRange pRange = [linkStr rangeOfString:@"/p/"];
+    if (pRange.location != NSNotFound &&
+        [linkStr rangeOfString:@"/u/"].location == NSNotFound &&
+        [linkStr rangeOfString:@"/t/"].location == NSNotFound) {//强填 u
+        NSString *defaultTeamStr = [NSString stringWithFormat:@"/u/%@", [Login curLoginCompany].global_key ?: [NSObject baseCompany]];
+        linkStr = [linkStr stringByReplacingCharactersInRange:NSMakeRange(pRange.location, 0) withString:defaultTeamStr];
+    }
+    UIViewController *analyseVC = nil;
+    UIViewController *presentingVC = nil;
+    BOOL analyseVCIsNew = YES;
+    if (methodType != AnalyseMethodTypeForceCreate) {
+        presentingVC = [BaseViewController presentingVC];
+    }
+    
+    NSString *teamRegexStr = @"/t/([^/]+)$";//AT某人
+    NSString *userRegexStr = @"/u/([^/]+)$";//AT某人
+    //    NSString *userTweetRegexStr = @"/u/([^/]+)/bubble$";//某人的冒泡
+    //    NSString *ppRegexStr = @"/u/([^/]+)/pp/([0-9]+)";//冒泡
+    NSString *pp_projectRegexStr = @"/[ut]/([^/]+)/p/([^\?]+)[\?]pp=([0-9]+)$";//项目内冒泡(含团队项目)
+    NSString *topicRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/topic/(\\d+)";//讨论(含团队项目)
+    NSString *taskRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/task/(\\d+)";//任务(含团队项目)
+    NSString *fileRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/attachment/([^/]+)/preview/(\\d+)";//文件(含团队项目)
+    NSString *gitMRPRCommitRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/git/(merge|pull|commit)/([^/#]+)";//MR(含团队项目)
+    NSString *conversionRegexStr = @"/user/messages/history/([^/]+)$";//私信
+    //    NSString *pp_topicRegexStr = @"/pp/topic/([0-9]+)$";//话题
+    NSString *codeRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/git/blob/([^/]+)[/]?([^?]*)";//代码(含团队项目)
+    NSString *twoFARegexStr = @"/app_intercept/show_2fa";//两步验证
+    NSString *projectRegexStr = @"/[ut]/([^/]+)/p/([^/]+)";//项目(含团队项目)
+    NSString *noticeRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/setting/notice";//项目公告
+    NSString *wikiRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/wiki/(\\d+)";//Wiki
+    NSString *releaseRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/git/releases/([^/]+)[/]?([^?]*)";//Release
+    NSArray *matchedCaptures = nil;
+    
+    if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:teamRegexStr]).count > 0) {
+        //团队
+        TeamViewController *vc = [TeamViewController new];
+        NSString *team_global_key = matchedCaptures[1];
+        vc.curTeam = [Team teamWithGK:team_global_key];
+        analyseVC = vc;
+    }else if ([linkStr hasSuffix:@"/admin"]){
+        //企业
+        TeamViewController *vc = [TeamViewController new];
+        NSString *team_global_key = [NSObject baseCompany];
+        vc.curTeam = [Team teamWithGK:team_global_key];
+        analyseVC = vc;
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:noticeRegexStr]).count > 0){
+        UserOrProjectTweetsViewController *vc = [UserOrProjectTweetsViewController new];
+        Project *curPro = [Project new];
+        curPro.owner_user_name = matchedCaptures[1];
+        curPro.name = matchedCaptures[2];
+        vc.curTweets = [Tweets tweetsWithProject:curPro];
+        analyseVC = vc;
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:wikiRegexStr]).count > 0){
+        WikiViewController *vc = [WikiViewController new];
+        Project *curPro = [Project new];
+        curPro.owner_user_name = matchedCaptures[1];
+        curPro.name = matchedCaptures[2];
+        NSString *iid = matchedCaptures[3];
+        vc.myProject = curPro;
+        [vc setWikiIid:@(iid.integerValue) version:nil];
+        analyseVC = vc;
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:releaseRegexStr]).count > 0){
+        EACodeReleaseViewController *vc = [EACodeReleaseViewController new];
+        Project *curPro = [Project new];
+        curPro.owner_user_name = matchedCaptures[1];
+        curPro.name = matchedCaptures[2];
+        EACodeRelease *curR = [EACodeRelease new];
+        curR.project = curPro;
+        curR.tag_name = matchedCaptures[3];
+        vc.curRelease = curR;
+        analyseVC = vc;
+        //    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:ppRegexStr]).count > 0){
+        //        //冒泡
+        //        NSString *user_global_key = matchedCaptures[1];
+        //        NSString *pp_id = matchedCaptures[2];
+        //        if ([presentingVC isKindOfClass:[TweetDetailViewController class]]) {
+        //            TweetDetailViewController *vc = (TweetDetailViewController *)presentingVC;
+        //            if ([vc.curTweet.id.stringValue isEqualToString:pp_id]
+        //                && [vc.curTweet.owner.global_key isEqualToString:user_global_key]) {
+        //                [vc refreshTweet];
+        //                analyseVCIsNew = NO;
+        //                analyseVC = vc;
+        //            }
+        //        }
+        //        if (!analyseVC) {
+        //            TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
+        //            vc.curTweet = [Tweet tweetWithGlobalKey:user_global_key andPPID:pp_id];
+        //            analyseVC = vc;
+        //        }
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:pp_projectRegexStr]).count > 0){
+        //项目内冒泡
+        NSString *owner_user_global_key = matchedCaptures[1];
+        NSString *project_name = matchedCaptures[2];
+        NSString *pp_id = matchedCaptures[3];
+        Project *curPro = [Project new];
+        curPro.owner_user_name = owner_user_global_key;
+        curPro.name = project_name;
+        TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
+        vc.curTweet = [Tweet tweetInProject:curPro andPPID:pp_id];
+        analyseVC = vc;
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:gitMRPRCommitRegexStr]).count > 0){
+        //MR
+        NSString *path = [matchedCaptures[0] stringByReplacingOccurrencesOfString:@"https://coding.net" withString:@""];
+        
+        if ([matchedCaptures[3] isEqualToString:@"commit"]) {
+            if ([presentingVC isKindOfClass:[CommitFilesViewController class]]) {
+                CommitFilesViewController *vc = (CommitFilesViewController *)presentingVC;
+                if ([vc.commitId isEqualToString:matchedCaptures[3]] &&
+                    [vc.projectName isEqualToString:matchedCaptures[2]] &&
+                    [vc.ownerGK isEqualToString:matchedCaptures[1]]) {
+                    [vc refresh];
+                    analyseVCIsNew = NO;
+                    analyseVC = vc;
+                }
+            }
+            if (!analyseVC) {
+                analyseVC = [CommitFilesViewController vcWithPath:path];
+            }
+        }else{
+            if ([presentingVC isKindOfClass:[PRDetailViewController class]]) {
+                PRDetailViewController *vc = (PRDetailViewController *)presentingVC;
+                if ([vc.curMRPR.path isEqualToString:path]) {
+                    [vc refresh];
+                    analyseVCIsNew = NO;
+                    analyseVC = vc;
+                }
+            }
+            if (!analyseVC) {
+                if([path rangeOfString:@"merge"].location == NSNotFound) {
+                    analyseVC = [PRDetailViewController vcWithPath:path];
+                } else {
+                    analyseVC = [MRDetailViewController vcWithPath:path];
+                }
+            }
+        }
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:topicRegexStr]).count > 0){
+        //讨论
+        NSString *topic_id = matchedCaptures[3];
+        if ([presentingVC isKindOfClass:[TopicDetailViewController class]]) {
+            TopicDetailViewController *vc = (TopicDetailViewController *)presentingVC;
+            if ([vc.curTopic.id.stringValue isEqualToString:topic_id]) {
+                [vc refreshTopic];
+                analyseVCIsNew = NO;
+                analyseVC = vc;
+            }
+        }
+        if (!analyseVC) {
+            TopicDetailViewController *vc = [[TopicDetailViewController alloc] init];
+            vc.curTopic = [ProjectTopic topicWithId:[NSNumber numberWithInteger:topic_id.integerValue]];
+            analyseVC = vc;
+        }
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:taskRegexStr]).count > 0){
+        //任务
+        NSString *user_global_key = matchedCaptures[1];
+        NSString *project_name = matchedCaptures[2];
+        NSString *taskId = matchedCaptures[3];
+        NSString *backend_project_path = [NSString stringWithFormat:@"/user/%@/project/%@", user_global_key, project_name];
+        if ([presentingVC isKindOfClass:[EditTaskViewController class]]) {
+            EditTaskViewController *vc = (EditTaskViewController *)presentingVC;
+            if ([vc.myTask.backend_project_path isEqualToString:backend_project_path]
+                && [vc.myTask.id.stringValue isEqualToString:taskId]) {
+                [vc queryToRefreshTaskDetail];
+                analyseVCIsNew = NO;
+                analyseVC = vc;
+            }
+        }
+        if (!analyseVC) {
+            EditTaskViewController *vc = [[EditTaskViewController alloc] init];
+            vc.myTask = [Task taskWithBackend_project_path:[NSString stringWithFormat:@"/user/%@/project/%@", user_global_key, project_name] andId:taskId];
+            @weakify(vc);
+            vc.taskChangedBlock = ^(){
+                @strongify(vc);
+                [vc dismissViewControllerAnimated:YES completion:nil];
+            };
+            analyseVC = vc;
+        }
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:fileRegexStr]).count > 0){
+        //文件
+        NSString *user_global_key = matchedCaptures[1];
+        NSString *project_name = matchedCaptures[2];
+        NSString *fileId = matchedCaptures[4];
+        if ([presentingVC isKindOfClass:[FileViewController class]]) {
+            FileViewController *vc = (FileViewController *)presentingVC;
+            if (vc.curFile.file_id.integerValue == fileId.integerValue) {
+                [vc requestFileData];
+                analyseVCIsNew = NO;
+                analyseVC = vc;
+            }
+        }
+        if (!analyseVC) {
+            ProjectFile *curFile = [[ProjectFile alloc] initWithFileId:@(fileId.integerValue) inProject:project_name ofUser:user_global_key];
+            FileViewController *vc = [FileViewController vcWithFile:curFile andVersion:nil];
+            analyseVC = vc;
+        }
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:conversionRegexStr]).count > 0) {
+        //私信
+        NSString *user_global_key = matchedCaptures[1];
+        if ([presentingVC isKindOfClass:[ConversationViewController class]]) {
+            ConversationViewController *vc = (ConversationViewController *)presentingVC;
+            if ([vc.myPriMsgs.curFriend.global_key isEqualToString:user_global_key]) {
+                [vc doPoll];
+                analyseVCIsNew = NO;
+                analyseVC = vc;
+            }
+        }
+        if (!analyseVC) {
+            ConversationViewController *vc = [[ConversationViewController alloc] init];
+            vc.myPriMsgs = [PrivateMessages priMsgsWithUser:[User userWithGlobalKey:user_global_key]];
+            analyseVC = vc;
+        }
+    }else if (methodType != AnalyseMethodTypeJustRefresh){
+        if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userRegexStr]).count > 0) {
+            //AT某人
+            NSString *user_global_key = matchedCaptures[1];
+            UserInfoDetailViewController *vc = [UserInfoDetailViewController new];
+            vc.curUser = [User userWithGlobalKey:user_global_key];
+            analyseVC = vc;
+            //        }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:userTweetRegexStr]).count > 0){
+            //            //某人的冒泡
+            //            UserOrProjectTweetsViewController *vc = [[UserOrProjectTweetsViewController alloc] init];
+            //            NSString *user_global_key = matchedCaptures[1];
+            //            vc.curTweets = [Tweets tweetsWithUser:[User userWithGlobalKey:user_global_key]];
+            //            analyseVC = vc;
+            //        }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:pp_topicRegexStr]).count > 0){
+            //            //话题
+            //            NSString *pp_topic_id = matchedCaptures[1];
+            //            CSTopicDetailVC *vc = [CSTopicDetailVC new];
+            //            vc.topicID = pp_topic_id.integerValue;
+            //            analyseVC = vc;
+        }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:codeRegexStr]).count > 0){
+            //代码
+            NSString *user_global_key = matchedCaptures[1];
+            NSString *project_name = matchedCaptures[2];
+            NSString *ref = matchedCaptures[3];
+            NSString *path = matchedCaptures.count >= 5? matchedCaptures[4]: @"";
+            
+            Project *curPro = [[Project alloc] init];
+            curPro.owner_user_name = user_global_key;
+            curPro.name = project_name;
+            CodeFile *codeFile = [CodeFile codeFileWithRef:ref andPath:path];
+            CodeViewController *vc = [CodeViewController codeVCWithProject:curPro andCodeFile:codeFile];
+            analyseVC = vc;
+        }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:twoFARegexStr]).count > 0){
+            //两步验证
+            analyseVC = [OTPListViewController new];
+        }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:projectRegexStr]).count > 0){
+            //项目
+            NSString *user_global_key = matchedCaptures[1];
+            NSString *project_name = matchedCaptures[2];
+            Project *curPro = [[Project alloc] init];
+            curPro.owner_user_name = user_global_key;
+            curPro.name = project_name;
+            NProjectViewController *vc = [[NProjectViewController alloc] init];
+            vc.myProject = curPro;
+            analyseVC = vc;
+        }
+    }
+    if (isNewVC) {
+        *isNewVC = analyseVCIsNew;
+    }
+    return analyseVC;
+}
+
+#else
+
+- (void)p_setupUserActivity{
+    NSString *webStr = nil;
+    
+    //    主 Tab
+    if ([self isKindOfClass:Project_RootViewController.class]) {//Project
+        webStr = @"/user/projects";
+    }else if ([self isKindOfClass:MyTask_RootViewController.class]){//Task
+        webStr = [NSString stringWithFormat:@"/user/tasks?owner=%@&status=1", [Login curLoginUser].id];
+    }else if ([self isKindOfClass:Tweet_RootViewController.class]){//Tweet
+        Tweet_RootViewControllerType type = ((Tweet_RootViewController *)self).type;
+        webStr = [NSString stringWithFormat:@"/pp%@", (type == Tweet_RootViewControllerTypeHot? @"/hot":
+                                                       type == Tweet_RootViewControllerTypeFriend? @"/friends":
+                                                       @"")];
+    }else if ([self isKindOfClass:Message_RootViewController.class]){//Message
+        webStr = @"/user/messages/basic";
+    }else if ([self isKindOfClass:Me_RootViewController.class]){//User
+        webStr = @"/user/account";
+        
+        //        Project
+    }else if ([self isKindOfClass:NProjectViewController.class]){
+        Project *curPro = ((NProjectViewController *)self).myProject;
+        webStr = [NSString stringWithFormat:@"/u/%@/p/%@", curPro.owner_user_name, curPro.name];
+    }else if ([self isKindOfClass:ProjectViewController.class]){
+        Project *curPro = ((ProjectViewController *)self).myProject;
+        ProjectViewType type = ((ProjectViewController *)self).curType;
+        NSString *sufStr = (type == ProjectViewTypeTasks? @"/tasks":
+                            type == ProjectViewTypeFiles? @"/attachment":
+                            type == ProjectViewTypeTopics? @"/topics":
+                            type == ProjectViewTypeCodes? @"/git":
+                            type == ProjectViewTypeMembers? @"/setting/member":
+                            type == ProjectViewTypeActivities? @"":@"");
+        webStr = [NSString stringWithFormat:@"/u/%@/p/%@%@", curPro.owner_user_name, curPro.name, sufStr];
+    }else if ([self isKindOfClass:EACodeBranchListViewController.class]){
+        Project *curPro = ((EACodeBranchListViewController *)self).myProject;
+        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/git/branches", curPro.owner_user_name, curPro.name];
+    }else if ([self isKindOfClass:EACodeReleaseListViewController.class]){
+        Project *curPro = ((EACodeReleaseListViewController *)self).myProject;
+        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/git/releases", curPro.owner_user_name, curPro.name];
+    }else if ([self isKindOfClass:MRPRListViewController.class]){
+        Project *curPro = ((MRPRListViewController *)self).curProject;
+        BOOL isMR = ((MRPRListViewController *)self).isMR;
+        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/git/%@", curPro.owner_user_name, curPro.name, isMR? @"merges": @"pulls/open"];
+    }else if ([self isKindOfClass:UserOrProjectTweetsViewController.class]){
+        Tweets *curTweets = ((UserOrProjectTweetsViewController *)self).curTweets;
+        if (curTweets.tweetType == TweetTypeProject) {
+            webStr = [NSString stringWithFormat:@"/u/%@/p/%@/setting/notice", curTweets.curPro.owner_user_name, curTweets.curPro.name];
+        }else if (curTweets.tweetType == TweetTypeUserSingle){
+            webStr = [NSString stringWithFormat:@"/u/%@/bubble", curTweets.curUser.global_key];
+        }
+    }else if ([self isKindOfClass:ProjectSettingViewController.class]){
+        Project *curPro = ((ProjectSettingViewController *)self).project;
+        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/setting", curPro.owner_user_name, curPro.name];
+        
+        //        Task
+    }else if ([self isKindOfClass:EditTaskViewController.class]){
+        Task *curTask = ((EditTaskViewController *)self).myTask;
+        NSString *project_path = curTask.backend_project_path.copy;
+        project_path = [[project_path stringByReplacingOccurrencesOfString:@"/user/" withString:@"/u/"] stringByReplacingOccurrencesOfString:@"/project/" withString:@"/p/"];
+        webStr = [NSString stringWithFormat:@"%@/task/%@", project_path, curTask.id];
+        
+        //        Tweet
+    }else if ([self isKindOfClass:TweetDetailViewController.class]){
+        Tweet *curTweet = ((TweetDetailViewController *)self).curTweet;
+        if (curTweet.isProjectTweet) {
+            webStr = [NSString stringWithFormat:@"/u/%@/p/%@/setting/notice/%@", curTweet.project.owner_user_name, curTweet.project.name, curTweet.id];
+        }else{
+            webStr = [NSString stringWithFormat:@"/u/%@/pp/%@", curTweet.user_global_key ?: curTweet.owner.global_key, curTweet.id];
+        }
+        
+        //        Message
+    }else if ([self isKindOfClass:ConversationViewController.class]){
+        PrivateMessages *curPriMs = ((ConversationViewController *)self).myPriMsgs;
+        webStr = [NSString stringWithFormat:@"/user/messages/history/%@", curPriMs.curFriend.global_key];
+        
+        //        User
+    }else if ([self isKindOfClass:UserInfoViewController.class]){
+        User *curU = ((UserInfoViewController *)self).curUser;
+        webStr = [NSString stringWithFormat:@"/u/%@", curU.global_key];
+        
+        //        Topic/File/MR/Code/Wiki/Release
+    }else if ([self isKindOfClass:TopicDetailViewController.class]){
+        ProjectTopic *curTopic = ((TopicDetailViewController *)self).curTopic;
+        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/topic/%@", curTopic.project.owner_user_name, curTopic.project.name, curTopic.id];
+    }else if ([self isKindOfClass:FileViewController.class]){
+        ProjectFile *curFile = ((FileViewController *)self).curFile;
+        if (curFile.project_owner_name && curFile.project_name) {
+            webStr = curFile.owner_preview;
+        }else if (curFile.owner_preview){
+            webStr = [NSString stringWithFormat:@"/u/%@/p/%@/attachment/default/preview/%@", curFile.project_owner_name, curFile.project_name, curFile.file_id];
+        }
+    }else if ([self isKindOfClass:MRDetailViewController.class] || [self isKindOfClass:PRDetailViewController.class]){
+        MRPR *curMRPR = [self valueForKey:@"curMRPR"];
+        webStr = curMRPR.path;
+    }else if ([self isKindOfClass:CodeViewController.class]){
+        Project *curPro = ((CodeViewController *) self).myProject;
+        CodeFile *curCF = ((CodeViewController *) self).myCodeFile;
+        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/git/blob/%@/%@", curPro.owner_user_name, curPro.name, curCF.ref, curCF.path];
+    }else if ([self isKindOfClass:WikiViewController.class]){
+        WikiViewController *vc = (WikiViewController *)self;
+        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/wiki", vc.myProject.owner_user_name, vc.myProject.name];
+        if (vc.iid) {
+            webStr = [webStr stringByAppendingFormat:@"/%@", vc.iid];
+            if (vc.version.integerValue > 0) {
+                webStr = [webStr stringByAppendingFormat:@"?version=%@", vc.version];
+            }
+        }
+    }else if ([self isKindOfClass:EACodeReleaseViewController.class]){
+        EACodeRelease *curR = ((EACodeReleaseViewController *)self).curRelease;
+        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/git/releases/%@", curR.project.owner_user_name, curR.project.name, curR.tag_name];
+        
+        //        CodeList/FileList/Webview
+    }else if ([self isKindOfClass:CodeListViewController.class]){
+        Project *curPro = ((CodeListViewController *) self).myProject;
+        CodeTree *curCT = ((CodeListViewController *) self).myCodeTree;
+        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/git/tree/%@/%@", curPro.owner_user_name, curPro.name, curCT.ref, curCT.path];
+    }else if ([self isKindOfClass:NFileListViewController.class]){
+        Project *curPro = ((NFileListViewController *) self).curProject;
+        ProjectFile *curPF = ((NFileListViewController *) self).curFolder;
+        webStr = [NSString stringWithFormat:@"/u/%@/p/%@/attachment/%@", curPro.owner_user_name, curPro.name, curPF.file_id];
+    }else if ([self isKindOfClass:WebViewController.class]){
+        webStr = ((WebViewController *)self).request.URL.absoluteString;
+    }
+    
+    if (webStr) {
+        NSURL *webURL = nil;
+        if (![webStr hasPrefix:@"http"]) {
+            webURL = [NSURL URLWithString:webStr relativeToURL:[NSURL URLWithString:[NSObject baseURLStr]]];
+        }else{
+            webURL = [NSURL URLWithString:webStr];
+        }
+        if (!_userActivity) {
+            _userActivity = [[NSUserActivity alloc]initWithActivityType:@"com.alex.handoffdemo"];
+            _userActivity.title = @"CODING";
+        }
+        [_userActivity setWebpageURL:webURL];
+        [_userActivity becomeCurrent];
+    }
 }
 
 + (UIViewController *)analyseVCFromLinkStr:(NSString *)linkStr analyseMethod:(AnalyseMethodType)methodType isNewVC:(BOOL *)isNewVC{
@@ -416,7 +899,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             }
             if (!analyseVC) {
                 if([path rangeOfString:@"merge"].location == NSNotFound) {
-                     analyseVC = [PRDetailViewController vcWithPath:path];
+                    analyseVC = [PRDetailViewController vcWithPath:path];
                 } else {
                     analyseVC = [MRDetailViewController vcWithPath:path];
                 }
@@ -555,74 +1038,6 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     return analyseVC;
 }
 
-+ (void)presentLinkStr:(NSString *)linkStr{
-    if (!linkStr || linkStr.length == 0) {
-        return;
-    }
-    BOOL isNewVC = YES;
-    UIViewController *vc = [self analyseVCFromLinkStr:linkStr analyseMethod:AnalyseMethodTypeLazyCreate isNewVC:&isNewVC];
-    if (vc && isNewVC) {
-        [self presentVC:vc];
-    }else if (!vc){
-        if (![linkStr hasPrefix:kCodingAppScheme]) {
-            //网页
-            WebViewController *webVc = [WebViewController webVCWithUrlStr:linkStr];
-            [self presentVC:webVc];
-        }
-    }
-}
-
-+ (UIViewController *)presentingVC{
-    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
-    if (window.windowLevel != UIWindowLevelNormal)
-    {
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(UIWindow * tmpWin in windows)
-        {
-            if (tmpWin.windowLevel == UIWindowLevelNormal)
-            {
-                window = tmpWin;
-                break;
-            }
-        }
-    }
-    UIViewController *result = window.rootViewController;
-    while (result.presentedViewController) {
-        result = result.presentedViewController;
-    }
-    if ([result isKindOfClass:[RootTabViewController class]]) {
-        result = [(RootTabViewController *)result selectedViewController];
-    }
-    if ([result isKindOfClass:[UINavigationController class]]) {
-        result = [(UINavigationController *)result topViewController];
-    }
-    return result;
-}
-
-+ (void)presentVC:(UIViewController *)viewController{
-    if (!viewController) {
-        return;
-    }
-    UINavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:viewController];
-    if (!viewController.navigationItem.leftBarButtonItem) {
-        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:viewController action:@selector(dismissModalVC)];
-    }
-    [[self presentingVC] presentViewController:nav animated:YES completion:nil];
-}
-+ (void)goToVC:(UIViewController *)viewController{
-    if (!viewController) {
-        return;
-    }
-    UINavigationController *nav = [self presentingVC].navigationController;
-    if (nav) {
-        [nav pushViewController:viewController animated:YES];
-    }
-}
-
-#pragma mark Login
-- (void)loginOutToLoginVC{
-    [Login doLogout];
-    [((AppDelegate *)[UIApplication sharedApplication].delegate) setupLoginViewController];
-}
+#endif
 
 @end

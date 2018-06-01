@@ -35,11 +35,13 @@
         _fromL.backgroundColor = [UIColor colorWithHexString:@"0xF2F4F6"];
         _fromL.cornerRadius = 2;
         _fromL.masksToBounds = YES;
+        //        [_fromL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x76808E"] cornerRadius:2.0];
         _toL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x76808E"];
         _toL.backgroundColor = [UIColor colorWithHexString:@"0xD8DDE4"];
         _toL.cornerRadius = 2;
         _toL.masksToBounds = YES;
-
+        //        [_toL doBorderWidth:0.5 color:[UIColor colorWithHexString:@"0x76808E"] cornerRadius:2.0];
+        
         for (UIView *tempV in @[_statusIcon, _titleL, _numL, _authorL, _timeL, _commentCountL, _timeIcon, _commentIcon, _arrowIcon, _fromL, _toL]) {
             [self.contentView addSubview:tempV];
         }
@@ -55,21 +57,24 @@
             make.height.mas_equalTo(21);
         }];
         [_fromL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_titleL.mas_bottom).offset(5);
+            make.top.equalTo(_titleL.mas_bottom).offset(10);
             make.height.mas_equalTo(22);
             make.left.equalTo(_titleL);
         }];
         [_arrowIcon mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_fromL.mas_right).offset(10);
-            make.right.equalTo(_toL.mas_left).offset(-10);
             make.centerY.equalTo(_fromL);
+            make.size.mas_equalTo(CGSizeMake(12, 12));
+            make.right.lessThanOrEqualTo(self.contentView).offset(-kPaddingLeftWidth);
         }];
         [_toL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_arrowIcon.mas_right).offset(10);
             make.centerY.equalTo(_fromL);
             make.height.mas_equalTo(22);
+            make.right.lessThanOrEqualTo(self.contentView).offset(-kPaddingLeftWidth);
         }];
         [_numL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(_fromL.mas_bottom).offset(10);
+            make.top.equalTo(_toL.mas_bottom).offset(10);
             make.left.equalTo(_titleL);
             make.height.mas_equalTo(17);
         }];
@@ -112,6 +117,22 @@
         fromStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPR.src_owner_name ?: @"已删除项目", _curMRPR.srcBranch];
         toStr = [NSString stringWithFormat:@"  %@ : %@  ", _curMRPR.des_owner_name ?: @"已删除项目", _curMRPR.desBranch];
     }
+    NSString *totalStr = [NSString stringWithFormat:@"%@%@", fromStr, toStr];
+    if ([totalStr getWidthWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)] + 40 > kScreen_Width - (24 + 2* kPaddingLeftWidth) - kPaddingLeftWidth) {
+        [_toL mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_titleL);
+            make.top.equalTo(_fromL.mas_bottom).offset(15);
+            make.height.mas_equalTo(22);
+            make.right.lessThanOrEqualTo(self.contentView).offset(-kPaddingLeftWidth);
+        }];
+    }else{
+        [_toL mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(_arrowIcon.mas_right).offset(10);
+            make.centerY.equalTo(_fromL);
+            make.height.mas_equalTo(22);
+            make.right.lessThanOrEqualTo(self.contentView).offset(-kPaddingLeftWidth);
+        }];
+    }
     _fromL.text = fromStr;
     _toL.text = toStr;
 }
@@ -120,4 +141,25 @@
 + (CGFloat)cellHeight{
     return 110.0;
 }
+
++ (CGFloat)cellHeightWithObj:(id)obj{
+    CGFloat cellHeight = 110.0;
+    if ([obj isKindOfClass:[MRPR class]]) {
+        MRPR *curMRPR = (MRPR *)obj;
+        NSString *fromStr, *toStr;
+        if (curMRPR.isMR) {
+            fromStr = [NSString stringWithFormat:@"  %@  ", curMRPR.srcBranch];
+            toStr = [NSString stringWithFormat:@"  %@  ", curMRPR.desBranch];
+        }else{
+            fromStr = [NSString stringWithFormat:@"  %@ : %@  ", curMRPR.src_owner_name ?: @"已删除项目", curMRPR.srcBranch];
+            toStr = [NSString stringWithFormat:@"  %@ : %@  ", curMRPR.des_owner_name ?: @"已删除项目", curMRPR.desBranch];
+        }
+        NSString *totalStr = [NSString stringWithFormat:@"%@%@", fromStr, toStr];
+        if ([totalStr getWidthWithFont:[UIFont systemFontOfSize:12] constrainedToSize:CGSizeMake(CGFLOAT_MAX, 20)] + 40 > kScreen_Width - (24 + 2* kPaddingLeftWidth) - kPaddingLeftWidth) {
+            cellHeight += 15 + 22;
+        }
+    }
+    return cellHeight;
+}
+
 @end

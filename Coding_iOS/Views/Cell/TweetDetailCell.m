@@ -181,14 +181,16 @@
         return;
     }
     
-    self.likeBtn.hidden = self.rewardBtn.hidden = [_tweet isProjectTweet];
-    
+    self.likeBtn.hidden = self.rewardBtn.hidden = self.commentBtn.hidden = [_tweet isProjectTweet];
+
     //owner头像
     __weak __typeof(self)weakSelf = self;
     [self.ownerImgView setImageWithUrl:[_tweet.owner.avatar urlImageWithCodePathResizeToView:_ownerImgView] placeholderImage:kPlaceholderMonkeyRoundView(_ownerImgView) tapBlock:^(id obj) {
         [weakSelf userBtnClicked];
     }];
+
     _vipV.image = [UIImage imageNamed:[NSString stringWithFormat:@"vip_%@_45", _tweet.owner.vip]];
+    _vipV.hidden = kTarget_Enterprise;
 
     //owner姓名
 //    [self.ownerNameBtn setUserTitle:_tweet.owner.name];
@@ -240,9 +242,10 @@
     [self.rewardBtn setTitle:_tweet.rewards.stringValue forState:UIControlStateNormal];
     [self.commentBtn setTitle:_tweet.comments.stringValue forState:UIControlStateNormal];
 
-    BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key] || tweet.project.current_user_role_id.integerValue >= 90;
+    BOOL isMineTweet = [_tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key] || _tweet.project.current_user_role_id.integerValue >= 90;
     if (isMineTweet) {
-        [self.deleteBtn setY:curBottomY];
+        CGFloat deleteBtnX = kScreen_Width - kPaddingLeftWidth - kTweetDetailCell_LikeComment_Width - ([_tweet isProjectTweet]? 0: kTweetDetailCell_LikeComment_Width + 5);
+        [self.deleteBtn setOrigin:CGPointMake(deleteBtnX, curBottomY)];
         self.deleteBtn.hidden = NO;
     }else{
         self.deleteBtn.hidden = YES;
@@ -276,7 +279,13 @@
         cellHeight += kTweetDetailCell_PadingTop;
         cellHeight += [[self class] contentHeightWithTweet:tweet];
         cellHeight += 10;
-        cellHeight += 5 + kTweetDetailCell_LikeComment_Height;
+        if (tweet.isProjectTweet) {
+            if ([tweet.owner.global_key isEqualToString:[Login curLoginUser].global_key] || tweet.project.current_user_role_id.integerValue >= 90) {
+                cellHeight += 5 + kTweetDetailCell_LikeComment_Height;
+            }
+        }else{
+            cellHeight += 5 + kTweetDetailCell_LikeComment_Height;
+        }
         cellHeight += [[self class] locationAndDeviceHeightWithTweet:tweet];
         cellHeight += [[self class] likeCommentBtn_BottomPadingWithTweet:tweet];
         cellHeight += [[self class] likeUsersHeightWithTweet:tweet];

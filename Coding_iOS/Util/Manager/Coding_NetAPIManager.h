@@ -40,6 +40,7 @@
 #import "ShopOrderModel.h"
 #import "ProjectCount.h"
 #import "ActivenessModel.h"
+#import "ProjectRole.h"
 #import "MRPRPreInfo.h"
 #import "EACodeBranches.h"
 #import "EACodeReleases.h"
@@ -47,7 +48,7 @@
 
 #import <UMSocialCore/UMSocialCore.h>
 
-@class CSTopic, Team, EAWiki;
+@class CSTopic, Team, EAWiki, TeamMember;
 
 typedef NS_ENUM(NSUInteger, VerifyType){
     VerifyTypeUnknow = 0,
@@ -68,6 +69,10 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_UnReadCountWithBlock:(void (^)(id data, NSError *error))block;
 - (void)request_UnReadNotificationsWithBlock:(void (^)(id data, NSError *error))block;
 
+#pragma mark Company
+- (void)request_CompanyExist:(NSString *)company andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_UpdateCompanyInfoBlock:(void (^)(id data, NSError *error))block;
+- (void)request_UpdateIsAdministratorBlock:(void (^)(id data, NSError *error))block;
 
 #pragma mark - Login
 - (void)request_Login_With2FA:(NSString *)otpCode andBlock:(void (^)(id data, NSError *error))block;
@@ -91,6 +96,7 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_ProjectMembers_WithObj:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectMembersHaveTasks_WithObj:(Project *)project andBlock:(void (^)(NSArray *data, NSError *error))block;
 - (void)request_ProjectMember_Quit:(ProjectMember *)curMember andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectQuit:(NSNumber *)project_id andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_Project_Pin:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 
 - (void)request_NewProject_WithObj:(Project *)project image:(UIImage *)image andBlock:(void (^)(NSString *data, NSError *error))block;
@@ -101,14 +107,22 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_TransferProject:(Project *)project toUser:(User *)user passCode:(NSString *)passCode type:(VerifyType)type andBlock:(void (^)(Project *data, NSError *error))block;
 - (void)request_EditAliasOfMember:(ProjectMember *)curMember inProject:(Project *)curPro andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_EditTypeOfMember:(ProjectMember *)curMember inProject:(Project *)curPro andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_EditTypeOfUser:(NSString *)global_key inProjects:(NSArray *)pro_id_list roles:(NSArray *)role_list andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectServiceInfo:(Project *)curPro andBlock:(void (^)(id data, NSError *error))block;
 
 
 #pragma mark Team
 - (void)request_JoinedTeamsBlock:(void (^)(id data, NSError *error))block;
 - (void)request_DetailOfTeam:(Team *)team andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_InfoOfTeam:(Team *)team andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_ProjectsInTeam:(Team *)team isJoined:(BOOL)isJoined andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_MembersInTeam:(Team *)team andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_UpdateTeamInfo_WithObj:(Team *)curTeam andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_OrderListOfTeam:(Team *)team andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_BillingListOfTeam:(Team *)team andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_EditTeamTypeOfMember:(TeamMember *)curMember andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_ProjectRoleOfUser:(NSString *)global_key andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_DeleteTeamMember:(NSString *)golbal_key passCode:(NSString *)passCode type:(VerifyType)type andBlock:(void (^)(id data, NSError *error))block;
 
 #pragma mark - MRPR
 - (void)request_MRPRS_WithObj:(MRPRS *)curMRPRS andBlock:(void (^)(MRPRS *data, NSError *error))block;
@@ -128,14 +142,24 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_DeleteLineNoteWithPath:(NSString *)path andBlock:(void (^)(id data, NSError *error))block;
 
 #pragma mark - File
+
 - (void)request_Folders:(ProjectFolders *)folders inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_FilesInFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_DeleteFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_RenameFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
+//- (void)request_FilesInFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
+//- (void)request_DeleteFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
+//- (void)request_RenameFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
+//- (void)request_MoveFiles:(NSArray *)fileIdList toFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
+//- (void)request_MoveFolder:(NSNumber *)folderId toFolder:(ProjectFolder *)folder inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+//- (void)request_CreatFolder:(NSString *)fileName inFolder:(ProjectFolder *)parentFolder inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+
+- (void)request_FoldersInFolder:(ProjectFile *)folder andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_FilesInFolder:(ProjectFile *)folder andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_DeleteFolder:(ProjectFile *)folder andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_RenameFolder:(ProjectFile *)folder andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_MoveFiles:(NSArray *)fileIdList toFolder:(ProjectFile *)folder andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_MoveFolder:(NSNumber *)folderId toFolder:(ProjectFile *)folder inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+- (void)request_CreatFolder:(NSString *)fileName inFolder:(ProjectFile *)parentFolder inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
+
 - (void)request_DeleteFiles:(NSArray *)fileIdList inProject:(NSNumber *)project_id andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_MoveFiles:(NSArray *)fileIdList toFolder:(ProjectFolder *)folder andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_MoveFolder:(NSNumber *)folderId toFolder:(ProjectFolder *)folder inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
-- (void)request_CreatFolder:(NSString *)fileName inFolder:(ProjectFolder *)parentFolder inProject:(Project *)project andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_FileDetail:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_FileContent:(ProjectFile *)file andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_EditFile:(ProjectFile *)file withContent:(NSString *)contentStr andBlock:(void (^)(id data, NSError *error))block;
@@ -176,6 +200,13 @@ typedef NS_ENUM(NSInteger, PurposeType) {
 - (void)request_ModifyWiki:(EAWiki *)wiki pro:(Project *)pro andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_WikiHistoryWithWiki:(EAWiki *)wiki pro:(Project *)pro andBlock:(void (^)(id data, NSError *error))block;
 - (void)request_RevertWiki:(NSNumber *)wikiIid toVersion:(NSNumber *)version pro:(Project *)pro andBlock:(void (^)(id data, NSError *error))block;
+
+//- (void)request_WikiListWithProName:(NSString *)proName andBlock:(void (^)(id data, NSError *error))block;
+//- (void)request_WikiDetailWithProName:(NSString *)proName iid:(NSNumber *)iid version:(NSNumber *)version andBlock:(void (^)(id data, NSError *error))block;
+//- (void)request_DeleteWikiWithProName:(NSString *)proName iid:(NSNumber *)iid andBlock:(void (^)(id data, NSError *error))block;
+//- (void)request_ModifyWiki:(EAWiki *)wiki proName:(NSString *)proName andBlock:(void (^)(id data, NSError *error))block;
+//- (void)request_WikiHistoryWithWiki:(EAWiki *)wiki proName:(NSString *)proName andBlock:(void (^)(id data, NSError *error))block;
+//- (void)request_RevertWiki:(NSNumber *)wikiIid toVersion:(NSNumber *)version proName:(NSString *)proName andBlock:(void (^)(id data, NSError *error))block;
 
 #pragma mark - Task
 - (void)request_AddTask:(Task *)task andBlock:(void (^)(id data, NSError *error))block;
@@ -295,6 +326,12 @@ typedef NS_ENUM(NSInteger, PurposeType) {
                        successBlock:(void (^)(id responseObj))success
                        failureBlock:(void (^)(NSError *error))failure
                       progerssBlock:(void (^)(CGFloat progressValue))progress;
+
+- (void)request_UpdateTeamIconImage:(UIImage *)image
+                       successBlock:(void (^)(id responseObj))success
+                       failureBlock:(void (^)(NSError *error))failure
+                      progerssBlock:(void (^)(CGFloat progressValue))progress;
+
 - (void)loadImageWithPath:(NSString *)imageUrlStr completeBlock:(void (^)(UIImage *image, NSError *error))block;
 
 #pragma mark - Other

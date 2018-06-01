@@ -30,7 +30,8 @@
     if (self.type < AddUserTypeFollow) {
         self.title = (self.type == AddUserTypeProjectRoot? @"添加成员":
                       self.type == AddUserTypeProjectFollows? @"我的关注":
-                      @"我的粉丝");
+                      self.type == AddUserTypeProjectFans? @"我的粉丝":
+                      @"企业成员");
         _queryingArray = [NSMutableArray array];
         _searchedArray = [NSMutableArray array];
     }else if (self.type == AddUserTypeFollow){
@@ -62,10 +63,13 @@
         searchBar;
     });
     _myTableView.tableHeaderView = _mySearchBar;
-    if (self.type == AddUserTypeProjectFollows || self.type == AddUserTypeProjectFans) {
+    if (self.type == AddUserTypeProjectFollows || self.type == AddUserTypeProjectFans || self.type == AddUserTypeProjectCompany) {
         _myRefreshControl = [[ODRefreshControl alloc] initInScrollView:self.myTableView];
         [_myRefreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
-        _curUsers = [Users usersWithOwner:[Login curLoginUser] Type:self.type == AddUserTypeProjectFollows? UsersTypeFriends_Attentive: UsersTypeFollowers];
+        UsersType userType = (self.type == AddUserTypeProjectFollows? UsersTypeFriends_Attentive:
+                              self.type == AddUserTypeProjectFans? UsersTypeFollowers:
+                              UsersType_CompanyMember);
+        _curUsers = [Users usersWithOwner:[Login curLoginUser] Type:userType];
         [self refresh];
     }
 }
@@ -134,7 +138,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if (_type == AddUserTypeFollow) {
+    if (_type == AddUserTypeFollow || kTarget_Enterprise) {
         return [UIView new];
     }else{
         NSInteger leftNum = _curProject.max_member.integerValue - _addedArray.count;
@@ -216,9 +220,15 @@
 }
 
 - (void)goToUserInfo:(User *)user{
-    UserInfoViewController *vc = [[UserInfoViewController alloc] init];
-    vc.curUser = user;
-    [self.navigationController pushViewController:vc animated:YES];
+    if (kTarget_Enterprise) {
+        UserInfoDetailViewController *vc = [UserInfoDetailViewController new];
+        vc.curUser = user;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        UserInfoViewController *vc = [[UserInfoViewController alloc] init];
+        vc.curUser = user;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 #pragma mark ScrollView Delegate

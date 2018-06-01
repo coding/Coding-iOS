@@ -272,7 +272,7 @@
 }
 
 - (void)doUploadPhoto:(UIImage *)image{
-    if (_isForProjectTweet || !_curProject) {
+    if (!_isForProjectTweet || !_curProject) {
         [self hudTipWillShow:YES];
         __weak typeof(self) weakSelf = self;
         [[Coding_NetAPIManager sharedManager] uploadTweetImage:image doneBlock:^(NSString *imagePath, NSError *error) {
@@ -294,23 +294,46 @@
         }];
     }else{
         //保存到app内
-        NSString *dateMarkStr = [[NSDate date] stringWithFormat:@"yyyyMMdd_HHmmss"];
-        NSString *originalFileName = [NSString stringWithFormat:@"%@.JPG", dateMarkStr];
-        
+        NSString *originalFileName = [NSString stringWithFormat:@"%@.JPG", [NSUUID UUID].UUIDString];
         NSString *fileName = [NSString stringWithFormat:@"%@|||%@|||%@", self.curProject.id.stringValue, @"0", originalFileName];
         if ([Coding_FileManager writeUploadDataWithName:fileName andImage:image]) {
             [self hudTipWillShow:YES];
             self.uploadingPhotoName = originalFileName;
-            Coding_UploadTask *uploadTask =[[Coding_FileManager sharedManager] addUploadTaskWithFileName:fileName projectIsPublic:_curProject.is_public.boolValue];
-            @weakify(self)
-            [RACObserve(uploadTask, progress.fractionCompleted) subscribeNext:^(NSNumber *fractionCompleted) {
-                @strongify(self);
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (self.HUD) {
-                        self.HUD.progress = MAX(0, fractionCompleted.floatValue-0.05) ;
-                    }
-                });
-            }];
+            
+            
+            __weak typeof(self) weakSelf = self;
+            if ([NSObject isPrivateCloud].boolValue) {
+                Coding_UploadTask *uploadTask =[[Coding_FileManager sharedManager] addUploadTaskWithFileName:fileName projectIsPublic:_curProject.is_public.boolValue];
+                [RACObserve(uploadTask, progress.fractionCompleted) subscribeNext:^(NSNumber *fractionCompleted) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (weakSelf.HUD) {
+                            weakSelf.HUD.progress = MAX(0, fractionCompleted.floatValue-0.05);
+                            DebugLog(@"uploadingPhotoName - %@ : %.2f", weakSelf.uploadingPhotoName, fractionCompleted.floatValue);
+                        }
+                    });
+                }];
+            }else{
+                [[Coding_FileManager sharedManager] addUploadTaskWithFileName:fileName isQuick:YES resultBlock:^(Coding_UploadTask *uploadTask) {
+                    [RACObserve(uploadTask, progress.fractionCompleted) subscribeNext:^(NSNumber *fractionCompleted) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if (weakSelf.HUD) {
+                                weakSelf.HUD.progress = MAX(0, fractionCompleted.floatValue-0.05);
+                                DebugLog(@"uploadingPhotoName - %@ : %.2f", weakSelf.uploadingPhotoName, fractionCompleted.floatValue);
+                            }
+                        });
+                    }];
+                }];
+            }
+//            Coding_UploadTask *uploadTask =[[Coding_FileManager sharedManager] addUploadTaskWithFileName:fileName projectIsPublic:_curProject.is_public.boolValue];
+//            @weakify(self)
+//            [RACObserve(uploadTask, progress.fractionCompleted) subscribeNext:^(NSNumber *fractionCompleted) {
+//                @strongify(self);
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    if (self.HUD) {
+//                        self.HUD.progress = MAX(0, fractionCompleted.floatValue-0.05) ;
+//                    }
+//                });
+//            }];
         }else{
             [NSObject showHudTipStr:[NSString stringWithFormat:@"%@ 文件处理失败", originalFileName]];
         }

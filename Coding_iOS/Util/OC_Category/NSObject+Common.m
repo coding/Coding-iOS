@@ -10,6 +10,11 @@
 #define kHUDQueryViewTag 101
 
 #define kBaseURLStr @"https://coding.net/"
+#define kBaseCompanySuffixStr @"coding.net"
+#define kBaseCompanyKey @"k_base_company"
+
+#define kIsPrivateCloudKey @"k_is_private_cloud"
+#define kPrivateCloudKey @"k_private_cloud"
 
 #import "NSObject+Common.h"
 #import "JDStatusBarNotification.h"
@@ -128,12 +133,28 @@
 
 #pragma mark BaseURL
 + (NSString *)baseURLStr{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults valueForKey:kBaseURLStr] ?: kBaseURLStr;
+    if (kTarget_Enterprise) {
+        if ([self isPrivateCloud].boolValue) {
+            return [self privateCloud];
+        }else{
+            if (![self baseCompany]) {
+                return nil;
+            }
+            NSString *baseURLStr = [NSString stringWithFormat:@"%@://%@.%@/", ([self baseURLStrIsProduction]? @"https": @"http"), [self baseCompany], [self baseCompanySuffixStr]];
+            return baseURLStr;
+        }
+    }else{
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        return [defaults valueForKey:kBaseURLStr] ?: kBaseURLStr;
+    }
 }
 
 + (BOOL)baseURLStrIsProduction{
-    return [[self baseURLStr] isEqualToString:kBaseURLStr];
+    if (kTarget_Enterprise) {
+        return [[self baseCompanySuffixStr] isEqualToString:kBaseCompanySuffixStr];
+    }else{
+        return [[self baseURLStr] isEqualToString:kBaseURLStr];
+    }
 }
 
 + (void)changeBaseURLStrTo:(NSString *)baseURLStr{
@@ -150,6 +171,85 @@
     [CodingNetAPIClient changeJsonClient];
     
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[self baseURLStrIsProduction]? kColorNavBG: kColorActionYellow] forBarMetrics:UIBarMetricsDefault];
+}
+
++ (NSString *)e_URLStr{
+    NSString *baseURLStr = [NSString stringWithFormat:@"%@://e.%@/", ([self baseURLStrIsProduction]? @"https": @"http"), [self baseCompanySuffixStr]];
+    return [self isPrivateCloud].boolValue? [self privateCloud]: baseURLStr;
+}
+
++ (NSString *)baseCompanySuffixStr{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *baseCompanySuffixStr = [defaults valueForKey:kBaseCompanySuffixStr] ?: kBaseCompanySuffixStr;
+    return [baseCompanySuffixStr lowercaseString];
+}
++ (void)changeBaseCompanySuffixStrTo:(NSString *)companySuffixStr{
+    if (companySuffixStr.length <= 0) {
+        companySuffixStr = kBaseCompanySuffixStr;
+    }
+    if (![companySuffixStr isEqualToString:[self baseCompanySuffixStr]]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:companySuffixStr forKey:kBaseCompanySuffixStr];
+        [defaults synchronize];
+        
+        [[UINavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[self baseURLStrIsProduction]? kColorNavBG: kColorBrandBlue] forBarMetrics:UIBarMetricsDefault];
+        
+        if ([self baseCompany]) {
+            [CodingNetAPIClient changeSharedJsonClient];
+        }
+        [CodingNetAPIClient changeE_JsonClient];
+    }
+}
+
++ (NSString *)baseCompany{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *baseCompany = [defaults valueForKey:kBaseCompanyKey];
+    return [self isPrivateCloud].boolValue? @"ce": baseCompany;
+}
++ (void)changeBaseCompanyTo:(NSString *)company{
+    if ([self isPrivateCloud].boolValue) {
+        [self changePrivateCloudTo:company];
+    }else if (![company isEqualToString:[self baseCompany]]) {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:company ?: @"" forKey:kBaseCompanyKey];
+        [defaults synchronize];
+        
+        [CodingNetAPIClient changeSharedJsonClient];
+    }
+}
+
++ (NSNumber *)isPrivateCloud{
+    //    return @(YES);
+    return [[NSUserDefaults standardUserDefaults] valueForKey:kIsPrivateCloudKey];
+}
++ (void)setupIsPrivateCloud:(NSNumber *)isPrivateCloud{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (isPrivateCloud) {
+        [defaults setObject:isPrivateCloud forKey:kIsPrivateCloudKey];
+    }else{
+        [defaults removeObjectForKey:kIsPrivateCloudKey];
+    }
+    [defaults synchronize];
+    [CodingNetAPIClient changeSharedJsonClient];
+}
++ (NSString *)privateCloud{
+    //    return @"http://pd.codingprod.net/";
+    return [[NSUserDefaults standardUserDefaults] valueForKey:kPrivateCloudKey];
+}
++ (void)changePrivateCloudTo:(NSString *)privateCloud{
+    if (privateCloud.length > 0) {
+        if (![privateCloud hasPrefix:@"http"]) {
+            privateCloud = [NSString stringWithFormat:@"http://%@", privateCloud];
+        }
+        if (![privateCloud hasSuffix:@"/"]) {
+            privateCloud = [privateCloud stringByAppendingString:@"/"];
+        }
+    }
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:privateCloud ?: @"" forKey:kPrivateCloudKey];
+    [defaults synchronize];
+    
+    [CodingNetAPIClient changeSharedJsonClient];
 }
 
 #pragma mark File M
@@ -417,6 +517,27 @@
     [alertV presentWithCompletion:^{
         [textF becomeFirstResponder];
     }];
+}
+
+
+#pragma Other
++ (void)logCookies{
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    [cookies enumerateObjectsUsingBlock:^(NSHTTPCookie *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"cookie: %@", obj.description);
+    }];
+}
+
++ (void)preCookieHandle{
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:@{NSHTTPCookieName: @"e_dev",
+                                                                NSHTTPCookieValue: @"1",
+                                                                NSHTTPCookieDomain: @".coding.net",
+                                                                NSHTTPCookieOriginURL: @".coding.net",
+                                                                NSHTTPCookiePath: @"/"}];
+    [storage setCookie:cookie];
+    
+    //    [self logCookies];
 }
 
 @end

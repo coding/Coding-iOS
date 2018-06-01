@@ -11,9 +11,17 @@
 #import "Coding_NetAPIManager.h"
 #import "TeamMemberCell.h"
 #import "UserInfoViewController.h"
+#import "ValueListViewController.h"
+#import "EditMemberTypeProjectListViewController.h"
+#import <SDCAlertController.h>
+#import <SDCAlertView.h>
+#import <UIView+SDCAutoLayout.h>
+#import "ProjectDeleteAlertControllerVisualStyle.h"
+
+#import "Ease_2FA.h"
 
 
-@interface TeamMembersViewController ()<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate,UISearchDisplayDelegate>
+@interface TeamMembersViewController ()<UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate,UISearchDisplayDelegate, SWTableViewCellDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) UISearchBar *mySearchBar;
 @property (strong, nonatomic) UISearchDisplayController *mySearchDisplayController;
 @property (strong, nonatomic) UITableView *myTableView;
@@ -21,13 +29,29 @@
 @property (strong, nonatomic) NSMutableArray *searchResults;
 @property (strong, nonatomic) NSMutableArray *myMemberArray;
 
+@property (strong, nonatomic) NSNumber *selfRoleType;
+@property (strong, nonatomic) SDCAlertController *alert;
+
 @end
 
 @implementation TeamMembersViewController
 
+- (void)setMyMemberArray:(NSMutableArray *)myMemberArray{
+    _myMemberArray = myMemberArray;
+    for (TeamMember *mem in _myMemberArray) {
+        if ([mem.user_id isEqualToNumber:[Login curLoginUser].id]) {
+            _selfRoleType = mem.role;
+            break;
+        }
+    }
+    if (!_selfRoleType) {
+        _selfRoleType = @80;//普通成员
+    }
+}
+
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.title = @"项目成员";
+    self.title = @"成员管理";
     _myTableView = ({
         UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         tableView.backgroundColor = [UIColor clearColor];
@@ -102,6 +126,8 @@
         curMember = [_myMemberArray objectAtIndex:indexPath.row];
     }
     cell.curMember = curMember;
+    [cell setRightUtilityButtons:[self rightButtonsWithObj:curMember] WithButtonWidth:[TeamMemberCell cellHeight]];//编辑按钮
+    cell.delegate = self;
     [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:60];
     return cell;
 }
@@ -118,15 +144,182 @@
     }else{
         member = [_myMemberArray objectAtIndex:indexPath.row];
     }
-    UserInfoViewController *vc = [UserInfoViewController new];
+    UserInfoDetailViewController *vc = [UserInfoDetailViewController new];
     vc.curUser = member.user;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - SWTableViewCellDelegate
+- (NSArray *)rightButtonsWithObj:(TeamMember *)mem{
+    if (_selfRoleType.integerValue < 90) {
+        return nil;
+    }
+    NSMutableArray *rightUtilityButtons = @[].mutableCopy;
+    if (_selfRoleType.integerValue >= 100 && mem.role.integerValue <= 90) {
+        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xD8DDE4"] icon:[UIImage imageNamed:@"team_cell_edit_team"]];
+    }
+    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xF2F4F6"] icon:[UIImage imageNamed:@"team_cell_edit_pro"]];
+    if (_selfRoleType.integerValue > mem.role.integerValue) {
+        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xF56061"] icon:[UIImage imageNamed:@"team_cell_edit_delete"]];
+    }
+    return rightUtilityButtons;
+}
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell{
+    return YES;
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+    [cell hideUtilityButtonsAnimated:YES];
+    TeamMember *mem = [(TeamMemberCell *)cell curMember];
+    if (_selfRoleType.integerValue >= 100 && mem.role.integerValue <= 90) {
+        if (index == 0) {
+            [self editTeamTypeOfMember:mem];
+        }else if (index == 1){
+            [self editProTypeOfMember:mem];
+        }else{
+            [self removeMember:mem];
+        }
+    }else{
+        if (index == 0) {
+            [self editProTypeOfMember:mem];
+        }else{
+            [self removeMember:mem];
+        }
+    }
+}
+
+- (void)editTeamTypeOfMember:(TeamMember *)curMember{
+    __weak typeof(self) weakSelf = self;
+    __weak typeof(curMember) weakMember = curMember;
+    ValueListViewController *vc = [ValueListViewController new];
+    NSMutableArray *valueList = @[@"管理员", @"普通成员"].mutableCopy;
+    NSArray *typeRawList = @[@90, @80];
+    [vc setTitle:@"设置企业角色" valueList:valueList defaultSelectIndex:[typeRawList indexOfObject:curMember.editRole] type:ValueListTypeTeamMemberType selectBlock:^(NSInteger index) {
+        weakMember.editRole = typeRawList[index];
+        if (![weakMember.role isEqualToNumber:weakMember.editRole]) {
+            [[Coding_NetAPIManager sharedManager] request_EditTeamTypeOfMember:weakMember andBlock:^(id data, NSError *error) {
+                if (data) {
+                    weakMember.role = weakMember.editRole;
+                    [weakSelf.myTableView reloadData];
+                    [weakSelf.mySearchDisplayController.searchResultsTableView reloadData];
+                }
+            }];
+        }
+    }];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)editProTypeOfMember:(TeamMember *)curMember{
+    EditMemberTypeProjectListViewController *vc = [EditMemberTypeProjectListViewController new];
+    vc.curTeam = _curTeam;
+    vc.curMember = curMember;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)removeMember:(TeamMember *)curMember{
+    __weak typeof(self) weakSelf = self;
+    [[Coding_NetAPIManager sharedManager] request_VerifyTypeWithBlock:^(VerifyType type, NSError *error) {
+        if (!error) {
+            [weakSelf showDeleteAlertWithType:type toDeleteMember:curMember];
+        }
+    }];
+    //    __weak typeof(self) weakSelf = self;
+    //    [[Coding_NetAPIManager sharedManager] request_TeamMember_Quit:curMember andBlock:^(id data, NSError *error) {
+    //        if (data) {
+    //            [weakSelf.myMemberArray removeObject:data];
+    //            if (weakSelf.searchResults) {
+    //                [weakSelf.searchResults removeObject:data];
+    //            }
+    //            [weakSelf.myTableView reloadData];
+    //            [weakSelf.mySearchDisplayController.searchResultsTableView reloadData];
+    //        }
+    //    }];
+}
+
+- (void)showDeleteAlertWithType:(VerifyType)type toDeleteMember:(TeamMember *)curMember{
+    if (self.alert) {//正在显示
+        return;
+    }
+    NSString *title, *message, *placeHolder;
+    if (type == VerifyTypePassword) {
+        title = @"需要密码验证";
+        message = @"这是一个危险操作，需要进行身份验证";
+        placeHolder = @"请输入密码";
+    }else if (type == VerifyTypeTotp){
+        title = @"需要动态验证码";
+        message = @"这是一个危险操作，需要进行身份验证";
+        placeHolder = @"请输入动态验证码";
+    }else{//不知道啥类型，不处理
+        return;
+    }
+    
+    _alert = [SDCAlertController alertControllerWithTitle:title message:message preferredStyle:SDCAlertControllerStyleAlert];
+    
+    UITextField *passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(15, 0, 240.0, 30.0)];
+    passwordTextField.font = [UIFont systemFontOfSize:13];
+    passwordTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 5, 30)];
+    passwordTextField.leftViewMode = UITextFieldViewModeAlways;
+    passwordTextField.layer.borderColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.6].CGColor;
+    passwordTextField.layer.borderWidth = 1;
+    passwordTextField.secureTextEntry = (type == VerifyTypePassword);
+    passwordTextField.backgroundColor = [UIColor whiteColor];
+    passwordTextField.placeholder = placeHolder;
+    if (type == VerifyTypeTotp) {
+        passwordTextField.text = [OTPListViewController otpCodeWithGK:[Login curLoginUser].global_key];
+    }
+    passwordTextField.delegate = self;
+    
+    [_alert.contentView addSubview:passwordTextField];
+    
+    NSDictionary* passwordViews = NSDictionaryOfVariableBindings(passwordTextField);
+    
+    [_alert.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[passwordTextField]-(>=14)-|" options:0 metrics:nil views:passwordViews]];
+    
+    // Style
+    _alert.visualStyle = [ProjectDeleteAlertControllerVisualStyle new];
+    
+    // 添加密码框
+    //    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+    //        textField.secureTextEntry = YES;
+    //    }];
+    
+    // 添加按钮
+    @weakify(self);
+    _alert.actionLayout = SDCAlertControllerActionLayoutHorizontal;
+    [_alert addAction:[SDCAlertAction actionWithTitle:@"取消" style:SDCAlertActionStyleDefault handler:^(SDCAlertAction *action) {
+        @strongify(self);
+        self.alert = nil;
+    }]];
+    [_alert addAction:[SDCAlertAction actionWithTitle:@"确定" style:SDCAlertActionStyleDefault handler:^(SDCAlertAction *action) {
+        @strongify(self);
+        self.alert = nil;
+        NSString *passCode = passwordTextField.text;
+        if ([passCode length] > 0) {
+            // 删除成员
+            [[Coding_NetAPIManager sharedManager] request_DeleteTeamMember:curMember.user.global_key passCode:passCode type:type andBlock:^(id data, NSError *error) {
+                @strongify(self);
+                if (!error) {
+                    [self refresh];
+                }
+            }];
+        }
+    }]];
+    
+    [_alert presentWithCompletion:^{
+        [passwordTextField becomeFirstResponder];
+    }];
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 #pragma mark UISearchDisplayDelegate M
 - (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView{
-//    if (_type == ProMemTypeProject) {
-//        [tableView setContentInset:UIEdgeInsetsMake(kHigher_iOS_6_1_DIS(44), 0, 0, 0)];
-//    }
+    //    if (_type == ProMemTypeProject) {
+    //        [tableView setContentInset:UIEdgeInsetsMake(kHigher_iOS_6_1_DIS(44), 0, 0, 0)];
+    //    }
 }
 - (void)searchDisplayController:(UISearchDisplayController *)controller willHideSearchResultsTableView:(UITableView *)tableView{
     [self.myTableView reloadData];
@@ -179,7 +372,7 @@
                           type:NSContainsPredicateOperatorType
                           options:NSCaseInsensitivePredicateOption];
         [searchItemsPredicate addObject:finalPredicate];
-//        pinyin
+        //        pinyin
         lhs = [NSExpression expressionForKeyPath:@"user.pinyinName"];
         rhs = [NSExpression expressionForConstantValue:searchString];
         finalPredicate = [NSComparisonPredicate

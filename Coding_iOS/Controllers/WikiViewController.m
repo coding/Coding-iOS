@@ -160,7 +160,7 @@
 #pragma refresh Data
 
 - (void)refresh{
-    if (_wikiList) {
+    if (!_wikiList) {
         [self refreshWikiList];
     }else{
         [self refreshWikiDetail];
@@ -185,25 +185,33 @@
             weakSelf.wikiList = data;
         }
         if (weakSelf.wikiList.count > 0) {
+            if (!weakSelf.navigationItem.rightBarButtonItem) {
+                [weakSelf.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:weakSelf action:@selector(rightNavBtnClicked)] animated:NO];
+            }
             weakSelf.iid = weakSelf.iid ?: [(EAWiki *)weakSelf.wikiList.firstObject iid];
             [weakSelf refreshWikiDetail];
         }else{
+            [weakSelf.navigationItem setRightBarButtonItem:nil animated:NO];
             [weakSelf doSomethingWithError:error];
         }
     }];
 }
 
 - (void)refreshWikiDetail{
-    if (!_curWiki) {
-        [self.view beginLoading];
-    }
-    __weak typeof(self) weakSelf = self;
-    [[Coding_NetAPIManager sharedManager] request_WikiDetailWithPro:_myProject iid:_iid version:_version andBlock:^(id data, NSError *error) {
-        if (data) {
-            weakSelf.curWiki = data;
+    if (!_iid) {
+        [self refreshWikiList];
+    }else{
+        if (!_curWiki) {
+            [self.view beginLoading];
         }
-        [weakSelf doSomethingWithError:error];
-    }];
+        __weak typeof(self) weakSelf = self;
+        [[Coding_NetAPIManager sharedManager] request_WikiDetailWithPro:_myProject iid:_iid version:_version andBlock:^(id data, NSError *error) {
+            if (data) {
+                weakSelf.curWiki = data;
+            }
+            [weakSelf doSomethingWithError:error];
+        }];
+    }
 }
 
 - (void)doSomethingWithError:(NSError *)error{

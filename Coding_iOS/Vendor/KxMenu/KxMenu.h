@@ -75,4 +75,7 @@
 + (UIFont *) titleFont;
 + (void) setTitleFont: (UIFont *) titleFont;
 
+//yOffset 每次视图显示前调用。单次设置有效，视图消失后还原为 0
++ (CGFloat) yOffset;
++ (void) setYOffset:(CGFloat) yOffset;
 @end

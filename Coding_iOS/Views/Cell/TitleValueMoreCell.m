@@ -42,11 +42,11 @@
     }
     return self;
 }
-- (void)layoutSubviews{
-    [super layoutSubviews];
-}
 
 - (void)setTitleStr:(NSString *)title valueStr:(NSString *)value{
+    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    self.selectionStyle = UITableViewCellSelectionStyleDefault;
+
     _titleLabel.text = title;
     _valueLabel.text = value;
 }

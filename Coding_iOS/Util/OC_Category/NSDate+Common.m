@@ -9,7 +9,8 @@
 #import "NSDate+Common.h"
 
 @implementation NSDate (Common)
-
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (BOOL)isSameDay:(NSDate*)anotherDate{
 	NSCalendar* calendar = [NSCalendar currentCalendar];
 	NSDateComponents* components1 = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:self];
@@ -217,5 +218,5 @@
     }
     return isDuringMidAutumn;
 }
-
+#pragma clang diagnostic pop
 @end
