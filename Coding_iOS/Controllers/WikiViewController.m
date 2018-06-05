@@ -456,7 +456,7 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
-        self.frame = CGRectMake(0, 0, kScreen_Width, 49);
+        self.frame = CGRectMake(0, 0, kScreen_Width, 49 + kSafeArea_Bottom);
         self.backgroundColor = kColorNavBG;
         [self addLineUp:YES andDown:NO];
     }
@@ -474,6 +474,7 @@
     __weak typeof(self) weakSelf = self;
     if (isHistoryVersion && !_revertBtn) {
         _revertBtn = [[UIButton alloc] initWithFrame:self.bounds];
+        _revertBtn.height -= kSafeArea_Bottom;
         [_revertBtn bk_addEventHandler:^(id sender) {
             [weakSelf handleButtonClickedIndex:0];
         } forControlEvents:UIControlEventTouchUpInside];
@@ -493,7 +494,7 @@
         _menuBtnList = @[].mutableCopy;
         NSInteger num = 3;
         CGFloat width = self.width/ num;
-        CGFloat height = self.height;
+        CGFloat height = self.height - kSafeArea_Bottom;
         for (NSInteger index = 0; index < num; index++) {
             UIButton *menuBtn = [[UIButton alloc] initWithFrame:CGRectMake(index * width, 0, width, height)];
             [menuBtn bk_addEventHandler:^(id sender) {
