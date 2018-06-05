@@ -246,7 +246,7 @@
     CGFloat rowH = 44;
     if (indexPath.section == 0) {
         rowH = (indexPath.row == 0? 120: 80);
-    }else if (indexPath.section == 1 && indexPath.row == 0 && kTarget_Enterprise){
+    }else if (indexPath.section == 1 && indexPath.row == 0){//个人版、企业版 都不让创建公有项目了
         rowH = 0;
     }
     return rowH;
