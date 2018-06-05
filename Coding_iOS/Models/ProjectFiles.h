@@ -17,4 +17,5 @@
 @property (assign, nonatomic) BOOL isLoading;
 
 @property (readonly, nonatomic, strong) NSMutableArray *fileList, *folderList;
+- (void)addSharedFolder;
 @end

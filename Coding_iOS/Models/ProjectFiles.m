@@ -27,4 +27,12 @@
     _fileList = [list filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:[NSString stringWithFormat:@"type != 0"]]].mutableCopy ?: @[].mutableCopy;
     
 }
+
+- (void)addSharedFolder{
+    ProjectFile *tempF = _list.firstObject;
+    ProjectFile *sharedF = [ProjectFile sharedFolderInProject:tempF.project_name ofUser:tempF.project_owner_name];
+    [_list insertObject:sharedF atIndex:0];
+    [_folderList insertObject:sharedF atIndex:0];
+}
+
 @end

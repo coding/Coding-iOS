@@ -51,6 +51,12 @@
     return file;
 }
 
++ (instancetype)sharedFolderInProject:(NSString *)project_name ofUser:(NSString *)project_owner_name{
+    ProjectFile *file = [[self alloc] initWithFileId:@(-1) inProject:project_name ofUser:project_owner_name];
+    file.type = @0;//文件夹类型
+    return file;
+}
+
 - (instancetype)initWithFileId:(NSNumber *)fileId inProject:(NSString *)project_name ofUser:(NSString *)project_owner_name{
     self = [super init];
     if (self) {
@@ -77,6 +83,14 @@
 
 - (void)setCount:(NSNumber *)count{
     _count = @(MAX(0, count.integerValue));
+}
+
+- (BOOL)isDefaultFolder{
+    return _file_id && _file_id.integerValue == 0;
+}
+
+- (BOOL)isSharedFolder{
+    return _file_id && _file_id.integerValue == -1;
 }
 
 - (BOOL)isEmpty{
@@ -176,7 +190,11 @@
 
 
 - (NSString *)toFolderFilesPath{
-    return [NSString stringWithFormat:@"api/user/%@/project/%@/folder/%@/all", _project_owner_name, _project_name, self.file_id];
+    if (self.isSharedFolder) {
+        return [NSString stringWithFormat:@"api/user/%@/project/%@/folder/shared_files", _project_owner_name, _project_name];
+    }else{
+        return [NSString stringWithFormat:@"api/user/%@/project/%@/folder/%@/all", _project_owner_name, _project_name, self.file_id];
+    }
 }
 - (NSDictionary *)toFolderFilesParams{
     return @{@"height": @"90",

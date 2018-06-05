@@ -213,6 +213,9 @@
             [weakSelf endLoading];
             if (data) {
                 weakSelf.myFiles = data;
+                if (weakSelf.curFolder.isDefaultFolder && weakSelf.myFiles.list.count > 0) {
+                    [weakSelf.myFiles addSharedFolder];
+                }
                 [weakSelf updateDataWithSearchStr];
             }
             [weakSelf configBlankPage:EaseBlankPageTypeFile hasData:([weakSelf totalDataRow] > 0) hasError:(error != nil) reloadButtonBlock:^(id sender) {
@@ -490,13 +493,19 @@
         if (indexPath.row < _uploadFiles.count) {
             [NSObject showHudTipStr:@"正在上传的不能批处理"];
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }else if (indexPath.row < _folderList.count + _uploadFiles.count) {
+            ProjectFile *clickedFolder = [_folderList objectAtIndex:indexPath.row - _uploadFiles.count];
+            if (clickedFolder.isSharedFolder) {
+                [NSObject showHudTipStr:@"分享中文件夹不支持编辑"];
+                [tableView deselectRowAtIndexPath:indexPath animated:YES];
+            }
         }
     }else{
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         if (indexPath.row < _uploadFiles.count) {
             
         }else if (indexPath.row < _folderList.count + _uploadFiles.count) {
-            ProjectFile *clickedFolder = [_folderList objectAtIndex:indexPath.row - _uploadFiles.count];;
+            ProjectFile *clickedFolder = [_folderList objectAtIndex:indexPath.row - _uploadFiles.count];
             [self goToVCWithFolder:clickedFolder inProject:self.curProject];
         }else{
             ProjectFile *file = [_fileList objectAtIndex:(indexPath.row - _folderList.count - _uploadFiles.count)];
@@ -508,9 +517,11 @@
 #pragma mark Edit Table
 - (NSArray *)rightButtonsWithObj:(ProjectFile *)obj{
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:kColorD8DDE4 icon:[UIImage imageNamed:@"icon_file_cell_move"]];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xF2F4F6"] icon:[UIImage imageNamed:@"icon_file_cell_rename"]];
-    [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xF66262"] icon:[UIImage imageNamed:@"icon_file_cell_delete"]];
+    if (!obj.isSharedFolder) {
+        [rightUtilityButtons sw_addUtilityButtonWithColor:kColorD8DDE4 icon:[UIImage imageNamed:@"icon_file_cell_move"]];
+        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xF2F4F6"] icon:[UIImage imageNamed:@"icon_file_cell_rename"]];
+        [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xF66262"] icon:[UIImage imageNamed:@"icon_file_cell_delete"]];
+    }
     return rightUtilityButtons;
 }
 

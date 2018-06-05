@@ -31,8 +31,11 @@ typedef NS_ENUM(NSInteger, DownloadState){
 @property (strong, nonatomic) NSString *project_name, *project_owner_name;
 
 + (ProjectFile *)fileWithFileId:(NSNumber *)fileId andProjectId:(NSNumber *)project_id;
++ (instancetype)sharedFolderInProject:(NSString *)project_name ofUser:(NSString *)project_owner_name;
 - (instancetype)initWithFileId:(NSNumber *)fileId inProject:(NSString *)project_name ofUser:(NSString *)project_owner_name;
 
+- (BOOL)isDefaultFolder;
+- (BOOL)isSharedFolder;
 - (BOOL)isEmpty;
 
 - (DownloadState)downloadState;

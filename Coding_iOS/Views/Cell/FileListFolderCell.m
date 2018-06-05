@@ -51,10 +51,11 @@
     if (!_folder) {
         return;
     }
-    _iconView.image = [UIImage imageNamed:@"icon_file_folder_normal"];
+    _iconView.image = [UIImage imageNamed:_folder.isSharedFolder? @"icon_file_folder_share": @"icon_file_folder_normal"];
     //    _nameLabel.text = [NSString stringWithFormat:@"%@（%ld）", _folder.name, (long)(_folder.count.integerValue)];
-    _nameLabel.text = _folder.name;//count 字段 api 里去掉了
-    _infoLabel.text = [NSString stringWithFormat:@"%@ 创建于 %@", _folder.owner_name, [_folder.updated_at stringDisplay_HHmm]];
+    _nameLabel.text = _folder.isSharedFolder? @"分享中": _folder.name;//count 字段 api 里去掉了
+    _infoLabel.text = _folder.isSharedFolder? @"": [NSString stringWithFormat:@"%@ 创建于 %@", _folder.owner_name, [_folder.updated_at stringDisplay_HHmm]];
+    _nameLabel.y = _folder.isSharedFolder? (75 - 25)/ 2: kFileListFolderCell_TopPading;
 }
 
 + (CGFloat)cellHeight{
