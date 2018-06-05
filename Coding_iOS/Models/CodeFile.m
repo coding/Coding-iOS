@@ -95,9 +95,9 @@
 - (NSDictionary *)toCreateParams{
     NSMutableDictionary *params = @{}.mutableCopy;
     params[@"title"] = self.editName;
-    params[@"content"] = self.editData;
+    params[@"content"] = self.editData ?: @"";
     params[@"message"] = self.editMessage;
-    params[@"lastCommitSha"] = self.headCommit.commitId;
+    params[@"lastCommitSha"] = self.headCommit.commitId ?: @"";
     return params;
 }
 @end
