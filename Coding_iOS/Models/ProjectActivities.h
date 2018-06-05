@@ -15,6 +15,7 @@ typedef NS_ENUM(NSInteger, ProjectActivityType)
     ProjectActivityTypeAll = 0,
     ProjectActivityTypeTask,
     ProjectActivityTypeTopic,
+    ProjectActivityTypeWiki,
     ProjectActivityTypeFile,
     ProjectActivityTypeCode,
     ProjectActivityTypeOther

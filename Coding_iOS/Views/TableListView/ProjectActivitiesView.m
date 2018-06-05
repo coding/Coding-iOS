@@ -66,8 +66,9 @@
         if (_myProject.is_public.boolValue) {
             _titlesArray = @[@"全部", @"讨论", @"代码", @"其他"];
         }else{
-            _titlesArray = @[@"全部", @"任务", @"文件", @"代码", @"其他"];
+//            _titlesArray = @[@"全部", @"任务", @"文件", @"代码", @"其他"];
 //            _titlesArray = @[@"全部", @"任务", @"讨论", @"文件", @"代码", @"其他"];
+            _titlesArray = @[@"全部", @"任务", @"Wiki", @"文件", @"代码", @"其他"];
         }
     }
     return _titlesArray;
@@ -77,33 +78,21 @@
     return [self.titlesArray count];
 }
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index reusingView:(UIView *)view{
+    ProjectActivityType type = (_myProject.is_public.boolValue? (index == 0? ProjectActivityTypeAll:
+                                                                 index == 1? ProjectActivityTypeTopic:
+                                                                 index == 2? ProjectActivityTypeCode:
+                                                                 ProjectActivityTypeOther):
+                                (index == 0? ProjectActivityTypeAll:
+                                  index == 1? ProjectActivityTypeTask:
+                                  index == 2? ProjectActivityTypeWiki:
+                                  index == 3? ProjectActivityTypeFile:
+                                  index == 4? ProjectActivityTypeCode:
+                                  ProjectActivityTypeOther));
     
-    if (_myProject.is_public.boolValue) {
-        switch (index) {
-            case 0:
-                index = ProjectActivityTypeAll;
-                break;
-            case 1:
-                index = ProjectActivityTypeTopic;
-                break;
-            case 2:
-                index = ProjectActivityTypeCode;
-                break;
-            case 3:
-                index = ProjectActivityTypeOther;
-                break;
-            default:
-                index = ProjectActivityTypeAll;
-                break;
-        }
-    }else{
-//        index = index;
-        index = index < ProjectActivityTypeTopic? index: index + 1;
-    }
-    ProjectActivities *curProActs = [_myProActivitiesDict objectForKey:[NSNumber numberWithUnsignedInteger:index]];
+    ProjectActivities *curProActs = [_myProActivitiesDict objectForKey:@(type)];
     if (!curProActs) {
-        curProActs = [ProjectActivities proActivitiesWithPro:_myProject type:index];
-        [_myProActivitiesDict setObject:curProActs forKey:[NSNumber numberWithUnsignedInteger:index]];
+        curProActs = [ProjectActivities proActivitiesWithPro:_myProject type:type];
+        [_myProActivitiesDict setObject:curProActs forKey:@(type)];
     }
     ProjectActivityListView *listView = (ProjectActivityListView *)view;
     if (listView) {

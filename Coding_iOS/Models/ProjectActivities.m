@@ -45,6 +45,9 @@
         case ProjectActivityTypeTopic:
             proActs.type = @"topic";
             break;
+        case ProjectActivityTypeWiki:
+            proActs.type = @"wiki";
+            break;
         case ProjectActivityTypeFile:
             proActs.type = @"file";
             break;

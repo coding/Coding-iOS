@@ -135,12 +135,12 @@
         }
     }
 
-    curBottomY += [_proAct.actionStr getHeightWithFont:kProjectActivityListCell_ActionFont constrainedToSize:CGSizeMake(kProjectActivityListCell_ContentWidth, kProjectActivityListCell_MaxActionHeight)];
+    curBottomY += [_proAct.actionStr getHeightWithFont:kProjectActivityListCell_ActionFont constrainedToSize:CGSizeMake(kProjectActivityListCell_ContentWidth - 5, kProjectActivityListCell_MaxActionHeight)];
     curBottomY += kProjectActivityListCell_TextPading;
 //    内容
     [_contentLabel setLongString:_proAct.contentStr withFitWidth:kProjectActivityListCell_ContentWidth maxHeight:kProjectActivityListCell_MaxContentHeight];
     [_contentLabel setY:curBottomY];
-    curBottomY += [_proAct.contentStr getHeightWithFont:kProjectActivityListCell_ContentFont constrainedToSize:CGSizeMake(kProjectActivityListCell_ContentWidth, kProjectActivityListCell_MaxContentHeight)];
+    curBottomY += [_proAct.contentStr getHeightWithFont:kProjectActivityListCell_ContentFont constrainedToSize:CGSizeMake(kProjectActivityListCell_ContentWidth - 5, kProjectActivityListCell_MaxContentHeight)];
     curBottomY += kProjectActivityListCell_TextPading;
 //    时间
     curBottomY +=5;
@@ -156,9 +156,9 @@
     ProjectActivity *proAct = (ProjectActivity *)obj;
     CGFloat cellHeight = 0;
     cellHeight += kProjectActivityListCell_UpDownPading *2;
-    cellHeight += MIN(kProjectActivityListCell_MaxActionHeight, [proAct.actionStr getHeightWithFont:kProjectActivityListCell_ActionFont constrainedToSize:CGSizeMake(kProjectActivityListCell_ContentWidth, kProjectActivityListCell_MaxActionHeight)]);
+    cellHeight += MIN(kProjectActivityListCell_MaxActionHeight, [proAct.actionStr getHeightWithFont:kProjectActivityListCell_ActionFont constrainedToSize:CGSizeMake(kProjectActivityListCell_ContentWidth - 5, kProjectActivityListCell_MaxActionHeight)]);
     cellHeight += kProjectActivityListCell_TextPading*2;
-    cellHeight += MIN(kProjectActivityListCell_MaxContentHeight, [proAct.contentStr getHeightWithFont:kProjectActivityListCell_ContentFont constrainedToSize:CGSizeMake(kProjectActivityListCell_ContentWidth, kProjectActivityListCell_MaxContentHeight)]);
+    cellHeight += MIN(kProjectActivityListCell_MaxContentHeight, [proAct.contentStr getHeightWithFont:kProjectActivityListCell_ContentFont constrainedToSize:CGSizeMake(kProjectActivityListCell_ContentWidth - 5, kProjectActivityListCell_MaxContentHeight)]);
     cellHeight += 5+ kProjectActivityListCell_TimeHeight;
     
     return cellHeight;
