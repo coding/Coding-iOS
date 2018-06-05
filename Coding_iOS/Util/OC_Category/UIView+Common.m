@@ -346,10 +346,14 @@ static char LoadingViewKey, BlankPageViewKey;
 }
 
 - (void)beginLoading{
-    for (UIView *aView in [self.blankPageContainer subviews]) {
-        if ([aView isKindOfClass:[EaseBlankPageView class]] && !aView.hidden) {
-            return;
-        }
+//    这里处理有点迷啊。。为啥有空白页就不 loading 了
+//    for (UIView *aView in [self.blankPageContainer subviews]) {
+//        if ([aView isKindOfClass:[EaseBlankPageView class]] && !aView.hidden) {
+//            return;
+//        }
+//    }
+    if (self.blankPageView) {
+        self.blankPageView.hidden = YES;
     }
     
     if (!self.loadingView) { //初始化LoadingView
