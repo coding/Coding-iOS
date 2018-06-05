@@ -378,11 +378,11 @@
     cellHeight += [self locationAndDeviceHeightWithTweet:tweet];
     if (!tweet.isProjectTweet) {
         cellHeight += 5+ kTweetCell_LikeComment_Height;
+        cellHeight += [TweetCell likeCommentBtn_BottomPadingWithTweet:tweet];
+        cellHeight += [TweetCell likeUsersHeightWithTweet:tweet];
+        cellHeight += [TweetCell commentListViewHeightWithTweet:tweet];
         cellHeight += 15;
     }
-    cellHeight += [TweetCell likeCommentBtn_BottomPadingWithTweet:tweet];
-    cellHeight += [TweetCell likeUsersHeightWithTweet:tweet];
-    cellHeight += [TweetCell commentListViewHeightWithTweet:tweet];
     return ceilf(cellHeight);
 }
 
