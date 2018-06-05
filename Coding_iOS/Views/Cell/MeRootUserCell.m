@@ -60,7 +60,7 @@
     
     [_userV sd_setImageWithURL:[_curUser.avatar urlImageWithCodePathResize:50* 2]];
     _userL.text = _curUser.name;
-    _gkL.text = [NSString stringWithFormat:@"个性后缀：%@", _curUser.global_key];
+    _gkL.text = [NSString stringWithFormat:@"用户名：%@", _curUser.global_key];
 }
 
 + (CGFloat)cellHeight{

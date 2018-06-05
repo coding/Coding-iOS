@@ -301,7 +301,7 @@
     __weak typeof(self) weakSelf = self;
     if (_medthodType == RegisterMethodEamil) {
         if (indexPath.row == 0) {
-            [cell setPlaceholder:@" 用户名（个性后缀）" value:self.myRegister.global_key];
+            [cell setPlaceholder:@" 用户名" value:self.myRegister.global_key];
             cell.textValueChangedBlock = ^(NSString *valueStr){
                 weakSelf.myRegister.global_key = valueStr;
             };
@@ -349,7 +349,7 @@
             }
         }else{
             if (indexPath.row == 0) {
-                [cell setPlaceholder:@" 用户名（个性后缀）" value:self.myRegister.global_key];
+                [cell setPlaceholder:@" 用户名" value:self.myRegister.global_key];
                 cell.textValueChangedBlock = ^(NSString *valueStr){
                     weakSelf.myRegister.global_key = valueStr;
                 };

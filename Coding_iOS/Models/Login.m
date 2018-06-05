@@ -52,7 +52,7 @@ static Team *curLoginTeam;
         return @"请填写企业域名";
     }
     if (!_email || _email.length <= 0) {
-        return @"请填写「手机号码/电子邮箱/个性后缀」";
+        return @"请填写「手机号码/电子邮箱/用户名」";
     }
     if (!_password || _password.length <= 0) {
         return @"请填写密码";

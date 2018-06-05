@@ -113,7 +113,7 @@
                         [cell setTitleStr:@"最后活动" valueStr:[_curUser.last_activity_at string_yyyy_MM_dd]];
                         break;
                     default:
-                        [cell setTitleStr:@"个性后缀" valueStr:_curUser.global_key];
+                        [cell setTitleStr:@"用户名" valueStr:_curUser.global_key];
                         break;
                 }
                 break;
@@ -242,7 +242,7 @@
                         [cell setTitleStr:@"最后活动" valueStr:[_curUser.last_activity_at string_yyyy_MM_dd]];
                         break;
                     default:
-                        [cell setTitleStr:@"个性后缀" valueStr:_curUser.global_key];
+                        [cell setTitleStr:@"用户名" valueStr:_curUser.global_key];
                         break;
                 }
                 break;

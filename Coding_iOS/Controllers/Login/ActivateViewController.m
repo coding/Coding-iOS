@@ -58,7 +58,7 @@
     headerLabel.textColor = kColor999;
     headerLabel.numberOfLines = 0;
     headerLabel.textAlignment = NSTextAlignmentCenter;
-    headerLabel.text = @"您还未设置过用户名（个性后缀）\n设置后才能正常登录！";
+    headerLabel.text = @"您还未设置过用户名\n设置后才能正常登录！";
     [headerLabel setCenter:headerV.center];
     [headerV addSubview:headerLabel];
     return headerV;
@@ -92,7 +92,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_Input_OnlyText_Cell_Text forIndexPath:indexPath];
     __weak typeof(self) weakSelf = self;
-    [cell setPlaceholder:@" 用户名（个性后缀）" value:self.global_key];
+    [cell setPlaceholder:@" 用户名" value:self.global_key];
     cell.textValueChangedBlock = ^(NSString *valueStr){
         weakSelf.global_key = valueStr;
     };

@@ -90,7 +90,7 @@
         TitleValueCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValue forIndexPath:indexPath];
         if (indexPath.row == 0) {
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [cell setTitleStr:@"个性后缀" valueStr:self.myUser.global_key];
+            [cell setTitleStr:@"用户名" valueStr:self.myUser.global_key];
         }else{
             cell.selectionStyle = self.myUser.email_validation.boolValue? UITableViewCellSelectionStyleNone: UITableViewCellSelectionStyleDefault;
             NSString *valueStr = (self.myUser.email.length <= 0? @"未绑定":
@@ -183,7 +183,7 @@
     if (indexPath.section == 0) {
         TitleValueCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleValue forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        [cell setTitleStr:@"个性后缀" valueStr:self.myUser.global_key];
+        [cell setTitleStr:@"用户名" valueStr:self.myUser.global_key];
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }else if (indexPath.section == 1){
