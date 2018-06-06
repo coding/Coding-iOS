@@ -46,8 +46,15 @@
 }
 
 - (void)rightNavBtnClicked{
+    NSMutableArray *actionTitles = @[@"上传图片", @"创建文本文件", @"查看提交记录", @"退出代码查看"].mutableCopy;
+    if (!self.myCodeTree.can_edit) {
+        [actionTitles removeObjectsInRange:NSMakeRange(0, 2)];
+    }
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"上传图片", @"创建文本文件", @"查看提交记录", @"退出代码查看"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:actionTitles destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        if (!weakSelf.myCodeTree.can_edit) {
+            index += 2;
+        }
         if (index == 0) {
             [weakSelf.listView uploadImageClicked];
         }else if (index == 1){
