@@ -91,7 +91,7 @@
         self.myCodeFile = data;
         [self refreshCodeViewData];
     }else{
-        self.myCodeFile = [CodeFile codeFileWithMDStr:data];
+        self.myCodeFile = [CodeFile codeFileWithMDPreview:data];
         [self refreshCodeViewData];
     }
     BOOL hasError = (error != nil && error.code != 1204);//depot_has_no_commit
@@ -158,7 +158,11 @@
 - (void)configRightNavBtn{
     if (!self.navigationItem.rightBarButtonItem) {
         if (_isReadMe) {
-            [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(goToEditVC)] animated:NO];
+            if (self.myCodeFile.can_edit) {
+                [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tweetBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(goToEditVC)] animated:NO];
+            }else{
+                [self.navigationItem setRightBarButtonItem:nil animated:NO];
+            }
         }else{
             [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moreBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)] animated:NO];
         }

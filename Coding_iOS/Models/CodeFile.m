@@ -16,7 +16,7 @@
     codeFile.path = path;
     return codeFile;
 }
-+ (CodeFile *)codeFileWithMDStr:(NSString *)md_html{
++ (CodeFile *)codeFileWithMDPreview:(NSString *)md_html{
     CodeFile *codeFile = [self codeFileWithRef:@"" andPath:@"README"];
     
     CodeFile_RealFile *file = [CodeFile_RealFile new];

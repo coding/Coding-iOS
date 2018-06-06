@@ -3514,7 +3514,7 @@
                             rCodeFile.file = realFile;
                             block(rCodeFile, nil);
                         }else{
-                            block(@"我们推荐每个项目都新建一个README文件（客户端暂时不支持创建和编辑README）", nil);
+                            block(@"<p>该项目暂无 README.md ，我们推荐每个项目都新建一个 README.md 文件。（客户端暂不支持创建和编辑，请前往 coding.net 创建）<p>", nil);
                         }
                     }else{
                         block(nil, error);
