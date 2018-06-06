@@ -36,7 +36,7 @@ target "Coding_iOS" do
     pod 'UMengUShare/Social/QQ', '6.4.5'
     pod 'UMengUShare/Social/Sina', '6.4.5'
     
-    target "CodingEnterprise_iOS" do
+    target "Coding_Enterprise_iOS" do
         
     end
     

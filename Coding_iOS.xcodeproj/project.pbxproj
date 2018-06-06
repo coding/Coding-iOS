@@ -787,6 +787,7 @@
 		4EFE8DAF1B3960E6004B7559 /* logo_coding_top@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4EFE8DAE1B3960E6004B7559 /* logo_coding_top@2x.png */; };
 		4EFE8DB91B3A5727004B7559 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */; };
 		4EFF5A771E0AE54800683D03 /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EFF5A761E0AE54800683D03 /* libresolv.9.tbd */; };
+		74BCC5B7B071C6418DBC18C7 /* libPods-Coding_iOS-Coding_Enterprise_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 627CA7E44F0D5A025A49E2F0 /* libPods-Coding_iOS-Coding_Enterprise_iOS.a */; };
 		7E335D9D1B6F5E94003D0F3D /* keyboard_arrow_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E335D9A1B6F5E94003D0F3D /* keyboard_arrow_down@2x.png */; };
 		7E335D9E1B6F5E94003D0F3D /* keyboard_voice_record@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E335D9B1B6F5E94003D0F3D /* keyboard_voice_record@2x.png */; };
 		7E335D9F1B6F5E94003D0F3D /* keyboard_voice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E335D9C1B6F5E94003D0F3D /* keyboard_voice@2x.png */; };
@@ -3202,7 +3203,6 @@
 		D0C448181C03187100DC1C4B /* TaskSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C448171C03187100DC1C4B /* TaskSearchCell.m */; };
 		D0C4481B1C034C3F00DC1C4B /* TopicSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C4481A1C034C3F00DC1C4B /* TopicSearchCell.m */; };
 		E7A046A01A47279E00528C12 /* Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = E7A0469F1A47279E00528C12 /* Helper.m */; };
-		EAE4EF658EEBED1AFC748FD9 /* libPods-Coding_iOS-CodingEnterprise_iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 325848BC965CB1B329E42C60 /* libPods-Coding_iOS-CodingEnterprise_iOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -3345,8 +3345,8 @@
 		13FB5D351CA17A6400EE127C /* PR_grant@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PR_grant@3x.png"; sourceTree = "<group>"; };
 		13FB5D571CA194D600EE127C /* MRReviewerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRReviewerCell.h; path = Cell/MRReviewerCell.h; sourceTree = "<group>"; };
 		13FB5D581CA194D600EE127C /* MRReviewerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRReviewerCell.m; path = Cell/MRReviewerCell.m; sourceTree = "<group>"; };
+		22A08D8B77355DB8A773B8E2 /* Pods-Coding_iOS-Coding_Enterprise_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Coding_iOS-Coding_Enterprise_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Coding_iOS-Coding_Enterprise_iOS/Pods-Coding_iOS-Coding_Enterprise_iOS.release.xcconfig"; sourceTree = "<group>"; };
 		2FD5D8DD0689696D28A6D49E /* Pods-Coding_iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Coding_iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Coding_iOS/Pods-Coding_iOS.release.xcconfig"; sourceTree = "<group>"; };
-		325848BC965CB1B329E42C60 /* libPods-Coding_iOS-CodingEnterprise_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Coding_iOS-CodingEnterprise_iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		344214A4A1281EB0C9B3DE71 /* Pods-Coding_iOS-CodingEnterprise_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Coding_iOS-CodingEnterprise_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Coding_iOS-CodingEnterprise_iOS/Pods-Coding_iOS-CodingEnterprise_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		34E37865A7DAAE68AEF68258 /* Pods-Coding_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Coding_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Coding_iOS/Pods-Coding_iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		3A3878351AE293D50078D5DE /* EditLabelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditLabelViewController.h; sourceTree = "<group>"; };
@@ -4388,6 +4388,8 @@
 		4EFE8DAE1B3960E6004B7559 /* logo_coding_top@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_coding_top@2x.png"; sourceTree = "<group>"; };
 		4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Launch Screen.xib"; sourceTree = "<group>"; };
 		4EFF5A761E0AE54800683D03 /* libresolv.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.9.tbd; path = usr/lib/libresolv.9.tbd; sourceTree = SDKROOT; };
+		59EA81AF0F8C7610F675E1EB /* Pods-Coding_iOS-Coding_Enterprise_iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Coding_iOS-Coding_Enterprise_iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Coding_iOS-Coding_Enterprise_iOS/Pods-Coding_iOS-Coding_Enterprise_iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		627CA7E44F0D5A025A49E2F0 /* libPods-Coding_iOS-Coding_Enterprise_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Coding_iOS-Coding_Enterprise_iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		645969FE6A8616A74543C249 /* libPods-Coding_iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Coding_iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E335D9A1B6F5E94003D0F3D /* keyboard_arrow_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_arrow_down@2x.png"; sourceTree = "<group>"; };
 		7E335D9B1B6F5E94003D0F3D /* keyboard_voice_record@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "keyboard_voice_record@2x.png"; sourceTree = "<group>"; };
@@ -5012,7 +5014,7 @@
 		B152ED8D209453F2004A6E8A /* taskboard_normal_page_unselected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskboard_normal_page_unselected@3x.png"; sourceTree = "<group>"; };
 		B152ED8E209453F2004A6E8A /* taskboard_normal_page_unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskboard_normal_page_unselected@2x.png"; sourceTree = "<group>"; };
 		B16E6C9F20C0FDB50076026D /* logo_coding_top@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_coding_top@3x.png"; sourceTree = "<group>"; };
-		B16E6CA220C0FFFF0076026D /* CodingEnterprise_iOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = CodingEnterprise_iOS.entitlements; sourceTree = "<group>"; };
+		B16E6CA220C0FFFF0076026D /* Coding_Enterprise_iOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Coding_Enterprise_iOS.entitlements; sourceTree = "<group>"; };
 		B16E6CA420C13BA10076026D /* btn_dismiss@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_dismiss@3x.png"; sourceTree = "<group>"; };
 		B16E6CA520C13BA10076026D /* btn_dismiss@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_dismiss@2x.png"; sourceTree = "<group>"; };
 		B16E6CAB20C13BF40076026D /* btn_next_unable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_next_unable@2x.png"; sourceTree = "<group>"; };
@@ -5405,9 +5407,9 @@
 		B1C871BD1EB33B37003DACF0 /* task_icon_arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "task_icon_arrow@3x.png"; sourceTree = "<group>"; };
 		B1CB8DD02047F1D000872197 /* button_tip_notice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_tip_notice@2x.png"; sourceTree = "<group>"; };
 		B1CB8DD12047F1D100872197 /* button_tip_notice@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button_tip_notice@3x.png"; sourceTree = "<group>"; };
-		B1D5F20220BC06CB00983FB6 /* CodingEnterprise_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodingEnterprise_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B1D5F20620BCF5F800983FB6 /* CodingEnterprise_iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "CodingEnterprise_iOS-Info.plist"; sourceTree = "<group>"; };
-		B1D5F20B20BCF72300983FB6 /* CodingEnterprise_iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CodingEnterprise_iOS-Prefix.pch"; sourceTree = "<group>"; };
+		B1D5F20220BC06CB00983FB6 /* Coding_Enterprise_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Coding_Enterprise_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1D5F20620BCF5F800983FB6 /* Coding_Enterprise_iOS-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Coding_Enterprise_iOS-Info.plist"; sourceTree = "<group>"; };
+		B1D5F20B20BCF72300983FB6 /* Coding_Enterprise_iOS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Coding_Enterprise_iOS-Prefix.pch"; sourceTree = "<group>"; };
 		B1D5F20C20BD3BF300983FB6 /* UINavigationController+FullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FullscreenPopGesture.h"; sourceTree = "<group>"; };
 		B1D5F20D20BD3BF300983FB6 /* UINavigationController+FullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FullscreenPopGesture.m"; sourceTree = "<group>"; };
 		B1D5F21020BD485A00983FB6 /* TeamPurchaseOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamPurchaseOrder.h; sourceTree = "<group>"; };
@@ -5600,7 +5602,7 @@
 				B1D5EE7220BC06CB00983FB6 /* Foundation.framework in Frameworks */,
 				B1D5EE7320BC06CB00983FB6 /* WebP.framework in Frameworks */,
 				B1D5EE7420BC06CB00983FB6 /* libPods-Coding_iOS.a in Frameworks */,
-				EAE4EF658EEBED1AFC748FD9 /* libPods-Coding_iOS-CodingEnterprise_iOS.a in Frameworks */,
+				74BCC5B7B071C6418DBC18C7 /* libPods-Coding_iOS-Coding_Enterprise_iOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7152,7 +7154,7 @@
 			isa = PBXGroup;
 			children = (
 				8E477010198770E700997D05 /* Coding_iOS.app */,
-				B1D5F20220BC06CB00983FB6 /* CodingEnterprise_iOS.app */,
+				B1D5F20220BC06CB00983FB6 /* Coding_Enterprise_iOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -7185,7 +7187,7 @@
 				8E477019198770E700997D05 /* CoreData.framework */,
 				8E477031198770E700997D05 /* XCTest.framework */,
 				645969FE6A8616A74543C249 /* libPods-Coding_iOS.a */,
-				325848BC965CB1B329E42C60 /* libPods-Coding_iOS-CodingEnterprise_iOS.a */,
+				627CA7E44F0D5A025A49E2F0 /* libPods-Coding_iOS-Coding_Enterprise_iOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -7413,16 +7415,16 @@
 			isa = PBXGroup;
 			children = (
 				4EBED55A1D93C9F700E3684E /* Coding_iOS.entitlements */,
-				B16E6CA220C0FFFF0076026D /* CodingEnterprise_iOS.entitlements */,
+				B16E6CA220C0FFFF0076026D /* Coding_Enterprise_iOS.entitlements */,
 				8EA6CFC619E240C40076D59C /* main.m */,
 				8EA6CF1519E240C40076D59C /* AppDelegate.h */,
 				8EA6CF1619E240C40076D59C /* AppDelegate.m */,
 				4EFE8DB81B3A5727004B7559 /* Launch Screen.xib */,
 				B1C60CAA20C0FC750073D3CA /* Launch Screen_E.xib */,
 				8EA6CF1719E240C40076D59C /* Coding_iOS-Info.plist */,
-				B1D5F20620BCF5F800983FB6 /* CodingEnterprise_iOS-Info.plist */,
+				B1D5F20620BCF5F800983FB6 /* Coding_Enterprise_iOS-Info.plist */,
 				4E8C51AE1AC0177600B4C51F /* Coding_iOS-Prefix.pch */,
-				B1D5F20B20BCF72300983FB6 /* CodingEnterprise_iOS-Prefix.pch */,
+				B1D5F20B20BCF72300983FB6 /* Coding_Enterprise_iOS-Prefix.pch */,
 				8EA6CF1919E240C40076D59C /* Coding_iOS.xcdatamodeld */,
 				8EA6CFC519E240C40076D59C /* Images.xcassets */,
 				8EA6CF5B19E240C40076D59C /* InfoPlist.strings */,
@@ -9198,6 +9200,8 @@
 				2FD5D8DD0689696D28A6D49E /* Pods-Coding_iOS.release.xcconfig */,
 				344214A4A1281EB0C9B3DE71 /* Pods-Coding_iOS-CodingEnterprise_iOS.debug.xcconfig */,
 				BA1AE837BA26B375F43A9343 /* Pods-Coding_iOS-CodingEnterprise_iOS.release.xcconfig */,
+				59EA81AF0F8C7610F675E1EB /* Pods-Coding_iOS-Coding_Enterprise_iOS.debug.xcconfig */,
+				22A08D8B77355DB8A773B8E2 /* Pods-Coding_iOS-Coding_Enterprise_iOS.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -9235,9 +9239,9 @@
 			productReference = 8E477010198770E700997D05 /* Coding_iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B1D5EBF120BC06CB00983FB6 /* CodingEnterprise_iOS */ = {
+		B1D5EBF120BC06CB00983FB6 /* Coding_Enterprise_iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B1D5F1FF20BC06CB00983FB6 /* Build configuration list for PBXNativeTarget "CodingEnterprise_iOS" */;
+			buildConfigurationList = B1D5F1FF20BC06CB00983FB6 /* Build configuration list for PBXNativeTarget "Coding_Enterprise_iOS" */;
 			buildPhases = (
 				B1D5EBF220BC06CB00983FB6 /* [CP] Check Pods Manifest.lock */,
 				B1D5EBF320BC06CB00983FB6 /* Sources */,
@@ -9251,9 +9255,9 @@
 			);
 			dependencies = (
 			);
-			name = CodingEnterprise_iOS;
+			name = Coding_Enterprise_iOS;
 			productName = CodiOS;
-			productReference = B1D5F20220BC06CB00983FB6 /* CodingEnterprise_iOS.app */;
+			productReference = B1D5F20220BC06CB00983FB6 /* Coding_Enterprise_iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -9307,7 +9311,7 @@
 			projectRoot = "";
 			targets = (
 				8E47700F198770E700997D05 /* Coding_iOS */,
-				B1D5EBF120BC06CB00983FB6 /* CodingEnterprise_iOS */,
+				B1D5EBF120BC06CB00983FB6 /* Coding_Enterprise_iOS */,
 			);
 		};
 /* End PBXProject section */
@@ -11237,7 +11241,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Coding_iOS-CodingEnterprise_iOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Coding_iOS-Coding_Enterprise_iOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -11250,7 +11254,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS-CodingEnterprise_iOS/Pods-Coding_iOS-CodingEnterprise_iOS-resources.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS-Coding_Enterprise_iOS/Pods-Coding_iOS-Coding_Enterprise_iOS-resources.sh",
 				"${PODS_ROOT}/FontAwesome+iOS/Resources/FontAwesome.ttf",
 				"${PODS_ROOT}/UMengUShare/UShareSDK/UMSocialSDK/UMSocialSDKPromptResources.bundle",
 				"${PODS_ROOT}/UMengUShare/UShareSDK/SocialLibraries/QQ/QQSDK/TencentOpenApi_IOS_Bundle.bundle",
@@ -11267,7 +11271,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS-CodingEnterprise_iOS/Pods-Coding_iOS-CodingEnterprise_iOS-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS-Coding_Enterprise_iOS/Pods-Coding_iOS-Coding_Enterprise_iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B1D5F1FE20BC06CB00983FB6 /* ShellScript */ = {
@@ -12809,10 +12813,10 @@
 		};
 		B1D5F20020BC06CB00983FB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 344214A4A1281EB0C9B3DE71 /* Pods-Coding_iOS-CodingEnterprise_iOS.debug.xcconfig */;
+			baseConfigurationReference = 59EA81AF0F8C7610F675E1EB /* Pods-Coding_iOS-Coding_Enterprise_iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_E;
-				CODE_SIGN_ENTITLEMENTS = Coding_iOS/CodingEnterprise_iOS.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Coding_iOS/Coding_Enterprise_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -12826,7 +12830,7 @@
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Coding_iOS/CodingEnterprise_iOS-Prefix.pch";
+				GCC_PREFIX_HEADER = "Coding_iOS/Coding_Enterprise_iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/include/libxml2,
@@ -12834,7 +12838,7 @@
 					"Pods/evernote-cloud-sdk-ios/**",
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Coding_iOS/CodingEnterprise_iOS-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Coding_iOS/Coding_Enterprise_iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -12853,10 +12857,10 @@
 		};
 		B1D5F20120BC06CB00983FB6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA1AE837BA26B375F43A9343 /* Pods-Coding_iOS-CodingEnterprise_iOS.release.xcconfig */;
+			baseConfigurationReference = 22A08D8B77355DB8A773B8E2 /* Pods-Coding_iOS-Coding_Enterprise_iOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon_E;
-				CODE_SIGN_ENTITLEMENTS = Coding_iOS/CodingEnterprise_iOS.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Coding_iOS/Coding_Enterprise_iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -12870,7 +12874,7 @@
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Coding_iOS/CodingEnterprise_iOS-Prefix.pch";
+				GCC_PREFIX_HEADER = "Coding_iOS/Coding_Enterprise_iOS-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/include/libxml2,
@@ -12878,7 +12882,7 @@
 					"Pods/evernote-cloud-sdk-ios/**",
 					"$(SRCROOT)/Carthage/Build/iOS/ObjectiveGit.framework/Headers/",
 				);
-				INFOPLIST_FILE = "$(SRCROOT)/Coding_iOS/CodingEnterprise_iOS-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Coding_iOS/Coding_Enterprise_iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -12916,7 +12920,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B1D5F1FF20BC06CB00983FB6 /* Build configuration list for PBXNativeTarget "CodingEnterprise_iOS" */ = {
+		B1D5F1FF20BC06CB00983FB6 /* Build configuration list for PBXNativeTarget "Coding_Enterprise_iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B1D5F20020BC06CB00983FB6 /* Debug */,
