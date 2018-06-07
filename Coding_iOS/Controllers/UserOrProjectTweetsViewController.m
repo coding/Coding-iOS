@@ -207,6 +207,9 @@
 }
 
 - (void)sendRequest{
+    if (self.curTweets.list.count <= 0) {
+        [self.myTableView beginLoading];
+    }
     if (_curTweets.tweetType == TweetTypeUserSingle && _curTweets.curUser.name.length <= 0) {
         [self refreshCurUser];
     }else if (_curTweets.tweetType == TweetTypeProject && ![_curTweets.curPro.id isKindOfClass:[NSNumber class]]){
@@ -214,6 +217,7 @@
     }else{
         __weak typeof(self) weakSelf = self;
         [[Coding_NetAPIManager sharedManager] request_Tweets_WithObj:_curTweets andBlock:^(id data, NSError *error) {
+            [weakSelf.myTableView endLoading];
             [weakSelf.refreshControl endRefreshing];
             [weakSelf.myTableView.infiniteScrollingView stopAnimating];
             if (data) {
@@ -244,7 +248,7 @@
             weakSelf.title = weakSelf.curTweets.curUser.name;
             [weakSelf sendRequest];
         }else{
-            [weakSelf.view endLoading];
+            [weakSelf.myTableView endLoading];
             [weakSelf.view configBlankPage:[weakSelf blankType] hasData:(weakSelf.curTweets.list.count > 0) hasError:YES offsetY:[weakSelf blankPageOffsetY] reloadButtonBlock:^(id sender) {
                 [weakSelf sendRequest];
             }];
@@ -260,7 +264,7 @@
             weakSelf.title = weakSelf.curTweets.curPro.name;
             [weakSelf sendRequest];
         }else{
-            [weakSelf.view endLoading];
+            [weakSelf.myTableView endLoading];
             [weakSelf.view configBlankPage:[weakSelf blankType] hasData:(weakSelf.curTweets.list.count > 0) hasError:YES offsetY:[weakSelf blankPageOffsetY] reloadButtonBlock:^(id sender) {
                 [weakSelf sendRequest];
             }];

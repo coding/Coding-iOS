@@ -361,7 +361,8 @@ static char LoadingViewKey, BlankPageViewKey;
     }
     [self addSubview:self.loadingView];
     [self.loadingView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.self.edges.equalTo(self);
+        make.height.width.centerX.centerY.equalTo(self);
+//        make.self.edges.equalTo(self);//self 是 scrollView 的时候，貌似会跟 contentSize 扯上关系
     }];
     [self.loadingView startAnimating];
 }

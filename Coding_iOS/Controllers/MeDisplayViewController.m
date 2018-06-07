@@ -117,6 +117,13 @@
             [self requestTopicsMore:NO];
         }
     }
+    if (self.myTableView.loadingView) {
+        CGFloat offsetY = _userInfoCell.frame.size.height + [UserActiveGraphCell cellHeight] + 80;
+        [self.myTableView.loadingView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.centerY.offset(offsetY);
+            make.height.mas_equalTo(200);
+        }];
+    }
 }
 
 - (void)refreshMore{
@@ -134,11 +141,13 @@
 - (void)requestTopicsMore:(BOOL)loadMore{
     _willLoadMore = loadMore;
     _curPage = _willLoadMore? _curPage + 1: 0;
-   
+    if (self.dataList.count <= 0) {
+        [self.myTableView beginLoading];
+    }
     __weak typeof(self) weakSelf = self;
     [[Coding_NetAPIManager sharedManager] request_JoinedTopicsWithUserGK:self.curUser.global_key page:weakSelf.curPage block:^(id data, BOOL hasMoreData, NSError *error) {
         [weakSelf.refreshControl endRefreshing];
-        [weakSelf.view endLoading];
+        [weakSelf.myTableView endLoading];
         [weakSelf.myTableView.infiniteScrollingView stopAnimating];
         if (data) {
             if (weakSelf.willLoadMore) {
