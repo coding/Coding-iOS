@@ -303,7 +303,7 @@
         if (indexPath.row == 0) {
             [cell setPlaceholder:@" 用户名" value:self.myRegister.global_key];
             cell.textValueChangedBlock = ^(NSString *valueStr){
-                weakSelf.myRegister.global_key = valueStr;
+                weakSelf.myRegister.global_key = [valueStr trimWhitespace];
             };
         }else if (indexPath.row == 1){
             cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
@@ -351,7 +351,7 @@
             if (indexPath.row == 0) {
                 [cell setPlaceholder:@" 用户名" value:self.myRegister.global_key];
                 cell.textValueChangedBlock = ^(NSString *valueStr){
-                    weakSelf.myRegister.global_key = valueStr;
+                    weakSelf.myRegister.global_key = [valueStr trimWhitespace];
                 };
             }else if (indexPath.row == 1){
                 cell.textField.keyboardType = UIKeyboardTypeNumberPad;
