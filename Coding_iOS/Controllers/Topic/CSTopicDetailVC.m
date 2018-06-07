@@ -420,11 +420,12 @@
     __weak typeof(self) weakSelf = self;
     TweetSendViewController *vc = [[TweetSendViewController alloc] init];
     vc.sendNextTweet = ^(Tweet *nextTweet){
-        [nextTweet saveSendData];//发送前保存草稿
         [[Coding_NetAPIManager sharedManager] request_Tweet_DoTweet_WithObj:nextTweet andBlock:^(id data, NSError *error) {
             if (data) {
                 [Tweet deleteSendData];//发送成功后删除草稿
                 [weakSelf refresh];
+            }else{
+                [nextTweet saveSendData];//发送失败，保存草稿
             }
         }];
     };

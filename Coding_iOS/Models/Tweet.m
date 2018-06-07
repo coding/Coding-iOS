@@ -8,6 +8,7 @@
 
 #import "Tweet.h"
 #import "Login.h"
+#import "YLGIFImage.h"
 
 
 static Tweet *_tweetForSend = nil;
@@ -201,7 +202,9 @@ static Tweet *_tweetForSend = nil;
             [tweetImagesDict setObject:tImg.assetLocalIdentifier forKey:imgNameStr];
         }
         if (tImg.downloadState == TweetImageDownloadStateSuccess) {
-            [NSObject saveImage:tImg.image imageName:imgNameStr inFolder:dataPath];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [NSObject saveImage:tImg.image imageName:imgNameStr inFolder:dataPath];
+            });
         }
     }
     [NSObject saveResponseData:@{@"content" : _tweetContent? _tweetContent: @"",
@@ -226,7 +229,7 @@ static Tweet *_tweetForSend = nil;
         NSData *imageData = [NSObject loadImageDataWithName:key inFolder:dataPath];
         TweetImage *tImg;
         if (imageData) {
-            tImg = [TweetImage tweetImageWithAssetLocalIdentifier:obj andImage:[UIImage imageWithData:imageData]];
+            tImg = [TweetImage tweetImageWithAssetLocalIdentifier:obj andImage:[YLGIFImage imageWithData:imageData]];
         }else{
             tImg = [TweetImage tweetImageWithAssetLocalIdentifier:obj];
         }

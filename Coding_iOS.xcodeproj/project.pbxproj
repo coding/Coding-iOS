@@ -1179,6 +1179,8 @@
 		B14689C11EE100B200B01371 /* vip_4_45@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B11EE100B200B01371 /* vip_4_45@3x.png */; };
 		B14689C21EE100B200B01371 /* vip_4_75@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B21EE100B200B01371 /* vip_4_75@2x.png */; };
 		B14689C31EE100B200B01371 /* vip_4_75@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B14689B31EE100B200B01371 /* vip_4_75@3x.png */; };
+		B14DE6DE20C914E70072ECEA /* AnimatedGIFImageSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = B14DE6DD20C914E60072ECEA /* AnimatedGIFImageSerialization.m */; };
+		B14DE6DF20C914E70072ECEA /* AnimatedGIFImageSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = B14DE6DD20C914E60072ECEA /* AnimatedGIFImageSerialization.m */; };
 		B152ED4E2090B223004A6E8A /* ProjectSettingEntranceController.m in Sources */ = {isa = PBXBuildFile; fileRef = B152ED4D2090B223004A6E8A /* ProjectSettingEntranceController.m */; };
 		B152ED542091B7CB004A6E8A /* ProjectArchiveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B152ED532091B7CB004A6E8A /* ProjectArchiveViewController.m */; };
 		B152ED5A2092BF46004A6E8A /* EABoardTaskList.m in Sources */ = {isa = PBXBuildFile; fileRef = B152ED592092BF46004A6E8A /* EABoardTaskList.m */; };
@@ -4984,6 +4986,8 @@
 		B14689B11EE100B200B01371 /* vip_4_45@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_4_45@3x.png"; sourceTree = "<group>"; };
 		B14689B21EE100B200B01371 /* vip_4_75@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_4_75@2x.png"; sourceTree = "<group>"; };
 		B14689B31EE100B200B01371 /* vip_4_75@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "vip_4_75@3x.png"; sourceTree = "<group>"; };
+		B14DE6DC20C914E60072ECEA /* AnimatedGIFImageSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimatedGIFImageSerialization.h; sourceTree = "<group>"; };
+		B14DE6DD20C914E60072ECEA /* AnimatedGIFImageSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimatedGIFImageSerialization.m; sourceTree = "<group>"; };
 		B152ED4C2090B223004A6E8A /* ProjectSettingEntranceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectSettingEntranceController.h; sourceTree = "<group>"; };
 		B152ED4D2090B223004A6E8A /* ProjectSettingEntranceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProjectSettingEntranceController.m; sourceTree = "<group>"; };
 		B152ED522091B7CB004A6E8A /* ProjectArchiveViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProjectArchiveViewController.h; sourceTree = "<group>"; };
@@ -8231,6 +8235,7 @@
 		8EA6D03E19E240C40076D59C /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				B14DE6DB20C914E60072ECEA /* AnimatedGIFImageSerialization */,
 				B12B64561FFB61AD00ACFDCC /* QBImagePickerController */,
 				B12B63FA1FE900D400ACFDCC /* AMPopTip */,
 				B12B63F41FE8A77200ACFDCC /* SinaSDK */,
@@ -8835,6 +8840,15 @@
 				B14689B31EE100B200B01371 /* vip_4_75@3x.png */,
 			);
 			path = vip;
+			sourceTree = "<group>";
+		};
+		B14DE6DB20C914E60072ECEA /* AnimatedGIFImageSerialization */ = {
+			isa = PBXGroup;
+			children = (
+				B14DE6DC20C914E60072ECEA /* AnimatedGIFImageSerialization.h */,
+				B14DE6DD20C914E60072ECEA /* AnimatedGIFImageSerialization.m */,
+			);
+			path = AnimatedGIFImageSerialization;
 			sourceTree = "<group>";
 		};
 		B152ED86209453F2004A6E8A /* taskboard_page */ = {
@@ -11488,6 +11502,7 @@
 				926C043E1C01A212004937D8 /* ShopOrderListView.m in Sources */,
 				8E1C3DF119E7D58A00EF3032 /* SWActionSheet.m in Sources */,
 				4E1A22821AB1729700CFC14F /* ProjectInfoCell.m in Sources */,
+				B14DE6DE20C914E70072ECEA /* AnimatedGIFImageSerialization.m in Sources */,
 				8EA6D1BF19E240C40076D59C /* Task.m in Sources */,
 				0A0519E21ABA918100551B61 /* TweetSendDetailLoctionCell.m in Sources */,
 				4E5C06EB1AC4009100F427C5 /* CannotLoginViewController.m in Sources */,
@@ -12126,6 +12141,7 @@
 				B1D5EC8320BC06CB00983FB6 /* ShopOrderListView.m in Sources */,
 				B1D5EC8420BC06CB00983FB6 /* SWActionSheet.m in Sources */,
 				B1D5EC8520BC06CB00983FB6 /* ProjectInfoCell.m in Sources */,
+				B14DE6DF20C914E70072ECEA /* AnimatedGIFImageSerialization.m in Sources */,
 				B1D5EC8620BC06CB00983FB6 /* Task.m in Sources */,
 				B1D5EC8720BC06CB00983FB6 /* TweetSendDetailLoctionCell.m in Sources */,
 				B1D5EC8820BC06CB00983FB6 /* CannotLoginViewController.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import "UIImage+Common.h"
+#import "AnimatedGIFImageSerialization.h"
 
 @implementation UIImage (Common)
 +(UIImage *)imageWithColor:(UIColor *)aColor{
@@ -178,6 +179,10 @@
 
 - (NSData *)dataSmallerThan:(CGFloat)maxLength{
     NSAssert(maxLength > 0, @"maxLength 必须是个大于零的数");
+    if (self.images.count > 0) {//gif 不压缩
+        NSData *data = [AnimatedGIFImageSerialization animatedGIFDataWithImage:self error:nil];
+        return data;
+    }
     //先调整 compression（图片质量）进行压缩
     //当 compression 减小到一定程度时，再继续减小，data 的值也不会改变了。这也是之前压缩会进到死循环的原因
     //compressionFixed 之后，再调整 ratio（图片尺寸）
@@ -247,7 +252,7 @@
     return data;
 }
 - (NSData *)dataForCodingUpload{
-    return [self dataSmallerThan:1024 * 1000];
+    return [self dataSmallerThan:1024 * 5000];
 }
 
 

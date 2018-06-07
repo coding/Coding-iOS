@@ -7,6 +7,7 @@
 //
 
 #import "PHAsset+Common.h"
+#import "YLGIFImage.h"
 
 @implementation PHAsset (Common)
 
@@ -82,7 +83,16 @@
     imageOptions.networkAccessAllowed = YES;
     imageOptions.progressHandler = progressHandler;
     PHImageManager *imageManager = [PHImageManager defaultManager];
-    [imageManager requestImageForAsset:self targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:imageOptions resultHandler:resultHandler];
+
+    [imageManager requestImageDataForAsset:self options:imageOptions resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+        if (resultHandler) {
+            resultHandler([YLGIFImage imageWithData:imageData], info);
+        }
+    }];
+//    gif 图片对应的 mediaSubtypes。有这个值，但是 API 没有这个枚举，有点迷
+//    NSUInteger PHAssetMediaSubtypePhotoGif = (1UL << 5);
+//    if (self.mediaSubtypes & PHAssetMediaSubtypePhotoGif) {
+//    }
 }
 
 @end

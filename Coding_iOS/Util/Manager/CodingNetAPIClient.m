@@ -257,7 +257,68 @@ static dispatch_once_t e_Token;
        failureBlock:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
       progerssBlock:(void (^)(CGFloat progressValue))progress{
     
-    NSData *data = [image dataForCodingUpload];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSData *data = [image dataForCodingUpload];
+        [self p_uploadImageData:data path:path name:name successBlock:success failureBlock:failure progerssBlock:progress];
+    });
+    
+//    NSData *data = [image dataForCodingUpload];
+//    NSString *fileName = [NSString stringWithFormat:@"%@_%@.jpg", [Login curLoginUser].global_key, [NSUUID UUID].UUIDString];
+//    DebugLog(@"\nuploadImageSize\n%@ : %.0f", fileName, (float)data.length/1024);
+//
+//    __weak typeof(self) weakSelf = self;
+//    void (^uploadBlock)(NSDictionary *) = ^(NSDictionary *uploadParams){
+//        AFHTTPRequestOperation *operation = [weakSelf POST:path parameters:uploadParams constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+//            [formData appendPartWithFileData:data name:name fileName:fileName mimeType:@"image/jpeg"];
+//        } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//            DebugLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
+//            id error = [self handleResponse:responseObject];
+//            if (error && failure) {
+//                failure(operation, error);
+//            }else{
+//                success(operation, responseObject);
+//            }
+//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//            DebugLog(@"Error: %@ ***** %@", operation.responseString, error);
+//            if (failure) {
+//                failure(operation, error);
+//            }
+//        }];
+//        [operation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+//            CGFloat progressValue = (float)totalBytesWritten/(float)totalBytesExpectedToWrite;
+//            if (progress) {
+//                progress(progressValue);
+//            }
+//        }];
+//        [operation start];
+//    };
+//    if ([path isEqualToString:@"https://up.qbox.me/"]) {//先拿 token
+//        NSDictionary *params = @{
+//                                 @"fileName": fileName,
+//                                 @"fileSize": @(data.length)
+//                                 };
+//        [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:@"api/upload_token/public/images" withParams:params withMethodType:Get andBlock:^(id data, NSError *error) {
+//            if (data) {
+//                NSDictionary *result = data[@"data"];
+//                NSMutableDictionary *uploadParams = @{}.mutableCopy;
+//                uploadParams[@"token"] = result[@"uptoken"];
+//                uploadParams[@"x:time"] = result[@"time"];
+//                uploadParams[@"x:authToken"] = result[@"authToken"];
+//                uploadParams[@"x:userId"] = result[@"userId"];
+//                uploadParams[@"key"] = fileName;
+//                uploadBlock(uploadParams);
+//            }
+//        }];
+//    }else{
+//        uploadBlock(nil);
+//    }
+}
+
+- (void)p_uploadImageData:(NSData *)data path:(NSString *)path name:(NSString *)name
+       successBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+       failureBlock:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+      progerssBlock:(void (^)(CGFloat progressValue))progress{
+    
     NSString *fileName = [NSString stringWithFormat:@"%@_%@.jpg", [Login curLoginUser].global_key, [NSUUID UUID].UUIDString];
     DebugLog(@"\nuploadImageSize\n%@ : %.0f", fileName, (float)data.length/1024);
     
