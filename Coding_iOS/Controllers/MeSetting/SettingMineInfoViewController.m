@@ -121,7 +121,7 @@
             case 0:{
                 switch (indexPath.row) {
                     case 1:
-                        [cell setTitleStr:@"昵称" valueStr:_curUser.name];
+                        [cell setTitleStr:@"名字" valueStr:_curUser.name];
                         break;
                     case 2:
                         if (_curUser.sex.intValue == 0) {
@@ -203,8 +203,8 @@
                     }
                 }
                     break;
-                case 1:{//昵称
-                    SettingTextViewController *vc = [SettingTextViewController settingTextVCWithTitle:@"昵称" textValue:_curUser.name  doneBlock:^(NSString *textValue) {
+                case 1:{//名字
+                    SettingTextViewController *vc = [SettingTextViewController settingTextVCWithTitle:@"名字" textValue:_curUser.name  doneBlock:^(NSString *textValue) {
                         NSString *preValue = weakSelf.curUser.name;
                         weakSelf.curUser.name = textValue;
                         [weakSelf.myTableView reloadData];
