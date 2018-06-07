@@ -219,13 +219,19 @@
     [self.myRefreshControl endRefreshing];
     
     NSString *contentStr = [WebContentManager wikiPatternedWithContent:_curWiki.html];
-    [self.webContentView loadHTMLString:contentStr baseURL:nil];
+//    [self.webContentView loadHTMLString:contentStr baseURL:nil];
+    [self.webContentView loadHTMLString:contentStr baseURL:[NSURL URLWithString:[self p_baseHref]]];
+
     
     BOOL hasError = (error != nil && !_curWiki);
     [self.view configBlankPage:EaseBlankPageTypeWiki hasData:(_curWiki != nil) hasError:hasError reloadButtonBlock:^(id sender) {
         [self refresh];
     }];
     self.webContentView.hidden = hasError;
+}
+
+- (NSString *)p_baseHref{//写在 wiki.html 文件里的，没有 baseHref 的话，锚点会异常
+    return @"https://coding.net/";
 }
 
 #pragma mark Footer Action
@@ -324,12 +330,19 @@
 #pragma mark UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     DebugLog(@"strLink=[%@]",request.URL.absoluteString);
-    UIViewController *vc = [BaseViewController analyseVCFromLinkStr:request.URL.absoluteString];
-    if (vc) {
-        [self.navigationController pushViewController:vc animated:YES];
-        return NO;
+//    #user-content-examples
+    NSString *urlStr = request.URL.absoluteString;
+    if ([urlStr isEqualToString:[self p_baseHref]] ||
+        [urlStr hasPrefix:[[self p_baseHref] stringByAppendingString:@"#"]]) {
+        return YES;
+    }else{
+        UIViewController *vc = [BaseViewController analyseVCFromLinkStr:request.URL.absoluteString];
+        if (vc) {
+            [self.navigationController pushViewController:vc animated:YES];
+            return NO;
+        }
+        return YES;
     }
-    return YES;
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     [_activityIndicator startAnimating];
