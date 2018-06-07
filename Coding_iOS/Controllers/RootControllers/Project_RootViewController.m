@@ -658,13 +658,13 @@
         [_titleBtn setTitleColor:kColorNavTitle forState:UIControlStateNormal];
         [_titleBtn.titleLabel setFont:[UIFont systemFontOfSize:kNavTitleFontSize]];
         [_titleBtn addTarget:self action:@selector(fliterClicked:) forControlEvents:UIControlEventTouchUpInside];
+        self.navigationItem.titleView = _titleBtn;
         [self setTitleBtnStr:@"全部项目"];
     }
-    self.navigationItem.titleView = _titleBtn;
 }
 
 - (void)setTitleBtnStr:(NSString *)titleStr{
-    if (_titleBtn) {
+    if (_titleBtn.titleLabel.text.length != titleStr.length) {
         CGFloat titleWidth = [titleStr getWidthWithFont:_titleBtn.titleLabel.font constrainedToSize:CGSizeMake(kScreen_Width, 30)];
         CGFloat imageWidth = 12;
         CGFloat btnWidth = titleWidth +imageWidth;
@@ -673,6 +673,8 @@
         _titleBtn.imageEdgeInsets = UIEdgeInsetsMake(0, titleWidth, 0, -titleWidth);
         [_titleBtn setTitle:titleStr forState:UIControlStateNormal];
         [_titleBtn setImage:[UIImage imageNamed:@"btn_fliter_down"] forState:UIControlStateNormal];
+    }else{
+        [_titleBtn setTitle:titleStr forState:UIControlStateNormal];
     }
 }
 
