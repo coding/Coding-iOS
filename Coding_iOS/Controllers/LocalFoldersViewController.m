@@ -115,6 +115,7 @@
         }
     }
     [self.myTableView reloadData];
+    [self changeEditStateToEditing:self.myTableView.isEditing];
     return localFileUrlList.count > 0;
 }
 
@@ -208,7 +209,7 @@
         UIBarButtonItem *item1 = [UIBarButtonItem itemWithBtnTitle:@"编辑" target:self action:@selector(changeEditState)];
         rightBarButtonItems = @[item1];
     }
-    [self.navigationItem setRightBarButtonItems:rightBarButtonItems animated:YES];
+    [self.navigationItem setRightBarButtonItems:_projectId_list.count > 0? rightBarButtonItems: nil animated:YES];
     [self configToolBar];
     [self.myTableView performSelector:@selector(reloadData) withObject:nil afterDelay:0.3];
 }
