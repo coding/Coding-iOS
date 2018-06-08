@@ -74,7 +74,7 @@
                                                               RACObserve(self, j_captcha),
                                                               RACObserve(self, two_factor_code)]
                                                      reduce:^id(NSString *email, NSString *j_captcha, NSString *two_factor_code){
-                                                         return @(email.length > 0 && j_captcha.length > 0 && two_factor_code.length > 0);
+                                                         return @(email.length > 0 && j_captcha.length > 0 && (two_factor_code.length > 0 || [Login curLoginUser].hasNoEamilAndPhone));
                                                      }];
 
     [footerV addSubview:_footerBtn];
@@ -114,6 +114,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 1 && [Login curLoginUser].hasNoEamilAndPhone) {
+        return 0;
+    }
     return 50;
 }
 

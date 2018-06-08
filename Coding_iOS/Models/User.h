@@ -26,7 +26,7 @@
 
 @property (strong, nonatomic, readonly) NSString *skills_str, *degree_str, *vipName;
 
-@property (assign, nonatomic, readonly) BOOL isUserInfoCompleted, canUpgradeByCompleteUserInfo, willExpired;
+@property (assign, nonatomic, readonly) BOOL isUserInfoCompleted, canUpgradeByCompleteUserInfo, willExpired, hasNoEamilAndPhone;
 
 + (User *)userWithGlobalKey:(NSString *)global_key;
 

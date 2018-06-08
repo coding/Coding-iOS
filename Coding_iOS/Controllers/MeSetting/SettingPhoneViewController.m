@@ -107,6 +107,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 2 && [Login curLoginUser].hasNoEamilAndPhone) {
+        return 0;
+    }
     return 50;
 }
 
@@ -204,7 +207,7 @@
         tipStr = @"手机号码格式有误";
     }else if (_code.length <= 0){
         tipStr = @"请填写手机验证码";
-    }else if (_verifyStr.length <= 0){
+    }else if (_verifyStr.length <= 0 && ![Login curLoginUser].hasNoEamilAndPhone){
         tipStr = _verifyType == VerifyTypePassword? @"请填写密码": @"请填写两步验证码";
     }
     if (tipStr.length > 0) {

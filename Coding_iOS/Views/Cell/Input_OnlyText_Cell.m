@@ -36,6 +36,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        self.clipsToBounds = YES;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_textField) {
             _textField = [UITextField new];

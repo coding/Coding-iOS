@@ -236,6 +236,10 @@
     return (self.vip.integerValue >= 3 && (timeInterval < 3 * 24 * 60 * 60));
 }
 
+- (BOOL)hasNoEamilAndPhone{
+    return YES;
+    return self.email.length <= 0 && self.phone.length <= 0;
+}
 
 - (NSString *)changePasswordTips{
     NSString *tipStr = nil;
