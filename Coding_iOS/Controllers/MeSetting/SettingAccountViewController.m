@@ -17,6 +17,7 @@
 #import "Login.h"
 #import "Close2FAViewController.h"
 #import "SettingEmailViewController.h"
+#import "CannotLoginViewController.h"
 
 @interface SettingAccountViewController ()
 @property (strong, nonatomic) User *myUser;
@@ -175,7 +176,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSInteger row = (section == 1? 2: 1);
+    NSInteger row = ((section == 1 || section == 2)? 2: 1);
     return row;
 }
 
@@ -205,7 +206,7 @@
         }
     }else{
         TitleDisclosureCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier_TitleDisclosure forIndexPath:indexPath];
-        [cell setTitleStr:indexPath.section == 2? @"修改密码": @"关闭两步验证"];
+        [cell setTitleStr:indexPath.section == 2? indexPath.row == 0? @"修改密码": @"找回密码": @"关闭两步验证"];
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
     }
@@ -247,9 +248,18 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
     }else if (indexPath.section == 2){
-        SettingPasswordViewController *vc = [[SettingPasswordViewController alloc] init];
-        vc.myUser = self.myUser;
-        [self.navigationController pushViewController:vc animated:YES];
+        if (indexPath.row == 0) {
+            SettingPasswordViewController *vc = [[SettingPasswordViewController alloc] init];
+            vc.myUser = self.myUser;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            if (self.myUser.hasNoEamilAndPhone) {
+                [NSObject showHudTipStr:@"邮箱和手机账号均未填写的情况下，无法使用找回密码功能"];
+            }else{
+                CannotLoginViewController *vc = [CannotLoginViewController vcWithMethodType:(self.myUser.phone.length > 0? CannotLoginMethodPhone: CannotLoginMethodEamil) stepIndex:0 userStr:nil];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }
     }else if (indexPath.section == 3){
         Close2FAViewController *vc = [Close2FAViewController vcWithPhone:_myUser.phone sucessBlock:^(UIViewController *vcc) {
             [vcc.navigationController popToRootViewControllerAnimated:YES];

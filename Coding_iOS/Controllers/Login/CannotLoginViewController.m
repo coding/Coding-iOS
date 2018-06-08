@@ -345,13 +345,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = kColorWhite;
-
     self.phoneCodeCellIdentifier = [Input_OnlyText_Cell randomCellIdentifierOfPhoneCodeType];
+    if ([Login isLogin] && self.userStr.length <= 0) {
+        self.userStr = (self.medthodType == CannotLoginMethodEamil? [Login curLoginUser].email: [Login curLoginUser].phone);
+    }
     
     //    添加myTableView
     _myTableView = ({
         TPKeyboardAvoidingTableView *tableView = [[TPKeyboardAvoidingTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+        tableView.backgroundColor = [Login isLogin]? kColorTableSectionBg: kColorWhite;
         [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Text];
         [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:kCellIdentifier_Input_OnlyText_Cell_Captcha];
         [tableView registerClass:[Input_OnlyText_Cell class] forCellReuseIdentifier:self.phoneCodeCellIdentifier];
@@ -424,20 +426,30 @@
 
 #pragma mark - Table view Header Footer
 - (UIView *)customHeaderView{
-    UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 60)];
-    UILabel *headerL = [UILabel labelWithFont:[UIFont systemFontOfSize:30] textColor:kColorDark2];
-    headerL.text = self.medthodType == CannotLoginMethodEamil? @"重置密码": self.stepIndex > 0? @"重置密码": @"找回密码";
-    [headerV addSubview:headerL];
-    [headerL mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.offset(kPaddingLeftWidth);
-        make.bottom.offset(0);
-        make.height.mas_equalTo(42);
-    }];
+    UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, [Login isLogin]? 20: 60)];
+    if (![Login isLogin]) {
+        self.title = nil;
+        UILabel *headerL = [UILabel labelWithFont:[UIFont systemFontOfSize:30] textColor:kColorDark2];
+        headerL.text = [self p_titleStr];
+        [headerV addSubview:headerL];
+        [headerL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.offset(kPaddingLeftWidth);
+            make.bottom.offset(0);
+            make.height.mas_equalTo(42);
+        }];
+    }else{
+        self.title = [self p_titleStr];
+    }
     return headerV;
 }
+
+- (NSString *)p_titleStr{
+    return self.medthodType == CannotLoginMethodEamil? @"重置密码": self.stepIndex > 0? @"重置密码": @"找回密码";
+}
+
 - (UIView *)customFooterView{
     UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 150)];
-    _footerBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:[self footerBtnTitle] andFrame:CGRectMake(kLoginPaddingLeftWidth, 20, kScreen_Width-kLoginPaddingLeftWidth*2, 50) target:self action:@selector(footerBtnClicked:)];
+    _footerBtn = [UIButton buttonWithStyle:StrapSuccessStyle andTitle:[self footerBtnTitle] andFrame:CGRectMake(kLoginPaddingLeftWidth, 20, kScreen_Width-kLoginPaddingLeftWidth*2, [Login isLogin]? 45: 50) target:self action:@selector(footerBtnClicked:)];
     [footerV addSubview:_footerBtn];
     
     if (_medthodType == CannotLoginMethodEamil) {
@@ -463,7 +475,8 @@
                                                              }];
         }
     }
-    if (_medthodType == CannotLoginMethodPhone && _stepIndex <= 0) {
+    if (_medthodType == CannotLoginMethodPhone && _stepIndex <= 0 &&
+        (![Login isLogin] || [Login curLoginUser].email.length > 0)) {
         UIButton *emailBtn = ({
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 120, 30)];
             [button.titleLabel setFont:[UIFont systemFontOfSize:15]];
@@ -510,7 +523,7 @@
         cellIdentifier = kCellIdentifier_Input_OnlyText_Cell_Text;
     }
     Input_OnlyText_Cell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    cell.isBottomLineShow = YES;
+    cell.isBottomLineShow = ![Login isLogin];
     
     __weak typeof(self) weakSelf = self;
     if (_medthodType == CannotLoginMethodEamil) {
@@ -558,11 +571,15 @@
             };
         }
     }
+    if ([Login isLogin]) {
+        cell.backgroundColor = kColorWhite;
+        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+    }
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 65.0;
+    return [Login isLogin]? 50: 65.0;
 }
 
 #pragma mark Btn Clicked

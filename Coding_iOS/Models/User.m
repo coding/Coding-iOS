@@ -237,7 +237,6 @@
 }
 
 - (BOOL)hasNoEamilAndPhone{
-    return YES;
     return self.email.length <= 0 && self.phone.length <= 0;
 }
 
