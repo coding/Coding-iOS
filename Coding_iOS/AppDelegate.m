@@ -119,8 +119,8 @@
     }
     
 #if DEBUG
-//    [[RRFPSBar sharedInstance] setShowsAverage:YES];
-//    [[RRFPSBar sharedInstance] setHidden:NO];
+    [[RRFPSBar sharedInstance] setShowsAverage:YES];
+    [[RRFPSBar sharedInstance] setHidden:NO];
 #endif
     return YES;
 }

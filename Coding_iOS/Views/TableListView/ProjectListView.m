@@ -210,8 +210,10 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (void)setIsNewerVersionAvailable:(BOOL)isNewerVersionAvailable{
-    _isNewerVersionAvailable = isNewerVersionAvailable;
-    [self.myTableView reloadData];
+    if (_isNewerVersionAvailable != isNewerVersionAvailable) {
+        _isNewerVersionAvailable = isNewerVersionAvailable;
+        [self.myTableView reloadData];
+    }
 }
 
 - (void)setIsHeaderClosed:(BOOL)isHeaderClosed{
@@ -236,7 +238,9 @@ static NSString *const kValueKey = @"kValueKey";
                 if (latestVersion && minimumSupportedOSVersion) {
                     BOOL osVersionSupported = ([[UIDevice currentDevice].systemVersion compare:minimumSupportedOSVersion options:NSNumericSearch] != NSOrderedAscending);
                     BOOL isNewerVersionAvailable = ([kVersion_Coding compare:latestVersion options:NSNumericSearch] == NSOrderedAscending);
-                    weakSelf.isNewerVersionAvailable = (osVersionSupported && isNewerVersionAvailable);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        weakSelf.isNewerVersionAvailable = (osVersionSupported && isNewerVersionAvailable);
+                    });
                 }
             }
         }];

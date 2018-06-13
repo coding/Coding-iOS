@@ -102,7 +102,7 @@
         // Chart Layer
         _chartLayer = [CAShapeLayer layer];
         [_chartLayer setFrame: self.bounds];
-        [_chartLayer setStrokeColor: [UIColor redColor].CGColor];
+        [_chartLayer setStrokeColor: [UIColor yellowColor].CGColor];
         [_chartLayer setContentsScale: [UIScreen mainScreen].scale];
         [self.layer addSublayer:_chartLayer];
 
