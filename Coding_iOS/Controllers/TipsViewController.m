@@ -52,6 +52,7 @@
             titleStr = @"系统通知";
             break;
         default:
+            titleStr = @"通知";
             break;
     }
     self.title = titleStr;

@@ -78,6 +78,9 @@
         params = @{@"type" : @[@(4), @(6)],
                    @"page" : _willLoadMore? [NSNumber numberWithInteger:_page.integerValue +1]: [NSNumber numberWithInteger:1],
                    @"pageSize" : _pageSize};
+    }else if (_type == 3){
+        params = @{@"page" : _willLoadMore? [NSNumber numberWithInteger:_page.integerValue +1]: [NSNumber numberWithInteger:1],
+                   @"pageSize" : _pageSize};
     }
     return params;
 }
@@ -93,6 +96,8 @@
     }else if (_type == 2){
         params = @{@"type" : @(4),
                    @"all" : @(1)};
+    }else if (_type == 3){
+        params = @{@"all" : @(1)};
     }
     return params;
 }

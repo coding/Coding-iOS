@@ -37,11 +37,15 @@
             imageName = @"messageSystem";
             titleStr = @"系统通知";
             break;
-            case ToMessageTypeProjectFollows:
+        case ToMessageTypeAllNotification:
+            imageName = @"messageSystem";
+            titleStr = @"通知";
+            break;
+        case ToMessageTypeProjectFollows:
             imageName = @"messageProjectFollows";
             titleStr = @"我的关注";
             break;
-            case ToMessageTypeProjectFans:
+        case ToMessageTypeProjectFans:
             imageName = @"messageProjectFans";
             titleStr = @"我的粉丝";
             break;

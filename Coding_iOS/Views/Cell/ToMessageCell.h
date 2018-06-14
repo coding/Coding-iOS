@@ -13,6 +13,7 @@ typedef NS_ENUM(NSInteger, ToMessageType) {
     ToMessageTypeAT = 0,
     ToMessageTypeComment,
     ToMessageTypeSystemNotification,
+    ToMessageTypeAllNotification,
     ToMessageTypeProjectFollows,
     ToMessageTypeProjectFans,
 };
