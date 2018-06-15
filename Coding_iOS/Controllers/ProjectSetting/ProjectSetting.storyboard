@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -419,6 +419,10 @@
                                                         <constraint firstAttribute="width" constant="60" id="lhf-z4-2Wz"/>
                                                     </constraints>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="project_icon_edit.png" translatesAutoresizingMaskIntoConstraints="NO" id="22M-kU-Puz">
+                                                    <rect key="frame" x="15" y="15" width="60" height="60"/>
+                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="calibratedRGB"/>
+                                                </imageView>
                                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YBJ-EV-g6r">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="1"/>
                                                     <color key="backgroundColor" red="0.78039215689999997" green="0.79215686269999996" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -444,6 +448,10 @@
                                                 <constraint firstItem="3zN-av-S8V" firstAttribute="centerY" secondItem="CxV-Qa-5mo" secondAttribute="centerY" id="0Bt-hU-gWy"/>
                                                 <constraint firstItem="FRD-A2-Fm7" firstAttribute="centerY" secondItem="3zN-av-S8V" secondAttribute="centerY" id="AdP-im-TM2"/>
                                                 <constraint firstItem="3zN-av-S8V" firstAttribute="leading" secondItem="CxV-Qa-5mo" secondAttribute="leading" constant="15" id="Aza-0O-v68"/>
+                                                <constraint firstItem="22M-kU-Puz" firstAttribute="top" secondItem="3zN-av-S8V" secondAttribute="top" id="EFx-iH-lgp"/>
+                                                <constraint firstItem="22M-kU-Puz" firstAttribute="trailing" secondItem="3zN-av-S8V" secondAttribute="trailing" id="EY1-Ig-9F7"/>
+                                                <constraint firstItem="22M-kU-Puz" firstAttribute="bottom" secondItem="3zN-av-S8V" secondAttribute="bottom" id="Hng-cN-bcE"/>
+                                                <constraint firstItem="22M-kU-Puz" firstAttribute="leading" secondItem="3zN-av-S8V" secondAttribute="leading" id="K5F-9X-m8w"/>
                                                 <constraint firstItem="FRD-A2-Fm7" firstAttribute="leading" secondItem="3zN-av-S8V" secondAttribute="trailing" constant="30" id="NGx-r5-cQe"/>
                                                 <constraint firstItem="YBJ-EV-g6r" firstAttribute="top" secondItem="CxV-Qa-5mo" secondAttribute="top" id="a0q-7B-DUt"/>
                                                 <constraint firstAttribute="trailing" secondItem="YBJ-EV-g6r" secondAttribute="trailing" id="ab0-vj-YUN"/>
@@ -739,6 +747,7 @@
     </scenes>
     <resources>
         <image name="icon_project_private.png" width="12" height="12"/>
+        <image name="project_icon_edit.png" width="22" height="22"/>
         <image name="taskOwner.png" width="33" height="33"/>
     </resources>
 </document>

@@ -1203,6 +1203,11 @@
 		B152ED94209453F3004A6E8A /* taskboard_add_page_unselected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B152ED8C209453F2004A6E8A /* taskboard_add_page_unselected@3x.png */; };
 		B152ED95209453F3004A6E8A /* taskboard_normal_page_unselected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B152ED8D209453F2004A6E8A /* taskboard_normal_page_unselected@3x.png */; };
 		B152ED96209453F3004A6E8A /* taskboard_normal_page_unselected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B152ED8E209453F2004A6E8A /* taskboard_normal_page_unselected@2x.png */; };
+		B15C98AD20D39C4B00DDA425 /* NewProject.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B94C1B6A1AC945FB0000C271 /* NewProject.storyboard */; };
+		B15C98B020D39CA200DDA425 /* project_icon_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B15C98AE20D39CA100DDA425 /* project_icon_edit@2x.png */; };
+		B15C98B120D39CA200DDA425 /* project_icon_edit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B15C98AE20D39CA100DDA425 /* project_icon_edit@2x.png */; };
+		B15C98B220D39CA200DDA425 /* project_icon_edit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B15C98AF20D39CA200DDA425 /* project_icon_edit@3x.png */; };
+		B15C98B320D39CA200DDA425 /* project_icon_edit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B15C98AF20D39CA200DDA425 /* project_icon_edit@3x.png */; };
 		B16E6CA020C0FDB50076026D /* logo_coding_top@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16E6C9F20C0FDB50076026D /* logo_coding_top@3x.png */; };
 		B16E6CA120C0FDB50076026D /* logo_coding_top@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B16E6C9F20C0FDB50076026D /* logo_coding_top@3x.png */; };
 		B16E6CA320C102B60076026D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EA6CFC519E240C40076D59C /* Images.xcassets */; };
@@ -5017,6 +5022,8 @@
 		B152ED8C209453F2004A6E8A /* taskboard_add_page_unselected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskboard_add_page_unselected@3x.png"; sourceTree = "<group>"; };
 		B152ED8D209453F2004A6E8A /* taskboard_normal_page_unselected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskboard_normal_page_unselected@3x.png"; sourceTree = "<group>"; };
 		B152ED8E209453F2004A6E8A /* taskboard_normal_page_unselected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "taskboard_normal_page_unselected@2x.png"; sourceTree = "<group>"; };
+		B15C98AE20D39CA100DDA425 /* project_icon_edit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_icon_edit@2x.png"; sourceTree = "<group>"; };
+		B15C98AF20D39CA200DDA425 /* project_icon_edit@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "project_icon_edit@3x.png"; sourceTree = "<group>"; };
 		B16E6C9F20C0FDB50076026D /* logo_coding_top@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo_coding_top@3x.png"; sourceTree = "<group>"; };
 		B16E6CA220C0FFFF0076026D /* Coding_Enterprise_iOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Coding_Enterprise_iOS.entitlements; sourceTree = "<group>"; };
 		B16E6CA420C13BA10076026D /* btn_dismiss@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_dismiss@3x.png"; sourceTree = "<group>"; };
@@ -7873,6 +7880,8 @@
 				B16E6CA420C13BA10076026D /* btn_dismiss@3x.png */,
 				B16E6CEC20C147490076026D /* team_bg@2x.png */,
 				B16E6CEB20C147480076026D /* team_bg@3x.png */,
+				B15C98AE20D39CA100DDA425 /* project_icon_edit@2x.png */,
+				B15C98AF20D39CA200DDA425 /* project_icon_edit@3x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -9962,6 +9971,7 @@
 				B14689B41EE100B200B01371 /* vip_3_30@2x.png in Resources */,
 				B1280D01200EFEA400DEDF78 /* PR_del_label@3x.png in Resources */,
 				4E9423EC1E69401B0095F1CD /* blankpage_image_Team@2x.png in Resources */,
+				B15C98B220D39CA200DDA425 /* project_icon_edit@3x.png in Resources */,
 				B16E6D8520C148E50076026D /* intro_tip_3@3x.png in Resources */,
 				B16E6D0920C147770076026D /* team_info_sup@2x.png in Resources */,
 				B17CC31520731E950077C956 /* icon_release_tag_blue@2x.png in Resources */,
@@ -10020,6 +10030,7 @@
 				B1C8718F1EB1E608003DACF0 /* icon_add_comment@3x.png in Resources */,
 				4EACB4431A2C45300097ABB3 /* button_file_download_enable@2x.png in Resources */,
 				8E97CE691A0A3424006F9AD7 /* keyboard_page_selected@2x.png in Resources */,
+				B15C98B020D39CA200DDA425 /* project_icon_edit@2x.png in Resources */,
 				B1C8716C1EB182C7003DACF0 /* taskPriority3@3x.png in Resources */,
 				B177F5C92060E6B1006709C2 /* code.html in Resources */,
 				B16EEF08208DDBB6005ABFD5 /* timeline_icon_read@3x.png in Resources */,
@@ -10337,6 +10348,7 @@
 				B1D5EEA220BC06CB00983FB6 /* file_changeType_MODIFY@3x.png in Resources */,
 				B1D5EEA320BC06CB00983FB6 /* icon_file_apk@2x.png in Resources */,
 				B1D5EEA420BC06CB00983FB6 /* n_btn_followed_both@2x.png in Resources */,
+				B15C98AD20D39C4B00DDA425 /* NewProject.storyboard in Resources */,
 				B1D5EEA520BC06CB00983FB6 /* messageSystem@2x.png in Resources */,
 				B1D5EEA620BC06CB00983FB6 /* PR_del_watcher@2x.png in Resources */,
 				B1D5EEA720BC06CB00983FB6 /* taskWatchers@3x.png in Resources */,
@@ -10649,6 +10661,7 @@
 				B1D5EFC920BC06CB00983FB6 /* EAPayViewController.xib in Resources */,
 				B1D5EFCA20BC06CB00983FB6 /* calendar_0xA1CF64@3x.png in Resources */,
 				B16E6CE620C145BF0076026D /* quick_menu_icon_2fa@3x.png in Resources */,
+				B15C98B120D39CA200DDA425 /* project_icon_edit@2x.png in Resources */,
 				B1D5EFCB20BC06CB00983FB6 /* user_info_file@2x.png in Resources */,
 				B1D5EFCC20BC06CB00983FB6 /* ShopSwitchCell.xib in Resources */,
 				B1D5EFCD20BC06CB00983FB6 /* cell_arrow_left@2x.png in Resources */,
@@ -11217,6 +11230,7 @@
 				B1D5F1F320BC06CB00983FB6 /* search_Nav@2x.png in Resources */,
 				B1D5F1F420BC06CB00983FB6 /* terminal_box_selected@3x.png in Resources */,
 				B1D5F1F520BC06CB00983FB6 /* twoFABtn_Nav@2x.png in Resources */,
+				B15C98B320D39CA200DDA425 /* project_icon_edit@3x.png in Resources */,
 				B1D5F1F620BC06CB00983FB6 /* project_selected@3x.png in Resources */,
 				B1D5F1F720BC06CB00983FB6 /* task_activity_icon_MergeRequestBean@3x.png in Resources */,
 				B1D5F1F820BC06CB00983FB6 /* tweet_selected@3x.png in Resources */,
