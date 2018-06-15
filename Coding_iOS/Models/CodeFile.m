@@ -105,4 +105,8 @@
 
 @implementation CodeFile_RealFile
 
+- (void)setPreview:(NSString *)preview{
+    _preview = [preview stringByReplacingOccurrencesOfString:@"{{CodingUrl}}" withString:@""];
+}
+
 @end

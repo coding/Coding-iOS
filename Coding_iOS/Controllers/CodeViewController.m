@@ -115,8 +115,12 @@
         [self.webContentView loadRequest:[NSURLRequest requestWithURL:imageUrl]];
     }else if ([@[@"file", @"sym_link", @"executable"] containsObject:_myCodeFile.file.mode]){
         NSString *contentStr = [WebContentManager codePatternedWithContent:_myCodeFile isEdit:NO];
-        [self.webContentView loadHTMLString:contentStr baseURL:nil];
+        [self.webContentView loadHTMLString:contentStr baseURL:[NSURL URLWithString:[self p_baseHref]]];
     }
+}
+
+- (NSString *)p_baseHref{//写在 html 文件里的，没有 baseHref 的话，锚点会异常
+    return @"https://coding.net/";
 }
 
 #pragma mark UIWebViewDelegate
@@ -132,6 +136,10 @@
         if ([imageStr isEqualToString:request.URL.absoluteString]) {
             return YES;
         }
+    }
+    if ([request.URL.absoluteString isEqualToString:[self p_baseHref]] ||
+        [request.URL.absoluteString hasPrefix:[[self p_baseHref] stringByAppendingString:@"#"]]) {
+        return YES;
     }
     UIViewController *vc = [BaseViewController analyseVCFromLinkStr:request.URL.absoluteString];
     if (vc) {
