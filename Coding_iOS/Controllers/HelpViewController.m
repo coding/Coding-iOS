@@ -14,7 +14,7 @@
 + (instancetype)vcWithHelpStr{
     NSString *curUrlStr;
     if (kTarget_Enterprise) {
-        curUrlStr = @"https://coding.net/help/doc/mobile";
+        curUrlStr = @"help";
     }else{
         curUrlStr = @"/help/doc/mobile";
     }
