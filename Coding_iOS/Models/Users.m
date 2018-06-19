@@ -55,6 +55,8 @@
         path = [NSString stringWithFormat:@"api/user/%@/project/%@/watchers", _project_owner_name, _project_name];
     }else if (_type == UsersType_CompanyMember){
         path = [NSString stringWithFormat:@"api/team/%@/members", [NSObject baseCompany]];
+    }else if (_type == UsersTypeFriends_Transpond && kTarget_Enterprise){
+        path = [NSString stringWithFormat:@"api/team/%@/members", [NSObject baseCompany]];
     }
     return path;
 }

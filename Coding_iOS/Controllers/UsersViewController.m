@@ -64,7 +64,7 @@
             break;
         case UsersTypeFriends_At:
         case UsersTypeFriends_Transpond:{
-            self.title = @"我的好友";
+            self.title = kTarget_Enterprise? @"企业成员": @"我的好友";
             self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(dismissSelf)];
         }
             break;
