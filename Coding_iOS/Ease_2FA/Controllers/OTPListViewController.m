@@ -149,9 +149,9 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         if (!_tipLabel) {
             _tipLabel = [UILabel new];
             _tipLabel.numberOfLines = 0;
-            _tipLabel.textAlignment = NSTextAlignmentCenter;
+            _tipLabel.textAlignment = NSTextAlignmentNatural;
             _tipLabel.textColor = kColor222;
-            _tipLabel.text = @"启用两步验证后，登录 CODING 账户或进行敏感操作时都将需要输入密码和本客户端生成的验证码。";
+            _tipLabel.text = @"启用两步验证后，账户登录或进行敏感操作时，都将需要输入密码和本客户端生成的验证码。";
             [self.view addSubview:_tipLabel];
         }
         if (!_beginButton) {
