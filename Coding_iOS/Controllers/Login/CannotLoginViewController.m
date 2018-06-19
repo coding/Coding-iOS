@@ -97,13 +97,21 @@
 - (UIView *)customFooterView{
     UIView *footerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 150)];
     
-    _footerBtn = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 44 - 20, 25, 44, 44)];
-    [_footerBtn addTarget:self action:@selector(footerBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-    [_footerBtn setImage:[UIImage imageNamed:@"btn_next_enable"] forState:UIControlStateNormal];
-    [_footerBtn setImage:[UIImage imageNamed:@"btn_next_unable"] forState:UIControlStateDisabled];
-    
+    _footerBtn = ({
+        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kLoginPaddingLeftWidth, 25, kScreen_Width-kLoginPaddingLeftWidth*2, 50)];
+        button.backgroundColor = kColorDark4;
+        button.titleLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightMedium];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [button setTitle:[self footerBtnTitle] forState:UIControlStateNormal];
+        button.layer.masksToBounds = YES;
+        button.layer.cornerRadius = 2.0;
+        [button addTarget:self action:@selector(footerBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        button;
+    });
     [footerV addSubview:_footerBtn];
-    
+    [RACObserve(self, footerBtn.enabled) subscribeNext:^(NSNumber *x) {
+        [self.footerBtn setTitleColor:[UIColor colorWithWhite:1.0 alpha:x.boolValue? 1.0: .5] forState:UIControlStateNormal];
+    }];
     if (_stepIndex == 0) {
         RAC(self, footerBtn.enabled) = [RACSignal combineLatest:@[RACObserve(self, userStr)]
                                                          reduce:^id(NSString *userStr){
