@@ -67,11 +67,6 @@
     NSString *userAgent = [NSString userAgentStr];
     NSDictionary *dictionary = @{@"UserAgent" : userAgent};//User-Agent
     [[NSUserDefaults standardUserDefaults] registerDefaults:dictionary];
-    
-    
-//    @available(iOS 10.0, *);
-    
-//    [UIColor colorNamed:@""]
 }
 
 #pragma lifeCycle
