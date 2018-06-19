@@ -411,7 +411,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *codeRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/git/blob/([^/]+)[/]?([^?]*)";//代码(含团队项目)
     NSString *twoFARegexStr = @"/app_intercept/show_2fa";//两步验证
     NSString *projectRegexStr = @"/[ut]/([^/]+)/p/([^/]+)";//项目(含团队项目)
-    NSString *noticeRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/setting/notice";//项目公告
+    NSString *noticeRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/setting/notice/(\\d+)";//项目公告
     NSString *wikiRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/wiki/(\\d+)";//Wiki
     NSString *releaseRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/git/releases/([^/]+)[/]?([^?]*)";//Release
     NSArray *matchedCaptures = nil;
@@ -429,11 +429,15 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         vc.curTeam = [Team teamWithGK:team_global_key];
         analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:noticeRegexStr]).count > 0){
-        UserOrProjectTweetsViewController *vc = [UserOrProjectTweetsViewController new];
+        //项目公告
+        NSString *owner_user_global_key = matchedCaptures[1];
+        NSString *project_name = matchedCaptures[2];
+        NSString *pp_id = matchedCaptures[3];
         Project *curPro = [Project new];
-        curPro.owner_user_name = matchedCaptures[1];
-        curPro.name = matchedCaptures[2];
-        vc.curTweets = [Tweets tweetsWithProject:curPro];
+        curPro.owner_user_name = owner_user_global_key;
+        curPro.name = project_name;
+        TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
+        vc.curTweet = [Tweet tweetInProject:curPro andPPID:pp_id];
         analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:wikiRegexStr]).count > 0){
         WikiViewController *vc = [WikiViewController new];
@@ -819,6 +823,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     NSString *codeRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/git/blob/([^/]+)[/]?([^?]*)";//代码(含团队项目)
     NSString *twoFARegexStr = @"/app_intercept/show_2fa";//两步验证
     NSString *projectRegexStr = @"/[ut]/([^/]+)/p/([^/]+)";//项目(含团队项目)
+    NSString *noticeRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/setting/notice/(\\d+)";//项目公告
     NSString *wikiRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/wiki/(\\d+)";//Wiki
     NSString *releaseRegexStr = @"/[ut]/([^/]+)/p/([^/]+)/git/releases/([^/]+)[/]?([^?]*)";//Release
     NSArray *matchedCaptures = nil;
@@ -840,6 +845,17 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
             vc.curTweet = [Tweet tweetWithGlobalKey:user_global_key andPPID:pp_id];
             analyseVC = vc;
         }
+    }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:noticeRegexStr]).count > 0){
+        //项目公告
+        NSString *owner_user_global_key = matchedCaptures[1];
+        NSString *project_name = matchedCaptures[2];
+        NSString *pp_id = matchedCaptures[3];
+        Project *curPro = [Project new];
+        curPro.owner_user_name = owner_user_global_key;
+        curPro.name = project_name;
+        TweetDetailViewController *vc = [[TweetDetailViewController alloc] init];
+        vc.curTweet = [Tweet tweetInProject:curPro andPPID:pp_id];
+        analyseVC = vc;
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:wikiRegexStr]).count > 0){
         WikiViewController *vc = [WikiViewController new];
         Project *curPro = [Project new];
