@@ -143,7 +143,7 @@
     NSString *tipStr;
     if (![_email isEmail]) {
         tipStr = @"邮箱格式有误";
-    }else if (_two_factor_code.length <= 0){
+    }else if (_two_factor_code.length <= 0 && ![Login curLoginUser].hasNoEamilAndPhone){
         tipStr = !_is2FAOpen? @"请填写密码": @"请填写两步验证码";
     }else if (_j_captcha.length <= 0){
         tipStr = @"请填写验证码";
