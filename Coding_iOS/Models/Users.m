@@ -19,7 +19,7 @@
         _canLoadMore = YES;
         _isLoading = _willLoadMore = NO;
         _page = [NSNumber numberWithInteger:1];
-        _pageSize = @(99999999);
+        _pageSize = @(999999999);
     }
     return self;
 }

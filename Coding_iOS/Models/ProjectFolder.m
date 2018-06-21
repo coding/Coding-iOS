@@ -88,7 +88,7 @@
     return @{@"height": @"90",
              @"width": @"90",
              @"page" : @"1",
-             @"pageSize": @(99999999)};
+             @"pageSize": @(999999999)};
 }
 - (NSString *)toRenamePath{
     return [NSString stringWithFormat:@"api/project/%@/dir/%@/name/%@", _project_id.stringValue, _file_id.stringValue, _next_name];

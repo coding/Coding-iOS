@@ -56,7 +56,7 @@
 }
 - (NSDictionary *)toFoldersParams{
     return @{@"page": @"1",
-             @"pageSize": @(99999999)};
+             @"pageSize": @(999999999)};
 }
 
 - (NSString *)toFoldersCountPathWithObj:(NSNumber *)project_id{
