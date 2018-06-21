@@ -97,6 +97,8 @@
     if ((_dataIndex == 0 && self.curTweets.list.count <= 0) ||
         (_dataIndex == 1 && _dataList.count <= 0)) {
         [self refresh];
+    }else{
+        self.view.blankPageView.hidden = YES;
     }
 }
 
