@@ -3514,7 +3514,7 @@
                             rCodeFile.file = realFile;
                             block(rCodeFile, nil);
                         }else{
-                            block(@"<p>该项目暂无 README.md ，我们推荐每个项目都新建一个 README.md 文件。（客户端暂不支持创建和编辑，请前往 coding.net 创建）<p>", nil);
+                            block(@"<p>该项目暂无 README.md ，我们推荐每个项目都新建一个 README.md 文件。（客户端暂不支持创建和编辑，请前往网站创建）<p>", nil);
                         }
                     }else{
                         block(nil, error);
@@ -3523,7 +3523,7 @@
             }else{
                 [MobClick event:kUmeng_Event_Request_Get label:@"项目_README"];
 
-                block(@"<p>该项目暂无 README.md ，我们推荐每个项目都新建一个 README.md 文件。（客户端暂不支持创建和编辑，请前往 coding.net 创建）<p>", nil);
+                block(@"<p>该项目暂无 README.md ，我们推荐每个项目都新建一个 README.md 文件。（客户端暂不支持创建和编辑，请前往网站创建）<p>", nil);
             }
         }else{
             block(@"加载失败...", errorTemp);
