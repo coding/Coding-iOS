@@ -53,7 +53,13 @@
     versionLabel.font = [UIFont systemFontOfSize:13];
     versionLabel.textColor = [UIColor colorWithHexString:@"0x323A45"];
     versionLabel.textAlignment = NSTextAlignmentCenter;
-    versionLabel.text = [NSString stringWithFormat:@"CODING Enterprise 版本：V%@", kVersion_Coding];
+    versionLabel.numberOfLines = 0;
+    versionLabel.text = [NSString stringWithFormat:@"CODING Enterprise\n\n版本：V%@", kVersion_Coding];
+    versionLabel.userInteractionEnabled = YES;
+    __weak typeof(versionLabel) weakLabel = versionLabel;
+    [versionLabel bk_whenTapped:^{
+        weakLabel.text = [NSString stringWithFormat:@"CODING Enterprise\n\n版本：V%@", [weakLabel.text hasSuffix:kVersion_Coding]? kVersionBuild_Coding: kVersion_Coding];
+    }];
     [self.view addSubview:versionLabel];
     
     UILabel *infoLabel = [[UILabel alloc] init];
@@ -73,7 +79,6 @@
     [versionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(logoView.mas_bottom).offset(logoLabelTop);
         make.left.right.equalTo(self.view);
-        make.height.mas_equalTo(versionLabel.font.pointSize);
     }];
     
     [infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -134,7 +139,13 @@
     versionLabel.font = [UIFont systemFontOfSize:12];
     versionLabel.textColor = kColor666;
     versionLabel.textAlignment = NSTextAlignmentCenter;
-    versionLabel.text = [NSString stringWithFormat:@"版本：V%@", kVersionBuild_Coding];
+    versionLabel.text = [NSString stringWithFormat:@"版本：V%@", kVersion_Coding];
+    versionLabel.userInteractionEnabled = YES;
+    __weak typeof(versionLabel) weakLabel = versionLabel;
+    [versionLabel bk_whenTapped:^{
+        weakLabel.text = [NSString stringWithFormat:@"版本：V%@", [weakLabel.text hasSuffix:kVersion_Coding]? kVersionBuild_Coding: kVersion_Coding];
+    }];
+
     [self.view addSubview:versionLabel];
     
     UILabel *infoLabel = [[UILabel alloc] init];
