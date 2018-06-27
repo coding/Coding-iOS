@@ -18,6 +18,7 @@
 #import "PointRecordsViewController.h"
 #import "AboutViewController.h"
 #import "HelpViewController.h"
+#import "EditTopicViewController.h"
 
 #import "RDVTabBarController.h"
 #import "RDVTabBarItem.h"
@@ -36,6 +37,7 @@
 
 #import "MeRootCompanyCell.h"
 #import "TeamViewController.h"
+
 
 
 #ifdef Target_Enterprise
@@ -426,7 +428,8 @@
         (indexPath.section == 1? (indexPath.row == 0? [cell setTitle:@"我的码币" icon:@"user_info_point"]:
                                   [cell setTitle:@"商城" icon:@"user_info_shop"]):
          indexPath.row == 0? [cell setTitle:@"本地文件" icon:@"user_info_file"]:
-         indexPath.row == 1? [cell setTitle:@"帮助与反馈" icon:@"user_info_help"]:
+//         indexPath.row == 1? [cell setTitle:@"帮助与反馈" icon:@"user_info_help"]:
+         indexPath.row == 1? [cell setTitle:@"意见反馈" icon:@"user_info_help"]:
          indexPath.row == 2? [cell setTitle:@"设置" icon:@"user_info_setup"]:
          [cell setTitle:@"关于我们" icon:@"user_info_about"]);
         
@@ -495,7 +498,8 @@
         if (indexPath.row == 0) {//本地文件
             [self goToLocalFolders];
         }else if (indexPath.row == 1){//帮助与反馈
-            [self goToHelp];
+//            [self goToHelp];
+            [self goToFeedBack];
         }else if (indexPath.row == 2){//设置
             [self goToSetting];
         }else{//关于我们
@@ -538,6 +542,14 @@
 
 - (void)goToHelp{
     [self.navigationController pushViewController:[HelpViewController vcWithHelpStr] animated:YES];
+}
+
+- (void)goToFeedBack{
+    EditTopicViewController *vc = [[EditTopicViewController alloc] init];
+    vc.curProTopic = [ProjectTopic feedbackTopic];
+    vc.type = TopicEditTypeFeedBack;
+    vc.topicChangedBlock = nil;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)goToAbout{

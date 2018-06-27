@@ -72,7 +72,7 @@
 
 @interface MeRootUserCell ()
 @property (strong, nonatomic) UIImageView *userV, *vipV;
-@property (strong, nonatomic) UILabel *userL, *vipL, *expirationL;
+@property (strong, nonatomic) UILabel *userL, *vipL, *expirationL, *gkL;
 @end
 
 @implementation MeRootUserCell
@@ -85,6 +85,10 @@
             [_userV doCircleFrame];
             [_userV doBorderWidth:0.5 color:nil cornerRadius:25];
             [self.contentView addSubview:_userV];
+        }
+        if (!_gkL) {
+            _gkL = [UILabel labelWithFont:[UIFont systemFontOfSize:13] textColor:[UIColor colorWithHexString:@"0x1E2D42" andAlpha:0.6]];
+            [self.contentView addSubview:_gkL];
         }
         if (!_vipV) {
             _vipV = [UIImageView new];
@@ -133,7 +137,11 @@
             make.left.equalTo(_vipL.mas_right).offset(8);
             make.right.equalTo(_userL);
         }];
-
+        [_gkL mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(_userL.mas_bottom).offset(10);
+            make.left.right.equalTo(_userL);
+            make.height.mas_equalTo(20);
+        }];
     }
     return self;
 }
@@ -143,15 +151,17 @@
     
     [_userV sd_setImageWithURL:[_curUser.avatar urlImageWithCodePathResize:50* 2]];
     _userL.text = _curUser.name;
-    _vipV.image = [UIImage imageNamed:[NSString stringWithFormat:@"vip_%@_45", _curUser.vip]];
-    _vipL.text = _curUser.vipName;
-    NSString *expirationStr = [_curUser.vip_expired_at string_yyyy_MM_dd];
-    
-    if (_curUser.vip.integerValue > 2) {
-        [_expirationL setAttrStrWithStr:[NSString stringWithFormat:@"到期时间：%@",expirationStr] diffColorStr:expirationStr diffColor:_curUser.willExpired? [UIColor colorWithHexString:@"0xF23524"]: kColorDark7];
-    }else{
-        _expirationL.hidden = YES;
-    }
+    _gkL.text = [NSString stringWithFormat:@"用户名：%@", _curUser.global_key];
+    _vipL.hidden = _vipV.hidden = _expirationL.hidden = YES;
+//    _vipV.image = [UIImage imageNamed:[NSString stringWithFormat:@"vip_%@_45", _curUser.vip]];
+//    _vipL.text = _curUser.vipName;
+//    NSString *expirationStr = [_curUser.vip_expired_at string_yyyy_MM_dd];
+//
+//    if (_curUser.vip.integerValue > 2) {
+//        [_expirationL setAttrStrWithStr:[NSString stringWithFormat:@"到期时间：%@",expirationStr] diffColorStr:expirationStr diffColor:_curUser.willExpired? [UIColor colorWithHexString:@"0xF23524"]: kColorDark7];
+//    }else{
+//        _expirationL.hidden = YES;
+//    }
 }
 
 + (CGFloat)cellHeight{

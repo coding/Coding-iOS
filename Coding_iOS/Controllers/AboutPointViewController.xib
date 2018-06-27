@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -24,27 +24,21 @@
                     <rect key="frame" x="-0.5" y="0.0" width="375" height="667"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hbv-LB-ftj">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="429.5"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="262.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DW9-r9-Zd3">
-                                    <rect key="frame" x="15" y="30" width="345" height="384.5"/>
-                                    <mutableString key="text">什么是码币
+                                    <rect key="frame" x="15" y="30" width="345" height="217.5"/>
+                                    <string key="text">码币的用途
 
-码币是 Coding 平台推出的线上虚拟货币，可通过在 Coding 上进行冒泡、完善个人信息等操作免费获取。也可以使用人民币进行兑换，码币与人民币的兑换标准是 1 码币 = 50 元人民币（0.1 码币起购买）,支持支付宝及微信付款。
-
-码币的用途
-
-使用码币购买 Shop 页面所列 Coding 定制等商品：如洋葱猴抱枕、Coding 毛巾、T恤、短裤、Coding 定制拖鞋等
-购买 Coding 推出的会员升级服务
+使用码币兑换 Shop 页面所列 Coding 定制等商品：如洋葱猴抱枕、Coding 毛巾、T恤、短裤、Coding 定制拖鞋等
 
 如何获取码币
 
-- 使用人民币购买码币
 - 过生日赠送 0.1mb
 - App 首次登录，奖励 0.1mb
 - Coding 不定时举办的码币活动
 - 给 Coding 博客 投稿 奖励 1-2mb
-- 冒泡被管理员推荐上广场，奖励 0.01mb</mutableString>
+- 冒泡被管理员推荐上广场，奖励 0.01mb</string>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" red="0.25882352941176467" green="0.31372549019607843" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
