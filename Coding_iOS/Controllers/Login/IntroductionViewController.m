@@ -77,7 +77,7 @@
     [self.pageControl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(CGSizeMake(kScreen_Width, 20));
         make.centerX.equalTo(self.view);
-        make.bottom.equalTo(self.view.mas_bottom).offset(kDevice_Is_iPhone4? -10: kDevice_Is_iPhone5? -30: -(50 + kSafeArea_Bottom));
+        make.bottom.equalTo(self.view.mas_bottom).offset(kDevice_Use_iPhone4_Layout? -10: kDevice_Is_iPhone5? -30: -(50 + kSafeArea_Bottom));
     }];
     //    Button
     self.loginPrivateCloudBtn = ({
@@ -97,7 +97,7 @@
         make.left.equalTo(self.view).offset(padding);
         make.right.equalTo(self.view).offset(-padding);
         make.centerX.equalTo(self.view);
-        make.bottom.equalTo(_pageControl.mas_top).offset(kDevice_Is_iPhone4? -10: kDevice_Is_iPhone5? -20 : -50);
+        make.bottom.equalTo(_pageControl.mas_top).offset(kDevice_Use_iPhone4_Layout? -10: kDevice_Is_iPhone5? -20 : -50);
     }];
     
     self.loginEnterpriseBtn = ({
@@ -242,13 +242,13 @@
         [self addSubview:_titleL];
         [self addSubview:_contentL];
         [_titleL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).offset(kDevice_Is_iPhone4? 64: 90);
+            make.top.equalTo(self).offset(kDevice_Use_iPhone4_Layout? 64: 90);
             make.left.equalTo(self).offset(30);
             make.right.equalTo(self).offset(-30);
         }];
         [_contentL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(_titleL);
-            make.top.equalTo(_titleL.mas_bottom).offset((kDevice_Is_iPhone4 || kDevice_Is_iPhone5)? 20: 40);
+            make.top.equalTo(_titleL.mas_bottom).offset((kDevice_Use_iPhone4_Layout || kDevice_Is_iPhone5)? 20: 40);
         }];
     }
     return self;
@@ -363,7 +363,7 @@
 - (NSAttributedString *)attrTitle{
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:_curItem.title];
     NSString *colorStr = [_curItem.title componentsSeparatedByString:@"\n"].lastObject;
-    [attrStr addAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:(kDevice_Is_iPhone4 || kDevice_Is_iPhone5)? 30: 34],
+    [attrStr addAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:(kDevice_Use_iPhone4_Layout || kDevice_Is_iPhone5)? 30: 34],
                              NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x2AD37D"]}
                      range:[_curItem.title rangeOfString:colorStr]];
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
@@ -399,7 +399,7 @@
         self.alpha = 0;
         _imageV = [YLImageView new];
         _titleL = [UILabel labelWithFont:[UIFont systemFontOfSize:21 weight:UIFontWeightMedium] textColor:kColorDark4];
-        _contentL = [UILabel labelWithFont:[UIFont systemFontOfSize:(kDevice_Is_iPhone4 || kDevice_Is_iPhone5)? 15: 17] textColor:kColorDark4];
+        _contentL = [UILabel labelWithFont:[UIFont systemFontOfSize:(kDevice_Use_iPhone4_Layout || kDevice_Is_iPhone5)? 15: 17] textColor:kColorDark4];
         [self addSubview:_imageV];
         [self addSubview:_titleL];
         [self addSubview:_contentL];

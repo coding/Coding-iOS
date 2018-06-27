@@ -159,9 +159,9 @@
             UIButton *button = [self p_useImmediatelyButton];
             [imageView addSubview:button];
             [button mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.size.mas_equalTo(CGSizeMake(200, (kDevice_Is_iPhone4 || kDevice_Is_iPhone5)? 50: 55));
+                make.size.mas_equalTo(CGSizeMake(200, (kDevice_Use_iPhone4_Layout || kDevice_Is_iPhone5)? 50: 55));
                 make.centerX.equalTo(imageView);
-                make.bottom.equalTo(imageView).offset(kDevice_Is_iPhone4? -40: kDevice_Is_iPhone5? -65: kDevice_Is_iPhone6? -70: kDevice_Is_iPhone6Plus? -90: -120);
+                make.bottom.equalTo(imageView).offset(kDevice_Use_iPhone4_Layout? -40: kDevice_Is_iPhone5? -65: kDevice_Is_iPhone6? -70: kDevice_Is_iPhone6Plus? -90: -120);
             }];
         }
     }
@@ -171,13 +171,13 @@
 
 #pragma mark EAIntroDelegate
 - (void)intro:(EAIntroView *)introView pageStartScrolling:(EAIntroPage *)page withIndex:(NSUInteger)pageIndex{
-    introView.pageControl.hidden = (pageIndex >= kIntroPageNum - 2 && kDevice_Is_iPhone4);
+    introView.pageControl.hidden = (pageIndex >= kIntroPageNum - 2 && kDevice_Use_iPhone4_Layout);
 }
 - (void)intro:(EAIntroView *)introView pageAppeared:(EAIntroPage *)page withIndex:(NSUInteger)pageIndex{
-    introView.pageControl.hidden = (pageIndex == kIntroPageNum - 1 && kDevice_Is_iPhone4);
+    introView.pageControl.hidden = (pageIndex == kIntroPageNum - 1 && kDevice_Use_iPhone4_Layout);
 }
 - (void)intro:(EAIntroView *)introView pageEndScrolling:(EAIntroPage *)page withIndex:(NSUInteger)pageIndex{
-    introView.pageControl.hidden = (pageIndex == kIntroPageNum - 1 && kDevice_Is_iPhone4);
+    introView.pageControl.hidden = (pageIndex == kIntroPageNum - 1 && kDevice_Use_iPhone4_Layout);
 }
 
 @end
