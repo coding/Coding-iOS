@@ -285,7 +285,6 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
         UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"重新发送" buttonTitles:@[@"发送"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
             if (index == 0 && _self.messageToResendOrDelete) {
                 [_self sendPrivateMessageWithMsg:_messageToResendOrDelete];
-
             }
         }];
         [actionSheet showInView:self.view];
@@ -423,7 +422,12 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
             NSDictionary *params = @{@"type": @2,
                                      @"receiver_global_key": nextMsg.friend.global_key ?: @"",
                                      };
-            [NSObject showCaptchaViewParams:params.mutableCopy];
+            [NSObject showCaptchaViewParams:params.mutableCopy success:^{
+                [NSObject showHudTipStr:@"验证码正确"];
+                weakSelf.messageToResendOrDelete = nextMsg;
+                [weakSelf.myMsgInputView isAndResignFirstResponder];
+                [weakSelf sendPrivateMessageWithMsg:weakSelf.messageToResendOrDelete];
+            }];
         }
         [weakSelf dataChangedWithError:NO scrollToBottom:YES animated:YES];
     } progerssBlock:^(CGFloat progressValue) {

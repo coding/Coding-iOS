@@ -23,6 +23,7 @@
 + (void)showStatusBarErrorStr:(NSString *)errorStr;
 + (void)showStatusBarError:(NSError *)error;
 + (void)showCaptchaViewParams:(NSMutableDictionary *)params;
++ (void)showCaptchaViewParams:(NSMutableDictionary *)params success:(void (^)())block;
 
 #pragma mark BaseURL
 + (NSString *)baseURLStr;

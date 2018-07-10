@@ -451,8 +451,11 @@
     return error;
 }
 
-
 + (void)showCaptchaViewParams:(NSMutableDictionary *)params{
+    [self showCaptchaViewParams:params success:nil];
+}
+
++ (void)showCaptchaViewParams:(NSMutableDictionary *)params success:(void (^)())block{
     //Data
     if (!params) {
         params = @{}.mutableCopy;
@@ -505,7 +508,11 @@
             [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {
                 if (data) {
                     [weakAlertV dismissWithCompletion:^{
-                        [NSObject showHudTipStr:@"验证码正确"];
+                        if (block) {
+                            block();
+                        }else{
+                            [NSObject showHudTipStr:@"验证码正确"];
+                        }
                     }];
                 }else{
                     [weakImageV sd_setImageWithURL:imageURL placeholderImage:nil options:(SDWebImageRetryFailed | SDWebImageRefreshCached | SDWebImageHandleCookies)];
