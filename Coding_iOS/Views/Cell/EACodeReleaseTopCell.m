@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *authorL;
 @property (weak, nonatomic) IBOutlet UILabel *created_atL;
 @property (weak, nonatomic) IBOutlet UIView *preV;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *created_atLeftC;
 
 @end
 
@@ -29,6 +30,7 @@
     _created_atL.text = [_curR.created_at stringTimesAgo];
 //    _preV.hidden = !_curR.pre.boolValue;
     _preV.hidden = YES;
+    _created_atLeftC.constant = _preV.hidden? 15: 60+ 15;
 }
 
 - (IBAction)tagButtonClicked:(id)sender {

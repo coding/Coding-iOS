@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -45,7 +45,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PB0-oX-xjU">
-                        <rect key="frame" x="123" y="39.5" width="25" height="14.5"/>
+                        <rect key="frame" x="123" y="39" width="25" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.46274509800000002" green="0.50196078430000002" blue="0.5568627451" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -80,7 +80,7 @@
                             <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="owner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SQq-nu-rBo">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="700" text="owner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SQq-nu-rBo">
                         <rect key="frame" x="60.5" y="39.5" width="35" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.46274509800000002" green="0.50196078430000002" blue="0.5568627451" alpha="1" colorSpace="calibratedRGB"/>
@@ -99,6 +99,7 @@
                     <constraint firstItem="sex-WI-kQX" firstAttribute="leading" secondItem="SQq-nu-rBo" secondAttribute="trailing" constant="10" id="l8U-N8-gQh"/>
                     <constraint firstItem="SQq-nu-rBo" firstAttribute="leading" secondItem="pbx-lJ-AdS" secondAttribute="trailing" constant="10" id="llj-4f-2ew"/>
                     <constraint firstItem="PB0-oX-xjU" firstAttribute="leading" secondItem="sex-WI-kQX" secondAttribute="trailing" constant="5" id="m2A-hk-W43"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PB0-oX-xjU" secondAttribute="trailing" constant="15" id="oNU-3h-xmQ"/>
                     <constraint firstItem="yPi-xU-5q0" firstAttribute="leading" secondItem="30k-H9-z76" secondAttribute="leading" constant="15" id="qB2-h9-OdT"/>
                     <constraint firstItem="sRF-nV-el5" firstAttribute="top" secondItem="30k-H9-z76" secondAttribute="top" constant="10" id="rKQ-WI-C8n"/>
                     <constraint firstItem="SQq-nu-rBo" firstAttribute="centerY" secondItem="yPi-xU-5q0" secondAttribute="centerY" id="twA-Co-47c"/>
@@ -108,11 +109,12 @@
             <connections>
                 <outlet property="authorL" destination="SQq-nu-rBo" id="3XR-gm-7VA"/>
                 <outlet property="created_atL" destination="PB0-oX-xjU" id="56j-mB-V5g"/>
+                <outlet property="created_atLeftC" destination="oNU-3h-xmQ" id="esO-I2-fYs"/>
                 <outlet property="preV" destination="dF2-PY-f2f" id="jft-9D-gsn"/>
                 <outlet property="tag_nameL" destination="pbx-lJ-AdS" id="3Xz-YF-yGh"/>
                 <outlet property="titleL" destination="sRF-nV-el5" id="PEA-n1-3RC"/>
             </connections>
-            <point key="canvasLocation" x="-112" y="-407"/>
+            <point key="canvasLocation" x="-112.5" y="-407.5"/>
         </tableViewCell>
     </objects>
     <resources>

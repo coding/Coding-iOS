@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -55,7 +55,7 @@
                             <action selector="tagButtonClicked:" destination="JvH-kr-zdt" eventType="touchUpInside" id="NAF-73-pcj"/>
                         </connections>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="owner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aaf-qA-u29">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="700" text="owner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Aaf-qA-u29">
                         <rect key="frame" x="60.5" y="166" width="35" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.46274509800000002" green="0.50196078430000002" blue="0.5568627451" alpha="1" colorSpace="calibratedRGB"/>
@@ -92,7 +92,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7EB-Fe-Pgf">
-                        <rect key="frame" x="142.5" y="167" width="25" height="14.5"/>
+                        <rect key="frame" x="143" y="166" width="25" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.46274509800000002" green="0.50196078430000002" blue="0.5568627451" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -122,6 +122,7 @@
                     <constraint firstItem="hF6-N6-7xS" firstAttribute="leading" secondItem="0AI-RY-d60" secondAttribute="leading" constant="15" id="UEm-UA-qAf"/>
                     <constraint firstItem="hoB-Q9-0eO" firstAttribute="leading" secondItem="Aaf-qA-u29" secondAttribute="trailing" constant="5" id="ZYw-6i-Zeb"/>
                     <constraint firstItem="hoB-Q9-0eO" firstAttribute="centerY" secondItem="Aaf-qA-u29" secondAttribute="centerY" id="czs-9z-Acn"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7EB-Fe-Pgf" secondAttribute="trailing" constant="15" id="dde-gD-oXE"/>
                     <constraint firstItem="7EB-Fe-Pgf" firstAttribute="centerY" secondItem="JXm-iH-UBl" secondAttribute="centerY" id="eGm-hN-6KU"/>
                     <constraint firstItem="hF6-N6-7xS" firstAttribute="top" secondItem="0AI-RY-d60" secondAttribute="top" constant="15" id="eLG-eH-ezF"/>
                     <constraint firstAttribute="bottom" secondItem="mQB-t5-c6X" secondAttribute="bottom" id="hV9-P1-wTu"/>
@@ -133,11 +134,12 @@
             <connections>
                 <outlet property="authorL" destination="Aaf-qA-u29" id="2An-OZ-jDQ"/>
                 <outlet property="created_atL" destination="7EB-Fe-Pgf" id="ddP-Y0-Rn0"/>
+                <outlet property="created_atLeftC" destination="dde-gD-oXE" id="AAK-p5-Wtn"/>
                 <outlet property="preV" destination="kqy-4r-9Ln" id="g3f-mL-ouH"/>
                 <outlet property="tag_nameL" destination="mXV-Ye-M4e" id="q0U-Gi-m85"/>
                 <outlet property="titleL" destination="hF6-N6-7xS" id="dOD-24-r12"/>
             </connections>
-            <point key="canvasLocation" x="-384" y="-222"/>
+            <point key="canvasLocation" x="-384.5" y="-222.5"/>
         </tableViewCell>
     </objects>
     <resources>

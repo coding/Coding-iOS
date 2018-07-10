@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *authorL;
 @property (weak, nonatomic) IBOutlet UILabel *created_atL;
 @property (weak, nonatomic) IBOutlet UIView *preV;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *created_atLeftC;
 
 @end
 
@@ -36,6 +37,7 @@
     _authorL.text = _curCodeRelease.author.name;
     _created_atL.text = [_curCodeRelease.created_at stringTimesAgo];
     _preV.hidden = !_curCodeRelease.pre.boolValue;
+    _created_atLeftC.constant = _preV.hidden? 15: 60+ 15;
     
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor:[UIColor colorWithHexString:@"0xF66262"] icon:[UIImage imageNamed:@"icon_file_cell_delete"]];
