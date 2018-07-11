@@ -146,9 +146,7 @@
 
 - (void)checkToShowLockedTip{
     if ([Login curLoginCompany].locked.boolValue) {
-        UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@"服务已暂停" message:@"您订购的服务已过期，项目、任务等功能操作与高级权限将会失效。如需正常使用，请前往企业版网站订购。"];
-        [alertView bk_setCancelButtonWithTitle:@"知道了" handler:nil];
-        [alertView show];
+        [[UIAlertController ea_alertViewWithTitle:@"服务已暂停" message:@"您订购的服务已过期，项目、任务等功能操作与高级权限将会失效。如需正常使用，请前往企业版网站订购。" buttonTitles:nil destructiveTitle:nil cancelTitle:@"知道了" andDidDismissBlock:nil] show];
     }
 }
 
@@ -433,11 +431,8 @@
         WebViewController *webVc = [WebViewController webVCWithUrlStr:resultStr];
         [self.navigationController pushViewController:webVc animated:YES];
     }else if ([[UIApplication sharedApplication] canOpenURL:URL]){
-        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"可能存在风险，是否打开此链接？\n「%@」", resultStr]];
-        [alertV bk_setCancelButtonWithTitle:@"取消" handler:nil];
-        [alertV bk_addButtonWithTitle:@"打开链接" handler:nil];
-        [alertV bk_setWillDismissBlock:^(UIAlertView *al, NSInteger index) {
-            if (index == 1) {
+        [[UIAlertController ea_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"可能存在风险，是否打开此链接？\n「%@」", resultStr] buttonTitles:@[@"打开链接"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+            if (index == 0) {
                 [[UIApplication sharedApplication] openURL:URL];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [self.navigationController popViewControllerAnimated:YES];
@@ -445,27 +440,20 @@
             }else{
                 [self.navigationController popViewControllerAnimated:YES];
             }
-        }];
-        [alertV show];
+        }] show];
     }else if (resultStr.length > 0){
-        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"已识别此二维码内容为：\n「%@」", resultStr]];
-        [alertV bk_setCancelButtonWithTitle:@"取消" handler:nil];
-        [alertV bk_addButtonWithTitle:@"复制链接" handler:nil];
-        [alertV bk_setWillDismissBlock:^(UIAlertView *al, NSInteger index) {
-            if (index == 1) {
+        [[UIAlertController ea_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"已识别此二维码内容为：\n「%@」", resultStr] buttonTitles:@[@"复制链接"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+            if (index == 0) {
                 [[UIPasteboard generalPasteboard] setString:resultStr];
             }
             [self.navigationController popViewControllerAnimated:YES];
-        }];
-        [alertV show];
+        }] show];
     }else{
-        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"无效条码" message:@"未检测到条码信息"];
-        [alertV bk_addButtonWithTitle:@"重试" handler:^{
+        [[UIAlertController ea_alertViewWithTitle:@"无效条码" message:@"未检测到条码信息" buttonTitles:@[@"重试"] destructiveTitle:nil cancelTitle:nil andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (![vc isScaning]) {
                 [vc startScan];
             }
-        }];
-        [alertV show];
+        }] show];
     }
 }
 @end
@@ -873,11 +861,8 @@
         WebViewController *webVc = [WebViewController webVCWithUrlStr:resultStr];
         [self.navigationController pushViewController:webVc animated:YES];
     }else if ([[UIApplication sharedApplication] canOpenURL:URL]){
-        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"可能存在风险，是否打开此链接？\n「%@」", resultStr]];
-        [alertV bk_setCancelButtonWithTitle:@"取消" handler:nil];
-        [alertV bk_addButtonWithTitle:@"打开链接" handler:nil];
-        [alertV bk_setWillDismissBlock:^(UIAlertView *al, NSInteger index) {
-            if (index == 1) {
+        [[UIAlertController ea_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"可能存在风险，是否打开此链接？\n「%@」", resultStr] buttonTitles:@[@"打开链接"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+            if (index == 0) {
                 [[UIApplication sharedApplication] openURL:URL];
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     [self.navigationController popViewControllerAnimated:YES];
@@ -885,27 +870,20 @@
             }else{
                 [self.navigationController popViewControllerAnimated:YES];
             }
-        }];
-        [alertV show];
+        }] show];
     }else if (resultStr.length > 0){
-        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"已识别此二维码内容为：\n「%@」", resultStr]];
-        [alertV bk_setCancelButtonWithTitle:@"取消" handler:nil];
-        [alertV bk_addButtonWithTitle:@"复制链接" handler:nil];
-        [alertV bk_setWillDismissBlock:^(UIAlertView *al, NSInteger index) {
-            if (index == 1) {
+        [[UIAlertController ea_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"已识别此二维码内容为：\n「%@」", resultStr] buttonTitles:@[@"复制链接"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+            if (index == 0) {
                 [[UIPasteboard generalPasteboard] setString:resultStr];
             }
             [self.navigationController popViewControllerAnimated:YES];
-        }];
-        [alertV show];
+        }] show];
     }else{
-        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"无效条码" message:@"未检测到条码信息"];
-        [alertV bk_addButtonWithTitle:@"重试" handler:^{
+        [[UIAlertController ea_alertViewWithTitle:@"无效条码" message:@"未检测到条码信息" buttonTitles:@[@"重试"] destructiveTitle:nil cancelTitle:nil andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (![vc isScaning]) {
                 [vc startScan];
             }
-        }];
-        [alertV show];
+        }] show];
     }
 }
 @end

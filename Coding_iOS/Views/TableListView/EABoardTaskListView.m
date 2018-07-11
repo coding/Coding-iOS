@@ -219,7 +219,7 @@
 
 - (void)editBtnClicked{
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"编辑任务列表"] destructiveTitle:@"删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIAlertController ea_actionSheetCustomWithTitle:nil buttonTitles:@[@"编辑任务列表"] destructiveTitle:@"删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
         if (index == 0) {
             [weakSelf editBoardTL];
         }else if (index == 1){
@@ -247,7 +247,7 @@
 
 - (void)showDeleteAlert{
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:@"你确定永远删除这个列表吗？" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIAlertController ea_actionSheetCustomWithTitle:@"你确定永远删除这个列表吗？" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
         if (index == 0) {
             [weakSelf deleteBoardTL];
         }

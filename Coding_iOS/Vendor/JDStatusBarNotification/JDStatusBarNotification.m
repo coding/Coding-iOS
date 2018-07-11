@@ -540,9 +540,9 @@
   return topController;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-  return [[self mainController] shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
-}
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+//  return [[self mainController] shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
+//}
 
 - (BOOL)shouldAutorotate {
   return [[self mainController] shouldAutorotate];

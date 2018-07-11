@@ -194,7 +194,7 @@
 
 - (void)deleteOrder:(ShopOrder *)order{
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要取消此订单吗？" buttonTitles:nil destructiveTitle:@"确定取消" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIAlertController ea_actionSheetCustomWithTitle:@"确定要取消此订单吗？" buttonTitles:nil destructiveTitle:@"确定取消" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
         if (index == 0) {
             [NSObject showHUDQueryStr:@"正在取消订单"];
             [[Coding_NetAPIManager sharedManager] request_shop_deleteOrder:order.orderNo andBlock:^(id data, NSError *error) {

@@ -68,15 +68,15 @@
     [self updateToolbarItems];
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    self.webView = nil;
-    _backBarButtonItem = nil;
-    _forwardBarButtonItem = nil;
-    _refreshBarButtonItem = nil;
-    _stopBarButtonItem = nil;
-    _actionBarButtonItem = nil;
-}
+//- (void)viewDidUnload {
+//    [super viewDidUnload];
+//    self.webView = nil;
+//    _backBarButtonItem = nil;
+//    _forwardBarButtonItem = nil;
+//    _refreshBarButtonItem = nil;
+//    _stopBarButtonItem = nil;
+//    _actionBarButtonItem = nil;
+//}
 
 - (void)viewWillAppear:(BOOL)animated {
     NSAssert(self.navigationController, @"SVWebViewController needs to be contained in a UINavigationController. If you are presenting SVWebViewController modally, use SVModalWebViewController instead.");
@@ -104,11 +104,19 @@
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        return YES;
-    
-    return toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+//        return YES;
+//
+//    return toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+//}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 #pragma mark - Getters

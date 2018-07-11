@@ -74,7 +74,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         ResourceReferenceItem *item = self.resourceReference.itemList[indexPath.row];
         __weak typeof(self) weakSelf = self;
-        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确定取消关联：%@", item.title] buttonTitles:nil destructiveTitle:@"确定" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        UIAlertController *actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确定取消关联：%@", item.title] buttonTitles:nil destructiveTitle:@"确定" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf deleteItem:item];
             }

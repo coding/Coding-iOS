@@ -72,8 +72,8 @@
     if ([self.curWiki hasDraft]) {
         BOOL versionChanged = [self.curWiki draftVersionChanged];
         __weak typeof(self) weakSelf = self;
-        [[UIAlertView bk_showAlertViewWithTitle:@"提示" message:versionChanged? @"有最新版本更新，您是否继续编辑上次保存的草稿？": @"是否启用上次保存的草稿？" cancelButtonTitle:@"取消" otherButtonTitles:@[@"编辑草稿"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-            if (buttonIndex == 1) {
+        [[UIAlertController ea_alertViewWithTitle:@"提示" message:versionChanged? @"有最新版本更新，您是否继续编辑上次保存的草稿？": @"是否启用上次保存的草稿？" buttonTitles:@[@"编辑草稿"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+            if (index == 0) {
                 [weakSelf.curWiki readDraft];
                 [weakSelf refreshUI];
             }else{
@@ -117,8 +117,8 @@
     self.curWiki.mdContent = _inputContentView.text;
     if ([self.curWiki hasChanged]) {
         __weak typeof(self) weakSelf = self;
-        [[UIAlertView bk_showAlertViewWithTitle:@"提示" message:@"是否需要保存草稿？" cancelButtonTitle:@"不保存" otherButtonTitles:@[@"保存"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-            if (buttonIndex == 1) {
+        [[UIAlertController ea_alertViewWithTitle:@"提示" message:@"是否需要保存草稿？" buttonTitles:@[@"保存"] destructiveTitle:nil cancelTitle:@"不保存" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+            if (index == 0) {
                 [weakSelf.curWiki saveDraft];
             }else{
                 [weakSelf.curWiki deleteDraft];

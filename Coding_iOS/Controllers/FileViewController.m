@@ -271,7 +271,7 @@
         }
     }else{
         if (self.preview.length > 0) {
-            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"保存到相册", @"用其他应用打开"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            UIAlertController *actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:nil buttonTitles:@[@"保存到相册", @"用其他应用打开"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
                 switch (index) {
                     case 0:
                         [weakSelf saveCurImg];
@@ -307,9 +307,9 @@
 
 - (void)goToShareFileLink{
     __weak typeof(self) weakSelf = self;
-    UIActionSheet *actionSheet;
+    UIAlertController *actionSheet;
     if (_curFile.share) {
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"该链接适用于所有人，无需登录" buttonTitles:@[@"拷贝链接"] destructiveTitle:@"关闭共享" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"该链接适用于所有人，无需登录" buttonTitles:@[@"拷贝链接"] destructiveTitle:@"关闭共享" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf doCopyShareUrl];
             }else if (index == 1) {
@@ -317,7 +317,7 @@
             }
         }];
     }else{
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"当前未开启共享，请先创建公开链接" buttonTitles:@[@"开启共享并拷贝链接"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"当前未开启共享，请先创建公开链接" buttonTitles:@[@"开启共享并拷贝链接"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf doOpenAndCopyShareUrl];
             }
@@ -363,12 +363,12 @@
 }
 
 - (void)deleteCurFile{
-    UIActionSheet *actionSheet;
+    UIAlertController *actionSheet;
     NSURL *fileUrl = [_curFile diskFileUrl];
     Coding_DownloadTask *cDownloadTask = [_curFile cDownloadTask];
     
     if (fileUrl) {
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"只是删除本地文件还是连同服务器文件一起删除？" buttonTitles:@[@"仅删除本地文件"] destructiveTitle:@"一起删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"只是删除本地文件还是连同服务器文件一起删除？" buttonTitles:@[@"仅删除本地文件"] destructiveTitle:@"一起删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             switch (index) {
                 case 0:
                     [self doDeleteCurFile:self.curFile fromDisk:YES];
@@ -381,7 +381,7 @@
             }
         }];
     }else if (cDownloadTask){
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"确定将服务器上的该文件删除？" buttonTitles:@[@"只是取消下载"] destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"确定将服务器上的该文件删除？" buttonTitles:@[@"只是取消下载"] destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             switch (index) {
                 case 0:
                     [self doDeleteCurFile:self.curFile fromDisk:YES];
@@ -394,7 +394,7 @@
             }
         }];
     }else{
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"确定将服务器上的该文件删除？" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"确定将服务器上的该文件删除？" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [self doDeleteCurFile:self.curFile fromDisk:NO];
             }

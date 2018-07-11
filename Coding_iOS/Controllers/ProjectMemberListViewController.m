@@ -239,7 +239,7 @@
         if (weakSelf.type == ProMemTypeProject) {
             if (curMember.user_id.intValue == [Login curLoginUser].id.intValue) {
                 //                自己，退出项目
-                UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"确定退出项目？" buttonTitles:nil destructiveTitle:@"确认退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                UIAlertController *actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"确定退出项目？" buttonTitles:nil destructiveTitle:@"确认退出" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
                     if (index == 0) {
                         [weakSelf quitSelf_ProjectMember:curMember];
                     }
@@ -361,7 +361,7 @@
     }else if (index == 1){//修改权限
         [self editTypeOfMember:mem];
     }else if (index == 2){//移除成员
-        [[UIActionSheet bk_actionSheetCustomWithTitle:@"移除该成员后，他将不再显示在项目中" buttonTitles:nil destructiveTitle:@"确认移除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        [[UIAlertController ea_actionSheetCustomWithTitle:@"移除该成员后，他将不再显示在项目中" buttonTitles:nil destructiveTitle:@"确认移除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [self removeMember:mem];
             }

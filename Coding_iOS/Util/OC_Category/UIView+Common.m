@@ -492,7 +492,7 @@ static char LoadingViewKey, BlankPageViewKey;
             [self removeFromSuperview];
 
             _loopAngle = 0.0;
-            _monkeyAlpha = 1,0;
+            _monkeyAlpha = 1.0;
             _alphaStep = ABS(_alphaStep);
             CGAffineTransform loopAngleTransform = CGAffineTransformMakeRotation(_loopAngle * (M_PI / 180.0f));
             _loopView.transform = loopAngleTransform;

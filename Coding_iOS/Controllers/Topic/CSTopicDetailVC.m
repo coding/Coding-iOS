@@ -191,7 +191,7 @@
             
             if ([Login isLoginUserGlobalKey:weakSelf.commentToUser.global_key]) {
                 ESWeakSelf
-                UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                UIAlertController *actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
                     ESStrongSelf
                     if (index == 0 && _self.commentIndex >= 0) {
                         Comment *comment  = [_self.commentTweet.comment_list objectAtIndex:_self.commentIndex];
@@ -230,7 +230,7 @@
         if ([self.myMsgInputView isAndResignFirstResponder]) {
             return ;
         }
-        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此冒泡" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        UIAlertController *actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"删除此冒泡" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf deleteTweet:curTweet];
             }

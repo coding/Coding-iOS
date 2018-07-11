@@ -189,10 +189,10 @@
     
     NSURL *fileUrl = curVersion.diskFileUrl;
     Coding_DownloadTask *cDownloadTask = [Coding_FileManager cDownloadTaskForKey:curVersion.storage_key];
-    UIActionSheet *actionSheet;
+    UIAlertController *actionSheet;
     
     if (fileUrl) {
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"只是删除本地文件还是连同服务器版本一起删除？" buttonTitles:@[@"仅删除本地文件"] destructiveTitle:@"一起删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"只是删除本地文件还是连同服务器版本一起删除？" buttonTitles:@[@"仅删除本地文件"] destructiveTitle:@"一起删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             switch (index) {
                 case 0:
                     [weakSelf doDeleteFileVersion:curVersion fromDisk:YES];
@@ -205,7 +205,7 @@
             }
         }];
     }else if (cDownloadTask){
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"确定将服务器上的该版本删除？" buttonTitles:@[@"只是取消下载"] destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"确定将服务器上的该版本删除？" buttonTitles:@[@"只是取消下载"] destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             switch (index) {
                 case 0:
                     [weakSelf doDeleteFileVersion:curVersion fromDisk:YES];
@@ -218,7 +218,7 @@
             }
         }];
     }else{
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"确定将服务器上的该版本删除？" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"确定将服务器上的该版本删除？" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf doDeleteFileVersion:curVersion fromDisk:NO];
             }

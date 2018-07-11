@@ -340,7 +340,7 @@
     __weak typeof(self) weakSelf = self;
     NSArray *selectedFiles = [self selectedFiles];
     if (selectedFiles.count > 0) {
-        [[UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确认删除选定的 %lu 个文件？\n删除后将无法恢复!", (unsigned long)selectedFiles.count] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        [[UIAlertController ea_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确认删除选定的 %lu 个文件？\n删除后将无法恢复!", (unsigned long)selectedFiles.count] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf deleteFiles:selectedFiles];
                 [weakSelf changeEditStateToEditing:NO];
@@ -559,7 +559,7 @@
             [self renameFolder:folder];
         }else{//删除
             __weak typeof(self) weakSelf = self;
-            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确定要删除文件夹:%@？",folder.name] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            UIAlertController *actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确定要删除文件夹:%@？",folder.name] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
                 if (index == 0) {
                     [weakSelf deleteFolder:folder];
                 }
@@ -635,10 +635,10 @@
     
     NSURL *fileUrl = [file diskFileUrl];
     Coding_DownloadTask *cDownloadTask = [file cDownloadTask];
-    UIActionSheet *actionSheet;
+    UIAlertController *actionSheet;
     
     if (fileUrl) {
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"只是删除本地文件还是连同服务器文件一起删除？" buttonTitles:@[@"仅删除本地文件"] destructiveTitle:@"一起删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"只是删除本地文件还是连同服务器文件一起删除？" buttonTitles:@[@"仅删除本地文件"] destructiveTitle:@"一起删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             switch (index) {
                 case 0:
                     [weakSelf deleteFile:weakFile fromDisk:YES];
@@ -651,7 +651,7 @@
             }
         }];
     }else if (cDownloadTask){
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"确定将服务器上的该文件删除？" buttonTitles:@[@"只是取消下载"] destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"确定将服务器上的该文件删除？" buttonTitles:@[@"只是取消下载"] destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             switch (index) {
                 case 0:
                     [weakSelf deleteFile:weakFile fromDisk:YES];
@@ -664,7 +664,7 @@
             }
         }];
     }else{
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"确定将服务器上的该文件删除？" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"确定将服务器上的该文件删除？" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf deleteFile:weakFile fromDisk:NO];
             }

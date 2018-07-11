@@ -104,7 +104,7 @@
     UIButton *btn = [[UIButton alloc] initWithFrame:rect];
     [btn setTitle:title forState:UIControlStateNormal];
     [btn addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
-    const  SEL selArray[] = {@selector(bootstrapStyle), @selector(defaultManager), @selector(primaryStyle), @selector(successStyle), @selector(infoStyle), @selector(warningStyle), @selector(dangerStyle), @selector(blueStyle)};
+    const  SEL selArray[] = {@selector(bootstrapStyle), @selector(defaultStyle), @selector(primaryStyle), @selector(successStyle), @selector(infoStyle), @selector(warningStyle), @selector(dangerStyle)};
     if ([btn respondsToSelector:selArray[style]]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"

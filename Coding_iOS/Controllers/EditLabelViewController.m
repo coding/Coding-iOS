@@ -251,7 +251,7 @@
         __weak typeof(self) weakSelf = self;
         ProjectTag *ptLabel = [_tagList objectAtIndex:indexPath.row];
         NSString *tip = [NSString stringWithFormat:@"确定要删除标签:%@？", ptLabel.name];
-        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:tip buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        UIAlertController *actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:tip buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf deleteBtnClick:indexPath.row];
             }

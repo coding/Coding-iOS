@@ -126,7 +126,7 @@
     NSMutableDictionary *params = [self getParamsFromURLStr:curURL.absoluteString];
     if ([curURL.absoluteString hasPrefix:@"coding://line_note?"]) {
         NSString *title = [NSString stringWithFormat:@"Line %@", params[@"line"]];
-        [[UIActionSheet bk_actionSheetCustomWithTitle:title buttonTitles:@[@"添加评论"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        [[UIAlertController ea_actionSheetCustomWithTitle:title buttonTitles:@[@"添加评论"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [self goToAddCommentWithParams:params];
             }
@@ -134,7 +134,7 @@
     }else if ([curURL.absoluteString hasPrefix:@"coding://line_note_comment?"]){
         NSString *title = [NSString stringWithFormat:@"%@ 的评论", params[@"clicked_user_name"]];
         BOOL belongToSelf = [params[@"clicked_user_name"] isEqualToString:[Login curLoginUser].global_key];
-        [[UIActionSheet bk_actionSheetCustomWithTitle:title buttonTitles:@[belongToSelf? @"删除": @"回复"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        [[UIAlertController ea_actionSheetCustomWithTitle:title buttonTitles:@[belongToSelf? @"删除": @"回复"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 if (belongToSelf) {
                     [self doDeleteCommentWithParams:params];

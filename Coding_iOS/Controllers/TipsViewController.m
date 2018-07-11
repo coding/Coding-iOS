@@ -191,7 +191,7 @@
     }
     
 //    @weakify(self);
-//    [[UIActionSheet bk_actionSheetCustomWithTitle:@"将本页的未读通知全部标记为已读？" buttonTitles:@[@"全部标为已读"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+//    [[UIAlertController ea_actionSheetCustomWithTitle:@"将本页的未读通知全部标记为已读？" buttonTitles:@[@"全部标为已读"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
 //        if (index == 0) {
 //            @strongify(self);
 //            [self p_markReadAll];

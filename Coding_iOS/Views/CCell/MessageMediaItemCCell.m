@@ -72,7 +72,7 @@
 }
 
 +(CGSize)ccellSizeWithObj:(NSObject *)obj{
-    CGSize itemSize;
+    CGSize itemSize = CGSizeZero;
     if ([obj isKindOfClass:[UIImage class]]) {
         itemSize = [[ImageSizeManager shareManager] sizeWithImage:(UIImage *)obj originalWidth:kMessageCell_ContentWidth maxHeight:kScreen_Height/2];
     }else if ([obj isKindOfClass:[VoiceMedia class]]) {

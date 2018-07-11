@@ -347,26 +347,16 @@
             }
         }];
     }else if (_curUsers.type == UsersTypeFriends_Transpond){
-        UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@"确定发送给：" message:user.name];
-        [alertView bk_setCancelButtonWithTitle:@"取消" handler:nil];
-        [alertView bk_addButtonWithTitle:@"确定" handler:nil];
-        [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
-            switch (index) {
-                case 1:
-                {
-                    [weakSelf dismissViewControllerAnimated:YES completion:^{
-                        if (weakSelf.transpondMessageBlock) {
-                            PrivateMessage *nextMsg = [PrivateMessage privateMessageWithObj:weakSelf.curMessage andFriend:user];
-                            weakSelf.transpondMessageBlock(nextMsg);
-                        }
-                    }];
-                }
-                    break;
-                default:
-                    break;
+        [[UIAlertController ea_alertViewWithTitle:@"确定发送给：" message:user.name buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+            if (index == 0) {
+                [weakSelf dismissViewControllerAnimated:YES completion:^{
+                    if (weakSelf.transpondMessageBlock) {
+                        PrivateMessage *nextMsg = [PrivateMessage privateMessageWithObj:weakSelf.curMessage andFriend:user];
+                        weakSelf.transpondMessageBlock(nextMsg);
+                    }
+                }];
             }
-        }];
-        [alertView show];
+        }] show];
     }else{
         if (kTarget_Enterprise) {
             UserInfoDetailViewController *vc = [UserInfoDetailViewController new];

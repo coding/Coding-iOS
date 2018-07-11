@@ -90,7 +90,7 @@
 
 - (void)navBtnClicked{
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:@[@"Pull"] destructiveTitle:@"删除本地 Repo" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIAlertController ea_actionSheetCustomWithTitle:nil buttonTitles:@[@"Pull"] destructiveTitle:@"删除本地 Repo" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
         if (index == 0) {
             [weakSelf pullRepo];
         }else if (index == 1){

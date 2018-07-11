@@ -282,7 +282,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
         ESStrongSelf;
         _self.messageToResendOrDelete = curMessage;
         [_self.myMsgInputView isAndResignFirstResponder];
-        UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"重新发送" buttonTitles:@[@"发送"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        UIAlertController *actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"重新发送" buttonTitles:@[@"发送"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0 && _self.messageToResendOrDelete) {
                 [_self sendPrivateMessageWithMsg:_messageToResendOrDelete];
             }
@@ -333,7 +333,7 @@ static const NSTimeInterval kPollTimeInterval = 3.0;
     self.messageToResendOrDelete = toDeleteMsg;
     [self.myMsgInputView isAndResignFirstResponder];
     ESWeakSelf
-    UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除后将不会出现在你的私信记录中" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    UIAlertController *actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"删除后将不会出现在你的私信记录中" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
         ESStrongSelf
         if (index == 0 && _self.messageToResendOrDelete) {
             [_self deletePrivateMessageWithMsg:_messageToResendOrDelete];

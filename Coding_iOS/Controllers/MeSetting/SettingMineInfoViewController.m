@@ -198,8 +198,10 @@
             switch (indexPath.row) {
                 case 0:{//头像
                     if (![JDStatusBarNotification isVisible]) {
-                        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更换头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从相册选择", nil];
-                        [actionSheet showInView:self.view];
+                        __weak typeof(self) weakSelf = self;
+                        [[UIAlertController ea_actionSheetCustomWithTitle:@"更换头像" buttonTitles:@[@"拍照", @"从相册选择"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+                            [weakSelf actionSheetDidDismissWithButtonIndex:index];
+                        }] showInView:self.view];
                     }
                 }
                     break;
@@ -337,10 +339,10 @@
                     NSNumber *index = [_curJobManager indexOfJobName:_curUser.job_str];
                     [ActionSheetStringPicker showPickerWithTitle:nil rows:@[jobNameArray] initialSelection:@[index] doneBlock:^(ActionSheetStringPicker *picker, NSArray *selectedIndex, NSArray *selectedValue) {
                         NSString *preValue = weakSelf.curUser.job_str;
-                        NSString *preValueKey = weakSelf.curUser.job;
+                        NSNumber *preValueKey = weakSelf.curUser.job;
                         
                         NSNumber *jobIndex = selectedIndex.firstObject;
-                        NSString *job = [NSString stringWithFormat:@"%d", jobIndex.intValue +1];
+                        NSNumber *job = @(jobIndex.intValue +1);
                         NSString *job_str = selectedValue.firstObject;
                         _curUser.job = job;
                         _curUser.job_str = job_str;
@@ -395,7 +397,7 @@
 }
 
 #pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+- (void)actionSheetDidDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 2) {
         return;
     }
@@ -687,8 +689,10 @@
             switch (indexPath.row) {
                 case 0:{//头像
                     if (![JDStatusBarNotification isVisible]) {
-                        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更换头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从相册选择", nil];
-                        [actionSheet showInView:self.view];
+                        __weak typeof(self) weakSelf = self;
+                        [[UIAlertController ea_actionSheetCustomWithTitle:@"更换头像" buttonTitles:@[@"拍照", @"从相册选择"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+                            [weakSelf actionSheetDidDismissWithButtonIndex:index];
+                        }] showInView:self.view];
                     }
                 }
                     break;
@@ -938,7 +942,7 @@
 }
 
 #pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+- (void)actionSheetDidDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 2) {
         return;
     }

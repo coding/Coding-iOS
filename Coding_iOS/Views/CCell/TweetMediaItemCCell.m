@@ -67,7 +67,7 @@
     [super layoutSubviews];
 }
 +(CGSize)ccellSizeWithObj:(id)obj{
-    CGSize itemSize;
+    CGSize itemSize = CGSizeZero;
     if ([obj isKindOfClass:[HtmlMediaItem class]]) {
         itemSize = CGSizeMake(kTweetMediaItemCCell_Width, kTweetMediaItemCCell_Width);
     }

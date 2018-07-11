@@ -56,6 +56,7 @@
 }
 
 - (void)prepareForReuse{
+    [super prepareForReuse];
     [self removeTip];
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 }

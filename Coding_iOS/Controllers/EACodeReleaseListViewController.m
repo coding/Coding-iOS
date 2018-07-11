@@ -129,7 +129,7 @@
     NSIndexPath *indexPath = [self.myTableView indexPathForCell:cell];
     EACodeRelease *curR = self.myCodeReleases.list[indexPath.row];
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"请确认是否删除版本 %@ ？", curR.tag_name] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIAlertController ea_actionSheetCustomWithTitle:[NSString stringWithFormat:@"请确认是否删除版本 %@ ？", curR.tag_name] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
         if (index == 0) {
             [weakSelf deleteRelease:curR];
         }

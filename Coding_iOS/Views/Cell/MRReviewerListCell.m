@@ -54,7 +54,7 @@
 }
 
 - (void)prepareForReuse{
-    
+    [super prepareForReuse];
     [self removeTip];
 }
 

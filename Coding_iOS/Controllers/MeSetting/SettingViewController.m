@@ -102,7 +102,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         __weak typeof(self) weakSelf = self;
-        [[UIActionSheet bk_actionSheetCustomWithTitle:@"缓存数据有助于再次浏览或离线查看，你确定要清除缓存吗？" buttonTitles:nil destructiveTitle:@"确定清除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        [[UIAlertController ea_actionSheetCustomWithTitle:@"缓存数据有助于再次浏览或离线查看，你确定要清除缓存吗？" buttonTitles:nil destructiveTitle:@"确定清除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf clearDiskCache];
             }
@@ -114,7 +114,7 @@
 
 - (void)loginOutBtnClicked:(id)sender{
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要退出当前账号吗？" buttonTitles:nil destructiveTitle:@"确定退出" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIAlertController ea_actionSheetCustomWithTitle:@"确定要退出当前账号吗？" buttonTitles:nil destructiveTitle:@"确定退出" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
         if (index == 0) {
             [weakSelf loginOutToLoginVC];
         }

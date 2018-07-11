@@ -325,6 +325,9 @@
 #pragma mark-
 #pragma mark---------------------- AlertView ---------------------------
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+
 - (void)showPwdAlertView
 {
     UIAlertView *_pwdAlertView = [[UIAlertView alloc] initWithTitle:@"确认订单" message:@"请输入密码以确认兑换" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
@@ -343,6 +346,8 @@
         [self exchangeActionRquest:field.text];
     }
 }
+
+#pragma clang diagnostic pop
 
 - (void)exchangeActionRquest:(NSString *)pwd
 {

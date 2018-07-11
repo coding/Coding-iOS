@@ -411,7 +411,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         __weak typeof(self) weakSelf = self;
-        [[UIActionSheet bk_actionSheetCustomWithTitle:@"本地阅读需要先 clone 代码，过程可能比较耗时，且不可中断，是否确认要 clone 代码？" buttonTitles:@[@"Clone"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        [[UIAlertController ea_actionSheetCustomWithTitle:@"本地阅读需要先 clone 代码，过程可能比较耗时，且不可中断，是否确认要 clone 代码？" buttonTitles:@[@"Clone"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf cloneRepo];
             }
@@ -458,7 +458,7 @@
             break;
         default://Fork
         {
-            [[UIActionSheet bk_actionSheetCustomWithTitle:@"fork将会将此项目复制到您的个人空间，确定要fork吗?" buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            [[UIAlertController ea_actionSheetCustomWithTitle:@"fork将会将此项目复制到您的个人空间，确定要fork吗?" buttonTitles:@[@"确定"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
                 if (index == 0) {
                     [[Coding_NetAPIManager sharedManager] request_ForkProject:_myProject andBlock:^(id data, NSError *error) {
                         [weakSelf refreshGitButtonsView];

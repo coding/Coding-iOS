@@ -86,8 +86,8 @@
 - (BOOL)navigationShouldPopOnBackButton{
     if (![_myCodeFile.editData isEqualToString:_myCodeFile.file.data]) {
         __weak typeof(self) weakSelf = self;
-        [[UIAlertView bk_showAlertViewWithTitle:@"提示" message:@"如果不保存，更改将丢失，是否确认返回？" cancelButtonTitle:@"取消" otherButtonTitles:@[@"确认返回"] handler:^(UIAlertView *alertView, NSInteger buttonIndex) {
-            if (buttonIndex != 0) {
+        [[UIAlertController ea_alertViewWithTitle:@"提示" message:@"如果不保存，更改将丢失，是否确认返回？" buttonTitles:@[@"确认返回"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+            if (index == 0) {
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             }
         }] show];

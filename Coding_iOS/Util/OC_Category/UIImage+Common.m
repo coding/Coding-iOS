@@ -90,19 +90,19 @@
     return newImage;
 }
 
-+ (UIImage *)fullResolutionImageFromALAsset:(ALAsset *)asset{
-    ALAssetRepresentation *assetRep = [asset defaultRepresentation];
-    CGImageRef imgRef = [assetRep fullResolutionImage];
-    UIImage *img = [UIImage imageWithCGImage:imgRef scale:assetRep.scale orientation:(UIImageOrientation)assetRep.orientation];
-    return img;
-}
-
-+ (UIImage *)fullScreenImageALAsset:(ALAsset *)asset{
-    ALAssetRepresentation *assetRep = [asset defaultRepresentation];
-    CGImageRef imgRef = [assetRep fullScreenImage];//fullScreenImage已经调整过方向了
-    UIImage *img = [UIImage imageWithCGImage:imgRef];
-    return img;
-}
+//+ (UIImage *)fullResolutionImageFromALAsset:(ALAsset *)asset{
+//    ALAssetRepresentation *assetRep = [asset defaultRepresentation];
+//    CGImageRef imgRef = [assetRep fullResolutionImage];
+//    UIImage *img = [UIImage imageWithCGImage:imgRef scale:assetRep.scale orientation:(UIImageOrientation)assetRep.orientation];
+//    return img;
+//}
+//
+//+ (UIImage *)fullScreenImageALAsset:(ALAsset *)asset{
+//    ALAssetRepresentation *assetRep = [asset defaultRepresentation];
+//    CGImageRef imgRef = [assetRep fullScreenImage];//fullScreenImage已经调整过方向了
+//    UIImage *img = [UIImage imageWithCGImage:imgRef];
+//    return img;
+//}
 
 +(NSString *)p_iconNameWithFileType:(NSString *)fileType{
     fileType = [fileType lowercaseString];

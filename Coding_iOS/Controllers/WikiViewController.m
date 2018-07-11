@@ -239,7 +239,7 @@
 - (void)handleFooterIndex:(NSInteger)index{
     if (_curWiki.isHistoryVersion) {//恢复版本
         __weak typeof(self) weakSelf = self;
-        [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要恢复到当前版本吗？" buttonTitles:@[@"确认恢复"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        [[UIAlertController ea_actionSheetCustomWithTitle:@"确定要恢复到当前版本吗？" buttonTitles:@[@"确认恢复"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf revertWiki];
             }
@@ -380,9 +380,9 @@
 
 - (void)goToShareFileLink{
     __weak typeof(self) weakSelf = self;
-    UIActionSheet *actionSheet;
+    UIAlertController *actionSheet;
     if (_curWiki.share) {
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"该链接适用于所有人，无需登录" buttonTitles:@[@"拷贝链接"] destructiveTitle:@"关闭共享" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"该链接适用于所有人，无需登录" buttonTitles:@[@"拷贝链接"] destructiveTitle:@"关闭共享" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf doCopyShareUrl];
             }else if (index == 1) {
@@ -390,7 +390,7 @@
             }
         }];
     }else{
-        actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"当前未开启共享，请先创建公开链接" buttonTitles:@[@"开启共享并拷贝链接"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"当前未开启共享，请先创建公开链接" buttonTitles:@[@"开启共享并拷贝链接"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf doOpenAndCopyShareUrl];
             }
@@ -434,7 +434,7 @@
 - (void)showDeleteWikiTip{
     if (_iid) {
         __weak typeof(self) weakSelf = self;
-        [[UIActionSheet bk_actionSheetCustomWithTitle:@"确定要删除 Wiki 文档吗？" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+        [[UIAlertController ea_actionSheetCustomWithTitle:@"确定要删除 Wiki 文档吗？" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (index == 0) {
                 [weakSelf deleteWiki];
             }

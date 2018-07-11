@@ -51,7 +51,7 @@
         [actionTitles removeObjectsInRange:NSMakeRange(0, 2)];
     }
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:actionTitles destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIAlertController ea_actionSheetCustomWithTitle:nil buttonTitles:actionTitles destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
         if (!weakSelf.myCodeTree.can_edit) {
             index += 2;
         }

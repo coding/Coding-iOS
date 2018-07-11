@@ -83,7 +83,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
 
-    if (self.interfaceOrientation != UIInterfaceOrientationPortrait
+    if (UIApplication.sharedApplication.statusBarOrientation != UIInterfaceOrientationPortrait
         && !([self supportedInterfaceOrientations] & UIInterfaceOrientationMaskLandscapeLeft)) {
         [self forceChangeToOrientation:UIInterfaceOrientationPortrait];
     }
@@ -101,7 +101,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
 //    self.view.backgroundColor = kColorTableBG;
     self.view.backgroundColor = kColorTableSectionBg;
     
-    if (self.interfaceOrientation != UIInterfaceOrientationPortrait
+    if (UIApplication.sharedApplication.statusBarOrientation != UIInterfaceOrientationPortrait
         && !([self supportedInterfaceOrientations] & UIInterfaceOrientationMaskLandscapeLeft)) {
         [self forceChangeToOrientation:UIInterfaceOrientationPortrait];
     }
@@ -119,7 +119,7 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
 
 #pragma mark - Orientations
 - (BOOL)shouldAutorotate{
-    return UIInterfaceOrientationIsLandscape(self.interfaceOrientation);
+    return UIInterfaceOrientationIsLandscape(UIApplication.sharedApplication.statusBarOrientation);
 }
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {

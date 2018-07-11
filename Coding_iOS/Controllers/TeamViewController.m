@@ -59,10 +59,11 @@
         navBar.tintColor = [UIColor whiteColor];
         [navBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
         UINavigationItem *item = [UINavigationItem new];
-        UIBarButtonItem *backSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        backSpace.width = -7;
+//        UIBarButtonItem *backSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+//        backSpace.width = -7;
         UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back_T_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(leftNavBtnClicked)];
-        item.leftBarButtonItems = @[backSpace, backItem];
+//        item.leftBarButtonItems = @[backSpace, backItem];
+        item.leftBarButtonItems = @[backItem];
         item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settingBtn_Nav"] style:UIBarButtonItemStylePlain target:self action:@selector(rightNavBtnClicked)];
         [navBar pushNavigationItem:item animated:NO];
         [self.view addSubview:navBar];
@@ -76,6 +77,10 @@
     [self.navigationController addFullscreenPopGesture];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)viewWillDisappear:(BOOL)animated{

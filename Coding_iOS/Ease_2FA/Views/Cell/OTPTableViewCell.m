@@ -154,6 +154,7 @@
 }
 
 - (void)prepareForReuse{
+    [super prepareForReuse];
     [self.contentView.layer removeAllAnimations];
     for (UIView *view in [self subviews]) {
         if ([view isKindOfClass:NSClassFromString(@"UITableViewCellDeleteConfirmationView")]) {

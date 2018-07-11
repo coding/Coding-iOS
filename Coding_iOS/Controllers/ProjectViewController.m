@@ -19,13 +19,11 @@
 #import "Coding_NetAPIManager.h"
 #import "UserInfoViewController.h"
 #import "AddUserViewController.h"
-//#import "ProjectFolderListView.h"
 #import "NProjectFileListView.h"
 #import "ProjectCodeListView.h"
 #import "CodeListViewController.h"
 #import "CodeViewController.h"
 #import "ProjectMemberActivityListViewController.h"
-//#import "FileListViewController.h"
 #import "NFileListViewController.h"
 #import "SettingTextViewController.h"
 #import "FolderToMoveViewController.h"
@@ -318,15 +316,6 @@
             }
                 break;
             case ProjectViewTypeFiles:{
-//                curView = ({
-//                    ProjectFolderListView *folderListView = [[ProjectFolderListView alloc] initWithFrame:self.view.bounds project:_myProject];
-//                    folderListView.containerVC = self;
-//                    folderListView.folderInProjectBlock = ^(ProjectFolders *rootFolders, ProjectFolder *clickedFolder, Project *inProject){
-//                        DebugLog(@"folderInProjectBlock-----: %@- %@", clickedFolder.name, inProject.name);
-//                        [weakSelf goToVCWithRootFolder:rootFolders folder:clickedFolder inProject:inProject];
-//                    };
-//                    folderListView;
-//                });
                 curView = ({
                     NProjectFileListView *folderListView = [[NProjectFileListView alloc] initWithFrame:self.view.bounds project:_myProject folder:nil];
                     folderListView.containerVC = self;
@@ -660,7 +649,7 @@
                 [actionTitles removeObjectsInRange:NSMakeRange(0, 2)];
             }
             __weak typeof(self) weakSelf = self;
-            [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:actionTitles destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            [[UIAlertController ea_actionSheetCustomWithTitle:nil buttonTitles:actionTitles destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
                 if (!weakSelf.myCodeTree.can_edit) {
                     index += 2;
                 }

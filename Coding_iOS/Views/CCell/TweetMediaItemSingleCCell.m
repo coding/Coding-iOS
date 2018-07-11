@@ -82,7 +82,7 @@
 }
 
 +(CGSize)ccellSizeWithObj:(id)obj{
-    CGSize itemSize;
+    CGSize itemSize = CGSizeZero;
     if ([obj isKindOfClass:[HtmlMediaItem class]]) {
         HtmlMediaItem *curMediaItem = (HtmlMediaItem *)obj;
         if (curMediaItem.type == HtmlMediaItemType_EmotionMonkey) {

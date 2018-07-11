@@ -363,7 +363,7 @@
             };
             cell.deleteBtnClickedBlock = ^(Task *toDelete){
                 [weakSelf.view endEditing:YES];
-                UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此任务" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+                UIAlertController *actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"删除此任务" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
                     if (index == 0) {
                         [weakSelf deleteTask:toDelete];
                     }
@@ -681,7 +681,7 @@
     if (_toComment) {
         if ([Login isLoginUserGlobalKey:_toComment.owner.global_key]) {
             __weak typeof(self) weakSelf = self;
-            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            UIAlertController *actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
                 if (index == 0) {
                     [weakSelf deleteComment:weakSelf.toComment];
                 }

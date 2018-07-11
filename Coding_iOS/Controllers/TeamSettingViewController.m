@@ -85,8 +85,10 @@
     if (indexPath.section == 0) {
         //头像
         if (![JDStatusBarNotification isVisible]) {
-            UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"更换头像" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照", @"从相册选择", nil];
-            [actionSheet showInView:self.view];
+            __weak typeof(self) weakSelf = self;
+            [[UIAlertController ea_actionSheetCustomWithTitle:@"更换头像" buttonTitles:@[@"拍照", @"从相册选择"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+                [weakSelf actionSheetDidDismissWithButtonIndex:index];
+            }] showInView:self.view];
         }
     }else if (indexPath.section == 1){
         if (indexPath.row == 0) {
@@ -111,7 +113,7 @@
 }
 
 #pragma mark UIActionSheetDelegate M
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+- (void)actionSheetDidDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 2) {
         return;
     }

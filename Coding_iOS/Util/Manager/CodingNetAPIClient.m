@@ -90,7 +90,8 @@ static dispatch_once_t e_Token;
     }
     //log请求数据
     DebugLog(@"\n===========request===========\n%@\n%@:\n%@", kNetworkMethodName[method], aPath, params);
-    aPath = [aPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    aPath = [aPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    aPath = [aPath stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLPathAllowedCharacterSet];
 //    发起请求
     switch (method) {
         case Get:{
@@ -180,8 +181,9 @@ static dispatch_once_t e_Token;
 -(void)requestJsonDataWithPath:(NSString *)aPath file:(NSDictionary *)file withParams:(NSDictionary *)params withMethodType:(NetworkMethod)method andBlock:(void (^)(id, NSError *))block{
     //log请求数据
     DebugLog(@"\n===========request===========\n%@:\n%@", aPath, params);
-    aPath = [aPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
+//    aPath = [aPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    aPath = [aPath stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLPathAllowedCharacterSet];
+
     // Data
     NSData *data;
     NSString *name, *fileName;

@@ -49,17 +49,10 @@
 
 #pragma mark XGPush
 - (void)registerPush{
-    float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
-    if(sysVer < 8){
-        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
-    }else{
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
-        UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
-        UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
-                                                                                     categories:[NSSet setWithObject:categorys]];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:userSettings];
-#endif
-    }
+    UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
+    UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
+                                                                                 categories:[NSSet setWithObject:categorys]];
+    [[UIApplication sharedApplication] registerUserNotificationSettings:userSettings];
 }
 
 #pragma mark UserAgent
@@ -315,7 +308,7 @@
 }
 
 #pragma mark URL Schemes
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options{
     DebugLog(@"path: %@, params: %@", [url path], [url queryParams]);
     if ([url.absoluteString hasPrefix:kCodingAppScheme]) {
         NSDictionary *queryParams = [url queryParams];
@@ -337,16 +330,46 @@
     }else if ([url.absoluteString hasPrefix:@"en-:"]){
         return [[ENSession sharedSession] handleOpenURL:url];
     }else{
-        return [[UMSocialManager defaultManager] handleOpenURL:url sourceApplication:sourceApplication annotation:annotation];
+        return [[UMSocialManager defaultManager] handleOpenURL:url options:options];
     }
     return YES;
 }
 
+//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+//    DebugLog(@"path: %@, params: %@", [url path], [url queryParams]);
+//    if ([url.absoluteString hasPrefix:kCodingAppScheme]) {
+//        NSDictionary *queryParams = [url queryParams];
+//        if ([url.host isEqualToString:@"safepay"]) {//支付宝支付
+//            [self p_handlePayURL:url];
+//        }else if (queryParams[@"email"] && queryParams[@"key"]) {//重置密码
+//            [self showPasswordWithURL:url];
+//        }else if ([queryParams[@"type"] isEqualToString:@"tweet"]){//发冒泡
+//            if ([Login isLogin]) {
+//                [TweetSendViewController presentWithParams:queryParams];
+//            }else{
+//                [NSObject showHudTipStr:@"未登录"];
+//            }
+//        }else{//一般模式解析网页
+//            [BaseViewController presentLinkStr:url.absoluteString];
+//        }
+//    }else if ([url.scheme isEqualToString:kSocial_WX_ID] && [url.host isEqualToString:@"pay"]){//微信支付
+//        [self p_handlePayURL:url];
+//    }else if ([url.absoluteString hasPrefix:@"en-:"]){
+//        return [[ENSession sharedSession] handleOpenURL:url];
+//    }else{
+//        return [[UMSocialManager defaultManager] handleOpenURL:url sourceApplication:sourceApplication annotation:annotation];
+//    }
+//    return YES;
+//}
+
 - (void)p_handlePayURL:(NSURL *)url{
     UIViewController *vc = [BaseViewController presentingVC];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
     if ([vc respondsToSelector:@selector(handlePayURL:)]) {
         [vc performSelector:@selector(handlePayURL:) withObject:url];
     }
+#pragma clang diagnostic pop
 }
 
 - (BOOL)showPasswordWithURL:(NSURL *)url{

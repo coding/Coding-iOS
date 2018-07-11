@@ -914,16 +914,11 @@ typedef NS_ENUM(NSUInteger, LoginStep) {
 - (void)doSomethingAfterLogin{
     User *curUser = [Login curLoginUser];
     if (curUser.email.length > 0 && !curUser.email_validation.boolValue) {
-        UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@"激活邮箱" message:@"该邮箱尚未激活，请尽快去邮箱查收邮件并激活账号。如果在收件箱中没有看到，请留意一下垃圾邮件箱子（T_T）"];
-        [alertView bk_setCancelButtonWithTitle:@"取消" handler:nil];
-        [alertView bk_addButtonWithTitle:@"重发激活邮件" handler:nil];
-        [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
-            if (index == 1) {
+        [[UIAlertController ea_alertViewWithTitle:@"激活邮箱" message:@"该邮箱尚未激活，请尽快去邮箱查收邮件并激活账号。如果在收件箱中没有看到，请留意一下垃圾邮件箱子（T_T）" buttonTitles:@[@"重发激活邮件"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+            if (index == 0) {
                 [self sendActivateEmail];
             }
-        }];
-        [alertView show];
-        
+        }] show];
     }
 }
 - (void)sendActivateEmail{

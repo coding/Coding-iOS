@@ -215,13 +215,11 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
         }else{
             tipStr = [NSString stringWithFormat:@"条码「%@」不是有效的身份验证令牌条码", resultStr];
         }
-        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"无效条码" message:tipStr];
-        [alertV bk_addButtonWithTitle:@"重试" handler:^{
+        [[UIAlertController ea_alertViewWithTitle:@"无效条码" message:tipStr buttonTitles:@[@"重试"] destructiveTitle:nil cancelTitle:nil andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
             if (![vc isScaning]) {
                 [vc startScan];
             }
-        }];
-        [alertV show];
+        }] show];
     }
 }
 
@@ -235,12 +233,9 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
             if ([authURL.otpCode isEqualToString:item.otpCode]) {
                 kTipAlert(@"该二维码已被保存为账户名：\n%@", authURL.name);
             }else{
-                UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"账户名：%@ 已存在\n选择 '更新' 覆盖原账户。", authURL.name]];
-                [alertV bk_setCancelButtonWithTitle:@"取消" handler:nil];
-                [alertV bk_addButtonWithTitle:@"更新" handler:nil];
                 @weakify(self);
-                alertV.bk_didDismissBlock = ^(UIAlertView *alertView, NSInteger buttonIndex){
-                    if (buttonIndex == 1) {
+                [[UIAlertController ea_alertViewWithTitle:@"提示" message:[NSString stringWithFormat:@"账户名：%@ 已存在\n选择 '更新' 覆盖原账户。", authURL.name] buttonTitles:@[@"更新"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+                    if (index == 0) {
                         @strongify(self);
                         if ([authURL saveToKeychain]) {
                             if ([self.authURLs indexOfObject:item] != NSNotFound) {
@@ -251,10 +246,8 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
                         }else{
                             kTipAlert(@"保存过程中发生了异常，请重新扫描");
                         }
-
                     }
-                };
-                [alertV show];
+                }] show];
             }
             break;
         }
@@ -327,14 +320,13 @@ static NSString *const kOTPKeychainEntriesArray = @"OTPKeychainEntries";
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         OTPAuthURL *authURL = self.authURLs[indexPath.section];
         __weak typeof(self) weakSelf = self;
-        UIAlertView *alertV = [UIAlertView bk_alertViewWithTitle:@"删除此账户不会停用两步验证" message:@"\n您可能会因此无法登录自己的账户\n在删除该账户前，请先停用两步验证，或者确保您可以通过其它方法生成验证码。"];
-        [alertV bk_setCancelButtonWithTitle:@"取消" handler:^{
-            [weakSelf configUI];
-        }];
-        [alertV bk_addButtonWithTitle:@"确认删除" handler:^{
-            [weakSelf deleteOneAuthURL:authURL];
-        }];
-        [alertV show];
+        [[UIAlertController ea_alertViewWithTitle:@"删除此账户不会停用两步验证" message:@"\n您可能会因此无法登录自己的账户\n在删除该账户前，请先停用两步验证，或者确保您可以通过其它方法生成验证码。" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+            if (index == 0) {
+                [weakSelf deleteOneAuthURL:authURL];
+            }else{
+                [weakSelf configUI];
+            }
+        }] show];
     }
 }
 

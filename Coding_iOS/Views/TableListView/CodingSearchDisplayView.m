@@ -161,8 +161,8 @@
     }
     
     //判断分类
-    int currentPage;
-    int totalPage;
+    int currentPage = 0;
+    int totalPage = 0;
     
     switch (_curSearchType) {
         case eSearchType_Project:

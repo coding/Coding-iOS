@@ -183,12 +183,12 @@
         [actionTitles removeObjectAtIndex:0];
     }
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:nil buttonTitles:actionTitles destructiveTitle:self.myCodeFile.can_edit? @"删除文件": nil cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
-        [weakSelf actionSheetClicked:sheet index:index];
+    [[UIAlertController ea_actionSheetCustomWithTitle:nil buttonTitles:actionTitles destructiveTitle:self.myCodeFile.can_edit? @"删除文件": nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+        [weakSelf actionSheetClickedIndex:index];
     }] showInView:self.view];
 }
 
-- (void)actionSheetClicked:(UIActionSheet *)sheet index:(NSInteger)index{
+- (void)actionSheetClickedIndex:(NSInteger)index{
     if (!self.myCodeFile.can_edit || [self.myCodeFile.file.mode isEqualToString:@"image"]) {
         index++;
     }
@@ -205,7 +205,7 @@
 
 - (void)deleteBtnClicked{
     __weak typeof(self) weakSelf = self;
-    [[UIActionSheet bk_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确定要删除文件 %@ 吗？", _myCodeFile.file.name] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+    [[UIAlertController ea_actionSheetCustomWithTitle:[NSString stringWithFormat:@"确定要删除文件 %@ 吗？", _myCodeFile.file.name] buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
         if (index == 0) {
             [weakSelf sendDeleteRequst];
         }

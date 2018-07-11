@@ -135,15 +135,11 @@
         if (indexPath.row == 1) {
             if (!self.myUser.email_validation.boolValue && self.myUser.email.length > 0) {
                 [self.view endEditing:YES];
-                UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@"激活邮箱" message:@"该邮箱尚未激活，请尽快去邮箱查收邮件并激活账号。如果在收件箱中没有看到，请留意一下垃圾邮件箱子（T_T）"];
-                [alertView bk_setCancelButtonWithTitle:@"取消" handler:nil];
-                [alertView bk_addButtonWithTitle:@"重发激活邮件" handler:nil];
-                [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
-                    if (index == 1) {
+                [[UIAlertController ea_alertViewWithTitle:@"激活邮箱" message:@"该邮箱尚未激活，请尽快去邮箱查收邮件并激活账号。如果在收件箱中没有看到，请留意一下垃圾邮件箱子（T_T）" buttonTitles:@[@"重发激活邮件"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+                    if (index == 0) {
                         [self sendActivateEmail];
                     }
-                }];
-                [alertView show];
+                }] show];
             }
         }
     }else{
@@ -230,15 +226,11 @@
     if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             if (!self.myUser.email_validation.boolValue && self.myUser.email.length > 0) {
-                UIAlertView *alertView = [UIAlertView bk_alertViewWithTitle:@"激活邮箱" message:@"该邮箱尚未激活，请尽快去邮箱查收邮件并激活账号。如果在收件箱中没有看到，请留意一下垃圾邮件箱子（T_T）"];
-                [alertView bk_setCancelButtonWithTitle:@"取消" handler:nil];
-                [alertView bk_addButtonWithTitle:@"重发激活邮件" handler:nil];
-                [alertView bk_setDidDismissBlock:^(UIAlertView *alert, NSInteger index) {
-                    if (index == 1) {
+                [[UIAlertController ea_alertViewWithTitle:@"激活邮箱" message:@"该邮箱尚未激活，请尽快去邮箱查收邮件并激活账号。如果在收件箱中没有看到，请留意一下垃圾邮件箱子（T_T）" buttonTitles:@[@"重发激活邮件"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+                    if (index == 0) {
                         [self sendActivateEmail];
                     }
-                }];
-                [alertView show];
+                }] show];
             }else{
                 SettingEmailViewController *vc = [SettingEmailViewController new];
                 [self.navigationController pushViewController:vc animated:YES];

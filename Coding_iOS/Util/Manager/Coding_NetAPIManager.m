@@ -674,7 +674,7 @@
 
 - (void)request_EditTypeOfUser:(NSString *)global_key inProjects:(NSArray *)pro_id_list roles:(NSArray *)role_list andBlock:(void (^)(id data, NSError *error))block{
     NSString *path = [NSString stringWithFormat:@"api/team/%@/member/%@/projects/role", [Login curLoginCompany].global_key, global_key];
-    NSDictionary *params = @{@"projects": [pro_id_list componentsJoinedByString:@"," ?: @""],
+    NSDictionary *params = @{@"projects": [pro_id_list componentsJoinedByString:@","] ?: @"",
                              @"roles": [role_list componentsJoinedByString:@","] ?: @""};
     [NSObject showStatusBarQueryStr:@"正在设置成员类型"];
     [[CodingNetAPIClient sharedJsonClient] requestJsonDataWithPath:path withParams:params withMethodType:Post andBlock:^(id data, NSError *error) {

@@ -144,6 +144,7 @@
 }
 
 - (void)prepareForReuse{
+    [super prepareForReuse];
     [_leftBtn stopQueryAnimate];
 }
 @end

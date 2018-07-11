@@ -292,7 +292,7 @@
             [weakSelf doCommentToTopic:nil ofAnswer:nil sender:sender];
         };
         _headerV.deleteBlock = ^(ProjectTopic *curTopic){
-            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此讨论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            UIAlertController *actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"删除此讨论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
                 if (index == 0) {
                     [weakSelf deleteTopic:weakSelf.curTopic ofAnswer:nil isComment:NO];
                 }
@@ -393,7 +393,7 @@
     if (_toComment) {
         if ([Login isLoginUserGlobalKey:_toComment.owner.global_key]) {
             ESWeakSelf
-            UIActionSheet *actionSheet = [UIActionSheet bk_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIActionSheet *sheet, NSInteger index) {
+            UIAlertController *actionSheet = [UIAlertController ea_actionSheetCustomWithTitle:@"删除此评论" buttonTitles:nil destructiveTitle:@"确认删除" cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
                 ESStrongSelf
                 if (index == 0) {
                     [_self deleteTopic:_self.toComment ofAnswer:answer isComment:YES];
