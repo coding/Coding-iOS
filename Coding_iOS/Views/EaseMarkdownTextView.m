@@ -58,11 +58,6 @@
              
              [self createButtonWithTitle:@"@" andEventHandler:^{ [self doAT]; }],
              
-             [self createButtonWithTitle:@"#" andEventHandler:^{ [self insertText:@"#"]; }],
-             [self createButtonWithTitle:@"*" andEventHandler:^{ [self insertText:@"*"]; }],
-             [self createButtonWithTitle:@"`" andEventHandler:^{ [self insertText:@"`"]; }],
-             [self createButtonWithTitle:@"-" andEventHandler:^{ [self insertText:@"-"]; }],
-             
              [self createButtonWithTitle:@"照片" andEventHandler:^{ [self doPhoto]; }],
              
              [self createButtonWithTitle:@"标题" andEventHandler:^{ [self doTitle]; }],
@@ -72,6 +67,17 @@
              [self createButtonWithTitle:@"引用" andEventHandler:^{ [self doQuote]; }],
              [self createButtonWithTitle:@"列表" andEventHandler:^{ [self doList]; }],
              
+             [self createButtonWithTitle:@"分割线" andEventHandler:^{
+                 NSRange selectionRange = self.selectedRange;
+                 NSString *insertStr = [self needPreNewLine]? @"\n\n------\n": @"\n------\n";
+                 
+                 selectionRange.location += insertStr.length;
+                 selectionRange.length = 0;
+                 
+                 [self insertText:insertStr];
+                 [self setSelectionRange:selectionRange];
+             }],
+
              [self createButtonWithTitle:@"链接" andEventHandler:^{
                  NSString *tipStr = @"在此输入链接地址";
                  NSRange selectionRange = self.selectedRange;
@@ -92,17 +98,11 @@
                  [self setSelectionRange:selectionRange];
              }],
              
-             [self createButtonWithTitle:@"分割线" andEventHandler:^{
-                 NSRange selectionRange = self.selectedRange;
-                 NSString *insertStr = [self needPreNewLine]? @"\n\n------\n": @"\n------\n";
-                 
-                 selectionRange.location += insertStr.length;
-                 selectionRange.length = 0;
-                 
-                 [self insertText:insertStr];
-                 [self setSelectionRange:selectionRange];
-             }],
-             
+             [self createButtonWithTitle:@"#" andEventHandler:^{ [self insertText:@"#"]; }],
+             [self createButtonWithTitle:@"*" andEventHandler:^{ [self insertText:@"*"]; }],
+             [self createButtonWithTitle:@"`" andEventHandler:^{ [self insertText:@"`"]; }],
+             [self createButtonWithTitle:@"-" andEventHandler:^{ [self insertText:@"-"]; }],
+
              [self createButtonWithTitle:@"_" andEventHandler:^{ [self insertText:@"_"]; }],
              [self createButtonWithTitle:@"+" andEventHandler:^{ [self insertText:@"+"]; }],
              [self createButtonWithTitle:@"~" andEventHandler:^{ [self insertText:@"~"]; }],
