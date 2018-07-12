@@ -11,6 +11,7 @@
 #import "WebContentManager.h"
 #import "EaseMarkdownTextView.h"
 #import "WebViewController.h"
+#import "UIViewController+BackButtonHandler.h"
 
 
 @interface ProjectTweetSendViewController ()<UIWebViewDelegate>
@@ -69,6 +70,21 @@
     [super viewDidAppear:animated];
     if (self.curIndex == 0 && self.editView) {
         [self.editView becomeFirstResponder];
+    }
+}
+
+- (BOOL)navigationShouldPopOnBackButton{
+    BOOL hasChanged = ![self.curTweet.raw ?: @"" isEqualToString:_editView.text];
+    if (hasChanged) {
+        __weak typeof(self) weakSelf = self;
+        [[UIAlertController ea_alertViewWithTitle:@"提示" message:@"如果不保存，更改将丢失，是否确认返回？" buttonTitles:@[@"确认返回"] destructiveTitle:nil cancelTitle:@"取消" andDidDismissBlock:^(UIAlertAction *action, NSInteger index) {
+            if (index == 0) {
+                [weakSelf.navigationController popViewControllerAnimated:YES];
+            }
+        }] show];
+        return NO;
+    }else{
+        return YES;
     }
 }
 
