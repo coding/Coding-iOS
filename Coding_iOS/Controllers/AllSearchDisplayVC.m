@@ -74,7 +74,8 @@
 
 - (NSArray *)titlesArray{
     if (!_titlesArray) {
-        _titlesArray = @[@"项目", @"任务", @"讨论", @"冒泡", @"文档", @"用户", @"合并请求", @"Pull 请求"];
+//        _titlesArray = @[@"项目", @"任务", @"讨论", @"冒泡", @"文档", @"用户", @"合并请求", @"Pull 请求"];
+        _titlesArray = @[@"项目", @"任务", @"冒泡", @"文档", @"用户", @"合并请求"];
     }
     return _titlesArray;
 }
@@ -261,10 +262,11 @@
             make.height.mas_equalTo(_historyHeight);
         }];
         _searchHistoryView.contentSize = CGSizeMake(kScreen_Width, _historyHeight);
+        NSInteger itemNum = 3;
         CGFloat designScale = (kScreen_Width/ 375);
         CGFloat tipVWidth = 210 * designScale;
         CGFloat imageWidth = 24 * designScale;
-        CGFloat paddingWidth = MAX(0, (tipVWidth - 4* imageWidth)/ 3);
+        CGFloat paddingWidth = MAX(0, (tipVWidth - itemNum* imageWidth)/ (itemNum - 1));
         CGFloat fontSize = 13 * designScale;
 
         UIView *tipV = [UIView new];
@@ -283,7 +285,8 @@
             make.top.equalTo(titleL.mas_bottom).offset(15);
             make.height.mas_equalTo(1);
         }];
-        NSArray *imageArray = @[@"project", @"task", @"topic", @"tweet", @"file", @"user", @"mr", @"pr"];
+//        NSArray *imageArray = @[@"project", @"task", @"topic", @"tweet", @"file", @"user", @"mr", @"pr"];
+        NSArray *imageArray = @[@"project", @"task", @"tweet", @"file", @"user", @"mr"];
         for (int index = 0; index < self.titlesArray.count && index < imageArray.count; index++) {
             UIImageView *imageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"search_icon_%@", imageArray[index]]]];
             UILabel *label = [UILabel labelWithSystemFontSize:fontSize textColorHexString:@"0x999999"];
@@ -292,8 +295,8 @@
             [tipV addSubview:label];
             [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(imageWidth, imageWidth));
-                make.top.equalTo(lineV.mas_bottom).offset(20 + (imageWidth + 45) * (index / 4));
-                make.left.equalTo(tipV).offset((paddingWidth + imageWidth) * (index % 4));
+                make.top.equalTo(lineV.mas_bottom).offset(20 + (imageWidth + 45) * (index / itemNum));
+                make.left.equalTo(tipV).offset((paddingWidth + imageWidth) * (index % itemNum));
             }];
             [label mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(imageV.mas_bottom).offset(10);
@@ -352,13 +355,14 @@
         [self goToUserInfo:obj];
     }else if (type==eSearchType_Task){
         [self goToTask:obj];
-    }else if (type==eSearchType_Topic){
-        [self goToTopic:obj];
+//    }else if (type==eSearchType_Topic){
+//        [self goToTopic:obj];
     }else if (type==eSearchType_Merge){
         [self goToMRDetail:obj];
-    }else if(type==eSearchType_Pull){
-        [self goToMRDetail:obj];
     }
+//    else if(type==eSearchType_Pull){
+//        [self goToMRDetail:obj];
+//    }
 }
 
 - (void)goToProject:(Project *)project{

@@ -3903,7 +3903,8 @@
     
     NSString *path = [NSString stringWithFormat:@"/api/esearch/%@?q=%@&page=%d",type,strSearch, (int)page];
     if ([type isEqualToString:@"all"]) {
-        path=[NSString stringWithFormat:@"%@&types=projects,project_topics,tasks,tweets,files,friends,merge_requests,pull_requests",path];
+//        path=[NSString stringWithFormat:@"%@&types=projects,project_topics,tasks,tweets,files,friends,merge_requests,pull_requests",path];
+        path=[NSString stringWithFormat:@"%@&types=projects,tasks,tweets,files,friends,merge_requests",path];
     }else if ([type isEqualToString:@"public_project"]) {
         path=[NSString stringWithFormat:@"/api/esearch/project?q=%@  related:false&page=%d",strSearch,(int)page];
     }

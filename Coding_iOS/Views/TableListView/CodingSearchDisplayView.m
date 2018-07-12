@@ -121,15 +121,15 @@
         case eSearchType_Task:
             [self.dateSource addObjectsFromArray:_searchPros.tasks.list];
             break;
-        case eSearchType_Topic:
-            [self.dateSource addObjectsFromArray:_searchPros.project_topics.list];
-            break;
+//        case eSearchType_Topic:
+//            [self.dateSource addObjectsFromArray:_searchPros.project_topics.list];
+//            break;
         case eSearchType_Merge:
             [self.dateSource addObjectsFromArray:_searchPros.merge_requests.list];
             break;
-        case eSearchType_Pull:
-            [self.dateSource addObjectsFromArray:_searchPros.pull_requests.list];
-            break;
+//        case eSearchType_Pull:
+//            [self.dateSource addObjectsFromArray:_searchPros.pull_requests.list];
+//            break;
         default:
             break;
     }
@@ -185,18 +185,18 @@
             currentPage=[_searchPros.tasks.page intValue];
             totalPage=[_searchPros.tasks.totalPage intValue];
             break;
-        case eSearchType_Topic:
-            currentPage=[_searchPros.project_topics.page intValue];
-            totalPage=[_searchPros.project_topics.totalPage intValue];
-            break;
+//        case eSearchType_Topic:
+//            currentPage=[_searchPros.project_topics.page intValue];
+//            totalPage=[_searchPros.project_topics.totalPage intValue];
+//            break;
         case eSearchType_Merge:
             currentPage=[_searchPros.merge_requests.page intValue];
             totalPage=[_searchPros.merge_requests.totalPage intValue];
             break;
-        case eSearchType_Pull:
-            currentPage=[_searchPros.pull_requests.page intValue];
-            totalPage=[_searchPros.pull_requests.totalPage intValue];
-            break;
+//        case eSearchType_Pull:
+//            currentPage=[_searchPros.pull_requests.page intValue];
+//            totalPage=[_searchPros.pull_requests.totalPage intValue];
+//            break;
         default:
             break;
     }
@@ -279,22 +279,22 @@
             }
             weakSelf.isLoading = NO;
         }];
-    }else if(_curSearchType==eSearchType_Pull){
-        [[Coding_NetAPIManager sharedManager] requestWithSearchString:_searchBarText typeStr:@"pr" andPage:page andBlock:^(id data, NSError *error) {
-            if(data) {
-                NSDictionary *dataDic = (NSDictionary *)data;
-                NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"MRPR"];
-                [weakSelf.searchPros.pull_requests.list addObjectsFromArray:resultA];
-                //更新page
-                weakSelf.searchPros.pull_requests.page = dataDic[@"page"] ;
-                weakSelf.searchPros.pull_requests.totalPage = dataDic[@"totalPage"] ;
-                [weakSelf.dateSource addObjectsFromArray:resultA];
-                [weakSelf.searchTableView reloadData];
-                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
-                weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
-            }
-            weakSelf.isLoading = NO;
-        }];
+//    }else if(_curSearchType==eSearchType_Pull){
+//        [[Coding_NetAPIManager sharedManager] requestWithSearchString:_searchBarText typeStr:@"pr" andPage:page andBlock:^(id data, NSError *error) {
+//            if(data) {
+//                NSDictionary *dataDic = (NSDictionary *)data;
+//                NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"MRPR"];
+//                [weakSelf.searchPros.pull_requests.list addObjectsFromArray:resultA];
+//                //更新page
+//                weakSelf.searchPros.pull_requests.page = dataDic[@"page"] ;
+//                weakSelf.searchPros.pull_requests.totalPage = dataDic[@"totalPage"] ;
+//                [weakSelf.dateSource addObjectsFromArray:resultA];
+//                [weakSelf.searchTableView reloadData];
+//                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+//                weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
+//            }
+//            weakSelf.isLoading = NO;
+//        }];
     }else if(_curSearchType==eSearchType_Task){
         [[Coding_NetAPIManager sharedManager] requestWithSearchString:_searchBarText typeStr:@"task" andPage:page andBlock:^(id data, NSError *error) {
             if(data) {
@@ -339,32 +339,32 @@
             }
             weakSelf.isLoading = NO;
         }];
-    }else if(_curSearchType==eSearchType_Topic){
-        [[Coding_NetAPIManager sharedManager] requestWithSearchString:_searchBarText typeStr:@"topic" andPage:page andBlock:^(id data, NSError *error) {
-            if(data) {
-                NSDictionary *dataDic = (NSDictionary *)data;
-                NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"ProjectTopic"];
-                
-                //topic 处理 content 关键字
-                NSArray *resultTopic =dataDic[@"list"];
-                for (int i=0;i<[resultA count];i++) {
-                    ProjectTopic *curTopic=[resultA objectAtIndex:i];
-                    if ([resultTopic count]>i) {
-                        curTopic.contentStr= [[[resultTopic objectAtIndex:i] objectForKey:@"content"] firstObject];
-                    }
-                }
-                
-                [weakSelf.searchPros.project_topics.list addObjectsFromArray:resultA];
-                //更新page
-                weakSelf.searchPros.project_topics.page = dataDic[@"page"] ;
-                weakSelf.searchPros.project_topics.totalPage = dataDic[@"totalPage"] ;
-                [weakSelf.dateSource addObjectsFromArray:resultA];
-                [weakSelf.searchTableView reloadData];
-                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
-                weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
-            }
-            weakSelf.isLoading = NO;
-        }];
+//    }else if(_curSearchType==eSearchType_Topic){
+//        [[Coding_NetAPIManager sharedManager] requestWithSearchString:_searchBarText typeStr:@"topic" andPage:page andBlock:^(id data, NSError *error) {
+//            if(data) {
+//                NSDictionary *dataDic = (NSDictionary *)data;
+//                NSArray *resultA = [NSObject arrayFromJSON:dataDic[@"list"] ofObjects:@"ProjectTopic"];
+//
+//                //topic 处理 content 关键字
+//                NSArray *resultTopic =dataDic[@"list"];
+//                for (int i=0;i<[resultA count];i++) {
+//                    ProjectTopic *curTopic=[resultA objectAtIndex:i];
+//                    if ([resultTopic count]>i) {
+//                        curTopic.contentStr= [[[resultTopic objectAtIndex:i] objectForKey:@"content"] firstObject];
+//                    }
+//                }
+//
+//                [weakSelf.searchPros.project_topics.list addObjectsFromArray:resultA];
+//                //更新page
+//                weakSelf.searchPros.project_topics.page = dataDic[@"page"] ;
+//                weakSelf.searchPros.project_topics.totalPage = dataDic[@"totalPage"] ;
+//                [weakSelf.dateSource addObjectsFromArray:resultA];
+//                [weakSelf.searchTableView reloadData];
+//                [weakSelf.searchTableView.infiniteScrollingView stopAnimating];
+//                weakSelf.searchTableView.showsInfiniteScrolling = [weakSelf showTotalPage];
+//            }
+//            weakSelf.isLoading = NO;
+//        }];
     }else{
         [self.searchTableView.infiniteScrollingView stopAnimating];
         self.searchTableView.showsInfiniteScrolling = NO;
@@ -411,13 +411,13 @@
                 titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的任务", [_searchPros.tasks.totalRow longValue],_searchBarText];
             }
             break;
-        case eSearchType_Topic:
-            if ([_searchPros.project_topics.totalRow longValue]==0) {
-                titleStr=nil;
-            }else{
-                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的讨论", [_searchPros.project_topics.totalRow longValue],_searchBarText];
-            }
-            break;
+//        case eSearchType_Topic:
+//            if ([_searchPros.project_topics.totalRow longValue]==0) {
+//                titleStr=nil;
+//            }else{
+//                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的讨论", [_searchPros.project_topics.totalRow longValue],_searchBarText];
+//            }
+//            break;
         case eSearchType_Merge:
             if ([_searchPros.merge_requests.totalRow longValue]==0) {
                 titleStr=nil;
@@ -425,13 +425,13 @@
                 titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的合并请求", [_searchPros.merge_requests.totalRow longValue],_searchBarText];
             }
             break;
-        case eSearchType_Pull:
-            if ([_searchPros.pull_requests.totalRow longValue]==0) {
-                titleStr=nil;
-            }else{
-                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的 Pull 请求", [_searchPros.pull_requests.totalRow longValue],_searchBarText];
-            }
-            break;
+//        case eSearchType_Pull:
+//            if ([_searchPros.pull_requests.totalRow longValue]==0) {
+//                titleStr=nil;
+//            }else{
+//                titleStr=[NSString stringWithFormat:@"共搜索到 %ld 个与\"%@\"相关的 Pull 请求", [_searchPros.pull_requests.totalRow longValue],_searchBarText];
+//            }
+//            break;
         default:
             break;
     }
@@ -456,15 +456,15 @@
         case eSearchType_Task:
             return  _searchPros.tasks.page<_searchPros.tasks.totalPage;
             break;
-        case eSearchType_Topic:
-            return  _searchPros.project_topics.page<_searchPros.project_topics.totalPage;
-            break;
+//        case eSearchType_Topic:
+//            return  _searchPros.project_topics.page<_searchPros.project_topics.totalPage;
+//            break;
         case eSearchType_Merge:
             return  _searchPros.merge_requests.page<_searchPros.merge_requests.totalPage;
             break;
-        case eSearchType_Pull:
-            return  _searchPros.pull_requests.page<_searchPros.pull_requests.totalPage;
-            break;
+//        case eSearchType_Pull:
+//            return  _searchPros.pull_requests.page<_searchPros.pull_requests.totalPage;
+//            break;
         default:
             return NO;
             break;
@@ -489,15 +489,15 @@
         case eSearchType_Task:
             return  [_searchPros.tasks.list count];
             break;
-        case eSearchType_Topic:
-            return  [_searchPros.project_topics.list count];
-            break;
+//        case eSearchType_Topic:
+//            return  [_searchPros.project_topics.list count];
+//            break;
         case eSearchType_Merge:
             return  [_searchPros.merge_requests.list count];
             break;
-        case eSearchType_Pull:
-            return  [_searchPros.pull_requests.list count];
-            break;
+//        case eSearchType_Pull:
+//            return  [_searchPros.pull_requests.list count];
+//            break;
         default:
             return TRUE;
             break;
@@ -550,24 +550,24 @@
         cell.task=task;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
-    }else if(_curSearchType==eSearchType_Topic){
-        TopicSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TopicSearchCell" forIndexPath:indexPath];
-        ProjectTopic *topic =_dateSource[indexPath.row];
-        cell.curTopic = topic;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-        return cell;
+//    }else if(_curSearchType==eSearchType_Topic){
+//        TopicSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TopicSearchCell" forIndexPath:indexPath];
+//        ProjectTopic *topic =_dateSource[indexPath.row];
+//        cell.curTopic = topic;
+//        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+//        return cell;
     }else if(_curSearchType==eSearchType_Merge){
         PRMRSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PRMRSearchCell" forIndexPath:indexPath];
         MRPR *curMRPR =_dateSource[indexPath.row];
         cell.curMRPR = curMRPR;
         [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
         return cell;
-    }else if(_curSearchType==eSearchType_Pull){
-        PRMRSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PRMRSearchCell" forIndexPath:indexPath];
-        MRPR *curMRPR =_dateSource[indexPath.row];
-        cell.curMRPR = curMRPR;
-        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
-        return cell;
+//    }else if(_curSearchType==eSearchType_Pull){
+//        PRMRSearchCell *cell = [tableView dequeueReusableCellWithIdentifier:@"PRMRSearchCell" forIndexPath:indexPath];
+//        MRPR *curMRPR =_dateSource[indexPath.row];
+//        cell.curMRPR = curMRPR;
+//        [tableView addLineforPlainCell:cell forRowAtIndexPath:indexPath withLeftSpace:kPaddingLeftWidth];
+//        return cell;
     }else{
         return [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
@@ -586,12 +586,12 @@
     }else if(_curSearchType==eSearchType_Task){
         Task *task = _dateSource[indexPath.row];
         return [TaskSearchCell cellHeightWithObj:task];
-    }else if(_curSearchType==eSearchType_Topic){
-        ProjectTopic *topic = _dateSource[indexPath.row];
-        return [TopicSearchCell cellHeightWithObj:topic];
-    }else if (_curSearchType==eSearchType_Pull){
-        MRPR *mrpr = _dateSource[indexPath.row];
-        return [PRMRSearchCell cellHeightWithObj:mrpr];
+//    }else if(_curSearchType==eSearchType_Topic){
+//        ProjectTopic *topic = _dateSource[indexPath.row];
+//        return [TopicSearchCell cellHeightWithObj:topic];
+//    }else if (_curSearchType==eSearchType_Pull){
+//        MRPR *mrpr = _dateSource[indexPath.row];
+//        return [PRMRSearchCell cellHeightWithObj:mrpr];
     }else if (_curSearchType==eSearchType_Merge){
         MRPR *mrpr = _dateSource[indexPath.row];
         return [PRMRSearchCell cellHeightWithObj:mrpr];
