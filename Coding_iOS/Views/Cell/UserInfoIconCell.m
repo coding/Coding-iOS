@@ -19,6 +19,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        self.clipsToBounds = self.contentView.clipsToBounds = YES;
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         if (!_iconView) {
             _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([UserInfoIconCell cellHeight] - 22)/ 2, 22, 22)];

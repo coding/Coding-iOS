@@ -464,7 +464,11 @@
     if (indexPath.section == 0) {
         cellHeight = indexPath.row == 0? [MeRootUserCell cellHeight]: [MeRootServiceCell cellHeight];
     }else{
-        cellHeight = [UserInfoIconCell cellHeight];
+        if (indexPath.section == 2 && indexPath.row == 1) {
+            cellHeight = 0;
+        }else{
+            cellHeight = [UserInfoIconCell cellHeight];
+        }
     }
     return cellHeight;
 }
