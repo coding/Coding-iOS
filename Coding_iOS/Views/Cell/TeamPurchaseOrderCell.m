@@ -79,7 +79,7 @@
                                         @"closed": @"关闭",
                                         };
     NSDictionary *statusColorDict = @{@"pending": @"0xF78636",
-                                        @"success": @"0x2EBE76",
+                                        @"success": @"0x5BA2FF",
                                         @"closed": @"0xA9B3BE",
                                         };
     _curOrder = curOrder;

@@ -119,7 +119,7 @@ DEPENDENCIES:
   - UMengUShare/Social/WeChat (= 6.4.5)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - APParallaxHeader
     - BlocksKit
     - evernote-cloud-sdk-ios
@@ -189,4 +189,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 8c4d664f01f05a5ddc0837b2a06d36650c4edeeb
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3

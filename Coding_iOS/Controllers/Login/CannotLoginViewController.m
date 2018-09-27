@@ -63,7 +63,8 @@
     if (!_backBtn) {
         _backBtn = ({
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, kSafeArea_Top, 44, 44)];
-            [button setImage:[UIImage imageNamed:@"back_green_Nav"] forState:UIControlStateNormal];
+            button.tintColor = kColorLightBlue;
+            [button setImage:[[UIImage imageNamed:@"back_green_Nav"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
             [button addTarget:self.navigationController action:@selector(popViewControllerAnimated:) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:button];
             button;

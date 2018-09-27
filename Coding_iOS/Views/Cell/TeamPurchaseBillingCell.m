@@ -100,7 +100,7 @@
 
         _detailsL = @[].mutableCopy;
         
-        [_expandBtn setTitleColor:kColorActionGreen forState:UIControlStateNormal];
+        [_expandBtn setTitleColor:kColorLightBlue forState:UIControlStateNormal];
         _expandBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         _expandBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [_expandBtn setTitle:@"查看全部" forState:UIControlStateNormal];

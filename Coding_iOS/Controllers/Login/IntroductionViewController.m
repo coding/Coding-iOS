@@ -364,7 +364,7 @@
     NSMutableAttributedString *attrStr = [[NSMutableAttributedString alloc] initWithString:_curItem.title];
     NSString *colorStr = [_curItem.title componentsSeparatedByString:@"\n"].lastObject;
     [attrStr addAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:(kDevice_Use_iPhone4_Layout || kDevice_Is_iPhone5)? 30: 34],
-                             NSForegroundColorAttributeName : [UIColor colorWithHexString:@"0x2AD37D"]}
+                             NSForegroundColorAttributeName : kColorLightBlue}
                      range:[_curItem.title rangeOfString:colorStr]];
     NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
     paragraphStyle.minimumLineHeight = paragraphStyle.maximumLineHeight = 45;

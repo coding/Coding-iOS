@@ -16,7 +16,7 @@
         // Initialization code
         _leftL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:kColorDark2];
         [self.contentView addSubview:_leftL];
-        _rightL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:kColorBrandGreen];
+        _rightL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:kColorLightBlue];
         [self.contentView addSubview:_rightL];
         [_leftL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.offset(kPaddingLeftWidth);

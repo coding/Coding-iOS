@@ -155,6 +155,8 @@ typedef NS_ENUM(NSUInteger, LoginStep) {
         _backBtn = ({
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, kSafeArea_Top, 44, 44)];
             [button setImage:[UIImage imageNamed:@"back_green_Nav"] forState:UIControlStateNormal];
+            button.tintColor = kColorLightBlue;
+            [button setImage:[[UIImage imageNamed:@"back_green_Nav"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
             [button addTarget:self action:@selector(backBtnClicked) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:button];
             button;
@@ -170,8 +172,9 @@ typedef NS_ENUM(NSUInteger, LoginStep) {
                 UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 130, kSafeArea_Top, 120, 50)];
                 button.backgroundColor = [UIColor whiteColor];
                 [button.titleLabel setFont:[UIFont systemFontOfSize:15]];
-                [button setTitleColor:[UIColor colorWithHexString:@"0x32BE77"] forState:UIControlStateNormal];
-                [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
+                [button setTitleColor:kColorLightBlue forState:UIControlStateNormal];
+                [button setTitleColor:[UIColor colorWithHexString:@"0x0060FF" andAlpha:.5] forState:UIControlStateHighlighted];
+                button.tintColor = kColorBrandBlue;
                 [button addTarget:self action:@selector(rightNavBtnClicked) forControlEvents:UIControlEventTouchUpInside];
                 [self.view addSubview:button];
                 button;
@@ -183,7 +186,7 @@ typedef NS_ENUM(NSUInteger, LoginStep) {
             _rightNavBtn.hidden = [NSObject isPrivateCloud].boolValue;
         }else{
             [_rightNavBtn setTitle:@"  两步验证" forState:UIControlStateNormal];
-            [_rightNavBtn setImage:[UIImage imageNamed:@"twoFABtn_Nav"] forState:UIControlStateNormal];
+            [_rightNavBtn setImage:[[UIImage imageNamed:@"twoFABtn_Nav"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         }
     }
     return _rightNavBtn;
@@ -248,7 +251,7 @@ typedef NS_ENUM(NSUInteger, LoginStep) {
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(kScreen_Width - 120, 10, 100, 30)];
             button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
             [button.titleLabel setFont:[UIFont systemFontOfSize:14]];
-            [button setTitleColor:kColorBrandGreen forState:UIControlStateNormal];
+            [button setTitleColor:kColorLightBlue forState:UIControlStateNormal];
             [button setTitle:@"忘记密码？" forState:UIControlStateNormal];
             [button addTarget:self action:@selector(cannotLoginBtnClicked) forControlEvents:UIControlEventTouchUpInside];
             [footerV addSubview:button];
