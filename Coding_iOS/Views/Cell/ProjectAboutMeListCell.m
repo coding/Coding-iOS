@@ -13,10 +13,12 @@
 
 #import "ProjectAboutMeListCell.h"
 #import "NSString+Attribute.h"
+#import "YLImageView.h"
 
 @interface ProjectAboutMeListCell ()
 @property (nonatomic, strong) Project *project;
-@property (nonatomic, strong) UIImageView *projectIconView, *privateIconView, *pinIconView;
+@property (strong, nonatomic) YLImageView *projectIconView;
+@property (nonatomic, strong) UIImageView *privateIconView, *pinIconView;
 @property (nonatomic, strong) UIButton *setCommonBtn;
 @property (nonatomic, strong) UILabel *projectTitleLabel;
 @property (nonatomic, strong) UILabel *ownerTitleLabel;
@@ -31,7 +33,7 @@
     if (self) {
         // Initialization code
         if (!_projectIconView) {
-            _projectIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, kPaddingLeftWidth, kIconSize, kIconSize)];
+            _projectIconView = [[YLImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, kPaddingLeftWidth, kIconSize, kIconSize)];
             _projectIconView.layer.masksToBounds = YES;
             _projectIconView.layer.cornerRadius = 2.0;
             [self.contentView addSubview:_projectIconView];
