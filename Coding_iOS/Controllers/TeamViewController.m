@@ -214,7 +214,7 @@
             make.top.equalTo(self);
         }];
         
-        _iconV = [UIImageView new];
+        _iconV = [YLImageView new];
         [_iconV doBorderWidth:0 color:nil cornerRadius:75.0/2];
         [self addSubview:_iconV];
         _titleL = [UILabel labelWithSystemFontSize:17 textColorHexString:@"0xFFFFFF"];

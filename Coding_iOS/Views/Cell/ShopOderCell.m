@@ -92,7 +92,7 @@
         make.height.mas_equalTo(110);
     }];
     
-    _coverView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _coverView = [[YLImageView alloc] initWithFrame:CGRectZero];
     _coverView.backgroundColor = [UIColor clearColor];
     _coverView.contentMode = UIViewContentModeScaleAspectFill;
     _coverView.layer.masksToBounds =YES;

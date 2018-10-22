@@ -682,7 +682,7 @@
 
 - (UIView *)makeViewForUser:(User *)user{
     CGFloat width = 30.0;
-    UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, width, width)];
+    UIImageView *imageV = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, width, width)];
     imageV.layer.masksToBounds = YES;
     imageV.layer.cornerRadius = width/2;
     imageV.layer.borderColor = [UIColor colorWithHexString:@"0xFFAE03"].CGColor;

@@ -32,12 +32,12 @@
         __weak typeof(self) weakSelf = self;
         for(int i = 0; i < kDefaultImageCount; i ++)
         {
-            UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1)  + 10, 15, kDefaultImageSize, kDefaultImageSize)];
+            UIImageView *imgView = [[YLImageView alloc] initWithFrame:CGRectMake(40 * (i + 1)  + 10, 15, kDefaultImageSize, kDefaultImageSize)];
             [imgView doCircleFrame];
             [imgView setHidden:true];
             [self.imgViews addObject:imgView];
             [self.contentView addSubview:imgView];
-            UIImageView *likeHeadView = [[UIImageView alloc] initWithFrame:CGRectMake(40 * (i + 1)  + 23,30, 18, 18)];
+            UIImageView *likeHeadView = [[YLImageView alloc] initWithFrame:CGRectMake(40 * (i + 1)  + 23,30, 18, 18)];
             [likeHeadView doCircleFrame];
             [likeHeadView setHidden:true];
             [self.likeHeadImgViews addObject:likeHeadView];

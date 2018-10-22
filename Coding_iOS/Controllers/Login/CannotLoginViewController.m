@@ -249,7 +249,7 @@
     textF.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
     textF.backgroundColor = [UIColor whiteColor];
     [textF doBorderWidth:0.5 color:nil cornerRadius:2.0];
-    UIImageView *imageV = [UIImageView new];
+    UIImageView *imageV = [YLImageView new];
     imageV.backgroundColor = [UIColor lightGrayColor];
     imageV.contentMode = UIViewContentModeScaleAspectFit;
     imageV.clipsToBounds = YES;
@@ -625,7 +625,7 @@
     textF.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
     textF.backgroundColor = [UIColor whiteColor];
     [textF doBorderWidth:0.5 color:nil cornerRadius:2.0];
-    UIImageView *imageV = [UIImageView new];
+    UIImageView *imageV = [YLImageView new];
     imageV.backgroundColor = [UIColor lightGrayColor];
     imageV.contentMode = UIViewContentModeScaleAspectFit;
     imageV.clipsToBounds = YES;

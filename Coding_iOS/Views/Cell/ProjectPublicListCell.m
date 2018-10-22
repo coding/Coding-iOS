@@ -33,7 +33,7 @@
     if (self) {
         // Initialization code
         if (!_projectIconView) {
-            _projectIconView = [[UIImageView alloc] initWithFrame:CGRectMake(12, 12, kIconSize, kIconSize)];
+            _projectIconView = [[YLImageView alloc] initWithFrame:CGRectMake(12, 12, kIconSize, kIconSize)];
             _projectIconView.layer.masksToBounds = YES;
             _projectIconView.layer.cornerRadius = 2.0;
             [self.contentView addSubview:_projectIconView];

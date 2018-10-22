@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
         switch (_type) {
             case XTSegmentControlItemTypeIconUrl:
             {
-                _titleIconView = [[UIImageView alloc] initWithFrame:CGRectMake((CGRectGetWidth(self.bounds)-40)/2, (CGRectGetHeight(self.bounds)-40)/2, 40, 40)];
+                _titleIconView = [[YLImageView alloc] initWithFrame:CGRectMake((CGRectGetWidth(self.bounds)-40)/2, (CGRectGetHeight(self.bounds)-40)/2, 40, 40)];
                 [_titleIconView doCircleFrame];
                 if (title) {
                     [_titleIconView sd_setImageWithURL:[title urlImageWithCodePathResizeToView:_titleIconView] placeholderImage:kPlaceholderMonkeyRoundView(_titleIconView)];

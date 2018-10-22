@@ -29,7 +29,7 @@
     if (self) {
         // Initialization code
         if (!_iconView) {
-            _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, (kFileSearchCellHeight - kFileListFileCell_IconWidth)/2, kFileListFileCell_IconWidth, kFileListFileCell_IconWidth)];
+            _iconView = [[YLImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, (kFileSearchCellHeight - kFileListFileCell_IconWidth)/2, kFileListFileCell_IconWidth, kFileListFileCell_IconWidth)];
             _iconView.contentMode=UIViewContentModeScaleAspectFill;
             _iconView.layer.masksToBounds = YES;
             _iconView.layer.cornerRadius = 2.0;

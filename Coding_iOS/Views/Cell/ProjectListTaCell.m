@@ -23,7 +23,7 @@
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         if (!_iconV) {
-            _iconV = [[UIImageView alloc] init];
+            _iconV = [[YLImageView alloc] init];
             _iconV.layer.masksToBounds = YES;
             _iconV.layer.cornerRadius = 2.0;
             [self.contentView addSubview:_iconV];

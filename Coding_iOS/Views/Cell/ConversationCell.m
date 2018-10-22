@@ -22,7 +22,7 @@
     if (self) {
         // Initialization code
         if (!_userIconView) {
-            _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([ConversationCell cellHeight]-48)/2, 48, 48)];
+            _userIconView = [[YLImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, ([ConversationCell cellHeight]-48)/2, 48, 48)];
             [_userIconView doCircleFrame];
             [self.contentView addSubview:_userIconView];
         }

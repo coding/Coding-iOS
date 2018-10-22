@@ -40,7 +40,7 @@
 {
     UIView *superView = self;
     
-    _coverView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    _coverView = [[YLImageView alloc] initWithFrame:CGRectZero];
     _coverView.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
     _coverView.contentMode = UIViewContentModeScaleAspectFill;
     _coverView.layer.masksToBounds =YES;

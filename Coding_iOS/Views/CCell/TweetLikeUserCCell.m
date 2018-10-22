@@ -19,7 +19,7 @@
 @implementation TweetLikeUserCCell
 - (void)configWithUser:(User *)user rewarded:(BOOL)rewarded{
     if (!self.imgView) {
-        self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kTweetCell_LikeUserCCell_Height, kTweetCell_LikeUserCCell_Height)];
+        self.imgView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, kTweetCell_LikeUserCCell_Height, kTweetCell_LikeUserCCell_Height)];
         self.imgView.layer.masksToBounds = YES;
         self.imgView.layer.cornerRadius = kTweetCell_LikeUserCCell_Height/2;
         self.imgView.layer.borderColor = [UIColor colorWithHexString:@"0xFFAE03"].CGColor;

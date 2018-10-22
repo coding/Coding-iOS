@@ -21,7 +21,7 @@
     if (self) {
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         if (!_userV) {
-            _userV = [UIImageView new];
+            _userV = [YLImageView new];
             [_userV doCircleFrame];
             [_userV doBorderWidth:0.5 color:nil cornerRadius:25];
             [self.contentView addSubview:_userV];
@@ -81,7 +81,7 @@
     if (self) {
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         if (!_userV) {
-            _userV = [UIImageView new];
+            _userV = [YLImageView new];
             [_userV doCircleFrame];
             [_userV doBorderWidth:0.5 color:nil cornerRadius:25];
             [self.contentView addSubview:_userV];

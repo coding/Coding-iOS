@@ -35,7 +35,7 @@
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryNone;
         if (!_userIconView) {
-            _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(15, 18, 40, 40)];
+            _userIconView = [[YLImageView alloc] initWithFrame:CGRectMake(15, 18, 40, 40)];
             [_userIconView doCircleFrame];
             [self.contentView addSubview:_userIconView];
         }

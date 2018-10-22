@@ -40,7 +40,7 @@
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         if (!_userIconView) {
-            _userIconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kProjectTaskListViewCell_UserIconWidth, kProjectTaskListViewCell_UserIconWidth)];
+            _userIconView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, kProjectTaskListViewCell_UserIconWidth, kProjectTaskListViewCell_UserIconWidth)];
             [_userIconView doCircleFrame];
             [self.contentView addSubview:_userIconView];
         }

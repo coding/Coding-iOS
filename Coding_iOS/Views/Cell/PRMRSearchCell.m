@@ -30,7 +30,7 @@
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryNone;
         if (!_imgView) {
-            _imgView = [UIImageView new];
+            _imgView = [YLImageView new];
             _imgView.layer.masksToBounds = YES;
             _imgView.layer.cornerRadius = kMRPRListCell_UserWidth/2;
             _imgView.layer.borderWidth = 0.5;

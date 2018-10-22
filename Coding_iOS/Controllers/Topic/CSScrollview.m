@@ -176,7 +176,7 @@
 - (void)setRefIteml:(CSScrollItem*)refIteml
 {
     if (!_imgView) {
-        _imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
+        _imgView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height)];
         _imgView.backgroundColor = kColorTableBG;
         [self.contentView addSubview:_imgView];
     }

@@ -21,7 +21,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = kColorTableBG;
-        _iconV = [UIImageView new];
+        _iconV = [YLImageView new];
         [_iconV doBorderWidth:.5 color:nil cornerRadius:kTeamMemberCell_IconWidth/2];
         _roleV = [UIImageView new];
         _nameL = [UILabel labelWithSystemFontSize:17 textColorHexString:@"0x222222"];

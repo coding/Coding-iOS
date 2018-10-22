@@ -25,7 +25,7 @@
         // Initialization code
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         if (!_forkerIconView) {
-            _forkerIconView = [UIImageView new];
+            _forkerIconView = [YLImageView new];
             _forkerIconView.layer.masksToBounds = YES;
             _forkerIconView.layer.cornerRadius = kForkTreeCell_IconWidth/2;
             [self.contentView addSubview:_forkerIconView];

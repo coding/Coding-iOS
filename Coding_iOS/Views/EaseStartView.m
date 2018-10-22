@@ -27,7 +27,7 @@
         UIColor *bgColor = [UIColor whiteColor];
         self.backgroundColor = bgColor;
         
-        _bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height - 110 - kSafeArea_Bottom)];
+        _bgImageView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Height - 110 - kSafeArea_Bottom)];
         _bgImageView.clipsToBounds = YES;
         _bgImageView.alpha = 0.0;
         _bgImageView.contentMode = UIViewContentModeScaleAspectFill;

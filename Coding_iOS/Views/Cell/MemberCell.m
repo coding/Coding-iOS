@@ -24,7 +24,7 @@
     if (self) {
         // Initialization code
         if (!_memberIconView) {
-            _memberIconView = [[UIImageView alloc] initWithFrame:CGRectMake(10, ([MemberCell cellHeight]-40)/2, 40, 40)];
+            _memberIconView = [[YLImageView alloc] initWithFrame:CGRectMake(10, ([MemberCell cellHeight]-40)/2, 40, 40)];
             [_memberIconView doCircleFrame];
             [self.contentView addSubview:_memberIconView];
         }

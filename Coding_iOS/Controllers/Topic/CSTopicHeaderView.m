@@ -84,7 +84,7 @@
         
         for (int i=0; i<userlist.count; i++) {
             User *user = userlist[i];
-            UIImageView *iconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 57, 42, 42)];
+            UIImageView *iconView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 57, 42, 42)];
             [iconView doCircleFrame];
             iconView.left = 16 + i *(9 + 42);
             if (iconView.right > kScreen_Width) {

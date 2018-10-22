@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UITapImageView : UIImageView
+#import "YLImageView.h"
+
+@interface UITapImageView : YLImageView
 - (void)addTapBlock:(void(^)(id obj))tapAction;
 
 -(void)setImageWithUrl:(NSURL *)imgUrl placeholderImage:(UIImage *)placeholderImage tapBlock:(void(^)(id obj))tapAction;

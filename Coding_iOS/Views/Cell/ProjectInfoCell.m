@@ -28,7 +28,7 @@
         self.backgroundColor = kColorTableBG;
 
         if (!_proImgView) {
-            _proImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kProjectInfoCell_ProImgViewWidth, kProjectInfoCell_ProImgViewWidth)];
+            _proImgView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, kProjectInfoCell_ProImgViewWidth, kProjectInfoCell_ProImgViewWidth)];
             _proImgView.layer.cornerRadius = 2.0;
             _proImgView.layer.masksToBounds = YES;
             [self.contentView addSubview:_proImgView];

@@ -50,7 +50,7 @@
             UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth - borderWidth, 12, 33+ 2*borderWidth, 33 + 2*borderWidth)];
             bgView.backgroundColor = kColorTableBG;
             
-            _ownerIconView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 33, 33)];
+            _ownerIconView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, 33, 33)];
             _ownerIconView.layer.masksToBounds = YES;
             _ownerIconView.layer.cornerRadius = _ownerIconView.frame.size.width/2;
             

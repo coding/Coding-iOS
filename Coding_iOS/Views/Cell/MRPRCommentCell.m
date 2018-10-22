@@ -31,7 +31,7 @@
         self.backgroundColor = kColorTableBG;
         CGFloat curBottomY = 10;
         if (!_ownerIconView) {
-            _ownerIconView = [[UIImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, curBottomY, 33, 33)];
+            _ownerIconView = [[YLImageView alloc] initWithFrame:CGRectMake(kPaddingLeftWidth, curBottomY, 33, 33)];
             [_ownerIconView doCircleFrame];
             [self.contentView addSubview:_ownerIconView];
         }

@@ -19,7 +19,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = kColorTableBG;
-        _iconV = [UIImageView new];
+        _iconV = [YLImageView new];
         [_iconV doBorderWidth:.5 color:nil cornerRadius:2.0];
         _nameL = [UILabel labelWithSystemFontSize:15 textColorHexString:@"0x323A45"];
         _proL = [UILabel labelWithSystemFontSize:14 textColorHexString:@"0x4F565F"];
