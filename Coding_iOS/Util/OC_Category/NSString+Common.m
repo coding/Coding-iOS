@@ -102,12 +102,7 @@
             if (!imageName) {
                 imageName = [self stringByMatching:@"/static/project_icon/([a-zA-Z0-9\\-._]+)$" capture:1];
             }
-            if (imageName && imageName.length > 0) {
-                urlStr = [NSString stringWithFormat:@"http://coding-net-avatar.qiniudn.com/%@?imageMogr2/auto-orient/thumbnail/!%.0fx%.0fr", imageName, width, width];
-                canCrop = YES;
-            }else{
-                urlStr = [NSString stringWithFormat:@"%@%@", [NSObject baseURLStr], [self hasPrefix:@"/"]? [self substringFromIndex:1]: self];
-            }
+            urlStr = [NSString stringWithFormat:@"%@%@", [NSObject baseURLStr], [self hasPrefix:@"/"]? [self substringFromIndex:1]: self];
         }else{
             urlStr = self;
             if ([urlStr rangeOfString:@"qbox.me"].location != NSNotFound) {
