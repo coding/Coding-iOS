@@ -138,8 +138,10 @@
     if (fileNameCom.count > 1 && storage_keyCom.count > 0 && ![fileNameCom.lastObject isEqualToString:storage_keyCom.lastObject]) {//_storage_key 后缀名与 fileNameCom 后缀名不同的情况
         [storage_keyCom addObject:fileNameCom.lastObject];
         return [storage_keyCom componentsJoinedByString:@"."];
-    }else{
+    }else if (_storage_key.length > 0){
         return [_storage_key componentsSeparatedByString:@"/"].lastObject;//'group0/M00/00/01/fwAAAVsHsvqAOY8rABzvMF5h1Ck652.JPG'..诡异的前半截数据
+    }else{// 说是以后，可能迁移到腾讯云，_storage_key 字段可能不保
+        return [NSString stringWithFormat:@"%@_%@.%@", _project_id, _file_id, fileNameCom.lastObject];
     }
 }
 

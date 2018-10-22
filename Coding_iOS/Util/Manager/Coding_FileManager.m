@@ -139,8 +139,7 @@
     if (!response) {
         return nil;
     }
-    NSString *keyStr = response.URL.absoluteString;
-    keyStr = [[[[keyStr componentsSeparatedByString:@"?download"] firstObject] componentsSeparatedByString:@"/"] lastObject];
+    NSString *keyStr = [response.URL.path componentsSeparatedByString:@"/"].lastObject;
     return keyStr;
 }
 + (Coding_DownloadTask *)cDownloadTaskForResponse:(NSURLResponse *)response{
@@ -173,7 +172,7 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:downloadURL];
     NSURLSessionDownloadTask *downloadTask = [self.af_manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         NSURL *downloadUrl = [[Coding_FileManager sharedManager] urlForDownloadFolder];
-        Coding_DownloadTask *cDownloadTask = [Coding_FileManager cDownloadTaskForResponse:response];
+        Coding_DownloadTask *cDownloadTask = [Coding_FileManager cDownloadTaskForKey:storage_key] ?: [Coding_FileManager cDownloadTaskForResponse:response];
         if (cDownloadTask) {
             downloadUrl = [downloadUrl URLByAppendingPathComponent:cDownloadTask.diskFileName];
         }else{
