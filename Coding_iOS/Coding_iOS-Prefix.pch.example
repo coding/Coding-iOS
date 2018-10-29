@@ -112,11 +112,14 @@
 #define kDevice_Is_iPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
 #define kDevice_Is_iPhone6Plus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size) : NO)
 #define kDevice_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+#define kDevice_Is_iPhoneXR ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(828, 1792), [[UIScreen mainScreen] currentMode].size) : NO)
+#define kDevice_Is_iPhoneXMax ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2688), [[UIScreen mainScreen] currentMode].size) : NO)
+#define kDevice_Is_FullScreen (kDevice_Is_iPhoneX || kDevice_Is_iPhoneXR || kDevice_Is_iPhoneXMax)
 #define kDevice_Is_iPad [[UIDevice currentDevice].model isEqualToString:@"iPad"]
 #define kDevice_Use_iPhone4_Layout (kDevice_Is_iPhone4 || kDevice_Is_iPad)
 
-#define kSafeArea_Top (kDevice_Is_iPhoneX? 44: 20)
-#define kSafeArea_Bottom (kDevice_Is_iPhoneX? 34: 0)
+#define kSafeArea_Top (kDevice_Is_FullScreen? 44: 20)
+#define kSafeArea_Bottom (kDevice_Is_FullScreen? 34: 0)
 #define kLine_MinHeight (1.0/ [UIScreen mainScreen].scale)
 
 #define kScreen_Bounds [UIScreen mainScreen].bounds

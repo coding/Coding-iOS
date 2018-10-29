@@ -48,7 +48,7 @@
     imageName = [imageName stringByAppendingString:(kDevice_Is_iPhone6Plus? @"_ip6+":
                                                     kDevice_Is_iPhone6? @"_ip6":
                                                     kDevice_Is_iPhone5? @"_ip5":
-                                                    kDevice_Is_iPhoneX? @"_ipX":
+                                                    kDevice_Is_FullScreen? @"_ipX":
                                                     @"_ip4")];
     return imageName;
 }

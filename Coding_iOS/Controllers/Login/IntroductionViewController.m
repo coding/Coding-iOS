@@ -587,7 +587,7 @@
     
     CGFloat scaleFactor = 1.0;
     CGFloat desginHeight = 667.0;//iPhone6 的设计尺寸
-    if (!kDevice_Is_iPhone6 && !kDevice_Is_iPhone6Plus && !kDevice_Is_iPhoneX) {
+    if (!kDevice_Is_iPhone6 && !kDevice_Is_iPhone6Plus && !kDevice_Is_FullScreen) {
         scaleFactor = kScreen_Height/desginHeight;
     }
     
