@@ -26,18 +26,18 @@
         }
         if (!_leftTL) {
             _leftTL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x76808E"];
-            _leftTL.text = @"私有";
+            _leftTL.text = @"项目数";
             [self.contentView addSubview:_leftTL];
         }
-        if (!_rightL) {
-            _rightL = [UILabel labelWithFont:[UIFont systemFontOfSize:16] textColor:[UIColor colorWithHexString:@"0x323A45"]];
-            [self.contentView addSubview:_rightL];
-        }
-        if (!_rightTL) {
-            _rightTL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x76808E"];
-            _rightTL.text = @"公有";
-            [self.contentView addSubview:_rightTL];
-        }
+//        if (!_rightL) {
+//            _rightL = [UILabel labelWithFont:[UIFont systemFontOfSize:16] textColor:[UIColor colorWithHexString:@"0x323A45"]];
+//            [self.contentView addSubview:_rightL];
+//        }
+//        if (!_rightTL) {
+//            _rightTL = [UILabel labelWithSystemFontSize:12 textColorHexString:@"0x76808E"];
+//            _rightTL.text = @"公有";
+//            [self.contentView addSubview:_rightTL];
+//        }
         if (!_lineV) {
             _lineV = [UIView new];
             _lineV.backgroundColor = kColorDDD;
@@ -53,27 +53,31 @@
             } forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:_leftBtn];
         }
-        if (!_rightBtn) {
-            _rightBtn = [UIButton new];
-            [_rightBtn bk_addEventHandler:^(id sender) {
-                if (weakSelf.rightBlock) {
-                    weakSelf.rightBlock();
-                }
-            } forControlEvents:UIControlEventTouchUpInside];
-            [self.contentView addSubview:_rightBtn];
-        }
+//        if (!_rightBtn) {
+//            _rightBtn = [UIButton new];
+//            [_rightBtn bk_addEventHandler:^(id sender) {
+//                if (weakSelf.rightBlock) {
+//                    weakSelf.rightBlock();
+//                }
+//            } forControlEvents:UIControlEventTouchUpInside];
+//            [self.contentView addSubview:_rightBtn];
+//        }
+//        [_lineV mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.center.equalTo(self.contentView);
+//            make.size.mas_equalTo(CGSizeMake(0.5, 40));
+//        }];
         [_lineV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self.contentView);
+            make.left.equalTo(self.contentView.mas_right);
             make.size.mas_equalTo(CGSizeMake(0.5, 40));
         }];
         [_leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.bottom.left.equalTo(self.contentView);
             make.right.equalTo(_lineV.mas_left);
         }];
-        [_rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.right.equalTo(self.contentView);
-            make.left.equalTo(_lineV.mas_right);
-        }];
+//        [_rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.bottom.right.equalTo(self.contentView);
+//            make.left.equalTo(_lineV.mas_right);
+//        }];
         [_leftL mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(_leftBtn);
             make.top.equalTo(_leftBtn).offset(15);
@@ -82,14 +86,14 @@
             make.centerX.equalTo(_leftBtn);
             make.bottom.equalTo(_leftBtn).offset(-15);
         }];
-        [_rightL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(_rightBtn);
-            make.top.equalTo(_rightBtn).offset(15);
-        }];
-        [_rightTL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.equalTo(_rightBtn);
-            make.bottom.equalTo(_rightBtn).offset(-15);
-        }];
+//        [_rightL mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerX.equalTo(_rightBtn);
+//            make.top.equalTo(_rightBtn).offset(15);
+//        }];
+//        [_rightTL mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerX.equalTo(_rightBtn);
+//            make.bottom.equalTo(_rightBtn).offset(-15);
+//        }];
     }
     return self;
 }
