@@ -11,6 +11,7 @@
 
 #define OMDateFormat @"yyyy-MM-dd'T'HH:mm:ss.SSS"
 #define OMTimeZone @"UTC"
+#define EADateFormat @"yyyy-MM-dd HH:mm:ss"
 
 @interface NSObject (ObjectMap)
 

@@ -187,6 +187,27 @@ static const __unused short _base64DecodingTable[256] = {
 }
 
 #pragma mark - Dictionary to Object
++ (NSDate *)p_dateFromObj:(id)obj{
+    NSDate *date;
+    if ([obj isKindOfClass:[NSNumber class]]) {
+        //                1970年的long型数字
+        NSNumber *timeSince1970 = (NSNumber *)obj;
+        NSTimeInterval timeSince1970TimeInterval = timeSince1970.doubleValue/1000;
+        date = [NSDate dateWithTimeIntervalSince1970:timeSince1970TimeInterval];
+    }else if ([obj isKindOfClass:[NSString class]]){
+        //                            日期字符串
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:OMDateFormat];
+        [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:OMTimeZone]];
+        date = [formatter dateFromString:(NSString *)obj];
+        if (!date) {
+            [formatter setDateFormat:EADateFormat];
+            date = [formatter dateFromString:(NSString *)obj];
+        }
+    }
+    return date;
+}
+
 +(id)objectOfClass:(NSString *)object fromJSON:(NSDictionary *)dict {
     if (!dict || ![dict isKindOfClass:[NSDictionary class]]) {
         return nil;
@@ -231,21 +252,7 @@ static const __unused short _base64DecodingTable[256] = {
             
             // check if NSDate or not
             if ([classType isEqualToString:@"T@\"NSDate\""]) {
-//                1970年的long型数字
-                NSObject *obj = [dict objectForKey:key];
-                if ([obj isKindOfClass:[NSNumber class]]) {
-                    NSNumber *timeSince1970 = (NSNumber *)obj;
-                    NSTimeInterval timeSince1970TimeInterval = timeSince1970.doubleValue/1000;
-                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeSince1970TimeInterval];
-                    [newObject setValue:date forKey:propertyName];
-                }else{
-//                            日期字符串
-                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                    [formatter setDateFormat:OMDateFormat];
-                    [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:OMTimeZone]];
-                    NSString *dateString = [[dict objectForKey:key] stringByReplacingOccurrencesOfString:@"T" withString:@" "];
-                    [newObject setValue:[formatter dateFromString:dateString] forKey:propertyName];
-                }
+                [newObject setValue:[self p_dateFromObj:[dict objectForKey:key]] forKey:propertyName];
             }
             else {
                 if ([dict objectForKey:key] != [NSNull null]) {
@@ -370,22 +377,7 @@ static const char * getPropertyType(objc_property_t property) {
                     NSString *classType = [self typeFromProperty:property];
                     // check if NSDate or not
                     if ([classType isEqualToString:@"T@\"NSDate\""]) {
-//                        1970年的long型数字
-                        NSObject *obj = [nestedArray[xx] objectForKey:newKey];
-                        if ([obj isKindOfClass:[NSNumber class]]) {
-                            NSNumber *timeSince1970 = (NSNumber *)obj;
-                            NSTimeInterval timeSince1970TimeInterval = timeSince1970.doubleValue/1000;
-                            NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeSince1970TimeInterval];
-                            [nestedObj setValue:date forKey:tempNewKey];
-                        }else{
-//                            日期字符串
-                            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                            [formatter setDateFormat:OMDateFormat];
-                            [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:OMTimeZone]];
-                            
-                            NSString *dateString = [[nestedArray[xx] objectForKey:newKey] stringByReplacingOccurrencesOfString:@"T" withString:@" "];
-                            [nestedObj setValue:[formatter dateFromString:dateString] forKey:tempNewKey];
-                        }
+                        [nestedObj setValue:[self p_dateFromObj:[nestedArray[xx] objectForKey:newKey]] forKey:tempNewKey];
                     }
                     else {
                         [nestedObj setValue:[nestedArray[xx] objectForKey:newKey] forKey:tempNewKey];
