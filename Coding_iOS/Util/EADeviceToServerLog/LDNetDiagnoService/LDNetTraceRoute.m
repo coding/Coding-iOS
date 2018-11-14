@@ -118,6 +118,11 @@
     // On progresse jusqu'à un nombre de TTLs max.
     while (ttl <= maxTTL) {
         memset(&fromAddr, 0, sizeof(fromAddr));
+        
+        //设置不发送 `SIGPIPE` 信号
+        int value = 1;
+        setsockopt(send_sock, SOL_SOCKET, SO_NOSIGPIPE, &value, sizeof(value));
+        
         //设置sender 套接字的ttl
         if ((isIPV6? setsockopt(send_sock,IPPROTO_IPV6, IPV6_UNICAST_HOPS, &ttl, sizeof(ttl)):setsockopt(send_sock, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl))) < 0) {
             error = true;

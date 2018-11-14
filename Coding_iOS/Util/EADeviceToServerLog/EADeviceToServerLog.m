@@ -108,11 +108,13 @@
 }
 
 - (void)tryToStart{
-    if ([self p_canStartLog]) {
-        [self startLog];
-    }else{
-        [self tryToPostToServer];
-    }
+    return ; //停了。要开的话，以后再说
+    
+//    if ([self p_canStartLog]) {
+//        [self startLog];
+//    }else{
+//        [self tryToPostToServer];
+//    }
 }
 
 - (void)tryToPostToServer{
