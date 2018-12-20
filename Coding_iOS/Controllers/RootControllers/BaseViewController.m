@@ -323,7 +323,9 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
         }
     }else if ([self isKindOfClass:MRDetailViewController.class] || [self isKindOfClass:PRDetailViewController.class]){
         MRPR *curMRPR = [self valueForKey:@"curMRPR"];
-        webStr = curMRPR.path;
+        NSString *path = curMRPR.path;
+        NSRange range = [path rangeOfString:@"/p/"];
+        webStr = range.location == NSNotFound? path: [path substringFromIndex:range.location];
     }else if ([self isKindOfClass:CodeViewController.class]){
         Project *curPro = ((CodeViewController *) self).myProject;
         CodeFile *curCF = ((CodeViewController *) self).myCodeFile;
@@ -490,6 +492,10 @@ typedef NS_ENUM(NSInteger, AnalyseMethodType) {
     }else if ((matchedCaptures = [linkStr captureComponentsMatchedByRegex:gitMRPRCommitRegexStr]).count > 0){
         //MR
         NSString *path = [matchedCaptures[0] stringByReplacingOccurrencesOfString:@"https://coding.net" withString:@""];
+        
+//        NSString *defaultTeamStr = [NSString stringWithFormat:@"/u/%@", [Login curLoginCompany].global_key ?: [NSObject baseCompany]];
+//        linkStr = [linkStr stringByReplacingCharactersInRange:NSMakeRange(pRange.location, 0) withString:defaultTeamStr];
+        
         
         if ([matchedCaptures[3] isEqualToString:@"commit"]) {
             if ([presentingVC isKindOfClass:[CommitFilesViewController class]]) {
