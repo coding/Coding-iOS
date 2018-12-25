@@ -160,7 +160,7 @@
 + (void)changeBaseURLStrTo:(NSString *)baseURLStr{
     if (baseURLStr.length <= 0) {
         baseURLStr = kBaseURLStr;
-    }else if ([baseURLStr hasSuffix:@"/"]){
+    }else if (![baseURLStr hasSuffix:@"/"]){
         baseURLStr = [baseURLStr stringByAppendingString:@"/"];
     }
 
