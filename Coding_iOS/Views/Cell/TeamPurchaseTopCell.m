@@ -103,7 +103,7 @@
     NSInteger remain_days = _curTeam.info.remain_days.integerValue;
 
     _tipL.textColor = remain_days > kEANeedTipRemainDays && !isLocked? kColorDark4: kColorActionRed;
-    if (isTrial || !isToped_up) {
+    if (!isToped_up) {
         NSInteger trial_left_days = [_curTeam.info trial_left_days];
         if (isLocked || trial_left_days < 0) {
             _tipL.text = @"您的试用期已结束，请订购后使用";
@@ -174,7 +174,7 @@
         if (!isToped_up) {
             cellHeight = 85;
         }else{
-            BOOL needTipStr = (isTrial || remain_days <= kEANeedTipRemainDays || isLocked);
+            BOOL needTipStr = (!isToped_up || remain_days <= kEANeedTipRemainDays || isLocked);
             if (needTipStr) {
                 cellHeight = 165;
             }else{

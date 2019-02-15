@@ -57,13 +57,12 @@
     _curTeam = curTeam;
     
     BOOL isToped_up = [_curTeam.info isToped_up];//是否充值过
-    BOOL isTrial = _curTeam.info.trial.boolValue;
     BOOL isLocked = _curTeam.info.locked.boolValue;
     NSInteger remain_days = _curTeam.info.remain_days.integerValue;
     
     _introductionL.textColor = remain_days > kEANeedTipRemainDays? kColor999: kColorActionRed;
     NSString *valueStr = @"";
-    if (!isToped_up || isTrial) {
+    if (!isToped_up) {
         valueStr = [NSString stringWithFormat:@"%ld", (long)[_curTeam.info trial_left_days]];
         if (!isLocked && valueStr.integerValue >= 0) {
             [_introductionL setAttrStrWithStr:[NSString stringWithFormat:@"试用期剩余 %@ 天", valueStr] diffColorStr:valueStr diffColor:valueStr.integerValue > kEANeedTipRemainDays? [UIColor colorWithHexString:@"0xF78636"]: kColorActionRed];
