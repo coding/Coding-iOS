@@ -151,7 +151,8 @@
     if (path.length > 0) {
         [result appendFormat:@"%@%@", ref.length > 0? @"/": @"", path];
     }
-    return [result URLEncoding];
+    return result;
+//    return [result URLEncoding];
 }
 - (CGSize)getSizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size{
     CGSize resultSize = CGSizeZero;
