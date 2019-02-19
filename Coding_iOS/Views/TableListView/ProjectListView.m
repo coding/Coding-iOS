@@ -253,11 +253,21 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (BOOL)p_needToCheckIfNewVersion{
-    return (!_isHeaderClosed && (_useNewStyle && _myProjects.type == ProjectsTypeAll) && !self.isNewerVersionAvailable);
+    return (!_isHeaderClosed &&
+            (_useNewStyle && _myProjects.type == ProjectsTypeAll) &&
+            !self.isNewerVersionAvailable);
 }
 
 - (BOOL)p_needToShowVersionTip{
-    return (!_isHeaderClosed && (_useNewStyle && _myProjects.type == ProjectsTypeAll) && self.isNewerVersionAvailable);
+    return (!_isHeaderClosed &&
+            (_useNewStyle && _myProjects.type == ProjectsTypeAll) &&
+            self.isNewerVersionAvailable);
+}
+
+- (BOOL)p_needToShowHeaderTip{
+    return (!_isHeaderClosed &&
+            (_useNewStyle && _myProjects.type == ProjectsTypeAll) &&
+            (self.isNewerVersionAvailable || ![NSObject isPrivateCloud].boolValue));
 }
 
 - (void)refreshUI{
@@ -353,11 +363,21 @@ static NSString *const kValueKey = @"kValueKey";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return [self p_needToShowVersionTip]? 40: 0;
+    if ([self p_needToShowHeaderTip]) {
+        static UILabel *tipL;
+        if (!tipL) {
+            tipL = [UILabel labelWithFont:[UIFont systemFontOfSize:12] textColor:[UIColor colorWithHexString:@"0x136BFB"]];
+            tipL.numberOfLines = 0;
+        }
+        tipL.attributedText = [self p_headerTipStr];
+        return [tipL sizeThatFits:CGSizeMake(kScreen_Width - 40 * 1, CGFLOAT_MAX)].height + 16;
+    } else {
+        return 0;
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if ([self p_needToShowVersionTip]) {
+    if ([self p_needToShowHeaderTip]) {
         UIView *headerV = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, 40)];
         headerV.backgroundColor = [UIColor colorWithHexString:@"0xECF9FF"];
         __weak typeof(self) weakSelf = self;
@@ -368,32 +388,51 @@ static NSString *const kValueKey = @"kValueKey";
         } forControlEvents:UIControlEventTouchUpInside];
         [headerV addSubview:closeBtn];
         [closeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.right.equalTo(headerV);
-            make.width.equalTo(closeBtn.mas_height);
+            make.top.right.equalTo(headerV);
+            make.width.mas_equalTo(40);
+            make.height.mas_equalTo(36); // 文字单行显示时的高度
         }];
-        UIImageView *noticeV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button_tip_notice"]];
-        noticeV.contentMode = UIViewContentModeCenter;
-        [headerV addSubview:noticeV];
-        [noticeV mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.bottom.left.equalTo(headerV);
-            make.width.equalTo(noticeV.mas_height);
-        }];
-        UILabel *tipL = [UILabel labelWithFont:[UIFont systemFontOfSize:15] textColor:[UIColor colorWithHexString:@"0x136BFB"]];
-        tipL.adjustsFontSizeToFitWidth = YES;
-        tipL.minimumScaleFactor = .5;
+//        UIImageView *noticeV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"button_tip_notice"]];
+//        noticeV.contentMode = UIViewContentModeCenter;
+//        [headerV addSubview:noticeV];
+//        [noticeV mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.bottom.left.equalTo(headerV);
+//            make.width.mas_equalTo(0);
+//        }];
+        UILabel *tipL = [UILabel labelWithFont:[UIFont systemFontOfSize:12] textColor:[UIColor colorWithHexString:@"0x136BFB"]];
+        tipL.numberOfLines = 0;
         tipL.userInteractionEnabled = YES;
-        tipL.text = kTarget_Enterprise? @"立即升级最新 CODING 企业版客户端": @"立即升级最新 Coding 客户端";
-        [tipL bk_whenTapped:^{
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppUrl]];
-        }];
+        tipL.attributedText = [self p_headerTipStr];
+        if ([self p_needToShowVersionTip]) {
+            [tipL bk_whenTapped:^{
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:kAppUrl]];
+            }];
+        }
         [headerV addSubview:tipL];
         [tipL mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(headerV);
-            make.left.equalTo(noticeV.mas_right);
+            make.centerY.equalTo(headerV).mas_offset(3);
+            make.left.equalTo(headerV).offset(15);
             make.right.equalTo(closeBtn.mas_left);
         }];
         return headerV;
-    }else{
+    } else {
+        return nil;
+    }
+}
+
+- (NSAttributedString *)p_headerTipStr{
+    if ([self p_needToShowHeaderTip]) {
+        NSString *tipStr;
+        if ([self p_needToShowVersionTip]) {
+            tipStr = kTarget_Enterprise? @"立即升级最新 CODING 企业版客户端": @"立即升级最新 Coding 客户端";
+        } else {
+            tipStr = @"温馨提示：出于实际使用场景限制的考虑，该 App 不再进行更多新功能开发，建议您前往 PC 端网页版体验更完整的产品功能。";
+        }
+        NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+        paragraphStyle.lineSpacing = 6;
+        NSDictionary *attributes = @{NSParagraphStyleAttributeName: paragraphStyle};
+        return [[NSAttributedString alloc] initWithString:tipStr attributes:attributes];
+    } else {
         return nil;
     }
 }
