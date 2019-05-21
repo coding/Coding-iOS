@@ -13,8 +13,9 @@
 
 @interface Login : NSObject
 //请求
-@property (readwrite, nonatomic, strong) NSString *email, *password, *j_captcha, *company;
+@property (readwrite, nonatomic, strong) NSString *email, *password, *j_captcha, *company, *ssoType;
 @property (readwrite, nonatomic, strong) NSNumber *remember_me;
+@property (readwrite, nonatomic) BOOL ssoEnabled;
 
 - (NSString *)goToLoginTipWithCaptcha:(BOOL)needCaptcha;
 - (NSString *)toPath;

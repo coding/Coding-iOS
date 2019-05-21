@@ -109,6 +109,7 @@
         [button setTitle:@"企业账号登录" forState:UIControlStateNormal];
         button.layer.masksToBounds = YES;
         button.layer.cornerRadius = 2.0;
+        button.hidden = true;
         button;
     });
     [self.view addSubview:self.loginEnterpriseBtn];
