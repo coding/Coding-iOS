@@ -390,6 +390,12 @@ typedef NS_ENUM(NSUInteger, LoginStep) {
                     [NSObject showError:error];
                 }
             }else{
+                NSDictionary *dataBody = [data objectForKey:@"data"];
+                NSDictionary *settings = [dataBody objectForKey:@"settings"];
+                BOOL ssoEnabled = [[settings objectForKey:@"ssoEnabled"] boolValue];
+                NSString *ssoType = [settings objectForKey:@"ssoType"];
+                self.myLogin.ssoType = ssoType;
+                self.myLogin.ssoEnabled = ssoEnabled;
                 [weakSelf goToNextStep];
             }
         }];

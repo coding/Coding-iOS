@@ -29,6 +29,8 @@ static Team *curLoginTeam;
         self.remember_me = [NSNumber numberWithBool:YES];
         self.email = @"";
         self.password = @"";
+        self.ssoType = @"default";
+        self.ssoEnabled = NO;
     }
     return self;
 }
@@ -37,8 +39,12 @@ static Team *curLoginTeam;
     return @"api/v2/account/login";
 }
 - (NSDictionary *)toParams{
+    NSString *password = [self.password sha1Str];
+    if (self.ssoEnabled && [self.ssoType isEqualToString:@"ldap"]) {
+        password = self.password;
+    }
     NSMutableDictionary *params = @{@"account": self.email,
-                                    @"password" : [self.password sha1Str],
+                                    @"password" : password,
                                     @"remember_me" : self.remember_me? @"true" : @"false",}.mutableCopy;
     if (self.j_captcha.length > 0) {
         params[@"j_captcha"] = self.j_captcha;

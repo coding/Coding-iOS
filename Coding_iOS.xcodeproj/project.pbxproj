@@ -11264,7 +11264,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS-Coding_Enterprise_iOS/Pods-Coding_iOS-Coding_Enterprise_iOS-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Coding_iOS-Coding_Enterprise_iOS/Pods-Coding_iOS-Coding_Enterprise_iOS-resources.sh",
 				"${PODS_ROOT}/FontAwesome+iOS/Resources/FontAwesome.ttf",
 				"${PODS_ROOT}/UMengUShare/UShareSDK/UMSocialSDK/UMSocialSDKPromptResources.bundle",
 				"${PODS_ROOT}/UMengUShare/UShareSDK/SocialLibraries/QQ/QQSDK/TencentOpenApi_IOS_Bundle.bundle",
@@ -11281,7 +11281,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS-Coding_Enterprise_iOS/Pods-Coding_iOS-Coding_Enterprise_iOS-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Coding_iOS-Coding_Enterprise_iOS/Pods-Coding_iOS-Coding_Enterprise_iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B1D5F1FE20BC06CB00983FB6 /* ShellScript */ = {
@@ -11305,7 +11305,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS/Pods-Coding_iOS-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Coding_iOS/Pods-Coding_iOS-resources.sh",
 				"${PODS_ROOT}/FontAwesome+iOS/Resources/FontAwesome.ttf",
 				"${PODS_ROOT}/UMengUShare/UShareSDK/UMSocialSDK/UMSocialSDKPromptResources.bundle",
 				"${PODS_ROOT}/UMengUShare/UShareSDK/SocialLibraries/QQ/QQSDK/TencentOpenApi_IOS_Bundle.bundle",
@@ -11322,7 +11322,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Coding_iOS/Pods-Coding_iOS-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Coding_iOS/Pods-Coding_iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B7F20F3BC924F718A926E931 /* [CP] Check Pods Manifest.lock */ = {
